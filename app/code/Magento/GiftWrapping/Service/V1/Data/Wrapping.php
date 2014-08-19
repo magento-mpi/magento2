@@ -29,7 +29,7 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * @return int|null
      */
-    public function getId()
+    public function getWrappingId()
     {
         return $this->_get(self::WRAPPING_ID);
     }
@@ -83,7 +83,7 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return int[]
+     * @return int[]|null
      */
     public function getWebsiteIds()
     {

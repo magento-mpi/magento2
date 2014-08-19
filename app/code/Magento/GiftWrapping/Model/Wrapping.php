@@ -121,7 +121,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
                 __('Cannot save Gift Wrapping:') . ' ' . implode(', ', $errors)
             );
         }
-        if ($this->_storeManager->hasSingleStore()) {
+        if (!$this->hasData('website_ids') && $this->_storeManager->hasSingleStore()) {
             $this->setData('website_ids', array_keys($this->_systemStore->getWebsiteOptionHash()));
         }
         if ($this->hasTmpImage()) {

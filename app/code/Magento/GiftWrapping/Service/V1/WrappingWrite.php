@@ -8,12 +8,11 @@
 namespace Magento\GiftWrapping\Service\V1;
 
 use Magento\GiftWrapping\Model\WrappingRepository;
-use Magento\GiftWrapping\Service\V1\Data\WrappingMapper;
 use Magento\GiftWrapping\Service\V1\Data\WrappingConverter;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-class Wrapping implements WrappingInterface
+class WrappingWrite implements WrappingWriteInterface
 {
     /**
      * @var WrappingRepository
@@ -21,45 +20,20 @@ class Wrapping implements WrappingInterface
     protected $wrappingRepository;
 
     /**
-     * @var WrappingMapper
-     */
-    protected $wrappingMapper;
-
-    /**
      * @var WrappingConverter
      */
     protected $wrappingConverter;
 
     /**
-     * @var Data\WrappingSearchResultsBuilder
-     */
-    protected $searchResultsBuilder;
-
-    /**
      * @param WrappingRepository $wrappingRepository
-     * @param WrappingMapper $wrappingMapper
      * @param WrappingConverter $wrappingConverter
-     * @param Data\WrappingSearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
         WrappingRepository $wrappingRepository,
-        WrappingMapper $wrappingMapper,
-        WrappingConverter $wrappingConverter,
-        Data\WrappingSearchResultsBuilder $searchResultsBuilder
+        WrappingConverter $wrappingConverter
     ) {
         $this->wrappingRepository = $wrappingRepository;
-        $this->wrappingMapper = $wrappingMapper;
         $this->wrappingConverter = $wrappingConverter;
-        $this->searchResultsBuilder = $searchResultsBuilder;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($id)
-    {
-        $wrapping = $this->wrappingRepository->get($id);
-        return $this->wrappingMapper->extractDto($wrapping);
     }
 
     /**
@@ -67,7 +41,7 @@ class Wrapping implements WrappingInterface
      */
     public function create(Data\Wrapping $data)
     {
-        if ($data->getId()) {
+        if ($data->getWrappingId()) {
             throw new InputException('Parameter id is not expected for this request.');
         }
         $model = $this->wrappingConverter->getModel($data);
@@ -80,7 +54,7 @@ class Wrapping implements WrappingInterface
      */
     public function update($id, Data\Wrapping $data)
     {
-        if ($data->getId()) {
+        if ($data->getWrappingId()) {
             throw new InputException('Parameter id is not expected for this request.');
         }
         $model = $this->wrappingConverter->getModel($data, $id);
@@ -89,21 +63,6 @@ class Wrapping implements WrappingInterface
         }
         $model->save();
         return $model->getId();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
-    {
-        $wrappings = [];
-        foreach ($this->wrappingRepository->find($searchCriteria) as $wrapping) {
-            $wrappings[] = $this->wrappingMapper->extractDto($wrapping);
-        }
-        return $this->searchResultsBuilder->setItems($wrappings)
-            ->setTotalCount(count($wrappings))
-            ->setSearchCriteria($searchCriteria)
-            ->create();
     }
 
     /**

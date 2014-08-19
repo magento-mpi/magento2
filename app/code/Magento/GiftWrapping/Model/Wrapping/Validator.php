@@ -29,7 +29,7 @@ class Validator
         $warnings = [];
         foreach ($this->requiredFields as $code => $label) {
             if (!$wrapping->hasData($code)) {
-                $warnings[$code] = __('%1 is a required field', $label);
+                $warnings[$code] = 'Field is required: ' . $label;
             }
         }
         return $warnings;

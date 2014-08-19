@@ -35,9 +35,14 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     private $searchResultsBuilderMock;
 
     /**
-     * @var Wrapping
+     * @var WrappingRead
      */
-    private $service;
+    private $readService;
+
+    /**
+     * @var WrappingWrite
+     */
+    private $writeService;
 
     public function setUp()
     {
@@ -53,13 +58,20 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
             'Magento\GiftWrapping\Service\V1\Data\WrappingSearchResultsBuilder'
         )->disableOriginalConstructor()->setMethods([])->getMock();
 
-        $this->service = $objectManager->getObject(
-            'Magento\GiftWrapping\Service\V1\Wrapping',
+        $this->readService = $objectManager->getObject(
+            'Magento\GiftWrapping\Service\V1\WrappingRead',
             [
                 'wrappingRepository' => $this->wrappingRepositoryMock,
                 'wrappingMapper' => $this->wrappingMapperMock,
-                'wrappingConverter' => $this->wrappingConverterMock,
                 'searchResultsBuilder' => $this->searchResultsBuilderMock
+            ]
+        );
+
+        $this->writeService = $objectManager->getObject(
+            'Magento\GiftWrapping\Service\V1\WrappingWrite',
+            [
+                'wrappingRepository' => $this->wrappingRepositoryMock,
+                'wrappingConverter' => $this->wrappingConverterMock
             ]
         );
     }
@@ -79,7 +91,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($wrappingModel));
         $this->wrappingMapperMock->expects($this->once())->method('extractDto')->with($wrappingModel)
             ->will($this->returnValue($wrappingDto));
-        $this->assertSame($wrappingDto, $this->service->get($id));
+        $this->assertSame($wrappingDto, $this->readService->get($id));
     }
 
     public function testCreate()
@@ -99,7 +111,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingModel->expects($this->once())->method('save');
         $wrappingModel->expects($this->at(1))->method('getId')->will($this->returnValue($id));
 
-        $this->assertEquals($id, $this->service->create($wrappingDto));
+        $this->assertEquals($id, $this->writeService->create($wrappingDto));
     }
 
     /**
@@ -111,9 +123,9 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
-        $wrappingDto->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $wrappingDto->expects($this->once())->method('getWrappingId')->will($this->returnValue(1));
 
-        $this->service->create($wrappingDto);
+        $this->writeService->create($wrappingDto);
     }
 
     public function testUpdate()
@@ -132,7 +144,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingModel->expects($this->once())->method('save');
         $wrappingModel->expects($this->any())->method('getId')->will($this->returnValue($id));
 
-        $this->assertEquals($id, $this->service->update($id, $wrappingDto));
+        $this->assertEquals($id, $this->writeService->update($id, $wrappingDto));
     }
 
     /**
@@ -152,7 +164,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto, $id)
             ->will($this->returnValue($wrappingModel));
         $wrappingModel->expects($this->any())->method('getId')->will($this->returnValue(null));
-        $this->service->update($id, $wrappingDto);
+        $this->writeService->update($id, $wrappingDto);
     }
 
     public function testSearch()
@@ -183,7 +195,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $this->searchResultsBuilderMock->expects($this->once())->method('create')
             ->will($this->returnValue($searchResults));
 
-        $this->assertSame($searchResults, $this->service->search($searchCriteria));
+        $this->assertSame($searchResults, $this->readService->search($searchCriteria));
     }
 
     public function testDelete()
@@ -197,6 +209,6 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($wrappingModel));
         $wrappingModel->expects($this->once())->method('delete');
 
-        $this->assertTrue($this->service->delete(1));
+        $this->assertTrue($this->writeService->delete(1));
     }
 }

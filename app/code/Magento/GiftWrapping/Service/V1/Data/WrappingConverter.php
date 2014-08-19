@@ -36,10 +36,8 @@ class WrappingConverter
             $model->load($modelId);
         }
         $model->addData($dataObject->__toArray());
-
         $imageContent = base64_decode($dataObject->getImageBase64Content(), true);
         $model->attachBinaryImage($dataObject->getImageName(), $imageContent);
-
         return $model;
     }
 }

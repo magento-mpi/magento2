@@ -17,7 +17,7 @@ class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     /**
      * @param int
      */
-    public function setId($id)
+    public function setWrappingId($id)
     {
         $this->_set(WrappingData::WRAPPING_ID, $id);
     }
