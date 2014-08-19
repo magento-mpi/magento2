@@ -9,6 +9,7 @@
  */
 namespace Magento\Framework\App\Response;
 
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Stdlib\CookieManager;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\App\Http\Context;
@@ -75,6 +76,7 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
      */
     public function sendVary()
     {
+
         $data = $this->context->getData();
         if (!empty($data)) {
             ksort($data);
@@ -166,5 +168,15 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
     public function __sleep()
     {
         return ['_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode', 'context'];
+    }
+
+    /**
+     * Need to reconstruct dependencies when being de-serialized.
+     */
+    public function __wakeup()
+    {
+        $objectManager = ObjectManager::getInstance();
+        $this->cookieManager = $objectManager->create('Magento\Framework\Stdlib\CookieManager');
+        $this->cookieMetadataFactory = $objectManager->get('Magento\Framework\Stdlib\Cookie\CookieMetadataFactory');
     }
 }
