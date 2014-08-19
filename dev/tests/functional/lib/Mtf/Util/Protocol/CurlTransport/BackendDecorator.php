@@ -16,8 +16,15 @@ use Mtf\System\Config;
  * Class BackendDecorator
  * Curl transport on backend
  */
-class BackendDecorator extends AbstractDecorator implements CurlInterface
+class BackendDecorator implements CurlInterface
 {
+    /**
+     * Curl transport protocol
+     *
+     * @var CurlTransport
+     */
+    protected $transport;
+
     /**
      * Form key
      *
@@ -117,5 +124,27 @@ class BackendDecorator extends AbstractDecorator implements CurlInterface
         $this->response = $this->transport->read();
         $this->initFormKey();
         return $this->response;
+    }
+
+    /**
+     * Add additional option to cURL
+     *
+     * @param  int $option the CURLOPT_* constants
+     * @param  mixed $value
+     * @return void
+     */
+    public function addOption($option, $value)
+    {
+        $this->transport->addOption($option, $value);
+    }
+
+    /**
+     * Close the connection to the server
+     *
+     * @return void
+     */
+    public function close()
+    {
+        $this->transport->close();
     }
 }

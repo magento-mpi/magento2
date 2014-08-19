@@ -16,15 +16,15 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
  * Test Creation for DeleteMultipleWishlistEntity
  *
  * Preconditions:
- * 1. Enable Multiple Wishlist functionality(see attachment file "MultipleWishListSystemConfig.php").
+ * 1. Enable Multiple Wishlist functionality.
  * 2. Create Customer Account.
  *
  * Test Flow:
  * 1. Login to frontend as a Customer.
  * 2. Navigate to: My Account > My Wishlist.
- * 3. Creating Wishlist.
- * 5. Delete wishlist.
- * 6. Perform appropriate assertions.
+ * 3. Create wishlist.
+ * 4. Delete wishlist.
+ * 5. Perform appropriate assertions.
  *
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-27253
@@ -53,7 +53,7 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     }
 
     /**
-     * Inactive multiple wish list in config
+     * Disable multiple wish list in config
      *
      * @return void
      */

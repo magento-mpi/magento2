@@ -16,8 +16,15 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * Class FrontendDecorator
  * Curl transport on frontend
  */
-class FrontendDecorator extends AbstractDecorator implements CurlInterface
+class FrontendDecorator implements CurlInterface
 {
+    /**
+     * Curl transport protocol
+     *
+     * @var CurlTransport
+     */
+    protected $transport;
+
     /**
      * Form key
      *
@@ -58,7 +65,7 @@ class FrontendDecorator extends AbstractDecorator implements CurlInterface
      * @throws \Exception
      * @return void
      */
-    protected function authorize(CustomerInjectable $customer = null)
+    protected function authorize(CustomerInjectable $customer)
     {
         $url = $_ENV['app_frontend_url'] . 'customer/account/login/';
         $this->transport->write(CurlInterface::POST, $url);
@@ -129,5 +136,27 @@ class FrontendDecorator extends AbstractDecorator implements CurlInterface
         $this->initCookies();
         $this->initFormKey();
         return $this->response;
+    }
+
+    /**
+     * Add additional option to cURL
+     *
+     * @param  int $option the CURLOPT_* constants
+     * @param  mixed $value
+     * @return void
+     */
+    public function addOption($option, $value)
+    {
+        $this->transport->addOption($option, $value);
+    }
+
+    /**
+     * Close the connection to the server
+     *
+     * @return void
+     */
+    public function close()
+    {
+        $this->transport->close();
     }
 }
