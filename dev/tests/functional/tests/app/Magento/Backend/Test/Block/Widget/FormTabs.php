@@ -48,15 +48,17 @@ class FormTabs extends Form
      * @param Mapper $mapper
      * @param BlockFactory $blockFactory
      * @param XmlConverter $xmlConverter
+     * @param array $config
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
         BlockFactory $blockFactory,
-        XmlConverter $xmlConverter
+        XmlConverter $xmlConverter,
+        array $config = []
     ) {
         $this->xmlConverter = $xmlConverter;
-        parent::__construct($element, $blockFactory, $mapper);
+        parent::__construct($element, $blockFactory, $mapper, $config);
     }
 
     /**

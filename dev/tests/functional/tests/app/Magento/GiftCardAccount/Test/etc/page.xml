@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_GiftCardAccount">
+    <index>
+        <mca>admin/giftcardaccount/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftCardAccount\Test\Page\Adminhtml\Index</class>
+    </index>
+    <newIndex>
+        <mca>admin/giftcardaccount/new/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex</class>
+    </newIndex>
+</page>

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Sitemap">
+    <sitemapIndex>
+        <mca>admin/sitemap/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex</class>
+    </sitemapIndex>
+    <sitemapNew>
+        <mca>admin/sitemap/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sitemap\Test\Page\Adminhtml\SitemapNew</class>
+    </sitemapNew>
+    <sitemapEdit>
+        <mca>admin/sitemap/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sitemap\Test\Page\Adminhtml\SitemapEdit</class>
+    </sitemapEdit>
+</page>

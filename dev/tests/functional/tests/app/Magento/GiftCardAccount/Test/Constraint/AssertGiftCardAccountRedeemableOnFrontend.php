@@ -8,13 +8,13 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\GiftCardAccount\Test\Page\CustomerAccountIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
-use Magento\Cms\Test\Page\CmsIndex;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Class AssertGiftCardAccountRedeemableOnFrontend

@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/catalog_event/new">
-    <block>
-        <name>pageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>eventForm</name>
-        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\Edit\Form</class>
-        <locator>#edit_form</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>treeCategories</name>
-        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock</class>
-        <locator>#tree-div</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/catalog_event/new" module="Magento_CatalogEvent">
+    <blocks>
+        <pageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+        <eventForm>
+            <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\Edit\Form</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </eventForm>
+        <treeCategories>
+            <class>Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock</class>
+            <locator>#tree-div</locator>
+            <strategy>css selector</strategy>
+        </treeCategories>
+    </blocks>
 </page>

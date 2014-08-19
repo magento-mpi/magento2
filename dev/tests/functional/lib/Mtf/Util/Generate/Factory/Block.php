@@ -47,7 +47,7 @@ class Block extends AbstractFactory
         $this->factoryContent .= "\n    /**\n";
         $this->factoryContent .= "     * @return \\{$item['class']}\n";
         $this->factoryContent .= "     */\n";
-        $this->factoryContent .= "    public function get{$methodNameSuffix}(\$element, \$driver = null)\n";
+        $this->factoryContent .= "    public function get{$methodNameSuffix}(\$element, \$driver = null, \$config = [])\n";
         $this->factoryContent .= "    {";
 
         if (!empty($fallbackComment)) {
@@ -57,7 +57,7 @@ class Block extends AbstractFactory
         }
 
         $this->factoryContent .= "        return \$this->objectManager->create('{$realClass}', "
-            . "array('element' => \$element, 'driver' => \$driver));";
+            . "array('element' => \$element, 'driver' => \$driver, 'config' => \$config));";
         $this->factoryContent .= "\n    }\n";
 
         $this->cnt++;
