@@ -28,7 +28,6 @@ class Rss extends \Magento\Wishlist\Helper\Rss
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
-     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param Data $multiplewishlistHelperData
      */
     public function __construct(
@@ -43,7 +42,6 @@ class Rss extends \Magento\Wishlist\Helper\Rss
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
-        \Magento\Framework\Module\Manager $moduleManager,
         Data $multiplewishlistHelperData
     ) {
         $this->_multiplewishlistHelperData = $multiplewishlistHelperData;

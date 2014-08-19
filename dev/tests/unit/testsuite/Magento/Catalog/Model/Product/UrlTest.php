@@ -164,6 +164,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      * @param $requestPathUrlRewrite
      * @param $productId
      * @param $productUrlKey
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function testGetUrl(
         $getUrlMethod,

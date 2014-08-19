@@ -12,7 +12,7 @@ use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class ImageTest
- * @package Magento\Catalog\Model\Product
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -160,7 +160,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     public function testSetBackgroundColor()
     {
-        $result = $this->image->setBackgroundColor([0,0,0]);
+        $result = $this->image->setBackgroundColor([0, 0, 0]);
         $this->assertSame($this->image, $result);
     }
 

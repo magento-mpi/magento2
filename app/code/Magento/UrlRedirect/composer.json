@@ -7,7 +7,6 @@
         "magento/module-cms": "0.1.0-alpha90",
         "magento/module-core": "0.1.0-alpha90",
         "magento/module-backend": "0.1.0-alpha90",
-        "magento/module-install": "0.1.0-alpha90",
         "magento/module-store": "0.1.0-alpha90",
         "magento/framework": "0.1.0-alpha90"
     },

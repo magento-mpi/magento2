@@ -24,7 +24,8 @@ class Logging
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(\Magento\Framework\App\RequestInterface $request) {
+    public function __construct(\Magento\Framework\App\RequestInterface $request)
+    {
         $this->request = $request;
     }
 

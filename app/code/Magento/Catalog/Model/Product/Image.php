@@ -106,7 +106,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
     /**
      * @var int
      */
-    protected $_watermarkHeigth;
+    protected $_watermarkHeight;
 
     /**
      * @var int
@@ -607,7 +607,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
      * @param string $position
      * @param array $size ['width' => int, 'height' => int]
      * @param int $width
-     * @param int $heigth
+     * @param int $height
      * @param int $opacity
      * @return $this
      */
@@ -616,7 +616,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
         $position = null,
         $size = null,
         $width = null,
-        $heigth = null,
+        $height = null,
         $opacity = null
     ) {
         if ($this->_isBaseFilePlaceholder) {
@@ -638,8 +638,8 @@ class Image extends \Magento\Framework\Model\AbstractModel
         if ($width) {
             $this->setWatermarkWidth($width);
         }
-        if ($heigth) {
-            $this->setWatermarkHeight($heigth);
+        if ($height) {
+            $this->setWatermarkHeight($height);
         }
         if ($opacity) {
             $this->setWatermarkImageOpacity($opacity);
@@ -862,7 +862,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
      */
     public function setWatermarkHeight($height)
     {
-        $this->_watermarkHeigth = $height;
+        $this->_watermarkHeight = $height;
         return $this;
     }
 
@@ -873,7 +873,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
      */
     public function getWatermarkHeight()
     {
-        return $this->_watermarkHeigth;
+        return $this->_watermarkHeight;
     }
 
     /**

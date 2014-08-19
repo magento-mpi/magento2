@@ -54,9 +54,10 @@ class Configurable extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $mainProductId = $mainProduct->getId();
             $isProductInstance = true;
         }
-        $old = $mainProduct->getIsDuplicate()
-            ? array()
-            : $mainProduct->getTypeInstance()->getUsedProductIds($mainProduct);
+        $old = array();
+        if (!$mainProduct->getIsDuplicate()) {
+            $old = $mainProduct->getTypeInstance()->getUsedProductIds($mainProduct);
+        }
 
         $insert = array_diff($productIds, $old);
         $delete = array_diff($old, $productIds);

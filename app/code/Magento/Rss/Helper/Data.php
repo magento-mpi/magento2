@@ -16,6 +16,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Setting headers to response for sending empty rss
      *
      * @param \Magento\Framework\App\ResponseInterface $response
+     * @return void
      */
     public function sendEmptyRssFeed(\Magento\Framework\App\ResponseInterface $response)
     {
