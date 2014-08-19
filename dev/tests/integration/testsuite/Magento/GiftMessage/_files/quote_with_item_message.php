@@ -7,11 +7,35 @@
  */
 
 require __DIR__ . '/../../Checkout/_files/quote_with_address.php';
-
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$quote->setReservedOrderId(
-    'test_order_item_with_message'
-);
+$product = $objectManager->create('Magento\Catalog\Model\Product');
+$product->setTypeId(
+    'simple'
+)->setAttributeSetId(
+    4
+)->setWebsiteIds(
+    array(1)
+)->setName(
+    'Simple Product'
+)->setSku(
+    'simple_with_message'
+)->setPrice(
+    10
+)->setMetaTitle(
+    'meta title'
+)->setMetaKeyword(
+    'meta keyword'
+)->setMetaDescription(
+    'meta description'
+)->setVisibility(
+    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
+)->setStatus(
+    \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+)->setStockData(
+    array('use_config_manage_stock' => 0)
+)->save();
+$quoteProduct = $product->load($product->getIdBySku('simple_with_message'));
+$quote->setReservedOrderId('test_order_item_with_message')->addProduct($product->load($product->getIdBySku('simple_with_message')), 1);
 $quote->collectTotals()->save();
 
 /** @var \Magento\GiftMessage\Model\Message $message */
@@ -20,7 +44,4 @@ $message->setSender('John Doe');
 $message->setRecipient('Jane Roe');
 $message->setMessage('Gift Message Text');
 $message->save();
-foreach ($quote->getAllItems() as $item)
-{
-    $item->setGiftMessageId($message->getId())->save();
-}
+$quote->getItemByProduct($quoteProduct)->setGiftMessageId($message->getId())->save();

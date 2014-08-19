@@ -12,6 +12,8 @@ namespace Magento\GiftMessage\Service\V1;
 interface WriteServiceInterface
 {
     /**
+     * Set gift message for the entire order
+     *
      * @param int $cartId
      * @param \Magento\GiftMessage\Service\V1\Data\Message $giftMessage
      * @return bool
@@ -23,6 +25,8 @@ interface WriteServiceInterface
     public function setForQuote($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage);
 
     /**
+     * Set gift message for the item
+     *
      * @param int $cartId
      * @param \Magento\GiftMessage\Service\V1\Data\Message $giftMessage
      * @param int $itemId

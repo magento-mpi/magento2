@@ -27,22 +27,15 @@ class Observer extends \Magento\Framework\Object
     protected $_messageFactory;
 
     /**
-     * @var \Magento\GiftMessage\Model\GiftMessage messageFactory
-     */
-    protected $messageInitializer;
-
-    /**
      * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
         \Magento\GiftMessage\Model\MessageFactory $messageFactory,
-        \Magento\GiftMessage\Helper\Message $giftMessageMessage,
-        \Magento\GiftMessage\Model\GiftMessage $initializer
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
         $this->_messageFactory = $messageFactory;
         $this->_giftMessageMessage = $giftMessageMessage;
-        $this->messageInitializer = $initializer;
     }
 
     /**
@@ -71,19 +64,6 @@ class Observer extends \Magento\Framework\Object
     {
         $observer->getEvent()->getOrder()->setGiftMessageId($observer->getEvent()->getQuote()->getGiftMessageId());
         return $this;
-    }
-
-    /**
-     * Operate with gift messages on checkout proccess
-     *
-     * @param \Magento\Framework\Object $observer
-     * @return $this
-     */
-    public function checkoutEventCreateGiftMessage($observer)
-    {
-        $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
-        $quote = $observer->getEvent()->getQuote();
-        return $this->messageInitializer->create($giftMessages, $quote);
     }
 
     /**

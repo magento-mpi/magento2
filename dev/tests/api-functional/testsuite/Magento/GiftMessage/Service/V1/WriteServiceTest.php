@@ -82,7 +82,9 @@ class WriteServiceTest extends WebapiAbstract
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_item_with_message', 'reserved_order_id');
         $cartId = $quote->getId();
-        $itemId = $quote->getAllItems()[0]->getId();
+        $product = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $product->load($product->getIdBySku('simple_with_message'));
+        $itemId = $quote->getItemByProduct($product)->getId();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/gift-message/'.  $itemId,
@@ -105,8 +107,8 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
-        $quote->load('test_order_item_with_message', 'reserved_order_id');
-        $messageId = $quote->getAllItems()[0]->getGiftMessageId();
+//        $quote->load('test_order_item_with_message', 'reserved_order_id');
+        $messageId = $quote->getItemByProduct($product)->getGiftMessageId();
         /** @var  \Magento\GiftMessage\Model\Message $message */
         $message = $this->objectManager->create('\Magento\GiftMessage\Model\Message')->load($messageId);
         $this->assertEquals('John Doe', $message->getRecipient());

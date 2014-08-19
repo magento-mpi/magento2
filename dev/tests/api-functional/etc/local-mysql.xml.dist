@@ -23,7 +23,7 @@
         <username><![CDATA[root]]></username>
         <password><![CDATA[]]></password>
         <!--Web API tests require database with minimal set of fixtures, not empty one-->
-        <dbName><![CDATA[magento2]]></dbName>
+        <dbName><![CDATA[new]]></dbName>
         <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
         <model><![CDATA[mysql4]]></model>
         <adapter>Magento\TestFramework\Db\ConnectionAdapter</adapter>

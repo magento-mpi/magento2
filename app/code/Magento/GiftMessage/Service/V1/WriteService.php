@@ -18,18 +18,17 @@ class WriteService implements WriteServiceInterface
     /**
      * @var \Magento\Checkout\Service\V1\QuoteLoader
      */
-    protected $quoteLoader;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
-
     /**
-     * @var \Magento\GiftMessage\Model\GiftMessage
+     * @var \Magento\GiftMessage\Model\GiftMessageManager
      */
-    protected $messageInitializer;
+    protected $giftMessageManager;
 
     /**
      * @var \Magento\GiftMessage\Helper\Message
@@ -42,21 +41,21 @@ class WriteService implements WriteServiceInterface
     protected $productLoader;
 
     /**
-     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\GiftMessage\Model\GiftMessage $initializer
+     * @param  \Magento\Sales\Model\QuoteRepository $quoteRepository
+     * @param \Magento\GiftMessage\Model\GiftMessageManager $giftMessageManager
      * @param \Magento\GiftMessage\Helper\Message $helper
+     * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
      */
     public function __construct(
-        \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\GiftMessage\Model\GiftMessage $initializer,
+        \Magento\GiftMessage\Model\GiftMessageManager $giftMessageManager,
         \Magento\GiftMessage\Helper\Message $helper,
         \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
     ) {
-        $this->quoteLoader = $quoteLoader;
+        $this->quoteRepository = $quoteRepository;
+        $this->giftMessageManager = $giftMessageManager;
         $this->storeManager = $storeManager;
-        $this->messageInitializer = $initializer;
         $this->productLoader = $productLoader;
         $this->helper = $helper;
     }
@@ -66,10 +65,8 @@ class WriteService implements WriteServiceInterface
      */
     public function setForQuote($cartId,  \Magento\GiftMessage\Service\V1\Data\Message $giftMessage)
     {
-        $storeId = $this->storeManager->getStore()->getId();
-
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
 
         if (0 == $quote->getItemsCount()) {
             throw new InputException('Gift Messages is not applicable for empty cart');
@@ -80,7 +77,7 @@ class WriteService implements WriteServiceInterface
         }
 
         try {
-            $this->setMessage($quote, 'quote', $entityId = null, $giftMessage);
+            $this->setMessage($quote, 'quote', $giftMessage);
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not add gift message to shopping cart');
         }
@@ -92,9 +89,8 @@ class WriteService implements WriteServiceInterface
      */
     public function setForItem($cartId,  \Magento\GiftMessage\Service\V1\Data\Message $giftMessage, $itemId)
     {
-        $storeId = $this->storeManager->getStore()->getId();
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
 
         if (!$item = $quote->getItemById($itemId)) {
             throw new NoSuchEntityException('There is no product with provided SKU in the cart');
@@ -104,7 +100,7 @@ class WriteService implements WriteServiceInterface
             throw new InvalidTransitionException('Gift Messages is not applicable for virtual products');
         }
 
-        $this->setMessage($quote, 'quote_item', $itemId, $giftMessage);
+        $this->setMessage($quote, 'quote_item', $giftMessage, $itemId);
         return true;
     }
 
@@ -120,7 +116,7 @@ class WriteService implements WriteServiceInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\State\InvalidTransitionException
      */
-    protected function setMessage(\Magento\Sales\Model\Quote $quote, $type, $entityId = null, $giftMessage)
+    protected function setMessage(\Magento\Sales\Model\Quote $quote, $type, $giftMessage, $entityId = null)
     {
         if (is_null($quote->getBillingAddress()->getCountryId())) {
             throw new InvalidTransitionException('Billing address is not set');
@@ -131,9 +127,8 @@ class WriteService implements WriteServiceInterface
             throw new InvalidTransitionException('Shipping address is not set');
         }
 
-        $configType = $type == 'quote_item'?'':'items';
-        if(!$this->helper->getIsMessagesAvailable($configType, $quote, $this->storeManager->getStore()))
-        {
+        $configType = $type == 'quote_item' ? '' : 'items';
+        if (!$this->helper->getIsMessagesAvailable($configType, $quote, $this->storeManager->getStore())) {
             throw new CouldNotSaveException('Gift Message is not available');
         }
         $message[$type][$entityId] = [
@@ -144,7 +139,7 @@ class WriteService implements WriteServiceInterface
         ];
 
         try {
-        $this->messageInitializer->create($message, $quote);
+            $this->giftMessageManager->add($message, $quote);
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not add gift message to shopping cart');
         }

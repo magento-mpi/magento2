@@ -7,7 +7,7 @@
  */
 namespace Magento\GiftMessage\Model;
 
-class GiftMessage
+class GiftMessageManager
 {
     /**
      * @var \Magento\GiftMessage\Model\MessageFactory
@@ -28,7 +28,7 @@ class GiftMessage
      * @param array $giftMessages
      * @return $this
      */
-    public function create($giftMessages, $quote)
+    public function add($giftMessages, $quote)
     {
         if (!is_array($giftMessages)) {
             return $this;

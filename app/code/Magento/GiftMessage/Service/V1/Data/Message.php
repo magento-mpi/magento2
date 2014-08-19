@@ -14,7 +14,7 @@ namespace Magento\GiftMessage\Service\V1\Data;
  */
 class Message extends \Magento\Framework\Service\Data\AbstractObject
 {
-    const ID = 'id';
+    const GIFT_MESSAGE_ID = 'gift_message_id';
 
     const SENDER = 'sender';
 
@@ -22,14 +22,26 @@ class Message extends \Magento\Framework\Service\Data\AbstractObject
 
     const MESSAGE = 'message';
 
+    const CUSTOMER_ID = 'customer_id';
+
     /**
-     *
+     * Get gift message id
      *
      * @return int|null
      */
-    public function getId()
+    public function getGiftMessageId()
     {
-        return $this->_get(self::ID);
+        return $this->_get(self::GIFT_MESSAGE_ID);
+    }
+
+    /**
+     * Get customer id
+     *
+     * @return int|null
+     */
+    public function getCustomerId()
+    {
+        return $this->_get(self::CUSTOMER_ID);
     }
 
     /**
