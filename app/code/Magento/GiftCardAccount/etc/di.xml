@@ -37,4 +37,6 @@
     <type name="Magento\Sales\Controller\Adminhtml\Order\Edit\Index">
         <plugin name="order_edit" type="Magento\GiftCardAccount\Controller\Adminhtml\Order\Edit\Plugin" sortOrder="10"/>
     </type>
+    <preference for="Magento\GiftCardAccount\Service\V1\ReadServiceInterface" type="Magento\GiftCardAccount\Service\V1\ReadService" />
+    <preference for="Magento\GiftCardAccount\Service\V1\WriteServiceInterface" type="Magento\GiftCardAccount\Service\V1\WriteService" />
 </config>

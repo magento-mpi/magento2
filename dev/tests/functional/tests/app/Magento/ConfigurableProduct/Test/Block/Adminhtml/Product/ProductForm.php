@@ -80,16 +80,18 @@ class ProductForm extends ParentForm
      * @param XmlConverter $xmlConverter
      * @param BlockFactory $blockFactory
      * @param Browser $browser
+     * @param array $config
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
         XmlConverter $xmlConverter,
         BlockFactory $blockFactory,
-        Browser $browser
+        Browser $browser,
+        array $config = []
     ) {
         $this->browser = $browser;
-        parent::__construct($element, $mapper, $blockFactory, $xmlConverter);
+        parent::__construct($element, $mapper, $blockFactory, $xmlConverter, $config);
     }
 
     /**

@@ -8,12 +8,13 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
@@ -38,6 +39,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
      * @param CheckoutOnepage $checkoutOnepage
      * @param CatalogProductView $catalogProductViewPage
      * @param CustomerCustomAttribute $customerAttribute
+     * @param Browser $browser
      * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
@@ -48,6 +50,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
         CheckoutOnepage $checkoutOnepage,
         CatalogProductView $catalogProductViewPage,
         CustomerCustomAttribute $customerAttribute,
+        Browser $browser,
         CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
         // Precondition
@@ -60,8 +63,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
 
         // Steps
         $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
-        $catalogProductViewPage->init($productSimple);
-        $catalogProductViewPage->open();
+        $browser->open($_ENV['app_frontend_url'] . $productSimple->getUrlKey() . '.html');
         $catalogProductViewPage->getViewBlock()->clickAddToCartButton();
         $checkoutCart->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
         $checkoutOnepage->getLoginBlock()->registerCustomer();
