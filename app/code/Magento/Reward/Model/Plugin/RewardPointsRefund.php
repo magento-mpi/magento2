@@ -137,7 +137,7 @@ class RewardPointsRefund
         }
 
         $this->updateHistoryRow($creditmemo);
-        $this->salesRuleRefund->refundRewardPointsEarnedBySalesRule($creditmemo);
+        $this->salesRuleRefund->refund($creditmemo);
 
         return $result;
     }

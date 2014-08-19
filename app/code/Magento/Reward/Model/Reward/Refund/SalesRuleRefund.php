@@ -25,32 +25,32 @@ class SalesRuleRefund
     protected $storeManager;
 
     /**
-     * Reward data
+     * Reward Helper
      *
      * @var \Magento\Reward\Helper\Data
      */
-    protected $rewardData;
+    protected $rewardHelper;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
-     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Reward\Helper\Data $rewardHelper
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        \Magento\Reward\Helper\Data $rewardData
+        \Magento\Reward\Helper\Data $rewardHelper
     ) {
         $this->rewardFactory = $rewardFactory;
         $this->storeManager = $storeManager;
-        $this->rewardData = $rewardData;
+        $this->rewardHelper = $rewardHelper;
     }
 
     /**
      * Refund reward points earned by salesRule
      *
      */
-    public function refundRewardPointsEarnedBySalesRule(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
+    public function refund(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $creditmemo->getOrder();
@@ -64,7 +64,7 @@ class SalesRuleRefund
 
         $isRefundAllowed = false;
         if ($creditmemo->getAutomaticallyCreated()) {
-            if ($this->rewardData->isAutoRefundEnabled()) {
+            if ($this->rewardHelper->isAutoRefundEnabled()) {
                 $isRefundAllowed = true;
             }
             $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
