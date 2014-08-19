@@ -60,14 +60,11 @@ class Config
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Asset\GroupedCollection $groupCollection
      * @param \Magento\Framework\View\Asset\Collection $assetCollection
      */
     public function __construct(
-        \Magento\Framework\View\Asset\GroupedCollection $groupCollection,
         \Magento\Framework\View\Asset\Collection $assetCollection
     ) {
-
         $this->assetCollection = $assetCollection;
     }
 
