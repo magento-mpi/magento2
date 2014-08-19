@@ -56,7 +56,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
         $result = array();
         $files = glob($this->getPath(\Magento\Framework\App\Filesystem::THEMES_DIR) . '/*/*/*', GLOB_ONLYDIR);
         foreach ($files as $themeDir) {
-            $result[$themeDir] = array($themeDir);
+            $result[] = array($themeDir);
         }
         return $result;
     }
@@ -92,10 +92,10 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function themeConfigFileDataProvider()
     {
-        $result = array();
+        $result = [];
         $files = glob($this->getPath(\Magento\Framework\App\Filesystem::THEMES_DIR) . '/*/*/*/theme.xml');
         foreach ($files as $file) {
-            $result[$file] = array($file);
+            $result[] = [$file];
         }
         return $result;
     }
