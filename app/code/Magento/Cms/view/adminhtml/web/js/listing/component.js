@@ -1,16 +1,18 @@
 define(function (require) {
 
   var
-    Listing  = require('Magento_Cms/js/listing/entity'),
-    View     = require('m2/lib/view/ko'),
-    Provider = require('m2/provider');
+    Listing      = require('Magento_Cms/js/listing/entity'),
+    View         = require('m2/lib/ko/view'),
+    DataProvider = require('m2/lib/provider/model'),
+    RestProvider = require('m2/lib/provider/rest');
 
   return function (el, config, initial) {
     
     var listing = new Listing(initial, config);
     
-    View.init(el, listing);
+    View.bind(el, listing);
 
-    Provider.register('cms.pages.listing', listing);
+    DataProvider.register('cms.pages.listing', listing);
+    RestProvider.add('cms.pages', { url: 'cms/pages' });
   }
 });

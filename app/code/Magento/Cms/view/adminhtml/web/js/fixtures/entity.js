@@ -1,4 +1,4 @@
-define(['m2/lib/scope', 'storage', 'm2/provider'], function (Scope, lo, Provider) {
+define(['m2/lib/ko/scope', 'storage', 'm2/lib/provider/model'], function (Scope, lo, DataProvider) {
 
   var initial = [
     {
@@ -106,7 +106,7 @@ define(['m2/lib/scope', 'storage', 'm2/provider'], function (Scope, lo, Provider
     initialize: function () {
       this.def('listing', null);
 
-      Provider.get('cms.pages.listing').done(this.listing.bind(this));
+      DataProvider.get('cms.pages.listing').done(this.listing.bind(this));
     },
 
     toggleListingView: function () {

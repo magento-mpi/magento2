@@ -1,6 +1,8 @@
-define(['m2/lib/scope', 'm2/provider', '_'], function (Scope, Provider, _) {
+define(['m2/lib/ko/scope', 'm2/lib/provider/model', '_'], function (Scope, DataProvider, _) {
+  
   return Scope.extend({
     initialize: function (massActions, actions) {
+
       this
         .defArray('actions', actions)
         .defArray('massActions', massActions)
@@ -27,7 +29,7 @@ define(['m2/lib/scope', 'm2/provider', '_'], function (Scope, Provider, _) {
     },
 
     _load: function () {
-      Provider.get('cms.pages.listing').done(this.listing);
+      DataProvider.get('cms.pages.listing').done(this.listing);
 
       return this;
     },
