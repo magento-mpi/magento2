@@ -38,7 +38,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
@@ -50,7 +50,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
-        \Magento\Catalog\Model\Product $product,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
@@ -64,7 +64,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
             $context,
             $backendData,
             $config,
-            $product,
+            $productFactory,
             $productResource,
             $attrSetCollection,
             $localeFormat,

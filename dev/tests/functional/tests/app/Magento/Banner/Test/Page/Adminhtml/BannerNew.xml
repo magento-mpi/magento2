@@ -10,7 +10,7 @@
 <page mca="admin/banner/new" >
     <block>
         <name>bannerForm</name>
-        <class>Magento\Banner\Test\Block\Adminhtml\FormTabs</class>
+        <class>Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
