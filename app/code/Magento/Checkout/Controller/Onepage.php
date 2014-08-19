@@ -46,6 +46,11 @@ class Onepage extends Action
     protected $_formKeyValidator;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param CustomerAccountService $customerAccountService
@@ -53,6 +58,7 @@ class Onepage extends Action
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -61,11 +67,13 @@ class Onepage extends Action
         CustomerMetadataService $customerMetadataService,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Translate\InlineInterface $translateInline,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_translateInline = $translateInline;
         $this->_formKeyValidator = $formKeyValidator;
+        $this->scopeConfig = $scopeConfig;
         parent::__construct($context, $customerSession, $customerAccountService, $customerMetadataService);
     }
 

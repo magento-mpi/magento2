@@ -37,14 +37,25 @@ class SaveBilling extends \Magento\Checkout\Controller\Onepage
                         'html' => $this->_getPaymentMethodsHtml()
                     );
                 } elseif (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {
-                    $result['goto_section'] = 'shipping_method';
-                    $result['update_section'] = array(
-                        'name' => 'shipping-method',
-                        'html' => $this->_getShippingMethodsHtml()
-                    );
+                    if (!$this->getOnepage()->getQuote()->validateMinimumAmount()) {
+                        $result = [
+                            'error' => -1,
+                            'message' => $this->scopeConfig->getValue(
+                                'sales/minimum_order/error_message',
+                                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                                $this->getOnepage()->getQuote()->getStoreId()
+                            )
+                        ];
+                    } else {
+                        $result['goto_section'] = 'shipping_method';
+                        $result['update_section'] = [
+                            'name' => 'shipping-method',
+                            'html' => $this->_getShippingMethodsHtml()
+                        ];
 
-                    $result['allow_sections'] = array('shipping');
-                    $result['duplicateBillingInfo'] = 'true';
+                        $result['allow_sections'] = ['shipping'];
+                        $result['duplicateBillingInfo'] = 'true';
+                    }
                 } else {
                     $result['goto_section'] = 'shipping';
                 }

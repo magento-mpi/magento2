@@ -1191,7 +1191,13 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function validateMinimumAmount()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!$this->_scopeConfig->isSetFlag('sales/minimum_order/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)) {
+        if (
+            !$this->_scopeConfig->isSetFlag(
+                'sales/minimum_order/active',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
+        ) {
             return true;
         }
 
@@ -1201,11 +1207,18 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return true;
         }
 
-        $amount = $this->_scopeConfig->getValue('sales/minimum_order/amount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
-        if ($this->getBaseSubtotalWithDiscount() < $amount) {
-            return false;
-        }
-        return true;
+        $amount = $this->_scopeConfig->getValue(
+            'sales/minimum_order/amount',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $taxInclude = $this->_scopeConfig->getValue(
+            'sales/minimum_order/tax_including',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $taxes = ($taxInclude) ? $this->getBaseTaxAmount() : 0;
+        return ($this->getBaseSubtotalWithDiscount() + $taxes >= $amount);
     }
 
     /**

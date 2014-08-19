@@ -877,11 +877,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @return array
+     * Get all quote addresses
+     *
+     * @return \Magento\Sales\Model\Quote\Address[]
      */
     public function getAllAddresses()
     {
-        $addresses = array();
+        $addresses = [];
         foreach ($this->getAddressesCollection() as $address) {
             if (!$address->isDeleted()) {
                 $addresses[] = $address;
@@ -2029,6 +2031,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
+        $taxInclude = $this->_scopeConfig->getValue(
+            'sales/minimum_order/tax_including',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
 
         if (!$minOrderActive) {
             return true;
@@ -2038,10 +2045,21 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         if ($multishipping) {
             if (!$minOrderMulti) {
+                foreach ($addresses as $address) {
+                    $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
+                    foreach ($address->getQuote()->getItemsCollection() as $item) {
+                        /** @var \Magento\Sales\Model\Quote\Item $item */
+                        $amount = $item->getBaseRowTotal() - $item->getBaseDiscountAmount() + $taxes;
+                        if ($amount < $minAmount) {
+                            return false;
+                        }
+                    }
+                }
+            } else {
                 $baseTotal = 0;
                 foreach ($addresses as $address) {
-                    /* @var $address Address */
-                    $baseTotal += $address->getBaseSubtotalWithDiscount();
+                    $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
+                    $baseTotal += $address->getBaseSubtotalWithDiscount() + $taxes;
                 }
                 if ($baseTotal < $minAmount) {
                     return false;
