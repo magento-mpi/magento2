@@ -113,20 +113,11 @@ giftWrappingOrder = {
             Event.observe($('allow-gift-receipt'), 'change', this.saveData.bind(this));
             $('allow-gift-receipt').checked = <?php echo $this->getWrappingGiftReceiptValue() ?>;
         }
-    },
-
-    refresh: function(event) {
-        var url = order.loadBaseUrl + 'block/giftwrapping';
-        new Ajax.Updater('orderCreateGiftWrapping', url, {
-            onComplete: this.init.bind(this)
-        })
     }
 }
 giftWrappingOrder.init();
 giftWrappingOrder.setWrapping(null, <?php echo $this->getWrappingDesignValue() ?>);
 giftWrappingOrder.setCardPrice(null, <?php echo $this->getWrappingPrintedCardValue() ?>);
-Event.observe(document, 'quote_items:afterIFrameLoaded',  giftWrappingOrder.refresh.bind(giftWrappingOrder));
-Event.observe(document, 'product_to_add:afterIFrameLoaded',  giftWrappingOrder.refresh.bind(giftWrappingOrder));
 //]]>
 
 });
