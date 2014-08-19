@@ -10,11 +10,10 @@
 namespace Magento\Banner\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Banners block
- *
+ * Banner block in Banner widget on frontend
  */
 class Banners extends Block
 {
@@ -22,9 +21,17 @@ class Banners extends Block
 
     /**
      * Return Banner content
+     *
+     * @return array
      */
     public function getBannerText()
     {
-        return $this->_rootElement->find($this->bannerText, Locator::SELECTOR_CSS)->getText();
+        $banners = $this->_rootElement->find($this->bannerText)->getElements();
+        $bannersText = [];
+        foreach ($banners as $banner) {
+            $bannersText[] = $banner->getText();
+        }
+
+        return $bannersText;
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+       <firstname>
+           <selector>[name$="[name]"]</selector>
+       </firstname>
+        <email>
+            <selector>[name$="[email]"]</selector>
+        </email>
+    </fields>
+</mapping>
