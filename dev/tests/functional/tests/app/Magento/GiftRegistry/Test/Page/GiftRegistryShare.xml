@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="giftregistry/index/share" >
+    <block>
+        <name>giftRegistryShareForm</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Share</class>
+        <locator>#giftregistry-sharing-form</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
