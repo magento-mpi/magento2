@@ -8,6 +8,9 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml\Index;
 
+use Magento\AdvancedCheckout\Exception as AdvancedCheckoutException;
+use Magento\Framework\Model\Exception;
+
 class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
 {
     /**
@@ -260,7 +263,7 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
 
     /**
      * Process buyRequest file options of items
-     *
+     *Magento\AdvancedCheckout\Controller\Adminhtml\Index
      * @param  array $items
      * @return array
      */

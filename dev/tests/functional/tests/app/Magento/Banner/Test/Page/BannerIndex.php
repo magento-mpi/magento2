@@ -10,12 +10,10 @@ namespace Magento\Banner\Test\Page;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class BannerIndex
  * Home page for frontend containing Banner
- *
  */
 class BannerIndex extends CmsIndex
 {
@@ -37,7 +35,7 @@ class BannerIndex extends CmsIndex
     public function getBannersBlock()
     {
         return Factory::getBlockFactory()->getMagentoBannerBanners(
-            $this->_browser->find($this->bannersBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->bannersBlock)
         );
     }
 }
