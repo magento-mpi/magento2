@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales_rule/promo_quote/edit" >
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>salesRuleForm</name>
-        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="sales_rule/promo_quote/edit" module="Magento_SalesRule">
+    <blocks>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <salesRuleForm>
+            <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </salesRuleForm>
+    </blocks>
 </page>

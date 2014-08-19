@@ -40,11 +40,12 @@ class Preview extends Block
      * @param Element $element
      * @param BlockFactory $blockFactory
      * @param Browser $browser
+     * @param array $config
      */
-    public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser)
+    public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser, array $config = [])
     {
         $this->browser = $browser;
-        parent::__construct($element, $blockFactory);
+        parent::__construct($element, $blockFactory, $config);
     }
 
     /**

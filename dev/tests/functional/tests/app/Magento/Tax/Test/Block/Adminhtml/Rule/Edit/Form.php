@@ -99,10 +99,16 @@ class Form extends FormInterface
      * @param BlockFactory $blockFactory
      * @param Mapper $mapper
      * @param Browser $browser
+     * @param array $config
      */
-    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser)
-    {
-        parent::__construct($element, $blockFactory, $mapper);
+    public function __construct(
+        Element $element,
+        BlockFactory $blockFactory,
+        Mapper $mapper,
+        Browser $browser,
+        array $config = []
+    ) {
+        parent::__construct($element, $blockFactory, $mapper, $config);
         $this->browser = $browser;
     }
 

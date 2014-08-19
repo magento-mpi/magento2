@@ -30,15 +30,14 @@ class ProductPageTest extends Functional
         $fixture->persist();
 
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         //Open product page
         $products = $fixture->getProducts();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init(end($products));
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . end($products)->getUrlKey() . '.html');
 
         //Proceed Checkout
         $productPage->getViewBlock()->paypalCheckout();
