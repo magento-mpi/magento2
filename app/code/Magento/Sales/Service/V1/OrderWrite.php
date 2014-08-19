@@ -138,12 +138,12 @@ class OrderWrite implements OrderWriteInterface
     /**
      * Create an order
      *
-     * @param Order $order
+     * @param Order $orderDataObject
      * @return bool
      * @throws \Exception
      */
-    public function create(Order $order)
+    public function create(Order $orderDataObject)
     {
-        return $this->orderCreate->invoke($order);
+        return $this->orderCreate->invoke($orderDataObject);
     }
 }

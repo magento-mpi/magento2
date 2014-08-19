@@ -38,14 +38,14 @@ class OrderCreate
     /**
      * Create order
      *
-     * @param \Magento\Sales\Service\V1\Data\Order $invoiceDataObject
+     * @param \Magento\Sales\Service\V1\Data\Order $orderDataObject
      * @returns bool
      * @throws \Exception
      */
-    public function invoke(\Magento\Sales\Service\V1\Data\Order $invoiceDataObject)
+    public function invoke(\Magento\Sales\Service\V1\Data\Order $orderDataObject)
     {
         try {
-            $order = $this->orderConverter->getModel($invoiceDataObject);
+            $order = $this->orderConverter->getModel($orderDataObject);
             return (bool)$order->save();
         } catch (\Exception $e) {
             $this->logger->logException($e);

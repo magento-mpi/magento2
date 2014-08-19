@@ -51,4 +51,13 @@ interface OrderWriteInterface
      * @return bool
      */
     public function statusHistoryAdd($id, OrderStatusHistory $statusHistory);
+
+    /**
+     * Create an order
+     *
+     * @param \Magento\Sales\Service\V1\Data\Order $orderDataObject
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(\Magento\Sales\Service\V1\Data\Order $orderDataObject);
 }

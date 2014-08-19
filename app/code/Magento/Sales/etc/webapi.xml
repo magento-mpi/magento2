@@ -213,4 +213,10 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/order/" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderWriteInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
 </routes>

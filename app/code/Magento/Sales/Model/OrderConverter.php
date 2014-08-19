@@ -102,7 +102,7 @@ class OrderConverter
     {
         $payments = [];
         foreach ($dataObject->getPayments() as $payment) {
-            $items[] = $this->itemConverter->getModel($payment);
+            $payments[] = $this->paymentConverter->getModel($payment);
         }
         return $payments;
     }

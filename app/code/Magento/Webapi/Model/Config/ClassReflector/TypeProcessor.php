@@ -383,12 +383,12 @@ class TypeProcessor
         if ($this->isArrayType($type) && is_array($value)) {
             $arrayItemType = $this->getArrayItemType($type);
             foreach (array_keys($value) as $key) {
-                if (!settype($value[$key], $arrayItemType)) {
+                if ($value !== null && !settype($value[$key], $arrayItemType)) {
                     throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
                 }
             }
         } elseif (!$this->isArrayType($type) && !is_array($value)) {
-            if (!settype($value, $type)) {
+            if ($value !== null && !settype($value, $type)) {
                 throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
             }
         } else {
