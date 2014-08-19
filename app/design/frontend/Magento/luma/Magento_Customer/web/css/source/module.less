@@ -123,10 +123,8 @@
             }
         }
     }
-    .sidebar {
-        .block-account-nav {
-            margin-bottom: 40px;
-        }
+    .sidebar-additional {
+        margin-top: 40px;
     }
     .block-account-nav {
         .title {
@@ -415,6 +413,9 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .account {
+        .page.messages {
+            margin-bottom: 40px;
+        }
         .data.table {
             &:extend(.table-vertical-mobile-m all);
             td {

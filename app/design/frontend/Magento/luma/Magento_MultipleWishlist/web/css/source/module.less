@@ -30,6 +30,9 @@
 
         margin-right: 5%;
         vertical-align: middle;
+        .items {
+            padding: 6px 0;
+        }
         &:extend(.abstract-dropdown-items-new all);
 
         > .action {
@@ -219,7 +222,8 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .block-wishlist-management {
-        margin-top: -41px;
+        clear: both;
+        margin-top: -1px;
         .wishlist {
             // Select wish list
             &-select {
@@ -356,8 +360,13 @@
             &-select {
                 border-bottom: 1px solid @color-secondary;
                 margin-bottom: 15px;
+                display: table;
                 .wishlist-name {
+                    padding: 5px 10px 10px;
                     margin-right: 10px;
+                    display: table-cell;
+                    vertical-align: top;
+                    white-space: nowrap;
                     span {
                     }
                     &.active {
@@ -368,12 +377,17 @@
                     }
                 }
                 &-items {
-                    display: inline-block;
+                    display: table-cell;
+                    vertical-align: top;
+                    padding-right: 160px;
                     &.active {
                     }
                     .item {
                         display: inline-block;
                         margin-right: 10px;
+                        &:last-child {
+                            margin-right: 0;
+                        }
                         padding: 5px 10px 10px;
                     }
                     .current {
@@ -386,11 +400,9 @@
                 }
             }
             &-add.item {
-                .action {
-                    position: absolute;
-                    right: 0;
-                    top: 5px;
-                }
+                position: absolute;
+                right: 0;
+                top: 0;
             }
             // Wish list name
             &-title {

@@ -163,6 +163,7 @@
             }
             .box-tocart {
                 input.qty {
+                    height: 35px;
                     &:extend(.abstract-input-qty all);
                 }
             }
@@ -225,6 +226,9 @@
                 .box-tocart {
                     float: left;
                     margin-right: 20px;
+                    .stock {
+                        margin-top: 7px;
+                    }
                 }
                 .giftregisty-dropdown,
                 .field.qty {
@@ -246,12 +250,14 @@
             &-item {
                 &-info {
                     .product-item-comment,
-                    .field.qty {
+                    .field.qty,
+                    .stock {
                         visibility: hidden;
                     }
                     &:hover {
                         .product-item-comment,
-                        .field.qty {
+                        .field.qty,
+                        .stock {
                             visibility: visible;
                         }
                     }
@@ -287,6 +293,9 @@
                 .box-tocart {
                     .actions-primary {
                         margin: 0;
+                    }
+                    .stock {
+                        margin: 20px 0 0;
                     }
                 }
             }
