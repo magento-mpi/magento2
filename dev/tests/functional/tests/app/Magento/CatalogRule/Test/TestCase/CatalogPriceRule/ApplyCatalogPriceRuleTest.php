@@ -52,12 +52,12 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Create Configurable Product with same category
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct(
-            array('categories' => $simple->getCategories())
+            ['categories' => $simple->getCategories()]
         );
         $configurable->switchData(Repository::CONFIGURABLE);
         $configurable->persist();
 
-        $products = array($simple, $configurable);
+        $products = [$simple, $configurable];
 
         // Create Customer
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
@@ -70,7 +70,7 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Create Frontend App
         $objectManager = Factory::getObjectManager();
-        $frontendApp = $objectManager->create('\Magento\Widget\Test\Fixture\Widget', ['dataSet' => 'banner_rotator']);
+        $frontendApp = $objectManager->create('\Magento\Banner\Test\Fixture\Widget', ['dataSet' => 'banner_rotator']);
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
@@ -117,7 +117,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
-            array('category_id' => $categoryId)
+            ['category_id' => $categoryId]
         );
         $catalogRuleFixture->switchData(CatalogPriceRule::CATALOG_PRICE_RULE_ALL_GROUPS);
         $newCatalogRuleForm->fill($catalogRuleFixture);
@@ -251,7 +251,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $this->verifyAddProducts($products);
 
         // Verify one page checkout prices
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(array('products' => $products));
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(['products' => $products]);
         $fixture->persist();
         $this->checkoutProcess($fixture);
 
