@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * Unit test for \Magento\Customer\Controller\Adminhtml\Index controller
@@ -36,7 +37,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
     /**
      * ObjectManager mock instance
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|ObjectManager
      */
     protected $_objectManager;
 
@@ -72,6 +73,9 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        ObjectManager::setInstance($objectManagerMock);
+
         $this->_request = $this->getMockBuilder('Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();

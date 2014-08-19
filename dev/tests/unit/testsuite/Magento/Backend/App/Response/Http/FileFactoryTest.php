@@ -7,6 +7,8 @@
  */
 namespace Magento\Backend\App\Response\Http;
 
+use Magento\Framework\App\ObjectManager;
+
 class FileFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -36,6 +38,9 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        ObjectManager::setInstance($objectManagerMock);
+
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_responseMock = $this->getMock(
             'Magento\Framework\App\Response\Http',

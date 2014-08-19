@@ -7,6 +7,8 @@
  */
 namespace Magento\Checkout\Helper;
 
+use Magento\Framework\App\ObjectManager;
+
 class ExpressRedirectTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -38,6 +40,9 @@ class ExpressRedirectTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        ObjectManager::setInstance($objectManagerMock);
+
         $this->_actionFlag = $this->getMockBuilder(
             'Magento\Framework\App\ActionFlag'
         )->disableOriginalConstructor()->setMethods(

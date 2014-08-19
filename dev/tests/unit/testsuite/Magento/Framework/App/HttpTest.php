@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\App;
 
+use Magento\Framework\App\ObjectManager;
+
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -52,6 +54,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        ObjectManager::setInstance($objectManagerMock);
+
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_requestMock = $this->getMockBuilder(
             'Magento\Framework\App\Request\Http'

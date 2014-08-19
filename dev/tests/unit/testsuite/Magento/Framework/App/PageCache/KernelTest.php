@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App\PageCache;
 
+use Magento\Framework\App\ObjectManager;
+
 class KernelTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -39,6 +41,9 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        ObjectManager::setInstance($objectManagerMock);
+
         $this->cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', array(), array(), '', false);
         $this->identifierMock =
             $this->getMock('Magento\Framework\App\PageCache\Identifier', array(), array(), '', false);
