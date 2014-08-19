@@ -1,0 +1,2 @@
+"storeGroup/data/website_id";"storeGroup/data/name";"storeGroup/data/root_category_id";"constraint"
+"Main Website";"store_name_%isolation%";"Default Category";"assertStoreSuccessSaveMessage, assertStoreInGrid, assertStoreForm, assertStoreOnStoreViewForm"

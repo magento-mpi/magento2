@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertStoreSuccessSaveMessage module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreSuccessSaveMessage>
+    <assertStoreInGrid module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreInGrid>
+    <assertStoreForm module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreForm>
+    <assertStoreOnStoreViewForm module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreOnStoreViewForm>
+</constraint>

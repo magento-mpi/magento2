@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+?xml version="1.0" ?>
 <!--
 /**
  * {license_notice}
@@ -28,4 +28,14 @@
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\StoreDelete</class>
     </storeDelete>
+    <newGroupIndex>
+        <mca>system_store/newGroup/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\NewGroupIndex</class>
+    </newGroupIndex>
+    <editGroup>
+        <mca>system_store/editGroup</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\EditGroup</class>
+    </editGroup>
 </page>

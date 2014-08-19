@@ -9,6 +9,7 @@
 namespace Magento\Backend\Test\Block\System\Store\Edit;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class StoreForm
@@ -16,5 +17,21 @@ use Mtf\Block\Form;
  */
 class StoreForm extends Form
 {
-    //
+    /**
+     * Store name selector in dropdown
+     *
+     * @var string
+     */
+    protected $store = '//option[contains(.,"%s")]';
+
+    /**
+     * Check that Store visible in Store dropdown
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isStoreVisible($name)
+    {
+        return $this->_rootElement->find(sprintf($this->store, $name), Locator::SELECTOR_XPATH)->isVisible();
+    }
 }
