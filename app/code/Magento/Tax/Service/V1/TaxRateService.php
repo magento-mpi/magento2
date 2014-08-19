@@ -98,7 +98,7 @@ class TaxRateService implements TaxRateServiceInterface
         $this->taxRateSearchResultsBuilder = $taxRateSearchResultsBuilder;
         $this->rateFactory = $rateFactory;
         $this->countryFactory = $countryFactory;
-        $this->_regionFactory = $regionFactory;
+        $this->regionFactory = $regionFactory;
     }
 
     /**
@@ -281,7 +281,7 @@ class TaxRateService implements TaxRateServiceInterface
 
         $regionCode = $taxRate->getRegionId();
         if (\Zend_Validate::is($regionCode, 'NotEmpty') &&
-            !\Zend_Validate::is($this->_regionFactory->create()->load($regionCode)->getId(), 'NotEmpty')) {
+            !\Zend_Validate::is($this->regionFactory->create()->load($regionCode)->getId(), 'NotEmpty')) {
             $exception->addError(InputException::INVALID_FIELD_VALUE, ['fieldName' => 'region_id', 'value' => $regionCode]);
         }
 
