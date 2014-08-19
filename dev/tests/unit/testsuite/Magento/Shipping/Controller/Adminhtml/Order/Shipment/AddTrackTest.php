@@ -150,10 +150,8 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValueMap(
                     [
-                        ['order_id', null, $orderId],
-                        ['shipment_id', null, $shipmentId],
-                        ['shipment', null, $shipmentData],
-                        ['tracking', null, $tracking]
+                        ['order_id', null, $orderId], ['shipment_id', null, $shipmentId],
+                        ['shipment', null, $shipmentData], ['tracking', null, $tracking]
                     ]
                 )
             );

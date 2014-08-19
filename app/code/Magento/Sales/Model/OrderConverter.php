@@ -14,6 +14,7 @@ use Magento\Sales\Model\Order\PaymentConverter;
 use Magento\Sales\Model\Order\AddressConverter;
 use Magento\Sales\Model\Order\Customer\Builder as CustomerBuilder;
 use Magento\Sales\Service\V1\Data\Order as OrderData;
+
 /**
  * Converter class for \Magento\Sales\Model\Order
  */
@@ -49,6 +50,7 @@ class OrderConverter
      * @param ItemConverter $itemConverter
      * @param PaymentConverter $paymentConverter
      * @param AddressConverter $addressConverter
+     * @param CustomerBuilder $customerBuilder
      */
     public function __construct(
         OrderBuilder $orderBuilder,
@@ -64,7 +66,12 @@ class OrderConverter
         $this->customerBuilder = $customerBuilder;
     }
 
-
+    /**
+     * Get Order Customer
+     *
+     * @param OrderData $dataObject
+     * @return Order\Customer
+     */
     protected function getCustomer(OrderData $dataObject)
     {
         $this->customerBuilder->setDob($dataObject->getCustomerDob())
@@ -85,6 +92,8 @@ class OrderConverter
     }
 
     /**
+     * Get Order Items
+     * 
      * @param OrderData $dataObject
      * @return array
      */
@@ -97,7 +106,12 @@ class OrderConverter
         return $items;
     }
 
-
+    /**
+     * Get Order Payments
+     *
+     * @param OrderData $dataObject
+     * @return array
+     */
     protected function getPayments(OrderData $dataObject)
     {
         $payments = [];
@@ -107,6 +121,13 @@ class OrderConverter
         return $payments;
     }
 
+    /**
+     * Get Order Model
+     *
+     * @param OrderData $dataObject
+     * @return Order
+     * @throws \Exception
+     */
     public function getModel(OrderData $dataObject)
     {
         $this->orderBuilder->setCustomer($this->getCustomer($dataObject))
@@ -130,6 +151,5 @@ class OrderConverter
             ->setPayments($this->getPayments($dataObject))
             ->setItems($this->getItems($dataObject));
         return $this->orderBuilder->create();
-
     }
 }

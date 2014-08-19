@@ -8,56 +8,125 @@
 
 namespace Magento\Sales\Model\Order;
 
-//use Magento\Sales\Model\AdminOrder\Create as OrderCreator;
-
 use Magento\Sales\Model\Order\Payment;
-use Magento\Sales\Model\Order\Item;
 use Magento\Sales\Model\Order\Customer;
 use Magento\Sales\Model\Order\Address;
 use Magento\Sales\Model\OrderFactory;
 use Magento\Sales\Model\Quote;
 use Magento\Catalog\Model\Product;
-use Magento\Webapi\Exception;
 
 class Builder
 {
+    /**
+     * @var Address
+     */
     protected $billingAddress;
+
+    /**
+     * @var Address
+     */
     protected $shippingAddress;
+
+    /**
+     * @var Item[]
+     */
     protected $items;
+
+    /**
+     * @var Payment[]
+     */
     protected $payments;
+
+    /**
+     * @var int
+     */
+    protected $quoteId;
+
+    /**
+     * @var array
+     */
+    protected $appliedRuleIds;
+
+    /**
+     * @var int
+     */
+    protected $isVirtual;
+
+    /**
+     * @var string
+     */
+    protected $remoteIp;
+
+    /**
+     * @var string
+     */
+    protected $baseSubtotal;
+
+    /**
+     * @var string
+     */
+    protected $subtotal;
+
+    /**
+     * @var string
+     */
+    protected $baseGrandTotal;
+
+    /**
+     * @var string
+     */
+    protected $grandTotal;
+
+    /**
+     * @var string
+     */
+    protected $baseCurrencyCode;
+
+    /**
+     * @var string
+     */
+    protected $globalCurrencyCode;
+
+    /**
+     * @var string
+     */
+    protected $storeCurrencyCode;
+
+    /**
+     * @var int
+     */
+    protected $storeId;
+
+    /**
+     * @var string
+     */
+    protected $storeToBaseRate;
+
+    /**
+     * @var string
+     */
+    protected $baseToGlobalRate;
+
+    /**
+     * @var string
+     */
+    protected $couponCode;
+
     /**
      * @var \Magento\Sales\Model\Order\Customer
      */
     protected $customer;
-
-    protected $quoteId;        //quote_id
-    protected $appliedRuleIds; //'applied_rule_ids',
-    protected $isVirtual;      //'is_virtual',
-    protected $remoteIp;       //'remote_ip',
-
-
-    protected $baseSubtotal; //'base_subtotal',
-    protected $subtotal; //'subtotal',
-    protected $baseGrandTotal; //'base_grand_total',
-    protected $grandTotal; //'grand_total',
-
-    protected $baseCurrencyCode; //'base_currency_code',
-    protected $globalCurrencyCode; //'global_currency_code',
-    protected $storeCurrencyCode; //'store_currency_code'
-    protected $storeId; //'store_id',
-    protected $storeToBaseRate; //'store_to_base_rate',
-    protected $baseToGlobalRate; //'base_to_global_rate',
-
-    protected $couponCode;     //'coupon_code',
 
     /**
      * @var OrderFactory
      */
     protected $orderFactory;
 
-    public function __construct(
-        OrderFactory $orderFactory
-    ) {
+    /**
+     * @param OrderFactory $orderFactory
+     */
+    public function __construct(OrderFactory $orderFactory)
+    {
         $this->orderFactory = $orderFactory;
     }
 
@@ -112,7 +181,7 @@ class Builder
     }
 
     /**
-     * @param $isVirtual
+     * @param int $isVirtual
      * @return $this
      */
     public function setIsVirtual($isVirtual)
@@ -122,7 +191,7 @@ class Builder
     }
 
     /**
-     * @param $remoteIp
+     * @param string $remoteIp
      * @return $this
      */
     public function setRemoteIp($remoteIp)
@@ -132,7 +201,7 @@ class Builder
     }
 
     /**
-     * @param $baseSubtotal
+     * @param string $baseSubtotal
      * @return $this
      */
     public function setBaseSubtotal($baseSubtotal)
@@ -142,7 +211,7 @@ class Builder
     }
 
     /**
-     * @param $subtotal
+     * @param string $subtotal
      * @return $this
      */
     public function setSubtotal($subtotal)
@@ -152,7 +221,7 @@ class Builder
     }
 
     /**
-     * @param $baseGrandTotal
+     * @param string $baseGrandTotal
      * @return $this
      */
     public function setBaseGrandTotal($baseGrandTotal)
@@ -162,7 +231,7 @@ class Builder
     }
 
     /**
-     * @param $grandTotal
+     * @param string $grandTotal
      * @return $this
      */
     public function setGrandTotal($grandTotal)
@@ -172,7 +241,7 @@ class Builder
     }
 
     /**
-     * @param $baseCurrencyCode
+     * @param string $baseCurrencyCode
      * @return $this
      */
     public function setBaseCurrencyCode($baseCurrencyCode)
@@ -182,7 +251,7 @@ class Builder
     }
 
     /**
-     * @param $globalCurrencyCode
+     * @param string $globalCurrencyCode
      * @return $this
      */
     public function setGlobalCurrencyCode($globalCurrencyCode)
@@ -192,7 +261,7 @@ class Builder
     }
 
     /**
-     * @param $storeCurrencyCode
+     * @param string $storeCurrencyCode
      * @return $this
      */
     public function setStoreCurrencyCode($storeCurrencyCode)
@@ -202,7 +271,7 @@ class Builder
     }
 
     /**
-     * @param $storeId
+     * @param int $storeId
      * @return $this
      */
     public function setStoreId($storeId)
@@ -212,7 +281,7 @@ class Builder
     }
 
     /**
-     * @param $storeToBaseRate
+     * @param string $storeToBaseRate
      * @return $this
      */
     public function setStoreToBaseRate($storeToBaseRate)
@@ -222,7 +291,7 @@ class Builder
     }
 
     /**
-     * @param $baseToGlobalRate
+     * @param string $baseToGlobalRate
      * @return $this
      */
     public function setBaseToGlobalRate($baseToGlobalRate)
@@ -232,7 +301,7 @@ class Builder
     }
 
     /**
-     * @param $couponCode
+     * @param string $couponCode
      * @return $this
      */
     public function setCouponCode($couponCode)
@@ -261,6 +330,10 @@ class Builder
         return $this;
     }
 
+    /**
+     * @return \Magento\Sales\Model\Order
+     * @throws \Exception
+     */
     public function create()
     {
         /**@var $order \Magento\Sales\Model\Order */

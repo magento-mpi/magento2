@@ -164,12 +164,8 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $this->context->expects($this->once())
             ->method('getHelper')
             ->will($this->returnValue($this->helper));
-        $this->context->expects($this->once())
-            ->method('getTitle')
-            ->will($this->returnValue($this->title));
-        $this->context->expects($this->once())
-            ->method('getView')
-            ->will($this->returnValue($this->view));
+        $this->context->expects($this->once())->method('getTitle')->will($this->returnValue($this->title));
+        $this->context->expects($this->once())->method('getView')->will($this->returnValue($this->view));
         $this->newAction = $objectManagerHelper->getObject(
             'Magento\Shipping\Controller\Adminhtml\Order\Shipment\NewAction',
             [

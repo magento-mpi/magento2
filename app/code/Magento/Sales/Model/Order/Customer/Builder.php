@@ -8,24 +8,84 @@
 
 namespace Magento\Sales\Model\Order\Customer;
 
-
+/**
+ * Class Builder
+ */
 class Builder
 {
+    /**
+     * @var \Magento\Framework\ObjectManager
+     */
     protected $objectManager;
-    /** @var string  */
+
+    /**
+     * @var string
+     */
     protected $customerDob;
+
+    /**
+     * @var string
+     */
     protected $customerEmail;
+
+    /**
+     * @var string
+     */
     protected $customerFirstName;
+
+    /**
+     * @var string
+     */
     protected $customerGender;
+
+    /**
+     * @var int
+     */
     protected $customerGroupId;
+
+    /**
+     * @var int
+     */
     protected $customerId;
+
+    /**
+     * @var int
+     */
     protected $customerIsGuest;
+
+    /**
+     * @var string
+     */
     protected $customerLastName;
+
+    /**
+     * @var string
+     */
     protected $customerMiddleName;
+
+    /**
+     * @var string
+     */
     protected $customerNote;
+
+    /**
+     * @var int
+     */
     protected $customerNoteNotify;
+
+    /**
+     * @var string
+     */
     protected $customerPrefix;
+
+    /**
+     * @var string
+     */
     protected $customerSuffix;
+
+    /**
+     * @var string
+     */
     protected $customerTaxvat;
 
     /**
@@ -38,7 +98,7 @@ class Builder
     }
 
     /**
-     * @param $customerDob
+     * @param string $customerDob
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setDob($customerDob)
@@ -48,7 +108,7 @@ class Builder
     }
 
     /**
-     * @param $customerEmail
+     * @param string $customerEmail
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setEmail($customerEmail)
@@ -58,7 +118,7 @@ class Builder
     }
 
     /**
-     * @param $customerFirstName
+     * @param string $customerFirstName
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setFirstName($customerFirstName)
@@ -68,7 +128,7 @@ class Builder
     }
 
     /**
-     * @param $customerGender
+     * @param string $customerGender
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setGender($customerGender)
@@ -78,7 +138,7 @@ class Builder
     }
 
     /**
-     * @param $customerGroupId
+     * @param int $customerGroupId
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setGroupId($customerGroupId)
@@ -88,7 +148,7 @@ class Builder
     }
 
     /**
-     * @param $customerId
+     * @param int $customerId
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setId($customerId)
@@ -98,7 +158,7 @@ class Builder
     }
 
     /**
-     * @param $customerIsGuest
+     * @param int $customerIsGuest
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setIsGuest($customerIsGuest)
@@ -108,7 +168,7 @@ class Builder
     }
 
     /**
-     * @param $customerLastName
+     * @param string $customerLastName
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setLastName($customerLastName)
@@ -118,7 +178,7 @@ class Builder
     }
 
     /**
-     * @param $customerMiddleName
+     * @param string $customerMiddleName
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setMiddleName($customerMiddleName)
@@ -128,7 +188,7 @@ class Builder
     }
 
     /**
-     * @param $customerNote
+     * @param string $customerNote
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setNote($customerNote)
@@ -138,7 +198,7 @@ class Builder
     }
 
     /**
-     * @param $customerNoteNotify
+     * @param int $customerNoteNotify
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setNoteNotify($customerNoteNotify)
@@ -148,7 +208,7 @@ class Builder
     }
 
     /**
-     * @param $customerPrefix
+     * @param string $customerPrefix
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setPrefix($customerPrefix)
@@ -158,7 +218,7 @@ class Builder
     }
 
     /**
-     * @param $customerSuffix
+     * @param string $customerSuffix
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setSuffix($customerSuffix)
@@ -168,7 +228,7 @@ class Builder
     }
 
     /**
-     * @param $customerTaxvat
+     * @param string $customerTaxvat
      * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setTaxvat($customerTaxvat)
