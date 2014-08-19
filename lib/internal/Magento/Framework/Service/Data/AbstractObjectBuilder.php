@@ -89,8 +89,11 @@ abstract class AbstractObjectBuilder extends SimpleAbstractObjectBuilder
     {
         $attributeCodes = [];
         $dataObjectClassName = $this->_getDataObjectType();
-        foreach ($this->metadataService->getCustomAttributesMetadata($dataObjectClassName) as $attribute) {
-            $attributeCodes[] = $attribute->getAttributeCode();
+        $customAttributesMetadata = $this->metadataService->getCustomAttributesMetadata($dataObjectClassName);
+        if (is_array($customAttributesMetadata)) {
+            foreach ($customAttributesMetadata as $attribute) {
+                $attributeCodes[] = $attribute->getAttributeCode();
+            }
         }
         return $attributeCodes;
     }
