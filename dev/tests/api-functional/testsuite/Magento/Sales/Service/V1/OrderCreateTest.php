@@ -46,16 +46,15 @@ class OrderCreateTest extends WebapiAbstract
         $orderPaymentBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\OrderPayment'));
         $orderAddressBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\OrderAddress'));
 
+        $email = uniqid() . 'email@example.com';
         $orderItemBuilder->setSku('sku#1');
         $orderPaymentBuilder->setCcLast4('4444');
         $orderPaymentBuilder->setMethod('checkmo');
-        $orderBuilder->setCustomerEmail('email@example.com');
+        $orderBuilder->setCustomerEmail($email);
         $orderBuilder->setBaseGrandTotal(100);
         $orderBuilder->setGrandTotal(100);
-        $orderBuilder->setIncrementId('100500+1');
         $orderBuilder->setItems([$orderItemBuilder->create()->__toArray()]);
         $orderBuilder->setPayments([$orderPaymentBuilder->create()->__toArray()]);
-
         $orderAddressBuilder->setCity('City');
         $orderAddressBuilder->setPostcode('12345');
         $orderAddressBuilder->setLastname('Last Name');
@@ -73,7 +72,6 @@ class OrderCreateTest extends WebapiAbstract
         $orderAddressBuilder->setStreet('Street');
         $orderAddressBuilder->setCountryId(1);
         $orderAddressBuilder->setAddressType('shipping');
-//        $orderBuilder->setBillingAddress($orderAddressBuilder->create());
         $orderBuilder->setShippingAddress($orderAddressBuilder->create()->__toArray());
         return $orderBuilder->create()->__toArray();
 
@@ -102,5 +100,11 @@ class OrderCreateTest extends WebapiAbstract
             ]
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, ['orderDataObject' => $order]));
+        /** @var \Magento\Sales\Model\Order $model */
+        $model = $this->objectManager->get('Magento\Sales\Model\Order');
+        $model->load($order['customer_email'], 'customer_email');
+        $this->assertTrue((bool)$model->getId());
+        $this->assertEquals($order['base_grand_total'], $model->getBaseGrandTotal());
+        $this->assertEquals($order['grand_total'], $model->getGrandTotal());
     }
 }

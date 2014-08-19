@@ -376,14 +376,14 @@ class Builder
             if ($item instanceof Item) {
                 $order->addItem($item);
             } else {
-                throw new \Exception('...');
+                throw new \InvalidArgumentException('Cannot add item, instance of wrong type is given');
             }
         }
         foreach ($this->payments as $payment) {
             if ($payment instanceof Payment) {
                 $order->addPayment($payment);
             } else {
-                throw new \Exception('...');
+                throw new \InvalidArgumentException('Cannot add payment, instance of wrong type is given');
             }
         }
         return $order;
