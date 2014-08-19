@@ -64,6 +64,7 @@ class OrderCreateTest extends WebapiAbstract
         $orderAddressBuilder->setCountryId(1);
         $orderAddressBuilder->setAddressType('billing');
         $orderBuilder->setBillingAddress($orderAddressBuilder->create()->__toArray());
+        $orderAddressBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\OrderAddress'));
         $orderAddressBuilder->setCity('City');
         $orderAddressBuilder->setPostcode('12345');
         $orderAddressBuilder->setLastname('Last Name');
