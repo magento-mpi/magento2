@@ -18,10 +18,20 @@ use Mtf\System\Config;
 
 /**
  * Curl handler for creating widgetInstance/frontendApp
- *
  */
 class Curl extends AbstractCurl
 {
+    /**
+     * Mapping values for data.
+     *
+     * @var array
+     */
+    protected $mappingData = [
+        'theme_id' => [
+            'Magento Blank' => 2,
+        ],
+    ];
+
     /**
      * Post request for creating widget instance
      *
@@ -31,13 +41,13 @@ class Curl extends AbstractCurl
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $fixture->getData();
-        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('code') .
-                '/theme_id/' . $fixture->getData('theme_id');
+        $data = $this->replaceMappingData($fixture->getData());
+        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/'
+            . $fixture->getData('code') . '/theme_id/' . $data['theme_id'];
         unset($data['code']);
         unset($data['theme_id']);
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
