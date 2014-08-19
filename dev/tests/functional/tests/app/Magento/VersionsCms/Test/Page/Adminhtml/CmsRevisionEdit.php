@@ -12,21 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsRevisionEdit
- * Cms Page Revision Edit on backend
  */
 class CmsRevisionEdit extends BackendPage
 {
     const MCA = 'admin/cms_page_revision/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'revisionForm' => [
-            'name' => 'revisionForm',
             'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\RevisionForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',

@@ -20,7 +20,6 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit;
 /**
  * Test Creation for PublishCmsPageRevisionEntity
  *
- *
  * Precondition:
  * Create CMS page under version control
  *
@@ -114,6 +113,8 @@ class PublishCmsPageRevisionEntityTest extends Injectable
      * @param int $initialRevision
      * @param array $results
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(CmsPage $cms, Revision $revision, $initialRevision, array $results)
     {

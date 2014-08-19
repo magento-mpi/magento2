@@ -13,20 +13,19 @@ use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\VersionsCms\Test\Fixture\Revision;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
 
 /**
- * Class AssertCmsCurrentlyPublishedRevision
+ * Class AssertCmsPageCurrentlyPublishedRevision
  * Assert that link to Currently Published Revision on CMS Page Information Form is available
  */
-class AssertCmsCurrentlyPublishedRevision extends AbstractAssertForm
+class AssertCmsPageCurrentlyPublishedRevision extends AbstractAssertForm
 {
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'medium';
+    protected $severeness = 'high';
 
     /**
      * Assert that link to Currently Published Revision on CMS Page Information Form is available
@@ -55,7 +54,7 @@ class AssertCmsCurrentlyPublishedRevision extends AbstractAssertForm
             $formPublishedRevision,
             'Link to Currently Published Revision not equals to passed in fixture.'
         );
-        $cmsNew->getPageVersionsForm()->openTab('content');
+        $cmsNew->getPageForm()->openTab('content');
         $formRevisionData = $cmsNew->getPageVersionsForm()->getTabElement('revision_content')->getContentData();
         preg_match('/\d+/', $results['revision'], $matches);
         $fixtureRevisionData['revision'] = $matches[0];

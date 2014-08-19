@@ -17,9 +17,13 @@ class WishlistShare extends FrontendPage
 {
     const MCA = 'wishlist/index/share';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'sharingInfoForm' => [
-            'name' => 'sharingInfoForm',
             'class' => 'Magento\Wishlist\Test\Block\Customer\Sharing',
             'locator' => '.wishlist.share',
             'strategy' => 'css selector',

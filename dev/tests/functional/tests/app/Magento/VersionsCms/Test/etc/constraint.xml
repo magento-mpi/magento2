@@ -8,14 +8,14 @@
  */
 -->
 <constraint>
-    <assertCmsCurrentlyPublishedRevision module="Magento_VersionsCms">
-        <severeness>medium</severeness>
+    <assertCmsPageCurrentlyPublishedRevision module="Magento_VersionsCms">
+        <severeness>high</severeness>
         <require>
             <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
             <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
-    </assertCmsCurrentlyPublishedRevision>
+    </assertCmsPageCurrentlyPublishedRevision>
     <assertCmsPageVersionInGrid module="Magento_VersionsCms">
         <severeness>medium</severeness>
         <require>
