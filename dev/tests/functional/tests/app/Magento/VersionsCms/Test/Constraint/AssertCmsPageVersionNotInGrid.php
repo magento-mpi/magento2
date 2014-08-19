@@ -11,7 +11,7 @@ namespace Magento\VersionsCms\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
 /**
  * Class AssertCmsPageVersionNotInGrid
@@ -40,7 +40,7 @@ class AssertCmsPageVersionNotInGrid extends AbstractConstraint
         $filter = ['title' => $cms->getTitle()];
         $cmsIndex->open();
         $cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
-        $cmsNew->getPageForm()->openTab('versions');
+        $cmsNew->getPageVersionsForm()->openTab('versions');
         $filter = [
             'label' => $results['label'],
             'owner' => $results['owner'],
@@ -48,7 +48,7 @@ class AssertCmsPageVersionNotInGrid extends AbstractConstraint
             'quantity' => $results['quantity'],
         ];
         \PHPUnit_Framework_Assert::assertFalse(
-            $cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter),
+            $cmsNew->getPageVersionsForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter),
             'CMS Page Version with '
             . 'label \'' . $filter['label'] . '\', '
             . 'owner \'' . $filter['owner'] . '\', '
