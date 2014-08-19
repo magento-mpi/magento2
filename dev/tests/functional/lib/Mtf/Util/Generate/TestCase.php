@@ -260,12 +260,4 @@ class TestCase extends AbstractGenerate
 
         $this->cnt++;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
-    {
-        return false;
-    }
 }

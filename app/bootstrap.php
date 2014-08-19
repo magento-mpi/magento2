@@ -38,5 +38,3 @@ if (!empty($_SERVER['MAGE_PROFILER'])) {
     \Magento\Framework\Profiler::applyConfig($_SERVER['MAGE_PROFILER'], BP, !empty($_REQUEST['isAjax']));
 }
 date_default_timezone_set(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
-
-return new \Magento\Framework\App\Bootstrap(BP, $_SERVER);

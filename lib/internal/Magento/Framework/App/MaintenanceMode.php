@@ -46,17 +46,63 @@ class MaintenanceMode
     }
 
     /**
-     * Gets detailed information about whether it is enabled and for which IP-addresses (if any)
+     * Checks whether mode is on
      *
-     * @return array|bool
+     * Optionally specify an IP-address to compare against the white list
+     *
+     * @param string $remoteAddr
+     * @return bool
      */
-    public function getStatusInfo()
+    public function isOn($remoteAddr = '')
     {
         $file = $this->getFile(self::FLAG_FILENAME);
-        if (file_exists($file)) {
-            return $this->getAddressInfo();
+        if (!file_exists($file)) {
+            return false;
         }
-        return false;
+        $info = $this->getAddressInfo();
+        return !in_array($remoteAddr, $info);
+    }
+
+    /**
+     * Sets maintenance mode "on" or "off"
+     *
+     * @param bool $isOn
+     * @return bool
+     */
+    public function set($isOn)
+    {
+        $flagFile = $this->getFile(self::FLAG_FILENAME);
+        if ($isOn) {
+            return touch($flagFile);
+        }
+        if (file_exists($flagFile)) {
+            return unlink($flagFile);
+        }
+        return true;
+    }
+
+    /**
+     * Sets list of allowed IP addresses
+     *
+     * @param string $addresses
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    public function setAddresses($addresses)
+    {
+        $addresses = (string)$addresses;
+        $addressesFile = $this->getFile(self::IP_FILENAME);
+        if (empty($addresses)) {
+            if (file_exists($addressesFile)) {
+                return unlink($addressesFile);
+            }
+            return true;
+        }
+        if (!preg_match('/^\d{1,3}(\.\d{1,3}){3}(,\d{1,3}(\.\d{1,3}){3})*$/', $addresses)) {
+            throw new \InvalidArgumentException("One or more IP-addresses is expected (comma-separated)\n");
+        }
+        $result = file_put_contents($addressesFile, $addresses);
+        return false !== $result ? true : false;
     }
 
     /**
@@ -71,73 +117,6 @@ class MaintenanceMode
             return explode(',', trim(file_get_contents($file)));
         } else {
             return [];
-        }
-    }
-
-    /**
-     * Checks whether mode is on
-     *
-     * Optionally specify an IP-address to compare against the white list
-     *
-     * @param string $remoteAddr
-     * @return bool
-     */
-    public function isOn($remoteAddr = '')
-    {
-        $info = $this->getStatusInfo();
-        if (is_array($info)) {
-            return !in_array($remoteAddr, $info);
-        }
-        return false;
-    }
-
-    /**
-     * Turn on store maintenance mode
-     *
-     * @param array $addresses
-     * @return void
-     */
-    public function turnOn(array $addresses = null)
-    {
-        $this->set(1, $addresses);
-    }
-
-    /**
-     * Turn off store maintenance mode
-     *
-     * @param array $addresses
-     * @return void
-     */
-    public function turnOff(array $addresses = null)
-    {
-        $this->set(0, $addresses);
-    }
-
-    /**
-     * Subroutine to set the maintenance mode to the specified values
-     *
-     * @param bool|int $isSet
-     * @param array|null $addresses
-     * @return void
-     */
-    private function set($isSet, $addresses)
-    {
-        if (null === $addresses) {
-            $addresses = $this->getAddressInfo();
-        }
-        $flagFile = $this->getFile(self::FLAG_FILENAME);
-        if ($isSet) {
-            touch($flagFile);
-        } elseif (file_exists($flagFile)) {
-            unlink($flagFile);
-        }
-        $addressesFile = $this->getFile(self::IP_FILENAME);
-        if (empty($addresses)) {
-            if (file_exists($addressesFile)) {
-                unlink($addressesFile);
-            }
-        } else {
-            file_put_contents($addressesFile, implode(',', $addresses));
         }
     }
 

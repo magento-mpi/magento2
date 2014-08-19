@@ -18,7 +18,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     {
         $this->appBootstrap = $this->getMock('Magento\Framework\App\Bootstrap', [], [], '', false);
         $dirList = $this->getMock('Magento\Framework\App\Filesystem\DirectoryList', [], [], '', false);
-        $dirList->expects($this->any())->method('getRoot')->will($this->returnValue('something'));
+        $dirList->expects($this->any())->method('getRoot')->will($this->returnValue(BP));
         $this->appBootstrap->expects($this->any())->method('getDirList')->will($this->returnValue($dirList));
         $objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManager');
         $this->appBootstrap->expects($this->any())
@@ -99,5 +99,19 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->assertFileExists($reportFile);
         $bootstrap->cleanupReports();
         $this->assertFileNotExists($reportFile);
+    }
+
+    public function testCreateApplicationTestSuite()
+    {
+        $shell = $this->getMock('Magento\Framework\Shell', [], [], '', false);
+        $bootstrap = new \Magento\TestFramework\Performance\Bootstrap(
+            $this->appBootstrap,
+            $this->_getBaseFixtureDir() . '/config_dist'
+        );
+        $application = $bootstrap->createApplication($shell);
+        $this->assertInstanceOf('Magento\TestFramework\Application', $application);
+        $handler = $this->getMockForAbstractClass('Magento\TestFramework\Performance\Scenario\HandlerInterface');
+        $testSuite = $bootstrap->createTestSuite($application, $handler);
+        $this->assertInstanceOf('Magento\TestFramework\Performance\Testsuite', $testSuite);
     }
 }

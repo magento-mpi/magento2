@@ -2747,4 +2747,5 @@ return array(
     ['Magento\Install\App\Action\Plugin\Install', 'Magento\Framework\App\Bootstrap'],
     ['\Magento\Cron\App\Cron\Plugin\ApplicationInitializer', 'Magento\Framework\App\Bootstrap'],
     ['Magento\Framework\App\Error\Handler', 'Magento\Framework\App\Http'],
+    ['Magento\Framework\App\State\MaintenanceMode', 'Magento\Framework\App\MaintenanceMode'],
 );

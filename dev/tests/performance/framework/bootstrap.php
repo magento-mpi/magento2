@@ -9,8 +9,8 @@
  */
 
 $testsBaseDir = dirname(__DIR__);
-/** @var \Magento\Framework\App\Bootstrap $appBootstrap */
-$appBootstrap = require __DIR__ . '/../../../../app/bootstrap.php';
+require __DIR__ . '/../../../../app/bootstrap.php';
+$appBootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER);
 (new \Magento\Framework\Autoload\IncludePath())->addIncludePath($testsBaseDir . '/framework');
 $bootstrap = new \Magento\TestFramework\Performance\Bootstrap($appBootstrap, $testsBaseDir);
 $bootstrap->cleanupReports();

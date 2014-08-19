@@ -44,8 +44,6 @@ class Bootstrap
     {
         $this->appBootstrap = $appBootstrap;
         $this->testsBaseDir = $testsBaseDir;
-        $configFile = "{$testsBaseDir}/config.php";
-        $this->configFile = file_exists($configFile) ? $configFile : "{$configFile}.dist";
     }
 
     /**
@@ -106,7 +104,9 @@ class Bootstrap
     public function getConfig()
     {
         if (null === $this->config) {
-            $configData = require $this->configFile;
+            $configFile = "{$this->testsBaseDir}/config.php";
+            $configFile = file_exists($configFile) ? $configFile : "{$configFile}.dist";
+            $configData = require $configFile;
             $this->config = new Config($configData, $this->testsBaseDir, $this->appBootstrap->getDirList()->getRoot());
         }
         return $this->config;

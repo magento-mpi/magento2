@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Framework\App\Bootstrap $bootstrap */
-$bootstrap = require __DIR__ . '/../../../../../app/bootstrap.php';
+require __DIR__ . '/../../../../../app/bootstrap.php';
+$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER);
 
 $mtfRoot = dirname(dirname(dirname(__FILE__)));
 $mtfRoot = str_replace('\\', '/', $mtfRoot);

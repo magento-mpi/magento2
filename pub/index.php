@@ -7,10 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+
 use Magento\Framework\App\Filesystem;
 
-/** @var \Magento\Framework\App\Bootstrap $bootstrap */
-$bootstrap = require __DIR__ . '/../app/bootstrap.php';
+require __DIR__ . '/../app/bootstrap.php';
 $params = [
     Filesystem::PARAM_APP_DIRS => [
         Filesystem::PUB_DIR => ['uri' => ''],
@@ -19,7 +19,7 @@ $params = [
         Filesystem::UPLOAD_DIR => ['uri' => 'media/upload'],
     ]
 ];
-$bootstrap->addParams($params);
+$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $params);
 /** @var \Magento\Framework\App\Http $app */
 $app = $bootstrap->createApplication('Magento\Framework\App\Http');
 $bootstrap->run($app);

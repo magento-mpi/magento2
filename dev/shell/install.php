@@ -70,19 +70,21 @@ if (empty($args)) {
     exit(1);
 }
 
-/** @var \Magento\Framework\App\Bootstrap $bootstrap */
-$bootstrap = require __DIR__ . '/../../app/bootstrap.php';
-$bootstrap->setIsInstalledRequirement(false);
+require __DIR__ . '/../../app/bootstrap.php';
+
+$params = [];
 if (!isset($_SERVER[AppState::PARAM_MODE])) {
-    $bootstrap->addParams([AppState::PARAM_MODE => AppState::MODE_DEVELOPER]);
+    $params[AppState::PARAM_MODE] = AppState::MODE_DEVELOPER;
 }
 if (isset($args['bootstrap'])) {
     $extra = json_decode($args['bootstrap'], true);
     if (!is_array($extra)) {
         throw new \Exception("Unable to decode JSON in the parameter 'bootstrap'");
     }
-    $bootstrap->addParams($extra);
+    $params = array_merge($params, $extra);
 }
+$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $params);
+$bootstrap->setIsInstalledRequirement(false);
 /** @var \Magento\Install\App\Console $app */
 $app = $bootstrap->createApplication('Magento\Install\App\Console', ['arguments' => $args]);
 $bootstrap->run($app);

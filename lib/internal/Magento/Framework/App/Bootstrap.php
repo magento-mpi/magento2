@@ -84,32 +84,21 @@ class Bootstrap
     /**
      * Bootstrap-specific error code that may have been set in runtime
      *
-     * @var bool|int
+     * @var int
      */
-    private $errorCode = false;
+    private $errorCode = 0;
 
     /**
      * Constructor
      *
      * @param string $rootDir
-     * @param array $params
+     * @param array $SERVER
+     * @param array $extraParams
      */
-    public function __construct($rootDir, array $params)
+    public function __construct($rootDir, array $SERVER, array $extraParams = [])
     {
         $this->rootDir = $rootDir;
-        $this->server = $params;
-    }
-
-    /**
-     * Injects additional initialization parameters
-     *
-     * @param array $params
-     * @return void
-     */
-    public function addParams(array $params)
-    {
-        $this->server = array_replace_recursive($this->server, $params);
-        $this->reset();
+        $this->server = array_replace_recursive($SERVER, $extraParams);
     }
 
     /**
@@ -278,7 +267,7 @@ class Bootstrap
      */
     private function reset()
     {
-        $this->errorCode = false;
+        $this->errorCode = 0;
         $this->objectManager = null;
         $this->dirList = null;
         $this->maintenance = null;
@@ -302,7 +291,7 @@ class Bootstrap
     /**
      * Getter for error code
      *
-     * @return bool|int
+     * @return int
      */
     public function getErrorCode()
     {

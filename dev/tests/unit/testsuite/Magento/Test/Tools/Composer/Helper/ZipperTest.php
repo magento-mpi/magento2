@@ -11,7 +11,7 @@ namespace Magento\Test\Tools\Composer\Helper;
  * Class ZipTest
  * @package Magento\Test\Tools\Composer\Helper
  */
-class ZipTest extends \PHPUnit_Framework_TestCase
+class ZipperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Intial Setup

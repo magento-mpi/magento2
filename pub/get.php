@@ -11,8 +11,7 @@
 use Magento\Framework\App\Cache\Frontend\Factory;
 use Magento\Framework\Module\Declaration\Reader\Filesystem;
 
-/** @var \Magento\Framework\App\Bootstrap $bootstrap */
-$bootstrap = require dirname(__DIR__) . '/app/bootstrap.php';
+require dirname(__DIR__) . '/app/bootstrap.php';
 
 $mediaDirectory = null;
 $allowedResources = array();
@@ -63,12 +62,14 @@ if ($mediaDirectory) {
     }
 }
 // Materialize file in application
+$extra = [];
 if (empty($mediaDirectory)) {
-    $bootstrap->addParams([
+    $extra = [
         Filesystem::PARAM_ALLOWED_MODULES => ['Magento_Core'],
         Factory::PARAM_CACHE_FORCED_OPTIONS => ['frontend_options' => ['disable_save' => true]],
-    ]);
+    ];
 }
+$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $extra);
 /** @var \Magento\Core\App\Media $app */
 $app = $bootstrap->createApplication(
     'Magento\Core\App\Media',

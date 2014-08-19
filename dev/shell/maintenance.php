@@ -10,53 +10,49 @@
 
 define(
     'USAGE',
-    "Usage: php -f maintenance.php -- [--set=1|0] [--addresses=127.0.0.1,...'] [--bootstrap=<json>]
+    "Usage: php -f maintenance.php -- [--set=1|0] [--addresses=127.0.0.1,...|none'] [--bootstrap=<json>]
         --set - enable or disable maintenance mode
         --addresses - list of allowed IP addresses, comma-separated
         --bootstrap - add or override parameters of the bootstrap\n
     "
 );
 $opt = getopt('', ['set::', 'addresses::', 'bootstrap::']);
+if (empty($opt)) {
+    echo USAGE;
+}
 
-/** @var \Magento\Framework\App\Bootstrap $bootstrap */
-$bootstrap = require __DIR__ . '/../../app/bootstrap.php';
+require __DIR__ . '/../../app/bootstrap.php';
 try {
+    $extra = [];
     if (isset($opt['bootstrap'])) {
         $extra = json_decode($opt['bootstrap'], true);
         if (!is_array($extra)) {
             throw new \Exception("Unable to decode JSON in the parameter 'bootstrap'");
         }
-        $bootstrap->addParams($extra);
     }
+    $bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $extra);
     /** @var \Magento\Framework\App\MaintenanceMode $maintenance */
     $maintenance = $bootstrap->getObjectManager()->get('Magento\Framework\App\MaintenanceMode');
     if (isset($opt['set'])) {
-        if (isset($opt['addresses'])) {
-            $addresses = empty($opt['addresses']) ? [] : explode(',', $opt['addresses']);
-        } else {
-            $addresses = null;
-        }
         if (1 === (int)$opt['set']) {
             echo "Enabling maintenance mode...\n";
-            $maintenance->turnOn($addresses);
+            $maintenance->set(true);
         } else {
             echo "Disabling maintenance mode...\n";
-            $maintenance->turnOff($addresses);
+            $maintenance->set(false);
         }
-
-    } else {
-        echo USAGE;
     }
-    $info = $maintenance->getStatusInfo();
-    if (false === $info) {
-        echo "Status: maintenance mode is not active.\n";
+    if (isset($opt['addresses'])) {
+        $addresses = ('none' == $opt['addresses']) ? '' : $opt['addresses'];
+        $maintenance->setAddresses($addresses);
+    }
+    echo 'Status: maintenance mode is ' . ($maintenance->isOn() ? 'active' : 'not active') . ".\n";
+    $addresses = implode(', ', $maintenance->getAddressInfo());
+    echo "List of exempt IP-addresses:";
+    if ($addresses) {
+        echo " {$addresses}\n";
     } else {
-        $addresses = implode(', ', $info);
-        $except = '.';
-        if ($addresses) {
-            $except = ", except for the HTTP clients from the following IP addresses:\n{$addresses}";
-        }
-        echo "Status: maintenance mode is active for all entry points{$except}\n";
+        echo " none.\n";
     }
     exit(0);
 } catch (Exception $e) {

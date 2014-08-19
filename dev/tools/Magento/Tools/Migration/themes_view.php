@@ -6,8 +6,8 @@
  * @license    {license_link}
  */
 
-/** @var \Magento\Framework\App\Bootstrap $bootstrap */
-$bootstrap = require_once __DIR__ . '/../../../../../app/bootstrap.php';
+require_once __DIR__ . '/../../../../../app/bootstrap.php';
+$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER);
 try {
     $objectManager = $bootstrap->getObjectManager();
     /** @var $configModel \Magento\Framework\App\Config\ReinitableConfigInterface */

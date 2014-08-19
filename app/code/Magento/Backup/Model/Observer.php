@@ -112,7 +112,7 @@ class Observer
         }
 
         if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
-            $this->maintenanceMode->turnOn();
+            $this->maintenanceMode->set(true);
         }
 
         $type = $this->_scopeConfig->getValue(self::XML_PATH_BACKUP_TYPE, ScopeInterface::SCOPE_STORE);
@@ -150,7 +150,7 @@ class Observer
         }
 
         if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
-            $this->maintenanceMode->turnOff();
+            $this->maintenanceMode->set(false);
         }
 
         return $this;

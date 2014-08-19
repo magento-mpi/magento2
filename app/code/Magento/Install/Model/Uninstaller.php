@@ -31,17 +31,27 @@ class Uninstaller
     private $db;
 
     /**
+     * Logger
+     *
+     * @var \Zend_Log
+     */
+    private $log;
+
+    /**
      * Constructor
      *
      * @param Filesystem $filesystem
      * @param Installer\Db\Mysql4 $db
+     * @param \Zend_Log $log
      */
     public function __construct(
         Filesystem $filesystem,
-        Installer\Db\Mysql4 $db
+        Installer\Db\Mysql4 $db,
+        \Zend_Log $log
     ) {
         $this->filesystem = $filesystem;
         $this->db = $db;
+        $this->log = $log;
     }
 
     /**
@@ -51,13 +61,24 @@ class Uninstaller
      */
     public function uninstall()
     {
-        echo "Starting uninstall\n";
+        $this->log('Starting uninstall');
         $this->recreateDatabase();
-        echo "File system cleanup:\n";
+        $this->log('File system cleanup:');
         $this->deleteDirContents(Filesystem::VAR_DIR);
         $this->deleteDirContents(Filesystem::STATIC_VIEW_DIR);
         $this->deleteLocalXml();
-        echo "Uninstall complete.\n";
+        $this->log('Uninstall complete.');
+    }
+
+    /**
+     * Log output
+     *
+     * @param string $message
+     * @param int $level
+     */
+    private function log($message, $level = \Zend_Log::INFO)
+    {
+        $this->log->log($message, $level);
     }
 
     /**
@@ -69,9 +90,9 @@ class Uninstaller
     {
         $connectionData = $this->db->getConnectionData();
         if (empty($connectionData['dbName'])) {
-            echo "No database connection defined - skipping cleanup\n";
+            $this->log('No database connection defined - skipping cleanup');
         } else {
-            echo "Recreating database '{$connectionData['dbName']}'\n";
+            $this->log("Recreating database '{$connectionData['dbName']}'");
             $this->db->cleanUpDatabase();
         }
     }
@@ -90,11 +111,11 @@ class Uninstaller
             if (preg_match('/^\./', $path)) {
                 continue;
             }
-            echo "{$dirPath}{$path}\n";
+            $this->log("{$dirPath}{$path}");
             try {
                 $dir->delete($path);
             } catch (FilesystemException $e) {
-                echo "\t{$e->getMessage()}\n";
+                $this->log($e->getMessage());
             }
         }
     }
@@ -108,11 +129,15 @@ class Uninstaller
     {
         $configDir = $this->filesystem->getDirectoryWrite(Filesystem::CONFIG_DIR);
         $localXml = "{$configDir->getAbsolutePath()}local.xml";
+        if (!$configDir->isFile('local.xml')) {
+            $this->log("The file '{$localXml}' doesn't exist - skipping cleanup");
+            return;
+        }
         try {
-            echo "{$localXml}\n";
+            $this->log($localXml);
             $configDir->delete('local.xml');
         } catch (FilesystemException $e) {
-            echo "{$localXml}\n\t{$e->getMessage()}\n";
+            $this->log($e->getMessage());
         }
     }
 }
