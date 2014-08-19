@@ -75,6 +75,7 @@ class Uninstaller
      *
      * @param string $message
      * @param int $level
+     * @return void
      */
     private function log($message, $level = \Zend_Log::INFO)
     {
