@@ -363,6 +363,16 @@ return array(
         '\Magento\Core\Helper\Data',
         '\Magento\Catalog\Helper\Catalog::XML_PATH_PUBLIC_FILES_VALID_PATHS'
     ),
+    array(
+        'XML_PATH_PUBLIC_FILES_VALID_PATHS',
+        'Magento\Catalog\Helper\Catalog',
+        '\Magento\Sitemap\Helper\Data::XML_PATH_PUBLIC_FILES_VALID_PATHS'
+    ),
+    array(
+        'XML_PATH_SITEMAP_VALID_PATHS',
+        '\Magento\Catalog\Helper\Catalog',
+        '\Magento\Sitemap\Helper\Data::XML_PATH_SITEMAP_VALID_PATHS'
+    ),
     array('TYPE_PHYSICAL', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL'),
     array('TYPE_VIRTUAL', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL'),
     array('TYPE_STAGING', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING'),
