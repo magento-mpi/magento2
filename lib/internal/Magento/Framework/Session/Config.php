@@ -495,7 +495,10 @@ class Config implements ConfigInterface
     {
         $result = ini_set($option, $value);
         if ($result === false) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid sessions-related ini setting.', $option));
+            $error = error_get_last();
+            throw new \InvalidArgumentException(
+                sprintf('"%s" is not a valid sessions-related ini setting. %s', $option, $error['message'])
+            );
         }
 
         return $this;
