@@ -371,6 +371,7 @@
                 <item name="proxy" xsi:type="string">\Magento\Framework\ObjectManager\Code\Generator\Proxy</item>
                 <item name="interceptor" xsi:type="string">\Magento\Framework\Interception\Code\Generator\Interceptor</item>
                 <item name="decorator" xsi:type="string">\Magento\Framework\Interception\Code\Generator\Decorator</item>
+                <item name="logger" xsi:type="string">\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger</item>
             </argument>
         </arguments>
     </type>
