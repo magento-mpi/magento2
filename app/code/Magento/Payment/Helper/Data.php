@@ -128,10 +128,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             $methodInstance = $this->_methodFactory->create($model);
-            if (!$methodInstance) {
-                continue;
-            }
-
             $methodInstance->setStore($store);
             if (!$methodInstance->isAvailable($quote)) {
                 /* if the payment method cannot be used at this time */
