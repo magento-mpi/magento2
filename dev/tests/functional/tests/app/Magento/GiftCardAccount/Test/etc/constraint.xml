@@ -35,4 +35,10 @@
     <assertGiftCardAccountNotInGrid module="Magento_GiftCardAccount">
         <severeness>low</severeness>
     </assertGiftCardAccountNotInGrid>
+    <assertGiftCardAccountCheckStatusOnFrontend module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountCheckStatusOnFrontend>
+    <assertGiftCardQuickCheckInShoppingCart module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardQuickCheckInShoppingCart>
 </constraint>
