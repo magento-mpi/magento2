@@ -12,19 +12,20 @@ use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
+use Magento\VersionsCms\Test\Fixture\Revision;
 
 /**
- * Class AssertCmsCurrentlyPublishedRevision
+ * Class AssertCmsPageCurrentlyPublishedRevision
  * Assert that link to Currently Published Revision on CMS Page Information Form is available
  */
-class AssertCmsCurrentlyPublishedRevision extends AbstractAssertForm
+class AssertCmsPageCurrentlyPublishedRevision extends AbstractAssertForm
 {
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'medium';
+    protected $severeness = 'high';
 
     /**
      * Assert that link to Currently Published Revision on CMS Page Information Form is available
@@ -33,13 +34,15 @@ class AssertCmsCurrentlyPublishedRevision extends AbstractAssertForm
      * @param CmsNew $cmsNew
      * @param CmsIndex $cmsIndex
      * @param array $results
+     * @param Revision|null $revision [optional]
      * @return void
      */
     public function processAssert(
         CmsPage $cms,
         CmsNew $cmsNew,
         CmsIndex $cmsIndex,
-        array $results
+        array $results,
+        Revision $revision = null
     ) {
         $filter = ['title' => $cms->getTitle()];
         $cmsIndex->open();
@@ -51,12 +54,14 @@ class AssertCmsCurrentlyPublishedRevision extends AbstractAssertForm
             $formPublishedRevision,
             'Link to Currently Published Revision not equals to passed in fixture.'
         );
-        $cmsNew->getPageVersionsForm()->openTab('content');
+        $cmsNew->getPageForm()->openTab('content');
         $formRevisionData = $cmsNew->getPageVersionsForm()->getTabElement('revision_content')->getContentData();
         preg_match('/\d+/', $results['revision'], $matches);
         $fixtureRevisionData['revision'] = $matches[0];
         $fixtureRevisionData['version'] = $cms->getTitle();
-        $fixtureRevisionData['content'] = $cms->getContent();
+        $fixtureRevisionData['content'] = $revision !== null
+            ? ['content' => $revision->getContent()]
+            : $cms->getContent();
         $error = $this->verifyData($fixtureRevisionData, $formRevisionData);
         \PHPUnit_Framework_Assert::assertEmpty($error, $error);
     }
