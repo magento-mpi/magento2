@@ -18,12 +18,24 @@
         <severeness>low</severeness>
     </assertMultipleWishlistIsPublic>
     <assertMultipleWishlistIsPrivate module="Magento_MultipleWishlist">
-        <severeness>Medium</severeness>
+        <severeness>medium</severeness>
     </assertMultipleWishlistIsPrivate>
     <assertMultipleWishlistIsNoticePublicMessage module="Magento_MultipleWishlist">
-        <severeness>Medium</severeness>
+        <severeness>medium</severeness>
     </assertMultipleWishlistIsNoticePublicMessage>
     <assertMultipleWishlistIsNoticePrivateMessage module="Magento_MultipleWishlist">
-        <severeness>Medium</severeness>
+        <severeness>medium</severeness>
+    </assertMultipleWishlistIsNoticePrivateMessage>
+    <assertMultipleWishlistSuccessDeleteMessage module="Magento_MultipleWishlist">
+        <severeness>medium</severeness>
+    </assertMultipleWishlistSuccessDeleteMessage>
+    <assertMultipleWishlistAbsentInMyAccount module="Magento_MultipleWishlist">
+        <severeness>medium</severeness>
+    </assertMultipleWishlistAbsentInMyAccount>
+    <assertDeleteMultipleWishlistButtonIsAbsent module="Magento_MultipleWishlist">
+        <severeness>medium</severeness>
+    </assertDeleteMultipleWishlistButtonIsAbsent>
+    <assertMultipleWishlistIsNoticePrivateMessage module="Magento_MultipleWishlist">
+        <severeness>medium</severeness>
     </assertMultipleWishlistIsNoticePrivateMessage>
 </constraint>

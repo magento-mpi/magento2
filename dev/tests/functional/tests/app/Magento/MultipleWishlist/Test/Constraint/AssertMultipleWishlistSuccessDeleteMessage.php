@@ -9,17 +9,17 @@
 namespace Magento\MultipleWishlist\Test\Constraint;
 
 /**
- * Class AssertMultipleWishlistSuccessSaveMessage
- * Assert success save message is displayed
+ * Class AssertMultipleWishlistSuccessDeleteMessage
+ * Assert delete message is displayed
  */
-class AssertMultipleWishlistSuccessSaveMessage extends AbstractAssertMultipleWishlistSuccessMessage
+class AssertMultipleWishlistSuccessDeleteMessage extends AbstractAssertMultipleWishlistSuccessMessage
 {
     /**
      * Success message
      *
      * @var string
      */
-    protected $message = 'Wish List "%s" was saved.';
+    protected $message = 'Wish list "%s" has been deleted.';
 
     /**
      * Returns a string representation of the object
@@ -28,6 +28,6 @@ class AssertMultipleWishlistSuccessSaveMessage extends AbstractAssertMultipleWis
      */
     public function toString()
     {
-        return 'Multiple wish list success save message is present.';
+        return 'Multiple wish list delete message is present.';
     }
 }

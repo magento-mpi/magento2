@@ -9,10 +9,10 @@
 namespace Magento\MultipleWishlist\Test\Constraint;
 
 /**
- * Class AssertMultipleWishlistPresentInMyAccount
- * Assert that Wishlist exists on 'My Account' page
+ * Class AssertMultipleWishlistAbsentInMyAccount
+ * Assert Multiple wish list doesn't exist on "My Account" page
  */
-class AssertMultipleWishlistPresentInMyAccount extends AbstractAssertMultipleWishlistExist
+class AssertMultipleWishlistAbsentInMyAccount extends AbstractAssertMultipleWishlistExist
 {
     /**
      * Constraint severeness
@@ -22,14 +22,14 @@ class AssertMultipleWishlistPresentInMyAccount extends AbstractAssertMultipleWis
     protected $severeness = 'high';
 
     /**
-     * Assert wish list is present
+     * Assert wish list is absent
      *
      * @param bool $isPresent
      * @return void
      */
     protected function assert($isPresent)
     {
-        \PHPUnit_Framework_Assert::assertTrue($isPresent, 'Multiple wish list is not exist on "My Account" page.');
+        \PHPUnit_Framework_Assert::assertFalse($isPresent, 'Multiple wish list exist on "My Account" page.');
     }
 
     /**
@@ -39,6 +39,6 @@ class AssertMultipleWishlistPresentInMyAccount extends AbstractAssertMultipleWis
      */
     public function toString()
     {
-        return 'Multiple wish list exists on "My Account" page.';
+        return 'Multiple wish list is absent on "My Account" page.';
     }
 }
