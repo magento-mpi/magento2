@@ -16,6 +16,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductReviewInGrid
+ * Check that review is displayed in grid
  */
 class AssertProductReviewInGrid extends AbstractConstraint
 {
@@ -57,7 +58,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
         ReviewIndex $reviewIndex,
         ReviewInjectable $review,
         $gridStatus = '',
-        $product = null,
+        CatalogProductSimple $product = null,
         ReviewInjectable $reviewInitial = null
     ) {
         if ($product === null) {

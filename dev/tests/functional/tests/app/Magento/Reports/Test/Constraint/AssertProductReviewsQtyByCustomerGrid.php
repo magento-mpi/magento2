@@ -6,15 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Test\Constraint;
+namespace Magento\Reports\Test\Constraint;
 
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Reports\Test\Page\Adminhtml\CustomerReportReview;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductReviewsReportByCustomerGrid
+ * Class AssertProductReviewsQtyByCustomerGrid
+ * Check that product reviews qty column in Review Report by Customer grid
  */
-class AssertProductReviewsReportByCustomerGrid extends AbstractConstraint
+class AssertProductReviewsQtyByCustomerGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,12 +29,17 @@ class AssertProductReviewsReportByCustomerGrid extends AbstractConstraint
      * Assert product reviews qty column in Review Report by Customer grid
      *
      * @param CustomerReportReview $customerReportReview
-     * @param string $customerName
+     * @param CustomerInjectable $customer
      * @param int $reviewsCount
      * @return void
      */
-    public function processAssert(CustomerReportReview $customerReportReview, $customerName, $reviewsCount)
-    {
+    public function processAssert(
+        CustomerReportReview $customerReportReview,
+        CustomerInjectable $customer,
+        $reviewsCount
+    ) {
+        $customerName = $customer->getFirstName() . ' ' . $customer->getLastName();
+        $customerReportReview->open();
         \PHPUnit_Framework_Assert::assertEquals(
             $reviewsCount,
             $customerReportReview->getGridBlock()->getQtyReview($customerName),
@@ -47,6 +54,6 @@ class AssertProductReviewsReportByCustomerGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product reviews qty column in Review Report by Customer grid is correctly.';
+        return 'Product reviews qty column in \'Review Report by Customer\' grid is correct.';
     }
 }

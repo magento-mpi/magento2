@@ -23,4 +23,7 @@
     <assertProductReviewIsAvailableForProduct module="Magento_Reports">
         <severeness>low</severeness>
     </assertProductReviewIsAvailableForProduct>
+    <assertProductReviewsQtyByCustomerGrid module="Magento_Review">
+        <severeness>low</severeness>
+    </assertProductReviewsQtyByCustomerGrid>
 </constraint>

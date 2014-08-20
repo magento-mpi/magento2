@@ -8,6 +8,7 @@
 
 namespace Magento\Reports\Test\TestCase;
 
+use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -20,10 +21,10 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportReview;
 use Magento\Reports\Test\Page\Adminhtml\CustomerReportReview;
-use Magento\Review\Test\Constraint\AssertProductReviewsReportByCustomerGrid;
+use Magento\Reports\Test\Constraint\AssertProductReviewsQtyByCustomerGrid;
 
 /**
- * Test Creation for Customer Review ReportEntity
+ * Test Creation for CustomerReviewReportEntity
  *
  * Preconditions:
  * 1. Create customer
@@ -44,13 +45,6 @@ use Magento\Review\Test\Constraint\AssertProductReviewsReportByCustomerGrid;
  */
 class CustomerReviewReportEntityTest extends Injectable
 {
-    /**
-     * Factory for fixture
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
     /**
      * Customer frontend logout page
      *
@@ -94,24 +88,17 @@ class CustomerReviewReportEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
-     * Customer fixture
-     *
-     * @var CustomerInjectable
-     */
-    protected $customer;
-
-    /**
      * Prepare data
      *
      * @param FixtureFactory $fixtureFactory
-     * @return void
+     * @return array
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
-        $this->fixtureFactory = $fixtureFactory;
-        $customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'johndoe_unique']);
+        $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'johndoe_unique']);
         $customer->persist();
-        $this->customer = $customer;
+
+        return ['customer' => $customer];
     }
 
     /**
@@ -142,43 +129,42 @@ class CustomerReviewReportEntityTest extends Injectable
     }
 
     /**
-     * Test Creation for Customer Review ReportEntity
+     * Test Creation for CustomerReviewReportEntity
      *
      * @param ReviewInjectable $review
-     * @param AssertProductReviewsReportByCustomerGrid $assertProductReviewsReportByCustomerGrid
+     * @param AssertProductReviewsQtyByCustomerGrid $assertProductReviewsQtyByCustomerGrid
      * @param CustomerReportReview $customerReportReview
+     * @param CustomerInjectable $customer
      * @param $customerLogin
+     * @param CatalogProductSimple $product
+     * @param Browser $browser
      * @param $reviewsCount
      * @return array
      */
     public function test(
         ReviewInjectable $review,
-        AssertProductReviewsReportByCustomerGrid $assertProductReviewsReportByCustomerGrid,
+        AssertProductReviewsQtyByCustomerGrid $assertProductReviewsQtyByCustomerGrid,
         CustomerReportReview $customerReportReview,
+        CustomerInjectable $customer,
+        CatalogProductSimple $product,
+        Browser $browser,
         $customerLogin,
         $reviewsCount
     ) {
         // Preconditions
-        /** @var CatalogProductSimple $product */
-        $product = $this->fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'product_with_category']);
         $product->persist();
         $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && $customerLogin == 'Yes') {
+        if ($customerLogin == 'Yes') {
             $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($this->customer);
+            $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
-        $categoryName = $product->getCategoryIds()[0];
-        $productName = $product->getName();
-        $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
-        $this->pageCatalogProductView->getViewBlock()->clickAddReview();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $this->pageCatalogProductView->getReviewSummary()->getAddReviewLink();
         $this->pageCatalogProductView->getReviewFormBlock()->fill($review);
         $this->pageCatalogProductView->getReviewFormBlock()->submit();
-        $customerName = $this->customer->getFirstName() . ' ' . $this->customer->getLastName();
         // Steps
-        $customerReportReview->open();
-        $assertProductReviewsReportByCustomerGrid->processAssert($customerReportReview, $customerName, $reviewsCount);
-        $customerReportReview->getGridBlock()->openReview($customerName);
+        $assertProductReviewsQtyByCustomerGrid->processAssert($customerReportReview, $customer, $reviewsCount);
+        $customerReportReview->getGridBlock()->openReview($customer);
 
         return ['product' => $product, 'review' => $review];
     }

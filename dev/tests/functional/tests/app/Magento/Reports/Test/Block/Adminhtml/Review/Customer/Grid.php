@@ -8,6 +8,7 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Review\Customer;
 
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
@@ -22,7 +23,7 @@ class Grid extends AbstractGrid
      *
      * @var string
      */
-    protected $searchRow = '//tr[td[contains(.,"%s")]]/td[contains(.,"Show Reviews")]';
+    protected $searchRow = '//tr[td[contains(.,"%s")]]/td';
 
     /**
      * Search product reviews report row selector
@@ -32,18 +33,19 @@ class Grid extends AbstractGrid
     protected $colReviewCount = '//tr[td[contains(.,"%s")]]/td[@data-column="review_cnt"]';
 
     /**
-     * Open product review report
+     * Open customer review report
      *
-     * @param string $customerName
+     * @param CustomerInjectable $customer
      * @return void
      */
-    public function openReview($customerName)
+    public function openReview(CustomerInjectable $customer)
     {
+        $customerName = $customer->getFirstName() . ' ' . $customer->getLastName();
         $this->_rootElement->find(sprintf($this->searchRow, $customerName), Locator::SELECTOR_XPATH)->click();
     }
 
     /**
-     * Open product review report
+     * Get qty review from customer review grid
      *
      * @param string $customerName
      * @return int
