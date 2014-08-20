@@ -746,13 +746,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'lastname']);
         }
 
-        if (
-            !\Zend_Validate::is(
-                $customerModel->getEmail(),
-                'EmailAddress',
-                ['allow' => ['allow'=> \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
-            )
-        ) {
+        $isEmailAddress = \Zend_Validate::is(
+            $customerModel->getEmail(),
+            'EmailAddress',
+            ['allow' => ['allow'=> \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
+        );
+
+        if (!$isEmailAddress) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE,
                 ['fieldName' => 'email', 'value' => $customerModel->getEmail()]
