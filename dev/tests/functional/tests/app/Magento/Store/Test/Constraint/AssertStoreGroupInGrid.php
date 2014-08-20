@@ -13,10 +13,10 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Store\Test\Fixture\StoreGroup;
 
 /**
- * Class AssertStoreInGrid
+ * Class AssertStoreGroupInGrid
  * Assert that created Store Group can be found in Stores grid
  */
-class AssertStoreInGrid extends AbstractConstraint
+class AssertStoreGroupInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness

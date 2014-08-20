@@ -14,10 +14,10 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditGroup;
 
 /**
- * Class AssertStoreForm
+ * Class AssertStoreGroupForm
  * Assert that displayed Store Group data on edit page equals passed from fixture
  */
-class AssertStoreForm extends AbstractAssertForm
+class AssertStoreGroupForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness

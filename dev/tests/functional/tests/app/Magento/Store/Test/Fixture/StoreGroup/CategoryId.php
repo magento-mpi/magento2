@@ -33,9 +33,9 @@ class CategoryId implements FixtureInterface
     protected $params;
 
     /**
-     * Array with category fixture
+     * CatalogCategory fixture
      *
-     * @var array
+     * @var CatalogCategory
      */
     protected $category;
 
@@ -94,9 +94,9 @@ class CategoryId implements FixtureInterface
     }
 
     /**
-     * Return category fixture
+     * Return CatalogCategory fixture
      *
-     * @return array
+     * @return CatalogCategory
      */
     public function getCategory()
     {

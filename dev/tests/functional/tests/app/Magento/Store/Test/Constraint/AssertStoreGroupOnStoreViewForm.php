@@ -14,10 +14,10 @@ use Magento\Backend\Test\Page\Adminhtml\StoreNew;
 use Magento\Store\Test\Fixture\StoreGroup;
 
 /**
- * Class AssertStoreOnStoreViewForm
+ * Class AssertStoreGroupOnStoreViewForm
  * Assert that New Store Group visible on StoreView Form in Store dropdown
  */
-class AssertStoreOnStoreViewForm extends AbstractConstraint
+class AssertStoreGroupOnStoreViewForm extends AbstractConstraint
 {
     /**
      * Constraint severeness

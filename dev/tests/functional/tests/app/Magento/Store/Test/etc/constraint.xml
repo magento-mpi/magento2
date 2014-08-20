@@ -8,16 +8,16 @@
  */
 -->
 <constraint>
-    <assertStoreSuccessSaveMessage module="Magento_Store">
+    <assertStoreGroupSuccessSaveMessage module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreSuccessSaveMessage>
-    <assertStoreInGrid module="Magento_Store">
+    </assertStoreGroupSuccessSaveMessage>
+    <assertStoreGroupInGrid module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreInGrid>
-    <assertStoreForm module="Magento_Store">
+    </assertStoreGroupInGrid>
+    <assertStoreGroupForm module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreForm>
-    <assertStoreOnStoreViewForm module="Magento_Store">
+    </assertStoreGroupForm>
+    <assertStoreGroupOnStoreViewForm module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreOnStoreViewForm>
+    </assertStoreGroupOnStoreViewForm>
 </constraint>

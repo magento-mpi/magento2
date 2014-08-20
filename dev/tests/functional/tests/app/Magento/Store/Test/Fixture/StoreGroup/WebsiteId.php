@@ -10,7 +10,6 @@ namespace Magento\Store\Test\Fixture\StoreGroup;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Store\Test\Fixture\Website;
 
 /**
@@ -34,9 +33,9 @@ class WebsiteId implements FixtureInterface
     protected $params;
 
     /**
-     * Array with website fixture
+     * Website fixture
      *
-     * @var array
+     * @var Website
      */
     protected $website;
 
@@ -95,9 +94,9 @@ class WebsiteId implements FixtureInterface
     }
 
     /**
-     * Return website fixture
+     * Return Website fixture
      *
-     * @return array
+     * @return Website
      */
     public function getWebsite()
     {
