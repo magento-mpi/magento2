@@ -298,7 +298,8 @@ class Session extends \Magento\Framework\Model\AbstractModel
     {
         $publicCookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
             ->setDuration($duration)
-            ->setPath($path);
+            ->setPath($path)
+            ->setHttpOnly(true);
         $this->_cookieManager->setPublicCookie(
             self::COOKIE_NAME,
             $this->getKey(),
