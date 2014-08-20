@@ -14,7 +14,7 @@ use Magento\Store\Test\Fixture\StoreGroup;
 
 /**
  * Class AssertStoreInGrid
- * Assert that created store can be found in Stores grid
+ * Assert that created Store Group can be found in Stores grid
  */
 class AssertStoreInGrid extends AbstractConstraint
 {
@@ -26,7 +26,7 @@ class AssertStoreInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created store can be found in Stores grid by name
+     * Assert that created Store Group can be found in Stores grid by name
      *
      * @param StoreIndex $storeIndex
      * @param StoreGroup $storeGroup
@@ -34,11 +34,11 @@ class AssertStoreInGrid extends AbstractConstraint
      */
     public function processAssert(StoreIndex $storeIndex, StoreGroup $storeGroup)
     {
-        $storeName = $storeGroup->getName();
-        $storeIndex->open()->getStoreGrid()->search(['group_title' => $storeName]);
+        $storeGroupName = $storeGroup->getName();
+        $storeIndex->open()->getStoreGrid()->search(['group_title' => $storeGroupName]);
         \PHPUnit_Framework_Assert::assertTrue(
-            $storeIndex->getStoreGrid()->isStoreExists($storeName),
-            'Store \'' . $storeName . '\' is not present in grid.'
+            $storeIndex->getStoreGrid()->isStoreExists($storeGroupName),
+            'Store \'' . $storeGroupName . '\' is not present in grid.'
         );
     }
 
@@ -49,6 +49,6 @@ class AssertStoreInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Store is present in grid.';
+        return 'Store Group is present in grid.';
     }
 }

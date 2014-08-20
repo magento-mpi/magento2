@@ -15,7 +15,7 @@
             <strategy>css selector</strategy>
         </formPageActions>
         <editFormGroup>
-            <class>Magento\Backend\Test\Block\System\Store\Edit\Form\Group</class>
+            <class>Magento\Backend\Test\Block\System\Store\Edit\Form\GroupForm</class>
             <locator>#edit_form</locator>
             <strategy>css selector</strategy>
         </editFormGroup>

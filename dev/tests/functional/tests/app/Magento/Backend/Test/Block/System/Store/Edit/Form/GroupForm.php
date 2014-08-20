@@ -11,10 +11,10 @@ namespace Magento\Backend\Test\Block\System\Store\Edit\Form;
 use Mtf\Block\Form;
 
 /**
- * Class StoreForm
+ * Class GroupForm
  * Form for New Store Group creation
  */
-class Group extends Form
+class GroupForm extends Form
 {
     //
 }

@@ -15,7 +15,7 @@ use Magento\Backend\Test\Page\Adminhtml\EditGroup;
 
 /**
  * Class AssertStoreForm
- * Assert that displayed Store data on edit page equals passed from fixture
+ * Assert that displayed Store Group data on edit page equals passed from fixture
  */
 class AssertStoreForm extends AbstractAssertForm
 {
@@ -27,7 +27,7 @@ class AssertStoreForm extends AbstractAssertForm
     protected $severeness = 'low';
 
     /**
-     * Assert that displayed Store data on edit page equals passed from fixture
+     * Assert that displayed Store Group data on edit page equals passed from fixture
      *
      * @param StoreIndex $storeIndex
      * @param EditGroup $editGroup
@@ -53,6 +53,6 @@ class AssertStoreForm extends AbstractAssertForm
      */
     public function toString()
     {
-        return 'Store data on edit page equals data from fixture.';
+        return 'Store Group data on edit page equals data from fixture.';
     }
 }

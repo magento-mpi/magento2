@@ -11,10 +11,10 @@ namespace Magento\Store\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class StoreGroup
- * Data for creation Store Group
+ * Class Website
+ * Data for creation Website
  */
-class StoreGroup extends AbstractRepository
+class Website extends AbstractRepository
 {
     /**
      * @constructor
@@ -25,14 +25,10 @@ class StoreGroup extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = [
-            'website_id' => [
-                'dataSet' => 'main_website'
-            ],
-            'name' => 'StoreGroup%isolation%',
-            'root_category_id' => [
-                'dataSet' => 'default_category'
-            ],
+        $this->_data['main_website'] = [
+            'name' => 'Main Website',
+            'code' => 'base',
+            'website_id' => '1'
         ];
     }
 }

@@ -23,10 +23,8 @@
         </group_id>
         <website_id>
             <attribute_code>website_id</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required></is_required>
-            <default_value>0</default_value>
-            <input></input>
+            <backend_type>virtual</backend_type>
+            <source>Magento\Store\Test\Fixture\StoreGroup\WebsiteId</source>
         </website_id>
         <name>
             <attribute_code>name</attribute_code>
@@ -37,10 +35,8 @@
         </name>
         <root_category_id>
             <attribute_code>root_category_id</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required></is_required>
-            <default_value>0</default_value>
-            <input></input>
+            <backend_type>virtual</backend_type>
+            <source>Magento\Store\Test\Fixture\StoreGroup\CategoryId</source>
         </root_category_id>
         <default_store_id>
             <attribute_code>default_store_id</attribute_code>

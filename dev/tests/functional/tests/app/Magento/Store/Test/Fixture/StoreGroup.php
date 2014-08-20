@@ -26,9 +26,13 @@ class StoreGroup extends InjectableFixture
     protected $handlerInterface = 'Magento\Store\Test\Handler\StoreGroup\StoreGroupInterface';
 
     protected $defaultDataSet = [
-        'website_id' => 'Main Website',
+        'website_id' => [
+            'dataSet' => 'main_website'
+        ],
         'name' => 'StoreGroup%isolation%',
-        'root_category_id' => 'Default Category',
+        'root_category_id' => [
+            'dataSet' => 'default_category'
+        ],
     ];
 
     protected $group_id = [
@@ -41,10 +45,8 @@ class StoreGroup extends InjectableFixture
 
     protected $website_id = [
         'attribute_code' => 'website_id',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '0',
-        'input' => '',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Store\Test\Fixture\StoreGroup\WebsiteId',
     ];
 
     protected $name = [
@@ -57,10 +59,8 @@ class StoreGroup extends InjectableFixture
 
     protected $root_category_id = [
         'attribute_code' => 'root_category_id',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '0',
-        'input' => '',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Store\Test\Fixture\StoreGroup\CategoryId',
     ];
 
     protected $default_store_id = [

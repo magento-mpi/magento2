@@ -13,7 +13,7 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 
 /**
  * Class AssertStoreSuccessSaveMessage
- * Assert that after store save successful message appears
+ * Assert that after Store Group save successful message appears
  */
 class AssertStoreSuccessSaveMessage extends AbstractConstraint
 {
@@ -30,7 +30,7 @@ class AssertStoreSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after store has been created
+     * Assert that success message is displayed after Store Group has been created
      *
      * @param StoreIndex $storeIndex
      * @return void
@@ -51,6 +51,6 @@ class AssertStoreSuccessSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Store success create message is present.';
+        return 'Store Group success create message is present.';
     }
 }

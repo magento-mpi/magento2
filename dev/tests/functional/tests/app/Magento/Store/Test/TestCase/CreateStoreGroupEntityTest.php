@@ -27,7 +27,7 @@ use Magento\Backend\Test\Page\Adminhtml\NewGroupIndex;
  * @group Store_Management_(PS)
  * @ZephyrId MAGETWO-27345
  */
-class CreateNewStoreGroupEntityTest extends Injectable
+class CreateStoreGroupEntityTest extends Injectable
 {
     /**
      * Page StoreIndex
@@ -68,7 +68,7 @@ class CreateNewStoreGroupEntityTest extends Injectable
     {
         //Steps
         $this->storeIndex->open();
-        $this->storeIndex->getGridPageActions()->createStore();
+        $this->storeIndex->getGridPageActions()->createStoreGroup();
         $this->newGroupIndex->getEditFormGroup()->fill($storeGroup);
         $this->newGroupIndex->getFormPageActions()->save();
     }

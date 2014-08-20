@@ -22,20 +22,6 @@ use Mtf\Handler\Curl as AbstractCurl;
 class Curl extends AbstractCurl implements StoreGroupInterface
 {
     /**
-     * Mapping values for data
-     *
-     * @var array
-     */
-    protected $mappingData = [
-        'website_id' => [
-            'Main Website' => 1
-        ],
-        'root_category_id' => [
-            'Default Category' => 2
-        ]
-    ];
-
-    /**
      * POST request for creating store group
      *
      * @param FixtureInterface $fixture
@@ -93,7 +79,11 @@ class Curl extends AbstractCurl implements StoreGroupInterface
      */
     protected function prepareData($fixture)
     {
-        $data['group'] = $this->replaceMappingData($fixture->getData());
+        $categoryId = $fixture->getDataFieldConfig('root_category_id')['source']->getCategory()->getId();
+        $websiteId = $fixture->getDataFieldConfig('website_id')['source']->getWebsite()->getWebsiteId();
+        $data['group']['name'] = $fixture->getName();
+        $data['group']['root_category_id'] = $categoryId;
+        $data['group']['website_id'] = $websiteId;
         $data['store_action'] = isset($data['store_action']) ? $data['store_action'] : 'add';
         $data['store_type'] = isset($data['store_type']) ? $data['store_type'] : 'group';
 

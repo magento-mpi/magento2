@@ -15,7 +15,7 @@ use Magento\Store\Test\Fixture\StoreGroup;
 
 /**
  * Class AssertStoreOnStoreViewForm
- * Assert that New Store visible on StoreView Form in Store dropdown
+ * Assert that New Store Group visible on StoreView Form in Store dropdown
  */
 class AssertStoreOnStoreViewForm extends AbstractConstraint
 {
@@ -27,7 +27,7 @@ class AssertStoreOnStoreViewForm extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that New Store visible on StoreView Form in Store dropdown
+     * Assert that New Store Group visible on StoreView Form in Store dropdown
      *
      * @param StoreIndex $storeIndex
      * @param StoreNew $storeNew
@@ -36,11 +36,11 @@ class AssertStoreOnStoreViewForm extends AbstractConstraint
      */
     public function processAssert(StoreIndex $storeIndex, StoreNew $storeNew, StoreGroup $storeGroup)
     {
-        $storeName = $storeGroup->getName();
+        $storeGroupName = $storeGroup->getName();
         $storeIndex->open()->getGridPageActions()->addStoreView();
         \PHPUnit_Framework_Assert::assertTrue(
-            $storeNew->getStoreForm()->isStoreVisible($storeName),
-            'Store \'' . $storeName . '\' is not present on StoreView Form in Store dropdown.'
+            $storeNew->getStoreForm()->isStoreVisible($storeGroupName),
+            'Store Group \'' . $storeGroupName . '\' is not present on StoreView Form in Store dropdown.'
         );
     }
 
@@ -51,6 +51,6 @@ class AssertStoreOnStoreViewForm extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Store visible on StoreView Form in Store dropdown.';
+        return 'Store Group is visible on StoreView Form in Store dropdown.';
     }
 }

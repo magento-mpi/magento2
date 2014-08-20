@@ -43,7 +43,7 @@ class GridPageActions extends PageActions
      *
      * @return void
      */
-    public function createStore()
+    public function createStoreGroup()
     {
         $this->_rootElement->find($this->createStoreButton)->click();
     }
