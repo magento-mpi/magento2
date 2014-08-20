@@ -35,6 +35,13 @@
             <spurce>Magento\MultipleWishlist\Test\Fixture\MultipleWishlist\CustomerId</spurce>
             <group>null</group>
         </customer_id>
+        <description>
+            <attribute_code>description</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required />
+            <default_value />
+            <input />
+        </description>
     </fields>
     <repository_class>Magento\MultipleWishlist\Test\Repository\MultipleWishlist</repository_class>
     <handler_interface>Magento\MultipleWishlist\Test\Handler\MultipleWishlist\MultipleWishlistInterface</handler_interface>

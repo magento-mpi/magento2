@@ -165,6 +165,20 @@ class View extends Block
     protected $addToWishlist = '[data-action="add-to-wishlist"]';
 
     /**
+     * Add to Multiple Wishlist button
+     *
+     * @var string
+     */
+    protected $addToMultipleWishlist = 'button[aria-haspopup="true"]';
+
+    /**
+     * Item wish list
+     *
+     * @var string
+     */
+    protected $wishlistItem = '//span[.="%s"]';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -502,6 +516,18 @@ class View extends Block
     public function addToWishlist()
     {
         $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Select which Wishlist you want to add product to
+     *
+     * @param string $wishlistName
+     * @return void
+     */
+    public function addToMultipleWishlist($wishlistName)
+    {
+        $this->_rootElement->find($this->addToMultipleWishlist)->click();
+        $this->_rootElement->find(sprintf($this->wishlistItem, $wishlistName), Locator::SELECTOR_XPATH)->click();
     }
 
     /**

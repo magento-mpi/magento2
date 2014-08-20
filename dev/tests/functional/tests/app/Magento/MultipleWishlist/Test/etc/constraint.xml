@@ -38,4 +38,7 @@
     <assertMultipleWishlistIsNoticePrivateMessage module="Magento_MultipleWishlist">
         <severeness>medium</severeness>
     </assertMultipleWishlistIsNoticePrivateMessage>
+    <assertWishListReportGrid module="Magento_MultipleWishlist">
+        <severeness>low</severeness>
+    </assertWishListReportGrid>
 </constraint>

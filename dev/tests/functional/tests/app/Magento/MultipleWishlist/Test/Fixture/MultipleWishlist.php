@@ -57,6 +57,14 @@ class MultipleWishlist extends InjectableFixture
         'group' => null
     ];
 
+    protected $description = [
+        'attribute_code' => 'description',
+        'backend_type' => 'text',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
     public function getName()
     {
         return $this->getData('name');
@@ -70,5 +78,10 @@ class MultipleWishlist extends InjectableFixture
     public function getCustomerId()
     {
         return $this->getData('customer_id');
+    }
+
+    public function getDescription()
+    {
+        return $this->getData('description');
     }
 }

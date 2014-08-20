@@ -60,6 +60,20 @@ class Management extends Block
     protected $removeButton = 'button.remove';
 
     /**
+     * Button 'Update Wish List' css selector
+     *
+     * @var string
+     */
+    protected $updateButton = 'button.update';
+
+    /**
+     * CSS locator for description textarea
+     *
+     * @var string
+     */
+    protected $descriptionField = '//a[contains(.,"%s")]/following::textarea[1]';
+
+    /**
      * Create new wish list
      *
      * @return void
@@ -147,5 +161,29 @@ class Management extends Block
     public function isRemoveButtonVisible()
     {
         return $this->_rootElement->find($this->removeButton)->isVisible();
+    }
+
+    /**
+     * Fill Wishlist description
+     *
+     * @param string $wishlistName
+     * @param string $description
+     * @return void
+     */
+    public function fillDescription($wishlistName, $description)
+    {
+        $this->_rootElement->find(sprintf($this->descriptionField, $wishlistName), Locator::SELECTOR_XPATH)->setValue(
+            $description
+        );
+    }
+
+    /**
+     * Update wish list
+     *
+     * @return void
+     */
+    public function updateWishlist()
+    {
+        $this->_rootElement->find($this->updateButton)->click();
     }
 }
