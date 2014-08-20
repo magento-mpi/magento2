@@ -132,7 +132,6 @@ class DefinitionFactory
                         => '\Magento\Framework\ObjectManager\Code\Generator\Converter',
                     ProfilerGenerator\Logger::ENTITY_TYPE
                         => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
-
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);

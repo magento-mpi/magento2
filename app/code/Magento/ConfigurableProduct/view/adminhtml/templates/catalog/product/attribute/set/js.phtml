@@ -8,7 +8,7 @@
  */
 ?>
 <script type="text/javascript">
-
+require(['jquery'], function(){
 ConfigurableNodeExists = function(currentNode) {
     for (var i in currentNode.childNodes ) {
         if (currentNode.childNodes[i].id) {
@@ -20,7 +20,6 @@ ConfigurableNodeExists = function(currentNode) {
     }
     return false;
 };
-var editSet = editSet;
 
 editSet.submit = editSet.submit.wrap(function(original) {
     if (editSet.currentNode){
@@ -48,4 +47,5 @@ editSet.rightBeforeInsert = editSet.rightBeforeInsert.wrap(function(original, tr
     return original(tree, nodeThis, node, newParent);
 });
 
+});
 </script>
