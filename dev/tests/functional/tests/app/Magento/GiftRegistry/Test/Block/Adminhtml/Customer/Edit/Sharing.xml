@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <emails />
+        <message>
+            <input>textarea</input>
+        </message>
+        <store_id>
+            <input>select</input>
+        </store_id>
+    </fields>
+</mapping>

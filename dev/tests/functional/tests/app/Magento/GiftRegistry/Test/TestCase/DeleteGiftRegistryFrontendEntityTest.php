@@ -11,6 +11,7 @@ namespace Magento\GiftRegistry\Test\TestCase;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\TestCase\Injectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
@@ -53,6 +54,13 @@ class DeleteGiftRegistryFrontendEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
+     * Page CustomerAccountLogout
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Customer account index page
      *
      * @var CustomerAccountIndex
@@ -71,6 +79,7 @@ class DeleteGiftRegistryFrontendEntityTest extends Injectable
      *
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftRegistryIndex $giftRegistryIndex
      * @return void
@@ -78,11 +87,13 @@ class DeleteGiftRegistryFrontendEntityTest extends Injectable
     public function __inject(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
+        CustomerAccountLogout $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
         GiftRegistryIndex $giftRegistryIndex
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
+        $this->customerAccountLogout = $customerAccountLogout;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->giftRegistryIndex = $giftRegistryIndex;
     }
@@ -115,10 +126,7 @@ class DeleteGiftRegistryFrontendEntityTest extends Injectable
     public function test(CustomerInjectable $customer, GiftRegistry $giftRegistry)
     {
         // Preconditions
-        if (!$this->cmsIndex->open()->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->open()->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $this->customerAccountLogin->open()->getLoginBlock()->login($customer);
         $giftRegistry->persist();
 
         // Steps
@@ -126,5 +134,15 @@ class DeleteGiftRegistryFrontendEntityTest extends Injectable
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
         $this->giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Delete', true);
+    }
+
+    /**
+     * Log out after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }
