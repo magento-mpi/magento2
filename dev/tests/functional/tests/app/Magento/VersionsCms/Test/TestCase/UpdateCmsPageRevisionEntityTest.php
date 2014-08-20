@@ -93,7 +93,7 @@ class UpdateCmsPageRevisionEntityTest extends Injectable
      *
      * @param CmsPage $cms
      * @param Revision $revision
-     * @param $revisionData
+     * @param array $revisionData
      * @param array $results
      * @return array
      */
@@ -103,12 +103,11 @@ class UpdateCmsPageRevisionEntityTest extends Injectable
         // Precondition:
         $cms->persist();
 
-        $filter = ['title' => $cms->getTitle()];
+        $title = $cms->getTitle();
         $this->cmsIndex->open();
-        $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
+        $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen(['title' => $title]);
         $this->cmsNew->getPageForm()->openTab('versions');
-        $filter = ['label' => $cms->getTitle()];
-        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->searchAndOpen($filter);
+        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->searchAndOpen(['label' => $title]);
         $filter = [
             'revision_number_from' => $revisionData['from'],
             'revision_number_to' => $revisionData['to'],
@@ -119,7 +118,7 @@ class UpdateCmsPageRevisionEntityTest extends Injectable
 
         return [
             'results' => [
-                'label' => $cms->getTitle(),
+                'label' => $title,
                 'author' => $results['author'],
                 'owner' => $results['owner'],
                 'access_level' => $results['access_level'],

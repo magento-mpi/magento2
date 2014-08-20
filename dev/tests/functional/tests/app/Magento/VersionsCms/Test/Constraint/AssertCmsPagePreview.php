@@ -16,7 +16,7 @@ use Magento\Cms\Test\Page\CmsPage as Page;
 
 /**
  * Class AssertCmsPagePreview
- * Assert that content of created cms page displayed in section 'maincontent' and equals passed from fixture.
+ * Assert that content of created cms page displayed in section 'maincontent' and equals passed from fixture
  */
 class AssertCmsPagePreview extends AbstractConstraint
 {
@@ -28,12 +28,13 @@ class AssertCmsPagePreview extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that content of created cms page displayed in section 'maincontent' and equals passed from fixture.
+     * Assert that content of created cms page displayed in section 'maincontent' and equals passed from fixture
      *
      * @param CmsPage $cms
      * @param CmsIndex $cmsIndex
      * @param Page $cmsPage
      * @param Browser $browser
+     * @return void
      */
     public function processAssert(
         CmsPage $cms,
