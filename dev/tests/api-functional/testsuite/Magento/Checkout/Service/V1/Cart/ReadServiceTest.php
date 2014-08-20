@@ -113,7 +113,7 @@ class ReadServiceTest extends WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage There is no cart with provided ID.
+     * @expectedExceptionMessage No such entity with
      */
     public function testGetCartThrowsExceptionIfThereIsNoCartWithProvidedId()
     {
