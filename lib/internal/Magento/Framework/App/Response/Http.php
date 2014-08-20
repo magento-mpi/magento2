@@ -81,9 +81,9 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
         if (!empty($data)) {
             ksort($data);
             $cookieValue = sha1(serialize($data));
-            $sensitiveCookMetadata = $this->cookieMetadataFactory->createSensitiveCookieMetadata()
+            $publicCookMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
                 ->setPath('/');
-            $this->cookieManager->setSensitiveCookie(self::COOKIE_VARY_STRING, $cookieValue, $sensitiveCookMetadata);
+            $this->cookieManager->setPublicCookie(self::COOKIE_VARY_STRING, $cookieValue, $publicCookMetadata);
         } else {
             $cookieMetadata = $this->cookieMetadataFactory->createCookieMetadata()
                 ->setPath('/');
