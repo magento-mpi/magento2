@@ -27,19 +27,30 @@ class AssertStoreGroupForm extends AbstractAssertForm
     protected $severeness = 'low';
 
     /**
+     * Skipped fields for verify data
+     *
+     * @var array
+     */
+    protected $skippedFields = ['group_id'];
+
+    /**
      * Assert that displayed Store Group data on edit page equals passed from fixture
      *
      * @param StoreIndex $storeIndex
      * @param EditGroup $editGroup
      * @param StoreGroup $storeGroup
+     * @param StoreGroup $storeGroupOrigin [optional]
      * @return void
      */
     public function processAssert(
         StoreIndex $storeIndex,
         EditGroup $editGroup,
-        StoreGroup $storeGroup
+        StoreGroup $storeGroup,
+        StoreGroup $storeGroupOrigin = null
     ) {
-        $fixtureData = $storeGroup->getData();
+        $fixtureData = $storeGroupOrigin != null
+            ? array_merge($storeGroupOrigin->getData(), $storeGroup->getData())
+            : $storeGroup->getData();
         $storeIndex->open()->getStoreGrid()->searchAndOpenStore($storeGroup);
         $formData = $editGroup->getEditFormGroup()->getData();
         $errors = $this->verifyData($fixtureData, $formData);

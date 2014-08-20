@@ -68,10 +68,10 @@ class Curl extends AbstractCurl implements StoreInterface
     /**
      * Prepare data from text to values
      *
-     * @param $fixture
+     * @param FixtureInterface $fixture
      * @return array
      */
-    protected function prepareData($fixture)
+    protected function prepareData(FixtureInterface $fixture)
     {
         $data['store'] = $this->replaceMappingData($fixture->getData());
         $data['store_action'] = isset($data['store_action']) ? $data['store_action'] : 'add';

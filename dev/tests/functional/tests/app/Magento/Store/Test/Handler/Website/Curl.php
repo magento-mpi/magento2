@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Store\Test\Handler\StoreGroup;
+namespace Magento\Store\Test\Handler\Website;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
@@ -17,12 +17,12 @@ use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
- * Curl handler for creating Store Group.
+ * Curl handler for creating Website.
  */
-class Curl extends AbstractCurl implements StoreGroupInterface
+class Curl extends AbstractCurl implements WebsiteInterface
 {
     /**
-     * POST request for creating store group
+     * POST request for creating Website
      *
      * @param FixtureInterface $fixture
      * @return array
@@ -37,35 +37,35 @@ class Curl extends AbstractCurl implements StoreGroupInterface
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Store group entity creating by curl handler was not successful! Response: $response");
+            throw new \Exception("Website entity creating by curl handler was not successful! Response: $response");
         }
 
-        return ['group_id' => $this->getStoreGroupIdByGroupName($fixture->getName())];
+        return ['website_id' => $this->getWebSiteIdByWebsiteName($fixture->getName())];
     }
 
     /**
-     * Get store id by store name
+     * Get website id by website name
      *
-     * @param string $storeName
+     * @param string $websiteName
      * @return int
      * @throws \Exception
      */
-    protected function getStoreGroupIdByGroupName($storeName)
+    protected function getWebSiteIdByWebsiteName($websiteName)
     {
-        //Set pager limit to 2000 in order to find created store group by name
+        //Set pager limit to 2000 in order to find created website by name
         $url = $_ENV['app_backend_url'] . 'admin/system_store/index/sort/group_title/dir/asc/limit/2000';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
 
-        $expectedUrl = '/admin/system_store/editGroup/group_id/';
+        $expectedUrl = '/admin/system_store/editWebsite/website_id/';
         $expectedUrl = preg_quote($expectedUrl);
         $expectedUrl = str_replace('/', '\/', $expectedUrl);
-        preg_match('/' . $expectedUrl . '([0-9]*)\/(.)*>' . $storeName . '<\/a>/', $response, $matches);
+        preg_match('/' . $expectedUrl . '([0-9]*)\/(.)*>' . $websiteName . '<\/a>/', $response, $matches);
 
         if (empty($matches)) {
-            throw new \Exception('Cannot find store group id');
+            throw new \Exception('Cannot find website id');
         }
 
         return intval($matches[1]);
@@ -79,13 +79,9 @@ class Curl extends AbstractCurl implements StoreGroupInterface
      */
     protected function prepareData(FixtureInterface $fixture)
     {
-        $categoryId = $fixture->getDataFieldConfig('root_category_id')['source']->getCategory()->getId();
-        $websiteId = $fixture->getDataFieldConfig('website_id')['source']->getWebsite()->getWebsiteId();
-        $data['group']['name'] = $fixture->getName();
-        $data['group']['root_category_id'] = $categoryId;
-        $data['group']['website_id'] = $websiteId;
+        $data['website']= $fixture->getData();
         $data['store_action'] = isset($data['store_action']) ? $data['store_action'] : 'add';
-        $data['store_type'] = isset($data['store_type']) ? $data['store_type'] : 'group';
+        $data['store_type'] = isset($data['store_type']) ? $data['store_type'] : 'website';
 
         return $data;
     }
