@@ -2533,7 +2533,8 @@ return array(
     ['Magento\OsInfo', 'Magento\Framework\OsInfo'],
     ['Magento\Registry', 'Magento\Framework\Registry'],
     ['Magento\Util', 'Magento\Framework\Util'],
-    ['Magento\BootstrapException', 'Magento\Framework\BootstrapException'],
+    ['Magento\BootstrapException', 'Magento\Framework\App\InitException'],
+    ['Magento\Framework\BootstrapException', 'Magento\Framework\App\InitException'],
     ['Magento\Checkout\Helper\Url'],
     [
         'Magento\Customer\Service\V1\CustomerCurrentService',
