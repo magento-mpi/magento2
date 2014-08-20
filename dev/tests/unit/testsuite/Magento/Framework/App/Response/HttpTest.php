@@ -242,4 +242,38 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->model->setHeader('Name', 'value', true);
         $this->assertFalse($this->model->getHeader('Wrong name'));
     }
+
+    /**
+     *
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage ObjectManager isn't initialized
+     */
+    public function testWakeUpWithException()
+    {
+        $this->model->__wakeup();
+        $this->assertNull($this->cookieMetadataFactoryMock);
+        $this->assertNull($this->cookieManagerMock);
+    }
+
+    /**
+     * Test for the magic method __wakeup
+     *
+     * @covers \Magento\Framework\App\Response\Http::__wakeup
+     */
+    public function testWakeUpWith()
+    {
+        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        $objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('Magento\Framework\Stdlib\CookieManager')
+            ->will($this->returnValue($this->cookieManagerMock));
+
+        $objectManagerMock->expects($this->once())
+            ->method('get')
+            ->with('Magento\Framework\Stdlib\Cookie\CookieMetadataFactory')
+            ->will($this->returnValue($this->cookieMetadataFactoryMock));
+
+        \Magento\Framework\App\ObjectManager::setInstance($objectManagerMock);
+        $this->model->__wakeup();
+    }
 }
