@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Error;
+
+namespace Magento\Framework\App;
 
 /**
- * Default Error Handler
+ * An error handler that converts runtime errors into exceptions
  */
-class Handler implements HandlerInterface
+class ErrorHandler
 {
     /**
      * Error messages
@@ -36,33 +37,6 @@ class Handler implements HandlerInterface
     );
 
     /**
-     * Process exception
-     *
-     * @param \Exception $exception
-     * @param string[] $params
-     * @return void
-     */
-    public function processException(\Exception $exception, array $params = array())
-    {
-        echo '<pre>';
-        echo $exception->getMessage() . "\n\n";
-        echo $exception->getTraceAsString();
-        echo '</pre>';
-    }
-
-    /**
-     * Show error as exception
-     *
-     * @param string $errorMessage
-     * @return void
-     * @throws \Exception
-     */
-    protected function _processError($errorMessage)
-    {
-        throw new \Exception($errorMessage);
-    }
-
-    /**
      * Custom error handler
      *
      * @param int $errorNo
@@ -70,6 +44,7 @@ class Handler implements HandlerInterface
      * @param string $errorFile
      * @param int $errorLine
      * @return bool
+     * @throws \Exception
      */
     public function handler($errorNo, $errorStr, $errorFile, $errorLine)
     {
@@ -97,7 +72,6 @@ class Handler implements HandlerInterface
             $this->errorPhrases[$errorNo]
         ) ? $this->errorPhrases[$errorNo] : "Unknown error ({$errorNo})";
         $errorMessage .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
-        $this->_processError($errorMessage);
-        return true;
+        throw new \Exception($errorMessage);
     }
 }

@@ -5,29 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Error;
 
-/**
- * Class HandlerTest
- */
-class HandlerTest extends \PHPUnit_Framework_TestCase
+namespace Magento\Framework\App;
+
+class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Error\Handler
+     * @var \Magento\Framework\App\ErrorHandler
      */
     protected $object;
 
     protected function setUp()
     {
-        $this->object = new Handler();
-    }
-
-    public function testProcessException()
-    {
-        $expectedMessage = 'test message';
-
-        $this->expectOutputRegex('/(' . $expectedMessage . ')\s*?.*(internal function)((.*\s.*)*)({main})/');
-        $this->object->processException(new \Exception($expectedMessage), []);
+        $this->object = new ErrorHandler();
     }
 
     /**

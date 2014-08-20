@@ -168,6 +168,7 @@ class Bootstrap
         try {
             try {
                 \Magento\Framework\Profiler::start('magento');
+                $this->initErrorHandler();
                 $this->init();
                 $this->assertMaintenance($this->isMaintenanceRequired);
                 $this->assertInstalled($this->isInstalledRequired);
@@ -271,6 +272,17 @@ class Bootstrap
         $this->objectManager = null;
         $this->dirList = null;
         $this->maintenance = null;
+    }
+
+    /**
+     * Sets a custom error handler
+     *
+     * @return void
+     */
+    private function initErrorHandler()
+    {
+        $handler = new ErrorHandler;
+        set_error_handler([$handler, 'handler']);
     }
 
     /**
