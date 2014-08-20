@@ -114,7 +114,7 @@ abstract class AbstractObjectBuilder extends SimpleAbstractObjectBuilder
                 'get' . $camelCaseKey,
                 'is' . $camelCaseKey
             );
-            if ($key == AbstractObject::CUSTOM_ATTRIBUTES_KEY && !empty($data[$key])) {
+            if ($key == AbstractObject::CUSTOM_ATTRIBUTES_KEY && is_array($data[$key]) && !empty($data[$key])) {
                 foreach ($data[$key] as $customAttribute) {
                     $this->setCustomAttribute(
                         $customAttribute[AttributeValue::ATTRIBUTE_CODE],
