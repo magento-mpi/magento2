@@ -12,6 +12,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Class HistoryTest
+ *
  * @package Magento\Rma\Model\Rma\Status
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -148,7 +149,13 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $this->dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime', [], [], '', false);
         $this->dateTimeDateTime = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
         $this->localeDate = $this->getMock('Magento\Framework\Stdlib\DateTime\Timezone', [], [], '', false);
-        $this->order = $this->getMock('Magento\Sales\Model\Order', ['getStore', '__wakeup'], [], '', false);
+        $this->order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['getStore', 'getBillingAddress', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $this->rmaFactory = $this->getMock('Magento\Rma\Model\RmaFactory', ['create', '__wakeup'], [], '', false);
 
         $this->history = $objectManagerHelper->getObject(
@@ -239,32 +246,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $this->transportBuilder->expects($this->once())
-            ->method('setTemplateIdentifier')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->once())
-            ->method('setTemplateOptions')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->once())
-            ->method('setTemplateVars')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->once())
-            ->method('setFrom')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->once())
-            ->method('addTo')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->once())
-            ->method('addBcc')
-            ->will($this->returnSelf());
-
-        $transport = $this->getMock('Magento\Framework\Mail\Transport', [], [], '', false);
-        $transport->expects($this->once())
-            ->method('sendMessage');
-
-        $this->transportBuilder->expects($this->once())
-            ->method('getTransport')
-            ->will($this->returnValue($transport));
+        $this->prepareTransportBuilder();
 
         $this->history->setRma($this->rma);
         $this->assertNull($this->history->getEmailSent());
@@ -276,34 +258,198 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     {
         $storeId = 5;
         $customerEmail = 'custom@email.com';
-
-        $this->rma->expects($this->once())
-            ->method('getStoreId')
-            ->will($this->returnValue($storeId));
-        $this->rma->expects($this->once())
-            ->method('getOrder')
-            ->will($this->returnValue($this->order));
-
-        $this->rmaConfig->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
-        $this->rmaConfig->expects($this->once())
-            ->method('getCopyTo')
-            ->will($this->returnValue('copyTo'));
-        $this->rmaConfig->expects($this->once())
-            ->method('getCopyMethod')
-            ->will($this->returnValue('bcc'));
-
-        $this->prepareTransportBuilder();
         $name = 'name';
+
+        $this->prepareRmaModel($storeId, $name, $customerEmail);
+        $this->prepareRmaConfig('bcc');
+        $this->prepareTransportBuilder();
+
         $this->order->setCustomerEmail($customerEmail);
-        $this->rma->setCustomerName($name);
-        $this->rma->setCustomerCustomEmail($customerEmail);
-        $this->rma->setIsSendAuthEmail(true);
+        $this->order->setCustomerIsGuest(false);
         $this->history->setRma($this->rma);
         $this->assertNull($this->history->getEmailSent());
         $this->history->sendAuthorizeEmail();
         $this->assertTrue($this->history->getEmailSent());
+    }
+
+    public function testSendAuthorizeEmailGuest()
+    {
+        $storeId = 5;
+        $customerEmail = 'custom@email.com';
+        $name = 'name';
+
+        $this->prepareRmaModel($storeId, $name, $customerEmail);
+        $this->prepareRmaConfig('copy');
+        $this->prepareTransportBuilder();
+
+        $this->order->setCustomerIsGuest(true);
+        $address = $this->getMock('Magento\Sales\Model\Order\Address', [], [], '', false);
+        $address->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue($name));
+        $this->order->expects($this->once())
+            ->method('getBillingAddress')
+            ->will($this->returnValue($address));
+
+        $this->history->sendAuthorizeEmail();
+        $this->assertTrue($this->history->getEmailSent());
+
+    }
+
+    protected function prepareTransportBuilder()
+    {
+        $this->transportBuilder->expects($this->atLeastOnce())
+            ->method('setTemplateIdentifier')
+            ->will($this->returnSelf());
+        $this->transportBuilder->expects($this->atLeastOnce())
+            ->method('setTemplateOptions')
+            ->will($this->returnSelf());
+        $this->transportBuilder->expects($this->atLeastOnce())
+            ->method('setTemplateVars')
+            ->will($this->returnSelf());
+        $this->transportBuilder->expects($this->atLeastOnce())
+            ->method('setFrom')
+            ->will($this->returnSelf());
+        $this->transportBuilder->expects($this->atLeastOnce())
+            ->method('addTo')
+            ->will($this->returnSelf());
+        $this->transportBuilder->expects($this->atLeastOnce())
+            ->method('addBcc')
+            ->will($this->returnSelf());
+
+        $transport = $this->getMock('Magento\Framework\Mail\Transport', [], [], '', false);
+        $transport->expects($this->atLeastOnce())
+            ->method('sendMessage');
+
+        $this->transportBuilder->expects($this->atLeastOnce())
+            ->method('getTransport')
+            ->will($this->returnValue($transport));
+    }
+
+    /**
+     * @param string $copyMethod
+     */
+    protected function prepareRmaConfig($copyMethod)
+    {
+        $template = 'some html';
+        $this->rmaConfig->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+        if ($copyMethod == 'bcc') {
+            $copyTo = 'copyTo';
+        } else {
+            $copyTo = ['email@com.com'];
+        }
+        $this->rmaConfig->expects($this->once())
+            ->method('getCopyTo')
+            ->will($this->returnValue($copyTo));
+        $this->rmaConfig->expects($this->once())
+            ->method('getCopyMethod')
+            ->will($this->returnValue($copyMethod));
+        if ($this->order->getCustomerIsGuest()) {
+            $this->rmaConfig->expects($this->once())
+                ->method('getGuestTemplate')
+                ->will($this->returnValue($template));
+        }
+    }
+
+    /**
+     * @param $storeId
+     * @param $name
+     * @param $customerEmail
+     */
+    protected function prepareRmaModel($storeId, $name, $customerEmail)
+    {
+        $this->rma->expects($this->atLeastOnce())
+            ->method('getStoreId')
+            ->will($this->returnValue($storeId));
+        $this->rma->expects($this->atLeastOnce())
+            ->method('getOrder')
+            ->will($this->returnValue($this->order));
+        $this->rma->setCustomerName($name);
+        $this->rma->setCustomerCustomEmail($customerEmail);
+        $this->rma->setIsSendAuthEmail(true);
+        $this->history->setRma($this->rma);
+    }
+
+    public function testSendCommentEmail()
+    {
+        $storeId = 5;
+        $customerEmail = 'custom@email.com';
+        $name = 'name';
+
+        $this->prepareRmaModel($storeId, $name, $customerEmail);
+        $this->prepareRmaConfig('bcc');
+        $this->prepareTransportBuilder();
+
+        $this->order->setCustomerEmail($customerEmail);
+        $this->order->setCustomerName($name);
+        $this->order->setCustomerIsGuest(false);
+        $this->history->setRma($this->rma);
+        $this->assertNull($this->history->getEmailSent());
+        $this->history->sendCommentEmail();
+        $this->assertTrue($this->history->getEmailSent());
+    }
+
+    public function testSendCommentEmailGuest()
+    {
+        $storeId = 5;
+        $customerEmail = 'custom@email.com';
+        $name = 'name';
+
+        $this->prepareRmaModel($storeId, $name, $customerEmail);
+        $this->prepareRmaConfig('copy');
+        $this->prepareTransportBuilder();
+
+        $address = $this->getMock('Magento\Sales\Model\Order\Address', [], [], '', false);
+        $address->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue($name));
+        $this->order->expects($this->once())
+            ->method('getBillingAddress')
+            ->will($this->returnValue($address));
+
+        $this->order->setCustomerEmail($customerEmail);
+        $this->order->setCustomerName($name);
+        $this->order->setCustomerIsGuest(true);
+        $this->history->setRma($this->rma);
+        $this->assertNull($this->history->getEmailSent());
+        $this->history->sendCommentEmail();
+        $this->assertTrue($this->history->getEmailSent());
+    }
+
+    public function testSendCustomerCommentEmail()
+    {
+        $storeId = 5;
+        $customerEmail = 'custom@email.com';
+        $name = 'name';
+        $commentRoot = 'sales_email/magento_rma_customer_comment';
+
+        $this->prepareRmaModel($storeId, $name, $customerEmail);
+        $this->prepareRmaConfig('bcc');
+        $this->rmaConfig->expects($this->once())
+            ->method('getCustomerEmailRecipient')
+            ->with($storeId)
+            ->will($this->returnValue($customerEmail));
+        $this->rmaConfig->expects($this->once())
+            ->method('getRootCustomerCommentEmail')
+            ->will($this->returnValue($commentRoot));
+        $this->prepareTransportBuilder();
+
+        $this->order->setCustomerIsGuest(false);
+        $this->history->setRma($this->rma);
+        $this->assertNull($this->history->getEmailSent());
+        $this->history->sendCustomerCommentEmail();
+        $this->assertTrue($this->history->getEmailSent());
+    }
+
+    public function testSendCustomerCommentEmailDisabled()
+    {
+        $this->history->setRma($this->rma);
+        $this->rmaConfig->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(false));
+        $this->assertEquals($this->history, $this->history->sendCustomerCommentEmail());
     }
 
     public function testSendAuthorizeEmailFail()
@@ -421,35 +567,5 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(Status::STATE_PENDING));
 
         $this->assertNull($this->history->saveSystemComment());
-    }
-
-    protected function prepareTransportBuilder()
-    {
-        $this->transportBuilder->expects($this->atLeastOnce())
-            ->method('setTemplateIdentifier')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->atLeastOnce())
-            ->method('setTemplateOptions')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->atLeastOnce())
-            ->method('setTemplateVars')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->atLeastOnce())
-            ->method('setFrom')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->atLeastOnce())
-            ->method('addTo')
-            ->will($this->returnSelf());
-        $this->transportBuilder->expects($this->atLeastOnce())
-            ->method('addBcc')
-            ->will($this->returnSelf());
-
-        $transport = $this->getMock('Magento\Framework\Mail\Transport', [], [], '', false);
-        $transport->expects($this->atLeastOnce())
-            ->method('sendMessage');
-
-        $this->transportBuilder->expects($this->atLeastOnce())
-            ->method('getTransport')
-            ->will($this->returnValue($transport));
     }
 }
