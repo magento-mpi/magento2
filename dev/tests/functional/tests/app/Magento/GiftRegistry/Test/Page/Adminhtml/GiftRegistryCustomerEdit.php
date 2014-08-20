@@ -25,6 +25,18 @@ class GiftRegistryCustomerEdit extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
+        'sharingInfoBlock' => [
+            'name' => 'sharingInfoBlock',
+            'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Sharing',
+            'locator' => '#edit_form',
+            'strategy' => 'css selector',
+        ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -33,5 +45,21 @@ class GiftRegistryCustomerEdit extends BackendPage
     public function getActionsToolbarBlock()
     {
         return $this->getBlockInstance('actionsToolbarBlock');
+    }
+
+    /**
+     * @return \Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Sharing
+     */
+    public function getSharingInfoBlock()
+    {
+        return $this->getBlockInstance('sharingInfoBlock');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

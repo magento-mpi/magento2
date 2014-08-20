@@ -11,6 +11,9 @@ namespace Magento\GiftRegistry\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
@@ -68,16 +71,35 @@ class DeleteGiftRegistryBackendEntityTest extends Injectable
     protected $cmsIndex;
 
     /**
+     * Customer account login page
+     *
+     * @var CustomerAccountLogin
+     */
+    protected $customerAccountLogin;
+
+    /**
+     * Page CustomerAccountLogout
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Create product
      *
      * @param CatalogProductSimple $product
+     * @param CustomerInjectable $customer
      * @return array
      */
-    public function __prepare(CatalogProductSimple $product)
+    public function __prepare(CatalogProductSimple $product, CustomerInjectable $customer)
     {
         $product->persist();
+        $customer->persist();
 
-        return ['product' => $product];
+        return [
+            'product' => $product,
+            'customer' => $customer,
+        ];
     }
 
     /**
@@ -87,34 +109,42 @@ class DeleteGiftRegistryBackendEntityTest extends Injectable
      * @param CustomerIndex $customerIndex
      * @param CustomerIndexEdit $customerIndexEdit
      * @param GiftRegistryCustomerEdit $giftRegistryCustomerEdit
+     * @param CustomerAccountLogin $customerAccountLogin
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
         CustomerIndex $customerIndex,
         CustomerIndexEdit $customerIndexEdit,
-        GiftRegistryCustomerEdit $giftRegistryCustomerEdit
+        GiftRegistryCustomerEdit $giftRegistryCustomerEdit,
+        CustomerAccountLogin $customerAccountLogin,
+        CustomerAccountLogout $customerAccountLogout
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerIndex = $customerIndex;
         $this->customerIndexEdit = $customerIndexEdit;
         $this->giftRegistryCustomerEdit = $giftRegistryCustomerEdit;
+        $this->customerAccountLogin = $customerAccountLogin;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
      * Delete gift registry from customer account(backend)
      *
      * @param GiftRegistry $giftRegistry
+     * @param CustomerInjectable $customer
      * @return void
      */
-    public function test(GiftRegistry $giftRegistry)
+    public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer)
     {
-        // Steps
+        // Preconditions
+        $this->customerAccountLogin->open()->getLoginBlock()->login($customer);
         $giftRegistry->persist();
+
+        // Steps
         $this->customerIndex->open();
-        $this->customerIndex->getCustomerGridBlock()->searchAndOpen(
-            ['email' => $giftRegistry->getDataFieldConfig('customer_id')['source']->getCustomerId()->getEmail()]
-        );
+        $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $customerForm = $this->customerIndexEdit->getCustomerForm();
         $customerForm->openTab('gift_registry');
         $filter = ['title' => $giftRegistry->getTitle()];
@@ -129,7 +159,6 @@ class DeleteGiftRegistryBackendEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        $this->customerAccountLogout->open();
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="reports/report_review/product" >
+    <block>
+        <name>gridBlock</name>
+        <class>Magento\Reports\Test\Block\Adminhtml\Review\Products\Grid</class>
+        <locator>#gridProducts</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
