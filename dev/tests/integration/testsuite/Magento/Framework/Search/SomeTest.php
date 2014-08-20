@@ -1,0 +1,68 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Framework\Search;
+
+
+use Magento\Framework\App\Resource;
+
+class SomeTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    private $config;
+
+    /**
+     * @var Resource
+     */
+    private $appResource;
+
+    /**
+     * @var \Magento\Indexer\Model\Indexer[]
+     */
+    private $indexerList;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
+     */
+    private $state;
+
+    public function setUp()
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        $this->config = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->appResource = $objectManager->get('Magento\Framework\App\Resource');
+        $this->indexerList = $objectManager->get('\Magento\Indexer\Model\Indexer\CollectionFactory')
+            ->create()
+            ->getItems();
+        $this->state = $objectManager->get('Magento\Catalog\Model\Indexer\Product\Flat\State');
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store default/catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
+     * @magentoConfigFixture current_store default/catalog/search/search_type 2
+     *
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testSome()
+    {
+        foreach ($this->indexerList as $indexer) {
+            $indexer->reindexAll();
+        }
+
+        /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
+        $connection = $this->appResource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+
+        $this->assertTrue($this->state->isFlatEnabled());
+        $this->assertContains('catalog_product_flat', $connection->getTables('%catalog_product_flat%')[0]);
+    }
+}
