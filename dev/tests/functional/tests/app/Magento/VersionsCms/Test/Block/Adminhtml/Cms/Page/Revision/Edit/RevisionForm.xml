@@ -9,6 +9,7 @@
 -->
 <mapping strict="0">
     <fields>
+        <content_heading />
         <content />
     </fields>
 </mapping>
