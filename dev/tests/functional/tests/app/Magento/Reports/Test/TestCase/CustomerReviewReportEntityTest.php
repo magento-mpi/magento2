@@ -21,7 +21,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportReview;
 use Magento\Reports\Test\Page\Adminhtml\CustomerReportReview;
-use Magento\Reports\Test\Constraint\AssertProductReviewsQtyByCustomerGrid;
+use Magento\Reports\Test\Constraint\AssertProductReviewsQtyByCustomer;
 
 /**
  * Test Creation for CustomerReviewReportEntity
@@ -132,7 +132,7 @@ class CustomerReviewReportEntityTest extends Injectable
      * Test Creation for CustomerReviewReportEntity
      *
      * @param ReviewInjectable $review
-     * @param AssertProductReviewsQtyByCustomerGrid $assertProductReviewsQtyByCustomerGrid
+     * @param AssertProductReviewsQtyByCustomer $assertProductReviewsQtyByCustomer
      * @param CustomerReportReview $customerReportReview
      * @param CustomerInjectable $customer
      * @param $customerLogin
@@ -143,7 +143,7 @@ class CustomerReviewReportEntityTest extends Injectable
      */
     public function test(
         ReviewInjectable $review,
-        AssertProductReviewsQtyByCustomerGrid $assertProductReviewsQtyByCustomerGrid,
+        AssertProductReviewsQtyByCustomer $assertProductReviewsQtyByCustomer,
         CustomerReportReview $customerReportReview,
         CustomerInjectable $customer,
         CatalogProductSimple $product,
@@ -159,14 +159,14 @@ class CustomerReviewReportEntityTest extends Injectable
             $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->pageCatalogProductView->getReviewSummary()->getAddReviewLink();
+        $this->pageCatalogProductView->getReviewSummary()->getAddReviewLink()->click();
         $this->pageCatalogProductView->getReviewFormBlock()->fill($review);
         $this->pageCatalogProductView->getReviewFormBlock()->submit();
         // Steps
-        $assertProductReviewsQtyByCustomerGrid->processAssert($customerReportReview, $customer, $reviewsCount);
+        $assertProductReviewsQtyByCustomer->processAssert($customerReportReview, $customer, $reviewsCount);
         $customerReportReview->getGridBlock()->openReview($customer);
 
-        return ['product' => $product, 'review' => $review];
+        return ['product' => $product];
     }
 
     /**

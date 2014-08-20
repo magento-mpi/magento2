@@ -13,10 +13,10 @@ use Magento\Reports\Test\Page\Adminhtml\CustomerReportReview;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductReviewsQtyByCustomerGrid
+ * Class AssertProductReviewsQtyByCustomer
  * Check that product reviews qty column in Review Report by Customer grid
  */
-class AssertProductReviewsQtyByCustomerGrid extends AbstractConstraint
+class AssertProductReviewsQtyByCustomer extends AbstractConstraint
 {
     /**
      * Constraint severeness
