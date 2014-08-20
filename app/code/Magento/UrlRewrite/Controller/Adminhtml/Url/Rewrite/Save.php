@@ -95,7 +95,8 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                         $model->setTargetPath($rewrite->getRequestPath());
                     }
                 } else {
-                    $model->setTargetPath($isProduct
+                    $model->setTargetPath(
+                        $isProduct
                         ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
                         : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
                     );
@@ -141,7 +142,9 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
         $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE);
         $model->setEntityId($cmsPage->getId());
         if ($model->isObjectNew()) {
-            $model->setTargetPath($model->getRedirectType() ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
+            $model->setTargetPath(
+                $model->getRedirectType()
+                ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
                 : $this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage)
             );
         }

@@ -164,6 +164,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      * @param bool $isLoggedIn
      * @param array $routers
      * @return \Magento\DesignEditor\Controller\Varien\Router\Standard
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _prepareMocksForTestMatch(
         \Magento\Framework\App\RequestInterface $request,
@@ -175,16 +176,20 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->_getHelperMock($isVde);
         $backendSessionMock = $this->_getBackendSessionMock($isVde, $isLoggedIn);
         $stateMock = $this->_getStateModelMock($routers);
-        $routerListMock = $this->getMock('Magento\Framework\App\RouterList',
+        $routerListMock = $this->getMock(
+            'Magento\Framework\App\RouterList',
             array(
                 'current',
                 'next',
                 'key',
                 'valid',
                 'rewind'
-            ), array(
+            ),
+            array(
                 'routerList' => $routers
-            ), '', false
+            ),
+            '',
+            false
         );
         if (array_key_exists('matched', $routers)) {
             $routerListMock = $this->mockIterator($routerListMock, $routers, true);

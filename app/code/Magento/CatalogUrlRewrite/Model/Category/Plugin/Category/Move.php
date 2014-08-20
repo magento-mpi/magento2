@@ -27,10 +27,11 @@ class Move
     /**
      * @param \Magento\Catalog\Model\Resource\Category $subject
      * @param callable $proceed
-     * @param $category
-     * @param $newParent
-     * @param $afterCategoryId
+     * @param Category $category
+     * @param Category $newParent
+     * @param null|int $afterCategoryId
      * @return callable
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundChangeParent(
         \Magento\Catalog\Model\Resource\Category $subject,

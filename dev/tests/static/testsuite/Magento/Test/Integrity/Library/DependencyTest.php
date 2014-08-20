@@ -53,14 +53,10 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                     $tokens->getDependencies()
                 );
 
+                $pattern = '#^(\\\\|)' . implode('|', $this->getForbiddenNamespaces()) . '\\\\#';
                 foreach ($dependencies as $dependency) {
-                    if (preg_match(
-                            '#^(\\\\|)' . implode('|', $this->getForbiddenNamespaces()) . '\\\\#',
-                            $dependency
-                        ) && !file_exists(
-                            BP . '/lib/internal/' . str_replace('\\', '/', $dependency) . '.php'
-                        )
-                    ) {
+                    $filePath = BP . '/lib/internal/' . str_replace('\\', '/', $dependency) . '.php';
+                    if (preg_match($pattern, $dependency) && !file_exists($filePath)) {
                         $this->errors[$fileReflection->getFileName()][] = $dependency;
                     }
                 }

@@ -120,16 +120,18 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
             if ($product || $category) {
                 $sessionData = $this->_getSessionData();
                 if (!isset($sessionData['request_path'])) {
-                    $requestPath->setValue($product
+                    $requestPath->setValue(
+                        $product
                         ? $this->productUrlPathGenerator->getUrlPathWithSuffix(
-                                $product,
-                                $product->getStoreId(),
-                                $category
+                            $product,
+                            $product->getStoreId(),
+                            $category
                         )
                         : $this->categoryUrlPathGenerator->getUrlPathWithSuffix($category)
                     );
                 }
-                $targetPath->setValue($product
+                $targetPath->setValue(
+                    $product
                     ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
                     : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
                 );

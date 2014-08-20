@@ -19,7 +19,8 @@ class CategoryUrlPathAutogenerator
     /**
      * @param CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
-    public function __construct(CategoryUrlPathGenerator $categoryUrlPathGenerator) {
+    public function __construct(CategoryUrlPathGenerator $categoryUrlPathGenerator)
+    {
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
     }
 

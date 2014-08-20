@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 namespace Magento\UrlRewrite\Block\Catalog\Category;
+
 use Magento\Catalog\Model\Category;
+
 /**
  * Categories tree block for URL rewrites editing process
  *

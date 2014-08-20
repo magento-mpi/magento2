@@ -19,7 +19,8 @@ class ProductUrlKeyAutogenerator
     /**
      * @param ProductUrlPathGenerator $productUrlPathGenerator
      */
-    public function __construct(ProductUrlPathGenerator $productUrlPathGenerator) {
+    public function __construct(ProductUrlPathGenerator $productUrlPathGenerator)
+    {
         $this->productUrlPathGenerator = $productUrlPathGenerator;
     }
 

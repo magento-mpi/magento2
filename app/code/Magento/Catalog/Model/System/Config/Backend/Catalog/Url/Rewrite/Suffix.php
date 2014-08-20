@@ -29,9 +29,9 @@ class Suffix extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\UrlRewrite\Helper\UrlRewrite $urlRewriteHelper,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        \Magento\UrlRewrite\Helper\UrlRewrite $urlRewriteHelper,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

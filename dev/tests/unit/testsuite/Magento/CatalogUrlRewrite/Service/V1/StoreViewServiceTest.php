@@ -81,7 +81,7 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
         $productId = 'product_id';
         $attribute = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\AbstractAttribute')
             ->disableOriginalConstructor()
-            ->setMethods(['__wakeup', 'getBackendTable', 'getId',])
+            ->setMethods(['__wakeup', 'getBackendTable', 'getId'])
             ->getMockForAbstractClass();
         $this->config->expects($this->once())->method('getAttribute')->with($entityType, 'url_key')
             ->will($this->returnValue($attribute));
