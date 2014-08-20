@@ -173,6 +173,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->method('setDuration')
             ->with($cookieDuration)
             ->will($this->returnSelf());
+        $cookieMetadataMock->expects($this->exactly($numCalls))
+            ->method('setHttpOnly')
+            ->with(true)
+            ->will($this->returnSelf());
         $this->cookieMetadataFactoryMock->expects($this->exactly($numCalls))
             ->method('createPublicCookieMetadata')
             ->will($this->returnValue($cookieMetadataMock));
