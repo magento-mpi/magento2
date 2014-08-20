@@ -52,7 +52,8 @@ class ShipmentCreate
             }
             $shipment->getOrder()->setIsInProcess(true);
             $shipment->register();
-            return (bool)$shipment->save();
+            $shipment->save();
+            return true;
         } catch (\Exception $e) {
             $this->logger->logException($e);
             throw new \Exception(__('An error has occurred during creating Shipment'));

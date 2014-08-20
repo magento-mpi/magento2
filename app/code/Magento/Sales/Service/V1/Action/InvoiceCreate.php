@@ -49,7 +49,8 @@ class InvoiceCreate
                 return false;
             }
             $invoice->register();
-            return (bool)$invoice->save();
+            $invoice->save();
+            return true;
         } catch (\Exception $e) {
             $this->logger->logException($e);
             throw new \Exception(__('An error has occurred during creating Invoice'));

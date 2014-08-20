@@ -38,6 +38,7 @@ class OrderAddressUpdate
     public function invoke(OrderAddress $orderAddress)
     {
         $orderAddressModel = $this->addressConverter->getModel($orderAddress);
-        return (bool)$orderAddressModel->save();
+        $orderAddressModel->save();
+        return true;
     }
 }

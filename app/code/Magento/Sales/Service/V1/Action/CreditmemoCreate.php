@@ -51,7 +51,8 @@ class CreditmemoCreate
                 return false;
             }
             $creditmemo->register();
-            return (bool)$creditmemo->save();
+            $creditmemo->save();
+            return true;
         } catch (\Exception $e) {
             $this->logger->logException($e);
             throw new \Exception(__('An error has occurred during creating Creditmemo'));
