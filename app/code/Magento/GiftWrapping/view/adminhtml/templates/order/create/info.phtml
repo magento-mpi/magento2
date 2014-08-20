@@ -113,6 +113,13 @@ giftWrappingOrder = {
             Event.observe($('allow-gift-receipt'), 'change', this.saveData.bind(this));
             $('allow-gift-receipt').checked = <?php echo $this->getWrappingGiftReceiptValue() ?>;
         }
+    },
+
+    refresh: function(event) {
+        var url = order.loadBaseUrl + 'block/giftwrapping';
+        new Ajax.Updater('orderCreateGiftWrapping', url, {
+            onComplete: this.init.bind(this)
+        })
     }
 }
 giftWrappingOrder.init();
