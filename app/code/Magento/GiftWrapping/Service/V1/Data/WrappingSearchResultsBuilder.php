@@ -20,14 +20,14 @@ class WrappingSearchResultsBuilder extends AbstractSearchResultsBuilder
     /**
      * @param ObjectFactory $objectFactory
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param WrappingBuilder $wrappingBuilder
+     * @param WrappingBuilder $itemObjectBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        WrappingBuilder $wrappingBuilder
+        WrappingBuilder $itemObjectBuilder
     ) {
-        parent::__construct($objectFactory, $searchCriteriaBuilder, $wrappingBuilder);
+        parent::__construct($objectFactory, $searchCriteriaBuilder, $itemObjectBuilder);
     }
 
     /**

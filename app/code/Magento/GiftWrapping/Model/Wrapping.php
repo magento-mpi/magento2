@@ -259,7 +259,8 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         $fileNameExtension = pathinfo($fileName, PATHINFO_EXTENSION);
         if (!in_array($fileNameExtension, $this->_imageAllowedExtensions)) {
             throw new InputException(
-                'The image extension "%1" not allowed.', [$$fileNameExtension]
+                'The image extension "%1" not allowed.',
+                [$fileNameExtension]
             );
         }
         if (!preg_match('/^[^\\/?*:";<>()|{}\\\\]+$/', $fileName)) {

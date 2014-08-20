@@ -22,7 +22,7 @@ $wrapping->setDesign('Test Wrapping 1')
 $wrapping = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\GiftWrapping\Model\Wrapping');
 $wrapping->setDesign('Test Wrapping 2')
     ->setStatus(1)
-    ->setWebsiteIds([1,$website->getId()])
+    ->setWebsiteIds([1, $website->getId()])
     ->setBasePrice(10.00)
     ->setImage('image2.png')
     ->save();

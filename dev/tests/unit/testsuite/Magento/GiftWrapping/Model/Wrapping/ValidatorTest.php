@@ -31,12 +31,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             'base_price' => 'Price'
         ];
         $warningFields = [
-            'design' => __('Gift Wrapping Design is a required field')
+            'design' => __('Field is required: Gift Wrapping Design')
         ];
 
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');
         // prepare data
-        foreach($presentFields as $key => $val) {
+        foreach ($presentFields as $key => $val) {
             $wrapping->setData($key, $val);
         }
 

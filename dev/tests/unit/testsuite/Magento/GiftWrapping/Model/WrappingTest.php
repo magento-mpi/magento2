@@ -21,6 +21,9 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
+    /** @var string */
+    protected $testImagePath;
+
     /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -41,6 +44,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
                 'filesystem' => $this->filesystemMock,
             ]
         );
+        $this->testImagePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'magento_image.jpg';
     }
 
     /**
@@ -64,9 +68,34 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider invalidBinaryImageDataProvider
+     * @param $fileName
+     * @param $imageContent
+     * @param $exceptionMessage
+     */
+    public function testAttachBinaryImageExceptions($fileName, $imageContent, $exceptionMessage)
+    {
+        $this->setExpectedException('Magento\Framework\Exception\InputException', $exceptionMessage);
+        $this->wrapping->attachBinaryImage($fileName, $imageContent);
+    }
+
+    /**
+     * @return array
+     */
+    public function invalidBinaryImageDataProvider()
+    {
+        return [
+            ['image.php', 'image content', 'The image extension "php" not allowed'],
+            ['{}?*:<>.jpg', 'image content', 'Provided image name contains forbidden characters'],
+            ['image.jpg', 'image content', 'The image content must be valid data']
+        ];
+    }
+
     public function testAttachBinaryImageWriteFail()
     {
-        list($fileName, $imageContent, $absolutePath, $result) = ['filename', 'imageContent', 'absolutePath', false];
+        $imageContent = file_get_contents($this->testImagePath);
+        list($fileName, $imageContent, $absolutePath, $result) = ['image.jpg', $imageContent, 'absolutePath', false];
         $this->mediaDirectoryMock->expects($this->once())->method('getAbsolutePath')
             ->with(Wrapping::IMAGE_PATH . $fileName)->will($this->returnValue($absolutePath));
         $this->mediaDirectoryMock->expects($this->once())->method('writeFile')
@@ -74,9 +103,10 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->wrapping->attachBinaryImage($fileName, $imageContent));
     }
 
-    public function testAttachBinaryImageSuccessl()
+    public function testAttachBinaryImage()
     {
-        list($fileName, $imageContent, $absolutePath, $result) = ['filename', 'imageContent', 'absolutePath', true];
+        $imageContent = file_get_contents($this->testImagePath);
+        list($fileName, $imageContent, $absolutePath, $result) = ['image.jpg', $imageContent, 'absolutePath', true];
         $this->mediaDirectoryMock->expects($this->once())->method('getAbsolutePath')
             ->with(Wrapping::IMAGE_PATH . $fileName)->will($this->returnValue($absolutePath));
         $this->mediaDirectoryMock->expects($this->once())->method('writeFile')

@@ -62,7 +62,7 @@ class WrappingRepository
     {
         $collection = $this->wrappingCollectionFactory->create();
         $collection->addWebsitesToResult();
-        foreach($criteria->getFilterGroups() as $filterGroup) {
+        foreach ($criteria->getFilterGroups() as $filterGroup) {
             foreach ($filterGroup->getFilters() as $filter) {
                 if ($filter->getField() == 'status' && $filter->getValue()) {
                     $collection->applyStatusFilter();
