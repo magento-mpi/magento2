@@ -7,6 +7,7 @@
  */
 namespace Magento\UrlRewrite\Model\Resource;
 
+use Magento\UrlRewrite\Model\Storage\DuplicateEntryException;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class AbstractStorageTest extends \PHPUnit_Framework_TestCase
@@ -103,65 +104,36 @@ class AbstractStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($urlRewrite, $this->storage->findOneByData($data));
     }
 
-    public function testAddMultiple()
-    {
-        $urlFirst = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
-        $urlSecond = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
-
-        $urlFirst->expects($this->any())->method('toArray')->will($this->returnValue(['row1']));
-        $urlSecond->expects($this->any())->method('toArray')->will($this->returnValue(['row2']));
-
-        $this->storage->expects($this->once())
-            ->method('doAddMultiple')
-            ->with([['row1'], ['row2']]);
-
-        $this->storage->addMultiple([$urlFirst, $urlSecond]);
-    }
-
     public function testReplaceIfUrlsAreEmpty()
     {
-        $this->storage->expects($this->never())->method('deleteByData');
-        $this->storage->expects($this->never())->method('addMultiple');
+        $this->storage->expects($this->never())->method('doReplace');
 
         $this->storage->replace([]);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage URL key for specified store already exists.
+     */
+    public function testReplaceIfThrewDuplicateEntryExceptionWithCustomMessage()
+    {
+        $this->storage
+            ->expects($this->once())
+            ->method('doReplace')
+            ->will($this->throwException(new DuplicateEntryException('Custom storage message')));
+
+        $this->storage->replace([['UrlRewrite1']]);
+    }
+
     public function testReplace()
     {
-        $data = [
-            'request_path' => ['path_1', 'path_2'],
-            'store_id' => ['store_id_1', 'store_id_2'],
-        ];
-
-        $urlRewriteOne = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
-        $urlRewriteSecond = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
-
-        $urlRewriteOne->expects($this->any())
-            ->method('getByKey')
-            ->will($this->returnValueMap([
-                [UrlRewrite::REQUEST_PATH, 'path_1'],
-                [UrlRewrite::STORE_ID, 'store_id_1'],
-                [UrlRewrite::STORE_ID, 'store_id_1'],
-            ]));
-
-        $urlRewriteSecond->expects($this->any())
-            ->method('getByKey')
-            ->will($this->returnValueMap([
-                [UrlRewrite::REQUEST_PATH, 'path_2'],
-                [UrlRewrite::STORE_ID, 'store_id_2'],
-            ]));
-
-        // TODO: UrlRewrite Delete this mocks
-        $this->storage
-            ->expects($this->once())
-            ->method('deleteByData')
-            ->with($data);
+        $urls = [['UrlRewrite1'], ['UrlRewrite2']];
 
         $this->storage
             ->expects($this->once())
-            ->method('addMultiple')
-            ->with([$urlRewriteOne, $urlRewriteSecond]);
+            ->method('doReplace')
+            ->with($urls);
 
-        $this->storage->replace([$urlRewriteOne, $urlRewriteSecond]);
+        $this->storage->replace($urls);
     }
 }

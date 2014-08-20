@@ -8,19 +8,14 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <virtualType name="catalogUrlManager" type="Magento\UrlRewrite\Service\V1\UrlManager">
-        <arguments>
-            <argument name="storage" xsi:type="object">Magento\CatalogUrlRewrite\Model\Storage\DbStorage</argument>
-        </arguments>
-    </virtualType>
     <type name="Magento\Catalog\Block\Widget\Link">
         <arguments>
-            <argument name="urlProductMatcher" xsi:type="object">catalogUrlManager</argument>
+            <argument name="urlFinder" xsi:type="object">Magento\CatalogUrlRewrite\Model\Storage\DbStorage</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product\Url">
         <arguments>
-            <argument name="urlFinder" xsi:type="object">catalogUrlManager</argument>
+            <argument name="urlFinder" xsi:type="object">Magento\CatalogUrlRewrite\Model\Storage\DbStorage</argument>
         </arguments>
     </type>
 </config>

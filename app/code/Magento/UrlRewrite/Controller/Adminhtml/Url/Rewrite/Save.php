@@ -12,6 +12,7 @@ use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Model\Exception;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
 
 class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
 {
@@ -24,7 +25,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     /** @var \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator */
     protected $cmsPageUrlPathGenerator;
 
-    /** @var \Magento\UrlRewrite\Service\V1\UrlFinderInterface */
+    /** @var UrlFinderInterface */
     protected $urlFinder;
 
     /**
@@ -32,14 +33,14 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
      * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
-     * @param \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
+     * @param UrlFinderInterface $urlFinder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator,
-        \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
+        UrlFinderInterface $urlFinder
     ) {
         parent::__construct($context);
         $this->productUrlPathGenerator = $productUrlPathGenerator;

@@ -9,6 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\UrlRewrite\Model\StorageInterface" type="Magento\UrlRewrite\Model\Storage\DbStorage"/>
-    <preference for="Magento\UrlRewrite\Service\V1\UrlFinderInterface" type="Magento\UrlRewrite\Service\V1\UrlManager"/>
-    <preference for="Magento\UrlRewrite\Service\V1\UrlPersistInterface" type="Magento\UrlRewrite\Service\V1\UrlManager"/>
+    <preference for="Magento\UrlRewrite\Model\UrlFinderInterface" type="Magento\UrlRewrite\Model\Storage\DbStorage"/>
+    <preference for="Magento\UrlRewrite\Model\UrlPersistInterface" type="Magento\UrlRewrite\Model\Storage\DbStorage"/>
 </config>

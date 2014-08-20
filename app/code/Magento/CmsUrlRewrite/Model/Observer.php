@@ -8,7 +8,7 @@
 namespace Magento\CmsUrlRewrite\Model;
 
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
 
 class Observer
 {

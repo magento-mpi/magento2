@@ -9,6 +9,7 @@ namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class DbStorage extends AbstractStorage
 {
@@ -80,7 +81,25 @@ class DbStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    protected function doAddMultiple($data)
+    protected function doReplace($urls)
+    {
+        $this->deleteByData($this->createFilterDataBasedOnUrls($urls));
+
+        $data = [];
+        foreach ($urls as $url) {
+            $data[] = $url->toArray();
+        }
+        $this->insertMultiple($data);
+    }
+
+    /**
+     * Insert multiple
+     *
+     * @param array $data
+     * @throws DuplicateEntryException
+     * @throws \Exception
+     */
+    protected function insertMultiple($data)
     {
         try {
             $this->connection->insertMultiple($this->resource->getTableName(self::TABLE_NAME), $data);
@@ -92,6 +111,28 @@ class DbStorage extends AbstractStorage
             }
             throw $e;
         }
+    }
+
+    /**
+     * Get filter for url rows deletion due to provided urls
+     *
+     * @param UrlRewrite[] $urls
+     * @return array
+     */
+    protected function createFilterDataBasedOnUrls($urls)
+    {
+        $data = [];
+        $uniqueKeys = [UrlRewrite::REQUEST_PATH, UrlRewrite::STORE_ID];
+        foreach ($urls as $url) {
+            foreach ($uniqueKeys as $key) {
+                $fieldValue = $url->getByKey($key);
+
+                if (!isset($data[$key]) || !in_array($fieldValue, $data[$key])) {
+                    $data[$key][] = $fieldValue;
+                }
+            }
+        }
+        return $data;
     }
 
     /**

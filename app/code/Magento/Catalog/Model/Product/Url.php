@@ -15,6 +15,7 @@
 namespace Magento\Catalog\Model\Product;
 
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
 
 class Url extends \Magento\Framework\Object
 {
@@ -52,7 +53,7 @@ class Url extends \Magento\Framework\Object
     /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
-    /** @var \Magento\UrlRewrite\Service\V1\UrlFinderInterface */
+    /** @var UrlFinderInterface */
     protected $urlFinder;
 
     /**
@@ -62,7 +63,7 @@ class Url extends \Magento\Framework\Object
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
-     * @param \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
+     * @param UrlFinderInterface $urlFinder
      * @param array $data
      */
     public function __construct(
@@ -72,7 +73,7 @@ class Url extends \Magento\Framework\Object
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
-        \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder,
+        UrlFinderInterface $urlFinder,
         array $data = array()
     ) {
         parent::__construct($data);

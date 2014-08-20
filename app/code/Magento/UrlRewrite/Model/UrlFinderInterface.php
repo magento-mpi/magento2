@@ -5,15 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRewrite\Service\V1;
+namespace Magento\UrlRewrite\Model;
 
 /**
- * Url Matcher Interface
+ * Url Finder Interface
  */
 interface UrlFinderInterface
 {
     /**
-     * Find row by specific data
+     * Find rewrite by specific data
      *
      * @param array $data
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite|null
@@ -21,7 +21,7 @@ interface UrlFinderInterface
     public function findOneByData(array $data);
 
     /**
-     * Find rows by specific filter
+     * Find rewrites by specific data
      *
      * @param array $data
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]

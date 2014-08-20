@@ -13,7 +13,7 @@ use Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\OptionProvider;
-use Magento\UrlRewrite\Service\V1\UrlFinderInterface;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
 
 class CurrentUrlRewritesRegenerator
 {

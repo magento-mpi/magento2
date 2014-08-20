@@ -21,7 +21,7 @@ class CanonicalUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */
     protected $product;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistry|\PHPUnit_Framework_MockObject_MockObject */
     protected $categoryRegistry;
 
     /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder|\PHPUnit_Framework_MockObject_MockObject */
@@ -38,7 +38,7 @@ class CanonicalUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()->getMock();
-        $this->categoryRegistry = $this->getMockBuilder('\Magento\CatalogUrlRewrite\Model\CategoryRegistry')
+        $this->categoryRegistry = $this->getMockBuilder('\Magento\CatalogUrlRewrite\Model\ObjectRegistry')
             ->disableOriginalConstructor()->getMock();
         $this->productUrlPathGenerator = $this->getMockBuilder(
             'Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator'

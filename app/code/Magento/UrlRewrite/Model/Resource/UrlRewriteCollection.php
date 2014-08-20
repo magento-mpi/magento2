@@ -9,8 +9,6 @@
  */
 namespace Magento\UrlRewrite\Model\Resource;
 
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite as UrlRewriteService;
-
 class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**

@@ -8,6 +8,7 @@
 namespace Magento\UrlRewrite\Controller;
 
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
 
 /**
  * UrlRewrite Controller Router
@@ -29,7 +30,7 @@ class Router implements \Magento\Framework\App\RouterInterface
     /** @var \Magento\Framework\App\ResponseInterface */
     protected $response;
 
-    /** @var \Magento\UrlRewrite\Service\V1\UrlFinderInterface */
+    /** @var UrlFinderInterface */
     protected $urlFinder;
 
     /**
@@ -38,7 +39,7 @@ class Router implements \Magento\Framework\App\RouterInterface
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
-     * @param \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
+     * @param UrlFinderInterface $urlFinder
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
@@ -46,7 +47,7 @@ class Router implements \Magento\Framework\App\RouterInterface
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
-        \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
+        UrlFinderInterface $urlFinder
     ) {
         $this->actionFactory = $actionFactory;
         $this->url = $url;

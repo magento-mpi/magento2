@@ -12,14 +12,14 @@ use Magento\Catalog\Model\Product;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\CatalogUrlRewrite\Model\ObjectRegistry;
-use Magento\UrlRewrite\Service\V1\UrlFinderInterface;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 
 class CurrentUrlRewritesRegenerator
 {
-    /** @var \Magento\UrlRewrite\Service\V1\UrlFinderInterface */
+    /** @var UrlFinderInterface */
     protected $urlFinder;
 
     /** @var \Magento\Catalog\Model\Product */
@@ -35,7 +35,7 @@ class CurrentUrlRewritesRegenerator
     protected $urlRewriteBuilder;
 
     /**
-     * @param \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
+     * @param UrlFinderInterface $urlFinder
      * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
      * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder $urlRewriteBuilder
      */

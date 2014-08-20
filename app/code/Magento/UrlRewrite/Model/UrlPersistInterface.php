@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRewrite\Service\V1;
+namespace Magento\UrlRewrite\Model;
 
 /**
  * Url Persist Interface
@@ -13,12 +13,11 @@ namespace Magento\UrlRewrite\Service\V1;
 interface UrlPersistInterface
 {
     /**
-     * Save new url rewrites and remove old if exist.
+     * Save new url rewrites and remove old if exist
      *
      * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[] $urls
      * @return void
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws \Magento\UrlRewrite\Model\Storage\DuplicateEntryException
      */
     public function replace(array $urls);
 

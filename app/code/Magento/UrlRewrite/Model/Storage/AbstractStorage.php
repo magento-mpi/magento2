@@ -9,7 +9,6 @@ namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Model\StorageInterface;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 
 /**
@@ -71,37 +70,27 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function addMultiple(array $urls)
-    {
-        $flatData = [];
-        foreach ($urls as $url) {
-            $flatData[] = $url->toArray();
-        }
-        $this->doAddMultiple($flatData);
-    }
-
-    /**
-     * Add multiple data to storage. Template method
-     *
-     * @param array $data
-     * @return int
-     * @throws DuplicateEntryException
-     */
-    abstract protected function doAddMultiple($data);
-
-    /**
-     * {@inheritdoc}
-     */
     public function replace(array $urls)
     {
         if (!$urls) {
             return;
         }
 
-        $this->deleteByData($this->createFilterDataBasedOnUrls($urls));
-
-        $this->addMultiple($urls);
+        try {
+            $this->doReplace($urls);
+        } catch (DuplicateEntryException $e) {
+            throw new DuplicateEntryException(__('URL key for specified store already exists.'));
+        }
     }
+
+    /**
+     * Save new url rewrites and remove old if exist. Template method
+     *
+     * @param array $urls
+     * @return int
+     * @throws DuplicateEntryException
+     */
+    abstract protected function doReplace($urls);
 
     /**
      * Create url rewrite object
@@ -112,27 +101,5 @@ abstract class AbstractStorage implements StorageInterface
     protected function createUrlRewrite($data)
     {
         return $this->urlRewriteBuilder->populateWithArray($data)->create();
-    }
-
-    /**
-     * Get filter for url rows deletion due to provided urls
-     *
-     * @param UrlRewrite[] $urls
-     * @return array
-     */
-    protected function createFilterDataBasedOnUrls($urls)
-    {
-        $data = [];
-        $uniqueKeys = [UrlRewrite::REQUEST_PATH, UrlRewrite::STORE_ID];
-        foreach ($urls as $url) {
-            foreach ($uniqueKeys as $key) {
-                $fieldValue = $url->getByKey($key);
-
-                if (!isset($data[$key]) || !in_array($fieldValue, $data[$key])) {
-                    $data[$key][] = $fieldValue;
-                }
-            }
-        }
-        return $data;
     }
 }

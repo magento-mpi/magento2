@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Store;
 
-use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\ProductFactory;

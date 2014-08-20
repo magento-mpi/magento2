@@ -19,7 +19,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected $storeManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlRewrite\Service\V1\UrlFinderInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlRewrite\Model\UrlFinderInterface
      */
     protected $urlFinder;
 
@@ -31,7 +31,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->urlFinder = $this->getMock('Magento\UrlRewrite\Service\V1\UrlManager', [], [], '', false);
+        $this->urlFinder = $this->getMock('Magento\UrlRewrite\Model\UrlFinderInterface');
 
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())

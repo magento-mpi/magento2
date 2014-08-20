@@ -13,7 +13,7 @@ use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute\Urlkey;
 

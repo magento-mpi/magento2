@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
-use Magento\UrlRewrite\Service\V1\UrlFinderInterface;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 

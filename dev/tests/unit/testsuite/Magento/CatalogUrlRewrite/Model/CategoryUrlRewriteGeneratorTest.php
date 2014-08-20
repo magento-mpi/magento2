@@ -8,8 +8,6 @@
 namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\Catalog\Model\Category;
-use Magento\Store\Model\Store;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class CategoryUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase

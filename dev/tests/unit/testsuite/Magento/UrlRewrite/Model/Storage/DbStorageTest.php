@@ -10,6 +10,7 @@ namespace Magento\UrlRewrite\Model\Resource;
 use Magento\Framework\App\Resource;
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\UrlRewrite\Model\Storage\DbStorage;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class DbStorageTest extends \PHPUnit_Framework_TestCase
 {
@@ -106,7 +107,7 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([['urlRewrite1'], ['urlRewrite2']], $this->storage->findAllByData($data));
     }
 
-    public function testFindOneByFilter()
+    public function testFindOneByData()
     {
         $data = ['col1' => 'val1', 'col2' => 'val2'];
 
@@ -139,10 +140,53 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['urlRewrite1'], $this->storage->findOneByData($data));
     }
 
-    public function testAddMultiple()
+    public function testReplace()
     {
         $urlFirst = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
         $urlSecond = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
+
+        // delete
+
+        $urlFirst->expects($this->any())
+            ->method('getByKey')
+            ->will($this->returnValueMap([
+                [UrlRewrite::REQUEST_PATH, 'request_path_1'],
+                [UrlRewrite::STORE_ID, 'store_id_1']
+            ]));
+        $urlSecond->expects($this->any())
+            ->method('getByKey')
+            ->will($this->returnValueMap([
+                [UrlRewrite::REQUEST_PATH, 'request_path_2'],
+                [UrlRewrite::STORE_ID, 'store_id_2']
+            ]));
+
+        $this->adapter->expects($this->any())
+            ->method('quoteIdentifier')
+            ->will($this->returnArgument(0));
+
+        $this->select->expects($this->at(1))
+            ->method('where')
+            ->with('request_path IN (?)', ['request_path_1', 'request_path_2']);
+
+        $this->select->expects($this->at(2))
+            ->method('where')
+            ->with('store_id IN (?)', ['store_id_1', 'store_id_2']);
+
+        $this->select->expects($this->at(3))
+            ->method('deleteFromSelect')
+            ->with('table_name')
+            ->will($this->returnValue('sql delete query'));
+
+        $this->resource->expects($this->any())
+            ->method('getTableName')
+            ->with(DbStorage::TABLE_NAME)
+            ->will($this->returnValue('table_name'));
+
+        $this->adapter->expects($this->once())
+            ->method('query')
+            ->with('sql delete query');
+
+        // insert
 
         $urlFirst->expects($this->any())
             ->method('toArray')
@@ -160,13 +204,13 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
             ->method('insertMultiple')
             ->with('table_name', [['row1'], ['row2']]);
 
-        $this->storage->addMultiple([$urlFirst, $urlSecond]);
+        $this->storage->replace([$urlFirst, $urlSecond]);
     }
 
     /**
      * @expectedException \Magento\UrlRewrite\Model\Storage\DuplicateEntryException
      */
-    public function testAddMultipleIfThrewExceptionWithDuplicateEntryCode()
+    public function testReplaceIfThrewDuplicateEntryException()
     {
         $url = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
 
@@ -182,13 +226,13 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->storage->addMultiple([$url]);
+        $this->storage->replace([$url]);
     }
 
     /**
      * @expectedException \RuntimeException
      */
-    public function testAddMultipleIfThrewCustomException()
+    public function testReplaceIfThrewCustomException()
     {
         $url = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
 
@@ -200,10 +244,10 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
             ->method('insertMultiple')
             ->will($this->throwException(new \RuntimeException()));
 
-        $this->storage->addMultiple([$url]);
+        $this->storage->replace([$url]);
     }
 
-    public function testDeleteByFilter()
+    public function testDeleteByData()
     {
         $data = ['col1' => 'val1', 'col2' => 'val2'];
 
