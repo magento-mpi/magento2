@@ -73,7 +73,7 @@ class OrderConverterTest extends \PHPUnit_Framework_TestCase
         );
         $this->paymentConverterMock = $this->getMock(
             'Magento\Sales\Model\Order\PaymentConverter',
-            [],
+            ['getModel'],
             [],
             '',
             false
@@ -360,7 +360,7 @@ class OrderConverterTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->itemConverterMock->expects($this->at(0))
+        $this->paymentConverterMock->expects($this->at(0))
             ->method('getModel')
             ->with($this->orderData['payments'][0])
             ->will($this->returnValue($payment));
@@ -370,15 +370,8 @@ class OrderConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testGetModel()
     {
-        $billingAddressMock = $this->getMock(
-            'Magento\Sales\Model\Order\Address',
-            ['__wakeup'],
-            [],
-            '',
-            false
-        );
+        $billingAddressMock = $this->getMock('Magento\Sales\Model\Order\Address', ['__wakeup'], [], '', false);
         $shippingAddressMock = clone $billingAddressMock;
-
         $this->addressConverterMock->expects($this->at(0))
             ->method('getModel')
             ->with($this->orderData['billingAddress'])
@@ -387,7 +380,6 @@ class OrderConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getModel')
             ->with($this->orderData['shippingAddress'])
             ->will($this->returnValue($shippingAddressMock));
-
         $this->orderBuilderMock->expects($this->once())
             ->method('setCustomer')
             ->with($this->getCustomer())
@@ -468,7 +460,6 @@ class OrderConverterTest extends \PHPUnit_Framework_TestCase
             ->method('setItems')
             ->with($this->getItems())
             ->will($this->returnSelf());
-
         $orderMock = $this->getMock('Magento\Sales\Model\Order', [], [], '', false);
         $this->orderBuilderMock->expects($this->once())
             ->method('create')
@@ -477,4 +468,3 @@ class OrderConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($orderMock, $this->orderConverter->getModel($this->orderDataMock));
     }
 }
- 

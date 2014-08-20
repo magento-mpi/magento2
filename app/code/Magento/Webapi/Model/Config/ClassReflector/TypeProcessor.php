@@ -376,6 +376,8 @@ class TypeProcessor
      * @param string $type Convert given value to the this simple type
      * @return int|string|float|int[]|string[]|float[] Return the value which is converted to type
      * @throws \Magento\Webapi\Exception
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function processSimpleType($value, $type)
     {
