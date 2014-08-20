@@ -13,6 +13,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
@@ -57,6 +58,13 @@ class CreateGiftRegistryFrontendEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
+     * Page CustomerAccountLogout
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Customer account index page
      *
      * @var CustomerAccountIndex
@@ -88,7 +96,8 @@ class CreateGiftRegistryFrontendEntityTest extends Injectable
      * Injection data
      *
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogout
+     * @param CustomerAccountLogin $customerAccountLogin
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryAddSelect $giftRegistryAddSelect
@@ -97,14 +106,16 @@ class CreateGiftRegistryFrontendEntityTest extends Injectable
      */
     public function __inject(
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogout,
+        CustomerAccountLogin $customerAccountLogin,
+        CustomerAccountLogout $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryAddSelect $giftRegistryAddSelect,
         GiftRegistryEdit $giftRegistryEdit
     ) {
         $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogout;
+        $this->customerAccountLogin = $customerAccountLogin;
+        $this->customerAccountLogout = $customerAccountLogout;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->giftRegistryIndex = $giftRegistryIndex;
         $this->giftRegistryAddSelect = $giftRegistryAddSelect;
@@ -142,15 +153,23 @@ class CreateGiftRegistryFrontendEntityTest extends Injectable
     {
         // Steps
         $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $this->cmsIndex->getLinksBlock()->openLink("Log In");
+        $this->customerAccountLogin->getLoginBlock()->login($customer);
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $this->giftRegistryIndex->getActionsToolbar()->addNew();
         $this->giftRegistryAddSelect->getGiftRegistryTypeBlock()->selectGiftRegistryType($giftRegistry->getTypeId());
         $this->giftRegistryEdit->getCustomerEditForm()->fill($giftRegistry);
         $this->giftRegistryEdit->getActionsToolbarBlock()->save();
+    }
+
+    /**
+     * Log out after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }
