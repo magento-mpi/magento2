@@ -26,6 +26,11 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      */
     private $appState;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    private $objectManager;
+
 
     protected function setUp()
     {
@@ -45,9 +50,16 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('init.host')
         );
-        $this->appState = $this->getMock('\Magento\Framework\App\State',
-            ['isInstalled'], [], '', false, false);
+        $this->appState = $this->getMock(
+            '\Magento\Framework\App\State',
+            ['isInstalled'],
+            [],
+            '',
+            false,
+            false
+        );
         $this->appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
+        $this->objectManager =  new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testSetCookiePathNonDefault()
@@ -56,7 +68,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockFrontNameResolver
+        $mockFrontNameResolver->expects($this->once())
             ->method('getFrontName')
             ->will($this->returnValue('backend'));
 
@@ -71,5 +83,23 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals('/backend', $adminConfig->getCookiePath());
+    }
+
+    /**
+     * Test for setting session name for admin
+     *
+     */
+    public function testSetName()
+    {
+        $sessionName = "admin";
+        $adminConfig = $this->objectManager->getObject(
+            'Magento\Backend\AdminConfig',
+            [
+                'request' => $this->requestMock,
+                'appState' => $this->appState,
+                'sessionName'=>$sessionName
+            ]
+        );
+        $this->assertSame($sessionName, $adminConfig->getName());
     }
 }
