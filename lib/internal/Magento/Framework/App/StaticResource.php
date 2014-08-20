@@ -121,7 +121,10 @@ class StaticResource implements \Magento\Framework\AppInterface
     {
         $this->response->setHttpResponseCode(404);
         $this->response->setHeader('Content-Type', 'text/plain');
-        $this->response->sendHeaders();
+        if ($bootstrap->isDeveloperMode()) {
+            $this->response->setBody($exception->getMessage() . "\n" . $exception->getTraceAsString());
+        }
+        $this->response->sendResponse();
         return true;
     }
 
