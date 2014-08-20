@@ -158,11 +158,18 @@ class StartController extends AbstractActionController
 
         $this->config->replaceTmpEncryptKey($key);
         $this->config->replaceTmpInstallDate(date('r'));
-        exec('php -f '. $this->systemConfig->create()->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php', $output, $exitCode);
 
-        if($exitCode != 0) {
-            $outputMsg = implode(PHP_EOL , $output);
-            $this->logger->logError(new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg));
+        exec(
+            PHP_BINDIR .
+            '/php ' . $this->systemConfig->create()->getMagentoBasePath() .
+            '/dev/shell/run_data_fixtures.php', $output, $exitCode
+        );
+
+        if ($exitCode !== 0) {
+            $outputMsg = implode(PHP_EOL, $output);
+            $this->logger->logError(
+                new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg)
+            );
             $this->json->setVariable('success', false);
         } else {
             $this->logger->logSuccess('Data Updates');
