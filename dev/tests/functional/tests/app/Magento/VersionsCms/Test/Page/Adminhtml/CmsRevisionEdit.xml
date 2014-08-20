@@ -16,7 +16,7 @@
         </formPageActions>
         <revisionForm>
             <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\RevisionForm</class>
-            <locator>#edit_form</locator>
+            <locator>[id="page:main-container"]</locator>
             <strategy>css selector</strategy>
         </revisionForm>
     </blocks>
