@@ -51,6 +51,14 @@ class SearchResultsBuilder extends EntityAbstract
                     'type' => '\\Magento\Framework\Service\Data\ObjectFactory'
                 ],
                 [
+                    'name' => 'valueBuilder',
+                    'type' => '\\Magento\Framework\Service\Data\AttributeValueBuilder'
+                ],
+                [
+                    'name' => 'metadataService',
+                    'type' => '\\Magento\Framework\Service\Config\MetadataConfig'
+                ],
+                [
                     'name' => 'searchCriteriaBuilder',
                     'type' => '\\Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
                 ],
