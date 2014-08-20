@@ -237,7 +237,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Get list valid paths for generate a sitemap XML file
      *
-     * @return array
+     * @return string[]
      */
     public function getValidPaths()
     {

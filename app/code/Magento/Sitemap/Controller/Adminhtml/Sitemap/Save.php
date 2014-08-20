@@ -28,8 +28,7 @@ class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
 
             //validate path to generate
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
-                $data['sitemap_path'] = $data['sitemap_path'][0] !== '/'
-                    ? '/' . $data['sitemap_path'] : $data['sitemap_path'];
+                $data['sitemap_path'] = '/' . ltrim($data['sitemap_path'], '/');
                 $path = rtrim($data['sitemap_path'], '\\/') . '/' . $data['sitemap_filename'];
                 /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
                 $validator = $this->_objectManager->create('Magento\Core\Model\File\Validator\AvailablePath');
