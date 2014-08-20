@@ -15,7 +15,7 @@ use Magento\GiftWrapping\Service\V1\Data\Wrapping as WrappingData;
 class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
-     * @param int
+     * @param int $id
      * @return $this
      */
     public function setWrappingId($id)
@@ -69,7 +69,7 @@ class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     }
 
     /**
-     * @param string
+     * @param string $url
      * @return $this
      */
     public function setImageUrl($url)

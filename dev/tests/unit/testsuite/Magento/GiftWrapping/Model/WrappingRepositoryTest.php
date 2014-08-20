@@ -139,7 +139,7 @@ class WrappingRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     private function preparedCriteriaFilterMock($filterType, $condition = 'eq')
     {
-        /** @var \Magento\Framework\Service\V1\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject $criteriaMock */
+        /** @var \PHPUnit_Framework_MockObject_MockObject $criteriaMock */
         $criteriaMock = $this->getMock('Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
         /** @var Data\Search\FilterGroup|\PHPUnit_Framework_MockObject_MockObject $filterGroup */
         $filterGroupMock = $this->getMock('Magento\Framework\Service\V1\Data\Search\FilterGroup', [], [], '', false);
