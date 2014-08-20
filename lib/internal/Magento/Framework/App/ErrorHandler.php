@@ -56,22 +56,8 @@ class ErrorHandler
         if ($errorNo == 0) {
             return false;
         }
-
-        // PEAR specific message handling
-        if (stripos($errorFile . $errorStr, 'pear') !== false) {
-            // ignore strict and deprecated notices
-            if ($errorNo == E_STRICT || $errorNo == E_DEPRECATED) {
-                return true;
-            }
-            // ignore attempts to read system files when open_basedir is set
-            if ($errorNo == E_WARNING && stripos($errorStr, 'open_basedir') !== false) {
-                return true;
-            }
-        }
-        $errorMessage = isset(
-            $this->errorPhrases[$errorNo]
-        ) ? $this->errorPhrases[$errorNo] : "Unknown error ({$errorNo})";
-        $errorMessage .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
-        throw new \Exception($errorMessage);
+        $msg = isset($this->errorPhrases[$errorNo]) ? $this->errorPhrases[$errorNo] : "Unknown error ({$errorNo})";
+        $msg .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
+        throw new \Exception($msg);
     }
 }
