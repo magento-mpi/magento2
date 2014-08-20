@@ -128,7 +128,6 @@
             color: @link-color;
         }
     }
-
 }
 
 .page-multiple-wishlist {
@@ -174,10 +173,10 @@
         }
         // Wish list name
         &-title {
-            margin-bottom: 10px;
+            margin-bottom: @indent-s-base;
             strong {
                 font-weight: @font-weight-light;
-                margin-right: 10px;
+                margin-right: @indent-s-base;
             }
             .action.edit {
             }
@@ -187,14 +186,14 @@
         }
         &-notice {
             color: @text-color-muted;
-            margin-right: 20px;
+            margin-right: @indent-base;
             display: inline-block;
             &.private {
                 .icon-font(
                     @_icon-font-content: @icon-private,
                     @_icon-font-color: lighten(@text-color-muted, 15%),
                     @_icon-font-vertical-align: text-bottom,
-                    @_icon-font-margin: 0 5px 0 0
+                    @_icon-font-margin: 0 @indent-xs-base 0 0
                 );
             }
         }
@@ -205,14 +204,14 @@
                 display: inline-block;
             }
             &-select {
-                margin-right: 20px;
+                margin-right: @indent-base;
             }
             &-actions {
             }
         }
         // Wish list toolbar actions
         &-dropdown.move {
-            margin-right: 20px;
+            margin-right: @indent-base;
         }
     }
 }
@@ -231,13 +230,6 @@
                 .wishlist-name {
                     .font-size(16);
                     &:extend(.abstract-toggling-title-mobile all);
-                    border-bottom: @border-width-base solid @border-color-base;
-                    &.active {
-                        .icon-font-symbol(
-                            @_icon-font-content: @icon-up,
-                            @_icon-font-position: after
-                        );
-                    }
                     &-label {
                     }
                     &-current {
@@ -261,7 +253,7 @@
                         }
                         a {
                             display: block;
-                            padding: 5px 18px 5px 18px;
+                            padding: @indent-xs-base 18px;
                             .css(color, @text-color);
                             text-decoration: none;
                             &:hover {
@@ -318,7 +310,7 @@
                 }
                 &-photo {
                     .page-multiple-wishlist & {
-                        margin-left: 25px;
+                        margin-left: @indent-m-base;
                     }
                 }
                 &-name,
@@ -354,7 +346,7 @@
 
     .block-wishlist-management {
         &:extend(.add-clearfix-desktop all);
-        margin-bottom: 20px;
+        margin-bottom: @indent-base;
         .wishlist {
             // Select wish list
             &-select {
@@ -363,8 +355,8 @@
                 display: table;
                 width: 100%;
                 .wishlist-name {
-                    padding: 5px 10px 10px;
-                    margin-right: 10px;
+                    padding: @indent-xs-base @indent-s-base @indent-s-base;
+                    margin-right: @indent-s-base;
                     display: table-cell;
                     width: 5%;
                     vertical-align: top;
@@ -386,11 +378,11 @@
                     }
                     .item {
                         display: inline-block;
-                        margin-right: 10px;
+                        margin-right: @indent-s-base;
                         &:last-child {
                             margin-right: 0;
                         }
-                        padding: 5px 10px 10px;
+                        padding: @indent-xs-base @indent-s-base @indent-s-base;
                     }
                     .current {
                         font-weight: @font-weight-semibold;
@@ -444,7 +436,7 @@
                 &-checkbox {
                     float: left;
                     + .product-item-name {
-                        margin-left: 25px;
+                        margin-left: @indent-m-base;
                     }
                 }
             }

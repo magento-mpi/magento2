@@ -129,16 +129,9 @@
     .block-account-nav {
         .title {
             &:extend(.abstract-toggling-title all);
-            border-bottom: @border-width-base solid @border-color-base;
             strong {
                 .font-size(16);
                 font-weight: @font-weight-base;
-            }
-            &.active {
-                .icon-font-symbol(
-                    @_icon-font-content: @icon-up,
-                    @_icon-font-position: after
-                );
             }
         }
         .content {

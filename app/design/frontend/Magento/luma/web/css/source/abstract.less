@@ -563,6 +563,7 @@
 .responsive-smaller(@break) when (@break = @screen-m) {
     .abstract-toggling-title-mobile {
         border-top: @border-width-base solid @border-color-base;
+        border-bottom: @border-width-base solid @border-color-base;
         cursor: pointer;
         margin-bottom: 0;
         padding: 10px 40px 10px @mobile-cart-padding;
@@ -579,6 +580,12 @@
             position: absolute;
             right: 20px;
             top: 10px;
+        }
+        &.active {
+            .icon-font-symbol(
+                @_icon-font-content: @icon-up,
+                @_icon-font-position: after
+            );
         }
     }
 }
