@@ -165,6 +165,13 @@ class View extends Block
     protected $addToWishlist = '[data-action="add-to-wishlist"]';
 
     /**
+     * 'Be the first to review this product' button
+     *
+     * @var string
+     */
+    protected $clickAddReview = '.action.add';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -513,5 +520,15 @@ class View extends Block
     public function selectTab($name)
     {
         $this->_rootElement->find(sprintf($this->tabSelector, $name), Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Click "Be the first to review this product" button
+     *
+     * @return void
+     */
+    public function clickAddReview()
+    {
+        $this->_rootElement->find($this->clickAddReview, Locator::SELECTOR_CSS)->click();
     }
 }

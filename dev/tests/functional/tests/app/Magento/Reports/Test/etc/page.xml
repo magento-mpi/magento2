@@ -23,4 +23,9 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\ProductReportReview</class>
     </productReportReview>
+    <customerReportReview>
+        <mca>reports/report_review/customer</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\CustomerReportReview</class>
+    </customerReportReview>
 </page>
