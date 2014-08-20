@@ -490,7 +490,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
         if ($increment) {
             $newTimes[] = $time;
             $newValue = implode(',', $newTimes);
-            $this->cookieManager->setPublicCookie($cookieName, $newValue);
+            $this->cookieManager->setSensitiveCookie($cookieName, $newValue);
             $this->_lastCookieValue[$cookieName] = $newValue;
         }
 
