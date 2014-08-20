@@ -123,7 +123,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->with(
                 \Magento\Rma\Model\Config::XML_PATH_EMAIL_ENABLED,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $this->store
+                null
             )
             ->will($this->returnValue(true));
         $this->assertEquals(true, $this->rmaConfig->isEnabled());
