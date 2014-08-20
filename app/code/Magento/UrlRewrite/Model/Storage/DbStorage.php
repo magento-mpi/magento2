@@ -9,7 +9,6 @@ namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
-use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 class DbStorage extends AbstractStorage
 {
@@ -48,15 +47,15 @@ class DbStorage extends AbstractStorage
     /**
      * Prepare select statement for specific filter
      *
-     * @param Filter $filter
+     * @param array $data
      * @return \Magento\Framework\DB\Select
      */
-    protected function prepareSelect($filter)
+    protected function prepareSelect($data)
     {
         $select = $this->connection->select();
         $select->from($this->resource->getTableName(self::TABLE_NAME));
 
-        foreach ($filter->getData() as $column => $value) {
+        foreach ($data as $column => $value) {
             $select->where($this->connection->quoteIdentifier($column) . ' IN (?)', $value);
         }
         return $select;
@@ -65,17 +64,17 @@ class DbStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    protected function doFindAllByFilter($filter)
+    protected function doFindAllByData($data)
     {
-        return $this->connection->fetchAll($this->prepareSelect($filter));
+        return $this->connection->fetchAll($this->prepareSelect($data));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function doFindByFilter($filter)
+    protected function doFindOneByData($data)
     {
-        return $this->connection->fetchRow($this->prepareSelect($filter));
+        return $this->connection->fetchRow($this->prepareSelect($data));
     }
 
     /**
@@ -98,10 +97,10 @@ class DbStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function deleteByFilter(Filter $filter)
+    public function deleteByData(array $data)
     {
         $this->connection->query(
-            $this->prepareSelect($filter)->deleteFromSelect($this->resource->getTableName(self::TABLE_NAME))
+            $this->prepareSelect($data)->deleteFromSelect($this->resource->getTableName(self::TABLE_NAME))
         );
     }
 }

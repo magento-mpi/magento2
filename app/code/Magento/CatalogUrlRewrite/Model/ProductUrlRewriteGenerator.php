@@ -36,30 +36,30 @@ class ProductUrlRewriteGenerator
     /** @var \Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator */
     protected $canonicalUrlRewriteGenerator;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryRegistryFactory */
-    protected $categoryRegistryFactory;
+    /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistryFactory */
+    protected $objectRegistryFactory;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryRegistry */
-    protected $categoryRegistry;
+    /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistry */
+    protected $productCategories;
 
     /**
      * @param \Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator
      * @param \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator
      * @param \Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator
-     * @param \Magento\CatalogUrlRewrite\Model\CategoryRegistryFactory $categoryRegistryFactory
+     * @param \Magento\CatalogUrlRewrite\Model\ObjectRegistryFactory $objectRegistryFactory
      * @param \Magento\CatalogUrlRewrite\Service\V1\StoreViewService $storeViewService
      */
     public function __construct(
         CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator,
         CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator,
         CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator,
-        CategoryRegistryFactory $categoryRegistryFactory,
+        ObjectRegistryFactory $objectRegistryFactory,
         StoreViewService $storeViewService
     ) {
         $this->canonicalUrlRewriteGenerator = $canonicalUrlRewriteGenerator;
         $this->currentUrlRewritesRegenerator = $currentUrlRewritesRegenerator;
         $this->categoriesUrlRewriteGenerator = $categoriesUrlRewriteGenerator;
-        $this->categoryRegistryFactory = $categoryRegistryFactory;
+        $this->objectRegistryFactory = $objectRegistryFactory;
         $this->storeViewService = $storeViewService;
     }
 
@@ -72,7 +72,12 @@ class ProductUrlRewriteGenerator
     public function generate(Product $product)
     {
         $this->product = $product;
-        $this->categoryRegistry = $this->categoryRegistryFactory->create($product);
+
+        $productCategories = $product->getCategoryCollection()
+            ->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('url_path');
+
+        $this->productCategories = $this->objectRegistryFactory->create(['entities' => $productCategories]);
         $storeId = $this->product->getStoreId();
 
         $urls = $this->isGlobalScope($storeId)
@@ -123,8 +128,8 @@ class ProductUrlRewriteGenerator
     {
         return array_merge(
             $this->canonicalUrlRewriteGenerator->generate($storeId, $this->product),
-            $this->categoriesUrlRewriteGenerator->generate($storeId, $this->product, $this->categoryRegistry),
-            $this->currentUrlRewritesRegenerator->generate($storeId, $this->product, $this->categoryRegistry)
+            $this->categoriesUrlRewriteGenerator->generate($storeId, $this->product, $this->productCategories),
+            $this->currentUrlRewritesRegenerator->generate($storeId, $this->product, $this->productCategories)
         );
     }
 }

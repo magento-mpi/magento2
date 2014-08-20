@@ -50,12 +50,10 @@ class Observer
         $isChangedWebsites = $product->getIsChangedWebsites();
         if ($product->dataHasChangedFor('url_key') || $product->getIsChangedCategories() || $isChangedWebsites) {
             if ($isChangedWebsites) {
-                $this->urlPersist->deleteByEntityData(
-                    [
-                        UrlRewrite::ENTITY_ID => $product->getId(),
-                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
-                    ]
-                );
+                $this->urlPersist->deleteByData([
+                    UrlRewrite::ENTITY_ID => $product->getId(),
+                    UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
+                ]);
             }
             $this->urlPersist->replace($this->productUrlRewriteGenerator->generate($product));
         }

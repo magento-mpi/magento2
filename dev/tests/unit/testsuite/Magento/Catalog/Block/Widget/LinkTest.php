@@ -7,7 +7,9 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class LinkTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,14 +19,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected $storeManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlRewrite\Service\V1\UrlMatcherInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlRewrite\Service\V1\UrlFinderInterface
      */
-    protected $urlMatcherCategory;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlRewrite\Service\V1\UrlMatcherInterface
-     */
-    protected $urlMatcherProduct;
+    protected $urlFinder;
 
     /**
      * @var \Magento\Catalog\Block\Widget\Link
@@ -34,8 +31,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->urlMatcherCategory = $this->getMock('Magento\UrlRewrite\Service\V1\UrlManager', [], [], '', false);
-        $this->urlMatcherProduct = $this->getMock('Magento\UrlRewrite\Service\V1\UrlManager', [], [], '', false);
+        $this->urlFinder = $this->getMock('Magento\UrlRewrite\Service\V1\UrlManager', [], [], '', false);
 
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
@@ -44,8 +40,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $this->block = (new ObjectManager($this))->getObject('Magento\Catalog\Block\Widget\Link', [
             'context' => $context,
-            'urlCategoryMatcher' => $this->urlMatcherCategory,
-            'urlProductMatcher' => $this->urlMatcherProduct,
+            'urlFinder' => $this->urlFinder,
         ]);
     }
 
@@ -96,9 +91,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $this->urlMatcherCategory->expects($this->once())->method('findByData')
+        $this->urlFinder->expects($this->once())->method('findOneByData')
             ->will($this->returnValue(false));
-        $this->urlMatcherProduct->expects($this->never())->method('findByData');
 
         $this->assertFalse($this->block->getHref());
     }
@@ -110,10 +104,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHrefWithoutUrlStoreSuffix($url, $separator)
     {
-        $this->block->setData('id_path', 'entity_type/entity_id');
         $storeId = 15;
         $storeCode = 'store-code';
         $requestPath = 'request-path';
+        $this->block->setData('id_path', 'entity_type/entity_id');
 
         $rewrite = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
         $rewrite->expects($this->once())
@@ -136,14 +130,13 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $this->urlMatcherCategory->expects($this->once())->method('findByData')
+        $this->urlFinder->expects($this->once())->method('findOneByData')
             ->with([
-                    'entity_id' => 'entity_id',
-                    'entity_type' => 'entity_type',
-                    'store_id' => $storeId,
+                    UrlRewrite::ENTITY_ID => 'entity_id',
+                    UrlRewrite::ENTITY_TYPE => 'entity_type',
+                    UrlRewrite::STORE_ID => $storeId,
                 ])
             ->will($this->returnValue($rewrite));
-        $this->urlMatcherProduct->expects($this->never())->method('findByData');
 
         $this->assertEquals($url . $separator . '___store=' . $storeCode, $this->block->getHref());
     }
@@ -159,9 +152,29 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testGetHrefWithAdditionalParameters()
+    public function testGetHrefWithForProductWithCategoryIdParameter()
     {
-        /** @TODO: UrlRewrite: Build product URL inside particular category */
-        $this->markTestIncomplete('UrlRewrite: Build product URL inside particular category');
+        $storeId = 15;
+        $this->block->setData('id_path', ProductUrlRewriteGenerator::ENTITY_TYPE . '/entity_id/category_id');
+
+        $store = $this->getMock('Magento\Store\Model\Store', ['getId', '__wakeUp'], [], '', false);
+        $store->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($storeId));
+
+        $this->storeManager->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+
+        $this->urlFinder->expects($this->once())->method('findOneByData')
+            ->with([
+                UrlRewrite::ENTITY_ID => 'entity_id',
+                UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
+                UrlRewrite::STORE_ID => $storeId,
+                UrlRewrite::METADATA => ['category_id' => 'category_id'],
+            ])
+            ->will($this->returnValue(false));
+
+        $this->block->getHref();
     }
 }

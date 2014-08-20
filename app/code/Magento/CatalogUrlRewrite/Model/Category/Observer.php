@@ -154,12 +154,10 @@ class Observer
         if ($categoryIds) {
             $categoryIds = explode(',', $categoryIds);
             foreach ($categoryIds as $categoryId) {
-                $this->urlPersist->deleteByEntityData(
-                    [
-                        UrlRewrite::ENTITY_ID => $categoryId,
-                        UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                    ]
-                );
+                $this->urlPersist->deleteByData([
+                    UrlRewrite::ENTITY_ID => $categoryId,
+                    UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
+                ]);
             }
         }
     }

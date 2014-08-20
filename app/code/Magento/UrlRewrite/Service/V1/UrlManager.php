@@ -7,16 +7,13 @@
  */
 namespace Magento\UrlRewrite\Service\V1;
 
-use Magento\UrlRewrite\Service\V1\Data\Filter;
-use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\StorageInterface;
 use Magento\UrlRewrite\Model\Storage\DuplicateEntryException;
 
 /**
  * Url Manager
  */
-class UrlManager implements UrlMatcherInterface, UrlPersistInterface
+class UrlManager implements UrlFinderInterface, UrlPersistInterface
 {
     /**
      * @var StorageInterface
@@ -24,18 +21,11 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     protected $storage;
 
     /**
-     * @var FilterFactory
-     */
-    protected $filterFactory;
-
-    /**
      * @param StorageInterface $storage
-     * @param FilterFactory $filterFactory
      */
-    public function __construct(StorageInterface $storage, FilterFactory $filterFactory)
+    public function __construct(StorageInterface $storage)
     {
         $this->storage = $storage;
-        $this->filterFactory = $filterFactory;
     }
 
     /**
@@ -43,12 +33,8 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function replace(array $urls)
     {
-        if (!$urls) {
-            return;
-        }
-        $this->storage->deleteByFilter($this->createFilterBasedOnUrls($urls));
         try {
-            $this->storage->addMultiple($urls);
+            $this->storage->replace($urls);
         } catch (DuplicateEntryException $e) {
             throw new DuplicateEntryException(__('URL key for specified store already exists.'));
         }
@@ -57,78 +43,24 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteByEntityData(array $filterData)
+    public function deleteByData(array $data)
     {
-        $filter = $this->filterFactory->create(['data' => $filterData]);
-        $this->storage->deleteByFilter($filter);
+        $this->storage->deleteByData($data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function match($requestPath, $storeId)
+    public function findOneByData(array $data)
     {
-        return $this->findByData([
-            UrlRewrite::REQUEST_PATH => $requestPath,
-            UrlRewrite::STORE_ID => $storeId,
-        ]);
+        return $this->storage->findOneByData($data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findByEntity($entityId, $entityType, $storeId = 0)
+    public function findAllByData(array $data)
     {
-        return $this->findByData([
-            UrlRewrite::ENTITY_ID => $entityId,
-            UrlRewrite::ENTITY_TYPE => $entityType,
-            UrlRewrite::STORE_ID => $storeId,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findByFilter(Filter $filter)
-    {
-        return $this->storage->findByFilter($filter);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findAllByFilter(Filter $filter)
-    {
-        return $this->storage->findAllByFilter($filter);
-    }
-
-    /**
-     * Get filter for url rows deletion due to provided urls
-     *
-     * @param UrlRewrite[] $urls
-     * @return Filter
-     */
-    protected function createFilterBasedOnUrls($urls)
-    {
-        $data = [];
-        $uniqueKeys = [UrlRewrite::REQUEST_PATH, UrlRewrite::STORE_ID];
-        foreach ($urls as $url) {
-            foreach ($uniqueKeys as $key) {
-                $fieldValue = $url->getByKey($key);
-
-                if (!isset($data[$key]) || !in_array($fieldValue, $data[$key])) {
-                    $data[$key][] = $fieldValue;
-                }
-            }
-        }
-        return $this->filterFactory->create(['data' => $data]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findByData(array $data)
-    {
-        return $this->storage->findByFilter($this->filterFactory->create(['data' => $data]));
+        return $this->storage->findAllByData($data);
     }
 }

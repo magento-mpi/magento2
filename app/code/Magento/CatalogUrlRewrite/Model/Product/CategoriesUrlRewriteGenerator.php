@@ -10,7 +10,7 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Category;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
-use Magento\CatalogUrlRewrite\Model\CategoryRegistry;
+use Magento\CatalogUrlRewrite\Model\ObjectRegistry;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
 use Magento\Store\Model\StoreManagerInterface;
@@ -20,8 +20,8 @@ class CategoriesUrlRewriteGenerator
     /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryRegistry */
-    protected $categoryRegistry;
+    /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistry */
+    protected $productCategories;
 
     /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $storeManager;
@@ -48,14 +48,14 @@ class CategoriesUrlRewriteGenerator
      *
      * @param int $storeId
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\CatalogUrlRewrite\Model\CategoryRegistry $categoryRegistry
+     * @param \Magento\CatalogUrlRewrite\Model\ObjectRegistry $productCategories
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
-    public function generate($storeId, Product $product, CategoryRegistry $categoryRegistry)
+    public function generate($storeId, Product $product, ObjectRegistry $productCategories)
     {
-        $this->categoryRegistry = $categoryRegistry;
+        $this->productCategories = $productCategories;
         $urls = [];
-        foreach ($this->categoryRegistry->getList() as $category) {
+        foreach ($this->productCategories->getList() as $category) {
             if ($this->isCategoryProperForGenerating($category, $storeId)) {
                 $urls[] = $this->urlRewriteBuilder->setStoreId($storeId)
                     ->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE)

@@ -79,12 +79,10 @@ class Import
                 }
             }
             foreach ($idToDelete as $productId) {
-                $this->urlPersist->deleteByEntityData(
-                    [
-                        UrlRewrite::ENTITY_ID => $productId,
-                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
-                    ]
-                );
+                $this->urlPersist->deleteByData([
+                    UrlRewrite::ENTITY_ID => $productId,
+                    UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
+                ]);
             }
         }
     }

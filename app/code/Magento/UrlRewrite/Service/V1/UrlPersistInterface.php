@@ -25,8 +25,8 @@ interface UrlPersistInterface
     /**
      * Remove rewrites that contains some rewrites data
      *
-     * @param array $filterData
+     * @param array $data
      * @return void
      */
-    public function deleteByEntityData(array $filterData);
+    public function deleteByData(array $data);
 }

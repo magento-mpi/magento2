@@ -9,19 +9,19 @@ namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Model\StorageInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
-use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 /**
  * Abstract db storage
  */
 abstract class AbstractStorage implements StorageInterface
 {
-    /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder */
+    /** @var UrlRewriteBuilder */
     protected $urlRewriteBuilder;
 
     /**
-     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder $urlRewriteBuilder
+     * @param UrlRewriteBuilder $urlRewriteBuilder
      */
     public function __construct(UrlRewriteBuilder $urlRewriteBuilder)
     {
@@ -31,9 +31,9 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function findAllByFilter(Filter $filter)
+    public function findAllByData(array $data)
     {
-        $rows = $this->doFindAllByFilter($filter);
+        $rows = $this->doFindAllByData($data);
 
         $urlRewrites = [];
         foreach ($rows as $row) {
@@ -45,17 +45,17 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Find all rows by specific filter. Template method
      *
-     * @param Filter $filter
+     * @param array $data
      * @return array
      */
-    abstract protected function doFindAllByFilter($filter);
+    abstract protected function doFindAllByData($data);
 
     /**
      * {@inheritdoc}
      */
-    public function findByFilter(Filter $filter)
+    public function findOneByData(array $data)
     {
-        $row = $this->doFindByFilter($filter);
+        $row = $this->doFindOneByData($data);
 
         return $row ? $this->createUrlRewrite($row) : null;
     }
@@ -63,10 +63,10 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Find row by specific filter. Template method
      *
-     * @param Filter $filter
+     * @param array $data
      * @return array
      */
-    abstract protected function doFindByFilter($filter);
+    abstract protected function doFindOneByData($data);
 
     /**
      * {@inheritdoc}
@@ -90,6 +90,20 @@ abstract class AbstractStorage implements StorageInterface
     abstract protected function doAddMultiple($data);
 
     /**
+     * {@inheritdoc}
+     */
+    public function replace(array $urls)
+    {
+        if (!$urls) {
+            return;
+        }
+
+        $this->deleteByData($this->createFilterDataBasedOnUrls($urls));
+
+        $this->addMultiple($urls);
+    }
+
+    /**
      * Create url rewrite object
      *
      * @param array $data
@@ -98,5 +112,27 @@ abstract class AbstractStorage implements StorageInterface
     protected function createUrlRewrite($data)
     {
         return $this->urlRewriteBuilder->populateWithArray($data)->create();
+    }
+
+    /**
+     * Get filter for url rows deletion due to provided urls
+     *
+     * @param UrlRewrite[] $urls
+     * @return array
+     */
+    protected function createFilterDataBasedOnUrls($urls)
+    {
+        $data = [];
+        $uniqueKeys = [UrlRewrite::REQUEST_PATH, UrlRewrite::STORE_ID];
+        foreach ($urls as $url) {
+            foreach ($uniqueKeys as $key) {
+                $fieldValue = $url->getByKey($key);
+
+                if (!isset($data[$key]) || !in_array($fieldValue, $data[$key])) {
+                    $data[$key][] = $fieldValue;
+                }
+            }
+        }
+        return $data;
     }
 }

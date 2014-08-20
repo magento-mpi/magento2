@@ -7,6 +7,8 @@
  */
 namespace Magento\UrlRewrite\Controller;
 
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+
 /**
  * UrlRewrite Controller Router
  */
@@ -27,8 +29,8 @@ class Router implements \Magento\Framework\App\RouterInterface
     /** @var \Magento\Framework\App\ResponseInterface */
     protected $response;
 
-    /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface */
-    protected $urlMatcher;
+    /** @var \Magento\UrlRewrite\Service\V1\UrlFinderInterface */
+    protected $urlFinder;
 
     /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
@@ -36,7 +38,7 @@ class Router implements \Magento\Framework\App\RouterInterface
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
-     * @param \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
+     * @param \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
@@ -44,14 +46,14 @@ class Router implements \Magento\Framework\App\RouterInterface
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
-        \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
+        \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
     ) {
         $this->actionFactory = $actionFactory;
         $this->url = $url;
         $this->appState = $appState;
         $this->storeManager = $storeManager;
         $this->response = $response;
-        $this->urlMatcher = $urlMatcher;
+        $this->urlFinder = $urlFinder;
     }
 
     /**
@@ -67,20 +69,22 @@ class Router implements \Magento\Framework\App\RouterInterface
             return null;
         }
 
-        $identifier = trim($request->getPathInfo(), '/');
-        $urlRewrite = $this->urlMatcher->match($identifier, $this->storeManager->getStore()->getId());
-        if ($urlRewrite === null) {
+        $rewrite = $this->urlFinder->findOneByData([
+            UrlRewrite::REQUEST_PATH => trim($request->getPathInfo(), '/'),
+            UrlRewrite::STORE_ID => $this->storeManager->getStore()->getId(),
+        ]);
+        if ($rewrite === null) {
             return null;
         }
 
-        $redirectType = $urlRewrite->getRedirectType();
+        $redirectType = $rewrite->getRedirectType();
         if ($redirectType) {
-            $this->response->setRedirect($urlRewrite->getTargetPath(), (int)$redirectType);
+            $this->response->setRedirect($rewrite->getTargetPath(), (int)$redirectType);
             $request->setDispatched(true);
             return $this->actionFactory->create('Magento\Framework\App\Action\Redirect', array('request' => $request));
         }
 
-        $request->setPathInfo('/' . $urlRewrite->getTargetPath());
+        $request->setPathInfo('/' . $rewrite->getTargetPath());
         return $this->actionFactory->create('Magento\Framework\App\Action\Forward', array('request' => $request));
     }
 }

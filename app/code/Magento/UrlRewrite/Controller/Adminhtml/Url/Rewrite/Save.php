@@ -11,6 +11,7 @@ namespace Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Model\Exception;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
 {
@@ -23,28 +24,28 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     /** @var \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator */
     protected $cmsPageUrlPathGenerator;
 
-    /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface */
-    protected $urlMatcher;
+    /** @var \Magento\UrlRewrite\Service\V1\UrlFinderInterface */
+    protected $urlFinder;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
-     * @param \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
+     * @param \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator,
-        \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
+        \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
     ) {
         parent::__construct($context);
         $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->cmsPageUrlPathGenerator = $cmsPageUrlPathGenerator;
-        $this->urlMatcher = $urlMatcher;
+        $this->urlFinder = $urlFinder;
     }
 
     /**
@@ -76,11 +77,11 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
             $model->setEntityId($isProduct ? $product->getId() : $category->getId());
             if ($model->isObjectNew()) {
                 if ($model->getRedirectType()) {
-                    $rewrite = $this->urlMatcher->findByEntity(
-                        $model->getEntityId(),
-                        $model->getEntityType(),
-                        $model->getStoreId()
-                    );
+                    $rewrite = $this->urlFinder->findOneByData([
+                        UrlRewrite::ENTITY_ID => $model->getEntityId(),
+                        UrlRewrite::ENTITY_TYPE => $model->getEntityType(),
+                        UrlRewrite::STORE_ID => $model->getStoreId(),
+                    ]);
                     if (!$rewrite) {
                         if ($product) {
                             throw new Exception(

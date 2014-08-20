@@ -72,7 +72,7 @@ class View
         $result = $proceed($originStore);
         if ($store->isObjectNew() || $store->dataHasChangedFor('group_id')) {
             if (!$store->isObjectNew()) {
-                $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $store->getId()]);
+                $this->urlPersist->deleteByData([UrlRewrite::STORE_ID => $store->getId()]);
             }
 
             $this->urlPersist->replace(
@@ -148,7 +148,7 @@ class View
         AbstractModel $store
     ) {
         $result = $proceed($store);
-        $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $store->getId()]);
+        $this->urlPersist->deleteByData([UrlRewrite::STORE_ID => $store->getId()]);
         return $result;
     }
 }

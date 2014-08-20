@@ -7,25 +7,31 @@
  */
 namespace Magento\UrlRewrite\Model;
 
-use Magento\UrlRewrite\Service\V1\Data\Filter;
-
 interface StorageInterface
 {
     /**
      * Find all rows by specific filter
      *
-     * @param Filter $filter
+     * @param array $data
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
-    public function findAllByFilter(Filter $filter);
+    public function findAllByData(array $data);
 
     /**
      * Find row by specific filter
      *
-     * @param Filter $filter
-     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite
+     * @param array $data
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite|null
      */
-    public function findByFilter(Filter $filter);
+    public function findOneByData(array $data);
+
+    /**
+     * Save new url rewrites and remove old if exist
+     *
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[] $urls
+     * @return void
+     */
+    public function replace(array $urls);
 
     /**
      * Add multiple urls to storage
@@ -39,8 +45,8 @@ interface StorageInterface
     /**
      * Delete data from storage by specific filter
      *
-     * @param Filter $filter
+     * @param array $data
      * @return void
      */
-    public function deleteByFilter(Filter $filter);
+    public function deleteByData(array $data);
 }

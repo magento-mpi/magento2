@@ -81,7 +81,7 @@ class Group
         ) {
             $this->storeManager->reinitStores();
             foreach ($group->getStoreIds() as $storeId) {
-                $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $storeId]);
+                $this->urlPersist->deleteByData([UrlRewrite::STORE_ID => $storeId]);
             }
 
             $this->urlPersist->replace(

@@ -64,7 +64,7 @@ class Remove
      */
     protected function deleteRewritesForCategory($categoryId)
     {
-        $this->urlPersist->deleteByEntityData([
+        $this->urlPersist->deleteByData([
             UrlRewrite::ENTITY_ID => $categoryId,
             UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
         ]);

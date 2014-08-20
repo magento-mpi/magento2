@@ -9,6 +9,7 @@ namespace Magento\Catalog\Model;
 
 use Magento\Framework\Profiler;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 /**
  * Catalog category
@@ -167,8 +168,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
     protected $categoryUrlPathGenerator;
 
-    /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface */
-    protected $urlMatcher;
+    /** @var \Magento\UrlRewrite\Service\V1\UrlFinderInterface */
+    protected $urlFinder;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -187,7 +188,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
-     * @param \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
+     * @param \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -209,7 +210,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
-        \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher,
+        \Magento\UrlRewrite\Service\V1\UrlFinderInterface $urlFinder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -227,7 +228,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $this->flatState = $flatState;
         $this->flatIndexer = $flatIndexer;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
-        $this->urlMatcher = $urlMatcher;
+        $this->urlFinder = $urlFinder;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -539,11 +540,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
                 return $this->getData('url');
             }
 
-            $rewrite = $this->urlMatcher->findByEntity(
-                $this->getId(),
-                CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                $this->getStoreId()
-            );
+            $rewrite = $this->urlFinder->findOneByData([
+                UrlRewrite::ENTITY_ID => $this->getId(),
+                UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
+                UrlRewrite::STORE_ID => $this->getStoreId(),
+            ]);
             if ($rewrite) {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
                 Profiler::stop('REWRITE: ' . __METHOD__);

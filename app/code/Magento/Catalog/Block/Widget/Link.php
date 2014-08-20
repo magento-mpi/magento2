@@ -13,9 +13,8 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
-use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
+use Magento\UrlRewrite\Service\V1\UrlFinderInterface;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
-use Magento\UrlRewrite\Service\V1\Data\Filter;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
@@ -41,33 +40,24 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     protected $_anchorText;
 
     /**
-     * Url matcher for category
+     * Url finder for category
      *
-     * @var UrlMatcherInterface
+     * @var UrlFinderInterface
      */
-    protected $urlCategoryMatcher;
-
-    /**
-     * Url matcher for product
-     *
-     * @var UrlMatcherInterface
-     */
-    protected $urlProductMatcher;
+    protected $urlFinder;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param UrlMatcherInterface $urlMatcher
+     * @param UrlFinderInterface $urlFinder
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        UrlMatcherInterface $urlCategoryMatcher,
-        UrlMatcherInterface $urlProductMatcher,
-        array $data = array()
+        UrlFinderInterface $urlFinder,
+        array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->urlCategoryMatcher = $urlCategoryMatcher;
-        $this->urlProductMatcher = $urlProductMatcher;
+        $this->urlFinder = $urlFinder;
     }
 
     /**
@@ -93,16 +83,10 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
                 UrlRewrite::ENTITY_TYPE => $rewriteData[0],
                 UrlRewrite::STORE_ID => $store->getId(),
             ];
-            // @TODO: UrlRewrite think about const
-            if (!empty($rewriteData[2])) {
-                $filterData[Filter::FIELD_DATA]['category_id'] = $rewriteData[2];
+            if (!empty($rewriteData[2]) && $rewriteData[0] == ProductUrlRewriteGenerator::ENTITY_TYPE) {
+                $filterData[UrlRewrite::METADATA]['category_id'] = $rewriteData[2];
             }
-            if ($rewriteData[0] == ProductUrlRewriteGenerator::ENTITY_TYPE) {
-                $rewrite = $this->urlProductMatcher->findByData($filterData);
-            } else {
-                $rewrite = $this->urlCategoryMatcher->findByData($filterData);
-            }
-
+            $rewrite = $this->urlFinder->findOneByData($filterData);
 
             if ($rewrite) {
                 $href = $store->getUrl('', ['_direct' => $rewrite->getRequestPath()]);
