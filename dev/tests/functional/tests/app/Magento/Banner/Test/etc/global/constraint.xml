@@ -29,6 +29,18 @@
     <assertBannerMassDeleteMessage module="Magento_Banner">
         <severeness>low</severeness>
     </assertBannerMassDeleteMessage>
+    <assertBannerInShoppingCart module="Magento_Banner">
+        <severeness>low</severeness>
+    </assertBannerInShoppingCart>
+    <assertBannerNotOnCategoryPage module="Magento_Banner">
+        <severeness>low</severeness>
+    </assertBannerNotOnCategoryPage>
+    <assertBannerNotInShoppingCart module="Magento_Banner">
+        <severeness>low</severeness>
+    </assertBannerNotInShoppingCart>
+    <assertBannerOnCategoryPage module="Magento_Banner">
+        <severeness>low</severeness>
+    </assertBannerOnCategoryPage>
     <assertBannerNotInWidgetOptions module="Magento_Banner">
         <severeness>low</severeness>
     </assertBannerNotInWidgetOptions>
