@@ -1,0 +1,7 @@
+"giftRegistry/dataSet";"sharingInfo/emails";"sharingInfo/store_id";"sharingInfo/message";"constraint"
+"birthday";"JohnDoe123456789@example.com,JohnDoe987654321@example.com";"Default Store View";"Sharing message.";"assertGiftRegistrySuccessShareMessageOnBackend"
+"birthday_private";"JohnDoe123456789@example.com";"Default Store View";"Sharing message.";"assertGiftRegistrySuccessShareMessageOnBackend"
+"baby_registry";"JohnDoe123456789@example.com,JohnDoe987654321@example.com,JohnDoe123456abc@example.com";"Default Store View";"Sharing message.";"assertGiftRegistrySuccessShareMessageOnBackend"
+"baby_registry_inactive";"JohnDoe123456789@example.com";"Default Store View";"Sharing message.";"assertGiftRegistrySuccessShareMessageOnBackend"
+"wedding";"JohnDoe123456789@example.com";"Default Store View";"Sharing message.";"assertGiftRegistrySuccessShareMessageOnBackend"
+"wedding_inactive_private";"JohnDoe123456789@example.com";"Default Store View";"Sharing message.";"assertGiftRegistrySuccessShareMessageOnBackend"

@@ -23,6 +23,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 /**
  * Class AssertCartPriceRuleApplying
  * Abstract class for implementing assert applying
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AssertCartPriceRuleApplying extends AbstractConstraint
 {

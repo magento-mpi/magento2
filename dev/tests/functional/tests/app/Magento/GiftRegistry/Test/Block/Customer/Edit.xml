@@ -9,7 +9,7 @@
 -->
 <mapping strict="0">
     <fields>
-        <title/>
+        <title />
         <message>
             <input>textarea</input>
         </message>
@@ -25,8 +25,8 @@
         <event_country_region>
             <input>select</input>
         </event_country_region>
-        <event_date/>
-        <event_location/>
+        <event_date />
+        <event_location />
         <number_of_guests>
             <selector>[name="registry[number_of_guests]"]</selector>
         </number_of_guests>

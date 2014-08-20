@@ -31,6 +31,18 @@ class CmsVersionEdit extends BackendPage
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
+        'revisionsGrid' => [
+            'name' => 'revisionsGrid',
+            'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\RevisionsGrid',
+            'locator' => '#revisionsGrid',
+            'strategy' => 'css selector',
+        ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages .messages',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -47,5 +59,21 @@ class CmsVersionEdit extends BackendPage
     public function getVersionForm()
     {
         return $this->getBlockInstance('versionForm');
+    }
+
+    /**
+     * @return \Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\RevisionsGrid
+     */
+    public function getRevisionsGrid()
+    {
+        return $this->getBlockInstance('revisionsGrid');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }
