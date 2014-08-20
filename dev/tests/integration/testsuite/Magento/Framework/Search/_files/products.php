@@ -286,7 +286,7 @@ $options->setAttributeFilter($attribute->getId());
 $attributeValues = array();
 $productIds = array();
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
-$productIds = array(10, 20);
+$productIds = array(100, 120);
 foreach ($options as $option) {
     /** @var $product \Magento\Catalog\Model\Product */
     $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
