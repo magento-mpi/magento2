@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
+
 require __DIR__ . '/product_image.php';
 require __DIR__ . '/product_simple.php';
 
