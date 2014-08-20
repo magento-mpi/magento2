@@ -30,5 +30,10 @@ class Website extends AbstractRepository
             'code' => 'base',
             'website_id' => '1'
         ];
+
+        $this->_data['custom_website'] = [
+            'name' => 'Web_Site_%isolation%',
+            'code' => 'code_%isolation%'
+        ];
     }
 }
