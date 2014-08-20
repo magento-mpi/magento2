@@ -63,6 +63,7 @@ class Remove
      * Remove url rewrites by categoryId
      *
      * @param int $categoryId
+     * @return void
      */
     protected function deleteRewritesForCategory($categoryId)
     {

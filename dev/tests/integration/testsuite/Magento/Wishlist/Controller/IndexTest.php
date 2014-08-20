@@ -47,8 +47,8 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 
     protected function tearDown()
     {
-//        $this->_customerSession->logout();
-//        $this->_customerSession = null;
+        $this->_customerSession->logout();
+        $this->_customerSession = null;
         parent::tearDown();
     }
 

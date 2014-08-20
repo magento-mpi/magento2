@@ -8,7 +8,7 @@
 namespace Magento\UrlRewrite\Block\Catalog\Edit;
 
 /**
- * Test for \Magento\UrlRewrite\Block\Catalog\Edit\FormTest
+ * Test for \Magento\UrlRewrite\Block\Catalog\Edit\Form
  * @magentoAppArea adminhtml
  */
 class FormTest extends \PHPUnit_Framework_TestCase

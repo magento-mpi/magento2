@@ -45,13 +45,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
      *
      * @param array $cmsPageData
      * @param string $action
-     * @param string $idPath
      * @param string $requestPath
      * @param string $targetPath
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
      * @magentoAppIsolation enabled
      */
-    public function testFormPostInit($cmsPageData, $action, $idPath, $requestPath, $targetPath)
+    public function testFormPostInit($cmsPageData, $action, $requestPath, $targetPath)
     {
         $args = array();
         if ($cmsPageData) {
@@ -117,7 +116,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array('page_id' => 3, 'identifier' => 'cms-page'),
-                'cms_page/3',
                 'cms_page/3',
                 'cms-page',
                 'cms/page/view/page_id/3'

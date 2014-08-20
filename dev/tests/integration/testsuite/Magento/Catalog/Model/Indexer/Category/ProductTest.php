@@ -10,7 +10,7 @@ namespace Magento\Catalog\Model\Indexer\Category;
 /**
  * @magentoDataFixture Magento/Catalog/_files/indexer_catalog_category.php
  * @magentoDbIsolation enabled
-*/
+ */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     const DEFAULT_ROOT_CATEGORY = 2;

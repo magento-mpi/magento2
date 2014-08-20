@@ -5,10 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\UrlRewrite\Model\Resource;
-
-use Magento\UrlRewrite\Model\Storage\DuplicateEntryException;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+namespace Magento\UrlRewrite\Model\Storage;
 
 class AbstractStorageTest extends \PHPUnit_Framework_TestCase
 {

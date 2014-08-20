@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\UrlRewrite\Model\Resource;
+namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\TestFramework\Helper\ObjectManager;

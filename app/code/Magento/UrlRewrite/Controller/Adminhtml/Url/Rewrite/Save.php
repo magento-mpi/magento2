@@ -71,7 +71,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     protected function _handleCatalogUrlRewrite($model)
     {
         $product = $this->_getInitializedProduct($model);
-        $category = $this->_getInitializedCategory($model);
+        $category = $this->_getInitializedCategory();
         if ($product || $category) {
             $isProduct = $product && $product->getId();
             $model->setEntityType($isProduct ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY);
@@ -156,7 +156,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
      * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return Category|null
      */
-    protected function _getInitializedCategory($model)
+    protected function _getInitializedCategory()
     {
         /** @var $category Category */
         $category = $this->_getCategory();

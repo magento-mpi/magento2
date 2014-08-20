@@ -96,6 +96,7 @@ class DbStorage extends AbstractStorage
      * Insert multiple
      *
      * @param array $data
+     * @return void
      * @throws DuplicateEntryException
      * @throws \Exception
      */
