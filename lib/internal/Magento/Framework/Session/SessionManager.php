@@ -145,9 +145,6 @@ class SessionManager implements SessionManagerInterface
             \Magento\Framework\Profiler::start('session_start');
             // Need to apply the config options so they can be ready by session_start
             $this->initIniOptions();
-            if (!empty($sessionName)) {
-                $this->setName($sessionName);
-            }
             $this->registerSaveHandler();
 
             // potential custom logic for session id (ex. switching between hosts)
