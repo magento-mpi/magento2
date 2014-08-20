@@ -36,7 +36,7 @@ class InvoiceConverter
         $items = [];
         /** @var InvoiceItem $item */
         foreach ($dataObject->getItems() as $item) {
-            $items[$item->getEntityId()] = $item->getQty();
+            $items[$item->getOrderItemId()] = $item->getQty();
         }
         return $this->invoiceLoader
             ->setOrderId($dataObject->getOrderId())

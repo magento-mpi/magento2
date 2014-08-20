@@ -31,8 +31,8 @@ class CatalogRule extends InjectableFixture
         'name' => 'CatalogPriceRule %isolation%',
         'description' => 'Catalog Price Rule Description',
         'is_active' => 'Active',
-        'website_ids' => 'Main Website',
-        'customer_group_ids' => 'NOT LOGGED IN',
+        'website_ids' => ['Main Website'],
+        'customer_group_ids' => ['NOT LOGGED IN'],
         'simple_action' => 'By Percentage of the Original Price',
         'discount_amount' => '50'
     ];

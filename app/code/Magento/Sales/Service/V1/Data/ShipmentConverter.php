@@ -40,7 +40,7 @@ class ShipmentConverter
 
         $items = [];
         foreach ($dataObject->getItems() as $item) {
-            $items[$item->getEntityId()] = $item->getQty();
+            $items[$item->getOrderItemId()] = $item->getQty();
         }
         $shipmentItems = ['items' => $items];
         $this->shipmentLoader->setShipment($shipmentItems);

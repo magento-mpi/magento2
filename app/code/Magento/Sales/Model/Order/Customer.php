@@ -11,20 +11,74 @@ namespace Magento\Sales\Model\Order;
 
 class Customer
 {
-    /** @var string  */
+    /**
+     * @var string
+     */
     protected $customerDob;
+
+    /**
+     * @var string
+     */
     protected $customerEmail;
+
+    /**
+     * @var string
+     */
     protected $customerFirstName;
+
+    /**
+     * @var string
+     */
     protected $customerGender;
+
+    /**
+     * @var string
+     */
     protected $customerGroupId;
+
+    /**
+     * @var int
+     */
     protected $customerId;
+
+    /**
+     * @var int
+     */
     protected $customerIsGuest;
+
+    /**
+     * @var string
+     */
     protected $customerLastName;
+
+    /**
+     * @var string
+     */
     protected $customerMiddleName;
+
+    /**
+     * @var string
+     */
     protected $customerNote;
+
+    /**
+     * @var string
+     */
     protected $customerNoteNotify;
+
+    /**
+     * @var string
+     */
     protected $customerPrefix;
+
+    /**
+     * @var string
+     */
     protected $customerSuffix;
+
+    /**
+     * @var string
+     */
     protected $customerTaxvat;
 
     /**
@@ -43,9 +97,21 @@ class Customer
      * @param string $customerSuffix
      * @param string $customerTaxvat
      */
-    public function __construct($customerDob, $customerEmail, $customerFirstName, $customerGender, $customerGroupId,
-        $customerId, $customerIsGuest, $customerLastName, $customerMiddleName, $customerNote, $customerNoteNotify,
-        $customerPrefix, $customerSuffix, $customerTaxvat
+    public function __construct(
+        $customerDob,
+        $customerEmail,
+        $customerFirstName,
+        $customerGender,
+        $customerGroupId,
+        $customerId,
+        $customerIsGuest,
+        $customerLastName,
+        $customerMiddleName,
+        $customerNote,
+        $customerNoteNotify,
+        $customerPrefix,
+        $customerSuffix,
+        $customerTaxvat
     ) {
         $this->customerDob = $customerDob;
         $this->customerEmail = $customerEmail;
@@ -175,4 +241,3 @@ class Customer
         return $this->customerTaxvat;
     }
 }
-

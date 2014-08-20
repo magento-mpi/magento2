@@ -38,7 +38,7 @@ class InvoiceConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->invoiceLoaderMock = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader')
             ->disableOriginalConstructor()
-            ->setMethods(['setOrderId','setInvoiceId', 'setInvoiceItems', 'create'])
+            ->setMethods(['setOrderId', 'setInvoiceId', 'setInvoiceItems', 'create'])
             ->getMock();
         $this->invoiceMock = $this->getMockBuilder('Magento\Sales\Service\V1\Data\Invoice')
             ->disableOriginalConstructor()
@@ -74,7 +74,7 @@ class InvoiceConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getItems')
             ->will($this->returnValue([$this->invoiceItemMock]));
         $this->invoiceItemMock->expects($this->once())
-            ->method('getEntityId')
+            ->method('getOrderItemId')
             ->will($this->returnValue($itemId));
         $this->invoiceItemMock->expects($this->once())
             ->method('getQty')

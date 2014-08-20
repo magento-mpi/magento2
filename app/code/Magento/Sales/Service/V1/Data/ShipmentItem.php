@@ -14,7 +14,6 @@ use Magento\Framework\Service\Data\AbstractObject as DataObject;
  */
 class ShipmentItem extends DataObject
 {
-
     const ENTITY_ID = 'entity_id';
     const PARENT_ID = 'parent_id';
     const ROW_TOTAL = 'row_total';

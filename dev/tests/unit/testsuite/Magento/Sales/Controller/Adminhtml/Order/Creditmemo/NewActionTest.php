@@ -89,13 +89,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->contextMock = $this->getMock(
-            'Magento\Backend\App\Action\Context',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->contextMock = $this->getMock('Magento\Backend\App\Action\Context', [], [], '', false);
         $this->creditmemoLoaderMock = $this->getMock(
             'Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader',
             ['setOrderId', 'setCreditmemoId', 'setCreditmemo', 'setInvoiceId', 'load'],
@@ -144,20 +138,8 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
             true,
             []
         );
-        $this->titleMock = $this->getMock(
-            'Magento\Framework\App\Action\Title',
-            [],
-            [],
-            '',
-            false
-        );
-        $this->backendSessionMock = $this->getMock(
-            'Magento\Backend\Model\Session',
-            ['getCommentText'],
-            [],
-            '',
-            false
-        );
+        $this->titleMock = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
+        $this->backendSessionMock = $this->getMock('Magento\Backend\Model\Session', ['getCommentText'], [], '', false);
         $this->viewMock = $this->getMockForAbstractClass(
             'Magento\Framework\App\ViewInterface',
             [],
@@ -183,20 +165,8 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->modelMenuMock = $this->getMock(
-            'Magento\Backend\Model\Menu',
-            ['getParentItems'],
-            [],
-            '',
-            false
-        );
-        $this->modelMenuItem = $this->getMock(
-            'Magento\Backend\Model\Menu\Item',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->modelMenuMock = $this->getMock('Magento\Backend\Model\Menu', ['getParentItems'], [], '', false);
+        $this->modelMenuItem = $this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false);
         $this->contextMock->expects($this->once())
             ->method('getRequest')
             ->will($this->returnValue($this->requestMock));

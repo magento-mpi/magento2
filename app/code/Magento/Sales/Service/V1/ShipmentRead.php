@@ -86,7 +86,7 @@ class ShipmentRead implements ShipmentReadInterface
 
     /**
      * @param int $id
-     * @return string|null
+     * @return string
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getLabel($id)
