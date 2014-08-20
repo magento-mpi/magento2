@@ -11,6 +11,7 @@ use \Magento\Framework\Service\V1\Data\SearchCriteria;
 use \Magento\Sales\Model\QuoteFactory;
 use \Magento\Sales\Model\Quote;
 use \Magento\Sales\Model\Resource\Quote\Collection as QuoteCollection;
+use \Magento\Store\Model\StoreManagerInterface as StoreManager;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\InputException;
@@ -20,10 +21,12 @@ use \Magento\Checkout\Service\V1\Data\CartSearchResultsBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\CustomerBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\CurrencyBuilder;
+use \Magento\Checkout\Service\V1\Data\Cart\Totals\ItemBuilder as ItemTotalsBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals;
 use \Magento\Checkout\Service\V1\Data\Cart\Customer;
 use \Magento\Checkout\Service\V1\Data\Cart\Currency;
+use \Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
 
 class ReadService implements ReadServiceInterface
 {
@@ -31,6 +34,11 @@ class ReadService implements ReadServiceInterface
      * @var QuoteFactory
      */
     private $quoteFactory;
+
+    /**
+     * @var StoreManager
+     */
+    private $storeManager;
 
     /**
      * @var CartBuilder
@@ -63,6 +71,11 @@ class ReadService implements ReadServiceInterface
     private $currencyBuilder;
 
     /**
+     * @var ItemTotalsBuilder;
+     */
+    private $itemTotalsBuilder;
+
+    /**
      * @var array
      */
     private $validSearchFields = array(
@@ -86,28 +99,34 @@ class ReadService implements ReadServiceInterface
     /**
      * @param QuoteFactory $quoteFactory
      * @param QuoteCollection $quoteCollection
+     * @param StoreManager $storeManager
      * @param CartBuilder $cartBuilder
      * @param CartSearchResultsBuilder $searchResultsBuilder
      * @param TotalsBuilder $totalsBuilder
      * @param CustomerBuilder $customerBuilder
      * @param CurrencyBuilder $currencyBuilder
+     * @param ItemTotalsBuilder $itemTotalsBuilder
      */
     public function __construct(
         QuoteFactory $quoteFactory,
         QuoteCollection $quoteCollection,
+        StoreManager $storeManager,
         CartBuilder $cartBuilder,
         CartSearchResultsBuilder $searchResultsBuilder,
         TotalsBuilder $totalsBuilder,
         CustomerBuilder $customerBuilder,
-        CurrencyBuilder $currencyBuilder
+        CurrencyBuilder $currencyBuilder,
+        ItemTotalsBuilder $itemTotalsBuilder
     ) {
         $this->quoteFactory = $quoteFactory;
         $this->quoteCollection = $quoteCollection;
+        $this->storeManager = $storeManager;
         $this->cartBuilder = $cartBuilder;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->totalsBuilder = $totalsBuilder;
         $this->customerBuilder = $customerBuilder;
         $this->currencyBuilder = $currencyBuilder;
+        $this->itemTotalsBuilder = $itemTotalsBuilder;
     }
 
     /**
@@ -164,7 +183,28 @@ class ReadService implements ReadServiceInterface
      */
     protected function createCartDataObject(Quote $quote)
     {
-        $this->cartBuilder->populateWithArray(array(
+        $this->cartBuilder->populateWithArray($this->fetchQuoteGeneralData($quote));
+        $this->totalsBuilder->populateWithArray($this->fetchQuoteTotalsData($quote));
+        $this->totalsBuilder->setItems($this->fetchItemTotalsData($quote));
+        $this->customerBuilder->populateWithArray($this->fetchQuoteCustomerData($quote));
+        $this->currencyBuilder->populateWithArray($this->fetchQuoteCurrencyData($quote));
+
+
+        $this->cartBuilder->setCustomer($this->customerBuilder->create());
+        $this->cartBuilder->setTotals($this->totalsBuilder->create());
+        $this->cartBuilder->setCurrency($this->currencyBuilder->create());
+        return $this->cartBuilder->create();
+    }
+
+    /**
+     * Fetch base quote data
+     *
+     * @param Quote $quote
+     * @return array
+     */
+    protected function fetchQuoteGeneralData(Quote $quote)
+    {
+        return [
             Cart::ID => $quote->getId(),
             Cart::STORE_ID  => $quote->getStoreId(),
             Cart::CREATED_AT  => $quote->getCreatedAt(),
@@ -177,18 +217,96 @@ class ReadService implements ReadServiceInterface
             Cart::CHECKOUT_METHOD => $quote->getCheckoutMethod(),
             Cart::RESERVED_ORDER_ID => $quote->getReservedOrderId(),
             Cart::ORIG_ORDER_ID => $quote->getOrigOrderId(),
-        ));
+        ];
+    }
 
-        $this->totalsBuilder->populateWithArray(array(
+    /**
+     * Fetch quote totals data
+     *
+     * @param Quote $quote
+     * @return array
+     */
+    protected function fetchQuoteTotalsData(Quote $quote)
+    {
+        $totals = [
             Totals::BASE_GRAND_TOTAL => $quote->getBaseGrandTotal(),
             Totals::GRAND_TOTAL => $quote->getGrandTotal(),
             Totals::BASE_SUBTOTAL => $quote->getBaseSubtotal(),
             Totals::SUBTOTAL => $quote->getSubtotal(),
             Totals::BASE_SUBTOTAL_WITH_DISCOUNT => $quote->getBaseSubtotalWithDiscount(),
             Totals::SUBTOTAL_WITH_DISCOUNT => $quote->getSubtotalWithDiscount(),
-        ));
 
-        $this->customerBuilder->populateWithArray(array(
+            Totals::BASE_CURRENCY_CODE => $quote->getBaseCurrencyCode(),
+            Totals::QUOTE_CURRENCY_CODE => $quote->getQuoteCurrencyCode(),
+        ];
+
+        $shippingAddress = $quote->getShippingAddress();
+
+        if ($shippingAddress->getId()) {
+            $totals[Totals::DISCOUNT_AMOUNT] = $shippingAddress->getDiscountAmount();
+            $totals[Totals::BASE_DISCOUNT_AMOUNT] = $shippingAddress->getBaseDiscountAmount();
+            $totals[Totals::SHIPPING_AMOUNT] = $shippingAddress->getShippingAmount();
+            $totals[Totals::BASE_SHIPPING_AMOUNT] = $shippingAddress->getBaseShippingAmount();
+            $totals[Totals::SHIPPING_DISCOUNT_AMOUNT] = $shippingAddress->getShippingDiscountAmount();
+            $totals[Totals::BASE_SHIPPING_DISCOUNT_AMOUNT] = $shippingAddress->getBaseShippingDiscountAmount();
+            $totals[Totals::TAX_AMOUNT] = $shippingAddress->getTaxAmount();
+            $totals[Totals::BASE_TAX_AMOUNT] = $shippingAddress->getBaseTaxAmount();
+            $totals[Totals::SHIPPING_TAX_AMOUNT] = $shippingAddress->getShippingTaxAmount();
+            $totals[Totals::BASE_SHIPPING_TAX_AMOUNT] = $shippingAddress->getBaseShippingTaxAmount();
+            $totals[Totals::SUBTOTAL_INCL_TAX] = $shippingAddress->getSubtotalInclTax();
+            $totals[Totals::BASE_SUBTOTAL_INCL_TAX] = $shippingAddress->getBaseSubtotalTotalInclTax();
+            $totals[Totals::SHIPPING_INCL_TAX] = $shippingAddress->getShippingInclTax();
+            $totals[Totals::BASE_SHIPPING_INCL_TAX] = $shippingAddress->getBaseShippingInclTax();
+        }
+
+        return $totals;
+    }
+
+    /**
+     * Fetch quote item totals data
+     *
+     * @param Quote $quote
+     * @return array
+     */
+    protected function fetchItemTotalsData(Quote $quote)
+    {
+        $items = [];
+
+        foreach ($quote->getAllItems() as $item) {
+            $itemTotalsData = [
+                ItemTotals::PRICE => $item->getPrice(),
+                ItemTotals::BASE_PRICE => $item->getBasePrice(),
+                ItemTotals::QTY => $item->getQty(),
+                ItemTotals::ROW_TOTAL => $item->getRowTotal(),
+                ItemTotals::BASE_ROW_TOTAL => $item->getBaseRowTotal(),
+                ItemTotals::ROW_TOTAL_WITH_DISCOUNT => $item->getRowTotalWithDiscount(),
+                ItemTotals::TAX_AMOUNT => $item->getTaxAmount(),
+                ItemTotals::BASE_TAX_AMOUNT => $item->getBaseTaxAmount(),
+                ItemTotals::TAX_PERCENT => $item->getTaxPercent(),
+                ItemTotals::DISCOUNT_AMOUNT => $item->getDiscountAmount(),
+                ItemTotals::BASE_DISCOUNT_AMOUNT => $item->getBaseDiscountAmount(),
+                ItemTotals::DISCOUNT_PERCENT => $item->getDiscountPercent(),
+                ItemTotals::PRICE_INCL_TAX => $item->getPriceInclTax(),
+                ItemTotals::BASE_PRICE_INCL_TAX => $item->getBasePriceInclTax(),
+                ItemTotals::ROW_TOTAL_INCL_TAX => $item->getRowTotalInclTax(),
+                ItemTotals::BASE_ROW_TOTAL_INCL_TAX => $item->getBaseRowTotalInclTax()
+            ];
+
+            $items[] = $this->itemTotalsBuilder->populateWithArray($itemTotalsData)->create();
+        }
+
+        return $items;
+    }
+
+    /**
+     * Fetch quote customer data
+     *
+     * @param Quote $quote
+     * @return array
+     */
+    protected function fetchQuoteCustomerData(Quote $quote)
+    {
+        return [
             Customer::ID => $quote->getCustomerId(),
             Customer::EMAIL => $quote->getCustomerEmail(),
             Customer::GROUP_ID => $quote->getCustomerGroupId(),
@@ -203,10 +321,19 @@ class ReadService implements ReadServiceInterface
             Customer::NOTE_NOTIFY => $quote->getCustomerNoteNotify(),
             Customer::IS_GUEST => $quote->getCustomerIsGuest(),
             Customer::GENDER => $quote->getCustomerGender(),
-            Customer::TAXVAT => $quote->getCustomerTaxvat(),
-        ));
+            Customer::TAXVAT => $quote->getCustomerTaxvat()
+        ];
+    }
 
-        $this->currencyBuilder->populateWithArray(array(
+    /**
+     * Fetch quote currency data
+     *
+     * @param Quote $quote
+     * @return array
+     */
+    protected function fetchQuoteCurrencyData(Quote $quote)
+    {
+        return [
             Currency::GLOBAL_CURRENCY_CODE => $quote->getGlobalCurrencyCode(),
             Currency::BASE_CURRENCY_CODE => $quote->getBaseCurrencyCode(),
             Currency::STORE_CURRENCY_CODE => $quote->getStoreCurrencyCode(),
@@ -214,13 +341,8 @@ class ReadService implements ReadServiceInterface
             Currency::STORE_TO_BASE_RATE => $quote->getStoreToBaseRate(),
             Currency::STORE_TO_QUOTE_RATE => $quote->getStoreToQuoteRate(),
             Currency::BASE_TO_GLOBAL_RATE => $quote->getBaseToGlobalRate(),
-            Currency::BASE_TO_QUOTE_RATE => $quote->getBaseToQuoteRate(),
-        ));
-
-        $this->cartBuilder->setCustomer($this->customerBuilder->create());
-        $this->cartBuilder->setTotals($this->totalsBuilder->create());
-        $this->cartBuilder->setCurrency($this->currencyBuilder->create());
-        return $this->cartBuilder->create();
+            Currency::BASE_TO_QUOTE_RATE => $quote->getBaseToQuoteRate()
+        ];
     }
 
     /**
@@ -258,5 +380,25 @@ class ReadService implements ReadServiceInterface
             throw new InputException("Field '{$field}' cannot be used for search.");
         }
         return isset($this->searchFieldMap[$field]) ? $this->searchFieldMap[$field] : $field;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotals($cartId)
+    {
+        $storeId = $this->storeManager->getStore()->getId();
+
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->quoteFactory->create()->setStoreId($storeId)->load($cartId);
+
+        if (!$quote->getId() || !$quote->getIsActive()) {
+            throw NoSuchEntityException::singleField('cartId', $cartId);
+        }
+
+        $this->totalsBuilder->populateWithArray($this->fetchQuoteTotalsData($quote));
+        $this->totalsBuilder->setItems($this->fetchItemTotalsData($quote));
+
+        return $this->totalsBuilder->create();
     }
 }

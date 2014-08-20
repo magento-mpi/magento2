@@ -135,4 +135,10 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/carts/:cartId/totals" method="GET">
+        <service class="Magento\Checkout\Service\V1\Cart\ReadServiceInterface" method="getTotals"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
 </routes>
