@@ -11,23 +11,28 @@ namespace Magento\Store\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Magento\Store\Test\Fixture\StoreGroup;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
-use Magento\Backend\Test\Page\Adminhtml\NewGroupIndex;
+use Magento\Backend\Test\Page\Adminhtml\EditGroup;
 
 /**
- * Create New StoreGroup (Store Management)
+ * Update StoreGroup (Store Management)
  *
  * Test Flow:
+ *
+ * Preconditions:
+ * 1. Create store
+ *
+ * Steps:
  * 1. Open Backend
  * 2. Go to Stores-> All Stores
- * 3. Click "Create Store" button
+ * 3. Open created store
  * 4. Fill data according to dataset
  * 5. Click "Save Store" button
  * 6. Perform all assertions
  *
  * @group Store_Management_(PS)
- * @ZephyrId MAGETWO-27345
+ * @ZephyrId MAGETWO-27568
  */
-class CreateStoreGroupEntityTest extends Injectable
+class UpdateStoreGroupEntityTest extends Injectable
 {
     /**
      * Page StoreIndex
@@ -37,39 +42,43 @@ class CreateStoreGroupEntityTest extends Injectable
     protected $storeIndex;
 
     /**
-     * NewGroupIndex page
+     * Page EditGroup
      *
-     * @var NewGroupIndex
+     * @var EditGroup
      */
-    protected $newGroupIndex;
+    protected $editGroup;
 
     /**
      * Injection data
      *
      * @param StoreIndex $storeIndex
-     * @param NewGroupIndex $newGroupIndex
+     * @param EditGroup $editGroup
      * @return void
      */
     public function __inject(
         StoreIndex $storeIndex,
-        NewGroupIndex $newGroupIndex
+        EditGroup $editGroup
     ) {
         $this->storeIndex = $storeIndex;
-        $this->newGroupIndex = $newGroupIndex;
+        $this->editGroup = $editGroup;
     }
 
     /**
-     * Create New StoreGroup
+     * Update New StoreGroup
      *
+     * @param StoreGroup $storeGroupOrigin
      * @param StoreGroup $storeGroup
      * @return void
      */
-    public function test(StoreGroup $storeGroup)
+    public function test(StoreGroup $storeGroupOrigin, StoreGroup $storeGroup)
     {
+        //Preconditions
+        $storeGroupOrigin->persist();
+
         //Steps
         $this->storeIndex->open();
-        $this->storeIndex->getGridPageActions()->createStoreGroup();
-        $this->newGroupIndex->getEditFormGroup()->fill($storeGroup);
-        $this->newGroupIndex->getFormPageActions()->save();
+        $this->storeIndex->getStoreGrid()->searchAndOpenStore($storeGroupOrigin);
+        $this->editGroup->getEditFormGroup()->fill($storeGroup);
+        $this->editGroup->getFormPageActions()->save();
     }
 }
