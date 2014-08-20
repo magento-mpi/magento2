@@ -13,8 +13,7 @@ define(
     "Usage: php -f maintenance.php -- [--set=1|0] [--addresses=127.0.0.1,...|none'] [--bootstrap=<json>]
         --set - enable or disable maintenance mode
         --addresses - list of allowed IP addresses, comma-separated
-        --bootstrap - add or override parameters of the bootstrap\n
-    "
+        --bootstrap - add or override parameters of the bootstrap\n"
 );
 $opt = getopt('', ['set::', 'addresses::', 'bootstrap::']);
 if (empty($opt)) {

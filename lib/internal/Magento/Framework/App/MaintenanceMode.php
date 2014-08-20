@@ -98,7 +98,7 @@ class MaintenanceMode
             }
             return true;
         }
-        if (!preg_match('/^\d{1,3}(\.\d{1,3}){3}(,\d{1,3}(\.\d{1,3}){3})*$/', $addresses)) {
+        if (!preg_match('/^[^\s,]+(,[^\s,]+)*$/', $addresses)) {
             throw new \InvalidArgumentException("One or more IP-addresses is expected (comma-separated)\n");
         }
         $result = file_put_contents($addressesFile, $addresses);
