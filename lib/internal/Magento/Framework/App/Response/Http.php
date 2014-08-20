@@ -172,6 +172,8 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
 
     /**
      * Need to reconstruct dependencies when being de-serialized.
+     *
+     * @return void
      */
     public function __wakeup()
     {
