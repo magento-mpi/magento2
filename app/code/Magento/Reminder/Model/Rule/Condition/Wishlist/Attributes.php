@@ -180,7 +180,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         if ($attribute->getAttributeCode() == 'category_ids') {
             $condition = $resource->createConditionSql(
                 'cat.category_id',
-                $this->getOperator(),
+                $this->getOperatorForValidate(),
                 $this->getValueParsed()
             );
             $categorySelect = $resource->createSelect();

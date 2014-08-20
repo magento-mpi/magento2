@@ -711,7 +711,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
         /**
          * Comparison operator
          */
-        $option = $this->getOperator();
+        $option = $this->getOperatorForValidate();
 
         // if operator requires array and it is not, or on opposite, return false
         if ($this->isArrayOperatorType() xor is_array($value)) {
