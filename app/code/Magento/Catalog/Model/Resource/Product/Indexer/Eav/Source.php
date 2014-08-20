@@ -169,6 +169,11 @@ class Source extends AbstractEav
         $select->where($this->_resourceHelper->getIsNullNotNullCondition('pis.value', 'pid.value'));
 
         /**
+         * Exclude attribute values that contains NULL
+         */
+        $select->where('NOT(pis.value IS NULL AND pis.value_id IS NOT NULL)');
+
+        /**
          * Add additional external limitation
          */
         $this->_eventManager->dispatch(
