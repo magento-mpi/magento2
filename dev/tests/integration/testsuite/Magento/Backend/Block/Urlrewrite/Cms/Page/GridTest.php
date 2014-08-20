@@ -18,11 +18,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareGrid()
     {
-        /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
+        /** @var \Magento\UrlRewrite\Block\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Cms\Page\Grid'
+            'Magento\UrlRewrite\Block\Cms\Page\Grid'
         );
         $gridBlock->toHtml();
 
@@ -54,11 +54,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareGridForMultipleStores()
     {
-        /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
+        /** @var \Magento\UrlRewrite\Block\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Cms\Page\Grid'
+            'Magento\UrlRewrite\Block\Cms\Page\Grid'
         );
         $gridBlock->toHtml();
         $this->assertInstanceOf(

@@ -640,7 +640,7 @@ class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
             . ' AND u.entity_type = "' . ProductUrlRewriteGenerator::ENTITY_TYPE . '"',
             array('request_path')
         )->joinLeft(
-            array('r' => $this->getTable('url_rewrite_relation')),
+            array('r' => $this->getTable('catalog_url_rewrite_product_category')),
             'u.url_rewrite_id = r.url_rewrite_id AND r.category_id is NULL',
             array()
         );

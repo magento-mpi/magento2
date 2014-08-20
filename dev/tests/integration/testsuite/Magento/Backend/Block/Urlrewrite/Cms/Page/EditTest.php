@@ -8,7 +8,7 @@
 namespace Magento\Backend\Block\Urlrewrite\Cms\Page;
 
 /**
- * Test for \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit
+ * Test for \Magento\UrlRewrite\Block\Cms\Page\Edit
  * @magentoAppArea adminhtml
  */
 class EditTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +30,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\LayoutInterface'
         );
 
-        /** @var $block \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit */
+        /** @var $block \Magento\UrlRewrite\Block\Cms\Page\Edit */
         $block = $layout->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Cms\Page\Edit',
+            'Magento\UrlRewrite\Block\Cms\Page\Edit',
             '',
             array('data' => $blockAttributes)
         );
@@ -47,7 +47,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check selector
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkSelector($block, $expected)
@@ -55,12 +55,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $selectorBlock \Magento\Backend\Block\Urlrewrite\Selector|bool */
+        /** @var $selectorBlock \Magento\UrlRewrite\Block\Selector|bool */
         $selectorBlock = $layout->getChildBlock($blockName, 'selector');
 
         if ($expected['selector']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Selector',
+                'Magento\UrlRewrite\Block\Selector',
                 $selectorBlock,
                 'Child block with entity selector is invalid'
             );
@@ -72,7 +72,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check links
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkLinks($block, $expected)
@@ -80,12 +80,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $cmsPageLinkBlock \Magento\Backend\Block\Urlrewrite\Link|bool */
+        /** @var $cmsPageLinkBlock \Magento\UrlRewrite\Block\Link|bool */
         $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
 
         if ($expected['cms_page_link']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Link',
+                'Magento\UrlRewrite\Block\Link',
                 $cmsPageLinkBlock,
                 'Child block with CMS page link is invalid'
             );
@@ -115,36 +115,38 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check buttons
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkButtons($block, $expected)
     {
         $buttonsHtml = $block->getButtonsHtml();
 
-        if ($expected['back_button']) {
-            if ($block->getCmsPage()->getId()) {
-                $this->assertSelectCount(
-                    'button.back[onclick~="\/cms_page"]',
-                    1,
-                    $buttonsHtml,
-                    'Back button is not present in CMS page URL rewrite edit block'
-                );
+        if (isset($expected['back_button'])) {
+            if ($expected['back_button']) {
+                if ($block->getCmsPage()->getId()) {
+                    $this->assertSelectCount(
+                        'button.back[onclick~="\/cms_page"]',
+                        1,
+                        $buttonsHtml,
+                        'Back button is not present in CMS page URL rewrite edit block'
+                    );
+                } else {
+                    $this->assertSelectCount(
+                        'button.back',
+                        1,
+                        $buttonsHtml,
+                        'Back button is not present in CMS page URL rewrite edit block'
+                    );
+                }
             } else {
                 $this->assertSelectCount(
                     'button.back',
-                    1,
+                    0,
                     $buttonsHtml,
-                    'Back button is not present in CMS page URL rewrite edit block'
+                    'Back button should not present in CMS page URL rewrite edit block'
                 );
             }
-        } else {
-            $this->assertSelectCount(
-                'button.back',
-                0,
-                $buttonsHtml,
-                'Back button should not present in CMS page URL rewrite edit block'
-            );
         }
 
         if ($expected['save_button']) {
@@ -199,7 +201,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check form
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkForm($block, $expected)
@@ -207,12 +209,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $formBlock \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\Form|bool */
+        /** @var $formBlock \Magento\UrlRewrite\Block\Cms\Page\Edit\Form|bool */
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\Form',
+                'Magento\UrlRewrite\Block\Cms\Page\Edit\Form',
                 $formBlock,
                 'Child block with form is invalid'
             );
@@ -236,7 +238,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check grid
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkGrid($block, $expected)
@@ -244,12 +246,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $gridBlock \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid|bool */
+        /** @var $gridBlock \Magento\UrlRewrite\Block\Cms\Page\Grid|bool */
         $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
 
         if ($expected['cms_pages_grid']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Cms\Page\Grid',
+                'Magento\UrlRewrite\Block\Cms\Page\Grid',
                 $gridBlock,
                 'Child block with CMS pages grid is invalid'
             );
@@ -315,7 +317,6 @@ class EditTest extends \PHPUnit_Framework_TestCase
                 array(
                     'selector' => false,
                     'cms_page_link' => array('name' => $cmsPage->getTitle()),
-                    'back_button' => true,
                     'save_button' => true,
                     'reset_button' => true,
                     'delete_button' => true,

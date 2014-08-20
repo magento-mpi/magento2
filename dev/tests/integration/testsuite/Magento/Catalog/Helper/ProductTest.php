@@ -24,7 +24,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/products.php
+     * @magentoDataFixture Magento/CatalogUrlRewrite/_files/product_simple.php
+     * @magentoAppIsolation enabled
      */
     public function testGetProductUrl()
     {

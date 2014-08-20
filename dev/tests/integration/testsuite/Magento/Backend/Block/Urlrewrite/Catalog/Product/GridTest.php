@@ -8,7 +8,7 @@
 namespace Magento\Backend\Block\Urlrewrite\Catalog\Product;
 
 /**
- * Test for \Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid
+ * Test for \Magento\UrlRewrite\Block\Catalog\Product\Grid
  * @magentoAppArea adminhtml
  */
 class GridTest extends \PHPUnit_Framework_TestCase
@@ -18,11 +18,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareGrid()
     {
-        /** @var $gridBlock \Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid */
+        /** @var $gridBlock \Magento\UrlRewrite\Block\Catalog\Product\Grid */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid'
+            'Magento\UrlRewrite\Block\Catalog\Product\Grid'
         );
         $gridBlock->toHtml();
 

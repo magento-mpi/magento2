@@ -8,7 +8,7 @@
 namespace Magento\Backend\Block\Urlrewrite;
 
 /**
- * Test for \Magento\Backend\Block\Urlrewrite\Edit
+ * Test for \Magento\UrlRewrite\Block\Edit
  * @magentoAppArea adminhtml
  */
 class EditTest extends \PHPUnit_Framework_TestCase
@@ -30,8 +30,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\LayoutInterface'
         );
 
-        /** @var $block \Magento\Backend\Block\Urlrewrite\Edit */
-        $block = $layout->createBlock('Magento\Backend\Block\Urlrewrite\Edit', '', array('data' => $blockAttributes));
+        /** @var $block \Magento\UrlRewrite\Block\Edit */
+        $block = $layout->createBlock('Magento\UrlRewrite\Block\Edit', '', array('data' => $blockAttributes));
 
         $this->_checkSelector($block, $expected);
         $this->_checkButtons($block, $expected);
@@ -41,7 +41,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check entity selector
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Edit $block
+     * @param \Magento\UrlRewrite\Block\Edit $block
      * @param array $expected
      */
     private function _checkSelector($block, $expected)
@@ -53,7 +53,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         if ($expected['selector']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Selector',
+                'Magento\UrlRewrite\Block\Selector',
                 $selectorBlock,
                 'Child block with entity selector is invalid'
             );
@@ -65,7 +65,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check form
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Edit $block
+     * @param \Magento\UrlRewrite\Block\Edit $block
      * @param array $expected
      */
     private function _checkForm($block, $expected)
@@ -73,12 +73,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $formBlock \Magento\Backend\Block\Urlrewrite\Edit\Form|bool */
+        /** @var $formBlock \Magento\UrlRewrite\Block\Edit\Form|bool */
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Edit\Form',
+                'Magento\UrlRewrite\Block\Edit\Form',
                 $formBlock,
                 'Child block with form is invalid'
             );
@@ -96,7 +96,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check buttons
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Edit $block
+     * @param \Magento\UrlRewrite\Block\Edit $block
      * @param array $expected
      */
     private function _checkButtons($block, $expected)

@@ -8,7 +8,7 @@
 namespace Magento\Backend\Block\Urlrewrite\Cms\Page\Edit;
 
 /**
- * Test for \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\FormTest
+ * Test for \Magento\UrlRewrite\Block\Cms\Page\Edit\FormTest
  * @magentoAppArea adminhtml
  */
 class FormTest extends \PHPUnit_Framework_TestCase
@@ -25,9 +25,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         );
-        /** @var $block \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\Form */
+        /** @var $block \Magento\UrlRewrite\Block\Cms\Page\Edit\Form */
         $block = $layout->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\Form',
+            'Magento\UrlRewrite\Block\Cms\Page\Edit\Form',
             'block',
             array('data' => $args)
         );
@@ -39,7 +39,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     /**
      * Check _formPostInit set expected fields values
      *
-     * @covers \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\Form::_formPostInit
+     * @covers \Magento\UrlRewrite\Block\Cms\Page\Edit\Form::_formPostInit
      *
      * @dataProvider formPostInitDataProvider
      *
@@ -63,11 +63,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());
 
-        $this->assertEquals($idPath, $form->getElement('id_path')->getValue());
         $this->assertEquals($requestPath, $form->getElement('request_path')->getValue());
         $this->assertEquals($targetPath, $form->getElement('target_path')->getValue());
 
-        $this->assertTrue($form->getElement('id_path')->getData('disabled'));
         $this->assertTrue($form->getElement('target_path')->getData('disabled'));
     }
 

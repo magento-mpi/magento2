@@ -8,14 +8,14 @@
 namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
 
 /**
- * Test for \Magento\Backend\Block\Urlrewrite\Catalog\Category\Tree
+ * Test for \Magento\UrlRewrite\Block\Catalog\Category\Tree
  *
  * @magentoAppArea adminhtml
  */
 class TreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Block\Urlrewrite\Catalog\Category\Tree
+     * @var \Magento\UrlRewrite\Block\Catalog\Category\Tree
      */
     private $_treeBlock;
 
@@ -28,12 +28,12 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $this->_treeBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Catalog\Category\Tree'
+            'Magento\UrlRewrite\Block\Catalog\Category\Tree'
         );
     }
 
     /**
-     * Test for method \Magento\Backend\Block\Urlrewrite\Catalog\Category\Tree::getTreeArray()
+     * Test for method \Magento\UrlRewrite\Block\Catalog\Category\Tree::getTreeArray()
      */
     public function testGetTreeArray()
     {
@@ -48,14 +48,15 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             'children' => array(
                 array(
                     'id' => 2,
-                    'parent_id' => 1,
+                    'parent_id' => \Magento\Catalog\Model\Category::TREE_ROOT_ID,
                     'children_count' => 0,
                     'is_active' => true,
                     'name' => 'Default Category',
                     'level' => 1,
                     'product_count' => 0,
                     'cls' => 'active-category',
-                    'expanded' => false
+                    'expanded' => false,
+                    'disabled' => true,
                 )
             ),
             'cls' => 'no-active-category',
@@ -79,7 +80,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for method \Magento\Backend\Block\Urlrewrite\Catalog\Category\Tree::getCategoryCollection()
+     * Test for method \Magento\UrlRewrite\Block\Catalog\Category\Tree::getCategoryCollection()
      */
     public function testGetCategoryCollection()
     {

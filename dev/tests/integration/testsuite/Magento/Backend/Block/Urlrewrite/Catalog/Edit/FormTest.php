@@ -7,8 +7,9 @@
  */
 namespace Magento\Backend\Block\Urlrewrite\Catalog\Edit;
 
+use Magento\TestFramework\Helper\Bootstrap;
 /**
- * Test for \Magento\Backend\Block\Urlrewrite\Catalog\Edit\FormTest
+ * Test for \Magento\UrlRewrite\Block\Catalog\Edit\FormTest
  * @magentoAppArea adminhtml
  */
 class FormTest extends \PHPUnit_Framework_TestCase
@@ -25,9 +26,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         );
-        /** @var $block \Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form */
+        /** @var $block \Magento\UrlRewrite\Block\Catalog\Edit\Form */
         $block = $layout->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form',
+            'Magento\UrlRewrite\Block\Catalog\Edit\Form',
             'block',
             array('data' => $args)
         );
@@ -39,36 +40,35 @@ class FormTest extends \PHPUnit_Framework_TestCase
     /**
      * Check _formPostInit set expected fields values
      *
-     * @covers \Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form::_formPostInit
+     * @covers \Magento\UrlRewrite\Block\Catalog\Edit\Form::_formPostInit
      *
      * @dataProvider formPostInitDataProvider
      *
      * @param array $productData
      * @param array $categoryData
      * @param string $action
-     * @param string $idPath
      * @param string $requestPath
      * @param string $targetPath
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
      * @magentoAppIsolation enabled
      */
-    public function testFormPostInitNew($productData, $categoryData, $action, $idPath, $requestPath, $targetPath)
+    public function testFormPostInitNew($productData, $categoryData, $action, $requestPath, $targetPath)
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new \Magento\Framework\Object($productData);
+            $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
+            $args['product'] = $product->setData($productData);
         }
         if ($categoryData) {
-            $args['category'] = new \Magento\Framework\Object($categoryData);
+            $category = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category');
+            $args['category'] = $category->setData($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());
 
-        $this->assertEquals($idPath, $form->getElement('id_path')->getValue());
         $this->assertEquals($requestPath, $form->getElement('request_path')->getValue());
         $this->assertEquals($targetPath, $form->getElement('target_path')->getValue());
 
-        $this->assertTrue($form->getElement('id_path')->getData('disabled'));
         $this->assertTrue($form->getElement('target_path')->getData('disabled'));
     }
 
@@ -87,10 +87,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new \Magento\Framework\Object($productData);
+            $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
+            $args['product'] = $product->setData($productData);
         }
         if ($categoryData) {
-            $args['category'] = new \Magento\Framework\Object($categoryData);
+            $category = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category');
+            $args['category'] = $category->setData($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());
@@ -158,25 +160,22 @@ class FormTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 null,
-                array('id' => 3, 'level' => 2, 'url_key' => 'category'),
-                'category/3',
+                array('entity_id' => 3, 'level' => 2, 'url_key' => 'category', 'store_id' => 1),
                 'category/3',
                 'category.html',
                 'catalog/category/view/id/3'
             ),
             array(
-                array('id' => 2, 'url_key' => 'product'),
+                array('entity_id' => 2, 'level' => 2,  'url_key' => 'product', 'store_id' => 1),
                 null,
-                'product/2',
                 'product/2',
                 'product.html',
                 'catalog/product/view/id/2'
             ),
             array(
-                array('id' => 2, 'name' => 'product'),
-                array('id' => 3, 'level' => 2, 'url_key' => 'category'),
+                array('entity_id' => 2, 'name' => 'product', 'store_id' => 1),
+                array('entity_id' => 3, 'level' => 2, 'url_key' => 'category', 'store_id' => 1),
                 'product/2/category/3',
-                'product/2/3',
                 'category/product.html',
                 'catalog/product/view/id/2/category/3'
             )
@@ -197,7 +196,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 null,
-                array('id' => 3, 'store_ids' => array(1)),
+                array('entity_id' => 3, 'store_ids' => array(1)),
                 array(
                     array('label' => 'Main Website', 'value' => array()),
                     array(
@@ -207,7 +206,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                array('id' => 2, 'store_ids' => array(1)),
+                array('entity_id' => 2, 'store_ids' => array(1)),
                 null,
                 array(
                     array('label' => 'Main Website', 'value' => array()),
@@ -218,8 +217,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                array('id' => 2, 'store_ids' => array(1)),
-                array('id' => 3, 'store_ids' => array(1)),
+                array('entity_id' => 2, 'store_ids' => array(1)),
+                array('entity_id' => 3, 'store_ids' => array(1)),
                 array(
                     array('label' => 'Main Website', 'value' => array()),
                     array(

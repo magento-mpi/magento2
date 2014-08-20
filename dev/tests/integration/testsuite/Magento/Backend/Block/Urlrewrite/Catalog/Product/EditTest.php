@@ -8,7 +8,7 @@
 namespace Magento\Backend\Block\Urlrewrite\Catalog\Product;
 
 /**
- * Test for \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit
+ * Test for \Magento\UrlRewrite\Block\Catalog\Product\Edit
  * @magentoAppArea adminhtml
  */
 class EditTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +30,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\LayoutInterface'
         );
 
-        /** @var $block \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit */
+        /** @var $block \Magento\UrlRewrite\Block\Catalog\Product\Edit */
         $block = $layout->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit',
+            'Magento\UrlRewrite\Block\Catalog\Product\Edit',
             '',
             array('data' => $blockAttributes)
         );
@@ -48,7 +48,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check selector
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit $block
+     * @param \Magento\UrlRewrite\Block\Catalog\Product\Edit $block
      * @param array $expected
      */
     private function _checkSelector($block, $expected)
@@ -56,12 +56,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $selectorBlock \Magento\Backend\Block\Urlrewrite\Selector|bool */
+        /** @var $selectorBlock \Magento\UrlRewrite\Block\Selector|bool */
         $selectorBlock = $layout->getChildBlock($blockName, 'selector');
 
         if ($expected['selector']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Selector',
+                'Magento\UrlRewrite\Block\Selector',
                 $selectorBlock,
                 'Child block with entity selector is invalid'
             );
@@ -73,7 +73,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check links
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit $block
+     * @param \Magento\UrlRewrite\Block\Catalog\Product\Edit $block
      * @param array $expected
      */
     private function _checkLinks($block, $expected)
@@ -81,12 +81,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $productLinkBlock \Magento\Backend\Block\Urlrewrite\Link|bool */
+        /** @var $productLinkBlock \Magento\UrlRewrite\Block\Link|bool */
         $productLinkBlock = $layout->getChildBlock($blockName, 'product_link');
 
         if ($expected['product_link']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Link',
+                'Magento\UrlRewrite\Block\Link',
                 $productLinkBlock,
                 'Child block with product link is invalid'
             );
@@ -112,12 +112,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
             $this->assertFalse($productLinkBlock, 'Child block with product link should not present in block');
         }
 
-        /** @var $categoryLinkBlock \Magento\Backend\Block\Urlrewrite\Link|bool */
+        /** @var $categoryLinkBlock \Magento\UrlRewrite\Block\Link|bool */
         $categoryLinkBlock = $layout->getChildBlock($blockName, 'category_link');
 
         if ($expected['category_link']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Link',
+                'Magento\UrlRewrite\Block\Link',
                 $categoryLinkBlock,
                 'Child block with category link is invalid'
             );
@@ -147,36 +147,38 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check buttons
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit $block
+     * @param \Magento\UrlRewrite\Block\Catalog\Product\Edit $block
      * @param array $expected
      */
     private function _checkButtons($block, $expected)
     {
         $buttonsHtml = $block->getButtonsHtml();
 
-        if ($expected['back_button']) {
-            if ($block->getProduct()->getId()) {
-                $this->assertSelectCount(
-                    'button.back[onclick~="\/product"]',
-                    1,
-                    $buttonsHtml,
-                    'Back button is not present in product URL rewrite edit block'
-                );
+        if (isset($expected['back_button'])) {
+            if ($expected['back_button']) {
+                if ($block->getProduct()->getId()) {
+                    $this->assertSelectCount(
+                        'button.back[onclick~="\/product"]',
+                        1,
+                        $buttonsHtml,
+                        'Back button is not present in product URL rewrite edit block'
+                    );
+                } else {
+                    $this->assertSelectCount(
+                        'button.back',
+                        1,
+                        $buttonsHtml,
+                        'Back button is not present in product URL rewrite edit block'
+                    );
+                }
             } else {
                 $this->assertSelectCount(
                     'button.back',
-                    1,
+                    0,
                     $buttonsHtml,
-                    'Back button is not present in product URL rewrite edit block'
+                    'Back button should not present in product URL rewrite edit block'
                 );
             }
-        } else {
-            $this->assertSelectCount(
-                'button.back',
-                0,
-                $buttonsHtml,
-                'Back button should not present in product URL rewrite edit block'
-            );
         }
 
         if ($expected['save_button']) {
@@ -231,7 +233,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check form
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit $block
+     * @param \Magento\UrlRewrite\Block\Catalog\Product\Edit $block
      * @param array $expected
      */
     private function _checkForm($block, $expected)
@@ -239,12 +241,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $formBlock \Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form|bool */
+        /** @var $formBlock \Magento\UrlRewrite\Block\Catalog\Edit\Form|bool */
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form',
+                'Magento\UrlRewrite\Block\Catalog\Edit\Form',
                 $formBlock,
                 'Child block with form is invalid'
             );
@@ -276,7 +278,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check grid
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit $block
+     * @param \Magento\UrlRewrite\Block\Catalog\Product\Edit $block
      * @param array $expected
      */
     private function _checkGrid($block, $expected)
@@ -284,12 +286,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $gridBlock \Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid|bool */
+        /** @var $gridBlock \Magento\UrlRewrite\Block\Catalog\Product\Grid|bool */
         $gridBlock = $layout->getChildBlock($blockName, 'products_grid');
 
         if ($expected['products_grid']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid',
+                'Magento\UrlRewrite\Block\Catalog\Product\Grid',
                 $gridBlock,
                 'Child block with product grid is invalid'
             );
@@ -301,7 +303,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check categories
      *
-     * @param \Magento\Backend\Block\Urlrewrite\Catalog\Product\Edit $block
+     * @param \Magento\UrlRewrite\Block\Catalog\Product\Edit $block
      * @param array $expected
      */
     private function _checkCategories($block, $expected)
@@ -309,12 +311,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $categoriesTreeBlock \Magento\Backend\Block\Urlrewrite\Catalog\Category\Tree|bool */
+        /** @var $categoriesTreeBlock \Magento\UrlRewrite\Block\Catalog\Category\Tree|bool */
         $categoriesTreeBlock = $layout->getChildBlock($blockName, 'categories_tree');
 
         if ($expected['categories_tree']) {
             $this->assertInstanceOf(
-                'Magento\Backend\Block\Urlrewrite\Catalog\Category\Tree',
+                'Magento\UrlRewrite\Block\Catalog\Category\Tree',
                 $categoriesTreeBlock,
                 'Child block with categories tree is invalid'
             );
@@ -434,7 +436,6 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'selector' => false,
                     'product_link' => array('name' => $product->getName()),
                     'category_link' => array('name' => $category->getName()),
-                    'back_button' => true,
                     'reset_button' => true,
                     'delete_button' => true,
                     'save_button' => true,
