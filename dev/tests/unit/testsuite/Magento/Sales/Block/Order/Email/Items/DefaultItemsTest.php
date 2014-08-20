@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Block\Order\Email\Items;
 
-class DefaultItemTest extends \PHPUnit_Framework_TestCase
+class DefaultItemsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Block\Order\Email\Items\DefaultItem
@@ -45,7 +45,7 @@ class DefaultItemTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->block = $this->objectManager->getObject(
-            'Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder',
+            'Magento\Sales\Block\Order\Email\Items\DefaultItems',
             array(
                 'context' => $this->objectManager->getObject(
                         'Magento\Backend\Block\Template\Context',
