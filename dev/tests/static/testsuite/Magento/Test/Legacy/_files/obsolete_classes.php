@@ -2716,4 +2716,5 @@ return array(
         'Magento\CatalogImportExport\Model\Import\Product\Type\Grouped',
         'Magento\GroupedImportExport\Model\Import\Product\Type\Grouped'
     ],
+    ['Magento\Sales\Model\Order\OrderConverter', 'Magento\Sales\Model\OrderConverter'],
 );
