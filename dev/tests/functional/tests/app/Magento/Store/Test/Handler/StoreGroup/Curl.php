@@ -74,10 +74,10 @@ class Curl extends AbstractCurl implements StoreGroupInterface
     /**
      * Prepare data from text to values
      *
-     * @param $fixture
+     * @param FixtureInterface $fixture
      * @return array
      */
-    protected function prepareData($fixture)
+    protected function prepareData(FixtureInterface $fixture)
     {
         $categoryId = $fixture->getDataFieldConfig('root_category_id')['source']->getCategory()->getId();
         $websiteId = $fixture->getDataFieldConfig('website_id')['source']->getWebsite()->getWebsiteId();
