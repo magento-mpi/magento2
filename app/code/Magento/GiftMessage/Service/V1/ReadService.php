@@ -13,14 +13,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var \Magento\Checkout\Service\V1\QuoteLoader
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $quoteLoader;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\GiftMessage\Model\MessageFactory
@@ -33,21 +28,26 @@ class ReadService implements ReadServiceInterface
     protected $builder;
 
     /**
-     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @var \Magento\GiftMessage\Service\V1\Data\MessageMapper
+     */
+    protected $messageMapper;
+
+    /**
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
      * @param Data\MessageBuilder $builder
+     * @param \Magento\GiftMessage\Service\V1\Data\MessageMapper $messageMapper
      */
     public function __construct(
-        \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\GiftMessage\Model\MessageFactory $messageFactory,
-        \Magento\GiftMessage\Service\V1\Data\MessageBuilder $builder
+        \Magento\GiftMessage\Service\V1\Data\MessageBuilder $builder,
+        \Magento\GiftMessage\Service\V1\Data\MessageMapper $messageMapper
     ) {
-        $this->quoteLoader = $quoteLoader;
-        $this->storeManager = $storeManager;
+        $this->quoteRepository = $quoteRepository;
         $this->messageFactory = $messageFactory;
         $this->builder = $builder;
+        $this->messageMapper = $messageMapper;
     }
 
     /**
@@ -55,11 +55,8 @@ class ReadService implements ReadServiceInterface
      */
     public function get($cartId)
     {
-
-        $storeId = $this->storeManager->getStore()->getId();
-
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
 
         $messageId = $quote->getGiftMessageId();
         if (!$messageId) {
@@ -69,12 +66,7 @@ class ReadService implements ReadServiceInterface
         /** @var \Magento\GiftMessage\Model\Message $model */
         $model = $this->messageFactory->create()->load($messageId);
 
-        $this->builder->setId($model->getId());
-        $this->builder->setRecipient($model->getRecipient());
-        $this->builder->setSender($model->getSender());
-        $this->builder->setMessage($model->getMessage());
-
-        return $this->builder->create();
+        return $this->messageMapper->extractDto($model);
     }
 
     /**
@@ -82,10 +74,8 @@ class ReadService implements ReadServiceInterface
      */
     public function getItemMessage($cartId, $itemId)
     {
-        $storeId = $this->storeManager->getStore()->getId();
-
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
         if (!$item = $quote->getItemById($itemId)) {
             throw new NoSuchEntityException('There is no item with provided id in the cart');
         };
@@ -97,11 +87,6 @@ class ReadService implements ReadServiceInterface
         /** @var \Magento\GiftMessage\Model\Message $model */
         $model = $this->messageFactory->create()->load($messageId);
 
-        $this->builder->setId($model->getId());
-        $this->builder->setRecipient($model->getRecipient());
-        $this->builder->setSender($model->getSender());
-        $this->builder->setMessage($model->getMessage());
-
-        return $this->builder->create();
+        return $this->messageMapper->extractDto($model);
     }
 }

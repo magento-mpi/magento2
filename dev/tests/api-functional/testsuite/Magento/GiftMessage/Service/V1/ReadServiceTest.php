@@ -57,8 +57,9 @@ class ReadServiceTest extends WebapiAbstract
 
         $requestData = ["cartId" => $cartId];
         $resultMessage = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertCount(4, $resultMessage);
-        unset($resultMessage['id']);
+        $this->assertCount(5, $resultMessage);
+        unset($resultMessage['gift_message_id']);
+        unset($resultMessage['customer_id']);
         $this->assertEquals($expectedMessage, $resultMessage);
     }
 
@@ -70,7 +71,9 @@ class ReadServiceTest extends WebapiAbstract
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_item_with_message', 'reserved_order_id');
-        $itemId = $quote->getAllItems()[0]->getId();
+        $product = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $product->load($product->getIdBySku('simple_with_message'));
+        $itemId = $quote->getItemByProduct($product)->getId();
         /** @var  \Magento\Catalog\Model\Product $product */
         $cartId = $quote->getId();
         $serviceInfo = [
@@ -93,8 +96,9 @@ class ReadServiceTest extends WebapiAbstract
 
         $requestData = ["cartId" => $cartId, "itemId" => $itemId];
         $resultMessage = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertCount(4, $resultMessage);
-        unset($resultMessage['id']);
+        $this->assertCount(5, $resultMessage);
+        unset($resultMessage['gift_message_id']);
+        unset($resultMessage['customer_id']);
         $this->assertEquals($expectedMessage, $resultMessage);
     }
 }
