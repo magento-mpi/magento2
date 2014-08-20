@@ -27,13 +27,20 @@ class ProductSaveProcessorComposite implements ProductSaveProcessorInterface
      * Register product save processors.
      *
      * @param CompositeHelper $compositeHelper
-     * @param ProductSaveProcessorInterface[] $saveProcessors
+     * @param array $saveProcessors Array of the processors which should be registered in the following format:
+     * <pre>
+     * [
+     *      ['type' => $firstProcessorObject, 'sortOrder' => 15],
+     *      ['type' => $secondProcessorObject, 'sortOrder' => 10],
+     *      ...
+     * ]
+     * </pre>
      */
     public function __construct(CompositeHelper $compositeHelper, $saveProcessors = [])
     {
         $saveProcessors = $compositeHelper->filterAndSortDeclaredComponents($saveProcessors);
         foreach ($saveProcessors as $saveProcessor) {
-            $this->productSaveProcessors = $saveProcessor['type'];
+            $this->productSaveProcessors[] = $saveProcessor['type'];
         }
     }
 
