@@ -147,7 +147,7 @@ class Source extends AbstractEav
         }
 
         /**@var $select \Magento\Framework\DB\Select*/
-        $select = $adapter->select()->from(
+        $select = $adapter->select()->distinct(true)->from(
             array('pid' => new \Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
             array()
         )->joinLeft(
@@ -185,7 +185,6 @@ class Source extends AbstractEav
                 'store_field' => new \Zend_Db_Expr('pid.store_id')
             )
         );
-
         $query = $select->insertFromSelect($idxTable);
         $adapter->query($query);
 
