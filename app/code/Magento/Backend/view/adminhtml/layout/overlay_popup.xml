@@ -9,7 +9,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="popup"/>
-    <referenceBlock name="backend_page">
+    <referenceBlock name="backend.page">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">admin/overlay_popup.phtml</argument>
         </action>

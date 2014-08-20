@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <container name="root">
-        <block name="backend_page" class="Magento\Framework\View\Element\Template">
+        <block name="backend.page" class="Magento\Framework\View\Element\Template">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">Magento_VersionsCms::page/preview.phtml</argument>
             </action>

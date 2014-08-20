@@ -8,7 +8,7 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="backend_page">
+    <referenceBlock name="backend.page">
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load" name="content"/>
     </referenceBlock>
 </page>

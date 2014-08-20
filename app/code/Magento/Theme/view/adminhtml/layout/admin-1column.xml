@@ -34,7 +34,7 @@
                     </container>
                 </container>
                 <container name="js" as="js" label="JavaScript"/>
-                <container name="page.footer.wrapper" as="page_footer_wrapper" htmlTag="div">
+                <container name="page.footer.wrapper" as="page_footer_wrapper" htmlTag="div" htmlClass="page-footer-wrapper">
                     <container name="footer" htmlTag="footer" htmlClass="page-footer"/>
                 </container>
             </container>
