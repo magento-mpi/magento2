@@ -67,6 +67,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/GiftWrapping
 ~dev/tests/functional/tests/app/Magento/Logging
 ~dev/tests/functional/tests/app/Magento/Integration
+~dev/tests/functional/tests/app/Magento/MultipleWishlist
 ~dev/tests/functional/tests/app/Magento/Multishipping
 ~dev/tests/functional/tests/app/Magento/Payment
 ~dev/tests/functional/tests/app/Magento/Paypal

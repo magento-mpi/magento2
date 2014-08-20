@@ -128,5 +128,33 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        $this->_data['multiple_wishlist_default'] = [
+            'section' => [
+                [
+                    'path' => 'wishlist/general/multiple_enabled',
+                    'scope' => 'wishlist',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'wishlist/general/multiple_wishlist_number',
+                    'scope' => 'wishlist',
+                    'scope_id' => 1,
+                    'value' => 3,
+                ],
+            ]
+        ];
+
+        $this->_data['disabled_multiple_wishlist_default'] = [
+            'section' => [
+                [
+                    'path' => 'wishlist/general/multiple_enabled',
+                    'scope' => 'wishlist',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
     }
 }
