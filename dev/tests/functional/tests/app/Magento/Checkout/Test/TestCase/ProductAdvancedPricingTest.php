@@ -38,7 +38,7 @@ class ProductAdvancedPricingTest extends Functional
 
         // Steps
         // Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
@@ -58,7 +58,7 @@ class ProductAdvancedPricingTest extends Functional
         $this->verifyCartItem($configurableProduct);
 
         // Proceed to one page checkout
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         // Place order
@@ -94,11 +94,10 @@ class ProductAdvancedPricingTest extends Functional
     private function addProductToCart(Product $product)
     {
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productPage->getViewBlock()->addToCart($product);
         // Make sure the item is added to the cart before continuing on.
-        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
     }
 
     /**
@@ -111,7 +110,7 @@ class ProductAdvancedPricingTest extends Functional
         $productName = $product->getName();
         $specialPrice = $product->getProductSpecialPrice();
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
 
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $subTotal = $checkoutCartPage->getCartBlock()->getCartItemSubTotal($product);

@@ -7,17 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="ccheckout/onepage/success" >
-    <block>
-        <name>successBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Success</class>
-        <locator>#maincontent</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>titleBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Title</class>
-        <locator>[data-ui-id="page-title"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="checkout/onepage/success" module="Magento_Checkout">
+    <blocks>
+        <successBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Success</class>
+            <locator>#maincontent</locator>
+            <strategy>css selector</strategy>
+        </successBlock>
+    </blocks>
 </page>

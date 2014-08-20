@@ -189,7 +189,9 @@ class Observer
             $customer = $this->_customerFactory->create()->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
-            $this->_customerSession->setCustomerId($customer->getId())->setCustomerGroupId($customer->getGroupId());
+            $this->_customerSession->setCustomerId($customer->getId())
+                ->setCustomerGroupId($customer->getGroupId())
+                ->setIsCustomerEmulated(true);
 
             // apply persistent data to segments
             $this->_coreRegistry->register('segment_customer', $customer, true);

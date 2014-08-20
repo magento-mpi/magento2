@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="reward_checkout/onepage" >
-    <block>
-        <name>rewardPointsBlock</name>
-        <class>Magento\Reward\Test\Block\Checkout\Payment\Additional</class>
-        <locator>#reward_placer</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="checkout/onepage">
+    <blocks>
+        <rewardPointsBlock>
+            <class>Magento\Reward\Test\Block\Checkout\Payment\Additional</class>
+            <locator>#reward_placer</locator>
+            <strategy>css selector</strategy>
+        </rewardPointsBlock>
+    </blocks>
 </page>

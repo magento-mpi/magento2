@@ -95,7 +95,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     public function execute()
     {
         try {
-            $invitation = $this->invitationProvider->get();
+            $invitation = $this->invitationProvider->get($this->getRequest());
 
             parent::execute();
 

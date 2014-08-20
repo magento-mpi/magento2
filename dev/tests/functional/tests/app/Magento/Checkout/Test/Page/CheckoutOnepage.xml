@@ -7,59 +7,52 @@
  * @license     {license_link}
  */
 -->
-<page mca="checkout/onepage" >
-    <block>
-        <name>loginBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Login</class>
-        <locator>#checkout-step-login</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>billingBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Billing</class>
-        <locator>#checkout-step-billing</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>shippingBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Shipping</class>
-        <locator>#checkout-step-shipping</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>shippingMethodBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Shipping\Method</class>
-        <locator>#checkout-step-shipping_method</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>paymentMethodsBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Payment\Methods</class>
-        <locator>#checkout-step-payment</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>reviewBlock</name>
-        <class>Magento\Checkout\Test\Block\Onepage\Review</class>
-        <locator>#checkout-step-review</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>centinelAuthenticationBlock</name>
-        <class>Magento\Centinel\Test\Block\Authentication</class>
-        <locator>body</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>payflowAdvancedCcBlock</name>
-        <class>Magento\Payment\Test\Block\Form\PayflowAdvanced\CcAdvanced</class>
-        <locator>body</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>payflowLinkCcBlock</name>
-        <class>Magento\Payment\Test\Block\Form\PayflowAdvanced\CcLink</class>
-        <locator>body</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="checkout/onepage" module="Magento_Checkout">
+    <blocks>
+        <loginBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Login</class>
+            <locator>#checkout-step-login</locator>
+            <strategy>css selector</strategy>
+        </loginBlock>
+        <billingBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Billing</class>
+            <locator>#checkout-step-billing</locator>
+            <strategy>css selector</strategy>
+        </billingBlock>
+        <shippingBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Shipping</class>
+            <locator>#checkout-step-shipping</locator>
+            <strategy>css selector</strategy>
+        </shippingBlock>
+        <shippingMethodBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Shipping\Method</class>
+            <locator>#checkout-step-shipping_method</locator>
+            <strategy>css selector</strategy>
+        </shippingMethodBlock>
+        <paymentMethodsBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Payment\Methods</class>
+            <locator>#checkout-step-payment</locator>
+            <strategy>css selector</strategy>
+        </paymentMethodsBlock>
+        <reviewBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Review</class>
+            <locator>#checkout-step-review</locator>
+            <strategy>css selector</strategy>
+        </reviewBlock>
+        <centinelAuthenticationBlock>
+            <class>Magento\Centinel\Test\Block\Authentication</class>
+            <locator>body</locator>
+            <strategy>css selector</strategy>
+        </centinelAuthenticationBlock>
+        <payflowAdvancedCcBlock>
+            <class>Magento\Payment\Test\Block\Form\PayflowAdvanced\CcAdvanced</class>
+            <locator>body</locator>
+            <strategy>css selector</strategy>
+        </payflowAdvancedCcBlock>
+        <payflowLinkCcBlock>
+            <class>Magento\Payment\Test\Block\Form\PayflowAdvanced\CcLink</class>
+            <locator>body</locator>
+            <strategy>css selector</strategy>
+        </payflowLinkCcBlock>
+    </blocks>
 </page>

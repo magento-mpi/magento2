@@ -56,11 +56,11 @@ class FormTabs extends Form
         Mapper $mapper,
         BlockFactory $blockFactory,
         Browser $browser,
-        XmlConverter $xmlConverter
+        XmlConverter $xmlConverter,
+        array $config = []
     ) {
         $this->xmlConverter = $xmlConverter;
-        $this->browser = $browser;
-        parent::__construct($element, $blockFactory, $mapper, $browser);
+        parent::__construct($element, $blockFactory, $mapper, $browser, $config);
     }
 
     /**

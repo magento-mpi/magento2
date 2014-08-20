@@ -8,10 +8,11 @@
  */
 -->
 <page mca="checkout/cart/index">
-    <block>
-        <name>giftCardAccountBlock</name>
-        <class>Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount</class>
-        <locator>.giftcard</locator>
-        <strategy>css selector</strategy>
-    </block>
+    <blocks>
+        <giftCardAccountBlock>
+            <class>Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount</class>
+            <locator>.giftcard</locator>
+            <strategy>css selector</strategy>
+        </giftCardAccountBlock>
+    </blocks>
 </page>

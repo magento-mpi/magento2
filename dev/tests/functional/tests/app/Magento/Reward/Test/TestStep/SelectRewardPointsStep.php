@@ -8,7 +8,7 @@
 
 namespace Magento\Reward\Test\TestStep;
 
-use Magento\Reward\Test\Page\CheckoutOnepage;
+use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Mtf\TestStep\TestStepInterface;
 
 /**

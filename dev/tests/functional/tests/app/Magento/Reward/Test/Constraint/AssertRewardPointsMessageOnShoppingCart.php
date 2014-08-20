@@ -10,7 +10,7 @@ namespace Magento\Reward\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Reward\Test\Page\CheckoutCart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Constraint\AbstractConstraint;
 

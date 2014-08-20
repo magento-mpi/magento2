@@ -8,7 +8,7 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryNew;
 use Mtf\Constraint\AbstractAssertForm;
@@ -29,20 +29,20 @@ class AssertGiftRegistryTypeForm extends AbstractAssertForm
     /**
      * Assert that GiftRegistryType form filled correctly
      *
-     * @param GiftRegistry $giftRegistry
+     * @param GiftRegistryType $giftRegistryType
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryNew $giftRegistryNew
      * @return void
      */
     public function processAssert(
-        GiftRegistry $giftRegistry,
+        GiftRegistryType $giftRegistryType,
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryNew $giftRegistryNew
     ) {
-        $filter = ['label' => $giftRegistry->getLabel()];
+        $filter = ['label' => $giftRegistryType->getLabel()];
         $giftRegistryIndex->getGiftRegistryGrid()->searchAndOpen($filter);
-        $formData = $giftRegistryNew->getGiftRegistryForm()->getData($giftRegistry);
-        $fixtureData = $giftRegistry->getData();
+        $formData = $giftRegistryNew->getGiftRegistryForm()->getData($giftRegistryType);
+        $fixtureData = $giftRegistryType->getData();
         \PHPUnit_Framework_Assert::assertEquals(
             $fixtureData,
             $formData,

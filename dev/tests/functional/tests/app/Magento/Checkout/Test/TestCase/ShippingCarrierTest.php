@@ -79,7 +79,7 @@ class ShippingCarrierTest extends Functional
 
         // Frontend
         // Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
         // Ensure customer from previous run is logged out
@@ -98,14 +98,13 @@ class ShippingCarrierTest extends Functional
         // Add simple, configurable, and bundle products to cart
         foreach (self::$checkoutFixture->getProducts() as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
         }
 
         // Get and verify shipping quote
-        $cartPage = Factory::getPageFactory()->getCheckoutCart();
+        $cartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $cartShippingBlock = $cartPage->getShippingBlock();
         // Make estimated shipping content visible
         $cartShippingBlock->openEstimateShippingAndTax();

@@ -8,6 +8,7 @@
 
 namespace Magento\Review\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Review\Test\Fixture\ReviewInjectable;
@@ -32,6 +33,7 @@ class AssertProductRatingInProductPage extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductSimple $product
+     * @param Browser $browser
      * @param ReviewInjectable|null $review [optional]
      * @param Rating|null $productRating [optional]
      * @return void
@@ -39,13 +41,13 @@ class AssertProductRatingInProductPage extends AbstractConstraint
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogProductSimple $product,
+        Browser $browser,
         ReviewInjectable $review = null,
         Rating $productRating = null
     ) {
         $product = $review === null ? $product : $review->getDataFieldConfig('entity_id')['source']->getEntity();
-        $catalogProductView->init($product);
-        $catalogProductView->open();
-        $reviewSummaryBlock = $catalogProductView->getReviewSummaryBlock();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $reviewSummaryBlock = $catalogProductView->getReviewSummary();
         if ($reviewSummaryBlock->isVisible()) {
             $reviewSummaryBlock->getAddReviewLink()->click();
         }

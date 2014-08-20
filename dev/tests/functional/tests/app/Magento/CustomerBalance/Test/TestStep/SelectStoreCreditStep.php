@@ -8,7 +8,7 @@
 
 namespace Magento\CustomerBalance\Test\TestStep;
 
-use Magento\CustomerBalance\Test\Page\CheckoutOnepage;
+use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Mtf\TestStep\TestStepInterface;
 
 /**

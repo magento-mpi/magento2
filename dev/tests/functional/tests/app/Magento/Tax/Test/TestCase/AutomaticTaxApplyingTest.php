@@ -40,7 +40,7 @@ class AutomaticTaxApplyingTest extends Functional
     {
         // Pages
         $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
@@ -54,8 +54,8 @@ class AutomaticTaxApplyingTest extends Functional
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         // Add products to cart
-        $productPage->init($this->fixture->getSimpleProduct());
-        $productPage->open();
+        $url = $_ENV['app_frontend_url'] . $this->fixture->getSimpleProduct()->getUrlKey() . '.html';
+        Factory::getClientBrowser()->open($url);
         $productPage->getViewBlock()->addToCart($this->fixture->getSimpleProduct());
 
         // Fill 'Estimate Shipping and Tax' section
@@ -90,7 +90,7 @@ class AutomaticTaxApplyingTest extends Functional
      */
     protected function verifyCartTotals()
     {
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $totalsBlock = $checkoutCartPage->getTotalsBlock();
         $this->assertContains(
             $this->fixture->getCartTax(),
