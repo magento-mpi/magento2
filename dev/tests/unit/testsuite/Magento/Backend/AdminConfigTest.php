@@ -72,8 +72,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getFrontName')
             ->will($this->returnValue('backend'));
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $adminConfig = $objectManager->getObject(
+        $adminConfig = $this->objectManager->getObject(
             'Magento\Backend\AdminConfig',
             [
                 'request' => $this->requestMock,
@@ -97,7 +96,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             [
                 'request' => $this->requestMock,
                 'appState' => $this->appState,
-                'sessionName'=>$sessionName
+                'sessionName' => $sessionName
             ]
         );
         $this->assertSame($sessionName, $adminConfig->getName());
