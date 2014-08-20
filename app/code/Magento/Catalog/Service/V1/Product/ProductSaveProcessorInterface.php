@@ -17,10 +17,14 @@ interface ProductSaveProcessorInterface
     /**
      * Create product.
      *
-     * @param \Magento\Catalog\Service\V1\Data\Product $product
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Service\V1\Data\Product $productData
      * @return string id
      */
-    public function create(\Magento\Catalog\Service\V1\Data\Product $product);
+    public function create(
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Catalog\Service\V1\Data\Product $productData
+    );
 
     /**
      * Update product.
