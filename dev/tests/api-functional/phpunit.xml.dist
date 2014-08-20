@@ -35,6 +35,7 @@
     <php>
         <includePath>./testsuite</includePath>
 
+        <!-- WebSerivice Type. Possible values: soap, rest -->
         <const name="TESTS_WEB_API_ADAPTER" value="rest"/>
         <!-- Webserver URL -->
         <const name="TESTS_BASE_URL" value="http://magento.url"/>
