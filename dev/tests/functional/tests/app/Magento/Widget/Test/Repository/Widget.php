@@ -27,13 +27,12 @@ class Widget extends AbstractRepository
         $this->_data['default'] = [
             'title' => 'Test Frontend App',
             'store_ids' => [
-                '0' => '0'
+                '0' => 'All Store Views'
             ],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
                     'all_pages' => [
-                        'page_id' => '0',
                         'layout_handle' => 'default',
                         'for' => 'all',
                         'block' => 'content',
@@ -45,37 +44,6 @@ class Widget extends AbstractRepository
                 'display_mode' => 'catalogrule'
             ],
             'theme_id' => '2'
-        ];
-
-        $this->_data['banner_rotator'] = [
-            'code' => 'magento_banner',
-            'title' => 'Banner Rotator %isolation%',
-            'store_ids' => [
-                '0' => '0'
-            ],
-            'widget_instance' => [
-                '0' => [
-                    'page_group' => 'all_pages',
-                    'all_pages' => [
-                        'page_id' => '0',
-                        'layout_handle' => 'default',
-                        'for' => 'all',
-                        'block' => 'content',
-                        'template' => 'widget/block.phtml'
-                    ]
-                ]
-            ],
-            //TODO 'parameters' array should be deleted while creating functional test for widget (MTA-296)
-            'parameters' => [
-                'display_mode' => 'catalogrule'
-            ],
-            //TODO 'theme_id' should be specified via UI and data source should be used
-            'theme_id' => '2'
-        ];
-
-        $this->_data['widget_banner_rotator'] = [
-            'code' => 'Banner Rotator',
-            'theme_id' => 'Magento Blank',
         ];
     }
 }

@@ -1,0 +1,4 @@
+"giftRegistryType/dataSet";"constraint"
+"text";"assertGiftRegistryTypeSuccessDeleteMessage, assertGiftRegistryTypeNotInGrid, assertGiftRegistryTypeNotOnFrontend"
+"select";"assertGiftRegistryTypeSuccessDeleteMessage, assertGiftRegistryTypeNotInGrid, assertGiftRegistryTypeNotOnFrontend"
+"date";"assertGiftRegistryTypeSuccessDeleteMessage, assertGiftRegistryTypeNotInGrid, assertGiftRegistryTypeNotOnFrontend"
