@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Service/etc/data_object.xsd">
+    <custom_attributes for="Magento\Catalog\Service\Data\V1\Product">
+        <attribute code="bundle_product_links" type="Magento\Bundle\Service\V1\Data\Product\Link\Metadata" />
+        <attribute code="bundle_product_options" type="Magento\Bundle\Service\V1\Data\Product\Option" />
+    </custom_attributes>
+</config>
