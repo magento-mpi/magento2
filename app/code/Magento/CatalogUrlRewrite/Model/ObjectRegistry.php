@@ -21,11 +21,10 @@ class ObjectRegistry
      */
     public function __construct($entities)
     {
-        $entitiesMap = [];
+        $this->entitiesMap = [];
         foreach ($entities as $entity) {
-            $entitiesMap[$entity->getId()] = $entity;
+            $this->entitiesMap[$entity->getId()] = $entity;
         }
-        $this->entitiesMap = $entitiesMap;
     }
 
     /**
