@@ -2021,6 +2021,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
+        if (!$minOrderActive) {
+            return true;
+        }
         $minOrderMulti = $this->_scopeConfig->isSetFlag(
             'sales/minimum_order/multi_address',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -2037,40 +2040,37 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             $storeId
         );
 
-        if (!$minOrderActive) {
-            return true;
-        }
-
         $addresses = $this->getAllAddresses();
 
-        if ($multishipping) {
-            if (!$minOrderMulti) {
-                foreach ($addresses as $address) {
-                    $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
-                    foreach ($address->getQuote()->getItemsCollection() as $item) {
-                        /** @var \Magento\Sales\Model\Quote\Item $item */
-                        $amount = $item->getBaseRowTotal() - $item->getBaseDiscountAmount() + $taxes;
-                        if ($amount < $minAmount) {
-                            return false;
-                        }
-                    }
-                }
-            } else {
-                $baseTotal = 0;
-                foreach ($addresses as $address) {
-                    $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
-                    $baseTotal += $address->getBaseSubtotalWithDiscount() + $taxes;
-                }
-                if ($baseTotal < $minAmount) {
-                    return false;
-                }
-            }
-        } else {
+        if (!$multishipping) {
             foreach ($addresses as $address) {
                 /* @var $address Address */
                 if (!$address->validateMinimumAmount()) {
                     return false;
                 }
+            }
+            return true;
+        }
+
+        if (!$minOrderMulti) {
+            foreach ($addresses as $address) {
+                $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
+                foreach ($address->getQuote()->getItemsCollection() as $item) {
+                    /** @var \Magento\Sales\Model\Quote\Item $item */
+                    $amount = $item->getBaseRowTotal() - $item->getBaseDiscountAmount() + $taxes;
+                    if ($amount < $minAmount) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            $baseTotal = 0;
+            foreach ($addresses as $address) {
+                $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
+                $baseTotal += $address->getBaseSubtotalWithDiscount() + $taxes;
+            }
+            if ($baseTotal < $minAmount) {
+                return false;
             }
         }
         return true;

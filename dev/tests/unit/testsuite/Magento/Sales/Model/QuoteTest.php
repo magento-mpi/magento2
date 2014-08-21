@@ -9,6 +9,7 @@ namespace Magento\Sales\Model;
 
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Sales\Model\Quote\Address;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Test class for \Magento\Sales\Model\Order
@@ -85,6 +86,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected $quoteItemCollectionFactoryMock;
 
+    /**
+     * @var \Magento\Framework\App\Config | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $scopeConfig;
+
     protected function setUp()
     {
         $this->quoteAddressFactoryMock = $this->getMock(
@@ -103,7 +109,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 'getCustomerAddressId',
                 '__wakeup',
                 'getAddressType',
-                'getDeleteImmediately'
+                'getDeleteImmediately',
+                'validateMinimumAmount'
             ],
             [],
             '',
@@ -164,6 +171,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->quote = (
         new ObjectManager(
             $this
@@ -179,7 +189,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                     'addressConverter' => $this->addressConverterMock,
                     'customerGroupService' => $this->customerGroupServiceMock,
                     'objectFactory' => $this->objectFactoryMock,
-                    'quoteItemCollectionFactory' => $this->quoteItemCollectionFactoryMock
+                    'quoteItemCollectionFactory' => $this->quoteItemCollectionFactoryMock,
+                    'scopeConfig' => $this->scopeConfig
                 ]
             );
     }
@@ -795,5 +806,57 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->quote->addProduct($this->productMock, null);
         $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testValidateMiniumumAmount()
+    {
+        $storeId = 1;
+        $this->quote->setStoreId($storeId);
+
+        $valueMap = [
+            ['sales/minimum_order/active', ScopeInterface::SCOPE_STORE, $storeId, true],
+            ['sales/minimum_order/multi_address', ScopeInterface::SCOPE_STORE, $storeId, true],
+            ['sales/minimum_order/amount', ScopeInterface::SCOPE_STORE, $storeId, 20],
+            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true]
+        ];
+        $this->scopeConfig->expects($this->any())
+            ->method('isSetFlag')
+            ->will($this->returnValueMap($valueMap));
+
+        $this->quoteAddressMock->expects($this->once())
+            ->method('validateMinimumAmount')
+            ->willReturn(true);
+
+        $this->quoteAddressCollectionMock->expects($this->once())
+            ->method('setQuoteFilter')
+            ->willReturn([$this->quoteAddressMock]);
+
+        $this->assertTrue($this->quote->validateMinimumAmount());
+    }
+
+    public function testValidateMiniumumAmountNegative()
+    {
+        $storeId = 1;
+        $this->quote->setStoreId($storeId);
+
+        $valueMap = [
+            ['sales/minimum_order/active', ScopeInterface::SCOPE_STORE, $storeId, true],
+            ['sales/minimum_order/multi_address', ScopeInterface::SCOPE_STORE, $storeId, true],
+            ['sales/minimum_order/amount', ScopeInterface::SCOPE_STORE, $storeId, 20],
+            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true]
+        ];
+        $this->scopeConfig->expects($this->any())
+            ->method('isSetFlag')
+            ->will($this->returnValueMap($valueMap));
+
+        $this->quoteAddressMock->expects($this->once())
+            ->method('validateMinimumAmount')
+            ->willReturn(false);
+
+        $this->quoteAddressCollectionMock->expects($this->once())
+            ->method('setQuoteFilter')
+            ->willReturn([$this->quoteAddressMock]);
+
+        $this->assertFalse($this->quote->validateMinimumAmount());
     }
 }

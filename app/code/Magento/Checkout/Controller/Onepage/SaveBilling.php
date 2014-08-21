@@ -17,53 +17,52 @@ class SaveBilling extends \Magento\Checkout\Controller\Onepage
      */
     public function execute()
     {
-        if ($this->_expireAjax()) {
+        if (!$this->getRequest()->isPost() || $this->_expireAjax()) {
             return;
         }
-        if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost('billing', array());
-            $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
+        $data = $this->getRequest()->getPost('billing', []);
+        $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 
-            if (isset($data['email'])) {
-                $data['email'] = trim($data['email']);
-            }
-            $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
-
-            if (!isset($result['error'])) {
-                if ($this->getOnepage()->getQuote()->isVirtual()) {
-                    $result['goto_section'] = 'payment';
-                    $result['update_section'] = array(
-                        'name' => 'payment-method',
-                        'html' => $this->_getPaymentMethodsHtml()
-                    );
-                } elseif (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {
-                    if (!$this->getOnepage()->getQuote()->validateMinimumAmount()) {
-                        $result = [
-                            'error' => -1,
-                            'message' => $this->scopeConfig->getValue(
-                                'sales/minimum_order/error_message',
-                                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                                $this->getOnepage()->getQuote()->getStoreId()
-                            )
-                        ];
-                    } else {
-                        $result['goto_section'] = 'shipping_method';
-                        $result['update_section'] = [
-                            'name' => 'shipping-method',
-                            'html' => $this->_getShippingMethodsHtml()
-                        ];
-
-                        $result['allow_sections'] = ['shipping'];
-                        $result['duplicateBillingInfo'] = 'true';
-                    }
-                } else {
-                    $result['goto_section'] = 'shipping';
-                }
-            }
-
-            $this->getResponse()->representJson(
-                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
-            );
+        if (isset($data['email'])) {
+            $data['email'] = trim($data['email']);
         }
+        $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
+        $quote = $this->getOnepage()->getQuote();
+
+        if (!isset($result['error'])) {
+            if ($quote->isVirtual()) {
+                $result['goto_section'] = 'payment';
+                $result['update_section'] = [
+                    'name' => 'payment-method',
+                    'html' => $this->_getPaymentMethodsHtml()
+                ];
+            } elseif (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {
+                if (!$quote->validateMinimumAmount()) {
+                    $result = [
+                        'error' => -1,
+                        'message' => $this->scopeConfig->getValue(
+                            'sales/minimum_order/error_message',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            $quote->getStoreId()
+                        )
+                    ];
+                } else {
+                    $result['goto_section'] = 'shipping_method';
+                    $result['update_section'] = [
+                        'name' => 'shipping-method',
+                        'html' => $this->_getShippingMethodsHtml()
+                    ];
+
+                    $result['allow_sections'] = ['shipping'];
+                    $result['duplicateBillingInfo'] = 'true';
+                }
+            } else {
+                $result['goto_section'] = 'shipping';
+            }
+        }
+
+        $this->getResponse()->representJson(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+        );
     }
 }

@@ -1191,19 +1191,16 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function validateMinimumAmount()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (
-            !$this->_scopeConfig->isSetFlag(
-                'sales/minimum_order/active',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        ) {
+        $validateEnabled = $this->_scopeConfig->isSetFlag(
+            'sales/minimum_order/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        if (!$validateEnabled) {
             return true;
         }
 
-        if ($this->getQuote()->getIsVirtual() && $this->getAddressType() == self::TYPE_SHIPPING) {
-            return true;
-        } elseif (!$this->getQuote()->getIsVirtual() && $this->getAddressType() != self::TYPE_SHIPPING) {
+        if ($this->getQuote()->getIsVirtual() xor $this->getAddressType() == self::TYPE_SHIPPING) {
             return true;
         }
 
