@@ -2716,5 +2716,7 @@ return array(
         'Magento\CatalogImportExport\Model\Import\Product\Type\Grouped',
         'Magento\GroupedImportExport\Model\Import\Product\Type\Grouped'
     ],
-    ['Magento\Sales\Model\Order\OrderConverter', 'Magento\Sales\Model\OrderConverter'],
+    ['Magento\Catalog\Model\Observer\Reindex'],
+    ['Magento\CatalogSearch\Model\Fulltext\Observer'],
+    ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
 );

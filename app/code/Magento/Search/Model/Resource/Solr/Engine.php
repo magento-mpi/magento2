@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Resource;
+namespace Magento\Search\Model\Resource\Solr;
 
 /**
  * Search engine resource model
@@ -59,11 +59,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     protected $_searchResourceIndex;
 
     /**
-     * Catalog search resource fulltext
-     *
-     * @var \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @var \Magento\CatalogSearch\Model\Indexer\Fulltext
      */
-    protected $_catalogSearchResourceFulltext;
+    protected $catalogSearchIndexer;
 
     /**
      * Search coll factory
@@ -95,7 +93,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 
     /**
      * @param \Magento\Search\Model\Resource\CollectionFactory $searchCollectionFactory
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext
+     * @param \Magento\CatalogSearch\Model\Indexer\Fulltext $catalogSearchIndexer
      * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
@@ -105,7 +103,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function __construct(
         \Magento\Search\Model\Resource\CollectionFactory $searchCollectionFactory,
-        \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext,
+        \Magento\CatalogSearch\Model\Indexer\Fulltext $catalogSearchIndexer,
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
@@ -114,7 +112,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
         $this->_searchCollectionFactory = $searchCollectionFactory;
-        $this->_catalogSearchResourceFulltext = $catalogSearchResourceFulltext;
+        $this->catalogSearchIndexer = $catalogSearchIndexer;
         $this->_searchResourceIndex = $searchResourceIndex;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_adapter = $searchFactory->getFactory()->createAdapter();
@@ -319,7 +317,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function getResultCollection()
     {
-        return $this->_searchCollectionFactory->create()->setEngine($this);
+        return $this->_searchCollectionFactory->create();
     }
 
     /**
@@ -504,7 +502,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         }
 
         if (!empty($productIds)) {
-            $this->_catalogSearchResourceFulltext->rebuildIndex(null, $productIds);
+            $this->catalogSearchIndexer->executeList($productIds);
         }
 
         return $this;
@@ -519,21 +517,6 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     public function getFieldsPrefix()
     {
         return $this->_advancedIndexFieldsPrefix;
-    }
-
-    /**
-     * Prepare advanced index for products
-     *
-     * @param array $index
-     * @param int $storeId
-     * @param array|null $productIds
-     * @return array
-     * @deprecated after 1.11.2.0
-     * @see \Magento\CatalogSearch\Model\Resource\Fulltext->_getSearchableProducts()
-     */
-    public function addAdvancedIndex($index, $storeId, $productIds = null)
-    {
-        return $this->_searchResourceIndex->addAdvancedIndex($index, $storeId, $productIds);
     }
 
     /**
