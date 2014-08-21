@@ -408,8 +408,8 @@ class UtilityTest extends \PHPUnit_Framework_TestCase
         $baseAmount = 12;
         $fixedAmount = 20;
         $fixedBaseAmount = 24;
-        $price = $this->getItemPrice();
-        $basePrice = $this->getItemBasePrice();
+        $this->getItemPrice();
+        $this->getItemBasePrice();
         $this->item->setDiscountAmount($amount);
         $this->item->setBaseDiscountAmount($baseAmount);
         $discountData = $this->getMock('Magento\SalesRule\Model\Rule\Action\Discount\Data', [], [], '', false);
@@ -464,11 +464,15 @@ class UtilityTest extends \PHPUnit_Framework_TestCase
 
     public function testDeltaRoundignFix()
     {
-        $amount = 10.003;
-        $baseAmount = 12.465;
-        $percent = 0.15;
-        $fixedAmount = round($amount, 2);
-        $fixedBaseAmount = round($baseAmount, 2);
+        $discountAmount = 10.003;
+        $baseDiscountAmount = 12.465;
+        $percent = 15;
+        $roundedDiscount = round($discountAmount, 2);
+        $roundedBaseDiscount = round($baseDiscountAmount, 2);
+        $delta = $discountAmount - $roundedDiscount;
+        $baseDelta = $baseDiscountAmount - $roundedBaseDiscount;
+        $secondRoundedDiscount = round($discountAmount + $delta);
+        $secondRoundedBaseDiscount = round ($baseDiscountAmount + $baseDelta);
 
         $this->item->expects($this->any())
             ->method('getQuote')
@@ -478,10 +482,10 @@ class UtilityTest extends \PHPUnit_Framework_TestCase
         $store->expects($this->any())
             ->method('roundPrice')
             ->will($this->returnValueMap([
-                        [$amount, $fixedAmount],
-                        [$baseAmount, $fixedBaseAmount],
-                        [$amount, $amount - $fixedAmount],
-                        [$baseAmount, $baseAmount-$fixedBaseAmount],
+                        [$discountAmount, $roundedDiscount],
+                        [$baseDiscountAmount, $roundedBaseDiscount],
+                        [$discountAmount + $delta, $secondRoundedDiscount], //?
+                        [$baseDiscountAmount + $baseDelta, $secondRoundedBaseDiscount] //?
                     ]));
 
         $this->quote->expects($this->any())
@@ -491,23 +495,36 @@ class UtilityTest extends \PHPUnit_Framework_TestCase
         $this->item->setDiscountPercent($percent);
 
         $discountData = $this->getMock('Magento\SalesRule\Model\Rule\Action\Discount\Data', [], [], '', false);
-        $discountData->expects($this->any())
+        $discountData->expects($this->at(0))
             ->method('getAmount')
-            ->will($this->returnValue($amount));
-        $discountData->expects($this->any())
+            ->will($this->returnValue($discountAmount));
+        $discountData->expects($this->at(1))
             ->method('getBaseAmount')
-            ->will($this->returnValue($baseAmount));
+            ->will($this->returnValue($baseDiscountAmount));
 
-        $discountData->expects($this->any())
+        $discountData->expects($this->at(2))
             ->method('setAmount')
-            ->with($fixedAmount);
-        $discountData->expects($this->any())
+            ->with($roundedDiscount);
+        $discountData->expects($this->at(3))
             ->method('setBaseAmount')
-            ->with($fixedBaseAmount);
+            ->with($roundedBaseDiscount);
+
+        $discountData->expects($this->at(4))
+            ->method('getAmount')
+            ->will($this->returnValue($discountAmount));
+        $discountData->expects($this->at(5))
+            ->method('getBaseAmount')
+            ->will($this->returnValue($baseDiscountAmount));
+
+        $discountData->expects($this->at(6))
+            ->method('setAmount')
+            ->with($secondRoundedDiscount);
+        $discountData->expects($this->at(7))
+            ->method('setBaseAmount')
+            ->with($secondRoundedBaseDiscount);
 
         $this->assertEquals($this->utility, $this->utility->deltaRoundingFix($discountData, $this->item));
         $this->assertEquals($this->utility, $this->utility->deltaRoundingFix($discountData, $this->item));
     }
-
 }
  
