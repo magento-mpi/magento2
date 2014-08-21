@@ -73,9 +73,8 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
         $product = $this->_getInitializedProduct($model);
         $category = $this->_getInitializedCategory();
         if ($product || $category) {
-            $isProduct = $product && $product->getId();
-            $model->setEntityType($isProduct ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY);
-            $model->setEntityId($isProduct ? $product->getId() : $category->getId());
+            $model->setEntityType($this->getEntityType($product));
+            $model->setEntityId($this->getEntityId($product, $category));
             if ($model->isObjectNew()) {
                 if ($model->getRedirectType()) {
                     $rewrite = $this->urlFinder->findOneByData([
@@ -95,14 +94,41 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                         $model->setTargetPath($rewrite->getRequestPath());
                     }
                 } else {
-                    $model->setTargetPath(
-                        $isProduct
-                        ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
-                        : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
-                    );
+                    $model->setTargetPath($this->getTargetPath($product, $category));
                 }
             }
         }
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product|null $product
+     * @return string
+     */
+    protected function getEntityType($product = null)
+    {
+        return $product && $product->getId() ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product|null $product
+     * @param \Magento\Catalog\Model\Category|null $category
+     * @return int
+     */
+    protected function getEntityId($product = null, $category = null)
+    {
+        return $product && $product->getId() ? $product->getId() : $category->getId();
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product|null $product
+     * @param \Magento\Catalog\Model\Category|null $category
+     * @return string
+     */
+    protected function getTargetPath($product = null, $category = null)
+    {
+        return $product && $product->getId()
+            ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
+            : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category);
     }
 
     /**

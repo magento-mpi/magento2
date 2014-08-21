@@ -120,21 +120,9 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
             if ($product || $category) {
                 $sessionData = $this->_getSessionData();
                 if (!isset($sessionData['request_path'])) {
-                    $requestPath->setValue(
-                        $product
-                        ? $this->productUrlPathGenerator->getUrlPathWithSuffix(
-                            $product,
-                            $product->getStoreId(),
-                            $category
-                        )
-                        : $this->categoryUrlPathGenerator->getUrlPathWithSuffix($category)
-                    );
+                    $requestPath->setValue($this->getRequestPath($product, $category));
                 }
-                $targetPath->setValue(
-                    $product
-                    ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
-                    : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
-                );
+                $targetPath->setValue($this->getTargetPath($product, $category));
                 $disablePaths = true;
             }
         } else {
@@ -149,6 +137,30 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         }
 
         return $this;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product|null $product
+     * @param \Magento\Catalog\Model\Category|null $category
+     * @return string
+     */
+    protected function getRequestPath($product = null, $category = null)
+    {
+        return $product
+            ? $this->productUrlPathGenerator->getUrlPathWithSuffix($product, $product->getStoreId(), $category)
+            : $this->categoryUrlPathGenerator->getUrlPathWithSuffix($category);
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product|null $product
+     * @param \Magento\Catalog\Model\Category|null $category
+     * @return string
+     */
+    protected function getTargetPath($product = null, $category = null)
+    {
+        return $product
+            ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
+            : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category);
     }
 
     /**
