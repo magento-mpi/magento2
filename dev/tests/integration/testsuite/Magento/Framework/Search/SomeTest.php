@@ -56,7 +56,7 @@ class SomeTest extends \PHPUnit_Framework_TestCase
      * _magentoConfigFixtur current_store catalog/frontend/flat_catalog_product 1
      * _magentoConfigFixtur current_store catalog/search/search_type 2
      *
-     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     * _magentoDataFixtur Magento/Framework/Search/_files/products.php
      */
     public function testSome()
     {
