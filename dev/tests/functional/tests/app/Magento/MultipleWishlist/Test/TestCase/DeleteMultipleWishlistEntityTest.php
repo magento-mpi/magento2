@@ -42,12 +42,11 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer, $isCreateMultipleWishlist)
     {
         // Steps
-        $this->openWishlistPage($customer);
         if ($isCreateMultipleWishlist == 'No') {
             return;
         }
         $multipleWishlist = $this->createMultipleWishlist($multipleWishlist, $customer);
-        $this->openWishlistPage();
+        $this->openWishlistPage($customer);
         $this->multipleWishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
         $this->multipleWishlistIndex->getManagementBlock()->removeWishlist();
     }

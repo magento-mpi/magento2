@@ -60,6 +60,13 @@ class Management extends Block
     protected $removeButton = 'button.remove';
 
     /**
+     * Button 'Edit' css selector
+     *
+     * @var string
+     */
+    protected $editButton = '.action.edit';
+
+    /**
      * Create new wish list
      *
      * @return void
@@ -147,5 +154,15 @@ class Management extends Block
     public function isRemoveButtonVisible()
     {
         return $this->_rootElement->find($this->removeButton)->isVisible();
+    }
+
+    /**
+     * Click Edit wish list button
+     *
+     * @return void
+     */
+    public function editWishlist()
+    {
+        $this->_rootElement->find($this->editButton)->click();
     }
 }
