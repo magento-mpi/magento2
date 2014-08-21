@@ -98,6 +98,9 @@ class ScoreManager
         return $scoreCondition;
     }
 
+    /**
+     * Clear score manager
+     */
     public function clear()
     {
         $this->scoreQueryList = [];
