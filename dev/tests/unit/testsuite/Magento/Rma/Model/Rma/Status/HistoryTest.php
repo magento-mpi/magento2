@@ -14,8 +14,6 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
  * Class HistoryTest
  *
  * @package Magento\Rma\Model\Rma\Status
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class HistoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -115,7 +113,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
                 'getIdentity',
                 'getRootRmaEmail',
                 'getRootAuthEmail',
-
             ],
             [],
             '',
@@ -452,11 +449,12 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->history, $this->history->sendCustomerCommentEmail());
     }
 
-    public function testSendAuthorizeEmailFail()
+    public function testSendAuthorizeEmailNotSent()
     {
         $this->history->setRma($this->rma);
         $this->rma->setIsSendAuthEmail(false);
         $this->assertEquals($this->history, $this->history->sendAuthorizeEmail());
+        $this->assertNull($this->history->getEmailSent());
     }
 
     public function testSendRmaEmailWithItemsDisabled()
@@ -567,5 +565,8 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(Status::STATE_PENDING));
 
         $this->assertNull($this->history->saveSystemComment());
+        $this->assertNull($this->history->getComment());
+        $this->assertNull($this->history->getIsVisibleOnFront());
+        $this->assertNull($this->history->getIsAdmin());
     }
 }
