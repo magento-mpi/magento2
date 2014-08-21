@@ -159,10 +159,32 @@ class StartController extends AbstractActionController
         $this->config->replaceTmpEncryptKey($key);
         $this->config->replaceTmpInstallDate(date('r'));
 
+        $iniFile = fopen(php_ini_loaded_file(), 'r');
+        while ($line = fgets($iniFile)) {
+            if ((strpos($line, 'extension_dir') !== false) && (strrpos($line, ";") !==0)) {
+                $extPath = explode("=", $line);
+                $pathFull = explode("\"", $extPath[1]);
+                $path = '';
+                $pathParts[1] = str_replace('\\', '/', $pathFull[1]);
+                foreach (explode('/', $pathParts[1]) as $piece) {
+                    $path .= $piece . '/';
+                    if (strpos($piece, phpversion()) !== false) {
+                        if (file_exists($path.'bin')) {
+                            $path .= 'bin' . '/';
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        fclose($iniFile);
+
         exec(
-            PHP_BINDIR .
-            '/php ' . $this->systemConfig->create()->getMagentoBasePath() .
-            '/dev/shell/run_data_fixtures.php', $output, $exitCode
+            $path .
+            'php -f ' . escapeshellarg($this->systemConfig->create()->getMagentoBasePath() .
+                '/dev/shell/run_data_fixtures.php'),
+            $output,
+            $exitCode
         );
 
         if ($exitCode !== 0) {
