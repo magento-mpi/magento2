@@ -89,7 +89,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param null $sessionName
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -103,8 +102,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $sessionName = null
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_orderFactory = $orderFactory;
         $this->_customerSession = $customerSession;
@@ -113,7 +111,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
-        $this->start($sessionName);
+        $this->start();
     }
 
     /**

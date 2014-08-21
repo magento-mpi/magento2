@@ -108,7 +108,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param Converter $converter
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param null $sessionName
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -127,8 +126,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
-        CustomerAccountServiceInterface $customerAccountService,
-        $sessionName = null
+        CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
@@ -141,7 +139,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_eventManager = $eventManager;
         $this->_httpContext = $httpContext;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
-        $this->start($sessionName);
+        $this->start();
         $this->_converter = $converter;
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }

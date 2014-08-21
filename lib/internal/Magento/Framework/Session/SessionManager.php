@@ -136,10 +136,9 @@ class SessionManager implements SessionManagerInterface
     /**
      * Configure session handler and start session
      *
-     * @param string $sessionName
      * @return $this
      */
-    public function start($sessionName = null)
+    public function start()
     {
         if (!$this->isSessionExists()) {
             \Magento\Framework\Profiler::start('session_start');
