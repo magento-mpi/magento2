@@ -503,24 +503,38 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 $module = $matches['namespace'] . '\\' . $matches['module'];
                 if (!empty(self::$_listRoutesXml[$module])) {
                     foreach (self::$_listRoutesXml[$module] as $configFile) {
-                        // Read module's routes.xml file
-                        $config = simplexml_load_file($configFile);
-                        $nodes = $config->xpath("/config/router/*");
-                        foreach ($nodes as $node) {
-                            $id = (string)$node['id'];
-                            if ($id != 'adminhtml' && '' == (string)$node['frontName']) {
-                                // Exclude overridden routers
-                                continue;
-                            }
-                            if (!isset(self::$_mapRouters[$id])) {
-                                self::$_mapRouters[$id] = array();
-                            }
-                            if (!in_array($module, self::$_mapRouters[$id])) {
-                                self::$_mapRouters[$id][] = $module;
-                            }
-                        }
+                        self::updateRoutersMap($module, $configFile);
+
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Update routers map for the module basing on the routing config file
+     *
+     * @param string $module
+     * @param string $configFile
+     *
+     * @return void
+     */
+    private static function updateRoutersMap($module, $configFile)
+    {
+        // Read module's routes.xml file
+        $config = simplexml_load_file($configFile);
+        $nodes  = $config->xpath("/config/router/*");
+        foreach ($nodes as $node) {
+            $id = (string)$node['id'];
+            if ($id != 'adminhtml' && '' == (string)$node['frontName']) {
+                // Exclude overridden routers
+                continue;
+            }
+            if (!isset(self::$_mapRouters[$id])) {
+                self::$_mapRouters[$id] = array();
+            }
+            if (!in_array($module, self::$_mapRouters[$id])) {
+                self::$_mapRouters[$id][] = $module;
             }
         }
     }
