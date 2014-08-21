@@ -464,10 +464,17 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $numCreateCookieCalls = $isDefault ? 0 : 1;
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($this->storage));
-        $cookieMetadata = $this->helper->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata', []);
+        $cookieMetadata = $this->getMock('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata');
         $this->cookieMetadataFactoryMock->expects($this->exactly($numCreateCookieCalls))
             ->method('createPublicCookieMetadata')
             ->will($this->returnValue($cookieMetadata));
+        $cookieMetadata->expects($this->exactly($numCreateCookieCalls))
+            ->method('setDurationOneYear')
+            ->will($this->returnSelf());
+        $cookieMetadata->expects($this->exactly($numCreateCookieCalls))
+            ->method('setHttpOnly')
+            ->with(true)
+            ->will($this->returnSelf());
 
         $this->request->expects($this->atLeastOnce())
             ->method('getParam')
