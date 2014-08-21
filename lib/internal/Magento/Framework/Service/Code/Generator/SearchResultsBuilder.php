@@ -67,7 +67,8 @@ class SearchResultsBuilder extends EntityAbstract
                     'type' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()) . 'Builder'
                 ],
             ],
-            'body' => "parent::__construct(\$objectFactory, \$searchCriteriaBuilder, \$itemObjectBuilder);",
+            'body' => "parent::__construct(\$objectFactory, \$valueBuilder, \$metadataService, " .
+                "\$searchCriteriaBuilder, \$itemObjectBuilder);",
             'docblock' => [
                 'shortDescription' => ucfirst(static::ENTITY_TYPE) . ' constructor',
                 'tags' => [
@@ -122,10 +123,10 @@ class SearchResultsBuilder extends EntityAbstract
         $this->_classGenerator->setName(
             $this->_getResultClassName()
         )->addMethods(
-            $this->_getClassMethods()
-        )->setClassDocBlock(
-            $this->_getClassDocBlock()
-        )->setExtendedClass(self::SEARCH_RESULT_BUILDER);
+                $this->_getClassMethods()
+            )->setClassDocBlock(
+                $this->_getClassDocBlock()
+            )->setExtendedClass(self::SEARCH_RESULT_BUILDER);
         return $this->_getGeneratedCode();
     }
 }
