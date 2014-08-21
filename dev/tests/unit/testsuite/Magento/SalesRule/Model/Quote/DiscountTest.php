@@ -42,7 +42,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $this->validatorMock = $this->getMockBuilder('Magento\SalesRule\Model\Validator')
             ->disableOriginalConstructor()
@@ -61,7 +60,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\Manager')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
 
         /** @var \Magento\SalesRule\Model\Quote\Discount $discount */
@@ -99,7 +97,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
@@ -148,7 +145,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
@@ -174,7 +170,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
     {
         $child = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $child->expects($this->any())
             ->method('getParentItem')
@@ -223,7 +218,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
@@ -275,7 +269,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()

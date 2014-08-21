@@ -32,7 +32,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
     {
         $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $this->assertInternalType('array', $this->discount->fetch($addressMock));
     }
@@ -41,11 +40,9 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
     {
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $addressMock->expects($this->any())
             ->method('getQuote')
@@ -53,11 +50,9 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
 
         $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $validatorMock = $this->getMockBuilder('Magento\SalesRule\Model\Validator')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         /** @var \Magento\SalesRule\Model\Quote\Discount $discount */
         $discount = $this->objectManager->getObject(
