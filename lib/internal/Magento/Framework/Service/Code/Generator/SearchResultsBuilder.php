@@ -123,10 +123,10 @@ class SearchResultsBuilder extends EntityAbstract
         $this->_classGenerator->setName(
             $this->_getResultClassName()
         )->addMethods(
-                $this->_getClassMethods()
-            )->setClassDocBlock(
-                $this->_getClassDocBlock()
-            )->setExtendedClass(self::SEARCH_RESULT_BUILDER);
+            $this->_getClassMethods()
+        )->setClassDocBlock(
+            $this->_getClassDocBlock()
+        )->setExtendedClass(self::SEARCH_RESULT_BUILDER);
         return $this->_getGeneratedCode();
     }
 }
