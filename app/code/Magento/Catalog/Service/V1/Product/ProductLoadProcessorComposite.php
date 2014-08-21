@@ -27,13 +27,20 @@ class ProductLoadProcessorComposite implements ProductLoadProcessorInterface
      * Register product load processors.
      *
      * @param CompositeHelper $compositeHelper
-     * @param ProductLoadProcessorInterface[] $loadProcessors
+     * @param array $loadProcessors Array of the processors which should be registered in the following format:
+     * <pre>
+     * [
+     *      ['type' => $firstProcessorObject, 'sortOrder' => 15],
+     *      ['type' => $secondProcessorObject, 'sortOrder' => 10],
+     *      ...
+     * ]
+     * </pre>
      */
     public function __construct(CompositeHelper $compositeHelper, $loadProcessors = [])
     {
         $loadProcessors = $compositeHelper->filterAndSortDeclaredComponents($loadProcessors);
         foreach ($loadProcessors as $loadProcessor) {
-            $this->productLoadProcessors = $loadProcessor['type'];
+            $this->productLoadProcessors[] = $loadProcessor['type'];
         }
     }
 
