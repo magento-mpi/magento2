@@ -144,11 +144,10 @@ class Select extends \Zend_Db_Select
      *
      * @param string|string[] $columns Columns which add to MATCH ()
      * @param string $expression Expression which add to AGAINST ()
-     * @param bool $condition true=AND, false=OR
      * @param string $mode
-     * @return $this
+     * @return string
      */
-    public function match($columns, $expression, $condition = true, $mode = self::FULLTEXT_MODE_NATURAL)
+    public function getMatchQuery($columns, $expression, $mode = self::FULLTEXT_MODE_NATURAL)
     {
         if (is_array($columns)) {
             $columns = implode(',', $columns);
@@ -157,7 +156,23 @@ class Select extends \Zend_Db_Select
         $columns = $this->getAdapter()->quote($columns);
         $expression = $this->getAdapter()->quote($expression);
 
-        $fullCondition = self::MATCH . " ({$columns}) " . self::AGAINST . " ('{$expression}' {$mode})";
+        $condition = self::MATCH . " ({$columns}) " . self::AGAINST . " ('{$expression}' {$mode})";
+        return $condition;
+    }
+
+    /**
+     * Method for FULLTEXT search in Mysql, will added generated
+     * MATCH ($columns) AGAINST ('$expression' $mode) to where clause
+     *
+     * @param string|string[] $columns Columns which add to MATCH ()
+     * @param string $expression Expression which add to AGAINST ()
+     * @param bool $condition true=AND, false=OR
+     * @param string $mode
+     * @return $this
+     */
+    public function match($columns, $expression, $condition = true, $mode = self::FULLTEXT_MODE_NATURAL)
+    {
+        $fullCondition = $this->getMatchQuery($columns, $expression, $mode);
 
         if ($condition) {
             $this->where($fullCondition);
