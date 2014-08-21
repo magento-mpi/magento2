@@ -39,7 +39,7 @@ class ProductRepository
      * Retrieve product instance by sku
      *
      * @param string $sku
-     * @param boolean $editMode
+     * @param bool $editMode
      * @return Product
      * @throws NoSuchEntityException
      */
@@ -59,8 +59,12 @@ class ProductRepository
      * Retrieve product instance by id
      *
      * @param string $productId
+     * @param bool $editMode
+     * @return Product
+     * @throws NoSuchEntityException
      */
-    public function getByProductId($productId, $editMode = false) {
+    public function getByProductId($productId, $editMode = false)
+    {
         if (!$productId) {
             throw new NoSuchEntityException('Requested product doesn\'t exist');
         }
