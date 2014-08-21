@@ -69,7 +69,7 @@ class Files
     {
         $result = [];
         foreach ($files as $file) {
-            $result[] = [$file];
+            $result[substr($file, strlen(BP))] = [$file];
         }
         return $result;
     }
