@@ -38,8 +38,8 @@ class Onepage
      */
     public function afterSaveShippingMethod(
         \Magento\Checkout\Model\Type\Onepage $subject,
-        array $result)
-    {
+        array $result
+    ) {
         if (!$result) {
             $giftMessages = $this->request->getParam('giftmessage');
             $quote = $subject->getQuote();

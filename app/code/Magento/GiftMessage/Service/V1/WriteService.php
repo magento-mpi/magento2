@@ -90,7 +90,7 @@ class WriteService implements WriteServiceInterface
         $quote = $this->quoteRepository->get($cartId);
 
         if (!$item = $quote->getItemById($itemId)) {
-            throw new NoSuchEntityException('There is no product with provided item ID in the cart');
+            throw new NoSuchEntityException("There is no product with provided $itemId in the cart");
         };
 
         if ($item->getIsVirtual()) {
@@ -109,6 +109,7 @@ class WriteService implements WriteServiceInterface
      * @param string $type
      * @param \Magento\GiftMessage\Service\V1\Data\Message $giftMessage
      * @param null|int $entityId
+     * @return void
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\State\InvalidTransitionException
      */

@@ -21,6 +21,7 @@ class Multishipping
 
     /**
      * @param \Magento\GiftMessage\Model\GiftMessageManager $message
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\GiftMessage\Model\GiftMessageManager $message,
@@ -37,10 +38,10 @@ class Multishipping
      */
     public function beforeSetShippingMethods(
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $subject,
-        array $methods)
-    {
-            $giftMessages = $this->request->getParam('giftmessage');
-            $quote = $subject->getQuote();
-            $this->message->add($giftMessages, $quote);
+        array $methods
+    ) {
+        $giftMessages = $this->request->getParam('giftmessage');
+        $quote = $subject->getQuote();
+        $this->message->add($giftMessages, $quote);
     }
 }
