@@ -1896,7 +1896,6 @@ return array(
         'updateCategoryIndex',
         'Magento\CatalogSearch\Model\Resource\Fulltext',
     ],
-    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
     ['removeTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['addTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', '\Magento\UrlRewrite\Model\UrlRewrite'],
