@@ -13,8 +13,6 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Billing
@@ -55,13 +53,13 @@ class Billing extends Form
      *
      * @param AddressInjectable $billingAddress
      * @param CustomerInjectable $customer
-     * @param bool $diffShippingAddress
+     * @param bool $isShippingAddress
      * @return void
      */
     public function fillBilling(
         AddressInjectable $billingAddress = null,
         CustomerInjectable $customer = null,
-        $diffShippingAddress = false
+        $isShippingAddress = false
     ) {
         if ($billingAddress) {
             $this->fill($billingAddress);
@@ -69,7 +67,7 @@ class Billing extends Form
         if ($customer) {
             $this->fill($customer);
         }
-        if ($diffShippingAddress) {
+        if ($isShippingAddress) {
             $this->_rootElement->find($this->useForShipping)->click();
         }
     }

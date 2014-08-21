@@ -13,6 +13,7 @@ use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class SelectStoreCreditStep
+ * Select store credit on onepage checkout page
  */
 class SelectStoreCreditStep implements TestStepInterface
 {
@@ -42,7 +43,7 @@ class SelectStoreCreditStep implements TestStepInterface
     }
 
     /**
-     * Create reward exchange rates
+     * Select store credit
      *
      * @return void
      */

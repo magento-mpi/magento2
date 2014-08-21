@@ -49,7 +49,7 @@ class FillShippingMethodStep implements TestStepInterface
      */
     public function run()
     {
-        if ($this->shipping['shipping_service'] != '-') {
+        if ($this->shipping['shipping_service'] !== '-') {
             $this->checkoutOnepage->getShippingMethodBlock()->selectShippingMethod($this->shipping);
             $this->checkoutOnepage->getShippingMethodBlock()->clickContinue();
         }

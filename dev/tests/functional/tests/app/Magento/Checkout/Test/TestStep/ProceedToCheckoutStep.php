@@ -8,8 +8,7 @@
 
 namespace Magento\Checkout\Test\TestStep;
 
-use Magento\GiftCardAccount\Test\Page\CheckoutCart;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\TestStep\TestStepInterface;
 
 /**

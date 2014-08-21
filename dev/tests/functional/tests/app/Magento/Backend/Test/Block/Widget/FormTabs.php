@@ -297,7 +297,7 @@ class FormTabs extends Form
     {
         $tabClass = $this->tabs[$tabName]['class'];
         /** @var Tab $tabElement */
-        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper, $this->browser);
+        $tabElement = $this->blockFactory->create($tabClass, ['element' => $this->_rootElement]);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }

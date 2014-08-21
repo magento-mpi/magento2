@@ -10,7 +10,6 @@ namespace Magento\Checkout\Test\Block\Onepage\Shipping;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Method

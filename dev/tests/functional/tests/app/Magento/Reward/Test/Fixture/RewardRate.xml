@@ -26,6 +26,7 @@
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
+            <source>Magento\Reward\Test\Fixture\RewardRate\WebsiteId</source>
         </website_id>
         <customer_group_id>
             <attribute_code>customer_group_id</attribute_code>
@@ -33,6 +34,7 @@
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
+            <source>Magento\Reward\Test\Fixture\RewardRate\CustomerGroup</source>
         </customer_group_id>
         <direction>
             <attribute_code>direction</attribute_code>

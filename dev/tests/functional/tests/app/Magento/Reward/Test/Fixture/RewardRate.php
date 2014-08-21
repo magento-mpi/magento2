@@ -13,9 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class RewardRate
  * Reward points rate fixture
- *
- * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class RewardRate extends InjectableFixture
 {
@@ -30,7 +27,7 @@ class RewardRate extends InjectableFixture
     protected $handlerInterface = 'Magento\Reward\Test\Handler\RewardRate\RewardRateInterface';
 
     protected $defaultDataSet = [
-        'website_id' => 'Main Website',
+        'website_id' => ['dataSet' => 'Main Website'],
         'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
         'value' => 10,
@@ -51,6 +48,7 @@ class RewardRate extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\Reward\Test\Fixture\RewardRate\WebsiteId',
     ];
 
     protected $customer_group_id = [

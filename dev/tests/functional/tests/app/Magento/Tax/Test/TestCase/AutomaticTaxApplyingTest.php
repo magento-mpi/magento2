@@ -75,7 +75,7 @@ class AutomaticTaxApplyingTest extends Functional
         $payment = [
             'method' => $this->fixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => $this->fixture->getPaymentMethod()->getDataConfig(),
-            'cc' => $this->fixture->getCreditCard(),
+            'credit_card' => $this->fixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $checkoutOnePage->getReviewBlock()->placeOrder();

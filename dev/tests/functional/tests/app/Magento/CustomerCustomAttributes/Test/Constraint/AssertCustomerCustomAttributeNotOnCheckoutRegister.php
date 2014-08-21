@@ -65,7 +65,7 @@ class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstra
         $checkoutCart->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
         $checkoutOnepage->getLoginBlock()->registerCustomer();
         \PHPUnit_Framework_Assert::assertFalse(
-            $checkoutOnepage->getBillingBlock()->isCustomerAttributeVisible($customerAttribute),
+            $checkoutOnepage->getCustomerAttributeBillingBlock()->isCustomerAttributeVisible($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is absent during register customer on checkout.'
         );

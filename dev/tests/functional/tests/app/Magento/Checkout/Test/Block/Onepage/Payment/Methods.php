@@ -9,8 +9,6 @@
 namespace Magento\Checkout\Test\Block\Onepage\Payment;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Methods
@@ -41,6 +39,12 @@ class Methods extends Form
     protected $waitElement = '.loading-mask';
 
     /**
+     * Purchase order number selector
+     *
+     * @var string
+     */
+    protected $purchaseOrderNumber = '#po_number';
+    /**
      * Select payment method
      *
      * @param array $payment
@@ -49,7 +53,9 @@ class Methods extends Form
     public function selectPaymentMethod(array $payment)
     {
         $this->_rootElement->find(sprintf($this->paymentMethod, $payment['method']))->click();
-
+        if ($payment['method'] == "purchaseorder") {
+            $this->_rootElement->find($this->purchaseOrderNumber)->setValue(mt_rand(11111111, 99999999));
+        }
         if (isset($payment['dataConfig']['payment_form_class'])) {
             $paymentFormClass = $payment['dataConfig']['payment_form_class'];
             /** @var \Magento\Payment\Test\Block\Form\Cc $formBlock */
@@ -57,7 +63,7 @@ class Methods extends Form
                 $paymentFormClass,
                 ['element' => $this->_rootElement->find('#payment_form_' . $payment['method'])]
             );
-            $formBlock->fill($payment['cc']);
+            $formBlock->fill($payment['credit_card']);
         }
     }
 
@@ -66,7 +72,7 @@ class Methods extends Form
      *
      * @return void
      */
-    public function pressContinue()
+    public function clickContinue()
     {
         $this->_rootElement->find($this->continue)->click();
         $this->waitForElementNotVisible($this->waitElement);

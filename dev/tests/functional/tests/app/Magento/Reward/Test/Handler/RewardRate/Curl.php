@@ -27,10 +27,6 @@ class Curl extends AbstractCurl implements RewardRateInterface
      * @var array
      */
     protected $mappingData = [
-        'website_id' => [
-            'All Websites' => 0,
-            'Main Website' => 1,
-        ],
         'direction' => [
             'Points to Currency' => 1,
             'Currency to Points' => 2,
@@ -51,6 +47,9 @@ class Curl extends AbstractCurl implements RewardRateInterface
         $data['rate']['customer_group_id'] = $fixture->getDataFieldConfig('customer_group_id')['source']
             ->getCustomerGroup()
             ->getCustomerGroupId();
+        $data['rate']['website_id'] = $fixture->getDataFieldConfig('website_id')['source']
+            ->getWebsite()
+            ->getWebsiteId();
 
         $url = $_ENV['app_backend_url'] . 'admin/reward_rate/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());

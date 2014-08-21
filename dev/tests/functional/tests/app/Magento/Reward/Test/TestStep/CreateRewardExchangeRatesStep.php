@@ -13,6 +13,7 @@ use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class CreateRewardExchangeRatesStep
+ * Create reward exchange rates
  */
 class CreateRewardExchangeRatesStep implements TestStepInterface
 {

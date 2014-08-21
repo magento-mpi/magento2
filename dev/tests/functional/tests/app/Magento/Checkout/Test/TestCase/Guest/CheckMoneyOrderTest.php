@@ -90,10 +90,10 @@ class CheckMoneyOrderTest extends Functional
         $payment = [
             'method' => $fixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
-            'cc' => $fixture->getCreditCard(),
+            'credit_card' => $fixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
-        $checkoutOnePage->getPaymentMethodsBlock()->pressContinue();
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $reviewBlock = $checkoutOnePage->getReviewBlock();
         $this->verifyOrderOnReview($reviewBlock, $fixture);
         $reviewBlock->placeOrder();

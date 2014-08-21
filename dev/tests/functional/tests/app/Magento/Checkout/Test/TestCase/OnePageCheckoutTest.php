@@ -176,7 +176,9 @@ class OnePageCheckoutTest extends Scenario
     public function test($config)
     {
         $this->configuration = $config;
-        $this->setupConfiguration();
+        if ($this->configuration !== '-') {
+            $this->setupConfiguration();
+        }
         $this->executeScenario($this->scenario);
     }
 
@@ -188,7 +190,9 @@ class OnePageCheckoutTest extends Scenario
     public function tearDown()
     {
         $this->customerAccountLogout->open();
-        $this->setupConfiguration(true);
+        if ($this->configuration !== '-') {
+            $this->setupConfiguration(true);
+        }
 
         // Deleting exchange rates
         $this->rewardRateIndexPage->open();

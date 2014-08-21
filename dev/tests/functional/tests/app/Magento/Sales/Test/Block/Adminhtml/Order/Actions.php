@@ -106,7 +106,7 @@ class Actions extends Block
      *
      * @var string
      */
-    protected $button = 'button[title="%s"]';
+    protected $button = 'button[data-ui-id$="%s-button"]';
 
     /**
      * Ship order
@@ -231,11 +231,12 @@ class Actions extends Block
     /**
      * Check if action button is visible
      *
-     * @param string $buttonTitle
+     * @param string $buttonName
      * @return bool
      */
-    public function isActionButtonVisible($buttonTitle)
+    public function isActionButtonVisible($buttonName)
     {
-        return $this->_rootElement->find(sprintf($this->button, $buttonTitle))->isVisible();
+        $buttonName = str_replace(' ', '-', strtolower($buttonName));
+        return $this->_rootElement->find(sprintf($this->button, $buttonName))->isVisible();
     }
 }

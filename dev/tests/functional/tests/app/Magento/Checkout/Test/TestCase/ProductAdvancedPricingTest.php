@@ -74,10 +74,10 @@ class ProductAdvancedPricingTest extends Functional
         $payment = [
             'method' => $checkoutFixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => $checkoutFixture->getPaymentMethod()->getDataConfig(),
-            'cc' => $checkoutFixture->getCreditCard(),
+            'credit_card' => $checkoutFixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
-        $checkoutOnePage->getPaymentMethodsBlock()->pressContinue();
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         //Verify order in Backend

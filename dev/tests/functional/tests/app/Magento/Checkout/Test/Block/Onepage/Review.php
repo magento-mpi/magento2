@@ -72,10 +72,8 @@ class Review extends Block
     public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser)
     {
         parent::__construct($element, $blockFactory, $browser);
-        $this->browser = $browser;
         $this->browser->switchToFrame();
     }
-
     /**
      * Fill billing address
      *

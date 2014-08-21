@@ -44,13 +44,6 @@ class Authentication extends Block
     protected $centinelFrame = '#centinel-authenticate-iframe';
 
     /**
-     * Class provides ability to perform browser actions
-     *
-     * @var Browser
-     */
-    protected $browser;
-
-    /**
      * @constructor
      * @param Element $element
      * @param BlockFactory $blockFactory
@@ -58,7 +51,7 @@ class Authentication extends Block
      */
     public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser)
     {
-        $this->browser = $browser;
+        parent::__construct($element, $blockFactory, $browser);
         $this->browser->switchToFrame(new Locator($this->centinelFrame));
     }
 

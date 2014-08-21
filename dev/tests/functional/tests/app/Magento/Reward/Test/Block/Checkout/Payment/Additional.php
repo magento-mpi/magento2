@@ -17,7 +17,7 @@ use Mtf\Block\Form;
 class Additional extends Form
 {
     /**
-     * Fill the root form
+     * Fill the reward form on onepage checkout
      *
      * @param array $payment
      * @return $this
@@ -25,7 +25,7 @@ class Additional extends Form
     public function fillReward(array $payment)
     {
         $mapping = $this->dataMapping($payment);
-        $this->_fill($mapping, null);
+        $this->_fill($mapping);
 
         return $this;
     }

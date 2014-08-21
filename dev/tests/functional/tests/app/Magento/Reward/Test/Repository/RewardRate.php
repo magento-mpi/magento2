@@ -26,7 +26,7 @@ class RewardRate extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['rate_points_to_currency'] = [
-            'website_id' => 'Main Website',
+            'website_id' => ['dataSet' => 'Main Website'],
             'customer_group_id' => ['dataSet' => 'All Customer Groups'],
             'direction' => 'Points to Currency',
             'value' => 10,
@@ -34,7 +34,7 @@ class RewardRate extends AbstractRepository
         ];
 
         $this->_data['rate_currency_to_points'] = [
-            'website_id' => 'Main Website',
+            'website_id' => ['dataSet' => 'Main Website'],
             'customer_group_id' => ['dataSet' => 'All Customer Groups'],
             'direction' => 'Currency to Points',
             'value' => 10,

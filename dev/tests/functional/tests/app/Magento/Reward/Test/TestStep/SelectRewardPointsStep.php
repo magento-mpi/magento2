@@ -13,6 +13,7 @@ use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class SelectRewardPointsStep
+ * Select reward points on onepage checkout page
  */
 class SelectRewardPointsStep implements TestStepInterface
 {

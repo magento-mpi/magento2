@@ -29,7 +29,7 @@ class CreateCustomerStep implements TestStepInterface
      *
      * @var bool
      */
-    protected $persistCustomer;
+    protected $persistCustomer = true;
 
     /**
      * @constructor
@@ -39,7 +39,9 @@ class CreateCustomerStep implements TestStepInterface
     public function __construct(CustomerInjectable $customer, $checkoutMethod = '')
     {
         $this->customer = $customer;
-        $this->persistCustomer = $checkoutMethod === 'login' ? true : false;
+        if ($checkoutMethod === 'register' || $checkoutMethod === 'guest') {
+            $this->persistCustomer = false;
+        }
     }
 
     /**

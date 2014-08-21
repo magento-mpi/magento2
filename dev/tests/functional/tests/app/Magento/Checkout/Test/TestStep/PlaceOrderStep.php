@@ -83,17 +83,9 @@ class PlaceOrderStep implements TestStepInterface
      */
     public function run()
     {
-        $this->assertOrderTotalOnReviewPage->configure(
-            [
-                'checkoutOnepage' => $this->checkoutOnepage,
-                'grandTotal' => $this->grandTotal,
-                'checkoutMethod' => $this->checkoutMethod
-            ]
-        );
-        \PHPUnit_Framework_Assert::assertThat(get_class($this), $this->assertOrderTotalOnReviewPage);
+        $this->assertOrderTotalOnReviewPage->processAssert($this->checkoutOnepage, $this->grandTotal);
         $this->checkoutOnepage->getReviewBlock()->placeOrder();
-        $orderId = $this->checkoutOnepageSuccess->getSuccessBlock()->getGuestOrderId();
 
-        return ['orderId' => $orderId];
+        return ['orderId' => $this->checkoutOnepageSuccess->getSuccessBlock()->getGuestOrderId()];
     }
 }

@@ -45,7 +45,7 @@ class ApplyCustomerBalanceToCustomerStep implements TestStepInterface
     }
 
     /**
-     * Select reward points
+     * Apply customer balance to customer
      *
      * @return void
      */

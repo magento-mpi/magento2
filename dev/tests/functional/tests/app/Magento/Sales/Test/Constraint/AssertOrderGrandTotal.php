@@ -33,11 +33,9 @@ class AssertOrderGrandTotal extends AbstractConstraint
      */
     public function processAssert(SalesOrderView $salesOrderView, $grandTotal)
     {
-        $orderReviewGrandTotal = $salesOrderView->getOrderTotalsBlock()->getGrandTotal();
-
         \PHPUnit_Framework_Assert::assertEquals(
             $grandTotal,
-            $orderReviewGrandTotal,
+            $salesOrderView->getOrderTotalsBlock()->getGrandTotal(),
             'Grand Total price does not equal to price from data set.'
         );
     }

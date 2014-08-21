@@ -50,7 +50,7 @@ class ApplySalesRuleStep implements TestStepInterface
      */
     public function run()
     {
-        if ($this->salesRule != null) {
+        if ($this->salesRule !== null) {
             $this->checkoutCart->getDiscountCodesBlock()->applyCouponCode($this->salesRule->getCouponCode());
         }
     }

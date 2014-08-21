@@ -133,10 +133,10 @@ class ShippingCarrierTest extends Functional
         $payment = [
             'method' => self::$checkoutFixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => self::$checkoutFixture->getPaymentMethod()->getDataConfig(),
-            'cc' => self::$checkoutFixture->getCreditCard(),
+            'credit_card' => self::$checkoutFixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
-        $checkoutOnePage->getPaymentMethodsBlock()->pressContinue();
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();

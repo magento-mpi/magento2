@@ -56,7 +56,7 @@ class CustomerId implements FixtureInterface
             $this->customer = $data['customer'];
             $this->data = $this->customer->getEmail();
         }
-        if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
+        if (isset($data['dataSet'])) {
             /** @var CustomerInjectable $customer */
             $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => $data['dataSet']]);
             if (!$customer->hasData('id')) {
@@ -80,7 +80,7 @@ class CustomerId implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string|null $key
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

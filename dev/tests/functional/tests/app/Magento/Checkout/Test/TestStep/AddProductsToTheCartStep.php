@@ -10,7 +10,8 @@ namespace Magento\Checkout\Test\TestStep;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\GiftCardAccount\Test\Page\CheckoutCart;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Client\Browser;
 use Mtf\TestStep\TestStepInterface;
 
 /**
@@ -48,22 +49,32 @@ class AddProductsToTheCartStep implements TestStepInterface
     protected $cmsIndex;
 
     /**
+     * Interface Browser
+     *
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
      * @constructor
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param CmsIndex $cmsIndex
+     * @param Browser $browser
      * @param array $products
      */
     public function __construct(
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         CmsIndex $cmsIndex,
+        Browser $browser,
         array $products
     ) {
         $this->products = $products;
         $this->catalogProductView = $catalogProductView;
         $this->checkoutCart = $checkoutCart;
         $this->cmsIndex = $cmsIndex;
+        $this->browser = $browser;
     }
 
     /**
@@ -77,8 +88,7 @@ class AddProductsToTheCartStep implements TestStepInterface
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
 
         foreach ($this->products as $product) {
-            $this->catalogProductView->init($product);
-            $this->catalogProductView->open();
+            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $this->catalogProductView->getViewBlock()->clickAddToCart();
         }
     }

@@ -61,10 +61,10 @@ class OnepageTest extends Functional
         $payment = [
             'method' => $fixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
-            'cc' => $fixture->getCreditCard(),
+            'credit_card' => $fixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
-        $checkoutOnePage->getPaymentMethodsBlock()->pressContinue();
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         //Verify order in Backend

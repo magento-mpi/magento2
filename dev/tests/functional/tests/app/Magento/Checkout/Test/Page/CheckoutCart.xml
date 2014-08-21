@@ -40,8 +40,8 @@
             <strategy>css selector</strategy>
         </discountCodesBlock>
         <proceedToCheckoutBlock>
-            <class>Magento\Checkout\Test\Block\Cart\ProceedToCheckout</class>
-            <locator>ul.checkout.methods.items</locator>
+            <class>Magento\Checkout\Test\Block\Onepage\Link</class>
+            <locator>ul.checkout-methods-items button.primary.checkout</locator>
             <strategy>css selector</strategy>
         </proceedToCheckoutBlock>
     </blocks>

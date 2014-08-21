@@ -223,7 +223,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $payment = [
             'method' => $fixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
-            'cc' => $fixture->getCreditCard(),
+            'credit_card' => $fixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $reviewBlock = $checkoutOnePage->getReviewBlock();

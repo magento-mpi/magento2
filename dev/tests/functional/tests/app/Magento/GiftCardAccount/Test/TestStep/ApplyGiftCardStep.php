@@ -26,21 +26,21 @@ class ApplyGiftCardStep implements TestStepInterface
     protected $checkoutCart;
 
     /**
-     * GiftCardAccount fixture
+     * GiftCardAccount fixtures
      *
-     * @var GiftCardAccount
+     * @var GiftCardAccount[]
      */
-    protected $giftCardAccount;
+    protected $giftCardAccounts;
 
     /**
      * @constructor
      * @param CheckoutCart $checkoutCart
-     * @param GiftCardAccount $giftCardAccount
+     * @param GiftCardAccount|GiftCardAccount[] $giftCardAccount
      */
-    public function __construct(CheckoutCart $checkoutCart, GiftCardAccount $giftCardAccount = null)
+    public function __construct(CheckoutCart $checkoutCart, $giftCardAccount = null)
     {
         $this->checkoutCart = $checkoutCart;
-        $this->giftCardAccount = $giftCardAccount;
+        $this->giftCardAccounts = is_array($giftCardAccount) ? $giftCardAccount : [$giftCardAccount];
     }
 
     /**
@@ -50,8 +50,10 @@ class ApplyGiftCardStep implements TestStepInterface
      */
     public function run()
     {
-        if ($this->giftCardAccount != null) {
-            $this->checkoutCart->getGiftCardAccountBlock()->addGiftCard($this->giftCardAccount->getCode());
+        foreach($this->giftCardAccounts as $giftCardAccount) {
+            if ($giftCardAccount !== null) {
+                $this->checkoutCart->getGiftCardAccountBlock()->addGiftCard($giftCardAccount->getCode());
+            }
         }
     }
 }

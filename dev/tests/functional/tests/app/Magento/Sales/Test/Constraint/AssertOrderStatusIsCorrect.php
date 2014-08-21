@@ -40,10 +40,8 @@ class AssertOrderStatusIsCorrect extends AbstractConstraint
         SalesOrder $salesOrder,
         SalesOrderView $salesOrderView
     ) {
-        $filter = ['id' => $orderId];
-
         $salesOrder->open();
-        $salesOrder->getOrderGridBlock()->searchAndOpen($filter);
+        $salesOrder->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $actualOrderStatus = $salesOrderView->getOrderInfoBlock()->getOrderStatus();
 
         \PHPUnit_Framework_Assert::assertEquals(

@@ -6,24 +6,23 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerBalance\Test\Fixture\CustomerBalance;
+namespace Magento\Reward\Test\Fixture\RewardRate;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Store\Test\Fixture\Website;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class CustomerId
- * Prepare data for customer_id field in customer balance fixture
+ * Class WebsiteId
+ * Prepare data for website_id field in reward rate fixture
  *
  * Data keys:
  *  - dataSet
- *  - customer
  */
-class CustomerId implements FixtureInterface
+class WebsiteId implements FixtureInterface
 {
     /**
-     * Customer email
+     * Website name
      *
      * @var string
      */
@@ -37,11 +36,11 @@ class CustomerId implements FixtureInterface
     protected $params;
 
     /**
-     * Customer fixture
+     * Website fixture
      *
-     * @var CustomerInjectable
+     * @var Website
      */
-    protected $customer;
+    protected $website;
 
     /**
      * @constructor
@@ -52,23 +51,16 @@ class CustomerId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (isset($data['customer']) && $data['customer'] instanceof CustomerInjectable) {
-            $this->customer = $data['customer'];
-            $this->data = $this->customer->getEmail();
-        }
         if (isset($data['dataSet'])) {
-            /** @var CustomerInjectable $customer */
-            $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => $data['dataSet']]);
-            if (!$customer->hasData('id')) {
-                $customer->persist();
-            }
-            $this->customer = $customer;
-            $this->data = $customer->getEmail();
+            /** @var Website $website */
+            $website = $fixtureFactory->createByCode('website', ['dataSet' => $data['dataSet']]);
+            $this->website = $website;
+            $this->data = $website->getName();
         }
     }
 
     /**
-     * Persists prepared data into application
+     * Persist custom selections tax classes
      *
      * @return void
      */
@@ -80,8 +72,8 @@ class CustomerId implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param string|null $key [optional]
-     * @return mixed
+     * @param string|null $key
+     * @return string
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -101,12 +93,12 @@ class CustomerId implements FixtureInterface
     }
 
     /**
-     * Return customer fixture
+     * Return website fixture
      *
-     * @return CustomerInjectable
+     * @return Website
      */
-    public function getCustomer()
+    public function getWebsite()
     {
-        return $this->customer;
+        return $this->website;
     }
 }

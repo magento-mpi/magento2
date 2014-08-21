@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 /**
  * Class Grid
  * Sales order grid
- *
  */
 class Grid extends GridInterface
 {
