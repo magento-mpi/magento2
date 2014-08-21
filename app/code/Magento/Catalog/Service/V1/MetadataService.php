@@ -14,6 +14,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**
  * Class MetadataService
@@ -140,10 +141,11 @@ class MetadataService implements MetadataServiceInterface
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $attributeCollection);
         }
-        foreach ((array)$searchCriteria->getSortOrders() as $field => $direction) {
+        /** @var SortOrder $sortOrder */
+        foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
             $attributeCollection->addOrder(
-                $this->translateField($field),
-                $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                $this->translateField($sortOrder->getField()),
+                ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
             );
         }
         $totalCount = $attributeCollection->getSize();
