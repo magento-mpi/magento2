@@ -35,9 +35,9 @@ class Repository
     private $design;
 
     /**
-     * @var FlyweightFactory
+     * @var \Magento\Framework\View\Design\Theme\ListInterface
      */
-    private $themeFactory;
+    private $themeList;
 
     /**
      * @var \Magento\Framework\View\Asset\Source
@@ -57,18 +57,18 @@ class Repository
     /**
      * @param \Magento\Framework\UrlInterface $baseUrl
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param FlyweightFactory $themeFactory
+     * @param \Magento\Framework\View\Design\Theme\ListInterface $themeList
      * @param \Magento\Framework\View\Asset\Source $assetSource
      */
     public function __construct(
         \Magento\Framework\UrlInterface $baseUrl,
         \Magento\Framework\View\DesignInterface $design,
-        FlyweightFactory $themeFactory,
+        \Magento\Framework\View\Design\Theme\ListInterface $themeList,
         \Magento\Framework\View\Asset\Source $assetSource
     ) {
         $this->baseUrl = $baseUrl;
         $this->design = $design;
-        $this->themeFactory = $themeFactory;
+        $this->themeList = $themeList;
         $this->assetSource = $assetSource;
     }
 
@@ -102,7 +102,7 @@ class Repository
         }
 
         if ($theme) {
-            $params['themeModel'] = $this->themeFactory->create($theme, $area);
+            $params['themeModel'] = $this->themeList->getThemeByFullPath($area . '/' . $theme);
             if (!$params['themeModel']) {
                 throw new \UnexpectedValueException("Could not find theme '$theme' for area '$area'");
             }

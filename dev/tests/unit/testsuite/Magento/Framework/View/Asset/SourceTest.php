@@ -71,16 +71,10 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         );
         $this->theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
 
-        $themeFactory = $this->getMock(
-            '\Magento\Framework\View\Design\Theme\FlyweightFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $themeFactory->expects($this->any())
-            ->method('create')
-            ->with('magento_theme', 'frontend')
+        $themeList = $this->getMockForAbstractClass('Magento\Framework\View\Design\Theme\ListInterface');
+        $themeList->expects($this->any())
+            ->method('getThemeByFullPath')
+            ->with('frontend/magento_theme')
             ->will($this->returnValue($this->theme));
 
         $this->initFilesystem();
@@ -90,7 +84,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             $this->filesystem,
             $this->preProcessorPool,
             $this->viewFileResolution,
-            $themeFactory
+            $themeList
         );
     }
 

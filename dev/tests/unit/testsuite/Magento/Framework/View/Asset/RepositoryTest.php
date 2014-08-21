@@ -21,9 +21,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     private $design;
 
     /**
-     * @var \Magento\Framework\View\Design\Theme\FlyweightFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Design\Theme\ListInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $themeFactory;
+    private $themeList;
 
     /**
      * @var \Magento\Framework\View\Asset\Source|\PHPUnit_Framework_MockObject_MockObject
@@ -42,16 +42,14 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->themeFactory = $this->getMock(
-            '\Magento\Framework\View\Design\Theme\FlyweightFactory', array(), array(), '', false
-        );
+        $this->themeList = $this->getMockForAbstractClass('\Magento\Framework\View\Design\Theme\ListInterface');
         $this->source = $this->getMock(
             'Magento\Framework\View\Asset\Source', array('getFile', 'getContent'), array(), '', false
         );
         $this->baseUrl = $this->getMockForAbstractClass('Magento\Framework\UrlInterface');
         $this->design = $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface');
         $this->theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
-        $this->object = new Repository($this->baseUrl, $this->design, $this->themeFactory, $this->source);
+        $this->object = new Repository($this->baseUrl, $this->design, $this->themeList, $this->source);
     }
 
     /**
@@ -61,9 +59,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testUpdateDesignParamsWrongTheme()
     {
         $params = array('area' => 'area', 'theme' => 'nonexistent_theme');
-        $this->themeFactory->expects($this->once())
-            ->method('create')
-            ->with('nonexistent_theme', 'area')
+        $this->themeList->expects($this->once())
+            ->method('getThemeByFullPath')
+            ->with('area/nonexistent_theme')
             ->will($this->returnValue(null));
         $this->object->updateDesignParams($params);
     }
@@ -287,8 +285,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getThemePath')
             ->with($this->theme)
             ->will($this->returnValue('theme'));
-        $this->themeFactory->expects($this->any())->method('create')->will($this->returnValue($this->theme));
-
+        $this->themeList->expects($this->any())->method('getThemeByFullPath')->will($this->returnValue($this->theme));
     }
 
     /**

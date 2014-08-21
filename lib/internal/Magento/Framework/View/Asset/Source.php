@@ -54,23 +54,23 @@ class Source
     protected $fallback;
 
     /**
-     * @var FlyweightFactory
+     * @var \Magento\Framework\View\Design\Theme\ListInterface
      */
-    protected $themeFactory;
+    private $themeList;
 
     /**
      * @param PreProcessor\Cache $cache
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param PreProcessor\Pool $preProcessorPool
      * @param \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback
-     * @param FlyweightFactory $themeFactory
+     * @param \Magento\Framework\View\Design\Theme\ListInterface $themeList
      */
     public function __construct(
         PreProcessor\Cache $cache,
         \Magento\Framework\App\Filesystem $filesystem,
         PreProcessor\Pool $preProcessorPool,
         \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback,
-        FlyweightFactory $themeFactory
+        \Magento\Framework\View\Design\Theme\ListInterface $themeList
     ) {
         $this->cache = $cache;
         $this->filesystem = $filesystem;
@@ -78,7 +78,7 @@ class Source
         $this->varDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->preProcessorPool = $preProcessorPool;
         $this->fallback = $fallback;
-        $this->themeFactory = $themeFactory;
+        $this->themeList = $themeList;
     }
 
     /**
@@ -202,7 +202,7 @@ class Source
         LocalInterface $asset,
         \Magento\Framework\View\Asset\File\FallbackContext $context
     ) {
-        $themeModel = $this->themeFactory->create($context->getThemePath(), $context->getAreaCode());
+        $themeModel = $this->themeList->getThemeByFullPath($context->getAreaCode() . '/' . $context->getThemePath());
         $sourceFile = $this->fallback->getFile(
             $context->getAreaCode(),
             $themeModel,
