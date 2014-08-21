@@ -18,25 +18,25 @@ use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
- * Test Creation for CreateMultipleWishlistEntity
+ * Test Creation for UpdateMultipleWishlistEntity
  *
  * Preconditions:
- * 1. Enable Multiple Wishlist functionality & set "Number of Multiple Wish Lists = 3.
+ * 1. Enable Multiple Wishlist functionality.
  * 2. Create Customer Account.
+ * 3. Create Multiple Wishlist.
  *
  * Test Flow:
  * 1. Login to frontend as a Customer.
  * 2. Navigate to: My Account > My Wishlist.
- * 3. Start creating Wishlist.
- * 4. Fill in data according to attached data set.
- * 5. Perform appropriate assertions.
+ * 3. Edit wishlist by clicking "Edit" link and according to attached data set.
+ * 4. Perform appropriate assertions.
  *
  * @group Multiple_Wishlists_(CS)
- * @ZephyrId MAGETWO-27157
+ * @ZephyrId MAGETWO-27599
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTest
+class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTest
 {
     /**
      * Prepare data
@@ -71,25 +71,26 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     }
 
     /**
-     * Create new multiple wish list
+     * Update multiple wish list
      *
+     * @param MultipleWishlist $multipleWishlistOriginal
      * @param MultipleWishlist $multipleWishlist
      * @param CustomerInjectable $customer
-     * @param WidgetInstanceEdit $widgetInstanceEdit
-     * @param Browser $browser
      * @return void
      */
     public function test(
+        MultipleWishlist $multipleWishlistOriginal,
         MultipleWishlist $multipleWishlist,
-        CustomerInjectable $customer,
-        WidgetInstanceEdit $widgetInstanceEdit,
-        Browser $browser
+        CustomerInjectable $customer
     ) {
         //Steps
-        self::$widgetInstanceEdit = $widgetInstanceEdit;
-        self::$browser = $browser;
         $this->openWishlistPage($customer);
-        $this->multipleWishlistIndex->getManagementBlock()->clickCreateNewWishlist();
+        $multipleWishlistOriginal = $this->createMultipleWishlist($multipleWishlistOriginal, $customer);
+        $this->openWishlistPage();
+        $this->multipleWishlistIndex->getManagementBlock()->selectedWishlistByName(
+            $multipleWishlistOriginal->getName()
+        );
+        $this->multipleWishlistIndex->getManagementBlock()->editWishlist();
         $this->multipleWishlistIndex->getBehaviourBlock()->fill($multipleWishlist);
         $this->multipleWishlistIndex->getBehaviourBlock()->save();
     }
