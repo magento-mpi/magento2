@@ -20,8 +20,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportReview;
-use Magento\Reports\Test\Page\Adminhtml\CustomerReportReview;
-use Magento\Reports\Test\Constraint\AssertProductReviewsQtyByCustomer;
 
 /**
  * Test Creation for CustomerReviewReportEntity
@@ -138,6 +136,8 @@ class CustomerReviewReportEntityTest extends Injectable
      * @param Browser $browser
      * @param $reviewsCount
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function test(
         ReviewInjectable $review,

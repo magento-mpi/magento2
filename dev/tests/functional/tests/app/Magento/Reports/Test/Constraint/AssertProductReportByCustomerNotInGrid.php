@@ -6,19 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Test\Constraint;
+namespace Magento\Reports\Test\Constraint;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Reports\Test\Page\Adminhtml\CustomerReportReview;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Reports\Test\Page\Adminhtml\CustomerReportReview;
+use Magento\Review\Test\Constraint\AssertProductReviewNotInGrid;
 
 /**
- * Class AssertProductReviewNotInGrid
+ * Class AssertProductReportByCustomerNotInGrid
  * Check that Customer Product Review not available in grid
  */
-class AssertCustomerProductReviewNotInGrid extends AssertProductReviewNotInGrid
+class AssertProductReportByCustomerNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -32,28 +34,23 @@ class AssertCustomerProductReviewNotInGrid extends AssertProductReviewNotInGrid
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
+     * @param AssertProductReviewNotInGrid $assertProductReviewNotInGrid
      * @param CustomerReportReview $customerReportReview
      * @param CustomerInjectable $customer
      * @param CatalogProductSimple $product
      * @param string $gridStatus
-     * @param ReviewInjectable $reviewInitial
      * @return void
      */
     public function processAssert(
         ReviewIndex $reviewIndex,
         ReviewInjectable $review,
+        AssertProductReviewNotInGrid $assertProductReviewNotInGrid,
         CustomerReportReview $customerReportReview,
         CustomerInjectable $customer,
         CatalogProductSimple $product,
-        $gridStatus = '',
-        ReviewInjectable $reviewInitial = null
+        $gridStatus = ''
     ) {
-        if ($product === null) {
-            $product = $reviewInitial === null
-                ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
-                : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
-        }
-        $filter = $this->prepareFilter($product, $review, $gridStatus);
+        $filter = $assertProductReviewNotInGrid->prepareFilter($product, $review, $gridStatus);
 
         $customerReportReview->open();
         $customerReportReview->getGridBlock()->openReview($customer);
