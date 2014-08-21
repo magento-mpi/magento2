@@ -251,7 +251,7 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -260,7 +260,7 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -269,7 +269,7 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'text',
     ];
 

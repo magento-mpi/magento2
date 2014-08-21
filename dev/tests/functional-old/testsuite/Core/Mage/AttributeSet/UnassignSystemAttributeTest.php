@@ -60,17 +60,17 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode));
             $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode), false);
         }
-        $this->attributeSetHelper()->deleteGroup(array('Search Optimization'));
+        $this->attributeSetHelper()->deleteGroup(array('Search Engine Optimization'));
         //Verifying
         $this->assertFalse($this->controlIsPresent('link', 'group_folder'),
-            '"Search Optimization" group was not deleted');
+            '"Search Engine Optimization" group was not deleted');
     }
 
     /**
      * Remove system attribute group with system attributes
      *
      * Expected results:
-     *  1. Search Optimization group has been deleted.
+     *  1. Search Engine Optimization group has been deleted.
      *
      * @param string $setName
      *
@@ -82,10 +82,10 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     {
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setName);
-        $this->attributeSetHelper()->deleteGroup(array('Search Optimization'));
+        $this->attributeSetHelper()->deleteGroup(array('Search Engine Optimization'));
         //Verifying
         $this->assertFalse($this->controlIsPresent('link', 'group_folder'),
-            '"Search Optimization" group was not deleted');
+            '"Search Engine Optimization" group was not deleted');
     }
 
     /**

@@ -561,7 +561,7 @@ Comma-separated.,Comma-separated.
 "Allow Dynamic Media URLs in Products and Categories","Allow Dynamic Media URLs in Products and Categories"
 "E.g. {{media url=""path/to/image.jpg""}} {{skin url=""path/to/picture.gif""}}. Dynamic directives parsing impacts catalog performance.","E.g. {{media url=""path/to/image.jpg""}} {{skin url=""path/to/picture.gif""}}. Dynamic directives parsing impacts catalog performance."
 "Product Image Placeholders","Product Image Placeholders"
-"Search Engine Optimizations","Search Engine Optimizations"
+"Search Engine Optimization","Search Engine Optimization"
 "Category URL Suffix","Category URL Suffix"
 "You need to refresh the cache.","You need to refresh the cache."
 "Product URL Suffix","Product URL Suffix"
