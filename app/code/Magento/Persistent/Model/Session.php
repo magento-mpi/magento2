@@ -296,15 +296,8 @@ class Session extends \Magento\Framework\Model\AbstractModel
      */
     public function setPersistentCookie($duration, $path)
     {
-        $publicCookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
-            ->setDuration($duration)
-            ->setPath($path)
-            ->setHttpOnly(true);
-        $this->_cookieManager->setPublicCookie(
-            self::COOKIE_NAME,
-            $this->getKey(),
-            $publicCookieMetadata
-        );
+        $value = $this->getKey();
+        $this->setCookie($value, $duration, $path);
         return $this;
     }
 
@@ -322,15 +315,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
         }
         $value = $this->_cookieManager->getCookie(self::COOKIE_NAME);
         if (null !== $value) {
-            $publicCookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
-                ->setDuration($duration)
-                ->setPath($path)
-                ->setHttpOnly(true);
-            $this->_cookieManager->setPublicCookie(
-                self::COOKIE_NAME,
-                $value,
-                $publicCookieMetadata
-            );
+            $this->setCookie($value, $duration, $path);
         }
         return $this;
     }
@@ -380,5 +365,26 @@ class Session extends \Magento\Framework\Model\AbstractModel
     {
         $this->setUpdatedAt(gmdate('Y-m-d H:i:s'));
         return parent::save();
+    }
+
+    /**
+     * Set persistent shopping cart cookie.
+     *
+     * @param string $value
+     * @param int $duration
+     * @param string $path
+     * @return void
+     */
+    private function setCookie($value, $duration, $path)
+    {
+        $publicCookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
+            ->setDuration($duration)
+            ->setPath($path)
+            ->setHttpOnly(true);
+        $this->_cookieManager->setPublicCookie(
+            self::COOKIE_NAME,
+            $value,
+            $publicCookieMetadata
+        );
     }
 }
