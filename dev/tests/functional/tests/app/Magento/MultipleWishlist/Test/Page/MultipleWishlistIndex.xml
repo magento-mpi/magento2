@@ -16,7 +16,7 @@
         </managementBlock>
         <behaviourBlock>
             <class>Magento\MultipleWishlist\Test\Block\Behaviour</class>
-            <locator>.wishlist.popup</locator>
+            <locator>[id$="wishlist-block"]</locator>
             <strategy>css selector</strategy>
         </behaviourBlock>
         <messagesBlock>

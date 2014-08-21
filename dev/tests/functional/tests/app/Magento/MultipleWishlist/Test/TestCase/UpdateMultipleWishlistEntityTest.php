@@ -33,8 +33,6 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
  *
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-27599
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTest
 {
@@ -84,9 +82,8 @@ class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         CustomerInjectable $customer
     ) {
         //Steps
-        $this->openWishlistPage($customer);
         $multipleWishlistOriginal = $this->createMultipleWishlist($multipleWishlistOriginal, $customer);
-        $this->openWishlistPage();
+        $this->openWishlistPage($customer);
         $this->multipleWishlistIndex->getManagementBlock()->selectedWishlistByName(
             $multipleWishlistOriginal->getName()
         );
@@ -96,7 +93,7 @@ class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     }
 
     /**
-     * Inactive multiple wish list in config and delete wish list search widget
+     * Disable multiple wish list in config and delete wish list search widget
      *
      * @return void
      */

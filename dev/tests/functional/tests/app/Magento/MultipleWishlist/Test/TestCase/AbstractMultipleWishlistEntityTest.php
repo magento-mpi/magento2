@@ -195,14 +195,12 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     /**
      * Open wish list page
      *
-     * @param CustomerInjectable|null $customer [optional]
+     * @param CustomerInjectable $customer
      * @return void
      */
-    protected function openWishlistPage(CustomerInjectable $customer = null)
+    protected function openWishlistPage(CustomerInjectable $customer)
     {
-        if ($customer !== null) {
-            $this->loginCustomer($customer);
-        }
+        $this->loginCustomer($customer);
         $this->cmsIndex->getLinksBlock()->openLink('My Account');
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
     }
