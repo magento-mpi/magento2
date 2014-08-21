@@ -12,7 +12,6 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductReviewNotInGrid
@@ -50,7 +49,6 @@ class AssertProductReviewNotInGrid extends AbstractConstraint
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
      * @param string $gridStatus
-     * @param CatalogProductSimple $product
      * @param ReviewInjectable $reviewInitial
      * @return void
      */
@@ -58,14 +56,11 @@ class AssertProductReviewNotInGrid extends AbstractConstraint
         ReviewIndex $reviewIndex,
         ReviewInjectable $review,
         $gridStatus = '',
-        CatalogProductSimple $product = null,
         ReviewInjectable $reviewInitial = null
     ) {
-        if ($product === null) {
-            $product = $reviewInitial === null
-                ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
-                : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
-        }
+        $product = $reviewInitial === null
+            ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
+            : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
         $filter = $this->prepareFilter($product, $review, $gridStatus);
 
         $reviewIndex->getReviewGrid()->search($filter);

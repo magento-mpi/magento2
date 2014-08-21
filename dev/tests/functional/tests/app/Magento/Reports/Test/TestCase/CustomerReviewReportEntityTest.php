@@ -132,8 +132,6 @@ class CustomerReviewReportEntityTest extends Injectable
      * Test Creation for CustomerReviewReportEntity
      *
      * @param ReviewInjectable $review
-     * @param AssertProductReviewsQtyByCustomer $assertProductReviewsQtyByCustomer
-     * @param CustomerReportReview $customerReportReview
      * @param CustomerInjectable $customer
      * @param $customerLogin
      * @param CatalogProductSimple $product
@@ -143,8 +141,6 @@ class CustomerReviewReportEntityTest extends Injectable
      */
     public function test(
         ReviewInjectable $review,
-        AssertProductReviewsQtyByCustomer $assertProductReviewsQtyByCustomer,
-        CustomerReportReview $customerReportReview,
         CustomerInjectable $customer,
         CatalogProductSimple $product,
         Browser $browser,
@@ -158,13 +154,11 @@ class CustomerReviewReportEntityTest extends Injectable
             $this->cmsIndex->getLinksBlock()->openLink("Log In");
             $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
+        // Steps
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->pageCatalogProductView->getReviewSummary()->getAddReviewLink()->click();
         $this->pageCatalogProductView->getReviewFormBlock()->fill($review);
         $this->pageCatalogProductView->getReviewFormBlock()->submit();
-        // Steps
-        $assertProductReviewsQtyByCustomer->processAssert($customerReportReview, $customer, $reviewsCount);
-        $customerReportReview->getGridBlock()->openReview($customer);
 
         return ['product' => $product];
     }
