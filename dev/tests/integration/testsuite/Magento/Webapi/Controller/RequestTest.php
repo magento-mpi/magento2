@@ -23,11 +23,4 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $this->request = $objectManager->get('\Magento\Webapi\Controller\Request');
     }
-
-    public function testConsumerId()
-    {
-        $consumerId = 99;
-        $this->request->setConsumerId($consumerId);
-        $this->assertEquals($consumerId, $this->request->getConsumerId());
-    }
 } 
