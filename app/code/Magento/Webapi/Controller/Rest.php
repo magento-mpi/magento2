@@ -10,8 +10,8 @@ namespace Magento\Webapi\Controller;
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Service\Data\SimpleAbstractObject;
 use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\Data\AbstractObject as EavAbstractObject;
 use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
@@ -193,13 +193,13 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if ($datum instanceof AbstractObject) {
+                if ($datum instanceof SimpleAbstractObject) {
                     $datum = $this->processDataObject($datum->__toArray());
                 }
                 $result[] = $datum;
             }
             return $result;
-        } else if ($data instanceof AbstractObject) {
+        } else if ($data instanceof SimpleAbstractObject) {
             return $this->processDataObject($data->__toArray());
         } else if (is_null($data)) {
             return [];
@@ -217,7 +217,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      */
     protected function processDataObject($dataObjectArray)
     {
-        if (isset($dataObjectArray[EavAbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
+        if (isset($dataObjectArray[AbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
             $dataObjectArray = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataObjectArray);
         }
         //Check for nested custom_attributes

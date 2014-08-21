@@ -9,7 +9,7 @@ namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\SimpleAbstractObject;
 use Magento\Framework\Service\DataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
@@ -139,11 +139,11 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
-        if ($data instanceof AbstractObject) {
+        if ($data instanceof SimpleAbstractObject) {
             $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $value instanceof AbstractObject
+                $result[$key] = $value instanceof SimpleAbstractObject
                     ? $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray())
                     : $value;
             }
