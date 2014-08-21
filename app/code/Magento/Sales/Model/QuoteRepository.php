@@ -22,7 +22,8 @@ class QuoteRepository
     protected $storeManager;
 
     /**
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param QuoteFactory $quoteFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,

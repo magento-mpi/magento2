@@ -16,7 +16,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var \Magento\Checkout\Service\V1\QuoteLoader
+     * @var \Magento\Sales\Model\QuoteRepository
      */
     protected $quoteRepository;
 
@@ -64,7 +64,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function setForQuote($cartId,  \Magento\GiftMessage\Service\V1\Data\Message $giftMessage)
+    public function setForQuote($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage)
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteRepository->get($cartId);
@@ -84,7 +84,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function setForItem($cartId,  \Magento\GiftMessage\Service\V1\Data\Message $giftMessage, $itemId)
+    public function setForItem($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage, $itemId)
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteRepository->get($cartId);
@@ -100,7 +100,6 @@ class WriteService implements WriteServiceInterface
         $this->setMessage($quote, 'quote_item', $giftMessage, $itemId);
         return true;
     }
-
 
     /**
      * Set gift message to item or quote

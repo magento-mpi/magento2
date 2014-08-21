@@ -24,8 +24,8 @@ class GiftMessageManager
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote $quote
      * @param array $giftMessages
+     * @param \Magento\Sales\Model\Quote $quote
      * @return $this
      */
     public function add($giftMessages, $quote)

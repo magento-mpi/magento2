@@ -11,6 +11,9 @@ namespace Magento\Checkout\Service\V1\Cart;
 
 use \Magento\Framework\Service\V1\Data\SearchCriteria;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**

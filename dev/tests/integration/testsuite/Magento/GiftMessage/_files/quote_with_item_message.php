@@ -35,7 +35,8 @@ $product->setTypeId(
     array('use_config_manage_stock' => 0)
 )->save();
 $quoteProduct = $product->load($product->getIdBySku('simple_with_message'));
-$quote->setReservedOrderId('test_order_item_with_message')->addProduct($product->load($product->getIdBySku('simple_with_message')), 1);
+$quote->setReservedOrderId('test_order_item_with_message')
+    ->addProduct($product->load($product->getIdBySku('simple_with_message')), 1);
 $quote->collectTotals()->save();
 
 /** @var \Magento\GiftMessage\Model\Message $message */
