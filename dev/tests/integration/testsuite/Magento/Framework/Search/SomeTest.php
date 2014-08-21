@@ -50,11 +50,11 @@ class SomeTest extends \PHPUnit_Framework_TestCase
     /**
      * Sample test
      *
-     * @magentoDbIsolation enabled
-     * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
-     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
-     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * _magentoDbIsolatio enabled
+     * _magentoAppIsolatio enabled
+     * _magentoConfigFixtur current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * _magentoConfigFixtur current_store catalog/frontend/flat_catalog_product 1
+     * _magentoConfigFixtur current_store catalog/search/search_type 2
      *
      * @magentoDataFixture Magento/Framework/Search/_files/products.php
      */
