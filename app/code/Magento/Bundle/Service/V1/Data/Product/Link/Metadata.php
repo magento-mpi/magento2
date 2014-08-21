@@ -20,6 +20,8 @@ class Metadata extends AbstractObject
 
     const QTY = 'qty';
 
+    const CAN_CHANGE_QUANTITY = 'can_change_qty';
+
     const POSITION = 'position';
 
     const DEFINED = 'defined';
@@ -92,5 +94,15 @@ class Metadata extends AbstractObject
     public function getPriceType()
     {
         return $this->_get(self::PRICE_TYPE);
+    }
+
+    /**
+     * Get whether quantity could be changed
+     *
+     * @return int
+     */
+    public function getCanChangeQuantity()
+    {
+        return $this->_get(self::CAN_CHANGE_QUANTITY);
     }
 }

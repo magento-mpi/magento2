@@ -68,7 +68,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function addChild($productSku, $optionId, Data\ProductLink $linkedProduct)
+    public function addChild($productSku, \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $linkedProduct)
     {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
@@ -81,7 +81,7 @@ class WriteService implements WriteServiceInterface
         $isNewOption = true;
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($options as $option) {
-            if ($option->getOptionId() == $optionId) {
+            if ($option->getOptionId() == $linkedProduct->getOptionId()) {
                 $isNewOption = false;
                 break;
             }
@@ -90,7 +90,7 @@ class WriteService implements WriteServiceInterface
         if ($isNewOption) {
             throw new InputException(
                 'Product with specified sku: "%1" does not contain option: "%2"',
-                [$productSku, $optionId]
+                [$productSku, $linkedProduct->getOptionId()]
             );
         }
 
@@ -104,7 +104,8 @@ class WriteService implements WriteServiceInterface
         }
         if ($selections) {
             foreach ($selections as $selection) {
-                if ($selection['option_id'] == $optionId && $selection['product_id'] == $linkProductModel->getId()) {
+                if ($selection['option_id'] == $linkedProduct->getOptionId() &&
+                    $selection['product_id'] == $linkProductModel->getId()) {
                     throw new CouldNotSaveException(
                         'Child with specified sku: "%1" already assigned to product: "%2"',
                         [$linkedProduct->getSku(), $productSku]
@@ -114,11 +115,11 @@ class WriteService implements WriteServiceInterface
         }
 
         $selectionModel = $this->bundleSelection->create();
-        $selectionModel->setOptionId($optionId)
+        $selectionModel->setOptionId($linkedProduct->getOptionId())
             ->setPosition($linkedProduct->getPosition())
-            ->setSelectionQty($linkedProduct->getQuantity())
+            ->setSelectionQty($linkedProduct->getQty())
             ->setSelectionPriceType($linkedProduct->getPriceType())
-            ->setSelectionPriceValue($linkedProduct->getPriceValue())
+            ->setSelectionPriceValue($linkedProduct->getPrice())
             ->setSelectionCanChangeQty($linkedProduct->getCanChangeQuantity())
             ->setProductId($linkProductModel->getId())
             ->setParentProductId($product->getId())

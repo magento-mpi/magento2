@@ -85,4 +85,15 @@ class MetadataBuilder extends AbstractObjectBuilder
     {
         return $this->_set(Metadata::PRICE_TYPE, $value);
     }
+
+    /**
+     * Set can change quantity
+     *
+     * @param int $canChangeQuantity
+     * @return $this
+     */
+    public function setCanChangeQuantity($canChangeQuantity)
+    {
+        return $this->_set(Metadata::CAN_CHANGE_QUANTITY, $canChangeQuantity);
+    }
 }
