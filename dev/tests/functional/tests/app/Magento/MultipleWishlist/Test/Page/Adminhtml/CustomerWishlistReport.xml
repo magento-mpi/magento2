@@ -9,10 +9,10 @@
 -->
 <page mca="multiplewishlist/report_customer_wishlist" module="Magento_MultipleWishlist">
     <blocks>
-    <wishlistReportGrid>
-        <class>Magento\MultipleWishlist\Test\Block\Adminhtml\Report\Customer\Wishlist\Grid</class>
-        <locator>#gridReportWishlists</locator>
-        <strategy>css selector</strategy>
-    </wishlistReportGrid>
+        <wishlistReportGrid>
+            <class>Magento\MultipleWishlist\Test\Block\Adminhtml\Report\Customer\Wishlist\Grid</class>
+            <locator>#gridReportWishlists</locator>
+            <strategy>css selector</strategy>
+        </wishlistReportGrid>
     </blocks>
 </page>

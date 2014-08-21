@@ -7,10 +7,14 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_MultipleWishlist">
     <customerWishlistReport>
         <mca>multiplewishlist/report_customer_wishlist</mca>
         <area>adminhtml</area>
         <class>Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport</class>
     </customerWishlistReport>
+    <catalogProductView>
+        <mca>catalog/product/view</mca>
+        <class>Magento\MultipleWishlist\Test\Page\Product\CatalogProductView</class>
+    </catalogProductView>
 </page>

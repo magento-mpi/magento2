@@ -147,7 +147,9 @@ class WishListReportEntityTest extends Injectable
         $this->loginCustomer($customer);
         foreach ($products as $key => $product) {
             $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->addToMultipleWishlist($multipleWishlist->getName());
+            $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist(
+                $multipleWishlist->getName()
+            );
             $description = $wishlist[$key]['description'];
             $this->multipleWishlistIndex->getManagementBlock()->fillDescription($product->getName(), $description);
             $this->multipleWishlistIndex->getManagementBlock()->updateWishlist();
