@@ -7,9 +7,12 @@
  */
 namespace Magento\Framework\Search;
 
-
 use Magento\Framework\App\Resource;
 
+/**
+ * Sample test
+ * TODO: need remove
+ */
 class SomeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -45,11 +48,13 @@ class SomeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Sample test
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store default/catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
-     * @magentoConfigFixture current_store default/catalog/search/search_type 2
+     * @magentoConfigFixture current_store catalog/search/search_type 2
      *
      * @magentoDataFixture Magento/Framework/Search/_files/products.php
      */
@@ -61,8 +66,5 @@ class SomeTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
         $connection = $this->appResource->getConnection(Resource::DEFAULT_READ_RESOURCE);
-
-        $this->assertTrue($this->state->isFlatEnabled());
-        $this->assertContains('catalog_product_flat', $connection->getTables('%catalog_product_flat%')[0]);
     }
 }
