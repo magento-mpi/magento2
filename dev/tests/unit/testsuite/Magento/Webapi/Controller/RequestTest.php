@@ -37,13 +37,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testConsumerId()
-    {
-        $consumerId = 99;
-        $this->request->setConsumerId($consumerId);
-        $this->assertEquals($consumerId, $this->request->getConsumerId());
-    }
-
     public function testGetCookie()
     {
         $key = "cookieName";
