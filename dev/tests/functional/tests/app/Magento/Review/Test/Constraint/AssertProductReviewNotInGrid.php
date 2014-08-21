@@ -14,10 +14,10 @@ use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 
 /**
- * Class AssertProductReviewInGrid
- * Check that review is displayed in grid
+ * Class AssertProductReviewNotInGrid
+ * Check that Product Review not available in grid
  */
-class AssertProductReviewInGrid extends AbstractConstraint
+class AssertProductReviewNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -44,7 +44,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
     ];
 
     /**
-     * Assert that review is displayed in grid
+     * Asserts Product Review not available in grid
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
@@ -63,12 +63,11 @@ class AssertProductReviewInGrid extends AbstractConstraint
             : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
         $filter = $this->prepareFilter($product, $review, $gridStatus);
 
-        $reviewIndex->open();
         $reviewIndex->getReviewGrid()->search($filter);
         unset($filter['visible_in']);
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
-            'Review is absent in Review grid.'
+            'Review available in grid'
         );
     }
 
@@ -111,12 +110,12 @@ class AssertProductReviewInGrid extends AbstractConstraint
     }
 
     /**
-     * Text success exist review in grid on product reviews tab
+     * Text success if review not in grid on product reviews tab
      *
      * @return string
      */
     public function toString()
     {
-        return 'Review is present in grid on product reviews tab.';
+        return 'Review is absent in grid on product reviews tab.';
     }
 }
