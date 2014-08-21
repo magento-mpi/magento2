@@ -7,12 +7,11 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Test class for \Magento\Customer\Block\Widget\Name.
@@ -61,7 +60,10 @@ class NameTest extends \PHPUnit_Framework_TestCase
     private $_block;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject | CustomerMetadataServiceInterface */
-    private $_metadataService;
+    private $customerMetadataService;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject|AddressMetadataServiceInterface */
+    private $addressMetadataService;
 
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -77,17 +79,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
         $addressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
 
-        $this->_metadataService = $this->getMockBuilder(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
-        )->disableOriginalConstructor()->getMock();
-        $this->_metadataService->expects(
-            $this->any()
-        )->method(
-            'getCustomCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue([])
-        );
-
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
         $this->_attributeMetadata = $this->getMock(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
@@ -96,23 +87,31 @@ class NameTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_metadataService->expects(
-            $this->any()
-        )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($this->_attributeMetadata)
-        );
-        $this->_metadataService->expects(
-            $this->any()
-        )->method(
-            'getAddressAttributeMetadata'
-        )->will(
-            $this->returnValue($this->_attributeMetadata)
-        );
+        $this->customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->customerMetadataService
+            ->expects($this->any())
+            ->method('getCustomAttributesMetadata')
+            ->will($this->returnValue([]));
+        $this->customerMetadataService->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->returnValue($this->_attributeMetadata));
 
+        $this->addressMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\AddressMetadataService')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->addressMetadataService->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->returnValue($this->_attributeMetadata));
 
-        $this->_block = new Name($context, $addressHelper, $this->_metadataService, $this->_customerHelper);
+        $this->_block = new Name(
+            $context,
+            $addressHelper,
+            $this->customerMetadataService,
+            $this->addressMetadataService,
+            $this->_customerHelper
+        );
     }
 
     /**
@@ -129,7 +128,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowPrefixWithException()
     {
-        $this->_metadataService->expects(
+        $this->customerMetadataService->expects(
             $this->any()
         )->method(
             'getAttributeMetadata'
@@ -149,7 +148,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testMethodWithNoSuchEntityException($method)
     {
-        $this->_metadataService->expects(
+        $this->customerMetadataService->expects(
             $this->any()
         )->method(
             'getAttributeMetadata'
@@ -405,7 +404,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetStoreLabelWithException()
     {
-        $this->_metadataService->expects(
+        $this->customerMetadataService->expects(
             $this->any()
         )->method(
             'getAttributeMetadata'
