@@ -172,6 +172,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
             return;
         }
 
+        $this->_session->regenerateId();
+
         try {
             $customer = $this->customerExtractor->extract('customer_account_create', $this->_request);
             $address = $this->_extractAddress();
@@ -182,7 +184,6 @@ class CreatePost extends \Magento\Customer\Controller\Account
                 ->setCustomer($customer)
                 ->setAddresses($addresses)
                 ->create();
-            $this->_session->regenerateId();
             $customer = $this->_customerAccountService->createCustomer($customerDetails, $password, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
