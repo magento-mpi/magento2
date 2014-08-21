@@ -10,6 +10,9 @@ namespace Magento\Catalog\Service\V1\Category\Tree;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
+/**
+ * @magentoApiDataFixture Magento/Catalog/_files/category_tree.php
+ */
 class ReadServiceTest extends WebapiAbstract
 {
     const SERVICE_WRITE_NAME = 'catalogCategoryTreeReadServiceV1';
@@ -18,7 +21,6 @@ class ReadServiceTest extends WebapiAbstract
 
     /**
      * @dataProvider treeDataProvider
-     * @magentoApiDataFixture Magento/Catalog/_files/category_tree.php
      */
     public function testTree($rootCategoryId, $depth, $expectedLevel, $expectedId)
     {
