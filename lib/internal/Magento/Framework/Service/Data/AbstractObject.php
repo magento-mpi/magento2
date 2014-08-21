@@ -9,6 +9,7 @@ namespace Magento\Framework\Service\Data;
 
 /**
  * Class EAV AbstractObject
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class AbstractObject extends SimpleAbstractObject
 {
