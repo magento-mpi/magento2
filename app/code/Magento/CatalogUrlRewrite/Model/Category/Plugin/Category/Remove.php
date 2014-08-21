@@ -59,7 +59,7 @@ class Remove
         return $result;
     }
 
-    /***
+    /**
      * Remove url rewrites by categoryId
      *
      * @param int $categoryId
