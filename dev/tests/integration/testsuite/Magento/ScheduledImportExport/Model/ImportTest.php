@@ -21,28 +21,15 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         // fixture
         $this->assertFalse($product);
 
-        // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        $model = $this->getMock(
+        $model = $objectManager->create(
             'Magento\ScheduledImportExport\Model\Import',
-            array('reindexAll'),
             array(
-                $objectManager->get('Magento\Framework\Logger'),
-                $objectManager->get('Magento\Framework\App\Filesystem'),
-                $objectManager->get('Magento\Framework\Logger\AdapterFactory'),
-                $objectManager->get('Magento\ImportExport\Helper\Data'),
-                $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
-                $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface'),
-                $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
-                $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),
-                $objectManager->get('Magento\ImportExport\Model\Export\Adapter\CsvFactory'),
-                $objectManager->get('Magento\Framework\HTTP\Adapter\FileTransferFactory'),
-                $objectManager->get('Magento\Core\Model\File\UploaderFactory'),
-                $objectManager->get('Magento\ImportExport\Model\Source\Import\Behavior\Factory'),
-                $objectManager->get('Magento\Index\Model\Indexer'),
-                array('entity' => 'catalog_product', 'behavior' => 'append')
+                'data' => array(
+                    'entity' => 'catalog_product',
+                    'behavior' => 'append',
+                ),
             )
         );
-        $model->expects($this->once())->method('reindexAll')->will($this->returnSelf());
 
         $directoryList = $objectManager->create(
             'Magento\Framework\App\Filesystem\DirectoryList',
