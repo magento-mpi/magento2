@@ -41,7 +41,8 @@ class WriteService implements WriteServiceInterface
     protected $productLoader;
 
     /**
-     * @param  \Magento\Sales\Model\QuoteRepository $quoteRepository
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftMessage\Model\GiftMessageManager $giftMessageManager
      * @param \Magento\GiftMessage\Helper\Message $helper
      * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
@@ -76,11 +77,7 @@ class WriteService implements WriteServiceInterface
             throw new InvalidTransitionException('Gift Messages is not applicable for virtual products');
         }
 
-        try {
-            $this->setMessage($quote, 'quote', $giftMessage);
-        } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not add gift message to shopping cart');
-        }
+        $this->setMessage($quote, 'quote', $giftMessage);
         return true;
     }
 
@@ -93,7 +90,7 @@ class WriteService implements WriteServiceInterface
         $quote = $this->quoteRepository->get($cartId);
 
         if (!$item = $quote->getItemById($itemId)) {
-            throw new NoSuchEntityException('There is no product with provided SKU in the cart');
+            throw new NoSuchEntityException('There is no product with provided item ID in the cart');
         };
 
         if ($item->getIsVirtual()) {
@@ -109,10 +106,9 @@ class WriteService implements WriteServiceInterface
      * Set gift message to item or quote
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @param $type
-     * @param null $entityId
+     * @param string $type
      * @param \Magento\GiftMessage\Service\V1\Data\Message $giftMessage
-     * @return $this
+     * @param null|int $entityId
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\State\InvalidTransitionException
      */
