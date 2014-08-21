@@ -122,8 +122,6 @@ class InvoiceCreateTest extends WebapiAbstract
                     'rowTotalInclTax' => null,
                     'sku' => 'sku' . uniqid(),
                     'taxAmount' => null
-
-
                 ]
             ],
         ];
