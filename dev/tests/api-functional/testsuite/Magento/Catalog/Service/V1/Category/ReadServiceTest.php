@@ -19,7 +19,7 @@ class ReadServiceTest extends WebapiAbstract
     private $modelId = 333;
 
     /**
-     * @magentoApiDataFixture Magento/Catalog/_files/category.php
+     * @magentoApiDataFixture Magento/Catalog/_files/category_backend.php
      */
     public function testInfo()
     {
