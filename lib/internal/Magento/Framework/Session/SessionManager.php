@@ -77,6 +77,18 @@ class SessionManager implements SessionManagerInterface
     protected $storage;
 
     /**
+     * Cookie Manager
+     * 
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $cookieManager;
+
+    /**
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactory;
+    
+    /**
      * Constructor
      *
      * @param \Magento\Framework\App\Request\Http $request
@@ -85,6 +97,8 @@ class SessionManager implements SessionManagerInterface
      * @param SaveHandlerInterface $saveHandler
      * @param ValidatorInterface $validator
      * @param StorageInterface $storage
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -92,7 +106,9 @@ class SessionManager implements SessionManagerInterface
         ConfigInterface $sessionConfig,
         SaveHandlerInterface $saveHandler,
         ValidatorInterface $validator,
-        StorageInterface $storage
+        StorageInterface $storage,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
     ) {
         $this->request = $request;
         $this->sidResolver = $sidResolver;
@@ -100,6 +116,8 @@ class SessionManager implements SessionManagerInterface
         $this->saveHandler = $saveHandler;
         $this->validator = $validator;
         $this->storage = $storage;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
 
         // Enable session.use_only_cookies
         ini_set('session.use_only_cookies', '1');
@@ -452,15 +470,12 @@ class SessionManager implements SessionManagerInterface
         foreach (array_keys($this->_getHosts()) as $host) {
             // Delete cookies with the same name for parent domains
             if (strpos($this->sessionConfig->getCookieDomain(), $host) > 0) {
-                setcookie(
-                    $this->getName(),
-                    '',
-                    0,
-                    $this->sessionConfig->getCookiePath(),
-                    $host,
-                    $this->sessionConfig->getCookieSecure(),
-                    $this->sessionConfig->getCookieHttpOnly()
-                );
+                $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
+                $metadata->setPath($this->sessionConfig->getCookiePath());
+                $metadata->setDomain($host);
+                $metadata->setSecure($this->sessionConfig->getCookieSecure());
+                $metadata->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
+                $this->cookieManager->deleteCookie($this->getName(), $metadata);
             }
         }
     }
@@ -478,15 +493,12 @@ class SessionManager implements SessionManagerInterface
             return;
         }
 
-        setcookie(
-            $this->getName(),
-            '',
-            0,
-            $this->sessionConfig->getCookiePath(),
-            $this->sessionConfig->getCookieDomain(),
-            $this->sessionConfig->getCookieSecure(),
-            $this->sessionConfig->getCookieHttpOnly()
-        );
+        $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
+        $metadata->setPath($this->sessionConfig->getCookiePath());
+        $metadata->setDomain($this->sessionConfig->getCookieDomain());
+        $metadata->setSecure($this->sessionConfig->getCookieSecure());
+        $metadata->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
+        $this->cookieManager->deleteCookie($this->getName(), $metadata);
         $this->clearSubDomainSessionCookie();
     }
 
