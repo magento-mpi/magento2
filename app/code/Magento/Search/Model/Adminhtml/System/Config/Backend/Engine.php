@@ -15,15 +15,15 @@ namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
 class Engine extends \Magento\Framework\App\Config\Value
 {
     /**
-     * @var \Magento\Index\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerFactory
      */
-    protected $_indexer;
+    protected $indexerFactory;
 
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -32,12 +32,12 @@ class Engine extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_indexer = $indexer;
+        $this->indexerFactory = $indexerFactory;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
@@ -52,11 +52,9 @@ class Engine extends \Magento\Framework\App\Config\Value
         parent::_afterSave();
 
         if ($this->isValueChanged()) {
-            $this->_indexer->getProcessByCode(
-                'catalogsearch_fulltext'
-            )->changeStatus(
-                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
-            );
+            $indexer = $this->indexerFactory->create();
+            $indexer->load(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID);
+            $indexer->invalidate();
         }
 
         return $this;
