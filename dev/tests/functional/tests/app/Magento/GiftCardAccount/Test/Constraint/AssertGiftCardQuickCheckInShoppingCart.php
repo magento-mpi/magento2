@@ -9,9 +9,7 @@
 namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Mtf\Client\Browser;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
@@ -33,11 +31,9 @@ class AssertGiftCardQuickCheckInShoppingCart extends AbstractAssertGiftCardAccou
     /**
      * Assert that created gift card account can be verified on the frontend in Shopping Cart
      *
-     * @param CmsIndex $cmsIndex
      * @param CheckoutCart $checkoutCart
      * @param GiftCardAccount $giftCardAccount
      * @param CustomerInjectable $customer
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
      * @param Browser $browser
@@ -45,17 +41,15 @@ class AssertGiftCardQuickCheckInShoppingCart extends AbstractAssertGiftCardAccou
      * @return void
      */
     public function processAssert(
-        CmsIndex $cmsIndex,
         CheckoutCart $checkoutCart,
         GiftCardAccount $giftCardAccount,
         CustomerInjectable $customer,
-        CustomerAccountLogin $customerAccountLogin,
         CatalogProductSimple $product,
         CatalogProductView $catalogProductView,
         Browser $browser,
         $code
     ) {
-        $this->login($cmsIndex, $customerAccountLogin, $customer);
+        $this->login($customer);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $catalogProductView->getViewBlock()->clickAddToCart();
         $data = $giftCardAccount->getData();

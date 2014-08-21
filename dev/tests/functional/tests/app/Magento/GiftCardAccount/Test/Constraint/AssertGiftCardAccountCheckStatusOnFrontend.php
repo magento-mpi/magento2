@@ -9,7 +9,6 @@
 namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
@@ -34,7 +33,6 @@ class AssertGiftCardAccountCheckStatusOnFrontend extends AbstractAssertGiftCardA
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftCardAccount $giftCardAccount
      * @param CustomerInjectable $customer
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param string $code
      * @return void
      */
@@ -43,10 +41,9 @@ class AssertGiftCardAccountCheckStatusOnFrontend extends AbstractAssertGiftCardA
         CustomerAccountIndex $customerAccountIndex,
         GiftCardAccount $giftCardAccount,
         CustomerInjectable $customer,
-        CustomerAccountLogin $customerAccountLogin,
         $code
     ) {
-        $this->login($cmsIndex, $customerAccountLogin, $customer);
+        $this->login($customer);
         $cmsIndex->open()->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
         $data = $giftCardAccount->getData();

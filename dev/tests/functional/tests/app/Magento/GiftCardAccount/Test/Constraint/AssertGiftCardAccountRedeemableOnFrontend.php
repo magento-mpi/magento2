@@ -10,7 +10,6 @@ namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
@@ -37,7 +36,6 @@ class AssertGiftCardAccountRedeemableOnFrontend extends AbstractAssertGiftCardAc
      *
      * @param CustomerAccountIndex $customerAccountIndex
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerInjectable $customer
      * @param GiftCardAccount $giftCardAccount
      * @param string $code
@@ -46,12 +44,11 @@ class AssertGiftCardAccountRedeemableOnFrontend extends AbstractAssertGiftCardAc
     public function processAssert(
         CustomerAccountIndex $customerAccountIndex,
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerInjectable $customer,
         GiftCardAccount $giftCardAccount,
         $code
     ) {
-        $this->login($cmsIndex, $customerAccountLogin, $customer);
+        $this->login($customer);
         $cmsIndex->open()->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
         $customerAccountIndex->getRedeemBlock()->redeemGiftCard($code);
