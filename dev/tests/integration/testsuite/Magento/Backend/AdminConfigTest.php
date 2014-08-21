@@ -13,22 +13,19 @@ namespace Magento\Backend;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
-/**
- * Test AdminConfig
- *
- * @package Magento\Backend
- */
 class AdminConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for setting session name for admin
      *
      */
-    public function testSetName()
+    public function testSetSessionNameByConstructor()
     {
-        $adminConfig = Bootstrap::getObjectManager()->get(
-            'Magento\Backend\AdminConfig'
+        $sessionName = 'adminHtmlSession';
+        $adminConfig = Bootstrap::getObjectManager()->create(
+            'Magento\Backend\AdminConfig',
+            ['sessionName' => $sessionName]
         );
-        $this->assertSame(AdminConfig::SESSION_NAME_ADMIN, $adminConfig->getName());
+        $this->assertSame($sessionName, $adminConfig->getName());
     }
 }

@@ -11,7 +11,6 @@
  */
 namespace Magento\Backend;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 
 class AdminConfigTest extends \PHPUnit_Framework_TestCase
@@ -88,9 +87,9 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      * Test for setting session name for admin
      *
      */
-    public function testSetName()
+    public function testSetSessionNameByConstructor()
     {
-        $sessionName = "admin";
+        $sessionName = 'admin';
         $adminConfig = $this->objectManager->getObject(
             'Magento\Backend\AdminConfig',
             [
