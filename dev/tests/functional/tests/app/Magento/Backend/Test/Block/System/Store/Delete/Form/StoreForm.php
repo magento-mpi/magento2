@@ -6,11 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Block\System\Store\Delete;
+namespace Magento\Backend\Test\Block\System\Store\Delete\Form;
 
 use Mtf\Client\Element;
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class StoreForm

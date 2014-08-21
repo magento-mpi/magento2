@@ -20,4 +20,16 @@
     <assertStoreGroupOnStoreViewForm module="Magento_Store">
         <severeness>low</severeness>
     </assertStoreGroupOnStoreViewForm>
+    <assertStoreGroupSuccessDeleteMessage module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreGroupSuccessDeleteMessage>
+    <assertStoreGroupNotInGrid module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreGroupNotInGrid>
+    <assertStoreGroupSuccessDeleteAndBackupMessages module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreGroupSuccessDeleteAndBackupMessages>
+    <assertBackupInGrid module="Magento_Store">
+        <severeness>low</severeness>
+    </assertBackupInGrid>
 </constraint>
