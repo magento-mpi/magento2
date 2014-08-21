@@ -90,7 +90,7 @@ class WriteService implements WriteServiceInterface
         $quote = $this->quoteRepository->get($cartId);
 
         if (!$item = $quote->getItemById($itemId)) {
-            throw new NoSuchEntityException("There is no product with provided $itemId in the cart");
+            throw new NoSuchEntityException("There is no product with provided  itemId: $itemId in the cart");
         };
 
         if ($item->getIsVirtual()) {

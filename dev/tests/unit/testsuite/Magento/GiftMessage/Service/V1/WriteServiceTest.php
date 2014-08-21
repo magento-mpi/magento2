@@ -188,7 +188,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage There is no product with provided item ID in the cart
+     * @expectedExceptionMessage There is no product with provided  itemId: 1 in the cart
      */
     public function testSetForItemWithNoSuchEntityException()
     {
