@@ -25,7 +25,6 @@
             <module name="Magento_Theme"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Widget"/>
-            <module name="Magento_Logging"/>
             <module name="Magento_CatalogInventory"/>
             <module name="Magento_GiftCard"/>
             <module name="Magento_Newsletter"/>

@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rss\Block;
+namespace Magento\Wishlist\Block;
 
 /**
  * Test for rendering price html in rss templates
  *
  */
-class WishlistTest extends \PHPUnit_Framework_TestCase
+class RssTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Rss\Block\Catalog\Category
+     * @var \Magento\Wishlist\Block\Rss
      */
     protected $block;
 
@@ -128,7 +128,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $objectManager->getObject(
-            'Magento\Rss\Block\Wishlist',
+            'Magento\Wishlist\Block\Rss',
             [
                 'context' => $templateContextMock,
                 'productFactory' => $this->productFactoryMock,

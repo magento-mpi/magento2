@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rss\Helper;
+namespace Magento\Wishlist\Helper;
 
-class WishlistRss extends \Magento\Wishlist\Helper\Data
+class Rss extends \Magento\Wishlist\Helper\Data
 {
     /**
      * @var \Magento\Customer\Service\V1\Data\Customer
@@ -103,5 +103,16 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
         }
 
         return $this->_customer;
+    }
+
+    /**
+     * Is allow RSS
+     *
+     * @return bool
+     */
+    public function isRssAllow()
+    {
+        return $this->_moduleManager->isEnabled('Magento_Rss')
+            && $this->_scopeConfig->isSetFlag('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

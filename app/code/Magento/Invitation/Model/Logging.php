@@ -6,13 +6,14 @@
  * @license     {license_link}
  */
 
-/**
- * Invitation data model
- *
- */
 namespace Magento\Invitation\Model;
 
-class Observer
+/**
+ * Class \Magento\Invitation\Model\Logging
+ *
+ * Model for logging event related to Invitation, active only if Magento_Logging module is enabled
+ */
+class Logging
 {
     /**
      * Flag that indicates customer registration page
@@ -71,14 +72,14 @@ class Observer
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
         $messages = $this->messageManager->getMessages();
         $errors = $messages->getErrors();
         $notices = $messages->getItemsByType(\Magento\Framework\Message\MessageInterface::TYPE_NOTICE);
-        $status = empty($errors) &&
-            empty($notices) ? \Magento\Logging\Model\Event::RESULT_SUCCESS : \Magento\Logging\Model\Event::RESULT_FAILURE;
-        return $eventModel->setStatus($status)->setInfo($this->_request->getParam('invitations'));
+        $isSuccess = empty($errors) && empty($notices);
+        return $eventModel->setIsSuccess($isSuccess)->setInfo($this->_request->getParam('invitations'));
     }
 }
