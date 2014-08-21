@@ -862,6 +862,8 @@ class Onepage
      */
     protected function _involveNewCustomer()
     {
+        $this->_checkoutSession->regenerateId();
+
         $customer = $this->getQuote()->getCustomerData();
         $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
