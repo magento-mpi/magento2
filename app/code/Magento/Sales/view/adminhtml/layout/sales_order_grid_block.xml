@@ -20,12 +20,6 @@
                 <argument name="grid_url" xsi:type="url" path="*/*/grid">
                     <param name="_current">1</param>
                 </argument>
-                <argument name="rssList" xsi:type="array">
-                    <item name="orders" xsi:type="array">
-                        <item name="url" xsi:type="string">rss/order/new</item>
-                        <item name="label" xsi:type="string" translate="true">New Order RSS</item>
-                    </item>
-                </argument>
             </arguments>
             <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="sales.order.grid.massaction" as="grid.massaction">
                 <arguments>

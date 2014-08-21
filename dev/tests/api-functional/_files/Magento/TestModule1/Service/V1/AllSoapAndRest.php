@@ -68,4 +68,12 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
             return $this->itemBuilder->setItemId(3)->setName($name)->create();
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function itemAnyType($item)
+    {
+        return $item;
+    }
 }

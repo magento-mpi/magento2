@@ -17,28 +17,6 @@ class Import extends \Magento\ImportExport\Model\Import implements
     \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
-     * Reindex indexes by process codes.
-     *
-     * @return $this
-     */
-    public function reindexAll()
-    {
-        $relatedIndexers = $this->_importConfig->getRelatedIndexers($this->getEntity());
-        if (empty($relatedIndexers)) {
-            return $this;
-        }
-
-        foreach ($relatedIndexers as $indexer) {
-            $indexProcess = $this->_indexer->getProcessByCode($indexer);
-            if ($indexProcess) {
-                $indexProcess->reindexEverything();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Run import through cron
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
@@ -62,7 +40,7 @@ class Import extends \Magento\ImportExport\Model\Import implements
             $result = $this->importSource();
         }
         if ($result) {
-            $this->reindexAll();
+            $this->invalidateIndex();
         }
         return (bool)$result;
     }
