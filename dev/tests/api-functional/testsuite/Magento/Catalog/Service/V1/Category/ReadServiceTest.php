@@ -43,7 +43,7 @@ class ReadServiceTest extends WebapiAbstract
                 ],
                 [
                     'attribute_code' => 'url_path',
-                    'value' => 'category-1.html',
+                    'value' => 'category-1',
                 ],
             ],
             'available_sort_by' => ['position', 'name'],
