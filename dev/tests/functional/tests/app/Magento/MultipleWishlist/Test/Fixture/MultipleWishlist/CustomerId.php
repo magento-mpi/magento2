@@ -42,7 +42,7 @@ class CustomerId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (isset($data['customer'])) {
+        if (isset($data['customer']) && $data['customer'] instanceof CustomerInjectable) {
             $this->data = $data['customer'];
             return;
         }

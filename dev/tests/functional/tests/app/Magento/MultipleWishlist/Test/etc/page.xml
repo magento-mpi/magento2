@@ -13,8 +13,4 @@
         <area>adminhtml</area>
         <class>Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport</class>
     </customerWishlistReport>
-    <catalogProductView>
-        <mca>catalog/product/view</mca>
-        <class>Magento\MultipleWishlist\Test\Page\Product\CatalogProductView</class>
-    </catalogProductView>
 </page>

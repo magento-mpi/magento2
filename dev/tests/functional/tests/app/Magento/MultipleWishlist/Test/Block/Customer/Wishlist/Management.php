@@ -64,7 +64,7 @@ class Management extends Block
      *
      * @var string
      */
-    protected $updateButton = 'button.update';
+    protected $updateButton = 'button[name="do"]';
 
     /**
      * CSS locator for description textarea

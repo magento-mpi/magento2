@@ -14,10 +14,10 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
 
 /**
- * Class AssertWishListReportGrid
+ * Class AssertWishlistReportGrid
  * Assert that added to the customer wish list products present in the grid and products have correct values
  */
-class AssertWishListReportGrid extends AbstractConstraint
+class AssertWishlistReportGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness

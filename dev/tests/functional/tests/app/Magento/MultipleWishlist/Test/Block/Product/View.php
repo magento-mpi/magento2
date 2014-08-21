@@ -8,28 +8,28 @@
 
 namespace Magento\MultipleWishlist\Test\Block\Product;
 
-use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class View
  * Product Multiple Wish list view block on the product page
  */
-class View extends Block
+class View extends \Magento\Catalog\Test\Block\Product\View
 {
     /**
      * Add to Multiple Wishlist button
      *
      * @var string
      */
-    protected $addToMultipleWishlist = 'button[aria-haspopup="true"]';
+        protected $addToMultipleWishlist = '.wishlist [data-toggle="dropdown"]';
 
     /**
      * Item wish list
      *
      * @var string
      */
-    protected $wishlistItem = '//span[.="%s"]';
+    protected $wishlistItem = '//*[@data-action="add-to-wishlist" and @title = "%s"]';
+    //*
 
     /**
      * Select which Wishlist you want to add product to

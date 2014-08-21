@@ -15,6 +15,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use \Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
@@ -84,6 +85,13 @@ class WishListReportEntityTest extends Injectable
     protected $multipleWishlistIndex;
 
     /**
+     * CustomerAccountLogout Page
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Enable Multiple wishlist in configuration and create simple products
      *
      * @param CatalogProductSimple $productSimple1
@@ -100,11 +108,9 @@ class WishListReportEntityTest extends Injectable
         $config->persist();
 
         $productSimple1->persist();
-        $products[] = $productSimple1;
         $productSimple2->persist();
-        $products[] = $productSimple2;
 
-        return ['products' => $products];
+        return ['products' => [$productSimple1, $productSimple2]];
     }
 
     /**
@@ -114,18 +120,21 @@ class WishListReportEntityTest extends Injectable
      * @param CatalogProductView $catalogProductView
      * @param CustomerAccountLogin $customerAccountLogin
      * @param MultipleWishlistIndex $multipleWishlistIndex
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
         CatalogProductView $catalogProductView,
         CustomerAccountLogin $customerAccountLogin,
-        MultipleWishlistIndex $multipleWishlistIndex
+        MultipleWishlistIndex $multipleWishlistIndex,
+        CustomerAccountLogout $customerAccountLogout
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
         $this->customerAccountLogin = $customerAccountLogin;
         $this->multipleWishlistIndex = $multipleWishlistIndex;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -167,10 +176,17 @@ class WishListReportEntityTest extends Injectable
     protected function loginCustomer(CustomerInjectable $customer)
     {
         $this->cmsIndex->open();
-        if ($this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log Out");
-        }
         $this->cmsIndex->getLinksBlock()->openLink("Log In");
         $this->customerAccountLogin->getLoginBlock()->login($customer);
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }
