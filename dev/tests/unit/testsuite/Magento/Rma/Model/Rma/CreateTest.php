@@ -45,7 +45,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->orderFactoryMock = $this->getMock('Magento\Sales\Model\OrderFactory', ['create'], [], '', false);
-        $this->customerMock = $this->getMock('Magento\Customer\Model\Customer', ['__wakeup'], [], '', false);
+        $this->customerMock = $this->getMock('Magento\Customer\Model\Customer', ['__wakeup', 'load'], [], '', false);
         $data = ['order_id' => 1000000013, 'customer_id' => 2];
 
         $this->rmaModel = new Create($this->customerFactoryMock, $this->orderFactoryMock, $data);
