@@ -76,7 +76,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         /** @var $category \Magento\Catalog\Model\Category */
         $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Category',
-            ['data' => ['url_path' => 'category', 'entity_id' => 5, 'path_ids' => [2,3,5]]]
+            ['data' => ['url_path' => 'category', 'entity_id' => 5, 'path_ids' => [2, 3, 5]]]
         );
         $category->setOrigData();
 
