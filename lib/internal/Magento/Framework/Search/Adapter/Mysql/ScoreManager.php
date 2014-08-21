@@ -98,6 +98,11 @@ class ScoreManager
         return $scoreCondition;
     }
 
+    public function clear()
+    {
+        $this->scoreQueryList = [];
+    }
+
     /**
      * Convert array of queries and conditions to string for sql
      *
