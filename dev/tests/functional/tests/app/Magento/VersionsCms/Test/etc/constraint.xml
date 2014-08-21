@@ -101,19 +101,22 @@
             <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
         </require>
     </assertCmsPageRevisionSuccessSaveMessage>
-    <assertCmsPagePreview module="Magento_VersionsCms">
-        <severeness>high</severeness>
-        <require>
-            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
-            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
-            <cmsPage class="Magento\Cms\Test\Page\CmsPage" />
-            <browser class="Mtf\Client\Driver\Selenium\Browser" />
-        </require>
-    </assertCmsPagePreview>
     <assertCmsPageRevisionSuccessPublishMessage module="Magento_VersionsCms">
         <severeness>high</severeness>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
     </assertCmsPageRevisionSuccessPublishMessage>
+    <assertCmsRevisionPreview module="Magento_VersionsCms">
+        <severeness>high</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <revision class="Magento\VersionsCms\Test\Fixture\Revision"/>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+            <cmsRevisionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit" />
+            <cmsRevisionPreview class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionPreview" />
+        </require>
+    </assertCmsRevisionPreview>
 </constraint>

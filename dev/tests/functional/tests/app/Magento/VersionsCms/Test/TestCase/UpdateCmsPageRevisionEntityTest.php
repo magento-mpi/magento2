@@ -97,13 +97,14 @@ class UpdateCmsPageRevisionEntityTest extends Injectable
      * @param array $results
      * @return array
      */
-    public function test(CmsPage $cms, Revision $revision, $revisionData, array $results)
+    public function test(CmsPage $cms, Revision $revision, array $revisionData, array $results)
     {
         $this->markTestIncomplete('MAGETWO-26802');
         // Precondition:
         $cms->persist();
-
         $title = $cms->getTitle();
+
+        // Steps:
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen(['title' => $title]);
         $this->cmsNew->getPageForm()->openTab('versions');
@@ -116,17 +117,7 @@ class UpdateCmsPageRevisionEntityTest extends Injectable
         $this->cmsRevisionEdit->getRevisionForm()->fill($revision);
         $this->cmsRevisionEdit->getFormPageActions()->save();
 
-        return [
-            'results' => [
-                'label' => $title,
-                'author' => $results['author'],
-                'owner' => $results['owner'],
-                'access_level' => $results['access_level'],
-                'quantity' => $results['quantity'],
-                'revision' => $results['revision'],
-                'revision_number_from' => $results['revision_number_from'],
-                'revision_number_to' => $results['revision_number_to'],
-            ]
-        ];
+        $results['label'] = $title;
+        return ['results' => $results];
     }
 }

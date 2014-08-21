@@ -10,7 +10,7 @@
 <page mca="admin/cms_page_revision/edit" module="Magento_VersionsCms">
     <blocks>
         <formPageActions>
-            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\PageActions</class>
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </formPageActions>
