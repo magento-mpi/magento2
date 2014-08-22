@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
     <referenceContainer name="columns.top">
         <container name="category.view.container" htmlTag="div" htmlClass="category-view" after="-" />
     </referenceContainer>
     <move element="category.image" destination="category.view.container" before="-" />
     <move element="category.description" destination="category.view.container" after="category.image" />
     <move element="category.cms" destination="category.view.container" after="category.description" />
-</layout>
+</page>
