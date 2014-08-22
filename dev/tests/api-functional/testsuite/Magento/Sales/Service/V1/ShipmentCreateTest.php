@@ -43,7 +43,17 @@ class ShipmentCreateTest extends WebapiAbstract
         $items = [
             [
                 'order_item_id' => $orderItem->getId(),
-                'qty' => $orderItem->getQtyOrdered()
+                'qty' => $orderItem->getQtyOrdered(),
+                'additional_data' => null,
+                'description' => null,
+                'entity_id' => null,
+                'name' => null,
+                'parent_id' => null,
+                'price' => null,
+                'product_id' => null,
+                'row_total' => null,
+                'sku' => null,
+                'weight' => null,
             ]
         ];
         $serviceInfo = [
