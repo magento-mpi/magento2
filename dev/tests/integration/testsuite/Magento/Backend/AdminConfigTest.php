@@ -6,13 +6,14 @@
  * @license     {license_link}
  */
 
-/**
- * Test class for \Magento\Backend\AdminConfig
- */
 namespace Magento\Backend;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * Test class for \Magento\Backend\AdminConfig
+ *
+ */
 class AdminConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
