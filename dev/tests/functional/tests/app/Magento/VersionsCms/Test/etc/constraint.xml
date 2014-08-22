@@ -107,7 +107,7 @@
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
     </assertCmsPageRevisionSuccessPublishMessage>
-    <assertCmsRevisionPreview module="Magento_VersionsCms">
+    <assertCmsPageRevisionPreview module="Magento_VersionsCms">
         <severeness>high</severeness>
         <require>
             <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
@@ -118,5 +118,5 @@
             <cmsRevisionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit" />
             <cmsRevisionPreview class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionPreview" />
         </require>
-    </assertCmsRevisionPreview>
+    </assertCmsPageRevisionPreview>
 </constraint>

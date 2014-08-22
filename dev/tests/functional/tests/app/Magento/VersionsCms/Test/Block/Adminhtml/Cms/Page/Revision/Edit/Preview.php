@@ -56,12 +56,14 @@ class Preview extends Block
     /**
      * Returns page content
      *
-     * @return string|array
+     * @return string
      */
     public function getPageContent()
     {
         $this->browser->selectWindow();
         $this->browser->switchToFrame(new Locator($this->iFrame));
-        return $this->browser->find($this->contentSelector)->getText();
+        $content = $this->browser->find($this->contentSelector)->getText();
+        $this->browser->closeWindow();
+        return $content;
     }
 }

@@ -18,10 +18,10 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 
 /**
- * Class AssertCmsRevisionPreview
+ * Class AssertCmsPageRevisionPreview
  * Assert that created CMS page revision content can be found in CMS page revisions preview
  */
-class AssertCmsRevisionPreview extends AbstractConstraint
+class AssertCmsPageRevisionPreview extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -34,7 +34,7 @@ class AssertCmsRevisionPreview extends AbstractConstraint
      * Assert that created CMS page revision content can be found in CMS page revisions preview
      *
      * @param CmsPage $cms
-     * @param \Magento\VersionsCms\Test\Fixture\Revision $revision
+     * @param Revision $revision
      * @param CmsIndex $cmsIndex
      * @param CmsNew $cmsNew
      * @param CmsVersionEdit $cmsVersionEdit

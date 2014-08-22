@@ -24,7 +24,7 @@ class PageActions extends FormPageActions
     protected $previewButton = '[data-ui-id="revision-info-preview-button"]';
 
     /**
-     * Click on Review button
+     * Click on Preview button
      *
      * @return void
      */
