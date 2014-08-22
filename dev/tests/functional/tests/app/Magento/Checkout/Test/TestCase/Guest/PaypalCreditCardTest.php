@@ -11,7 +11,8 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
-use Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc;
+use Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced;
+use Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcLink;
 
 /**
  * Class PaypalCreditCardTest
@@ -129,7 +130,7 @@ class PaypalCreditCardTest extends Functional
      * Return the block associated with the PayPal Payments Advanced credit card form.
      *
      * @param CheckoutOnepage $checkoutOnePage
-     * @return Cc
+     * @return CcAdvanced
      */
     public function getPayflowAdvancedCcBlock(CheckoutOnepage $checkoutOnePage)
     {
@@ -140,7 +141,7 @@ class PaypalCreditCardTest extends Functional
      * Return the block associated with the PayPal Payflow Link credit card form.
      *
      * @param CheckoutOnepage $checkoutOnePage
-     * @return Cc
+     * @return CcLink
      */
     public function getPayflowLinkCcBlock(CheckoutOnepage $checkoutOnePage)
     {

@@ -9,46 +9,6 @@
 -->
 <page mca="catalog/product/view">
     <blocks>
-        <viewBlock>
-            <class>Magento\Catalog\Test\Block\Product\View</class>
-            <locator>#maincontent</locator>
-            <strategy>css selector</strategy>
-        </viewBlock>
-        <optionsBlock>
-            <class>Magento\Catalog\Test\Block\Product\View\Options</class>
-            <locator>#product-options-wrapper</locator>
-            <strategy>css selector</strategy>
-        </optionsBlock>
-        <relatedProductSelector>
-            <class>Magento\Catalog\Test\Block\Product\ProductList\Related</class>
-            <locator>.block.related</locator>
-            <strategy>css selector</strategy>
-        </relatedProductSelector>
-        <upsellSelector>
-            <class>Magento\Catalog\Test\Block\Product\ProductList\Upsell</class>
-            <locator>.block.upsell</locator>
-            <strategy>css selector</strategy>
-        </upsellSelector>
-        <giftCardBlockSelector>
-            <class>Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard</class>
-            <locator>[data-container-for=giftcard_info]</locator>
-            <strategy>css selector</strategy>
-        </giftCardBlockSelector>
-        <crosssellSelector>
-            <class>Magento\Catalog\Test\Block\Product\ProductList\Crosssell</class>
-            <locator>.block.crosssell</locator>
-            <strategy>css selector</strategy>
-        </crosssellSelector>
-        <downloadableLinksSelector>
-            <class>Magento\Downloadable\Test\Block\Catalog\Product\View\Links</class>
-            <locator>[data-container-for=downloadable-links]</locator>
-            <strategy>css selector</strategy>
-        </downloadableLinksSelector>
-        <customOptions>
-            <class>Magento\Catalog\Test\Block\Product\View\CustomOptions</class>
-            <locator>#product-options-wrapper</locator>
-            <strategy>css selector</strategy>
-        </customOptions>
         <eventBlock>
             <class>Magento\CatalogEvent\Test\Block\Catalog\Event</class>
             <locator>.top-container</locator>

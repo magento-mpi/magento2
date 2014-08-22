@@ -14,11 +14,11 @@
             <locator>#messages</locator>
             <strategy>css selector</strategy>
         </messagesBlock>
-        <grid>
+        <eventGrid>
             <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid</class>
             <locator>#catalogEventGrid</locator>
             <strategy>css selector</strategy>
-        </grid>
+        </eventGrid>
         <pageActions>
             <class>Magento\Backend\Test\Block\GridPageActions</class>
             <locator>.page-main-actions</locator>
