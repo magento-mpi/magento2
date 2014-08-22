@@ -22,7 +22,7 @@ use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
 use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
 
 /**
- * Test Creation for WishListReportEntity
+ * Test Creation for WishlistReportEntity
  *
  * Test Flow:
  * Preconditions:
@@ -40,7 +40,7 @@ use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
  * @group Reports_(MX)
  * @ZephyrId MAGETWO-27346
  */
-class WishListReportEntityTest extends Injectable
+class WishlistReportEntityTest extends Injectable
 {
     /**
      * Fixture factory
@@ -160,7 +160,7 @@ class WishListReportEntityTest extends Injectable
                 $multipleWishlist->getName()
             );
             $description = $wishlist[$key]['description'];
-            $this->multipleWishlistIndex->getManagementBlock()->fillDescription($product->getName(), $description);
+            $this->multipleWishlistIndex->getManagementBlock()->fillDescription($product, $description);
             $this->multipleWishlistIndex->getManagementBlock()->updateWishlist();
         }
 

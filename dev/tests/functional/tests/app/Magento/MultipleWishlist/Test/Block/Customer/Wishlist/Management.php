@@ -10,6 +10,7 @@ namespace Magento\MultipleWishlist\Test\Block\Customer\Wishlist;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class Management
@@ -66,12 +67,14 @@ class Management extends Block
      */
     protected $updateButton = 'button[name="do"]';
 
+    // @codingStandardsIgnoreStart
     /**
      * CSS locator for description textarea
      *
      * @var string
      */
-    protected $descriptionField = '//a[contains(.,"%s")]/following::textarea[1]';
+    protected $descriptionField = '//strong[a[@title = "%s"]]/following-sibling::textarea[contains(@name,"description")]';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Create new wish list
@@ -166,13 +169,16 @@ class Management extends Block
     /**
      * Fill Wishlist description
      *
-     * @param string $wishlistName
+     * @param CatalogProductSimple $product
      * @param string $description
      * @return void
      */
-    public function fillDescription($wishlistName, $description)
+    public function fillDescription(CatalogProductSimple $product, $description)
     {
-        $this->_rootElement->find(sprintf($this->descriptionField, $wishlistName), Locator::SELECTOR_XPATH)->setValue(
+        $this->_rootElement->find(
+            sprintf($this->descriptionField, $product->getName()),
+            Locator::SELECTOR_XPATH
+        )->setValue(
             $description
         );
     }
