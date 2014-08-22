@@ -8,7 +8,7 @@
 
 namespace Magento\MultipleWishlist\Helper;
 
-class Rss extends \Magento\Rss\Helper\WishlistRss
+class Rss extends \Magento\Wishlist\Helper\Rss
 {
 
     /**
