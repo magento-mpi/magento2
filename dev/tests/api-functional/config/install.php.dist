@@ -9,11 +9,16 @@
  * @license     {license_link}
  */
 return array(
+    /**
+     * Console installer options
+     * @see \Magento\Install\Model\Installer\Console::installParameters
+     */
     'install_options' => array(
         'license_agreement_accepted' => 'yes',
         'locale'                     => 'en_US',
         'timezone'                   => 'America/Los_Angeles',
         'default_currency'           => 'USD',
+        'db_model'                   => 'mysql4',
         'db_host'                    => 'localhost',
         'db_name'                    => 'magento_functional_tests',
         'db_user'                    => 'root',
@@ -31,5 +36,7 @@ return array(
         'admin_no_form_key'          => 'yes',
         /* PayPal has limitation for order number - 20 characters. 10 digits prefix + 8 digits number is good enough */
         'order_increment_prefix'     => time(),
+        'session_save'               => 'db',
+        'cleanup_database'           => true,
     )
 );
