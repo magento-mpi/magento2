@@ -103,11 +103,6 @@ class Store extends AbstractModel implements
     const COOKIE_NAME = 'store';
 
     /**
-     * Cookie currency key
-     */
-    const COOKIE_CURRENCY = 'currency';
-
-    /**
      * Script name, which returns all the images
      */
     const MEDIA_REWRITE_SCRIPT = 'get.php/';
@@ -837,16 +832,7 @@ class Store extends AbstractModel implements
         $code = strtoupper($code);
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
-            $path = $this->_getSession()->getCookiePath();
-            
-            $sensitiveCookieMetadata = $this->_cookieMetadataFactory->createSensitiveCookieMetadata()
-                ->setPath($path);
-            
-            if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
-                $this->_cookieManager->deleteCookie(self::COOKIE_CURRENCY, $sensitiveCookieMetadata);
-            } else {
-                $this->_cookieManager->setSensitiveCookie(self::COOKIE_CURRENCY, $code, $sensitiveCookieMetadata);
-            }
+
             $this->_httpContext->setValue(
                 \Magento\Core\Helper\Data::CONTEXT_CURRENCY,
                 $code,
