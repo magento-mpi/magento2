@@ -156,7 +156,7 @@ class Select extends \Zend_Db_Select
         $columns = $this->getAdapter()->quote($columns);
         $expression = $this->getAdapter()->quote($expression);
 
-        $condition = self::MATCH . " ({$columns}) " . self::AGAINST . " ('{$expression}' {$mode})";
+        $condition = self::MATCH . " ({$columns}) " . self::AGAINST . " ({$expression} {$mode})";
         return $condition;
     }
 
