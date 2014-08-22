@@ -64,6 +64,16 @@ class ProductService implements ProductServiceInterface
     private $searchResultsBuilder;
 
     /**
+     * @var \Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface
+     */
+    private $productLoadProcessor;
+
+    /**
+     * @var \Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface
+     */
+    private $productSaveProcessor;
+
+    /**
      * @param Product\Initialization\Helper $initializationHelper
      * @param Data\ProductMapper $productMapper
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
@@ -72,6 +82,8 @@ class ProductService implements ProductServiceInterface
      * @param ProductMetadataServiceInterface $metadataService
      * @param \Magento\Catalog\Service\V1\Data\Converter $converter
      * @param \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
+     * @param \Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface $productLoadProcessor
+     * @param \Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface $productSaveProcessor
      */
     public function __construct(
         Product\Initialization\Helper $initializationHelper,
@@ -81,7 +93,9 @@ class ProductService implements ProductServiceInterface
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollection,
         ProductMetadataServiceInterface $metadataService,
         \Magento\Catalog\Service\V1\Data\Converter $converter,
-        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
+        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
+        \Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface $productLoadProcessor,
+        \Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface $productSaveProcessor
     ) {
         $this->initializationHelper = $initializationHelper;
         $this->productMapper = $productMapper;
@@ -91,6 +105,8 @@ class ProductService implements ProductServiceInterface
         $this->metadataService = $metadataService;
         $this->converter = $converter;
         $this->searchResultsBuilder = $searchResultsBuilder;
+        $this->productLoadProcessor = $productLoadProcessor;
+        $this->productSaveProcessor = $productSaveProcessor;
     }
 
     /**
@@ -101,6 +117,7 @@ class ProductService implements ProductServiceInterface
         try {
             $productModel = $this->productMapper->toModel($product);
             $this->initializationHelper->initialize($productModel);
+            $this->productSaveProcessor->create($productModel, $product);
             $productModel->validate();
             $productModel->save();
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
@@ -126,6 +143,7 @@ class ProductService implements ProductServiceInterface
             $this->productMapper->toModel($product, $productModel);
             $this->initializationHelper->initialize($productModel);
             $this->productTypeManager->processProduct($productModel);
+            $this->productSaveProcessor->update($id, $product);
             $productModel->validate();
             $productModel->save();
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
@@ -143,8 +161,12 @@ class ProductService implements ProductServiceInterface
      */
     public function delete($id)
     {
-        $product = $this->productLoader->load($id);
-        $product->delete();
+        $productModel = $this->productLoader->load($id);
+
+        $productDataObject = $this->converter->createProductDataFromModel($productModel);
+        $this->productSaveProcessor->delete($productDataObject);
+
+        $productModel->delete();
         return true;
     }
 
@@ -153,7 +175,9 @@ class ProductService implements ProductServiceInterface
      */
     public function get($id)
     {
-        return $this->converter->createProductDataFromModel($this->productLoader->load($id));
+        $productBuilder = $this->converter->createProductBuilderFromModel($this->productLoader->load($id));
+        $this->productLoadProcessor->load($id, $productBuilder);
+        return $productBuilder->create();
     }
 
     /**
@@ -205,7 +229,9 @@ class ProductService implements ProductServiceInterface
         $products = array();
         /** @var \Magento\Catalog\Model\Product $productModel */
         foreach ($collection as $productModel) {
-            $products[] = $this->converter->createProductDataFromModel($productModel);
+            $productBuilder = $this->converter->createProductBuilderFromModel($productModel);
+            $this->productLoadProcessor->load($productModel->getId(), $productBuilder);
+            $products[] = $productBuilder->create();
         }
 
         $this->searchResultsBuilder->setItems($products);
