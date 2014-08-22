@@ -178,12 +178,6 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = $this->objectManager->create(
             '\Magento\Framework\App\Config\ScopeConfigInterface'
         );
-        $cookieMetadataFactory = $this->objectManager->create(
-            '\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
-        );
-        $cookieManager = $this->objectManager->create(
-            '\Magento\Framework\Stdlib\CookieManager'
-        );
         $storeManager = $this->objectManager->create(
             '\Magento\Store\Model\StoreManagerInterface'
         );
@@ -195,8 +189,6 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
             'context' => $context,
             'registry' => $registry,
             'scopeConfig' => $scopeConfig,
-            'cookieMetadataFactory' => $cookieMetadataFactory,
-            'cookieManager' => $cookieManager,
             'storeManager' => $storeManager,
             'httpContext' => $httpContext,
         ];

@@ -34,29 +34,21 @@ class Context
     protected $storeManager;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManager
-     */
-    protected $cookieManager;
-
-    /**
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\App\Request\Http $httpRequest
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      */
     public function __construct(
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\App\Request\Http $httpRequest,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Stdlib\CookieManager $cookieManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->session      = $session;
         $this->httpContext  = $httpContext;
         $this->httpRequest  = $httpRequest;
         $this->storeManager = $storeManager;
-        $this->cookieManager = $cookieManager;
     }
 
     /**
@@ -70,17 +62,18 @@ class Context
         \Closure $proceed,
         \Magento\Framework\App\RequestInterface $request
     ) {
+        $defaultStore = $this->storeManager->getWebsite()->getDefaultStore();
         $this->httpContext->setValue(
             \Magento\Core\Helper\Data::CONTEXT_CURRENCY,
             $this->session->getCurrencyCode(),
-            $this->storeManager->getWebsite()->getDefaultStore()->getDefaultCurrency()->getCode()
+            $defaultStore->getDefaultCurrency()->getCode()
         );
 
         $this->httpContext->setValue(
             \Magento\Core\Helper\Data::CONTEXT_STORE,
             $this->httpRequest->getParam(
                 '___store',
-                $this->cookieManager->getCookie(\Magento\Store\Model\Store::COOKIE_NAME)
+                $defaultStore->getCookie()
             ),
             $this->storeManager->getWebsite()->getDefaultStore()->getCode()
         );
