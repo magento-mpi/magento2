@@ -36,23 +36,20 @@ class TotalsMapper
 
         $shippingAddress = $quote->getShippingAddress();
 
-        if ($shippingAddress->getId()) {
-            $totals[Totals::DISCOUNT_AMOUNT] = $shippingAddress->getDiscountAmount();
-            $totals[Totals::BASE_DISCOUNT_AMOUNT] = $shippingAddress->getBaseDiscountAmount();
-            $totals[Totals::SHIPPING_AMOUNT] = $shippingAddress->getShippingAmount();
-            $totals[Totals::BASE_SHIPPING_AMOUNT] = $shippingAddress->getBaseShippingAmount();
-            $totals[Totals::SHIPPING_DISCOUNT_AMOUNT] = $shippingAddress->getShippingDiscountAmount();
-            $totals[Totals::BASE_SHIPPING_DISCOUNT_AMOUNT] = $shippingAddress->getBaseShippingDiscountAmount();
-            $totals[Totals::TAX_AMOUNT] = $shippingAddress->getTaxAmount();
-            $totals[Totals::BASE_TAX_AMOUNT] = $shippingAddress->getBaseTaxAmount();
-            $totals[Totals::SHIPPING_TAX_AMOUNT] = $shippingAddress->getShippingTaxAmount();
-            $totals[Totals::BASE_SHIPPING_TAX_AMOUNT] = $shippingAddress->getBaseShippingTaxAmount();
-            $totals[Totals::SUBTOTAL_INCL_TAX] = $shippingAddress->getSubtotalInclTax();
-            $totals[Totals::BASE_SUBTOTAL_INCL_TAX] = $shippingAddress->getBaseSubtotalTotalInclTax();
-            $totals[Totals::SHIPPING_INCL_TAX] = $shippingAddress->getShippingInclTax();
-            $totals[Totals::BASE_SHIPPING_INCL_TAX] = $shippingAddress->getBaseShippingInclTax();
-        }
-
+        $totals[Totals::DISCOUNT_AMOUNT] = $shippingAddress->getDiscountAmount();
+        $totals[Totals::BASE_DISCOUNT_AMOUNT] = $shippingAddress->getBaseDiscountAmount();
+        $totals[Totals::SHIPPING_AMOUNT] = $shippingAddress->getShippingAmount();
+        $totals[Totals::BASE_SHIPPING_AMOUNT] = $shippingAddress->getBaseShippingAmount();
+        $totals[Totals::SHIPPING_DISCOUNT_AMOUNT] = $shippingAddress->getShippingDiscountAmount();
+        $totals[Totals::BASE_SHIPPING_DISCOUNT_AMOUNT] = $shippingAddress->getBaseShippingDiscountAmount();
+        $totals[Totals::TAX_AMOUNT] = $shippingAddress->getTaxAmount();
+        $totals[Totals::BASE_TAX_AMOUNT] = $shippingAddress->getBaseTaxAmount();
+        $totals[Totals::SHIPPING_TAX_AMOUNT] = $shippingAddress->getShippingTaxAmount();
+        $totals[Totals::BASE_SHIPPING_TAX_AMOUNT] = $shippingAddress->getBaseShippingTaxAmount();
+        $totals[Totals::SUBTOTAL_INCL_TAX] = $shippingAddress->getSubtotalInclTax();
+        $totals[Totals::BASE_SUBTOTAL_INCL_TAX] = $shippingAddress->getBaseSubtotalTotalInclTax();
+        $totals[Totals::SHIPPING_INCL_TAX] = $shippingAddress->getShippingInclTax();
+        $totals[Totals::BASE_SHIPPING_INCL_TAX] = $shippingAddress->getBaseShippingInclTax();
         return $totals;
     }
 }
