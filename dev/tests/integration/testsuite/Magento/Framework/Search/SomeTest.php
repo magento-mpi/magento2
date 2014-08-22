@@ -65,6 +65,6 @@ class SomeTest extends \PHPUnit_Framework_TestCase
         }
 
         /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
-        $connection = $this->appResource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+//        $connection = $this->appResource->getConnection(Resource::DEFAULT_READ_RESOURCE);
     }
 }
