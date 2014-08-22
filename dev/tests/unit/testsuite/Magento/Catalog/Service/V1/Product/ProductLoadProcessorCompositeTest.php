@@ -43,7 +43,7 @@ class ProductLoadProcessorCompositeTest extends \PHPUnit_Framework_TestCase
             ->method('filterAndSortDeclaredComponents')
             ->will($this->returnArgument(0));
         $this->loadProcessorMock = $this
-            ->getMockBuilder('\Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite')
+            ->getMockBuilder('Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite')
             ->disableOriginalConstructor()
             ->setMethods(['load'])
             ->getMock();
@@ -54,7 +54,7 @@ class ProductLoadProcessorCompositeTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $this->loadProcessor = $this->objectManager->getObject(
-            '\Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite',
+            'Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite',
             ['compositeHelper' => $this->compositeHelperMock, 'loadProcessors' => $this->processors]
         );
     }
@@ -121,4 +121,4 @@ class ProductLoadProcessorCompositeTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $values, 'Load Processor is not registered.');
         $this->assertEquals($loadProcessorMock, $values[0], 'Load Processor is registered incorrectly.');
     }
-} 
+}
