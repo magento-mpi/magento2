@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search\Adapter\MySQL;
+namespace Magento\Framework\Search\Adapter\Mysql;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
