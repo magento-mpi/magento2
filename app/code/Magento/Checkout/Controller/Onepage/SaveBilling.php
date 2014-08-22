@@ -29,6 +29,8 @@ class SaveBilling extends \Magento\Checkout\Controller\Onepage
             }
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 
+            $this->_customerSession->regenerateId();
+            
             if (!isset($result['error'])) {
                 if ($this->getOnepage()->getQuote()->isVirtual()) {
                     $result['goto_section'] = 'payment';
