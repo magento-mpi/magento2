@@ -61,7 +61,7 @@ class AssertCmsPageRevisionInGrid extends AbstractConstraint
             . 'revision_number_from \'' . $filter['revision_number_from'] . '\', '
             . 'revision_number_to \'' . $filter['revision_number_to'] . '\', '
             . 'author \'' . $filter['author'] . '\', '
-            . 'is present in CMS Page Revisions grid.'
+            . 'is not present in CMS Page Revisions grid.'
         );
     }
 

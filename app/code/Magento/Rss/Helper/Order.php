@@ -8,9 +8,7 @@
 namespace Magento\Rss\Helper;
 
 /**
- * Default rss helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Order rss helper
  */
 class Order extends \Magento\Framework\App\Helper\AbstractHelper
 {

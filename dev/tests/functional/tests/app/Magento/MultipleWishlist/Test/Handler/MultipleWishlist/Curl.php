@@ -77,6 +77,8 @@ class Curl extends AbstractCurl implements MultipleWishlistInterface
     {
         $url = $_ENV['app_frontend_url'] . 'wishlist/index/createwishlist/';
         $curl = new FrontendDecorator(new CurlTransport(), $this->customer);
+        $curl->write(CurlInterface::POST, $_ENV['app_frontend_url'] . 'wishlist');
+        $curl->read();
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.1', [], $data);
         $response = $curl->read();

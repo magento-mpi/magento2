@@ -23,4 +23,9 @@
         <area>adminhtml</area>
         <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit</class>
     </cmsRevisionEdit>
+    <cmsRevisionPreview>
+        <mca>admin/cms_page_revision/preview/</mca>
+        <area>adminhtml</area>
+        <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionPreview</class>
+    </cmsRevisionPreview>
 </page>
