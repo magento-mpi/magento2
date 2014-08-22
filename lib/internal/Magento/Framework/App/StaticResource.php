@@ -25,7 +25,7 @@ class StaticResource implements \Magento\Framework\AppInterface
     private $state;
 
     /**
-     * @var \Magento\Core\Model\File\Storage\Response
+     * @var \Magento\Framework\App\Response\FileInterface
      */
     private $response;
 
