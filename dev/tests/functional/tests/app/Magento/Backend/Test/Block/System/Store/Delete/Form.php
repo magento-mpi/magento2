@@ -8,18 +8,17 @@
 
 namespace Magento\Backend\Test\Block\System\Store\Delete;
 
+use Mtf\Block\Form as AbstractForm;
 use Mtf\Client\Element;
-use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 
 /**
- * Class StoreForm
- * Form for Store View deletion
+ * Class Form
+ * Form for Store Group, Store View, Web Site deleting
  */
-class StoreForm extends Form
+class Form extends AbstractForm
 {
     /**
-     * Fill Backup Option in Delete Store View
+     * Fill Backup Option in delete
      *
      * @param array $data
      * @param Element $element

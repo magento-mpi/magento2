@@ -7,18 +7,13 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/system_store/deleteStore" module="Magento_Backend">
+<page mca="system_store/deleteGroup" module="Magento_Backend">
     <blocks>
-        <messagesBlock>
-            <class>Magento\Core\Test\Block\Messages</class>
-            <locator>#messages</locator>
-            <strategy>css selector</strategy>
-        </messagesBlock>
-        <storeForm>
+        <deleteGroupForm>
             <class>Magento\Backend\Test\Block\System\Store\Delete\Form</class>
             <locator>#edit_form</locator>
             <strategy>css selector</strategy>
-        </storeForm>
+        </deleteGroupForm>
         <formPageFooterActions>
             <class>Magento\Backend\Test\Block\System\Store\FormPageFooterActions</class>
             <locator>.content-footer</locator>

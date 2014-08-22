@@ -13,10 +13,10 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Store\Test\Fixture\StoreGroup;
 
 /**
- * Class AssertStoreGroupInGrid
- * Assert that created Store Group can be found in Stores grid
+ * Class AssertStoreGroupNotInGrid
+ * Assert that store group is absent in grid
  */
-class AssertStoreGroupInGrid extends AbstractConstraint
+class AssertStoreGroupNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,7 +26,7 @@ class AssertStoreGroupInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created Store Group can be found in Stores grid by name
+     * Assert that created Store Group can not be found in Stores grid by name
      *
      * @param StoreIndex $storeIndex
      * @param StoreGroup $storeGroup
@@ -36,9 +36,9 @@ class AssertStoreGroupInGrid extends AbstractConstraint
     {
         $storeGroupName = $storeGroup->getName();
         $storeIndex->open()->getStoreGrid()->search(['group_title' => $storeGroupName]);
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $storeIndex->getStoreGrid()->isStoreExists($storeGroupName),
-            'Store group \'' . $storeGroupName . '\' is not present in grid.'
+            'Store group \'' . $storeGroupName . '\' is present in grid.'
         );
     }
 
@@ -49,6 +49,6 @@ class AssertStoreGroupInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Store Group is present in grid.';
+        return 'Store Group is absent in grid.';
     }
 }
