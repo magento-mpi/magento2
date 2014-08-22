@@ -71,7 +71,7 @@ class Processor
     /**
      * Temporary storage for model changes before saving to magento_logging_event_changes table.
      *
-     * @var array
+     * @var Event\Changes[]
      */
     protected $_eventChanges = array();
 
@@ -135,6 +135,11 @@ class Processor
     protected $_remoteAddress;
 
     /**
+     * @var \Magento\Logging\Model\Event\ChangesFactory
+     */
+    protected $changesFactory;
+
+    /**
      * Constructor: initialize configuration model, controller and model handler
      *
      * @param \Magento\Logging\Model\Config $config
@@ -147,6 +152,7 @@ class Processor
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,
@@ -158,7 +164,8 @@ class Processor
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Magento\Logging\Model\Event\ChangesFactory $changesFactory
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
@@ -170,6 +177,7 @@ class Processor
         $this->_eventFactory = $eventFactory;
         $this->_request = $request;
         $this->_remoteAddress = $remoteAddress;
+        $this->changesFactory = $changesFactory;
     }
 
     /**
@@ -564,5 +572,22 @@ class Processor
     {
         $this->_eventChanges[] = $eventChange;
         return $this;
+    }
+
+    /**
+     * Create event changes object
+     *
+     * @param string $name
+     * @param mixed $original
+     * @param mixed $result
+     * @return Changes
+     */
+    public function createChanges($name, $original, $result)
+    {
+        $change = $this->changesFactory->create();
+        $change->setSourceName($name)
+            ->setOriginalData($original)
+            ->setResultData($result);
+        return $change;
     }
 }

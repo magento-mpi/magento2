@@ -1205,10 +1205,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $address2CustomAttributeValue = 'value2';
         $customerCustomAttributeValue = 'value3';
 
-        //Verify if the custom attributes are saved from  the fixture
-        $this->assertTrue(in_array($fixtureCustomerAttributeCode, $this->customerBuilder->getCustomAttributesCodes()));
-        $this->assertTrue(in_array($fixtureAddressAttributeCode, $this->addressBuilder->getCustomAttributesCodes()));
-
         $address1 = $this->addressBuilder
             ->populate($customerDetails->getAddresses()[0])
             ->setCustomAttribute($fixtureAddressAttributeCode, $address1CustomAttributeValue)

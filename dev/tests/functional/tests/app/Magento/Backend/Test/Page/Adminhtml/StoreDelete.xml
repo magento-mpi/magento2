@@ -15,14 +15,14 @@
             <strategy>css selector</strategy>
         </messagesBlock>
         <storeForm>
-            <class>Magento\Backend\Test\Block\System\Store\Delete\StoreForm</class>
+            <class>Magento\Backend\Test\Block\System\Store\Delete\Form</class>
             <locator>#edit_form</locator>
             <strategy>css selector</strategy>
         </storeForm>
-        <formPageActions>
-            <class>Magento\Backend\Test\Block\System\Store\FormPageActions</class>
+        <formPageFooterActions>
+            <class>Magento\Backend\Test\Block\System\Store\FormPageFooterActions</class>
             <locator>.content-footer</locator>
             <strategy>css selector</strategy>
-        </formPageActions>
+        </formPageFooterActions>
     </blocks>
 </page>
