@@ -179,11 +179,7 @@ class ManageProductReviewFromCustomerPageTest extends Injectable
         CustomerInjectable $customer
     ) {
         // Preconditions
-        $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $this->login($customer);
         /** @var CatalogProductSimple $product */
         $product = $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
@@ -205,6 +201,21 @@ class ManageProductReviewFromCustomerPageTest extends Injectable
         $this->reviewEdit->getPageActions()->save();
 
         return ['reviewInitial' => $reviewInitial];
+    }
+
+    /**
+     * Login customer on frontend
+     *
+     * @param CustomerInjectable $customer
+     * @return void
+     */
+    protected function login(CustomerInjectable $customer)
+    {
+        $this->cmsIndex->open();
+        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
+            $this->cmsIndex->getLinksBlock()->openLink("Log In");
+            $this->customerAccountLogin->getLoginBlock()->login($customer);
+        }
     }
 
     /**
