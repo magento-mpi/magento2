@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Store\Test\Constraint;
+namespace Magento\Backup\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Backend\Test\Page\Adminhtml\BackupIndex;
+use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
 
 /**
  * Class AssertBackupInGrid
@@ -25,7 +25,7 @@ class AssertBackupInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created backup can be found in Backups grid
+     * Assert that one backup row is present in Backups grid
      *
      * @param BackupIndex $backupIndex
      * @return void

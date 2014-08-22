@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Block\Backup;
+namespace Magento\Backup\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
@@ -21,7 +21,7 @@ class BackupGrid extends GridInterface
      *
      * @var string
      */
-    protected $backupRow = 'tr[data-role="row"]';
+    protected $backupRow = 'td[data-column="time"]';
 
     /**
      * Check is backup row visible on grid

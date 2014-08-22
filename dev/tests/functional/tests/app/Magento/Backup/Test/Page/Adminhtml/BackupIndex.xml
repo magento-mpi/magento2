@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<page mca="backup/index" module="Magento_Backend">
+<page mca="backup/index" module="Magento_Backup">
     <blocks>
         <backupGrid>
-            <class>Magento\Backend\Test\Block\Backup\BackupGrid</class>
-            <locator>[id="page:main-container"]</locator>
+            <class>Magento\Backup\Test\Block\Adminhtml\BackupGrid</class>
+            <locator>[data-grid-id="backupsGrid"]</locator>
             <strategy>css selector</strategy>
         </backupGrid>
     </blocks>

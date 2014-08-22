@@ -43,9 +43,4 @@
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\DeleteGroup</class>
     </deleteGroup>
-    <backupIndex>
-        <mca>backup/index</mca>
-        <area>adminhtml</area>
-        <class>Magento\Backend\Test\Page\Adminhtml\BackupIndex</class>
-    </backupIndex>
 </page>

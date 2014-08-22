@@ -29,7 +29,4 @@
     <assertStoreGroupSuccessDeleteAndBackupMessages module="Magento_Store">
         <severeness>low</severeness>
     </assertStoreGroupSuccessDeleteAndBackupMessages>
-    <assertBackupInGrid module="Magento_Store">
-        <severeness>low</severeness>
-    </assertBackupInGrid>
 </constraint>

@@ -13,7 +13,7 @@ use Magento\Store\Test\Fixture\StoreGroup;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditGroup;
 use Magento\Backend\Test\Page\Adminhtml\DeleteGroup;
-use Magento\Backend\Test\Page\Adminhtml\BackupIndex;
+use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
 
 /**
  * Delete StoreGroup (Store Management)
@@ -105,6 +105,6 @@ class DeleteStoreGroupEntityTest extends Injectable
         $this->storeIndex->getStoreGrid()->searchAndOpenStore($storeGroup);
         $this->editGroup->getFormPageActions()->delete();
         $this->deleteGroup->getDeleteGroupForm()->fillForm(['create_backup' => $createBackup]);
-        $this->deleteGroup->getFormPageActions()->delete();
+        $this->deleteGroup->getFormPageFooterActions()->delete();
     }
 }

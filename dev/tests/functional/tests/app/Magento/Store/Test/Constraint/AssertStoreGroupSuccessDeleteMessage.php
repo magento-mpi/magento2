@@ -13,7 +13,7 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 
 /**
  * Class AssertStoreGroupSuccessDeleteMessage
- * Assert that store group success delete message are present
+ * Assert that store group success delete message is present
  */
 class AssertStoreGroupSuccessDeleteMessage extends AbstractConstraint
 {
@@ -51,6 +51,6 @@ class AssertStoreGroupSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Store group success delete message are present.';
+        return 'Store group success delete message is present.';
     }
 }
