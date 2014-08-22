@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search\Adapter\MySQL\Builder\Query;
+namespace Magento\Framework\Search\Adapter\Mysql\Builder\Query;
 
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Request\Query\Bool;
@@ -19,7 +19,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
     private $scoreManager;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\MySQL\Builder\Query\Match
+     * @var \Magento\Framework\Search\Adapter\Mysql\Builder\Query\Match
      */
     private $match;
 
@@ -33,7 +33,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->match = $helper->getObject(
-            'Magento\Framework\Search\Adapter\MySQL\Builder\Query\Match',
+            'Magento\Framework\Search\Adapter\Mysql\Builder\Query\Match',
             ['scoreManager' => $this->scoreManager]
         );
     }
