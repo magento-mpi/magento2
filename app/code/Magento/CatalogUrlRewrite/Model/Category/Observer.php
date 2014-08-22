@@ -15,7 +15,7 @@ use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute\Urlkey;
+use Magento\CatalogUrlRewrite\Block\UrlKeyRenderer;
 
 class Observer
 {
@@ -84,7 +84,7 @@ class Observer
         $category = $observer->getEvent()->getCategory();
         if ($category->dataHasChangedFor('parent_id')) {
             $saveRewritesHistory = $this->scopeConfig->isSetFlag(
-                Urlkey::XML_PATH_SEO_SAVE_HISTORY,
+                UrlKeyRenderer::XML_PATH_SEO_SAVE_HISTORY,
                 ScopeInterface::SCOPE_STORE,
                 $category->getStoreId()
             );

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute;
+namespace Magento\CatalogUrlRewrite\Block;
 
 use Magento\Store\Model\ScopeInterface;
 
@@ -13,7 +13,7 @@ use Magento\Store\Model\ScopeInterface;
  * Renderer for URL key input
  * Allows to manage and overwrite URL Rewrites History save settings
  */
-class Urlkey extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
+class UrlKeyRenderer extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
 {
     const XML_PATH_SEO_SAVE_HISTORY = 'catalog/seo/save_rewrites_history';
 

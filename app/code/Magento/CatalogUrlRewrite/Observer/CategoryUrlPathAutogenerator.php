@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogUrlRewrite\Model\Observer;
+namespace Magento\CatalogUrlRewrite\Observer;
 
 use Magento\Catalog\Model\Category;
 use Magento\Framework\Event\Observer;
