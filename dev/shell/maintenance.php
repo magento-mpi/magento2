@@ -22,14 +22,15 @@ if (empty($opt)) {
 
 require __DIR__ . '/../../app/bootstrap.php';
 try {
-    $extra = [];
+    $params = $_SERVER;
     if (isset($opt['bootstrap'])) {
         $extra = json_decode($opt['bootstrap'], true);
         if (!is_array($extra)) {
             throw new \Exception("Unable to decode JSON in the parameter 'bootstrap'");
         }
+        $params = array_replace_recursive($params, $extra);
     }
-    $bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $extra);
+    $bootstrap = new \Magento\Framework\App\Bootstrap(BP, $params);
     /** @var \Magento\Framework\App\MaintenanceMode $maintenance */
     $maintenance = $bootstrap->getObjectManager()->get('Magento\Framework\App\MaintenanceMode');
     if (isset($opt['set'])) {

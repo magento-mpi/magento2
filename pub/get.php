@@ -62,14 +62,12 @@ if ($mediaDirectory) {
     }
 }
 // Materialize file in application
-$extra = [];
+$params = $_SERVER;
 if (empty($mediaDirectory)) {
-    $extra = [
-        Filesystem::PARAM_ALLOWED_MODULES => ['Magento_Core'],
-        Factory::PARAM_CACHE_FORCED_OPTIONS => ['frontend_options' => ['disable_save' => true]],
-    ];
+    $params[Filesystem::PARAM_ALLOWED_MODULES] = ['Magento_Core'];
+    $params[Factory::PARAM_CACHE_FORCED_OPTIONS] = ['frontend_options' => ['disable_save' => true]];
 }
-$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $extra);
+$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $params);
 /** @var \Magento\Core\App\Media $app */
 $app = $bootstrap->createApplication(
     'Magento\Core\App\Media',

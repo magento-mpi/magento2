@@ -26,32 +26,35 @@ class Bootstrap
     const ERR_IS_INSTALLED = 902;
     /**#- */
 
+    /**#+
+     * Initialization parameters that allow control bootstrap behavior of asserting maintenance mode or is installed
+     *
+     * Possible values:
+     * - true -- set expectation that it is required
+     * - false -- set expectation that is required not to
+     * - null -- bypass the assertion completely
+     *
+     * If key is absent in the parameters array, the default behavior will be used
+     * @see DEFAULT_REQUIRE_MAINTENANCE
+     * @see DEFAULT_REQUIRE_IS_INSTALLED
+     */
+    const PARAM_REQUIRE_MAINTENANCE = 'MAGE_REQUIRE_MAINTENANCE';
+    const PARAM_REQUIRE_IS_INSTALLED = 'MAGE_REQUIRE_IS_INSTALLED';
+    /**#- */
+
+    /**#+
+     * Default behavior of bootstrap assertions
+     */
+    const DEFAULT_REQUIRE_MAINTENANCE = false;
+    const DEFAULT_REQUIRE_IS_INSTALLED = true;
+    /**#- */
+
     /**
      * The initialization parameters (normally come from the $_SERVER)
      *
      * @var array
      */
     private $server;
-
-    /**
-     * Whether maintenance mode is required or not
-     *
-     * True: maintenance mode is required to be "On"
-     * False: maintenance mode is required to be "Off"
-     *
-     * @var bool
-     */
-    private $isMaintenanceRequired = false;
-
-    /**
-     * Whether application must be installed or not
-     *
-     * True: application must be already installed
-     * False: application must not be installed yet
-     *
-     * @var bool
-     */
-    private $isInstalledRequired = true;
 
     /**
      * Root directory
@@ -92,13 +95,12 @@ class Bootstrap
      * Constructor
      *
      * @param string $rootDir
-     * @param array $SERVER
-     * @param array $extraParams
+     * @param array $initParams
      */
-    public function __construct($rootDir, array $SERVER, array $extraParams = [])
+    public function __construct($rootDir, array $initParams)
     {
         $this->rootDir = $rootDir;
-        $this->server = array_replace_recursive($SERVER, $extraParams);
+        $this->server = $initParams;
     }
 
     /**
@@ -109,30 +111,6 @@ class Bootstrap
     public function getParams()
     {
         return $this->server;
-    }
-
-    /**
-     * Sets whether maintenance is required to run the application
-     *
-     * @param bool $value
-     * @return void
-     */
-    public function setIsMaintenanceRequirement($value)
-    {
-        $this->isMaintenanceRequired = $value;
-        $this->reset();
-    }
-
-    /**
-     * Sets whether "installed" is required to run the application
-     *
-     * @param bool $value
-     * @return void
-     */
-    public function setIsInstalledRequirement($value)
-    {
-        $this->isInstalledRequired = $value;
-        $this->reset();
     }
 
     /**
@@ -170,8 +148,8 @@ class Bootstrap
                 \Magento\Framework\Profiler::start('magento');
                 $this->initErrorHandler();
                 $this->init();
-                $this->assertMaintenance($this->isMaintenanceRequired);
-                $this->assertInstalled($this->isInstalledRequired);
+                $this->assertMaintenance();
+                $this->assertInstalled();
                 $response = $application->launch();
                 $response->sendResponse();
                 \Magento\Framework\Profiler::stop('magento');
@@ -189,12 +167,15 @@ class Bootstrap
     /**
      * Asserts maintenance mode
      *
-     * @param bool $isExpected
      * @return void
      * @throws \Exception
      */
-    private function assertMaintenance($isExpected)
+    private function assertMaintenance()
     {
+        $isExpected = $this->getIsExpected(self::PARAM_REQUIRE_MAINTENANCE, self::DEFAULT_REQUIRE_MAINTENANCE);
+        if (null === $isExpected) {
+            return;
+        }
         $this->init();
         $isOn = $this->maintenance->isOn(isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '');
         if ($isOn && !$isExpected) {
@@ -210,12 +191,15 @@ class Bootstrap
     /**
      * Asserts whether application is installed
      *
-     * @param bool $isExpected
      * @return void
      * @throws \Exception
      */
-    private function assertInstalled($isExpected)
+    private function assertInstalled()
     {
+        $isExpected = $this->getIsExpected(self::PARAM_REQUIRE_IS_INSTALLED, self::DEFAULT_REQUIRE_IS_INSTALLED);
+        if (null === $isExpected) {
+            return;
+        }
         $this->init();
         $isInstalled = $this->isInstalled();
         if (!$isInstalled && $isExpected) {
@@ -226,6 +210,26 @@ class Bootstrap
             $this->errorCode = self::ERR_IS_INSTALLED;
             throw new \Exception('Application is already installed.');
         }
+    }
+
+    /**
+     * Analyze a key in the initialization parameters as "is expected" parameter
+     *
+     * If there is no such key, returns default value. Otherwise casts it to boolean, unless it is null
+     *
+     * @param string $key
+     * @param bool $default
+     * @return bool|null
+     */
+    private function getIsExpected($key, $default)
+    {
+        if (array_key_exists($key, $this->server)) {
+            if (isset($this->server[$key])) {
+                return (bool)(int)$this->server[$key];
+            }
+            return null;
+        }
+        return $default;
     }
 
     /**
@@ -259,19 +263,6 @@ class Bootstrap
     {
         $this->init();
         return $this->dirList;
-    }
-
-    /**
-     * Resets any initialized objects (if there was initialization)
-     *
-     * @return void
-     */
-    private function reset()
-    {
-        $this->errorCode = 0;
-        $this->objectManager = null;
-        $this->dirList = null;
-        $this->maintenance = null;
     }
 
     /**

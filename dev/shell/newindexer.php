@@ -10,11 +10,10 @@ use Magento\Framework\App\Bootstrap;
 use Magento\Store\Model\StoreManager;
 
 require __DIR__ . '/../../app/bootstrap.php';
-$bootstrap = new Bootstrap(
-    BP,
-    $_SERVER,
-    [StoreManager::PARAM_RUN_CODE => 'admin', StoreManager::PARAM_RUN_TYPE => 'store']
-);
+$params = $_SERVER;
+$params[StoreManager::PARAM_RUN_CODE] = 'admin';
+$params[StoreManager::PARAM_RUN_TYPE] = 'store';
+$bootstrap = new Bootstrap(BP, $params);
 /** @var Magento\Indexer\App\Shell $app */
 $app = $bootstrap->createApplication('Magento\Indexer\App\Shell', ['entryFileName' => basename(__FILE__)]);
 $bootstrap->run($app);

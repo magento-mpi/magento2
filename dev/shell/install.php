@@ -6,7 +6,8 @@
  * @license    {license_link}
  */
 
-use \Magento\Framework\App\State as AppState;
+use Magento\Framework\App\State as AppState;
+use Magento\Framework\App\Bootstrap;
 
 /**
  * Parse command line arguments
@@ -72,8 +73,9 @@ if (empty($args)) {
 
 require __DIR__ . '/../../app/bootstrap.php';
 
-$params = [];
-if (!isset($_SERVER[AppState::PARAM_MODE])) {
+$params = $_SERVER;
+$params[Bootstrap::PARAM_REQUIRE_IS_INSTALLED] = false;
+if (!isset($params[AppState::PARAM_MODE])) {
     $params[AppState::PARAM_MODE] = AppState::MODE_DEVELOPER;
 }
 if (isset($args['bootstrap'])) {
@@ -81,10 +83,9 @@ if (isset($args['bootstrap'])) {
     if (!is_array($extra)) {
         throw new \Exception("Unable to decode JSON in the parameter 'bootstrap'");
     }
-    $params = array_merge($params, $extra);
+    $params = array_replace_recursive($params, $extra);
 }
-$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $params);
-$bootstrap->setIsInstalledRequirement(false);
+$bootstrap = new Bootstrap(BP, $params);
 /** @var \Magento\Install\App\Console $app */
 $app = $bootstrap->createApplication('Magento\Install\App\Console', ['arguments' => $args]);
 $bootstrap->run($app);
