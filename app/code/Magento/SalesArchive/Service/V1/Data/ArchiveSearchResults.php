@@ -1,4 +1,11 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 namespace Magento\SalesArchive\Service\V1\Data;
 
 class ArchiveSearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
