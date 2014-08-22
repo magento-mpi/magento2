@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="scope_switcher"/>
     <referenceContainer name="content">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit" name="magento_rma_item_attribute_edit"/>
@@ -29,4 +29,4 @@
     <referenceContainer name="js">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Js" template="attribute/js.phtml"/>
     </referenceContainer>
-</layout>
+</page>

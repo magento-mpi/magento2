@@ -7,20 +7,22 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">Magento_VersionsCms::page/preview.phtml</argument>
-        </action>
-        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Form" name="preview_form"/>
-        <container name="tools" as="tools" label="Tools">
-            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" template="Magento_Backend::store/switcher.phtml">
-                <arguments>
-                    <argument name="store_var_name" xsi:type="string">preview_selected_store</argument>
-                </arguments>
-            </block>
-            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Revision" name="revision_switcher" template="page/preview/revision.phtml"/>
-            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Buttons" name="preview_control_buttons"/>
-        </container>
-    </referenceBlock>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <container name="root">
+        <block name="backend.page" class="Magento\Framework\View\Element\Template">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Magento_VersionsCms::page/preview.phtml</argument>
+            </action>
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Form" name="preview_form"/>
+            <container name="tools" as="tools" label="Tools">
+                <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" template="Magento_Backend::store/switcher.phtml">
+                    <arguments>
+                        <argument name="store_var_name" xsi:type="string">preview_selected_store</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Revision" name="revision_switcher" template="page/preview/revision.phtml"/>
+                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Buttons" name="preview_control_buttons"/>
+            </container>
+        </block>
+    </container>
 </layout>

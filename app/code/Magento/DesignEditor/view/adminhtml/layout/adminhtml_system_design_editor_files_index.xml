@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <remove name="footer"/>
     <remove name="head"/>
     <referenceContainer name="left">
@@ -19,4 +19,4 @@
             <block class="Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content\Uploader" name="editor_files.uploader" template="Magento_DesignEditor::editor/tools/files/content/uploader.phtml"/>
         </block>
     </referenceContainer>
-</layout>
+</page>
