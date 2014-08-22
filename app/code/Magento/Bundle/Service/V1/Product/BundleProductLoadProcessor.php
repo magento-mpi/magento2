@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Service\V1\Product;
 
 use Magento\Bundle\Model\Option;
@@ -15,6 +16,9 @@ use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface;
 
+/**
+ * Add bundle product attributes to products during load.
+ */
 class BundleProductLoadProcessor implements ProductLoadProcessorInterface
 {
     /**
@@ -50,13 +54,11 @@ class BundleProductLoadProcessor implements ProductLoadProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function load(
-        $id,
-        \Magento\Catalog\Service\V1\Data\ProductBuilder $productBuilder
-    ) {
+    public function load($id, \Magento\Catalog\Service\V1\Data\ProductBuilder $productBuilder) {
+        /** @var \Magento\Catalog\Model\Product */
         $product = $this->productRepository->getById($id);
         if ($product->getTypeId() != ProductType::TYPE_BUNDLE) {
-            return true;
+            return;
         }
 
         $productBuilder->setCustomAttribute(
@@ -67,7 +69,5 @@ class BundleProductLoadProcessor implements ProductLoadProcessorInterface
             'bundle_product_links',
             $this->linkReadService->getChildren($id)
         );
-
-        return true;
     }
 }

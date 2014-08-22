@@ -90,7 +90,7 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE));
 
-        $this->assertTrue($this->model->load($productId, $this->productBuilder));
+        $this->model->load($productId, $this->productBuilder);
     }
 
     public function testLoadBundleProduct()
@@ -127,6 +127,6 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
             ->method('setCustomAttribute')
             ->with('bundle_product_links', $linkCustomAttributeValue);
 
-        $this->assertTrue($this->model->load($productId, $this->productBuilder));
+        $this->model->load($productId, $this->productBuilder);
     }
 }
