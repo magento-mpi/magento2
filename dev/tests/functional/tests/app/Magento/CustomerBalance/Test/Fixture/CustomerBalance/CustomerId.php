@@ -6,23 +6,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reward\Test\Fixture\Reward;
+namespace Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 
-use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class CustomerGroup
- * Prepare data for customer_group_id field in reward fixture
+ * Class CustomerId
+ * Prepare data for customer_id field in customer balance fixture
  *
  * Data keys:
  *  - dataSet
+ *  - customer
  */
-class CustomerGroup implements FixtureInterface
+class CustomerId implements FixtureInterface
 {
     /**
-     * Customer Group code
+     * Customer email
      *
      * @var string
      */
@@ -36,11 +37,11 @@ class CustomerGroup implements FixtureInterface
     protected $params;
 
     /**
-     * Customer Group fixture
+     * Customer fixture
      *
-     * @var CustomerGroupInjectable
+     * @var CustomerInjectable
      */
-    protected $customerGroup;
+    protected $customer;
 
     /**
      * @constructor
@@ -51,19 +52,23 @@ class CustomerGroup implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
+        if (isset($data['customer']) && $data['customer'] instanceof CustomerInjectable) {
+            $this->customer = $data['customer'];
+            $this->data = $this->customer->getEmail();
+        }
         if (isset($data['dataSet'])) {
-            /** @var CustomerGroupInjectable $customerGroup */
-            $customerGroup = $fixtureFactory->createByCode('customerGroupInjectable', ['dataSet' => $data['dataSet']]);
-            if (!$customerGroup->hasData('customer_group_id')) {
-                $customerGroup->persist();
+            /** @var CustomerInjectable $customer */
+            $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => $data['dataSet']]);
+            if (!$customer->hasData('id')) {
+                $customer->persist();
             }
-            $this->customerGroup = $customerGroup;
-            $this->data = $customerGroup->getCustomerGroupCode();
+            $this->customer = $customer;
+            $this->data = $customer->getEmail();
         }
     }
 
     /**
-     * Persist custom selections tax classes
+     * Persists prepared data into application
      *
      * @return void
      */
@@ -75,7 +80,7 @@ class CustomerGroup implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string|null $key [optional]
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -96,12 +101,12 @@ class CustomerGroup implements FixtureInterface
     }
 
     /**
-     * Return customer group fixture
+     * Return customer fixture
      *
-     * @return CustomerGroupInjectable
+     * @return CustomerInjectable
      */
-    public function getCustomerGroup()
+    public function getCustomer()
     {
-        return $this->customerGroup;
+        return $this->customer;
     }
 }

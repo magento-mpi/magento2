@@ -9,6 +9,7 @@
 namespace Magento\Backend\Test\Block\Widget;
 
 use Mtf\Block\Mapper;
+use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Client\Element;
 use Mtf\Util\XmlConverter;
 use Mtf\Util\Iterator\File;
@@ -47,6 +48,7 @@ class FormTabs extends Form
      * @param Element $element
      * @param Mapper $mapper
      * @param BlockFactory $blockFactory
+     * @param Browser $browser
      * @param XmlConverter $xmlConverter
      * @param array $config
      */
@@ -54,11 +56,12 @@ class FormTabs extends Form
         Element $element,
         Mapper $mapper,
         BlockFactory $blockFactory,
+        Browser $browser,
         XmlConverter $xmlConverter,
         array $config = []
     ) {
         $this->xmlConverter = $xmlConverter;
-        parent::__construct($element, $blockFactory, $mapper, $config);
+        parent::__construct($element, $blockFactory, $mapper, $browser, $config);
     }
 
     /**
@@ -245,7 +248,7 @@ class FormTabs extends Form
      */
     private function getFixtureFieldsByTabs(InjectableFixture $fixture)
     {
-        $tabs = array();
+        $tabs = [];
 
         $data = $fixture->getData();
         foreach ($data as $field => $value) {
@@ -269,7 +272,7 @@ class FormTabs extends Form
      */
     private function getFixtureFieldsByTabsDeprecated(FixtureInterface $fixture)
     {
-        $tabs = array();
+        $tabs = [];
 
         $dataSet = $fixture->getData();
         $fields = isset($dataSet['fields']) ? $dataSet['fields'] : [];
@@ -295,7 +298,7 @@ class FormTabs extends Form
     {
         $tabClass = $this->tabs[$tabName]['class'];
         /** @var Tab $tabElement */
-        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
+        $tabElement = $this->blockFactory->create($tabClass, ['element' => $this->_rootElement]);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }

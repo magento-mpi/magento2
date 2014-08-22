@@ -65,7 +65,7 @@ class ProductPageTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $this->assertContains(
             $fixture->getGrandTotal(),
@@ -74,7 +74,7 @@ class ProductPageTest extends Functional
         );
 
         $this->assertContains(
-            'Authorized amount of ' . $fixture->getGrandTotal(),
+            'Authorized amount of $' . $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
             'Incorrect authorized amount value for the order #' . $orderId
         );

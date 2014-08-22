@@ -27,4 +27,13 @@
             <orderStatusNew class="Magento\Sales\Test\Page\Adminhtml\OrderStatusNew" />
         </require>
     </assertOrderStatusDuplicateStatus>
+    <assertOrderButtonsAvailable module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderButtonsAvailable>
+    <assertOrderGrandTotal module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderGrandTotal>
+    <assertOrderStatusIsCorrect module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderStatusIsCorrect>
 </constraint>

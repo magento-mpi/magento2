@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="checkout/cart" module="Magento_Checkout">
+<page mca="checkout/cart/index" module="Magento_Checkout">
     <blocks>
         <cartBlock>
             <class>Magento\Checkout\Test\Block\Cart</class>
@@ -39,5 +39,10 @@
             <locator>.block.discount</locator>
             <strategy>css selector</strategy>
         </discountCodesBlock>
+        <proceedToCheckoutBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Link</class>
+            <locator>ul.checkout-methods-items button.primary.checkout</locator>
+            <strategy>css selector</strategy>
+        </proceedToCheckoutBlock>
     </blocks>
 </page>
