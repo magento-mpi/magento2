@@ -9,6 +9,7 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
+use Magento\Framework\Search\Adapter\Mysql\ResponseConverter;
 use Magento\Framework\Search\AdapterInterface;
 use Magento\Framework\Search\RequestInterface;
 
@@ -27,17 +28,24 @@ class Adapter implements AdapterInterface
      * @var ResponseFactory
      */
     protected $responseFactory;
+    /**
+     * @var ResponseConverter
+     */
+    private $converter;
 
     /**
      * @param Mapper $mapper
      * @param ResponseFactory $responseFactory
+     * @param ResponseConverter $converter
      */
     public function __construct(
         Mapper $mapper,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        ResponseConverter $converter
     ) {
         $this->mapper = $mapper;
         $this->responseFactory = $responseFactory;
+        $this->converter = $converter;
     }
 
     /**
@@ -46,7 +54,8 @@ class Adapter implements AdapterInterface
     public function query(RequestInterface $request)
     {
         $query = $this->mapper->buildQuery($request);
-        $response = $this->executeQuery($query);
+        $documentExecuteResult = $this->executeQuery($query);
+        $response = $this->prepareToResponse($documentExecuteResult);
         return $this->responseFactory->create($response);
     }
 
@@ -57,5 +66,19 @@ class Adapter implements AdapterInterface
      */
     private function executeQuery()
     {
+    }
+
+    /**
+     * Prepare data to Response
+     *
+     * @param array $documentExecuteResult result after executeQuery
+     * @return array
+     */
+    private function prepareToResponse($documentExecuteResult)
+    {
+        $response = [];
+        $response['documents'] = $this->converter->convertToDocument($documentExecuteResult);
+        $response['aggregation'] = [];
+        return $response;
     }
 }
