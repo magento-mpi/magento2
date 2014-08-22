@@ -12,6 +12,7 @@
  */
 
 require __DIR__ . '/../../Checkout/_files/quote_with_address.php';
+
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $product = $objectManager->create('Magento\Catalog\Model\Product');
 $product->setTypeId(

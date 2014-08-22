@@ -21,7 +21,7 @@ interface WriteServiceInterface
 
     /**
      * @param int $cartId
-     * @param int $itemSku
+     * @param int $itemId
      * @param \Magento\Checkout\Service\V1\Data\Cart\Item $data
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -32,7 +32,7 @@ interface WriteServiceInterface
 
     /**
      * @param int $cartId
-     * @param int $itemSku
+     * @param int $itemId
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
