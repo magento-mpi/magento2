@@ -36,6 +36,16 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     protected $stateMock;
 
     /**
+     * @var array
+     */
+    protected $filters;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filterMock;
+
+    /**
      * @var \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin
      */
     protected $model;
@@ -47,37 +57,112 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Layer\AvailabilityFlagInterface');
-        $this->helperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
-        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
+        $this->filterMock = $this->getMock(
+            'Magento\Catalog\Model\Layer\Filter\AbstractFilter', array(), array(), '', false
+        );
+        $this->filters = array($this->filterMock);
+
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Layer\Search\AvailabilityFlag');
+        $this->helperMock = $this->getMock('Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
+        $this->stateMock = $this->getMock('Magento\Catalog\Model\Layer\State', array(), array(), '', false);
         $this->model = new Plugin($this->helperMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
-     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::__construct
+     * @param bool $isThirdPart
+     * @param bool $isActive
+     *
+     * @dataProvider aroundIsEnabledWithThirdPartEngineOffDataProvider
+     * @covers       \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
+     * @covers       \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::__construct
      */
-    public function testIsEnabledWithThirdPartEngineOn()
+    public function testIsEnabledWithThirdPartEngineOff($isThirdPart, $isActive)
     {
-        $this->helperMock->expects($this->once())->method('isThirdPartSearchEngine')->will($this->returnValue(true));
-        $this->helperMock->expects($this->once())->method('isActiveEngine')->will($this->returnValue(true));
-        $this->subjectMock->expects($this->once())->method("isEnabled")->will($this->returnValue(false));
+        $this->helperMock->expects($this->once())->method('isThirdPartSearchEngine')
+            ->will($this->returnValue($isThirdPart));
+        $this->helperMock->expects($this->any())->method('isActiveEngine')->will($this->returnValue($isActive));
 
-        $proceed = function () {
-            $this->fail('Subject should not be called in this scenario');
+        /**
+         * @param \Magento\Catalog\Model\Layer $layer
+         * @param array $filters
+         * @return bool
+         */
+        $proceed = function ($layer, $filters) {
+            $this->assertEquals($this->layerMock, $layer);
+            $this->assertEquals(array(), $filters);
+
+            return false;
         };
         $this->assertFalse($this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array()));
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
-     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::__construct
+     * @return array
      */
-    public function testIsEnabledWithThirdPartEngineOff()
+    public function aroundIsEnabledWithThirdPartEngineOffDataProvider()
     {
+        return array(
+            array(false, false),
+            array(true, false),
+            array(false, true),
+        );
+    }
+
+    /**
+     * @param int $itemsCount
+     * @param array $filters
+     * @param bool $expectedResult
+     *
+     * @dataProvider aroundIsEnabledDataProvider
+     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
+     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::canShowOptions
+     */
+    public function testAroundIsEnabled($itemsCount, $filters, $expectedResult)
+    {
+        $this->helperMock->expects($this->once())->method('isThirdPartSearchEngine')->will($this->returnValue(true));
+        $this->helperMock->expects($this->once())->method('isActiveEngine')->will($this->returnValue(true));
+
+        $this->layerMock->expects($this->any())->method('getState')->will($this->returnValue($this->stateMock));
+        $this->stateMock->expects($this->any())->method('getFilters')->will($this->returnValue($filters));
+        $this->filterMock->expects($this->once())->method('getItemsCount')->will($this->returnValue($itemsCount));
+
         $proceed = function () {
-            return false;
+            $this->fail('Subject should not be called in this scenario');
         };
-        $this->assertFalse($this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array()));
+
+        $this->assertEquals(
+            $expectedResult,
+            $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, $this->filters)
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function aroundIsEnabledDataProvider()
+    {
+        return array(
+            array(
+                'itemsCount' => 0,
+                'filters' => array(),
+                'expectedResult' => false,
+            ),
+            array(
+                'itemsCount' => 0,
+                'filters' => array('filter'),
+                'expectedResult' => true,
+            ),
+            array(
+                'itemsCount' => 1,
+                'filters' => 0,
+                'expectedResult' => true,
+            ),
+            array(
+                'itemsCount' => 1,
+                'filters' => array('filter'),
+                'expectedResult' => true,
+            )
+        );
     }
 }

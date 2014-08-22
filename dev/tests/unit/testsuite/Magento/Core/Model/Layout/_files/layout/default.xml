@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<page>
     <container name="content" as="content" label="Main Content Area"/>
-</layout>
+</page>

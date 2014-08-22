@@ -19,14 +19,14 @@ class Config
      */
     protected $_revisionControlledAttributes = array(
         'page' => array(
-            'root_template',
+            'page_layout',
             'meta_keywords',
             'meta_description',
             'content_heading',
             'content',
             'layout_update_xml',
             'custom_theme',
-            'custom_root_template',
+            'custom_page_layout',
             'custom_layout_update_xml',
             'custom_theme_from',
             'custom_theme_to'

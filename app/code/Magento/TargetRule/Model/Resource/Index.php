@@ -12,7 +12,7 @@ namespace Magento\TargetRule\Model\Resource;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Index extends \Magento\Index\Model\Resource\AbstractResource
+class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Increment value for generate unique bind names
@@ -180,11 +180,6 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             'customer_group_id = :customer_group_id'
         );
 
-        $rotationMode = $this->_targetRuleData->getRotationMode($object->getType());
-        if ($rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE) {
-            $this->orderRand($select);
-        }
-
         $segmentsIds = array_merge(array(0), $this->_getSegmentsIdsFromCurrentCustomer());
         $bind = array(
             ':type_id' => $object->getType(),
@@ -221,6 +216,10 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             }
         }
         $productIds = array_diff(array_unique($productIds), $object->getExcludeProductIds());
+        $rotationMode = $this->_targetRuleData->getRotationMode($object->getType());
+        if ($rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE) {
+            shuffle($productIds);
+        }
         return array_slice($productIds, 0, $object->getLimit());
     }
 
@@ -589,6 +588,24 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             $this->_indexPool->get($typeId)->cleanIndex($store);
         }
 
+        return $this;
+    }
+
+    /**
+     * Remove products from index tables
+     *
+     * @param int|null $productId
+     * @return $this
+     */
+    public function deleteProductFromIndex($productId = null)
+    {
+        foreach ($this->getTypeIds() as $typeId) {
+            $this->_indexPool->get($typeId)->deleteProductFromIndex($productId);
+        }
+        if (!is_null($productId)) {
+            $where = array('entity_id = ?' => $productId);
+            $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+        }
         return $this;
     }
 
