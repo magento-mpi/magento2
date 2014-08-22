@@ -166,15 +166,15 @@ class Select extends \Zend_Db_Select
      *
      * @param string|string[] $columns Columns which add to MATCH ()
      * @param string $expression Expression which add to AGAINST ()
-     * @param bool $condition true=AND, false=OR
+     * @param bool $isCondition true=AND, false=OR
      * @param string $mode
      * @return $this
      */
-    public function match($columns, $expression, $condition = true, $mode = self::FULLTEXT_MODE_NATURAL)
+    public function match($columns, $expression, $isCondition = true, $mode = self::FULLTEXT_MODE_NATURAL)
     {
         $fullCondition = $this->getMatchQuery($columns, $expression, $mode);
 
-        if ($condition) {
+        if ($isCondition) {
             $this->where($fullCondition);
         } else {
             $this->orWhere($fullCondition);

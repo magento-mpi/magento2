@@ -12,12 +12,12 @@ interface QueryInterface
     /**
      * @param \Magento\Framework\DB\Select $select
      * @param \Magento\Framework\Search\Request\QueryInterface $query
-     * @param string $queryType
+     * @param string $conditionType
      * @return \Magento\Framework\DB\Select
      */
     public function buildQuery(
         \Magento\Framework\DB\Select $select,
         \Magento\Framework\Search\Request\QueryInterface $query,
-        $queryType
+        $conditionType
     );
 }

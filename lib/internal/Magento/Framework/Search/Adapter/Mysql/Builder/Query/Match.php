@@ -34,23 +34,25 @@ class Match implements QueryInterface
     public function buildQuery(
         Select $select,
         RequestQueryInterface $query,
-        $queryType
+        $conditionType
     ) {
         $this->scoreManager->setQueryBoost($query->getName(), $query->getBoost());
 
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         foreach ($query->getMatches() as $match) {
-            if ($queryType === Bool::QUERY_TYPE_NOT) {
+            $mode = Select::FULLTEXT_MODE_NATURAL_QUERY;
+            if ($conditionType === Bool::QUERY_TYPE_NOT) {
                 $match['value'] = '-' . $match['value'];
+                $mode = Select::FULLTEXT_MODE_BOOLEAN;
             }
 
             $this->scoreManager->addCondition(
                 $query->getName(),
                 $select->getMatchQuery($match['field'], $match['value']),
                 isset($match['boost']) ? $match['boost'] : 1,
-                Select::FULLTEXT_MODE_BOOLEAN
+                $mode
             );
-            $select->match($match['field'], $match['value'], true, Select::FULLTEXT_MODE_BOOLEAN);
+            $select->match($match['field'], $match['value'], true, $mode);
         }
 
         return $select;
