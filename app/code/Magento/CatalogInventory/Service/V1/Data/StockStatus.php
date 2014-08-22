@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogInventory\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Stock status data object
  */
-class StockStatus extends AbstractObject
+class StockStatus extends AbstractExtensibleObject
 {
     /**#@+
      * Stock status object data keys

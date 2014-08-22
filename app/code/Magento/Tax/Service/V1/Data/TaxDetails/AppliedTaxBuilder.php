@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
  *
  * @method AppliedTax create()
  */
-class AppliedTaxBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class AppliedTaxBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * AppliedTaxRate builder

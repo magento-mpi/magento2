@@ -7,10 +7,10 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 
-class CategoryBuilder extends AbstractObjectBuilder
+class CategoryBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory

@@ -8,9 +8,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Product;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class GroupPrice extends AbstractObject
+class GroupPrice extends AbstractExtensibleObject
 {
     const CUSTOMER_GROUP_ID = 'customer_group_id';
     const VALUE = 'value';

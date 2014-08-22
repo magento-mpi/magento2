@@ -114,7 +114,7 @@ class OrderMapper
 
     /**
      * @param \Magento\Sales\Model\Order $object
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function extractDto(\Magento\Sales\Model\Order $object)
     {

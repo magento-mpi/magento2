@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 
-class Option extends \Magento\Framework\Service\Data\AbstractObject
+class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     const OPTION_ID = 'option_id';
     const TITLE = 'title';

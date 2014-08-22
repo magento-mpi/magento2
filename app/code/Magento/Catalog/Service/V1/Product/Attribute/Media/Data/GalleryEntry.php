@@ -9,9 +9,9 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media\Data;
 
-use \Magento\Framework\Service\Data\AbstractObject;
+use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class GalleryEntry extends AbstractObject
+class GalleryEntry extends AbstractExtensibleObject
 {
     const ID = 'id';
     const LABEL = 'label';

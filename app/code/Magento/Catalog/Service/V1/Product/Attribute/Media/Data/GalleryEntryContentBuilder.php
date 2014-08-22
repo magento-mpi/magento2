@@ -9,9 +9,9 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media\Data;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class GalleryEntryContentBuilder extends AbstractObjectBuilder
+class GalleryEntryContentBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Set media data (base64 encoded content)

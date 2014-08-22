@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Data\ObjectFactory;
@@ -18,7 +18,7 @@ use Magento\Framework\Service\Data\ObjectFactory;
  *
  * @method SearchResults create()
  */
-abstract class AbstractSearchResultsBuilder extends AbstractObjectBuilder
+abstract class AbstractSearchResultsBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Search criteria builder
@@ -30,7 +30,7 @@ abstract class AbstractSearchResultsBuilder extends AbstractObjectBuilder
     /**
      * Item data object builder
      *
-     * @var AbstractObjectBuilder $itemObjectBuilder
+     * @var AbstractExtensibleObjectBuilder $itemObjectBuilder
      */
     protected $itemObjectBuilder;
 
@@ -41,14 +41,14 @@ abstract class AbstractSearchResultsBuilder extends AbstractObjectBuilder
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param AbstractObjectBuilder $itemObjectBuilder
+     * @param AbstractExtensibleObjectBuilder $itemObjectBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        AbstractObjectBuilder $itemObjectBuilder
+        AbstractExtensibleObjectBuilder $itemObjectBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -80,7 +80,7 @@ abstract class AbstractSearchResultsBuilder extends AbstractObjectBuilder
     /**
      * Set items
      *
-     * @param \Magento\Framework\Service\Data\AbstractObject[] $items
+     * @param \Magento\Framework\Service\Data\AbstractExtensibleObject[] $items
      * @return $this
      */
     public function setItems($items)

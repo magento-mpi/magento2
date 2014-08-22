@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
@@ -17,7 +17,7 @@ use Magento\Framework\Service\V1\Data\SortOrder;
 /**
  * Builder for SearchCriteria Service Data Object
  */
-class SearchCriteriaBuilder extends AbstractObjectBuilder
+class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * @var FilterGroupBuilder

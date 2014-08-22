@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 /**
  * Contains basic attribute set data
  */
-class AttributeSet extends \Magento\Framework\Service\Data\AbstractObject
+class AttributeSet extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**
      * table field for id

@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogInventory\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Stock item data object
  */
-class StockItem extends AbstractObject
+class StockItem extends AbstractExtensibleObject
 {
     /**#@+
      * Stock item object data keys

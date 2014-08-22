@@ -8,10 +8,10 @@
 namespace Magento\Framework\Service\Data;
 
 /**
- * Class SimpleAbstractObject
+ * Base Class for simple data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class SimpleAbstractObject
+abstract class AbstractSimpleObject
 {
     /**
      * @var array
@@ -21,9 +21,9 @@ abstract class SimpleAbstractObject
     /**
      * Initialize internal storage
      *
-     * @param SimpleAbstractObjectBuilder $builder
+     * @param AbstractSimpleObjectBuilder $builder
      */
-    public function __construct(SimpleAbstractObjectBuilder $builder)
+    public function __construct(AbstractSimpleObjectBuilder $builder)
     {
         $this->_data = $builder->getData();
     }

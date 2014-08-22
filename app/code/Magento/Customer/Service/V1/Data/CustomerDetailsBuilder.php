@@ -9,14 +9,14 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
 
 /**
  * Class CustomerDetailsBuilder
  */
-class CustomerDetailsBuilder extends AbstractObjectBuilder
+class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Customer builder

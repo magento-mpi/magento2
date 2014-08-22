@@ -8,10 +8,10 @@
 namespace Magento\Framework\Service\Data;
 
 /**
- * Class EAV AbstractObject
+ * Base Class for extensible data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractObject extends SimpleAbstractObject
+abstract class AbstractExtensibleObject extends AbstractSimpleObject
 {
     /**
      * Array key for custom attributes

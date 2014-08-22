@@ -7,19 +7,18 @@
  */
 namespace Magento\Framework\Service;
 
-use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\Data\AbstractObject as EavAbstractObject;
 use Magento\Framework\Convert\ConvertArray;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class DataObjectConverter
+class SimpleDataObjectConverter
 {
     /**
      * Convert nested array into flat array.
      *
-     * @param AbstractObject $dataObject
+     * @param AbstractExtensibleObject $dataObject
      * @return array
      */
-    public static function toFlatArray(AbstractObject $dataObject)
+    public static function toFlatArray(AbstractExtensibleObject $dataObject)
     {
         $data = $dataObject->__toArray();
         return ConvertArray::toFlatArray($data);
@@ -34,8 +33,8 @@ class DataObjectConverter
     public function convertKeysToCamelCase(array $dataArray)
     {
         $response = [];
-        if (isset($dataArray[EavAbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
-            $dataArray = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataArray);
+        if (isset($dataArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY])) {
+            $dataArray = ExtensibleDataObjectConverter::convertCustomAttributesToSequentialArray($dataArray);
         }
         foreach ($dataArray as $fieldName => $fieldValue) {
             if (is_array($fieldValue) && !$this->_isSimpleSequentialArray($fieldValue)) {

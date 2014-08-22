@@ -13,7 +13,7 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
  *
  * @method LinkType create()
  */
-class LinkTypeBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class LinkTypeBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set type

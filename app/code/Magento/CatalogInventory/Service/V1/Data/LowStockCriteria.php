@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogInventory\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Low stock criteria data object
  */
-class LowStockCriteria extends AbstractObject
+class LowStockCriteria extends AbstractExtensibleObject
 {
     /**#@+
      * Stock status object data keys

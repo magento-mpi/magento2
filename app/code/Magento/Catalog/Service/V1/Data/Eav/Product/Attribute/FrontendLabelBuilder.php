@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Product\Attribute;
  * Class FrontendLabelBuilder
  * @package Magento\Catalog\Service\V1\Data\Eav\Product\Attribute
  */
-class FrontendLabelBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class FrontendLabelBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set store id value

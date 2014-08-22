@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
  *
  * @method Item create()
  */
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * TaxClassKey data object builder

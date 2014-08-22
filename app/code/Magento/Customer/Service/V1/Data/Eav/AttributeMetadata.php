@@ -12,7 +12,8 @@ use Magento\Framework\Service\Data\MetadataObjectInterface;
 /**
  * Class AttributeMetadata
  */
-class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject implements MetadataObjectInterface
+class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+    implements MetadataObjectInterface
 {
     /**#@+
      * Constants used as keys into $_data

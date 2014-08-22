@@ -10,9 +10,9 @@ namespace Magento\Webapi\Controller;
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\SimpleAbstractObject;
-use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\EavDataObjectConverter;
+use Magento\Framework\Service\Data\AbstractSimpleObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Service\ExtensibleDataObjectConverter;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Response\PartialResponseProcessor;
@@ -162,7 +162,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Framework\Service\Data\AbstractObject $outputData */
+            /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputData = $this->processServiceOutput($outputData);
             if ($this->_request->getParam(PartialResponseProcessor::FILTER_PARAMETER) && is_array($outputData)) {
@@ -193,13 +193,13 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if ($datum instanceof SimpleAbstractObject) {
+                if ($datum instanceof AbstractSimpleObject) {
                     $datum = $this->processDataObject($datum->__toArray());
                 }
                 $result[] = $datum;
             }
             return $result;
-        } else if ($data instanceof SimpleAbstractObject) {
+        } else if ($data instanceof AbstractSimpleObject) {
             return $this->processDataObject($data->__toArray());
         } else if (is_null($data)) {
             return [];
@@ -217,8 +217,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      */
     protected function processDataObject($dataObjectArray)
     {
-        if (isset($dataObjectArray[AbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
-            $dataObjectArray = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataObjectArray);
+        if (isset($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY])) {
+            $dataObjectArray = ExtensibleDataObjectConverter::convertCustomAttributesToSequentialArray($dataObjectArray);
         }
         //Check for nested custom_attributes
         foreach ($dataObjectArray as $key => $value) {

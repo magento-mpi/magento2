@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Framework\Service\Data\SimpleAbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractSimpleObjectBuilder;
 
 /**
  * Some Data Object short description.
@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\SimpleAbstractObjectBuilder;
  * Data Object long
  * multi line description.
  */
-class AllSoapAndRestBuilder extends SimpleAbstractObjectBuilder
+class AllSoapAndRestBuilder extends AbstractSimpleObjectBuilder
 {
     const ID = 'id';
     const NAME = 'name';

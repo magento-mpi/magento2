@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
  *
  * @method QuoteDetails create()
  */
-class QuoteDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class QuoteDetailsBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * QuoteDetails item builder

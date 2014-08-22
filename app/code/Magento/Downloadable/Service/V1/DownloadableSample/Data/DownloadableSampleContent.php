@@ -8,9 +8,9 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableSample\Data;
 
-use \Magento\Framework\Service\Data\AbstractObject;
+use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class DownloadableSampleContent extends AbstractObject
+class DownloadableSampleContent extends AbstractExtensibleObject
 {
     const TITLE = 'title';
     const SORT_ORDER = 'sort_order';

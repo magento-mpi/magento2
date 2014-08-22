@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
 /**
  * Class AttributeMetadataBuilder
  */
-class AttributeMetadataBuilder extends AbstractObjectBuilder implements AttributeMetadataBuilderInterface
+class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implements AttributeMetadataBuilderInterface
 {
     /**
      * Option builder

@@ -10,7 +10,7 @@ namespace Magento\Framework\Service\Data;
 /**
  * Custom Attribute Data object
  */
-class AttributeValue extends SimpleAbstractObject
+class AttributeValue extends AbstractSimpleObject
 {
     /**#@+
      * Constant used as key into $_data

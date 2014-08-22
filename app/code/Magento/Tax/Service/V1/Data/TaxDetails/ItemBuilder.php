@@ -17,7 +17,7 @@ use Magento\Tax\Service\V1\Data\TaxDetails;
  * @method Item create()
  */
 
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Applied Tax data object builder

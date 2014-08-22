@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service\V1\Data\Search;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
@@ -16,7 +16,7 @@ use Magento\Framework\Service\V1\Data\FilterBuilder;
 /**
  * Builder for FilterGroup Data.
  */
-class FilterGroupBuilder extends AbstractObjectBuilder
+class FilterGroupBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * @var FilterBuilder

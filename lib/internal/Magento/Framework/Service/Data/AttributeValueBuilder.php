@@ -10,7 +10,7 @@ namespace Magento\Framework\Service\Data;
 /**
  * Custom Attribute Data object builder
  */
-class AttributeValueBuilder extends SimpleAbstractObjectBuilder
+class AttributeValueBuilder extends AbstractSimpleObjectBuilder
 {
     /**
      * Set attribute code

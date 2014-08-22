@@ -65,7 +65,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $dto = $service->getAttributeMetadata('entity_type', 'attr_code');
-        $this->assertInstanceOf('Magento\Framework\Service\Data\AbstractObject', $dto);
+        $this->assertInstanceOf('Magento\Framework\Service\Data\AbstractExtensibleObject', $dto);
         $this->assertEquals($attributeMock->getFrontendInput(), $dto->getFrontendInput());
 
         $this->assertEquals(0, $dto->getFrontendLabel()[0]->getStoreId());

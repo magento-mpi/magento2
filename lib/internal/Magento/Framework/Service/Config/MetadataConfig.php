@@ -35,7 +35,7 @@ class MetadataConfig implements MetadataServiceInterface
      */
     public function __construct(
         ServiceConfigReader $serviceConfigReader,
-        AttributeMetadataBuilderInterface $attributeMetadataBuilder = null
+        AttributeMetadataBuilderInterface $attributeMetadataBuilder
     ) {
         $this->serviceConfigReader = $serviceConfigReader;
         $this->attributeMetadataBuilder = $attributeMetadataBuilder;

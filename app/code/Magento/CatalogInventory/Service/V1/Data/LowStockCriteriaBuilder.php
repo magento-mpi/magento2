@@ -10,7 +10,7 @@ namespace Magento\CatalogInventory\Service\V1\Data;
 /**
  * Low stock criteria builder
  */
-class LowStockCriteriaBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class LowStockCriteriaBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set page size

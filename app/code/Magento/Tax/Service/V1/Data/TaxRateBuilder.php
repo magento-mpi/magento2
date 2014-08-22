@@ -16,7 +16,7 @@ use Magento\Framework\Service\Data\ObjectFactory;
  *
  * @method TaxRate create()
  */
-class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * ZipRange builder

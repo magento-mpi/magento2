@@ -9,9 +9,10 @@
 namespace Magento\Framework\Service\Data;
 
 /**
+ * Base Builder Class for extensible data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractObjectBuilder extends SimpleAbstractObjectBuilder
+abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuilder
 {
     /**
      * @var AttributeValueBuilder
@@ -52,8 +53,9 @@ abstract class AbstractObjectBuilder extends SimpleAbstractObjectBuilder
             if (!$attribute instanceof AttributeValue) {
                 throw new \LogicException('Custom Attribute array elements can only be type of AttributeValue');
             }
-            if (in_array($attribute->getAttributeCode(), $customAttributesCodes)) {
-                $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()] = $attribute;
+            $attributeCode = $attribute->getAttributeCode();
+            if (in_array($attributeCode, $customAttributesCodes)) {
+                $this->_data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
             }
         }
         return $this;
@@ -75,7 +77,7 @@ abstract class AbstractObjectBuilder extends SimpleAbstractObjectBuilder
                 ->setAttributeCode($attributeCode)
                 ->setValue($attributeValue)
                 ->create();
-            $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $valueObject;
+            $this->_data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $valueObject;
         }
         return $this;
     }
@@ -109,12 +111,12 @@ abstract class AbstractObjectBuilder extends SimpleAbstractObjectBuilder
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
-            $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($key);
+            $camelCaseKey = \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToCamelCase($key);
             $possibleMethods = array(
                 'get' . $camelCaseKey,
                 'is' . $camelCaseKey
             );
-            if ($key == AbstractObject::CUSTOM_ATTRIBUTES_KEY && is_array($data[$key]) && !empty($data[$key])) {
+            if ($key == AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY && is_array($data[$key]) && !empty($data[$key])) {
                 foreach ($data[$key] as $customAttribute) {
                     $this->setCustomAttribute(
                         $customAttribute[AttributeValue::ATTRIBUTE_CODE],

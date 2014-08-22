@@ -7,13 +7,13 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Class Metadata
  * @codeCoverageIgnore
  */
-class Metadata extends AbstractObject
+class Metadata extends AbstractExtensibleObject
 {
     const ID = 'category_id';
 

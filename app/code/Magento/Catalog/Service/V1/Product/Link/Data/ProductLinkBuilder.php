@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\AttributeValueBuilder;
  *
  * @method ProductLink create()
  */
-class ProductLinkBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ProductLinkBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * @var array
