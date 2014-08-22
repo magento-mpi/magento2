@@ -7,8 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
-    <update handle="page_one_column"/>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
     <remove name="minicart" />
     <remove name="header.panel" />
     <remove name="top.search" />
@@ -16,4 +15,4 @@
     <remove name="page.main.title" />
     <remove name="catalog.topnav" />
     <remove name="footer-container" />
-</layout>
+</page>

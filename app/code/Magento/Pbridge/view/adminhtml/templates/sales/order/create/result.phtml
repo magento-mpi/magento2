@@ -7,10 +7,7 @@
  */
 ?>
 <script type="text/javascript">
-require(['jquery'], function(jQuery){
-var $ = jQuery;
 
-//<![CDATA[
     function setPaymentMethod()
     {
         var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
@@ -52,10 +49,9 @@ var $ = jQuery;
             message.innerHTML = '<?php echo $this->escapeJsQuote(__('We submitted your payment information to the server. To make changes, please click <a style="color: #F15A24" href="#" onclick="parent.reloadIframe(parent.order.paymentMethod); return false;">here</a> .')) ?>';
         }
     }
+    
     window.onload = setPaymentMethod;
-//]]>
 
-});
 </script>
 
 <div id="payment-method-message" style="font: normal normal normal 11px/1.35 Arial, Helvetica, sans-serif;color: #444;float: left;font-size: 12px;font-weight: bold;padding: 2px 15px 0px 0px;text-align: left;"></div>

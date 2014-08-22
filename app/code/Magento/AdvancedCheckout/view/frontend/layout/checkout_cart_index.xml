@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="additional.product.info">
         <block class="Magento\AdvancedCheckout\Block\Sku\Products\Info" name="sku.product.info" template="cart/sku/failed/info.phtml"/>
     </referenceBlock>
@@ -37,4 +37,4 @@
             </arguments>
         </block>
     </referenceContainer>
-</layout>
+</page>

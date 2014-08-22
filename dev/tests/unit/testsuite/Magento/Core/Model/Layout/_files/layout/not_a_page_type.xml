@@ -7,4 +7,4 @@
  * @license     {license_link}
  */
 -->
-<layout label="Handle that Is Not a Page Type"/>
+<page label="Handle that Is Not a Page Type"/>
