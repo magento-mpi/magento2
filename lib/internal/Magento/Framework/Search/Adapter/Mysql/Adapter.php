@@ -9,6 +9,8 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
+use Magento\Framework\App\Resource\Config;
+use Magento\Framework\DB\Select;
 use Magento\Framework\Search\AdapterInterface;
 use Magento\Framework\Search\RequestInterface;
 
@@ -27,6 +29,10 @@ class Adapter implements AdapterInterface
      * @var ResponseFactory
      */
     protected $responseFactory;
+    /**
+     * @var \Magento\Framework\App\Resource
+     */
+    private $resource;
 
     /**
      * @param Mapper $mapper
@@ -34,10 +40,12 @@ class Adapter implements AdapterInterface
      */
     public function __construct(
         Mapper $mapper,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        \Magento\Framework\App\Resource $resource
     ) {
         $this->mapper = $mapper;
         $this->responseFactory = $responseFactory;
+        $this->resource = $resource;
     }
 
     /**
@@ -52,10 +60,13 @@ class Adapter implements AdapterInterface
 
     /**
      * Executes query and return raw response
+     * @param Select $select
      *
-     * @return mixed
+     * @return array
      */
-    private function executeQuery()
+    private function executeQuery(Select $select)
     {
+        $dbAdapter = $this->resource->getConnection(Config::DEFAULT_SETUP_CONNECTION);
+        return $dbAdapter->fetchAssoc($select);
     }
 }
