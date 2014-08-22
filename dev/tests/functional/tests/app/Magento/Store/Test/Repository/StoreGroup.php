@@ -34,5 +34,15 @@ class StoreGroup extends AbstractRepository
                 'dataSet' => 'default_category'
             ],
         ];
+
+        $this->_data['custom'] = [
+            'website_id' => [
+                'dataSet' => 'main_website'
+            ],
+            'name' => 'Custom Store',
+            'root_category_id' => [
+                'dataSet' => 'default_category'
+            ],
+        ];
     }
 }

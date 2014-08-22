@@ -14,6 +14,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Footer block
+ * CmsIndex page footer block
  */
 class Footer extends Block
 {
@@ -30,6 +31,27 @@ class Footer extends Block
      * @var string
      */
     protected $variableSelector = './/div[contains(@class, "links")]/*[text()="%s"]';
+
+    /**
+     * Store group dropdown selector
+     *
+     * @var string
+     */
+    protected $storeGroupDropdown = '.switcher.store';
+
+    /**
+     * Store Group switch selector
+     *
+     * @var string
+     */
+    protected $storeGroupSwitch = '[data-toggle="dropdown"]';
+
+    /**
+     * Store group selector
+     *
+     * @var string
+     */
+    protected $storeGroupSelector = './/a[contains(.,"%s")]';
 
     /**
      * Click on link by name
@@ -59,5 +81,20 @@ class Footer extends Block
             sprintf($this->variableSelector, $htmlValue),
             Locator::SELECTOR_XPATH
         )->isVisible();
+    }
+
+    /**
+     * Select store group
+     *
+     * @param $storeGroupName
+     * @return void
+     */
+    public function selectStoreGroup($storeGroupName)
+    {
+        $this->_rootElement->find($this->storeGroupSwitch)->click();
+        $this->_rootElement->find(
+            sprintf($this->storeGroupSelector, $storeGroupName),
+            Locator::SELECTOR_XPATH
+        )->click();
     }
 }
