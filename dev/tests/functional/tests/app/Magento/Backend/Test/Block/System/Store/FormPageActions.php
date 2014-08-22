@@ -8,21 +8,14 @@
 
 namespace Magento\Backend\Test\Block\System\Store;
 
-use Magento\Backend\Test\Block\PageActions;
+use Magento\Backend\Test\Block\FormPageActions as ParentFormPageActions;
 
 /**
- * Class FormPageFooterActions
- * Form page actions footer block
+ * Class FormPageActions
+ * Form page actions block
  */
-class FormPageFooterActions extends PageActions
+class FormPageActions extends ParentFormPageActions
 {
-    /**
-     * "Delete" button
-     *
-     * @var string
-     */
-    protected $deleteButton = '#delete';
-
     /**
      * Click on "Delete" button without acceptAlert
      *

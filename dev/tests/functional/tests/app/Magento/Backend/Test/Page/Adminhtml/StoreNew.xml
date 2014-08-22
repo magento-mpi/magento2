@@ -10,7 +10,7 @@
 <page mca="admin/system_store/newStore" module="Magento_Backend">
     <blocks>
         <formPageActions>
-            <class>Magento\Backend\Test\Block\System\Store\FormPageFooterActions</class>
+            <class>Magento\Backend\Test\Block\System\Store\FormPageActions</class>
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </formPageActions>
