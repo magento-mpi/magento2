@@ -44,6 +44,7 @@ class Methods extends Form
      * @var string
      */
     protected $purchaseOrderNumber = '#po_number';
+
     /**
      * Select payment method
      *
@@ -54,7 +55,7 @@ class Methods extends Form
     {
         $this->_rootElement->find(sprintf($this->paymentMethod, $payment['method']))->click();
         if ($payment['method'] == "purchaseorder") {
-            $this->_rootElement->find($this->purchaseOrderNumber)->setValue(mt_rand(11111111, 99999999));
+            $this->_rootElement->find($this->purchaseOrderNumber)->setValue($payment['po_number']);
         }
         if (isset($payment['dataConfig']['payment_form_class'])) {
             $paymentFormClass = $payment['dataConfig']['payment_form_class'];

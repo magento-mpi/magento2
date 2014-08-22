@@ -8,13 +8,14 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\Client\Browser;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Customer\Test\Page\CheckoutOnepage;
+use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
@@ -44,7 +45,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
      * @return void
      */
     public function processAssert(
-        CmsIndex $cmsIndex,
+        CustomerAccountLogout $customerAccountLogout,
         CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
@@ -55,11 +56,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
     ) {
         // Precondition
         $productSimple->persist();
-
-        $cmsIndex->open();
-        if ($cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
-            $cmsIndex->getLinksBlock()->openLink("Log Out");
-        }
+        $customerAccountLogout->open();
 
         // Steps
         $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
@@ -67,8 +64,9 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
         $catalogProductViewPage->getViewBlock()->clickAddToCartButton();
         $checkoutCart->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
         $checkoutOnepage->getLoginBlock()->registerCustomer();
+        $checkoutOnepage->getLoginBlock()->clickContinue();
         \PHPUnit_Framework_Assert::assertTrue(
-            $checkoutOnepage->getBillingBlock()->isCustomerAttributeVisible($customerAttribute),
+            $checkoutOnepage->getCustomerAttributeBillingBlock()->isCustomerAttributeVisible($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is absent during register customer on checkout.'
         );

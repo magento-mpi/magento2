@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/order_status/new">
+<page mca="sales/order_create/index">
     <blocks>
-        <createBlock>
+        <customerAttributeCreateBlock>
             <class>Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Order\Create</class>
             <locator>[id="page:main-container"]</locator>
             <strategy>css selector</strategy>
-        </createBlock>
+        </customerAttributeCreateBlock>
     </blocks>
 </page>

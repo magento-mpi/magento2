@@ -38,7 +38,7 @@ class PaypalPayflowLinkOrder extends OrderCheckout
     {
         parent::persist();
 
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\CcLink $formBlock */
+        /** @var \Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcLink $formBlock */
         $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowLinkCcBlock();
         $formBlock->fill($this->checkoutFixture->getCreditCard());
         $formBlock->pressContinue();

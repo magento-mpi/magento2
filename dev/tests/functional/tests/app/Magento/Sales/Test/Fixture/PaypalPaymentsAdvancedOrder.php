@@ -38,7 +38,7 @@ class PaypalPaymentsAdvancedOrder extends OrderCheckout
     {
         parent::persist();
 
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\CcAdvanced $formBlock */
+        /** @var \Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced $formBlock */
         $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowAdvancedCcBlock();
         $formBlock->fill($this->checkoutFixture->getCreditCard());
         $formBlock->pressContinue();

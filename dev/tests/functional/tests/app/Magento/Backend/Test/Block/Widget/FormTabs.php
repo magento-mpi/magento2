@@ -50,6 +50,7 @@ class FormTabs extends Form
      * @param BlockFactory $blockFactory
      * @param Browser $browser
      * @param XmlConverter $xmlConverter
+     * @param array $config
      */
     public function __construct(
         Element $element,

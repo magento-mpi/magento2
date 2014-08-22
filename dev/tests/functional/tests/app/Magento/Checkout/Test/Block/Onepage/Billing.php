@@ -8,7 +8,6 @@
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
-use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Block\Form;
@@ -40,13 +39,6 @@ class Billing extends Form
      * @var string
      */
     protected $waitElement = '.loading-mask';
-
-    /**
-     * Locator for customer attribute on New Order page
-     *
-     * @var string
-     */
-    protected $customerAttribute = "[name='billing[%s]']";
 
     /**
      * Fill billing address
@@ -81,18 +73,5 @@ class Billing extends Form
     {
         $this->_rootElement->find($this->continue)->click();
         $this->waitForElementNotVisible($this->waitElement);
-    }
-
-    /**
-     * Check for visible customer attribute
-     *
-     * @param CustomerCustomAttribute $customerAttribute
-     * @return bool
-     */
-    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
-    {
-        return $this->_rootElement->find(
-            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
-        )->isVisible();
     }
 }

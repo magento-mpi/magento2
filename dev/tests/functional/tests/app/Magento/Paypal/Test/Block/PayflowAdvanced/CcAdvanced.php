@@ -6,20 +6,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\Payment\Test\Block\Form\PayflowAdvanced;
+namespace Magento\Paypal\Test\Block\Form\PayflowAdvanced;
 
-use Mtf\Block\Form;
 use Mtf\Block\Mapper;
 use Mtf\Client\Element;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
+use Magento\Payment\Test\Block\Form\Cc;
 
 /**
  * Class CcAdvanced
  * Card Verification frame block
  */
-class CcAdvanced extends Form
+class CcAdvanced extends Cc
 {
     /**
      * 'Pay Now' button

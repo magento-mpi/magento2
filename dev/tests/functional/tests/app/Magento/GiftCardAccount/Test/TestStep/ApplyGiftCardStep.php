@@ -50,7 +50,7 @@ class ApplyGiftCardStep implements TestStepInterface
      */
     public function run()
     {
-        foreach($this->giftCardAccounts as $giftCardAccount) {
+        foreach ($this->giftCardAccounts as $giftCardAccount) {
             if ($giftCardAccount !== null) {
                 $this->checkoutCart->getGiftCardAccountBlock()->addGiftCard($giftCardAccount->getCode());
             }

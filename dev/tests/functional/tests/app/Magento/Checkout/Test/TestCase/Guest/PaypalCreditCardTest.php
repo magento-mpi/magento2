@@ -71,7 +71,7 @@ class PaypalCreditCardTest extends Functional
         $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\CcAdvanced $formBlock */
+        /** @var \Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced $formBlock */
         $formBlock = call_user_func_array([$this, $formBlockFunction], [$checkoutOnePage]);
         $formBlock->fill($fixture->getCreditCard());
         $formBlock->pressContinue();

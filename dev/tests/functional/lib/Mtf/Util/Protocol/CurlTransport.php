@@ -124,12 +124,11 @@ class CurlTransport implements CurlInterface
     {
         $this->_applyConfig();
         $options = [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_COOKIEFILE => '',
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_HEADER => false,
+            CURLOPT_URL                 => $url,
+            CURLOPT_RETURNTRANSFER      => true,
+            CURLOPT_FOLLOWLOCATION      => true,
+            CURLOPT_COOKIEFILE          => '',
+            CURLOPT_HTTPHEADER          => $headers,
         ];
         if ($method == CurlInterface::POST) {
             $options[CURLOPT_POST] = true;

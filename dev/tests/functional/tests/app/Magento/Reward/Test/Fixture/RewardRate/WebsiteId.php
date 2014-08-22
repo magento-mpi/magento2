@@ -54,13 +54,16 @@ class WebsiteId implements FixtureInterface
         if (isset($data['dataSet'])) {
             /** @var Website $website */
             $website = $fixtureFactory->createByCode('website', ['dataSet' => $data['dataSet']]);
+            if (!$website->hasData('website_id')) {
+                $website->persist();
+            }
             $this->website = $website;
             $this->data = $website->getName();
         }
     }
 
     /**
-     * Persist custom selections tax classes
+     * Persist custom website
      *
      * @return void
      */
