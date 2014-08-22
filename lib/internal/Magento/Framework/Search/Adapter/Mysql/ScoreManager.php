@@ -100,6 +100,8 @@ class ScoreManager
 
     /**
      * Clear score manager
+     *
+     * @return void
      */
     public function clear()
     {
