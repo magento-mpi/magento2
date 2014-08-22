@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* @var \Magento\Wishlist\Model\Item $item */
+$item = $this->getItem();
+$product = $item->getProduct();
+?>
+<strong class="product-item-name">
+    <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>" class="product-item-link">
+        <?php echo $this->escapeHtml($product->getName()) ?>
+    </a>
+</strong>
