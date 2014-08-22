@@ -166,13 +166,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected $_catalogProductType;
 
     /**
-     * Index indexer
-     *
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexIndexer;
-
-    /**
      * Catalog product media config
      *
      * @var Product\Media\Config
@@ -266,7 +259,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param Product\Visibility $catalogProductVisibility
      * @param Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
-     * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -296,7 +288,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
-        \Magento\Index\Model\Indexer $indexIndexer,
         Product\Type $catalogProductType,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -739,7 +730,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
 
         $result = parent::_afterSave();
 
-        $this->_indexIndexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         $this->reloadPriceInfo();
         return $result;
@@ -814,7 +804,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected function _beforeDelete()
     {
         $this->cleanCache();
-        $this->_indexIndexer->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         return parent::_beforeDelete();
     }
 
@@ -828,7 +817,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         $this->reindex();
         $this->_productPriceIndexerProcessor->reindexRow($this->getId());
         parent::_afterDeleteCommit();
-        $this->_indexIndexer->indexEvents(self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
     }
 
     /**

@@ -1616,8 +1616,6 @@ return array(
         'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped'
     ),
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
-    array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
-    array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('Magento\Core\Model\Config\Modules\Reader', 'Magento\Framework\Module\Dir\Reader'),
     array('Magento\Framework\Data\Form\Factory', 'Magento\Framework\Data\FormFactory'),
     array('Magento\Framework\App\Cache\Config', 'Magento\Framework\Cache\Config'),
@@ -2676,7 +2674,6 @@ return array(
     ['Magento\Cron\Helper\Data'],
     ['Magento\Email\Helper\Data'],
     ['Magento\GiftMessage\Helper\Data'],
-    ['Magento\Index\Helper\Data'],
     ['Magento\Install\Helper\Data'],
     ['Magento\Log\Helper\Data'],
     ['Magento\Ogone\Helper\Data'],
@@ -2720,4 +2717,6 @@ return array(
     ['Magento\CatalogSearch\Model\Fulltext\Observer'],
     ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
     ['\Magento\Theme\Helper\Layout'],
+    ['Magento\Index'],
+    ['Magento\Catalog\Model\Resource\Product\Indexer\Eav'],
 );

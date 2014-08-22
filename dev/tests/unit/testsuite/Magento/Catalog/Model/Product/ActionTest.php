@@ -32,11 +32,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $indexIndexer;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $categoryIndexer;
 
     /**
@@ -77,13 +72,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->productWebsite));
-        $this->indexIndexer = $this->getMock(
-            '\Magento\Index\Model\Indexer',
-            ['processEntityAction', '__wakeup'],
-            [],
-            '',
-            false
-        );
         $this->categoryIndexer = $this->getMock(
             '\Magento\Indexer\Model\Indexer',
             ['getId', 'load', 'isScheduled', 'reindexList'],
@@ -112,7 +100,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                 'eventDispatcher' => $eventManagerMock,
                 'resource' => $this->resource,
                 'productWebsiteFactory' => $this->productWebsiteFactory,
-                'indexIndexer' => $this->indexIndexer,
                 'categoryIndexer' => $this->categoryIndexer,
                 'eavConfig' => $this->eavConfig
             ]
@@ -130,10 +117,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->method('updateAttributes')
             ->with($productIds, $attrData, $storeId)
             ->will($this->returnSelf());
-        $this->indexIndexer
-            ->expects($this->any())
-            ->method('processEntityAction')
-            ->with($this->model, 'catalog_product', 'mass_action');
+
         $this->categoryIndexer
             ->expects($this->any())
             ->method('getId')
@@ -180,10 +164,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->method($methodName)
             ->with($websiteIds, $productIds)
             ->will($this->returnSelf());
-        $this->indexIndexer
-            ->expects($this->any())
-            ->method('processEntityAction')
-            ->with($this->model, 'catalog_product', 'mass_action');
+
         $this->categoryIndexer
             ->expects($this->any())
             ->method('getId')

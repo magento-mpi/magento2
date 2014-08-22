@@ -163,11 +163,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     protected $flatIndexer;
 
     /**
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $indexIndexer;
-
-    /**
      * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $productIndexer;
@@ -184,7 +179,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param Indexer\Category\Flat\State $flatState
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
@@ -205,7 +199,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Framework\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Framework\Filter\FilterManager $filter,
         Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
@@ -222,7 +215,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $this->_url = $url;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogConfig = $catalogConfig;
-        $this->indexIndexer = $indexIndexer;
         $this->productIndexer = $productIndexer;
         $this->filter = $filter;
         $this->flatState = $flatState;
@@ -380,7 +372,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
             throw $e;
         }
         $this->_eventManager->dispatch('category_move', $eventParams);
-        $this->indexIndexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         if ($this->flatState->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
             $this->getFlatIndexer()->reindexList(array($this->getId(), $oldParentId, $parentId));
         }
@@ -1039,7 +1030,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     protected function _afterSave()
     {
         $result = parent::_afterSave();
-        $this->indexIndexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
     }

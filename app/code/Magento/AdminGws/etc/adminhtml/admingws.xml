@@ -239,7 +239,6 @@
         <callback class="Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\Websites" method="catalogProductMassUpdateWebsites" />
         <callback class="Magento\Catalog\Block\Adminhtml\Product\Grid" method="catalogProductPrepareMassaction" />
         <callback class="Magento\CurrencySymbol\Block\Adminhtml\System\Currency" method="removeManageCurrencyRatesButtons" />
-        <callback class="Magento\Index\Block\Adminhtml\Process\Grid" method="removeProcessListButtons" />
         <callback class="Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form" method="setIsRequiredSubscribersFromFieldForNewsletterQueueForm" />
         <callback class="Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Options" method="disableRmaAttributeDeleteOptionButton" />
         <callback class="Magento\TargetRule\Block\Adminhtml\Product" method="readonlyTargetRuleProductAttribute" />
@@ -268,7 +267,6 @@
         <callback class="Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount" method="removeGiftCardAccountAddButton" />
         <callback class="Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit" method="removeGiftCardAccountControlButtons" />
         <callback class="Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit" method="removeGiftWrappingEditButtons" />
-        <callback class="Magento\Index\Block\Adminhtml\Process\Edit" method="removeProcessEditButtons" />
         <callback class="Magento\Reminder\Block\Adminhtml\Reminder\Edit" method="removeRuleEntityEditButtons" />
         <callback class="Magento\Review\Block\Adminhtml\Rating\Edit" method="removeRatingEditButtons" />
         <callback class="Magento\Reward\Block\Adminhtml\Reward\Rate\Edit" method="removeRewardRateButtons" />

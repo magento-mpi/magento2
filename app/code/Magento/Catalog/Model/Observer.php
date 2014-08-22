@@ -29,13 +29,6 @@ class Observer
     protected $_catalogCategory;
 
     /**
-     * Index indexer
-     *
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexIndexer;
-
-    /**
      * Catalog layer
      *
      * @var \Magento\Catalog\Model\Layer
@@ -83,7 +76,6 @@ class Observer
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
-     * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param Indexer\Category\Flat\State $categoryFlatState
@@ -95,7 +87,6 @@ class Observer
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
-        \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Category\Flat\State $categoryFlatState,
@@ -106,7 +97,6 @@ class Observer
         $this->_catalogProduct = $catalogProduct;
         $this->_storeManager = $storeManager;
         $this->_catalogLayer = $catalogLayer;
-        $this->_indexIndexer = $indexIndexer;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogData = $catalogData;
         $this->categoryFlatConfig = $categoryFlatState;

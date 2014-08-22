@@ -1111,24 +1111,6 @@
                        action_alias="delete" />
             </events>
         </group>
-        <group name="index_management">
-            <label translate="true">Index Management</label>
-            <expected_models>
-                <expected_model class="Magento\Index\Model\Process" />
-            </expected_models>
-            <events>
-                <event controller_action="adminhtml_process_edit" action_alias="view" />
-                <event controller_action="adminhtml_process_save" action_alias="save" />
-                <event controller_action="adminhtml_process_massReindex"
-                       action_alias="massUpdate"
-                       post_dispatch="postDispatchReindexProcess" />
-                <event controller_action="adminhtml_process_massChangeMode"
-                       action_alias="massUpdate" />
-                <event controller_action="adminhtml_process_reindexProcess"
-                       action_alias="reindex_process"
-                       post_dispatch="postDispatchReindexProcess" />
-            </events>
-        </group>
         <group name="cache_management">
             <label translate="true">Cache Management</label>
             <events>

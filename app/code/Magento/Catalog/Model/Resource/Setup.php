@@ -19,13 +19,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_categoryFactory;
 
     /**
-     * Indexer model factory
-     *
-     * @var \Magento\Index\Model\IndexerFactory
-     */
-    protected $_indexerFactory;
-
-    /**
      * Attribute resource model factory
      *
      * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
@@ -38,7 +31,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Index\Model\IndexerFactory $indexerFactory
      * @param Eav\AttributeFactory $eavAttributeResourceFactory
      * @param string $moduleName
      * @param string $connectionName
@@ -49,13 +41,11 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Index\Model\IndexerFactory $indexerFactory,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory,
         $moduleName = 'Magento_Catalog',
         $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_categoryFactory = $categoryFactory;
-        $this->_indexerFactory = $indexerFactory;
         $this->_eavAttributeResourceFactory = $eavAttributeResourceFactory;
         parent::__construct(
             $context,
