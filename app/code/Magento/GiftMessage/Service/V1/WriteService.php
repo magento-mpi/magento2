@@ -130,8 +130,7 @@ class WriteService implements WriteServiceInterface
         $message[$type][$entityId] = [
             'from' => $giftMessage->getSender(),
             'to' => $giftMessage->getRecipient(),
-            'message' => $giftMessage->getMessage(),
-            'type' => 'quote'
+            'message' => $giftMessage->getMessage()
         ];
 
         try {

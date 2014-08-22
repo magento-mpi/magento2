@@ -175,8 +175,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'from' => 'sender',
                 'to' => 'recipient',
-                'message' => 'Message',
-                'type' => 'quote',
+                'message' => 'Message'
             ];
         $this->giftMessageManagerMock->expects($this->once())
             ->method('add')
@@ -262,8 +261,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'from' => 'sender',
                 'to' => 'recipient',
-                'message' => 'Message',
-                'type' => 'quote',
+                'message' => 'Message'
             ];
         $this->giftMessageManagerMock->expects($this->once())
             ->method('add')
@@ -386,8 +384,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'from' => 'sender',
                 'to' => 'recipient',
-                'message' => 'Message',
-                'type' => 'quote',
+                'message' => 'Message'
             ];
         $exception =
             new \Magento\Framework\Exception\CouldNotSaveException('Could not add gift message to shopping cart');

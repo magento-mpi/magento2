@@ -35,6 +35,7 @@ class Multishipping
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $subject
      * @param array $methods
      * @return $this
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeSetShippingMethods(
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $subject,
