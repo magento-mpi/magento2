@@ -64,7 +64,7 @@ class Mapper
 //                $matchQueryBuilder->buildQuery(
 //                    $select,
 //                    $query,
-//                    $this->getFilteredQueryType($queryType, BoolQuery::QUERY_TYPE_MUST)
+//                    $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_MUST)
 //                );
                 break;
             case QueryInterface::TYPE_BOOL:
@@ -76,7 +76,7 @@ class Mapper
 //                $filterQueryBuilder->buildQuery(
 //                    $select,
 //                    $query,
-//                    $this->getFilteredQueryType($queryType, BoolQuery::QUERY_TYPE_MUST)
+//                    $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_MUST)
 //                );
                 break;
             default:
