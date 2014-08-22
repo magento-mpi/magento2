@@ -61,7 +61,7 @@ class InvoiceListTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,

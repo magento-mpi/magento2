@@ -15,7 +15,7 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/orders" method="GET">
+    <route url="/V1/orders" method="PUT">
         <service class="Magento\Sales\Service\V1\OrderReadInterface" method="search"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
@@ -75,7 +75,7 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/invoices" method="GET">
+    <route url="/V1/invoices" method="PUT">
         <service class="Magento\Sales\Service\V1\InvoiceReadInterface" method="search"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
@@ -123,7 +123,7 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/creditmemos" method="GET">
+    <route url="/V1/creditmemos" method="PUT">
         <service class="Magento\Sales\Service\V1\CreditmemoReadInterface" method="search"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
@@ -165,7 +165,7 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/shipments" method="GET">
+    <route url="/V1/shipments" method="PUT">
         <service class="Magento\Sales\Service\V1\ShipmentReadInterface" method="search"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
