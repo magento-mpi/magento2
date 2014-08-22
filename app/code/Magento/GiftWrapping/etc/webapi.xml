@@ -27,7 +27,7 @@
             <resource ref="Magento_GiftWrapping::magento_giftwrapping" />
         </resources>
     </route>
-    <route url="/V1/gift-wrappings" method="GET">
+    <route url="/V1/gift-wrappings" method="PUT">
         <service class="Magento\GiftWrapping\Service\V1\WrappingReadInterface" method="search"/>
         <resources>
             <resource ref="Magento_GiftWrapping::magento_giftwrapping" />
