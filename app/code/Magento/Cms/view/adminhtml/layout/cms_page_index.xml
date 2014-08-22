@@ -8,6 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <referenceBlock name="head">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="autocomplete-css-styles-css">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/autocomplete/autocomplete.css</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
     <referenceContainer name="content">
         <!-- <block class="Magento\Cms\Block\Adminhtml\Page" name="cms_page"/> -->
         <block class="Magento\Framework\View\Element\Template" template="Magento_Cms::listing.phtml"></block>

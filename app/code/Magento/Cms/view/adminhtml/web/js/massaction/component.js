@@ -1,9 +1,8 @@
-define(function (require) {
-
-  var
-    MassAction  = require('Magento_Cms/js/massaction/entity'),
-    View        = require('m2/lib/ko/view'),
-    Provider    = require('m2/lib/provider/model');
+define([
+    'Magento_Cms/js/massaction/entity',
+    'm2/lib/ko/view',
+    'm2/lib/provider/model'
+], function (MassAction, View, Provider) {
 
   return function (el, config, initial) {
     
