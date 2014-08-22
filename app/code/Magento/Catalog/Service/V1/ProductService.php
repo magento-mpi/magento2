@@ -159,8 +159,12 @@ class ProductService implements ProductServiceInterface
      */
     public function delete($id)
     {
-        $product = $this->productLoader->load($id);
-        $product->delete();
+        $productModel = $this->productLoader->load($id);
+
+        $productDataObject = $this->converter->createProductDataFromModel($productModel);
+        $this->productSaveProcessor->delete($productDataObject);
+
+        $productModel->delete();
         return true;
     }
 

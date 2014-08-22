@@ -114,7 +114,22 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_productMock->expects($this->at(0))->method('getIdBySku')->will($this->returnValue($productId));
         $this->_productMock->expects($this->at(1))->method('load')->with($productId);
-        $productService = $this->_createService();
+
+        $productData = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->converterMock->expects($this->once())
+            ->method('createProductDataFromModel')
+            ->with($this->_productMock)
+            ->will($this->returnValue($productData));
+
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'productLoader' => $this->_productLoaderMock,
+                'converter' => $this->converterMock,
+            ]
+        );
 
         $this->assertTrue($productService->delete($productSku));
     }
