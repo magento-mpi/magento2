@@ -130,7 +130,7 @@ while ($productsCount) {
     )->setStatus(
         Magento_Catalog_Model_Product_Status::STATUS_ENABLED
     )->setTaxClassId(
-        0
+        2
     )->setCategoryIds(
         $productCategories
     )->save();

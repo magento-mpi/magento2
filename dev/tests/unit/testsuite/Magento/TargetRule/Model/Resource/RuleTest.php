@@ -56,7 +56,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->ruleModel = $this->getMock('Magento\TargetRule\Model\Rule', [], [], '', false);
 
         $this->adapter = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql',
-            ['_connect', 'delete', 'describeTable', 'fetchCol', 'insert', 'lastInsertId', 'quote'], [], '', false);
+            ['_connect', 'delete', 'insertOnDuplicate'], [], '', false);
         $this->adapter->expects($this->any())->method('describeTable')->will($this->returnValue([]));
         $this->adapter->expects($this->any())->method('lastInsertId')->will($this->returnValue(1));
 
@@ -71,39 +71,24 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function testCleanProductPagesCache()
+    public function testBindRuleToEntity()
     {
-        $productIdsBeforeUnbind = [1, 2, 3];
-        $matchedProductIds = [3, 4, 5];
-        $productIdsForClean = [1, 2, 3, 4 => 4, 5 => 5]; // result of array_unique and array_merge
+        $this->appResource->expects($this->any())
+            ->method('getTableName')
+            ->with('magento_targetrule_product')
+            ->will($this->returnValue('magento_targetrule_product'));
 
-        $this->adapter->expects($this->once())
-            ->method('fetchCol')
-            ->with($this->isInstanceOf('Magento\Framework\DB\Select'))
-            ->will($this->returnValue($productIdsBeforeUnbind));
+        $this->adapter->expects($this->any())
+            ->method('insertOnDuplicate')
+            ->with('magento_targetrule_product', [['product_id' => 1, 'rule_id' => 1]], ['rule_id']);
 
-        $this->ruleModel->expects($this->once())->method('getMatchingProductIds')
-            ->will($this->returnValue($matchedProductIds));
+        $this->adapter->expects($this->never())
+            ->method('beginTransaction');
+        $this->adapter->expects($this->never())
+            ->method('commit');
+        $this->adapter->expects($this->never())
+            ->method('rollback');
 
-        $this->moduleManager->expects($this->once())->method('isEnabled')->with('Magento_PageCache')
-            ->will($this->returnValue(true));
-
-        $this->context->expects($this->once())->method('registerEntities')
-            ->with(Product::CACHE_TAG, $productIdsForClean);
-
-        $this->eventManager->expects($this->once())->method('dispatch')
-            ->with('clean_cache_by_tags', ['object' => $this->context]);
-
-        $this->resourceRule->save($this->ruleModel);
-    }
-
-    public function testCleanProductPagesCacheIfPageCacheIsDisabled()
-    {
-        $this->moduleManager->expects($this->once())->method('isEnabled')->with('Magento_PageCache')
-            ->will($this->returnValue(false));
-        $this->context->expects($this->never())->method('registerEntities');
-        $this->eventManager->expects($this->never())->method('dispatch');
-
-        $this->resourceRule->save($this->ruleModel);
+        $this->resourceRule->bindRuleToEntity([1], [1], 'product');
     }
 }

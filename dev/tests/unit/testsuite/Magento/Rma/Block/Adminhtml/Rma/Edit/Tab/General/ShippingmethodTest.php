@@ -32,7 +32,6 @@ class ShippingmethodTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->registryMock = $this->getMockBuilder('Magento\Framework\Registry')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $this->rmaShippinFactorygMock = $this->getMockBuilder('Magento\Rma\Model\ShippingFactory')
             ->disableOriginalConstructor()

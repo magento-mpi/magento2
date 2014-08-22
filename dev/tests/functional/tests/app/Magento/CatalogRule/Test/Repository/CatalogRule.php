@@ -28,15 +28,8 @@ class CatalogRule extends AbstractRepository
             'name' => 'Active Catalog Rule',
             'description' => 'Rule Description',
             'is_active' => 'Active',
-            'website_ids' => [
-                0 => 'Main Website'
-            ],
-            'customer_group_ids' => [
-                0 => 'NOT LOGGED IN',
-                1 => 'General',
-                2 => 'Wholesale',
-                3 => 'Retailer',
-            ],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'],
             'from_date' => '3/25/14',
             'to_date' => '3/29/14',
             'sort_order' => '1',
@@ -47,10 +40,8 @@ class CatalogRule extends AbstractRepository
         $this->_data['inactive_catalog_price_rule'] = [
             'name' => 'Inactive Catalog Price Rule',
             'is_active' => 'Inactive',
-            'website_ids' => [
-                0 => 'Main Website'
-            ],
-            'customer_group_ids' => [0 => 'NOT LOGGED IN'],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN'],
             'simple_action' => 'By Percentage of the Original Price',
             'discount_amount' => '50'
         ];
@@ -59,15 +50,8 @@ class CatalogRule extends AbstractRepository
             'name' => 'Active Catalog Rule with conditions %isolation%',
             'description' => 'Rule Description',
             'is_active' => 'Active',
-            'website_ids' => [
-                0 => 'Main Website'
-            ],
-            'customer_group_ids' => [
-                0 => 'NOT LOGGED IN',
-                1 => 'General',
-                2 => 'Wholesale',
-                3 => 'Retailer',
-            ],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'],
             'rule' => '[Category|is|2]',
             'simple_action' => 'By Percentage of the Original Price',
             'discount_amount' => '10'
@@ -77,12 +61,8 @@ class CatalogRule extends AbstractRepository
             'name' => 'catalog_price_rule_priority_0',
             'description' => '-50% of price, Priority = 0',
             'is_active' => 'Active',
-            'website_ids' => [
-                0 => 'Main Website'
-            ],
-            'customer_group_ids' => [
-                0 => 'NOT LOGGED IN'
-            ],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN'],
             'sort_order' => '0',
             'simple_action' => 'By Percentage of the Original Price',
             'discount_amount' => '50',
@@ -92,12 +72,8 @@ class CatalogRule extends AbstractRepository
             'name' => 'catalog_price_rule_priority_1_stop_further_rules',
             'description' => 'Priority 1, -5 By fixed amount',
             'is_active' => 'Active',
-            'website_ids' => [
-                0 => 'Main Website'
-            ],
-            'customer_group_ids' => [
-                0 => 'NOT LOGGED IN'
-            ],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN'],
             'sort_order' => '1',
             'simple_action' => 'By Fixed Amount',
             'discount_amount' => '5',
@@ -108,12 +84,8 @@ class CatalogRule extends AbstractRepository
             'name' => 'catalog_price_rule_priority_2',
             'description' => 'Priority 2, -10 By fixed amount',
             'is_active' => 'Active',
-            'website_ids' => [
-                0 => 'Main Website'
-            ],
-            'customer_group_ids' => [
-                0 => 'NOT LOGGED IN'
-            ],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN'],
             'sort_order' => '2',
             'simple_action' => 'By Fixed Amount',
             'discount_amount' => '10'
