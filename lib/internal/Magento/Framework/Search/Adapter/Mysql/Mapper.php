@@ -13,7 +13,7 @@ use Magento\Framework\App\Resource\Config;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
 use Magento\Framework\Search\Request\Query\Match as MatchQuery;
-use Magento\Framework\Search\Request\QueryInterface;
+use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 use Magento\Framework\Search\RequestInterface;
 
 class Mapper
@@ -55,15 +55,15 @@ class Mapper
     /**
      * Process query
      *
-     * @param QueryInterface $query
+     * @param RequestQueryInterface $query
      * @param Select $select
      * @param string|bool $queryType
      * @return Select
      */
-    protected function processQuery(QueryInterface $query, Select $select, $queryType = false)
+    protected function processQuery(RequestQueryInterface $query, Select $select, $queryType = false)
     {
         switch ($query->getType()) {
-            case QueryInterface::TYPE_MATCH:
+            case RequestQueryInterface::TYPE_MATCH:
                 /** @var MatchQuery $query */
 //                $matchQueryBuilder->buildQuery(
 //                    $select,
@@ -71,11 +71,11 @@ class Mapper
 //                    $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_MUST)
 //                );
                 break;
-            case QueryInterface::TYPE_BOOL:
+            case RequestQueryInterface::TYPE_BOOL:
                 /** @var BoolQuery $query */
                 $this->processBoolQuery($query, $select, $queryType);
                 break;
-            case QueryInterface::TYPE_FILTER:
+            case RequestQueryInterface::TYPE_FILTER:
                 /** @var \Magento\Framework\Search\Request\Query\Filter $query */
 //                $filterQueryBuilder->buildQuery(
 //                    $select,
