@@ -49,13 +49,11 @@ class SomeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Sample test
-     *
      * _magentoDbIsolatio enabled
      * _magentoAppIsolatio enabled
      * _magentoConfigFixtur current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      * _magentoConfigFixtur current_store catalog/frontend/flat_catalog_product 1
      * _magentoConfigFixtur current_store catalog/search/search_type 2
-     *
      * _magentoDataFixtur Magento/Framework/Search/_files/products.php
      */
     public function testSome()
@@ -65,6 +63,6 @@ class SomeTest extends \PHPUnit_Framework_TestCase
         }
 
         /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
-//        $connection = $this->appResource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+        //$connection = $this->appResource->getConnection(Resource::DEFAULT_READ_RESOURCE);
     }
 }
