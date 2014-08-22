@@ -7,9 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <update handle="page_empty" />
+<page layout="empty" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
         <block class="Magento\Rma\Block\Returns\Tracking\Popup" name="rma.tracking.popup" template="Magento_Shipping::tracking/popup.phtml" cacheable="false"/>
     </referenceContainer>
-</layout>
+</page>

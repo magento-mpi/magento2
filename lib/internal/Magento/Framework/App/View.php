@@ -25,9 +25,9 @@ class View implements ViewInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Framework\Translate\InlineInterface
+     * @var \Magento\Framework\View\Result\Page
      */
-    protected $_translateInline;
+    protected $page;
 
     /**
      * @var ActionFlag
@@ -55,7 +55,7 @@ class View implements ViewInterface
      * @param ResponseInterface $response
      * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\View\Result\PageFactory $pageFactory
      * @param ActionFlag $actionFlag
      */
     public function __construct(
@@ -64,7 +64,7 @@ class View implements ViewInterface
         ResponseInterface $response,
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\Translate\InlineInterface $translateInline,
+        \Magento\Framework\View\Result\PageFactory $pageFactory,
         ActionFlag $actionFlag
     ) {
         $this->_layout = $layout;
@@ -72,8 +72,18 @@ class View implements ViewInterface
         $this->_response = $response;
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
-        $this->_translateInline = $translateInline;
         $this->_actionFlag = $actionFlag;
+        $this->page = $pageFactory->create();
+    }
+
+    /**
+     * Retrieve current page object
+     *
+     * @return \Magento\Framework\View\Result\Page
+     */
+    public function getPage()
+    {
+        return $this->page;
     }
 
     /**
@@ -83,7 +93,7 @@ class View implements ViewInterface
      */
     public function getLayout()
     {
-        return $this->_layout;
+        return $this->page->getLayout();
     }
 
     /**
@@ -94,14 +104,13 @@ class View implements ViewInterface
         if ($this->_isLayoutLoaded) {
             throw new \RuntimeException('Layout must be loaded only once.');
         }
-        // if handles were specified in arguments load them first
-        if (false !== $handles && '' !== $handles) {
-            $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
-        }
-
         if ($addActionHandles) {
             // add default layout handles for this action
-            $this->addActionLayoutHandles();
+            $this->page->initLayout();
+        }
+        // if handles were specified in arguments load them first
+        if (!empty($handles)) {
+            $this->getLayout()->getUpdate()->addHandle($handles);
         }
         $this->loadLayoutUpdates();
 
@@ -126,7 +135,7 @@ class View implements ViewInterface
      */
     public function getDefaultLayoutHandle()
     {
-        return strtolower($this->_request->getFullActionName());
+        return $this->page->getDefaultLayoutHandle();
     }
 
     /**
@@ -151,13 +160,7 @@ class View implements ViewInterface
      */
     public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
     {
-        $handle = $defaultHandle ? $defaultHandle : $this->getDefaultLayoutHandle();
-        $pageHandles = array($handle);
-        foreach ($parameters as $key => $value) {
-            $pageHandles[] = $handle . '_' . $key . '_' . $value;
-        }
-        // Do not sort array going into add page handles. Ensure default layout handle is added first.
-        return $this->getLayout()->getUpdate()->addPageHandles($pageHandles);
+        return $this->page->addPageLayoutHandles($parameters, $defaultHandle);
     }
 
     /**
@@ -168,7 +171,6 @@ class View implements ViewInterface
     public function loadLayoutUpdates()
     {
         \Magento\Framework\Profiler::start('LAYOUT');
-
         // dispatch event for adding handles to layout update
         $this->_eventManager->dispatch(
             'controller_action_layout_load_before',
@@ -259,9 +261,7 @@ class View implements ViewInterface
             'controller_action_layout_render_before_' . $this->_request->getFullActionName()
         );
 
-        $output = $this->getLayout()->getOutput();
-        $this->_translateInline->processResponseBody($output);
-        $this->_response->appendBody($output);
+        $this->page->renderResult($this->_response);
         \Magento\Framework\Profiler::stop('layout_render');
 
         \Magento\Framework\Profiler::stop('LAYOUT');
