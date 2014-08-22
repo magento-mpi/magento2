@@ -49,12 +49,12 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
      * We want to check integrity of all these references
      * Note that the references may have syntax specific to the Magento preprocessing subsystem
      *
-     * @param string $absolutePath
      * @param string $area
      * @param string $themePath
      * @param string $locale
      * @param string $module
      * @param string $filePath
+     * @param string $absolutePath
      * @dataProvider referencesFromStaticFilesDataProvider
      */
     public function testReferencesFromStaticFiles($area, $themePath, $locale, $module, $filePath, $absolutePath)
