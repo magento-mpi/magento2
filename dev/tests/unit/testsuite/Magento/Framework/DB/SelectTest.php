@@ -26,6 +26,40 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    public function testMatch()
+    {
+        $adapter = $this->getMock(
+            'Zend_Db_Adapter_Pdo_Mysql',
+            array('supportStraightJoin', 'quote'),
+            array(),
+            '',
+            false
+        );
+        $adapter->expects($this->at(0))->method('quote')
+            ->with($this->equalTo('title,description'))
+            ->will($this->returnValue("'title,description'"));
+        $adapter->expects($this->at(1))->method('quote')
+            ->with($this->equalTo('some searchable text'))
+            ->will($this->returnValue("'some searchable text'"));
+        $adapter->expects($this->at(2))->method('quote')
+            ->will($this->returnValue(''));
+
+        /** @var Select $select */
+        $select = (new ObjectManager($this))->getObject(
+            'Magento\Framework\DB\Select',
+            ['adapter' => $adapter]
+        );
+
+        $select->from('test');
+        $select->match(['title', 'description'], 'some searchable text', true, Select::FULLTEXT_MODE_NATURAL);
+
+        $expectedResult = "SELECT `test`.* FROM `test` WHERE (MATCH ('title,description') " .
+            "AGAINST ('some searchable text' IN NATURAL LANGUAGE MODE))";
+        $result = $select->assemble();
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
     public function testWhere()
     {
         $select = new Select($this->_getAdapterMockWithMockedQuote(1, "'5'"));
