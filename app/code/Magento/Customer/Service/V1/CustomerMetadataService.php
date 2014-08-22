@@ -210,7 +210,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         }
         $validationRules = [];
         foreach ($attribute->getValidateRules() as $name => $value) {
-            $validationRules[$name] = $this->_validationRuleBuilder->setName($name)
+            $validationRules[] = $this->_validationRuleBuilder->setName($name)
                 ->setValue($value)
                 ->create();
         }

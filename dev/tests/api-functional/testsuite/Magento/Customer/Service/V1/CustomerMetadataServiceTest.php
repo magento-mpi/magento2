@@ -29,7 +29,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAttributeMetadata($entityType, $attributeCode, $expectedMetadata)
     {
-        $this->_markTestAsRestOnly("Should be enabled for SOAP after MAGETWO-27137");
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$attributeCode/attribute",
@@ -48,6 +47,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         ];
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
+
+        $this->checkValidationRules($expectedMetadata, $attributeMetadata);
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -68,8 +69,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::INPUT_FILTER     => '',
                     AttributeMetadata::STORE_LABEL      => 'First Name',
                     AttributeMetadata::VALIDATION_RULES => [
-                        0 => ['name' => 'min_text_length', 'value' => 1],
-                        1 => ['name' => 'max_text_length', 'value' => 255],
+                        ['name' => 'min_text_length', 'value' => 1],
+                        ['name' => 'max_text_length', 'value' => 255],
                     ],
                     AttributeMetadata::VISIBLE          => true,
                     AttributeMetadata::REQUIRED         => true,
@@ -148,8 +149,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetCustomerAttributeMetadata($attributeCode, $expectedMetadata)
     {
-        $this->_markTestAsRestOnly("Should be enabled for SOAP after MAGETWO-27137");
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/customer/$attributeCode/attribute",
@@ -165,6 +164,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $requestData = ['attributeCode' => $attributeCode];
         $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
 
+        $this->checkValidationRules($expectedMetadata, $attributeMetadata);
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -187,8 +187,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllCustomerAttributeMetadata()
     {
-        $this->_markTestAsRestOnly("Should be enabled for SOAP after MAGETWO-27137");
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/customer/all",
@@ -239,6 +237,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $requestData = ['attributeCode' => $attributeCode];
         $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
 
+        $this->checkValidationRules($expectedMetadata, $attributeMetadata);
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -350,6 +349,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 break;
             }
         }
+        $this->checkValidationRules($expectedMetadata, $addressUserAttribute);
         $this->assertEquals($expectedMetadata, $addressUserAttribute);
     }
 
@@ -418,6 +418,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 break;
             }
         }
+        $this->checkValidationRules($expectedMetadata, $customerUserAttribute);
         $this->assertEquals($expectedMetadata, $customerUserAttribute);
     }
 
@@ -459,8 +460,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAttributes($entityType, $formCode, $expectedMetadata)
     {
-        $this->_markTestAsRestOnly("Should be enabled for SOAP after MAGETWO-27137");
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$formCode/form",
@@ -484,6 +483,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             if(isset($attributeMetadata['attribute_code'])
                 && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
 
+                $this->checkValidationRules($expectedMetadata, $attributeMetadata);
                 $this->assertEquals($expectedMetadata, $attributeMetadata);
                 break;
             }
@@ -532,8 +532,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllAttributeSetMetadata($entityType, $attributeSetId, $storeId, $expectedMetadata)
     {
-        $this->_markTestAsRestOnly("Should be enabled for SOAP after MAGETWO-27137");
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$attributeSetId/attributeSet/$storeId/store",
@@ -559,9 +557,34 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             if(isset($attributeMetadata['attribute_code'])
                 && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
 
+                $this->checkValidationRules($expectedMetadata, $attributeMetadata);
                 $this->assertEquals($expectedMetadata, $attributeMetadata);
                 break;
             }
         }
+    }
+
+    /**
+     * Checks that expected and actual attribute metadata validation rules are equal
+     * and removes the validation rules entry from expected and actual attribute metadata
+     *
+     * @param array $expectedResult
+     * @param array $actualResult
+     */
+    public function checkValidationRules(&$expectedResult, &$actualResult)
+    {
+        $expectedRules = [];
+        $actualRules   = [];
+
+        if (isset($expectedResult[AttributeMetadata::VALIDATION_RULES])) {
+            $expectedRules = $expectedResult[AttributeMetadata::VALIDATION_RULES];
+            unset($expectedResult[AttributeMetadata::VALIDATION_RULES]);
+        }
+        if (isset($actualResult[AttributeMetadata::VALIDATION_RULES])) {
+            $actualRules = $actualResult[AttributeMetadata::VALIDATION_RULES];
+            unset($actualResult[AttributeMetadata::VALIDATION_RULES]);
+        }
+
+        $this->assertEquals($expectedRules, $actualRules);
     }
 }
