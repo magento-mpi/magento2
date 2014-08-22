@@ -105,7 +105,7 @@ class Handler
             // TODO: Consider passing Integration ID instead of Consumer ID
             throw new AuthorizationException(
                 AuthorizationException::NOT_AUTHORIZED,
-                ['resources' => implode($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES], ', ')]
+                ['resources' => implode(', ', $serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES])]
             );
         }
         $service = $this->_objectManager->get($serviceClass);
