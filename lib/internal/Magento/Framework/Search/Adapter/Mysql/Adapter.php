@@ -37,6 +37,7 @@ class Adapter implements AdapterInterface
     /**
      * @param Mapper $mapper
      * @param ResponseFactory $responseFactory
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(
         Mapper $mapper,

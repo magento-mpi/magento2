@@ -9,7 +9,6 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
-use Magento\Framework\App\Resource;
 use Magento\Framework\App\Resource\Config;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
@@ -20,7 +19,7 @@ use Magento\Framework\Search\RequestInterface;
 class Mapper
 {
     /**
-     * @var Resource
+     * @var \Magento\Framework\App\Resource
      */
     private $resource;
     /**
@@ -28,8 +27,12 @@ class Mapper
      */
     private $scoreManager;
 
+    /**
+     * @param \Magento\Framework\App\Resource $resource
+     * @param ScoreManager $scoreManager
+     */
     public function __construct(
-        Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         ScoreManager $scoreManager
     ) {
         $this->resource = $resource;
@@ -40,7 +43,6 @@ class Mapper
      * Build adapter dependent query
      *
      * @param RequestInterface $request
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @return Select
      */
     public function buildQuery(RequestInterface $request)
@@ -51,6 +53,8 @@ class Mapper
     }
 
     /**
+     * Process query
+     *
      * @param QueryInterface $query
      * @param Select $select
      * @param string|bool $queryType
@@ -86,6 +90,8 @@ class Mapper
     }
 
     /**
+     * Get empty Select
+     *
      * @return Select
      */
     private function getSelect()
@@ -94,6 +100,8 @@ class Mapper
     }
 
     /**
+     * Process bool query
+     *
      * @param BoolQuery $query
      * @param Select $select
      * @param $queryType
@@ -123,6 +131,13 @@ class Mapper
         }
     }
 
+    /**
+     * Filter query type
+     *
+     * @param $queryType
+     * @param string $defaultQueryType
+     * @return string
+     */
     private function getFilteredQueryType($queryType, $defaultQueryType = BoolQuery::QUERY_CONDITION_MUST)
     {
         return $queryType ?: $defaultQueryType;
