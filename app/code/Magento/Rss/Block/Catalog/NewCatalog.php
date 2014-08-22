@@ -146,9 +146,8 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 'special_price',
                 'special_from_date',
                 'special_to_date',
-                'msrp_enabled',
-                'msrp_display_actual_price_type',
                 'msrp',
+                'msrp_display_actual_price_type',
                 'thumbnail'
             ),
             'left'

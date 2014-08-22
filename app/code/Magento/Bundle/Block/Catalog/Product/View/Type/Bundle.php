@@ -295,7 +295,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 ->getValue(),
             'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice' => $isFixedPrice,
-            //'isMAPAppliedDirectly' => $this->_catalogData->canApplyMsrp($this->getProduct(), null, false)
         );
 
         $config['finalPrice'] = $this->_taxData->displayPriceIncludingTax()

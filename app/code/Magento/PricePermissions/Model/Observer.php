@@ -454,9 +454,8 @@ class Observer
             $product->lockAttribute('allow_open_amount');
             $product->lockAttribute('giftcard_amounts');
             // For MAP fields
-            $product->lockAttribute('msrp_enabled');
-            $product->lockAttribute('msrp_display_actual_price_type');
             $product->lockAttribute('msrp');
+            $product->lockAttribute('msrp_display_actual_price_type');
         }
         if (!$this->_canEditProductStatus) {
             $product->lockAttribute('status');
@@ -528,9 +527,8 @@ class Observer
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                'msrp_enabled',
+                'msrp',
                 'msrp_display_actual_price_type',
-                'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -567,9 +565,8 @@ class Observer
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                'msrp_enabled',
+                'msrp',
                 'msrp_display_actual_price_type',
-                'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -613,9 +610,8 @@ class Observer
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                'msrp_enabled',
+                'msrp',
                 'msrp_display_actual_price_type',
-                'msrp'
             );
 
             // Leave price element for bundle product active in order to change/view price type when product is created

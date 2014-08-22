@@ -5,27 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
 
 /**
  * Source model for 'msrp_display_actual_price_type' product attribute
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
-
 class Price extends \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type
 {
     /**
      * Get value from the store configuration settings
      */
-    const TYPE_USE_CONFIG = '4';
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
+    const TYPE_USE_CONFIG = 0;
 
     /**
      * Entity attribute factory
@@ -45,16 +35,12 @@ class Price extends \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type
      * Construct
      *
      * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Resource\Helper $eavResourceHelper
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Resource\Helper $eavResourceHelper
     ) {
-        $this->_entityAttributeFactory = $entityAttributeFactory;
-        $this->_coreData = $coreData;
         $this->_eavResourceHelper = $eavResourceHelper;
     }
 
@@ -66,8 +52,10 @@ class Price extends \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = parent::getAllOptions();
-            $this->_options[] = array('label' => __('Use config'), 'value' => self::TYPE_USE_CONFIG);
+            $this->_options = array_merge(
+                [['label' => __('Use config'), 'value' => self::TYPE_USE_CONFIG]],
+                parent::getAllOptions()
+            );
         }
         return $this->_options;
     }

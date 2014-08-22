@@ -47,12 +47,7 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $canApplyMsrp = false;
         foreach ($items as $item) {
-            if (!$item->getParentItemId() && $this->_catalogData->canApplyMsrp(
-                $item->getProductId(),
-                \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM,
-                true
-            )
-            ) {
+            if (!$item->getParentItemId() && $this->_catalogData->isShowBeforeOrderConfirm($item->getProductId())) {
                 $canApplyMsrp = true;
                 break;
             }

@@ -87,7 +87,6 @@
                     <item name="special_to_date" xsi:type="string">special_to_date</item>
                     <item name="website_ids" xsi:type="string">website_ids</item>
                     <item name="msrp" xsi:type="string">msrp</item>
-                    <item name="msrp_enabled" xsi:type="string">msrp_enabled</item>
                     <item name="msrp_display_actual_price_type" xsi:type="string">msrp_display_actual_price_type</item>
                     <item name="gift_wrapping_price" xsi:type="string">gift_wrapping_price</item>
                     <item name="tax_class_id" xsi:type="string">tax_class_id</item>

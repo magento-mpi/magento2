@@ -30,7 +30,7 @@ interface MsrpPriceInterface
     public function getMsrpPriceMessage();
 
     /**
-     * Returns true in case MSRP is enabled
+     * Check if Minimum Advertised Price is enabled
      *
      * @return bool
      */

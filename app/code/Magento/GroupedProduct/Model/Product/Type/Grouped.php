@@ -77,6 +77,9 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     protected $_appState;
 
+    /** @var \Magento\Catalog\Helper\Data  */
+    protected $catalogData;
+
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
@@ -92,6 +95,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -111,12 +115,14 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Framework\App\State $appState,
+        \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
         $this->productLinks = $catalogProductLink;
         $this->_storeManager = $storeManager;
         $this->_catalogProductStatus = $catalogProductStatus;
         $this->_appState = $appState;
+        $this->catalogData = $catalogData;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -464,5 +470,36 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
             throw new \Exception('Custom options for grouped product type are not supported');
         }
         return parent::beforeSave($product);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMapEnabledInOptions($product, $visibility = null)
+    {
+        $result = null;
+        $collection = $this->getAssociatedProducts($product);
+        $visibilities = [];
+        foreach ($collection as $item) {
+            if ($this->catalogData->canApplyMsrp($item)) {
+                $childVisibility = $item->getMsrpDisplayActualPriceType();
+                if ($childVisibility == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG) {
+                    $childVisibility = $this->catalogData->getMsrpDisplayActualPriceType();
+                }
+                $visibilities[] = $childVisibility;
+                $result = true;
+            }
+        }
+
+        if ($result && $visibility !== null) {
+            if ($visibilities) {
+                $maxVisibility = max($visibilities);
+                $result = $result && $maxVisibility == $visibility;
+            } else {
+                $result = false;
+            }
+        }
+
+        return $result;
     }
 }

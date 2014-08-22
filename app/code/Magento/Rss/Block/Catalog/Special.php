@@ -124,9 +124,8 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 'thumbnail',
                 'special_price',
                 'special_to_date',
-                'msrp_enabled',
+                'msrp',
                 'msrp_display_actual_price_type',
-                'msrp'
             ),
             'left'
         )->addAttributeToSort(

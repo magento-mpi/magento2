@@ -589,12 +589,7 @@ Watermark,Watermark
 "This applies only to catalog products and categories. Media content will be inserted into the editor as a static URL. Media content is not updated if the system configuration base URL changes.","This applies only to catalog products and categories. Media content will be inserted into the editor as a static URL. Media content is not updated if the system configuration base URL changes."
 "Minimum Advertised Price","Minimum Advertised Price"
 "Enable MAP","Enable MAP"
-"Apply MAP (Default Value)","Apply MAP (Default Value)"
-"
-                        <strong style=""color:red"">Warning!</strong> Applying MAP by default will hide all product prices on the front end.
-                    ","
-                        <strong style=""color:red"">Warning!</strong> Applying MAP by default will hide all product prices on the front end.
-                    "
+"<strong style=""color:red"">Warning!</strong> Applying MAP by default will hide all product prices on the front end.","<strong style=""color:red"">Warning!</strong> Applying MAP by default will hide all product prices on the front end."
 "Display Actual Price","Display Actual Price"
 "Default Popup Text Message","Default Popup Text Message"
 "Default ""What's This"" Text Message","Default ""What's This"" Text Message"

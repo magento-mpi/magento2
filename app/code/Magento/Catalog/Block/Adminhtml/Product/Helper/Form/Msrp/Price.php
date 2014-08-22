@@ -5,26 +5,41 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Msrp;
+
+use Magento\Framework\Data\Form\Element\CollectionFactory;
+use Magento\Framework\Data\Form\Element\Factory;
+use Magento\Framework\Escaper;
 
 /**
  * Product form MSRP field helper
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Msrp;
-
 class Price extends \Magento\Framework\Data\Form\Element\Select
 {
+    /** @var \Magento\Catalog\Helper\Data */
+    protected $catalogData;
+
+    public function __construct(
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
+        \Magento\Catalog\Helper\Data $catalogData,
+        $data = array()
+    ) {
+        parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
+        $this->catalogData = $catalogData;
+    }
+
     /**
-     * Retrieve Element HTML fragment
+     * Get the html.
      *
-     * @return string
+     * @return mixed
      */
-    public function getElementHtml()
+    public function toHtml()
     {
-        if (is_null($this->getValue())) {
-            $this->setValue(\Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG);
+        if ($this->catalogData->isMsrpEnabled()) {
+            return parent::toHtml();
         }
-        return parent::getElementHtml();
+        return '';
     }
 }

@@ -278,14 +278,6 @@ class CatalogProductBundle extends InjectableFixture
         'input' => 'select',
     ];
 
-    protected $msrp_enabled = [
-        'attribute_code' => 'msrp_enabled',
-        'backend_type' => 'varchar',
-        'is_required' => '0',
-        'default_value' => '2',
-        'input' => 'select',
-    ];
-
     protected $name = [
         'attribute_code' => 'name',
         'backend_type' => 'varchar',
@@ -749,11 +741,6 @@ class CatalogProductBundle extends InjectableFixture
     public function getMsrpDisplayActualPriceType()
     {
         return $this->getData('msrp_display_actual_price_type');
-    }
-
-    public function getMsrpEnabled()
-    {
-        return $this->getData('msrp_enabled');
     }
 
     public function getName()

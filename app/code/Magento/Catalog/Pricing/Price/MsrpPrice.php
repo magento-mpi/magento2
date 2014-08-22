@@ -64,7 +64,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     }
 
     /**
-     * Returns true in case MSRP is enabled
+     * Check if Minimum Advertised Price is enabled
      *
      * @return bool
      */

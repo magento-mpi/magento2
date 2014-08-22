@@ -5,8 +5,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-define(["jquery","jquery/ui","mage/dropdown"], function($){
-
+define(["jquery", "jquery/ui", "mage/dropdown"], function($) {
     $.widget('mage.addToCart', {
         options: {
             showAddToCart: true,
@@ -30,10 +29,10 @@ define(["jquery","jquery/ui","mage/dropdown"], function($){
                     $('#map-popup-price').html($(this.options.realPrice));
                     $('#map-popup-msrp > span.price').html(this.options.msrpPrice);
                     this.element.trigger('reloadPrice');
-                    var dialog = $( "#map-popup-click-for-price" );
-                    this._popupDialog(dialog,this.options.popupId);
+                    var dialog = $("#map-popup-click-for-price");
+                    this._popupDialog(dialog, this.options.popupId);
                     if (!this.options.showAddToCart) {
-                        $('#map-popup-content > .map-popup-checkout').hide();
+                        $('#product_addtocart_form_from_popup').hide();
                     }
                     return false;
                 }
@@ -41,27 +40,25 @@ define(["jquery","jquery/ui","mage/dropdown"], function($){
 
             $(this.options.helpLinkId).on('click', $.proxy(function(e) {
                 $('#map-popup-heading-what-this').text(this.options.productName);
-                var dialog = $( "#map-popup-what-this" );
-                this._popupDialog(dialog,this.options.helpLinkId);
+                var dialog = $("#map-popup-what-this");
+                this._popupDialog(dialog, this.options.helpLinkId);
                 return false;
             }, this));
-
-
         },
 
-        _popupDialog : function(target,trigger) {
-            if(!target.hasClass('ui-dialog-content')) {
+        _popupDialog: function(target, trigger) {
+            if (!target.hasClass('ui-dialog-content')) {
                 target.dropdownDialog({
-                    appendTo :".column.main",
-                    dialogContentClass : 'active',
+                    appendTo: ".column.main",
+                    dialogContentClass: 'active',
                     timeout: "2000",
                     autoPosition: true,
-                    "dialogClass" : "popup"
+                    "dialogClass": "popup"
                 });
             }
             $('.mage-dropdown-dialog > .ui-dialog-content').dropdownDialog("close");
-            target.dropdownDialog("option","position",{my: "right+50% top", collision: "none", at: "center bottom", of: trigger});
-            target.dropdownDialog("option","triggerTarget",trigger);
+            target.dropdownDialog("option", "position", {my: "right+50% top", collision: "none", at: "center bottom", of: trigger});
+            target.dropdownDialog("option", "triggerTarget", trigger);
             target.dropdownDialog("open");
 
         },

@@ -59,11 +59,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     '_attribute_set' => 'Default',
                     '_type' => 'simple',
                     'visibility' => 1,
-                    'msrp_enabled' => 'Yes',
                     'tax_class_id' => ''
                 ),
                 false,
-                array('price' => 65, 'visibility' => 1, 'msrp_enabled' => 1, 'tax_class_id' => '')
+                array('price' => 65, 'visibility' => 1, 'tax_class_id' => '')
             ),
             'Adding new product with attributes that don\'t have default values' => array(
                 array(
@@ -93,7 +92,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     'short_description' => 'a',
                     'visibility' => 1,
                     'options_container' => 'container2',
-                    'msrp_enabled' => 2,
                     'msrp_display_actual_price_type' => 4
                 )
             ),
@@ -113,7 +111,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     'description' => 'a',
                     'short_description' => 'a',
                     'visibility' => 2,
-                    'msrp_enabled' => 'Yes',
                     'msrp_display_actual_price_type' => 'In Cart'
                 ),
                 true,
@@ -127,7 +124,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     'short_description' => 'a',
                     'visibility' => 2,
                     'options_container' => 'container2',
-                    'msrp_enabled' => 1,
                     'msrp_display_actual_price_type' => 2
                 )
             )

@@ -10,7 +10,7 @@
 
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
-$canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_item->getProduct(), \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM);
+$canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->isShowBeforeOrderConfirm($_item->getProduct());
 ?>
 <tbody class="cart item">
 <tr class="item info item-info">
@@ -67,14 +67,10 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                 <span class="msrp notice"><?php echo __('See price before order confirmation.'); ?></span>
                 <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
                 <?php $_product = $_item->getProduct(); ?>
-                <a href="#"
-                   class="action help map"
-                   id="<?php echo($helpLinkId);?>"
-                   data-mage-init='{"addToCart":{"popupId": "#<?php echo($helpLinkId);?>",
-                                                 "productName": "<?php echo $_product->getName() ?>",
-                                                 "realPrice": "<?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()) ?>",
-                                                 "msrpPrice": "<?php echo $this->helper('Magento\Core\Helper\Data')->currency($_product->getMsrp(),true,true) ?>",
-                                                 "showAddToCart": false}}'><span><?php echo __("What's this?"); ?></span>
+                <?php $coreHelper = $this->helper('Magento\Core\Helper\Data'); ?>
+                <a href="#" class="action help map" id="<?php echo($helpLinkId); ?>"
+                   data-mage-init='{"addToCart":{"popupId": "#<?php echo($helpLinkId); ?>","productName": "<?php echo $_product->getName(); ?>","realPrice": <?php echo $coreHelper->jsonEncode($this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice())); ?>,"msrpPrice": <?php echo $coreHelper->jsonEncode($coreHelper->currency($_product->getMsrp(), true, true)); ?>,"showAddToCart": false}}'>
+                    <span><?php echo __("What's this?"); ?></span>
                 </a>
             </span>
             <?php $cols++; ?>
