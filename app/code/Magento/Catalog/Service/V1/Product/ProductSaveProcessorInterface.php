@@ -39,7 +39,7 @@ interface ProductSaveProcessorInterface
      * Delete product.
      *
      * @param \Magento\Catalog\Service\V1\Data\Product $product
-     * @return bool
+     * @return void
      */
     public function delete(\Magento\Catalog\Service\V1\Data\Product $product);
 }

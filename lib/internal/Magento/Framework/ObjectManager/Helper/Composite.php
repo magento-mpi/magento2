@@ -11,7 +11,7 @@ namespace Magento\Framework\ObjectManager\Helper;
 /**
  * Helper for classes which implement Composite pattern.
  */
-class Composite extends \Magento\Framework\App\Helper\AbstractHelper
+class Composite
 {
     /**
      * @param array $declaredComponents Array of the components which should be registered in the following format:
@@ -33,8 +33,7 @@ class Composite extends \Magento\Framework\App\Helper\AbstractHelper
                 return (isset($component['type']) && isset($component['sortOrder']));
             }
         );
-
-        /** Sort all components according */
+        /** Sort all components according to the provided sort order */
         uasort(
             $declaredComponents,
             function ($firstComponent, $secondComponent) {

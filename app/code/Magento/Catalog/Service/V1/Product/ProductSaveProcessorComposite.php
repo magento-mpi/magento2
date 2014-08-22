@@ -12,9 +12,9 @@ namespace Magento\Catalog\Service\V1\Product;
 use Magento\Framework\ObjectManager\Helper\Composite as CompositeHelper;
 
 /**
- * Composite processor of product data which allows modifications.
+ * Composite pattern implementation for ProductSaveProcessorInterface.
  *
- * Allows multiple savers to be registered and used during product data modification.
+ * Allows multiple savers to be registered and used for product data modification.
  */
 class ProductSaveProcessorComposite implements ProductSaveProcessorInterface
 {
@@ -76,6 +76,5 @@ class ProductSaveProcessorComposite implements ProductSaveProcessorInterface
         foreach ($this->productSaveProcessors as $saveProcessor) {
             $saveProcessor->delete($product);
         }
-        return true;
     }
 }

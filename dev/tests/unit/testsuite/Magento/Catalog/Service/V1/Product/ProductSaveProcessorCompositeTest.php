@@ -122,8 +122,7 @@ class ProductSaveProcessorCompositeTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Service\V1\Product\ProductSaveProcessorComposite',
             ['compositeHelper' => $this->compositeHelperMock, 'saveProcessors' => $this->processors]
         );
-
-        $this->assertTrue($saveProcessor->delete($productData), 'Save processor is deleted incorrectly');
+        $saveProcessor->delete($productData);
     }
 
     public function testUpdate()
