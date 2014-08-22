@@ -97,27 +97,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $context = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
         $context->expects($this->once())->method('getEventDispatcher')->will($this->returnValue($this->eventManager));
 
-        $this->rmaConfig = $this->getMock(
-            'Magento\Rma\Model\Config',
-            [
-                '__wakeup',
-                'getRootCommentEmail',
-                'getCustomerEmailRecipient',
-                'getRootCustomerCommentEmail',
-                'init',
-                'isEnabled',
-                'getCopyTo',
-                'getCopyMethod',
-                'getGuestTemplate',
-                'getTemplate',
-                'getIdentity',
-                'getRootRmaEmail',
-                'getRootAuthEmail',
-            ],
-            [],
-            '',
-            false
-        );
+        $this->rmaConfig = $this->getMock('Magento\Rma\Model\Config', [], [], '', false);
         $this->rma = $this->getMock(
             'Magento\Rma\Model\Rma',
             [
