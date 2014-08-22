@@ -22,7 +22,7 @@ abstract class AbstractData
      *
      * @var \Magento\Eav\Model\Attribute
      */
-    protected $_attribite;
+    protected $_attribute;
 
     /**
      * Entity instance
@@ -105,7 +105,7 @@ abstract class AbstractData
      */
     public function setAttribute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
     {
-        $this->_attribite = $attribute;
+        $this->_attribute = $attribute;
         return $this;
     }
 
@@ -117,10 +117,10 @@ abstract class AbstractData
      */
     public function getAttribute()
     {
-        if (!$this->_attribite) {
+        if (!$this->_attribute) {
             throw new CoreException(__('Attribute object is undefined'));
         }
-        return $this->_attribite;
+        return $this->_attribute;
     }
 
     /**
