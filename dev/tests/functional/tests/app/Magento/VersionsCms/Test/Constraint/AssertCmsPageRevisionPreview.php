@@ -8,6 +8,9 @@
 
 namespace Magento\VersionsCms\Test\Constraint;
 
+use Magento\VersionsCms\Test\Fixture\Revision;
+use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit;
+use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionPreview;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
@@ -15,10 +18,10 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 
 /**
- * Class AssertCmsPageRevisionInGrid
- * Assert that created CMS page revision can be found in CMS page Version Revisions grid
+ * Class AssertCmsPageRevisionPreview
+ * Assert that created CMS page revision content can be found in CMS page revisions preview
  */
-class AssertCmsPageRevisionInGrid extends AbstractConstraint
+class AssertCmsPageRevisionPreview extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -28,20 +31,26 @@ class AssertCmsPageRevisionInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created CMS page revision can be found in CMS page Version Revisions grid
+     * Assert that created CMS page revision content can be found in CMS page revisions preview
      *
      * @param CmsPage $cms
+     * @param Revision $revision
      * @param CmsIndex $cmsIndex
      * @param CmsNew $cmsNew
      * @param CmsVersionEdit $cmsVersionEdit
+     * @param CmsRevisionEdit $cmsRevisionEdit
+     * @param CmsRevisionPreview $cmsRevisionPreview
      * @param array $results
      * @return void
      */
     public function processAssert(
         CmsPage $cms,
+        Revision $revision,
         CmsIndex $cmsIndex,
         CmsNew $cmsNew,
         CmsVersionEdit $cmsVersionEdit,
+        CmsRevisionEdit $cmsRevisionEdit,
+        CmsRevisionPreview $cmsRevisionPreview,
         array $results
     ) {
         $filter = ['title' => $cms->getTitle()];
@@ -55,13 +64,15 @@ class AssertCmsPageRevisionInGrid extends AbstractConstraint
             'revision_number_to' => $results['revision_number_to'],
             'author' => $results['author'],
         ];
-        \PHPUnit_Framework_Assert::assertTrue(
-            $cmsVersionEdit->getRevisionsGrid()->isRowVisible($filter),
-            'CMS Page Revision with '
-            . 'revision_number_from \'' . $filter['revision_number_from'] . '\', '
-            . 'revision_number_to \'' . $filter['revision_number_to'] . '\', '
-            . 'author \'' . $filter['author'] . '\', '
-            . 'is not present in CMS Page Revisions grid.'
+        $cmsVersionEdit->getRevisionsGrid()->searchAndOpen($filter);
+        $cmsRevisionEdit->getFormPageActions()->preview();
+        $pageContent = $cmsRevisionPreview->getPreviewBlock()->getPageContent();
+        $fixtureContent = $revision->getContent();
+
+        \PHPUnit_Framework_Assert::assertEquals(
+            $fixtureContent,
+            $pageContent,
+            'Page content is not equals to expected'
         );
     }
 
@@ -72,6 +83,6 @@ class AssertCmsPageRevisionInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'CMS Page Revision is present in grid.';
+        return 'Page content is equal to expected.';
     }
 }
