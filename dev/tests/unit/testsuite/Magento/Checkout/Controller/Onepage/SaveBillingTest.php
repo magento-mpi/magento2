@@ -138,8 +138,6 @@ class SaveBillingTest extends \PHPUnit_Framework_TestCase
             ->method('isVirtual')
             ->will($this->returnValue(false));
 
-        $this->mockSession->expects($this->once())
-            ->method('regenerateId');
         $this->saveBilling->execute();
     }
 }

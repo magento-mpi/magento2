@@ -17,6 +17,7 @@ class Index extends \Magento\Checkout\Controller\Onepage
      */
     public function execute()
     {
+        $this->_customerSession->regenerateId();
         if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->canOnepageCheckout()) {
             $this->messageManager->addError(__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
