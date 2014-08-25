@@ -93,7 +93,7 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->productData = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
-            ->setMethods(['getSku', 'getTypeId', '__wakeup','getCustomAttribute'])
+            ->setMethods(['getSku', 'getTypeId', '__wakeup', 'getCustomAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -161,11 +161,11 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $this->saveProcessor = $helper->getObject(
             'Magento\Bundle\Service\V1\Product\BundleProductSaveProcessor',
             [
-                'linkWriteService' => $this->linkWriteService,
+                'linkWriteService'   => $this->linkWriteService,
                 'optionWriteService' => $this->optionWriteService,
-                'linkReadService' => $this->linkReadService,
-                'optionReadService' => $this->optionReadService,
-                'productRepository' => $this->productRepository,
+                'linkReadService'    => $this->linkReadService,
+                'optionReadService'  => $this->optionReadService,
+                'productRepository'  => $this->productRepository,
             ]
         );
     }
@@ -277,7 +277,6 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
 
         $this->assertTrue($this->saveProcessor->update($product1Id, $this->productData));
-
     }
 
     public function testDelete()
@@ -313,7 +312,5 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->with($productSku, $productOption1Id)
             ->will($this->returnValue(1));
         $this->assertTrue($this->saveProcessor->delete($this->productData));
-
     }
-
-} 
+}
