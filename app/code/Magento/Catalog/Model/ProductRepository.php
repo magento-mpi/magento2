@@ -20,12 +20,7 @@ class ProductRepository
     /**
      * @var Product[]
      */
-    protected $instances = [];
-
-    /**
-     * @var Product[]
-     */
-    protected $instancesById = [];
+    protected $instances = array();
 
     /**
      * @param ProductFactory $productFactory
@@ -39,7 +34,7 @@ class ProductRepository
      * Retrieve product instance by sku
      *
      * @param string $sku
-     * @param bool $editMode
+     * @param boolean $editMode
      * @return Product
      * @throws NoSuchEntityException
      */
@@ -48,40 +43,15 @@ class ProductRepository
         if (!isset($this->instances[$sku])) {
             $product = $this->productFactory->create();
             $productId = $product->getIdBySku($sku);
-            $product = $this->getByProductId($productId, $editMode);
-
-            $this->instances[$sku] = $product;
-        }
-        return $this->instances[$sku];
-    }
-
-    /**
-     * Retrieve product instance by id
-     *
-     * @param string $productId
-     * @param bool $editMode
-     * @return Product
-     * @throws NoSuchEntityException
-     */
-    public function getByProductId($productId, $editMode = false)
-    {
-        if (!$productId) {
-            throw new NoSuchEntityException('Requested product doesn\'t exist');
-        }
-
-        if (!isset($this->instancesById[$productId])) {
-            $product = $this->productFactory->create();
-
+            if (!$productId) {
+                throw new NoSuchEntityException('Requested product doesn\'t exist');
+            }
             if ($editMode) {
                 $product->setData('_edit_mode', true);
             }
-
             $product->load($productId);
-            if (is_null($product->getId())) {
-                throw new NoSuchEntityException('Requested product doesn\'t exist');
-            }
-            $this->instancesById[$productId] = $product;
+            $this->instances[$sku] = $product;
         }
-        return $this->instancesById[$productId];
+        return $this->instances[$sku];
     }
 }

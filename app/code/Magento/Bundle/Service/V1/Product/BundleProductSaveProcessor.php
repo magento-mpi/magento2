@@ -115,7 +115,7 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
         /**
          * @var \Magento\Catalog\Service\V1\Data\Product $existingProduct
          */
-        $existingProduct = $this->productRepository->getByProductId($id, true);
+        $existingProduct = $this->productRepository->get($id, true);
         if ($existingProduct->getTypeId() != ProductType::TYPE_BUNDLE) {
             return true;
         }

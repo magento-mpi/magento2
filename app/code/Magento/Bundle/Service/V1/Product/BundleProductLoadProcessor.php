@@ -57,7 +57,7 @@ class BundleProductLoadProcessor implements ProductLoadProcessorInterface
     public function load($id, \Magento\Catalog\Service\V1\Data\ProductBuilder $productBuilder)
     {
         /** @var \Magento\Catalog\Model\Product */
-        $product = $this->productRepository->getByProductId($id);
+        $product = $this->productRepository->get($id);
         if ($product->getTypeId() != ProductType::TYPE_BUNDLE) {
             return;
         }
