@@ -73,7 +73,7 @@ class Context
             \Magento\Core\Helper\Data::CONTEXT_STORE,
             $this->httpRequest->getParam(
                 '___store',
-                $defaultStore->getCookie()
+                $defaultStore->getStoreCodeFromCookie()
             ),
             $this->storeManager->getWebsite()->getDefaultStore()->getCode()
         );

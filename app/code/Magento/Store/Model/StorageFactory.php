@@ -263,7 +263,7 @@ class StorageFactory
      */
     protected function _checkCookieStore(\Magento\Store\Model\StoreManagerInterface $storage, $scopeType)
     {
-        $storeCode = $storage->getStore()->getCookie();
+        $storeCode = $storage->getStore()->getStoreCodeFromCookie();
         if (null != $storeCode) {
             $this->setCurrentStore($storage, $storeCode, $scopeType);
         }

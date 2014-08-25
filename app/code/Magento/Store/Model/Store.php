@@ -1308,7 +1308,7 @@ class Store extends AbstractModel implements
      *
      * @return null|string
      */
-    public function getCookie()
+    public function getStoreCodeFromCookie()
     {
         return $this->_cookieManager->getCookie(self::COOKIE_NAME);
     }

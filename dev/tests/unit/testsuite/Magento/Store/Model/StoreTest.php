@@ -500,7 +500,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $model->setCookie();
     }
 
-    public function testGetCookie()
+    public function testGetStoreCodeFromCookie()
     {
         $this->cookieManagerMock->expects($this->once())
             ->method('getCookie')
@@ -512,7 +512,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 'cookieManager' => $this->cookieManagerMock,
                 'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
             ]);
-        $model->getCookie();
+        $model->getStoreCodeFromCookie();
     }
 
     public function testDeleteCookie()
