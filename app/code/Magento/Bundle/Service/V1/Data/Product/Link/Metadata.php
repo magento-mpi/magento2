@@ -65,7 +65,7 @@ class Metadata extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isDefined()
     {
@@ -99,7 +99,7 @@ class Metadata extends AbstractObject
     /**
      * Get whether quantity could be changed
      *
-     * @return int
+     * @return int|null
      */
     public function getCanChangeQuantity()
     {
