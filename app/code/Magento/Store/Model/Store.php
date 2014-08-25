@@ -1304,7 +1304,7 @@ class Store extends AbstractModel implements
     }
 
     /**
-     * Get store cookie value.
+     * Get store code from store cookie.
      *
      * @return null|string
      */

@@ -381,7 +381,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->store->expects($this->once())->method('getId')->will($this->returnValue(21));
         $this->store->expects($this->once())->method('getIsActive')->will($this->returnValue(true));
-        $this->store->expects($this->once())->method('getCookie')->will($this->returnValue('store1'));
+        $this->store->expects($this->once())->method('getStoreCodeFromCookie')->will($this->returnValue('store1'));
 
         $this->storage->expects($this->any())->method('setCurrentStore')->with('store1');
 
