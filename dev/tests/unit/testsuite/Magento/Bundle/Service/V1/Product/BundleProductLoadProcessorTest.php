@@ -46,7 +46,7 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
         $helper = new ObjectManager($this);
 
         $this->productRepository = $this->getMockBuilder('Magento\Catalog\Model\ProductRepository')
-            ->setMethods(['getById'])
+            ->setMethods(['getByProductId'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -83,7 +83,7 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
         $productId = 'test_id';
 
         $this->productRepository->expects($this->once())
-            ->method('getById')
+            ->method('getByProductId')
             ->with($productId)
             ->will($this->returnValue($this->product));
         $this->product->expects($this->once())
@@ -99,7 +99,7 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
         $productSku = 'test_sku';
 
         $this->productRepository->expects($this->once())
-            ->method('getById')
+            ->method('getByProductId')
             ->with($productId)
             ->will($this->returnValue($this->product));
         $this->product->expects($this->once())

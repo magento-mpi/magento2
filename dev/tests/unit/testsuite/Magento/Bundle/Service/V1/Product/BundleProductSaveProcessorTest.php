@@ -88,7 +88,7 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $helper = new ObjectManager($this);
 
         $this->productRepository = $this->getMockBuilder('Magento\Catalog\Model\ProductRepository')
-            ->setMethods(['getById'])
+            ->setMethods(['getByProductId'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -225,7 +225,7 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $product2Options = [$this->productOption1];
 
         $this->productRepository->expects($this->once())
-            ->method('getById')
+            ->method('getByProductId')
             ->with($product1Id, true)
             ->will($this->returnValue($this->product));
         $this->product->expects($this->once())
