@@ -17,6 +17,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
+use Magento\Framework\Service\ExtensibleDataObjectConverter;
 
 /**
  * Test for \Magento\Customer\Service\V1\CustomerAccountService
@@ -1602,7 +1603,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count(\Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($actualCustomer)));
+        $this->assertEquals(4, count(ExtensibleDataObjectConverter::toFlatArray($actualCustomer)));
     }
 
     public function testSearchCustomersEmpty()

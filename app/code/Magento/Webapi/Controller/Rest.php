@@ -218,7 +218,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected function processDataObject($dataObjectArray)
     {
         if (isset($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY])) {
-            $dataObjectArray = ExtensibleDataObjectConverter::convertCustomAttributesToSequentialArray($dataObjectArray);
+            $dataObjectArray = ExtensibleDataObjectConverter::convertCustomAttributesToSequentialArray(
+                $dataObjectArray
+            );
         }
         //Check for nested custom_attributes
         foreach ($dataObjectArray as $key => $value) {
