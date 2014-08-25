@@ -141,14 +141,14 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
         /**
          * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $linksToDelete
          */
-        $linksToDelete = array_udiff($existingProductLinks, $newProductLinks, array($this, 'compareLinks'));
+        $linksToDelete = array_udiff($existingProductLinks, $newProductLinks, array($this, '_compareLinks'));
         foreach ($linksToDelete as $link) {
             $this->linkWriteService->removeChild($productSku, $optionId, $link->getSku());
         }
         /**
          * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $linksToAdd
          */
-        $linksToAdd = array_udiff($newProductLinks, $existingProductLinks, array($this, 'compareLinks'));
+        $linksToAdd = array_udiff($newProductLinks, $existingProductLinks, array($this, '_compareLinks'));
         foreach ($linksToAdd as $link) {
             $this->linkWriteService->addChild($productSku, $link);
         }
@@ -164,14 +164,14 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
         /**
          * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionsToDelete
          */
-        $optionsToDelete = array_udiff($existingProductOptions, $newProductOptions, array($this, 'compareOptions'));
+        $optionsToDelete = array_udiff($existingProductOptions, $newProductOptions, array($this, '_compareOptions'));
         foreach ($optionsToDelete as $option) {
             $this->optionWriteService->remove($productSku, $option->getId());
         }
         /**
          * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionsToAdd
          */
-        $optionsToAdd = array_udiff($newProductOptions, $existingProductOptions, array($this, 'compareOptions'));
+        $optionsToAdd = array_udiff($newProductOptions, $existingProductOptions, array($this, '_compareOptions'));
         foreach ($optionsToAdd as $option) {
             $this->optionWriteService->add($productSku, $option);
         }
@@ -223,7 +223,7 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
      * @param \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $link2
      * @return int
      */
-    function compareLinks(
+    private function _compareLinks(
         \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $link1,
         \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $link2
     ) {
@@ -240,7 +240,7 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
      * @param \Magento\Bundle\Service\V1\Data\Product\Option $option2
      * @return int
      */
-    function compareOptions(
+    private function _compareOptions(
         \Magento\Bundle\Service\V1\Data\Product\Option $option1,
         \Magento\Bundle\Service\V1\Data\Product\Option $option2
     ) {
