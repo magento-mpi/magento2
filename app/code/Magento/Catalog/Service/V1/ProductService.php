@@ -232,7 +232,7 @@ class ProductService implements ProductServiceInterface
         /** @var \Magento\Catalog\Model\Product $productModel */
         foreach ($collection as $productModel) {
             $productBuilder = $this->converter->createProductBuilderFromModel($productModel);
-            $this->productLoadProcessor->load($productModel->getId(), $productBuilder);
+            $this->productLoadProcessor->load($productModel->getSku(), $productBuilder);
             $products[] = $productBuilder->create();
         }
 
