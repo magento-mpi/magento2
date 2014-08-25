@@ -84,7 +84,7 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
         $productSku = $productData->getSku();
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $bundleProductLinks
+         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $bundleProductLinks
          */
         $bundleProductLinks = $productData->getCustomAttribute('bundle_product_links');
         foreach ($bundleProductLinks as $link) {
@@ -131,22 +131,22 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
         $optionId = 'dummy';
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $existingProductLinks
+         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $existingProductLinks
          */
         $existingProductLinks = $this->linkReadService->getChildren($id);
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $newProductLinks
+         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $newProductLinks
          */
         $newProductLinks = $updatedProduct->getCustomAttribute('bundle_product_links');
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $linksToDelete
+         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $linksToDelete
          */
         $linksToDelete = array_udiff($existingProductLinks, $newProductLinks, array($this, '_compareLinks'));
         foreach ($linksToDelete as $link) {
             $this->linkWriteService->removeChild($productSku, $optionId, $link->getSku());
         }
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $linksToAdd
+         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $linksToAdd
          */
         $linksToAdd = array_udiff($newProductLinks, $existingProductLinks, array($this, '_compareLinks'));
         foreach ($linksToAdd as $link) {
@@ -199,7 +199,7 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
         $optionId = 'dummy';
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[] $bundleProductLinks
+         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $bundleProductLinks
          */
         $bundleProductLinks = $product->getCustomAttribute('bundle_product_links');
         foreach ($bundleProductLinks as $link) {
@@ -219,13 +219,13 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
 
     /**
      * Compare two links to determine if they are equal
-     * @param \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $link1
-     * @param \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $link2
+     * @param \Magento\Bundle\Service\V1\Data\Product\Link $link1
+     * @param \Magento\Bundle\Service\V1\Data\Product\Link $link2
      * @return int
      */
     private function _compareLinks(
-        \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $link1,
-        \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $link2
+        \Magento\Bundle\Service\V1\Data\Product\Link $link1,
+        \Magento\Bundle\Service\V1\Data\Product\Link $link2
     ) {
         if ($link1->getSku() === $link2->getSku()) {
             return 0;

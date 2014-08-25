@@ -14,13 +14,13 @@ interface WriteServiceInterface
      * Add child product to specified Bundle option
      *
      * @param string $productSku
-     * @param \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $linkedProduct
+     * @param \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\InputException
      * @return int
      */
-    public function addChild($productSku, \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $linkedProduct);
+    public function addChild($productSku, \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct);
 
     /**
      * Remove product from Bundle product option

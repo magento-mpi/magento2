@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Data\Product\Link;
+namespace Magento\Bundle\Service\V1\Data\Product;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
  * @codeCoverageIgnore
  */
-class MetadataBuilder extends AbstractObjectBuilder
+class LinkBuilder extends AbstractObjectBuilder
 {
     /**
      * @param string $value
@@ -20,7 +20,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setSku($value)
     {
-        return $this->_set(Metadata::SKU, $value);
+        return $this->_set(Link::SKU, $value);
     }
 
     /**
@@ -29,7 +29,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setQty($value)
     {
-        return $this->_set(Metadata::QTY, $value);
+        return $this->_set(Link::QTY, $value);
     }
 
     /**
@@ -38,7 +38,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setPosition($value)
     {
-        return $this->_set(Metadata::POSITION, $value);
+        return $this->_set(Link::POSITION, $value);
     }
 
     /**
@@ -47,7 +47,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setOptionId($value)
     {
-        return $this->_set(Metadata::OPTION_ID, $value);
+        return $this->_set(Link::OPTION_ID, $value);
     }
 
     /**
@@ -56,7 +56,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setDefined($value)
     {
-        return $this->_set(Metadata::DEFINED, (bool)$value);
+        return $this->_set(Link::DEFINED, (bool)$value);
     }
 
     /**
@@ -65,7 +65,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setDefault($value)
     {
-        return $this->_set(Metadata::IS_DEFAULT, (bool)$value);
+        return $this->_set(Link::IS_DEFAULT, (bool)$value);
     }
 
     /**
@@ -74,7 +74,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setPrice($value)
     {
-        return $this->_set(Metadata::PRICE, $value);
+        return $this->_set(Link::PRICE, $value);
     }
 
     /**
@@ -83,7 +83,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setPriceType($value)
     {
-        return $this->_set(Metadata::PRICE_TYPE, $value);
+        return $this->_set(Link::PRICE_TYPE, $value);
     }
 
     /**
@@ -94,6 +94,6 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setCanChangeQuantity($canChangeQuantity)
     {
-        return $this->_set(Metadata::CAN_CHANGE_QUANTITY, $canChangeQuantity);
+        return $this->_set(Link::CAN_CHANGE_QUANTITY, $canChangeQuantity);
     }
 }

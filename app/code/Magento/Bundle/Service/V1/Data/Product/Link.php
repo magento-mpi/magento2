@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Data\Product\Link;
+namespace Magento\Bundle\Service\V1\Data\Product;
 
 use \Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * @codeCoverageIgnore
  */
-class Metadata extends AbstractObject
+class Link extends AbstractObject
 {
     const SKU = 'sku';
 
