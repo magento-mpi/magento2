@@ -29,13 +29,13 @@
             <input></input>
             <group>page_information</group>
         </title>
-        <root_template>
-            <attribute_code>root_template</attribute_code>
+        <page_layout>
+            <attribute_code>page_layout</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </root_template>
+        </page_layout>
         <meta_keywords>
             <attribute_code>meta_keywords</attribute_code>
             <backend_type>text</backend_type>
@@ -95,6 +95,7 @@
             <is_required></is_required>
             <default_value>1</default_value>
             <input></input>
+            <group>page_information</group>
         </is_active>
         <sort_order>
             <attribute_code>sort_order</attribute_code>
@@ -117,13 +118,13 @@
             <default_value></default_value>
             <input></input>
         </custom_theme>
-        <custom_root_template>
-            <attribute_code>custom_root_template</attribute_code>
+        <custom_page_layout>
+            <attribute_code>custom_page_layout</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </custom_root_template>
+        </custom_page_layout>
         <custom_layout_update_xml>
             <attribute_code>custom_layout_update_xml</attribute_code>
             <backend_type>text</backend_type>

@@ -11,7 +11,7 @@
 }
 
 .product-social-links .action.mailto.friend {
-    &:extend(.abstract-add-to-actions all);
+    &:extend(.abstract-actions-addto all);
     .icon-font-symbol(
         @_icon-font-content: @icon-envelope,
         @_icon-font-position: before
@@ -21,7 +21,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .form.send.friend {
         width: 60%;
         &:extend(.add-recipients-desktop all);

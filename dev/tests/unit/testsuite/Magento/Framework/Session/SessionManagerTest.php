@@ -120,43 +120,5 @@ namespace Magento\Framework\Session {
             $this->objectManager->getObject('Magento\Framework\Session\SessionManager');
             $this->assertTrue(SessionManagerTest::$isIniSetInvoked);
         }
-
-        /**
-         * @runInSeparateProcess
-         */
-        public function testRegenerateId()
-        {
-            require_once __DIR__ . '/../../_files/session_backend_mock.php';
-
-            $this->mockSessionConfig->expects($this->once())
-                ->method('getUseCookies')
-                ->will($this->returnValue(false));
-            $this->assertSame($this->sessionManager, $this->sessionManager->regenerateId());
-        }
-
-        /**
-         * separate process to preserve the session variable
-         * @runInSeparateProcess
-         */
-        public function testExpireSessionCookie()
-        {
-            $_SESSION = [];
-            $_SESSION[SessionManagerInterface::HOST_KEY] = ['host1' => 'does_not_matter'];
-            $this->mockCookieMetadataFactory->expects($this->exactly(2))
-                ->method('createPublicCookieMetadata')
-                ->will($this->returnValue(new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata()));
-            $this->mockSessionConfig->expects($this->once())
-                ->method('getUseCookies')
-                ->will($this->returnValue(true));
-            $this->mockSessionConfig->expects($this->any())
-                ->method('getCookieDomain')
-                ->will($this->returnValue('something.host1'));
-            $this->mockSessionConfig->expects($this->any())
-                ->method('getCookiePath')
-                ->will($this->returnValue('cookie/path'));
-            $this->mockCookieManager->expects($this->exactly(2))
-                ->method('deleteCookie');
-            $this->sessionManager->expireSessionCookie();
-        }
     }
 }

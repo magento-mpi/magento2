@@ -1791,7 +1791,111 @@ return array(
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
-    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
+    ['getPriceHtml', '\Magento\Catalog\Block\Product\AbstractProduct', '\Magento\Catalog\Block\Product\AbstractProduct::getProductPriceHtml'],
+    ['getDeleteUrl', '\Magento\Checkout\Block\Cart\Item\Renderer'],
+    ['sendNewOrderEmail', 'Magento\Sales\Model\Order'],
+    ['_getEmails', 'Magento\Sales\Model\Order'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Invoice'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Invoice'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Invoice'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Shipment'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Shipment'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Shipment'],
+    ['rebuildIndex', 'Magento\CatalogSearch\Model\Fulltext', 'Magento\CatalogSearch\Model\Indexer\Fulltext::execute'],
+    ['cleanIndex', 'Magento\CatalogSearch\Model\Fulltext'],
+    ['setAllowTableChanges', 'Magento\CatalogSearch\Model\Fulltext'],
+    ['updateCategoryIndex', 'Magento\CatalogSearch\Model\Fulltext'],
+    [
+        'rebuildIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::rebuildIndex'
+    ],
+    [
+        '_rebuildStoreIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::rebuildStoreIndex'
+    ],
+    [
+        '_getSearchableProducts',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableProducts'
+    ],
+    [
+        'cleanIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::cleanIndex'
+    ],
+    [
+        'getEavConfig',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getEavConfig'
+    ],
+    [
+        '_getSearchableAttributes',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableAttributes'
+    ],
+    [
+        '_getSearchableAttribute',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableAttribute'
+    ],
+    [
+        '_unifyField',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::unifyField'
+    ],
+    [
+        '_getProductAttributes',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductAttributes'
+    ],
+    [
+        '_getProductTypeInstance',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductTypeInstance'
+    ],
+    [
+        '_getProductChildIds',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductChildIds'
+    ],
+    [
+        '_getProductEmulator',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductEmulator'
+    ],
+    [
+        '_prepareProductIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::prepareProductIndex'
+    ],
+    [
+        '_getAttributeValue',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getAttributeValue'
+    ],
+    [
+        '_saveProductIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+    ],
+    [
+        '_saveProductIndexes',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::saveProductIndexes'
+    ],
+    [
+        '_getStoreDate',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getStoreDate'
+    ],
+    [
+        'updateCategoryIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+    ],
     ['removeTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['addTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', '\Magento\UrlRewrite\Model\UrlRewrite'],

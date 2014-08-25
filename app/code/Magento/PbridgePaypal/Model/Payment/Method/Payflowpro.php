@@ -64,7 +64,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         Paypal $paypal,
-        $formBlock,
+        $formBlock = '',
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;

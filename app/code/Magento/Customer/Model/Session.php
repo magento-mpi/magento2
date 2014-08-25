@@ -250,6 +250,12 @@ class Session extends \Magento\Framework\Session\SessionManager
             $customerModel->setConfirmation(null)->save();
         }
 
+        /**
+         * The next line is a workaround.
+         * It is used to distinguish users that are logged in from user data set via methods similar to setCustomerId()
+         */
+        $this->unsIsCustomerEmulated();
+
         return $this;
     }
 
@@ -353,7 +359,9 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function isLoggedIn()
     {
-        return (bool)$this->getCustomerId() && (bool)$this->checkCustomerId($this->getId());
+        return (bool)$this->getCustomerId()
+            && $this->checkCustomerId($this->getId())
+            && !$this->getIsCustomerEmulated();
     }
 
     /**

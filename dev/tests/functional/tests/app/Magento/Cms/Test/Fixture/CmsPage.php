@@ -56,8 +56,8 @@ class CmsPage extends InjectableFixture
         'selector' => '#page_title'
     ];
 
-    protected $root_template = [
-        'attribute_code' => 'root_template',
+    protected $page_layout = [
+        'attribute_code' => 'page_layout',
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
@@ -132,6 +132,7 @@ class CmsPage extends InjectableFixture
         'is_required' => '',
         'default_value' => '1',
         'input' => '',
+        'group' => 'page_information',
     ];
 
     protected $sort_order = [
@@ -158,8 +159,8 @@ class CmsPage extends InjectableFixture
         'input' => '',
     ];
 
-    protected $custom_root_template = [
-        'attribute_code' => 'custom_root_template',
+    protected $custom_page_layout = [
+        'attribute_code' => 'custom_page_layout',
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
@@ -230,9 +231,9 @@ class CmsPage extends InjectableFixture
         return $this->getData('title');
     }
 
-    public function getRootTemplate()
+    public function getPageLayout()
     {
-        return $this->getData('root_template');
+        return $this->getData('page_layout');
     }
 
     public function getMetaKeywords()
@@ -290,9 +291,9 @@ class CmsPage extends InjectableFixture
         return $this->getData('custom_theme');
     }
 
-    public function getCustomRootTemplate()
+    public function getCustomPageLayout()
     {
-        return $this->getData('custom_root_template');
+        return $this->getData('custom_page_layout');
     }
 
     public function getCustomLayoutUpdateXml()

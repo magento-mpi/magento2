@@ -15,16 +15,13 @@ use Mtf\Page\FrontendPage;
  */
 class CheckoutCart extends FrontendPage
 {
-    /**
-     * URL for checkout cart page
-     */
     const MCA = 'checkout/cart';
 
     protected $_blocks = [
         'cartBlock' => [
             'name' => 'cartBlock',
             'class' => 'Magento\Checkout\Test\Block\Cart',
-            'locator' => '//div[contains(@class, "cart-container")]',
+            'locator' => '//div[contains(@class, "column main")]',
             'strategy' => 'xpath',
         ],
         'messagesBlock' => [

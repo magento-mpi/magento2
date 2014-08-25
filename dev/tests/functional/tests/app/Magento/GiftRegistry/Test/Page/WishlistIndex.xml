@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="giftregistry/wishlist/index" >
+    <block>
+        <name>wishlistBlock</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Wishlist</class>
+        <locator>#wishlist-view-form</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

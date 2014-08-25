@@ -166,6 +166,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
         array $salesRule,
         AssertCustomerSegmentSuccessSaveMessage $assertCustomerSegmentSuccessSaveMessage
     ) {
+        $this->markTestIncomplete('MAGETWO-26846');
         //Preconditions
         $customer->persist();
         $filter = ['email' => $customer->getEmail()];
@@ -190,10 +191,10 @@ class CreateCustomerSegmentEntityTest extends Injectable
         //Steps
         $this->customerSegmentIndex->open();
         $this->customerSegmentIndex->getPageActionsBlock()->addNew();
-        $this->customerSegmentNew->getFormTabs()->fill($customerSegment);
+        $this->customerSegmentNew->getCustomerSegmentForm()->fill($customerSegment);
         $this->customerSegmentNew->getPageMainActions()->saveAndContinue();
-        $this->customerSegmentNew->getFormTabs()->openTab('conditions');
-        $this->customerSegmentNew->getFormTabs()->fill($customerSegmentConditions, null, $replace);
+        $this->customerSegmentNew->getCustomerSegmentForm()->openTab('conditions');
+        $this->customerSegmentNew->getCustomerSegmentForm()->fill($customerSegmentConditions, null, $replace);
         $this->customerSegmentNew->getPageMainActions()->save();
 
         \PHPUnit_Framework_Assert::assertThat($this->getName(), $assertCustomerSegmentSuccessSaveMessage);
@@ -226,6 +227,9 @@ class CreateCustomerSegmentEntityTest extends Injectable
      */
     public function tearDown()
     {
+        if (!$this->salesRule instanceof SalesRuleInjectable) {
+            return;
+        }
         $this->promoQuoteIndex->open();
         $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
         $this->promoQuoteEdit->getFormPageActions()->delete();
