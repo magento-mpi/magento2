@@ -84,6 +84,8 @@ class ProductService implements ProductServiceInterface
      * @param \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
      * @param \Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface $productLoadProcessor
      * @param \Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface $productSaveProcessor
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Product\Initialization\Helper $initializationHelper,
