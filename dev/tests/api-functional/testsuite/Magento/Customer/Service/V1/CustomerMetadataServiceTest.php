@@ -208,8 +208,9 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $this->assertCount(23, $attributeMetadata);
 
-        $firstname = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][2];
-        $this->assertContains($firstname, $attributeMetadata);
+        $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][2];
+        $this->checkMultipleAttributesValidationRules($firstName, $attributeMetadata);
+        $this->assertContains($firstName, $attributeMetadata);
     }
 
     /**
@@ -585,6 +586,47 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             unset($actualResult[AttributeMetadata::VALIDATION_RULES]);
         }
 
-        $this->assertEquals($expectedRules, $actualRules);
+        if (is_array($expectedRules) && is_array($actualRules)) {
+            foreach($expectedRules as $expectedRule) {
+                if (isset($expectedRule['name']) && isset($expectedRule['value'])) {
+                    $found = false;
+                    foreach($actualRules as $actualRule) {
+                        if (isset($actualRule['name']) && isset($actualRule['value'])) {
+                            if ($expectedRule['name'] == $actualRule['name']
+                                && $expectedRule['value'] == $actualRule['value']
+                            ){
+                                $found = true;
+                                break;
+                            }
+                        }
+                    }
+                    $this->assertTrue($found);
+                }
+            }
+        }
+    }
+
+    /**
+     * Check specific attribute validation rules in set of multiple attributes
+     *
+     * @param array $expectedResult Set of expected attribute metadata
+     * @param array $actualResultSet Set of actual attribute metadata
+     */
+    public function checkMultipleAttributesValidationRules(&$expectedResult, &$actualResultSet)
+    {
+        if (is_array($expectedResult) && is_array($actualResultSet)) {
+            if (isset($expectedResult[AttributeMetadata::ATTRIBUTE_CODE])) {
+                foreach($actualResultSet as $actualAttributeKey => $actualAttribute) {
+                    if (isset($actualAttribute[AttributeMetadata::ATTRIBUTE_CODE])
+                        && $expectedResult[AttributeMetadata::ATTRIBUTE_CODE]
+                            == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
+                    ) {
+                        $this->checkValidationRules($expectedAttribute, $actualAttribute);
+                        unset($actualResultSet[$actualAttributeKey][AttributeMetadata::VALIDATION_RULES]);
+                    }
+                }
+                unset($expectedResult[AttributeMetadata::VALIDATION_RULES]);
+            }
+        }
     }
 }
