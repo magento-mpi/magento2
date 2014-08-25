@@ -25,6 +25,11 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
     protected $metadataService;
 
     /**
+     * @var MetadataObjectInterface[]
+     */
+    protected $customAttributesMetadata;
+
+    /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
@@ -91,9 +96,11 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
     {
         $attributeCodes = [];
         $dataObjectClassName = $this->_getDataObjectType();
-        $customAttributesMetadata = $this->metadataService->getCustomAttributesMetadata($dataObjectClassName);
-        if (is_array($customAttributesMetadata)) {
-            foreach ($customAttributesMetadata as $attribute) {
+        if (empty($this->customAttributesMetadata)) {
+            $this->customAttributesMetadata = $this->metadataService->getCustomAttributesMetadata($dataObjectClassName);
+        }
+        if (is_array($this->customAttributesMetadata)) {
+            foreach ($this->customAttributesMetadata as $attribute) {
                 $attributeCodes[] = $attribute->getAttributeCode();
             }
         }
@@ -116,7 +123,10 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
                 'get' . $camelCaseKey,
                 'is' . $camelCaseKey
             );
-            if ($key == AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY && is_array($data[$key]) && !empty($data[$key])) {
+            if ($key == AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY
+                && is_array($data[$key])
+                && !empty($data[$key])
+            ) {
                 foreach ($data[$key] as $customAttribute) {
                     $this->setCustomAttribute(
                         $customAttribute[AttributeValue::ATTRIBUTE_CODE],
