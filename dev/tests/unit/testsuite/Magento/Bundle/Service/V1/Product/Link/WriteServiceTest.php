@@ -120,10 +120,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddChildToNotBundleProduct()
     {
-        $productMetadata = $this->getMock(
-            'Magento\Bundle\Service\V1\Data\Product\Link\Metadata', array(), array(), '', false
+        $productLink = $this->getMock(
+            'Magento\Bundle\Service\V1\Data\Product\Link', array(), array(), '', false
         );
-        $productMetadata->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
+        $productLink->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
 
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue(
@@ -134,7 +134,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('product_sku')
             ->will($this->returnValue($productMock));
-        $this->service->addChild('product_sku', $productMetadata);
+        $this->service->addChild('product_sku', $productLink);
     }
 
     /**
@@ -142,10 +142,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddChildNonExistingOption()
     {
-        $productMetadata = $this->getMock(
-            'Magento\Bundle\Service\V1\Data\Product\Link\Metadata', array(), array(), '', false
+        $productLink = $this->getMock(
+            'Magento\Bundle\Service\V1\Data\Product\Link', array(), array(), '', false
         );
-        $productMetadata->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
+        $productLink->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
 
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue(
@@ -184,7 +184,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionCollectionFactoryMock->expects($this->any())->method('create')->will(
             $this->returnValue($optionsCollectionMock)
         );
-        $this->service->addChild('product_sku', $productMetadata);
+        $this->service->addChild('product_sku', $productLink);
     }
 
     /**
@@ -193,11 +193,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddChildLinkedProductIsComposite()
     {
-        $productMetadata = $this->getMock(
-            'Magento\Bundle\Service\V1\Data\Product\Link\Metadata', array(), array(), '', false
+        $productLink = $this->getMock(
+            'Magento\Bundle\Service\V1\Data\Product\Link', array(), array(), '', false
         );
-        $productMetadata->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
-        $productMetadata->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
+        $productLink->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
+        $productLink->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
 
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue(
@@ -252,7 +252,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([]));
         $this->bundleFactoryMock->expects($this->once())->method('create')->will($this->returnValue($bundle));
 
-        $this->service->addChild('product_sku', $productMetadata);
+        $this->service->addChild('product_sku', $productLink);
     }
 
     /**
@@ -260,11 +260,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddChildProductAlreadyExistsInOption()
     {
-        $productMetadata = $this->getMock(
-            'Magento\Bundle\Service\V1\Data\Product\Link\Metadata', array(), array(), '', false
+        $productLink = $this->getMock(
+            'Magento\Bundle\Service\V1\Data\Product\Link', array(), array(), '', false
         );
-        $productMetadata->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
-        $productMetadata->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
+        $productLink->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
+        $productLink->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
 
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue(
@@ -323,7 +323,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($selections));
         $this->bundleFactoryMock->expects($this->once())->method('create')->will($this->returnValue($bundle));
 
-        $this->service->addChild('product_sku', $productMetadata);
+        $this->service->addChild('product_sku', $productLink);
     }
 
     /**
@@ -331,11 +331,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddChildCouldNotSave()
     {
-        $productMetadata = $this->getMock(
-            'Magento\Bundle\Service\V1\Data\Product\Link\Metadata', array(), array(), '', false
+        $productLink = $this->getMock(
+            'Magento\Bundle\Service\V1\Data\Product\Link', array(), array(), '', false
         );
-        $productMetadata->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
-        $productMetadata->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
+        $productLink->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
+        $productLink->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
 
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue(
@@ -404,16 +404,16 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 )
             );
         $this->bundleSelectionMock->expects($this->once())->method('create')->will($this->returnValue($selection));
-        $this->service->addChild('product_sku', $productMetadata);
+        $this->service->addChild('product_sku', $productLink);
     }
 
     public function testAddChild()
     {
-        $productMetadata = $this->getMock(
-            'Magento\Bundle\Service\V1\Data\Product\Link\Metadata', array(), array(), '', false
+        $productLink = $this->getMock(
+            'Magento\Bundle\Service\V1\Data\Product\Link', array(), array(), '', false
         );
-        $productMetadata->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
-        $productMetadata->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
+        $productLink->expects($this->any())->method('getSku')->will($this->returnValue('linked_product_sku'));
+        $productLink->expects($this->any())->method('getOptionId')->will($this->returnValue(1));
 
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue(
@@ -476,7 +476,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $selection->expects($this->once())->method('save');
         $selection->expects($this->once())->method('getId')->will($this->returnValue(42));
         $this->bundleSelectionMock->expects($this->once())->method('create')->will($this->returnValue($selection));
-        $result = $this->service->addChild('product_sku', $productMetadata);
+        $result = $this->service->addChild('product_sku', $productLink);
         $this->assertEquals(42, $result);
     }
 

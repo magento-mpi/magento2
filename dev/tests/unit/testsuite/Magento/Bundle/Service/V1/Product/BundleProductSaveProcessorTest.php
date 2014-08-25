@@ -34,17 +34,17 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
     private $product;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Bundle\Service\V1\Data\Product\Link|\PHPUnit_Framework_MockObject_MockObject
      */
     private $productLink1;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Bundle\Service\V1\Data\Product\Link|\PHPUnit_Framework_MockObject_MockObject
      */
     private $productLink2;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Bundle\Service\V1\Data\Product\Link|\PHPUnit_Framework_MockObject_MockObject
      */
     private $productLink3;
 
@@ -102,21 +102,21 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productLink1 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link\Metadata')
+        $this->productLink1 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link')
             ->disableOriginalConstructor()
             ->setMethods(['getId', 'getSku'])
             ->getMock();
         $this->productLink1->expects($this->any())
             ->method('getSku')
             ->will($this->returnValue('productLink1Sku'));
-        $this->productLink2 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link\Metadata')
+        $this->productLink2 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link')
             ->disableOriginalConstructor()
             ->setMethods(['getId', 'getSku'])
             ->getMock();
         $this->productLink2->expects($this->any())
             ->method('getSku')
             ->will($this->returnValue('productLink2Sku'));
-        $this->productLink3 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link\Metadata')
+        $this->productLink3 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link')
             ->disableOriginalConstructor()
             ->setMethods(['getId', 'getSku'])
             ->getMock();

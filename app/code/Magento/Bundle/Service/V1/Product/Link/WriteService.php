@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Bundle\Service\V1\Product\Link;
 
 use Magento\Catalog\Model\ProductRepository;
@@ -68,7 +67,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function addChild($productSku, \Magento\Bundle\Service\V1\Data\Product\Link\Metadata $linkedProduct)
+    public function addChild($productSku, \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct)
     {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
