@@ -109,7 +109,8 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
         $this->object->execute();
     }
 
-    public function testRegenerateIdOnExecution() {
+    public function testRegenerateIdOnExecution()
+    {
         $this->customerSession->expects($this->once())
             ->method('regenerateId');
         $this->customerSession->expects($this->once())
