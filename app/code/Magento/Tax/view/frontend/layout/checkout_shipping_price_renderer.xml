@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <block class="Magento\Tax\Block\Checkout\Shipping\Price" name="checkout.shipping.price" as="shipping.price" template="Magento_Tax::checkout/shipping/price.phtml"/>
-</layout>
+</page>
 

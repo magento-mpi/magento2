@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="permission.role.grid.columnSet">
         <block class="Magento\Backend\Block\Widget\Grid\Column" as="gws">
             <arguments>
@@ -18,4 +18,4 @@
             </arguments>
         </block>
     </referenceBlock>
-</layout>
+</page>

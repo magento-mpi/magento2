@@ -2719,4 +2719,6 @@ return array(
     ['Magento\Catalog\Model\Observer\Reindex'],
     ['Magento\CatalogSearch\Model\Fulltext\Observer'],
     ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
+    ['\Magento\Theme\Helper\Layout'],
+    ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
 );

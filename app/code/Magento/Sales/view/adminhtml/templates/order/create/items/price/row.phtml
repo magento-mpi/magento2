@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var \Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid $this */
+
+$_item = $this->getItem();
+?>
+
+<div class="price-excl-tax">
+    <?php echo $this->formatPrice($_item->getRowTotal()) ?>
+</div>
