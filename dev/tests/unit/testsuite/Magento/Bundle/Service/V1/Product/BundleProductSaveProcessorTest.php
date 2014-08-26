@@ -182,11 +182,11 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $this->productData->expects($this->any())
             ->method('getSku')
             ->will($this->returnValue($productSku));
-        $this->productData->expects($this->at(4))
+        $this->productData->expects($this->at(3))
             ->method('getCustomAttribute')
             ->with('bundle_product_links')
             ->will($this->returnValue($productLinks));
-        $this->productData->expects($this->at(5))
+        $this->productData->expects($this->at(4))
             ->method('getCustomAttribute')
             ->with('bundle_product_options')
             ->will($this->returnValue($productOptions));

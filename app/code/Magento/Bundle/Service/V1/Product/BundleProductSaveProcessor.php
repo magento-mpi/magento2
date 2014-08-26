@@ -83,11 +83,7 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
      */
     public function create(ProductModel $product, Product $productData)
     {
-        if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {
-            return null;
-        } else {
-            return $productData->getSku();
-        }
+        return $productData->getSku();
     }
 
     /**
@@ -100,15 +96,14 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
      */
     public function afterCreate(ProductModel $product, Product $productData)
     {
-
-        if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {
-            return null;
-        }
-
         /**
          * @var string $productSku
          */
         $productSku = $productData->getSku();
+
+        if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {
+            return $productSku;
+        }
 
         /**
          * @var Link[] $bundleProductLinks
@@ -146,14 +141,15 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
          * @var Product $existingProduct
          */
         $existingProduct = $this->productRepository->get($id, true);
-        if ($existingProduct->getTypeId() != ProductType::TYPE_BUNDLE) {
-            return null;
-        }
 
         /**
          * @var string $productSku
          */
         $productSku = $existingProduct->getSku();
+
+        if ($existingProduct->getTypeId() != ProductType::TYPE_BUNDLE) {
+            return $productSku;
+        }
 
         /**
          * @var Link[] $existingProductLinks
