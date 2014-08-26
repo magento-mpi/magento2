@@ -142,7 +142,7 @@ class OrderTaxService implements OrderTaxServiceInterface
                 $itemsData[$itemId]['applied_taxes'][$itemAppliedTax['code']] =
                     $this->convertToAppliedTaxDataObject($appliedTaxBuilder, $itemAppliedTax);
             } elseif (isset($itemAppliedTax['associated_item_id'])) {
-                //The taxable is associated with a product, e.g., weee, giftwrapping, etc.
+                //The taxable is associated with a product, e.g., weee, gift wrapping etc.
                 $itemId = $itemAppliedTax['associated_item_id'];
                 $key = $itemAppliedTax['taxable_item_type'] . $itemId;
                 if (!isset($itemsData[$key])) {
