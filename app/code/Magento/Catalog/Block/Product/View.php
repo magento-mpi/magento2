@@ -65,6 +65,11 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $taxCalculationService;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * @param Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
@@ -75,6 +80,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
      * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
      */
     public function __construct(
@@ -88,6 +94,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         TaxCalculationServiceInterface $taxCalculationService,
+        \Magento\Framework\View\Page\Config $pageConfig,
         array $data = array()
     ) {
         $this->_productHelper = $productHelper;
@@ -99,6 +106,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         $this->_localeFormat = $localeFormat;
         $this->customerSession = $customerSession;
         $this->taxCalculationService = $taxCalculationService;
+        $this->pageConfig = $pageConfig;
         parent::__construct(
             $context,
             $data
@@ -117,26 +125,26 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         if (!$product) {
             return parent::_prepareLayout();
         }
+        //@todo: replace with new page config implementation
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $title = $product->getMetaTitle();
             if ($title) {
-                $headBlock->setTitle($title);
+                $this->pageConfig->setTitle($title);
             }
             $keyword = $product->getMetaKeyword();
             $currentCategory = $this->_coreRegistry->registry('current_category');
             if ($keyword) {
-                $headBlock->setKeywords($keyword);
+                $this->pageConfig->setKeywords($keyword);
             } elseif ($currentCategory) {
-                $headBlock->setKeywords($product->getName());
+                $this->pageConfig->setKeywords($product->getName());
             }
             $description = $product->getMetaDescription();
             if ($description) {
-                $headBlock->setDescription($description);
+                $this->pageConfig->setDescription($description);
             } else {
-                $headBlock->setDescription($this->string->substr($product->getDescription(), 0, 255));
+                $this->pageConfig->setDescription($this->string->substr($product->getDescription(), 0, 255));
             }
-            //@todo: move canonical link to separate block
             $childBlockName = 'magento-page-head-product-canonical-link';
             if ($this->_productHelper->canUseCanonicalTag() && !$headBlock->getChildBlock($childBlockName)) {
                 $params = array('_ignore_category' => true);
