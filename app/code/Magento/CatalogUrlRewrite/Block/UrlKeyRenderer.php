@@ -25,13 +25,11 @@ class UrlKeyRenderer extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fiel
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
-     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
-        \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
