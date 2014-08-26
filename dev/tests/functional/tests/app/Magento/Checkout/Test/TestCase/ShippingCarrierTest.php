@@ -127,9 +127,16 @@ class ShippingCarrierTest extends Functional
 
         // Select shipping method at checkout based on method specified in data provider
         $checkoutOnePage->getShippingMethodBlock()
-            ->selectShippingMethod(self::$checkoutFixture->getShippingMethods());
+            ->selectShippingMethod(self::$checkoutFixture->getShippingMethods()->getData('fields'));
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
 
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod(self::$checkoutFixture);
+        $payment = [
+            'method' => self::$checkoutFixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => self::$checkoutFixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => self::$checkoutFixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
@@ -140,7 +147,7 @@ class ShippingCarrierTest extends Functional
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
         $this->assertTrue(
-            $orderPage->getOrderGridBlock()->isRowVisible(array('id' => $orderId)),
+            $orderPage->getOrderGridBlock()->isRowVisible(['id' => $orderId]),
             "Order # $orderId was not found on the sales orders grid!"
         );
     }
@@ -152,13 +159,13 @@ class ShippingCarrierTest extends Functional
      */
     public function dataProviderShippingCarriers()
     {
-        return array(
-            array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_dhl_eu', 'dhl_eu', 'customer_DE_1', 'address_DE', 'usd_chf_rate_0_9'),
-            array('shipping_carrier_dhl_uk', 'dhl_uk', 'customer_UK_1', 'address_UK_2', 'usd_gbp_rate_0_6')
-        );
+        return [
+            ['shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'],
+            ['shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'],
+            ['shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'],
+            ['shipping_carrier_dhl_eu', 'dhl_eu', 'customer_DE_1', 'address_DE', 'usd_chf_rate_0_9'],
+            ['shipping_carrier_dhl_uk', 'dhl_uk', 'customer_UK_1', 'address_UK_2', 'usd_gbp_rate_0_6']
+        ];
     }
 
     /**

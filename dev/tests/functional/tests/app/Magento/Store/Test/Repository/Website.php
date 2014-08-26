@@ -25,10 +25,16 @@ class Website extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
+        $this->_data['all_websites'] = [
+            'name' => 'All Websites',
+            'website_id' => 0,
+        ];
+
         $this->_data['main_website'] = [
             'name' => 'Main Website',
             'code' => 'base',
-            'website_id' => '1'
+            'sort_order' => 0,
+            'website_id' => 1,
         ];
 
         $this->_data['custom_website'] = [

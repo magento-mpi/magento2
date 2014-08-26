@@ -13,6 +13,6 @@ $connection = $installer->getConnection();
 // will not change template if already set
 $connection->update(
     $installer->getTable('cms_page'),
-    array('root_template' => 'one_column'),
-    array('identifier IN (?)' => array('service-unavailable', 'private-sales'), 'root_template IS NULL')
+    array('page_layout' => '1column'),
+    array('identifier IN (?)' => array('service-unavailable', 'private-sales'), 'page_layout IS NULL')
 );

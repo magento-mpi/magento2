@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="sales_order_shipment_renderers" />
     <referenceContainer name="content">
         <block class="Magento\Shipping\Block\Order\Shipment" name="sales.order.shipment" cacheable="false">
@@ -22,4 +22,4 @@
             </block>
         </block>
     </referenceContainer>
-</layout>
+</page>

@@ -10,7 +10,7 @@ namespace Magento\Reward\Test\TestCase;
 
 use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Mtf\TestCase\Injectable;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -90,7 +90,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
     /**
      * Run create exchange rate for reward points entity
      *
-     * @param Reward $rate
+     * @param RewardRate $rate
      * @param CustomerInjectable $customer
      * @param ConfigData $config
      * @param ConfigData $configRollback
@@ -101,7 +101,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(
-        Reward $rate,
+        RewardRate $rate,
         CustomerInjectable $customer,
         ConfigData $config,
         ConfigData $configRollback,

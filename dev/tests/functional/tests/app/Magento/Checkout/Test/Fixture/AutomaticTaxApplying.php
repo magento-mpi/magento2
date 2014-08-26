@@ -64,12 +64,12 @@ class AutomaticTaxApplying extends Checkout
     public function persist()
     {
         // Configuration
-        $this->_persistConfiguration(array(
+        $this->_persistConfiguration([
             'flat_rate',
             'check_money_order',
             'display_price',
             'display_shopping_cart',
-        ));
+        ]);
 
         // Customer VAT groups
         $this->customerVatGroup = Factory::getFixtureFactory()->getMagentoCustomerVatGroup();
@@ -87,9 +87,9 @@ class AutomaticTaxApplying extends Checkout
         $this->simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->simpleProduct->switchData('simple_required');
         $this->simpleProduct->persist();
-        $this->products = array(
+        $this->products = [
             $this->simpleProduct,
-        );
+        ];
 
         // Checkout data
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
