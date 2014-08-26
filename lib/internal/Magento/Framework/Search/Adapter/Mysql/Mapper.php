@@ -135,7 +135,7 @@ class Mapper
     /**
      * Filter query type
      *
-     * @param $queryType
+     * @param string $queryType
      * @param string $defaultQueryType
      * @return string
      */
