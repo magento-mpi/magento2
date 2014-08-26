@@ -118,7 +118,6 @@ giftWrappingItem = {
             $('wrapping-item-container').addClassName('no-display');
         }
         if (!this.isObserved) {
-            Event.observe($('gift_options_ok_button'), 'click', this.processOk.bind(this));
             Event.observe($('gift_options_cancel_button'), 'click', this.processCancel.bind(this));
             Event.observe($('giftwrapping_design_item'), 'change', this.setWrapping.bind(this));
             this.isObserved = true;
@@ -127,8 +126,8 @@ giftWrappingItem = {
 
     processOk : function(event){
         var data = order.serializeData('wrapping-item-container');
-        order.loadArea(['items','totals', 'billing_method'], true, data.toObject());
         this.reset();
+        return order.loadArea(['items','totals', 'billing_method'], true, data.toObject());
     },
 
     processCancel : function(event){

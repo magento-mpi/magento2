@@ -255,7 +255,14 @@ GiftMessageSet.prototype = {
             $(this.sourcePrefix + this.id + '_form').request();
         } else if (typeof(order) != 'undefined') {
             var data = order.serializeData('gift_options_data_' + this.id);
-            order.loadArea(['items'], true, data.toObject());
+
+            if (typeof(giftWrappingItem) != 'undefined') {
+                jQuery.when(giftWrappingItem.processOk()).done(function(){
+                    order.loadArea(['items'], true, data.toObject());
+                });
+            } else {
+                order.loadArea(['items'], true, data.toObject());
+            }
         }
     }
 };
