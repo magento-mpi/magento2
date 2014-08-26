@@ -27,6 +27,18 @@ interface ProductSaveProcessorInterface
     );
 
     /**
+     * Create product after the initial creation is complete.
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Service\V1\Data\Product $productData
+     * @return string id
+     */
+    public function afterCreate(
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Catalog\Service\V1\Data\Product $productData
+    );
+
+    /**
      * Update product.
      *
      * @param string $id

@@ -60,6 +60,19 @@ class ProductSaveProcessorComposite implements ProductSaveProcessorInterface
     /**
      * {@inheritdoc}
      */
+    public function afterCreate(
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Catalog\Service\V1\Data\Product $productData
+    ) {
+        foreach ($this->productSaveProcessors as $saveProcessor) {
+            $saveProcessor->afterCreate($product, $productData);
+        }
+        return $productData->getSku();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function update($id, \Magento\Catalog\Service\V1\Data\Product $product)
     {
         foreach ($this->productSaveProcessors as $saveProcessor) {

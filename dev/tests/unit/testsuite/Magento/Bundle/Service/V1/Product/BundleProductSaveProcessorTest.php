@@ -104,14 +104,14 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->productLink1 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link')
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getSku'])
+            ->setMethods(['getId', 'getSku', 'getOptionId'])
             ->getMock();
         $this->productLink1->expects($this->any())
             ->method('getSku')
             ->will($this->returnValue('productLink1Sku'));
         $this->productLink2 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link')
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getSku'])
+            ->setMethods(['getId', 'getSku', 'getOptionId'])
             ->getMock();
         $this->productLink2->expects($this->any())
             ->method('getSku')
@@ -161,11 +161,11 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $this->saveProcessor = $helper->getObject(
             'Magento\Bundle\Service\V1\Product\BundleProductSaveProcessor',
             [
-                'linkWriteService'   => $this->linkWriteService,
+                'linkWriteService' => $this->linkWriteService,
                 'optionWriteService' => $this->optionWriteService,
-                'linkReadService'    => $this->linkReadService,
-                'optionReadService'  => $this->optionReadService,
-                'productRepository'  => $this->productRepository,
+                'linkReadService' => $this->linkReadService,
+                'optionReadService' => $this->optionReadService,
+                'productRepository' => $this->productRepository,
             ]
         );
     }
@@ -176,14 +176,17 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $productLinks = [$this->productLink1, $this->productLink2];
         $productOptions = [$this->productOption1, $this->productOption2];
 
-        $this->productData->expects($this->once())
+        $this->productData->expects($this->any())
+            ->method('getTypeId')
+            ->will($this->returnValue(ProductType::TYPE_BUNDLE));
+        $this->productData->expects($this->any())
             ->method('getSku')
             ->will($this->returnValue($productSku));
-        $this->productData->expects($this->at(1))
+        $this->productData->expects($this->at(4))
             ->method('getCustomAttribute')
             ->with('bundle_product_links')
             ->will($this->returnValue($productLinks));
-        $this->productData->expects($this->at(2))
+        $this->productData->expects($this->at(5))
             ->method('getCustomAttribute')
             ->with('bundle_product_options')
             ->will($this->returnValue($productOptions));
@@ -206,7 +209,8 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->with($productSku, $this->productOption2)
             ->will($this->returnValue(2));
 
-        $this->assertTrue($this->saveProcessor->create($this->product, $this->productData));
+        $this->assertEquals($productSku, $this->saveProcessor->create($this->product, $this->productData));
+        $this->assertEquals($productSku, $this->saveProcessor->afterCreate($this->product, $this->productData));
     }
 
     public function testUpdate()
@@ -276,7 +280,7 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->with($product1Sku, $productOption2Id)
             ->will($this->returnValue(1));
 
-        $this->assertTrue($this->saveProcessor->update($product1Id, $this->productData));
+        $this->assertEquals($product1Sku, $this->saveProcessor->update($product1Id, $this->productData));
     }
 
     public function testDelete()
@@ -285,32 +289,42 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $productLinks = [$this->productLink1, $this->productLink2, $this->productLink3];
         $productOptions = [$this->productOption1];
         $productOption1Id = 'productOption1Id';
+        $productOption2Id = 'productOption2Id';
         $productLink1Sku = 'productLink1Sku';
         $productLink2Sku = 'productLink2Sku';
 
         $this->productData->expects($this->once())
+            ->method('getTypeId')
+            ->will($this->returnValue(ProductType::TYPE_BUNDLE));
+        $this->productData->expects($this->once())
             ->method('getSku')
             ->will($this->returnValue($productSku));
-        $this->productData->expects($this->at(1))
+        $this->productData->expects($this->at(2))
             ->method('getCustomAttribute')
             ->with('bundle_product_links')
             ->will($this->returnValue($productLinks));
-        $this->productData->expects($this->at(2))
+        $this->productData->expects($this->at(3))
             ->method('getCustomAttribute')
             ->with('bundle_product_options')
             ->will($this->returnValue($productOptions));
+        $this->productLink1->expects($this->once())
+            ->method('getOptionId')
+            ->will($this->returnValue($productOption1Id));
         $this->linkWriteService->expects($this->at(0))
             ->method('removeChild')
-            ->with($productSku, 'dummy', $productLink1Sku)
+            ->with($productSku, $productOption1Id, $productLink1Sku)
             ->will($this->returnValue(1));
+        $this->productLink2->expects($this->once())
+            ->method('getOptionId')
+            ->will($this->returnValue($productOption2Id));
         $this->linkWriteService->expects($this->at(1))
             ->method('removeChild')
-            ->with($productSku, 'dummy', $productLink2Sku)
+            ->with($productSku, $productOption2Id, $productLink2Sku)
             ->will($this->returnValue(1));
         $this->optionWriteService->expects($this->once())
             ->method('remove')
             ->with($productSku, $productOption1Id)
             ->will($this->returnValue(1));
-        $this->assertTrue($this->saveProcessor->delete($this->productData));
+        $this->saveProcessor->delete($this->productData);
     }
 }

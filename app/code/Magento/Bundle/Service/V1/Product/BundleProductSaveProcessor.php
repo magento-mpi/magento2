@@ -53,11 +53,11 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
     /**
      * Initialize dependencies.
      *
-     * @param LinkWriteService   $linkWriteService
+     * @param LinkWriteService $linkWriteService
      * @param OptionWriteService $optionWriteService
-     * @param LinkReadService    $linkReadService
-     * @param OptionReadService  $optionReadService
-     * @param ProductRepository  $productRepository
+     * @param LinkReadService $linkReadService
+     * @param OptionReadService $optionReadService
+     * @param ProductRepository $productRepository
      */
     public function __construct(
         LinkWriteService $linkWriteService,
@@ -77,11 +77,28 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
      * Process bundle-related attributes of product during its creation.
      *
      * @param ProductModel $product
-     * @param Product      $productData
+     * @param Product $productData
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @return string
      */
     public function create(ProductModel $product, Product $productData)
+    {
+        if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {
+            return null;
+        } else {
+            return $productData->getSku();
+        }
+    }
+
+    /**
+     * Process bundle-related attributes of product after its creation.
+     *
+     * @param ProductModel $product
+     * @param Product $productData
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return string
+     */
+    public function afterCreate(ProductModel $product, Product $productData)
     {
 
         if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {

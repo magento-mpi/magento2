@@ -122,6 +122,9 @@ class ProductService implements ProductServiceInterface
             $this->productSaveProcessor->create($productModel, $product);
             $productModel->validate();
             $productModel->save();
+            $this->productSaveProcessor->afterCreate($productModel, $product);
+            $productModel->validate();
+            $productModel->save();
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
             throw \Magento\Framework\Exception\InputException::invalidFieldValue(
                 $exception->getAttributeCode(),

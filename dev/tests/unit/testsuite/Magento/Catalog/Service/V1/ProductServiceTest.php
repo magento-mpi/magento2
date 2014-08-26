@@ -342,8 +342,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
 
         $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
 
-        $productModel->expects($this->once())->method('validate');
-        $productModel->expects($this->once())->method('save');
+        $productModel->expects($this->any())->method('validate');
+        $productModel->expects($this->any())->method('save');
 
         $productSku = 'sku-001';
         $productModel->expects($this->once())->method('getId')->will($this->returnValue(100));
@@ -402,8 +402,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
         $productTypeManager->expects($this->once())->method('processProduct')->with($productModel);
 
-        $productModel->expects($this->once())->method('validate');
-        $productModel->expects($this->once())->method('save');
+        $productModel->expects($this->any())->method('validate');
+        $productModel->expects($this->any())->method('save');
 
         $productSku = 'sku-001';
         $productModel->expects($this->any())->method('getSku')->will($this->returnValue($productSku));
