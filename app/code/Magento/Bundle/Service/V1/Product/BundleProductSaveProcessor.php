@@ -8,17 +8,22 @@
 
 namespace Magento\Bundle\Service\V1\Product;
 
+use Magento\Bundle\Service\V1\Data\Product\Link;
+use Magento\Bundle\Service\V1\Data\Product\Option;
 use Magento\Bundle\Service\V1\Product\Link\ReadService as LinkReadService;
 use Magento\Bundle\Service\V1\Product\Link\WriteService as LinkWriteService;
 use Magento\Bundle\Service\V1\Product\Option\ReadService as OptionReadService;
 use Magento\Bundle\Service\V1\Product\Option\WriteService as OptionWriteService;
+use Magento\Catalog\Model\Product as ProductModel;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Catalog\Model\Product\Type as ProductType;
+use Magento\Catalog\Service\V1\Data\Product;
+use Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface;
 
 /**
  * Class to save bundle products
  */
-class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface
+class BundleProductSaveProcessor implements ProductSaveProcessorInterface
 {
     /**
      * @var LinkWriteService
@@ -46,6 +51,8 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
     private $productRepository;
 
     /**
+     * Initialize dependencies.
+     *
      * @param LinkWriteService   $linkWriteService
      * @param OptionWriteService $optionWriteService
      * @param LinkReadService    $linkReadService
@@ -67,167 +74,165 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
     }
 
     /**
-     * Create bundle.
+     * Process bundle-related attributes of product during its creation.
      *
-     * @param \Magento\Catalog\Model\Product           $product
-     * @param \Magento\Catalog\Service\V1\Data\Product $productData
-     *
-     * @return bool
+     * @param ProductModel $product
+     * @param Product      $productData
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return string
      */
-    public function create(
-        \Magento\Catalog\Model\Product $product,
-        \Magento\Catalog\Service\V1\Data\Product $productData
-    ) {
+    public function create(ProductModel $product, Product $productData)
+    {
+
+        if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {
+            return null;
+        }
+
         /**
-         * @var String $productSku
+         * @var string $productSku
          */
         $productSku = $productData->getSku();
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $bundleProductLinks
+         * @var Link[] $bundleProductLinks
          */
         $bundleProductLinks = $productData->getCustomAttribute('bundle_product_links');
-        foreach ($bundleProductLinks as $link) {
-            $this->linkWriteService->addChild($productSku, $link);
+        if (is_array($bundleProductLinks)) {
+            foreach ($bundleProductLinks as $link) {
+                $this->linkWriteService->addChild($productSku, $link);
+            }
         }
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $bundleProductOptions
+         * @var Option[] $bundleProductOptions
          */
         $bundleProductOptions = $productData->getCustomAttribute('bundle_product_options');
-        foreach ($bundleProductOptions as $option) {
-            $this->optionWriteService->add($productSku, $option);
+        if (is_array($bundleProductOptions)) {
+            foreach ($bundleProductOptions as $option) {
+                $this->optionWriteService->add($productSku, $option);
+            }
         }
 
-        return true;
+        return $productSku;
     }
 
     /**
-     * Update bundle.
+     * Update bundle-related attributes of product.
      *
-     * @param string                                   $id
-     * @param \Magento\Catalog\Service\V1\Data\Product $updatedProduct
-     *
-     * @return bool
+     * @param string $id
+     * @param Product $updatedProduct
+     * @return string
      */
-    public function update($id, \Magento\Catalog\Service\V1\Data\Product $updatedProduct)
+    public function update($id, Product $updatedProduct)
     {
         /**
-         * @var \Magento\Catalog\Service\V1\Data\Product $existingProduct
+         * @var Product $existingProduct
          */
         $existingProduct = $this->productRepository->get($id, true);
         if ($existingProduct->getTypeId() != ProductType::TYPE_BUNDLE) {
-            return true;
+            return null;
         }
 
         /**
-         * @var String $productSku
+         * @var string $productSku
          */
         $productSku = $existingProduct->getSku();
-        /*
-         * TODO: Expecting that MAGETWO-27274 will refactor the removeChild method in Link/WriteService
-         * and the option Id will no longer be required.
-         */
-        $optionId = 'dummy';
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $existingProductLinks
+         * @var Link[] $existingProductLinks
          */
         $existingProductLinks = $this->linkReadService->getChildren($id);
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $newProductLinks
+         * @var Link[] $newProductLinks
          */
         $newProductLinks = $updatedProduct->getCustomAttribute('bundle_product_links');
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $linksToDelete
+         * @var Link[] $linksToDelete
          */
-        $linksToDelete = array_udiff($existingProductLinks, $newProductLinks, array($this, '_compareLinks'));
+        $linksToDelete = array_udiff($existingProductLinks, $newProductLinks, array($this, 'compareLinks'));
         foreach ($linksToDelete as $link) {
-            $this->linkWriteService->removeChild($productSku, $optionId, $link->getSku());
+            $this->linkWriteService->removeChild($productSku, $link->getOptionId(), $link->getSku());
         }
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $linksToAdd
+         * @var Link[] $linksToAdd
          */
-        $linksToAdd = array_udiff($newProductLinks, $existingProductLinks, array($this, '_compareLinks'));
+        $linksToAdd = array_udiff($newProductLinks, $existingProductLinks, array($this, 'compareLinks'));
         foreach ($linksToAdd as $link) {
             $this->linkWriteService->addChild($productSku, $link);
         }
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $existingProductOptions
+         * @var Option[] $existingProductOptions
          */
         $existingProductOptions = $this->optionReadService->getList($productSku);
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $newProductOptions
+         * @var Option[] $newProductOptions
          */
         $newProductOptions = $updatedProduct->getCustomAttribute('bundle_product_options');
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionsToDelete
+         * @var Option[] $optionsToDelete
          */
-        $optionsToDelete = array_udiff($existingProductOptions, $newProductOptions, array($this, '_compareOptions'));
+        $optionsToDelete = array_udiff($existingProductOptions, $newProductOptions, array($this, 'compareOptions'));
         foreach ($optionsToDelete as $option) {
             $this->optionWriteService->remove($productSku, $option->getId());
         }
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionsToAdd
+         * @var Option[] $optionsToAdd
          */
-        $optionsToAdd = array_udiff($newProductOptions, $existingProductOptions, array($this, '_compareOptions'));
+        $optionsToAdd = array_udiff($newProductOptions, $existingProductOptions, array($this, 'compareOptions'));
         foreach ($optionsToAdd as $option) {
             $this->optionWriteService->add($productSku, $option);
         }
 
-        return true;
+        return $productSku;
     }
 
     /**
-     * Delete bundle.
+     * Delete bundle-related attributes of product.
      *
-     * @param \Magento\Catalog\Service\V1\Data\Product $product
-     *
-     * @return bool
+     * @param Product $product
+     * @return void
      */
-    public function delete(\Magento\Catalog\Service\V1\Data\Product $product)
+    public function delete(Product $product)
     {
-        /**
-         * @var String $productSku
-         */
-        $productSku = $product->getSku();
-        /*
-         * TODO: Expecting that MAGETWO-27274 will refactor the removeChild method in Link/WriteService
-         * and the option Id will no longer be required.
-         */
-        $optionId = 'dummy';
-
-        /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Link[] $bundleProductLinks
-         */
-        $bundleProductLinks = $product->getCustomAttribute('bundle_product_links');
-        foreach ($bundleProductLinks as $link) {
-            $this->linkWriteService->removeChild($productSku, $optionId, $link->getSku());
+        if ($product->getTypeId() != ProductType::TYPE_BUNDLE) {
+            return;
         }
 
         /**
-         * @var \Magento\Bundle\Service\V1\Data\Product\Option[] $bundleProductOptions
+         * @var string $productSku
+         */
+        $productSku = $product->getSku();
+
+        /**
+         * @var Link[] $bundleProductLinks
+         */
+        $bundleProductLinks = $product->getCustomAttribute('bundle_product_links');
+        foreach ($bundleProductLinks as $link) {
+            $this->linkWriteService->removeChild($productSku, $link->getOptionId(), $link->getSku());
+        }
+
+        /**
+         * @var Option[] $bundleProductOptions
          */
         $bundleProductOptions = $product->getCustomAttribute('bundle_product_options');
         foreach ($bundleProductOptions as $option) {
             $this->optionWriteService->remove($productSku, $option->getId());
         }
 
-        return true;
+        return;
     }
 
     /**
      * Compare two links to determine if they are equal
-     * @param \Magento\Bundle\Service\V1\Data\Product\Link $link1
-     * @param \Magento\Bundle\Service\V1\Data\Product\Link $link2
+     *
+     * @param Link $firstLink
+     * @param Link $secondLink
      * @return int
      */
-    private function _compareLinks(
-        \Magento\Bundle\Service\V1\Data\Product\Link $link1,
-        \Magento\Bundle\Service\V1\Data\Product\Link $link2
-    ) {
-        if ($link1->getSku() === $link2->getSku()) {
+    private function compareLinks(Link $firstLink, Link $secondLink)
+    {
+        if ($firstLink->getSku() === $secondLink->getSku()) {
             return 0;
         } else {
             return 1;
@@ -236,15 +241,14 @@ class BundleProductSaveProcessor implements \Magento\Catalog\Service\V1\Product\
 
     /**
      * Compare two options and determine if they are equal
-     * @param \Magento\Bundle\Service\V1\Data\Product\Option $option1
-     * @param \Magento\Bundle\Service\V1\Data\Product\Option $option2
+     *
+     * @param Option $firstOption
+     * @param Option $secondOption
      * @return int
      */
-    private function _compareOptions(
-        \Magento\Bundle\Service\V1\Data\Product\Option $option1,
-        \Magento\Bundle\Service\V1\Data\Product\Option $option2
-    ) {
-        if ($option1->getId() == $option2->getId()) {
+    private function compareOptions(Option $firstOption, Option $secondOption)
+    {
+        if ($firstOption->getId() == $secondOption->getId()) {
             return 0;
         } else {
             return 1;
