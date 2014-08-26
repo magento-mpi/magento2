@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/cms_page_revision/edit" module="Magento_VersionsCms">
+    <blocks>
+        <formPageActions>
+            <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\PageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <revisionForm>
+            <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\RevisionForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </revisionForm>
+    </blocks>
+</page>

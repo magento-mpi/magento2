@@ -17,45 +17,43 @@ class UrlrewriteEdit extends BackendPage
 {
     const MCA = 'admin/urlrewrite/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'treeBlock' => [
-            'name' => 'treeBlock',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Tree',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'formBlock' => [
-            'name' => 'formBlock',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit\UrlRewriteForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
         'pageMainActions' => [
-            'name' => 'pageMainActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'productGridBlock' => [
-            'name' => 'productGridBlock',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Product\Grid',
             'locator' => '[id="productGrid"]',
             'strategy' => 'css selector',
         ],
         'urlRewriteTypeSelectorBlock' => [
-            'name' => 'urlRewriteTypeSelectorBlock',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Selector',
             'locator' => '[data-ui-id="urlrewrite-type-selector"]',
             'strategy' => 'css selector',
         ],
         'cmsGridBlock' => [
-            'name' => 'gridBlock',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Cms\Page\Grid',
             'locator' => '#cmsPageGrid',
             'strategy' => 'css selector',

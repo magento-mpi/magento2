@@ -17,63 +17,53 @@ class CmsIndex extends FrontendPage
 {
     const MCA = 'cms/index/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'searchBlock' => [
-            'name' => 'searchBlock',
             'class' => 'Magento\Catalog\Test\Block\Search',
             'locator' => '#search_mini_form',
             'strategy' => 'css selector',
         ],
         'topmenu' => [
-            'name' => 'topmenu',
             'class' => 'Magento\Theme\Test\Block\Html\Topmenu',
-            'locator' => '[role=navigation]',
+            'locator' => '[role="navigation"]',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
-            'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
-            'locator' => '[data-ui-id="page-title"]',
+            'locator' => '.page-title',
             'strategy' => 'css selector',
         ],
         'footerBlock' => [
-            'name' => 'footerBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Footer',
-            'locator' => 'footer.page-footer',
+            'locator' => 'footer.page.footer',
             'strategy' => 'css selector',
         ],
         'linksBlock' => [
-            'name' => 'linksBlock',
             'class' => 'Magento\Theme\Test\Block\Links',
             'locator' => '.header .links',
             'strategy' => 'css selector',
         ],
         'storeSwitcherBlock' => [
-            'name' => 'storeSwitcherBlock',
             'class' => 'Magento\Store\Test\Block\Switcher',
             'locator' => '[data-ui-id="language-switcher"]',
             'strategy' => 'css selector',
         ],
         'cartSidebarBlock' => [
-            'name' => 'cartSidebarBlock',
             'class' => 'Magento\Checkout\Test\Block\Cart\Sidebar',
             'locator' => '[data-block="minicart"]',
             'strategy' => 'css selector',
         ],
         'compareProductsBlock' => [
-            'name' => 'compareProductsBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Compare\Sidebar',
             'locator' => '.sidebar.sidebar-additional',
             'strategy' => 'css selector',
         ],
-        'mainContentBlock' => [
-            'name' => 'mainContentBlock',
-            'class' => 'Magento\Cms\Test\Block\Page',
-            'locator' => '#maincontent',
-            'strategy' => 'css selector',
-        ],
         'currencyBlock' => [
-            'name' => 'currencyBlock',
             'class' => 'Magento\Directory\Test\Block\Currency\Switcher',
             'locator' => '.switcher.currency',
             'strategy' => 'css selector',
@@ -142,14 +132,6 @@ class CmsIndex extends FrontendPage
     public function getCompareProductsBlock()
     {
         return $this->getBlockInstance('compareProductsBlock');
-    }
-
-    /**
-     * @return \Magento\Cms\Test\Block\Page
-     */
-    public function getMainContentBlock()
-    {
-        return $this->getBlockInstance('mainContentBlock');
     }
 
     /**

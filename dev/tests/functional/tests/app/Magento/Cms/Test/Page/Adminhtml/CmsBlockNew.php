@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsBlockNew
- * Backend new CMS Block page
  */
 class CmsBlockNew extends BackendPage
 {
     const MCA = 'cms/block/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'cmsForm' => [
-            'name' => 'editForm',
             'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\Edit\CmsForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

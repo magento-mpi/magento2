@@ -7,11 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="wishlist/index/index" >
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="wishlist/index/index" module="Magento_Wishlist">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <wishlistBlock>
+            <class>Magento\Wishlist\Test\Block\Customer\Wishlist</class>
+            <locator>#wishlist-view-form</locator>
+            <strategy>css selector</strategy>
+        </wishlistBlock>
+    </blocks>
 </page>

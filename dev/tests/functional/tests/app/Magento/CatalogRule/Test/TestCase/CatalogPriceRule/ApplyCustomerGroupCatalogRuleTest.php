@@ -143,8 +143,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         );
         // Verify product detail
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productViewBlock = $productPage->getViewBlock();
         $productPriceBlock = $productViewBlock->getPriceBlock();
         // verify special price is not applied
@@ -197,13 +196,12 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
             'Displayed regular price does not match expected price.'
         );
         // Verify product and cart page prices
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
         // Verify category detail page price
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productViewBlock = $productPage->getViewBlock();
         $productPriceBlock = $productViewBlock->getPriceBlock();
         $this->assertContains(
@@ -212,7 +210,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         );
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
             (string)($product->getProductPrice() * $this->discountDecimal),

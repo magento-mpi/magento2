@@ -17,15 +17,18 @@ class IntegrationNew extends BackendPage
 {
     const MCA = 'admin/integration/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Integration\Test\Block\Adminhtml\Integration\Edit\IntegrationFormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'integrationForm' => [
-            'name' => 'integrationForm',
             'class' => 'Magento\Integration\Test\Block\Adminhtml\Integration\Edit\IntegrationForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

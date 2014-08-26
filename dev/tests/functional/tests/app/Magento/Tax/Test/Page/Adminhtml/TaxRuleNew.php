@@ -17,21 +17,23 @@ class TaxRuleNew extends BackendPage
 {
     const MCA = 'tax/rule/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'taxRuleForm' => [
-            'name' => 'taxRuleForm',
             'class' => 'Magento\Tax\Test\Block\Adminhtml\Rule\Edit\Form',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

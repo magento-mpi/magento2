@@ -17,15 +17,18 @@ class CatalogSearchEdit extends BackendPage
 {
     const MCA = 'catalog/search/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'form' => [
-            'name' => 'form',
             'class' => 'Magento\CatalogSearch\Test\Block\Adminhtml\Edit\SearchTermForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

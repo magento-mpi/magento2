@@ -17,9 +17,13 @@ class AdvancedSearch extends FrontendPage
 {
     const MCA = 'catalogsearch/advanced';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'form' => [
-            'name' => 'form',
             'class' => 'Magento\CatalogSearch\Test\Block\Advanced\Form',
             'locator' => '.form.search.advanced',
             'strategy' => 'css selector',

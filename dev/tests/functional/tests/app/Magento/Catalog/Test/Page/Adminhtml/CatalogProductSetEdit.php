@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductSetEdit
- * Product Set edit page
  */
 class CatalogProductSetEdit extends BackendPage
 {
     const MCA = 'catalog/product_set/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'attributeSetEditBlock' => [
-            'name' => 'attributeSetEditBlock',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main',
-            'locator' => '.attribute-set',
+            'locator' => '#tree-div2',
             'strategy' => 'css selector',
         ],
         'attributeSetEditForm' => [
-            'name' => 'attributeSetEditForm',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main\EditForm',
             'locator' => '#set_name',
             'strategy' => 'css selector',
@@ -54,6 +55,7 @@ class CatalogProductSetEdit extends BackendPage
     {
         return $this->getBlockInstance('attributeSetEditBlock');
     }
+
     /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main\EditForm
      */

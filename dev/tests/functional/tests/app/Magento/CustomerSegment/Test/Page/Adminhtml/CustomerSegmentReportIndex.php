@@ -17,21 +17,23 @@ class CustomerSegmentReportIndex extends BackendPage
 {
     const MCA = 'customersegment/report_customer_customersegment/segment';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'reportGrid' => [
-            'name' => 'reportGrid',
             'class' => 'Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\ReportGrid',
             'locator' => '#gridReportCustomersegments',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.messages .messages',
             'strategy' => 'css selector',

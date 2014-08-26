@@ -12,21 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsBlockEdit
- * Cms Block Edit page
  */
 class CmsBlockEdit extends BackendPage
 {
     const MCA = 'cms/block/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'blockForm' => [
-            'name' => 'blockForm',
             'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\Edit\BlockForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'pageMainActions' => [
-            'name' => 'pageMainActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

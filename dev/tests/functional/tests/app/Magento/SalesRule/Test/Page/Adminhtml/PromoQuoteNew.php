@@ -12,34 +12,33 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteNew
- *
- * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteNew extends BackendPage
 {
     const MCA = 'sales_rule/promo_quote/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'salesRuleForm' => [
-            'name' => 'salesRuleForm',
             'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'conditionsTab' => [
-            'name' => 'conditionsTab',
             'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions',
             'locator' => '#conditions__1__children',
             'strategy' => 'css selector',

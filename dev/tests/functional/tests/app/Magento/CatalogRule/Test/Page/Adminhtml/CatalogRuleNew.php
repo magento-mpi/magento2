@@ -17,15 +17,18 @@ class CatalogRuleNew extends BackendPage
 {
     const MCA = 'catalog_rule/promo_catalog/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\CatalogRule\Test\Block\Adminhtml\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'editForm' => [
-            'name' => 'editForm',
             'class' => 'Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\PromoForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

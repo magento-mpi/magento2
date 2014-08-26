@@ -17,9 +17,13 @@ class Logging extends BackendPage
 {
     const MCA = 'admin/logging';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'logGridBlock' => [
-            'name' => 'logGridBlock',
             'class' => 'Magento\Logging\Test\Block\Grid',
             'locator' => '#loggingLogGrid',
             'strategy' => 'css selector',

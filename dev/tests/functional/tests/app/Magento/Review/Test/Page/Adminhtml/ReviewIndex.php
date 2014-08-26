@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class ReviewIndex
- * Review Index page
  */
 class ReviewIndex extends BackendPage
 {
     const MCA = 'review/product/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'reviewGrid' => [
-            'name' => 'reviewGrid',
             'class' => 'Magento\Review\Test\Block\Adminhtml\Grid',
             'locator' => '#reviwGrid',
             'strategy' => 'css selector',
         ],
         'reviewActions' => [
-            'name' => 'reviewActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

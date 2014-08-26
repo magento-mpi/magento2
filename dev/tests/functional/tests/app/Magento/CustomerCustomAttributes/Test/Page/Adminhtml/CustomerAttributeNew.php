@@ -17,22 +17,23 @@ class CustomerAttributeNew extends BackendPage
 {
     const MCA = 'admin/customer_attribute/new';
 
-    // @codingStandardsIgnoreStart
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'customerCustomAttributesForm' => [
-            'name' => 'customerCustomAttributesForm',
             'class' => 'Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\CustomerCustomAttributesForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
     ];
-    // @codingStandardsIgnoreEnd
 
     /**
      * @return \Magento\Backend\Test\Block\FormPageActions
@@ -42,7 +43,6 @@ class CustomerAttributeNew extends BackendPage
         return $this->getBlockInstance('formPageActions');
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * @return \Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\CustomerCustomAttributesForm
      */
@@ -50,5 +50,4 @@ class CustomerAttributeNew extends BackendPage
     {
         return $this->getBlockInstance('customerCustomAttributesForm');
     }
-    // @codingStandardsIgnoreEnd
 }

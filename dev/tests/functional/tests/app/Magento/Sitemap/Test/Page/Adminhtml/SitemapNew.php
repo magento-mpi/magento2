@@ -17,15 +17,18 @@ class SitemapNew extends BackendPage
 {
     const MCA = 'sitemap/new/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'sitemapForm' => [
-            'name' => 'sitemapForm',
             'class' => 'Magento\Backend\Test\Block\Widget\Form',
             'locator' => '#add_sitemap_form',
             'strategy' => 'css selector',
         ],
         'sitemapPageActions' => [
-            'name' => 'sitemapPageActions',
             'class' => 'Magento\Sitemap\Test\Block\Adminhtml\SitemapPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

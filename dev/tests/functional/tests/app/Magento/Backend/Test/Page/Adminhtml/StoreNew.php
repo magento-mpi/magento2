@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class StoreNew
- * Backend new Store page
  */
 class StoreNew extends BackendPage
 {
     const MCA = 'admin/system_store/newStore';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\System\Store\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'storeForm' => [
-            'name' => 'storeForm',
-            'class' => 'Magento\Backend\Test\Block\System\Store\Edit\StoreForm',
+            'class' => 'Magento\Backend\Test\Block\System\Store\Edit\Form\StoreForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
@@ -48,7 +49,7 @@ class StoreNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Store\Edit\StoreForm
+     * @return \Magento\Backend\Test\Block\System\Store\Edit\Form\StoreForm
      */
     public function getStoreForm()
     {

@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Mtf\Client\Browser;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
@@ -106,9 +107,8 @@ class EditSimpleProductTest extends Functional
      */
     protected function assertOnProductPage(SimpleProduct $productOld, SimpleProduct $productEdited)
     {
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $productOld->getUrlKey() . '.html');
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($productOld);
-        $productPage->open();
 
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($productEdited->getName(), $productViewBlock->getProductName());

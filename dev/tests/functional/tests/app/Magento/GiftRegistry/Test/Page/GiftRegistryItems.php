@@ -17,9 +17,13 @@ class GiftRegistryItems extends FrontendPage
 {
     const MCA = 'giftregistry/index/items';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'giftRegistryItemsBlock' => [
-            'name' => 'giftRegistryItemsBlock',
             'class' => 'Magento\GiftRegistry\Test\Block\Items',
             'locator' => '#shopping-cart-table',
             'strategy' => 'css selector',

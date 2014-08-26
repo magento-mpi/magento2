@@ -12,7 +12,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Mtf\Constraint\AbstractConstraint;
@@ -34,7 +34,7 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
      * Assert that created Gift Registry type can be found at Customer Account > Gift Registry
      *
      * @param CustomerInjectable $customer
-     * @param GiftRegistry $giftRegistry
+     * @param GiftRegistryType $giftRegistryType
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
@@ -44,7 +44,7 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
      */
     public function processAssert(
         CustomerInjectable $customer,
-        GiftRegistry $giftRegistry,
+        GiftRegistryType $giftRegistryType,
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
@@ -60,8 +60,8 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
         $giftRegistryIndex->getActionsToolbar()->addNew();
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $giftRegistryAddSelect->getGiftRegistryTypeBlock()->isGiftRegistryVisible($giftRegistry->getLabel()),
-            'Gift registry \'' . $giftRegistry->getLabel() . '\' is not present in dropdown.'
+            $giftRegistryAddSelect->getGiftRegistryTypeBlock()->isGiftRegistryVisible($giftRegistryType->getLabel()),
+            'Gift registry \'' . $giftRegistryType->getLabel() . '\' is not present in dropdown.'
         );
 
     }

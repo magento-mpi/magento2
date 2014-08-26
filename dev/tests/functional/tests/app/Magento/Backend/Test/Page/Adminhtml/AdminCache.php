@@ -12,24 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class AdminCache
- * Cache Management page
  */
 class AdminCache extends BackendPage
 {
-    /**
-     * URL part for cache management page
-     */
     const MCA = 'admin/cache/';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
         'actionsBlock' => [
-            'name' => 'actionsBlock',
             'class' => 'Magento\Backend\Test\Block\Cache',
             'locator' => 'div.page-actions',
             'strategy' => 'css selector',

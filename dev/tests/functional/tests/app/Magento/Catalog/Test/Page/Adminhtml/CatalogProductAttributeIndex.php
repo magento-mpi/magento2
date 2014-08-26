@@ -12,29 +12,30 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductAttributeIndex
- * Product Attribute page
  */
 class CatalogProductAttributeIndex extends BackendPage
 {
     const MCA = 'catalog/product_attribute/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
-            'locator' => '.page-main-actions',
+            'locator' => '#page-main-actions',
             'strategy' => 'css selector',
         ],
         'grid' => [
-            'name' => 'grid',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Grid',
-            'locator' => '#attributeGrid',
+            'locator' => '.grid',
             'strategy' => 'css selector',
         ],
     ];

@@ -12,28 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CustomerGroupNew
- *
- * @package Magento\Customer\Test\Page\Adminhtml
  */
 class CustomerGroupNew extends BackendPage
 {
     const MCA = 'customer/group/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageMainActions' => [
-            'name' => 'pageMainActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'pageMainForm' => [
-            'name' => 'pageMainForm',
             'class' => 'Magento\Customer\Test\Block\Adminhtml\Group\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

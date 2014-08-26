@@ -12,47 +12,55 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CustomerAccountIndex
- * Page of customer account
  */
 class CustomerAccountIndex extends FrontendPage
 {
     const MCA = 'customer/account/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messages' => [
-            'name' => 'messages',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.page.messages',
             'strategy' => 'css selector',
         ],
         'dashboardAddress' => [
-            'name' => 'dashboardAddress',
             'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Address',
             'locator' => '.block-dashboard-addresses',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
-            'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
             'locator' => '.page-title',
             'strategy' => 'css selector',
         ],
         'accountMenuBlock' => [
-            'name' => 'accountMenuBlock',
             'class' => 'Magento\Customer\Test\Block\Account\Links',
             'locator' => '.nav.items',
             'strategy' => 'css selector',
         ],
         'infoBlock' => [
-            'name' => 'infoBlock',
             'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Info',
             'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
         'compareProductsBlock' => [
-            'name' => 'compareProductsBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Compare\Sidebar',
             'locator' => '.block.compare',
+            'strategy' => 'css selector',
+        ],
+        'redeemBlock' => [
+            'class' => 'Magento\GiftCardAccount\Test\Block\Account\Redeem',
+            'locator' => '#giftcard-form',
+            'strategy' => 'css selector',
+        ],
+        'storeCreditBlock' => [
+            'class' => 'Magento\CustomerBalance\Test\Block\Account\History',
+            'locator' => '#maincontent',
             'strategy' => 'css selector',
         ],
     ];
@@ -103,5 +111,21 @@ class CustomerAccountIndex extends FrontendPage
     public function getCompareProductsBlock()
     {
         return $this->getBlockInstance('compareProductsBlock');
+    }
+
+    /**
+     * @return \Magento\GiftCardAccount\Test\Block\Account\Redeem
+     */
+    public function getRedeemBlock()
+    {
+        return $this->getBlockInstance('redeemBlock');
+    }
+
+    /**
+     * @return \Magento\CustomerBalance\Test\Block\Account\History
+     */
+    public function getStoreCreditBlock()
+    {
+        return $this->getBlockInstance('storeCreditBlock');
     }
 }

@@ -15,23 +15,25 @@ use Mtf\Page\BackendPage;
  */
 class UserRoleIndex extends BackendPage
 {
-    const MCA = 'admin/user_role';
+    const MCA = 'admin/user_role/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'roleActions' => [
-            'name' => 'roleActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'roleGrid' => [
-            'name' => 'roleGrid',
             'class' => 'Magento\User\Test\Block\Adminhtml\RoleGrid',
             'locator' => '#roleGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

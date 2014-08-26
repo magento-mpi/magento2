@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CustomerIndexNew
- *
  */
 class CustomerIndexNew extends BackendPage
 {
     const MCA = 'customer/index/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'customerForm' => [
-            'name' => 'customerForm',
             'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

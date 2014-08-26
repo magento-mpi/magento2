@@ -17,21 +17,23 @@ class SystemConfig extends BackendPage
 {
     const MCA = 'admin/system_config';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\System\Config\PageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'form' => [
-            'name' => 'form',
             'class' => 'Magento\Backend\Test\Block\System\Config\Form',
             'locator' => '#config-edit-form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

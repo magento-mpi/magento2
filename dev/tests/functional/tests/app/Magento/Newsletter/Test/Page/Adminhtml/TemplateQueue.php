@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TemplateQueue
- * TemplateQueue page
  */
 class TemplateQueue extends BackendPage
 {
     const MCA = 'newsletter/queue/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Newsletter\Test\Block\Adminhtml\Template\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'editForm' => [
-            'name' => 'editForm',
             'class' => 'Magento\Backend\Test\Block\Widget\Form',
             'locator' => '#queue_edit_form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

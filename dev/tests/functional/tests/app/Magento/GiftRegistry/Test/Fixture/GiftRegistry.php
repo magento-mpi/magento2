@@ -67,12 +67,10 @@ class GiftRegistry extends InjectableFixture
 
     protected $customer_id = [
         'attribute_code' => 'customer_id',
-        'backend_type' => 'virtual',
+        'backend_type' => 'int',
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
-        'source' => 'Magento\GiftRegistry\Test\Fixture\GiftRegistry\CustomerId',
-        'group' => null
     ];
 
     protected $website_id = [
@@ -209,64 +207,6 @@ class GiftRegistry extends InjectableFixture
         'source' => 'Magento\GiftRegistry\Test\Fixture\GiftRegistry\Address',
     ];
 
-    protected $code = [
-        'attribute_code' => 'code',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-        'group' => 'general'
-    ];
-
-    protected $meta_xml = [
-        'attribute_code' => 'meta_xml',
-        'backend_type' => 'blob',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $store_id = [
-        'attribute_code' => 'store_id',
-        'backend_type' => 'smallint',
-        'is_required' => '1',
-        'default_value' => '0',
-        'input' => '',
-    ];
-
-    protected $label = [
-        'attribute_code' => 'label',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-        'group' => 'general'
-    ];
-
-    protected $is_listed = [
-        'attribute_code' => 'is_listed',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => 'select',
-        'group' => 'general'
-    ];
-
-    protected $sort_order = [
-        'attribute_code' => 'sort_order',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $attributes = [
-        'attribute_code' => 'attributes',
-        'backend_type' => 'virtual',
-        'source' => '\Magento\GiftRegistry\Test\Fixture\GiftRegistry\Attributes',
-        'group' => 'attributes'
-    ];
-
     public function getEntityId()
     {
         return $this->getData('entity_id');
@@ -370,35 +310,5 @@ class GiftRegistry extends InjectableFixture
     public function getAddress()
     {
         return $this->getData('address');
-    }
-
-    public function getCode()
-    {
-        return $this->getData('code');
-    }
-
-    public function getMetaXml()
-    {
-        return $this->getData('meta_xml');
-    }
-
-    public function getStoreId()
-    {
-        return $this->getData('store_id');
-    }
-
-    public function getLabel()
-    {
-        return $this->getData('label');
-    }
-
-    public function getIsListed()
-    {
-        return $this->getData('is_listed');
-    }
-
-    public function getSortOrder()
-    {
-        return $this->getData('sort_order');
     }
 }

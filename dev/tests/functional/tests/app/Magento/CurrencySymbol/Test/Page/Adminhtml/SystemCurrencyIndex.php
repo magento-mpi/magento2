@@ -17,15 +17,18 @@ class SystemCurrencyIndex extends BackendPage
 {
     const MCA = 'admin/system_currency/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\GridPageActions',
             'locator' => '.grid-actions',
             'strategy' => 'css selector',
         ],
         'mainPageActions' => [
-            'name' => 'mainPageActions',
             'class' => 'Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\MainPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

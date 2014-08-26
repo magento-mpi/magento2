@@ -17,15 +17,18 @@ class PromoQuoteEdit extends BackendPage
 {
     const MCA = 'sales_rule/promo_quote/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'salesRuleForm' => [
-            'name' => 'salesRuleForm',
             'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

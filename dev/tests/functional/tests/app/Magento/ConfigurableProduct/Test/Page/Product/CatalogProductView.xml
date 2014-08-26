@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="configurable/product/view">
-    <block>
-        <name>viewBlock</name>
-        <class>Magento\ConfigurableProduct\Test\Block\Product\View</class>
-        <locator>#maincontent</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="catalog/product/view">
+    <blocks>
+        <bundleViewBlock>
+            <class>Magento\Bundle\Test\Block\Catalog\Product\View</class>
+            <locator>.bundle-options-container</locator>
+            <strategy>css selector</strategy>
+        </bundleViewBlock>
+    </blocks>
 </page>

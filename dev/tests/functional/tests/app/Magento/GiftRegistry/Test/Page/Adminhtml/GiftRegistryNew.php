@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class GiftRegistryNew
- * GiftRegistry edit backend page
  */
 class GiftRegistryNew extends BackendPage
 {
     const MCA = 'admin/giftregistry/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'giftRegistryForm' => [
-            'name' => 'giftRegistryForm',
             'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\GiftRegistryForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

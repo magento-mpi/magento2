@@ -17,21 +17,23 @@ class SystemCurrencySymbolIndex extends BackendPage
 {
     const MCA = 'admin/system_currencysymbol/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'currencySymbolForm' => [
-            'name' => 'currencySymbolForm',
             'class' => 'Magento\CurrencySymbol\Test\Block\Adminhtml\System\CurrencySymbolForm',
-            'locator' => '.grid',
+            'locator' => '#grid',
             'strategy' => 'css selector',
         ],
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\CurrencySymbol\Test\Block\Adminhtml\System\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

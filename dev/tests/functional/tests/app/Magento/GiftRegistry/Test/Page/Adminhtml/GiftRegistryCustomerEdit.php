@@ -12,17 +12,30 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class GiftRegistryCustomerEdit
- * Gift registry page on backend
  */
 class GiftRegistryCustomerEdit extends BackendPage
 {
     const MCA = 'giftregistry_customer/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'actionsToolbarBlock' => [
-            'name' => 'actionsToolbarBlock',
             'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Edit\ActionsToolbar',
             'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'sharingInfoBlock' => [
+            'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Sharing',
+            'locator' => '#edit_form',
+            'strategy' => 'css selector',
+        ],
+        'messagesBlock' => [
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages',
             'strategy' => 'css selector',
         ],
     ];
@@ -33,5 +46,21 @@ class GiftRegistryCustomerEdit extends BackendPage
     public function getActionsToolbarBlock()
     {
         return $this->getBlockInstance('actionsToolbarBlock');
+    }
+
+    /**
+     * @return \Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Sharing
+     */
+    public function getSharingInfoBlock()
+    {
+        return $this->getBlockInstance('sharingInfoBlock');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

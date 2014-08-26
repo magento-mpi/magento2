@@ -17,21 +17,23 @@ class TaxRateIndex extends BackendPage
 {
     const MCA = 'tax/rate/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Tax\Test\Block\Adminhtml\Rate\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'taxRateGrid' => [
-            'name' => 'taxRateGrid',
             'class' => 'Magento\Tax\Test\Block\Adminhtml\Rate\Grid',
             'locator' => '#tax_rate_grid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

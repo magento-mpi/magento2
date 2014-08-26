@@ -8,34 +8,32 @@
 
 namespace Magento\Backend\Test\Page;
 
-use Mtf\Page\BackendPage;
+use Mtf\Page\FrontendPage;
 
 /**
  * Class Dashboard
- * Dashboard (Home) page for backend
  */
-class Dashboard extends BackendPage
+class Dashboard extends FrontendPage
 {
-    /**
-     * URL part for backend authorization
-     */
     const MCA = 'admin/dashboard';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'adminPanelHeader' => [
-            'name' => 'adminPanelHeader',
             'class' => 'Magento\Backend\Test\Block\Page\Header',
             'locator' => '.page-header',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
-            'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
             'locator' => '.page-title',
             'strategy' => 'css selector',
         ],
         'menuBlock' => [
-            'name' => 'menuBlock',
             'class' => 'Magento\Backend\Test\Block\Menu',
             'locator' => '.navigation',
             'strategy' => 'css selector',
@@ -43,8 +41,6 @@ class Dashboard extends BackendPage
     ];
 
     /**
-     * Get admin panel header block instance
-     *
      * @return \Magento\Backend\Test\Block\Page\Header
      */
     public function getAdminPanelHeader()
@@ -53,8 +49,6 @@ class Dashboard extends BackendPage
     }
 
     /**
-     * Get title block
-     *
      * @return \Magento\Theme\Test\Block\Html\Title
      */
     public function getTitleBlock()
@@ -63,8 +57,6 @@ class Dashboard extends BackendPage
     }
 
     /**
-     * Get Menu block
-     *
      * @return \Magento\Backend\Test\Block\Menu
      */
     public function getMenuBlock()

@@ -12,15 +12,18 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class SearchResult
- * Wish list search result page
  */
 class SearchResult extends FrontendPage
 {
     const MCA = 'wishlist/search/results';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'wishlistSearchResultBlock' => [
-            'name' => 'wishlistSearchResultBlock',
             'class' => 'Magento\MultipleWishlist\Test\Block\Widget\Search\Result',
             'locator' => '.block.wishlist.find.results',
             'strategy' => 'css selector',

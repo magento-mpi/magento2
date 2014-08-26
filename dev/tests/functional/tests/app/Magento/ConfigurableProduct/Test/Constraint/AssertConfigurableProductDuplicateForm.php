@@ -47,7 +47,7 @@ class AssertConfigurableProductDuplicateForm extends AbstractAssertForm
             unset($formData['configurable_attributes_data']['matrix'][$key]['price']);
         }
 
-        $fixtureData = $this->prepareFixtureData($product->getData());
+        $fixtureData = $this->prepareFixtureData($product->getData(), $product);
         $attributes = $fixtureData['configurable_attributes_data']['attributes_data'];
         $matrix = $fixtureData['configurable_attributes_data']['matrix'];
         unset($fixtureData['configurable_attributes_data']);

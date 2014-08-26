@@ -11,27 +11,29 @@ namespace Magento\UrlRewrite\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class UrlRewriteIndex
+ * Class UrlrewriteIndex
  */
 class UrlrewriteIndex extends BackendPage
 {
     const MCA = 'admin/urlrewrite/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'urlRedirectGrid' => [
-            'name' => 'urlRedirectGrid',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Grid',
             'locator' => '#urlrewriteGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.messages .messages',
             'strategy' => 'css selector',

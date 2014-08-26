@@ -17,15 +17,18 @@ class GiftRegistryEdit extends FrontendPage
 {
     const MCA = 'giftregistry/index/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'actionsToolbarBlock' => [
-            'name' => 'actionsToolbarBlock',
             'class' => 'Magento\GiftRegistry\Test\Block\Customer\Edit\ActionsToolbar',
             'locator' => '//div[div/button[@id="submit.save"]]',
             'strategy' => 'xpath',
         ],
         'customerEditForm' => [
-            'name' => 'customerEditForm',
             'class' => 'Magento\GiftRegistry\Test\Block\Customer\Edit',
             'locator' => '.form-giftregistry-edit',
             'strategy' => 'css selector',

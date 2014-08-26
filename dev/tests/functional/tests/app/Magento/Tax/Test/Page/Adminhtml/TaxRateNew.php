@@ -17,21 +17,23 @@ class TaxRateNew extends BackendPage
 {
     const MCA = 'tax/rate/add';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Tax\Test\Block\Adminhtml\Rate\Edit\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'taxRateForm' => [
-            'name' => 'taxRateForm',
             'class' => 'Magento\Tax\Test\Block\Adminhtml\Rate\Edit\Form',
             'locator' => '#rate-form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

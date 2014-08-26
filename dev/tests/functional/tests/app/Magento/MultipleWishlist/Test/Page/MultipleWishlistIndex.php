@@ -8,38 +8,37 @@
 
 namespace Magento\MultipleWishlist\Test\Page;
 
-use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Page\FrontendPage;
 
 /**
- * Class WishlistIndex
+ * Class MultipleWishlistIndex
  */
-class MultipleWishlistIndex extends WishlistIndex
+class MultipleWishlistIndex extends FrontendPage
 {
     const MCA = 'wishlist/index';
 
     /**
-     * Init page
+     * Blocks' config
      *
-     * @return void
+     * @var array
      */
-    protected function _init()
-    {
-        $this->_blocks += [
-            'managementBlock' => [
-                'name' => 'managementBlock',
-                'class' => 'Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management',
-                'locator' => '//*[*[contains(@class,"message notice") or contains(@class,"wishlist management")]]',
-                'strategy' => 'xpath',
-            ],
-            'behaviourBlock' => [
-                'name' => 'behaviourBlock',
-                'class' => 'Magento\MultipleWishlist\Test\Block\Behaviour',
-                'locator' => '#create-wishlist-block',
-                'strategy' => 'css selector',
-            ],
-        ];
-        parent::_init();
-    }
+    protected $blocks = [
+        'managementBlock' => [
+            'class' => 'Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management',
+            'locator' => '//*[*[contains(@class,"message notice") or contains(@class,"wishlist management")]]',
+            'strategy' => 'xpath',
+        ],
+        'behaviourBlock' => [
+            'class' => 'Magento\MultipleWishlist\Test\Block\Behaviour',
+            'locator' => '[id$="wishlist-block"].popup.active',
+            'strategy' => 'css selector',
+        ],
+        'messagesBlock' => [
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.page.messages .messages',
+            'strategy' => 'css selector',
+        ],
+    ];
 
     /**
      * @return \Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management
@@ -55,5 +54,13 @@ class MultipleWishlistIndex extends WishlistIndex
     public function getBehaviourBlock()
     {
         return $this->getBlockInstance('behaviourBlock');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

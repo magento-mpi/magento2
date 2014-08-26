@@ -17,21 +17,23 @@ class UserRoleEditRole extends BackendPage
 {
     const MCA = 'admin/user_role/editrole';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\User\Test\Block\Adminhtml\Role\PageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'roleFormTabs' => [
-            'name' => 'roleFormTabs',
             'class' => 'Magento\User\Test\Block\Adminhtml\Role\RoleForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

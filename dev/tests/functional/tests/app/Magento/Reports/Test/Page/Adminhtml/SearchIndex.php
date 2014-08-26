@@ -12,15 +12,18 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SearchIndex
- * Search report page
  */
 class SearchIndex extends BackendPage
 {
     const MCA = 'reports/index/search';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'searchGrid' => [
-            'name' => 'searchGrid',
             'class' => 'Magento\Reports\Test\Block\Adminhtml\SearchTermsGrid',
             'locator' => '#searchReportGrid',
             'strategy' => 'css selector',

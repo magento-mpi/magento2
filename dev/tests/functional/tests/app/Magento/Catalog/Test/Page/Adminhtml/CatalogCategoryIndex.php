@@ -12,17 +12,25 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogCategoryIndex
- * Category page on the Backend
  */
 class CatalogCategoryIndex extends BackendPage
 {
-    const MCA = 'catalog/category/index/index'; // TODO: Fix after resolving issue with factory page generation
+    const MCA = 'catalog/category/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'treeCategories' => [
-            'name' => 'treeCategories',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Tree',
             'locator' => '[id="page:left"]',
+            'strategy' => 'css selector',
+        ],
+        'pageActionsEvent' => [
+            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions',
+            'locator' => '.page-actions',
             'strategy' => 'css selector',
         ],
     ];
@@ -33,5 +41,13 @@ class CatalogCategoryIndex extends BackendPage
     public function getTreeCategories()
     {
         return $this->getBlockInstance('treeCategories');
+    }
+
+    /**
+     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions
+     */
+    public function getPageActionsEvent()
+    {
+        return $this->getBlockInstance('pageActionsEvent');
     }
 }

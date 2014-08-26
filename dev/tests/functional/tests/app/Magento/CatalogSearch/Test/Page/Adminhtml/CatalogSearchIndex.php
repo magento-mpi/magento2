@@ -17,21 +17,23 @@ class CatalogSearchIndex extends BackendPage
 {
     const MCA = 'catalog/search/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'grid' => [
-            'name' => 'grid',
             'class' => 'Magento\CatalogSearch\Test\Block\Adminhtml\Grid',
             'locator' => '#catalog_search_grid',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

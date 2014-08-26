@@ -17,21 +17,23 @@ class IntegrationIndex extends BackendPage
 {
     const MCA = 'admin/integration/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'integrationGrid' => [
-            'name' => 'integrationGrid',
             'class' => 'Magento\Integration\Test\Block\Adminhtml\Integration\IntegrationGrid',
             'locator' => '#integrationGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

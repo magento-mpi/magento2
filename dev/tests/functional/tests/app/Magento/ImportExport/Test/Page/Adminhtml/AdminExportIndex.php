@@ -12,21 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class AdminExportIndex
- * Export page
  */
 class AdminExportIndex extends BackendPage
 {
     const MCA = 'admin/export/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'filterExport' => [
-            'name' => 'filterExport',
             'class' => 'Magento\ImportExport\Test\Block\Adminhtml\Export\Filter',
             'locator' => '#export_filter_container',
             'strategy' => 'css selector',
         ],
         'exportForm' => [
-            'name' => 'exportForm',
             'class' => 'Magento\ImportExport\Test\Block\Adminhtml\Export\Edit\Form',
             'locator' => '#base_fieldset',
             'strategy' => 'css selector',

@@ -17,27 +17,28 @@ class UserEdit extends BackendPage
 {
     const MCA = 'admin/user/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'userForm' => [
-            'name' => 'userForm',
             'class' => 'Magento\User\Test\Block\Adminhtml\User\UserForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'rolesGrid' => [
-            'name' => 'rolesGrid',
             'class' => 'Magento\User\Test\Block\Adminhtml\User\Tab\Role\Grid',
             'locator' => '[id="permissionsUserRolesGrid"]',
             'strategy' => 'css selector',

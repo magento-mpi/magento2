@@ -28,6 +28,9 @@ class NameTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testToHtmlSimpleName()
     {
         /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
@@ -48,6 +51,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/attribute_user_fullname.php
      */
     public function testToHtmlFancyName()

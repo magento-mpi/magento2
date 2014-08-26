@@ -12,59 +12,66 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
- * Catalog Category page
  */
 class CatalogCategoryView extends FrontendPage
 {
     const MCA = 'catalog/category/view';
 
     /**
+     * Blocks' config
+     *
      * @var array
      */
-    protected $_blocks = [
+    protected $blocks = [
+        'bannerViewBlock' => [
+            'class' => 'Magento\Banner\Test\Block\Category\View',
+            'locator' => '.column.main',
+            'strategy' => 'css selector',
+        ],
         'listProductBlock' => [
-            'name' => 'listProductBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\ListProduct',
             'locator' => '.products.wrapper.grid',
             'strategy' => 'css selector',
         ],
         'mapBlock' => [
-            'name' => 'mapBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Price',
             'locator' => '#map-popup-content',
             'strategy' => 'css selector',
         ],
         'layeredNavigationBlock' => [
-            'name' => 'layeredNavigationBlock',
             'class' => 'Magento\LayeredNavigation\Test\Block\Navigation',
             'locator' => '.block.filter',
             'strategy' => 'css selector',
         ],
-        'topToolbar' => [
-            'name' => 'topToolbar',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\TopToolbar',
-            'locator' => './/*[contains(@class,"toolbar-products")][1]',
-            'strategy' => 'xpath',
-        ],
-        'bottomToolbar' => [
-            'name' => 'bottomToolbar',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\BottomToolbar',
-            'locator' => './/*[contains(@class,"toolbar-products")][2]',
-            'strategy' => 'xpath',
+        'toolbar' => [
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
+            'locator' => '.toolbar.products',
+            'strategy' => 'css selector',
         ],
         'titleBlock' => [
-            'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
             'locator' => '.page-title h1.title .base',
             'strategy' => 'css selector',
         ],
         'viewBlock' => [
-            'name' => 'viewBlock',
             'class' => 'Magento\Catalog\Test\Block\Category\View',
             'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
+        'eventBlock' => [
+            'class' => 'Magento\CatalogEvent\Test\Block\Catalog\Event',
+            'locator' => '.top-container',
+            'strategy' => 'css selector',
+        ],
     ];
+
+    /**
+     * @return \Magento\Banner\Test\Block\Category\View
+     */
+    public function getBannerViewBlock()
+    {
+        return $this->getBlockInstance('bannerViewBlock');
+    }
 
     /**
      * @return \Magento\Catalog\Test\Block\Product\ListProduct
@@ -91,19 +98,11 @@ class CatalogCategoryView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\TopToolbar
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
      */
-    public function getTopToolbar()
+    public function getToolbar()
     {
-        return $this->getBlockInstance('topToolbar');
-    }
-
-    /**
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\BottomToolbar
-     */
-    public function getBottomToolbar()
-    {
-        return $this->getBlockInstance('bottomToolbar');
+        return $this->getBlockInstance('toolbar');
     }
 
     /**
@@ -120,5 +119,13 @@ class CatalogCategoryView extends FrontendPage
     public function getViewBlock()
     {
         return $this->getBlockInstance('viewBlock');
+    }
+
+    /**
+     * @return \Magento\CatalogEvent\Test\Block\Catalog\Event
+     */
+    public function getEventBlock()
+    {
+        return $this->getBlockInstance('eventBlock');
     }
 }

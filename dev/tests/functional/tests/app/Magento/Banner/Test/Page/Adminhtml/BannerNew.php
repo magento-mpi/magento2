@@ -12,23 +12,30 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class BannerNew
- * New banner page
  */
 class BannerNew extends BackendPage
 {
-    const MCA = 'admin/banner/new';
+    const MCA = 'admin/banner/new/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'bannerForm' => [
-            'name' => 'bannerForm',
             'class' => 'Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'pageMainActions' => [
-            'name' => 'pageMainActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'segmentBannerForm' => [
+            'class' => 'Magento\CustomerSegment\Test\Block\Adminhtml\Banner\BannerForm',
+            'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
     ];
@@ -47,5 +54,13 @@ class BannerNew extends BackendPage
     public function getPageMainActions()
     {
         return $this->getBlockInstance('pageMainActions');
+    }
+
+    /**
+     * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Banner\BannerForm
+     */
+    public function getSegmentBannerForm()
+    {
+        return $this->getBlockInstance('segmentBannerForm');
     }
 }

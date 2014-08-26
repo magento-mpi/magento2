@@ -12,28 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CustomerGroupIndex
- *
- * @package Magento\Customer\Test\Page\Adminhtml
  */
 class CustomerGroupIndex extends BackendPage
 {
     const MCA = 'customer/group/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'customerGroupGrid' => [
-            'name' => 'customerGroupGrid',
             'class' => 'Magento\Customer\Test\Block\Adminhtml\Group\CustomerGroupGrid',
             'locator' => '#customerGroupGrid',
             'strategy' => 'css selector',

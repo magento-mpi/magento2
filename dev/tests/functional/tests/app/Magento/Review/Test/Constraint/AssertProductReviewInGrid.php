@@ -8,13 +8,14 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
-use Magento\Review\Test\Fixture\ReviewInjectable;
-use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 
 /**
  * Class AssertProductReviewInGrid
+ * Check that review is displayed in grid
  */
 class AssertProductReviewInGrid extends AbstractConstraint
 {
@@ -30,7 +31,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
      *
      * @var array
      */
-    protected $filter = [
+    public $filter = [
         'review_id',
         'status' => 'status_id',
         'title',
@@ -67,7 +68,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
         unset($filter['visible_in']);
         \PHPUnit_Framework_Assert::assertTrue(
             $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
-            'Review with is absent in Review grid.'
+            'Review is absent in Review grid.'
         );
     }
 
@@ -79,7 +80,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * @param string $gridStatus
      * @return array
      */
-    protected function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
+    public function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
     {
         $filter = [];
         foreach ($this->filter as $key => $item) {

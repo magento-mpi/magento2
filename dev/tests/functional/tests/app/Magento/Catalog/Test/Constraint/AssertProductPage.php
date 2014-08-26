@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\ObjectManager;
+use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -55,16 +56,16 @@ class AssertProductPage extends AbstractConstraint
      * 5. Description
      * 6. Short Description
      *
+     * @param Browser $browser
      * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(FixtureInterface $product)
+    public function processAssert(Browser $browser, FixtureInterface $product)
     {
         // TODO fix initialization url for frontend page
-        $catalogProductView = ObjectManager::getInstance()->create($this->productViewClass);
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
+        $catalogProductView = ObjectManager::getInstance()->create($this->productViewClass);
         $this->product = $product;
         $this->productView = $catalogProductView->getViewBlock();
 

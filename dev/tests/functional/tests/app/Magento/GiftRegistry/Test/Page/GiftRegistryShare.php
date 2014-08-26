@@ -17,9 +17,13 @@ class GiftRegistryShare extends FrontendPage
 {
     const MCA = 'giftregistry/index/share';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'giftRegistryShareForm' => [
-            'name' => 'giftRegistryShareForm',
             'class' => 'Magento\GiftRegistry\Test\Block\Customer\Share',
             'locator' => '#giftregistry-sharing-form',
             'strategy' => 'css selector',

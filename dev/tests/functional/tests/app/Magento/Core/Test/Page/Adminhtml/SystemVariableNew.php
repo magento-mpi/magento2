@@ -17,15 +17,18 @@ class SystemVariableNew extends BackendPage
 {
     const MCA = 'admin/system_variable/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Core\Test\Block\Adminhtml\System\Variable\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'systemVariableForm' => [
-            'name' => 'systemVariableForm',
             'class' => 'Magento\Backend\Test\Block\System\Variable\Edit\VariableForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',

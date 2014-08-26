@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TargetRuleIndex
- * Backend target rule index page
  */
 class TargetRuleIndex extends BackendPage
 {
     const MCA = 'admin/targetrule/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'targetRuleGrid' => [
-            'name' => 'targetRuleGrid',
             'class' => 'Magento\TargetRule\Test\Block\Adminhtml\Grid',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

@@ -17,9 +17,13 @@ class GiftRegistryAddSelect extends FrontendPage
 {
     const MCA = 'giftregistry/index/addselect';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'giftRegistryTypeBlock' => [
-            'name' => 'giftRegistryTypeBlock',
             'class' => 'Magento\GiftRegistry\Test\Block\Customer\Edit',
             'locator' => '#form-validate',
             'strategy' => 'css selector',

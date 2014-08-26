@@ -40,6 +40,13 @@ class Info extends Block
     protected $_eCommerceIndicator = '//tr[normalize-space(th)="3D Secure Electronic Commerce Indicator:"]/td';
 
     /**
+     * Order status selector
+     *
+     * @var string
+     */
+    protected $orderStatus = '#order_status';
+
+    /**
      * Get 3D Secure Verification Result
      *
      * @return array|string
@@ -67,5 +74,15 @@ class Info extends Block
     public function getEcommerceIndicator()
     {
         return $this->_rootElement->find($this->_eCommerceIndicator, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get order status from info block
+     *
+     * @return array|string
+     */
+    public function getOrderStatus()
+    {
+        return $this->_rootElement->find($this->orderStatus)->getText();
     }
 }

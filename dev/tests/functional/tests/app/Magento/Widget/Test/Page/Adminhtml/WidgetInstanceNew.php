@@ -12,15 +12,18 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class WidgetInstanceNew
- * Widget Instance New page
  */
 class WidgetInstanceNew extends BackendPage
 {
     const MCA = 'admin/widget_instance/new/';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'widgetForm' => [
-            'name' => 'widgetForm',
             'class' => 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
@@ -30,7 +33,7 @@ class WidgetInstanceNew extends BackendPage
     /**
      * @return \Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm
      */
-    public function getForm()
+    public function getWidgetForm()
     {
         return $this->getBlockInstance('widgetForm');
     }

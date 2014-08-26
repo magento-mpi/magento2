@@ -17,28 +17,28 @@ class CustomerAttributeIndex extends BackendPage
 {
     const MCA = 'admin/customer_attribute';
 
-    // @codingStandardsIgnoreStart
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'customerCustomAttributesGrid' => [
-            'name' => 'customerCustomAttributesGrid',
             'class' => 'Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\CustomerCustomAttributesGrid',
             'locator' => '[id="customerAttributeGrid"]',
             'strategy' => 'css selector',
         ],
     ];
-    // @codingStandardsIgnoreEnd
 
     /**
      * @return \Magento\Core\Test\Block\Messages

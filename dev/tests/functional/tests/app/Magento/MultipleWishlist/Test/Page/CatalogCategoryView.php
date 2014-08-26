@@ -8,33 +8,27 @@
 
 namespace Magento\MultipleWishlist\Test\Page;
 
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView as ParentCatalogCategoryView;
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
- * Catalog Category page
  */
-class CatalogCategoryView extends ParentCatalogCategoryView
+class CatalogCategoryView extends FrontendPage
 {
     const MCA = 'wishlist/catalog/category/view';
 
     /**
-     * Init page
+     * Blocks' config
      *
-     * @return void
+     * @var array
      */
-    public function _init()
-    {
-        $this->_blocks += [
-            'wishlistSearchBlock' => [
-                'name' => 'wishlistSearchBlock',
-                'class' => 'Magento\MultipleWishlist\Test\Block\Widget\Search',
-                'locator' => '.widget.block.wishlist.find',
-                'strategy' => 'css selector',
-            ],
-        ];
-        parent::_init();
-    }
+    protected $blocks = [
+        'wishlistSearchBlock' => [
+            'class' => 'Magento\MultipleWishlist\Test\Block\Widget\Search',
+            'locator' => '.widget.block.wishlist.find',
+            'strategy' => 'css selector',
+        ],
+    ];
 
     /**
      * @return \Magento\MultipleWishlist\Test\Block\Widget\Search

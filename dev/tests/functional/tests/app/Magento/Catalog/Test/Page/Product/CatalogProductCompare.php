@@ -12,21 +12,23 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogProductCompare
- * Frontend product compare page
  */
 class CatalogProductCompare extends FrontendPage
 {
     const MCA = 'catalog/product_compare/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'compareProductsBlock' => [
-            'name' => 'compareProductsBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Compare\ListCompare',
             'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.page.messages .messages',
             'strategy' => 'css selector',
@@ -34,8 +36,6 @@ class CatalogProductCompare extends FrontendPage
     ];
 
     /**
-     * Get compare products block
-     *
      * @return \Magento\Catalog\Test\Block\Product\Compare\ListCompare
      */
     public function getCompareProductsBlock()
@@ -44,8 +44,6 @@ class CatalogProductCompare extends FrontendPage
     }
 
     /**
-     * Get message block
-     *
      * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessagesBlock()

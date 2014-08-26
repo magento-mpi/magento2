@@ -17,21 +17,23 @@ class GiftWrappingNew extends BackendPage
 {
     const MCA = 'admin/giftwrapping/new/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'giftWrappingForm' => [
-            'name' => 'giftWrappingForm',
             'class' => 'Magento\GiftWrapping\Test\Block\Adminhtml\Edit\Form',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

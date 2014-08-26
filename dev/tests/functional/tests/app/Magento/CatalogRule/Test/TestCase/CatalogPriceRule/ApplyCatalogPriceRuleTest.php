@@ -20,7 +20,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class ApplyCatalogPriceRule
- *
  */
 class ApplyCatalogPriceRuleTest extends Functional
 {
@@ -164,15 +163,14 @@ class ApplyCatalogPriceRuleTest extends Functional
     protected function verifyAddProducts(array $products)
     {
         // Get empty cart
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         foreach ($products as $product) {
             // Open Product page
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productViewBlock = $productPage->getViewBlock();
 
             // Verify Product page price
@@ -206,7 +204,7 @@ class ApplyCatalogPriceRuleTest extends Functional
 
             // Add to Cart
             $productViewBlock->clickAddToCart();
-            $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+            $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
             $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
 
             // Verify Cart page price
@@ -227,15 +225,22 @@ class ApplyCatalogPriceRuleTest extends Functional
      */
     protected function checkoutProcess(CheckMoneyOrderFlat $fixture)
     {
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $reviewBlock = $checkoutOnePage->getReviewBlock();
 
         $this->assertContains($fixture->getGrandTotal(), $reviewBlock->getGrandTotal(), 'Incorrect Grand Total');

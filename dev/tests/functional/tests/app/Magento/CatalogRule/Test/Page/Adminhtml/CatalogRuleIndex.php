@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogRuleIndex
- *
  */
 class CatalogRuleIndex extends BackendPage
 {
     const MCA = 'catalog_rule/promo_catalog/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\CatalogRule\Test\Block\Adminhtml\Promo\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'catalogRuleGrid' => [
-            'name' => 'catalogRuleGrid',
             'class' => 'Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog',
             'locator' => '#promo_catalog_grid',
             'strategy' => 'css selector',

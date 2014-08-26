@@ -12,29 +12,30 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductAttributeNew
- * Product Attribute New page
  */
 class CatalogProductAttributeNew extends BackendPage
 {
     const MCA = 'catalog/product_attribute/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'attributeForm' => [
-            'name' => 'attributeForm',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\AttributeForm',
-            'locator' => '[id$="main-container"]',
+            'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
     ];

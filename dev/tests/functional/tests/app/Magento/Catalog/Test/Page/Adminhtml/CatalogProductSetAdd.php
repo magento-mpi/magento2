@@ -12,21 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductSetAdd
- * Product Set add page
  */
 class CatalogProductSetAdd extends BackendPage
 {
     const MCA = 'catalog/product_set/add';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\FormPageActions',
+            'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'attributeSetForm' => [
-            'name' => 'attributeSetForm',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main\AttributeSetForm',
             'locator' => '#set_name',
             'strategy' => 'css selector',
@@ -34,7 +36,7 @@ class CatalogProductSetAdd extends BackendPage
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\FormPageActions
+     * @return \Magento\Backend\Test\Block\FormPageActions
      */
     public function getPageActions()
     {

@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class ReviewEdit
- * Review edit page
  */
 class ReviewEdit extends BackendPage
 {
     const MCA = 'review/product/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Review\Test\Block\Adminhtml\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'reviewForm' => [
-            'name' => 'reviewForm',
             'class' => 'Magento\Review\Test\Block\Adminhtml\ReviewForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
         'productGrid' => [
-            'name' => 'productGrid',
             'class' => 'Magento\Review\Test\Block\Adminhtml\Product\Grid',
             'locator' => '#productGrid',
             'strategy' => 'css selector',

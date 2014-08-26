@@ -12,33 +12,33 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductIndex
- * Products page on the Backend
  */
 class CatalogProductIndex extends BackendPage
 {
     const MCA = 'catalog/product/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'productGrid' => [
-            'name' => 'productGrid',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Grid',
             'locator' => '#productGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'gridPageActionBlock' => [
-            'name' => 'gridPageActionBlock',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\GridPageAction',
             'locator' => '#add_new_product',
             'strategy' => 'css selector',
         ],
         'accessDeniedBlock' => [
-            'name' => 'accessDeniedBlock',
             'class' => 'Magento\Backend\Test\Block\Denied',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

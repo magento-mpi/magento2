@@ -29,7 +29,7 @@ class Order extends DataFixture
      *
      * @var \Magento\Catalog\Test\Fixture\SimpleProduct[]
      */
-    protected $products = array();
+    protected $products = [];
 
     /**
      * Customer billing address
@@ -71,22 +71,22 @@ class Order extends DataFixture
      */
     protected function _initData()
     {
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$32.73'
-            ),
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '32.73'
+            ],
             'store_view' => 'Default Store View',
             'website_id' => '0'
-        );
+        ];
     }
 
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array(
+        $this->_persistConfiguration([
             'flat_rate',
             'default_tax_config'
-        ));
+        ]);
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $objectManager = Factory::getObjectManager();
@@ -102,10 +102,10 @@ class Order extends DataFixture
         $simple->persist();
         $configurable->persist();
 
-        $this->products = array(
+        $this->products = [
             $simple,
             $configurable
-        );
+        ];
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $this->billingAddress->switchData('address_data_US_1');

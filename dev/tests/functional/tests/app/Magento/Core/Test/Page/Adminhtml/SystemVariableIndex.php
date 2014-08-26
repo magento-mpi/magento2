@@ -17,21 +17,23 @@ class SystemVariableIndex extends BackendPage
 {
     const MCA = 'admin/system_variable/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'systemVariableGrid' => [
-            'name' => 'systemVariableGrid',
             'class' => 'Magento\Backend\Test\Block\System\Variable\Grid',
             'locator' => '#customVariablesGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

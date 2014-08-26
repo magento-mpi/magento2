@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogCategoryEdit
- * Category edit page on the Backend
  */
 class CatalogCategoryEdit extends BackendPage
 {
     const MCA = 'catalog/category/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'editForm' => [
-            'name' => 'editForm',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Edit\CategoryForm',
             'locator' => '#category-edit-container',
             'strategy' => 'css selector',

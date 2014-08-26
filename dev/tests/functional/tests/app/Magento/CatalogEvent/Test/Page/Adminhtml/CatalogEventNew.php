@@ -11,28 +11,29 @@ namespace Magento\CatalogEvent\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class AdminCatalogEventNew
- * Add new Catalog Event page
+ * Class CatalogEventNew
  */
 class CatalogEventNew extends BackendPage
 {
     const MCA = 'admin/catalog_event/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'eventForm' => [
-            'name' => 'eventForm',
             'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\Edit\Form',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
         'treeCategories' => [
-            'name' => 'treeCategories',
             'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock',
             'locator' => '#tree-div',
             'strategy' => 'css selector',

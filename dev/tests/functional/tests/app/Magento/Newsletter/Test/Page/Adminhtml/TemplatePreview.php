@@ -12,15 +12,18 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TemplatePreview
- * TemplatePreview page
  */
 class TemplatePreview extends BackendPage
 {
     const MCA = 'newsletter/template/preview';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'content' => [
-            'name' => 'content',
             'class' => 'Magento\Newsletter\Test\Block\Adminhtml\Template\Preview',
             'locator' => 'body',
             'strategy' => 'css selector',

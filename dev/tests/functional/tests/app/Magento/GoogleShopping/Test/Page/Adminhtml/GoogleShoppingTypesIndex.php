@@ -17,15 +17,18 @@ class GoogleShoppingTypesIndex extends BackendPage
 {
     const MCA = 'admin/googleshopping_types/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'grid' => [
-            'name' => 'grid',
             'class' => 'Magento\Backend\Test\Block\Widget\Grid',
             'locator' => '#types_grid',
             'strategy' => 'css selector',

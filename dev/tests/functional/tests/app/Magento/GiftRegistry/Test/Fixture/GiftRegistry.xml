@@ -14,8 +14,6 @@
         <magento_giftregistry_entity>magento_giftregistry_entity</magento_giftregistry_entity>
         <magento_giftregistry_data>magento_giftregistry_data</magento_giftregistry_data>
         <magento_giftregistry_person>magento_giftregistry_person</magento_giftregistry_person>
-        <magento_giftregistry_type>magento_giftregistry_type</magento_giftregistry_type>
-        <magento_giftregistry_type_info>magento_giftregistry_type_info</magento_giftregistry_type_info>
     </entities>
     <collection>Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection</collection>
     <fields>
@@ -35,12 +33,10 @@
         </type_id>
         <customer_id>
             <attribute_code>customer_id</attribute_code>
-            <backend_type>virtual</backend_type>
+            <backend_type>int</backend_type>
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
-            <source>Magento\GiftRegistry\Test\Fixture\GiftRegistry\CustomerId</source>
-            <group>null</group>
         </customer_id>
         <website_id>
             <attribute_code>website_id</attribute_code>
@@ -158,48 +154,6 @@
             <backend_type>virtual</backend_type>
             <source>Magento\GiftRegistry\Test\Fixture\GiftRegistry\Address</source>
         </address>
-        <code>
-            <attribute_code>code</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </code>
-        <meta_xml>
-            <attribute_code>meta_xml</attribute_code>
-            <backend_type>blob</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </meta_xml>
-        <store_id>
-            <attribute_code>store_id</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required>1</is_required>
-            <default_value>0</default_value>
-            <input></input>
-        </store_id>
-        <label>
-            <attribute_code>label</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </label>
-        <is_listed>
-            <attribute_code>is_listed</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </is_listed>
-        <sort_order>
-            <attribute_code>sort_order</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </sort_order>
     </fields>
     <repository_class>Magento\GiftRegistry\Test\Repository\GiftRegistry</repository_class>
     <handler_interface>Magento\GiftRegistry\Test\Handler\GiftRegistry\GiftRegistryInterface</handler_interface>

@@ -12,28 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class Index
- *
- * @package Magento\GiftCardAccount\Test\Page\Adminhtml
  */
 class Index extends BackendPage
 {
     const MCA = 'admin/giftcardaccount/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'giftCardAccount' => [
-            'name' => 'giftCardAccount',
             'class' => 'Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Grid',
             'locator' => '#giftcardaccountGrid',
             'strategy' => 'css selector',

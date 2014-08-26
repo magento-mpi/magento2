@@ -12,15 +12,18 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SitemapEdit
- *
  */
 class SitemapEdit extends BackendPage
 {
     const MCA = 'admin/sitemap/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'formPageActions' => [
-            'name' => 'formPageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

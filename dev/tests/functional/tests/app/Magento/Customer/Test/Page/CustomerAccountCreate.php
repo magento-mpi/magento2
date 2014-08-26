@@ -17,17 +17,30 @@ class CustomerAccountCreate extends FrontendPage
 {
     const MCA = 'customer/account/create';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'registerForm' => [
-            'name' => 'registerForm',
             'class' => 'Magento\Customer\Test\Block\Form\Register',
             'locator' => '#form-validate',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.page.messages',
+            'strategy' => 'css selector',
+        ],
+        'customerAttributesRegisterForm' => [
+            'class' => 'Magento\CustomerCustomAttributes\Test\Block\Form\Register',
+            'locator' => '#form-validate',
+            'strategy' => 'css selector',
+        ],
+        'tooltipBlock' => [
+            'class' => 'Magento\Reward\Test\Block\Tooltip',
+            'locator' => '.customer-form-before',
             'strategy' => 'css selector',
         ],
     ];
@@ -46,5 +59,21 @@ class CustomerAccountCreate extends FrontendPage
     public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\CustomerCustomAttributes\Test\Block\Form\Register
+     */
+    public function getCustomerAttributesRegisterForm()
+    {
+        return $this->getBlockInstance('customerAttributesRegisterForm');
+    }
+
+    /**
+     * @return \Magento\Reward\Test\Block\Tooltip
+     */
+    public function getTooltipBlock()
+    {
+        return $this->getBlockInstance('tooltipBlock');
     }
 }

@@ -12,22 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class RatingEdit
- *
- * @package Magento\Review\Test\Page\Adminhtml
  */
 class RatingEdit extends BackendPage
 {
     const MCA = 'review/rating/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'ratingForm' => [
-            'name' => 'ratingForm',
             'class' => 'Magento\Review\Test\Block\Adminhtml\Rating\Edit\RatingForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class GiftRegistryIndex
- * GiftRegistryIndex page
  */
 class GiftRegistryIndex extends BackendPage
 {
     const MCA = 'admin/giftregistry/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.messages',
             'strategy' => 'css selector',
         ],
         'giftRegistryGrid' => [
-            'name' => 'giftRegistryGrid',
             'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Grid',
             'locator' => '[data-grid-id="giftregistryGrid"]',
             'strategy' => 'css selector',

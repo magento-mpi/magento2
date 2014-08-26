@@ -15,6 +15,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Service\V1\TaxRuleServiceInterface;
 use Magento\Tax\Service\V1\Data\TaxRule;
+use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 
 /**
  * Tax rule collection for a grid backed by Services
@@ -39,15 +40,17 @@ class TaxRuleCollection extends AbstractServiceCollection
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param TaxRuleServiceInterface $ruleService
      * @param TaxRuleConverter $ruleConverter
+     * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        SortOrderBuilder $sortOrderBuilder,
         TaxRuleServiceInterface $ruleService,
         TaxRuleConverter $ruleConverter
     ) {
-        parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder);
+        parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->ruleService = $ruleService;
         $this->ruleConverter = $ruleConverter;
     }

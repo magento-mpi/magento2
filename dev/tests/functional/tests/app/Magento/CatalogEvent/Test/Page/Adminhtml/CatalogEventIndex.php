@@ -11,32 +11,33 @@ namespace Magento\CatalogEvent\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class AdminCatalogEventIndex
- * Catalog Event page
+ * Class CatalogEventIndex
  */
 class CatalogEventIndex extends BackendPage
 {
     const MCA = 'admin/catalog_event/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messageBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'grid' => [
-            'name' => 'grid',
+        'eventGrid' => [
             'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid',
             'locator' => '#catalogEventGrid',
             'strategy' => 'css selector',
         ],
-        'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
+        'pageActions' => [
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
-        ]
+        ],
     ];
 
     /**
@@ -52,7 +53,7 @@ class CatalogEventIndex extends BackendPage
      */
     public function getEventGrid()
     {
-        return $this->getBlockInstance('grid');
+        return $this->getBlockInstance('eventGrid');
     }
 
     /**
@@ -60,6 +61,6 @@ class CatalogEventIndex extends BackendPage
      */
     public function getPageActions()
     {
-        return $this->getBlockInstance('pageActionsBlock');
+        return $this->getBlockInstance('pageActions');
     }
 }

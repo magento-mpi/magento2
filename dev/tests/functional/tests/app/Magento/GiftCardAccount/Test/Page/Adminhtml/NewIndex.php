@@ -12,22 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class NewIndex
- *
- * @package Magento\GiftCardAccount\Test\Page\Adminhtml
  */
 class NewIndex extends BackendPage
 {
     const MCA = 'admin/giftcardaccount/new/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageMainForm' => [
-            'name' => 'pageMainForm',
             'class' => 'Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit\GiftCardAccountForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'pageMainActions' => [
-            'name' => 'pageMainActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

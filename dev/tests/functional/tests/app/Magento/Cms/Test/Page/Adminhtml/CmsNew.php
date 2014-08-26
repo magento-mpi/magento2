@@ -12,23 +12,35 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsNew
- * CMS New page on backend
  */
 class CmsNew extends BackendPage
 {
     const MCA = 'admin/cms_page/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageForm' => [
-            'name' => 'pageForm',
             'class' => 'Magento\Cms\Test\Block\Adminhtml\Page\Edit\PageForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'pageMainActions' => [
-            'name' => 'pageMainActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'pageVersionsForm' => [
+            'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\PageForm',
+            'locator' => '[id="page:main-container"]',
+            'strategy' => 'css selector',
+        ],
+        'messagesBlock' => [
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
     ];
@@ -47,5 +59,21 @@ class CmsNew extends BackendPage
     public function getPageMainActions()
     {
         return $this->getBlockInstance('pageMainActions');
+    }
+
+    /**
+     * @return \Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\PageForm
+     */
+    public function getPageVersionsForm()
+    {
+        return $this->getBlockInstance('pageVersionsForm');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

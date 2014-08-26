@@ -12,22 +12,24 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class WidgetInstanceIndex
- * Widget Instance Index page
  */
 class WidgetInstanceIndex extends BackendPage
 {
     const MCA = 'admin/widget_instance/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'widgetGrid' => [
-            'name' => 'widgetGrid',
-            'class' => 'Magento\Widget\Test\Block\Adminhtml\Widget\WidgetGrid',
+            'class' => 'Magento\Backend\Test\Block\Widget\Grid',
             'locator' => '#widgetInstanceGrid',
             'strategy' => 'css selector',
         ],
@@ -42,7 +44,7 @@ class WidgetInstanceIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Widget\Test\Block\Adminhtml\Widget\WidgetGrid
+     * @return \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getWidgetGrid()
     {

@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductSetIndex
- * Product Set page
  */
 class CatalogProductSetIndex extends BackendPage
 {
     const MCA = 'catalog/product_set/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\GridPageActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'grid' => [
-            'name' => 'grid',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Grid',
             'locator' => '#setGrid',
             'strategy' => 'css selector',
@@ -48,7 +49,7 @@ class CatalogProductSetIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\GridPageActions
+     * @return \Magento\Backend\Test\Block\GridPageActions
      */
     public function getPageActionsBlock()
     {

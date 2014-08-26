@@ -17,27 +17,28 @@ class UserIndex extends BackendPage
 {
     const MCA = 'admin/user';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'userGrid' => [
-            'name' => 'userGrid',
             'class' => 'Magento\User\Test\Block\Adminhtml\UserGrid',
             'locator' => '#permissionsUserGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'accessDeniedBlock' => [
-            'name' => 'accessDeniedBlock',
             'class' => 'Magento\Backend\Test\Block\Denied',
             'locator' => '#anchor-content',
             'strategy' => 'css selector',

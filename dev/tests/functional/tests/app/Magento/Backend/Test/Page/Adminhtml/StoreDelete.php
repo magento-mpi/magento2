@@ -12,28 +12,29 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class StoreDelete
- * Backend Store delete page
  */
 class StoreDelete extends BackendPage
 {
     const MCA = 'admin/system_store/deleteStore';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'storeForm' => [
-            'name' => 'form',
-            'class' => 'Magento\Backend\Test\Block\System\Store\Delete\StoreForm',
+            'class' => 'Magento\Backend\Test\Block\System\Store\Delete\Form',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
-        'formPageActions' => [
-            'name' => 'formPageActions',
-            'class' => 'Magento\Backend\Test\Block\System\Store\FormPageActions',
+        'formPageFooterActions' => [
+            'class' => 'Magento\Backend\Test\Block\System\Store\FormPageFooterActions',
             'locator' => '.content-footer',
             'strategy' => 'css selector',
         ],
@@ -48,7 +49,7 @@ class StoreDelete extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Store\Delete\StoreForm
+     * @return \Magento\Backend\Test\Block\System\Store\Delete\Form
      */
     public function getStoreForm()
     {
@@ -56,10 +57,10 @@ class StoreDelete extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Store\FormPageActions
+     * @return \Magento\Backend\Test\Block\System\Store\FormPageFooterActions
      */
-    public function getFormPageActions()
+    public function getFormPageFooterActions()
     {
-        return $this->getBlockInstance('formPageActions');
+        return $this->getBlockInstance('formPageFooterActions');
     }
 }

@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class OrderStatusIndex
- *
  */
 class OrderStatusIndex extends BackendPage
 {
     const MCA = 'sales/order_status/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'orderStatusGrid' => [
-            'name' => 'orderStatusGrid',
             'class' => 'Magento\Sales\Test\Block\Adminhtml\Order\StatusGrid',
             'locator' => '#sales_order_status_grid',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',

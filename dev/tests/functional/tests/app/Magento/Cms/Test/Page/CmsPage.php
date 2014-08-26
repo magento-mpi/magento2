@@ -17,9 +17,13 @@ class CmsPage extends FrontendPage
 {
     const MCA = 'cms/page';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'cmsPageBlock' => [
-            'name' => 'cmsPageBlock',
             'class' => 'Magento\Cms\Test\Block\Page',
             'locator' => '.page.main',
             'strategy' => 'css selector',

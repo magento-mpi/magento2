@@ -17,15 +17,18 @@ class GoogleShoppingTypesNew extends BackendPage
 {
     const MCA = 'admin/googleshopping_types/new';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\GoogleShopping\Test\Block\Adminhtml\Types\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'googleShoppingForm' => [
-            'name' => 'googleShoppingForm',
             'class' => 'Magento\GoogleShopping\Test\Block\Adminhtml\Types\Edit\GoogleShoppingForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',

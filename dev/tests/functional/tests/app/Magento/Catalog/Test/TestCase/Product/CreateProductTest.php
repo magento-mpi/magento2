@@ -40,10 +40,9 @@ class CreateProductTest extends Functional
         $product->switchData('simple_advanced_inventory');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
         $productForm = $createProductPage->getProductForm();
         //Steps
-        $createProductPage->open();
+        $createProductPage->open(['type' => 'simple', 'set' => 4]);
         $productForm->fill($product);
         $createProductPage->getFormPageActions()->save();
         $createProductPage->getMessagesBlock()->assertSuccessMessage();

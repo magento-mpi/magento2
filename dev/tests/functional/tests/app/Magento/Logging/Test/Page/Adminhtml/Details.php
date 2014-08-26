@@ -17,9 +17,13 @@ class Details extends BackendPage
 {
     const MCA = 'admin/logging/details';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'detailsBlock' => [
-            'name' => 'detailsBlock',
             'class' => 'Magento\Logging\Test\Block\Adminhtml\Details',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

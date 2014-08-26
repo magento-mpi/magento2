@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class BannerIndex
- * Banner index page
  */
 class BannerIndex extends BackendPage
 {
     const MCA = 'admin/banner/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'grid' => [
-            'name' => 'bannerGridBlock',
             'class' => 'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
             'locator' => '#bannerGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.messages .messages',
             'strategy' => 'css selector',

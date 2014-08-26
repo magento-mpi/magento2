@@ -12,28 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteIndex
- *
- * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteIndex extends BackendPage
 {
     const MCA = 'sales_rule/promo_quote/index';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'promoQuoteGrid' => [
-            'name' => 'promoQuoteGrid',
             'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid',
             'locator' => '#promo_quote_grid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

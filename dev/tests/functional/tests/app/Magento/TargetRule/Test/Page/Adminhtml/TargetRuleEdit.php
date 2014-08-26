@@ -12,21 +12,23 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TargetRuleEdit
- * Backend target rule edit page
  */
 class TargetRuleEdit extends BackendPage
 {
     const MCA = 'admin/targetrule/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'pageActions' => [
-            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'targetRuleForm' => [
-            'name' => 'targetRuleForm',
             'class' => 'Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\TargetRuleForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

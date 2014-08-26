@@ -17,21 +17,23 @@ class RatingIndex extends BackendPage
 {
     const MCA = 'review/rating';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'ratingGrid' => [
-            'name' => 'ratingGrid',
             'class' => 'Magento\Review\Test\Block\Adminhtml\Rating\Grid',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',

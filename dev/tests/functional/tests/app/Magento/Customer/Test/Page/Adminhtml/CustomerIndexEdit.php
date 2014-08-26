@@ -12,35 +12,45 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CustomerIndexEdit
- *
  */
 class CustomerIndexEdit extends BackendPage
 {
     const MCA = 'customer/index/edit';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'titleBlock' => [
-            'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
             'locator' => '.page-title .title',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'pageActionsBlock' => [
-            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'customerForm' => [
-            'name' => 'customerForm',
             'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm',
             'locator' => '[id="page:main-container"]',
+            'strategy' => 'css selector',
+        ],
+        'customerBalanceForm' => [
+            'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Edit\CustomerForm',
+            'locator' => '[id="page:main-container"]',
+            'strategy' => 'css selector',
+        ],
+        'balanceHistoryGrid' => [
+            'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Customer\Edit\Tab\Balance\History\Grid',
+            'locator' => '#historyGrid_table',
             'strategy' => 'css selector',
         ],
     ];
@@ -75,5 +85,21 @@ class CustomerIndexEdit extends BackendPage
     public function getCustomerForm()
     {
         return $this->getBlockInstance('customerForm');
+    }
+
+    /**
+     * @return \Magento\CustomerBalance\Test\Block\Adminhtml\Edit\CustomerForm
+     */
+    public function getCustomerBalanceForm()
+    {
+        return $this->getBlockInstance('customerBalanceForm');
+    }
+
+    /**
+     * @return \Magento\CustomerBalance\Test\Block\Adminhtml\Customer\Edit\Tab\Balance\History\Grid
+     */
+    public function getBalanceHistoryGrid()
+    {
+        return $this->getBlockInstance('balanceHistoryGrid');
     }
 }

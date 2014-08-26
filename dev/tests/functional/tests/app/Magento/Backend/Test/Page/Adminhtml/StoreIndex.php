@@ -12,27 +12,28 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class StoreIndex
- * Backend Store index page
  */
 class StoreIndex extends BackendPage
 {
     const MCA = 'admin/system_store';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'gridPageActions' => [
-            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\System\Store\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'storeGrid' => [
-            'name' => 'storeGrid',
             'class' => 'Magento\Backend\Test\Block\System\Store\StoreGrid',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
