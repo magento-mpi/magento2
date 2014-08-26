@@ -74,6 +74,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function getCalculatedTaxesOrderDataProvider()
     {
+        /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store */
+        $store = $this->getMockBuilder('\Magento\Store\Model\Store')
+            ->disableOriginalConstructor()
+            ->setMethods(['roundPrice', '__wakeup'])
+            ->getMock();
+        $store->expects($this->any())
+            ->method('roundPrice')
+            ->will($this->returnCallback(
+                function($argument) {
+                    return round($argument, 2);
+                }
+            ));
+
         $objectManager = new ObjectManager($this);
         $this->orderTaxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\OrderTaxDetailsBuilder');
         $data = [
@@ -81,6 +94,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'source' => new \Magento\Framework\Object(
                         [
                             'id' => '19',
+                            'store' => $store,
                         ]
                     ),
                 'orderTaxDetails' => $this->orderTaxDetailsBuilder->populateWithArray(
@@ -119,13 +133,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     )->create(),
                 'expectedResults' => [
                     [
-                        'tax_amount' => '19.7999',
+                        'tax_amount' => '19.80',
                         'base_tax_amount' => '39.6',
                         'title' => 'US-CA-*-Rate 1',
                         'percent' => '8.25',
                     ],
                     [
-                        'tax_amount' => '14.4001',
+                        'tax_amount' => '14.40',
                         'base_tax_amount' => '28.8',
                         'title' => 'SanJose City Tax',
                         'percent' => '6',
@@ -237,6 +251,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCalculatedTaxesInvoiceCreditmemoDataProvider()
     {
+        /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store */
+        $store = $this->getMockBuilder('\Magento\Store\Model\Store')
+            ->disableOriginalConstructor()
+            ->setMethods(['roundPrice', '__wakeup'])
+            ->getMock();
+        $store->expects($this->any())
+            ->method('roundPrice')
+            ->will($this->returnCallback(
+                function($argument) {
+                    return round($argument, 2);
+                }
+            ));
+
         $objectManager = new ObjectManager($this);
         $this->orderTaxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\OrderTaxDetailsBuilder');
         $orderTaxDetails = $this->orderTaxDetailsBuilder->populateWithArray(
@@ -379,6 +406,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'source' => new \Magento\Framework\Object(
                         [
                             'id' => '19',
+                            'store' => $store,
                         ]
                     ),
                 'current' => new \Magento\Framework\Object(
@@ -422,13 +450,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     [
                         'title' => 'US-CA-*-Rate 1',
                         'percent' => '8.25',
-                        'tax_amount' => '19.7999',
+                        'tax_amount' => '19.80',
                         'base_tax_amount' => '39.6',
                     ],
                     [
                         'title' => 'SanJose City Tax',
                         'percent' => '6',
-                        'tax_amount' => '14.4001',
+                        'tax_amount' => '14.40',
                         'base_tax_amount' => '28.8',
                     ],
                     [
