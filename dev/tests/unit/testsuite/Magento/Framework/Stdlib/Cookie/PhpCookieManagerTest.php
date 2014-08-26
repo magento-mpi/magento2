@@ -99,7 +99,7 @@ namespace Magento\Framework\Stdlib\Cookie {
          */
         protected $cookieManager;
         /**
-         * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\CookieScope
+         * @var \PHPUnit_Framework_MockObject_MockObject|CookieScopeInterface
          */
         protected $scopeMock;
 
@@ -109,7 +109,7 @@ namespace Magento\Framework\Stdlib\Cookie {
         public static $isSetCookieInvoked;
 
         /**
-         * @var \Magento\Store\Model\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
+         * @var \Magento\Framework\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
          */
         protected $storeManagerMock;
 
@@ -124,7 +124,7 @@ namespace Magento\Framework\Stdlib\Cookie {
             $mockTranslateSetCookie = true;
             self::$isSetCookieInvoked = false;
             $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-            $this->scopeMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\CookieScope\Proxy')
+            $this->scopeMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\CookieScopeInterface')
                 ->setMethods(['getPublicCookieMetadata', 'getCookieMetadata', 'getSensitiveCookieMetadata'])
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -132,7 +132,7 @@ namespace Magento\Framework\Stdlib\Cookie {
                 'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
                 ['scope' => $this->scopeMock]
             );
-            $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
+            $this->storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
                 ->disableOriginalConstructor()
                 ->getMock();
             $this->storeMock = $this->getMockBuilder('Magento\Store\Model\Store')

@@ -25,19 +25,19 @@ class ReadService implements ReadServiceInterface
     protected $itemBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param ItemBuilder $itemBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         ItemBuilder $itemBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->quoteLoader = $quoteLoader;
         $this->itemBuilder = $itemBuilder;

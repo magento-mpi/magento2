@@ -22,13 +22,13 @@ $role->setName('admingws_role')->setGwsIsAll(0)->setRoleType('G')->setPid('1');
 if ('websites' == $scope) {
     $role->setGwsWebsites(
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Store\Model\StoreManagerInterface'
+            'Magento\Framework\StoreManagerInterface'
         )->getWebsite()->getId()
     );
 } else {
     $role->setGwsStoreGroups(
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Store\Model\StoreManagerInterface'
+            'Magento\Framework\StoreManagerInterface'
         )->getWebsite()->getDefaultGroupId()
     );
 }

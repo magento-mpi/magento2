@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Class SensitiveCookieMetadata
@@ -19,7 +19,7 @@ use Magento\Store\Model\StoreManagerInterface;
 class SensitiveCookieMetadata extends CookieMetadata
 {
     /**
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 

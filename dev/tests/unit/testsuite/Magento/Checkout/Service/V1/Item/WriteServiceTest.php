@@ -70,7 +70,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->productLoaderMock =
             $this->getMock('\Magento\Catalog\Service\V1\Product\ProductLoader', [], [], '', false);
         $this->storeManagerMock =
-            $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+            $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->dataMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\Item', [], [], '', false);
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);

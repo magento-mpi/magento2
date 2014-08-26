@@ -12,7 +12,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
 use Magento\Framework\Service\EavDataObjectConverter;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Customer Model converter.
@@ -32,19 +32,19 @@ class Converter
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * @param CustomerDataObjectBuilder $customerBuilder
      * @param CustomerFactory $customerFactory
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         CustomerDataObjectBuilder $customerBuilder,
         CustomerFactory $customerFactory,
-        StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_customerBuilder = $customerBuilder;
         $this->_customerFactory = $customerFactory;

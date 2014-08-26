@@ -46,7 +46,7 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Store\Model\StoreManagerInterface',
+            '\Magento\Framework\StoreManagerInterface',
             array(),
             array(),
             '',

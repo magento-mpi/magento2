@@ -40,14 +40,14 @@ class PhpCookieManager implements CookieManager
 
 
     /**
-     * @var CookieScope
+     * @var CookieScopeInterface
      */
     private $scope;
 
     /**
-     * @param CookieScope $scope
+     * @param CookieScopeInterface $scope
      */
-    public function __construct(CookieScope\Proxy $scope)
+    public function __construct(CookieScopeInterface $scope)
     {
         $this->scope = $scope;
     }

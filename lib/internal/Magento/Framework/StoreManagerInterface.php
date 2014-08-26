@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Store\Model;
+namespace Magento\Framework;
 
 interface StoreManagerInterface
 {

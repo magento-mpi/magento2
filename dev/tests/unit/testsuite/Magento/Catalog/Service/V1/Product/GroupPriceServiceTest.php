@@ -65,7 +65,7 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
         $this->priceBuilderMock = $this->getMock(
             'Magento\Catalog\Service\V1\Data\Product\GroupPriceBuilder', array(), array(), '', false
         );
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->groupServiceMock = $this->getMock('\Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->priceModifierMock =

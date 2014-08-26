@@ -9,6 +9,7 @@ namespace Magento\Store\Model;
 
 use Magento\Directory\Model\Currency\Filter;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Store model
@@ -333,7 +334,7 @@ class Store extends AbstractModel implements
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Framework\Stdlib\CookieManager $cookieManager,
