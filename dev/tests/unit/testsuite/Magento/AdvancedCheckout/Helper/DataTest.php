@@ -26,7 +26,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $itemMock = $this->getMock('\Magento\Sales\Model\Quote\Item', ['getSku', '__wakeUp'], [], '', false);
         $itemMock->expects($this->once())->method('getSku')->will($this->returnValue('sku'));
-        $expected = json_encode(array('action' => 'http://url.com', 'data' => 'sku'));
+        $expected = json_encode(array('action' => 'http://url.com', 'data' => ['sku']));
         $this->assertEquals($expected, $this->helper->getDeleteFailedItemPostJson('http://url.com', $itemMock));
     }
 }

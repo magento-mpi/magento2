@@ -571,6 +571,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getDeleteFailedItemPostJson($url, \Magento\Sales\Model\Quote\Item $item)
     {
-        return json_encode(array('action' => $url, 'data' => $item->getSku()));
+        return json_encode(array('action' => $url, 'data' => [$item->getSku()]));
     }
 }
