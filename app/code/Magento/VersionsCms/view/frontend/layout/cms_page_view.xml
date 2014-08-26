@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
         <block class="Magento\VersionsCms\Block\Hierarchy\Pagination" name="hierarchy_pagination" template="hierarchy/pagination.phtml"/>
     </referenceContainer>
     <referenceBlock name="head">
         <block class="Magento\VersionsCms\Block\Hierarchy\Head" name="magento_versionscms_hierarchy_head"/>
     </referenceBlock>
-</layout>
+</page>

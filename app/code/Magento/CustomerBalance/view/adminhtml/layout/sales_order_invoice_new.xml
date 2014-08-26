@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="invoice_totals">
         <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml" after="-">
             <action method="setSourceField">
@@ -18,4 +18,4 @@
             </action>
         </block>
     </referenceBlock>
-</layout>
+</page>

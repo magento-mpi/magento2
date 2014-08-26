@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="RMA Return View Image" design_abstraction="custom">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd" label="RMA Return View Image" design_abstraction="custom">
     <referenceContainer name="content">
         <block class="Magento\Framework\View\Element\Template" name="magento_rma_item_form_template">
             <block class="Magento\Rma\Block\Form\Renderer\Image" name="magento_rma_item_form_template_image" as="image" template="form/view/image.phtml"/>
@@ -16,4 +16,4 @@
     <referenceBlock name="head">
         <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Rma::js/components.phtml"/>
     </referenceBlock>
-</layout>
+</page>

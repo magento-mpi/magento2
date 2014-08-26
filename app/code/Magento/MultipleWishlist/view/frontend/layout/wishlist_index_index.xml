@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="root">
         <action method="addBodyClass" ifconfig="wishlist/general/multiple_enabled">
             <argument name="class" xsi:type="string">page-multiple-wishlist</argument>
@@ -36,4 +36,4 @@
             <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Button\Delete" name="customer.wishlist.button.delete" template="button/delete.phtml" cacheable="false"/>
         </referenceContainer>
     </referenceBlock>
-</layout>
+</page>

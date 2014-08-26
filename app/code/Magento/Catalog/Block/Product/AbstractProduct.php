@@ -94,11 +94,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     protected $_compareProduct;
 
     /**
-     * @var \Magento\Theme\Helper\Layout
-     */
-    protected $_layoutHelper;
-
-    /**
      * @var \Magento\Catalog\Helper\Image
      */
     protected $_imageHelper;
@@ -122,7 +117,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
         array $data = array()
     ) {
         $this->_imageHelper = $context->getImageHelper();
-        $this->_layoutHelper = $context->getLayoutHelper();
         $this->_compareProduct = $context->getCompareProduct();
         $this->_wishlistHelper = $context->getWishlistHelper();
         $this->_cartHelper = $context->getCartHelper();
@@ -339,7 +333,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
                 $this->setData('column_count', $this->_defaultColumnCount);
             }
         }
-
         return (int) $this->_getData('column_count');
     }
 
@@ -389,11 +382,12 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     /**
      * Retrieve current page layout
      *
-     * @return \Magento\Framework\Object
+     * @return string
      */
     public function getPageLayout()
     {
-        return $this->_layoutHelper->getCurrentPageLayout();
+        // TODO: Implement of getting  current page layout
+        return '';
     }
 
     /**
