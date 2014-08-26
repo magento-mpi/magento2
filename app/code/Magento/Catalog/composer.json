@@ -7,6 +7,7 @@
         "magento/module-eav": "0.1.0-alpha91",
         "magento/module-cms": "0.1.0-alpha91",
         "magento/module-indexer": "0.1.0-alpha91",
+        "magento/module-index": "0.1.0-alpha91",
         "magento/module-customer": "0.1.0-alpha91",
         "magento/module-core": "0.1.0-alpha91",
         "magento/module-theme": "0.1.0-alpha91",
