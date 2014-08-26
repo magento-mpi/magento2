@@ -12,7 +12,7 @@ namespace Magento\Catalog\Model\Resource\Category;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Flat extends \Magento\Framework\Model\Resource\Db\AbstractDb
+class Flat extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
      * Store id
