@@ -60,5 +60,4 @@
     <data_set></data_set>
     <data_config></data_config>
     <repository_class>Magento\Store\Test\Repository\Website</repository_class>
-    <handler_interface>Magento\Store\Test\Handler\Website\WebsiteInterface</handler_interface>
 </fixture>

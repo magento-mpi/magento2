@@ -10,7 +10,7 @@
 <page mca="checkout/cart/index">
     <blocks>
         <giftCardAccountBlock>
-            <class>Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount</class>
+            <class>Magento\GiftCardAccount\Test\Block\Checkout\Cart\Giftcardaccount</class>
             <locator>.giftcard</locator>
             <strategy>css selector</strategy>
         </giftCardAccountBlock>

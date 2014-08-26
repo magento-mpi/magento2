@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout label="Handle Three" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+<page label="Handle Three" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../app/code/Magento/Core/etc/page.xsd">
     <update handle="handle_one"/>
-</layout>
+</page>

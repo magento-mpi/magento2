@@ -9,10 +9,10 @@
 -->
 <page mca="customer/account/create">
     <blocks>
-        <сustomerAttributesRegisterForm>
+        <customerAttributesRegisterForm>
             <class>Magento\CustomerCustomAttributes\Test\Block\Form\Register</class>
             <locator>#form-validate</locator>
             <strategy>css selector</strategy>
-        </сustomerAttributesRegisterForm>
+        </customerAttributesRegisterForm>
     </blocks>
 </page>
