@@ -138,8 +138,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
                 /** @var \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService */
                 $stockItemService = $this->_objectManager
                     ->create('Magento\CatalogInventory\Service\V1\StockItemService');
-
-                foreach ($this->_helper->getProductIds() as $productId) {
+                foreach ($this->attributeHelper->getProductIds() as $productId) {
                     $stockItemDo = $stockItemService->getStockItem($productId);
                     if (!$stockItemDo->getProductId()) {
                         $inventoryData[] = $productId;
@@ -149,7 +148,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
                         $this->stockItemBuilder->mergeDataObjectWithArray($stockItemDo, $inventoryData)
                     );
                 }
-                $this->_stockIndexerProcessor->reindexList($this->_helper->getProductIds());
+                $this->_stockIndexerProcessor->reindexList($this->attributeHelper->getProductIds());
             }
 
             if ($websiteAddData || $websiteRemoveData) {

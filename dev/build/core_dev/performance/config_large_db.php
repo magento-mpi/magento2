@@ -65,7 +65,8 @@ return array(
                 ),
             ),
             'Product Attributes Indexer' => array(
-                'file' => '/../../shell/indexer.php',
+                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
+                'file' => '/../../shell/newindexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
@@ -120,7 +121,8 @@ return array(
                 ),
             ),
             'Stock Status Indexer' => array(
-                'file' => '/../../shell/indexer.php',
+                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
+                'file' => '/../../shell/newindexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
@@ -130,7 +132,8 @@ return array(
                 ),
             ),
             'Catalog Search Indexer' => array(
-                'file' => '/../../shell/indexer.php',
+                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
+                'file' => '/../../shell/newindexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),

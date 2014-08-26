@@ -1,7 +1,5 @@
 <?php
 /**
- * URL Rewrite Model
- *
  * {license_notice}
  *
  * @copyright   {copyright}

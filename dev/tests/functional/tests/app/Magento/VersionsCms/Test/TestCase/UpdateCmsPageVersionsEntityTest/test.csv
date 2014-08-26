@@ -1,0 +1,3 @@
+"cms/dataSet";"version/data/label";"version/data/access_level";"version/data/user_id/dataSet";"quantity";"constraint"
+"cms-page-test";"Version_%isolation%";"Private";"default";"1";"assertCmsPageVersionSuccessSaveMessage, assertCmsPageVersionInGrid"
+"cms-page-test";"Version_%isolation%";"Protected";"custom admin";"1";"assertCmsPageVersionSuccessSaveMessage, assertCmsPageVersionInGrid"
