@@ -196,5 +196,4 @@ class Archive extends DataObject
     {
         return $this->_get(self::UPDATED_AT);
     }
-
 }
