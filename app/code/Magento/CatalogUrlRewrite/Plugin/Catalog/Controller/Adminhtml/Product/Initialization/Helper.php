@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogUrlRewrite\Plugin\Catalog\Controller\Adminhtml\Product\Edit\Tab;
+namespace Magento\CatalogUrlRewrite\Plugin\Catalog\Controller\Adminhtml\Product\Initialization;
 
-class Attributes
+class Helper
 {
     /** @var \Magento\Framework\App\RequestInterface */
     protected $request;
