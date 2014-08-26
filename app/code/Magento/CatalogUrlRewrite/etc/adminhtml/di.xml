@@ -33,6 +33,6 @@
         <plugin name="product_form_url_key_plugin" type="Magento\CatalogUrlRewrite\Plugin\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes"/>
     </type>
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
-        <plugin name="product_save_rewrites_history_plugin" type="\Magento\CatalogUrlRewrite\Plugin\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes"/>
+        <plugin name="product_save_rewrites_history_plugin" type="Magento\CatalogUrlRewrite\Plugin\Catalog\Controller\Adminhtml\Product\Initialization\Helper"/>
     </type>
 </config>
