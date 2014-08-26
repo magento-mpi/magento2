@@ -1200,7 +1200,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return true;
         }
 
-        if ($this->getQuote()->getIsVirtual() xor $this->getAddressType() == self::TYPE_SHIPPING) {
+        if (!$this->getQuote()->getIsVirtual() xor $this->getAddressType() == self::TYPE_SHIPPING) {
             return true;
         }
 
