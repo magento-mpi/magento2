@@ -23,7 +23,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     /**#@-*/
 
     /**
-     * Get type (shipping, product, weee, gift wrapping, etc
+     * Get type (shipping, product, weee, gift wrapping, etc)
      *
      * @return string|null
      */
@@ -35,7 +35,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Return item id if this item is a product
      *
-     * @return mixed|null
+     * @return int|null
      */
     public function getItemId()
     {
@@ -45,7 +45,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Return associated item id if this item is associated with another item, null otherwise
      *
-     * @return mixed|null
+     * @return int|null
      */
     public function getAssociatedItemId()
     {

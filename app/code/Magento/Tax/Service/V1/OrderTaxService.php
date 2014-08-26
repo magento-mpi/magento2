@@ -44,8 +44,7 @@ class OrderTaxService implements OrderTaxServiceInterface
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $orderItemTaxFactory,
         OrderTaxDetailsBuilder $orderTaxDetailsBuilder
-    )
-    {
+    ) {
         $this->orderFactory = $orderFactory;
         $this->orderItemTaxFactory = $orderItemTaxFactory;
         $this->orderTaxDetailsBuilder = $orderTaxDetailsBuilder;

@@ -51,7 +51,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set item id
      *
-     * @param string $itemId
+     * @param int $itemId
      * @return $this
      */
     public function setItemId($itemId)
@@ -63,7 +63,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set associated item id
      *
-     * @param string $associatedItemId
+     * @param int $associatedItemId
      * @return $this
      */
     public function setAssociatedItemId($associatedItemId)
