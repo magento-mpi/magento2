@@ -44,12 +44,18 @@ class Page extends Layout
     protected $pageConfig;
 
     /**
+     * @var \Magento\Framework\View\Page\Config\Renderer
+     */
+    protected $pageConfigRenderer;
+
+    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param View\Page\Config $pageConfig
+     * @param \Magento\Framework\View\Page\Config\Renderer $pageConfigRenderer
      * @param string $pageType
      * @param array $data
      */
@@ -58,11 +64,13 @@ class Page extends Layout
         View\LayoutFactory $layoutFactory,
         \Magento\Framework\Translate\InlineInterface $translateInline,
         View\Page\Config $pageConfig,
+        View\Page\Config\Renderer $pageConfigRenderer,
         $pageType,
         array $data = array()
     ) {
         $this->pageConfig = $pageConfig;
         $this->pageType = $pageType;
+        $this->pageConfigRenderer = $pageConfigRenderer;
         parent::__construct($context, $layoutFactory, $translateInline, $data);
     }
 
@@ -127,7 +135,8 @@ class Page extends Layout
             $layout = $this->getLayout();
             $config = $this->getConfig();
 
-            $this->assign('headContent', $layout->getBlock('head')->toHtml());
+            //$this->assign('headContent', $layout->getBlock('head')->toHtml());
+            $this->assign('headContent', $this->pageConfigRenderer->renderHeadContent());
             $this->addDefaultBodyClasses();
             $this->assign('bodyClasses', $config->getElementAttribute($config::ELEMENT_TYPE_BODY, 'classes'));
             $this->assign('bodyAttributes', $config->getElementAttribute($config::ELEMENT_TYPE_BODY, 'attributes'));

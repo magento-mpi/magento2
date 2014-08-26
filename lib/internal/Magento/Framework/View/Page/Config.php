@@ -43,9 +43,16 @@ class Config
     protected $title;
 
     /**
-     * @var \Magento\Framework\View\Asset\Collection
+     * Asset service
+     *
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $assetCollection;
+    protected $assetRepo;
+
+    /**
+     * @var \Magento\Framework\View\Asset\GroupedCollection
+     */
+    protected $pageAssets;
 
     /**
      * @var string[][]
@@ -60,12 +67,15 @@ class Config
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Asset\Collection $assetCollection
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\GroupedCollection $pageAssets
      */
     public function __construct(
-        \Magento\Framework\View\Asset\Collection $assetCollection
+        \Magento\Framework\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\GroupedCollection $pageAssets
     ) {
-        $this->assetCollection = $assetCollection;
+        $this->assetRepo = $assetRepo;
+        $this->pageAssets = $pageAssets;
     }
 
     /**
@@ -91,11 +101,57 @@ class Config
     }
 
     /**
-     * @return \Magento\Framework\View\Asset\Collection
+     * @return \Magento\Framework\View\Asset\GroupedCollection
      */
     public function getAssetCollection()
     {
-        return $this->assetCollection;
+        return $this->pageAssets;
+    }
+
+    /**
+     * @param string $name
+     * @param array $properties
+     * @return $this
+     */
+    public function addPageAsset($name, array $properties = [])
+    {
+        $asset = $this->assetRepo->createAsset($name);
+        $this->pageAssets->add($name, $asset, $properties);
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param string $contentType
+     * @param array $properties
+     * @return $this
+     */
+    public function addRemotePageAsset($name, $contentType, array $properties = [])
+    {
+        $remoteAsset = $this->assetRepo->createRemoteAsset($name, $contentType);
+        $this->pageAssets->add($name, $remoteAsset, $properties);
+
+        return $this;
+    }
+
+    /**
+     * Add RSS element
+     *
+     * @param string $title
+     * @param string $href
+     * @return $this
+     */
+    public function addRss($title, $href)
+    {
+        $remoteAsset = $this->assetRepo->createRemoteAsset((string)$href, 'unknown');
+        $this->pageAssets->add(
+            "link/{$href}",
+            $remoteAsset,
+            array('attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"')
+        );
+
+        return $this;
     }
 
     /**
