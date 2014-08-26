@@ -49,12 +49,41 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $expectedCookie = [
                 'name' => 'test-sensitive-cookie',
                 'value' => 'test-sensitive-cookie-value',
-                'secure' => 'true',
+                'secure' => 'false',
                 'httponly' => 'true',
 
         ];
 
         $this->assertContains($expectedCookie, $response['cookies']);
+    }
+
+    /**
+     * Set a sensitive Cookie and delete it.
+     *
+     */
+    public function testSensitiveCookieStoreSecure()
+    {
+        $serverVal = $_SERVER;
+        $_SERVER['HTTPS'] = 'on';
+        $url = $this->cookieTesterUrl . '/SetSensitiveCookie';
+        $cookieData =
+            [
+                'cookie_name' => 'test-sensitive-cookie',
+                'cookie_value' => 'test-sensitive-cookie-value',
+            ];
+        $response = $this->curlClient->get($url, $cookieData);
+
+        // secure and httponly attributes should be set
+        $expectedCookie = [
+            'name' => 'test-sensitive-cookie',
+            'value' => 'test-sensitive-cookie-value',
+            'secure' => 'true',
+            'httponly' => 'true',
+
+        ];
+
+        $this->assertContains($expectedCookie, $response['cookies']);
+        $_SERVER = $serverVal;
     }
 
     /**
