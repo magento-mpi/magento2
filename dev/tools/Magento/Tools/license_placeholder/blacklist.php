@@ -25,7 +25,6 @@ return array(
     'dev/tests/integration/tmp',
     'dev/tests/js/framework/qunit',
     'dev/tests/static/report',
-    'dev/tests/static/framework/PHP',
     'dev/tests/static/framework/Magento/Sniffs/Annotations',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd/input',

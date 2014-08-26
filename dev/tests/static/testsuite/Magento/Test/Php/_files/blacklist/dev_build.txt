@@ -1,4 +1,3 @@
 # special case for dev/build: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
-dev/tests/static/framework/PHP
 dev/tools/PHP-Parser
