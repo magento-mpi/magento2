@@ -27,6 +27,13 @@ class PageActions extends AbstractPageActions
     protected $scopeSelector = '.actions.dropdown';
 
     /**
+     * Store dropdown selector
+     *
+     * @var string
+     */
+    protected $dropDownselector = '[data-toggle="dropdown"]';
+
+    /**
      * Select store
      *
      * @param array $websiteScope
@@ -38,5 +45,19 @@ class PageActions extends AbstractPageActions
         $this->_rootElement->acceptAlert();
 
         return $this;
+    }
+
+    /**
+     * Check if store visible in scope dropdown
+     *
+     * @param string $storeName
+     * @return boolean
+     */
+    public function isStoreVisible($storeName)
+    {
+        $this->_rootElement->find($this->dropDownselector)->click();
+        $storeViews = explode("\n", $this->_rootElement->find($this->scopeSelector)->getText());
+
+        return in_array($storeName, $storeViews);
     }
 }

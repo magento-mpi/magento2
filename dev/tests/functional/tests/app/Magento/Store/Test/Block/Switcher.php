@@ -22,6 +22,13 @@ class Switcher extends Block
     protected $dropDownButton = '#switcher-language-trigger';
 
     /**
+     * StoreView selector
+     *
+     * @var string
+     */
+    protected $stroViewSelector = 'li.view-%s';
+
+    /**
      * Select store
      *
      * @param string $name
@@ -42,5 +49,17 @@ class Switcher extends Block
     public function getStoreView()
     {
         return $this->_rootElement->find($this->dropDownButton)->getText();
+    }
+
+    /**
+     * Check  is Store View Visible
+     *
+     * @param string $storeCode
+     * @return boolean
+     */
+    public function isStoreViewVisible($storeCode)
+    {
+        $this->_rootElement->find($this->dropDownButton)->click();
+        return $this->_rootElement->find(sprintf($this->stroViewSelector, $storeCode))->isVisible();
     }
 }

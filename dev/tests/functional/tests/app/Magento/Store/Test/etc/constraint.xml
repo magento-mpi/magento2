@@ -20,4 +20,19 @@
     <assertStoreGroupOnStoreViewForm module="Magento_Store">
         <severeness>low</severeness>
     </assertStoreGroupOnStoreViewForm>
+    <assertStoreViewSuccessSaveMessage module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreViewSuccessSaveMessage>
+    <assertStoreViewInGrid module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreViewInGrid>
+    <assertStoreViewBackend module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreViewBackend>
+    <assertStoreViewFrontend module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreViewFrontend>
+    <assertStoreViewNotOnFrontend module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreViewNotOnFrontend>
 </constraint>
