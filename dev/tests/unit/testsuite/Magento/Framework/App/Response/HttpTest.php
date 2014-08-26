@@ -77,7 +77,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $data = ['some-vary-key' => 'some-vary-value'];
         $expectedCookieName = Http::COOKIE_VARY_STRING;
         $expectedCookieValue = sha1(serialize($data));
-        $sensitiveCookieMetadataMock = $this->getMock('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata');
+        $sensitiveCookieMetadataMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
         $sensitiveCookieMetadataMock->expects($this->once())
             ->method('setPath')
             ->with('/')
