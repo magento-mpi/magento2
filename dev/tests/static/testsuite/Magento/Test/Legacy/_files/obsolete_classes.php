@@ -2716,4 +2716,28 @@ return array(
         'Magento\CatalogImportExport\Model\Import\Product\Type\Grouped',
         'Magento\GroupedImportExport\Model\Import\Product\Type\Grouped'
     ],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer\Country',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\Grid\Renderer\Country'
+    ],
+    ['Magento\Tax\Block\Adminhtml\Rate\ImportExport', 'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExport'],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExportHeader'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportCsv', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportCsv'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ExportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportPost'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportXml', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportXml'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportExport',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportExport'
+    ],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportPost'
+    ],
+    ['Magento\Tax\Model\Rate\CsvImportHandler', 'Magento\TaxImportExport\Model\Rate\CsvImportHandler'],
 );
