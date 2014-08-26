@@ -23,10 +23,7 @@ class AddSelect extends \Magento\GiftRegistry\Controller\Index
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Create Gift Registry'));
-        }
+        $this->pageConfig->setTitle(__('Create Gift Registry'));
         $this->_view->renderLayout();
     }
 }

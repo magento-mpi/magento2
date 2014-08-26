@@ -19,10 +19,7 @@ class Index extends \Magento\AdvancedCheckout\Controller\Sku
     {
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Order by SKU'));
-        }
+        $this->pageConfig->setTitle(__('Order by SKU'));
         $this->_view->renderLayout();
     }
 }

@@ -53,10 +53,7 @@ class Results extends \Magento\MultipleWishlist\Controller\Search
 
         $layout = $this->_view->getLayout();
         $layout->initMessages();
-        $headBlock = $layout->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Wish List Search'));
-        }
+        $this->pageConfig->setTitle(__('Wish List Search'));
         $this->_view->renderLayout();
     }
 }

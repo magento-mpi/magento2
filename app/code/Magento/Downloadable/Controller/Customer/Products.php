@@ -55,10 +55,7 @@ class Products extends \Magento\Framework\App\Action\Action
         if ($block = $this->_view->getLayout()->getBlock('downloadable_customer_products_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('My Downloadable Products'));
-        }
+        $this->pageConfig->setTitle(__('My Downloadable Products'));
         $this->_view->renderLayout();
     }
 }
