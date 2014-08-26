@@ -561,16 +561,4 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             'You have not entered a product SKU.'
         );
     }
-
-    /**
-     * Get post parameters for delete failed item from cart
-     *
-     * @param string $url
-     * @param \Magento\Sales\Model\Quote\Item $item
-     * @return string
-     */
-    public function getDeleteFailedItemPostJson($url, \Magento\Sales\Model\Quote\Item $item)
-    {
-        return json_encode(array('action' => $url, 'data' => [$item->getSku()]));
-    }
 }
