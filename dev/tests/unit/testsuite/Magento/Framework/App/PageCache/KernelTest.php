@@ -47,7 +47,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $this->responseMock = $this->getMockBuilder(
             'Magento\Framework\App\Response\Http'
         )->setMethods(
-            array('getHeader', 'getHttpResponseCode', 'setNoCacheHeaders', 'clearHeader')
+            ['getHeader', 'getHttpResponseCode', 'setNoCacheHeaders', 'clearHeader', '__wakeup']
         )->disableOriginalConstructor()->getMock();
     }
 
