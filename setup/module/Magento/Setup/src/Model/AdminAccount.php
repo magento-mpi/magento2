@@ -101,7 +101,7 @@ class AdminAccount
         ];
 
         foreach ($roles as $role) {
-            $this->setup->getConnection()->insert($this->setup->getTable('admin_role'), $role, true);
+            $this->setup->getConnection()->insert($this->setup->getTable('authorization_role'), $role, true);
         }
     }
 }
