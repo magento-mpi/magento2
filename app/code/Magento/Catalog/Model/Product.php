@@ -309,7 +309,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_catalogProductStatus = $catalogProductStatus;
         $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
-        $this->_indexIndexer = $indexIndexer;
         $this->_catalogProductType = $catalogProductType;
         $this->_catalogImage = $catalogImage;
         $this->_catalogData = $catalogData;
