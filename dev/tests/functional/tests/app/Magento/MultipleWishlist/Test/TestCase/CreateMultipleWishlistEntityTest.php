@@ -9,16 +9,13 @@
 namespace Magento\MultipleWishlist\Test\TestCase;
 
 use Mtf\ObjectManager;
-use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Client\Driver\Selenium\Browser;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
 
 /**
  * Test Creation for CreateMultipleWishlistEntity
@@ -42,44 +39,35 @@ use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
 class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTest
 {
     /**
-     * Widget instance edit page
+     * Prepare data
      *
-     * @var WidgetInstanceEdit
-     */
-    protected static $widgetInstanceEdit;
-
-    /**
-     * Browser object
-     *
-     * @var Browser
-     */
-    protected static $browser;
-
-    /**
-     * Injection data
-     *
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
-     * @param CustomerAccountIndex $customerAccountIndex
-     * @param MultipleWishlistIndex $multipleWishlistIndex
+     * @param FixtureFactory $fixtureFactory
+     * @param CustomerInjectable $customer
+     * @param CatalogCategory $category
      * @param AdminCache $cachePage
-     * @return void
+     * @param WidgetInstanceEdit $widgetInstanceEdit
+     * @param Browser $browser
+     * @return array
      */
-    public function __inject(
-        CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
-        CustomerAccountIndex $customerAccountIndex,
-        MultipleWishlistIndex $multipleWishlistIndex,
-        AdminCache $cachePage
+    public function __prepare(
+        FixtureFactory $fixtureFactory,
+        CustomerInjectable $customer,
+        CatalogCategory $category,
+        AdminCache $cachePage,
+        WidgetInstanceEdit $widgetInstanceEdit,
+        Browser $browser
     ) {
-        parent::__inject(
-            $cmsIndex,
-            $customerAccountLogin,
-            $customerAccountIndex,
-            $multipleWishlistIndex,
-            $cachePage
+        $result = parent::__prepare(
+            $fixtureFactory,
+            $customer,
+            $category,
+            $cachePage,
+            $widgetInstanceEdit,
+            $browser
         );
         $this->createWishlistSearchWidget();
+
+        return $result;
     }
 
     /**

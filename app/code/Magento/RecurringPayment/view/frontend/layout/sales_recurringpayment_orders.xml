@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
     <update handle="customer_account"/>
     <update handle="sales_recurringpayment_view__tabs"/>
     <referenceBlock name="sales.recurring.payment.view.tab.orders">
@@ -31,4 +31,4 @@
             </action>
         </block>
     </referenceBlock>
-</layout>
+</page>

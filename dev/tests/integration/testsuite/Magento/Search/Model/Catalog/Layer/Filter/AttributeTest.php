@@ -60,7 +60,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $selectModel->applyFilterToCollection($selectModel, $givenValue);
         $filterParams = $selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
         $fieldName = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Search\Model\Resource\Engine'
+            'Magento\Search\Model\Resource\Solr\Engine'
         )->getSearchEngineFieldName(
             $selectModel->getAttributeModel(),
             'nav'

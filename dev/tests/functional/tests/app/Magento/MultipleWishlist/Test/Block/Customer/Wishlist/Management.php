@@ -10,6 +10,7 @@ namespace Magento\MultipleWishlist\Test\Block\Customer\Wishlist;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class Management
@@ -58,6 +59,29 @@ class Management extends Block
      * @var string
      */
     protected $removeButton = 'button.remove';
+
+    /**
+     * Button 'Edit' css selector
+     *
+     * @var string
+     */
+    protected $editButton = '.action.edit';
+
+    /**
+     * Button 'Update Wish List' css selector
+     *
+     * @var string
+     */
+    protected $updateButton = 'button[name="do"]';
+
+    // @codingStandardsIgnoreStart
+    /**
+     * CSS locator for description textarea
+     *
+     * @var string
+     */
+    protected $descriptionField = '//strong[a[@title = "%s"]]/following-sibling::textarea[contains(@name,"description")]';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Create new wish list
@@ -147,5 +171,42 @@ class Management extends Block
     public function isRemoveButtonVisible()
     {
         return $this->_rootElement->find($this->removeButton)->isVisible();
+    }
+
+    /**
+     * Click Edit wish list button
+     *
+     * @return void
+     */
+    public function editWishlist()
+    {
+        $this->_rootElement->find($this->editButton)->click();
+    }
+
+    /**
+     * Fill Wishlist description
+     *
+     * @param CatalogProductSimple $product
+     * @param string $description
+     * @return void
+     */
+    public function fillDescription(CatalogProductSimple $product, $description)
+    {
+        $this->_rootElement->find(
+            sprintf($this->descriptionField, $product->getName()),
+            Locator::SELECTOR_XPATH
+        )->setValue(
+            $description
+        );
+    }
+
+    /**
+     * Update wish list
+     *
+     * @return void
+     */
+    public function updateWishlist()
+    {
+        $this->_rootElement->find($this->updateButton)->click();
     }
 }

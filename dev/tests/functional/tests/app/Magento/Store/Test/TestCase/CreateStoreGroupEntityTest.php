@@ -18,7 +18,7 @@ use Magento\Backend\Test\Page\Adminhtml\NewGroupIndex;
  *
  * Test Flow:
  * 1. Open Backend
- * 2. AGo to Stores-> All Stores
+ * 2. Go to Stores-> All Stores
  * 3. Click "Create Store" button
  * 4. Fill data according to dataset
  * 5. Click "Save Store" button
