@@ -104,29 +104,30 @@ class Mapper
      *
      * @param BoolQuery $query
      * @param Select $select
-     * @param $queryType
+     * @param string $queryCondition
+     * @return void
      */
-    private function processBoolQuery(BoolQuery $query, Select $select, $queryType)
+    private function processBoolQuery(BoolQuery $query, Select $select, $queryCondition)
     {
         foreach ($query->getMust() as $subQuery) {
             $this->processQuery(
                 $subQuery,
                 $select,
-                $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_MUST)
+                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
             );
         }
         foreach ($query->getShould() as $subQuery) {
             $this->processQuery(
                 $subQuery,
                 $select,
-                $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_SHOULD)
+                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_SHOULD)
             );
         }
         foreach ($query->getMustNot() as $subQuery) {
             $this->processQuery(
                 $subQuery,
                 $select,
-                $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_NOT)
+                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_NOT)
             );
         }
     }
