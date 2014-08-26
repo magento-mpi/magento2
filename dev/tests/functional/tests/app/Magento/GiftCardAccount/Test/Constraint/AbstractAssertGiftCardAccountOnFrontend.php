@@ -49,7 +49,7 @@ abstract class AbstractAssertGiftCardAccountOnFrontend extends AbstractConstrain
         CustomerAccountLogin $customerAccountLogin,
         CmsIndex $cmsIndex
     ) {
-        $this->objectManager = $objectManager;
+        parent::__construct($objectManager);
         $this->customerAccountLogin = $customerAccountLogin;
         $this->cmsIndex = $cmsIndex;
     }

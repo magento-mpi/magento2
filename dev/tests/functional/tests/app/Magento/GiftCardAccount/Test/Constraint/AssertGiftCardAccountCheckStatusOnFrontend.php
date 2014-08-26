@@ -49,10 +49,10 @@ class AssertGiftCardAccountCheckStatusOnFrontend extends AbstractAssertGiftCardA
         $data = $giftCardAccount->getData();
         $data['code'] = $code;
         $customerAccountIndex->getRedeemBlock()->checkStatusAndBalance($data['code']);
-        $data = $this->prepareData($data, $customerAccountIndex);
+        $result = $this->prepareData($data, $customerAccountIndex);
         \PHPUnit_Framework_Assert::assertEquals(
-            $data['fixtureData'],
-            $data['pageData'],
+            $result['fixtureData'],
+            $result['pageData'],
             'Wrong success message is displayed.'
         );
     }

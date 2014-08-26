@@ -55,10 +55,10 @@ class AssertGiftCardQuickCheckInShoppingCart extends AbstractAssertGiftCardAccou
         $data = $giftCardAccount->getData();
         $data['code'] = $code;
         $checkoutCart->getGiftCardAccountBlock()->checkStatusAndBalance($code);
-        $data = $this->prepareData($data, $checkoutCart);
+        $result = $this->prepareData($data, $checkoutCart);
         \PHPUnit_Framework_Assert::assertEquals(
-            $data['fixtureData'],
-            $data['pageData'],
+            $result['fixtureData'],
+            $result['pageData'],
             'Wrong success message is displayed.'
         );
     }
