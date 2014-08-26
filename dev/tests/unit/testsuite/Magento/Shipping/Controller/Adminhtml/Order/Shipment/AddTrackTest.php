@@ -87,7 +87,16 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         );
         $this->request = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            ['isPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getPost'],
+            [
+                'isPost',
+                'getModuleName',
+                'setModuleName',
+                'getActionName',
+                'setActionName',
+                'getParam',
+                'getPost',
+                'getCookie'
+            ],
             [],
             '',
             false
