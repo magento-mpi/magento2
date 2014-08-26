@@ -85,7 +85,7 @@ if (isset($args['bootstrap'])) {
     }
     $params = array_replace_recursive($params, $extra);
 }
-$bootstrap = new Bootstrap(BP, $params);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 /** @var \Magento\Install\App\Console $app */
 $app = $bootstrap->createApplication('Magento\Install\App\Console', ['arguments' => $args]);
 $bootstrap->run($app);

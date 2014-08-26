@@ -21,7 +21,7 @@ try {
         }
         $params = array_replace_recursive($params, $extra);
     }
-    $bootstrap = new \Magento\Framework\App\Bootstrap(BP, $params);
+    $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
     $log = new  \Zend_Log(new \Zend_Log_Writer_Stream('php://stdout'));
     /** @var \Magento\Install\Model\Uninstaller $uninstall */
     $uninstall = $bootstrap->getObjectManager()->create('\Magento\Install\Model\Uninstaller', ['log' => $log]);

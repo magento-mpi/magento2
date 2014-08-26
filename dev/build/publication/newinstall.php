@@ -63,7 +63,7 @@ if ($installOptions) {
 }
 
 require_once __DIR__ . '/../../../app/bootstrap.php';
-$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
 /** @var \Magento\Index\App\Indexer $app */
 $app = $bootstrap->createApplication('Magento\Index\App\Indexer', ['reportDir' => $reportDir]);
 $bootstrap->run($app);

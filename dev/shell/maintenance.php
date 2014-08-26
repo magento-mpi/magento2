@@ -30,7 +30,7 @@ try {
         }
         $params = array_replace_recursive($params, $extra);
     }
-    $bootstrap = new \Magento\Framework\App\Bootstrap(BP, $params);
+    $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
     /** @var \Magento\Framework\App\MaintenanceMode $maintenance */
     $maintenance = $bootstrap->getObjectManager()->get('Magento\Framework\App\MaintenanceMode');
     if (isset($opt['set'])) {
