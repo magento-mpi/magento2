@@ -1799,4 +1799,5 @@ return array(
     ['sendEmail', 'Magento\Sales\Model\Order\Shipment'],
     ['sendUpdateEmail', 'Magento\Sales\Model\Order\Shipment'],
     ['_getEmails', 'Magento\Sales\Model\Order\Shipment'],
+    ['login', 'Magento\Customer\Model\Session'],
 );
