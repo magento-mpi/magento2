@@ -64,7 +64,9 @@ class SensitiveCookieMetadata extends CookieMetadata
     {
         if (null === $this->get(self::KEY_SECURE)) {
             $store = $this->storeManager->getStore();
-            if (!empty($store)) {
+            if (empty($store)) {
+                $this->set(self::KEY_SECURE, true);
+            } else {
                 $this->set(self::KEY_SECURE, $store->isCurrentlySecure());
             }
         }
