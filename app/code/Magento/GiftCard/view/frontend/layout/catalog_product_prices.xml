@@ -7,7 +7,7 @@
  * @license     {license_link}app/code/Magento//view/frontend/
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <block class="Magento\Framework\Pricing\Render\RendererPool" name="render.product.prices">
         <arguments>
             <argument name="giftcard" xsi:type="array">
@@ -20,4 +20,4 @@
             </argument>
         </arguments>
     </block>
-</layout>
+</page>

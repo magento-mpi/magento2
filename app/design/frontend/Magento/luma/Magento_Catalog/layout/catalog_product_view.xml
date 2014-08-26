@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
     <referenceContainer name="product.info.main">
         <container name="product.info.price" label="Product info auxiliary container" htmlTag="div" htmlClass="product-info-price" before="-">
             <container name="product.info.stock.sku" label="Product auxiliary info" htmlTag="div" htmlClass="product-info-stock-sku" />
@@ -21,4 +21,4 @@
     <move element="product.info.media" destination="content" before="product.info.main" />
     <move element="product.info.social" destination="product.info.extrahint" after="-" />
     <move element="product.info.addto" destination="product.info.social" before="-" />
-</layout>
+</page>

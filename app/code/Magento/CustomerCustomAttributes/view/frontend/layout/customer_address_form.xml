@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="customer_address_edit">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::customer/address/edit.phtml</argument>
@@ -22,4 +22,4 @@
         </block>
     </referenceBlock>
     <update handle="customer_form_template_handle"/>
-</layout>
+</page>

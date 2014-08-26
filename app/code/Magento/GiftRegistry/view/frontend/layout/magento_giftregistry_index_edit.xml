@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <update handle="page_calendar"/>
     <referenceBlock name="head.components">
@@ -38,4 +38,4 @@
             <block class="Magento\GiftRegistry\Block\Customer\Address\Edit" name="giftregistry_address_edit" template="address/edit.phtml" cacheable="false"/>
         </block>
     </referenceContainer>
-</layout>
+</page>

@@ -9,8 +9,6 @@ namespace Magento\WebsiteRestriction\Controller\Index;
 
 /**
  * Website stub controller
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Stub extends \Magento\Framework\App\Action\Action
 {
@@ -132,9 +130,10 @@ class Stub extends \Magento\Framework\App\Action\Action
             }
 
             $this->_view->addActionLayoutHandles();
-
-            if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyHandle($page->getRootTemplate());
+            if ($page->getPageLayout()) {
+                /** @var \Magento\Framework\View\Page\Config $pageConfig */
+                $pageConfig = $this->_objectManager->get('Magento\Framework\View\Page\Config');
+                $pageConfig->setPageLayout($page->getPageLayout());
             }
 
             $this->_view->loadLayoutUpdates();
@@ -142,10 +141,6 @@ class Stub extends \Magento\Framework\App\Action\Action
             $this->_view->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
             $this->_view->generateLayoutXml();
             $this->_view->generateLayoutBlocks();
-
-            if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyTemplate($page->getRootTemplate());
-            }
 
             $this->_view->renderLayout();
 

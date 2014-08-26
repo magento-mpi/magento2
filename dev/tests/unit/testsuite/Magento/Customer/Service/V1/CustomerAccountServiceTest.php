@@ -95,6 +95,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerMetadataService;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\AddressMetadataService
+     */
+    private $_addressMetadataService;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | CustomerRegistry
      */
     private $_customerRegistry;
@@ -227,10 +232,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomCustomerAttributeMetadata'
+            'getCustomAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );
+
+        $this->_addressMetadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\AddressMetadataServiceInterface',
+            [],
+            '',
+            false
+        );
+
+        $this->_addressMetadataService
+            ->expects($this->any())
+            ->method('getCustomAttributesMetadata')
+            ->will($this->returnValue(array()));
 
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
@@ -239,7 +256,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $addressBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
-            ['metadataService' => $this->_customerMetadataService]
+            ['metadataService' => $this->_addressMetadataService]
         );
 
         $this->_customerDetailsBuilder = $this->_objectManager->getObject(
@@ -1296,7 +1313,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1359,7 +1376,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1426,7 +1443,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1476,7 +1493,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-                'getCustomerAttributeMetadata'
+                'getAttributeMetadata'
             )->will(
                 $this->returnValue($mockAttribute)
             );
@@ -1623,7 +1640,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
+            'getAllAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );
@@ -1693,7 +1710,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
+            'getAllAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );

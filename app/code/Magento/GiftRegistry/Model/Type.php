@@ -49,11 +49,6 @@ class Type extends \Magento\Framework\Model\AbstractModel
     protected $storeManager;
 
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $request;
-
-    /**
      * Intialize model
      *
      * @return void
@@ -68,7 +63,6 @@ class Type extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
-     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -79,7 +73,6 @@ class Type extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,
-        \Magento\Framework\App\RequestInterface $request,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -88,7 +81,6 @@ class Type extends \Magento\Framework\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->attributeConfig = $attributeConfig;
         $this->processorFactory = $processorFactory;
-        $this->request = $request;
         $this->storeManager = $storeManager;
     }
 
@@ -411,21 +403,6 @@ class Type extends \Magento\Framework\Model\AbstractModel
             }
         }
         return $listedAttributes;
-    }
-
-    /**
-     * Custom handler for giftregistry type save action
-     *
-     * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @param \Magento\Logging\Model\Processor $processor
-     * @return \Magento\Logging\Model\Event
-     */
-    public function postDispatchTypeSave($config, $eventModel, $processor)
-    {
-        $typeData = $this->request->getParam('type');
-        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : __('New');
-        return $eventModel->setInfo($typeId);
     }
 
     /**
