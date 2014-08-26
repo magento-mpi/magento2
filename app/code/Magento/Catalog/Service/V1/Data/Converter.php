@@ -41,7 +41,7 @@ class Converter
     }
 
     /**
-     * Convert a product model to a product data builder
+     * Initialize product builder with product model data
      *
      * @param \Magento\Catalog\Model\Product $productModel
      * @return \Magento\Catalog\Service\V1\Data\ProductBuilder
