@@ -92,13 +92,38 @@ class Bootstrap
     private $errorCode = 0;
 
     /**
-     * Constructor
+     * attribute for creating object manager
+     *
+     * @var ObjectManagerFactory
+     */
+    private $factory;
+
+    /**
+     * Static method so that client code does not have to create Object Manager Factory every time Bootstrap is called
      *
      * @param string $rootDir
      * @param array $initParams
+     * @param ObjectManagerFactory $factory
+     * @return Bootstrap
      */
-    public function __construct($rootDir, array $initParams)
+    public static function create($rootDir, array $initParams, ObjectManagerFactory $factory = null)
     {
+        if ($factory === null) {
+            $factory = new ObjectManagerFactory;
+        }
+        return new self($factory, $rootDir, $initParams);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param ObjectManagerFactory $factory
+     * @param string $rootDir
+     * @param array $initParams
+     */
+    public function __construct(ObjectManagerFactory $factory, $rootDir, array $initParams)
+    {
+        $this->factory = $factory;
         $this->rootDir = $rootDir;
         $this->server = $initParams;
     }
@@ -284,8 +309,7 @@ class Bootstrap
     private function init()
     {
         if (!$this->objectManager) {
-            $factory = new ObjectManagerFactory;
-            $this->objectManager = $factory->create($this->rootDir, $this->server);
+            $this->objectManager = $this->factory->create($this->rootDir, $this->server);
             $this->dirList = $this->objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
             $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
         }

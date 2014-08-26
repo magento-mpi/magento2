@@ -9,7 +9,7 @@
  */
 
 require __DIR__ . '/../app/bootstrap.php';
-$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
 /** @var \Magento\Framework\App\StaticResource $app */
 $app = $bootstrap->createApplication('Magento\Framework\App\StaticResource');
 $bootstrap->run($app);

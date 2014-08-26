@@ -7,7 +7,7 @@
  */
 
 require_once __DIR__ . '/../../../../../app/bootstrap.php';
-$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
 try {
     $objectManager = $bootstrap->getObjectManager();
     /** @var $configModel \Magento\Framework\App\Config\ReinitableConfigInterface */

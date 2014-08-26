@@ -17,7 +17,7 @@
  */
 
 require __DIR__ . '/app/bootstrap.php';
-$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER, null);
 /** @var \Magento\Framework\App\Http $app */
 $app = $bootstrap->createApplication('Magento\Framework\App\Http');
 $bootstrap->run($app);

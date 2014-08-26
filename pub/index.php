@@ -18,7 +18,7 @@ $params[Filesystem::PARAM_APP_DIRS] = [
     Filesystem::STATIC_VIEW_DIR => ['uri' => 'static'],
     Filesystem::UPLOAD_DIR => ['uri' => 'media/upload'],
 ];
-$bootstrap = new \Magento\Framework\App\Bootstrap(BP, $params);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 /** @var \Magento\Framework\App\Http $app */
 $app = $bootstrap->createApplication('Magento\Framework\App\Http');
 $bootstrap->run($app);
