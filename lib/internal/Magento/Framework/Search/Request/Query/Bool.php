@@ -12,6 +12,10 @@ use Magento\Framework\Search\Request\QueryInterface;
 
 class Bool implements QueryInterface
 {
+    const QUERY_CONDITION_MUST = 'must';
+    const QUERY_CONDITION_SHOULD = 'should';
+    const QUERY_CONDITION_NOT = 'not';
+
     /**
      * Boost
      *
