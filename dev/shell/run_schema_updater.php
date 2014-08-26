@@ -15,7 +15,7 @@ $extra = [];
 if (!isset($_SERVER[AppState::PARAM_MODE])) {
     $extra[AppState::PARAM_MODE] = AppState::MODE_DEVELOPER;
 }
-$bootstrap = new Bootstrap(BP, $_SERVER, $extra);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER, $extra);
 $bootstrap->setIsInstalledRequirement(false);
 
 /** @var \Magento\Framework\Module\Updater $updater */

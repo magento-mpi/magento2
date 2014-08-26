@@ -13,7 +13,7 @@ require __DIR__ . '/../../app/bootstrap.php';
 $params = $_SERVER;
 $params[StoreManager::PARAM_RUN_CODE] = 'admin';
 $params[StoreManager::PARAM_RUN_TYPE] = 'store';
-$bootstrap = new Bootstrap(BP, $params);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 /** @var Magento\Indexer\App\Shell $app */
 $app = $bootstrap->createApplication('Magento\Indexer\App\Shell', ['entryFileName' => basename(__FILE__)]);
 $bootstrap->run($app);

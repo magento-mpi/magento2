@@ -14,7 +14,7 @@ $params = $_SERVER;
 if (!isset($params[AppState::PARAM_MODE])) {
     $extra[AppState::PARAM_MODE] = AppState::MODE_DEVELOPER;
 }
-$bootstrap = new Bootstrap(BP, $params);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 /** @var \Magento\Framework\Module\Updater $updater */
 $updater = $bootstrap->getObjectManager()->create('\Magento\Framework\Module\Updater');
 $updater->updateData();

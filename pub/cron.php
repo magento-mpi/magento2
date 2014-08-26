@@ -16,7 +16,7 @@ require dirname(__DIR__) . '/app/bootstrap.php';
 $params = $_SERVER;
 $params[StoreManager::PARAM_RUN_CODE] = 'admin';
 $params[Store::CUSTOM_ENTRY_POINT_PARAM] = true;
-$bootstrap = new Bootstrap(BP, $params);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 /** @var \Magento\Framework\App\Cron $app */
 $app = $bootstrap->createApplication('Magento\Framework\App\Cron', ['parameters' => ['group::']]);
 $bootstrap->run($app);
