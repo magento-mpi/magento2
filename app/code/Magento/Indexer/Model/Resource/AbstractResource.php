@@ -11,7 +11,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model\Resource;
+namespace Magento\Indexer\Model\Resource;
 
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
