@@ -8,8 +8,8 @@
 namespace Magento\Framework\Search\Adapter\Mysql\Builder\Query;
 
 use Magento\Framework\App\Resource\Config;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Framework\Search\Request\Query\Bool;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class MatchTest extends \PHPUnit_Framework_TestCase
 {
