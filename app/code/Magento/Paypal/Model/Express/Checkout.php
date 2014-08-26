@@ -292,7 +292,7 @@ class Checkout
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilderFactory
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
@@ -321,7 +321,7 @@ class Checkout
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilderFactory,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
@@ -347,7 +347,7 @@ class Checkout
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerAccountService = $customerAccountService;
-        $this->_addressBuilderFactory = $addressBuilder;
+        $this->_addressBuilderFactory = $addressBuilderFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_encryptor = $encryptor;
@@ -533,7 +533,9 @@ class Checkout
 
         // suppress or export shipping address
         if ($this->_quote->getIsVirtual()) {
-            if ($this->_config->getConfigValue('requireBillingAddress') == PaypalConfig::REQUIRE_BILLING_ADDRESS_VIRTUAL) {
+            if ($this->_config->getConfigValue('requireBillingAddress')
+                == PaypalConfig::REQUIRE_BILLING_ADDRESS_VIRTUAL
+            ) {
                 $this->_api->setRequireBillingAddress(1);
             }
             $this->_api->setSuppressShipping(true);
@@ -1265,6 +1267,7 @@ class Checkout
             // @codingStandardsIgnoreEnd
             );
         } else {
+            $this->getCustomerSession()->regenerateId();
             $this->getCustomerSession()->loginById($customer->getId());
         }
         return $this;
