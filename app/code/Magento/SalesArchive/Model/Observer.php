@@ -165,6 +165,11 @@ class Observer
     {
         /** @var \Magento\SalesArchive\Model\Resource\Order\Collection $collection */
         $collection = $observer->getEvent()->getOrderGridCollection();
+        if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection ||
+            !$collection->getIsCustomerMode()
+        ) {
+            return $this;
+        }
 
         $collectionSelect = $collection->getSelect();
         $cloneSelect = clone $collectionSelect;
@@ -184,7 +189,7 @@ class Observer
         $collectionCountSubSelect = clone $collection->getSelect();
         $collectionCountSelect = clone $collectionCountSubSelect;
         $collectionCountSelect->reset();
-
+        // Since UNION ALL leaves duplicates count select can be a sum of counts for 2 parts
         $collectionCountSelect->from(array('u' => $collectionCountSubSelect), 'SUM(part_total)');
         $collection->setSelectCountSql($collectionCountSelect);
 
