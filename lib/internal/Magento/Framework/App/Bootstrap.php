@@ -16,6 +16,8 @@ use \Magento\Framework\AppInterface;
  *
  * Performs basic initialization root function: injects init parameters and creates object manager
  * Can create/run applications
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Bootstrap
 {
@@ -99,7 +101,7 @@ class Bootstrap
     private $errorCode = 0;
 
     /**
-     * attribute for creating object manager
+     * Attribute for creating object manager
      *
      * @var ObjectManagerFactory
      */
