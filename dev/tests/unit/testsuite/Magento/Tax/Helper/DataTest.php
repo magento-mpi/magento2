@@ -82,7 +82,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $store->expects($this->any())
             ->method('roundPrice')
             ->will($this->returnCallback(
-                function($argument) {
+                function ($argument) {
                     return round($argument, 2);
                 }
             ));
@@ -170,7 +170,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         return $data;
     }
 
-    protected function commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $current, $orderTaxDetails, $expectedResults)
+    protected function commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $orderTaxDetails, $expectedResults)
     {
         $this->orderTaxService->expects($this->once())
             ->method('getOrderTaxDetails')
@@ -259,7 +259,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $store->expects($this->any())
             ->method('roundPrice')
             ->will($this->returnCallback(
-                function($argument) {
+                function ($argument) {
                     return round($argument, 2);
                 }
             ));
