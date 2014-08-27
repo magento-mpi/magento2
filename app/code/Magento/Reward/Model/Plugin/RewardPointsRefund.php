@@ -55,7 +55,7 @@ class RewardPointsRefund
     /**
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Event\ManagerInterface
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Reward\Refund\SalesRuleRefund $salesRuleRefund
@@ -83,6 +83,7 @@ class RewardPointsRefund
      * @param \Closure $proceed
      * @param \Magento\Framework\Model\AbstractModel $object
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         \Magento\Sales\Model\Resource\Order\Creditmemo $subject,
@@ -145,6 +146,8 @@ class RewardPointsRefund
     /**
      * Update reward history row
      *
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return null
      */
     protected function updateHistoryRow(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
@@ -236,6 +239,7 @@ class RewardPointsRefund
     /**
      * Get reward history model for current order
      *
+     * @param \Magento\Sales\Model\Order $order
      * @return \Magento\Reward\Model\Reward\History|null
      */
     protected function getRewardHistoryRecordForOrder(\Magento\Sales\Model\Order $order)
@@ -273,4 +277,4 @@ class RewardPointsRefund
     {
         return $this->rewardFactory->create();
     }
-} 
+}
