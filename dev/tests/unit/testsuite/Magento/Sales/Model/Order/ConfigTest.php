@@ -9,8 +9,6 @@ namespace Magento\Sales\Model\Order;
 
 /**
  * Class ConfigTest
- *
- * @package Magento\Sales\Model\Order
  */
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
