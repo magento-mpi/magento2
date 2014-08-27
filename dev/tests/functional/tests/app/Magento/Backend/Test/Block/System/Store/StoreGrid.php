@@ -36,6 +36,9 @@ class StoreGrid extends GridInterface
         ],
         'group_title' => [
             'selector' => '#storeGrid_filter_group_title'
+        ],
+        'website_title' => [
+            'selector' => '#storeGrid_filter_website_title'
         ]
     ];
 
@@ -87,5 +90,17 @@ class StoreGrid extends GridInterface
         $storeName = $storeGroup->getName();
         $this->search(['group_title' => $storeName]);
         $this->editStore($storeName);
+    }
+
+    /**
+     * Check if website exists
+     *
+     * @param string $websiteName
+     * @return bool
+     */
+    public function isWebsiteExists($websiteName)
+    {
+        $element = $this->_rootElement->find(sprintf($this->titleFormat, $websiteName), Locator::SELECTOR_XPATH);
+        return $element->isVisible();
     }
 }
