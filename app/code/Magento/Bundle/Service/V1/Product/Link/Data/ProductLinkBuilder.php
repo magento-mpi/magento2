@@ -14,6 +14,7 @@ use Magento\Framework\Service\Data\AttributeValueBuilder;
  * Builder for the ProductLink Service Data Object
  *
  * @method ProductLink create()
+ * @codeCoverageIgnore
  */
 class ProductLinkBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {

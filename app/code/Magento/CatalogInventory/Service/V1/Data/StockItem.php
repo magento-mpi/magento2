@@ -11,6 +11,8 @@ use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Stock item data object
+ *
+ * @codeCoverageIgnore
  */
 class StockItem extends AbstractExtensibleObject
 {

@@ -9,6 +9,9 @@ namespace Magento\Downloadable\Service\V1\Data;
 
 use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class FileContent extends AbstractExtensibleObject
 {
     const DATA = 'data';

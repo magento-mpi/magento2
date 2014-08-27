@@ -9,6 +9,9 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AttributeBuilder extends AbstractExtensibleObjectBuilder
 {
     /**

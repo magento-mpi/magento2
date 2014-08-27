@@ -10,6 +10,9 @@ namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
 use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DownloadableLinkContent extends AbstractExtensibleObject
 {
     const TITLE = 'title';

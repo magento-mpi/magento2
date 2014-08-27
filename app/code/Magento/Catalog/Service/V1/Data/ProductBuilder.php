@@ -10,6 +10,9 @@ namespace Magento\Catalog\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ProductBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
@@ -93,7 +96,6 @@ class ProductBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleO
 
     /**
      * Set created time
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
      * @param string|null $value
@@ -109,7 +111,6 @@ class ProductBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleO
 
     /**
      * Set updated time
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
      * @param string|null $value

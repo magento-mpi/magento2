@@ -9,7 +9,9 @@
 
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-
+/**
+ * @codeCoverageIgnore
+ */
 class AttributeGroup extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**#@+

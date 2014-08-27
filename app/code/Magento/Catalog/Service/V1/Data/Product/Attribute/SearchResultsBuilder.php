@@ -18,6 +18,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
  * Builder for the SearchResults Service Data Object
  *
  * @method \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResults create()
+ * @codeCoverageIgnore
  */
 class SearchResultsBuilder extends \Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder
 {

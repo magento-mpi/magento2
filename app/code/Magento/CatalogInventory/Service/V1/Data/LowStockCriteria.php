@@ -11,6 +11,8 @@ use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Low stock criteria data object
+ *
+ * @codeCoverageIgnore
  */
 class LowStockCriteria extends AbstractExtensibleObject
 {

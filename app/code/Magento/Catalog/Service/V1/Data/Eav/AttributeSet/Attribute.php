@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Attribute extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**

@@ -11,6 +11,8 @@ use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Low stock search result data object
+ *
+ * @codeCoverageIgnore
  */
 class LowStockResult extends AbstractExtensibleObject
 {

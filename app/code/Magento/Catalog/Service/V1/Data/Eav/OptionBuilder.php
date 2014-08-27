@@ -9,6 +9,8 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 
 /**
  * Class OptionBuilder
+ *
+ * @codeCoverageIgnore
  */
 class OptionBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {

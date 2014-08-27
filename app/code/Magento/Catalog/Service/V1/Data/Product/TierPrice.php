@@ -10,6 +10,9 @@ namespace Magento\Catalog\Service\V1\Data\Product;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TierPrice extends AbstractExtensibleObject
 {
     const QTY = 'qty';

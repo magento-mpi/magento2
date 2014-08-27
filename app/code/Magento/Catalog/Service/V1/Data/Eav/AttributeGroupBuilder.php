@@ -8,6 +8,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AttributeGroupBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**

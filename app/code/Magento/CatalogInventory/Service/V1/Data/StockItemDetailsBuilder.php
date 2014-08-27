@@ -11,6 +11,8 @@ use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
 /**
  * Stock item details data builder
+ *
+ * @codeCoverageIgnore
  */
 class StockItemDetailsBuilder extends AbstractExtensibleObjectBuilder
 {

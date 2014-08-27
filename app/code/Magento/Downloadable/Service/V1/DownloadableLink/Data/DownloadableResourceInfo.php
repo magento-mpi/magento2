@@ -10,6 +10,9 @@ namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
 use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DownloadableResourceInfo extends AbstractExtensibleObject
 {
     const FILE = 'file';

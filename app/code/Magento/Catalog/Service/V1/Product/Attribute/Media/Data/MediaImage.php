@@ -9,6 +9,8 @@ namespace Magento\Catalog\Service\V1\Product\Attribute\Media\Data;
 
 /**
  * Contains media_image attribute info
+ *
+ * @codeCoverageIgnore
  */
 class MediaImage extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

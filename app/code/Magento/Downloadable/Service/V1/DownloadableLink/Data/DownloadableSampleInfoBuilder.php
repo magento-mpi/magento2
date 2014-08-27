@@ -11,6 +11,9 @@ namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DownloadableSampleInfoBuilder extends AbstractExtensibleObjectBuilder
 {
     /**

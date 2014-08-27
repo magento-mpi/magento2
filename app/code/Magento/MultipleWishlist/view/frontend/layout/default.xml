@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <remove name="wish-list-link" />
     <remove name="wishlist_sidebar" />
     <referenceBlock name="head.components">
@@ -19,7 +19,7 @@
     <referenceContainer name="sidebar.additional">
         <block class="Magento\MultipleWishlist\Block\Customer\Sidebar" name="multiple-wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
     </referenceContainer>
-    <referenceContainer name="before_body_end">
+    <referenceContainer name="before.body.end">
         <block class="Magento\MultipleWishlist\Block\Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
     </referenceContainer>
-</layout>
+</page>
