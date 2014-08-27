@@ -59,6 +59,13 @@
   </script>
 </div>
 <div data-m2-init='{"Magento_Cms/js/listing/component": ""}' class="grid">
+  <div class="grid-actions">
+    <div class="filter-actions">
+      <button data-bind="click: setViewTo('tiles')">Tile view</button>
+      <button data-bind="click: setViewTo('grid')">Grid view</button>
+      <button data-bind="click: setViewTo('listing')">Listing view</button>
+    </div>
+  </div>
   <!-- ko template: getViewTemplate() --><!-- /ko -->
   <script type="mage/initial">
     {
@@ -104,7 +111,7 @@
           "url": "enable-cookies",
           "layout": "1 column",
           "store_id": "All Store Views",
-          "status": true,
+          "status": false,
           "created": 1407758413000,
           "modified": 1407758413000,
           "action": {
@@ -146,7 +153,7 @@
           "url": "privacy-policy-cookie-restriction-mode",
           "layout": "1 column",
           "store_id": "All Store Views",
-          "status": true,
+          "status": false,
           "created": 1407848473000,
           "modified": 1407848473000,
           "action": {

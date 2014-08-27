@@ -9,16 +9,20 @@ define(['Magento_Ui/js/components/listing', 'jquery', 'mage/translate'], functio
       return rule ? 'sort-arrow-' + rule : 'not-sorted';
     },
 
-    getTextFor: function (status) {
-      return t(status ? 'Enabled' : 'Disabled'); 
-    },
-
     updateAttributes: function () {
       alert('You want to update items with ids: ' + this.checkedIds());
     },
 
     getViewTemplate: function () {
       return 'Magento_Cms.templates.pages_listing.' + this.view();
+    },
+
+    getStatusClassFor: function (row) {
+      return row.status ? 'enabled' : 'disabled';
+    },
+
+    getStatusTextFor: function (status) {
+      return t(status ? 'Enabled' : 'Disabled'); 
     }
 
   });

@@ -7,6 +7,7 @@ define(function (require) {
     Resourceful  = require('Magento_Ui/js/framework/mixin/resourceful');
     
   var ID_ATTRIBUTE = 'id';
+  var DEFAULT_VIEW = 'grid';
 
   return Scope.extend({
 
@@ -18,7 +19,7 @@ define(function (require) {
         .defArray('fields', initial.fields)
         .defArray('checkedIds')
         .def('currentAction')
-        .def('view', 'grid');
+        .def('view', DEFAULT_VIEW);
 
       var adapter = new LocalAdapter(config.resource);
       this.client = new RestClient(adapter);
@@ -92,6 +93,12 @@ define(function (require) {
 
     getViewTemplate: function () {
       return 'Magento_Ui.templates.listing.' + this.view();
+    },
+
+    setViewTo: function (type) {
+      return function () {
+        this.view(type);  
+      }
     }
   });
 });
