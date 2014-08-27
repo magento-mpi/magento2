@@ -13,7 +13,7 @@ use Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory;
 use Mtf\TestCase\Injectable;
 
 /**
- * Class UrlrewriteTest
+ * Class UrlRewriteTest
  * Category URL rewrite creation test
  */
 class CategoryTest extends Injectable
@@ -28,18 +28,19 @@ class CategoryTest extends Injectable
     public function test(\Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory $urlRewriteCategory)
     {
         $urlRewriteCategory->switchData('category_with_permanent_redirect');
-
         //Pages & Blocks
-        $urlRewriteIndexPage = Factory::getPageFactory()->getAdminUrlrewriteIndex();
+        $urlRewriteIndexPage = Factory::getPageFactory()->getAdminUrlRewriteIndex();
         $pageActionsBlock = $urlRewriteIndexPage->getPageActionsBlock();
-        $urlRewriteEditPage = Factory::getPageFactory()->getAdminUrlrewriteEdit();
+        $urlRewriteEditPage = Factory::getPageFactory()->getAdminUrlRewriteEdit();
         $categoryTreeBlock = $urlRewriteEditPage->getTreeBlock();
         $urlRewriteInfoForm = $urlRewriteEditPage->getFormBlock();
+        $typeSelectorBlock = $urlRewriteEditPage->getUrlRewriteTypeSelectorBlock();
 
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $urlRewriteIndexPage->open();
         $pageActionsBlock->addNew();
+        $typeSelectorBlock->selectType($urlRewriteCategory->getUrlRewriteType());
         $categoryTreeBlock->selectCategory($urlRewriteCategory->getCategoryName());
         $urlRewriteInfoForm->fill($urlRewriteCategory);
         $urlRewriteEditPage->getPageMainActions()->save();

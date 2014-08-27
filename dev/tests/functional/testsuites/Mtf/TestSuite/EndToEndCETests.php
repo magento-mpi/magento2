@@ -45,8 +45,8 @@ class EndToEndCETests
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
 
         // Url rewrites
-        $suite->addTestSuite('Magento\Backend\Test\TestCase\Urlrewrite\ProductTest');
-        $suite->addTestSuite('Magento\Backend\Test\TestCase\Urlrewrite\CategoryTest');
+        $suite->addTestSuite('Magento\Backend\Test\TestCase\UrlRewrite\ProductTest');
+        $suite->addTestSuite('Magento\Backend\Test\TestCase\UrlRewrite\CategoryTest');
 
         // Admin user
         $suite->addTest(new \Magento\User\Test\TestCase\UserWithRestrictedRoleTest('testAclRoleWithFullGwsScope'));

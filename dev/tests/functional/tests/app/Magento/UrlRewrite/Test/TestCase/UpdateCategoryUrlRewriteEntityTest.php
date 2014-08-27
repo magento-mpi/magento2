@@ -10,8 +10,8 @@ namespace Magento\UrlRewrite\Test\TestCase;
 
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\TestCase\Injectable;
-use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
-use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
+use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
+use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
 use Mtf\Fixture\FixtureFactory;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 
@@ -40,29 +40,29 @@ class UpdateCategoryUrlRewriteEntityTest extends Injectable
     /**
      * Url rewrite index page
      *
-     * @var UrlrewriteIndex
+     * @var UrlRewriteIndex
      */
     protected $urlRewriteIndex;
 
     /**
      * Url rewrite edit page
      *
-     * @var UrlrewriteEdit
+     * @var UrlRewriteEdit
      */
     protected $urlRewriteEdit;
 
     /**
      * Prepare dataSets and pages
      *
-     * @param UrlrewriteIndex $urlRewriteIndex
-     * @param UrlrewriteEdit $urlRewriteEdit
+     * @param UrlRewriteIndex $urlRewriteIndex
+     * @param UrlRewriteEdit $urlRewriteEdit
      * @param FixtureFactory $fixtureFactory
      * @param CatalogCategory $category
      * @return array
      */
     public function __inject(
-        UrlrewriteIndex $urlRewriteIndex,
-        UrlrewriteEdit $urlRewriteEdit,
+        UrlRewriteIndex $urlRewriteIndex,
+        UrlRewriteEdit $urlRewriteEdit,
         FixtureFactory $fixtureFactory,
         CatalogCategory $category
     ) {
