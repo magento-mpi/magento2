@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Log\Block\Adminhtml\Online\Grid\Renderer;
 
 /**
  * Adminhtml Online Customer last URL renderer
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Online\Grid\Renderer;
-
 class Url extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**

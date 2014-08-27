@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Block\Adminhtml\Online;
+namespace Magento\Log\Block\Adminhtml\Online;
 
 /**
  * Adminhtml customers online filter
