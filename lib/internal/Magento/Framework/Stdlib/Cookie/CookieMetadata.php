@@ -123,7 +123,7 @@ class CookieMetadata
     }
 
     /**
-     * Get HTTPOnly flag
+     * Get HTTP Only flag
      *
      * @return bool|null
      */
