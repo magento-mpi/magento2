@@ -205,7 +205,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param int|int[]|null                 $compareTo
      * @param string                         $zone
-     * @param Store                          $store
+     * @param Store|int|string               $store
      * @return bool|int
      */
     public function typeOfDisplay(
@@ -224,6 +224,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $type = $this->getListPriceDisplayType($store);
                 break;
             case \Magento\Framework\Pricing\Render::ZONE_SALES:
+            case \Magento\Framework\Pricing\Render::ZONE_CART:
                 $type = $this->getSalesPriceDisplayType($store);
                 break;
             case \Magento\Framework\Pricing\Render::ZONE_EMAIL:

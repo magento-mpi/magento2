@@ -119,7 +119,7 @@ edit_cms_static_block:
                             filter_url_key: //input[@name='chooser_identifier']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-                            filter_layout: //select[@name='chooser_root_template']
+                            filter_layout: //select[@name='chooser_page_layout']
                             filter_status: //select[@name='chooser_is_active']
                         buttons:
                             reset_filter: //button[span='Reset Filter']

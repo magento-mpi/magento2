@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="render.product.prices">
         <arguments>
             <argument name="grouped" xsi:type="array">
@@ -20,4 +20,4 @@
             </argument>
         </arguments>
     </referenceBlock>
-</layout>
+</page>

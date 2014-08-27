@@ -134,7 +134,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     {
         $this->requestInterface = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            ['isSecure', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam']
+            ['isSecure', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getCookie']
         );
         $this->layoutInterface = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->managerInterface = $this->getMock('Magento\Framework\Event\ManagerInterface');
