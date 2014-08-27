@@ -232,8 +232,6 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
         foreach ($bundleProductOptions as $option) {
             $this->optionWriteService->remove($productSku, $option->getId());
         }
-
-        return;
     }
 
     /**
