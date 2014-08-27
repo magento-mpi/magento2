@@ -182,7 +182,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     private function basicStub($mock, $method)
     {
-        if(isset($param)) {
+        if (isset($param)) {
             $invocationMocker = $mock->expects($this->any())
                 ->method($method)
                 ->with($param);
