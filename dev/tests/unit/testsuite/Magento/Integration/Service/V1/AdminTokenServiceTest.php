@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for \Magento\Integration\Service\V1\TokenService
+ * Test for \Magento\Integration\Service\V1\AdminTokenService
  *
  * {license_notice}
  *
@@ -15,7 +15,7 @@ use Magento\Integration\Model\Oauth\Token;
 
 class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /** \Magento\Integration\Service\V1\TokenService */
+    /** \Magento\Integration\Service\V1\AdminTokenService */
     protected $_tokenService;
 
     /** \Magento\Integration\Model\Oauth\Token\Factory|\PHPUnit_Framework_MockObject_MockObject */
@@ -46,11 +46,6 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_customerAccountServiceMock = $this
-            ->getMockBuilder('Magento\Customer\Service\V1\CustomerAccountServiceInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_tokenMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token')
             ->disableOriginalConstructor()
             ->setMethods(['getToken', 'loadByAdminId', 'setRevoked', 'save', '__wakeup'])->getMock();
@@ -69,10 +64,9 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_tokenModelCollectionMock));
 
-        $this->_tokenService = new \Magento\Integration\Service\V1\TokenService(
+        $this->_tokenService = new \Magento\Integration\Service\V1\AdminTokenService(
             $this->_tokenModelFactoryMock,
             $this->_userModelMock,
-            $this->_customerAccountServiceMock,
             $this->_tokenModelCollectionFactoryMock
         );
 

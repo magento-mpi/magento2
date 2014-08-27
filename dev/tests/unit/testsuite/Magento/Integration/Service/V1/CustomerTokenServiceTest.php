@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for \Magento\Integration\Service\V1\TokenService
+ * Test for \Magento\Integration\Service\V1\CustomerTokenService
  *
  * {license_notice}
  *
@@ -13,16 +13,13 @@ namespace Magento\Integration\Service\V1;
 use Magento\Integration\Model\Integration;
 use Magento\Integration\Model\Oauth\Token;
 
-class TokenServiceTest extends \PHPUnit_Framework_TestCase
+class CustomerTokenServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /** \Magento\Integration\Service\V1\TokenService */
+    /** \Magento\Integration\Service\V1\CustomerTokenService */
     protected $_tokenService;
 
     /** \Magento\Integration\Model\Oauth\Token\Factory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_tokenModelFactoryMock;
-
-    /** \Magento\User\Model\User|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_userModelMock;
 
     /** \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_customerAccountServiceMock;
@@ -42,10 +39,6 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_tokenModelFactoryMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token\Factory')
             ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_userModelMock = $this->getMockBuilder('Magento\User\Model\User')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -72,9 +65,8 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_tokenModelCollectionMock));
 
-        $this->_tokenService = new \Magento\Integration\Service\V1\TokenService(
+        $this->_tokenService = new \Magento\Integration\Service\V1\CustomerTokenService(
             $this->_tokenModelFactoryMock,
-            $this->_userModelMock,
             $this->_customerAccountServiceMock,
             $this->_tokenModelCollectionFactoryMock
         );

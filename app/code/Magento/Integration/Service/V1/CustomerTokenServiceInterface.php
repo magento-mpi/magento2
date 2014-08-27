@@ -10,25 +10,12 @@ namespace Magento\Integration\Service\V1;
 
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Interface providing token generation for Admins and Customers
+ * Interface providing token generation for Customers
  */
-interface TokenServiceInterface
+interface CustomerTokenServiceInterface
 {
-    /**
-     * Create access token for admin given the admin credentials.
-     *
-     * @param string $username
-     * @param string $password
-     * @return string Token created
-     * @throws InputException For invalid input
-     * @throws AuthenticationException
-     * @throws LocalizedException
-     */
-    public function createAdminAccessToken($username, $password);
-
     /**
      * Create access token for admin given the customer credentials.
      *
