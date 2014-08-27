@@ -206,7 +206,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('registry')
             ->with('current_invoice')
             ->will($this->returnValue($invoice));
-        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $invoice, $orderTaxDetails, $expectedResults);
+        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $orderTaxDetails, $expectedResults);
     }
 
     /**
@@ -242,7 +242,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('registry')
             ->with('current_creditmemo')
             ->will($this->returnValue($creditmemo));
-        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $creditmemo, $orderTaxDetails, $expectedResults);
+        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $orderTaxDetails, $expectedResults);
     }
 
     /**
