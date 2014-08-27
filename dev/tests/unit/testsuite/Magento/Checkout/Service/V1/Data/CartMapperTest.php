@@ -21,8 +21,9 @@ class CartMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testMap()
     {
-        $methods = ['getId', 'getStoreId', 'getCreatedAt','getUpdatedAt', 'getConvertedAt', 'getIsActive', 'getIsVirtual',
-            'getItemsCount', 'getItemsQty', 'getCheckoutMethod', 'getReservedOrderId', 'getOrigOrderId', '__wakeUp'];
+        $methods = ['getId', 'getStoreId', 'getCreatedAt','getUpdatedAt', 'getConvertedAt', 'getIsActive',
+            'getIsVirtual', 'getItemsCount', 'getItemsQty', 'getCheckoutMethod', 'getReservedOrderId', 'getOrigOrderId',
+            '__wakeUp'];
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', $methods, [], '', false);
         $expected = [
             Cart::ID => 12,
