@@ -26,21 +26,11 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     protected $_customer;
 
     /**
-     * @var \Magento\Log\Model\Customer
-     */
-    protected $_customerLog;
-
-    /**
      * Core registry
      *
      * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
-
-    /**
-     * @var \Magento\Log\Model\Visitor
-     */
-    protected $_modelVisitor;
 
     /**
      * @var CustomerAccountServiceInterface
@@ -68,26 +58,13 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     protected $_addressHelper;
 
     /**
-     * @var \Magento\Log\Model\CustomerFactory
-     */
-    protected $_logFactory;
-
-    /**
-     * @var \Magento\Framework\Stdlib\DateTime
-     */
-    protected $dateTime;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Log\Model\Visitor $modelVisitor
-     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -99,21 +76,15 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Framework\Registry $registry,
-        \Magento\Log\Model\Visitor $modelVisitor,
-        \Magento\Framework\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_modelVisitor = $modelVisitor;
         $this->_accountService = $accountService;
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
         $this->_customerBuilder = $customerBuilder;
         $this->_addressHelper = $addressHelper;
-        $this->_logFactory = $logFactory;
-        $this->dateTime = $dateTime;
         parent::__construct($context, $data);
     }
 
@@ -169,19 +140,6 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     }
 
     /**
-     * Load Customer Log model
-     *
-     * @return \Magento\Log\Model\Customer
-     */
-    public function getCustomerLog()
-    {
-        if (!$this->_customerLog) {
-            $this->_customerLog = $this->_logFactory->create()->loadByCustomer($this->getCustomerId());
-        }
-        return $this->_customerLog;
-    }
-
-    /**
      * Get customer creation date
      *
      * @return string
@@ -227,10 +185,6 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getLastLoginDate()
     {
-        $date = $this->getCustomerLog()->getLoginAtTimestamp();
-        if ($date) {
-            return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
-        }
         return __('Never');
     }
 
@@ -239,11 +193,6 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getStoreLastLoginDate()
     {
-        $date = $this->getCustomerLog()->getLoginAtTimestamp();
-        if ($date) {
-            $date = $this->_localeDate->scopeDate($this->getCustomer()->getStoreId(), $date, true);
-            return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
-        }
         return __('Never');
     }
 
@@ -264,18 +213,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getCurrentStatus()
     {
-        $log = $this->getCustomerLog();
-        $interval = $this->_modelVisitor->getOnlineMinutesInterval();
-        if ($log->getLogoutAt()
-            || strtotime(
-                $this->dateTime->now()
-            ) - strtotime(
-                $log->getLastVisitAt()
-            ) > $interval * 60
-        ) {
-            return __('Offline');
-        }
-        return __('Online');
+        return __('Offline');
     }
 
     /**

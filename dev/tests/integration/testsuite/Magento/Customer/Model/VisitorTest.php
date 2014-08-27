@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Log\Model;
+namespace Magento\Customer\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -17,8 +17,8 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindCustomerLogin()
     {
-        /** @var \Magento\Log\Model\Visitor $visitor */
-        $visitor = Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor');
+        /** @var \Magento\Customer\Model\Visitor $visitor */
+        $visitor = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Visitor');
         $visitor->unsCustomerId();
         $visitor->unsDoCustomerLogin();
 
@@ -40,8 +40,8 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindCustomerLogout()
     {
-        /** @var \Magento\Log\Model\Visitor $visitor */
-        $visitor = Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor');
+        /** @var \Magento\Customer\Model\Visitor $visitor */
+        $visitor = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Visitor');
 
         $this->_loginCustomer('customer@example.com', 'password');
         $visitor->setCustomerId(1);

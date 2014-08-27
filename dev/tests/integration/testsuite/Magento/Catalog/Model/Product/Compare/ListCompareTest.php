@@ -20,7 +20,7 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Log\Model\Visitor
+     * @var \Magento\Customer\Model\Visitor
      */
     protected $_visitor;
 
@@ -33,7 +33,7 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
         $this->_session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Customer\Model\Session');
         $this->_visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Log\Model\Visitor');
+            ->create('Magento\Customer\Model\Visitor');
         /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
         $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\Stdlib\DateTime');

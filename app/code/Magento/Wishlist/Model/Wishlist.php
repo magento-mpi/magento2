@@ -169,6 +169,9 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      */
     public function loadByCustomerId($customerId, $create = false)
     {
+        if (is_null($customerId)) {
+            return $this;
+        }
         $customerId = (int)$customerId;
         $customerIdFieldName = $this->_getResource()->getCustomerIdFieldName();
         $this->_getResource()->load($this, $customerId, $customerIdFieldName);
