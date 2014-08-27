@@ -19,7 +19,7 @@ use Magento\Framework\StoreManagerInterface;
 class SensitiveCookieMetadata extends CookieMetadata
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $storeManager;
 
