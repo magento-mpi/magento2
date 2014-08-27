@@ -38,7 +38,7 @@ class Paypal extends Page
      *
      * @var string
      */
-    protected $loginBlock = '#login';
+    protected $loginBlock = '#loginBox';
 
     /**
      * Paypal review block
