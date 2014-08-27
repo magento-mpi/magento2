@@ -66,7 +66,9 @@ class CreateProductReviewFrontendEntityTest extends Injectable
     protected $review;
 
     /**
-     * This method is called before a test is executed.
+     * This method is called before a test is executed
+     *
+     * @return void
      */
     public static function setUpBeforeClass()
     {
@@ -123,12 +125,11 @@ class CreateProductReviewFrontendEntityTest extends Injectable
     public function tearDown()
     {
         $this->ratingIndex->open();
-        $ratingGrid = $this->ratingIndex->getRatingGrid();
-        $pageActions = $this->ratingEdit->getPageActions();
-        foreach ($this->review->getRatings() as $rating) {
-            $filter = ['rating_code' => $rating['title']];
-            $ratingGrid->searchAndOpen($filter);
-            $pageActions->delete();
+        if ($this->review instanceof ReviewInjectable) {
+            foreach ($this->review->getRatings() as $rating) {
+                $this->ratingIndex->getRatingGrid()->searchAndOpen(['rating_code' => $rating['title']]);
+                $this->ratingEdit->getPageActions()->delete();
+            }
         }
     }
 }

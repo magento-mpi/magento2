@@ -118,7 +118,9 @@ class ManageProductReviewFromCustomerPageTest extends Injectable
     protected $reviewEdit;
 
     /**
-     * This method is called before a test is executed.
+     * This method is called before a test is executed
+     *
+     * @return void
      */
     public static function setUpBeforeClass()
     {
@@ -234,10 +236,9 @@ class ManageProductReviewFromCustomerPageTest extends Injectable
     public function tearDown()
     {
         $this->ratingIndex->open();
-        $ratingGrid = $this->ratingIndex->getRatingGrid();
         if ($this->reviewInitial instanceof ReviewInjectable) {
             foreach ($this->reviewInitial->getRatings() as $rating) {
-                $ratingGrid->searchAndOpen(['rating_code' => $rating['title']]);
+                $this->ratingIndex->getRatingGrid()->searchAndOpen(['rating_code' => $rating['title']]);
                 $this->ratingEdit->getPageActions()->delete();
             }
         }
