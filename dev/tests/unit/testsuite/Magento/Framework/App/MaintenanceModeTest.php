@@ -13,76 +13,179 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
     /**
      * @var MaintenanceMode
      */
-    protected $_model;
+    protected $model;
 
     /**
-     * @var \Magento\Framework\App\Filesystem\DirectoryList | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dirs;
+    protected $filesystem;
 
     /**
-     * @var string
+     * @var \Magento\Framework\App\Filesystem\Write | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $varDirPath;
+    protected $write;
 
-    public function setUp()
+    /**
+     * @var \Magento\Framework\Filesystem\DriverInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $driveInterface;
+
+    // public static function setupBeforeClass()
+    protected function setup()
     {
-        $this->varDirPath = BP . '/' . Filesystem::VAR_DIR;
-        if (!file_exists($this->varDirPath)) {
-            mkdir($this->varDirPath);
-        }
-        $this->_dirs = $this->getMock(
-            '\Magento\Framework\App\Filesystem\DirectoryList',
-            array('getDir'),
-            array(),
-            '',
-            false
-        );
+        $this->write = $this->getMock('Magento\Framework\Filesystem\Directory\Write', [], [], '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->filesystem->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($this->write));
 
-        $this->_dirs->expects(
-            $this->any()
-        )->method(
-                'getDir'
-            )->will(
-                $this->returnValue($this->varDirPath)
-            );
+        $this->write->expects($this->any())->method('getAbsolutePath')
+            ->will($this->returnValue(''));
+        $this->driverInterface = $this->getMock('\Magento\Framework\Filesystem\DriverInterface');
+        $this->write->expects($this->any())->method('getDriver')
+            ->will($this->returnValue($this->driverInterface));
 
-        $this->_model = new MaintenanceMode($this->_dirs);
+        $this->model = new MaintenanceMode($this->filesystem);
     }
 
-    public function tearDown()
+    public function testIsOnInitial()
     {
-        $flagFile = $this->varDirPath . '/' . MaintenanceMode::FLAG_FILENAME;
-        $ipFile = $this->varDirPath . '/' . MaintenanceMode::IP_FILENAME;
-        if (file_exists($flagFile)) {
-            unlink( $flagFile);
-        }
-        if (file_exists($ipFile)) {
-            unlink($ipFile);
-        }
-        unset($this->_model);
+        $this->driverInterface->expects($this->any())->method('isExists')
+            ->with(MaintenanceMode::FLAG_FILENAME)
+            ->will($this->returnValue(false));
+        $this->assertFalse($this->model->isOn());
     }
 
-    public function testMaintenanceModeOnAndOff()
+    public function testisOnWithoutIP()
     {
-        $this->assertFalse($this->_model->isOn());
-        $this->_model->set(true);
-        $this->assertTrue($this->_model->isOn());
-        $this->_model->set(false);
-        $this->assertFalse($this->_model->isOn());
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, true],
+            [MaintenanceMode::IP_FILENAME, false]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will(($this->returnValueMap($mapIsExists)));
+        $this->assertTrue($this->model->isOn());
+    }
+
+    public function testisOnWithIP()
+    {
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, true],
+            [MaintenanceMode::IP_FILENAME, true]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will(($this->returnValueMap($mapIsExists)));
+        $this->assertFalse($this->model->isOn());
+    }
+
+    public function testisOnWithIPNoMaintenance()
+    {
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, false],
+            [MaintenanceMode::IP_FILENAME, true]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will(($this->returnValueMap($mapIsExists)));
+        $this->assertFalse($this->model->isOn());
+    }
+
+    public function testMaintenanceModeOn()
+    {
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, true]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will($this->returnValueMap($mapIsExists));
+        $this->write->expects($this->any())->method('touch')->will($this->returnValue(true));
+        $this->model->set(true);
+        $this->assertTrue($this->model->isOn());
+    }
+
+    public function testMaintenanceModeOff()
+    {
+        $this->write->expects($this->any())->method('delete')->will($this->returnValue(true));
+        $this->model->set(false);
+        $this->driverInterface->expects($this->any())->method('isExists')
+            ->with(MaintenanceMode::FLAG_FILENAME)
+            ->will(($this->returnValue(false)));
+        $this->assertFalse($this->model->isOn());
     }
 
     public function testSetAddresses()
     {
-        $expectedArray = [];
-        $this->assertEquals($this->_model->getAddressInfo(), $expectedArray);
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, true],
+            [MaintenanceMode::IP_FILENAME, true]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will($this->returnValueMap($mapIsExists));
+        $this->write->expects($this->any())->method('writeFile')
+            ->with(MaintenanceMode::IP_FILENAME)
+            ->will($this->returnValue(true));
 
-        $expectedArray = ["address1"];
-        $this->_model->setAddresses("address1");
-        $this->assertEquals($this->_model->getAddressInfo(), $expectedArray);
+        $this->write->expects($this->any())->method('readFile')
+            ->with(MaintenanceMode::IP_FILENAME)
+            ->will($this->returnValue(''));
 
-        $expectedArray = ["address1","address2"];
-        $this->_model->setAddresses("address1,address2");
-        $this->assertEquals($this->_model->getAddressInfo(), $expectedArray);
+        $this->model->setAddresses('');
+        $this->assertEquals([''], $this->model->getAddressInfo());
+    }
+
+    public function testSetSingleAddresses()
+    {
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, true],
+            [MaintenanceMode::IP_FILENAME, true]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will($this->returnValueMap($mapIsExists));
+        $this->write->expects($this->any())->method('delete')->will($this->returnValueMap($mapIsExists));
+
+        $this->write->expects($this->any())->method('writeFile')
+            ->will($this->returnValue(10));
+
+        $this->write->expects($this->any())->method('readFile')
+            ->with(MaintenanceMode::IP_FILENAME)
+            ->will($this->returnValue('address1'));
+
+        $this->model->setAddresses("address1");
+        $this->assertEquals(["address1"], $this->model->getAddressInfo());
+    }
+
+    public function testOnSetMultipleAddresses()
+    {
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, true],
+            [MaintenanceMode::IP_FILENAME, true]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will($this->returnValueMap($mapIsExists));
+        $this->write->expects($this->any())->method('delete')->will($this->returnValueMap($mapIsExists));
+
+        $this->write->expects($this->any())->method('writeFile')
+            ->will($this->returnValue(10));
+
+        $this->write->expects($this->any())->method('readFile')
+            ->with(MaintenanceMode::IP_FILENAME)
+            ->will($this->returnValue('address1,10.50.60.123'));
+
+        $expectedArray = ["address1", "10.50.60.123"];
+        $this->model->setAddresses("address1,10.50.60.123");
+        $this->assertEquals($expectedArray, $this->model->getAddressInfo());
+        $this->assertFalse($this->model->isOn("address1"));
+        $this->assertTrue($this->model->isOn("address3"));
+    }
+
+    public function testOffSetMultipleAddresses()
+    {
+        $mapIsExists = [
+            [MaintenanceMode::FLAG_FILENAME, false],
+            [MaintenanceMode::IP_FILENAME, true]
+        ];
+        $this->driverInterface->expects($this->any())->method('isExists')->will($this->returnValueMap($mapIsExists));
+        $this->write->expects($this->any())->method('delete')->will($this->returnValueMap($mapIsExists));
+
+        $this->write->expects($this->any())->method('readFile')
+            ->with(MaintenanceMode::IP_FILENAME)
+            ->will($this->returnValue('address1,10.50.60.123'));
+
+        $expectedArray = ["address1", "10.50.60.123"];
+        $this->model->setAddresses("address1,10.50.60.123");
+        $this->assertEquals($expectedArray, $this->model->getAddressInfo());
+        $this->assertFalse($this->model->isOn("address1"));
+        $this->assertFalse($this->model->isOn("address3"));
     }
 }
