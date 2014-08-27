@@ -1,70 +1,71 @@
 define([
-  'Magento_Ui/js/framework/ko/scope',
-  'Magento_Ui/js/framework/provider/model',
-  '_'
-], function (Scope, DataProvider, _) {
-  
-  return Scope.extend({
-    initialize: function (massActions, actions) {
+    'Magento_Ui/js/framework/ko/scope',
+    'Magento_Ui/js/framework/provider/model',
+    '_'
+], function(Scope, DataProvider, _) {
 
-      this
-        .defArray('actions', actions)
-        .defArray('massActions', massActions)
-        .def('currentAction')
-        .def('currentMassAction')
-        .def('listing', null);
+    return Scope.extend({
+        initialize: function(massActions, actions) {
 
-      this
-        ._bind()
-        ._listen()
-        ._load();
-    },
+            this
+                .defArray('actions', actions)
+                .defArray('massActions', massActions)
+                .def('currentAction')
+                .def('currentMassAction')
+                .def('listing', null);
 
-    _bind: function () {
-      _.bindAll(this, 'listing', '_applyMassAction');
+            this
+                ._bind()
+                ._listen()
+                ._load();
+        },
 
-      return this;
-    },
+        _bind: function() {
+            _.bindAll(this, 'listing', '_applyMassAction');
 
-    _listen: function () {
-      this.currentMassAction.subscribe(this._applyMassAction, 'change');
+            return this;
+        },
 
-      return this;
-    },
+        _listen: function() {
+            this.currentMassAction.subscribe(this._applyMassAction, 'change');
 
-    _load: function () {
-      DataProvider.get('cms.pages.listing').done(this.listing);
+            return this;
+        },
 
-      return this;
-    },
+        _load: function() {
+            DataProvider.get('cms.pages.listing').done(this.listing);
 
-    _applyMassAction: function (action) {
-      var listing = this.listing();
+            return this;
+        },
 
-      if (listing && action) {
-        action = action.type;
-        if (listing[action]) {
-          listing[action].call(listing);  
+        _applyMassAction: function(action) {
+            var listing = this.listing();
+
+            if (listing && action) {
+                action = action.type;
+                if (listing[action]) {
+                    listing[action].call(listing);
+                }
+            }
+        },
+
+        applyAction: function() {
+            var action = this.currentAction(),
+                listing = this.listing();
+
+            if (listing && action) {
+                action = action.type;
+                
+                if (listing[action]) {
+                    listing[action].call(listing);
+                }
+            }
+        },
+
+        getCheckedQuantity: function() {
+            var listing = this.listing();
+
+            return listing ? listing.getCheckedQuantity() : 0;
         }
-      }
-    },
-
-    applyAction: function () {
-      var action = this.currentAction();
-      var listing = this.listing();
-
-      if (listing && action) {
-        action = action.type;
-        if (listing[action]) {
-          listing[action].call(listing);  
-        }
-      }
-    },
-
-    getCheckedQuantity: function () {
-      var listing = this.listing();
-
-      return listing ? listing.getCheckedQuantity() : 0;
-    }
-  });
+    });
 });

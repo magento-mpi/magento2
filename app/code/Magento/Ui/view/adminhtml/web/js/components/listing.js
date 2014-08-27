@@ -1,11 +1,10 @@
-define(function (require) {
+define([
+  'Magento_Ui/js/framework/ko/scope',
+  'Magento_Ui/js/framework/rest/client',
+  'Magento_Ui/js/framework/rest/adapter/local',
+  'Magento_Ui/js/framework/mixin/resourceful'
+], function (Scope, RestClient, LocalAdapter, Resourceful) {
 
-  var
-    Scope        = require('Magento_Ui/js/framework/ko/scope'),
-    RestClient   = require('Magento_Ui/js/framework/rest/client'),
-    LocalAdapter = require('Magento_Ui/js/framework/rest/adapter/local'),
-    Resourceful  = require('Magento_Ui/js/framework/mixin/resourceful');
-    
   var ID_ATTRIBUTE = 'id';
   var DEFAULT_VIEW = 'grid';
 
