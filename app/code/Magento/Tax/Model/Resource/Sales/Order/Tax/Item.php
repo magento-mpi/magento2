@@ -70,13 +70,14 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'real_amount',
                 'real_base_amount',
             ]
-        )->join(['tax' => $this->getTable('sales_order_tax')],
-                'item.tax_id = tax.tax_id',
-                ['code', 'title', 'order_id']
-            )->where(
-                'tax.order_id = ?',
-                $orderId
-            );
+        )->join(
+            ['tax' => $this->getTable('sales_order_tax')],
+            'item.tax_id = tax.tax_id',
+            ['code', 'title', 'order_id']
+        )->where(
+            'tax.order_id = ?',
+            $orderId
+        );
 
         return $adapter->fetchAll($select);
     }

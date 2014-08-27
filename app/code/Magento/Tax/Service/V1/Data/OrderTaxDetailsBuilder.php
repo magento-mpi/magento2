@@ -10,6 +10,7 @@ namespace Magento\Tax\Service\V1\Data;
 
 use \Magento\Tax\Service\V1\Data\OrderTaxDetails\AppliedTaxBuilder;
 use \Magento\Tax\Service\V1\Data\OrderTaxDetails\ItemBuilder;
+
 /**
  * Builder for the OrderTaxDetails Data Object
  *
