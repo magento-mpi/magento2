@@ -1,0 +1,14 @@
+<div class="hor-scroll">
+  <table class="data">
+    <thead data-part="heading"></thead>
+    <tbody data-part="body"></tbody>
+    <tfoot>
+      <tr>
+        <td class="empty-text" data-bind="visible: isEmpty(), attr: { colspan: fields().length + 1 }">We couldn't find any records.</td>
+      </tr>  
+    </tfoot>
+  </table>  
+</div>
+<div style="display: none" class="loading-old" id="loading-mask" data-bind="visible: isLocked">
+  <div class="loader" id="loading_mask_loader"><p>Please wait...</p></div>
+</div>
