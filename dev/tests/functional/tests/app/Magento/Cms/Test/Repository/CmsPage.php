@@ -34,7 +34,7 @@ class CmsPage extends AbstractRepository
             'content' => [
                 'content' => 'text content'
             ],
-            'root_template' => '1 column'
+            'page_layout' => '1 column'
         ];
 
         $this->_data['cms-page-duplicated'] = [
@@ -77,7 +77,7 @@ class CmsPage extends AbstractRepository
             'content' => [
                 'content' => 'Test Content'
             ],
-            'root_template' => '3 columns'
+            'page_layout' => '3 columns'
         ];
     }
 }

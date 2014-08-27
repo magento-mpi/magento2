@@ -12,6 +12,9 @@ use Mtf\Factory\Factory;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 use Magento\Sales\Test\Fixture\AuthorizeNetOrder;
 
+/**
+ * Class OfflineRefundTest
+ */
 class OfflineRefundTest extends RefundTest
 {
     /**
@@ -34,7 +37,7 @@ class OfflineRefundTest extends RefundTest
         // Step 1: Order View Page
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $tabsWidget = $orderPage->getFormTabsBlock();
         /** @var \Magento\Sales\Test\Block\Adminhtml\Order\Actions $creditMemoActionsBlock */
@@ -83,9 +86,9 @@ class OfflineRefundTest extends RefundTest
      */
     public function dataProviderOrder()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder())
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()]
+        ];
     }
 }

@@ -82,6 +82,23 @@ class CustomerInjectable extends AbstractRepository
             'address' => ['presets' => 'US_address']
         ];
 
+        $this->_data['customer_US'] = [
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'email' => 'JohnDoe_%isolation%@example.com',
+            'password' => '123123q',
+            'password_confirmation' => '123123q',
+        ];
+
+        $this->_data['customer_UK'] = [
+            'firstname' => 'Jane',
+            'lastname' => 'Doe',
+            'email' => 'JaneDoe_%isolation%@example.com',
+            'password' => '123123q',
+            'password_confirmation' => '123123q',
+        ];
+
+
         $this->_data['johndoe_unique'] = [
             'firstname' => 'John',
             'lastname' => 'Doe%isolation%',

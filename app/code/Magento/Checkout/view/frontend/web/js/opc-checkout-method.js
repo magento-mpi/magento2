@@ -156,7 +156,7 @@ define([
             var json            = elem.data('checkout'),
                 checkout        = this.options.checkout,
                 guestChecked    = $( checkout.loginGuestSelector ).is( ':checked' ),
-                loginRegister   = $( checkout.loginRegisterSelector )[0],
+                registerChecked = $( checkout.loginRegisterSelector ).is( ':checked' ),
                 method          = 'register',
                 action          = 'show';
 
@@ -165,7 +165,7 @@ define([
             
             if (json.isGuestCheckoutAllowed) {
                 
-                if( !guestChecked && !(loginRegister && loginRegister.checked) ){
+                if( !guestChecked && !registerChecked ){
                     alert( $.mage.__('Please choose to register or to checkout as a guest.') );
                     
                     return false;
@@ -183,6 +183,9 @@ define([
                 );
 
                 this.element.find( checkout.registerCustomerPasswordSelector )[action]();
+            }
+            else if( json.registrationUrl ){
+                window.location = json.registrationUrl;
             }
 
             this.element.trigger('login');

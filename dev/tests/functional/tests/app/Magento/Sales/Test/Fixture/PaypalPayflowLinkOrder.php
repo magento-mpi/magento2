@@ -24,11 +24,11 @@ class PaypalPayflowLinkOrder extends OrderCheckout
     {
         $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalPayflowLink();
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$168.72'
-            )
-        );
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '168.72'
+            ]
+        ];
     }
 
     /**
@@ -38,7 +38,7 @@ class PaypalPayflowLinkOrder extends OrderCheckout
     {
         parent::persist();
 
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
+        /** @var \Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcLink $formBlock */
         $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowLinkCcBlock();
         $formBlock->fill($this->checkoutFixture->getCreditCard());
         $formBlock->pressContinue();

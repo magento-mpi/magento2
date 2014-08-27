@@ -65,9 +65,19 @@ class ProductAdvancedPricingTest extends Functional
         // Use customer from checkout fixture
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->open();
-        $checkoutOnePage->getBillingBlock()->fillBilling($checkoutFixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($checkoutFixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($checkoutFixture);
+        $billingAddress = $checkoutFixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        $shippingMethod = $checkoutFixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $checkoutFixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $checkoutFixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $checkoutFixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         //Verify order in Backend
@@ -127,7 +137,7 @@ class ProductAdvancedPricingTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         // Validate each of the products.
         foreach ($checkoutFixture->getProducts() as $product) {
