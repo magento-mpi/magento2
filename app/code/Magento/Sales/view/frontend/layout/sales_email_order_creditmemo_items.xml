@@ -7,8 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="Email Creditmemo Items List" design_abstraction="custom">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd" label="Email Creditmemo Items List" design_abstraction="custom">
     <update handle="sales_email_order_creditmemo_renderers" />
+    <update handle="sales_email_item_price" />
     <block class="Magento\Sales\Block\Order\Email\Creditmemo\Items" name="items" template="email/creditmemo/items.phtml">
         <block class="Magento\Framework\View\Element\RendererList" name="sales.email.order.creditmemo.renderers" as="renderer.list" />
         <block class="Magento\Sales\Block\Order\Creditmemo\Totals" name="creditmemo_totals" template="order/totals.phtml" cacheable="false">
@@ -20,4 +21,4 @@
         </block>
     </block>
     <block class="Magento\Framework\View\Element\Template" name="additional.product.info" template="Magento_Core::template.phtml"/>
-</layout>
+</page>
