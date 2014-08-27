@@ -1,13 +1,14 @@
 <?php
 /**
+ *
  * {license_notice}
  *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-namespace Magento\RecurringPayment\Model;
+namespace Magento\RecurringPayment\Model\Observer;
 
-class ObserverTest extends \PHPUnit_Framework_TestCase
+class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\Event\Observer
@@ -15,7 +16,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var \Magento\RecurringPayment\Model\Observer
+     * @var \Magento\RecurringPayment\Model\Observer\PrepareProductRecurringPaymentOptions
      */
     protected $_testModel;
 
@@ -72,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_testModel = $helper->getObject(
-            'Magento\RecurringPayment\Model\Observer',
+            'Magento\RecurringPayment\Model\Observer\PrepareProductRecurringPaymentOptions',
             array(
                 'recurringPaymentFactory' => $this->_recurringPaymentFactory,
                 'fields' => $this->_fieldsBlock,
@@ -107,7 +108,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPrepareProductRecurringPaymentOptions()
+    public function testExecute()
     {
         $payment = $this->getMock(
             'Magento\Framework\Object',
@@ -129,12 +130,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $payment->expects(
             $this->once()
         )->method(
-            'exportScheduleInfo'
-        )->will(
-            $this->returnValue(
-                array(new \Magento\Framework\Object(array('title' => 'Title', 'schedule' => 'schedule')))
-            )
-        );
+                'exportScheduleInfo'
+            )->will(
+                $this->returnValue(
+                    array(new \Magento\Framework\Object(array('title' => 'Title', 'schedule' => 'schedule')))
+                )
+            );
 
         $this->_fieldsBlock->expects($this->once())->method('getFieldLabel')->will($this->returnValue('Field Label'));
 
@@ -157,30 +158,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $product->expects(
             $this->at(2)
         )->method(
-            'addCustomOption'
-        )->with(
-            'additional_options',
-            serialize($infoOptions)
-        );
+                'addCustomOption'
+            )->with(
+                'additional_options',
+                serialize($infoOptions)
+            );
 
         $this->_event->expects($this->any())->method('getProduct')->will($this->returnValue($product));
 
-        $this->_testModel->prepareProductRecurringPaymentOptions($this->_observer);
-    }
-
-    public function testAddFormExcludedAttribute()
-    {
-        $block = $this->getMock(
-            'Magento\Backend\Block\Template',
-            array('getFormExcludedFieldList', 'setFormExcludedFieldList'),
-            array(),
-            '',
-            false
-        );
-        $block->expects($this->once())->method('getFormExcludedFieldList')->will($this->returnValue(array('field')));
-        $block->expects($this->once())->method('setFormExcludedFieldList')->with(array('field', 'recurring_payment'));
-
-        $this->_event->expects($this->once())->method('getObject')->will($this->returnValue($block));
-        $this->_testModel->addFormExcludedAttribute($this->_observer);
+        $this->_testModel->execute($this->_observer);
     }
 }

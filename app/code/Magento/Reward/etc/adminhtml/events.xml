@@ -9,36 +9,36 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
     <event name="adminhtml_customer_prepare_save">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="saveRewardNotifications" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\SaveRewardNotifications" method="execute" />
     </event>
     <event name="adminhtml_customer_save_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="saveRewardPoints" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\SaveRewardPoints" method="execute" />
     </event>
     <event name="review_save_commit_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="reviewSubmit" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\ReviewSubmit" method="execute" />
     </event>
     <event name="adminhtml_sales_order_create_process_data">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="processOrderCreationData" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\ProcessOrderCreationData" method="execute" />
     </event>
     <event name="adminhtml_sales_order_creditmemo_register_before">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="setRewardPointsBalanceToRefund" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\SetRewardPointsBalanceToRefund" method="execute" />
     </event>
     <event name="website_delete_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="prepareCustomerOrphanPoints" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\PrepareCustomerOrphanPoints" method="execute" />
     </event>
     <event name="adminhtml_block_salesrule_actions_prepareform">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="prepareSalesruleForm" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\PrepareSalesruleForm" method="execute" />
     </event>
     <event name="salesrule_rule_load_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="loadRewardSalesruleData" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\LoadRewardSalesruleData" method="execute" />
     </event>
     <event name="salesrule_rule_save_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="saveRewardSalesruleData" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\SaveRewardSalesruleData" method="execute" />
     </event>
     <event name="order_cancel_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="returnRewardPoints" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\ReturnRewardPoints" method="execute" />
     </event>
     <event name="payment_method_is_active">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="preparePaymentMethod" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\PreparePaymentMethod" method="execute" />
     </event>
 </config>

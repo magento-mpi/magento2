@@ -1,30 +1,19 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\RecurringPayment\Model;
+namespace Magento\RecurringPayment\Model\Observer;
 
-/**
- * Recurring payment observer
- */
-class Observer
+class PrepareProductRecurringPaymentOptions
 {
     /**
-     * Locale model
-     *
-     * @var \Magento\Framework\LocaleInterface
+     * @var \Magento\RecurringPayment\Block\Fields
      */
-    protected $_locale;
-
-    /**
-     * Store manager
-     *
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
+    protected $_fields;
 
     /**
      * Recurring payment factory
@@ -34,9 +23,18 @@ class Observer
     protected $_recurringPaymentFactory;
 
     /**
-     * @var \Magento\RecurringPayment\Block\Fields
+     * Store manager
+     *
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_fields;
+    protected $_storeManager;
+
+    /**
+     * Locale model
+     *
+     * @var \Magento\Framework\LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param \Magento\Framework\LocaleInterface $locale
@@ -64,7 +62,7 @@ class Observer
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function prepareProductRecurringPaymentOptions($observer)
+    public function execute($observer)
     {
         $product = $observer->getEvent()->getProduct();
         $buyRequest = $observer->getEvent()->getBuyRequest();
@@ -99,68 +97,4 @@ class Observer
         }
         $product->addCustomOption('additional_options', serialize($infoOptions));
     }
-
-    /**
-     * Unserialize product recurring payment
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     */
-    public function unserializeProductRecurringPayment($observer)
-    {
-        $collection = $observer->getEvent()->getCollection();
-
-        foreach ($collection as $product) {
-            if ($product->getIsRecurring() && ($payment = $product->getRecurringPayment())) {
-                $product->setRecurringPayment(unserialize($payment));
-            }
-        }
-    }
-
-    /**
-     * Set recurring data to quote
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     */
-    public function setIsRecurringToQuote($observer)
-    {
-        $quote = $observer->getEvent()->getQuoteItem();
-        $product = $observer->getEvent()->getProduct();
-
-        $quote->setIsRecurring($product->getIsRecurring());
-    }
-
-    /**
-     * Add recurring payment field to excluded list
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     */
-    public function addFormExcludedAttribute($observer)
-    {
-        $block = $observer->getEvent()->getObject();
-
-        $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), array('recurring_payment')));
-    }
-
-    /**
-     * Set recurring payment renderer
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     */
-    public function setFormRecurringElementRenderer($observer)
-    {
-        $form = $observer->getEvent()->getForm();
-
-        $recurringPaymentElement = $form->getElement('recurring_payment');
-        $recurringPaymentBlock = $observer->getEvent()->getLayout()->createBlock(
-            'Magento\RecurringPayment\Block\Adminhtml\Product\Edit\Tab\Price\Recurring'
-        );
-
-        if ($recurringPaymentElement) {
-            $recurringPaymentElement->setRenderer($recurringPaymentBlock);
-        }
-    }
-}
+} 

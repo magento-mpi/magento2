@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Persistent\Model;
+namespace Magento\Persistent\Model\Observer;
 
-class ObserverTest extends \PHPUnit_Framework_TestCase
+class PreventExpressCheckoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Persistent\Model\Observer
+     * @var \Magento\Persistent\Model\Observer\PreventExpressCheckout
      */
     protected $_model;
 
@@ -95,7 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_model = $helper->getObject(
-            'Magento\Persistent\Model\Observer',
+            'Magento\Persistent\Model\Observer\PreventExpressCheckout',
             array(
                 'customerSession' => $this->_customerSession,
                 'persistentSession' => $this->_persistentSession,
@@ -110,7 +110,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerSession->expects($this->once())->method('isLoggedIn')->will($this->returnValue(true));
         $this->_persistentSession->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
-        $this->_model->preventExpressCheckout($this->_observer);
+        $this->_model->execute($this->_observer);
     }
 
     public function testPreventExpressCheckoutEmpty()
@@ -119,10 +119,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_persistentSession->expects($this->any())->method('isPersistent')->will($this->returnValue(true));
 
         $this->_event->setControllerAction(null);
-        $this->_model->preventExpressCheckout($this->_observer);
+        $this->_model->execute($this->_observer);
 
         $this->_event->setControllerAction(new \StdClass());
-        $this->_model->preventExpressCheckout($this->_observer);
+        $this->_model->execute($this->_observer);
 
         $expectedActionName = 'realAction';
         $unexpectedActionName = 'notAction';
@@ -149,7 +149,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($expectedActionName)
         );
         $this->_event->setControllerAction($expressRedirectMock);
-        $this->_model->preventExpressCheckout($this->_observer);
+        $this->_model->execute($this->_observer);
 
         $expectedAuthUrl = 'expectedAuthUrl';
         $request->setActionName($expectedActionName);
@@ -162,6 +162,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $expressRedirectMock,
             $expectedAuthUrl
         );
-        $this->_model->preventExpressCheckout($this->_observer);
+        $this->_model->execute($this->_observer);
     }
 }

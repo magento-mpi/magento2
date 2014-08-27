@@ -9,6 +9,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\WebsiteRestriction\Model\ConfigInterface" type="Magento\WebsiteRestriction\Model\Config" />
+    <type name="Magento\WebsiteRestriction\Model\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\WebsiteRestriction\Model\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">

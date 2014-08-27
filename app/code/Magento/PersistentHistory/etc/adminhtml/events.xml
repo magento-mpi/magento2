@@ -9,6 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
     <event name="magento_persistenthistory_options_shopping_cart_save_after">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="updateOptionCustomerSegmentation" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\UpdateOptionCustomerSegmentation" method="execute" />
     </event>
 </config>

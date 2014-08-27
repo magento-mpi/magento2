@@ -138,4 +138,6 @@ return array(
     ['Magento\SalesArchive\Helper\Data'],
     ['Magento\WebsiteRestriction\Helper\Data'],
     array('Magento\CustomerCustomAttributes\Block\Account\RegisterLink'),
+    ['Magento\Reward\Model\Observer'],
+    ['Magento\WebsiteRestriction\Model\Observer']
 );
