@@ -98,7 +98,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         // stubs
         $this->basicStub($this->onepageMock, 'getQuote')->willReturn($this->quoteMock);
         $this->basicStub($this->viewMock, 'getLayout')->willReturn($this->layoutMock);
-        $this->basicStub($this->layoutMock, 'getBlock')->willReturn($this->basicMock('Magento\Theme\Block\Html\Head'));
+        $this->basicStub($this->layoutMock, 'getBlock')
+            ->willReturn($this->basicMock('Magento\Theme\Block\Html\Head'));
 
         // objectManagerMock
         $objectManagerReturns = [
@@ -111,15 +112,15 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap($objectManagerReturns));
-        $this->basicStub($this->objectManagerMock, 'create')->willReturn($this->basicMock('Magento\Framework\UrlInterface'));
+        $this->basicStub($this->objectManagerMock, 'create')
+            ->willReturn($this->basicMock('Magento\Framework\UrlInterface'));
         // context stubs
         $this->basicStub($this->contextMock, 'getObjectManager')->willReturn($this->objectManagerMock);
         $this->basicStub($this->contextMock, 'getView')->willReturn($this->viewMock);
         $this->basicStub($this->contextMock, 'getRequest')->willReturn($this->requestMock);
         $this->basicStub($this->contextMock, 'getResponse')->willReturn($this->responseMock);
-        $this->basicStub($this->contextMock, 'getMessageManager')->willReturn(
-            $this->basicMock('\Magento\Framework\Message\ManagerInterface')
-        );
+        $this->basicStub($this->contextMock, 'getMessageManager')
+            ->willReturn($this->basicMock('\Magento\Framework\Message\ManagerInterface'));
         $this->basicStub($this->contextMock, 'getRedirect')->willReturn($this->redirectMock);
 
 
