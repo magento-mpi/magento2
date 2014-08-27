@@ -77,8 +77,8 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     protected $_appState;
 
-    /** @var \Magento\Catalog\Helper\Data  */
-    protected $catalogData;
+    /** @var \Magento\Msrp\Helper\Data  */
+    protected $msrpData;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -95,7 +95,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Msrp\Helper\Data $msrpData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -115,14 +115,14 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Framework\App\State $appState,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Msrp\Helper\Data $msrpData,
         array $data = array()
     ) {
         $this->productLinks = $catalogProductLink;
         $this->_storeManager = $storeManager;
         $this->_catalogProductStatus = $catalogProductStatus;
         $this->_appState = $appState;
-        $this->catalogData = $catalogData;
+        $this->msrpData = $msrpData;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -481,10 +481,10 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         $collection = $this->getAssociatedProducts($product);
         $visibilities = [];
         foreach ($collection as $item) {
-            if ($this->catalogData->canApplyMsrp($item)) {
+            if ($this->msrpData->canApplyMsrp($item)) {
                 $childVisibility = $item->getMsrpDisplayActualPriceType();
-                if ($childVisibility == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG) {
-                    $childVisibility = $this->catalogData->getMsrpDisplayActualPriceType();
+                if ($childVisibility == \Magento\Msrp\Block\Adminhtml\Product\Helper\Form\Type\Price::TYPE_USE_CONFIG) {
+                    $childVisibility = $this->msrpData->getMsrpDisplayActualPriceType();
                 }
                 $visibilities[] = $childVisibility;
                 $result = true;

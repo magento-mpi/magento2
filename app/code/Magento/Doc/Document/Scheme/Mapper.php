@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\DocumentReader;
+namespace Magento\Doc\Document\Scheme;
 
 use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Stdlib\BooleanUtils;

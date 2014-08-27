@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Helper;
 
-use Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxClassKey;
@@ -35,17 +34,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_DISPLAY_PRODUCT_COUNT = 'catalog/layered_navigation/display_product_count';
 
     /**
-     * Minimum advertise price constants
-     */
-    const XML_PATH_MSRP_ENABLED = 'sales/msrp/enabled';
-
-    const XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE = 'sales/msrp/display_price_type';
-
-    const XML_PATH_MSRP_EXPLANATION_MESSAGE = 'sales/msrp/explanation_message';
-
-    const XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS = 'sales/msrp/explanation_message_whats_this';
-
-    /**
      * Cache context
      */
     const CONTEXT_CATALOG_SORT_DIRECTION = 'catalog_sort_direction';
@@ -62,13 +50,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var string
      */
     protected $_categoryPath;
-
-    /**
-     * Array of product types that MAP enabled
-     *
-     * @var array
-     */
-    protected $_mapApplyToProductType = null;
 
     /**
      * Currently selected store ID if applicable
@@ -137,23 +118,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_categoryFactory;
 
     /**
-     * Eav attribute factory
-     *
-     * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
-     */
-    protected $_eavAttributeFactory;
-
-    /**
      * Template filter factory
      *
      * @var \Magento\Catalog\Model\Template\Filter\Factory
      */
     protected $_templateFilterFactory;
-
-    /**
-     * @var \Magento\Framework\Escaper
-     */
-    protected $_escaper;
 
     /**
      * Tax class key builder
@@ -204,7 +173,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -215,7 +183,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
-     * @param \Magento\Framework\Escaper $escaper
      * @param string $templateFilterModel
      * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
      * @param \Magento\Tax\Model\Config $taxConfig
@@ -227,7 +194,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -238,7 +204,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
-        \Magento\Framework\Escaper $escaper,
         $templateFilterModel,
         \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder,
         \Magento\Tax\Model\Config $taxConfig,
@@ -248,7 +213,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerSession $customerSession,
         AddressConverter $addressConverter
     ) {
-        $this->_eavAttributeFactory = $eavAttributeFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
@@ -260,7 +224,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_scopeConfig = $scopeConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_templateFilterModel = $templateFilterModel;
-        $this->_escaper = $escaper;
         $this->_taxClassKeyBuilder = $taxClassKeyBuilder;
         $this->_taxConfig = $taxConfig;
         $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
@@ -486,155 +449,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getPageTemplateProcessor()
     {
         return $this->_templateFilterFactory->create($this->_templateFilterModel);
-    }
-
-    /**
-     * Check if Minimum Advertised Price is enabled
-     *
-     * @return bool
-     */
-    public function isMsrpEnabled()
-    {
-        return (bool)$this->_scopeConfig->getValue(
-            self::XML_PATH_MSRP_ENABLED,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->_storeId
-        );
-    }
-
-    /**
-     * Return MAP display actual type
-     *
-     * @return null|string
-     */
-    public function getMsrpDisplayActualPriceType()
-    {
-        return $this->_scopeConfig->getValue(
-            self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->_storeId
-        );
-    }
-
-    /**
-     * Return MAP explanation message
-     *
-     * @return string
-     */
-    public function getMsrpExplanationMessage()
-    {
-        return $this->_escaper->escapeHtml(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_MSRP_EXPLANATION_MESSAGE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $this->_storeId
-            ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
-        );
-    }
-
-    /**
-     * Return MAP explanation message for "Whats This" window
-     *
-     * @return string
-     */
-    public function getMsrpExplanationMessageWhatsThis()
-    {
-        return $this->_escaper->escapeHtml(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $this->_storeId
-            ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
-        );
-    }
-
-    /**
-     * Check if can apply Minimum Advertise price to product
-     * in specific visibility
-     *
-     * @param int|\Magento\Catalog\Model\Product $product
-     * @param int|null $visibility Check displaying price in concrete place (by default generally)
-     * @return bool
-     */
-    public function canApplyMsrp($product, $visibility = null)
-    {
-        if (!$this->isMsrpEnabled()) {
-            return false;
-        }
-        if (is_numeric($product)) {
-            $product = $this->_productFactory->create()
-                ->setStoreId($this->_storeManager->getStore()->getId())
-                ->load($product);
-        }
-        $result = $this->canApplyMsrpToProductType($product);
-        if ($result && $visibility !== null) {
-            $productPriceVisibility = $product->getMsrpDisplayActualPriceType();
-            if ($productPriceVisibility == Type\Price::TYPE_USE_CONFIG) {
-                $productPriceVisibility = $this->getMsrpDisplayActualPriceType();
-            }
-            $result = $productPriceVisibility == $visibility;
-        }
-
-        if ($product->getTypeInstance()->isComposite($product) && (!$result || $visibility !== null)) {
-            $isEnabledInOptions = $product->getTypeInstance()->isMapEnabledInOptions($product, $visibility);
-            if ($isEnabledInOptions !== null) {
-                $result = $isEnabledInOptions;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Check whether MAP applied to product Product Type
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return bool
-     */
-    public function canApplyMsrpToProductType($product)
-    {
-        if ($this->_mapApplyToProductType === null) {
-            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $attribute = $this->_eavAttributeFactory->create()
-                ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'msrp');
-            $this->_mapApplyToProductType = $attribute->getApplyTo();
-        }
-        return in_array($product->getTypeId(), $this->_mapApplyToProductType);
-    }
-
-    /**
-     * Get MAP message for price
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return string
-     */
-    public function getMsrpPriceMessage($product)
-    {
-        $message = "";
-        if ($this->canApplyMsrp($product, Type::TYPE_IN_CART)) {
-            $message = __('To see product price, add this item to your cart. You can always remove it later.');
-        } elseif ($this->canApplyMsrp($product, Type::TYPE_BEFORE_ORDER_CONFIRM)) {
-            $message = __('See price before order confirmation.');
-        }
-        return $message;
-    }
-
-    /**
-     * Check is product need gesture to show price
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return bool
-     */
-    public function isShowPriceOnGesture($product)
-    {
-        return $this->canApplyMsrp($product, Type::TYPE_ON_GESTURE);
-    }
-
-    public function isShowBeforeOrderConfirm($product)
-    {
-        return $this->canApplyMsrp($product, Type::TYPE_BEFORE_ORDER_CONFIRM);
     }
 
     /**

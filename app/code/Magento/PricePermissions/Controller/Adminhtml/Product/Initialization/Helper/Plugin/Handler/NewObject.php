@@ -82,7 +82,7 @@ class NewObject implements HandlerInterface
         $product->unsRecurringPayment();
         // Add MAP default values
         $product->setMsrpDisplayActualPriceType(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
     }
 }

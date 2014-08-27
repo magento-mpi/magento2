@@ -103,7 +103,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setMsrpDisplayActualPriceType'
         )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
 
         $this->model->handle($this->productMock);
@@ -147,7 +147,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setMsrpDisplayActualPriceType'
         )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
 
         $this->model->handle($this->productMock);
@@ -167,7 +167,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setMsrpDisplayActualPriceType'
         )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
 
         $this->model->handle($this->productMock);

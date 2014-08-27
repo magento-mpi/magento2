@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
-use Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price;
+use Magento\Msrp\Model\Product\Attribute\Source\Type\Price;
 
 /**
  * Bundle product attributes tab

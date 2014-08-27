@@ -334,8 +334,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         }
 
         if ($product->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
-            $product->unsetData('msrp');
-            $product->unsetData('msrp_display_actual_price_type');
             /** unset product custom options for dynamic price */
             if ($product->hasData('product_options')) {
                 $product->unsetData('product_options');
