@@ -8,7 +8,17 @@
 ?>
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"<?php echo $htmlAttributes ?>>
-<head><?php echo $headContent ?></head>
+<head>
+    <script type="text/javascript">
+        var require = {
+            "baseUrl": "<?php echo $this->getViewFileUrl('/') ?>",
+            "paths": {
+                "jquery/ui": "jquery/jquery-ui"
+            }
+        };
+    </script>
+    <?php echo $headContent ?>
+</head>
 <body data-container="body" data-mage-init='{"loaderAjax": {}, "loader": {}}'<?php
     echo !empty($bodyClasses) ? ' class="' . $bodyClasses . '"' : '';
     echo !empty($bodyAttributes) ? $bodyAttributes : '';
