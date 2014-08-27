@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Store\Model;
+
 use Magento\Framework\StoreManagerInterface;
 
 /**
