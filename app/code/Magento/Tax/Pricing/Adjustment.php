@@ -116,17 +116,12 @@ class Adjustment implements AdjustmentInterface
      * @param SaleableInterface $saleableItem
      * @return float
      */
-    public function applyAdjustment($amount, SaleableInterface $saleableItem, $includeTaxOverride = false)
+    public function applyAdjustment($amount, SaleableInterface $saleableItem)
     {
-        if ($includeTaxOverride == true) {
-            $includingTax = true;
-        } else {
-            $includingTax = !$this->taxHelper->priceIncludesTax();
-        }
         return $this->catalogHelper->getTaxPrice(
             $saleableItem,
             $amount,
-            $includingTax,
+            true,
             null,
             null,
             null,
