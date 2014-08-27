@@ -28,11 +28,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $_persistentSession;
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_cookieMock;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -41,15 +36,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_persistentSession = $this->_objectManager->get('Magento\Persistent\Helper\Session');
-        $this->_cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array('set'), array(), '', false);
         $this->_customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
         $this->_model = $this->_objectManager->create(
             'Magento\Persistent\Model\Observer\Session',
-            array(
+            [
                 'persistentSession' => $this->_persistentSession,
-                'cookie' => $this->_cookieMock,
                 'customerSession' => $this->_customerSession
-            )
+            ]
         );
     }
 
@@ -59,10 +52,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSynchronizePersistentOnLogin()
     {
         $event = new \Magento\Framework\Event();
-        $observer = new \Magento\Framework\Event\Observer(array('event' => $event));
+        $observer = new \Magento\Framework\Event\Observer(['event' => $event]);
 
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $customerAccountService = $this->_objectManager->create(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
 
@@ -70,16 +63,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $customer = $customerAccountService->getCustomer(1);
         $event->setData('customer', $customer);
         $this->_persistentSession->setRememberMeChecked(true);
-        $this->_cookieMock->expects(
-            $this->once()
-        )->method(
-            'set'
-        )->with(
-            \Magento\Persistent\Model\Session::COOKIE_NAME,
-            $this->anything(),
-            $this->anything(),
-            $this->_customerSession->getCookiePath()
-        );
         $this->_model->synchronizePersistentOnLogin($observer);
 
         // check that persistent session has been stored for Customer

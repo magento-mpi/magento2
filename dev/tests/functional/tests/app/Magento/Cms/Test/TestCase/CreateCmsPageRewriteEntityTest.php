@@ -24,7 +24,7 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
  *
  * Steps
  * 1. Login to backend as Admin
- * 2. Go to the Marketing-> SEO & Search->URL Redirects
+ * 2. Go to the Marketing-> SEO & Search->URL Rewrites
  * 3. Click "Add Url Rewrite" button
  * 4. Select "For CMS Page" in Create URL Rewrite dropdown
  * 5. Select CMS page from preconditions in grid
@@ -32,7 +32,7 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
  * 7. Save Rewrite
  * 8. Perform all assertions
  *
- * @group URL_Rewrites_(PS)
+ * @group URL_Rewrites_(MX)
  * @ZephyrId MAGETWO-24847
  */
 class CreateCmsPageRewriteEntityTest extends Injectable

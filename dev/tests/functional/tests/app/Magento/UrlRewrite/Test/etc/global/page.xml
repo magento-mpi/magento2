@@ -9,12 +9,12 @@
 -->
 <page>
     <urlrewriteIndex>
-        <mca>admin/urlrewrite/index</mca>
+        <mca>admin/url_rewrite/index</mca>
         <area>adminhtml</area>
         <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex</class>
     </urlrewriteIndex>
     <urlrewriteEdit>
-        <mca>admin/urlrewrite/edit</mca>
+        <mca>admin/url_rewrite/edit</mca>
         <area>adminhtml</area>
         <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit</class>
     </urlrewriteEdit>

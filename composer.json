@@ -117,7 +117,6 @@
         "magento/module-theme": "self.version",
         "magento/module-translation": "self.version",
         "magento/module-ups": "self.version",
-        "magento/module-url-redirect": "self.version",
         "magento/module-url-rewrite": "self.version",
         "magento/module-user": "self.version",
         "magento/module-usps": "self.version",

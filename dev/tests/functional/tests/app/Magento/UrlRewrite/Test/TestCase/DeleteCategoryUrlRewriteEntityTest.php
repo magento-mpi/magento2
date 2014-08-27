@@ -23,12 +23,12 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
  *
  * Steps:
  * 1. Open Backend
- * 2. Go to Marketing->URL Redirects
- * 3. Search and open created URL Redirect
- * 4. Delete URL Redirect
+ * 2. Go to Marketing->URL Rewrites
+ * 3. Search and open created URL Rewrite
+ * 4. Delete URL Rewrite
  * 5. Perform all assertions
  *
- * @group URL_Rewrites_(PS)
+ * @group URL_Rewrites_(MX)
  * @ZephyrId MAGETWO-25086
  */
 class DeleteCategoryUrlRewriteEntityTest extends Injectable
@@ -77,7 +77,7 @@ class DeleteCategoryUrlRewriteEntityTest extends Injectable
         } else {
             $filter = ['id_path' => $urlRewrite->getIdPath()];
         }
-        $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
+        $this->urlRewriteIndex->getUrlRewriteGrid()->searchAndOpen($filter);
         $this->urlRewriteEdit->getPageMainActions()->delete();
     }
 }

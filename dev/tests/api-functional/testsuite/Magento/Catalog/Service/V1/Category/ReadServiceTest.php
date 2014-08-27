@@ -19,7 +19,7 @@ class ReadServiceTest extends WebapiAbstract
     private $modelId = 333;
 
     /**
-     * @magentoApiDataFixture Magento/Catalog/_files/category.php
+     * @magentoApiDataFixture Magento/Catalog/_files/category_backend.php
      */
     public function testInfo()
     {
@@ -43,7 +43,7 @@ class ReadServiceTest extends WebapiAbstract
                 ],
                 [
                     'attribute_code' => 'url_path',
-                    'value' => 'category-1.html',
+                    'value' => 'category-1',
                 ],
             ],
             'available_sort_by' => ['position', 'name'],

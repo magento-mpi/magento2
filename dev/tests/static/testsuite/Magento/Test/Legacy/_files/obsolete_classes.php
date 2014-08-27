@@ -348,7 +348,6 @@ return array(
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Backend_Seo_Product',
-        'Magento\Catalog\Model\Config\Backend\Seo\Product'
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array',
@@ -1616,6 +1615,8 @@ return array(
         'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped'
     ),
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
+    array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
+    array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('Magento\Core\Model\Config\Modules\Reader', 'Magento\Framework\Module\Dir\Reader'),
     array('Magento\Framework\Data\Form\Factory', 'Magento\Framework\Data\FormFactory'),
     array('Magento\Framework\App\Cache\Config', 'Magento\Framework\Cache\Config'),
@@ -2253,7 +2254,7 @@ return array(
     array('Magento\Backend\Helper\Media\Js'),
     array(
         'Magento\Core\Model\Resource\Url\Rewrite\Collection',
-        'Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection'
+        'Magento\UrlRewrite\Model\Resource\UrlRewriteCollection'
     ),
     array(
         'Magento\Core\Model\Resource\Url\Rewrite',
@@ -2674,6 +2675,7 @@ return array(
     ['Magento\Cron\Helper\Data'],
     ['Magento\Email\Helper\Data'],
     ['Magento\GiftMessage\Helper\Data'],
+    ['Magento\Index\Helper\Data'],
     ['Magento\Install\Helper\Data'],
     ['Magento\Log\Helper\Data'],
     ['Magento\Ogone\Helper\Data'],
@@ -2717,6 +2719,7 @@ return array(
     ['Magento\CatalogSearch\Model\Fulltext\Observer'],
     ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
     ['\Magento\Theme\Helper\Layout'],
+    ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
     ['Magento\Index'],
     ['Magento\Catalog\Model\Resource\Product\Indexer\Eav'],
 );

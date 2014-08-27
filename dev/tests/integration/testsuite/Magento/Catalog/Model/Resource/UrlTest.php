@@ -20,12 +20,4 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Resource\Url'
         );
     }
-
-    /**
-     * @magentoDataFixture Magento/Catalog/Model/Resource/_files/url_rewrites.php
-     */
-    public function testGetLastUsedRewriteRequestIncrement()
-    {
-        $this->assertEquals(1000, $this->_model->getLastUsedRewriteRequestIncrement('url-key-', '.html', 1));
-    }
 }

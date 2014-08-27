@@ -122,7 +122,7 @@ class Core_Mage_ProductAttribute_AddExistedFromProductPageTest extends Mage_Sele
         //Verifying
         $this->addParameter('elementId', 'attribute-' . $data[1]['code'] . '-container');
         $this->assertTrue($this->controlIsVisible('pageelement', 'element_by_id'),
-            'Added attribute was not found on the "Search Optimization" tab');
+            'Added attribute was not found on the "Search Engine Optimization" tab');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet(array('set_name' => $product['product_attribute_set']));
         $this->attributeSetHelper()->verifyAttributeAssignment(array($data[1]['code']));

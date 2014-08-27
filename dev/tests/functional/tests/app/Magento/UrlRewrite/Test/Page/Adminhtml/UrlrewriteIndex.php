@@ -15,7 +15,7 @@ use Mtf\Page\BackendPage;
  */
 class UrlrewriteIndex extends BackendPage
 {
-    const MCA = 'admin/urlrewrite/index';
+    const MCA = 'admin/url_rewrite/index';
 
     protected $_blocks = [
         'pageActionsBlock' => [
@@ -24,8 +24,8 @@ class UrlrewriteIndex extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'urlRedirectGrid' => [
-            'name' => 'urlRedirectGrid',
+        'urlRewriteGrid' => [
+            'name' => 'urlRewriteGrid',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Grid',
             'locator' => '#urlrewriteGrid',
             'strategy' => 'css selector',
@@ -49,9 +49,9 @@ class UrlrewriteIndex extends BackendPage
     /**
      * @return \Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Grid
      */
-    public function getUrlRedirectGrid()
+    public function getUrlRewriteGrid()
     {
-        return $this->getBlockInstance('urlRedirectGrid');
+        return $this->getBlockInstance('urlRewriteGrid');
     }
 
     /**

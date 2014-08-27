@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
 /** @var $category \Magento\Catalog\Model\Category */

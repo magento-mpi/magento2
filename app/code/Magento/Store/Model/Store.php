@@ -285,11 +285,14 @@ class Store extends AbstractModel implements
     protected $_currencyInstalled;
 
     /**
-     * Cookie model
-     *
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    protected $_cookie;
+    protected $_cookieMetadataFactory;
+
+    /**
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $_cookieManager;
 
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -314,7 +317,8 @@ class Store extends AbstractModel implements
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
      * @param StoreManagerInterface $storeManager
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager,
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
@@ -336,7 +340,8 @@ class Store extends AbstractModel implements
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
-        \Magento\Framework\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
@@ -355,7 +360,8 @@ class Store extends AbstractModel implements
         $this->filesystem = $filesystem;
         $this->_storeManager = $storeManager;
         $this->_sidResolver = $sidResolver;
-        $this->_cookie = $cookie;
+        $this->_cookieMetadataFactory = $cookieMetadataFactory;
+        $this->_cookieManager = $cookieManager;
         $this->_httpContext = $httpContext;
         $this->_session = $session;
         $this->currencyFactory = $currencyFactory;
@@ -387,7 +393,6 @@ class Store extends AbstractModel implements
         $this->_config = \Magento\Framework\App\ObjectManager::getInstance()->get(
             'Magento\Framework\App\Config\ReinitableConfigInterface'
         );
-        $this->_cookie = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Stdlib\Cookie');
     }
 
     /**
@@ -833,10 +838,14 @@ class Store extends AbstractModel implements
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
             $path = $this->_getSession()->getCookiePath();
+            
+            $sensitiveCookieMetadata = $this->_cookieMetadataFactory->createSensitiveCookieMetadata()
+                ->setPath($path);
+            
             if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
-                $this->_cookie->set(self::COOKIE_CURRENCY, null, null, $path);
+                $this->_cookieManager->deleteCookie(self::COOKIE_CURRENCY, $sensitiveCookieMetadata);
             } else {
-                $this->_cookie->set(self::COOKIE_CURRENCY, $code, null, $path);
+                $this->_cookieManager->setSensitiveCookie(self::COOKIE_CURRENCY, $code, $sensitiveCookieMetadata);
             }
             $this->_httpContext->setValue(
                 \Magento\Core\Helper\Data::CONTEXT_CURRENCY,

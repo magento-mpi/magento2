@@ -57,13 +57,6 @@ class Observer
     protected $_categoryResource;
 
     /**
-     * Url factory
-     *
-     * @var \Magento\Catalog\Model\UrlFactory
-     */
-    protected $_urlFactory;
-
-    /**
      * Factory for product resource
      *
      * @var \Magento\Catalog\Model\Resource\ProductFactory
@@ -71,7 +64,6 @@ class Observer
     protected $_productResourceFactory;
 
     /**
-     * @param \Magento\Catalog\Model\UrlFactory $urlFactory
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -82,7 +74,6 @@ class Observer
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
      */
     public function __construct(
-        \Magento\Catalog\Model\UrlFactory $urlFactory,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -92,7 +83,6 @@ class Observer
         \Magento\Catalog\Model\Indexer\Category\Flat\State $categoryFlatState,
         \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
     ) {
-        $this->_urlFactory = $urlFactory;
         $this->_categoryResource = $categoryResource;
         $this->_catalogProduct = $catalogProduct;
         $this->_storeManager = $storeManager;

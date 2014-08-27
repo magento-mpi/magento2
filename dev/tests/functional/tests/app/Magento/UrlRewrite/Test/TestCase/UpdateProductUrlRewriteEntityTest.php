@@ -31,7 +31,7 @@ use Mtf\Fixture\FixtureFactory;
  * 4. Fill data according to dataset
  * 5. Perform all assertions
  *
- * @group URL_Rewrites_(PS)
+ * @group URL_Rewrites_(MX)
  * @ZephyrId MAGETWO-24819
  */
 class UpdateProductUrlRewriteEntityTest extends Injectable
@@ -88,7 +88,7 @@ class UpdateProductUrlRewriteEntityTest extends Injectable
         //Steps
         $this->urlRewriteIndex->open();
         $filter = ['request_path' => $productRedirect->getRequestPath()];
-        $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
+        $this->urlRewriteIndex->getUrlRewriteGrid()->searchAndOpen($filter);
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
     }

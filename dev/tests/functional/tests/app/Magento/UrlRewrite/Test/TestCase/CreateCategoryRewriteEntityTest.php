@@ -23,7 +23,7 @@ use Mtf\TestCase\Injectable;
  *
  * Test Flow:
  * 1. Login to backend as Admin
- * 2. Go to the Marketing-> SEO & Search->URL Redirects
+ * 2. Go to the Marketing-> SEO & Search->URL Rewrites
  * 3. Click "+" button
  * 4. Select "For Category" in Create URL Rewrite dropdown
  * 5. Select Category in "Category tree"

@@ -13,15 +13,18 @@ use Magento\Framework\Object\IdentityInterface;
 /**
  * Catalog product model
  *
- * @method \Magento\Catalog\Model\Product setHasError(bool $value)
+ * @method Product setHasError(bool $value)
  * @method null|bool getHasError()
- * @method \Magento\Catalog\Model\Product setTypeId(string $typeId)
- * @method \Magento\Catalog\Model\Product setAssociatedProductIds(array $productIds)
+ * @method Product setTypeId(string $typeId)
+ * @method Product setAssociatedProductIds(array $productIds)
  * @method array getAssociatedProductIds()
- * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
+ * @method Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
  * @method int getPriceType
- * @method \Magento\Catalog\Model\Resource\Product\Collection getCollection()
+ * @method Resource\Product\Collection getCollection()
+ * @method string getUrlKey()
+ * @method Product setUrlKey(string $urlKey)
+ * @method Product setRequestPath(string $requestPath)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -95,11 +98,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @var string
      */
     protected static $_url;
-
-    /**
-     * @var string
-     */
-    protected static $_urlRewrite;
 
     /**
      * @var array
@@ -1486,17 +1484,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     public function formatUrlKey($str)
     {
         return $this->getUrlModel()->formatUrlKey($str);
-    }
-
-    /**
-     * Retrieve Product Url Path (include category)
-     *
-     * @param \Magento\Catalog\Model\Category $category
-     * @return string
-     */
-    public function getUrlPath($category = null)
-    {
-        return $this->getUrlModel()->getUrlPath($this, $category);
     }
 
     /**

@@ -15,7 +15,7 @@ use Mtf\Page\BackendPage;
  */
 class UrlrewriteEdit extends BackendPage
 {
-    const MCA = 'admin/urlrewrite/edit';
+    const MCA = 'admin/url_rewrite/edit';
 
     protected $_blocks = [
         'treeBlock' => [

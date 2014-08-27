@@ -31,12 +31,12 @@ class UrlrewriteTest extends \Magento\Backend\Utility\Controller
                 'cms_page' => $page->getId()
             ]
         );
-        $this->dispatch('backend/admin/urlrewrite/save');
+        $this->dispatch('backend/admin/url_rewrite/save');
 
         $this->assertSessionMessages(
             $this->contains('The URL Rewrite has been saved.'),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
-        $this->assertRedirect($this->stringContains('backend/admin/urlrewrite/index'));
+        $this->assertRedirect($this->stringContains('backend/admin/url_rewrite/index'));
     }
 }

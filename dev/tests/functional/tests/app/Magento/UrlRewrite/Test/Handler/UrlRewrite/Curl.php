@@ -43,7 +43,7 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
      *
      * @var string
      */
-    protected $url = 'admin/urlrewrite/save/';
+    protected $url = 'admin/url_rewrite/save/';
 
     /**
      * Post request for creating url rewrite

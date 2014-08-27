@@ -121,6 +121,5 @@ Magento/Usps/Model/Carrier
 Magento/Dhl/Model
 Magento/Shipping/Model
 Magento/Catalog/Service/V1/Category
-Magento/UrlRedirect/Model
 setup
 Magento/Sales/Service/V1/Data

@@ -53,7 +53,7 @@ class ProductTest extends Functional
             $urlRewriteGridPage->getMessagesBlock()->getSuccessMessages()
         );
 
-        $this->assertUrlRedirect(
+        $this->assertUrlRewrite(
             $_ENV['app_frontend_url'] . $urlRewriteProduct->getRewrittenRequestPath(),
             $_ENV['app_frontend_url'] . $urlRewriteProduct->getOriginalRequestPath()
         );
@@ -67,7 +67,7 @@ class ProductTest extends Functional
      * @param string $message
      * @return void
      */
-    protected function assertUrlRedirect($requestUrl, $targetUrl, $message = '')
+    protected function assertUrlRewrite($requestUrl, $targetUrl, $message = '')
     {
         $browser = Factory::getClientBrowser();
         $browser->open($requestUrl);

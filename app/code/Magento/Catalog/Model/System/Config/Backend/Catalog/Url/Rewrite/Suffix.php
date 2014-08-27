@@ -13,33 +13,29 @@ namespace Magento\Catalog\Model\System\Config\Backend\Catalog\Url\Rewrite;
 
 class Suffix extends \Magento\Framework\App\Config\Value
 {
-    /**
-     * Core url rewrite
-     *
-     * @var \Magento\UrlRewrite\Helper\UrlRewrite
-     */
-    protected $_coreUrlRewrite = null;
+    /** @var \Magento\UrlRewrite\Helper\UrlRewrite */
+    protected $urlRewriteHelper;
 
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\UrlRewrite\Helper\UrlRewrite $coreUrlRewrite
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+     * @param \Magento\UrlRewrite\Helper\UrlRewrite $urlRewriteHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\UrlRewrite\Helper\UrlRewrite $coreUrlRewrite,
+        \Magento\UrlRewrite\Helper\UrlRewrite $urlRewriteHelper,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreUrlRewrite = $coreUrlRewrite;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->urlRewriteHelper = $urlRewriteHelper;
     }
 
     /**
@@ -49,7 +45,7 @@ class Suffix extends \Magento\Framework\App\Config\Value
      */
     protected function _beforeSave()
     {
-        $this->_coreUrlRewrite->validateSuffix($this->getValue());
+        $this->urlRewriteHelper->validateSuffix($this->getValue());
         return $this;
     }
 }
