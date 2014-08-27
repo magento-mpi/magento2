@@ -166,7 +166,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->helperMock->expects($this->once())
             ->method('getIsMessagesAvailable')
-            ->with('items', $this->quoteMock, $this->storeMock)
+            ->with('', $this->quoteMock, $this->storeMock)
             ->will($this->returnValue(true));
         $this->giftMessageMock->expects($this->once())->method('getSender')->will($this->returnValue('sender'));
         $this->giftMessageMock->expects($this->once())->method('getRecipient')->will($this->returnValue('recipient'));
@@ -252,7 +252,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->helperMock->expects($this->once())
             ->method('getIsMessagesAvailable')
-            ->with('', $this->quoteMock, $this->storeMock)
+            ->with('items', $this->quoteMock, $this->storeMock)
             ->will($this->returnValue(true));
         $this->giftMessageMock->expects($this->once())->method('getSender')->will($this->returnValue('sender'));
         $this->giftMessageMock->expects($this->once())->method('getRecipient')->will($this->returnValue('recipient'));
@@ -344,7 +344,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->helperMock->expects($this->once())
             ->method('getIsMessagesAvailable')
-            ->with('items', $this->quoteMock, $this->storeMock)
+            ->with('', $this->quoteMock, $this->storeMock)
             ->will($this->returnValue(false));
 
         $this->service->setForQuote($cartId, $this->giftMessageMock);
@@ -375,7 +375,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->helperMock->expects($this->once())
             ->method('getIsMessagesAvailable')
-            ->with('items', $this->quoteMock, $this->storeMock)
+            ->with('', $this->quoteMock, $this->storeMock)
             ->will($this->returnValue(true));
         $this->giftMessageMock->expects($this->once())->method('getSender')->will($this->returnValue('sender'));
         $this->giftMessageMock->expects($this->once())->method('getRecipient')->will($this->returnValue('recipient'));
