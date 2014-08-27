@@ -17,12 +17,6 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 class TaxRuleServiceTest extends WebapiAbstract
 {
-    /** @var SearchCriteriaBuilder */
-    private $searchCriteriaBuilder;
-
-    /** @var FilterBuilder */
-    private $filterBuilder;
-
     const SERVICE_NAME = "taxTaxRuleServiceV1";
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/taxRules";
@@ -40,6 +34,12 @@ class TaxRuleServiceTest extends WebapiAbstract
      * @var TaxRuleServiceInterface
      */
     private $taxRuleService;
+
+    /** @var SearchCriteriaBuilder */
+    private $searchCriteriaBuilder;
+
+    /** @var FilterBuilder */
+    private $filterBuilder;
 
     /**
      * Execute per test initialization.

@@ -24,7 +24,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      * @param string $entityType Either 'customer' or 'customer_address'.
      * @param string $attributeCode The attribute code of the requested metadata.
      * @param array $expectedMetadata Expected entity metadata for the attribute code.
-     *
      * @dataProvider getAttributeMetadataDataProvider
      */
     public function testGetAttributeMetadata($entityType, $attributeCode, $expectedMetadata)
@@ -81,8 +80,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => ' required-entry',
                     AttributeMetadata::FRONTEND_LABEL   => 'First Name',
                     AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::SYSTEM           => true,
-                    AttributeMetadata::USER_DEFINED     => false,
+                    AttributeMetadata::IS_SYSTEM           => true,
+                    AttributeMetadata::IS_USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'varchar',
                     AttributeMetadata::SORT_ORDER       => 40
                 ]
@@ -108,8 +107,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'Gender',
                     AttributeMetadata::NOTE             => null,
-                    AttributeMetadata::SYSTEM           => false,
-                    AttributeMetadata::USER_DEFINED     => false,
+                    AttributeMetadata::IS_SYSTEM           => false,
+                    AttributeMetadata::IS_USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'int',
                     AttributeMetadata::SORT_ORDER       => 110
                 ]
@@ -131,8 +130,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => ' required-entry',
                     AttributeMetadata::FRONTEND_LABEL   => 'Zip/Postal Code',
                     AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::SYSTEM           => true,
-                    AttributeMetadata::USER_DEFINED     => false,
+                    AttributeMetadata::IS_SYSTEM           => true,
+                    AttributeMetadata::IS_USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'varchar',
                     AttributeMetadata::SORT_ORDER       => 110
                 ]
@@ -145,7 +144,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      *
      * @param string $attributeCode The customer metadata attribute code.
      * @param array $expectedMetadata The expected metadata for the specified attribute code.
-     *
      * @dataProvider getCustomerAttributeMetadataDataProvider
      */
     public function testGetCustomerAttributeMetadata($attributeCode, $expectedMetadata)
@@ -221,7 +219,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      *
      * @param string $attributeCode The address metadata attribute code.
      * @param array $expectedMetadata The expected metadata for the specified attribute code.
-     *
      * @dataProvider getAddressAttributeMetadataDataProvider
      */
     public function testGetAddressAttributeMetadata($attributeCode, $expectedMetadata)
@@ -312,8 +309,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'Address user attribute',
                     AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::SYSTEM           => false,
-                    AttributeMetadata::USER_DEFINED     => true,
+                    AttributeMetadata::IS_SYSTEM           => false,
+                    AttributeMetadata::IS_USER_DEFINED     => true,
                     AttributeMetadata::BACKEND_TYPE     => 'static',
                     AttributeMetadata::SORT_ORDER       => 2
                 ]
@@ -325,7 +322,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      * Test retrieval of address attribute metadata given a specific attribute code.
      *
      * @param array $expectedMetadata The expected metadata for the custom address attribute.
-     *
      * @dataProvider getCustomAddressAttributeMetadataDataProvider
      * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_address.php
      */
@@ -382,8 +378,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'frontend_label',
                     AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::SYSTEM           => false,
-                    AttributeMetadata::USER_DEFINED     => true,
+                    AttributeMetadata::IS_SYSTEM           => false,
+                    AttributeMetadata::IS_USER_DEFINED     => true,
                     AttributeMetadata::BACKEND_TYPE     => 'static',
                     AttributeMetadata::SORT_ORDER       => 1221
                 ]
@@ -395,7 +391,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      * Test retrieval of address attribute metadata given a specific attribute code.
      *
      * @param array $expectedMetadata The expected metadata for the custom customer attribute.
-     *
      * @dataProvider getCustomCustomerAttributeMetadataDataProvider
      * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_customer.php
      */
@@ -462,7 +457,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      * @param string $entityType Entity type (customer / customer_address)
      * @param string $formCode Form code
      * @param array $expectedMetadata The expected attribute metadata
-     *
      * @dataProvider getAttributesDataProvider
      */
     public function testGetAttributes($entityType, $formCode, $expectedMetadata)
@@ -535,7 +529,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      * @param int $attributeSetId Id of attribute set to retrieve attributes from
      * @param int $storeId Store ID
      * @param array $expectedMetadata The expected attribute metadata
-     *
      * @dataProvider getAllAttributeSetMetadataDataProvider
      */
     public function testGetAllAttributeSetMetadata($entityType, $attributeSetId, $storeId, $expectedMetadata)
