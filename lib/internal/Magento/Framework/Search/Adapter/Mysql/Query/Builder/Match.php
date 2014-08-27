@@ -5,38 +5,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search\Adapter\Mysql\Builder\Query;
+namespace Magento\Framework\Search\Adapter\Mysql\Query\Builder;
 
 use Magento\Framework\DB\Select;
-use Magento\Framework\Search\Adapter\Mysql\QueryInterface;
-use Magento\Framework\Search\Adapter\Mysql\ScoreManager;
+use Magento\Framework\Search\Adapter\Mysql\ScoreBuilder;
 use Magento\Framework\Search\Request\Query\Bool;
 use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 
 class Match implements QueryInterface
 {
     /**
-     * @var ScoreManager
+     * @var ScoreBuilder
      */
-    private $scoreManager;
+    private $scoreBuilder;
 
     /**
-     * @param ScoreManager $scoreManager
+     * @param ScoreBuilder $scoreBuilder
      */
-    public function __construct(ScoreManager $scoreManager)
+    public function __construct(ScoreBuilder $scoreBuilder)
     {
-        $this->scoreManager = $scoreManager;
+        $this->scoreBuilder = $scoreBuilder;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildQuery(
+    public function build(
         Select $select,
         RequestQueryInterface $query,
         $conditionType
     ) {
-        $this->scoreManager->setQueryBoost($query->getName(), $query->getBoost());
+        $this->scoreBuilder->setQueryBoost($query->getName(), $query->getBoost());
 
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         foreach ($query->getMatches() as $match) {
@@ -46,7 +45,7 @@ class Match implements QueryInterface
                 $mode = Select::FULLTEXT_MODE_BOOLEAN;
             }
 
-            $this->scoreManager->addCondition(
+            $this->scoreBuilder->addCondition(
                 $query->getName(),
                 $select->getMatchQuery($match['field'], $match['value']),
                 isset($match['boost']) ? $match['boost'] : 1,

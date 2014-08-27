@@ -14,12 +14,12 @@ use Magento\TestFramework\Helper\ObjectManager;
 class MatchTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $scoreManager;
+    private $scoreBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Builder\Query\Match
+     * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match
      */
     private $match;
 
@@ -27,14 +27,14 @@ class MatchTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new ObjectManager($this);
 
-        $this->scoreManager = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\ScoreManager')
+        $this->scoreBuilder = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\ScoreBuilder')
             ->setMethods(['setQueryBoost', 'addCondition'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->match = $helper->getObject(
-            'Magento\Framework\Search\Adapter\Mysql\Builder\Query\Match',
-            ['scoreManager' => $this->scoreManager]
+            'Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match',
+            ['scoreBuilder' => $this->scoreBuilder]
         );
     }
 
@@ -70,9 +70,9 @@ class MatchTest extends \PHPUnit_Framework_TestCase
             $this->returnValue([['field' => 'some_field', 'value' => 'some_value', 'boost' => 6.28]])
         );
 
-        $this->scoreManager->expects($this->once())->method('setQueryBoost')
+        $this->scoreBuilder->expects($this->once())->method('setQueryBoost')
             ->with($this->equalTo($queryName), $this->equalTo($queryBoost));
-        $this->scoreManager->expects($this->once())->method('addCondition')
+        $this->scoreBuilder->expects($this->once())->method('addCondition')
             ->with(
                 $this->equalTo($queryName),
                 $this->equalTo('matchedQuery'),
@@ -82,7 +82,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
 
         $conditionType = Bool::QUERY_CONDITION_NOT;
 
-        $result = $this->match->buildQuery($select, $query, $conditionType);
+        $result = $this->match->build($select, $query, $conditionType);
 
         $this->assertEquals($select, $result);
     }

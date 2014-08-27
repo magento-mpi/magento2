@@ -10,7 +10,7 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 /**
  * Class for generating sql condition for calculating store manager
  */
-class ScoreManager
+class ScoreBuilder
 {
     /**
      * List of score conditions
@@ -30,16 +30,6 @@ class ScoreManager
     }
 
     /**
-     * Get score query list
-     *
-     * @return \string[]
-     */
-    public function getScoreQueryList()
-    {
-        return $this->scoreQueryList;
-    }
-
-    /**
      * Set boost for some query by queryName
      *
      * @param string $queryName
@@ -51,17 +41,6 @@ class ScoreManager
         $this->scoreQueryList[$queryName]['boost'] = $boost;
 
         return $this;
-    }
-
-    /**
-     * Check is query exists in ScoreManager
-     *
-     * @param string $queryName
-     * @return bool
-     */
-    public function hasQuery($queryName)
-    {
-        return isset($this->scoreQueryList[$queryName]);
     }
 
     /**
@@ -88,14 +67,26 @@ class ScoreManager
      *
      * @return string
      */
-    public function getGeneratedCondition()
+    public function build()
     {
         $scoreCondition = $this->processQueries();
         if (!empty($scoreCondition)) {
             $scoreCondition = "({$scoreCondition}) AS " . $this->getScoreAlias();
         }
+        $this->clear();
 
         return $scoreCondition;
+    }
+
+    /**
+     * Check whether query exists in ScoreBuilder
+     *
+     * @param string $queryName
+     * @return bool
+     */
+    private function hasQuery($queryName)
+    {
+        return isset($this->scoreQueryList[$queryName]);
     }
 
     /**
@@ -103,7 +94,7 @@ class ScoreManager
      *
      * @return void
      */
-    public function clear()
+    private function clear()
     {
         $this->scoreQueryList = [];
     }
