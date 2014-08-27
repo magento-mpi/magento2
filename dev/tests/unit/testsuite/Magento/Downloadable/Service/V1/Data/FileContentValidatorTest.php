@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -34,14 +33,17 @@ class FileContentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValid()
     {
-        $this->fileContentMock->expects($this->any())->method('getData')->will($this->returnValue(
-            base64_encode('test content')
-        ));
-        $this->fileContentMock->expects($this->any())->method('getName')->will($this->returnValue(
-            'valid_name'
-        ));
+        $this->fileContentMock->expects($this->any())->method('getData')
+            ->will($this->returnValue(base64_encode('test content')));
+        $this->fileContentMock->expects($this->any())->method('getName')
+            ->will($this->returnValue('valid_name'));
 
         $this->assertTrue($this->validator->isValid($this->fileContentMock));
+    }
+
+    public function testValidateLinkResourceInputExceptionUrl()
+    {
+
     }
 
     /**
@@ -50,12 +52,10 @@ class FileContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidThrowsExceptionIfProvidedContentIsNotBase64Encoded()
     {
-        $this->fileContentMock->expects($this->any())->method('getData')->will($this->returnValue(
-            'not_a_base64_encoded_content'
-        ));
-        $this->fileContentMock->expects($this->any())->method('getName')->will($this->returnValue(
-            'valid_name'
-        ));
+        $this->fileContentMock->expects($this->any())->method('getData')
+            ->will($this->returnValue('not_a_base64_encoded_content'));
+        $this->fileContentMock->expects($this->any())->method('getName')
+            ->will($this->returnValue('valid_name'));
         $this->assertTrue($this->validator->isValid($this->fileContentMock));
     }
 
@@ -67,12 +67,10 @@ class FileContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidThrowsExceptionIfProvidedImageNameContainsForbiddenCharacters($fileName)
     {
-        $this->fileContentMock->expects($this->any())->method('getData')->will($this->returnValue(
-            base64_encode('test content')
-        ));
-        $this->fileContentMock->expects($this->any())->method('getName')->will($this->returnValue(
-            $fileName
-        ));
+        $this->fileContentMock->expects($this->any())->method('getData')
+            ->will($this->returnValue(base64_encode('test content')));
+        $this->fileContentMock->expects($this->any())->method('getName')
+            ->will($this->returnValue($fileName));
         $this->assertTrue($this->validator->isValid($this->fileContentMock));
     }
 

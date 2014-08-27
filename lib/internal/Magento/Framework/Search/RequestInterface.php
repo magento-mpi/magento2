@@ -9,9 +9,9 @@
  */
 namespace Magento\Framework\Search;
 
-use Magento\Framework\Search\Request\FilterInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Framework\Search\Request\QueryInterface;
+use Magento\Framework\Search\Request\Dimension;
 
 interface RequestInterface
 {
@@ -28,6 +28,11 @@ interface RequestInterface
      * @return string
      */
     public function getIndex();
+
+    /**
+     * @return Dimension[]
+     */
+    public function getDimensions();
 
     /**
      * Get Aggregation Buckets

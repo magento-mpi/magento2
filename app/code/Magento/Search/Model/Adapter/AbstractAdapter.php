@@ -20,11 +20,6 @@ abstract class AbstractAdapter
     protected $_resourceIndex;
 
     /**
-     * @var \Magento\CatalogSearch\Model\Resource\Fulltext
-     */
-    protected $_resourceFulltext;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     protected $_attributeCollection;
@@ -87,7 +82,7 @@ abstract class AbstractAdapter
      *
      * @var string[]
      */
-    protected $_usedFields = array('sku', 'visibility', 'in_stock');
+    protected $_usedFields = array('sku', 'visibility');
 
     /**
      * Defines text type fields
@@ -153,7 +148,6 @@ abstract class AbstractAdapter
         self::UNIQUE_KEY,
         'id',
         'store_id',
-        'in_stock',
         'category_ids',
         'visibility'
     );
@@ -164,11 +158,8 @@ abstract class AbstractAdapter
     protected $_logger;
 
     /**
-     * Construct
-     *
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -177,7 +168,6 @@ abstract class AbstractAdapter
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Search\Model\Resource\Index $resourceIndex,
-        \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Framework\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -185,7 +175,6 @@ abstract class AbstractAdapter
     ) {
         $this->_customerSession = $customerSession;
         $this->_resourceIndex = $resourceIndex;
-        $this->_resourceFulltext = $resourceFulltext;
         $this->_attributeCollection = $attributeCollection;
         $this->_logger = $logger;
         $this->_storeManager = $storeManager;
@@ -595,8 +584,6 @@ abstract class AbstractAdapter
         if (!is_array($docData) || empty($docData)) {
             return array();
         }
-
-        $this->_separator = $this->_resourceFulltext->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {

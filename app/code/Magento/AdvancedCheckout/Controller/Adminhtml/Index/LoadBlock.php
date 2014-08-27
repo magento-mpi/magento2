@@ -14,6 +14,27 @@ use Magento\Framework\Model\Exception;
 class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
 {
     /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $layoutFactory;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\View\LayoutFactory $layoutFactory
+    ) {
+        parent::__construct($context, $registry);
+        $this->layoutFactory = $layoutFactory;
+    }
+
+    /**
      * Reload quote
      *
      * @return $this
@@ -49,7 +70,8 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
         $asJson = $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
 
-        $update = $this->_view->getLayout()->getUpdate();
+        $layout = $this->layoutFactory->create();
+        $update = $layout->getUpdate();
         if ($asJson) {
             $update->addHandle('checkout_index_manage_load_block_json');
         } else {
@@ -70,10 +92,10 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
             }
         }
 
-        $this->_view->loadLayoutUpdates();
-        $this->_view->generateLayoutXml();
-        $this->_view->generateLayoutBlocks();
-        $result = $this->_view->getLayout()->renderElement('content');
+        $update->load();
+        $layout->generateXml();
+        $layout->generateElements();
+        $result = $layout->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->setUpdateResult($result);
             $this->_redirect('checkout/*/showUpdateResult');

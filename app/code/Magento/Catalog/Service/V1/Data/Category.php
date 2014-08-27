@@ -9,6 +9,9 @@ namespace Magento\Catalog\Service\V1\Data;
 
 use \Magento\Framework\Service\Data\Eav\AbstractObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Category extends AbstractObject
 {
     const ID = 'id';
