@@ -1,4 +1,4 @@
-define(['m2/listing', 'jquery', 'mage/translate'], function (Listing, $) {
+define(['Magento_Ui/js/components/listing', 'jquery', 'mage/translate'], function (Listing, $) {
 
   var t = $.mage.__;
 
@@ -15,6 +15,10 @@ define(['m2/listing', 'jquery', 'mage/translate'], function (Listing, $) {
 
     updateAttributes: function () {
       alert('You want to update items with ids: ' + this.checkedIds());
+    },
+
+    getViewTemplate: function () {
+      return 'Magento_Cms.templates.pages_listing.' + this.view();
     }
 
   });

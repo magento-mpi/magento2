@@ -1,5 +1,5 @@
 define([
-  'm2/lib/provider/rest',
+  'Magento_Ui/js/framework/provider/rest',
   'jquery',
   'storage',
   '_'

@@ -1,4 +1,4 @@
-define(['m2/lib/utils'], function (utils) {
+define(['Magento_Ui/js/framework/utils'], function (utils) {
 
   var Class = function () {
     var mixin, i, field;

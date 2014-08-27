@@ -1,4 +1,4 @@
-define(['_', 'jquery', 'm2/lib/events'], function (_, $, EventBus) {
+define(['_', 'jquery', 'Magento_Ui/js/framework/events'], function (_, $, EventBus) {
   var registry = {};
 
   return _.extend({}, EventBus, {

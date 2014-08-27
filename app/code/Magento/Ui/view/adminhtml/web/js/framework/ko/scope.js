@@ -1,9 +1,9 @@
 define(function (require) {
   
   var
-    Class    = require('m2/lib/class'),
-    EventBus = require('m2/lib/events'),
-    utils    = require('m2/lib/utils'),
+    Class    = require('Magento_Ui/js/framework/class'),
+    EventBus = require('Magento_Ui/js/framework/events'),
+    utils    = require('Magento_Ui/js/framework/utils'),
     ko       = require('ko');
 
   return Class.extend({

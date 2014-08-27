@@ -1,228 +1,160 @@
-<div>
-  <div data-m2-init='{"Magento_Cms/js/fixtures/component": ""}' class="grid-actions">
-    <div class="filter-actions">
-      <button class="action-reset">Demo actions</button>
-      <button data-bind="click: populate">Populate</button>
-      <button data-bind="click: addFewMore">Add few more</button>
-      <button data-bind="click: empty">Clean</button>
-      <button class="primary" data-bind="click: toggleListingView">Toggle view</button>
-      <button class="primary" data-bind="click: reloadListing">Reload listing</button>
-    </div>
-    <div data-bind="template: 'Magento_Cms.templates.test'"></div>
+<div data-m2-init='{"Magento_Cms/js/fixtures/component": ""}' class="grid-actions">
+  <div class="filter-actions">
+    <button class="action-reset">Demo actions</button>
+    <button data-bind="click: populate">Populate</button>
+    <button data-bind="click: addFewMore">Add few more</button>
+    <button data-bind="click: empty">Clean</button>
+    <button class="primary" data-bind="click: reloadListing">Reload listing</button>
   </div>
-  <div data-m2-init='{"Magento_Cms/js/massaction/component": ""}' class="massaction">
-    <div class="entry-edit">
-      <div>
-        <span class="field-row">
-          <label class="label">Select Product Actions</label>
-          <select class="select absolute-advice local-validation" data-bind="options: actions, optionsText: 'title', value: currentAction"></select>
-        </span>
-        <span class="field-row">
-          <button title="Submit" type="button" class="action- scalable" data-bind="click: applyAction">
-            <span>Submit</span>
-          </button>
-        </span>
-      </div>
+</div>
+<div data-m2-init='{"Magento_Cms/js/massaction/component": ""}' class="massaction">
+  <div class="entry-edit">
+    <div>
+      <span class="field-row">
+        <label class="label">Select Product Actions</label>
+        <select class="select absolute-advice local-validation" data-bind="options: actions, optionsText: 'title', value: currentAction"></select>
+      </span>
+      <span class="field-row">
+        <button title="Submit" type="button" class="action- scalable" data-bind="click: applyAction">
+          <span>Submit</span>
+        </button>
+      </span>
     </div>
-    <div class="entry-select">
-      <select class="select" data-bind="options: massActions, optionsText: 'title', value: currentMassAction, optionsCaption: 'Mass Actions'"></select>
-      <span class="items"><strong data-bind="text: getCheckedQuantity()"></strong> items selected</span>
-    </div>
-    <script type="mage/initial">
-      {
-        "massactions": [
-          {
-            "type": "selectAll",
-            "title": "Select All"
-          },
-          {
-            "type": "unselectAll",
-            "title": "Unselect All"
-          },
-          {
-            "type": "selectVisible",
-            "title": "Select Visible"
-          },
-          {
-            "type": "unselectVisible",
-            "title": "Unselect Visible"
-          }
-        ],
-        "actions": [
-          {
-            "type": "remove",
-            "title": "Delete"
-          },
-          {
-            "type": "updateAttributes",
-            "title": "Update Attributes"
-          }
-        ]
-      }
-    </script>
   </div>
-  <div data-m2-init='{"Magento_Cms/js/listing/component": { "resource": "cms.pages" }}' class="grid">
-    <div class="hor-scroll">
-      <table class="data">
-        <!-- ko ifnot: isHorizontal -->
-        <thead>
-          <tr class="headings">
-            <th class="col-select col-massaction"></th>
-            <!-- ko foreach: { data: fields, as: 'field' } -->
-            <th>
-              <span>
-                <a href="" data-bind="css: $parent.getSortableClassFor(field)">
-                  <label for="" data-bind="text: title"></label>
-                </a>
-              </span>
-            </th>
-            <!-- /ko -->
-          </tr>
-        </thead>
-        <tbody data-bind="foreach: { data: rows, as: 'row' }">
-          <tr class="even pointer">
-            <td class="col-select col-massaction">
-              <input data-bind="checkedValue: row.id, checked: $parent.checkedIds" type="checkbox" class="massaction-checkbox">
-            </td>
-            <td data-bind="text: row.title"></td>
-            <td data-bind="text: row.url"></td>
-            <td data-bind="text: row.layout"></td>
-            <td data-bind="text: row.store_id"></td>
-            <td data-bind="text: $parent.getTextFor(row.status)"></td>
-            <td data-bind="date: row.created"></td>
-            <td data-bind="date: row.modified"></td>
-            <td>
-              <a href="#" data-bind="attr: { href: row.action.href }, text: row.action.title" target="_blank"></a>
-            </td>
-          </tr>
-        </tbody>
-        <!-- /ko -->
-        <!-- ko if: isHorizontal -->
-        <tbody data-bind="foreach: { data: fields, as: 'field' }">
-          <tr>
-            <th>
-              <span>
-                <a href="" data-bind="css: $parent.getSortableClassFor(field)">
-                  <label for="" data-bind="text: title"></label>
-                </a>
-              </span>
-            </th>
-            <!-- ko foreach: { data: $parent.rows, as: 'row' } -->
-            <!-- ko if: field.id !== 'action' -->
-            <td data-bind="text: row[field.id]"></td>
-            <!-- /ko -->
-            <!-- ko if: field.id === 'action' -->
-            <td>
-              <a href="#" data-bind="attr: { href: row.action.href }, text: row.action.title" target="_blank"></a>
-            </td>
-            <!-- /ko -->
-            <!-- /ko -->
-          </tr>
-        </tbody>
-        <!-- /ko -->
-        <td class="empty-text" data-bind="visible: isEmpty(), attr: { colspan: fields().length + 1 }">We couldn't find any records.</td>
-      </table>
-    </div>
-    <!-- added loader for demo -->
-    <div style="display: none" class="loading-old" id="loading-mask" data-bind="visible: isLocked">
-        <div class="loader" id="loading_mask_loader"><p>Please wait...</p></div>
-    </div>
-    <script type="mage/initial">
-      {
-        "fields": [
-          {
-            "title": "Title",
-            "id": "title"
-          },
-          {
-            "title": "URL Key",
-            "id": "url",
-            "sorted": "desc"
-          },
-          {
-            "title": "Layout",
-            "id": "layout"
-          },
-          {
-            "title": "Store View",
-            "id": "store_id"
-          },
-          {
-            "title": "Status",
-            "id": "status"
-          },
-          {
-            "title": "Created",
-            "id": "created"
-          },
-          {
-            "title": "Modified",
-            "id": "modified"
-          },
-          {
-            "title": "Action",
-            "id": "action"
-          }
-        ],
-        "rows": [
-          {
-            "id": "0",
-            "title": "Enable Cookies",
-            "url": "enable-cookies",
-            "layout": "1 column",
-            "store_id": "All Store Views",
-            "status": true,
-            "created": 1407758413000,
-            "modified": 1407758413000,
-            "action": {
-              "href": "/enable-cookies/?___store=default",
-              "title": "Preview"
-            }
-          },
-          {
-            "id": "1",
-            "title": "Home page",
-            "url": "home",
-            "layout": "1 column",
-            "store_id": "All Store Views",
-            "status": true,
-            "created": 1407848473000,
-            "modified": 1407848473000,
-            "action": {
-              "href": "/home/?___store=default",
-              "title": "Preview"
-            }
-          },
-          {
-            "id": "2",
-            "title": "404 Not Found 1",
-            "url": "no-route",
-            "layout": "2 columns with right bar",
-            "store_id": "All Store Views",
-            "status": true,
-            "created": 1407848473000,
-            "modified": 1407848473000,
-            "action": {
-              "href": "/no-route/?___store=default",
-              "title": "Preview"
-            }
-          },
-          {
-            "id": "3",
-            "title": "Privacy Policy",
-            "url": "privacy-policy-cookie-restriction-mode",
-            "layout": "1 column",
-            "store_id": "All Store Views",
-            "status": true,
-            "created": 1407848473000,
-            "modified": 1407848473000,
-            "action": {
-              "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
-              "title": "Preview"
-            }
-          }
-        ]
-      }
-    </script>
+  <div class="entry-select">
+    <select class="select" data-bind="options: massActions, optionsText: 'title', value: currentMassAction, optionsCaption: 'Mass Actions'"></select>
+    <span class="items"><strong data-bind="text: getCheckedQuantity()"></strong> items selected</span>
   </div>
+  <script type="mage/initial">
+    {
+      "massactions": [
+        {
+          "type": "selectAll",
+          "title": "Select All"
+        },
+        {
+          "type": "unselectAll",
+          "title": "Unselect All"
+        },
+        {
+          "type": "selectVisible",
+          "title": "Select Visible"
+        },
+        {
+          "type": "unselectVisible",
+          "title": "Unselect Visible"
+        }
+      ],
+      "actions": [
+        {
+          "type": "remove",
+          "title": "Delete"
+        },
+        {
+          "type": "updateAttributes",
+          "title": "Update Attributes"
+        }
+      ]
+    }
+  </script>
+</div>
+<div data-m2-init='{"Magento_Cms/js/listing/component": ""}' class="grid">
+  <!-- ko template: getViewTemplate() --><!-- /ko -->
+  <script type="mage/initial">
+    {
+      "fields": [
+        {
+          "title": "Title",
+          "id": "title"
+        },
+        {
+          "title": "URL Key",
+          "id": "url",
+          "sorted": "desc"
+        },
+        {
+          "title": "Layout",
+          "id": "layout"
+        },
+        {
+          "title": "Store View",
+          "id": "store_id"
+        },
+        {
+          "title": "Status",
+          "id": "status"
+        },
+        {
+          "title": "Created",
+          "id": "created"
+        },
+        {
+          "title": "Modified",
+          "id": "modified"
+        },
+        {
+          "title": "Action",
+          "id": "action"
+        }
+      ],
+      "rows": [
+        {
+          "id": "0",
+          "title": "Enable Cookies",
+          "url": "enable-cookies",
+          "layout": "1 column",
+          "store_id": "All Store Views",
+          "status": true,
+          "created": 1407758413000,
+          "modified": 1407758413000,
+          "action": {
+            "href": "/enable-cookies/?___store=default",
+            "title": "Preview"
+          }
+        },
+        {
+          "id": "1",
+          "title": "Home page",
+          "url": "home",
+          "layout": "1 column",
+          "store_id": "All Store Views",
+          "status": true,
+          "created": 1407848473000,
+          "modified": 1407848473000,
+          "action": {
+            "href": "/home/?___store=default",
+            "title": "Preview"
+          }
+        },
+        {
+          "id": "2",
+          "title": "404 Not Found 1",
+          "url": "no-route",
+          "layout": "2 columns with right bar",
+          "store_id": "All Store Views",
+          "status": true,
+          "created": 1407848473000,
+          "modified": 1407848473000,
+          "action": {
+            "href": "/no-route/?___store=default",
+            "title": "Preview"
+          }
+        },
+        {
+          "id": "3",
+          "title": "Privacy Policy",
+          "url": "privacy-policy-cookie-restriction-mode",
+          "layout": "1 column",
+          "store_id": "All Store Views",
+          "status": true,
+          "created": 1407848473000,
+          "modified": 1407848473000,
+          "action": {
+            "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
+            "title": "Preview"
+          }
+        }
+      ]
+    }
+  </script>
 </div>

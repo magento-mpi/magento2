@@ -2,8 +2,8 @@ define(function (require) {
 
   var
     MassAction  = require('Magento_Cms/js/massaction/entity'),
-    View        = require('m2/lib/ko/view'),
-    Provider    = require('m2/lib/provider/model');
+    View        = require('Magento_Ui/js/framework/ko/view'),
+    Provider    = require('Magento_Ui/js/framework/provider/model');
 
   return function (el, config, initial) {
     

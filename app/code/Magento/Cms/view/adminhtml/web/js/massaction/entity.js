@@ -1,4 +1,8 @@
-define(['m2/lib/ko/scope', 'm2/lib/provider/model', '_'], function (Scope, DataProvider, _) {
+define([
+  'Magento_Ui/js/framework/ko/scope',
+  'Magento_Ui/js/framework/provider/model',
+  '_'
+], function (Scope, DataProvider, _) {
   
   return Scope.extend({
     initialize: function (massActions, actions) {

@@ -1,4 +1,8 @@
-define(['m2/lib/ko/scope', 'storage', 'm2/lib/provider/model'], function (Scope, lo, DataProvider) {
+define([
+  'Magento_Ui/js/framework/ko/scope',
+  'Magento_Ui/js/framework/provider/model',
+  'storage'
+], function (Scope, DataProvider, lo) {
 
   var initial = [
     {
@@ -104,9 +108,33 @@ define(['m2/lib/ko/scope', 'storage', 'm2/lib/provider/model'], function (Scope,
   return Scope.extend({
 
     initialize: function () {
-      this.def('listing', null);
+      this
+        .def('listing', null)
+        .def('template', 'test')
+        .def('someValue', 123)
+        .defArray('rows', [{name:1,value:'test 1'}, {name:2,value:'test 2'}, {name:3,value:'test 3'}, {name:4,value:'test 4'}])
 
       DataProvider.get('cms.pages.listing').done(this.listing.bind(this));
+    },
+
+    getTemplate: function () {
+      return 'Magento_Cms.templates.' + this.template();
+    },
+
+    getTemplateFor: function (row) {
+      return 'Magento_Cms.templates.test.' + row.name;
+    },
+
+    pushTestRows: function () {
+      this.rows.push({ name: 5, value: 'Test 5' });
+    },
+
+    toggleTemplate: function () {
+      if (this.template() === 'test') {
+        this.template('test2');
+      } else {
+        this.template('test');
+      }
     },
 
     toggleListingView: function () {

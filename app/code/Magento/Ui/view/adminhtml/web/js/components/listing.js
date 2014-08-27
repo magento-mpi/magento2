@@ -1,10 +1,10 @@
 define(function (require) {
 
   var
-    Scope         = require('m2/lib/ko/scope'),
-    RestClient    = require('m2/lib/rest/client'),
-    LocalAdapter  = require('m2/lib/rest/adapter/local'),
-    Resourceful   = require('m2/lib/mixin/resourceful');
+    Scope        = require('Magento_Ui/js/framework/ko/scope'),
+    RestClient   = require('Magento_Ui/js/framework/rest/client'),
+    LocalAdapter = require('Magento_Ui/js/framework/rest/adapter/local'),
+    Resourceful  = require('Magento_Ui/js/framework/mixin/resourceful');
     
   var ID_ATTRIBUTE = 'id';
 
@@ -18,7 +18,7 @@ define(function (require) {
         .defArray('fields', initial.fields)
         .defArray('checkedIds')
         .def('currentAction')
-        .def('isHorizontal', false);
+        .def('view', 'grid');
 
       var adapter = new LocalAdapter(config.resource);
       this.client = new RestClient(adapter);
@@ -82,12 +82,16 @@ define(function (require) {
       return this.checkedIds().length;
     },
 
-    toggleView: function () {
-      this.isHorizontal(!this.isHorizontal());
-    },
-
     isEmpty: function () {
       return !this.rows().length;
+    },
+
+    isView: function (type) {
+      return this.view() === type;
+    },
+
+    getViewTemplate: function () {
+      return 'Magento_Ui.templates.listing.' + this.view();
     }
   });
 });
