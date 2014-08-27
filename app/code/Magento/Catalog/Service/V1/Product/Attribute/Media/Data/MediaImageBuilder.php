@@ -9,6 +9,8 @@ namespace Magento\Catalog\Service\V1\Product\Attribute\Media\Data;
 
 /**
  * Builder for media_image
+ *
+ * @codeCoverageIgnore
  */
 class MediaImageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {

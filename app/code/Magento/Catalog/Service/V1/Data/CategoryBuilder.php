@@ -10,6 +10,9 @@ namespace Magento\Catalog\Service\V1\Data;
 use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CategoryBuilder extends AbstractObjectBuilder
 {
     /**
