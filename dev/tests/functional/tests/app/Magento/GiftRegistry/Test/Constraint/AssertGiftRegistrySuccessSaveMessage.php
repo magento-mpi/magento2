@@ -51,6 +51,6 @@ class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift register success save message is present.';
+        return 'Gift registry success save message is present.';
     }
 }

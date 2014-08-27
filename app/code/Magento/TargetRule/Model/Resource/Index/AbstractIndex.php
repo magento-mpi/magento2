@@ -8,6 +8,7 @@
 namespace Magento\TargetRule\Model\Resource\Index;
 
 use Magento\TargetRule\Model\Index;
+use Magento\Framework\Model\Exception as ModelException;
 
 /**
  * TargetRule Product List Abstract Indexer Resource Model
@@ -75,67 +76,90 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
     }
 
     /**
+     * Retrieve Product Table Name
+     *
+     * @return string
+     * @throws \Magento\Framework\Model\Exception
+     */
+    public function getProductTable()
+    {
+        if (empty($this->_mainTable)) {
+            throw new ModelException(__('Empty main table name'));
+        }
+        return $this->getTable($this->_mainTable . '_product');
+    }
+
+    /**
      * @param Index $object
      * @param int $segmentId
      * @return array
      */
     public function loadProductIdsBySegmentId($object, $segmentId)
     {
-        $select = $this->_getReadAdapter()->select()->from(
-            $this->getMainTable(),
-            'product_ids'
-        )->where(
-            'entity_id = :entity_id'
-        )->where(
-            'store_id = :store_id'
-        )->where(
-            'customer_group_id = :customer_group_id'
-        )->where(
-            'customer_segment_id = :customer_segment_id'
-        );
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('i' => $this->getMainTable()), array())
+            ->joinInner(
+                array('p' => $this->getProductTable()),
+                'i.product_set_id = p.product_set_id',
+                'product_id'
+            )->where(
+                'entity_id = :entity_id'
+            )->where(
+                'store_id = :store_id'
+            )->where(
+                'customer_group_id = :customer_group_id'
+            )->where(
+                'customer_segment_id = :customer_segment_id'
+            );
+
         $bind = array(
             ':entity_id' => $object->getProduct()->getEntityId(),
             ':store_id' => $object->getStoreId(),
             ':customer_group_id' => $object->getCustomerGroupId(),
             ':customer_segment_id' => $segmentId
         );
-        $value = $this->_getReadAdapter()->fetchOne($select, $bind);
 
-        return !empty($value) ? explode(',', $value) : array();
+        return $this->_getReadAdapter()->fetchCol($select, $bind);
     }
 
     /**
-     * Load Product Ids by Index object
+     * Clean products off the index
      *
-     * @param Index $object
-     * @return array
-     * @deprecated after 1.12.0.0
+     * @param int $productSetId
+     * @return $this
      */
-    public function loadProductIds($object)
+    public function deleteIndexProducts($productSetId)
     {
-        $select = $this->_getReadAdapter()->select()->from(
-            $this->getMainTable(),
-            'product_ids'
-        )->where(
-            'entity_id = :entity_id'
-        )->where(
-            'store_id = :store_id'
-        )->where(
-            'customer_group_id = :customer_group_id'
-        );
-        $bind = array(
-            ':entity_id' => $object->getProduct()->getEntityId(),
-            ':store_id' => $object->getStoreId(),
-            ':customer_group_id' => $object->getCustomerGroupId()
-        );
-        $value = $this->_getReadAdapter()->fetchOne($select, $bind);
-        if (!empty($value)) {
-            $productIds = explode(',', $value);
-        } else {
-            $productIds = array();
+        $this->_getWriteAdapter()->delete($this->getProductTable(), array('product_set_id = ?' => $productSetId));
+
+        return $this;
+    }
+
+    /**
+     * Save product IDs for index
+     *
+     * @param int $productSetId
+     * @param string|array $productIds
+     * @return $this
+     */
+    public function saveIndexProducts($productSetId, $productIds)
+    {
+        if (is_string($productIds)) {
+            $productIds = explode(',', $productIds);
         }
 
-        return $productIds;
+        if (count($productIds) > 0) {
+            $data = array();
+            foreach ($productIds as $productId) {
+                $data[] = array(
+                    'product_set_id' => $productSetId,
+                    'product_id'    => $productId,
+                );
+            }
+            $this->_getWriteAdapter()->insertMultiple($this->getProductTable(), $data);
+        }
+
+        return $this;
     }
 
     /**
@@ -148,37 +172,35 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
      */
     public function saveResultForCustomerSegments($object, $segmentId, $productIds)
     {
-        $adapter = $this->_getWriteAdapter();
-        $data = array(
-            'entity_id' => $object->getProduct()->getEntityId(),
-            'store_id' => $object->getStoreId(),
-            'customer_group_id' => $object->getCustomerGroupId(),
-            'customer_segment_id' => $segmentId,
-            'product_ids' => $productIds
-        );
-        $adapter->insertOnDuplicate($this->getMainTable(), $data, array('product_ids'));
-        return $this;
-    }
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), 'product_set_id')
+            ->where('entity_id = :entity_id')
+            ->where('store_id = :store_id')
+            ->where('customer_group_id = :customer_group_id')
+            ->where('customer_segment_id = :customer_segment_id');
 
-    /**
-     * Save matched product Ids
-     *
-     * @param Index $object
-     * @param string $value
-     * @return $this
-     * @deprecated after 1.12.0.0
-     */
-    public function saveResult($object, $value)
-    {
-        $adapter = $this->_getWriteAdapter();
-        $data = array(
-            'entity_id' => $object->getProduct()->getEntityId(),
-            'store_id' => $object->getStoreId(),
-            'customer_group_id' => $object->getCustomerGroupId(),
-            'product_ids' => $value
+        $bind = array(
+            ':entity_id' => $object->getProduct()->getEntityId(),
+            ':store_id' => $object->getStoreId(),
+            ':customer_group_id' => $object->getCustomerGroupId(),
+            ':customer_segment_id' => $segmentId
         );
 
-        $adapter->insertOnDuplicate($this->getMainTable(), $data, array('product_ids'));
+        $productSetId = $this->_getReadAdapter()->fetchOne($select, $bind);
+
+        if (!$productSetId) {
+            $data = array(
+                'entity_id'           => $object->getProduct()->getEntityId(),
+                'store_id'            => $object->getStoreId(),
+                'customer_group_id'   => $object->getCustomerGroupId(),
+                'customer_segment_id' => $segmentId,
+            );
+            $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
+            $productSetId = $this->_getWriteAdapter()->lastInsertId();
+        } else {
+            $this->deleteIndexProducts($productSetId);
+        }
+        $this->saveIndexProducts($productSetId, $productIds);
 
         return $this;
     }
@@ -214,6 +236,24 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
         $where = array('store_id IN(?)' => $store);
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
 
+        return $this;
+    }
+
+    /**
+     * Remove product from index table
+     *
+     * @param int|null $productId
+     * @return $this
+     */
+    public function deleteProductFromIndex($productId = null)
+    {
+        if (!is_null($productId)) {
+            $where = array('entity_id = ?' => $productId);
+            $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+
+            $where = array('product_id = ?' => $productId);
+            $this->_getWriteAdapter()->delete($this->getProductTable(), $where);
+        }
         return $this;
     }
 }
