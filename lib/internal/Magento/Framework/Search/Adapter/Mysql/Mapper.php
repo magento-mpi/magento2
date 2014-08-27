@@ -48,7 +48,6 @@ class Mapper
     public function buildQuery(RequestInterface $request)
     {
         $select = $this->processQuery($request->getQuery(), $this->getSelect());
-        $this->scoreManager->clear();
         return $select;
     }
 
@@ -57,10 +56,10 @@ class Mapper
      *
      * @param RequestQueryInterface $query
      * @param Select $select
-     * @param string|bool $queryType
+     * @param null|string $queryCondition
      * @return Select
      */
-    protected function processQuery(RequestQueryInterface $query, Select $select, $queryType = false)
+    protected function processQuery(RequestQueryInterface $query, Select $select, $queryCondition = null)
     {
         switch ($query->getType()) {
             case RequestQueryInterface::TYPE_MATCH:
@@ -68,19 +67,19 @@ class Mapper
 //                $matchQueryBuilder->buildQuery(
 //                    $select,
 //                    $query,
-//                    $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_MUST)
+//                    $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
 //                );
                 break;
             case RequestQueryInterface::TYPE_BOOL:
                 /** @var BoolQuery $query */
-                $this->processBoolQuery($query, $select, $queryType);
+                $this->processBoolQuery($query, $select, $queryCondition);
                 break;
             case RequestQueryInterface::TYPE_FILTER:
                 /** @var \Magento\Framework\Search\Request\Query\Filter $query */
 //                $filterQueryBuilder->buildQuery(
 //                    $select,
 //                    $query,
-//                    $this->getFilteredQueryType($queryType, BoolQuery::QUERY_CONDITION_MUST)
+//                    $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
 //                );
                 break;
             default:
@@ -96,7 +95,7 @@ class Mapper
      */
     private function getSelect()
     {
-        return $this->resource->getConnection(Config::DEFAULT_SETUP_CONNECTION)->select();
+        return $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE)->select();
     }
 
     /**
@@ -135,12 +134,12 @@ class Mapper
     /**
      * Filter query type
      *
-     * @param string $queryType
+     * @param string|null $queryCondition
      * @param string $defaultQueryType
      * @return string
      */
-    private function getFilteredQueryType($queryType, $defaultQueryType = BoolQuery::QUERY_CONDITION_MUST)
+    private function getFilteredQueryType($queryCondition, $defaultQueryCondition = BoolQuery::QUERY_CONDITION_MUST)
     {
-        return $queryType ?: $defaultQueryType;
+        return $queryCondition ?: $defaultQueryCondition;
     }
 }

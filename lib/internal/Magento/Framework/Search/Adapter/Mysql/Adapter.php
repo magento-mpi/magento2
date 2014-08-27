@@ -29,6 +29,7 @@ class Adapter implements AdapterInterface
      * @var ResponseFactory
      */
     protected $responseFactory;
+
     /**
      * @var \Magento\Framework\App\Resource
      */
@@ -54,8 +55,12 @@ class Adapter implements AdapterInterface
      */
     public function query(RequestInterface $request)
     {
+        /** @var Select $query */
         $query = $this->mapper->buildQuery($request);
-        $response = $this->executeQuery($query);
+        $response = [
+            'documents' => $this->executeDocumentsQuery($query),
+            'aggregations' => $this->executeAggregationsQuery($query),
+        ];
         return $this->responseFactory->create($response);
     }
 
@@ -65,9 +70,18 @@ class Adapter implements AdapterInterface
      *
      * @return array
      */
-    private function executeQuery(Select $select)
+    private function executeDocumentsQuery(Select $select)
     {
-        $dbAdapter = $this->resource->getConnection(Config::DEFAULT_SETUP_CONNECTION);
+        $dbAdapter = $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE);
         return $dbAdapter->fetchAssoc($select);
+    }
+
+    /**
+     * @param Select $query
+     * @return array
+     */
+    private function executeAggregationsQuery(Select $query)
+    {
+        return [];
     }
 }
