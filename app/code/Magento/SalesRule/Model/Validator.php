@@ -181,6 +181,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      */
     public function reset(Address $address)
     {
+        $this->validatorUtility->resetRoundingDeltas();
         if ($this->_isFirstTimeResetRun) {
             $address->setAppliedRuleIds('');
             $address->getQuote()->setAppliedRuleIds('');

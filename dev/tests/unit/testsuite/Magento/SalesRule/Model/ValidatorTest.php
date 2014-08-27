@@ -346,4 +346,32 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             $model->init($websiteId, $customerGroupId, $couponCode)
         );
     }
+
+    public function testReset()
+    {
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $utilityMock = $this->getMockBuilder('Magento\SalesRule\Model\Utility')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $utilityMock->expects($this->once())
+            ->method('resetRoundingDeltas');
+        $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $addressMock->expects($this->once())
+            ->method('getQuote')
+            ->willReturn($quoteMock);
+        
+        /** @var \Magento\SalesRule\Model\Validator $model */
+        $model = $helper->getObject(
+            'Magento\SalesRule\Model\Validator',
+            [
+                'utility' => $utilityMock
+            ]
+        );
+        $this->assertInstanceOf('\Magento\SalesRule\Model\Validator', $model->reset($addressMock));
+    }
 }
