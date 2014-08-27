@@ -101,7 +101,7 @@ class UrlRewrite extends AbstractObject
      */
     public function getRedirectType()
     {
-        return $this->_get(self::REDIRECT_TYPE);
+        return (int)$this->_get(self::REDIRECT_TYPE);
     }
 
     /**
@@ -129,6 +129,5 @@ class UrlRewrite extends AbstractObject
     public function toArray()
     {
         return $this->_data;
-
     }
 }
