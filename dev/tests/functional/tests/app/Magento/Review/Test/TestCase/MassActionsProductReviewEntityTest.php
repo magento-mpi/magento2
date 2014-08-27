@@ -67,6 +67,14 @@ class MassActionsProductReviewEntityTest extends Injectable
     protected $review;
 
     /**
+     * This method is called before a test is executed.
+     */
+    public static function setUpBeforeClass()
+    {
+        self::markTestIncomplete('MAGETWO-27663');
+    }
+
+    /**
      * Injection data
      *
      * @param ReviewIndex $reviewIndex
@@ -86,8 +94,9 @@ class MassActionsProductReviewEntityTest extends Injectable
         $this->ratingEdit = $ratingEdit;
         $this->review = $review;
         $this->review->persist();
+        $product = $review->getDataFieldConfig('entity_id')['source']->getEntity();
 
-        return ['review' => $this->review];
+        return ['review' => $this->review, 'product' => $product];
     }
 
     /**

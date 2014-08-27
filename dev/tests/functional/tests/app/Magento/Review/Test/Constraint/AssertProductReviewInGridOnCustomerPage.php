@@ -74,9 +74,9 @@ class AssertProductReviewInGridOnCustomerPage extends AbstractConstraint
     {
         $dataReviewInitial = $reviewInitial->getData();
         $data = $review->getData();
-        foreach ($dataReviewInitial as $kay => $value) {
-            if (!isset($data[$kay])) {
-                $data[$kay] = $value;
+        foreach ($dataReviewInitial as $key => $value) {
+            if (!isset($data[$key])) {
+                $data[$key] = $value;
             }
         }
         $data['type'] = 'Customer';

@@ -39,10 +39,10 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * 4. Open Product Review tab
  * 5. Open Review created in preconditions
  * 6. Fill data according to dataset
- * 7. click "Submit review"
+ * 7. Click "Submit review"
  * 8. Perform all assertions
  *
- * @group Products_(MX), Reviews_and_Ratings_(MX)
+ * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-27625
  */
 class ManageProductReviewFromCustomerPageTest extends Injectable
@@ -116,6 +116,14 @@ class ManageProductReviewFromCustomerPageTest extends Injectable
      * @var ReviewEdit
      */
     protected $reviewEdit;
+
+    /**
+     * This method is called before a test is executed.
+     */
+    public static function setUpBeforeClass()
+    {
+        self::markTestIncomplete('MAGETWO-27663');
+    }
 
     /**
      * Prepare data
@@ -200,7 +208,7 @@ class ManageProductReviewFromCustomerPageTest extends Injectable
         $this->reviewEdit->getReviewForm()->fill($review);
         $this->reviewEdit->getPageActions()->save();
 
-        return ['reviewInitial' => $reviewInitial];
+        return ['reviewInitial' => $reviewInitial, 'product' => $product];
     }
 
     /**
@@ -227,10 +235,11 @@ class ManageProductReviewFromCustomerPageTest extends Injectable
     {
         $this->ratingIndex->open();
         $ratingGrid = $this->ratingIndex->getRatingGrid();
-        $pageActions = $this->ratingEdit->getPageActions();
-        foreach ($this->reviewInitial->getRatings() as $rating) {
-            $ratingGrid->searchAndOpen(['rating_code' => $rating['title']]);
-            $pageActions->delete();
+        if ($this->reviewInitial instanceof ReviewInjectable) {
+            foreach ($this->reviewInitial->getRatings() as $rating) {
+                $ratingGrid->searchAndOpen(['rating_code' => $rating['title']]);
+                $this->ratingEdit->getPageActions()->delete();
+            }
         }
     }
 }

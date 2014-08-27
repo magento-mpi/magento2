@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Test\Block\Adminhtml\Edit\Tab\Reviews;
+namespace Magento\Review\Test\Block\Adminhtml\Customer\Edit\Tab\Reviews;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 
