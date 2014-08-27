@@ -10,6 +10,7 @@ namespace Magento\Backend\Test\Block\System\Store;
 
 use Mtf\Client\Element\Locator;
 use Magento\Store\Test\Fixture\StoreGroup;
+use Magento\Store\Test\Fixture\Website;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -95,12 +96,12 @@ class StoreGrid extends GridInterface
     /**
      * Check if website exists
      *
-     * @param string $websiteName
+     * @param Website $website
      * @return bool
      */
-    public function isWebsiteExists($websiteName)
+    public function isWebsiteExists($website)
     {
-        $element = $this->_rootElement->find(sprintf($this->titleFormat, $websiteName), Locator::SELECTOR_XPATH);
-        return $element->isVisible();
+        return $this->_rootElement->find(sprintf($this->titleFormat, $website->getName()), Locator::SELECTOR_XPATH)
+            ->isVisible();
     }
 }

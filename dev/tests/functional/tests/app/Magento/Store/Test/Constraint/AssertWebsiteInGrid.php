@@ -37,7 +37,7 @@ class AssertWebsiteInGrid extends AbstractConstraint
         $websiteName = $website->getName();
         $storeIndex->open()->getStoreGrid()->search(['website_title' => $websiteName]);
         \PHPUnit_Framework_Assert::assertTrue(
-            $storeIndex->getStoreGrid()->isWebsiteExists($websiteName),
+            $storeIndex->getStoreGrid()->isWebsiteExists($website),
             'Website \'' . $websiteName . '\' is not present in grid.'
         );
     }
