@@ -29,6 +29,11 @@ class MaintenanceMode
     const IP_FILENAME = '.maintenance.ip';
 
     /**
+     * Maintenance flag dir
+     */
+    const FLAG_DIR = Filesystem::VAR_DIR;
+
+    /**
      * Path to store files
      * @var \Magento\Framework\Filesystem\Directory\Write
      */
@@ -41,7 +46,7 @@ class MaintenanceMode
      */
     public function __construct(Filesystem $filesystem)
     {
-        $this->flagDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->flagDir = $filesystem->getDirectoryWrite(self::FLAG_DIR);
     }
 
     /**
