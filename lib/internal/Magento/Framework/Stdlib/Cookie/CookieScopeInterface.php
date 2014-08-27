@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: johe
- * Date: 8/26/14
- * Time: 4:12 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\Framework\Stdlib\Cookie;
 
