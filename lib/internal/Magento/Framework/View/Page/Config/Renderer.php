@@ -87,13 +87,14 @@ class Renderer
         $result .= $this->renderMetadata();
         $result .= $this->renderTitle();
         $result .= $this->renderAssets();
+        $result .= $this->renderFavicon();
         return $result;
     }
 
     /**
      * @return string
      */
-    protected function renderTitle()
+    public function renderTitle()
     {
         return '<title>' . $this->pageConfig->getTitle() . '</title>' . "\n";
     }
@@ -101,7 +102,7 @@ class Renderer
     /**
      * @return string
      */
-    protected function renderMetadata()
+    public function renderMetadata()
     {
         $result = '';
         foreach ($this->pageConfig->getMetadata() as $name => $content) {
@@ -152,16 +153,42 @@ class Renderer
         return $metadataTemplate;
     }
 
-    protected function renderAssets()
+    /**
+     * @return string
+     */
+    public function renderFavicon()
+    {
+        $result = '';
+        /*
+        $result .= sprintf(
+            $this->getAssetTemplate('link', 'rel="icon" type="image/x-icon"'),
+            $this->pageConfig->getFaviconFile()
+        );
+        $result .= sprintf(
+            $this->getAssetTemplate('link', 'rel="shortcut icon" type="image/x-icon"'),
+            $this->pageConfig->getFaviconFile()
+        );
+        */
+        return $result;
+    }
+
+    public function renderAssets()
     {
         $result = '';
         /** @var $group \Magento\Framework\View\Asset\PropertyGroup */
         foreach ($this->pageConfig->getAssetCollection()->getGroups() as $group) {
             $groupAssets = $this->assetMinifyService->getAssets($group->getAll());
             $groupAssets = $this->processMerge($groupAssets, $group);
-            $groupTemplate = $this->getGroupTemplate(
+
+            $attributes = $this->getGroupAttributes($group);
+            $attributes = $this->addDefaultAttributes(
                 $group->getProperty(GroupedCollection::PROPERTY_CONTENT_TYPE),
-                $this->getGroupAttributes($group)
+                $attributes
+            );
+
+            $groupTemplate = $this->getAssetTemplate(
+                $group->getProperty(GroupedCollection::PROPERTY_CONTENT_TYPE),
+                $attributes
             );
             $groupHtml = $this->renderAssetHtml($groupTemplate, $groupAssets);
             $groupHtml = $this->processIeCondition($groupHtml, $group);
@@ -207,20 +234,36 @@ class Renderer
         return $attributes;
     }
 
+    protected function addDefaultAttributes($contentType, $attributes)
+    {
+        switch ($contentType) {
+            case 'js':
+                $attributes = ' type="text/javascript" ' . $attributes;
+                break;
+
+            case 'css':
+                $attributes = ' rel="stylesheet" type="text/css" ' . ($attributes ?: ' media="all"');
+                break;
+        }
+        return $attributes;
+    }
+
     /**
      * @param string $contentType
      * @param string|null $attributes
      * @return string
      */
-    protected function getGroupTemplate($contentType, $attributes)
+    protected function getAssetTemplate($contentType, $attributes)
     {
-        if ($contentType == 'js') {
-            $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
-        } else {
-            if ($contentType == 'css') {
-                $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
-            }
-            $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
+        switch ($contentType) {
+            case 'js':
+                $groupTemplate = '<script ' . $attributes . ' src="%s"></script>' . "\n";
+                break;
+
+            case 'css':
+            case 'link':
+                $groupTemplate = '<link ' . $attributes . ' href="%s" />' . "\n";
+                break;
         }
         return $groupTemplate;
     }
