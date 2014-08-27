@@ -25,17 +25,15 @@ class MatchTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildQuery()
     {
-        $expectedGeneratedCondition = "((MATCH ('with_boost') AGAINST ('-wb' IN NATURAL LANGUAGE MODE) * 2.15 + " .
-            "MATCH ('without_boost') AGAINST ('-wob' IN NATURAL LANGUAGE MODE) * 1) * 3.14) AS global_score";
         $expectedSql = "SELECT `table`.* FROM `table` WHERE (MATCH ('with_boost') AGAINST ('-wb' IN BOOLEAN MODE)) " .
             "AND (MATCH ('without_boost') AGAINST ('-wob' IN BOOLEAN MODE))";
 
-        /** @var \Magento\Framework\Search\Adapter\Mysql\ScoreManager $scoreManager */
-        $scoreManager = $this->objectManager->create('Magento\Framework\Search\Adapter\Mysql\ScoreManager');
-        /** @var \Magento\Framework\Search\Adapter\Mysql\Builder\Query\Match $match */
+        /** @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder $scoreBuilder */
+        $scoreBuilder = $this->objectManager->create('Magento\Framework\Search\Adapter\Mysql\ScoreBuilder');
+        /** @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match $match */
         $match = $this->objectManager->create(
-            'Magento\Framework\Search\Adapter\Mysql\Builder\Query\Match',
-            ['scoreManager' => $scoreManager]
+            'Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match',
+            ['scoreManager' => $scoreBuilder]
         );
         /** @var \Magento\Framework\Search\Request\Query\Match $query */
         $query = $this->objectManager->create(
@@ -55,8 +53,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
         $select = $resource->getConnection(Config::DEFAULT_SETUP_CONNECTION)->select();
         $select->from('table');
 
-        $resultSelect = $match->buildQuery($select, $query, Bool::QUERY_CONDITION_NOT);
-        $this->assertEquals($expectedGeneratedCondition, $scoreManager->getGeneratedCondition());
+        $resultSelect = $match->build($select, $query, Bool::QUERY_CONDITION_NOT);
         $this->assertEquals($expectedSql, $resultSelect->assemble());
     }
 }
