@@ -48,7 +48,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
 
-        $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+        $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+        list($expectedMetadata, $attributeMetadata) = $validationResult;
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -164,7 +165,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $requestData = ['attributeCode' => $attributeCode];
         $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
 
-        $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+        $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+        list($expectedMetadata, $attributeMetadata) = $validationResult;
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -209,7 +211,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $this->assertCount(23, $attributeMetadata);
 
         $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][2];
-        $this->checkMultipleAttributesValidationRules($firstName, $attributeMetadata);
+        $validationResult = $this->checkMultipleAttributesValidationRules($firstName, $attributeMetadata);
+        list($firstName, $attributeMetadata) = $validationResult;
         $this->assertContains($firstName, $attributeMetadata);
     }
 
@@ -238,7 +241,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $requestData = ['attributeCode' => $attributeCode];
         $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
 
-        $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+        $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+        list($expectedMetadata, $attributeMetadata) = $validationResult;
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -350,7 +354,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 break;
             }
         }
-        $this->checkValidationRules($expectedMetadata, $addressUserAttribute);
+        $validationResult = $this->checkValidationRules($expectedMetadata, $addressUserAttribute);
+        list($expectedMetadata, $addressUserAttribute) = $validationResult;
         $this->assertEquals($expectedMetadata, $addressUserAttribute);
     }
 
@@ -419,7 +424,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 break;
             }
         }
-        $this->checkValidationRules($expectedMetadata, $customerUserAttribute);
+        $validationResult = $this->checkValidationRules($expectedMetadata, $customerUserAttribute);
+        list($expectedMetadata, $customerUserAttribute) = $validationResult;
         $this->assertEquals($expectedMetadata, $customerUserAttribute);
     }
 
@@ -484,7 +490,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             if(isset($attributeMetadata['attribute_code'])
                 && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
 
-                $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+                $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+                list($expectedMetadata, $attributeMetadata) = $validationResult;
                 $this->assertEquals($expectedMetadata, $attributeMetadata);
                 break;
             }
@@ -558,7 +565,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             if(isset($attributeMetadata['attribute_code'])
                 && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
 
-                $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+                $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+                list($expectedMetadata, $attributeMetadata) = $validationResult;
                 $this->assertEquals($expectedMetadata, $attributeMetadata);
                 break;
             }
@@ -571,8 +579,9 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      *
      * @param array $expectedResult
      * @param array $actualResult
+     * @return array
      */
-    public function checkValidationRules(&$expectedResult, &$actualResult)
+    public function checkValidationRules($expectedResult, $actualResult)
     {
         $expectedRules = [];
         $actualRules   = [];
@@ -604,6 +613,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 }
             }
         }
+        return [$expectedResult, $actualResult];
     }
 
     /**
@@ -611,8 +621,9 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      *
      * @param array $expectedResult Set of expected attribute metadata
      * @param array $actualResultSet Set of actual attribute metadata
+     * @return array
      */
-    public function checkMultipleAttributesValidationRules(&$expectedResult, &$actualResultSet)
+    public function checkMultipleAttributesValidationRules($expectedResult, $actualResultSet)
     {
         if (is_array($expectedResult) && is_array($actualResultSet)) {
             if (isset($expectedResult[AttributeMetadata::ATTRIBUTE_CODE])) {
@@ -621,12 +632,13 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                         && $expectedResult[AttributeMetadata::ATTRIBUTE_CODE]
                             == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
                     ) {
-                        $this->checkValidationRules($expectedAttribute, $actualAttribute);
+                        $this->checkValidationRules($expectedResult, $actualAttribute);
                         unset($actualResultSet[$actualAttributeKey][AttributeMetadata::VALIDATION_RULES]);
                     }
                 }
                 unset($expectedResult[AttributeMetadata::VALIDATION_RULES]);
             }
         }
+        return [$expectedResult, $actualResultSet];
     }
 }
