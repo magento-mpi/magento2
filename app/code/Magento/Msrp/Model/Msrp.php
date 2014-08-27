@@ -66,7 +66,7 @@ class Msrp
     }
 
     /**
-     * Check whether MAP applied to product Product Type
+     * Check whether Msrp applied to product Product Type
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return bool

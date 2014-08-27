@@ -8,7 +8,7 @@
 namespace Magento\Msrp\Model\Product\Attribute\Source;
 
 /**
- * Catalog product MAP "Display Actual Price" attribute source
+ * Catalog product Msrp "Display Actual Price" attribute source
  */
 class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {

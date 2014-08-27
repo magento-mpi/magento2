@@ -39,13 +39,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     protected $_columnCountLayoutDepend = array();
 
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp';
-
-    /**
      * Core registry
      *
      * @var \Magento\Framework\Registry

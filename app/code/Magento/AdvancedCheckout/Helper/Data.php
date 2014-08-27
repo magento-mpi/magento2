@@ -194,6 +194,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $messageManager;
 
+    /** @var \Magento\Msrp\Helper\Data */
+    protected $msrpData;
+
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
@@ -212,6 +215,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Msrp\Helper\Data $msrpData
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -230,7 +234,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Msrp\Helper\Data $msrpData
     ) {
         $this->_cart = $cart;
         $this->_products = $products;
@@ -249,6 +254,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->_storeManager = $storeManager;
         $this->messageManager = $messageManager;
+        $this->msrpData = $msrpData;
     }
 
     /**
@@ -458,7 +464,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if ($this->_catalogData->canApplyMsrp($itemProduct)) {
+                        if ($this->msrpData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 $this->_storeManager->getStore()->formatPrice(

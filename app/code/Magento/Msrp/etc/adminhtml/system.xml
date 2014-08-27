@@ -9,9 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
-        <tab id="catalog" translate="label" sortOrder="200">
-            <label>Catalog</label>
-        </tab>
         <section id="sales">
             <group id="msrp" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Minimum Advertised Price</label>

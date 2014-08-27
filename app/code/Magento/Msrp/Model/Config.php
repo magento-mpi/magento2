@@ -77,7 +77,7 @@ class Config
     }
 
     /**
-     * Return MAP display actual type
+     * Return Msrp display actual type
      *
      * @return null|string
      */
@@ -91,7 +91,7 @@ class Config
     }
 
     /**
-     * Return MAP explanation message
+     * Return Msrp explanation message
      *
      * @return string
      */
@@ -108,7 +108,7 @@ class Config
     }
 
     /**
-     * Return MAP explanation message for "Whats This" window
+     * Return Msrp explanation message for "Whats This" window
      *
      * @return string
      */

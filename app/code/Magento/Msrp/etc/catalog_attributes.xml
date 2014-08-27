@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Catalog/etc/catalog_attributes.xsd">
+    <group name="sales_quote_item">
+        <attribute name="msrp"/>
+        <attribute name="msrp_display_actual_price_type"/>
+    </group>
+</config>

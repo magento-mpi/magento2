@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Sales/etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="msrp" instance="Magento\Msrp\Model\Quote\Address\Total" sort_order="600"/>
+        </group>
+    </section>
+</config>

@@ -27,37 +27,6 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     protected $_useLinkForAsLowAs = true;
 
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp_rss';
-
-    /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
-     */
-    protected $_catalogData = null;
-
-    /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Helper\Data $catalogData,
-        array $data = array()
-    ) {
-        $this->_catalogData = $catalogData;
-        parent::__construct($context, $httpContext, $data);
-        $this->_isScopePrivate = true;
-    }
-
-    /**
      * Get rendered price html
      *
      * @param \Magento\Catalog\Model\Product $product

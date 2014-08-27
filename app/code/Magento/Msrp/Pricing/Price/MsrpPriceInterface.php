@@ -23,7 +23,7 @@ interface MsrpPriceInterface
     public function isShowPriceOnGesture();
 
     /**
-     * Get MAP message for price
+     * Get Msrp message for price
      *
      * @return string
      */

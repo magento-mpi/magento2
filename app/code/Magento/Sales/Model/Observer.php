@@ -20,11 +20,6 @@ class Observer
     protected $_expireQuotesFilterFields = array();
 
     /**
-     * @var \Magento\Msrp\Helper\Data
-     */
-    protected $msrpData;
-
-    /**
      * Customer address
      *
      * @var \Magento\Customer\Helper\Address
@@ -89,7 +84,6 @@ class Observer
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
-     * @param \Magento\Msrp\Helper\Data $msrpData
      * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -103,7 +97,6 @@ class Observer
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddressHelper,
-        \Magento\Msrp\Helper\Data $msrpData,
         \Magento\Store\Model\StoresConfig $storesConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -116,7 +109,6 @@ class Observer
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_customerAddressHelper = $customerAddressHelper;
-        $this->msrpData = $msrpData;
         $this->_storesConfig = $storesConfig;
         $this->_quoteCollectionFactory = $quoteFactory;
         $this->_localeDate = $localeDate;
@@ -241,31 +233,6 @@ class Observer
         $this->_bestsellersFactory->create()->aggregate($date);
         $this->_localeResolver->revert();
         return $this;
-    }
-
-    /**
-     * Set Quote information about MSRP price enabled
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     */
-    public function setQuoteCanApplyMsrp(\Magento\Framework\Event\Observer $observer)
-    {
-        /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = $observer->getEvent()->getQuote();
-
-        $canApplyMsrp = false;
-        //TODO: Msrp
-        if ($this->msrpData->isMsrpEnabled()) {
-            foreach ($quote->getAllAddresses() as $address) {
-                if ($address->getCanApplyMsrp()) {
-                    $canApplyMsrp = true;
-                    break;
-                }
-            }
-        }
-
-        $quote->setCanApplyMsrp($canApplyMsrp);
     }
 
     /**

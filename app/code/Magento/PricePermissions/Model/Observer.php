@@ -416,7 +416,7 @@ class Observer
                     }
                 }
                 break;
-                // Handle MAP functionality for bundle products
+                // Handle Msrp functionality for bundle products
             case 'adminhtml.catalog.product.edit.tab.attributes':
                 if (!$this->_canEditProductPrice) {
                     $block->setCanEditPrice(false);
@@ -453,7 +453,7 @@ class Observer
             $product->lockAttribute('open_amount_min');
             $product->lockAttribute('allow_open_amount');
             $product->lockAttribute('giftcard_amounts');
-            // For MAP fields
+            // For Msrp fields
             $product->lockAttribute('msrp');
             $product->lockAttribute('msrp_display_actual_price_type');
         }

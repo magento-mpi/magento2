@@ -5,29 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Model\Quote\Address\Total;
+namespace Magento\Msrp\Model\Quote\Address;
 
 /**
  * Msrp items total
- * Collects flag if MSRP price is in use
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+class Total extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
+     * @var \Magento\Msrp\Helper\Data
      */
-    protected $_catalogData = null;
+    protected $msrpData = null;
 
     /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Msrp\Helper\Data $msrpData
      */
-    public function __construct(\Magento\Catalog\Helper\Data $catalogData)
+    public function __construct(\Magento\Msrp\Helper\Data $msrpData)
     {
-        $this->_catalogData = $catalogData;
+        $this->msrpData = $msrpData;
     }
 
     /**
@@ -47,7 +42,7 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $canApplyMsrp = false;
         foreach ($items as $item) {
-            if (!$item->getParentItemId() && $this->_catalogData->isShowBeforeOrderConfirm($item->getProductId())) {
+            if (!$item->getParentItemId() && $this->msrpData->isShowBeforeOrderConfirm($item->getProductId())) {
                 $canApplyMsrp = true;
                 break;
             }

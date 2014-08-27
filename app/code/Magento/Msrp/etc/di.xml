@@ -35,7 +35,7 @@
     <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
-                <item name="msrp_setup" xsi:type="string">Magento\Eav\Model\Entity\Setup</item>
+                <item name="msrp_setup" xsi:type="string">Magento\Catalog\Model\Resource\Setup</item>
             </argument>
         </arguments>
     </type>

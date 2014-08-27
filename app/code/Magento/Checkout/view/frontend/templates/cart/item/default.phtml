@@ -10,7 +10,7 @@
 
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
-$canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->isShowBeforeOrderConfirm($_item->getProduct());
+$canApplyMsrp = $this->helper('Magento\Msrp\Helper\Data')->isShowBeforeOrderConfirm($_item->getProduct());
 ?>
 <tbody class="cart item">
 <tr class="item info item-info">

@@ -16,14 +16,6 @@ use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 class View extends AbstractProduct implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     * @deprecated
-     */
-    protected $_mapRenderer = 'msrp_item';
-
-    /**
      * Magento string lib
      *
      * @var \Magento\Framework\Stdlib\String

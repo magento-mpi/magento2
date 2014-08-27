@@ -45,13 +45,6 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_customerId = null;
 
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp_noform';
-
-    /**
      * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;

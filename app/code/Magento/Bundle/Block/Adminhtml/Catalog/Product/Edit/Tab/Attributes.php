@@ -7,8 +7,6 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
-use Magento\Msrp\Model\Product\Attribute\Source\Type\Price;
-
 /**
  * Bundle product attributes tab
  */
@@ -137,31 +135,6 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attri
                 )->setPriceValidation(
                     'validate-greater-than-zero validate-number-range number-range-0.00-100.00'
                 )
-            );
-        }
-
-        $mapEnabled = $this->getForm()->getElement('msrp');
-        if ($mapEnabled && $this->getCanEditPrice() !== false) {
-            $mapEnabled->setAfterElementHtml(
-                '<script type="text/javascript">' .
-                "
-                function changePriceTypeMap() {
-                    if ($('price_type').value == " . \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC . ") {
-                        $('msrp_display_actual_price_type').setValue(" . Price::TYPE_USE_CONFIG . ");
-                        $('msrp_display_actual_price_type').disable();
-                        $('msrp').setValue('');
-                        $('msrp').disable();
-                    } else {
-                        $('msrp_display_actual_price_type').enable();
-                        $('msrp').enable();
-                    }
-                }
-                document.observe('dom:loaded', function() {
-                    $('price_type').observe('change', changePriceTypeMap);
-                    changePriceTypeMap();
-                });
-                " .
-                '</script>'
             );
         }
     }

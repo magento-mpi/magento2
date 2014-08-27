@@ -50,7 +50,6 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\Rss\Model\RssFactory $rssFactory
@@ -63,7 +62,6 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Rss\Model\RssFactory $rssFactory,
@@ -80,7 +78,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_categoryFactory = $categoryFactory;
         $this->_collectionFactory = $collectionFactory;
         $this->customerSession = $customerSession;
-        parent::__construct($context, $httpContext, $catalogData, $data);
+        parent::__construct($context, $httpContext, $data);
     }
 
     /**

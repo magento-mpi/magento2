@@ -54,7 +54,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     }
 
     /**
-     * Get MAP message for price
+     * Get Msrp message for price
      *
      * @return string
      */
@@ -82,5 +82,25 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     public function canApplyMsrp(Product $product)
     {
         return $this->msrpData->canApplyMsrp($product);
+    }
+
+    /**
+     * @param Product $product
+     * @return bool|float
+     */
+    public function isMinimalPriceLessMsrp(Product $product)
+    {
+        $msrp = $product->getMsrp();
+        $type = $product->getTypeId();
+        $object = $product->getPriceInfo()->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
+        $price = ($type === 'grouped') ? $object->getValue() : $object->getMinimalPrice()->getValue();
+        if ($product->getMsrp() === null) {
+            if ($type !== 'grouped') {
+                return false;
+            } else {
+                $msrp = $product->getTypeInstance()->getChildrenMsrp($product);
+            }
+        }
+        return $msrp >= $price;
     }
 }

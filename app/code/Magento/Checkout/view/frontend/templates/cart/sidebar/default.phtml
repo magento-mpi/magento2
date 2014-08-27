@@ -9,7 +9,7 @@
 /** @var $this \Magento\Checkout\Block\Cart\Item\Renderer */
 ?>
 <?php $_item = $this->getItem() ?>
-<?php $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->isShowBeforeOrderConfirm($_item->getProduct()); ?>
+<?php $canApplyMsrp = $this->helper('Magento\Msrp\Helper\Data')->isShowBeforeOrderConfirm($_item->getProduct()); ?>
 <?php $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')?>
 <li class="item product product-item">
 <div class="product">

@@ -113,7 +113,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Return MAP display actual type
+     * Return Msrp display actual type
      *
      * @return null|string
      */
@@ -130,7 +130,7 @@ class Data extends AbstractHelper
      * Check if can apply Minimum Advertise price to product
      * in specific visibility
      *
-     * @param int|\Magento\Catalog\Model\Product $product
+     * @param int|Product $product
      * @param int|null $visibility Check displaying price in concrete place (by default generally)
      * @return bool
      */
@@ -164,9 +164,9 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get MAP message for price
+     * Get Msrp message for price
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return string
      */
     public function getMsrpPriceMessage($product)
@@ -183,7 +183,7 @@ class Data extends AbstractHelper
     /**
      * Check is product need gesture to show price
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param int|Product $product
      * @return bool
      */
     public function isShowPriceOnGesture($product)
@@ -191,6 +191,10 @@ class Data extends AbstractHelper
         return $this->canApplyMsrp($product, Type::TYPE_ON_GESTURE);
     }
 
+    /**
+     * @param int|Product $product
+     * @return bool
+     */
     public function isShowBeforeOrderConfirm($product)
     {
         return $this->canApplyMsrp($product, Type::TYPE_BEFORE_ORDER_CONFIRM);

@@ -15,13 +15,6 @@ namespace Magento\Wishlist\Block;
 class Rss extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp_rss';
-
-    /**
      * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;

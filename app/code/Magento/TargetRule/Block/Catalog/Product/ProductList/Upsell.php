@@ -52,14 +52,6 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
         );
     }
 
-
-    /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp_noform';
-
     /**
      * Retrieve Catalog Product List Type identifier
      *

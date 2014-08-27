@@ -49,28 +49,31 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
      */
     protected $_outputHelper;
 
+    /** @var \Magento\Msrp\Helper\Data */
+    protected $msrpData;
+
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Framework\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Helper\Output $outputHelper
+     * @param \Magento\Msrp\Helper\Data $msrpData
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Framework\Model\Resource\Iterator $resourceIterator,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Helper\Output $outputHelper,
+        \Magento\Msrp\Helper\Data $msrpData,
         array $data = array()
     ) {
         $this->_outputHelper = $outputHelper;
@@ -79,7 +82,8 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_productFactory = $productFactory;
         $this->_rssFactory = $rssFactory;
         $this->_resourceIterator = $resourceIterator;
-        parent::__construct($context, $httpContext, $catalogData, $data);
+        $this->msrpData = $msrpData;
+        parent::__construct($context, $httpContext, $data);
     }
 
     /**
@@ -174,7 +178,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
                 // add price data if needed
                 if ($product->getAllowedPriceInRss()) {
-                    if ($this->_catalogData->canApplyMsrp($product)) {
+                    if ($this->msrpData->canApplyMsrp($product)) {
                         $html .= '<br/><a href="' . $product->getProductUrl() . '">' . __('Click for price') . '</a>';
                     } else {
                         $special = '';

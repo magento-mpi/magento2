@@ -14,7 +14,4 @@
     <event name="sales_quote_address_collect_totals_after">
         <observer name="sales_customer_validate_vat_number" instance="Magento\Sales\Model\Observer" method="restoreQuoteCustomerGroupId" />
     </event>
-    <event name="sales_quote_collect_totals_after">
-        <observer name="catalog_msrp" instance="Magento\Sales\Model\Observer" method="setQuoteCanApplyMsrp" />
-    </event>
 </config>
