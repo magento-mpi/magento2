@@ -9,13 +9,14 @@
  */
 namespace Magento\Webapi\Controller;
 
+use Magento\Framework\ObjectManager;
+use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
+use Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
-use Magento\Framework\ObjectManager;
-use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
-use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
-use \Magento\Webapi\DeserializationException;
 
 class ServiceArgsSerializer
 {
@@ -25,16 +26,30 @@ class ServiceArgsSerializer
     /** @var ObjectManager */
     protected $_objectManager;
 
+    /** @var ServiceConfigReader */
+    protected $serviceConfigReader;
+
+    /** @var AttributeValueBuilder */
+    protected $attributeValueBuilder;
+
     /**
      * Initialize dependencies.
      *
      * @param TypeProcessor $typeProcessor
      * @param ObjectManager $objectManager
+     * @param ServiceConfigReader $serviceConfigReader
+     * @param AttributeValueBuilder $attributeValueBuilder
      */
-    public function __construct(TypeProcessor $typeProcessor, ObjectManager $objectManager)
-    {
+    public function __construct(
+        TypeProcessor $typeProcessor,
+        ObjectManager $objectManager,
+        ServiceConfigReader $serviceConfigReader,
+        AttributeValueBuilder $attributeValueBuilder
+    ) {
         $this->_typeProcessor = $typeProcessor;
         $this->_objectManager = $objectManager;
+        $this->serviceConfigReader = $serviceConfigReader;
+        $this->attributeValueBuilder = $attributeValueBuilder;
     }
 
     /**
@@ -129,10 +144,62 @@ class ServiceArgsSerializer
             if ($methodReflection->isPublic()) {
                 $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
                 $setterName = 'set' . $camelCaseProperty;
-                $builder->{$setterName}($this->_convertValue($value, $returnType));
+                if ($camelCaseProperty === 'CustomAttributes') {
+                    $setterValue = $this->convertCustomAttributeValue($value, $returnType, $className);
+                } else {
+                    $setterValue = $this->_convertValue($value, $returnType);
+                }
+                $builder->{$setterName}($setterValue);
             }
         }
         return $builder->create();
+    }
+
+    /**
+     * Convert custom attribute data array to array of AttributeValue Data Object
+     *
+     * @param string $value
+     * @param string $returnType
+     * @param string $dataObjectClassName
+     * @return AttributeValue[]
+     */
+    protected function convertCustomAttributeValue($value, $returnType, $dataObjectClassName)
+    {
+        $result = [];
+        $allAttributes = $this->serviceConfigReader->read();
+        //Remove preceding '\' for comparison
+        $dataObjectClassName = strpos($dataObjectClassName, '\\') === 0
+            ? substr($dataObjectClassName, 1)
+            : $dataObjectClassName;
+        if (!isset($allAttributes[$dataObjectClassName])) {
+            return $this->_convertValue($value, $returnType);
+        }
+        $dataObjectAttributes = $allAttributes[$dataObjectClassName];
+        foreach ($value as $key => $item) {
+
+            //Check if type is defined, else default to mixed
+            $type = isset($dataObjectAttributes[$item[AttributeValue::ATTRIBUTE_CODE]])
+                ? $dataObjectAttributes[$item[AttributeValue::ATTRIBUTE_CODE]]
+                : TypeProcessor::ANY_TYPE;
+
+            if (is_array($item[AttributeValue::VALUE])) {
+                //If type for AttributeValue's value as array is mixed, further processing is not possible
+                if ($type === TypeProcessor::ANY_TYPE) {
+                    continue;
+                }
+                //If custom attribute value is an array then its a data object type
+                $attributeValue = $this->_createFromArray($type, $item[AttributeValue::VALUE]);
+            } else {
+                $attributeValue = $this->_convertValue($item[AttributeValue::VALUE], $type);
+            }
+            //Populate the attribute value data object once the value for custom attribute is derived based on type
+            $result[$key] = $this->attributeValueBuilder
+                ->setAttributeCode($key)
+                ->setValue($attributeValue)
+                ->create();
+        }
+
+        return $result;
     }
 
     /**
