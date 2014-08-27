@@ -9,6 +9,9 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 
 use Magento\Framework\Service\Data\AbstractObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Attribute extends AbstractObject
 {
     const ID = 'id';

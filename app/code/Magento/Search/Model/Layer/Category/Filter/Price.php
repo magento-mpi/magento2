@@ -33,7 +33,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     /**
      * Resource engine
      *
-     * @var \Magento\Search\Model\Resource\Engine
+     * @var \Magento\Search\Model\Resource\Solr\Engine
      */
     protected $_resourceEngine;
 
@@ -58,7 +58,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
+     * @param \Magento\Search\Model\Resource\Solr\Engine $resourceEngine
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags
      * @param array $data
@@ -72,7 +72,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Search\Model\Resource\Engine $resourceEngine,
+        \Magento\Search\Model\Resource\Solr\Engine $resourceEngine,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags,
         array $data = array()

@@ -89,6 +89,8 @@ class SampleRepository
                 $collection->addFieldToFilter($filter->getField(), [$condition => $filter->getValue()]);
             }
         }
+        $collection->setCurPage($criteria->getCurrentPage());
+        $collection->setPageSize($criteria->getPageSize());
         foreach ($collection as $object) {
             $this->register($object);
         }

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account_create"/>
     <referenceContainer name="content">
         <block class="Magento\Invitation\Block\Customer\Form\Register" name="customer_form_register_invitation" template="Magento_Customer::form/register.phtml" cacheable="false"/>
@@ -23,4 +23,4 @@
             </arguments>
         </block>
     </referenceContainer>
-</layout>
+</page>

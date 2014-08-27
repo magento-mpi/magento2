@@ -14,7 +14,8 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderHoldTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderHoldV1';
+
+    const SERVICE_NAME = 'salesOrderWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -25,13 +26,13 @@ class OrderHoldTest extends WebapiAbstract
         $order = $objectManager->get('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/'. $order->getId() . '/hold',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/hold',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'hold'
             ]
         ];
         $requestData = ['id' => $order->getId()];

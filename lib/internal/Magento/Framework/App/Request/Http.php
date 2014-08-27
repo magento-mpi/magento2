@@ -84,14 +84,21 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
     private $_pathInfoProcessor;
 
     /**
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $_cookieManager;
+
+    /**
      * @param \Magento\Framework\App\Route\ConfigInterface $routeConfig
      * @param PathInfoProcessorInterface $pathInfoProcessor
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param string $uri
      * @param array $directFrontNames
      */
     public function __construct(
         \Magento\Framework\App\Route\ConfigInterface $routeConfig,
         PathInfoProcessorInterface $pathInfoProcessor,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         $uri = null,
         $directFrontNames = array()
     ) {
@@ -99,6 +106,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
         $this->_directFrontNames = $directFrontNames;
         parent::__construct($uri);
         $this->_pathInfoProcessor = $pathInfoProcessor;
+        $this->_cookieManager = $cookieManager;
     }
 
     /**
@@ -582,5 +590,17 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
     public function __sleep()
     {
         return array();
+    }
+
+    /**
+     * Retrieve a value from a cookie.
+     *
+     * @param string|null $name
+     * @param string|null $default The default value to return if no value could be found for the given $name.
+     * @return string|null
+     */
+    public function getCookie($name = null, $default = null)
+    {
+        return $this->_cookieManager->getCookie($name, $default);
     }
 }
