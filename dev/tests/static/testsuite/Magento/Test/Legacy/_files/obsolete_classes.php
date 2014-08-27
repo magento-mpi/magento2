@@ -1615,8 +1615,6 @@ return array(
         'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped'
     ),
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
-    array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
-    array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('Magento\Core\Model\Config\Modules\Reader', 'Magento\Framework\Module\Dir\Reader'),
     array('Magento\Framework\Data\Form\Factory', 'Magento\Framework\Data\FormFactory'),
     array('Magento\Framework\App\Cache\Config', 'Magento\Framework\Cache\Config'),

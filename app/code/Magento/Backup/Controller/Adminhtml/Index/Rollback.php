@@ -111,6 +111,8 @@ class Rollback extends \Magento\Backup\Controller\Adminhtml\Index
 
             $backupManager->rollback();
 
+            $helper->invalidateCache();
+
             $adminSession = $this->_getSession();
             $adminSession->destroy();
 
