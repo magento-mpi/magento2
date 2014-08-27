@@ -26,7 +26,7 @@
         </layeredNavigationBlock>
         <toolbar>
             <class>Magento\Catalog\Test\Block\Product\ProductList\Toolbar</class>
-            <locator>.toolbar.products</locator>
+            <locator>.toolbar-products</locator>
             <strategy>css selector</strategy>
         </toolbar>
         <titleBlock>
