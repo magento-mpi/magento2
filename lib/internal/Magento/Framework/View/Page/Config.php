@@ -378,27 +378,31 @@ class Config
     }
 
     /**
-     * @param string $name
+     * @param string $file
      * @param array $properties
+     * @param string|null $name
      * @return $this
      */
-    public function addPageAsset($name, array $properties = [])
+    public function addPageAsset($file, array $properties = [], $name = null)
     {
-        $asset = $this->assetRepo->createAsset($name);
+        $asset = $this->assetRepo->createAsset($file);
+        $name = $name ?: $file;
         $this->pageAssets->add($name, $asset, $properties);
 
         return $this;
     }
 
     /**
-     * @param string $name
+     * @param string $url
      * @param string $contentType
      * @param array $properties
+     * @param string|null $name
      * @return $this
      */
-    public function addRemotePageAsset($name, $contentType, array $properties = [])
+    public function addRemotePageAsset($url, $contentType, array $properties = [], $name = null)
     {
-        $remoteAsset = $this->assetRepo->createRemoteAsset($name, $contentType);
+        $remoteAsset = $this->assetRepo->createRemoteAsset($url, $contentType);
+        $name = $name ?: $url;
         $this->pageAssets->add($name, $remoteAsset, $properties);
 
         return $this;
@@ -495,7 +499,7 @@ class Config
      */
     public function getFaviconFile()
     {
-        if (!$this->faviconFile) {
+        if (null === $this->faviconFile) {
             $this->faviconFile = $this->prepareFaviconFile();
         }
         return $this->faviconFile;

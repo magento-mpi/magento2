@@ -86,8 +86,8 @@ class Renderer
         $result = '';
         $result .= $this->renderMetadata();
         $result .= $this->renderTitle();
+        $this->prepareFavicon();
         $result .= $this->renderAssets();
-        $result .= $this->renderFavicon();
         return $result;
     }
 
@@ -156,20 +156,33 @@ class Renderer
     /**
      * @return string
      */
-    public function renderFavicon()
+    public function prepareFavicon()
     {
-        $result = '';
-        /*
-        $result .= sprintf(
-            $this->getAssetTemplate('link', 'rel="icon" type="image/x-icon"'),
-            $this->pageConfig->getFaviconFile()
-        );
-        $result .= sprintf(
-            $this->getAssetTemplate('link', 'rel="shortcut icon" type="image/x-icon"'),
-            $this->pageConfig->getFaviconFile()
-        );
-        */
-        return $result;
+        if ($this->pageConfig->getFaviconFile()) {
+            $this->pageConfig->addRemotePageAsset(
+                $this->pageConfig->getFaviconFile(),
+                Generator::VIRTUAL_CONTENT_TYPE_LINK,
+                ['attributes' => ['rel' => 'icon', 'type' => 'image/x-icon']],
+                'icon'
+            );
+            $this->pageConfig->addRemotePageAsset(
+                $this->pageConfig->getFaviconFile(),
+                Generator::VIRTUAL_CONTENT_TYPE_LINK,
+                ['attributes' => ['rel' => 'shortcut icon', 'type' => 'image/x-icon']],
+                'shortcut-icon'
+            );
+        } else {
+            $this->pageConfig->addPageAsset(
+                $this->pageConfig->getDefaultFavicon(),
+                ['attributes' => ['rel' => 'icon', 'type' => 'image/x-icon']],
+                'icon'
+            );
+            $this->pageConfig->addPageAsset(
+                $this->pageConfig->getDefaultFavicon(),
+                ['attributes' => ['rel' => 'shortcut icon', 'type' => 'image/x-icon']],
+                'shortcut-icon'
+            );
+        }
     }
 
     public function renderAssets()
@@ -261,7 +274,7 @@ class Renderer
                 break;
 
             case 'css':
-            case 'link':
+            default:
                 $groupTemplate = '<link ' . $attributes . ' href="%s" />' . "\n";
                 break;
         }
