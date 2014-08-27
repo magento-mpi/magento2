@@ -16,10 +16,10 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AssertGiftCardQuickCheckInShoppingCart
+ * Class AssertGiftCardAccountStatusInShoppingCart
  * Assert that created gift card account can be verified on the frontend in Shopping Cart
  */
-class AssertGiftCardQuickCheckInShoppingCart extends AbstractAssertGiftCardAccountOnFrontend
+class AssertGiftCardAccountStatusInShoppingCart extends AbstractAssertGiftCardAccountOnFrontend
 {
     /**
      * Constraint severeness

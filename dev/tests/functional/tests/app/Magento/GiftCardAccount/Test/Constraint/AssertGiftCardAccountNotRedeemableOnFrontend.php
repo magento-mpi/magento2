@@ -41,7 +41,7 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractAssertGiftCar
         $code
     ) {
         $this->login($customer);
-        $cmsIndex->open()->getLinksBlock()->openLink('My Account');
+        $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
         $customerAccountIndex->getRedeemBlock()->redeemGiftCard($code);
 

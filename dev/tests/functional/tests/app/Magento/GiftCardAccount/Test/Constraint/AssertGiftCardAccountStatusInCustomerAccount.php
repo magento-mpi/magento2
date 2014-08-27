@@ -14,10 +14,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
- * Class AssertGiftCardAccountCheckStatusOnFrontend
+ * Class AssertGiftCardAccountStatusInCustomerAccount
  * Assert that created gift card account can be verified on the frontend on My Account page
  */
-class AssertGiftCardAccountCheckStatusOnFrontend extends AbstractAssertGiftCardAccountOnFrontend
+class AssertGiftCardAccountStatusInCustomerAccount extends AbstractAssertGiftCardAccountOnFrontend
 {
     /**
      * Constraint severeness
@@ -44,7 +44,7 @@ class AssertGiftCardAccountCheckStatusOnFrontend extends AbstractAssertGiftCardA
         $code
     ) {
         $this->login($customer);
-        $cmsIndex->open()->getLinksBlock()->openLink('My Account');
+        $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
         $data = $giftCardAccount->getData();
         $data['code'] = $code;

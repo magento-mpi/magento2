@@ -15,6 +15,7 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
  * Class AbstractAssertGiftCardAccountOnFrontend
@@ -37,21 +38,31 @@ abstract class AbstractAssertGiftCardAccountOnFrontend extends AbstractConstrain
     protected $cmsIndex;
 
     /**
+     * Customer log out page
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Constructor
      *
      * @constructor
      * @param ObjectManager $objectManager
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CmsIndex $cmsIndex
+     * @param CustomerAccountLogout $customerAccountLogout
      */
     public function __construct(
         ObjectManager $objectManager,
         CustomerAccountLogin $customerAccountLogin,
-        CmsIndex $cmsIndex
+        CmsIndex $cmsIndex,
+        CustomerAccountLogout $customerAccountLogout
     ) {
         parent::__construct($objectManager);
         $this->customerAccountLogin = $customerAccountLogin;
         $this->cmsIndex = $cmsIndex;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -62,11 +73,9 @@ abstract class AbstractAssertGiftCardAccountOnFrontend extends AbstractConstrain
      */
     protected function login(CustomerInjectable $customer)
     {
-        $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $this->customerAccountLogout->open();
+        $this->cmsIndex->getLinksBlock()->openLink("Log In");
+        $this->customerAccountLogin->getLoginBlock()->login($customer);
     }
 
     /**

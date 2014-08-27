@@ -49,7 +49,7 @@ class AssertGiftCardAccountRedeemableOnFrontend extends AbstractAssertGiftCardAc
         $code
     ) {
         $this->login($customer);
-        $cmsIndex->open()->getLinksBlock()->openLink('My Account');
+        $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
         $customerAccountIndex->getRedeemBlock()->redeemGiftCard($code);
         $message = $customerAccountIndex->getMessages()->getSuccessMessages();

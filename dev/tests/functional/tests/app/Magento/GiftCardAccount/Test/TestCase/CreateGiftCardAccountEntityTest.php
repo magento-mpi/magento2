@@ -87,6 +87,7 @@ class CreateGiftCardAccountEntityTest extends Injectable
      */
     public function test(GiftCardAccount $giftCardAccount)
     {
+        $this->markTestIncomplete('MAGETWO-27663');
         // Steps
         $this->giftCardAccountIndex->open();
         $this->giftCardAccountIndex->getMessagesBlock()->clickLinkInMessages('error', 'here');
