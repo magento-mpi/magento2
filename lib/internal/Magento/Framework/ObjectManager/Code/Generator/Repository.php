@@ -169,11 +169,11 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
             . "    throw new " . self::INPUT_EXCEPTION . "('ID required');\n"
             . "}\n"
             . "if (!isset(\$this->registry[\$id])) {\n"
-            . "    \$order = \$this->orderFactory->create()->load(\$id);\n"
-            . "    if (!\$order->getId()) {\n"
+            . "    \$entity = \$this->" . $this->_getSourceFactoryPropertyName() . "->create()->load(\$id);\n"
+            . "    if (!\$entity->getId()) {\n"
             . "        throw new " . self::NO_SUCH_ENTITY_EXCEPTION . "('Requested entity doesn\\'t exist');\n"
             . "    }\n"
-            . "    \$this->registry[\$id] = \$order;\n"
+            . "    \$this->registry[\$id] = \$entity;\n"
             . "}\n"
             . "return \$this->registry[\$id];";
         return [

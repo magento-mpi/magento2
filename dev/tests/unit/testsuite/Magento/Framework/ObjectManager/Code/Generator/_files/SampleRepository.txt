@@ -55,11 +55,11 @@ class SampleRepository
             throw new \Magento\Framework\Exception\InputException('ID required');
         }
         if (!isset($this->registry[$id])) {
-            $order = $this->orderFactory->create()->load($id);
-            if (!$order->getId()) {
+            $entity = $this->sampleFactory->create()->load($id);
+            if (!$entity->getId()) {
                 throw new \Magento\Framework\Exception\NoSuchEntityException('Requested entity doesn\'t exist');
             }
-            $this->registry[$id] = $order;
+            $this->registry[$id] = $entity;
         }
         return $this->registry[$id];
     }
