@@ -170,9 +170,10 @@ class Guest extends \Magento\Core\Helper\Data
 
             if (!$errors) {
                 $toCookie = base64_encode($order->getProtectCode() . ':' . $incrementId);
-                $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
-                $metadata->setPath(self::COOKIE_PATH);
-                $metadata->setDuration(self::COOKIE_LIFETIME);
+                $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                    ->setPath(self::COOKIE_PATH)
+                    ->setDuration(self::COOKIE_LIFETIME)
+                    ->setHttpOnly(true);
                 $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $toCookie, $metadata);
             }
         } elseif ($fromCookie) {
@@ -185,9 +186,10 @@ class Guest extends \Magento\Core\Helper\Data
                 $order->loadByIncrementId($incrementId);
                 if ($order->getProtectCode() == $protectCode) {
                     // renew cookie
-                    $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
-                    $metadata->setPath(self::COOKIE_PATH);
-                    $metadata->setDuration(self::COOKIE_LIFETIME);
+                    $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                        ->setPath(self::COOKIE_PATH)
+                        ->setDuration(self::COOKIE_LIFETIME)
+                        ->setHttpOnly(true);
                     $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $fromCookie, $metadata);
                     $errors = false;
                 }
