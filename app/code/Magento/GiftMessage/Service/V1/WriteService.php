@@ -123,7 +123,7 @@ class WriteService implements WriteServiceInterface
             throw new InvalidTransitionException('Shipping address is not set');
         }
 
-        $configType = $type == 'quote_item' ? '' : 'items';
+        $configType = $type == 'quote' ? '' : 'items';
         if (!$this->helper->getIsMessagesAvailable($configType, $quote, $this->storeManager->getStore())) {
             throw new CouldNotSaveException('Gift Message is not available');
         }
