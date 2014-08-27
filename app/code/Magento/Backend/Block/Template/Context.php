@@ -41,6 +41,11 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     protected $nameBuilder;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -69,6 +74,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -100,7 +106,8 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Data\Form\FormKey $formKey,
-        \Magento\Framework\Code\NameBuilder $nameBuilder
+        \Magento\Framework\Code\NameBuilder $nameBuilder,
+        \Magento\Framework\View\Page\Config $pageConfig
     ) {
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
@@ -130,7 +137,8 @@ class Context extends \Magento\Framework\View\Element\Template\Context
             $viewFileSystem,
             $enginePool,
             $appState,
-            $storeManager
+            $storeManager,
+            $pageConfig
         );
     }
 

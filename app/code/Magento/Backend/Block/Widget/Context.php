@@ -24,6 +24,11 @@ class Context extends \Magento\Backend\Block\Template\Context
     protected $buttonToolbar;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -54,6 +59,7 @@ class Context extends \Magento\Backend\Block\Template\Context
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @param \Magento\Backend\Block\Widget\Button\ButtonList $buttonList
      * @param Button\ToolbarInterface $toolbar
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -86,6 +92,7 @@ class Context extends \Magento\Backend\Block\Template\Context
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
+        \Magento\Framework\View\Page\Config $pageConfig,
         Button\ButtonList $buttonList,
         Button\ToolbarInterface $toolbar
     ) {
@@ -117,7 +124,8 @@ class Context extends \Magento\Backend\Block\Template\Context
             $backendSession,
             $mathRandom,
             $formKey,
-            $nameBuilder
+            $nameBuilder,
+            $pageConfig
         );
 
         $this->buttonList = $buttonList;
