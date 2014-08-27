@@ -76,17 +76,19 @@ class Generator
     /**
      * @return $this
      */
-    public function generate()
+    public function process()
     {
         $this->structure->processRemoveAssets();
-        $this->generateAssets();
+        $this->processAssets();
+        $this->processTitle();
+        $this->processMetadata();
         return $this;
     }
 
     /**
      * Add assets to page config
      */
-    protected function generateAssets()
+    protected function processAssets()
     {
         foreach ($this->structure->getAssets() as $name => $data) {
             if (isset($data['src_type']) && in_array($data['src_type'], $this->remoteAssetTypes)) {
@@ -114,5 +116,18 @@ class Generator
         }
         $properties['attributes'] = $attributes;
         return $properties;
+    }
+
+    protected function processTitle()
+    {
+        $this->pageConfig->setTitle($this->structure->getTitle());
+        return $this;
+    }
+
+    protected function processMetadata()
+    {
+        foreach ($this->structure->getMetadata() as $name => $content) {
+            $this->pageConfig->setMetadata($name, $content);
+        }
     }
 }

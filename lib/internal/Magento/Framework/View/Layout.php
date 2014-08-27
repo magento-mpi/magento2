@@ -353,7 +353,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
         \Magento\Framework\Profiler::start('generate_elements');
 
-        $this->pageConfigGenerator->generate();
+        $this->pageConfigGenerator->process();
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
             list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
@@ -490,7 +490,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
                     break;
 
                 case Element::TYPE_HEAD:
-                    $this->pageConfigReader->read($node);
+                    $this->pageConfigReader->readHead($node);
                     break;
 
                 default:

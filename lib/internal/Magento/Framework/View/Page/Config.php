@@ -82,7 +82,14 @@ class Config
     /**
      * @var array
      */
-    protected $metadata = [];
+    protected $metadata = [
+        'charset' => null,
+        'media_type' => null,
+        'content_type' => null,
+        'description' => null,
+        'keywords' => null,
+        'robots' => null,
+    ];
 
     /**
      * Constructor
@@ -178,11 +185,28 @@ class Config
     }
 
     /**
+     * @param string $name
+     * @param string $content
+     */
+    public function setMetadata($name, $content)
+    {
+        $this->metadata[$name] = $content;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
      * @param string $contentType
      */
     public function setContentType($contentType)
     {
-        $this->metadata['content_type'] = $contentType;
+        $this->setMetadata('content_type', $contentType);
     }
 
     /**
@@ -203,7 +227,7 @@ class Config
      */
     public function setMediaType($mediaType)
     {
-        $this->metadata['media_type'] = $mediaType;
+        $this->setMetadata('media_type', $mediaType);
     }
 
     /**
@@ -227,7 +251,7 @@ class Config
      */
     public function setCharset($charset)
     {
-        $this->metadata['charset'] = $charset;
+        $this->setMetadata('charset', $charset);
     }
 
     /**
@@ -251,7 +275,7 @@ class Config
      */
     public function setDescription($description)
     {
-        $this->metadata['description'] = $description;
+        $this->setMetadata('description', $description);
     }
 
     /**
@@ -275,7 +299,7 @@ class Config
      */
     public function setKeywords($keywords)
     {
-        $this->metadata['keywords'] = $keywords;
+        $this->setMetadata('keywords', $keywords);
     }
 
     /**
@@ -299,7 +323,7 @@ class Config
      */
     public function setRobots($robots)
     {
-        $this->metadata['robots'] = $robots;
+        $this->setMetadata('robots', $robots);
     }
 
     /**

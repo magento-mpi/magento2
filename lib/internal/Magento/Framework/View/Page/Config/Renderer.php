@@ -24,17 +24,22 @@ class Renderer
     /**
      * @var \Magento\Framework\View\Asset\MinifyService
      */
-    private $assetMinifyService;
+    protected $assetMinifyService;
 
     /**
      * @var \Magento\Framework\View\Asset\MergeService
      */
-    private $assetMergeService;
+    protected $assetMergeService;
 
     /**
      * @var \Magento\Framework\Escaper
      */
     protected $escaper;
+
+    /**
+     * @var \Magento\Framework\Stdlib\String
+     */
+    protected $string;
 
     /**
      * @var \Magento\Framework\Logger
@@ -52,6 +57,7 @@ class Renderer
      * @param \Magento\Framework\View\Asset\MergeService $assetMergeService
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
@@ -60,6 +66,7 @@ class Renderer
         \Magento\Framework\View\Asset\MergeService $assetMergeService,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Logger $logger
     ) {
         $this->pageConfig = $pageConfig;
@@ -67,20 +74,82 @@ class Renderer
         $this->assetMergeService = $assetMergeService;
         $this->urlBuilder = $urlBuilder;
         $this->escaper = $escaper;
+        $this->string = $string;
         $this->logger = $logger;
     }
 
+    /**
+     * @return string
+     */
     public function renderHeadContent()
     {
         $result = '';
+        $result .= $this->renderMetadata();
         $result .= $this->renderTitle();
         $result .= $this->renderAssets();
         return $result;
     }
 
+    /**
+     * @return string
+     */
     protected function renderTitle()
     {
         return '<title>' . $this->pageConfig->getTitle() . '</title>' . "\n";
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderMetadata()
+    {
+        $result = '';
+        foreach ($this->pageConfig->getMetadata() as $name => $content) {
+            $metadataTemplate = $this->getMetadataTemplate($name);
+            if (!$metadataTemplate) {
+                continue;
+            }
+            $content = $this->processMetadataContent($name, $content);
+            if ($content) {
+                $result .= str_replace(['%name', '%content'], [$name, $content], $metadataTemplate);
+            }
+        }
+        return $result;
+    }
+
+    protected function processMetadataContent($name, $content)
+    {
+        $method = 'get' . $this->string->upperCaseWords($name, '_', '');
+        if (method_exists($this->pageConfig, $method)) {
+            $content = $this->pageConfig->$method();
+        }
+        return $content;
+    }
+
+    protected function getMetadataTemplate($name)
+    {
+        switch($name) {
+            case 'charset':
+                $metadataTemplate = '<meta charset="%content"/>' . "\n";
+                break;
+
+            case 'content_type':
+                $metadataTemplate = '<meta http-equiv="Content-Type" content="%content"/>' . "\n";
+                break;
+
+            case 'x_ua_compatible':
+                $metadataTemplate = '<meta http-equiv="X-UA-Compatible" content="%content"/>' . "\n";
+                break;
+
+            case 'media_type':
+                $metadataTemplate = false;
+                break;
+
+            default:
+                $metadataTemplate = '<meta name="%name" content="%content"/>' . "\n";
+                break;
+        }
+        return $metadataTemplate;
     }
 
     protected function renderAssets()

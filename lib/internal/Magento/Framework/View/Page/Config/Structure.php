@@ -28,6 +28,53 @@ class Structure
     protected $removeAssets = [];
 
     /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string[]
+     */
+    protected $metadata = [];
+
+    /**
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = (string)$title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $name
+     * @param string $content
+     * @return $this
+     */
+    public function setMetadata($name, $content)
+    {
+        $this->metadata[$name] = (string)$content;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
      * @param string $name
      * @param array $attributes
      * @return $this
