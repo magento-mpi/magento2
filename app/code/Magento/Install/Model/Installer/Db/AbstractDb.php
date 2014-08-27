@@ -131,6 +131,7 @@ abstract class AbstractDb
             }
             $this->_connectionData = $connectionData;
         }
+        print_r($this->_connectionData);
         return $this->_connectionData;
     }
 
