@@ -76,4 +76,4 @@ class EmulateCustomer
         }
         return $this;
     }
-} 
+}

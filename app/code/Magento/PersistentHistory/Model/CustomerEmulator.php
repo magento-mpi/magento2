@@ -82,6 +82,8 @@ class CustomerEmulator
 
     /**
      * Emulate cutomer
+     *
+     * @return void
      */
     public function emulate()
     {

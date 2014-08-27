@@ -86,6 +86,7 @@ class FailedItemProcessor
 
     /**
      * Process failed items
+     * @return void
      */
     public function process()
     {
@@ -116,4 +117,4 @@ class FailedItemProcessor
             }
         }
     }
-} 
+}

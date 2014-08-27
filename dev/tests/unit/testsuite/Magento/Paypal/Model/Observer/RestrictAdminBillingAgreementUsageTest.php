@@ -39,7 +39,6 @@ class RestrictAdminBillingAgreementUsageTest extends \PHPUnit_Framework_TestCase
 
         $this->_authorization = $this->getMockForAbstractClass('Magento\Framework\AuthorizationInterface');
 
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = new \Magento\Paypal\Model\Observer\RestrictAdminBillingAgreementUsage($this->_authorization);
     }
 

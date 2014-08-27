@@ -44,4 +44,4 @@ class AddCartLink
             $block->setCartEmptyMessage(__('%1 item(s) need your attention.', $failedItemsCount));
         }
     }
-} 
+}

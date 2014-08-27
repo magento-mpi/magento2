@@ -72,8 +72,7 @@ class OrderCompleted
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
-        if ($order->getCustomerIsGuest() || !$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())
-        ) {
+        if ($order->getCustomerIsGuest() || !$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())) {
             return $this;
         }
 
@@ -82,12 +81,12 @@ class OrderCompleted
             $reward = $this->_rewardFactory->create()->setActionEntity(
                 $order
             )->setCustomerId(
-                    $order->getCustomerId()
-                )->setWebsiteId(
-                    $order->getStore()->getWebsiteId()
-                )->setAction(
-                    \Magento\Reward\Model\Reward::REWARD_ACTION_ORDER_EXTRA
-                )->updateRewardPoints();
+                $order->getCustomerId()
+            )->setWebsiteId(
+                $order->getStore()->getWebsiteId()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_ORDER_EXTRA
+            )->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
                     __(

@@ -68,11 +68,11 @@ class EmulateCustomer
      * Set persistent data to customer session
      *
      * @param EventObserver $observer
+     * @return void
      */
     public function execute($observer)
     {
-        if (
-            $this->mPersistentData->canProcess($observer)
+        if ($this->mPersistentData->canProcess($observer)
             && !$this->ePersistentData->isCustomerAndSegmentsPersist()
             && $this->persistentSession->isPersistent()
             && !$this->customerSession->isLoggedIn()

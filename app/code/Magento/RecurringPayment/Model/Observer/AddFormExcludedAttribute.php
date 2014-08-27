@@ -22,4 +22,4 @@ class AddFormExcludedAttribute
 
         $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), array('recurring_payment')));
     }
-} 
+}

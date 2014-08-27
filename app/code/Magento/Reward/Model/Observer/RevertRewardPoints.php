@@ -39,5 +39,4 @@ class RevertRewardPoints
 
         return $this;
     }
-
-} 
+}

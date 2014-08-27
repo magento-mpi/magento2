@@ -34,7 +34,6 @@ class AddFormExcludedAttributeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_observer = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_testModel = new \Magento\RecurringPayment\Model\Observer\AddFormExcludedAttribute();
 

@@ -61,4 +61,4 @@ class CustomerAuthenticatedEvent
 
         $this->quoteManager->setGuest();
     }
-} 
+}

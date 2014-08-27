@@ -65,12 +65,12 @@ class ReviewSubmit
             $reward = $this->_rewardFactory->create()->setCustomerId(
                 $review->getCustomerId()
             )->setStore(
-                    $review->getStoreId()
-                )->setAction(
-                    \Magento\Reward\Model\Reward::REWARD_ACTION_REVIEW
-                )->setActionEntity(
-                    $review
-                )->updateRewardPoints();
+                $review->getStoreId()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_REVIEW
+            )->setActionEntity(
+                $review
+            )->updateRewardPoints();
         }
         return $this;
     }

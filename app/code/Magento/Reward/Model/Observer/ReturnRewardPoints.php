@@ -51,16 +51,15 @@ class ReturnRewardPoints
             $this->_rewardFactory->create()->setCustomerId(
                 $order->getCustomerId()
             )->setWebsiteId(
-                    $this->_storeManager->getStore($order->getStoreId())->getWebsiteId()
-                )->setPointsDelta(
-                    $order->getRewardPointsBalance()
-                )->setAction(
-                    \Magento\Reward\Model\Reward::REWARD_ACTION_REVERT
-                )->setActionEntity(
-                    $order
-                )->updateRewardPoints();
+                $this->_storeManager->getStore($order->getStoreId())->getWebsiteId()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_REVERT
+            )->setPointsDelta(
+                $order->getRewardPointsBalance()
+            )->setActionEntity(
+                $order
+            )->updateRewardPoints();
         }
-
         return $this;
     }
 }

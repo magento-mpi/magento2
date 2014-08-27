@@ -98,6 +98,8 @@ class QuoteManager
 
     /**
      * Expire persistent quote
+     *
+     * @return void
      */
     public function expire()
     {
@@ -122,4 +124,4 @@ class QuoteManager
     {
         return $this->_setQuotePersistent;
     }
-} 
+}

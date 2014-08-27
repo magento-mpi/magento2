@@ -77,4 +77,4 @@ class SetLoadPersistentQuote
             $this->_checkoutSession->setLoadInactive();
         }
     }
-} 
+}

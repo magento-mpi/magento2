@@ -22,4 +22,4 @@ class QuoteCollectTotalsBefore
         $quote->setRewardPointsTotalReseted(false);
         return $this;
     }
-} 
+}

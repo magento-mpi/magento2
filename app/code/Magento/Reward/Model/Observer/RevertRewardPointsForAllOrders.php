@@ -39,4 +39,4 @@ class RevertRewardPointsForAllOrders
 
         return $this;
     }
-} 
+}

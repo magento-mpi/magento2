@@ -27,6 +27,9 @@ class CartProvider
 
     /**
      * Returns cart model for backend
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return $this
      */
     public function get(\Magento\Framework\Event\Observer $observer)
     {
@@ -46,4 +49,4 @@ class CartProvider
             (int)$storeId
         );
     }
-} 
+}

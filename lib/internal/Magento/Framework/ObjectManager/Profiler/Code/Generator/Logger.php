@@ -38,7 +38,7 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'Object Manager factory log',
                     'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento\ObjectManager\Factory\Log')
+                        array('name' => 'var', 'description' => '\Magento\Framework\ObjectManager\Factory\Log')
                     )
                 ),
             ),
@@ -48,7 +48,7 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'Object Manager instance',
                     'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento\ObjectManager')
+                        array('name' => 'var', 'description' => '\Magento\Framework\ObjectManager')
                     )
                 ),
             ),
@@ -208,8 +208,8 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
             $resultClassName = $this->_getResultClassName();
 
             if ($resultClassName !== $sourceClassName . '\\Logger') {
-                $this->_addError('Invalid Logger class name ['
-                    . $resultClassName . ']. Use ' . $sourceClassName . '\\Logger'
+                $this->_addError(
+                    'Invalid Logger class name [' . $resultClassName . ']. Use ' . $sourceClassName . '\\Logger'
                 );
                 $result = false;
             }

@@ -10,14 +10,30 @@ namespace Magento\Framework\ObjectManager\Profiler\Tree;
 
 class Item
 {
+    /**
+     * @var string
+     */
     protected $class;
 
+    /**
+     * @var Item|null
+     */
     protected $parent = null;
 
+    /**
+     * @var string
+     */
     protected $hash = null;
 
+    /**
+     * @var array
+     */
     protected $children = array();
 
+    /**
+     * @param $class
+     * @param Item $parent
+     */
     public function __construct($class, Item $parent = null)
     {
         $this->class = $class;
@@ -29,6 +45,8 @@ class Item
     }
 
     /**
+     * Retrieve class
+     *
      * @return string
      */
     public function getClass()
@@ -37,7 +55,10 @@ class Item
     }
 
     /**
+     * Add child
+     *
      * @param Item $item
+     * @return void
      */
     public function addChild(Item $item)
     {
@@ -45,6 +66,8 @@ class Item
     }
 
     /**
+     * Retrieve list of children
+     *
      * @return array[Item]
      */
     public function getChildren()
@@ -53,6 +76,8 @@ class Item
     }
 
     /**
+     * Retrieve parent
+     *
      * @return Item|null
      */
     public function getParent()
@@ -61,7 +86,10 @@ class Item
     }
 
     /**
+     * Set hash
+     *
      * @param string $hash
+     * @return void
      */
     public function setHash($hash)
     {
@@ -69,6 +97,8 @@ class Item
     }
 
     /**
+     * Retrieve hash
+     *
      * @return string
      */
     public function getHash()

@@ -45,4 +45,4 @@ class ApplyBlockPersistentData
         $observer->getEvent()->setConfigFilePath($this->_ePersistentData->getPersistentConfigFilePath());
         return $this->_observer->execute($observer);
     }
-} 
+}

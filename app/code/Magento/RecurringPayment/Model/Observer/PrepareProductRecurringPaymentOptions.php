@@ -97,4 +97,4 @@ class PrepareProductRecurringPaymentOptions
         }
         $product->addCustomOption('additional_options', serialize($infoOptions));
     }
-} 
+}

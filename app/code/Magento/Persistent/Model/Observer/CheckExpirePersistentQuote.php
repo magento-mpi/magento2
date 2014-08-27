@@ -65,7 +65,7 @@ class CheckExpirePersistentQuote
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession
-     ) {
+    ) {
         $this->_persistentSession = $persistentSession;
         $this->quoteManager = $quoteManager;
         $this->_customerSession = $customerSession;
@@ -98,4 +98,4 @@ class CheckExpirePersistentQuote
             $this->_customerSession->setCustomerId(null)->setCustomerGroupId(null);
         }
     }
-} 
+}

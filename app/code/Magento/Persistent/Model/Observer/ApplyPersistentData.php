@@ -64,9 +64,9 @@ class ApplyPersistentData
      */
     public function execute($observer)
     {
-        if (!$this->_persistentData->canProcess(
-                $observer
-            ) || !$this->_persistentSession->isPersistent() || $this->_customerSession->isLoggedIn()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentSession->isPersistent()
+            || $this->_customerSession->isLoggedIn()
         ) {
             return $this;
         }

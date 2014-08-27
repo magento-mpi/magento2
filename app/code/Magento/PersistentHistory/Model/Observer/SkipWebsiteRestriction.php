@@ -22,12 +22,10 @@ class SkipWebsiteRestriction
     /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      */
-    public function __construct(
-        \Magento\Persistent\Helper\Session $persistentSession
-    ) {
+    public function __construct(\Magento\Persistent\Helper\Session $persistentSession)
+    {
         $this->_persistentSession = $persistentSession;
     }
-
 
     /**
      * Skip website restriction and allow access for persistent customers
@@ -42,4 +40,4 @@ class SkipWebsiteRestriction
             $result->setCustomerLoggedIn(true);
         }
     }
-} 
+}

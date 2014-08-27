@@ -11,13 +11,6 @@ namespace Magento\Persistent\Model\Observer;
 class ApplyBlockPersistentData
 {
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * Persistent config factory
      *
      * @var \Magento\Persistent\Model\Persistent\ConfigFactory
@@ -25,11 +18,11 @@ class ApplyBlockPersistentData
     protected $_persistentConfigFactory;
 
     /**
-     * Persistent session
+     * Customer session
      *
-     * @var \Magento\Persistent\Helper\Session
+     * @var \Magento\Customer\Model\Session
      */
-    protected $_persistentSession = null;
+    protected $_customerSession;
 
     /**
      * Persistent data
@@ -37,6 +30,13 @@ class ApplyBlockPersistentData
      * @var \Magento\Persistent\Helper\Data
      */
     protected $_persistentData = null;
+
+    /**
+     * Persistent session
+     *
+     * @var \Magento\Persistent\Helper\Session
+     */
+    protected $_persistentSession = null;
 
     /**
      * @param \Magento\Persistent\Helper\Session $persistentSession

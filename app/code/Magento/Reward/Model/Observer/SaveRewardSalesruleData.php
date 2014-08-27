@@ -54,4 +54,4 @@ class SaveRewardSalesruleData
         );
         return $this;
     }
-} 
+}

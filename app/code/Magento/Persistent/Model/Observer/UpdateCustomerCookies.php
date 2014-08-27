@@ -36,7 +36,7 @@ class UpdateCustomerCookies
         $this->_customerAccountService = $customerAccountService;
     }
 
-        /**
+    /**
      * Update customer id and customer group id if user is in persistent session
      *
      * @param \Magento\Framework\Event\Observer $observer
@@ -57,4 +57,4 @@ class UpdateCustomerCookies
             $customerCookies->setCustomerGroupId($persistentCustomer->getGroupId());
         }
     }
-} 
+}

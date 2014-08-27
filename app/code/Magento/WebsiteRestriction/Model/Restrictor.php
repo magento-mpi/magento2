@@ -67,9 +67,10 @@ class Restrictor
     /**
      * Restrict access to website
      *
-     * @param $request
-     * @param $response
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\ResponseInterface $response
      * @param bool $isCustomerLoggedIn
+     * @return void
      */
     public function restrict($request, $response, $isCustomerLoggedIn)
     {
@@ -80,12 +81,12 @@ class Restrictor
                     $request->setModuleName(
                         'restriction'
                     )->setControllerName(
-                            'index'
-                        )->setActionName(
-                            'stub'
-                        )->setDispatched(
-                            false
-                        );
+                        'index'
+                    )->setActionName(
+                        'stub'
+                    )->setDispatched(
+                        false
+                    );
                     return;
                 }
                 $httpStatus = $this->_config->getHTTPStatusCode();
@@ -114,12 +115,9 @@ class Restrictor
                         $allowedActionNames[] = $cmsPageViewAction;
                         $pageIdentifier = $this->_config->getLandingPageCode();
                         // Restrict access to CMS pages too
-                        if (!in_array(
-                                $request->getFullActionName(),
-                                $allowedActionNames
-                            ) || $request->getFullActionName() === $cmsPageViewAction && $request->getAlias(
-                                'rewrite_request_path'
-                            ) !== $pageIdentifier
+                        if (!in_array($request->getFullActionName(), $allowedActionNames)
+                            || $request->getFullActionName() === $cmsPageViewAction
+                            && $request->getAlias('rewrite_request_path') !== $pageIdentifier
                         ) {
                             $redirectUrl = $this->_url->getUrl('', array('_direct' => $pageIdentifier));
                         }
@@ -132,11 +130,11 @@ class Restrictor
                         $response->setRedirect($redirectUrl);
                         $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
-                    if ($this->_scopeConfig->isSetFlag(
+                    $redirectToDashboard = $this->_scopeConfig->isSetFlag(
                         \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                    )
-                    ) {
+                    );
+                    if ($redirectToDashboard) {
                         $afterLoginUrl = $this->_customerHelper->getDashboardUrl();
                     } else {
                         $afterLoginUrl = $this->_url->getUrl();

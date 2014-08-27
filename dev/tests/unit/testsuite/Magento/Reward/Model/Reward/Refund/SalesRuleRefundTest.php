@@ -57,6 +57,9 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testRefund()
     {
         $websiteId = 2;
@@ -185,4 +188,3 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
         $this->subject->refund($creditmemoMock);
     }
 }
- 

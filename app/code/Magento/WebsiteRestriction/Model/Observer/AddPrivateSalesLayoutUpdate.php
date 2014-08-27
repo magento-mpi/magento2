@@ -43,4 +43,4 @@ class AddPrivateSalesLayoutUpdate
             $observer->getEvent()->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
         }
     }
-} 
+}
