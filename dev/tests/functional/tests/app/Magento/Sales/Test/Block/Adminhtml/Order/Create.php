@@ -77,6 +77,13 @@ class Create extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Gift Wrapping design block locator
+     *
+     * @var string
+     */
+    protected $giftWrappingDesignBlock = '#giftwrapping_design';
+
+    /**
      * Getter for order selected products grid
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
@@ -233,5 +240,17 @@ class Create extends Block
     public function submitOrder()
     {
         $this->getTotalsBlock()->submitOrder();
+    }
+
+    /**
+     * Check if Gift Wrapping design is available on order creation page
+     *
+     * @param string $giftWrappingDesign
+     * @return bool
+     */
+    public function isGiftWrappingAvailable($giftWrappingDesign)
+    {
+        $giftWrappings = $this->_rootElement->find($this->giftWrappingDesignBlock)->getText();
+        return strpos($giftWrappings, $giftWrappingDesign);
     }
 }
