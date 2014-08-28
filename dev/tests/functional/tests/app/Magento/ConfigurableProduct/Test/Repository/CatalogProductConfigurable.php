@@ -41,6 +41,7 @@ class CatalogProductConfigurable extends AbstractRepository
             ],
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
+            'checkout_data' => ['preset' => 'two_options']
         ];
 
         $this->_data['default_one_variation'] = [

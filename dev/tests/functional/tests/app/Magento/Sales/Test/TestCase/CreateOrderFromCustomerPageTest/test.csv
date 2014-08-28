@@ -1,0 +1,3 @@
+"order/data/entity_id/preset";"order/data/entity_id/products";"constraint"
+"default";"catalogProductSimple::default";"assertProductInItemsOrderedGrid"
+"default_configurable";"catalogProductConfigurable::default";"assertProductInItemsOrderedGrid"

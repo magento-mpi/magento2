@@ -42,7 +42,10 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
             'Yes' => 1,
             'No' => 0,
         ],
-
+        'is_configurable' => [
+            'Yes' => 1,
+            'No' => 0
+        ]
     ];
 
     /**

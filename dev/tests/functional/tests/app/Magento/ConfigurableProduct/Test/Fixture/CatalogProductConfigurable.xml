@@ -438,6 +438,13 @@
             <default_value>Main Website</default_value>
             <group>websites</group>
         </website_ids>
+        <checkout_data>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>0</is_required>
+            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\CheckoutData</source>
+            <group>null</group>
+        </checkout_data>
     </fields>
     <data_set>
         <sku></sku>

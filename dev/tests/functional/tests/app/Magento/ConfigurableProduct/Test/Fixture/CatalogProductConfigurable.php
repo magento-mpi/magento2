@@ -579,6 +579,19 @@ class CatalogProductConfigurable extends InjectableFixture
         'group' => 'websites',
     ];
 
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\CheckoutData',
+        'group' => null
+    ];
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
+    }
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
