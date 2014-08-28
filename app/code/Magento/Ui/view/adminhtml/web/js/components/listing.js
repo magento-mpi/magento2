@@ -1,100 +1,107 @@
 define([
-  'Magento_Ui/js/framework/ko/scope',
-  'Magento_Ui/js/framework/rest/client',
-  'Magento_Ui/js/framework/rest/adapter/local',
-  'Magento_Ui/js/framework/mixin/resourceful'
-], function (Scope, RestClient, LocalAdapter, Resourceful) {
+    'Magento_Ui/js/framework/ko/scope',
+    'Magento_Ui/js/framework/rest/client',
+    'Magento_Ui/js/framework/rest/adapter/local',
+    'Magento_Ui/js/framework/mixin/resourceful',
+    '_'
+], function(Scope, RestClient, LocalAdapter, Resourceful, _) {
 
-  var ID_ATTRIBUTE = 'id';
-  var DEFAULT_VIEW = 'grid';
+    var ID_ATTRIBUTE = 'id';
+    var DEFAULT_VIEW = 'grid';
 
-  return Scope.extend({
+    return Scope.extend({
 
-    mixins: [ Resourceful ],
+        mixins: [Resourceful],
 
-    initialize: function (initial, config) {
-      this
-        .defArray('rows', initial.rows)
-        .defArray('fields', initial.fields)
-        .defArray('checkedIds')
-        .def('currentAction')
-        .def('view', DEFAULT_VIEW);
+        initialize: function(initial, config) {
+            this
+                .defArray('rows', initial.rows)
+                .defArray('fields', initial.fields)
+                .defArray('checkedIds')
+                .def('currentAction')
+                .def('view', DEFAULT_VIEW);
 
-      var adapter = new LocalAdapter(config.resource);
-      this.client = new RestClient(adapter);
-    },
+            this.params = {};
 
-    remove: function () {
-      var idsToRemove = this.checkedIds();
+            var adapter = new LocalAdapter(config.resource);
+            this.client = new RestClient(adapter);
+        },
 
-      this.lock();
-      this.client.remove(idsToRemove).done(function (removedIds) {
-        this.reload()._unselect(removedIds);
-      }.bind(this));
-    },
+        remove: function() {
+            var idsToRemove = this.checkedIds();
 
-    _unselectOne: function (id) {
-      var position = this.checkedIds.indexOf(id);
+            this.lock();
+            this.client.remove(idsToRemove).done(function(removedIds) {
+                this.reload()._unselect(removedIds);
+            }.bind(this));
+        },
 
-      if (position >= 0) {
-        this.checkedIds.splice(position, 1);
-      }
-    },
+        _unselectOne: function(id) {
+            var position = this.checkedIds.indexOf(id);
 
-    _unselect: function (ids) {
-      _.each(ids, this._unselectOne, this);
-    },
+            if (position >= 0) {
+                this.checkedIds.splice(position, 1);
+            }
+        },
 
-    _select: function (ids) {
-      this.checkedIds(ids || []);
-    },
+        _unselect: function(ids) {
+            _.each(ids, this._unselectOne, this);
+        },
 
-    select: function (rows) {
-      console.log(rows)
-      var toSelect = _.pluck(rows, ID_ATTRIBUTE);
-      this._select(toSelect);
-    },
+        _select: function(ids) {
+            this.checkedIds(ids || []);
+        },
 
-    selectAll: function () {
-      this.client.read(null).done(this.select.bind(this));
-    },
+        select: function(rows) {
+            console.log(rows)
+            var toSelect = _.pluck(rows, ID_ATTRIBUTE);
+            this._select(toSelect);
+        },
 
-    unselectAll: function () {
-      this._select([]);
-    },
+        selectAll: function() {
+            this.client.read(null).done(this.select.bind(this));
+        },
 
-    unselectVisible: function () {
-      return this.unselectAll();
-    },
-    
-    selectVisible: function () {
-      this.select(this.rows());
-    },
+        unselectAll: function() {
+            this._select([]);
+        },
 
-    reload: function () {
-      this.lock().client.read(null).done(function (rows) {
-        this.unlock().rows(rows);
-      }.bind(this));
+        unselectVisible: function() {
+            return this.unselectAll();
+        },
 
-      return this;
-    },
+        selectVisible: function() {
+            this.select(this.rows());
+        },
 
-    getCheckedQuantity: function () {
-      return this.checkedIds().length;
-    },
+        reload: function() {
+            this.lock().client.read(null).done(function(rows) {
+                this.unlock().rows(rows);
+            }.bind(this));
 
-    isEmpty: function () {
-      return !this.rows().length;
-    },
+            return this;
+        },
 
-    getViewTemplate: function () {
-      return 'Magento_Ui.templates.listing.' + this.view();
-    },
+        getCheckedQuantity: function() {
+            return this.checkedIds().length;
+        },
 
-    setViewTo: function (type) {
-      return function () {
-        this.view(type);  
-      }
-    }
-  });
+        isEmpty: function() {
+            return !this.rows().length;
+        },
+
+        getViewTemplate: function() {
+            return 'Magento_Ui.templates.listing.' + this.view();
+        },
+
+        setViewTo: function(type) {
+            return function() {
+                this.view(type);
+            }
+        },
+
+        setParams: function(params) {
+            _.extend(this.params, params);
+        }
+    });
 });
