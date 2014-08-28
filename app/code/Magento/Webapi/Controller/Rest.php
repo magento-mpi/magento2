@@ -10,9 +10,7 @@ namespace Magento\Webapi\Controller;
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractSimpleObject;
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
-use Magento\Framework\Service\DataObjectConverter;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Response\PartialResponseProcessor;
@@ -82,7 +80,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected $userContext;
 
     /**
-     * @var DataObjectConverter $dataObjectConverter
+     * @var SimpleDataObjectConverter $dataObjectConverter
      */
     protected $dataObjectConverter;
 
@@ -101,7 +99,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Framework\App\AreaList $areaList
      * @param PartialResponseProcessor $partialResponseProcessor
      * @param UserContextInterface $userContext
-     * @param DataObjectConverter $dataObjectConverter
+     * @param SimpleDataObjectConverter $dataObjectConverter
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -119,7 +117,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\App\AreaList $areaList,
         PartialResponseProcessor $partialResponseProcessor,
         UserContextInterface $userContext,
-        DataObjectConverter $dataObjectConverter
+        SimpleDataObjectConverter $dataObjectConverter
     ) {
         $this->_router = $router;
         $this->_request = $request;

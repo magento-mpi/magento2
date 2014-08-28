@@ -11,8 +11,8 @@ namespace Magento\Webapi\Controller;
 
 use Magento\Framework\ObjectManager;
 use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
-use Magento\Framework\Service\Data\Eav\AttributeValue;
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;

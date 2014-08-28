@@ -8,12 +8,10 @@
 
 namespace Magento\Framework\Service\Data;
 
-use Magento\Framework\Service\Data\Eav\MetadataObjectInterface;
-
 /**
  * Base data object for custom attribute metadata
  */
-class AttributeMetadata extends AbstractObject implements MetadataObjectInterface
+class AttributeMetadata extends AbstractSimpleObject implements MetadataObjectInterface
 {
     const ATTRIBUTE_CODE = 'attribute_code';
 

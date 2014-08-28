@@ -11,8 +11,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-use Magento\Framework\Service\DataObjectConverter;
-use Magento\Framework\Service\EavDataObjectConverter;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -33,7 +32,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
     protected $_soapService = 'testModule1AllSoapAndRest';
 
     /**
-     * @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder
+     * @var \Magento\Framework\Service\Data\AttributeValueBuilder
      */
     protected $valueBuilder;
 
@@ -53,7 +52,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
     protected $customAttributeDataObjectBuilder;
 
     /**
-     * @var DataObjectConverter $dataObjectConverter
+     * @var SimpleDataObjectConverter $dataObjectConverter
      */
     protected $dataObjectConverter;
 
@@ -71,7 +70,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
 
         $this->valueBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\Data\Eav\AttributeValueBuilder'
+            'Magento\Framework\Service\Data\AttributeValueBuilder'
         );
 
         $this->itemBuilder = Bootstrap::getObjectManager()->create(
@@ -87,7 +86,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         );
 
         $this->dataObjectConverter = Bootstrap::getObjectManager()->create(
-          'Magento\Framework\Service\DataObjectConverter'
+          'Magento\Framework\Service\SimpleDataObjectConverter'
         );
     }
 
@@ -199,4 +198,4 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         $this->assertEquals($expectedResponse, $result);
     }
 
-} 
+}
