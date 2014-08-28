@@ -158,7 +158,9 @@ class AbstractCart extends \Magento\Framework\View\Element\Template
      */
     public function canApplyMsrp()
     {
-        if (!$this->getQuote()->hasCanApplyMsrp() && $this->_catalogData->isMsrpEnabled()) {
+        /** @var \Magento\Msrp\Model\Config $msrpConfig */
+        $msrpConfig = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Msrp\Model\Config');
+        if (!$this->getQuote()->hasCanApplyMsrp() && $msrpConfig->isEnabled()) {
             $this->getQuote()->collectTotals();
         }
         return $this->getQuote()->getCanApplyMsrp();

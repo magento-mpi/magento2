@@ -12,16 +12,13 @@ namespace Magento\Msrp\Model;
  */
 class Observer
 {
-    /**
-     * @var \Magento\Msrp\Model\Config
-     */
+    /** @var Config */
     protected $config;
 
     /**
      * @param Config $config
      */
-    public function __construct(\Magento\Msrp\Model\Config $config)
-    {
+    public function __construct(Config $config) {
         $this->config = $config;
     }
 
