@@ -11,9 +11,9 @@ namespace Magento\UrlRewrite\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class UrlrewriteEdit
+ * Class UrlRewriteEdit
  */
-class UrlrewriteEdit extends BackendPage
+class UrlRewriteEdit extends BackendPage
 {
     const MCA = 'admin/url_rewrite/edit';
 
@@ -51,7 +51,7 @@ class UrlrewriteEdit extends BackendPage
         'urlRewriteTypeSelectorBlock' => [
             'name' => 'urlRewriteTypeSelectorBlock',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Selector',
-            'locator' => '[data-ui-id="urlrewrite-type-selector"]',
+            'locator' => '[data-container-for=entity-type-selector]',
             'strategy' => 'css selector',
         ],
         'cmsGridBlock' => [

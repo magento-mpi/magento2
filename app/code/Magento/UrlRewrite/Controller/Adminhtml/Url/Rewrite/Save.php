@@ -193,8 +193,6 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     }
 
     /**
-     * Urlrewrite save action
-     *
      * @return void
      */
     public function execute()
@@ -226,10 +224,10 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                 return;
             } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $session->setUrlrewriteData($data);
+                $session->setUrlRewriteData($data);
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('An error occurred while saving URL Rewrite.'));
-                $session->setUrlrewriteData($data);
+                $session->setUrlRewriteData($data);
             }
         }
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));

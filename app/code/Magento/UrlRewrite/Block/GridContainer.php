@@ -7,9 +7,6 @@
  */
 namespace Magento\UrlRewrite\Block;
 
-/**
- * Block for Urlrewrites grid container
- */
 class GridContainer extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**

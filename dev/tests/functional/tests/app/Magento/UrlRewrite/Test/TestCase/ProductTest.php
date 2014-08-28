@@ -13,7 +13,7 @@ use Mtf\TestCase\Functional;
 use Magento\UrlRewrite\Test\Fixture\UrlRewriteProduct;
 
 /**
- * Class UrlrewriteTest
+ * Class UrlRewriteTest
  * Product URL rewrite creation test
  */
 class ProductTest extends Functional
@@ -31,9 +31,9 @@ class ProductTest extends Functional
         $urlRewriteProduct->switchData('product_with_temporary_redirect');
 
         //Pages & Blocks
-        $urlRewriteGridPage = Factory::getPageFactory()->getAdminUrlrewriteIndex();
+        $urlRewriteGridPage = Factory::getPageFactory()->getAdminUrlRewriteIndex();
         $pageActionsBlock = $urlRewriteGridPage->getPageActionsBlock();
-        $urlRewriteEditPage = Factory::getPageFactory()->getAdminUrlrewriteEdit();
+        $urlRewriteEditPage = Factory::getPageFactory()->getAdminUrlRewriteEdit();
         $categoryTreeBlock = $urlRewriteEditPage->getTreeBlock();
         $productGridBlock = $urlRewriteEditPage->getProductGridBlock();
         $typeSelectorBlock = $urlRewriteEditPage->getUrlRewriteTypeSelectorBlock();

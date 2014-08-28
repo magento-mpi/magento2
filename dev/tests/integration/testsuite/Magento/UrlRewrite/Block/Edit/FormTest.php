@@ -80,7 +80,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Backend\Model\Session'
-        )->setUrlrewriteData(
+        )->setUrlRewriteData(
             $sessionValues
         );
         // Re-init form to use newly set session data

@@ -10,7 +10,7 @@ namespace Magento\Backend\Controller\Adminhtml;
 /**
  * @magentoAppArea adminhtml
  */
-class UrlrewriteTest extends \Magento\Backend\Utility\Controller
+class UrlRewriteTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Check save cms page rewrite

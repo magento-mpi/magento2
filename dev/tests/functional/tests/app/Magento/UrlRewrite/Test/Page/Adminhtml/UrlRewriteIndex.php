@@ -13,7 +13,7 @@ use Mtf\Page\BackendPage;
 /**
  * Class UrlRewriteIndex
  */
-class UrlrewriteIndex extends BackendPage
+class UrlRewriteIndex extends BackendPage
 {
     const MCA = 'admin/url_rewrite/index';
 
