@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Eav\Model\Entity\Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
 $productTypes = [

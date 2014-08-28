@@ -28,19 +28,27 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     protected $msrpData;
 
     /**
+     * @var \Magento\Msrp\Model\Config
+     */
+    protected $config;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param \Magento\Msrp\Helper\Data $msrpData
+     * @param \Magento\Msrp\Model\Config $config
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
-        \Magento\Msrp\Helper\Data $msrpData
+        \Magento\Msrp\Helper\Data $msrpData,
+        \Magento\Msrp\Model\Config $config
     ) {
         parent::__construct($saleableItem, $quantity, $calculator);
         $this->msrpData = $msrpData;
+        $this->config = $config;
     }
 
     /**
@@ -70,7 +78,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
      */
     public function isMsrpEnabled()
     {
-        return $this->msrpData->isMsrpEnabled();
+        return $this->config->isEnabled();
     }
 
     /**

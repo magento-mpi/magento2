@@ -11,11 +11,8 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Msrp\Model\Product\Attribute\Source\Type;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Escaper;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Catalog\Model\Resource\Eav\AttributeFactory;
 use Magento\Catalog\Model\ProductFactory;
-use Magento\Store\Model\ScopeInterface;
 use Magento\Catalog\Model\Product;
 
 /**
@@ -23,24 +20,6 @@ use Magento\Catalog\Model\Product;
  */
 class Data extends AbstractHelper
 {
-    /**
-     * Minimum advertise price constants
-     */
-    const XML_PATH_MSRP_ENABLED = 'sales/msrp/enabled';
-    const XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE = 'sales/msrp/display_price_type';
-    const XML_PATH_MSRP_EXPLANATION_MESSAGE = 'sales/msrp/explanation_message';
-    const XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS = 'sales/msrp/explanation_message_whats_this';
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $scopeConfig;
-
-    /**
-     * @var Escaper
-     */
-    protected $escaper;
-
     /**
      * @var ProductFactory
      */
@@ -51,79 +30,38 @@ class Data extends AbstractHelper
      */
     protected $storeManager;
 
-    protected $storeId;
-
     /**
      * @var ProductOptions
      */
     protected $productOptions;
 
     /**
+     * @var \Magento\Msrp\Model\Config
+     */
+    protected $config;
+
+    /**
      * @param Context $context
-     * @param ScopeConfigInterface $scopeConfig
-     * @param Escaper $escaper
      * @param ProductFactory $productFactory
      * @param StoreManagerInterface $storeManager
-     * @param AttributeFactory $eavAttributeFactory
      * @param \Magento\Msrp\Model\Product\Options $productOptions
      * @param \Magento\Msrp\Model\Msrp $msrp
+     * @param \Magento\Msrp\Model\Config $config
      */
     public function __construct(
         Context $context,
-        ScopeConfigInterface $scopeConfig,
-        Escaper $escaper,
         ProductFactory $productFactory,
         StoreManagerInterface $storeManager,
         \Magento\Msrp\Model\Product\Options $productOptions,
-        \Magento\Msrp\Model\Msrp $msrp
+        \Magento\Msrp\Model\Msrp $msrp,
+        \Magento\Msrp\Model\Config $config
     ) {
         parent::__construct($context);
-        $this->scopeConfig = $scopeConfig;
-        $this->escaper = $escaper;
         $this->productFactory = $productFactory;
         $this->storeManager = $storeManager;
         $this->productOptions = $productOptions;
         $this->msrp = $msrp;
-    }
-
-    /**
-     * Set a specified store ID value
-     *
-     * @param int $store
-     * @return $this
-     */
-    public function setStoreId($store)
-    {
-        $this->storeId = $store;
-        return $this;
-    }
-
-    /**
-     * Check if Minimum Advertised Price is enabled
-     *
-     * @return bool
-     */
-    public function isMsrpEnabled()
-    {
-        return (bool)$this->scopeConfig->getValue(
-            self::XML_PATH_MSRP_ENABLED,
-            ScopeInterface::SCOPE_STORE,
-            $this->storeId
-        );
-    }
-
-    /**
-     * Return Msrp display actual type
-     *
-     * @return null|string
-     */
-    public function getMsrpDisplayActualPriceType()
-    {
-        return $this->scopeConfig->getValue(
-            self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE,
-            ScopeInterface::SCOPE_STORE,
-            $this->storeId
-        );
+        $this->config = $config;
     }
 
     /**
@@ -136,7 +74,7 @@ class Data extends AbstractHelper
      */
     public function canApplyMsrp($product, $visibility = null)
     {
-        if (!$this->isMsrpEnabled()) {
+        if (!$this->config->isEnabled()) {
             return false;
         }
         if (is_numeric($product)) {
@@ -148,7 +86,7 @@ class Data extends AbstractHelper
         if ($result && $visibility !== null) {
             $productPriceVisibility = $product->getMsrpDisplayActualPriceType();
             if ($productPriceVisibility == Type\Price::TYPE_USE_CONFIG) {
-                $productPriceVisibility = $this->getMsrpDisplayActualPriceType();
+                $productPriceVisibility = $this->config->getDisplayActualPriceType();
             }
             $result = $productPriceVisibility == $visibility;
         }
