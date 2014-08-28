@@ -192,7 +192,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      * @param string $className
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function basicMock($className)
+    private function basicMock($className)
     {
         return $this->getMockBuilder($className)
             ->disableOriginalConstructor()
