@@ -38,4 +38,7 @@
     <assertWebsiteOnStoreForm module="Magento_Store">
         <severeness>low</severeness>
     </assertWebsiteOnStoreForm>
+    <assertWebsiteForm module="Magento_Store">
+        <severeness>low</severeness>
+    </assertWebsiteForm>
 </constraint>
