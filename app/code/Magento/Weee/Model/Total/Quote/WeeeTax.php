@@ -24,12 +24,23 @@ class WeeeTax extends Weee
     {
         \Magento\Sales\Model\Quote\Address\Total\AbstractTotal::collect($address);
         $this->store = $address->getQuote()->getStore();
-        if (!$this->weeeData->isEnabled($this->_store) || !$this->weeeData->isTaxable($this->_store)) {
+        if (!$this->weeeData->isEnabled($this->_store)) {
             return $this;
         }
 
         $items = $this->_getAddressItems($address);
         if (!count($items)) {
+            return $this;
+        }
+
+        //If Weee is not taxable, then the 'weee' collector has accumulated the non-taxable total values
+        if (!$this->weeeData->isTaxable($this->_store)) {
+            //Because Weee is not taxable:  Weee excluding tax == Weee including tax
+            $weeeTotal = $address->getWeeeTotalExclTax();
+            $weeeBaseTotal = $address->getWeeeBaseTotalExclTax();
+
+            //Add to appropriate 'subtotal' or 'weee' accumulators
+            $this->processTotalAmount($address, $weeeTotal, $weeeBaseTotal, $weeeTotal, $weeeBaseTotal);
             return $this;
         }
 
@@ -73,7 +84,6 @@ class WeeeTax extends Weee
                     $baseTotalValueInclTax += $baseValueInclTax;
                     $totalRowValueInclTax += $rowValueInclTax;
                     $baseTotalRowValueInclTax += $baseRowValueInclTax;
-
 
                     $totalValueExclTax += $valueExclTax;
                     $baseTotalValueExclTax += $baseValueExclTax;

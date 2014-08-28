@@ -48,6 +48,20 @@ class Weee extends CommonTaxCollector
     protected $weeeCodeToItemMap;
 
     /**
+     * Accumulates totals for Weee excluding tax
+     *
+     * @var int
+     */
+    protected $weeeTotalExclTax;
+
+    /**
+     * Accumulates totals for Weee base excluding tax
+     *
+     * @var int
+     */
+    protected $weeeBaseTotalExclTax;
+
+    /**
      * @param \Magento\Weee\Helper\Data $weeeData
      */
     public function __construct(
@@ -77,6 +91,8 @@ class Weee extends CommonTaxCollector
             return $this;
         }
 
+        $this->weeeTotalExclTax = 0;
+        $this->weeeBaseTotalExclTax = 0;
         foreach ($items as $item) {
             if ($item->getParentItemId()) {
                 continue;
@@ -92,8 +108,9 @@ class Weee extends CommonTaxCollector
                 $this->_process($address, $item);
             }
         }
-
         $address->setWeeeCodeToItemMap($this->weeeCodeToItemMap);
+        $address->setWeeeTotalExclTax($this->weeeTotalExclTax);
+        $address->setWeeeBaseTotalExclTax($this->weeeBaseTotalExclTax);
         return $this;
     }
 
@@ -143,7 +160,6 @@ class Weee extends CommonTaxCollector
             $baseTotalValueInclTax += $baseValueInclTax;
             $totalRowValueInclTax += $rowValueInclTax;
             $baseTotalRowValueInclTax += $baseRowValueInclTax;
-
 
             $totalValueExclTax += $valueExclTax;
             $baseTotalValueExclTax += $baseValueExclTax;
@@ -213,18 +229,15 @@ class Weee extends CommonTaxCollector
     protected function processTotalAmount($address, $rowValueExclTax, $baseRowValueExclTax, $rowValueInclTax, $baseRowValueInclTax)
     {
         if (!$this->weeeData->isTaxable($this->_store)) {
-            //otherwise, defer to weee_tax collector to update subtotal and tax
-            if ($this->weeeData->includeInSubtotal($this->_store)) {
-                $address->addTotalAmount('subtotal', $this->_store->roundPrice($rowValueExclTax));
-                $address->addBaseTotalAmount('subtotal', $this->_store->roundPrice($baseRowValueExclTax));
-            } else {
-                $address->addTotalAmount('weee', $rowValueExclTax);
-                $address->addBaseTotalAmount('weee', $baseRowValueExclTax);
-            }
+            //Accumulate the values.  Will be used later in the 'weee tax' collector
+            $this->weeeTotalExclTax += $this->_store->roundPrice($rowValueExclTax);
+            $this->weeeBaseTotalExclTax += $this->_store->roundPrice($baseRowValueExclTax);
         }
-        
-        //This value is used to calculate shipping cost, it will be overridden by tax collector
-        $address->setSubtotalInclTax($address->getSubtotalInclTax() + $this->_store->roundPrice($rowValueInclTax));
+
+        //This value is used to calculate shipping cost; it will be overridden by tax collector
+        $address->setSubtotalInclTax(
+            $address->getSubtotalInclTax() + $this->_store->roundPrice($rowValueInclTax)
+        );
         $address->setBaseSubtotalInclTax(
             $address->getBaseSubtotalInclTax() + $this->_store->roundPrice($baseRowValueInclTax)
         );
