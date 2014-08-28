@@ -46,20 +46,6 @@ class Tax extends CommonTaxCollector
     protected $_config;
 
     /**
-     * Tax calculation service, the collector will call the service which performs the actual calculation
-     *
-     * @var \Magento\Tax\Service\V1\TaxCalculationService
-     */
-    protected $taxCalculationService;
-
-    /**
-     * Builder to create QuoteDetails as input to tax calculation service
-     *
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
-     */
-    protected $quoteDetailsBuilder;
-
-    /**
      * Hidden taxes array
      *
      * @var array
