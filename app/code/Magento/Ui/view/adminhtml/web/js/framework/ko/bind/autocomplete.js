@@ -21,7 +21,10 @@ define([
             var source = options.source;
             if (ko.isObservable(source)) {
                 source.subscribe(function (newData) {
-                    autocomplete.setOptions({ 'lookup': newData });   
+                    autocomplete.setOptions({ 'lookup': newData });
+                    if (newData.length) {
+                        $(el).focus();                        
+                    }
                 });
             }
         }
@@ -32,8 +35,7 @@ define([
         var unwrapperAccessor = accessor();
 
         options.source = unwrapperAccessor.data;
-        options.lookup = ko.unwrap(options.source);
-
+        options.lookup = ko.utils.unwrapObservable(options.source);
         options.storage = unwrapperAccessor.writeTo;
 
         return options;

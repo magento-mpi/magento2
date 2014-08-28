@@ -7,8 +7,8 @@
   </div>
 </div>
 <div data-m2-init='{"Magento_Cms/js/filter/component": ""}' class="grid-actions">
-  <input type="text" data-bind="autocomplete: { data: suggestions, writeTo: query }">
-  <div data-bind="text: query().data"></div>
+  <input type="text" data-bind="autocomplete: { data: suggestions, writeTo: query }, value: rawQuery, valueUpdate: 'afterkeydown'">
+  <div data-bind="text: query().value"></div>
 </div>
 <div data-m2-init='{"Magento_Cms/js/massaction/component": ""}' class="massaction">
   <div class="entry-edit">

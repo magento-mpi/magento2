@@ -10,14 +10,16 @@ define([
     var DEFAULT_VIEW = 'grid';
 
     return Scope.extend({
+
+        mixins: [Resourceful],
+
         initialize: function(initial, config) {
-            this.observe({
+            this.observable({
                 rows:           initial.rows,
                 fields:         initial.fields,
                 checkedIds:     [],
                 currentAction:  '',
-                view:           DEFAULT_VIEW,
-                isLocked:       false
+                view:           DEFAULT_VIEW
             });
 
             this.params = {};
@@ -74,12 +76,15 @@ define([
         },
 
         reload: function() {
-            this.lock().client.read(null).done(function(rows) {
-                this.trigger('lisitng:reload');
+            this.lock().client.read(this.params).done(function(rows) {
                 this.unlock().rows(rows);
             }.bind(this));
 
             return this;
+        },
+
+        load: function (rows) {
+            this.rows(rows);
         },
 
         getCheckedQuantity: function() {
@@ -102,6 +107,8 @@ define([
 
         setParams: function(params) {
             _.extend(this.params, params);
+
+            return this;
         }
-    }, Resourceful);
+    });
 });

@@ -2,22 +2,11 @@ define([
     '_'
 ], function (_) {
 
-    var storage = {};
-
     var LocalBackend = function (resource) {
         this.name = resource;
         
-        if (storage[this.name]) {
-            this.storage = storage[this.name]
-        } else {
-            this.storage = [];
-            storage[this.name] = this.storage;
-        }
-    }
-
-    LocalBackend.getStorage = function () {
-        return storage;
-    }
+        this.storage = [];
+    };
 
     _.extend(LocalBackend.prototype, {
         constructor: LocalBackend,
@@ -28,12 +17,14 @@ define([
                 field, result;
 
             searchMethod = this[searchMethod] || noop;
-
+            
             return _.filter(collection, function (entry) {
                 for (field in entry) {
-                    result = searchMethod.call(this, query, field, entry);
-                    if (result) {
-                        return result;
+                    if (typeof entry[field] === type) {
+                        result = searchMethod.call(this, query, field, entry);
+                        if (result) {
+                            return result;
+                        }    
                     }
                 }
             }, this);
@@ -49,7 +40,7 @@ define([
         },
 
         _stringSearchByField: function (strQuery, field, entry) {
-            return entry[field].indexOf(query) !== -1;    
+            return entry[field].indexOf(strQuery) !== -1;    
         },
 
         _booleanSearchByField: function (boolQuery, field, entry) {
