@@ -23,7 +23,7 @@ class EavDataObjectConverter
      * @param AbstractObject $dataObject
      * @return array
      */
-    public static function toFlatArray(AbstractObject $dataObject)
+    public static function toFlatArray(AbstractObject $dataObject, $skipCustomAttributes = array())
     {
         $dataObjectArray = $dataObject->__toArray();
         //process custom attributes if present
@@ -32,8 +32,10 @@ class EavDataObjectConverter
             $customAttributes = $dataObjectArray[AbstractObject::CUSTOM_ATTRIBUTES_KEY];
             unset ($dataObjectArray[AbstractObject::CUSTOM_ATTRIBUTES_KEY]);
             foreach ($customAttributes as $attributeValue) {
-                $dataObjectArray[$attributeValue[AttributeValue::ATTRIBUTE_CODE]]
-                    = $attributeValue[AttributeValue::VALUE];
+                if (!in_array($attributeValue[AttributeValue::ATTRIBUTE_CODE], $skipCustomAttributes)) {
+                    $dataObjectArray[$attributeValue[AttributeValue::ATTRIBUTE_CODE]]
+                        = $attributeValue[AttributeValue::VALUE];
+                }
             }
         }
         return ConvertArray::toFlatArray($dataObjectArray);

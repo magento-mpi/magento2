@@ -117,7 +117,7 @@ class ProductService implements ProductServiceInterface
     public function create(\Magento\Catalog\Service\V1\Data\Product $product)
     {
         try {
-            $productModel = $this->productMapper->toModel($product);
+            $productModel = $this->productMapper->toModel($product, null, array('bundle_product_options'));
             $this->initializationHelper->initialize($productModel);
             $this->productSaveProcessor->create($productModel, $product);
             $productModel->validate();
@@ -143,7 +143,7 @@ class ProductService implements ProductServiceInterface
     {
         $productModel = $this->productLoader->load($id);
         try {
-            $this->productMapper->toModel($product, $productModel);
+            $this->productMapper->toModel($product, $productModel, array('bundle_product_options'));
             $this->initializationHelper->initialize($productModel);
             $this->productTypeManager->processProduct($productModel);
             $this->productSaveProcessor->update($id, $product);
