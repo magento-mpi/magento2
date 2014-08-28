@@ -239,7 +239,7 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
     }
 
     /**
-     * Returns get() method
+     * Returns find() method
      *
      * @return string
      */
@@ -252,6 +252,8 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
         . "        \$collection->addFieldToFilter(\$filter->getField(), [\$condition => \$filter->getValue()]);\n"
         . "    }\n"
         . "}\n"
+        . "\$collection->setCurPage(\$criteria->getCurrentPage());\n"
+        . "\$collection->setPageSize(\$criteria->getPageSize());\n"
         . "foreach (\$collection as \$object) {\n"
         . "    \$this->register(\$object);\n"
         . "}\n"
