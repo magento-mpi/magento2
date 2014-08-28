@@ -9,6 +9,7 @@ namespace Magento\Framework\Service;
 
 use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Service\Data\AbstractSimpleObject;
 
 class SimpleDataObjectConverter
 {
@@ -127,13 +128,13 @@ class SimpleDataObjectConverter
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if ($datum instanceof AbstractObject) {
+                if ($datum instanceof AbstractSimpleObject) {
                     $datum = $this->processDataObject($datum->__toArray());
                 }
                 $result[] = $datum;
             }
             return $result;
-        } else if ($data instanceof AbstractObject) {
+        } else if ($data instanceof AbstractSimpleObject) {
             return $this->processDataObject($data->__toArray());
         } else if (is_null($data)) {
             return [];
@@ -151,8 +152,10 @@ class SimpleDataObjectConverter
      */
     protected function processDataObject($dataObjectArray)
     {
-        if (isset($dataObjectArray[EavAbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
-            $dataObjectArray = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataObjectArray);
+        if (isset($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY])) {
+            $dataObjectArray = ExtensibleDataObjectConverter::convertCustomAttributesToSequentialArray(
+                $dataObjectArray
+            );
         }
         //Check for nested custom_attributes
         foreach ($dataObjectArray as $key => $value) {
