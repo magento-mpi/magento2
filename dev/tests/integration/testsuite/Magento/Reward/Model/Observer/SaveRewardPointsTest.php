@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reward\Model;
+namespace Magento\Reward\Model\Observer;
 
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
-class ObserverTest extends \PHPUnit_Framework_TestCase
+class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/import_export/customer.php
@@ -67,8 +67,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $eventObserver = new \Magento\Framework\Event\Observer(array('event' => $event));
 
         $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Reward\Model\Observer'
+            'Magento\Reward\Model\Observer\SaveRewardPoints'
         );
-        $rewardObserver->saveRewardPoints($eventObserver);
+        $rewardObserver->execute($eventObserver);
     }
 }
