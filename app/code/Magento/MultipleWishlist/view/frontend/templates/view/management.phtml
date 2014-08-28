@@ -10,47 +10,59 @@
 /* @var $this \Magento\MultipleWishlist\Block\Customer\Wishlist\Management */
 ?>
 <?php if ($this->getCurrentWishlist()): ?>
-    <?php if ($this->getCurrentWishlist()->getVisibility()): ?>
-        <div class="message notice msg-public"><div><?php echo __('This wishlist is publicly visible.'); ?></div></div>
-    <?php else: ?>
-        <div class="message notice msg-private"><div><?php echo __('This wishlist is private. Only you can view this wishlist.');?></div></div>
-    <?php endif; ?>
-    <div class="block wishlist management">
-        <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-            <button type="button" id="wishlist-create-button" data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo __('Create New Wish List') ?>" class="action add wishlist"><span><?php echo __('Create New Wish List') ?></span></button>
-        <?php endif;?>
-        <div class="title">
-            <strong>
-                <?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?>
-            </strong>
+    <div class="block-wishlist-management">
+
+        <div class="wishlist-select">
+            <span class="wishlist-name" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#wishlists-select", "selectorsToggleClass": "active"}}' >
+                <span class="wishlist-name-label"><?php echo __('Wish List');?></span>
+                <span class="wishlist-name-current">
+                    <?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?>
+                </span>
+            </span>
+            <ul class="wishlist-select-items" data-target="dropdown" id="wishlists-select">
+                <?php foreach($this->getWishlists() as $wishlist): ?>
+                    <?php if ($wishlist->getId() == $this->getCurrentWishlist()->getId()): ?>
+                        <li class="current item"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></a></li>
+                    <?php else: ?>
+                        <li class="item"><a title="<?php echo $this->escapeHtml($wishlist->getName());?>" href="<?php echo $this->getWishlistManagementUrl($wishlist);?>"><?php echo $this->escapeHtml($wishlist->getName());?></a></li>
+                    <?php endif; ?>
+
+                <?php endforeach;?>
+                <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
+                    <li class="item wishlist-add">
+                        <a href="#" id="wishlist-create-button" data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo __('Create New Wish List') ?>" class="action add wishlist"><span><?php echo __('Create New Wish List') ?></span></a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <div class="wishlist-title">
+            <strong><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?></strong>
             <a href="#" data-wishlist-edit='{"url":"<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>", "name":"<?php echo $this->escapeQuote($this->getCurrentWishlist()->getName(), true);?>", "isPublic":<?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>}' title="<?php echo __('Edit Wish List')?>" class="action edit">
                 <?php echo __('Edit')?>
             </a>
+        </div>
+
+        <div class="wishlist-info">
+            <?php if ($this->getCurrentWishlist()->getVisibility()): ?>
+                <div class="wishlist-notice public"><?php echo __('Public Wish List');?></div>
+            <?php else: ?>
+                <div class="wishlist-notice private"><?php echo __('Private Wish List');?></div>
+            <?php endif; ?>
             <span class="counter qty">
                 <?php echo $this->getItemCount($this->getCurrentWishlist());?>
             </span>
         </div>
-        <div class="content">
-            <div class="subtitle">
-                <span><?php echo __('Wish List:'); ?></span>
-                <div id="wishlists-select" class="actions dropdown wishlist">
-                    <span class="action toggle" data-toggle="dropdown"><span><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?></span></span>
-                    <ul class="items dropdown" data-target="dropdown">
-                        <?php foreach($this->getWishlists() as $wishlist): ?>
-                            <?php if ($wishlist->getId() != $this->getCurrentWishlist()->getId()): ?>
-                                <li class="item"><a title="<?php echo $this->escapeHtml($wishlist->getName());?>" href="<?php echo $this->getWishlistManagementUrl($wishlist);?>"><?php echo $this->escapeHtml($wishlist->getName());?></a></li>
-                            <?php endif; ?>
-                        <?php endforeach;?>
-                        <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                            <li class="item"><span class="action new" data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo __('Create New Wish List')?>"><span><?php echo __('Create New Wish List')?></span></span></li>
-                        <?php endif;?>
-                    </ul>
-                </div>
+
+        <?php if($this->getCurrentWishlist()->getItemsCount()): ?>
+        <div class="wishlist-toolbar">
+            <div class="wishlist-toolbar-select">
+                <input type="checkbox" name="" id="wishlist-select-all" data-role="select-all" />
+                <label class="label" for="wishlist-select-all"><?php echo __('Select all');?></label>
             </div>
-            <?php if($this->getCurrentWishlist()->getItemsCount()): ?>
-            <div class="toolbar-wishlist">
-                <div id="wishlists-move" class="actions move wishlist dropdown" data-wishlist-move='{"moveSelectedUrl":"<?php echo $this->getMoveSelectedUrl();?>", "moveItemUrl":"<?php echo $this->getMoveItemUrl();?>"}'>
-                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move to Wish List');?></span></span>
+            <div class="wishlist-toolbar-actions">
+                <div id="wishlists-move" class="wishlist-dropdown move" data-wishlist-move='{"moveSelectedUrl":"<?php echo $this->getMoveSelectedUrl();?>", "moveItemUrl":"<?php echo $this->getMoveItemUrl();?>"}'>
+                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move Selected to Wish List');?></span></span>
                     <ul class="items dropdown" data-target="dropdown">
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>
@@ -58,12 +70,12 @@
                             <?php endif; ?>
                         <?php endforeach;?>
                         <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                            <li class="item"><span class="action new" data-wishlist-move-selected='{"new":true}' title="<?php echo __('Create New Wish List')?>" ><span><?php echo __('Create New Wish List')?></span></span></li>
+                            <li class="item"><span class="action new" data-wishlist-move-selected='{"new":true}' title="<?php echo __('Create New Wish List');?>" ><span><?php echo __('Create New Wish List');?></span></span></li>
                         <?php endif;?>
                     </ul>
                 </div>
-                <div id="wishlists-copy" class="actions copy wishlist dropdown" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
-                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-copy-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Copy to Wish List');?></span></span>
+                <div id="wishlists-copy" class="wishlist-dropdown copy" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
+                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-copy-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Copy Selected to Wish List');?></span></span>
                     <ul class="items dropdown" data-target="dropdown">
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>
@@ -76,7 +88,19 @@
                     </ul>
                 </div>
             </div>
-            <?php endif;?>
         </div>
+        <?php endif;?>
     </div>
 <?php endif; ?>
+
+<script type="text/javascript">
+require([
+    "jquery"
+], function($){
+   $('[data-role="select-all"]').change(function(e){
+        var selectAll = $(this);
+        $('[data-role="select-product"]','.products-grid.wishlist').filter(':enabled')
+            .prop('checked', selectAll.prop('checked'));
+   });
+});
+</script>

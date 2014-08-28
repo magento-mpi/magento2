@@ -44,4 +44,13 @@
     <assertStoreViewNotOnFrontend module="Magento_Store">
         <severeness>low</severeness>
     </assertStoreViewNotOnFrontend>
+    <assertWebsiteSuccessSaveMessage module="Magento_Store">
+        <severeness>low</severeness>
+    </assertWebsiteSuccessSaveMessage>
+    <assertWebsiteInGrid module="Magento_Store">
+        <severeness>low</severeness>
+    </assertWebsiteInGrid>
+    <assertWebsiteOnStoreForm module="Magento_Store">
+        <severeness>low</severeness>
+    </assertWebsiteOnStoreForm>
 </constraint>

@@ -23,6 +23,7 @@ use Mtf\Fixture\InjectableFixture;
  * Is used to represent any form with tabs on the page
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class FormTabs extends Form
 {
