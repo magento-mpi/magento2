@@ -31,6 +31,16 @@ class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
      */
     private $address;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote
+     */
+    private $quote;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store
+     */
+    private $store;
+
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
@@ -40,10 +50,28 @@ class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getShippingTaxClass', 'shippingPriceIncludesTax'])
             ->getMock();
 
-        $this->address = $this->getMockBuilder('\Magento\Sales\Model\Quote\Address')
+        $this->store = $this->getMockBuilder('\Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup'])
             ->getMock();
+
+        $this->quote = $this->getMockBuilder('\Magento\Sales\Model\Quote')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'getStore'])
+            ->getMock();
+
+        $this->quote->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->store));
+
+        $this->address = $this->getMockBuilder('\Magento\Sales\Model\Quote\Address')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'getQuote'])
+            ->getMock();
+
+        $this->address->expects($this->any())
+            ->method('getQuote')
+            ->will($this->returnValue($this->quote));
 
         $this->commonTaxCollector = $objectManager->getObject(
             'Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector',
@@ -68,9 +96,11 @@ class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
     ) {
         $this->taxConfig->expects($this->any())
             ->method('getShippingTaxClass')
+            ->with($this->store)
             ->will($this->returnValue($shippingTaxClass));
         $this->taxConfig->expects($this->any())
             ->method('shippingPriceIncludesTax')
+            ->with($this->store)
             ->will($this->returnValue($shippingPriceInclTax));
 
         foreach ($addressData as $key => $value) {

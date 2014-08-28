@@ -56,18 +56,18 @@ class WeeeTax extends Weee
 
                 //Process each weee attribute of an item
                 foreach ($weeeAttributesTaxDetails as $weeeTaxDetails) {
-                    $weeeCode = $weeeTaxDetails[self::KEY_TAX_DETAILS_CODE];
+                    $weeeCode = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_CODE];
                     $attributeCode = explode('-', $weeeCode)[1];
 
-                    $valueExclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_PRICE_EXCL_TAX];
-                    $baseValueExclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_BASE_PRICE_EXCL_TAX];
-                    $valueInclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_PRICE_INCL_TAX];
-                    $baseValueInclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_BASE_PRICE_INCL_TAX];
+                    $valueExclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_PRICE_EXCL_TAX];
+                    $baseValueExclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_BASE_PRICE_EXCL_TAX];
+                    $valueInclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_PRICE_INCL_TAX];
+                    $baseValueInclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_BASE_PRICE_INCL_TAX];
 
-                    $rowValueExclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_ROW_TOTAL];
-                    $baseRowValueExclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_BASE_ROW_TOTAL];
-                    $rowValueInclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_ROW_TOTAL_INCL_TAX];
-                    $baseRowValueInclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_BASE_ROW_TOTAL_INCL_TAX];
+                    $rowValueExclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_ROW_TOTAL];
+                    $baseRowValueExclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_BASE_ROW_TOTAL];
+                    $rowValueInclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_ROW_TOTAL_INCL_TAX];
+                    $baseRowValueInclTax = $weeeTaxDetails[CommonTaxCollector::KEY_TAX_DETAILS_BASE_ROW_TOTAL_INCL_TAX];
 
                     $totalValueInclTax += $valueInclTax;
                     $baseTotalValueInclTax += $baseValueInclTax;
