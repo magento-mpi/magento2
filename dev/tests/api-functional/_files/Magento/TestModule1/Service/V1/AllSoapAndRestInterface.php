@@ -41,8 +41,8 @@ interface AllSoapAndRestInterface
     public function testOptionalParam($name = null);
 
     /**
-     * @param \Magento\TestModule1\Service\V1\Entity\Item $item
+     * @param \Magento\TestModule1\Service\V1\Entity\Item $entityItem
      * @return \Magento\TestModule1\Service\V1\Entity\Item
      */
-    public function itemAnyType($item);
+    public function itemAnyType($entityItem);
 }
