@@ -67,7 +67,7 @@ class Mapper
     public function buildQuery(RequestInterface $request)
     {
         $scoreBuilder = $this->scoreBuilderFactory->create();
-        $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), null);
+        $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), false);
         return $select;
     }
 
@@ -130,21 +130,21 @@ class Mapper
             $scoreBuilder,
             $query->getMust(),
             $select,
-            $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
+            $this->isNot($queryCondition)
         );
 
         $select = $this->processBoolQueryCondition(
             $scoreBuilder,
             $query->getShould(),
             $select,
-            $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_SHOULD)
+            $this->isNot($queryCondition)
         );
 
         $select = $this->processBoolQueryCondition(
             $scoreBuilder,
             $query->getMustNot(),
             $select,
-            $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_NOT)
+            $this->isNot($queryCondition)
         );
 
         $scoreBuilder->endQuery($query->getBoost());
@@ -192,7 +192,7 @@ class Mapper
                 break;
             case FilterQuery::REFERENCE_FILTER:
                 $filterCondition = $this->filterBuilder->build($query->getReference());
-                if ($queryCondition === BoolQuery::QUERY_CONDITION_NOT) {
+                if ($this->isNot($queryCondition)) {
                     $filterCondition = '!' . $filterCondition;
                 }
                 $select->where($filterCondition);
@@ -210,18 +210,6 @@ class Mapper
     private function getSelect()
     {
         return $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE)->select();
-    }
-
-    /**
-     * Filter query type
-     *
-     * @param $queryCondition
-     * @param string $defaultQueryCondition
-     * @return string
-     */
-    private function getFilteredQueryType($queryCondition, $defaultQueryCondition = BoolQuery::QUERY_CONDITION_MUST)
-    {
-        return $queryCondition ? : $defaultQueryCondition;
     }
 
     /**
