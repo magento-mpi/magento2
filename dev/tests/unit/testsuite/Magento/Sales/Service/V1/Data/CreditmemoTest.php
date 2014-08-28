@@ -786,7 +786,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     public function testGetItems()
     {
         $data = ['items' => 'test_value_items'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
+        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder')
             ->setMethods(['getData'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
