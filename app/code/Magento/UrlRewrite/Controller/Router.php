@@ -71,7 +71,7 @@ class Router implements \Magento\Framework\App\RouterInterface
             return null;
         }
 
-        if (($fromStore = $request->getParam('___from_store'))) {
+        if ($fromStore = $request->getParam('___from_store')) {
             $oldStoreId = $this->storeManager->getStore($fromStore)->getId();
             $oldRewrite = $this->getRewrite($request->getPathInfo(), $oldStoreId);
             if ($oldRewrite) {

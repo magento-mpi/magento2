@@ -86,7 +86,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Save new url rewrites and remove old if exist. Template method
      *
-     * @param array $urls
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[] $urls
      * @return int
      * @throws DuplicateEntryException
      */
