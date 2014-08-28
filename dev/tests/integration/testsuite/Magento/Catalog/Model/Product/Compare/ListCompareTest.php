@@ -41,7 +41,7 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
             ->setLastVisitAt($dateTime->now())
             ->save();
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Compare\ListCompare', ['logVisitor' => $this->_visitor]);
+            ->create('Magento\Catalog\Model\Product\Compare\ListCompare', ['customerVisitor' => $this->_visitor]);
     }
 
     protected function tearDown()
