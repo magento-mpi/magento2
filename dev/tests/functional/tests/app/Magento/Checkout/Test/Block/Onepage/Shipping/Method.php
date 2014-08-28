@@ -40,27 +40,6 @@ class Method extends Block
     protected $waitElement = '.loading-mask';
 
     /**
-     * Add gift options
-     *
-     * @var string
-     */
-    protected $allowGiftOptions = 'input[name="allow_gift_options"]';
-
-    /**
-     * Gift Options for individual items
-     *
-     * @var string
-     */
-    protected $allowGiftOptionsForItems = 'input[name="allow_gift_options_for_items"]';
-
-    /**
-     * Gift Wrapping Design
-     *
-     * @var string
-     */
-    protected $giftWrapping = 'select[name$="[design]"]';
-
-    /**
      * Select shipping method
      *
      * @param array $method
@@ -82,19 +61,5 @@ class Method extends Block
     {
         $this->_rootElement->find($this->continue)->click();
         $this->waitForElementNotVisible($this->waitElement);
-    }
-
-    /**
-     * Check if Gift Wrapping Design Available on Onepage Checkout
-     *
-     * @param string $giftWrappingDesign
-     * @return bool
-     */
-    public function isGiftWrappingAvailable($giftWrappingDesign)
-    {
-        $this->_rootElement->find($this->allowGiftOptions)->click();
-        $this->_rootElement->find($this->allowGiftOptionsForItems)->click();
-        $giftWrappings = $this->_rootElement->find($this->giftWrapping)->getText();
-        return strpos($giftWrappings, $giftWrappingDesign);
     }
 }

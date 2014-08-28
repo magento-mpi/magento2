@@ -1,2 +1,2 @@
-"initialGiftWrapping/dataSet";"constraint"
+"giftWrapping/dataSet";"constraint"
 "enabled";"assertGiftWrappingSuccessDeleteMessage, assertGiftWrappingNotInGrid, assertGiftWrappingNotOnOrderCreationPage, assertGiftWrappingNotOnFrontendCheckout"

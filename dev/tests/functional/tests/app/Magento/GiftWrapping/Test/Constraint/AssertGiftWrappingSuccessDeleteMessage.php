@@ -17,6 +17,9 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
  */
 class AssertGiftWrappingSuccessDeleteMessage extends AbstractConstraint
 {
+    /**
+     * Message displayed after delete gift wrapping
+     */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the gift wrapping.';
 
     /**
@@ -34,13 +37,10 @@ class AssertGiftWrappingSuccessDeleteMessage extends AbstractConstraint
      */
     public function processAssert(GiftWrappingIndex $giftWrappingIndex)
     {
-        $actualMessage = $giftWrappingIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_DELETE_MESSAGE,
-            $actualMessage,
+            $giftWrappingIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 

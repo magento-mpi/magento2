@@ -31,20 +31,20 @@ class AssertGiftWrappingNotOnOrderCreationPage extends AbstractConstraint
      *
      * @param OrderIndex $orderIndex
      * @param OrderCreateIndex $orderCreateIndex
-     * @param GiftWrapping $initialGiftWrapping
+     * @param GiftWrapping $giftWrapping
      * @return void
      */
     public function processAssert(
         OrderIndex $orderIndex,
         OrderCreateIndex $orderCreateIndex,
-        GiftWrapping $initialGiftWrapping
+        GiftWrapping $giftWrapping
     ) {
         $orderIndex->open();
         $orderIndex->getGridPageActions()->addNew();
         $orderCreateIndex->getCustomerBlock()->selectCustomer(null);
         \PHPUnit_Framework_Assert::assertFalse(
-            $orderCreateIndex->getCreateBlock()->isGiftWrappingAvailable($initialGiftWrapping->getDesign()),
-            'Gift Wrapping \'' . $initialGiftWrapping->getDesign() . '\' is present on order creation page.'
+            $orderCreateIndex->getGiftOptionsBlock()->isGiftWrappingAvailable($giftWrapping->getDesign()),
+            'Gift Wrapping \'' . $giftWrapping->getDesign() . '\' is present on order creation page.'
         );
     }
 

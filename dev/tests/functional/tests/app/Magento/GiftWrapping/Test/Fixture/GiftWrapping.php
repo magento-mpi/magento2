@@ -72,6 +72,8 @@ class GiftWrapping extends InjectableFixture
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
+        'input' => 'multiselectgrouplist',
+        'source' => 'Magento\GiftWrapping\Test\Fixture\GiftWrapping\WebsiteIds',
     ];
 
     public function getWrappingId()

@@ -29,5 +29,10 @@
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </actionsBlock>
+        <giftOptionsBlock>
+            <class>Magento\GiftWrapping\Test\Block\Adminhtml\Order\Create</class>
+            <locator>#orderCreateGiftWrapping</locator>
+            <strategy>css selector</strategy>
+        </giftOptionsBlock>
     </blocks>
 </page>

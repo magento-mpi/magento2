@@ -39,5 +39,10 @@
             <locator>#checkout-step-review</locator>
             <strategy>css selector</strategy>
         </reviewBlock>
+        <giftOptionsBlock>
+            <class>Magento\GiftWrapping\Test\Block\Checkout\Options</class>
+            <locator>#onepage-checkout-shipping-method-additional-load</locator>
+            <strategy>css selector</strategy>
+        </giftOptionsBlock>
     </blocks>
 </page>

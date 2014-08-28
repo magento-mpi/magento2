@@ -14,7 +14,7 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
 
 /**
  * Class AssertGiftWrappingNotInGrid
- * Assert that deleted Gift Wrapping can not be found in grid via: id, design, website_id, status, price
+ * Assert that deleted Gift Wrapping can not be found in grid
  */
 class AssertGiftWrappingNotInGrid extends AbstractConstraint
 {
@@ -29,12 +29,12 @@ class AssertGiftWrappingNotInGrid extends AbstractConstraint
      * Assert that deleted Gift Wrapping can not be found in grid via: id, design, website_id, status, price
      *
      * @param GiftWrappingIndex $giftWrappingIndexPage
-     * @param GiftWrapping $initialGiftWrapping
+     * @param GiftWrapping $giftWrapping
      * @return void
      */
-    public function processAssert(GiftWrappingIndex $giftWrappingIndexPage, GiftWrapping $initialGiftWrapping)
+    public function processAssert(GiftWrappingIndex $giftWrappingIndexPage, GiftWrapping $giftWrapping)
     {
-        $data = $initialGiftWrapping->getData();
+        $data = $giftWrapping->getData();
         reset($data['website_ids']);
         $filter = [
             'wrapping_id_from' => $data['wrapping_id'],
