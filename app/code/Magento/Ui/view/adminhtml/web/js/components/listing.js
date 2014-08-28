@@ -10,16 +10,14 @@ define([
     var DEFAULT_VIEW = 'grid';
 
     return Scope.extend({
-
-        mixins: [Resourceful],
-
         initialize: function(initial, config) {
-            this.observable({
+            this.observe({
                 rows:           initial.rows,
                 fields:         initial.fields,
                 checkedIds:     [],
                 currentAction:  '',
-                view:           DEFAULT_VIEW
+                view:           DEFAULT_VIEW,
+                isLocked:       false
             });
 
             this.params = {};
@@ -77,6 +75,7 @@ define([
 
         reload: function() {
             this.lock().client.read(null).done(function(rows) {
+                this.trigger('lisitng:reload');
                 this.unlock().rows(rows);
             }.bind(this));
 
@@ -104,5 +103,5 @@ define([
         setParams: function(params) {
             _.extend(this.params, params);
         }
-    });
+    }, Resourceful);
 });

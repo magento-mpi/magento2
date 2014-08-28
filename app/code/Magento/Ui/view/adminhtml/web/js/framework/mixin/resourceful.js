@@ -1,19 +1,15 @@
-define(function () {
-  return {
-    setUp: function () {
-      this.def('isLocked', false);
-    },
+define(function() {
+    return {
+        lock: function() {
+            this.isLocked(true);
 
-    lock: function () {
-      this.isLocked(true);
+            return this;
+        },
 
-      return this;
-    },
+        unlock: function() {
+            this.isLocked(false);
 
-    unlock: function () {
-      this.isLocked(false);
-
-      return this;
-    }
-  };
+            return this;
+        }
+    };
 });

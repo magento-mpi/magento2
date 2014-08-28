@@ -5,12 +5,13 @@ define([
 
     return Scope.extend({
         initialize: function (massActions, actions, listing) {
-
-            this
-                .defArray('actions', actions)
-                .defArray('massActions', massActions)
-                .def('currentAction')
-                .def('currentMassAction');
+            
+            this.observe({
+                actions:            actions,
+                massActions:        massActions,
+                currentAction:      '',
+                currentMassAction:  ''
+            });
 
             this.target = listing;
             this._bind()._listen();

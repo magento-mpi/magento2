@@ -4,11 +4,12 @@ define([
 
     return Scope.extend({
         initialize: function (listing, config, initial) {
-
             this.target = listing;
 
-            this.def('query', this._defQuery);
-            this.defArray('suggestions');
+            this.observe({
+                query: this._defQuery,
+                suggestions: []
+            });
 
             this.query.subscribe(function (newQuery) {
                 

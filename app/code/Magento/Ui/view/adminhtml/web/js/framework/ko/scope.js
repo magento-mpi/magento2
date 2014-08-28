@@ -5,34 +5,27 @@ define([
     'ko'
 ], function(Class, EventBus, utils, ko) {
 
-
     return Class.extend({
-
-        mixins: [EventBus],
-
-        def: function(path, value) {
-            utils.setValueByPathIn(this, path, ko.observable(value));
-
-            return this;
-        },
-
-        defArray: function(path, arr) {
-            utils.setValueByPathIn(this, path, ko.observableArray(arr));
-
-            return this;
-        },
-
-        observable: function( obj ){
+        observe: function( path, value ){
             var key,
-                value,
-                method;
+                value;
 
-            for( key in obj ){
-                value   = obj[ key ];
-                method  = Array.isArray( value ) ? 'observableArray' : 'observable';
-
-                utils.setValueByPathIn( this, key, ko[ method ]( value ) );
+            if( typeof path === 'string' ){
+                this._observe( path, value );
             }
+            else{
+                for( key in path ){
+                    this._observe(key, path[key]);
+                }
+            }
+        },
+
+        _observe: function( path, value ){
+            var method = Array.isArray(value) ? 'observableArray' : 'observable';
+
+            utils.setValueByPathIn(this, path, ko[method](value) );
+            
+            return this;
         }
-    });
+    }, EventBus);
 });

@@ -5,16 +5,17 @@ define([
 ], function(ko, Scope, _) {
 
     return Scope.extend({
-
         initialize: function(initial, config, listing) {
             this.listing = listing;
-            
+
             _.extend( this, initial );
 
-            this.observable({
+            this.observe({
                 current: this.current,
                 pageSize: this.pageSize
             });
+
+            this.setParams();
 
             this.current.subscribe( this.onChange.bind(this) );
             this.pageSize.subscribe( this.onChange.bind(this) );
@@ -58,7 +59,11 @@ define([
         },
 
         onChange: function(){
-            this.setParams();
+            this.setParams().listing.reload();
+        },
+
+        onReload: function(){
+            console.log('hello');
         }
     });
 

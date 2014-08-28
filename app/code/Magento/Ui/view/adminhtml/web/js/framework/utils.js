@@ -25,28 +25,31 @@ define(['_'], function(_) {
             }
         },
 
-        protoExtend: function(protoProps, staticProps) {
-            var parent = this;
-            var child;
+        protoExtend: function(protoProps) {
+            var parent = this,
+                child,
+                args,
+                hasCosntructor;
 
-            if (protoProps && _.has(protoProps, 'constructor')) {
-                child = protoProps.constructor;
-            } else {
-                child = function() {
+            protoProps      = protoProps || {};
+            hasCosntructor  = protoProps.hasOwnProperty('constructor');
+
+            child = hasCosntructor ?
+                protoProps.constructor :
+                function() {
                     return parent.apply(this, arguments);
                 };
-            }
 
-            _.extend(child, parent, staticProps);
+            child.prototype = Object.create( parent.prototype );
+            child.prototype.constructor = child;
 
-            var Surrogate = function() {
-                this.constructor = child;
-            };
-            Surrogate.prototype = parent.prototype;
-            child.prototype = new Surrogate;
+            args = [child.prototype];
 
-            if (protoProps) _.extend(child.prototype, protoProps);
+            args.push.apply(args, arguments);
 
+            _.extend.apply(_, args);
+
+            child.extend = parent.extend;
             child.__super__ = parent.prototype;
 
             return child;
