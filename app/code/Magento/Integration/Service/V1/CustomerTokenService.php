@@ -14,6 +14,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
 use Magento\Integration\Model\Oauth\Token as Token;
 use Magento\Integration\Model\Resource\Oauth\Token\CollectionFactory as TokenCollectionFactory;
+use Magento\Integration\Helper\Validator;
 
 class CustomerTokenService implements CustomerTokenServiceInterface
 {
@@ -31,6 +32,9 @@ class CustomerTokenService implements CustomerTokenServiceInterface
      */
     private $customerAccountService;
 
+    /** @var \Magento\Integration\Helper\Validator */
+    public $validatorHelper;
+
     /**
      * Token Collection Factory
      *
@@ -44,15 +48,18 @@ class CustomerTokenService implements CustomerTokenServiceInterface
      * @param TokenModelFactory $tokenModelFactory
      * @param CustomerAccountService $customerAccountService
      * @param TokenCollectionFactory $tokenModelCollectionFactory
+     * @param \Magento\Integration\Helper\Validator $validatorHelper
      */
     public function __construct(
         TokenModelFactory $tokenModelFactory,
         CustomerAccountService $customerAccountService,
-        TokenCollectionFactory $tokenModelCollectionFactory
+        TokenCollectionFactory $tokenModelCollectionFactory,
+        Validator $validatorHelper
     ) {
         $this->tokenModelFactory = $tokenModelFactory;
         $this->customerAccountService = $customerAccountService;
         $this->tokenModelCollectionFactory = $tokenModelCollectionFactory;
+        $this->validatorHelper = $validatorHelper;
     }
 
     /**
@@ -60,7 +67,7 @@ class CustomerTokenService implements CustomerTokenServiceInterface
      */
     public function createCustomerAccessToken($username, $password)
     {
-        $this->validateCredentials($username, $password);
+        $this->validatorHelper->validateCredentials($username, $password);
         $customerDataObject = $this->customerAccountService->authenticate($username, $password);
         return $this->tokenModelFactory->create()->createCustomerToken($customerDataObject->getId())->getToken();
     }
@@ -86,27 +93,5 @@ class CustomerTokenService implements CustomerTokenServiceInterface
             throw new LocalizedException("The tokens could not be revoked.");
         }
         return true;
-    }
-
-    /**
-     * Validate user credentials
-     *
-     * @param string $username
-     * @param string $password
-     * @return void
-     * @throws \Magento\Framework\Exception\InputException
-     */
-    protected function validateCredentials($username, $password)
-    {
-        $exception = new InputException();
-        if (!is_string($username) || strlen($username) == 0) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'username']);
-        }
-        if (!is_string($username) || strlen($password) == 0) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'password']);
-        }
-        if ($exception->wasErrorAdded()) {
-            throw $exception;
-        }
     }
 }

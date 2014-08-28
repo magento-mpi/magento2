@@ -9,10 +9,10 @@
 namespace Magento\Integration\Service\V1;
 
 use Magento\Framework\Exception\AuthenticationException;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Integration\Model\Oauth\Token as Token;
+use Magento\Integration\Helper\Validator;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
+use Magento\Integration\Model\Oauth\Token as Token;
 use Magento\Integration\Model\Resource\Oauth\Token\CollectionFactory as TokenCollectionFactory;
 use Magento\User\Model\User as UserModel;
 
@@ -36,6 +36,9 @@ class AdminTokenService implements AdminTokenServiceInterface
      */
     private $userModel;
 
+    /** @var \Magento\Integration\Helper\Validator */
+    public $validatorHelper;
+
     /**
      * Token Collection Factory
      *
@@ -49,15 +52,18 @@ class AdminTokenService implements AdminTokenServiceInterface
      * @param TokenModelFactory $tokenModelFactory
      * @param UserModel $userModel
      * @param TokenCollectionFactory $tokenModelCollectionFactory
+     * @param \Magento\Integration\Helper\Validator $validatorHelper
      */
     public function __construct(
         TokenModelFactory $tokenModelFactory,
         UserModel $userModel,
-        TokenCollectionFactory $tokenModelCollectionFactory
+        TokenCollectionFactory $tokenModelCollectionFactory,
+        Validator $validatorHelper
     ) {
         $this->tokenModelFactory = $tokenModelFactory;
         $this->userModel = $userModel;
         $this->tokenModelCollectionFactory = $tokenModelCollectionFactory;
+        $this->validatorHelper = $validatorHelper;
     }
 
     /**
@@ -65,7 +71,7 @@ class AdminTokenService implements AdminTokenServiceInterface
      */
     public function createAdminAccessToken($username, $password)
     {
-        $this->validateCredentials($username, $password);
+        $this->validatorHelper->validateCredentials($username, $password);
         try {
             $this->userModel->login($username, $password);
             if (!$this->userModel->getId()) {
@@ -105,27 +111,5 @@ class AdminTokenService implements AdminTokenServiceInterface
             throw new LocalizedException("The tokens could not be revoked.");
         }
         return true;
-    }
-
-    /**
-     * Validate user credentials
-     *
-     * @param string $username
-     * @param string $password
-     * @return void
-     * @throws \Magento\Framework\Exception\InputException
-     */
-    protected function validateCredentials($username, $password)
-    {
-        $exception = new InputException();
-        if (!is_string($username) || strlen($username) == 0) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'username']);
-        }
-        if (!is_string($username) || strlen($password) == 0) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'password']);
-        }
-        if ($exception->wasErrorAdded()) {
-            throw $exception;
-        }
     }
 }
