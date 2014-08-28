@@ -75,6 +75,7 @@ class ConfigurableProductInjectable extends InjectableFixture
     }
 
     protected $dataConfig = [
+        'type_id' => 'configurable',
         'create_url_params' => [
             'type' => 'configurable',
             'set' => '4',
@@ -550,6 +551,7 @@ class ConfigurableProductInjectable extends InjectableFixture
     protected $type_id = [
         'attribute_code' => 'type_id',
         'backend_type' => 'virtual',
+        'group' => null
     ];
 
     protected $attribute_set_id = [

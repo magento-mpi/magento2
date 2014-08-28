@@ -579,10 +579,7 @@ class ConfigurableAttributesData implements FixtureInterface
                 $compositeKey = "{$attributeKey}:{$optionKey}";
                 $optionId = $this->getAttributeOptionId($compositeKey);
 
-                $label = isset($option['label'])
-                    ? str_replace('%isolation%', '', $option['label'])
-                    : '';
-                $row['name'] .= '-' . $label;
+                $row['name'] .= '-' . $optionId;
                 $row['sku'] .= '_' . $optionId;
 
                 $newRowKey = $rowKey ? "{$rowKey} {$compositeKey}" : $compositeKey;

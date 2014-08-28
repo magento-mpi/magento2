@@ -12,7 +12,6 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 
 /**

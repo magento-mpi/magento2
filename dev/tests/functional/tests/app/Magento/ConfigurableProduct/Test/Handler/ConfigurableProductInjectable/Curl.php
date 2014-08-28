@@ -60,7 +60,7 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
 
         $data['configurable_attributes_data'] = $this->prepareAttributesData($configurableAttributesData);
         $data = $prefix ? [$prefix => $data] : $data;
-        $data['variations-matrix'] = $this->prepareVariationsMatrix($configurableAttributesData);
+        $data['variations-matrix'] = $this->prepareVariationsMatrix($product);
         $data['attributes'] = $this->prepareAttributes($configurableAttributesData);
         $data['new-variations-attribute-set-id'] = $attributeSetId;
         $data['associated_product_ids'] = [];
@@ -110,15 +110,18 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
     /**
      * Preparing matrix data
      *
-     * @param ConfigurableAttributesData $configurableAttributesData
+     * @param FixtureInterface $product
      * @return array
      */
-    protected function prepareVariationsMatrix(ConfigurableAttributesData $configurableAttributesData)
+    protected function prepareVariationsMatrix(FixtureInterface $product)
     {
+        /** @var ConfigurableAttributesData $configurableAttributesData */
+        $configurableAttributesData = $product->getDataFieldConfig('configurable_attributes_data')['source'];
         $attributesData = $configurableAttributesData->getAttributesData();
+        $matrixData = $product->getConfigurableAttributesData()['matrix'];
         $result = [];
 
-        foreach ($configurableAttributesData->getVariationsMatrix() as $variationKey => $variation) {
+        foreach ($matrixData as $variationKey => $variation) {
             $compositeKeys = explode(' ', $variationKey);
             $keyIds = [];
             $configurableAttribute = [];

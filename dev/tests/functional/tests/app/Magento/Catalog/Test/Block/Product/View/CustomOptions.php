@@ -122,7 +122,7 @@ class CustomOptions extends Form
         $dataOptions = ($product && $product->hasData('custom_options'))
             ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
             : [];
-        $listCustomOptions = $this->getListCustomOptions();
+        $listCustomOptions = $this->getListOptions();
         $readyOptions = [];
         $result = [];
 
@@ -162,7 +162,7 @@ class CustomOptions extends Form
      *
      * @return array
      */
-    protected function getListCustomOptions()
+    protected function getListOptions()
     {
         $customOptions = [];
         $context = $this->_rootElement->find($this->optionsContext);

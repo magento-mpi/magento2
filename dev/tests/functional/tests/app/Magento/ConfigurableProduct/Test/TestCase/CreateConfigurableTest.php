@@ -31,7 +31,7 @@ class CreateConfigurableTest extends Functional
         $product->switchData('configurable');
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
-        $createProductPage = Factory::getPageFactory()->getConfigurableCatalogProductNew();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getGridPageActionBlock()->addProduct('configurable');

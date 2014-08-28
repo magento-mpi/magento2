@@ -287,17 +287,20 @@ class View extends Block
     }
 
     /**
-     * Return configurable product options
+     * Return product options
      *
+     * @param FixtureInterface $product [optional]
      * @return array
      */
-    public function getProductOptions()
+    public function getOptions(FixtureInterface $product = null)
     {
-        $options = [];
-        for ($i = 2; $i <= 3; $i++) {
-            $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child({$i})")->getText();
-        }
-        return $options;
+        /** @var CatalogProductSimple $product */
+        $dataConfig = $product->getDataConfig();
+        $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
+
+        return $this->hasRender($typeId)
+            ? $this->callRender($typeId, 'getOptions', ['product' => $product])
+            : $this->getCustomOptionsBlock()->getOptions($product);
     }
 
     /**
@@ -335,21 +338,29 @@ class View extends Block
      */
     public function fillOptions(FixtureInterface $product)
     {
-        $optionsCheckoutData = [];
+        $dataConfig = $product->getDataConfig();
+        $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
 
-        if ($product instanceof InjectableFixture) {
-            /** @var CatalogProductSimple $product */
-            $customOptions = $product->hasData('custom_options')
-                ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
-                : [];
-            $checkoutData = $product->getCheckoutData();
-            $productCheckoutData = isset($checkoutData['custom_options'])
-                ? $checkoutData['custom_options']
-                : [];
-            $optionsCheckoutData = $this->prepareCheckoutData($customOptions, $productCheckoutData);
+        /** @var CatalogProductSimple $product */
+        if ($this->hasRender($typeId)) {
+            $this->callRender($typeId, 'fillOptions', ['product' => $product]);
+        } else {
+            $optionsCheckoutData = [];
+
+            if ($product instanceof InjectableFixture) {
+                /** @var CatalogProductSimple $product */
+                $customOptions = $product->hasData('custom_options')
+                    ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+                    : [];
+                $checkoutData = $product->getCheckoutData();
+                $productCheckoutData = isset($checkoutData['custom_options'])
+                    ? $checkoutData['custom_options']
+                    : [];
+                $optionsCheckoutData = $this->prepareCheckoutData($customOptions, $productCheckoutData);
+            }
+
+            $this->getCustomOptionsBlock()->fillCustomOptions($optionsCheckoutData);
         }
-
-        $this->getCustomOptionsBlock()->fillCustomOptions($optionsCheckoutData);
     }
 
     /**

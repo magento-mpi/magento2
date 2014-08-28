@@ -8,29 +8,29 @@
  */
 -->
 <page module="Magento_Newsletter">
+    <templateIndex>
+        <mca>newsletter/template/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Newsletter\Test\Page\Adminhtml\templateIndex</class>
+    </templateIndex>
+    <templateNewIndex>
+        <mca>newsletter/template/new/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Newsletter\Test\Page\Adminhtml\templateNewIndex</class>
+    </templateNewIndex>
     <subscriberIndex>
         <mca>newsletter/subscriber/index</mca>
         <area>adminhtml</area>
         <class>Magento\Newsletter\Test\Page\Adminhtml\SubscriberIndex</class>
     </subscriberIndex>
-    <templateIndex>
-        <mca>newsletter/template/index</mca>
-        <area>adminhtml</area>
-        <class>Magento\Newsletter\Test\Page\Adminhtml\TemplateIndex</class>
-    </templateIndex>
-    <templateNewIndex>
-        <mca>newsletter/template/new/index</mca>
-        <area>adminhtml</area>
-        <class>Magento\Newsletter\Test\Page\Adminhtml\TemplateNewIndex</class>
-    </templateNewIndex>
-    <newsLetterPreview>
-        <mca>newsletter/template/preview</mca>
-        <area>adminhtml</area>
-        <class>Magento\Newsletter\Test\Page\Adminhtml\TemplatePreview</class>
-    </newsLetterPreview>
-    <newsLetterQueue>
+    <templateQueue>
         <mca>newsletter/queue/edit</mca>
         <area>adminhtml</area>
         <class>Magento\Newsletter\Test\Page\Adminhtml\TemplateQueue</class>
-    </newsLetterQueue>
+    </templateQueue>
+    <templatePreview>
+        <mca>newsletter/template/preview</mca>
+        <area>adminhtml</area>
+        <class>Magento\Newsletter\Test\Page\Adminhtml\TemplatePreview</class>
+    </templatePreview>
 </page>

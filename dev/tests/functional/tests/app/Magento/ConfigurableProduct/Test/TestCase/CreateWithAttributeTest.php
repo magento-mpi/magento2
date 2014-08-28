@@ -86,7 +86,7 @@ class CreateWithAttributeTest extends Functional
         }
         $attributeFields['options'] = $attributeData['options']['value'];
 
-        $createProductPage = Factory::getPageFactory()->getConfigurableCatalogProductNew();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $productForm = $createProductPage->getProductForm();
         $productForm->openTab('variations');
 
@@ -114,7 +114,7 @@ class CreateWithAttributeTest extends Functional
             ];
         }
 
-        $createProductPage = Factory::getPageFactory()->getConfigurableCatalogProductNew();
+        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $productForm = $createProductPage->getProductForm();
         $productForm->openTab('variations');
 

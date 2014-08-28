@@ -8,9 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\ConfigurableProduct\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -23,18 +24,21 @@ class AssertConfigurableProductInCart extends AbstractConstraint
     /**
      * Assertion that the product is correctly displayed in cart
      *
+     * @param Browser $browser
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param ConfigurableProductInjectable $product
      * @return void
      */
     public function processAssert(
+        Browser $browser,
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         ConfigurableProductInjectable $product
     ) {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        // TODO fix initialization url for frontend page
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+
         $catalogProductView->getViewBlock()->addToCart($product);
 
         $checkoutData = $product->getCheckoutData();

@@ -48,10 +48,10 @@ class ToggleDropdown extends Element
     {
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
 
-        $value = ('Yes' == $value) ? '%' : '$';
-        $field = $this->find($this->field, Locator::SELECTOR_XPATH);
-        if ($value != $field->getValue()) {
-            $field->click();
+        if ($value != $this->getValue()) {
+            $value = ('Yes' == $value) ? '%' : '$';
+
+            $this->find($this->field, Locator::SELECTOR_XPATH)->click();
             $this->waitListOptionsVisible();
             $this->find(sprintf($this->optionByText, $value), Locator::SELECTOR_XPATH)->click();
         }

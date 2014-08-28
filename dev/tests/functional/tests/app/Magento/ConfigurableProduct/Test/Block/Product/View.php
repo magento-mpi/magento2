@@ -20,6 +20,19 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 class View extends \Magento\Catalog\Test\Block\Product\View
 {
     /**
+     * Get configurable options block
+     *
+     * @return \Magento\ConfigurableProduct\Test\Block\Product\View\ConfigurableOptions
+     */
+    public function getConfigurableOptionsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\ConfigurableProduct\Test\Block\Product\View\ConfigurableOptions',
+            ['element' => $this->_rootElement]
+        );
+    }
+
+    /**
      * Fill in the option specified for the product
      *
      * @param FixtureInterface $product
@@ -77,5 +90,21 @@ class View extends \Magento\Catalog\Test\Block\Product\View
         $this->getCustomOptionsBlock()->fillCustomOptions($checkoutOptionsData);
 
         parent::fillOptions($product);
+    }
+
+    /**
+     * Return product options
+     *
+     * @param FixtureInterface $product [optional]
+     * @return array
+     */
+    public function getOptions(FixtureInterface $product = null)
+    {
+        $options = [
+            'configurable_options' => $this->getConfigurableOptionsBlock()->getOptions($product)
+        ];
+        $options += parent::getOptions($product);
+
+        return $options;
     }
 }

@@ -73,6 +73,7 @@ class CatalogProductBundle extends InjectableFixture
     }
 
     protected $dataConfig = [
+        'type_id' => 'bundle',
         'create_url_params' => [
             'type' => 'bundle',
             'set' => '4',

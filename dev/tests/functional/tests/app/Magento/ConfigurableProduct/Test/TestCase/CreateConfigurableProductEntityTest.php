@@ -10,7 +10,7 @@ namespace Magento\ConfigurableProduct\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\ConfigurableProduct\Test\Page\Adminhtml\CatalogProductNew;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 

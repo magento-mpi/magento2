@@ -105,20 +105,34 @@ class ProductForm extends FormTabs
      */
     public function fill(FixtureInterface $product, Element $element = null, FixtureInterface $category = null)
     {
-        $tabs = $this->getFieldsByTabs($product);
+        $dataConfig = $product->getDataConfig();
+        $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
 
-        if (null === $category && $product instanceof DataFixture) {
-            $categories = $product->getCategories();
-            $category = reset($categories);
-        }
-        if ($category) {
-            $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture )
-                ? $category->getName()
-                : $category->getCategoryName();
+        if ($this->hasRender($typeId)) {
+            $renderArguments = [
+                'product' => $product,
+                'element' => $element,
+                'category' => $category
+            ];
+            $this->callRender($typeId, 'fill', $renderArguments);
+        } else {
+            $tabs = $this->getFieldsByTabs($product);
+
+            if (null === $category && $product instanceof DataFixture) {
+                $categories = $product->getCategories();
+                $category = reset($categories);
+            }
+            if ($category) {
+                $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture )
+                    ? $category->getName()
+                    : $category->getCategoryName();
+            }
+
+            $this->showAdvancedSettings();
+            $this->fillTabs($tabs, $element);
         }
 
-        $this->showAdvancedSettings();
-        return $this->fillTabs($tabs, $element);
+        return $this;
     }
 
     /**

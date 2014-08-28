@@ -10,22 +10,16 @@ namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\ObjectManager;
 use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractAssertForm;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductPage
  * Assert that displayed product data on product page(front-end) equals passed from fixture.
  */
-class AssertProductPage extends AbstractConstraint
+class AssertProductPage extends AbstractAssertForm
 {
-    /**
-     * Product view page class on frontend
-     *
-     * @var string
-     */
-    protected $productViewClass = 'Magento\Catalog\Test\Page\Product\CatalogProductView';
-
     /**
      * Product view block on frontend page
      *
@@ -57,15 +51,15 @@ class AssertProductPage extends AbstractConstraint
      * 6. Short Description
      *
      * @param Browser $browser
+     * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(Browser $browser, FixtureInterface $product)
+    public function processAssert(Browser $browser, CatalogProductView $catalogProductView, FixtureInterface $product)
     {
         // TODO fix initialization url for frontend page
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
-        $catalogProductView = ObjectManager::getInstance()->create($this->productViewClass);
         $this->product = $product;
         $this->productView = $catalogProductView->getViewBlock();
 

@@ -8,15 +8,15 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\ConfigurableProduct\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertConfigurableProductDuplicateForm
+ * Assert form data equals duplicate product configurable data
  */
-class AssertConfigurableProductDuplicateForm extends AbstractAssertForm
+class AssertConfigurableProductDuplicateForm extends AssertConfigurableProductForm
 {
     /**
      * Constraint severeness
@@ -38,25 +38,18 @@ class AssertConfigurableProductDuplicateForm extends AbstractAssertForm
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productPage
     ) {
-        $filter = ['sku' => $product->getSku() . '-1'];
-        $productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $duplicateProductSku = $product->getSku() . '-1';
+        $filter = ['sku' => $duplicateProductSku];
+        $productGrid->open();
+        $productGrid->getProductGrid()->searchAndOpen($filter);
 
-        $form = $productPage->getProductForm();
-        $formData = $form->getData($product);
-        foreach (array_keys($formData['configurable_attributes_data']['matrix']) as $key) {
-            unset($formData['configurable_attributes_data']['matrix'][$key]['price']);
-        }
-
-        $fixtureData = $this->prepareFixtureData($product->getData(), $product);
-        $attributes = $fixtureData['configurable_attributes_data']['attributes_data'];
-        $matrix = $fixtureData['configurable_attributes_data']['matrix'];
-        unset($fixtureData['configurable_attributes_data']);
-
-        $fixtureData['configurable_attributes_data']['attributes_data'] = $this->prepareAttributes($attributes);
-        $fixtureData['configurable_attributes_data']['matrix'] = $this->prepareMatrix($matrix);
-
-        $errors = $this->verifyData($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
+        $productData = $product->getData();
+        $productData['sku'] = $duplicateProductSku;
+        $productData['status'] = 'Product offline';
+        $fixtureData = $this->prepareFixtureData($productData, $this->sortFields);
+        $formData = $this->prepareFormData($productPage->getProductForm()->getData($product), $this->sortFields);
+        $error = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
 
     /**

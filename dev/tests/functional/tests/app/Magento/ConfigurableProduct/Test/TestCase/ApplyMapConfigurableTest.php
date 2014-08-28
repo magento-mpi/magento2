@@ -102,7 +102,7 @@ class ApplyMapConfigurableTest extends Functional
      */
     protected function verifyMapOnProductView(ConfigurableProduct $product)
     {
-        $productPage = Factory::getPageFactory()->getConfigurableProductView();
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->getMessagesBlock()->assertNoticeMessage();
         $productViewBlock = $productPage->getViewBlock();
         $productPriceBlock = $productViewBlock->getPriceBlock();

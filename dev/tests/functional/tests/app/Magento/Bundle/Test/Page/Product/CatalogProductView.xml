@@ -11,9 +11,9 @@
     <blocks>
         <viewBlock>
             <renders>
-                <configurable>
-                    <class>Magento\ConfigurableProduct\Test\Block\Product\View</class>
-                </configurable>
+                <bundle>
+                    <class>Magento\Bundle\Test\Block\Catalog\Product\View</class>
+                </bundle>
             </renders>
         </viewBlock>
     </blocks>

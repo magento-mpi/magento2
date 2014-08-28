@@ -22,6 +22,7 @@ class AssertConfigurableProductForm extends AssertProductForm
      * @var array
      */
     protected $skippedFixtureFields = [
+        'id',
         'affected_attribute_set',
         'checkout_data'
     ];
@@ -76,15 +77,16 @@ class AssertConfigurableProductForm extends AssertProductForm
             foreach ($attribute['options'] as $optionKey => $option) {
                 $attribute['options'][$optionKey] = array_diff_key($option, array_flip($this->skippedOptionFields));
             }
-            $attribute['options'] = array_values($attribute['options']);
+            $attribute['options'] = $this->sortDataByPath($attribute['options'], '::label');
             $attributeData[$attributeKey] = array_diff_key($attribute, array_flip($this->skippedAttributeFields));
         }
-        $data['configurable_attributes_data']['attributes_data'] = array_values($attributeData);
+        $data['configurable_attributes_data']['attributes_data'] = $this->sortDataByPath($attributeData, '::label');
 
 
-        // filter values and reset keys in variation matrix
+        // prepare and filter values, reset keys in variation matrix
         $variationsMatrix = $data['configurable_attributes_data']['matrix'];
         foreach ($variationsMatrix as $key => $variationMatrix) {
+            $variationMatrix['display'] = isset($variationMatrix['display']) ? $variationMatrix['display'] : 'Yes';
             $variationsMatrix[$key] = array_diff_key($variationMatrix, array_flip($this->skippedVariationMatrixFields));
         }
         $data['configurable_attributes_data']['matrix'] = array_values($variationsMatrix);
@@ -101,6 +103,14 @@ class AssertConfigurableProductForm extends AssertProductForm
      */
     protected function prepareFormData(array $data, array $sortFields = [])
     {
+        // prepare attributes data
+        $attributeData = $data['configurable_attributes_data']['attributes_data'];
+        foreach ($attributeData as $attributeKey => $attribute) {
+            $attribute['options'] = $this->sortDataByPath($attribute['options'], '::label');
+            $attributeData[$attributeKey] = $attribute;
+        }
+        $data['configurable_attributes_data']['attributes_data'] = $this->sortDataByPath($attributeData, '::label');
+
         // filter values and reset keys in variation matrix
         $variationsMatrix = $data['configurable_attributes_data']['matrix'];
         foreach ($variationsMatrix as $key => $variationMatrix) {

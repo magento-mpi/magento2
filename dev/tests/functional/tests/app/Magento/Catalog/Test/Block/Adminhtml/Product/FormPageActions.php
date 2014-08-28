@@ -56,6 +56,30 @@ class FormPageActions extends ParentFormPageActions
     protected $saveButton = '#save-split-button-button';
 
     /**
+     * Click on "Save" button
+     *
+     * @param FixtureInterface|null $product [optional]
+     * @return void
+     */
+    public function save(FixtureInterface $product = null)
+    {
+        $typeId = null;
+
+        if ($product) {
+            $dataConfig = $product->getDataConfig();
+            $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
+        }
+
+        if ($this->hasRender($typeId)) {
+            $this->callRender($typeId, 'save', ['product' => $product]);
+        } else {
+            $this->_rootElement->find($this->saveButton)->click();
+            $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
+            $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
+        }
+    }
+
+    /**
      * Save product form with window confirmation
      *
      * @param BackendPage $page

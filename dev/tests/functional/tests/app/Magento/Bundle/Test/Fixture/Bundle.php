@@ -122,14 +122,15 @@ class Bundle extends Product
     protected function _initData()
     {
         parent::_initData();
-        $this->_dataConfig = array(
+        $this->_dataConfig = [
+            'type_id' => 'bundle',
             'constraint' => 'Success',
-            'create_url_params' => array(
+            'create_url_params' => [
                 'type' => 'bundle',
                 'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
-            ),
+            ],
             'input_prefix' => 'product'
-        );
+        ];
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoBundleBundle($this->_dataConfig, $this->_data);

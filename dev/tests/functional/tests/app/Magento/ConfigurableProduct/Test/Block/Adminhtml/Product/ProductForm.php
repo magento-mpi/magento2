@@ -75,9 +75,6 @@ class ProductForm extends \Magento\Catalog\Test\Block\Adminhtml\Product\ProductF
                         $option[$name] = $field['value'];
                     }
 
-                    if (isset($option['is_percent'])) {
-                        $option['is_percent'] = ($option['is_percent'] == 'Yes') ? '%' : '$';
-                    }
                     $option['label'] = $option['option_label'];
                     unset($option['option_label']);
 

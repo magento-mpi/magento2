@@ -154,6 +154,9 @@ class ConfigurableProduct extends Product
     protected function editConfigurable()
     {
         $editData = array(
+            'config' => [
+                'type_id' => 'configurable'
+            ],
             'data' => array(
                 'fields' => array(
                     'name' => array(

@@ -10,7 +10,6 @@ namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Supe
 
 use Mtf\Block\BlockFactory;
 use Mtf\Block\Mapper;
-use Mtf\Client\Browser;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element;
 use Magento\Backend\Test\Block\Widget\Form;
@@ -22,13 +21,6 @@ use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Con
  */
 class Attribute extends Form
 {
-    /**
-     * The root element of the browser
-     *
-     * @var Browser
-     */
-    protected $browser;
-
     /**
      * Mapping fields for get values of form
      *
@@ -81,14 +73,14 @@ class Attribute extends Form
      *
      * @var string
      */
-    protected $attributeBlockByName = './/*[*/strong[@class="title" and contains(.,"%s")]]';
+    protected $attributeBlockByName = './/*[*/strong[contains(@class,"title") and contains(.,"%s")]]';
 
     /**
      * Selector for attribute block
      *
      * @var string
      */
-    protected $attributeBlock = './/div[@id="configurable-attributes-container"]//div[contains(@id,"-wrapper")]';
+    protected $attributeBlock = '//div[@id="configurable-attributes-container"]/div[contains(@class,"entry-edit")][%d]';
 
     /**
      * Selector for "Add Option" button
@@ -102,14 +94,14 @@ class Attribute extends Form
      *
      * @var string
      */
-    protected $optionContainer = '//tr[@data-role="option-container"]';
+    protected $optionContainer = './/tr[@data-role="option-container"]';
 
     /**
      * Selector for option container(row) by number
      *
      * @var string
      */
-    protected $optionContainerByNumber = '//tr[@data-role="option-container"][%d]';
+    protected $optionContainerByNumber = './/tr[@data-role="option-container"][%d]';
 
     /**
      * Selector for attribute title
@@ -131,20 +123,6 @@ class Attribute extends Form
      * @var string
      */
     protected $attributeLabel = '[name$="[label]"]';
-
-
-    /**
-     * @constructor
-     * @param Element $element
-     * @param BlockFactory $blockFactory
-     * @param Mapper $mapper
-     * @param Browser $browser
-     */
-    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser)
-    {
-        $this->browser = $browser;
-        parent::__construct($element, $blockFactory, $mapper);
-    }
 
     /**
      * Fill attributes
@@ -301,10 +279,11 @@ class Attribute extends Form
     public function getAttributesData()
     {
         $data = [];
-        $attributeBlocks = $this->_rootElement->find($this->attributeBlock, Locator::SELECTOR_XPATH)->getElements();
         $optionMapping = $this->dataMapping();
 
-        foreach ($attributeBlocks as $attributeBlock) {
+        $count = 1;
+        $attributeBlock = $this->_rootElement->find(sprintf($this->attributeBlock, $count), Locator::SELECTOR_XPATH);
+        while ($attributeBlock->isVisible()) {
             $attribute = [
                 'frontend_label' => $attributeBlock->find($this->attributeTitle)->getText(),
                 'label' => $attributeBlock->find($this->attributeLabel)->getValue(),
@@ -321,9 +300,15 @@ class Attribute extends Form
                     $attribute['options'][$optionKey] += $this->getOptionalFields($option);
                 }
             }
-
             $data[] = $attribute;
+
+            ++$count;
+            $attributeBlock = $this->_rootElement->find(
+                sprintf($this->attributeBlock, $count),
+                Locator::SELECTOR_XPATH
+            );
         }
+
         return $data;
     }
 

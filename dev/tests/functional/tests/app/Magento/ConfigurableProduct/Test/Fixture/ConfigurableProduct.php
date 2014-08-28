@@ -203,8 +203,8 @@ class ConfigurableProduct extends Product
     {
         parent::_initData();
         $this->_dataConfig = [
+            'type_id' => 'configurable',
             'constraint' => 'Success',
-
             'create_url_params' => [
                 'type' => Repository::CONFIGURABLE,
                 'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
