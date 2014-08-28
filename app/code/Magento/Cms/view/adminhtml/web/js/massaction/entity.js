@@ -1,71 +1,57 @@
 define([
     'Magento_Ui/js/framework/ko/scope',
-    'Magento_Ui/js/framework/provider/model',
     '_'
-], function(Scope, DataProvider, _) {
+], function (Scope, _) {
 
     return Scope.extend({
-        initialize: function(massActions, actions) {
+        initialize: function (massActions, actions, listing) {
 
             this
                 .defArray('actions', actions)
                 .defArray('massActions', massActions)
                 .def('currentAction')
-                .def('currentMassAction')
-                .def('listing', null);
+                .def('currentMassAction');
 
-            this
-                ._bind()
-                ._listen()
-                ._load();
+            this.target = listing;
+            this._bind()._listen();
         },
 
-        _bind: function() {
-            _.bindAll(this, 'listing', '_applyMassAction');
-
+        _bind: function () {
+            _.bindAll(this, '_applyMassAction');
+            
             return this;
         },
 
-        _listen: function() {
+        _listen: function () {
             this.currentMassAction.subscribe(this._applyMassAction, 'change');
-
-            return this;
         },
 
-        _load: function() {
-            DataProvider.get('cms.pages.listing').done(this.listing);
+        _applyMassAction: function (action) {
+            var target = this.target;
 
-            return this;
-        },
-
-        _applyMassAction: function(action) {
-            var listing = this.listing();
-
-            if (listing && action) {
+            if (action) {
                 action = action.type;
-                if (listing[action]) {
-                    listing[action].call(listing);
-                }
+                if (target[action]) {
+                    target[action]();
+                }    
             }
         },
 
-        applyAction: function() {
+        applyAction: function () {
             var action = this.currentAction(),
-                listing = this.listing();
+                target = this.target;
 
-            if (listing && action) {
+            if (action) {
                 action = action.type;
                 
-                if (listing[action]) {
-                    listing[action].call(listing);
+                if (target[action]) {
+                    target[action]();
                 }
             }
         },
 
-        getCheckedQuantity: function() {
-            var listing = this.listing();
-
-            return listing ? listing.getCheckedQuantity() : 0;
+        getCheckedQuantity: function () {
+            return this.target.getCheckedQuantity();
         }
     });
 });

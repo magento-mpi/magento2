@@ -1,31 +1,14 @@
 define([
-    'Magento_Ui/js/framework/ko/scope',
+    './entity',
     'Magento_Ui/js/framework/ko/view',
-    'jquery/autocomplete/jquery.autocomplete'
-], function(Scope, View, Autocomplete) {
-
-    var Filters = Scope.extend({
-        initialize: function(el) {
-            this.def('myValue');
-
-            this.myValue.subscribe(this.onChange, 'change');
-
-            var auto = new Autocomplete( el.firstElementChild, {
-                lookup: [
-                    { value: 'Andorra', data: 'AD' },
-                    { value: 'Zimbabwe', data: 'ZZ' }
-                ]
-            }, this.myValue);
-        },
-
-        onChange: function(value){
-            console.log(value);
-        }
-    });
+    'Magento_Ui/js/framework/provider/model'
+], function(Filter, View, Provider) {
 
     return function(el, config, initial) {
-        var massAction = new Filters(el);
-    
-        View.bind(el, massAction);
+
+        Provider.get('cms.pages.listing').done(function (listing) {
+            var filter = new Filter(listing, config, initial);
+            View.bind(el, filter);
+        });
     }
 });

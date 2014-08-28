@@ -1,5 +1,5 @@
 define([
-    '../framework/ko/scope',
+   '../framework/ko/scope',
     '../framework/rest/client',
     '../framework/rest/adapter/local',
     '../framework/mixin/resourceful',
@@ -14,8 +14,6 @@ define([
         mixins: [Resourceful],
 
         initialize: function(initial, config) {
-            var adapter;
-
             this.observable({
                 rows:           initial.rows,
                 fields:         initial.fields,
@@ -25,8 +23,8 @@ define([
             });
 
             this.params = {};
-            
-            adapter = new LocalAdapter(config.resource);
+
+            var adapter = new LocalAdapter(config.resource);
             this.client = new RestClient(adapter);
         },
 
@@ -56,12 +54,13 @@ define([
         },
 
         select: function(rows) {
+            console.log(rows)
             var toSelect = _.pluck(rows, ID_ATTRIBUTE);
             this._select(toSelect);
         },
 
         selectAll: function() {
-            this.client.read().done(this.select.bind(this));
+            this.client.read(null).done(this.select.bind(this));
         },
 
         unselectAll: function() {
@@ -77,7 +76,7 @@ define([
         },
 
         reload: function() {
-            this.lock().client.read().done(function(rows) {
+            this.lock().client.read(null).done(function(rows) {
                 this.unlock().rows(rows);
             }.bind(this));
 
@@ -92,10 +91,6 @@ define([
             return !this.rows().length;
         },
 
-        isView: function(type) {
-            return this.view() === type;
-        },
-
         getViewTemplate: function() {
             return 'Magento_Ui.templates.listing.' + this.view();
         },
@@ -106,8 +101,8 @@ define([
             }
         },
 
-        setParams: function( params ){
-          _.extend( this.params, params );
+        setParams: function(params) {
+            _.extend(this.params, params);
         }
     });
 });

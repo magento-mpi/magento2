@@ -5,20 +5,16 @@ define(['_'], function (_) {
   };
 
   _.extend(RestClient.prototype, {
-    read: function (id) {
-      return this._adapter.read(id);
+    read: function (params, id) {
+      return this._adapter.read(params, id);
     },
 
-    create: function (data) {
-      return this._adapter.create(data);
-    },
-
-    update: function (id, data) {
-      return this._adapter.update(id, data);
+    create: function (entry) {
+      return this._adapter.create(entry);
     },
 
     remove: function (ids) {
-      return this._adapter['delete'].call(this._adapter, ids);
+      return this._adapter.remove(ids);
     }
   });
 

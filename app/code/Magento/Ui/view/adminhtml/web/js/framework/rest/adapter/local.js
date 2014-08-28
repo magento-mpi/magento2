@@ -1,93 +1,55 @@
 define([
-  'Magento_Ui/js/framework/provider/rest',
-  'jquery',
-  'storage',
-  '_'
-], function (RestProvider, $, lo, _) {
+    '_',
+    'Magento_Ui/js/framework/tools/local_backend',
+    'jquery'
+], function (_, LocalBackend, $) {
 
-  var i = 0;
-  function generateUniqueId() {
-    return i++;
-  }
-
-  function resolve(def, data) {
-    setTimeout(function () {
-      def.resolve(data);
-    }, _.random(500, 1000));
-  }
-  
-  var RestLocalAdapter = function (resource) {
-    this.resource = {
-      name: resource,
-      config: RestProvider.get(resource)
+    var RestLocalAdapter = function (resource) {
+        this.backend = new LocalBackend(resource);
     };
-  };
 
-  _.extend(RestLocalAdapter.prototype, {
-    read: function (id) {
-      var
-        deferred = $.Deferred(),
-        collection,
-        entry;
+    _.extend(RestLocalAdapter.prototype, {
+        constructor: RestLocalAdapter,
 
-      if (id) {
-        entry = _.findWhere(collection, { id: id });
-        resolve(deferred, entry || {});
-      } else {
-        collection = lo.storage.get(this.resource.name);
-        resolve(deferred, collection || []);
-      }
+        remove: function (idOrIds) {
+            var isReady = $.Deferred();
 
-      return deferred.promise();
-    },
+            var result = idOrIds === 'array' ? removeCollection(idOrIds) : this.backend.removeOne(idOrIds);
 
-    create: function (data) {
-      var deferred = $.Deferred();
+            resolve(isReady, result);
+            return isReady.promise();
+        },
 
-      _.extend(data, { id: generateUniqueId() });
-      lo.storage.push(this.resource.name, data);
+        read: function (params, id) {
+            var isReady = $.Deferred();
+            var result;
 
-      resolve(deferred, data);
-      return deferred.promise();
-    },
+            if (params) {
+                result = this.backend.readCollection(params);
 
-    update: function (id, data) {
-      var
-        resource = this.resource.name,
-        deferred = $.Deferred(),
-        collection = lo.storage.get(resource),
-        entry = _.findWhere(collection, { id: id });
+            } else if (id) {
+                result = this.backend.readOne(id);
+            }
 
-      _.extend(entry, data);
-      lo.storage.set(resource, collection);
-      resolve(deferred, entry);
+            resolve(isReady, result);
+            return isReady.promise();
+        },
 
-      return deferred.promise();
-    },
+        create: function (entry) {
+            var isReady = $.Deferred();
 
-    'delete': function (ids) {
-      var
-        resource = this.resource.name,
-        deferred = $.Deferred(),
-        collection = lo.storage.get(resource),
-        position, entry,
-        deletedIds = [];
+            var result = this.backend.create(entry);
 
-      ids.forEach(function (id) {
-        entry = _.findWhere(collection, { id: id });
-        position = _.indexOf(collection, entry);
-        if (position >= 0) {
-          collection.splice(position, 1);  
-          deletedIds.push(id);
+            resolve(isReady, result);
+            return isReady.promise();
         }
-      });
+    });
 
-      lo.storage.set(resource, collection);
-      resolve(deferred, deletedIds);
+    return RestLocalAdapter;
 
-      return deferred.promise();
+    function resolve(deferred, data) {
+        setTimeout(function () {
+            deferred.resolve(data);
+        }, _.random(400, 700));
     }
-  });
-
-  return RestLocalAdapter;
 });

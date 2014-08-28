@@ -2,20 +2,14 @@
   <div class="filter-actions">
     <button class="action-reset">Demo actions</button>
     <button data-bind="click: populate">Populate</button>
-    <button data-bind="click: addFewMore">Add few more</button>
     <button data-bind="click: empty">Clean</button>
     <button class="primary" data-bind="click: reloadListing">Reload listing</button>
   </div>
 </div>
-<!-- <div data-m2-init='{"Magento_Cms/js/filters/component": ""}' class="grid-actions">
-  <input type="text" data-bind="value: myValue, valueUpdate: 'afterkeydown'"/>
-  <button title="Add Product" class="action-toggle primary add" data-toggle="dropdown" data-ui-id="products-list-add-new-product-button-dropdown" >
-    <span>Drop</span>
-  </button>
-</div> 
-<div data-m2-init='{"Magento_Cms/js/filter/component": ""}'>
-  
-</div>-->
+<div data-m2-init='{"Magento_Cms/js/filter/component": ""}' class="grid-actions">
+  <input type="text" data-bind="autocomplete: { data: suggestions, writeTo: query }">
+  <div data-bind="text: query().data"></div>
+</div>
 <div data-m2-init='{"Magento_Cms/js/massaction/component": ""}' class="massaction">
   <div class="entry-edit">
     <div>
@@ -67,7 +61,7 @@
     }
   </script>
 </div>
-<div data-m2-init='{"Magento_Cms/js/listing/component": ""}' class="grid">
+<div data-m2-init='{"Magento_Cms/js/listing/component": { "resource": "cms.pages" }}' class="grid">
   <div class="grid-actions">
     <div class="filter-actions">
       <button data-bind="click: setViewTo('tiles')">Tile view</button>
