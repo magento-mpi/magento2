@@ -41,11 +41,6 @@ class OrderCreateTest extends WebapiAbstract
         /** @var \Magento\Sales\Service\V1\Data\OrderAddressBuilder $orderAddressBuilder */
         $orderAddressBuilder = $this->objectManager->get('Magento\Sales\Service\V1\Data\OrderAddressBuilder');
 
-        $orderBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\Order'));
-        $orderItemBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\OrderItem'));
-        $orderPaymentBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\OrderPayment'));
-        $orderAddressBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\OrderAddress'));
-
         $email = uniqid() . 'email@example.com';
         $orderItemBuilder->setSku('sku#1');
         $orderPaymentBuilder->setCcLast4('4444');
@@ -64,7 +59,6 @@ class OrderCreateTest extends WebapiAbstract
         $orderAddressBuilder->setCountryId(1);
         $orderAddressBuilder->setAddressType('billing');
         $orderBuilder->setBillingAddress($orderAddressBuilder->create()->__toArray());
-        $orderAddressBuilder->populateWithArray($this->getDataStructure('Magento\Sales\Service\V1\Data\OrderAddress'));
         $orderAddressBuilder->setCity('City');
         $orderAddressBuilder->setPostcode('12345');
         $orderAddressBuilder->setLastname('Last Name');
@@ -76,13 +70,6 @@ class OrderCreateTest extends WebapiAbstract
         $orderBuilder->setShippingAddress($orderAddressBuilder->create()->__toArray());
         return $orderBuilder->create()->__toArray();
 
-    }
-
-    protected function getDataStructure($className)
-    {
-        $refClass = new \ReflectionClass ($className);
-        $constants = $refClass->getConstants();
-        return array_fill_keys($constants, null);
     }
 
     public function testOrderCreate()
