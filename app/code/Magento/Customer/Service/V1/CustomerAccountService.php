@@ -260,8 +260,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             }
         }
 
-        $this->eventManager->dispatch('customer_login', array('customer' => $customerModel));
-
         $customerData = $this->converter->createCustomerFromModel($customerModel);
         $this->eventManager->dispatch('customer_data_object_login', array('customer' => $customerData));
 
