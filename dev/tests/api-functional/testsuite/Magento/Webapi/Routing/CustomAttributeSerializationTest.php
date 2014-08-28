@@ -62,6 +62,10 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
      */
     protected function setUp()
     {
+        $this->_markTestAsRestOnly(
+            'Should be removed once Data Objects custom attribute processing for SOAP is implemented in MAGETWO-27314.'
+        );
+
         $this->_version = 'V1';
         $this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
@@ -87,9 +91,51 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         );
     }
 
-    /**
-     *  Test get item with any type
-     */
+    public function testSimpleAndNonExistentCustomAttributes()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => $this->_restResourcePath . 'itemAnyType',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
+        ];
+        $requestData = [
+            'item_id' => 1,
+            'name' => 'testProductAnyType',
+            'custom_attributes' =>
+                [
+                    'non_existent' =>
+                        [
+                            'attribute_code' => 'non_existent',
+                            'value' => 'test'
+                        ],
+                    'custom_attribute_string' =>
+                        [
+                            'attribute_code' => 'custom_attribute_string',
+                            'value' => 'someStringValue',
+                        ],
+                ],
+        ];
+        $result = $this->_webApiCall($serviceInfo, ['item' => $requestData]);
+
+        //The non_existent custom attribute should be dropped since its not a defined custom attribute
+        $expectedResponse = [
+            'item_id' => 1,
+            'name' => 'testProductAnyType',
+            'custom_attributes' =>
+                [
+                    [
+                        'attribute_code' => 'custom_attribute_string',
+                        'value' => 'someStringValue',
+                    ],
+                ],
+        ];
+
+        //\Magento\TestModule1\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
+        $this->assertEquals($expectedResponse, $result);
+    }
+
     public function testDataObjectCustomAttributes()
     {
         $customAttributeDataObject = $this->customAttributeDataObjectBuilder
@@ -119,9 +165,6 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         $this->assertEquals($expectedResponse, $result);
     }
 
-    /**
-     *  Test get item with any type
-     */
     public function testNestedDataObjectCustomAttributes()
     {
         $customAttributeNestedDataObject = $this->customAttributeNestedDataObjectBuilder

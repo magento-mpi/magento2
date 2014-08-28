@@ -158,12 +158,12 @@ class ServiceArgsSerializer
     /**
      * Convert custom attribute data array to array of AttributeValue Data Object
      *
-     * @param string $value
+     * @param array $customAttributesValueArray
      * @param string $returnType
      * @param string $dataObjectClassName
      * @return AttributeValue[]
      */
-    protected function convertCustomAttributeValue($value, $returnType, $dataObjectClassName)
+    protected function convertCustomAttributeValue($customAttributesValueArray, $returnType, $dataObjectClassName)
     {
         $result = [];
         $allAttributes = $this->serviceConfigReader->read();
@@ -172,10 +172,10 @@ class ServiceArgsSerializer
             ? substr($dataObjectClassName, 1)
             : $dataObjectClassName;
         if (!isset($allAttributes[$dataObjectClassName])) {
-            return $this->_convertValue($value, $returnType);
+            return $this->_convertValue($customAttributesValueArray, $returnType);
         }
         $dataObjectAttributes = $allAttributes[$dataObjectClassName];
-        foreach ($value as $key => $item) {
+        foreach ($customAttributesValueArray as $key => $item) {
 
             //Check if type is defined, else default to mixed
             $type = isset($dataObjectAttributes[$item[AttributeValue::ATTRIBUTE_CODE]])
