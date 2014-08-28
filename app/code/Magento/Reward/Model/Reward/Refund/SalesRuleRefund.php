@@ -56,52 +56,89 @@ class SalesRuleRefund
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $creditmemo->getOrder();
-        $totalItemsRefund = $creditmemo->getTotalQty();
 
+        if ($creditmemo->getAutomaticallyCreated()) {
+            $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
+        }
+
+        if ($this->isAllowedRefund($creditmemo)
+            && $order->getRewardSalesrulePoints() > 0
+            && $order->getTotalQtyOrdered() - $this->getTotalItemsToRefund($creditmemo, $order) == 0
+        ) {
+            $rewardModel = $this->getRewardModel([
+                'website_id' => $this->storeManager->getStore($order->getStoreId())->getWebsiteId(),
+                'customer_id' => $order->getCustomerId(),
+                'points_delta' => (-$this->getRewardPointsToVoid($order)),
+                'action' => \Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO_VOID,
+            ]);
+            $rewardModel->setActionEntity($order);
+            $rewardModel->save();
+        }
+    }
+
+    /**
+     * Return reward points qty to void
+     *
+     * @param \Magento\Sales\Model\Order $order
+     * @return int
+     */
+    protected function getRewardPointsToVoid(\Magento\Sales\Model\Order $order)
+    {
+        $rewardModel = $this->getRewardModel([
+            'website_id' => $this->storeManager->getStore($order->getStoreId())->getWebsiteId(),
+            'customer_id' => $order->getCustomerId()
+        ]);
+        $rewardModel->loadByCustomer();
+
+        if ($rewardModel->getPointsBalance() >= $order->getRewardSalesrulePoints()) {
+            return (int)$order->getRewardSalesrulePoints();
+        }
+        return (int)$rewardModel->getPointsBalance();
+    }
+
+    /**
+     * Return is refund allowed for creditmemo
+     *
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return bool
+     */
+    protected function isAllowedRefund(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
+    {
+        if ($creditmemo->getAutomaticallyCreated() && !$this->rewardHelper->isAutoRefundEnabled()){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Return total items to refund
+     * Sum of all creditmemo items
+     *
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @param \Magento\Sales\Model\Order $order
+     * @return int
+     */
+    protected function getTotalItemsToRefund(
+        \Magento\Sales\Model\Order\Creditmemo $creditmemo,
+        \Magento\Sales\Model\Order $order
+    ) {
+        $totalItemsRefund = $creditmemo->getTotalQty();
         foreach ($order->getCreditmemosCollection() as $creditMemo) {
             foreach ($creditMemo->getAllItems() as $item) {
                 $totalItemsRefund += $item->getQty();
             }
         }
+        return (int)$totalItemsRefund;
+    }
 
-        $isRefundAllowed = false;
-        if ($creditmemo->getAutomaticallyCreated()) {
-            if ($this->rewardHelper->isAutoRefundEnabled()) {
-                $isRefundAllowed = true;
-            }
-            $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
-        } else {
-            $isRefundAllowed = true;
-        }
-
-        if ($isRefundAllowed
-            && $order->getRewardSalesrulePoints() > 0
-            && $order->getTotalQtyOrdered() - $totalItemsRefund == 0
-        ) {
-            $rewardModel = $this->rewardFactory->create();
-            $rewardModel->setWebsiteId(
-                $this->storeManager->getStore($order->getStoreId())->getWebsiteId()
-            )->setCustomerId(
-                $order->getCustomerId()
-            )->loadByCustomer();
-
-            if ($rewardModel->getPointsBalance() >= $order->getRewardSalesrulePoints()) {
-                $rewardPointsToVoid = (int)$order->getRewardSalesrulePoints();
-            } else {
-                $rewardPointsToVoid = (int)$rewardModel->getPointsBalance();
-            }
-
-            $this->rewardFactory->create()->setCustomerId(
-                $order->getCustomerId()
-            )->setWebsiteId(
-                $this->storeManager->getStore($order->getStoreId())->getWebsiteId()
-            )->setPointsDelta(
-                (-$rewardPointsToVoid)
-            )->setAction(
-                \Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO_VOID
-            )->setActionEntity(
-                $order
-            )->save();
-        }
+    /**
+     * Return reward model
+     *
+     * @param array $data
+     * @return \Magento\Reward\Model\Reward
+     */
+    protected function getRewardModel($data = array())
+    {
+        return $this->rewardFactory->create(['data' => $data]);
     }
 }

@@ -45,7 +45,7 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface', [], [], '', false);
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->rewardHelperMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
         $this->subject = $this->objectManager->getObject(
             '\Magento\Reward\Model\Reward\Refund\SalesRuleRefund',
@@ -57,13 +57,40 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRefund()
+    public function testRefundSuccess()
     {
         $websiteId = 2;
         $customerId = 10;
         $creditmemoTotalQty = 5;
-        $orderMock = $this->getOrderMock();
-        $creditmemoMock = $this->getCreditmemoMock();
+
+        $orderMock = $this->getMock(
+            '\Magento\Sales\Model\Order',
+            [
+                'getRewardSalesrulePoints',
+                '__wakeup',
+                'getCreditmemosCollection',
+                'getTotalQtyOrdered',
+                'getStoreId',
+                'getCustomerId'
+            ],
+            [],
+            '',
+            false
+        );
+        $creditmemoMock = $this->getMock(
+            '\Magento\Sales\Model\Order\Creditmemo',
+            [
+                'getTotalQty',
+                '__wakeup',
+                'getOrder',
+                'getAutomaticallyCreated',
+                'setRewardPointsBalanceRefund',
+                'getRewardPointsBalance'
+            ],
+            [],
+            '',
+            false
+        );
 
         $creditmemoMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
         $creditmemoMock->expects($this->atLeastOnce())
@@ -72,7 +99,7 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
 
         $creditmemo = $this->getMock(
             '\Magento\Sales\Model\Order\Creditmemo',
-            ['getSelections', '__wakeup', 'getData', 'getAllItems'],
+            ['__wakeup', 'getData', 'getAllItems'],
             [],
             '',
             false
@@ -88,7 +115,7 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
         $creditmemo->expects($this->atLeastOnce())->method('getAllItems')->will($this->returnValue([$itemMock]));
 
         $itemMock->expects($this->atLeastOnce())->method('getQty')->will($this->returnValue(5));
-        $creditmemoMock->expects($this->once())->method('getAutomaticallyCreated')->will($this->returnValue(true));
+        $creditmemoMock->expects($this->exactly(2))->method('getAutomaticallyCreated')->will($this->returnValue(true));
         $this->rewardHelperMock->expects($this->once())->method('isAutoRefundEnabled')->will($this->returnValue(true));
 
         $creditmemoMock->expects($this->once())->method('getRewardPointsBalance')->will($this->returnValue(100));
@@ -101,75 +128,150 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
         $orderMock->expects($this->once())->method('getTotalQtyOrdered')->will($this->returnValue(10));
         $rewardMock = $this->getMock(
             '\Magento\Reward\Model\Reward',
-            [
-                'setCustomerId',
-                '__wakeup',
-                'setWebsiteId',
-                'getPointsBalance',
-                'setPointsDelta',
-                'setAction',
-                'setActionEntity',
-                'loadByCustomer',
-                'save'
-            ],
+            ['__wakeup', 'setActionEntity', 'loadByCustomer', 'getPointsBalance', 'save'],
             [],
             '',
             false
         );
         $this->rewardFactoryMock->expects($this->exactly(2))->method('create')->will($this->returnValue($rewardMock));
         $orderMock->expects($this->exactly(2))->method('getStoreId')->will($this->returnValue(1));
+
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->storeManagerMock->expects($this->exactly(2))->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->exactly(2))->method('getWebsiteId')->will($this->returnValue($websiteId));
-
-        $rewardMock->expects($this->exactly(2))->method('setWebsiteId')->with($websiteId)->will($this->returnSelf());
-        $rewardMock->expects($this->exactly(2))->method('setCustomerId')->with($customerId)->will($this->returnSelf());
         $orderMock->expects($this->exactly(2))->method('getCustomerId')->will($this->returnValue($customerId));
 
         $rewardMock->expects($this->once())->method('loadByCustomer')->will($this->returnSelf());
         $rewardMock->expects($this->once())->method('getPointsBalance')->will($this->returnValue(500));
-        $rewardMock->expects($this->once())->method('setPointsDelta')->with(-200)->will($this->returnSelf());
-        $rewardMock->expects($this->once())->method('setAction')
-            ->with(\Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO_VOID)
-            ->will($this->returnSelf());
         $rewardMock->expects($this->once())->method('setActionEntity')->with($orderMock)->will($this->returnSelf());
         $rewardMock->expects($this->once())->method('save')->will($this->returnSelf());
         $this->subject->refund($creditmemoMock);
     }
 
-    protected function getOrderMock()
+    public function testRefundWhenAutoRefundDisabled()
     {
-        return $this->getMock(
-            '\Magento\Sales\Model\Order',
-            [
-                'getRewardSalesrulePoints',
-                '__wakeup',
-                'getCreditmemosCollection',
-                'getTotalQtyOrdered',
-                'getStoreId',
-                'getCustomerId'
-            ],
-            [],
-            '',
-            false
-        );
-    }
-
-    protected function getCreditMemoMock()
-    {
-        return $this->getMock(
+        $orderMock = $this->getMock('\Magento\Sales\Model\Order', [], [], '', false);
+        $creditmemoMock = $this->getMock(
             '\Magento\Sales\Model\Order\Creditmemo',
             [
-                'getTotalQty',
                 '__wakeup',
                 'getOrder',
                 'getAutomaticallyCreated',
-                'setRewardPointsBalanceRefund',
-                'getRewardPointsBalance'
+                'getRewardPointsBalance',
+                'setRewardPointsBalanceRefund'
             ],
             [],
             '',
             false
         );
+
+        $creditmemoMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
+        $creditmemoMock->expects($this->exactly(2))->method('getAutomaticallyCreated')->will($this->returnValue(true));
+        $creditmemoMock->expects($this->once())->method('getRewardPointsBalance')->will($this->returnValue(100));
+        $creditmemoMock->expects($this->once())
+            ->method('setRewardPointsBalanceRefund')
+            ->with(100)
+            ->will($this->returnSelf());
+
+        $this->rewardHelperMock->expects($this->once())->method('isAutoRefundEnabled')->will($this->returnValue(false));
+        $this->subject->refund($creditmemoMock);
+    }
+
+    public function testRefundWhenSalesRulePointsIsZero()
+    {
+        $orderMock = $this->getMock(
+            '\Magento\Sales\Model\Order',
+            ['getRewardSalesrulePoints', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $creditmemoMock = $this->getMock(
+            '\Magento\Sales\Model\Order\Creditmemo',
+            [
+                '__wakeup',
+                'getOrder',
+                'getAutomaticallyCreated',
+                'getRewardPointsBalance',
+                'setRewardPointsBalanceRefund'
+            ],
+            [],
+            '',
+            false
+        );
+
+        $creditmemoMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
+        $creditmemoMock->expects($this->exactly(2))->method('getAutomaticallyCreated')->will($this->returnValue(true));
+        $creditmemoMock->expects($this->once())->method('getRewardPointsBalance')->will($this->returnValue(100));
+        $creditmemoMock->expects($this->once())
+            ->method('setRewardPointsBalanceRefund')
+            ->with(100)
+            ->will($this->returnSelf());
+
+        $this->rewardHelperMock->expects($this->once())->method('isAutoRefundEnabled')->will($this->returnValue(true));
+        $orderMock->expects($this->once())->method('getRewardSalesrulePoints')->will($this->returnValue(0));
+
+        $this->subject->refund($creditmemoMock);
+    }
+
+    public function testPartialRefund()
+    {
+        $orderMock = $this->getMock(
+            '\Magento\Sales\Model\Order',
+            ['getRewardSalesrulePoints', '__wakeup', 'getTotalQtyOrdered', 'getCreditmemosCollection'],
+            [],
+            '',
+            false
+        );
+        $creditmemoMock = $this->getMock(
+            '\Magento\Sales\Model\Order\Creditmemo',
+            [
+                '__wakeup',
+                'getOrder',
+                'getAutomaticallyCreated',
+                'getRewardPointsBalance',
+                'setRewardPointsBalanceRefund',
+                'getTotalQty'
+            ],
+            [],
+            '',
+            false
+        );
+
+        $creditmemoMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
+        $creditmemoMock->expects($this->exactly(2))->method('getAutomaticallyCreated')->will($this->returnValue(true));
+        $creditmemoMock->expects($this->once())->method('getRewardPointsBalance')->will($this->returnValue(100));
+        $creditmemoMock->expects($this->once())
+            ->method('setRewardPointsBalanceRefund')
+            ->with(100)
+            ->will($this->returnSelf());
+
+        $this->rewardHelperMock->expects($this->once())->method('isAutoRefundEnabled')->will($this->returnValue(true));
+
+        $orderMock->expects($this->once())->method('getRewardSalesrulePoints')->will($this->returnValue(100));
+        $orderMock->expects($this->once())->method('getTotalQtyOrdered')->will($this->returnValue(10));
+
+        $creditmemoMock->expects($this->atLeastOnce())->method('getTotalQty')->will($this->returnValue(5));
+
+        $creditmemo = $this->getMock(
+            '\Magento\Sales\Model\Order\Creditmemo',
+            ['__wakeup', 'getData', 'getAllItems'],
+            [],
+            '',
+            false
+        );
+        $creditmemoCollectionMock = $this->objectManager->getCollectionMock(
+            '\Magento\Sales\Model\Resource\Order\Creditmemo\Collection',
+            [$creditmemo]
+        );
+        $orderMock->expects($this->atLeastOnce())
+            ->method('getCreditmemosCollection')
+            ->will($this->returnValue($creditmemoCollectionMock));
+
+        $itemMock = $this->getMock('\Magento\Sales\Model\Order\Creditmemo\Item', ['getQty', '__wakeup'], [], '', false);
+        $itemMock->expects($this->atLeastOnce())->method('getQty')->will($this->returnValue(3));
+        $creditmemo->expects($this->atLeastOnce())->method('getAllItems')->will($this->returnValue([$itemMock]));
+
+        $this->subject->refund($creditmemoMock);
     }
 }
