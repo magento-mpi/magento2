@@ -46,9 +46,9 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
      */
     protected function _prepareLayout()
     {
-        if ($head = $this->getLayout()->getBlock('head')) {
-            $head->setCanLoadCalendarJs(true);
-        }
+//        if ($head = $this->getLayout()->getBlock('head')) {
+//            $head->setCanLoadCalendarJs(true);
+//        }
         return $this;
     }
 

@@ -65,7 +65,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
                 );
         }
 
-        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+//        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $block = $this->_view->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {

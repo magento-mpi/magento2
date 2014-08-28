@@ -64,7 +64,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         parent::_prepareLayout();
         if ($this->_wysiwygConfig->isEnabled()) {
-            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+//            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
 

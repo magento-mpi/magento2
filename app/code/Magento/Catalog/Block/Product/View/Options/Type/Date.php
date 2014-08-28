@@ -53,9 +53,9 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      */
     protected function _prepareLayout()
     {
-        if ($head = $this->getLayout()->getBlock('head')) {
-            $head->setCanLoadCalendarJs(true);
-        }
+//        if ($head = $this->getLayout()->getBlock('head')) {
+//            $head->setCanLoadCalendarJs(true);
+//        }
         return parent::_prepareLayout();
     }
 

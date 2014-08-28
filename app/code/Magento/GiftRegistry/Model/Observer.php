@@ -327,9 +327,9 @@ class Observer
         /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = $observer->getEvent()->getLayout();
         /** @var $blockHead \Magento\Theme\Block\Html\Head */
-        $blockHead = $layout->getBlock('head');
-        if ($blockHead && $this->isGiftregistryEnabled()) {
-            $blockHead->setData('giftregistry_enabled', true);
-        }
+//        $blockHead = $layout->getBlock('head');
+//        if ($blockHead && $this->isGiftregistryEnabled()) {
+//            $blockHead->setData('giftregistry_enabled', true);
+//        }
     }
 }

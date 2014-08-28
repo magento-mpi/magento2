@@ -109,7 +109,7 @@ class Edit extends \Magento\Backend\Block\Template
     {
         // Load Wysiwyg on demand and Prepare layout
         if ($this->_wysiwygConfig->isEnabled()) {
-            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+//            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 
         $this->getToolbar()->addChild(

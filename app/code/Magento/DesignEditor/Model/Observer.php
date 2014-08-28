@@ -44,11 +44,11 @@ class Observer
     public function clearJs(EventObserver $event)
     {
         /** @var $layout \Magento\Framework\View\LayoutInterface */
-        $layout = $event->getEvent()->getLayout();
-        $blockHead = $layout->getBlock('head');
-        if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
-            return;
-        }
+//        $layout = $event->getEvent()->getLayout();
+//        $blockHead = $layout->getBlock('head');
+//        if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
+//            return;
+//        }
 
         /** @var $pageAssets \Magento\Framework\View\Asset\GroupedCollection */
         $pageAssets = $this->_objectManager->get('Magento\Framework\View\Asset\GroupedCollection');

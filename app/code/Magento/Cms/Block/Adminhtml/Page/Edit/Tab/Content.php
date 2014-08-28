@@ -45,7 +45,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     {
         parent::_prepareLayout();
         if ($this->_wysiwygConfig->isEnabled()) {
-            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+//            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
 
