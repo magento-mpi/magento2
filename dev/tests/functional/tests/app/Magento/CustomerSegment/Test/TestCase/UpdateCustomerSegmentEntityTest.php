@@ -195,7 +195,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
     }
 
     /**
-     * Merge Customer Segment fixture
+     * Merge Customer Segment fixtures
      *
      * @param CustomerSegment $segment
      * @param CustomerSegment $segmentOriginal
