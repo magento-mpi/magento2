@@ -43,4 +43,14 @@
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\DeleteGroup</class>
     </deleteGroup>
+    <newWebsiteIndex>
+        <mca>system_store/newWebsite/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\NewWebsiteIndex</class>
+    </newWebsiteIndex>
+    <editWebsite>
+        <mca>system_store/editWebsite</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\EditWebsite</class>
+    </editWebsite>
 </page>

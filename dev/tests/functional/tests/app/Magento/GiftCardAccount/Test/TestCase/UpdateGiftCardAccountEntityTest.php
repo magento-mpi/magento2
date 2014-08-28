@@ -103,6 +103,7 @@ class UpdateGiftCardAccountEntityTest extends Injectable
      */
     public function test(GiftCardAccount $giftCardAccountOrigin, GiftCardAccount $giftCardAccount)
     {
+        $this->markTestIncomplete('MAGETWO-27663');
         // Precondition
         $giftCardAccountOrigin->persist();
 
@@ -112,7 +113,10 @@ class UpdateGiftCardAccountEntityTest extends Injectable
         $this->newIndex->getPageMainForm()->fill($giftCardAccount);
         $this->newIndex->getPageMainActions()->save();
 
-        return ['giftCardAccount' => $this->mergeFixture($giftCardAccount, $giftCardAccountOrigin)];
+        $code = $this->giftCardAccountIndex->getGiftCardAccount()
+            ->getCode(['balance' => $giftCardAccount->getBalance()], false);
+
+        return ['giftCardAccount' => $this->mergeFixture($giftCardAccount, $giftCardAccountOrigin), 'code' => $code];
     }
 
     /**

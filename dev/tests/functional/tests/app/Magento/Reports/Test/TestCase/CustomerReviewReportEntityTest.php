@@ -134,7 +134,6 @@ class CustomerReviewReportEntityTest extends Injectable
      * @param $customerLogin
      * @param CatalogProductSimple $product
      * @param Browser $browser
-     * @param $reviewsCount
      * @return array
      *
      * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
@@ -144,8 +143,7 @@ class CustomerReviewReportEntityTest extends Injectable
         CustomerInjectable $customer,
         CatalogProductSimple $product,
         Browser $browser,
-        $customerLogin,
-        $reviewsCount
+        $customerLogin
     ) {
         // Preconditions
         $product->persist();
