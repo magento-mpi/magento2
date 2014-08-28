@@ -104,10 +104,7 @@ class SalesRuleRefund
      */
     protected function isAllowedRefund(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
-        if ($creditmemo->getAutomaticallyCreated() && !$this->rewardHelper->isAutoRefundEnabled()){
-            return false;
-        }
-        return true;
+        return $creditmemo->getAutomaticallyCreated() ? $this->rewardHelper->isAutoRefundEnabled() : true;
     }
 
     /**
