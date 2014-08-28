@@ -11,8 +11,8 @@
     <blocks>
         <successBlock>
             <class>Magento\Checkout\Test\Block\Onepage\Success</class>
-            <locator>#maincontent</locator>
-            <strategy>css selector</strategy>
+            <locator>//div[contains(@class, "checkout-success")]</locator>
+            <strategy>xpath</strategy>
         </successBlock>
     </blocks>
 </page>
