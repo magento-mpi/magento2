@@ -10,12 +10,13 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 
 use Magento\Framework\App\Resource\Config;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 use Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match as MatchQueryBuilder;
 use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
 use Magento\Framework\Search\Request\Query\Filter as FilterQuery;
 use Magento\Framework\Search\Request\Query\Match as MatchQuery;
-use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 use Magento\Framework\Search\Request\QueryInterface;
+use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 use Magento\Framework\Search\RequestInterface;
 
 class Mapper
@@ -34,20 +35,27 @@ class Mapper
      * @var \Magento\Framework\Search\Request\Query\Match
      */
     private $matchQueryBuilder;
+    /**
+     * @var Filter\Builder
+     */
+    private $filterBuilder;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param ScoreBuilderFactory $scoreBuilderFactory
      * @param MatchQueryBuilder $matchQueryBuilder
+     * @param Builder $filterBuilder
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         ScoreBuilderFactory $scoreBuilderFactory,
-        MatchQueryBuilder $matchQueryBuilder
+        MatchQueryBuilder $matchQueryBuilder,
+        Builder $filterBuilder
     ) {
         $this->resource = $resource;
         $this->scoreBuilderFactory = $scoreBuilderFactory;
         $this->matchQueryBuilder = $matchQueryBuilder;
+        $this->filterBuilder = $filterBuilder;
     }
 
     /**
@@ -183,7 +191,7 @@ class Mapper
                 $scoreBuilder->endQuery($query->getBoost());
                 break;
             case FilterQuery::REFERENCE_FILTER:
-                $filterCondition = '(someCondition)'; // add filterBuilder
+                $filterCondition = $this->filterBuilder->build($query->getReference());
                 if ($queryCondition === BoolQuery::QUERY_CONDITION_NOT) {
                     $filterCondition = '!' . $filterCondition;
                 }
