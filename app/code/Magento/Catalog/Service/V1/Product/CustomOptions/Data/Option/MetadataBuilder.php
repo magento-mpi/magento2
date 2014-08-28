@@ -10,6 +10,9 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MetadataBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**

@@ -138,9 +138,9 @@ class Management extends \Magento\Framework\View\Element\Template
     {
         $count = $this->_wishlistData->getWishlistItemCount($wishlist);
         if ($count == 1) {
-            return __('1 item');
+            return __('1 item in wish list');
         } else {
-            return __('%1 items', $count);
+            return __('%1 items in wish list', $count);
         }
     }
 

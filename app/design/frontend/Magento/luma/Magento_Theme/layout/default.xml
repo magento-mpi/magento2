@@ -25,5 +25,5 @@
             <argument name="logo_file" xsi:type="string">images/logo.png</argument>
         </arguments>
     </referenceBlock>
-    <move element="copyright" destination="before_body_end"/>
+    <move element="copyright" destination="before.body.end"/>
 </page>
