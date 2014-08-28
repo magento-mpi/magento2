@@ -22,7 +22,7 @@ class Form extends \Magento\Framework\App\Action\Action
             return;
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
+        $this->pageConfig->setTitle(__('Orders and Returns'));
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
         $this->_view->renderLayout();
     }

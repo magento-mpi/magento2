@@ -83,19 +83,10 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             if ($keywords) {
                 $this->pageConfig->setKeywords($keywords);
             }
-            //@todo: replace with new page config implementation
-            $headBlock = $this->getLayout()->getBlock('head');
-            if ($this->_categoryHelper->canUseCanonicalTag() && !$headBlock->getChildBlock(
-                'magento-page-head-category-canonical-link'
-            )
-            ) {
-                $headBlock->addChild(
-                    'magento-page-head-category-canonical-link',
-                    'Magento\Theme\Block\Html\Head\Link',
-                    array(
-                        'url' => $category->getUrl(),
-                        'properties' => array('attributes' => array('rel' => 'canonical'))
-                    )
+            if ($this->_categoryHelper->canUseCanonicalTag()) {
+                $this->pageConfig->addRemotePageAsset(
+                    $category->getUrl(),
+                    ['attributes' => ['rel' => 'canonical']]
                 );
             }
 

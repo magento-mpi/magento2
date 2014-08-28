@@ -22,7 +22,7 @@ class History extends \Magento\Framework\App\Action\Action implements OrderInter
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
 
-        $this->_view->getLayout()->getBlock('head')->setTitle(__('My Orders'));
+        $this->pageConfig->setTitle(__('My Orders'));
 
         $block = $this->_view->getLayout()->getBlock('customer.account.link.back');
         if ($block) {

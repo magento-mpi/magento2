@@ -40,7 +40,7 @@ class Index extends \Magento\Checkout\Controller\Onepage
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
-        $layout->getBlock('head')->setTitle(__('Checkout'));
+        $this->pageConfig->setTitle(__('Checkout'));
         $this->_view->renderLayout();
     }
 }

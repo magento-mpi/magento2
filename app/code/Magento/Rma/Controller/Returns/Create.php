@@ -103,7 +103,7 @@ class Create extends \Magento\Rma\Controller\Returns
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
-        $layout->getBlock('head')->setTitle(__('Create New Return'));
+        $this->pageConfig->setTitle(__('Create New Return'));
         if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
