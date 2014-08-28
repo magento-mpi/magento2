@@ -18,9 +18,9 @@ class ArrayObjectSearch
      *
      * Example of usage:
      * $data = array(
-     *     0 => ValidationRuleBuilderObject('name' => 'min_text_length', 'value'=>0)
-     *     1 => ValidationRuleBuilderObject('name' => 'max_text_length', 'value'=>255)
-     *     2 => ValidationRuleBuilderObject('anyOtherName' => 'customName', 'anyOtherValue'=>'customValue')
+     *     ValidationRuleBuilderObject('name' => 'min_text_length', 'value' => 0)
+     *     ValidationRuleBuilderObject('name' => 'max_text_length', 'value' => 255)
+     *     ValidationRuleBuilderObject('anyOtherName' => 'customName', 'anyOtherValue' => 'customValue')
      * );
      *
      * Call:
