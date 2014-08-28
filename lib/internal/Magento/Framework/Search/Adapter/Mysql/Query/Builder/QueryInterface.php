@@ -12,12 +12,12 @@ interface QueryInterface
     /**
      * @param \Magento\Framework\DB\Select $select
      * @param \Magento\Framework\Search\Request\QueryInterface $query
-     * @param string $conditionType
+     * @param bool $isNot
      * @return \Magento\Framework\DB\Select
      */
     public function build(
         \Magento\Framework\DB\Select $select,
         \Magento\Framework\Search\Request\QueryInterface $query,
-        $conditionType
+        $isNot
     );
 }

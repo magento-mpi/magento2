@@ -1,7 +1,6 @@
 <?php
 /**
  * Mapper class. Maps library request to specific adapter dependent query
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,7 +10,9 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 
 use Magento\Framework\App\Resource\Config;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match as MatchQueryBuilder;
 use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
+use Magento\Framework\Search\Request\Query\Filter as FilterQuery;
 use Magento\Framework\Search\Request\Query\Match as MatchQuery;
 use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 use Magento\Framework\Search\RequestInterface;
@@ -22,21 +23,30 @@ class Mapper
      * @var \Magento\Framework\App\Resource
      */
     private $resource;
+
     /**
-     * @var ScoreManager
+     * @var ScoreBuilder
      */
-    private $scoreManager;
+    private $scoreBuilderFactory;
+
+    /**
+     * @var \Magento\Framework\Search\Request\Query\Match
+     */
+    private $matchQueryBuilder;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param ScoreManager $scoreManager
+     * @param ScoreBuilderFactory $scoreBuilderFactory
+     * @param MatchQueryBuilder $matchQueryBuilder
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        ScoreManager $scoreManager
+        ScoreBuilderFactory $scoreBuilderFactory,
+        MatchQueryBuilder $matchQueryBuilder
     ) {
         $this->resource = $resource;
-        $this->scoreManager = $scoreManager;
+        $this->scoreBuilderFactory = $scoreBuilderFactory;
+        $this->matchQueryBuilder = $matchQueryBuilder;
     }
 
     /**
@@ -47,45 +57,115 @@ class Mapper
      */
     public function buildQuery(RequestInterface $request)
     {
-        $select = $this->processQuery($request->getQuery(), $this->getSelect());
+        $scoreBuilder = $this->scoreBuilderFactory->create();
+        $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), null);
         return $select;
     }
 
     /**
      * Process query
      *
+     * @param ScoreBuilder $scoreBuilder
      * @param RequestQueryInterface $query
      * @param Select $select
-     * @param null|string $queryCondition
+     * @param string|null $queryCondition
      * @return Select
+     * @throws \InvalidArgumentException
      */
-    protected function processQuery(RequestQueryInterface $query, Select $select, $queryCondition = null)
-    {
+    protected function processQuery(
+        ScoreBuilder $scoreBuilder,
+        RequestQueryInterface $query,
+        Select $select,
+        $queryCondition
+    ) {
         switch ($query->getType()) {
             case RequestQueryInterface::TYPE_MATCH:
                 /** @var MatchQuery $query */
-//                $matchQueryBuilder->buildQuery(
-//                    $select,
-//                    $query,
-//                    $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
-//                );
+                $scoreBuilder->startQuery();
+                $select = $this->matchQueryBuilder->build($select, $query, $this->isNot($queryCondition));
+                $scoreBuilder->endQuery($query->getBoost());
                 break;
             case RequestQueryInterface::TYPE_BOOL:
                 /** @var BoolQuery $query */
-                $this->processBoolQuery($query, $select, $queryCondition);
+                $this->processBoolQuery($scoreBuilder, $query, $select, $queryCondition);
                 break;
             case RequestQueryInterface::TYPE_FILTER:
-                /** @var \Magento\Framework\Search\Request\Query\Filter $query */
-//                $filterQueryBuilder->buildQuery(
-//                    $select,
-//                    $query,
-//                    $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
-//                );
+                /** @var FilterQuery $query */
+                $this->processFilterQuery($scoreBuilder, $query, $select, $queryCondition);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown query type \'%s\'', $query->getType()));
         }
         return $select;
+    }
+
+    /**
+     * Process bool query
+     *
+     * @param ScoreBuilder $scoreBuilder
+     * @param BoolQuery $query
+     * @param Select $select
+     * @param string $queryCondition
+     * @return void
+     */
+    private function processBoolQuery(ScoreBuilder $scoreBuilder, BoolQuery $query, Select $select, $queryCondition)
+    {
+        $scoreBuilder->startQuery();
+
+        foreach ($query->getMust() as $subQuery) {
+            $this->processQuery(
+                $scoreBuilder,
+                $subQuery,
+                $select,
+                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
+            );
+        }
+        foreach ($query->getShould() as $subQuery) {
+            $this->processQuery(
+                $scoreBuilder,
+                $subQuery,
+                $select,
+                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_SHOULD)
+            );
+        }
+        foreach ($query->getMustNot() as $subQuery) {
+            $this->processQuery(
+                $scoreBuilder,
+                $subQuery,
+                $select,
+                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_NOT)
+            );
+        }
+
+        $scoreBuilder->endQuery($query->getBoost());
+    }
+
+    /**
+     * Process filter query
+     *
+     * @param ScoreBuilder $scoreBuilder
+     * @param FilterQuery $query
+     * @param Select $select
+     * @param string $queryCondition
+     * @return void
+     */
+    private function processFilterQuery(ScoreBuilder $scoreBuilder, FilterQuery $query, Select $select, $queryCondition)
+    {
+        switch ($query->getReferenceType()) {
+            case FilterQuery::REFERENCE_QUERY:
+                $scoreBuilder->startQuery();
+                $this->processQuery($scoreBuilder, $query->getReference(), $select, $queryCondition);
+                $scoreBuilder->endQuery($query->getBoost());
+                break;
+            case FilterQuery::REFERENCE_FILTER:
+                $filterCondition = '(someCondition)'; // add filterBuilder
+                if ($queryCondition === BoolQuery::QUERY_CONDITION_NOT) {
+                    $filterCondition = '!' . $filterCondition;
+                }
+                $select->where($filterCondition);
+                $scoreBuilder->addCondition(1, $query->getBoost());
+                break;
+        }
     }
 
     /**
@@ -99,47 +179,23 @@ class Mapper
     }
 
     /**
-     * Process bool query
-     *
-     * @param BoolQuery $query
-     * @param Select $select
-     * @param string $queryCondition
-     * @return void
-     */
-    private function processBoolQuery(BoolQuery $query, Select $select, $queryCondition)
-    {
-        foreach ($query->getMust() as $subQuery) {
-            $this->processQuery(
-                $subQuery,
-                $select,
-                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
-            );
-        }
-        foreach ($query->getShould() as $subQuery) {
-            $this->processQuery(
-                $subQuery,
-                $select,
-                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_SHOULD)
-            );
-        }
-        foreach ($query->getMustNot() as $subQuery) {
-            $this->processQuery(
-                $subQuery,
-                $select,
-                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_NOT)
-            );
-        }
-    }
-
-    /**
      * Filter query type
      *
-     * @param string|null $queryCondition
-     * @param string $defaultQueryType
+     * @param $queryCondition
+     * @param string $defaultQueryCondition
      * @return string
      */
     private function getFilteredQueryType($queryCondition, $defaultQueryCondition = BoolQuery::QUERY_CONDITION_MUST)
     {
-        return $queryCondition ?: $defaultQueryCondition;
+        return $queryCondition ? : $defaultQueryCondition;
+    }
+
+    /**
+     * @param $conditionType
+     * @return bool
+     */
+    private function isNot($conditionType)
+    {
+        return BoolQuery::QUERY_CONDITION_NOT === $conditionType;
     }
 }

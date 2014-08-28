@@ -9,10 +9,10 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
-use Magento\Framework\App\Resource\Config;
+use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Select;
-use Magento\Framework\Search\AdapterInterface;
 use Magento\Framework\Search\RequestInterface;
+use Magento\Framework\Search\AdapterInterface;
 
 class Adapter implements AdapterInterface
 {
@@ -31,7 +31,7 @@ class Adapter implements AdapterInterface
     protected $responseFactory;
 
     /**
-     * @var \Magento\Framework\App\Resource
+     * @var Resource
      */
     private $resource;
 
@@ -43,7 +43,7 @@ class Adapter implements AdapterInterface
     public function __construct(
         Mapper $mapper,
         ResponseFactory $responseFactory,
-        \Magento\Framework\App\Resource $resource
+        Resource $resource
     ) {
         $this->mapper = $mapper;
         $this->responseFactory = $responseFactory;
@@ -58,8 +58,8 @@ class Adapter implements AdapterInterface
         /** @var Select $query */
         $query = $this->mapper->buildQuery($request);
         $response = [
-            'documents' => $this->executeDocumentsQuery($query),
-            'aggregations' => $this->executeAggregationsQuery($query),
+            'documents' => $this->executeDocuments($query),
+            'aggregations' => $this->executeAggregations($query),
         ];
         return $this->responseFactory->create($response);
     }
@@ -70,18 +70,25 @@ class Adapter implements AdapterInterface
      *
      * @return array
      */
-    private function executeDocumentsQuery(Select $select)
+    private function executeDocuments(Select $select)
     {
-        $dbAdapter = $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE);
-        return $dbAdapter->fetchAssoc($select);
+        return $this->getConnection()->fetchAssoc($select);
     }
 
     /**
-     * @param Select $query
+     * @param Select $select
      * @return array
      */
-    private function executeAggregationsQuery(Select $query)
+    private function executeAggregations(Select $select)
     {
         return [];
+    }
+
+    /**
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    private function getConnection()
+    {
+        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
     }
 }

@@ -37,6 +37,7 @@ class Match implements QueryInterface
     ) {
         $this->scoreBuilder->setQueryBoost($query->getName(), $query->getBoost());
 
+        $conditionList = [];
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         foreach ($query->getMatches() as $match) {
             $mode = Select::FULLTEXT_MODE_NATURAL_QUERY;
@@ -45,15 +46,16 @@ class Match implements QueryInterface
                 $mode = Select::FULLTEXT_MODE_BOOLEAN;
             }
 
+            $condition = $select->getMatchQuery($match['field'], $match['value'], $mode);
+
             $this->scoreBuilder->addCondition(
-                $query->getName(),
-                $select->getMatchQuery($match['field'], $match['value']),
-                isset($match['boost']) ? $match['boost'] : 1,
-                $mode
+                $condition,
+                isset($match['boost']) ? $match['boost'] : 1
             );
-            $select->match($match['field'], $match['value'], true, $mode);
+
+            $conditionList[] = $condition;
         }
 
-        return $select;
+        return $conditionList;
     }
 }
