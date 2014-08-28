@@ -91,6 +91,10 @@ class Footer extends Block
      */
     public function selectStoreGroup($storeGroupName)
     {
+        $storeSwitcher = $this->_rootElement->find($this->storeGroupSwitch);
+        if (!$storeSwitcher->isVisible()) {
+            return;
+        }
         $this->_rootElement->find($this->storeGroupSwitch)->click();
         $storeGroup = $this->_rootElement->find(
             sprintf($this->storeGroupSelector, $storeGroupName),
