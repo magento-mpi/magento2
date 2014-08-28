@@ -9,6 +9,8 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
+use Magento\Framework\App\Resource\Config;
+use Magento\Framework\DB\Select;
 use Magento\Framework\Search\AdapterInterface;
 use Magento\Framework\Search\RequestInterface;
 
@@ -29,15 +31,23 @@ class Adapter implements AdapterInterface
     protected $responseFactory;
 
     /**
+     * @var \Magento\Framework\App\Resource
+     */
+    private $resource;
+
+    /**
      * @param Mapper $mapper
      * @param ResponseFactory $responseFactory
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(
         Mapper $mapper,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        \Magento\Framework\App\Resource $resource
     ) {
         $this->mapper = $mapper;
         $this->responseFactory = $responseFactory;
+        $this->resource = $resource;
     }
 
     /**
@@ -45,17 +55,33 @@ class Adapter implements AdapterInterface
      */
     public function query(RequestInterface $request)
     {
+        /** @var Select $query */
         $query = $this->mapper->buildQuery($request);
-        $response = $this->executeQuery($query);
+        $response = [
+            'documents' => $this->executeDocumentsQuery($query),
+            'aggregations' => $this->executeAggregationsQuery($query),
+        ];
         return $this->responseFactory->create($response);
     }
 
     /**
      * Executes query and return raw response
+     * @param Select $select
      *
-     * @return mixed
+     * @return array
      */
-    private function executeQuery()
+    private function executeDocumentsQuery(Select $select)
     {
+        $dbAdapter = $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE);
+        return $dbAdapter->fetchAssoc($select);
+    }
+
+    /**
+     * @param Select $query
+     * @return array
+     */
+    private function executeAggregationsQuery(Select $query)
+    {
+        return [];
     }
 }
