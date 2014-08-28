@@ -75,7 +75,7 @@ define([
         },
 
         reload: function() {
-            this.lock().client.read(null).done(function(rows) {
+            this.lock().client.read(this.params).done(function(rows) {
                 this.unlock().rows(rows);
             }.bind(this));
 
@@ -102,6 +102,8 @@ define([
 
         setParams: function(params) {
             _.extend(this.params, params);
+
+            return this;
         }
     });
 });

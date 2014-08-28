@@ -7,9 +7,9 @@ define([
 
     return {
         populate: function (namespace) {
-            namespace = namespace.replace(/(\.)/g, '_');
+            var name = namespace.replace(/(\.)/g, '_');
             
-            require([ROOT_PATH + '/' + namespace], function (fixtures) {
+            require([ROOT_PATH + '/' + name], function (fixtures) {
                 storage[namespace] = fixtures;
             });
         },
