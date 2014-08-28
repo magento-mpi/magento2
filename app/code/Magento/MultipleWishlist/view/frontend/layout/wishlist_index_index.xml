@@ -8,16 +8,12 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="body.class">
-        <action method="addBodyClass" ifconfig="wishlist/general/multiple_enabled">
-            <argument name="class" xsi:type="string">page-multiple-wishlist</argument>
-        </action>
-    </referenceBlock>
-    <referenceBlock name="head">
-        <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
-            <argument translate="true" name="title" xsi:type="string">My Wish Lists</argument>
-        </action>
-    </referenceBlock>
+    <head>
+        <title>My Wish Lists</title>
+    </head>
+    <body>
+        <attribute name="class" value="page-multiple-wishlist" />
+    </body>
     <referenceBlock name="page.main.title">
         <action method="setPageTitle" ifconfig="wishlist/general/multiple_enabled">
             <argument translate="true" name="title" xsi:type="string">My Wish Lists</argument>

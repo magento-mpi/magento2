@@ -9,9 +9,9 @@
 -->
 <page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <!-- Temporary solution -->
-    <block class="Magento\Theme\Block\Html\Head" name="head" as="head" before="-">
+    <referenceContainer name="after.body.start">
         <block class="Magento\Framework\View\Element\Js\Cookie" name="js_cookies" template="Magento_Theme::js/cookie.phtml"/>
-    </block>
+    </referenceContainer>
     <block class="Magento\Theme\Block\Html\Body" name="body.class"/>
     <referenceBlock name="top.links">
         <block class="Magento\Theme\Block\Html\Header" name="header" as="header" before="-">
