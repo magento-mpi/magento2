@@ -9,7 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Service/etc/data_object.xsd">
     <custom_attributes for="Magento\Catalog\Service\V1\Data\Product">
-        <attribute code="bundle_product_links" type="Magento\Bundle\Service\V1\Data\Product\Link" />
         <attribute code="bundle_product_options" type="Magento\Bundle\Service\V1\Data\Product\Option" />
     </custom_attributes>
 </config>

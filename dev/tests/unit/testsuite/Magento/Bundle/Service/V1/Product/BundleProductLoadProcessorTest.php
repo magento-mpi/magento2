@@ -32,11 +32,6 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
     private $optionReadService;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Product\Link\ReadService|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $linkReadService;
-
-    /**
      * @var \Magento\Catalog\Service\V1\Data\ProductBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     private $productBuilder;
@@ -59,10 +54,6 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->linkReadService = $this->getMockBuilder('Magento\Bundle\Service\V1\Product\Link\ReadService')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->productBuilder = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\ProductBuilder')
             ->setMethods(['setCustomAttribute'])
             ->disableOriginalConstructor()
@@ -72,7 +63,6 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
             'Magento\Bundle\Service\V1\Product\BundleProductLoadProcessor',
             [
                 'optionReadService' => $this->optionReadService,
-                'linkReadService'   => $this->linkReadService,
                 'productRepository' => $this->productRepository,
             ]
         );
@@ -117,15 +107,6 @@ class BundleProductLoadProcessorTest extends \PHPUnit_Framework_TestCase
         $this->productBuilder->expects($this->at(0))
             ->method('setCustomAttribute')
             ->with('bundle_product_options', $optionCustomAttributeValue);
-
-        $linkCustomAttributeValue = ['x', 'y'];
-        $this->linkReadService->expects($this->once())
-            ->method('getChildren')
-            ->with($productId)
-            ->will($this->returnValue($linkCustomAttributeValue));
-        $this->productBuilder->expects($this->at(1))
-            ->method('setCustomAttribute')
-            ->with('bundle_product_links', $linkCustomAttributeValue);
 
         $this->model->load($productId, $this->productBuilder);
     }
