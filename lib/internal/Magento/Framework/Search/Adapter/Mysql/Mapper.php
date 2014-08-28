@@ -92,11 +92,11 @@ class Mapper
                 break;
             case RequestQueryInterface::TYPE_BOOL:
                 /** @var BoolQuery $query */
-                $this->processBoolQuery($scoreBuilder, $query, $select, $queryCondition);
+                $select = $this->processBoolQuery($scoreBuilder, $query, $select, $queryCondition);
                 break;
             case RequestQueryInterface::TYPE_FILTER:
                 /** @var FilterQuery $query */
-                $this->processFilterQuery($scoreBuilder, $query, $select, $queryCondition);
+                $select = $this->processFilterQuery($scoreBuilder, $query, $select, $queryCondition);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown query type \'%s\'', $query->getType()));
@@ -111,14 +111,14 @@ class Mapper
      * @param BoolQuery $query
      * @param Select $select
      * @param string $queryCondition
-     * @return void
+     * @return Select
      */
     private function processBoolQuery(ScoreBuilder $scoreBuilder, BoolQuery $query, Select $select, $queryCondition)
     {
         $scoreBuilder->startQuery();
 
         foreach ($query->getMust() as $subQuery) {
-            $this->processQuery(
+            $select = $this->processQuery(
                 $scoreBuilder,
                 $subQuery,
                 $select,
@@ -126,7 +126,7 @@ class Mapper
             );
         }
         foreach ($query->getShould() as $subQuery) {
-            $this->processQuery(
+            $select = $this->processQuery(
                 $scoreBuilder,
                 $subQuery,
                 $select,
@@ -134,7 +134,7 @@ class Mapper
             );
         }
         foreach ($query->getMustNot() as $subQuery) {
-            $this->processQuery(
+            $select = $this->processQuery(
                 $scoreBuilder,
                 $subQuery,
                 $select,
@@ -143,6 +143,8 @@ class Mapper
         }
 
         $scoreBuilder->endQuery($query->getBoost());
+
+        return $select;
     }
 
     /**
@@ -152,14 +154,14 @@ class Mapper
      * @param FilterQuery $query
      * @param Select $select
      * @param string $queryCondition
-     * @return void
+     * @return Select
      */
     private function processFilterQuery(ScoreBuilder $scoreBuilder, FilterQuery $query, Select $select, $queryCondition)
     {
         switch ($query->getReferenceType()) {
             case FilterQuery::REFERENCE_QUERY:
                 $scoreBuilder->startQuery();
-                $this->processQuery($scoreBuilder, $query->getReference(), $select, $queryCondition);
+                $select = $this->processQuery($scoreBuilder, $query->getReference(), $select, $queryCondition);
                 $scoreBuilder->endQuery($query->getBoost());
                 break;
             case FilterQuery::REFERENCE_FILTER:
@@ -171,6 +173,7 @@ class Mapper
                 $scoreBuilder->addCondition(1, $query->getBoost());
                 break;
         }
+        return $select;
     }
 
     /**
