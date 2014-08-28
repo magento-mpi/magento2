@@ -49,6 +49,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\HTTP\Header $httpHeader
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $ignoredUserAgents
@@ -193,6 +194,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      *
      * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\Customer\Model\Visitor
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function bindCustomerLogout($observer)
     {

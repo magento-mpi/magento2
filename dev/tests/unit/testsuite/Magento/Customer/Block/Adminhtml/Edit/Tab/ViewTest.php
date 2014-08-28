@@ -30,17 +30,17 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerAccountServiceInterface;
+    protected $customerAccountService;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerAddressServiceInterface;
+    protected $customerAddressService;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerGroupServiceInterface;
+    protected $customerGroupService;
 
     /**
      * @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject
@@ -60,9 +60,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->context = $this->getMock('Magento\Backend\Block\Template\Context', [], [], '', false);
-        $this->customerAccountServiceInterface = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $this->customerAddressServiceInterface = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
-        $this->customerGroupServiceInterface = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $this->customerAccountService = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerAddressService = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
+        $this->customerGroupService = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $this->customerBuilder = $this->getMock('Magento\Customer\Service\V1\Data\CustomerBuilder', [], [], '', false);
         $this->customerAddressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
         $this->registry = $this->getMock('Magento\Framework\Registry');
@@ -72,9 +72,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Block\Adminhtml\Edit\Tab\View',
             [
                 'context' => $this->context,
-                'accountService' => $this->customerAccountServiceInterface,
-                'addressService' => $this->customerAddressServiceInterface,
-                'groupService' => $this->customerGroupServiceInterface,
+                'accountService' => $this->customerAccountService,
+                'addressService' => $this->customerAddressService,
+                'groupService' => $this->customerGroupService,
                 'customerBuilder' => $this->customerBuilder,
                 'addressHelper' => $this->customerAddressHelper,
                 'registry' => $this->registry

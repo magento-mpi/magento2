@@ -53,7 +53,7 @@ class Plugin
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Log\Model\Log $modelLog,
         \Magento\Framework\Stdlib\DateTime $dateTime
-    ){
+    ) {
         $this->logFactory = $logFactory;
         $this->modelLog = $modelLog;
         $this->localeDate = $context->getLocaleDate();

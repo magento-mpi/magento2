@@ -58,6 +58,11 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     protected $_addressHelper;
 
     /**
+     * @var \Magento\Framework\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
@@ -65,6 +70,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -77,6 +83,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -85,6 +92,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $this->_groupService = $groupService;
         $this->_customerBuilder = $customerBuilder;
         $this->_addressHelper = $addressHelper;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $data);
     }
 

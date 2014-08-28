@@ -18,24 +18,9 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
     protected $visitor;
 
     /**
-     * @var ObjectManagerHelper
-     */
-    protected $objectManagerHelper;
-
-    /**
      * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $registry;
-
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $scopeConfigInterface;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $quoteFactory;
 
     /**
      * @var \Magento\Framework\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -46,11 +31,6 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerInterface;
-
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $scopeConfigInterface2;
 
     /**
      * @var \Magento\Framework\HTTP\Header|\PHPUnit_Framework_MockObject_MockObject
@@ -72,16 +52,6 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
      */
     protected $dateTime;
 
-    /**
-     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $manager;
-
-    /**
-     * @var \Magento\Customer\Model\Resource\Visitor|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $resource;
-
     protected function setUp()
     {
         $this->registry = $this->getMock('Magento\Framework\Registry');
@@ -96,7 +66,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerInterface->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $this->dateTime->expects($this->any())->method('now')->will($this->returnValue(time()));
 
-        $this->resource = $this->getMockBuilder('Magento\Customer\Model\Resource\Visitor')
+        $resource = $this->getMockBuilder('Magento\Customer\Model\Resource\Visitor')
             ->setMethods([
                 'beginTransaction',
                 '__sleep',
@@ -106,12 +76,11 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
                 'addCommitCallback',
                 'commit'
             ])->disableOriginalConstructor()->getMock();
-        $this->resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('visitor_id'));
-        $this->resource->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
+        $resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('visitor_id'));
+        $resource->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
 
-        $this->objectManagerHelper = new ObjectManagerHelper($this);
-
-        $arguments = $this->objectManagerHelper->getConstructArguments(
+        $objectManagerHelper = new ObjectManagerHelper($this);
+        $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\Log\Model\Visitor',
             [
                 'registry' => $this->registry,
@@ -121,11 +90,11 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
                 'remoteAddress' => $this->remoteAddress,
                 'serverAddress' => $this->serverAddress,
                 'dateTime' => $this->dateTime,
-                'resource' => $this->resource
+                'resource' => $resource
             ]
         );
 
-        $this->visitor = $this->objectManagerHelper->getObject('Magento\Log\Model\Visitor', $arguments);
+        $this->visitor = $objectManagerHelper->getObject('Magento\Log\Model\Visitor', $arguments);
     }
 
     public function testInitServerData()

@@ -160,7 +160,8 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _prepareCompareListWithProductNameXss()
     {
         /** @var $visitor \Magento\Customer\Model\Visitor */
-        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Visitor');
+        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Visitor');
         /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
         $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\Stdlib\DateTime');
@@ -180,7 +181,8 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _requireVisitorWithNoProducts()
     {
         /** @var $visitor \Magento\Customer\Model\Visitor */
-        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Visitor');
+        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Visitor');
 
         /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
         $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -200,7 +202,8 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _requireVisitorWithTwoProducts()
     {
         /** @var $visitor \Magento\Customer\Model\Visitor */
-        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Visitor');
+        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Visitor');
         /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
         $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\Stdlib\DateTime');
