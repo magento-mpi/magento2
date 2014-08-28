@@ -12,6 +12,7 @@ namespace Magento\Backend\Test\Block\System\Config;
 
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\FormPageActions as AbstractPageActions;
+use Magento\Store\Test\Fixture\Store;
 
 /**
  * Class PageActions
@@ -27,13 +28,6 @@ class PageActions extends AbstractPageActions
     protected $scopeSelector = '.actions.dropdown';
 
     /**
-     * Store dropdown selector
-     *
-     * @var string
-     */
-    protected $dropDownselector = '[data-toggle="dropdown"]';
-
-    /**
      * Select store
      *
      * @param array $websiteScope
@@ -41,7 +35,11 @@ class PageActions extends AbstractPageActions
      */
     public function selectStore($websiteScope)
     {
-        $this->_rootElement->find($this->scopeSelector, Locator::SELECTOR_CSS, 'liselect')->setValue($websiteScope);
+        $this->_rootElement->find(
+            $this->scopeSelector,
+            Locator::SELECTOR_CSS,
+            'liselectstore'
+        )->setValue($websiteScope);
         $this->_rootElement->acceptAlert();
 
         return $this;
@@ -50,14 +48,16 @@ class PageActions extends AbstractPageActions
     /**
      * Check if store visible in scope dropdown
      *
-     * @param string $storeName
-     * @return boolean
+     * @param Store $store
+     * @return bool
      */
-    public function isStoreVisible($storeName)
+    public function isStoreVisible($store)
     {
-        $this->_rootElement->find($this->dropDownselector)->click();
-        $storeViews = explode("\n", $this->_rootElement->find($this->scopeSelector)->getText());
-
-        return in_array($storeName, $storeViews);
+        $storeViews = $this->_rootElement->find(
+            $this->scopeSelector,
+            Locator::SELECTOR_CSS,
+            'liselectstore'
+        )->getValues();
+        return in_array($store->getGroupId() . "/" . $store->getName(), $storeViews);
     }
 }

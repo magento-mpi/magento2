@@ -35,12 +35,9 @@ class AssertStoreViewFrontend extends AbstractConstraint
     public function processAssert(Store $store, CmsIndex $cmsIndex)
     {
         $cmsIndex->open();
-        list($website, $storeGroup) = explode("/", $store->getGroupId());
-        $storeCode = $store->getCode();
-        if ($storeGroup != "Main Website Store") {
-            $cmsIndex->getFooterBlock()->selectStoreGroup($storeGroup);
-        }
-        $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($storeCode);
+        $storeGroupName = explode("/", $store->getGroupId())[1];
+        $cmsIndex->getFooterBlock()->selectStoreGroup($storeGroupName);
+        $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
         \PHPUnit_Framework_Assert::assertTrue(
             $isStoreViewVisible,
             "Store view is not visible in dropdown on CmsIndex page"

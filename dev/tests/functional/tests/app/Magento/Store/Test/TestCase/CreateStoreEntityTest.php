@@ -16,10 +16,10 @@ use Magento\Store\Test\Fixture\Store;
 use Magento\Store\Test\Fixture\StoreGroup;
 
 /**
- * Test Creation for StoreEntity (Store Management)
+ * Test Creation for CreateStoreEntity (Store Management)
  *
  * Preconditions:
- * 1. Create store
+ * 1. Create Store Group
  *
  * Test Flow:
  * 1. Open Backend
@@ -46,17 +46,6 @@ class CreateStoreEntityTest extends Injectable
      * @var StoreNew
      */
     protected $storeNew;
-
-    /**
-     * Preparing StoreGroup for test
-     *
-     * @param FixtureFactory $fixtureFactory
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $storeGroup = $fixtureFactory->createByCode('storeGroup', ['dataSet' => 'custom']);
-        $storeGroup->persist();
-    }
 
     /**
      * Preparing pages for test

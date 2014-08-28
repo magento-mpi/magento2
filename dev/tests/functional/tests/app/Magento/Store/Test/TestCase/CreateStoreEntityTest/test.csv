@@ -1,4 +1,4 @@
-"store/data/group_id";"store/data/name";"store/data/code";"store/data/is_active";"constraint"
-"Main Website/Main Website Store";"store_name_%isolation%";"storecode_%isolation%";"Enabled";"assertStoreViewSuccessSaveMessage, assertStoreViewInGrid, assertStoreViewBackend, assertStoreViewFrontend"
-"Main Website/Main Website Store";"store_name_%isolation%";"storecode_%isolation%";"Disabled";"assertStoreViewSuccessSaveMessage, assertStoreViewInGrid, assertStoreViewBackend, assertStoreViewNotOnFrontend"
-"Main Website/Custom Store";"store_name_%isolation%";"storecode_%isolation%";"Enabled";"assertStoreViewSuccessSaveMessage, assertStoreViewInGrid, assertStoreViewBackend, assertStoreViewFrontend"
+"store/data/group_id/dataSet";"store/data/name";"store/data/code";"store/data/is_active";"constraint"
+"default";"store_name_%isolation%";"storecode_%isolation%";"Enabled";"assertStoreViewSuccessSaveMessage, assertStoreViewInGrid, assertStoreViewBackend, assertStoreViewFrontend"
+"default";"store_name_%isolation%";"storecode_%isolation%";"Disabled";"assertStoreViewSuccessSaveMessage, assertStoreViewInGrid, assertStoreViewBackend, assertStoreViewNotOnFrontend"
+"custom";"store_name_%isolation%";"storecode_%isolation%";"Enabled";"assertStoreViewSuccessSaveMessage, assertStoreViewInGrid, assertStoreViewBackend, assertStoreViewFrontend"

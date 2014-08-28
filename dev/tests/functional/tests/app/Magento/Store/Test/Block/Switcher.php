@@ -11,6 +11,7 @@ namespace Magento\Store\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Store\Test\Fixture\Store;
 
 class Switcher extends Block
 {
@@ -26,7 +27,7 @@ class Switcher extends Block
      *
      * @var string
      */
-    protected $stroViewSelector = 'li.view-%s';
+    protected $storeViewSelector = 'li.view-%s';
 
     /**
      * Select store
@@ -52,14 +53,18 @@ class Switcher extends Block
     }
 
     /**
-     * Check  is Store View Visible
+     * Check is Store View Visible
      *
-     * @param string $storeCode
-     * @return boolean
+     * @param Store $store
+     * @return bool
      */
-    public function isStoreViewVisible($storeCode)
+    public function isStoreViewVisible($store)
     {
-        $this->_rootElement->find($this->dropDownButton)->click();
-        return $this->_rootElement->find(sprintf($this->stroViewSelector, $storeCode))->isVisible();
+        $storeViewDropdown = $this->_rootElement->find($this->dropDownButton);
+        if (!$storeViewDropdown->isVisible()) {
+            return true;
+        }
+        $storeViewDropdown->click();
+        return $this->_rootElement->find(sprintf($this->storeViewSelector, $store->getCode()))->isVisible();
     }
 }

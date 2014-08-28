@@ -86,15 +86,18 @@ class Footer extends Block
     /**
      * Select store group
      *
-     * @param $storeGroupName
+     * @param string $storeGroupName
      * @return void
      */
     public function selectStoreGroup($storeGroupName)
     {
         $this->_rootElement->find($this->storeGroupSwitch)->click();
-        $this->_rootElement->find(
+        $storeGroup = $this->_rootElement->find(
             sprintf($this->storeGroupSelector, $storeGroupName),
             Locator::SELECTOR_XPATH
-        )->click();
+        );
+        if ($storeGroup->isVisible()) {
+            $storeGroup->click();
+        }
     }
 }

@@ -34,9 +34,8 @@ class AssertStoreViewNotOnFrontend extends AbstractConstraint
      */
     public function processAssert(Store $store, CmsIndex $cmsIndex)
     {
-        $storeCode = $store->getCode();
         $cmsIndex->open();
-        $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($storeCode);
+        $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
 
         \PHPUnit_Framework_Assert::assertFalse(
             $isStoreViewVisible,
