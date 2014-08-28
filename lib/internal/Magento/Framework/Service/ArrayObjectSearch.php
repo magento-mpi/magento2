@@ -15,7 +15,7 @@ class ArrayObjectSearch
 {
     /**
      * Search for the value's value by specified key's name-value pair in the object
-     *
+     * <pre>
      * Example of usage:
      * $data = array(
      *     ValidationRuleBuilderObject('name' => 'min_text_length', 'value' => 0)
@@ -39,7 +39,7 @@ class ArrayObjectSearch
      *     'anyOtherValue' //where to return from
      * );
      * Result: 'customValue'
-     *
+     * </pre>
      * @param object $data Object to search in
      * @param string $keyValue Value of the key property to search for
      * @param string $keyName Name of the key property to search for
