@@ -422,6 +422,8 @@ class TypeProcessor
      * @param string $type Convert given value to the this simple type
      * @return int|string|float|int[]|string[]|float[] Return the value which is converted to type
      * @throws \Magento\Webapi\Exception
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function processSimpleAndAnyType($value, $type)
     {
@@ -429,12 +431,12 @@ class TypeProcessor
         if ($this->isArrayType($type) && is_array($value)) {
             $arrayItemType = $this->getArrayItemType($type);
             foreach (array_keys($value) as $key) {
-                if (!settype($value[$key], $arrayItemType)) {
+                if ($value !== null && !settype($value[$key], $arrayItemType)) {
                     throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
                 }
             }
         } elseif (!$this->isArrayType($type) && !is_array($value)) {
-            if ($type !== self::ANY_TYPE && !settype($value, $type)) {
+            if ($value !== null && $type !== self::ANY_TYPE && !settype($value, $type)) {
                 throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
             }
         } else {
