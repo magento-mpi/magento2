@@ -1,8 +1,8 @@
 define([
-    'Magento_Ui/js/framework/ko/scope',
-    'Magento_Ui/js/framework/rest/client',
-    'Magento_Ui/js/framework/rest/adapter/local',
-    'Magento_Ui/js/framework/mixin/resourceful',
+    '../framework/ko/scope',
+    '../framework/rest/client',
+    '../framework/rest/adapter/local',
+    '../framework/mixin/resourceful',
     '_'
 ], function(Scope, RestClient, LocalAdapter, Resourceful, _) {
 
@@ -16,12 +16,13 @@ define([
         initialize: function(initial, config) {
             var adapter;
 
-            this
-                .defArray('rows', initial.rows)
-                .defArray('fields', initial.fields)
-                .defArray('checkedIds')
-                .def('currentAction')
-                .def('view', DEFAULT_VIEW);
+            this.observable({
+                rows:           initial.rows,
+                fields:         initial.fields,
+                checkedIds:     [],
+                currentAction:  '',
+                view:           DEFAULT_VIEW
+            });
 
             this.params = {};
             

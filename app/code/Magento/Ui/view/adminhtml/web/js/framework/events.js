@@ -1,53 +1,53 @@
-define(['_'], function (_) {
+define(['_'], function(_) {
 
-  var events = {};
+    var events = {};
 
-  return {
-    on: function (type, fn, context, once) {
-      events[type] = events[type] || [];
-      
-      events[type].push({
-        fn: fn,
-        context: context,
-        once: once
-      });
-    },
+    return {
+        on: function(type, fn, context, once) {
+            events[type] = events[type] || [];
 
-    off: function (type, fn) {
-      var position;
-      var fns = events[type];
+            events[type].push({
+                fn: fn,
+                context: context,
+                once: once
+            });
+        },
 
-      if (fn) {
-        position = fns.indexOf(fn);
-        fns.splice(position, 1);
-      } else {
-        delete events[type];
-      }
-    },
+        off: function(type, fn) {
+            var position;
+            var fns = events[type];
 
-    once: function (type, fn, context) {
-      this.on.call(this, type, fn, context, true);
-    },
+            if (fn) {
+                position = fns.indexOf(fn);
+                fns.splice(position, 1);
+            } else {
+                delete events[type];
+            }
+        },
 
-    trigger: function (type) {
+        once: function(type, fn, context) {
+            this.on.call(this, type, fn, context, true);
+        },
 
-      var 
-        args = Array.prototype.slice.call(arguments, 1),
-        handlers = events[type],
-        handler,
-        oncePosition;
+        trigger: function(type) {
 
-      if (!handlers) return;
+            var
+                args = Array.prototype.slice.call(arguments, 1),
+                handlers = events[type],
+                handler,
+                oncePosition;
 
-      for (var i = 0; i < handlers.length; i++) {
-        handler = handlers[i];
-        handler.fn.apply(handler.context, args);
+            if (!handlers) return;
 
-        if (handler.once) {
-          oncePosition = handlers.indexOf(handler);
-          handlers.splice(oncePosition, 1);
+            for (var i = 0; i < handlers.length; i++) {
+                handler = handlers[i];
+                handler.fn.apply(handler.context, args);
+
+                if (handler.once) {
+                    oncePosition = handlers.indexOf(handler);
+                    handlers.splice(oncePosition, 1);
+                }
+            }
         }
-      }
     }
-  }
 });
