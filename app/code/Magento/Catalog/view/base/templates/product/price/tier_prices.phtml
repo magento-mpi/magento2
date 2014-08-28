@@ -22,7 +22,7 @@ $product = $this->getSaleableItem();
         <li class="item">
             <?php
                 $popupId = 'msrp-popup-' . $product->getId() . $this->getRandomString(20);
-                if ($msrpShowOnGesture):
+                if ($msrpShowOnGesture && $price['price']->getValue() < $product->getMsrp()):
                     $addToCartUrl = '';
                     if ($product->isSaleable()) {
                         $addToCartUrl = $this->helper('\Magento\Checkout\Helper\Cart')

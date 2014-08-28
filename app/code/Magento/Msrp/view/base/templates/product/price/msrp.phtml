@@ -20,10 +20,10 @@ $priceType = $this->getPrice();
 /** @var $product \Magento\Catalog\Model\Product */
 $product = $this->getSaleableItem();
 $productId = $product->getId();
-// @todo: msrp works totally wrong, any excuses not accepted. will be refactored ASAP
-$msrpPrice = $this->renderAmount($priceType->getCustomAmount($product->getMsrp()),
+$msrpPrice = $this->renderAmount(
+    $priceType->getCustomAmount($product->getMsrp() ? : $product->getTypeInstance()->getChildrenMsrp($product)),
     [
-        'price_id'  => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $productId,
+        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $productId,
         'include_container' => false,
         'skip_adjustments' => true
     ]
