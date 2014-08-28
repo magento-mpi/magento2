@@ -13,13 +13,16 @@ namespace Magento\Msrp\Model;
 class Observer
 {
     /**
-     * @var \Magento\Msrp\Helper\Data
+     * @var \Magento\Msrp\Model\Config
      */
-    protected $msrpData;
+    protected $config;
 
-    public function __construct(\Magento\Msrp\Helper\Data $msrpData)
+    /**
+     * @param Config $config
+     */
+    public function __construct(\Magento\Msrp\Model\Config $config)
     {
-        $this->msrpData = $msrpData;
+        $this->config = $config;
     }
 
     /**
@@ -34,7 +37,7 @@ class Observer
         $quote = $observer->getEvent()->getQuote();
 
         $canApplyMsrp = false;
-        if ($this->msrpData->isMsrpEnabled()) {
+        if ($this->config->isEnabled()) {
             foreach ($quote->getAllAddresses() as $address) {
                 if ($address->getCanApplyMsrp()) {
                     $canApplyMsrp = true;
