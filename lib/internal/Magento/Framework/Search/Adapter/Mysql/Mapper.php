@@ -15,6 +15,7 @@ use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
 use Magento\Framework\Search\Request\Query\Filter as FilterQuery;
 use Magento\Framework\Search\Request\Query\Match as MatchQuery;
 use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
+use Magento\Framework\Search\Request\QueryInterface;
 use Magento\Framework\Search\RequestInterface;
 
 class Mapper
@@ -117,33 +118,50 @@ class Mapper
     {
         $scoreBuilder->startQuery();
 
-        foreach ($query->getMust() as $subQuery) {
-            $select = $this->processQuery(
-                $scoreBuilder,
-                $subQuery,
-                $select,
-                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
-            );
-        }
-        foreach ($query->getShould() as $subQuery) {
-            $select = $this->processQuery(
-                $scoreBuilder,
-                $subQuery,
-                $select,
-                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_SHOULD)
-            );
-        }
-        foreach ($query->getMustNot() as $subQuery) {
-            $select = $this->processQuery(
-                $scoreBuilder,
-                $subQuery,
-                $select,
-                $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_NOT)
-            );
-        }
+        $select = $this->processBoolQueryCondition(
+            $scoreBuilder,
+            $query->getMust(),
+            $select,
+            $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_MUST)
+        );
+
+        $select = $this->processBoolQueryCondition(
+            $scoreBuilder,
+            $query->getShould(),
+            $select,
+            $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_SHOULD)
+        );
+
+        $select = $this->processBoolQueryCondition(
+            $scoreBuilder,
+            $query->getMustNot(),
+            $select,
+            $this->getFilteredQueryType($queryCondition, BoolQuery::QUERY_CONDITION_NOT)
+        );
 
         $scoreBuilder->endQuery($query->getBoost());
 
+        return $select;
+    }
+
+    /**
+     * Process bool query condition (must, should, must_not)
+     *
+     * @param ScoreBuilder $scoreBuilder
+     * @param QueryInterface[] $subQueryList
+     * @param Select $select
+     * @param $queryCondition
+     * @return Select
+     */
+    private function processBoolQueryCondition(
+        ScoreBuilder $scoreBuilder,
+        array $subQueryList,
+        Select $select,
+        $queryCondition
+    ) {
+        foreach ($subQueryList as $subQuery) {
+            $select = $this->processQuery($scoreBuilder, $subQuery, $select, $queryCondition);
+        }
         return $select;
     }
 

@@ -94,7 +94,7 @@ class Bool implements QueryInterface
     /**
      * Get Should queries
      *
-     * @return array
+     * @return QueryInterface[]
      */
     public function getShould()
     {
@@ -104,7 +104,7 @@ class Bool implements QueryInterface
     /**
      * Get Must queries
      *
-     * @return array
+     * @return QueryInterface[]
      */
     public function getMust()
     {
@@ -114,7 +114,7 @@ class Bool implements QueryInterface
     /**
      * Get Must Not queries
      *
-     * @return array
+     * @return QueryInterface[]
      */
     public function getMustNot()
     {
