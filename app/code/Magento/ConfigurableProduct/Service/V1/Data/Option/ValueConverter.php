@@ -7,6 +7,9 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data\Option;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ValueConverter
 {
     /**

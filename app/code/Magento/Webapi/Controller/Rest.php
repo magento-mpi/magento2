@@ -10,10 +10,9 @@ namespace Magento\Webapi\Controller;
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\Data\Eav\AbstractObject as EavAbstractObject;
+use Magento\Framework\Service\Data\AbstractSimpleObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 use Magento\Framework\Service\DataObjectConverter;
-use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Response\PartialResponseProcessor;
@@ -165,7 +164,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Framework\Service\Data\AbstractObject $outputData */
+            /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputData = $this->dataObjectConverter->processServiceOutput($outputData);
             if ($this->_request->getParam(PartialResponseProcessor::FILTER_PARAMETER) && is_array($outputData)) {

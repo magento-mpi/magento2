@@ -11,7 +11,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 /**
  * @codeCoverageIgnore
  */
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * @param string $value

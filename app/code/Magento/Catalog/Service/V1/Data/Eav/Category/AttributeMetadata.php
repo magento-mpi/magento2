@@ -7,10 +7,12 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
-use \Magento\Framework\Service\Data\Eav\AbstractObject;
-use Magento\Framework\Service\Data\Eav\MetadataObjectInterface;
-
-class AttributeMetadata extends AbstractObject implements MetadataObjectInterface
+use \Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Service\Data\MetadataObjectInterface;
+/**
+ * @codeCoverageIgnore
+ */
+class AttributeMetadata extends AbstractExtensibleObject implements MetadataObjectInterface
 {
     const ATTRIBUTE_ID = 'attribute_id';
 

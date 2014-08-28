@@ -7,72 +7,24 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject as DataObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject as DataObject;
 
 /**
  * Class ShipmentItem
  */
 class ShipmentItem extends DataObject
 {
-
-    /**
-     * int
-     */
     const ENTITY_ID = 'entity_id';
-
-    /**
-     * int
-     */
     const PARENT_ID = 'parent_id';
-
-    /**
-     * float
-     */
     const ROW_TOTAL = 'row_total';
-
-    /**
-     * float
-     */
     const PRICE = 'price';
-
-    /**
-     * float
-     */
     const WEIGHT = 'weight';
-
-    /**
-     * float
-     */
     const QTY = 'qty';
-
-    /**
-     * int
-     */
     const PRODUCT_ID = 'product_id';
-
-    /**
-     * int
-     */
     const ORDER_ITEM_ID = 'order_item_id';
-
-    /**
-     * string
-     */
     const ADDITIONAL_DATA = 'additional_data';
-
-    /**
-     * string
-     */
     const DESCRIPTION = 'description';
-
-    /**
-     * string
-     */
     const NAME = 'name';
-
-    /**
-     * string
-     */
     const SKU = 'sku';
 
     /**
