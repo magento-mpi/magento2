@@ -10,16 +10,14 @@ define([
     var DEFAULT_VIEW = 'grid';
 
     return Scope.extend({
-
-        mixins: [Resourceful],
-
         initialize: function(initial, config) {
-            this.observable({
+            this.observe({
                 rows:           initial.rows,
                 fields:         initial.fields,
                 checkedIds:     [],
                 currentAction:  '',
-                view:           DEFAULT_VIEW
+                view:           DEFAULT_VIEW,
+                isLocked:       false
             });
 
             this.params = {};
@@ -110,5 +108,5 @@ define([
 
             return this;
         }
-    });
+    }, Resourceful);
 });
