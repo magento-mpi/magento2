@@ -9,6 +9,7 @@
 namespace Magento\Store\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 use Magento\Store\Test\Fixture\Website;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditWebsite;
@@ -49,18 +50,28 @@ class UpdateWebsiteEntityTest extends Injectable
     protected $editWebsite;
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Injection data
      *
      * @param StoreIndex $storeIndex
      * @param EditWebsite $editWebsite
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         StoreIndex $storeIndex,
-        EditWebsite $editWebsite
+        EditWebsite $editWebsite,
+        FixtureFactory $fixtureFactory
     ) {
         $this->storeIndex = $storeIndex;
         $this->editWebsite = $editWebsite;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
@@ -68,7 +79,7 @@ class UpdateWebsiteEntityTest extends Injectable
      *
      * @param Website $websiteOrigin
      * @param Website $website
-     * @return void
+     * @return array
      */
     public function test(Website $websiteOrigin, Website $website)
     {
@@ -80,5 +91,20 @@ class UpdateWebsiteEntityTest extends Injectable
         $this->storeIndex->getStoreGrid()->searchAndOpenWebsite($websiteOrigin);
         $this->editWebsite->getEditFormWebsite()->fill($website);
         $this->editWebsite->getFormPageActions()->save();
+
+        return ['website' => $this->mergeFixture($website, $websiteOrigin)];
+    }
+
+    /**
+     * Merge Website fixture
+     *
+     * @param Website $website
+     * @param Website $websiteOrigin
+     * @return Website
+     */
+    protected function mergeFixture(Website $website, Website $websiteOrigin)
+    {
+        $data = array_merge($websiteOrigin->getData(), $website->getData());
+        return $this->fixtureFactory->createByCode('website', ['data' => $data]);
     }
 }
