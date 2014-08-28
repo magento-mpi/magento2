@@ -7,7 +7,7 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
-class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
+class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Configuration acl file list
