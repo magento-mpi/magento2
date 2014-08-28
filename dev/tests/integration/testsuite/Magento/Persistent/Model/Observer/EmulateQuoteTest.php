@@ -1,29 +1,18 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Persistent\Model;
+namespace Magento\Persistent\Model\Observer;
 
 /**
  * @magentoDataFixture Magento/Persistent/_files/persistent.php
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ObserverTest extends \PHPUnit_Framework_TestCase
+class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Customer\Helper\View
-     */
-    protected $_customerViewHelper;
-
-    /**
-     * @var \Magento\Framework\Escaper
-     */
-    protected $_escaper;
-
     /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
@@ -40,7 +29,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Persistent\Model\Observer
+     * @var \Magento\Persistent\Model\Observer\EmulateQuote
      */
     protected $_observer;
 
@@ -60,12 +49,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
 
-        $this->_customerViewHelper = $this->_objectManager->create(
-            'Magento\Customer\Helper\View'
-        );
-        $this->_escaper = $this->_objectManager->create(
-            'Magento\Framework\Escaper'
-        );
         $this->_customerAccountService = $this->_objectManager->create(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
@@ -77,12 +60,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_persistentSessionHelper = $this->_objectManager->create('Magento\Persistent\Helper\Session');
 
         $this->_observer = $this->_objectManager->create(
-            'Magento\Persistent\Model\Observer',
+            'Magento\Persistent\Model\Observer\EmulateQuote',
             [
-                'escaper' => $this->_escaper,
-                'customerViewHelper' => $this->_customerViewHelper,
                 'customerAccountService' => $this->_customerAccountService,
-                'checkoutSession' => $this->_checkoutSession
+                'checkoutSession' => $this->_checkoutSession,
+                'persistentSession' => $this->_persistentSessionHelper
             ]
         );
     }
@@ -92,30 +74,29 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store persistent/options/remember_enabled 1
      * @magentoConfigFixture current_store persistent/options/remember_default 1
      * @magentoAppArea frontend
-     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store persistent/options/shopping_cart 1
+     * @magentoConfigFixture current_store persistent/options/logout_clear 0
      */
-    public function testEmulateWelcomeBlock()
+    public function testEmulateQuote()
     {
+        $requestMock = $this->getMockBuilder(
+            'Magento\Framework\App\Request\Http'
+        )->disableOriginalConstructor()->setMethods(
+            []
+        )->getMock();
+        $requestMock->expects($this->once())->method('getFullActionName')->will($this->returnValue('valid_action'));
+        $event = new \Magento\Framework\Event(['request' => $requestMock]);
+        $observer = new \Magento\Framework\Event\Observer();
+        $observer->setEvent($event);
+
         $this->_customerSession->loginById(1);
 
-        $httpContext = new \Magento\Framework\App\Http\Context();
-        $httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, 1, 1);
-        $block = $this->_objectManager->create(
-            'Magento\Sales\Block\Reorder\Sidebar',
-            [
-                'httpContext' => $httpContext
-            ]
+        $customer = $this->_customerAccountService->getCustomer(
+            $this->_persistentSessionHelper->getSession()->getCustomerId()
         );
-        $this->_observer->emulateWelcomeBlock($block);
-        $customerName = $this->_escaper->escapeHtml(
-            $this->_customerViewHelper->getCustomerName(
-                $this->_customerAccountService->getCustomer(
-                    $this->_persistentSessionHelper->getSession()->getCustomerId()
-                )
-            )
-        );
-        $translation = __('Welcome, %1!', $customerName);
-        $this->assertStringMatchesFormat('%A' . $translation . '%A', $block->getWelcome());
+        $this->_checkoutSession->expects($this->once())->method('setCustomerData')->with($customer);
         $this->_customerSession->logout();
+
+        $this->_observer->execute($observer);
     }
 }

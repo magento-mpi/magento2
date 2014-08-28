@@ -8,7 +8,7 @@
 
 namespace Magento\PersistentHistory\Model;
 
-class ObserverTest extends \PHPUnit_Framework_TestCase
+class CustomerEmulatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\ObjectManager
@@ -16,19 +16,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\PersistentHistory\Model\Observer
+     * @var \Magento\PersistentHistory\Model\CustomerEmulator
      */
-    protected $_observerModel;
-
-    /**
-     * @var \Magento\Framework\Event
-     */
-    protected $_event;
-
-    /**
-     * @var \Magento\Framework\Event\Observer
-     */
-    protected $_observer;
+    protected $_model;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -53,15 +43,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_event = new \Magento\Framework\Event();
-        $this->_observer = new \Magento\Framework\Event\Observer();
-        $this->_observer->setEvent( $this->_event);
 
         $this->_customerSession = $this->_objectManager->create('Magento\Customer\Model\Session');
         $this->_persistentSessionHelper = $this->_objectManager->create('Magento\Persistent\Helper\Session');
         $this->_wishlistData = $this->_objectManager->create('Magento\Wishlist\Helper\Data');
-        $this->_observerModel = $this->_objectManager->create(
-            'Magento\PersistentHistory\Model\Observer',
+        $this->_model = $this->_objectManager->create(
+            'Magento\PersistentHistory\Model\CustomerEmulator',
             [
                 'customerSession' => $this->_customerSession,
                 'persistentSession' => $this->_persistentSessionHelper,
@@ -86,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_persistentSessionHelper->setSession($sessionModel);
 
-        $this->_observerModel->emulateCustomer($this->_observer);
+        $this->_model->emulate();
         $this->assertEquals($this->_customerSession->getCustomerDataObject(), $this->_wishlistData->getCustomer());
     }
 }

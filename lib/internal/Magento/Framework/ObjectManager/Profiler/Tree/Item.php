@@ -31,7 +31,7 @@ class Item
     protected $children = array();
 
     /**
-     * @param $class
+     * @param string $class
      * @param Item $parent
      */
     public function __construct($class, Item $parent = null)

@@ -59,8 +59,8 @@ class PaymentDataImporter
             $reward = $this->_rewardFactory->create()->setCustomer(
                 $quote->getCustomer()
             )->setWebsiteId(
-                    $quote->getStore()->getWebsiteId()
-                )->loadByCustomer();
+                $quote->getStore()->getWebsiteId()
+            )->loadByCustomer();
             $minPointsBalance = (int)$this->_scopeConfig->getValue(
                 \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
