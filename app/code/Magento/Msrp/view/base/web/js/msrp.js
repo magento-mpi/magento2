@@ -28,7 +28,7 @@ define(["jquery", "jquery/ui", "mage/dropdown"], function($) {
                     $('#map-popup-heading-price').text(this.options.productName);
                     $('#map-popup-price').html($(this.options.realPrice));
                     $('#map-popup-msrp > span.price').html(this.options.msrpPrice);
-                    this.element.trigger('reloadPrice');
+                    $(this.options.cartForm).trigger('reloadPrice');
                     var dialog = $("#map-popup-click-for-price");
                     this._popupDialog(dialog, this.options.popupId);
                     if (!this.options.showAddToCart) {
