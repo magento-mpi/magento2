@@ -83,6 +83,10 @@ define([
             return this;
         },
 
+        load: function (rows) {
+            this.rows(rows);
+        },
+
         getCheckedQuantity: function() {
             return this.checkedIds().length;
         },

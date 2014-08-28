@@ -14,11 +14,11 @@ define([
     },
 
     empty: function () {
-      fixtures.empty('cms.pages');
+      fixtures.empty('cms.pages.listing');
     },
 
     populate: function () {
-      fixtures.populate('cms.pages');
+      fixtures.populate('cms.pages.listing');
     }
   });
 });

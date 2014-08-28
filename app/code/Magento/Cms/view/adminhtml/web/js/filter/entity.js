@@ -1,20 +1,54 @@
 define([
-    'Magento_Ui/js/framework/ko/scope'
-], function (Scope) {
+    'Magento_Ui/js/framework/ko/scope',
+    'ko'
+], function (Scope, ko) {
 
     return Scope.extend({
+        _defQuery: { data: null, value: null },
+
         initialize: function (listing, config, initial) {
 
             this.target = listing;
+            this.client = this.target.client;
 
-            this.def('query', this._defQuery);
-            this.defArray('suggestions');
+            this
+                .def('query', this._defQuery)
+                .def('rawQuery')
+                .defArray('suggestions');
 
-            this.query.subscribe(function (newQuery) {
-                
-            });
+            this._bind();
+
+            this.rawQuery.subscribe(function (rawQuery) {
+                this.client
+                    .read({ query: rawQuery })
+                    // .then(this._load)
+                    .then(this._formatData)
+                    .done(this.suggestions.bind(this));
+
+            }, this);
         },
 
-        _defQuery: { data: null, value: null }
+        _bind: function () {
+            _.bindAll(this, '_formatData', '_load');
+        },
+
+        _formatData: function (collection) {
+            var result = _.map(collection, function (entry) {
+                return {
+                    value: entry.title,
+                    data: entry
+                }
+            });
+            
+            return result;
+        },
+
+        _load: function (collection) {
+            if (collection) {
+                this.target.load(collection);    
+            }
+
+            return collection;
+        }
     });
 });
