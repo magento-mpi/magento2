@@ -15,28 +15,14 @@ use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 class Match implements QueryInterface
 {
     /**
-     * @var ScoreBuilder
-     */
-    private $scoreBuilder;
-
-    /**
-     * @param ScoreBuilder $scoreBuilder
-     */
-    public function __construct(ScoreBuilder $scoreBuilder)
-    {
-        $this->scoreBuilder = $scoreBuilder;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function build(
+        ScoreBuilder $scoreBuilder,
         Select $select,
         RequestQueryInterface $query,
         $conditionType
     ) {
-        $this->scoreBuilder->setQueryBoost($query->getName(), $query->getBoost());
-
         $conditionList = [];
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         foreach ($query->getMatches() as $match) {
@@ -48,7 +34,7 @@ class Match implements QueryInterface
 
             $condition = $select->getMatchQuery($match['field'], $match['value'], $mode);
 
-            $this->scoreBuilder->addCondition(
+            $scoreBuilder->addCondition(
                 $condition,
                 isset($match['boost']) ? $match['boost'] : 1
             );

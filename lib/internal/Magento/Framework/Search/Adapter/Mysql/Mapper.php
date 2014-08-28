@@ -82,7 +82,12 @@ class Mapper
             case RequestQueryInterface::TYPE_MATCH:
                 /** @var MatchQuery $query */
                 $scoreBuilder->startQuery();
-                $select = $this->matchQueryBuilder->build($select, $query, $this->isNot($queryCondition));
+                $select = $this->matchQueryBuilder->build(
+                    $scoreBuilder,
+                    $select,
+                    $query,
+                    $this->isNot($queryCondition)
+                );
                 $scoreBuilder->endQuery($query->getBoost());
                 break;
             case RequestQueryInterface::TYPE_BOOL:
