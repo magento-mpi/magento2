@@ -1116,14 +1116,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function isMapEnabledInOptions($product, $visibility = null)
-    {
-        return null;
-    }
-
-    /**
      * Delete data specific for Bundle product type
      *
      * @param \Magento\Catalog\Model\Product $product

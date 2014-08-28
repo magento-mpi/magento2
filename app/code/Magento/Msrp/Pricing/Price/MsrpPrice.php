@@ -10,11 +10,12 @@ namespace Magento\Msrp\Pricing\Price;
 
 use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Pricing\Price\FinalPrice;
 
 /**
  * MSRP price model
  */
-class MsrpPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements \Magento\Msrp\Pricing\Price\MsrpPriceInterface
+class MsrpPrice extends FinalPrice implements MsrpPriceInterface
 {
     /**
      * Price type MSRP

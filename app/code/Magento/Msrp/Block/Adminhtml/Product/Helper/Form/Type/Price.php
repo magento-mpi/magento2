@@ -16,18 +16,25 @@ use Magento\Framework\Escaper;
  */
 class Price extends \Magento\Framework\Data\Form\Element\Select
 {
-    /** @var \Magento\Msrp\Helper\Data */
-    protected $msrpData;
+    /** @var \Magento\Msrp\Model\Config */
+    protected $config;
 
+    /**
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
+     * @param \Magento\Msrp\Model\Config $config
+     * @param array $data
+     */
     public function __construct(
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        \Magento\Msrp\Helper\Data $msrpData,
+        \Magento\Msrp\Model\Config $config,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
-        $this->msrpData = $msrpData;
+        $this->config = $config;
     }
 
     /**
@@ -37,7 +44,7 @@ class Price extends \Magento\Framework\Data\Form\Element\Select
      */
     public function toHtml()
     {
-        if ($this->msrpData->isMsrpEnabled()) {
+        if ($this->config->isEnabled()) {
             return parent::toHtml();
         }
         return '';

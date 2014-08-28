@@ -7,10 +7,9 @@
  */
 ?>
 <?php
-/** @var \Magento\Msrp\Helper\Data $helper */
-$helper = $this->helper('Magento\Msrp\Helper\Data');
+/** @var \Magento\Msrp\Block\Popup $this */
 ?>
-<?php if ($helper->isMsrpEnabled()): ?>
+<?php if ($this->isEnabled()): ?>
     <div id="map-popup-click-for-price" class="map popup">
         <div class="popup-header">
             <strong class="title" id="map-popup-heading-price"></strong>
@@ -44,7 +43,7 @@ $helper = $this->helper('Magento\Msrp\Helper\Data');
                 </form>
             </div>
             <div class="map text" id="map-popup-text">
-                <?php echo $helper->getMsrpExplanationMessage(); ?>
+                <?php echo $this->getExplanationMessage(); ?>
             </div>
         </div>
     </div>
@@ -55,7 +54,7 @@ $helper = $this->helper('Magento\Msrp\Helper\Data');
         </div>
         <div class="popup content">
             <div class="map help text" id="map-popup-text-what-this">
-                <?php echo $helper->getMsrpExplanationMessageWhatsThis(); ?>
+                <?php echo $this->getExplanationMessageWhatsThis(); ?>
             </div>
         </div>
     </div>

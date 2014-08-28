@@ -31,13 +31,32 @@ class Data extends AbstractHelper
     const XML_PATH_MSRP_EXPLANATION_MESSAGE = 'sales/msrp/explanation_message';
     const XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS = 'sales/msrp/explanation_message_whats_this';
 
+    /**
+     * @var ScopeConfigInterface
+     */
     protected $scopeConfig;
+
+    /**
+     * @var Escaper
+     */
     protected $escaper;
+
+    /**
+     * @var ProductFactory
+     */
     protected $productFactory;
+
+    /**
+     * @var StoreManagerInterface
+     */
     protected $storeManager;
-    protected $eavAttributeFactory;
-    protected $mapApplyToProductType = null;
+
     protected $storeId;
+
+    /**
+     * @var ProductOptions
+     */
+    protected $productOptions;
 
     /**
      * @param Context $context
@@ -46,6 +65,8 @@ class Data extends AbstractHelper
      * @param ProductFactory $productFactory
      * @param StoreManagerInterface $storeManager
      * @param AttributeFactory $eavAttributeFactory
+     * @param \Magento\Msrp\Model\Product\Options $productOptions
+     * @param \Magento\Msrp\Model\Msrp $msrp
      */
     public function __construct(
         Context $context,
@@ -53,14 +74,16 @@ class Data extends AbstractHelper
         Escaper $escaper,
         ProductFactory $productFactory,
         StoreManagerInterface $storeManager,
-        AttributeFactory $eavAttributeFactory
+        \Magento\Msrp\Model\Product\Options $productOptions,
+        \Magento\Msrp\Model\Msrp $msrp
     ) {
         parent::__construct($context);
         $this->scopeConfig = $scopeConfig;
         $this->escaper = $escaper;
         $this->productFactory = $productFactory;
         $this->storeManager = $storeManager;
-        $this->eavAttributeFactory = $eavAttributeFactory;
+        $this->productOptions = $productOptions;
+        $this->msrp = $msrp;
     }
 
     /**
@@ -104,40 +127,6 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Return MAP explanation message
-     *
-     * @return string
-     */
-    public function getMsrpExplanationMessage()
-    {
-        return $this->escaper->escapeHtml(
-            $this->scopeConfig->getValue(
-                self::XML_PATH_MSRP_EXPLANATION_MESSAGE,
-                ScopeInterface::SCOPE_STORE,
-                $this->storeId
-            ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
-        );
-    }
-
-    /**
-     * Return MAP explanation message for "Whats This" window
-     *
-     * @return string
-     */
-    public function getMsrpExplanationMessageWhatsThis()
-    {
-        return $this->escaper->escapeHtml(
-            $this->scopeConfig->getValue(
-                self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS,
-                ScopeInterface::SCOPE_STORE,
-                $this->storeId
-            ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
-        );
-    }
-
-    /**
      * Check if can apply Minimum Advertise price to product
      * in specific visibility
      *
@@ -155,7 +144,7 @@ class Data extends AbstractHelper
                 ->setStoreId($this->storeManager->getStore()->getId())
                 ->load($product);
         }
-        $result = $this->canApplyMsrpToProductType($product);
+        $result = $this->msrp->canApplyToProduct($product);
         if ($result && $visibility !== null) {
             $productPriceVisibility = $product->getMsrpDisplayActualPriceType();
             if ($productPriceVisibility == Type\Price::TYPE_USE_CONFIG) {
@@ -165,29 +154,13 @@ class Data extends AbstractHelper
         }
 
         if ($product->getTypeInstance()->isComposite($product) && (!$result || $visibility !== null)) {
-            $isEnabledInOptions = $product->getTypeInstance()->isMapEnabledInOptions($product, $visibility);
+            $isEnabledInOptions = $this->productOptions->isEnabled($product, $visibility);
             if ($isEnabledInOptions !== null) {
                 $result = $isEnabledInOptions;
             }
         }
 
         return $result;
-    }
-
-    /**
-     * Check whether MAP applied to product Product Type
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return bool
-     */
-    public function canApplyMsrpToProductType($product)
-    {
-        if ($this->mapApplyToProductType === null) {
-            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $attribute = $this->eavAttributeFactory->create()->loadByCode(Product::ENTITY, 'msrp');
-            $this->mapApplyToProductType = $attribute->getApplyTo();
-        }
-        return in_array($product->getTypeId(), $this->mapApplyToProductType);
     }
 
     /**

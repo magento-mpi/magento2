@@ -12,9 +12,19 @@ namespace Magento\Msrp\Block\Adminhtml\Product\Helper\Form;
  */
 class Type extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
 {
-    /** @var \Magento\Msrp\Helper\Data */
-    protected $msrpData;
+    /** @var \Magento\Msrp\Model\Config*/
+    protected $config;
 
+    /**
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Msrp\Model\Config $config
+     * @param array $data
+     */
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
@@ -22,7 +32,7 @@ class Type extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Msrp\Helper\Data $msrpData,
+        \Magento\Msrp\Model\Config $config,
         array $data = array()
     ) {
         parent::__construct(
@@ -34,7 +44,7 @@ class Type extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
             $taxData,
             $data
         );
-        $this->msrpData = $msrpData;
+        $this->config = $config;
     }
 
     /**
@@ -44,7 +54,7 @@ class Type extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
      */
     public function toHtml()
     {
-        if ($this->msrpData->isMsrpEnabled()) {
+        if ($this->config->isEnabled()) {
             return parent::toHtml();
         }
         return '';

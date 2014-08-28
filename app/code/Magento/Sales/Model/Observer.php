@@ -255,6 +255,7 @@ class Observer
         $quote = $observer->getEvent()->getQuote();
 
         $canApplyMsrp = false;
+        //TODO: Msrp
         if ($this->msrpData->isMsrpEnabled()) {
             foreach ($quote->getAllAddresses() as $address) {
                 if ($address->getCanApplyMsrp()) {

@@ -22,7 +22,7 @@ $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'msrp',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
         'frontend' => '',
         'label' => 'Manufacturer\'s Suggested Retail Price',
@@ -44,7 +44,7 @@ $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'msrp_display_actual_price_type',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
         'frontend' => '',
         'label' => 'Display Actual Price',

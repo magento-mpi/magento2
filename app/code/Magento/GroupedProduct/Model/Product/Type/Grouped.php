@@ -471,35 +471,4 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         }
         return parent::beforeSave($product);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMapEnabledInOptions($product, $visibility = null)
-    {
-        $result = null;
-        $collection = $this->getAssociatedProducts($product);
-        $visibilities = [];
-        foreach ($collection as $item) {
-            if ($this->msrpData->canApplyMsrp($item)) {
-                $childVisibility = $item->getMsrpDisplayActualPriceType();
-                if ($childVisibility == \Magento\Msrp\Block\Adminhtml\Product\Helper\Form\Type\Price::TYPE_USE_CONFIG) {
-                    $childVisibility = $this->msrpData->getMsrpDisplayActualPriceType();
-                }
-                $visibilities[] = $childVisibility;
-                $result = true;
-            }
-        }
-
-        if ($result && $visibility !== null) {
-            if ($visibilities) {
-                $maxVisibility = max($visibilities);
-                $result = $result && $maxVisibility == $visibility;
-            } else {
-                $result = false;
-            }
-        }
-
-        return $result;
-    }
 }

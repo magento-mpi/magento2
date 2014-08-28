@@ -987,14 +987,6 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function isMapEnabledInOptions($product, $visibility = null)
-    {
-        return null;
-    }
-
-    /**
      * Prepare and retrieve options values with product data
      *
      * @param \Magento\Catalog\Model\Product $product

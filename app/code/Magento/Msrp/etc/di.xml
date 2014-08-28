@@ -32,4 +32,17 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="msrp_setup" xsi:type="string">Magento\Eav\Model\Entity\Setup</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Msrp\Model\Product\Options" shared="true"/>
+    <type name="Magento\Msrp\Helper\Data" shared="true">
+        <arguments>
+            <argument name="productOptions" xsi:type="object">Magento\Msrp\Model\Product\Options\Proxy</argument>
+        </arguments>
+    </type>
 </config>
