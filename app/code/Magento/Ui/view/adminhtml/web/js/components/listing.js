@@ -50,12 +50,13 @@ define([
     },
 
     select: function (rows) {
+      console.log(rows)
       var toSelect = _.pluck(rows, ID_ATTRIBUTE);
       this._select(toSelect);
     },
 
     selectAll: function () {
-      this.client.read().done(this.select.bind(this));
+      this.client.read(null).done(this.select.bind(this));
     },
 
     unselectAll: function () {
@@ -71,7 +72,7 @@ define([
     },
 
     reload: function () {
-      this.lock().client.read().done(function (rows) {
+      this.lock().client.read(null).done(function (rows) {
         this.unlock().rows(rows);
       }.bind(this));
 
@@ -84,10 +85,6 @@ define([
 
     isEmpty: function () {
       return !this.rows().length;
-    },
-
-    isView: function (type) {
-      return this.view() === type;
     },
 
     getViewTemplate: function () {
