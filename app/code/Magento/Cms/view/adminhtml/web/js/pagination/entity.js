@@ -7,31 +7,34 @@ define([
     return Scope.extend({
 
         initialize: function(initial, config, listing) {
+            this.listing = listing;
+            
             _.extend( this, initial );
 
-            this.def( 'current', this.current )
-                .def( 'pageSize', this.pageSize );
+            this.observable({
+                current: this.current,
+                pageSize: this.pageSize
+            });
 
             this.current.subscribe( this.onChange.bind(this) );
             this.pageSize.subscribe( this.onChange.bind(this) );
+        },
 
-            this.listing = listing;
+        go: function( val ){
+            var current = this.current;
+
+            current( +current() + val );
         },
 
         next: function(){
-            var current = this.current;
-
-            current( +current() + 1);     
+            this.go( 1 );    
         },
 
         prev: function(){
-            var current = this.current;
-
-            current( +current() - 1 );
+            this.go( -1 );
         },
 
         isLast: function(){
-
             return +this.current() === this.total;
         },
 
@@ -43,15 +46,19 @@ define([
             return 'Magento_Ui.templates.pagination.toolbar';
         },
 
-        onChange: function(){
+        setParams: function(){
             this.listing.setParams({
                 paging: {
                     pageSize: this.pageSize(),
                     current: this.current()
                 }
             });
+            
+            return this;
+        },
 
-            console.log('change');
+        onChange: function(){
+            this.setParams();
         }
     });
 

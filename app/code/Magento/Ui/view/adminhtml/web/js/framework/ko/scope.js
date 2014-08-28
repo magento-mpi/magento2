@@ -1,25 +1,38 @@
-define(function (require) {
-  
-  var
-    Class    = require('Magento_Ui/js/framework/class'),
-    EventBus = require('Magento_Ui/js/framework/events'),
-    utils    = require('Magento_Ui/js/framework/utils'),
-    ko       = require('ko');
+define([
+    '../class',
+    '../events',
+    '../utils',
+    'ko'
+], function(Class, EventBus, utils, ko) {
 
-  return Class.extend({
 
-    mixins: [ EventBus ],
+    return Class.extend({
 
-    def: function (path, value) {
-      utils.setValueByPathIn(this, path, ko.observable(value));
+        mixins: [EventBus],
 
-      return this;
-    },
+        def: function(path, value) {
+            utils.setValueByPathIn(this, path, ko.observable(value));
 
-    defArray: function (path, arr) {
-      utils.setValueByPathIn(this, path, ko.observableArray(arr));
+            return this;
+        },
 
-      return this;
-    }
-  });
+        defArray: function(path, arr) {
+            utils.setValueByPathIn(this, path, ko.observableArray(arr));
+
+            return this;
+        },
+
+        observable: function( obj ){
+            var key,
+                value,
+                method;
+
+            for( key in obj ){
+                value   = obj[ key ];
+                method  = Array.isArray( value ) ? 'observableArray' : 'observable';
+
+                utils.setValueByPathIn( this, key, ko[ method ]( value ) );
+            }
+        }
+    });
 });
