@@ -170,11 +170,7 @@ class Guest extends \Magento\Core\Helper\Data
 
             if (!$errors) {
                 $toCookie = base64_encode($order->getProtectCode() . ':' . $incrementId);
-                $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
-                    ->setPath(self::COOKIE_PATH)
-                    ->setDuration(self::COOKIE_LIFETIME)
-                    ->setHttpOnly(true);
-                $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $toCookie, $metadata);
+                $this->setGuestViewCookie($toCookie);
             }
         } elseif ($fromCookie) {
             $cookieData = explode(':', base64_decode($fromCookie));
@@ -186,11 +182,7 @@ class Guest extends \Magento\Core\Helper\Data
                 $order->loadByIncrementId($incrementId);
                 if ($order->getProtectCode() == $protectCode) {
                     // renew cookie
-                    $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
-                        ->setPath(self::COOKIE_PATH)
-                        ->setDuration(self::COOKIE_LIFETIME)
-                        ->setHttpOnly(true);
-                    $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $fromCookie, $metadata);
+                    $this->setGuestViewCookie($fromCookie);
                     $errors = false;
                 }
             }
@@ -226,5 +218,20 @@ class Guest extends \Magento\Core\Helper\Data
             'cms_page',
             array('label' => __('Order Information'), 'title' => __('Order Information'))
         );
+    }
+
+    /**
+     * Set guest-view cookie
+     *
+     * @param $cookieValue
+     * @return void
+     */
+    private function setGuestViewCookie($cookieValue)
+    {
+        $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+            ->setPath(self::COOKIE_PATH)
+            ->setDuration(self::COOKIE_LIFETIME)
+            ->setHttpOnly(true);
+        $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $cookieValue, $metadata);
     }
 }
