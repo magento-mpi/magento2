@@ -169,16 +169,6 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Date model getter
-     *
-     * @return \Magento\Framework\Stdlib\DateTime\DateTime
-     */
-    public function getDateModel()
-    {
-        return $this->_dateModel;
-    }
-
-    /**
      * Send email notification
      *
      * @param array $vars
@@ -425,8 +415,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     public function run()
     {
-        $runDate = $this->getDateModel()->date();
-        $runDateTimestamp = $this->getDateModel()->gmtTimestamp($runDate);
+        $runDate = $this->_dateModel->date();
+        $runDateTimestamp = $this->_dateModel->gmtTimestamp($runDate);
 
         $this->setLastRunDate($runDateTimestamp);
 
@@ -687,7 +677,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     public function getHistoryFilePath()
     {
         $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
-        $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
+        $dirPath = self::LOG_DIRECTORY . $this->_dateModel->date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 
         $fileName = join('_', array($this->_getRunTime(), $this->getOperationType(), $this->getEntityType()));
@@ -712,6 +702,6 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     protected function _getRunTime()
     {
         $runDate = $this->getLastRunDate() ? $this->getLastRunDate() : null;
-        return $this->getDateModel()->date('H-i-s', $runDate);
+        return $this->_dateModel->date('H-i-s', $runDate);
     }
 }
