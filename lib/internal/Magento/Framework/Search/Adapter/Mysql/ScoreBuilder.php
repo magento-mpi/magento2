@@ -13,13 +13,6 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 class ScoreBuilder
 {
     /**
-     * List of score conditions
-     *
-     * @var string[]
-     */
-    private $scoreQueryList = [];
-
-    /**
      * @var string
      */
     private $scoreCondition = '';
@@ -32,20 +25,6 @@ class ScoreBuilder
     public function getScoreAlias()
     {
         return 'global_score';
-    }
-
-    /**
-     * Set boost for some query by queryName
-     *
-     * @param string $queryName
-     * @param float $boost
-     * @return $this
-     */
-    public function setQueryBoost($queryName, $boost = 1.0)
-    {
-        $this->scoreQueryList[$queryName]['boost'] = $boost;
-
-        return $this;
     }
 
     /**
@@ -76,13 +55,6 @@ class ScoreBuilder
         $this->scoreCondition .= ") * {$boost}";
     }
 
-    private function addPlus()
-    {
-        if (!empty($this->scoreCondition) && substr($this->scoreCondition, -1) != '(') {
-            $this->scoreCondition .= ' + ';
-        }
-    }
-
     /**
      * @param $score
      * @param $boost
@@ -92,6 +64,13 @@ class ScoreBuilder
     {
         $this->addPlus();
         $this->scoreCondition .= "{$score} * {$boost}";
+    }
+
+    private function addPlus()
+    {
+        if (!empty($this->scoreCondition) && substr($this->scoreCondition, -1) != '(') {
+            $this->scoreCondition .= ' + ';
+        }
     }
 
     /**
