@@ -60,6 +60,9 @@ define([
         readCollection: function (params) {
             var result = this.storage, paging, filters, query;
 
+            var total,
+                pages;
+
             if (params) {
                 paging  = params.paging;
                 filters = params.filters;
@@ -70,8 +73,18 @@ define([
                 result = this.searchBy(query, result);
             }
 
+            total = result.length;
+
             if (paging && paging.pageSize && paging.current) {
-                result = this._getPageBy(paging.pageSize, paging.current, result);    
+                result = this._getPageBy(paging.pageSize, paging.current, result);
+            }
+
+            result = {
+                rows: result,
+                meta: {
+                    items: total,
+                    pages: this.pagesNumber
+                }
             }
 
             return result;
@@ -80,11 +93,7 @@ define([
         _getPageBy: function (pageSize, targetPage, collection) {
             var result  = [];
 
-            var pagesNumber = parseInt(collection.length / pageSize, 10);
-
-            if (collection.length % pageSize) {
-                pagesNumber += 1;
-            }
+            this.pagesNumber = this.getPagesNumber( pageSize, targetPage, collection );
 
             var topMargin    = pageSize,
                 bottomMargin = 0,
@@ -130,6 +139,16 @@ define([
             }
             
             return removed;
+        },
+
+        getPagesNumber: function(pageSize, targetPage, collection){
+            var pagesNumber = parseInt(collection.length / pageSize, 10);
+
+            if (collection.length % pageSize) {
+                pagesNumber += 1;
+            }
+
+            return pagesNumber;
         }
     });
 

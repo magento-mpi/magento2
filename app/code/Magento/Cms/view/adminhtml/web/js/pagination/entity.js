@@ -1,8 +1,7 @@
 define([
-    'ko',
     'Magento_Ui/js/framework/ko/scope',
     '_'
-], function(ko, Scope, _) {
+], function(Scope, _) {
 
     return Scope.extend({
         initialize: function(initial, config, listing) {
@@ -29,7 +28,7 @@ define([
         },
 
         isLast: function(){
-            return +this.paging.current() === this.meta.pages;
+            return +this.paging.current() === this.meta.pages();
         },
 
         isFirst: function(){

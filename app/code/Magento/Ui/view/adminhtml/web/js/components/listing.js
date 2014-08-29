@@ -106,7 +106,6 @@ define([
             this.select(this.rows());
         },
 
-        /*
         reload: function() {
             this.lock().client.read(this.params).done(function(result) {
                 var meta = result.meta;
@@ -116,17 +115,7 @@ define([
                 this.rows(result.rows);
 
                 this.meta.pages( meta.pages );
-                this.meta.items( meta.items )
-
-            }.bind(this));
-
-            return this;
-        },
-        */
-        reload: function() {
-            this.lock().client.read(this.params).done(function(rows) {
-
-                this.unlock().rows(rows);
+                this.meta.items( meta.items );
 
             }.bind(this));
 
