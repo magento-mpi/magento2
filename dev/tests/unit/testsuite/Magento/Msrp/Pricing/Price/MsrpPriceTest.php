@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Pricing\Price;
+namespace Magento\Msrp\Pricing\Price;
 
 use \Magento\Framework\Pricing\PriceInfoInterface;
 
@@ -16,7 +16,7 @@ use \Magento\Framework\Pricing\PriceInfoInterface;
 class MsrpPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Pricing\Price\MsrpPrice
+     * @var \Magento\Msrp\Pricing\Price\MsrpPrice
      */
     protected $object;
 
@@ -43,6 +43,11 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculator;
+
+    /**
+     * @var \Magento\Msrp\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $config;
 
     protected function setUp()
     {
@@ -75,18 +80,19 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->helper = $this->getMock(
-            'Magento\Catalog\Helper\Data',
-            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'isMsrpEnabled', 'canApplyMsrp'],
+            'Magento\Msrp\Helper\Data',
+            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'canApplyMsrp'],
             [],
             '',
             false
         );
-
+        $this->config = $this->getMock('Magento\Msrp\Model\Config', ['isEnabled'], [], '', false);
         $this->object = new MsrpPrice(
             $this->saleableItem,
             PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT,
             $this->calculator,
-            $this->helper
+            $this->helper,
+            $this->config
         );
     }
 
@@ -123,8 +129,8 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
 
     public function testIsMsrpEnabled()
     {
-        $this->helper->expects($this->once())
-            ->method('isMsrpEnabled')
+        $this->config->expects($this->once())
+            ->method('isEnabled')
             ->will($this->returnValue(true));
 
         $this->assertTrue($this->object->isMsrpEnabled());

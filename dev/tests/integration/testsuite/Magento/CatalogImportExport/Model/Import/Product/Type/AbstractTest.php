@@ -34,6 +34,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider prepareAttributesWithDefaultValueForSaveDataProvider
+     * @magentoConfigFixture sales/msrp/enabled 1
      */
     public function testPrepareAttributesWithDefaultValueForSave($rowData, $withDefaultValue, $expectedAttributes)
     {
