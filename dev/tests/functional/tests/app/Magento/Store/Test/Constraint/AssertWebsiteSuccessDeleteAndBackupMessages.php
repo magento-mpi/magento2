@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 
 /**
- * Class AssertStoreGroupSuccessDeleteAndBackupMessages
- * Assert that store group success delete and backup messages are present.
+ * Class AssertWebsiteSuccessDeleteAndBackupMessages
+ * Assert that after website delete successful messages appears
  */
-class AssertStoreGroupSuccessDeleteAndBackupMessages extends AbstractConstraint
+class AssertWebsiteSuccessDeleteAndBackupMessages extends AbstractConstraint
 {
     /**
      * Success backup message
@@ -23,9 +23,9 @@ class AssertStoreGroupSuccessDeleteAndBackupMessages extends AbstractConstraint
     const SUCCESS_BACKUP_MESSAGE = 'The database was backed up.';
 
     /**
-     * Success store group delete message
+     * Success website delete message
      */
-    const SUCCESS_DELETE_MESSAGE = 'The store has been deleted.';
+    const SUCCESS_DELETE_MESSAGE = 'The website has been deleted.';
 
     /**
      * Constraint severeness
@@ -35,7 +35,7 @@ class AssertStoreGroupSuccessDeleteAndBackupMessages extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success messages is displayed after deleting store group
+     * Assert that success messages is displayed after deleting website
      *
      * @param StoreIndex $storeIndex
      * @return void
@@ -57,6 +57,6 @@ class AssertStoreGroupSuccessDeleteAndBackupMessages extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Store group success delete and backup messages are present.';
+        return 'Website success delete and backup messages are present.';
     }
 }

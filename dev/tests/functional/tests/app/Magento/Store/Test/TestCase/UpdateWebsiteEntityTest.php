@@ -96,7 +96,7 @@ class UpdateWebsiteEntityTest extends Injectable
     }
 
     /**
-     * Merge Website fixture
+     * Merge Website fixtures
      *
      * @param Website $website
      * @param Website $websiteOrigin
