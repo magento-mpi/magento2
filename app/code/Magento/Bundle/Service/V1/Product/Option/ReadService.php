@@ -70,8 +70,7 @@ class ReadService implements ReadServiceInterface
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
 
-        $selections = $option->getSelections();
-        $productLinks = $this->getProductLinks($selections, $product);
+        $productLinks = $this->getProductLinks($product, $optionId);
 
         return $this->optionConverter->createDataFromModel($option, $product, $productLinks);
     }
@@ -88,8 +87,7 @@ class ReadService implements ReadServiceInterface
         $optionDtoList = [];
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
-            $selections = $option->getSelections();
-            $productLinks = $this->getProductLinks($selections, $product);
+            $productLinks = $this->getProductLinks($product, $option->getId());
 
             $optionDtoList[] = $this->optionConverter->createDataFromModel($option, $product, $productLinks);
         }
@@ -97,19 +95,26 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * @param Product[] $selections
      * @param Product $product
+     * @param int $optionId
      * @return array|null
      */
-    private function getProductLinks($selections, Product $product)
+    private function getProductLinks(Product $product, $optionId)
     {
-        if (empty($selections)) {
-            return null;
-        }
+        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
+        $productTypeInstance = $product->getTypeInstance();
+        $productTypeInstance->setStoreFilter(
+            $product->getStoreId(),
+            $product
+        );
+        $selectionCollection = $productTypeInstance->getSelectionsCollection(
+            [ $optionId ],
+            $product
+        );
 
         $productLinks = [];
         /** @var \Magento\Catalog\Model\Product $selection */
-        foreach ($selections as $selection) {
+        foreach ($selectionCollection as $selection) {
             $productLinks[] = $this->linkConverter->createDataFromModel($selection, $product);
         }
         return $productLinks;

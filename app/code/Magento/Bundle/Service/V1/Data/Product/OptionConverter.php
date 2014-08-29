@@ -40,7 +40,7 @@ class OptionConverter
     /**
      * @param OptionModel $option
      * @param Product $product
-     * @param Product[] $productLinks
+     * @param Link[] $productLinks
      * @return Option
      */
     public function createDataFromModel(OptionModel $option, Product $product, $productLinks = null)

@@ -41,11 +41,11 @@ interface ProductSaveProcessorInterface
     /**
      * Update product.
      *
-     * @param string $id
+     * @param string $sku
      * @param \Magento\Catalog\Service\V1\Data\Product $product
      * @return string id
      */
-    public function update($id, \Magento\Catalog\Service\V1\Data\Product $product);
+    public function update($sku, \Magento\Catalog\Service\V1\Data\Product $product);
 
     /**
      * Delete product.

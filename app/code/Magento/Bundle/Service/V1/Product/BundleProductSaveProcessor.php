@@ -10,8 +10,6 @@ namespace Magento\Bundle\Service\V1\Product;
 
 use Magento\Bundle\Service\V1\Data\Product\Link;
 use Magento\Bundle\Service\V1\Data\Product\Option;
-use Magento\Bundle\Service\V1\Product\Link\ReadService as LinkReadService;
-use Magento\Bundle\Service\V1\Product\Link\WriteService as LinkWriteService;
 use Magento\Bundle\Service\V1\Product\Option\ReadService as OptionReadService;
 use Magento\Bundle\Service\V1\Product\Option\WriteService as OptionWriteService;
 use Magento\Catalog\Model\Product as ProductModel;
@@ -26,19 +24,9 @@ use Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface;
 class BundleProductSaveProcessor implements ProductSaveProcessorInterface
 {
     /**
-     * @var LinkWriteService
-     */
-    private $linkWriteService;
-
-    /**
      * @var OptionWriteService
      */
     private $optionWriteService;
-
-    /**
-     * @var LinkReadService
-     */
-    private $linkReadService;
 
     /**
      * @var OptionReadService
@@ -53,22 +41,16 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
     /**
      * Initialize dependencies.
      *
-     * @param LinkWriteService $linkWriteService
      * @param OptionWriteService $optionWriteService
-     * @param LinkReadService $linkReadService
      * @param OptionReadService $optionReadService
      * @param ProductRepository $productRepository
      */
     public function __construct(
-        LinkWriteService $linkWriteService,
         OptionWriteService $optionWriteService,
-        LinkReadService $linkReadService,
         OptionReadService $optionReadService,
         ProductRepository $productRepository
     ) {
-        $this->linkWriteService = $linkWriteService;
         $this->optionWriteService = $optionWriteService;
-        $this->linkReadService = $linkReadService;
         $this->optionReadService = $optionReadService;
         $this->productRepository = $productRepository;
     }
@@ -96,29 +78,15 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
      */
     public function afterCreate(ProductModel $product, Product $productData)
     {
-        /**
-         * @var string $productSku
-         */
+        /** @var string $productSku */
         $productSku = $productData->getSku();
 
         if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {
             return $productSku;
         }
 
-        /**
-         * @var Link[] $bundleProductLinks
-         */
-        $bundleProductLinks = $productData->getCustomAttribute('bundle_product_links');
-        if (is_array($bundleProductLinks)) {
-            foreach ($bundleProductLinks as $link) {
-                $this->linkWriteService->addChild($productSku, $link);
-            }
-        }
-
-        /**
-         * @var Option[] $bundleProductOptions
-         */
-        $bundleProductOptions = $productData->getCustomAttribute('bundle_product_options');
+        /** @var Option[] $bundleProductOptions */
+        $bundleProductOptions = $productData->getCustomAttribute('bundle_product_options')->getValue();
         if (is_array($bundleProductOptions)) {
             foreach ($bundleProductOptions as $option) {
                 $this->optionWriteService->add($productSku, $option);
@@ -131,73 +99,53 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
     /**
      * Update bundle-related attributes of product.
      *
-     * @param string $id
+     * @param string $sku
      * @param Product $updatedProduct
      * @return string
      */
-    public function update($id, Product $updatedProduct)
+    public function update($sku, Product $updatedProduct)
     {
         /**
          * @var Product $existingProduct
          */
-        $existingProduct = $this->productRepository->get($id, true);
-
-        /**
-         * @var string $productSku
-         */
-        $productSku = $existingProduct->getSku();
+        $existingProduct = $this->productRepository->get($sku, true);
 
         if ($existingProduct->getTypeId() != ProductType::TYPE_BUNDLE) {
-            return $productSku;
-        }
-
-        /**
-         * @var Link[] $existingProductLinks
-         */
-        $existingProductLinks = $this->linkReadService->getChildren($id);
-        /**
-         * @var Link[] $newProductLinks
-         */
-        $newProductLinks = $updatedProduct->getCustomAttribute('bundle_product_links');
-        /**
-         * @var Link[] $linksToDelete
-         */
-        $linksToDelete = array_udiff($existingProductLinks, $newProductLinks, array($this, 'compareLinks'));
-        foreach ($linksToDelete as $link) {
-            $this->linkWriteService->removeChild($productSku, $link->getOptionId(), $link->getSku());
-        }
-        /**
-         * @var Link[] $linksToAdd
-         */
-        $linksToAdd = array_udiff($newProductLinks, $existingProductLinks, array($this, 'compareLinks'));
-        foreach ($linksToAdd as $link) {
-            $this->linkWriteService->addChild($productSku, $link);
+            return $sku;
         }
 
         /**
          * @var Option[] $existingProductOptions
          */
-        $existingProductOptions = $this->optionReadService->getList($productSku);
+        $existingProductOptions = $this->optionReadService->getList($sku);
         /**
          * @var Option[] $newProductOptions
          */
-        $newProductOptions = $updatedProduct->getCustomAttribute('bundle_product_options');
+        $newProductOptions = $updatedProduct->getCustomAttribute('bundle_product_options')->getValue();
+        if (!is_array($newProductOptions)) {
+            $newProductOptions = array();
+        }
         /**
          * @var Option[] $optionsToDelete
          */
         $optionsToDelete = array_udiff($existingProductOptions, $newProductOptions, array($this, 'compareOptions'));
         foreach ($optionsToDelete as $option) {
-            $this->optionWriteService->remove($productSku, $option->getId());
+            $this->optionWriteService->remove($sku, $option->getId());
+        }
+        /** @var Option[] $optionsToUpdate */
+        $optionsToUpdate = array_uintersect($existingProductOptions, $newProductOptions, array($this, 'compareOptions'));
+        foreach ($optionsToUpdate as $option) {
+            $this->optionWriteService->update($sku, $option->getId(), $option);
         }
         /**
          * @var Option[] $optionsToAdd
          */
         $optionsToAdd = array_udiff($newProductOptions, $existingProductOptions, array($this, 'compareOptions'));
         foreach ($optionsToAdd as $option) {
-            $this->optionWriteService->add($productSku, $option);
+            $this->optionWriteService->add($sku, $option);
         }
 
-        return $productSku;
+        return $sku;
     }
 
     /**
@@ -218,35 +166,14 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
         $productSku = $product->getSku();
 
         /**
-         * @var Link[] $bundleProductLinks
-         */
-        $bundleProductLinks = $product->getCustomAttribute('bundle_product_links');
-        foreach ($bundleProductLinks as $link) {
-            $this->linkWriteService->removeChild($productSku, $link->getOptionId(), $link->getSku());
-        }
-
-        /**
          * @var Option[] $bundleProductOptions
          */
-        $bundleProductOptions = $product->getCustomAttribute('bundle_product_options');
+        $bundleProductOptions = $product->getCustomAttribute('bundle_product_options'); //->getValue();
+        if (!is_array($bundleProductOptions)) {
+            $bundleProductOptions = array();
+        }
         foreach ($bundleProductOptions as $option) {
             $this->optionWriteService->remove($productSku, $option->getId());
-        }
-    }
-
-    /**
-     * Compare two links to determine if they are equal
-     *
-     * @param Link $firstLink
-     * @param Link $secondLink
-     * @return int
-     */
-    private function compareLinks(Link $firstLink, Link $secondLink)
-    {
-        if ($firstLink->getSku() === $secondLink->getSku()) {
-            return 0;
-        } else {
-            return 1;
         }
     }
 
