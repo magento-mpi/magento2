@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\Search\Adapter\Mysql;
 
+use Magento\Framework\App\Resource;
 use Magento\Framework\App\Resource\Config;
 use Magento\Framework\Search\Request\QueryInterface;
 use Magento\TestFramework\Helper\ObjectManager;
@@ -18,63 +18,87 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\Search\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $request;
+
     /**
      * @var \Magento\Framework\DB\Select|\PHPUnit_Framework_MockObject_MockObject
      */
     private $select;
+
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $scoreManager;
+    private $scoreBuilder;
+
+    /**
+     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilderFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $scoreBuilderFactory;
+
     /**
      * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     private $resource;
+
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Mapper
+     * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $matchQueryBuilder;
+
+    /**
+     * @var Mapper
      */
     private $mapper;
-    /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
-     */
-    private $objectManager;
 
     protected function setUp()
     {
-        $this->objectManager = new ObjectManager($this);
-        $this->resource = $this->getMockBuilder('Magento\Framework\App\Resource')
-            ->setMethods(['getConnection'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $helper = new ObjectManager($this);
+
         $this->select = $this->getMockBuilder('Magento\Framework\DB\Select')
             ->setMethods([])
             ->disableOriginalConstructor()
             ->getMock();
+
         $connectionAdapter = $this->getMockBuilder('Magento\Framework\DB\Adapter\AdapterInterface')
             ->setMethods(['select'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $connectionAdapter->expects($this->once())
-            ->method('select')
-            ->will($this->returnValue($this->select));
-        $this->resource->expects($this->once())
-            ->method('getConnection')
-            ->with(Config::DEFAULT_SETUP_CONNECTION)
+        $connectionAdapter->expects($this->any())->method('select')->will($this->returnValue($this->select));
+
+        $this->resource = $this->getMockBuilder('Magento\Framework\App\Resource')
+            ->setMethods(['getConnection'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->resource->expects($this->any())->method('getConnection')
+            ->with(Resource::DEFAULT_READ_RESOURCE)
             ->will($this->returnValue($connectionAdapter));
-        $this->scoreManager = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\ScoreManager')
+
+        $this->scoreBuilder = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\ScoreBuilder')
             ->setMethods(['clear'])
             ->disableOriginalConstructor()
             ->getMock();
+        $this->scoreBuilderFactory = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\ScoreBuilderFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->scoreBuilderFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($this->scoreBuilder));
+
         $this->request = $this->getMockBuilder('Magento\Framework\Search\RequestInterface')
             ->setMethods(['getQuery'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->mapper = $this->objectManager->getObject(
+        $this->matchQueryBuilder = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match')
+            ->setMethods(['build'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->mapper = $helper->getObject(
             'Magento\Framework\Search\Adapter\Mysql\Mapper',
             [
                 'resource' => $this->resource,
-                'scoreManager' => $this->scoreManager,
+                'scoreBuilderFactory' => $this->scoreBuilderFactory,
+                'matchQueryBuilder' => $this->matchQueryBuilder
             ]
         );
     }
@@ -82,6 +106,15 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     public function testBuildMatchQuery()
     {
         $query = $this->createMatchQuery();
+
+        $this->matchQueryBuilder->expects($this->once())->method('build')
+            ->with(
+                $this->equalTo($this->scoreBuilder),
+                $this->equalTo($this->select),
+                $this->equalTo($query),
+                $this->equalTo(Mapper::BOOL_MUST)
+            )
+            ->will($this->returnValue($this->select));
 
         $this->request->expects($this->once())->method('getQuery')->will($this->returnValue($query));
 
@@ -209,12 +242,13 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     private function createMatchQuery()
     {
         $query = $this->getMockBuilder('Magento\Framework\Search\Request\Query\Match')
-            ->setMethods(['getType'])
+            ->setMethods(['getType', 'build'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $query->expects($this->exactly(1))
-            ->method('getType')
+        $query->expects($this->once())->method('getType')
             ->will($this->returnValue(QueryInterface::TYPE_MATCH));
+        $query->expects($this->once())->method('build')
+            ->will($this->returnValue($this->select));
         return $query;
     }
 
@@ -244,5 +278,4 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(QueryInterface::TYPE_BOOL));
         return $query;
     }
-
 }
