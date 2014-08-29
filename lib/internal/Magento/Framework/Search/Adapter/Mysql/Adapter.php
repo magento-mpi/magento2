@@ -32,7 +32,7 @@ class Adapter implements AdapterInterface
     protected $responseFactory;
 
     /**
-     * @var Resource
+     * @var \Magento\Framework\App\Resource
      */
     private $resource;
 
