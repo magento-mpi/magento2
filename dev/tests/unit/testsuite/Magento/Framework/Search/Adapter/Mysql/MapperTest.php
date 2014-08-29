@@ -138,15 +138,14 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $query = $this->createBoolQuery();
         $this->request->expects($this->once())->method('getQuery')->will($this->returnValue($query));
 
+        $this->matchQueryBuilder->expects($this->exactly(3))->method('build')
+            ->will($this->returnValue($this->select));
+
         $query->expects($this->once())
             ->method('getMust')
             ->will(
                 $this->returnValue(
                     [
-                        $this->createMatchQuery(),
-                        $this->createFilterQuery(),
-                        $this->createMatchQuery(),
-                        $this->createFilterQuery(),
                         $this->createMatchQuery(),
                         $this->createFilterQuery(),
                     ]
@@ -160,10 +159,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                     [
                         $this->createMatchQuery(),
                         $this->createFilterQuery(),
-                        $this->createMatchQuery(),
-                        $this->createFilterQuery(),
-                        $this->createMatchQuery(),
-                        $this->createFilterQuery(),
                     ]
                 )
             );
@@ -173,10 +168,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     [
-                        $this->createMatchQuery(),
-                        $this->createFilterQuery(),
-                        $this->createMatchQuery(),
-                        $this->createFilterQuery(),
                         $this->createMatchQuery(),
                         $this->createFilterQuery(),
                     ]
