@@ -101,6 +101,7 @@ class StartController extends AbstractActionController
         $moduleNames = array_keys($this->moduleList);
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
+            $setup->applyUpdates();
             $this->logger->logSuccess($moduleName);
         }
         $this->logger->logSuccess('Artifact');
