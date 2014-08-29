@@ -26,7 +26,7 @@ class Store extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'group_id' => 'Main Website Store',
+            'group_id' => ['dataSet' => 'default'],
             'name' => 'Custom_Store_%isolation%',
             'code' => 'code_%isolation%',
             'is_active' => 'Enabled',
@@ -38,7 +38,7 @@ class Store extends AbstractRepository
         ];
 
         $this->_data['german'] = [
-            'group_id' => 'Main Website Store',
+            'group_id' => ['dataSet' => 'default'],
             'name' => 'DE%isolation%',
             'code' => 'de%isolation%',
             'is_active' => 'Enabled',

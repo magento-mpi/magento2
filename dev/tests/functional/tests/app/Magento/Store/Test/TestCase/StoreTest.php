@@ -54,8 +54,9 @@ class StoreTest extends Functional
 
         $configPage = Factory::getPageFactory()->getAdminSystemConfig();
         $configPage->open();
+        list($website, $store) = explode("/", $storeFixture->getGroupId());
         $configPage->getPageActions()->selectStore(
-            ['Main Website', $storeFixture->getGroupId(), $storeFixture->getName()]
+            [$website, $store, $storeFixture->getName()]
         );
         $configGroup = $configPage->getForm()->getGroup('Locale Options');
         $configGroup->open();
