@@ -24,17 +24,17 @@
             </arguments>
         </block>
     </referenceBlock>
-    <referenceBlock name="tax_country_id">
+    <referenceBlock name="adminhtml.catalog.product.set.grid.column.tax_country_id">
         <arguments>
             <argument name="renderer" xsi:type="string">Magento\TaxImportExport\Block\Adminhtml\Rate\Grid\Renderer\Country</argument>
         </arguments>
     </referenceBlock>
-    <referenceBlock name="code">
+    <referenceBlock name="adminhtml.catalog.product.set.grid.column.code">
         <arguments>
             <argument name="header_export" xsi:type="string" translate="true">Code</argument>
         </arguments>
     </referenceBlock>
-    <referenceBlock name="region_name">
+    <referenceBlock name="adminhtml.catalog.product.set.grid.column.region_name">
         <arguments>
             <argument name="header_export" xsi:type="string" translate="true">State</argument>
         </arguments>
