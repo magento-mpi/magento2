@@ -24,11 +24,10 @@ define([
             var isReady = $.Deferred();
             var result;
 
-            if (params) {
-                result = this.backend.readCollection(params);
-
-            } else if (id) {
+            if (id) {
                 result = this.backend.readOne(id);
+            } else {
+                result = this.backend.readCollection(params);
             }
 
             resolve(isReady, result);

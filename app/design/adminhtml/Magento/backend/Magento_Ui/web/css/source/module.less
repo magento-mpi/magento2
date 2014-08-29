@@ -53,3 +53,20 @@
         -ms-user-select: none;
     }
 }
+
+.listing-massaction {
+  position: relative;
+
+  &.active {
+    select {
+      display: block;
+    }
+  }
+
+  select {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+  }
+}

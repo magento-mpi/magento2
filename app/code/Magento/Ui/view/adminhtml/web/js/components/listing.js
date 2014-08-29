@@ -3,8 +3,9 @@ define([
     '../framework/rest/client',
     '../framework/rest/adapter/local',
     '../framework/mixin/resourceful',
-    '_'
-], function(Scope, RestClient, LocalAdapter, Resourceful, _) {
+    '_',
+    'ko'
+], function(Scope, RestClient, LocalAdapter, Resourceful, _, ko) {
 
     var ID_ATTRIBUTE = 'id';
     var DEFAULT_VIEW = 'grid';
@@ -18,13 +19,19 @@ define([
                 checkedIds:     [],
                 currentAction:  '',
                 view:           DEFAULT_VIEW,
-                isLocked:       false
+                isLocked:       false,
+
+                massActions: initial.massactions || [],
+                currentMassAction: '',
+                isMassActionVisible: false
             });
 
             this.params = {};
 
             var adapter = new LocalAdapter(config.resource);
             this.client = new RestClient(adapter);
+
+            this.currentMassAction.subscribe(this._applyMassAction.bind(this), 'change');
         },
 
         remove: function() {
@@ -34,6 +41,19 @@ define([
             this.client.remove(idsToRemove).done(function(removedIds) {
                 this.reload()._unselect(removedIds);
             }.bind(this));
+        },
+
+        _applyMassAction: function (action) {
+            if (action) {
+                action = action.type;
+                if (this[action]) {
+                    this[action]();
+                }    
+            }
+        },
+
+        toggleMassActions: function () {
+            this.isMassActionVisible(!this.isMassActionVisible());
         },
 
         _unselectOne: function(id) {
@@ -53,13 +73,14 @@ define([
         },
 
         select: function(rows) {
-            console.log(rows)
             var toSelect = _.pluck(rows, ID_ATTRIBUTE);
             this._select(toSelect);
         },
 
         selectAll: function() {
-            this.client.read(null).done(this.select.bind(this));
+            this.client
+                .read(null)
+                .done(this.select.bind(this));
         },
 
         unselectAll: function() {
@@ -76,14 +97,12 @@ define([
 
         reload: function() {
             this.lock().client.read(this.params).done(function(rows) {
+
                 this.unlock().rows(rows);
+                this._ensureCheckedRows();
             }.bind(this));
 
             return this;
-        },
-
-        load: function (rows) {
-            this.rows(rows);
         },
 
         getCheckedQuantity: function() {

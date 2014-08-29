@@ -4,38 +4,14 @@ define([
 ], function (Scope, _) {
 
     return Scope.extend({
-        initialize: function (massActions, actions, listing) {
+        initialize: function (actions, listing) {
             
             this.observe({
-                actions:            actions,
-                massActions:        massActions,
-                currentAction:      '',
-                currentMassAction:  ''
+                actions:       actions,
+                currentAction: null
             });
 
             this.target = listing;
-            this._bind()._listen();
-        },
-
-        _bind: function () {
-            _.bindAll(this, '_applyMassAction');
-            
-            return this;
-        },
-
-        _listen: function () {
-            this.currentMassAction.subscribe(this._applyMassAction, 'change');
-        },
-
-        _applyMassAction: function (action) {
-            var target = this.target;
-
-            if (action) {
-                action = action.type;
-                if (target[action]) {
-                    target[action]();
-                }    
-            }
         },
 
         applyAction: function () {

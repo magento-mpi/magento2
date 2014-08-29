@@ -58,29 +58,31 @@ define([
         },
 
         readCollection: function (params) {
-            var result  = this.storage,
-                paging  = params.paging,
-                filters = params.filters,
-                query   = params.query;
+            var result = this.storage, paging, filters, query;
 
-            if (paging && paging.pageSize && paging.current) {
-                result = this._getPageBy(paging.pageSize, paging.current);    
+            if (params) {
+                paging  = params.paging;
+                filters = params.filters;
+                query   = params.query;
             }
 
             if (query) {
                 result = this.searchBy(query, result);
             }
 
+            if (paging && paging.pageSize && paging.current) {
+                result = this._getPageBy(paging.pageSize, paging.current, result);    
+            }
+
             return result;
         },
 
-        _getPageBy: function (pageSize, targetPage) {
-            var storage = this.storage,
-                result  = [];
+        _getPageBy: function (pageSize, targetPage, collection) {
+            var result  = [];
 
-            var pagesNumber = parseInt(storage.length / pageSize, 10);
+            var pagesNumber = parseInt(collection.length / pageSize, 10);
 
-            if (storage.length % pageSize) {
+            if (collection.length % pageSize) {
                 pagesNumber += 1;
             }
 
@@ -89,7 +91,7 @@ define([
                 pageCounter;
 
             for (pageCounter = 0; pageCounter < targetPage; pageCounter++) {
-                result.push(storage.slice(bottomMargin, topMargin));
+                result.push(collection.slice(bottomMargin, topMargin));
 
                 bottomMargin += pageSize;
                 topMargin    += pageSize;

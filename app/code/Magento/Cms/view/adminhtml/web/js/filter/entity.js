@@ -20,13 +20,21 @@ define([
             this._bind();
 
             this.rawQuery.subscribe(function (rawQuery) {
-                this.client
-                    .read({ query: rawQuery })
-                    .then(this._load)
-                    .then(this._formatData)
-                    .done(this.suggestions.bind(this));
+                // this.client
+                //     .read({ query: rawQuery })
+                //     .then(this._load)
+                //     .then(this._formatData)
+                //     .done(this.suggestions.bind(this));
 
             }, this);
+        },
+
+        search: function () {
+            var query = this.rawQuery();
+
+            this.target
+                .setParams({ query: query })
+                .reload();
         },
 
         _bind: function () {

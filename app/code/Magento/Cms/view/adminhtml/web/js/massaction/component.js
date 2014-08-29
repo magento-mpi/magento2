@@ -7,7 +7,7 @@ define([
   return function (el, config, initial) {
 
     Provider.get('cms.pages.listing').done(function (listing) {
-        var massAction = new MassAction(initial.massactions, initial.actions, listing);
+        var massAction = new MassAction(initial.actions, listing);
         View.bind(el, massAction);
     });
   }
