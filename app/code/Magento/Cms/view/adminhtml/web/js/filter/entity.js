@@ -22,7 +22,7 @@ define([
             this.rawQuery.subscribe(function (rawQuery) {
                 this.client
                     .read({ query: rawQuery })
-                    // .then(this._load)
+                    .then(this._load)
                     .then(this._formatData)
                     .done(this.suggestions.bind(this));
 

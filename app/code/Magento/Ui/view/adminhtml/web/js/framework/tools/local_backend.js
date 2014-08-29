@@ -40,7 +40,9 @@ define([
         },
 
         _stringSearchByField: function (strQuery, field, entry) {
-            return entry[field].indexOf(strQuery) !== -1;    
+            entry = entry[field].toLowerCase();
+
+            return entry.indexOf(strQuery.toLowerCase()) !== -1;    
         },
 
         _booleanSearchByField: function (boolQuery, field, entry) {
@@ -64,7 +66,7 @@ define([
             if (paging && paging.pageSize && paging.current) {
                 result = this._getPageBy(paging.pageSize, paging.current);    
             }
-            console.log('result after paging', result)
+
             if (query) {
                 result = this.searchBy(query, result);
             }
@@ -87,7 +89,6 @@ define([
                 pageCounter;
 
             for (pageCounter = 0; pageCounter < targetPage; pageCounter++) {
-                console.log('from', bottomMargin, 'to', topMargin)
                 result.push(storage.slice(bottomMargin, topMargin));
 
                 bottomMargin += pageSize;
