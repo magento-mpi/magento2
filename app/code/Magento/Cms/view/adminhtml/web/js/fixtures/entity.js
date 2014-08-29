@@ -7,7 +7,6 @@ define([
 
     initialize: function (listing) {
       this.target = listing;
-      this.populate();
     },
 
     reloadListing: function () {
@@ -16,10 +15,6 @@ define([
 
     empty: function () {
       fixtures.empty('cms.pages.listing');
-    },
-
-    populate: function () {
-      fixtures.populate('cms.pages.listing');
     }
   });
 });

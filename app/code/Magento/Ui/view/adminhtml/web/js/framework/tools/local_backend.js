@@ -1,11 +1,11 @@
 define([
-    '_'
-], function (_) {
+    '_',
+    './fixtures'
+], function (_, fixtures) {
 
     var LocalBackend = function (resource) {
         this.name = resource;
-        
-        this.storage = [];
+        this.storage = fixtures[this.name] || [];
     };
 
     _.extend(LocalBackend.prototype, {
@@ -64,7 +64,7 @@ define([
             if (paging && paging.pageSize && paging.current) {
                 result = this._getPageBy(paging.pageSize, paging.current);    
             }
-
+            console.log('result after paging', result)
             if (query) {
                 result = this.searchBy(query, result);
             }
@@ -86,18 +86,15 @@ define([
                 bottomMargin = 0,
                 pageCounter;
 
-            for (pageCounter = 0; pageCounter < pagesNumber; pageCounter++) {
-                if (pageCounter === targetPage - 1) {
-                    break;
-                }
-
+            for (pageCounter = 0; pageCounter < targetPage; pageCounter++) {
+                console.log('from', bottomMargin, 'to', topMargin)
                 result.push(storage.slice(bottomMargin, topMargin));
 
                 bottomMargin += pageSize;
                 topMargin    += pageSize;
             }
-            
-            return result;
+
+            return _.last(result);
         },
 
         create: function (entry) {
