@@ -15,7 +15,7 @@
 require(['prototype'], function(){
     var currencies = <?php echo $this->getCurrencyJson(); ?>;
 
-    updateCurrency = function()
+    var updateCurrency = function()
     {
         var val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
         if (currencies[val]) {
