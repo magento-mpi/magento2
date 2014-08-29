@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\Block\Adminhtml;
+namespace Magento\Reports\Test\Block\Adminhtml\Customer;
 
 use Mtf\ObjectManager;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Grid
+ * Class AccountsGrid
  * New Customer Account report grid
  */
-class Grid extends \Magento\Backend\Test\Block\Widget\Grid
+class AccountsGrid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * Mapping for fields in Account Report Grid

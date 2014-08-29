@@ -14,7 +14,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Reports\Test\Page\Adminhtml\CustomerAccounts;
 
 /**
- * Test Creation for NewAccountReportEntity
+ * Test Creation for NewAccountsReportEntity
  *
  * Test Flow:
  * Preconditions:
@@ -31,7 +31,7 @@ use Magento\Reports\Test\Page\Adminhtml\CustomerAccounts;
  * @group Reports_(MX)
  * @ZephyrId MAGETWO-27742
  */
-class NewAccountReportEntityTest extends Injectable
+class NewAccountsReportEntityTest extends Injectable
 {
     /**
      * Customer Accounts pages
