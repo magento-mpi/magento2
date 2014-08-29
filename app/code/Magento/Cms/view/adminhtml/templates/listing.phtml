@@ -1,19 +1,13 @@
-<!--<div data-m2-init='{"Magento_Cms/js/fixtures/component": ""}' class="grid-actions">
+<div data-m2-init='{"Magento_Cms/js/fixtures/component": ""}' class="grid-actions">
   <div class="filter-actions">
-    <button class="action-reset">Demo actions</button>
-    <button data-bind="click: empty">Clean</button>
-    <button class="primary" data-bind="click: reloadListing">Reload listing</button>
+    <button data-bind="click: setViewTo('tiles')">Tile view</button>
+    <button data-bind="click: setViewTo('grid')">Grid view</button>
+    <button data-bind="click: setViewTo('listing')">Listing view</button>
   </div>
 </div>
--->
-<div data-m2-init='{"Magento_Cms/js/filter/component": ""}' class="grid-actions">
-  <form>
-    <input type="text" data-bind="autocomplete: { data: suggestions, writeTo: query }, value: rawQuery, valueUpdate: 'afterkeydown'">
-    <button type="submit" class="primary" data-bind="click: search">Search</button>  
-  </form>
-</div>
-<div data-m2-init='{"Magento_Cms/js/massaction/component": ""}' class="massaction">
-  <span data-part="actions">
+
+<div class="grid-actions">
+  <span data-m2-init='{"Magento_Cms/js/massaction/component": ""}' data-part="actions">
     <div title="Select Items" class="actions-split">
       <button title="Actions" class="action-default scalable  add">
         <span>Actions</span>
@@ -26,32 +20,34 @@
         <li data-bind="attr: { 'data-action': action.type }"><span title="Delete" class="item item-default" data-bind="text: action.title"></span></li>
       </ul>
     </div>
+    <span class="entry-select">
+      <span class="items"><strong data-bind="text: getCheckedQuantity()"></strong> items selected</span>
+    </span>
+    <script type="mage/initial">
+      {
+        "actions": [
+          {
+            "type": "remove",
+            "title": "Delete"
+          },
+          {
+            "type": "updateAttributes",
+            "title": "Update Attributes"
+          }
+        ]
+      }
+    </script>
   </span>
-  <div class="entry-select">
-    <span class="items"><strong data-bind="text: getCheckedQuantity()"></strong> items selected</span>
-  </div>
-  <script type="mage/initial">
-    {
-      "actions": [
-        {
-          "type": "remove",
-          "title": "Delete"
-        },
-        {
-          "type": "updateAttributes",
-          "title": "Update Attributes"
-        }
-      ]
-    }
-  </script>
+  <span data-m2-init='{"Magento_Cms/js/filter/component": ""}' data-part="search">
+      <form>
+      <input type="text" class="filter-search" placeholder="Search" data-bind="autocomplete: { data: suggestions, writeTo: query }, value: rawQuery, valueUpdate: 'afterkeydown'"/>
+      <button class="action-search" type="submit" data-bind="click: search"><span>Search</span></button>
+      </form>
+  </span>
 </div>
 <div data-m2-init='{"Magento_Cms/js/listing/component": { "resource": "cms.pages" }}' class="grid">
   <div class="grid-actions">
-    <div class="filter-actions">
-      <button data-bind="click: setViewTo('tiles')">Tile view</button>
-      <button data-bind="click: setViewTo('grid')">Grid view</button>
-      <button data-bind="click: setViewTo('listing')">Listing view</button>
-    </div>
+   
   </div>
   <div style="display: none" class="loading-old" id="loading-mask" data-bind="visible: isLocked">
     <div class="loader" id="loading_mask_loader"><p>Please wait...</p></div>
@@ -196,241 +192,4 @@
           "sizes": [ 5, 10, 20, 30, 50, 100, 200 ]
         }
     </script>
-</div>
-
-<div class="ko-grid">
-
-<div class="page-main-actions">
-    <div class="page-actions-placeholder"></div>
-    <div class="page-actions"><div class="page-actions-inner"><div class="page-actions-buttons">
-
-                <button class="action- scalable add primary"><span>Add new page</span></button>
-
-            </div></div></div>
-</div>
-
-<div class="grid-actions">
-  <span data-part="actions">
-      <div title="Select Items" class="actions-split">
-          <button title="Actions" class="action-default scalable  add">
-              <span>Actions</span>
-          </button>
-          <button title="" class="action-toggle scalable  add" data-toggle="dropdown">
-              <span>|</span>
-          </button>
-
-          <ul class="dropdown-menu">
-              <li><span title="Delete" class="item item-default">Delete</span></li>
-          </ul>
-      </div>
-  </span>
-
-  <span data-part="search">
-      <button  class="action-default scalable "><span>Filter</span></button>
-      <input type="text" class="filter-search" placeholder="Search"/>
-      <button class="action-search"><span>Search</span></button>
-  </span>
-
-</div>
-<!-- -->
-        <div data-part="filter-form">
-            <div class="title">
-                <h1 class="filter-title"><span>Advanced filter</span></h1>
-                <span class="action close">Close</span>
-            </div>
-            <div class="fields">
-
-
-                <fieldset class="fieldset user-defined" id="group-fields-product-details">
-
-
-                    <div id="attribute-name-container"
-                         class="field field-name "
-                         data-ui-id="product-tabs-attributes-tab-fieldset-element-form-field-name"
-                         data-attribute-code="name"
-                         data-apply-to="[]">
-                        <label class="label" for="name" data-ui-id="product-tabs-attributes-tab-fieldset-element-text-product-name-label"><span>Name</span></label>
-                        <div class="control">
-                            <input id="name"
-                                   name="product[name]"
-                                   value="Downloadable product 002"
-                                   class="validate-length maximum-length-255 required-entry input-text required-entry"
-                                   type="text">
-                        </div>
-                    </div>
-
-                    <div id="attribute-tax_class_id-container"
-                         class="field field-tax_class_id"
-                         data-ui-id="product-tabs-attributes-tab-fieldset-element-form-field-tax-class-id"
-                         data-attribute-code="tax_class_id"
-                         data-apply-to="[&quot;simple&quot;,&quot;virtual&quot;,&quot;bundle&quot;,&quot;downloadable&quot;,&quot;configurable&quot;]"
-                            >
-                        <label class="label" for="tax_class_id" data-ui-id="product-tabs-attributes-tab-fieldset-element-select-product-tax-class-id-label"><span>Tax Class</span></label>
-                        <div class="control">
-                            <select id="tax_class_id" name="product[tax_class_id]" class="select">
-                                <option value="0">None</option>
-                                <option value="2" selected="selected">Taxable Goods</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div id="attribute-quantity_and_stock_status-container"
-                         class="field field-quantity_and_stock_status"
-                         data-ui-id="product-tabs-attributes-tab-fieldset-element-form-field-quantity-and-stock-status"
-                         data-attribute-code="quantity_and_stock_status"
-                         data-apply-to="[]">
-                        <label class="label" for="quantity_and_stock_status"><span>Quantity</span></label>
-                        <div class="control">
-                            <input id="qty"
-                                   name="product[quantity_and_stock_status][qty]"
-                                   value="500.0000"
-                                   type="text"
-                                   class="validate-number input-text"
-                                    >
-                            <select id="quantity_and_stock_status"
-                                    name="product[quantity_and_stock_status][is_in_stock]"
-                                    class="select"
-                                    >
-                            <option value="1" selected="selected">In Stock</option>
-                            <option value="0">Out of Stock</option>
-                        </select>
-                        </div>
-                    </div>
-
-                </fieldset>
-
-            </div>
-            <div class="actions">
-                <button class="action- scalable action-reset"><span>Reset</span></button>
-                <button class="action- scalable"><span>Apply</span></button>
-            </div>
-        </div>
-
-<!-- -->
-<div class="grid">
-    <table class="data">
-        <thead>
-        <!--
-        <tr class="headings">
-            <th class="col-select col-massaction">
-                <span class="head-massaction">
-                    <select class="select">
-                        <option>[ ]</option>
-                        <option>Select</option>
-                        <option>Select All</option>
-                        <option>Deselect</option>
-                        <option>Deselect All</option>
-                    </select>
-                </span>
-            </th>
-            <th class=" col-title">
-                <span><a href="#" name="title" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_title">Title</label></a></span>
-            </th>
-            <th class=" col-identifier">
-                <span><a href="#" name="identifier" title="desc" class="sort-arrow-asc"><label class="sort-title" for="cmsPageGrid_filter_identifier">URL Key</label></a></span>
-            </th>
-            <th class=" col-page_layout">
-                <span><a href="#" name="page_layout" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_page_layout">Layout</label></a></span>
-            </th>
-            <th class=" no-link col-store_id">
-                <span><label for="cmsPageGrid_filter_store_id">Store View</label></span>
-            </th>
-            <th class=" col-is_active">
-                <span><a href="#" name="is_active" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_is_active">Status</label></a></span>
-            </th>
-            <th class="col-date col-creation_time">
-                <span><a href="#" name="creation_time" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_creation_time">Created</label></a></span>
-            </th>
-            <th class="col-date col-update_time">
-                <span><a href="#" name="update_time" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_update_time">Modified</label></a></span>
-            </th>
-            <th class="col-action no-link col-page_actions">
-                <span><label for="cmsPageGrid_filter_page_actions">Action</label></span>
-            </th>
-        </tr>
-        -->
-        <tr class="headings">
-            <th class="col-select col-massaction">
-                <div title="Select Items" class="actions-split">
-                    <button title="Select All" class="action-default scalable  add">
-                        <span>[ ]</span>
-                    </button>
-                    <button title="" class="action-toggle scalable  add" data-toggle="dropdown">
-                        <span>|</span>
-                    </button>
-
-                    <ul class="dropdown-menu">
-                        <li><span title="Select" class="item item-default">Select</span></li>
-                        <li><span title="Select All" class="item item-default">Select All</span></li>
-                        <li><span title="Deselect" class="item item-default">Deselect</span></li>
-                        <li><span title="Deselect All" class="item item-default">Deselect All</span></li>
-                    </ul>
-                </div>
-            </th>
-            <th class=" col-title">
-                <span><a href="#" name="title" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_title">Title</label></a></span>
-            </th>
-            <th class=" col-identifier">
-                <span><a href="#" name="identifier" title="desc" class="sort-arrow-asc"><label class="sort-title" for="cmsPageGrid_filter_identifier">URL Key</label></a></span>
-            </th>
-            <th class=" col-page_layout">
-                <span><a href="#" name="page_layout" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_page_layout">Layout</label></a></span>
-            </th>
-            <th class=" no-link col-store_id">
-                <span><label for="cmsPageGrid_filter_store_id">Store View</label></span>
-            </th>
-            <th class=" col-is_active">
-                <span><a href="#" name="is_active" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_is_active">Status</label></a></span>
-            </th>
-            <th class="col-date col-creation_time">
-                <span><a href="#" name="creation_time" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_creation_time">Created</label></a></span>
-            </th>
-            <th class="col-date col-update_time">
-                <span><a href="#" name="update_time" title="asc" class="not-sort"><label class="sort-title" for="cmsPageGrid_filter_update_time">Modified</label></a></span>
-            </th>
-            <th class="col-action no-link col-page_actions">
-                <span><label for="cmsPageGrid_filter_page_actions">Action</label></span>
-            </th>
-        </tr>
-        </thead>
-
-        <tbody>
-
-        <tr title="http://magento-exemplary.localhost/index.php/backend/cms/page/edit/page_id/3/key/c0fdbc3e15998fee0eb493e656980a5d/"
-            class="even pointer">
-            <td class=" col-title "><input type="checkbox" class="massaction-checkbox"/></td>
-            <td class=" col-title "> About Us</td>
-            <td class=" col-identifier "> about-magento-demo-store</td>
-            <td class=" col-page_layout "> &nbsp; </td>
-            <td class=" col-store_id "> All Store Views</td>
-            <td class=" col-is_active "> Enabled</td>
-            <td class=" col-date col-creation_time "> Jun 12, 2014 4:06:07 PM </td>
-            <td class=" col-date col-update_time "> Jun 12, 2014 4:06:07 PM </td>
-            <td class=" col-action col-page_actions last">
-                <a href="http://magento-exemplary.localhost/about-magento-demo-store/?___store=default" target="_blank">Preview</a>
-            </td>
-        </tr>
-
-        </tbody>
-    </table>
-
-    <div class="pager">
-                <span data-part="left">
-                    <span class="pages-total-found">Total 7 records found</span>
-                    <label class="view-pages">
-                        View
-                        <select class="select" name="" id=""></select>
-                        per page.
-                    </label>
-                </span>
-                <span data-part="right">
-                    <span class="action-previous disabled"><span>Previous page</span></span>
-                    <input type="text" class="input-text page" value="1"/>
-                    <span class="pages-total">of 2</span>
-                    <a class="action-next" href=""><span>Next page</span></a>
-                </span>
-    </div>
-
-</div>
-
 </div>

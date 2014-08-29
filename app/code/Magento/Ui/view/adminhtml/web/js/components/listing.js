@@ -155,9 +155,7 @@ define([
         },
 
         setViewTo: function(type) {
-            return function() {
-                this.view(type);
-            }
+            this.view(type);
         },
 
         setParams: function(params) {

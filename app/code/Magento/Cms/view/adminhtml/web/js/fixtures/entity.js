@@ -1,20 +1,26 @@
 define([
-  'Magento_Ui/js/framework/ko/scope',
-  'Magento_Ui/js/framework/tools/fixtures'
-], function (Scope, fixtures) {
-  
-  return Scope.extend({
+    'Magento_Ui/js/framework/ko/scope',
+    'Magento_Ui/js/framework/tools/fixtures'
+], function(Scope, fixtures) {
 
-    initialize: function (listing) {
-      this.target = listing;
-    },
+    return Scope.extend({
 
-    reloadListing: function () {
-      this.target.reload();
-    },
+        initialize: function(listing) {
+            this.target = listing;
+        },
 
-    empty: function () {
-      fixtures.empty('cms.pages.listing');
-    }
-  });
+        reloadListing: function() {
+            this.target.reload();
+        },
+
+        empty: function() {
+            fixtures.empty('cms.pages.listing');
+        },
+
+        setViewTo: function(view) {
+            return function(){
+                this.target.setViewTo(view);
+            }
+        }
+    });
 });
