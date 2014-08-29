@@ -8,7 +8,7 @@
  */
 namespace Magento\Contact\Controller\Index;
 
-class IndexTest extends \PHPUnit_Framework_TestCase
+class PostTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Contact\Controller\Index\Index|\PHPUnit_Framework_MockObject_MockObject
