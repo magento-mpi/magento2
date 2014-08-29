@@ -1,7 +1,5 @@
 <?php
 /**
- * MySQL Search Adapter
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,6 +12,9 @@ use Magento\Framework\DB\Select;
 use Magento\Framework\Search\RequestInterface;
 use Magento\Framework\Search\AdapterInterface;
 
+/**
+ * MySQL Search Adapter
+ */
 class Adapter implements AdapterInterface
 {
     /**

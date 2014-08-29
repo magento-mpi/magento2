@@ -1,7 +1,5 @@
 <?php
 /**
- * Facet Bucket
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Facet Bucket
+ */
 class Bucket
 {
     /**

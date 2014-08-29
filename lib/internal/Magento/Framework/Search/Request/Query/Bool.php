@@ -1,6 +1,5 @@
 <?php
 /**
- * Bool Query
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +9,9 @@ namespace Magento\Framework\Search\Request\Query;
 
 use Magento\Framework\Search\Request\QueryInterface;
 
+/**
+ * Bool Query
+ */
 class Bool implements QueryInterface
 {
     const QUERY_CONDITION_MUST = 'must';

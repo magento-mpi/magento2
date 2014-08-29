@@ -1,7 +1,5 @@
 <?php
 /**
- * Search Response
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Search Response
+ */
 class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
 {
     /**
