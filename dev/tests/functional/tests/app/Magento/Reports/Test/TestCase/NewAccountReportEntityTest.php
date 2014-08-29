@@ -8,10 +8,10 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Magento\Reports\Test\Page\Adminhtml\CustomerAccounts;
 use Mtf\TestCase\Injectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
+use Magento\Reports\Test\Page\Adminhtml\CustomerAccounts;
 
 /**
  * Test Creation for NewAccountReportEntity
@@ -41,6 +41,13 @@ class NewAccountReportEntityTest extends Injectable
     protected $customerAccounts;
 
     /**
+     * Customer index pages
+     *
+     * @var CustomerIndex
+     */
+    protected $customerIndexPage;
+
+    /**
      * Inject pages
      *
      * @param CustomerIndex $customerIndexPage
@@ -50,8 +57,7 @@ class NewAccountReportEntityTest extends Injectable
     public function __inject(CustomerIndex $customerIndexPage, CustomerAccounts $customerAccounts)
     {
         $this->customerAccounts = $customerAccounts;
-        $customerIndexPage->open();
-        $customerIndexPage->getCustomerGridBlock()->massaction([], 'Delete', true, 'Select All');
+        $this->customerIndexPage = $customerIndexPage;
     }
 
     /**
@@ -64,6 +70,8 @@ class NewAccountReportEntityTest extends Injectable
     public function test(CustomerInjectable $customer, array $customersReport)
     {
         // Preconditions
+        $this->customerIndexPage->open();
+        $this->customerIndexPage->getCustomerGridBlock()->massaction([], 'Delete', true, 'Select All');
         $customer->persist();
         $customersReport = $this->prepareData($customersReport);
 

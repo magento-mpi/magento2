@@ -35,6 +35,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     protected $totalResults = 'tfoot .col-qty';
 
     /**
+     * Filter locator
+     *
+     * @var string
+     */
+    protected $filter = '[name=%s]';
+
+    /**
      * Refresh button locator
      *
      * @var string
@@ -50,10 +57,11 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     public function searchAccounts(array $customersReport)
     {
         foreach ($customersReport as $name => $value) {
-            $this->_rootElement->find("[name=$name]", Locator::SELECTOR_CSS, $this->dataMapping[$name])
+            $this->_rootElement
+                ->find(sprintf($this->filter, $name), Locator::SELECTOR_CSS, $this->dataMapping[$name])
                 ->setValue($value);
         }
-        $this->_rootElement->find('[data-ui-id="adminhtml-report-grid-refresh-button"]')->click();
+        $this->_rootElement->find($this->refreshButton)->click();
     }
 
     /**
