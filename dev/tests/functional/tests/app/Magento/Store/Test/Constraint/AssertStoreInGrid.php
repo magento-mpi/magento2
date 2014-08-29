@@ -13,10 +13,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 
 /**
- * Class AssertStoreViewInGrid
+ * Class AssertStoreInGrid
  * Assert that created Store View can be found in Stores grid
  */
-class AssertStoreViewInGrid extends AbstractConstraint
+class AssertStoreInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness

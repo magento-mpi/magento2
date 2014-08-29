@@ -29,21 +29,21 @@
     <assertStoreGroupSuccessDeleteAndBackupMessages module="Magento_Store">
         <severeness>low</severeness>
     </assertStoreGroupSuccessDeleteAndBackupMessages>
-    <assertStoreViewSuccessSaveMessage module="Magento_Store">
+    <assertStoreSuccessSaveMessage module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreViewSuccessSaveMessage>
-    <assertStoreViewInGrid module="Magento_Store">
+    </assertStoreSuccessSaveMessage>
+    <assertStoreInGrid module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreViewInGrid>
-    <assertStoreViewBackend module="Magento_Store">
+    </assertStoreInGrid>
+    <assertStoreBackend module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreViewBackend>
-    <assertStoreViewFrontend module="Magento_Store">
+    </assertStoreBackend>
+    <assertStoreFrontend module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreViewFrontend>
-    <assertStoreViewNotOnFrontend module="Magento_Store">
+    </assertStoreFrontend>
+    <assertStoreNotOnFrontend module="Magento_Store">
         <severeness>low</severeness>
-    </assertStoreViewNotOnFrontend>
+    </assertStoreNotOnFrontend>
     <assertWebsiteSuccessSaveMessage module="Magento_Store">
         <severeness>low</severeness>
     </assertWebsiteSuccessSaveMessage>
@@ -53,4 +53,7 @@
     <assertWebsiteOnStoreForm module="Magento_Store">
         <severeness>low</severeness>
     </assertWebsiteOnStoreForm>
+    <assertStoreForm module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreForm>
 </constraint>

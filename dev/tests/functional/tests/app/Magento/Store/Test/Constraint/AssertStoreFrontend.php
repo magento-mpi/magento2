@@ -13,10 +13,10 @@ use Magento\Store\Test\Fixture\Store;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertStoreViewFrontend
+ * Class AssertStoreFrontend
  * Assert that created store view available on frontend (store view selector on page top)
  */
-class AssertStoreViewFrontend extends AbstractConstraint
+class AssertStoreFrontend extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -35,8 +35,10 @@ class AssertStoreViewFrontend extends AbstractConstraint
     public function processAssert(Store $store, CmsIndex $cmsIndex)
     {
         $cmsIndex->open();
-        $storeGroupName = explode("/", $store->getGroupId())[1];
-        $cmsIndex->getFooterBlock()->selectStoreGroup($storeGroupName);
+
+        if (!$cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store)) {
+            $cmsIndex->getFooterBlock()->selectStoreGroup($store);
+        }
         $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
         \PHPUnit_Framework_Assert::assertTrue(
             $isStoreViewVisible,

@@ -35,11 +35,8 @@ class PageActions extends AbstractPageActions
      */
     public function selectStore($websiteScope)
     {
-        $this->_rootElement->find(
-            $this->scopeSelector,
-            Locator::SELECTOR_CSS,
-            'liselectstore'
-        )->setValue($websiteScope);
+        $this->_rootElement->find($this->scopeSelector, Locator::SELECTOR_CSS, 'liselectstore')
+            ->setValue($websiteScope);
         $this->_rootElement->acceptAlert();
 
         return $this;
@@ -53,11 +50,8 @@ class PageActions extends AbstractPageActions
      */
     public function isStoreVisible($store)
     {
-        $storeViews = $this->_rootElement->find(
-            $this->scopeSelector,
-            Locator::SELECTOR_CSS,
-            'liselectstore'
-        )->getValues();
+        $storeViews = $this->_rootElement->find($this->scopeSelector, Locator::SELECTOR_CSS, 'liselectstore')
+            ->getValues();
         return in_array($store->getGroupId() . "/" . $store->getName(), $storeViews);
     }
 }

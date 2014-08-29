@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 
 /**
- * Class AssertStoreViewSuccessSaveMessage
+ * Class AssertStoreSuccessSaveMessage
  * Assert that after Store View save successful message appears
  */
-class AssertStoreViewSuccessSaveMessage extends AbstractConstraint
+class AssertStoreSuccessSaveMessage extends AbstractConstraint
 {
     /**
      * Success store view create message

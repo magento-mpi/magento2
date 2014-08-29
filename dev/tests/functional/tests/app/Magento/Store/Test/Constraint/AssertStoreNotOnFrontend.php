@@ -13,10 +13,10 @@ use Magento\Store\Test\Fixture\Store;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertStoreViewNotOnFrontend
+ * Class AssertStoreNotOnFrontend
  * Assert that created store view is not available on frontend (store view selector on page top)
  */
-class AssertStoreViewNotOnFrontend extends AbstractConstraint
+class AssertStoreNotOnFrontend extends AbstractConstraint
 {
     /**
      * Constraint severeness

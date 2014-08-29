@@ -13,10 +13,10 @@ use Magento\Store\Test\Fixture\Store;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertStoreViewBackend
+ * Class AssertStoreBackend
  * Assert that created store view displays in backend configuration (Stores > Configuration > "Scope" dropdown)
  */
-class AssertStoreViewBackend extends AbstractConstraint
+class AssertStoreBackend extends AbstractConstraint
 {
     /**
      * Constraint severeness

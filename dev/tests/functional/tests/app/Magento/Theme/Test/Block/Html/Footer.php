@@ -11,6 +11,7 @@ namespace Magento\Theme\Test\Block\Html;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Store\Test\Fixture\Store;
 
 /**
  * Footer block
@@ -86,22 +87,17 @@ class Footer extends Block
     /**
      * Select store group
      *
-     * @param string $storeGroupName
+     * @param Store $store
      * @return void
      */
-    public function selectStoreGroup($storeGroupName)
+    public function selectStoreGroup(Store $store)
     {
-        $storeSwitcher = $this->_rootElement->find($this->storeGroupSwitch);
-        if (!$storeSwitcher->isVisible()) {
-            return;
-        }
+        $storeGroupName = explode("/", $store->getGroupId())[1];
         $this->_rootElement->find($this->storeGroupSwitch)->click();
         $storeGroup = $this->_rootElement->find(
             sprintf($this->storeGroupSelector, $storeGroupName),
             Locator::SELECTOR_XPATH
         );
-        if ($storeGroup->isVisible()) {
-            $storeGroup->click();
-        }
+        $storeGroup->click();
     }
 }

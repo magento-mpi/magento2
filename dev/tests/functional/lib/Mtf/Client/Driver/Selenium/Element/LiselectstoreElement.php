@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class LiselectstoreElement
  * Typified element class for lists selectors
- *
  */
 class LiselectstoreElement extends Element
 {
@@ -37,21 +36,21 @@ class LiselectstoreElement extends Element
      *
      * @var string
      */
-    protected $websiteSelector = '[data-role="website-id"]';
+    protected $websiteSelector = '(.//li[a[@data-role="website-id"]])[%d]';
 
     /**
      * Store selector
      *
      * @var string
      */
-    protected $storeSelector = 'span';
+    protected $storeSelector = '(.//li[@class = "store-switcher-store disabled"])[%d]';
 
     /**
      * StoreView selector
      *
      * @var string
      */
-    protected $storeViewSelector = '[data-role="store-view-id"]';
+    protected $storeViewSelector = './/li[a[@data-role="store-view-id"]]';
 
     /**
      * Toggle element selector
@@ -91,54 +90,59 @@ class LiselectstoreElement extends Element
     public function getValues()
     {
         $this->_context->find($this->toggleSelector)->click();
-        $elements = $this->_context->find('li')->getElements();
+        $criteria = new \PHPUnit_Extensions_Selenium2TestCase_ElementCriteria('css selector');
+        $criteria->value('li');
+        $elements = $this->_getWrappedElement()->elements($criteria);
+        $dropdownData = [];
         $data = [];
-        foreach ($elements as $key => $element) {
-            /** var Element $element */
-            if ($element->find($this->storeViewSelector)->isVisible()) {
-                $prefix = $this->getWebsiteName($key, $elements) . "/" . $this->getStoreName($key, $elements) . "/";
-                $data[] = $prefix . $element->getText();
+        foreach ($elements as $element) {
+            $class = $element->attribute('class');
+            $dropdownData[] = [
+                'element' => $element,
+                'storeView' => $this->isSubstring($class, "store-switcher-store-view"),
+                'store' => $this->isSubstring($class, "store-switcher-store "),
+                'website' => $this->isSubstring($class, "store-switcher-website"),
+            ];
+        }
+        foreach ($dropdownData as $key => $dropdownElement) {
+            if ($dropdownElement['storeView']) {
+                $data[] = $this->findNearestElement('website', $key, $dropdownData) . "/"
+                . $this->findNearestElement('store', $key, $dropdownData) . "/"
+                . $dropdownElement['element']->text();
             }
         }
         return $data;
     }
 
     /**
-     * Get StoreView's Store name
+     * Check if string contains substring
      *
-     * @param string $key
-     * @param array $elements
-     * @return string|bool
+     * @param string $haystack
+     * @param string $pattern
+     * @return bool
      */
-    protected function getStoreName($key, $elements)
+    protected function isSubstring($haystack, $pattern)
     {
-        $storeName = false;
-        while ($storeName == false) {
-            $store = $elements[$key]->find($this->storeSelector);
-            $storeName = $store->isVisible() ? $store->getText() : false;
-            $key--;
-        }
-        return $storeName;
+        return preg_match("/$pattern/", $haystack) != 0 ? true : false;
     }
 
     /**
-     * Get StoreView's Website name
+     * Return nearest elements name according to criteria
      *
+     * @param string $criteria
      * @param string $key
      * @param array $elements
-     * @return string|bool
+     * @return bool
      */
-    protected function getWebsiteName($key, $elements)
+    protected function findNearestElement($criteria, $key, array $elements)
     {
-        $websiteName = false;
-        while ($websiteName == false) {
-            $website = $elements[$key]->find($this->websiteSelector);
-            $websiteName = $website->isVisible() ? $website->getText() : false;
+        $elementText = false;
+        while ($elementText == false) {
+            $elementText = $elements[$key][$criteria] == true ? $elements[$key]['element']->text() : false;
             $key--;
         }
-        return $websiteName;
+        return $elementText;
     }
-
     /**
      * Get selected store value
      *
@@ -148,7 +152,7 @@ class LiselectstoreElement extends Element
     {
         $selectedStoreView = $this->_context->find($this->toggleSelector)->getText();
         if ($selectedStoreView == 'Default Config') {
-           return $selectedStoreView;
+            return $selectedStoreView;
         } else {
             $storeViews = $this->getValues();
             foreach ($storeViews as $storeView) {
