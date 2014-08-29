@@ -7,23 +7,17 @@ define([
         initialize: function (actions, listing) {
             
             this.observe({
-                actions:       actions,
-                currentAction: null
+                actions: actions
             });
 
             this.target = listing;
         },
 
-        applyAction: function () {
-            var action = this.currentAction(),
-                target = this.target;
+        applyAction: function (action) {
+            var target = this.target;
 
-            if (action) {
-                action = action.type;
-                
-                if (target[action]) {
-                    target[action]();
-                }
+            if (target[action]) {
+                target[action]();
             }
         },
 
