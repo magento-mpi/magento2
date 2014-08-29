@@ -86,7 +86,7 @@ class ProductForm extends FormTabs
         $tabs = $this->getFieldsByTabs($product);
 
         if ($category) {
-            $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture )
+            $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture)
                 ? $category->getName()
                 : $category->getCategoryName();
         }
@@ -119,6 +119,19 @@ class ProductForm extends FormTabs
             $this->_rootElement->find($this->advancedSettingTrigger)->click();
             $this->waitForElementVisible($this->advancedSettingContent);
         }
+    }
+
+    /**
+     * Open advanced tab
+     *
+     * @param string $tabName
+     * @return Tab
+     */
+    public function openAdvancedTab($tabName)
+    {
+        $this->showAdvancedSettings();
+
+        return parent::openTab($tabName);
     }
 
     /**
