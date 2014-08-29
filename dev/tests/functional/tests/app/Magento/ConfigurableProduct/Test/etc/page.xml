@@ -7,20 +7,20 @@
  * @license     {license_link}
  */
 -->
-<page>
-    <configurableProductEdit>
-        <mca>configurable/product/edit</mca>
+<page module="Magento_ConfigurableProduct">
+    <catalogProductEdit>
+        <mca>catalog/product/edit</mca>
         <area>adminhtml</area>
         <class>Magento\Configurable\Test\Page\Adminhtml\CatalogProductEdit</class>
-    </configurableProductEdit>
-    <configurableProductNew>
-        <mca>configurable/product/edit</mca>
+    </catalogProductEdit>
+    <catalogProductNew>
+        <mca>catalog/product/edit</mca>
         <area>adminhtml</area>
         <class>Magento\Configurable\Test\Page\Adminhtml\CatalogProductNew</class>
-    </configurableProductNew>
-    <configurableProductView>
-        <mca>configurable/product/view</mca>
-        <area>adminhtml</area>
+    </catalogProductNew>
+    <catalogProductView>
+        <mca>catalog/product/view</mca>
+        <area>product</area>
         <class>Magento\Configurable\Test\Page\CatalogProductView</class>
-    </configurableProductView>
+    </catalogProductView>
 </page>

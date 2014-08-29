@@ -82,20 +82,6 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
     protected $isPrice = true;
 
     /**
-     * Class name of catalog product view page
-     *
-     * @var string
-     */
-    protected $catalogProductViewClass = 'Magento\Catalog\Test\Page\Product\CatalogProductView';
-
-    /**
-     * Catalog product view page
-     *
-     * @var CatalogProductView
-     */
-    protected $catalogProductView;
-
-    /**
      * Assertion that commodity options are displayed correctly
      *
      * @param CatalogProductView $catalogProductView
@@ -105,43 +91,20 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
      */
     public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product, Browser $browser)
     {
-        $this->openProductPage($product, $browser);
-        // Prepare data
-        $formCustomOptions = $this->catalogProductView->getViewBlock()->getCustomOptionsBlock()->getOptions($product);
-        $actualPrice = $this->isPrice ? $this->getProductPrice() : null;
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+
+        $actualPrice = null;
+        if ($this->isPrice) {
+            $prices = $catalogProductView->getViewBlock()->getPriceBlock()->getPrice();
+            $actualPrice = isset($prices['price_special_price'])
+                ? $prices['price_special_price']
+                : $prices['price_regular_price'];
+        }
         $fixtureCustomOptions = $this->prepareOptions($product, $actualPrice);
+        $formCustomOptions = $catalogProductView->getViewBlock()->getCustomOptionsBlock()->getOptions($product);
 
         $error = $this->verifyData($fixtureCustomOptions, $formCustomOptions);
         \PHPUnit_Framework_Assert::assertEmpty($error, $error);
-    }
-
-    /**
-     * Get price from product page
-     *
-     * @return string
-     */
-    protected function getProductPrice()
-    {
-        $prices = $this->catalogProductView->getViewBlock()->getPriceBlock()->getPrice();
-        $actualPrice = isset($prices['price_special_price'])
-            ? $prices['price_special_price']
-            : $prices['price_regular_price'];
-
-        return $actualPrice;
-    }
-
-    /**
-     * Open product view page
-     *
-     * @param FixtureInterface $product
-     * @param Browser $browser
-     * @return void
-     */
-    protected function openProductPage(
-        FixtureInterface $product,
-        Browser $browser
-    ) {
-        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
     }
 
     /**

@@ -12,18 +12,18 @@ use Magento\Catalog\Test\Constraint\AssertProductPage;
 
 /**
  * Class AssertConfigurableProductPage
- * Assert that displayed product data on product page(front-end) equals passed from fixture:
- * 1. Product Name
- * 2. Price
- * 3. SKU
- * 4. Description
- * 5. Short Description
- * 6. Attributes
+ * Assert that displayed product data on product page(front-end) equals passed from fixture
  */
 class AssertConfigurableProductPage extends AssertProductPage
 {
     /**
-     * Verify displayed product data on product page(front-end) equals passed from fixture
+     * Verify displayed product data on product page(front-end) equals passed from fixture:
+     * 1. Product Name
+     * 2. Price
+     * 3. SKU
+     * 4. Description
+     * 5. Short Description
+     * 6. Attributes
      *
      * @return array
      */

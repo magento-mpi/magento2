@@ -16,6 +16,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductInCart
+ * Assertion that the product is correctly displayed in cart
  */
 class AssertProductInCart extends AbstractConstraint
 {
@@ -63,14 +64,16 @@ class AssertProductInCart extends AbstractConstraint
         $checkoutData = $product->getCheckoutData();
         $checkoutCustomOptions = isset($checkoutData['custom_options']) ? $checkoutData['custom_options'] : [];
         $fixturePrice = $product->getPrice();
+        $groupPrice = $product->getGroupPrice();
+        $specialPrice = $product->getSpecialPrice();
         $cartItem = $checkoutCart->getCartBlock()->getCartItem($product);
         $formPrice = $cartItem->getPrice();
 
-        if ($groupPrice = $product->getGroupPrice()) {
+        if ($groupPrice) {
             $groupPrice = reset($groupPrice);
             $fixturePrice = $groupPrice['price'];
         }
-        if ($specialPrice = $product->getSpecialPrice()) {
+        if ($specialPrice) {
             $fixturePrice = $specialPrice;
         }
         $fixtureActualPrice = $fixturePrice;

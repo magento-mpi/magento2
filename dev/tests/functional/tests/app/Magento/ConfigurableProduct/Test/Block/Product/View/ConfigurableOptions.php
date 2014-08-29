@@ -27,10 +27,10 @@ class ConfigurableOptions extends CustomOptions
      * @return array
      * @throws \Exception
      */
-    public function getOptions(FixtureInterface $product = null)
+    public function getOptions(FixtureInterface $product)
     {
         /** @var ConfigurableProductInjectable $product */
-        $attributesData = ($product && $product->hasData('configurable_attributes_data'))
+        $attributesData = $product->hasData('configurable_attributes_data')
             ? $product->getConfigurableAttributesData()['attributes_data']
             : [];
         $listOptions = $this->getListOptions();

@@ -35,45 +35,6 @@ class ConfigurableProductInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\ConfigurableProduct\Test\Handler\ConfigurableProductInjectable\ConfigurableProductInjectableInterface';
     // @codingStandardsIgnoreEnd
 
-    /**
-     * Constructor
-     *
-     * @constructor
-     * @param Config $configuration
-     * @param RepositoryFactory $repositoryFactory
-     * @param FixtureFactory $fixtureFactory
-     * @param HandlerFactory $handlerFactory
-     * @param EventManagerInterface $eventManager
-     * @param array $data
-     * @param string $dataSet
-     * @param bool $persist
-     */
-    public function __construct(
-        Config $configuration,
-        RepositoryFactory $repositoryFactory,
-        FixtureFactory $fixtureFactory,
-        HandlerFactory $handlerFactory,
-        EventManagerInterface $eventManager,
-        array $data = [],
-        $dataSet = '',
-        $persist = false
-    ) {
-        parent::__construct(
-            $configuration,
-            $repositoryFactory,
-            $fixtureFactory,
-            $handlerFactory,
-            $eventManager,
-            $data,
-            $dataSet,
-            $persist
-        );
-
-        if (!isset($this->data['url_key']) && isset($this->data['name'])) {
-            $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
-        }
-    }
-
     protected $dataConfig = [
         'type_id' => 'configurable',
         'create_url_params' => [

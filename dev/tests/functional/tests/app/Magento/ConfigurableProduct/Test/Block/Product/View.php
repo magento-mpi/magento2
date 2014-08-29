@@ -8,6 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Test\Block\Product;
 
+use Magento\ConfigurableProduct\Test\Block\Product\View\ConfigurableOptions;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
@@ -22,7 +23,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
     /**
      * Get configurable options block
      *
-     * @return \Magento\ConfigurableProduct\Test\Block\Product\View\ConfigurableOptions
+     * @return ConfigurableOptions
      */
     public function getConfigurableOptionsBlock()
     {
@@ -40,9 +41,6 @@ class View extends \Magento\Catalog\Test\Block\Product\View
      */
     public function fillOptions(FixtureInterface $product)
     {
-        $attributesData = [];
-        $checkoutData = [];
-
         if ($product instanceof InjectableFixture) {
             /** @var ConfigurableProductInjectable $product */
             $attributesData = $product->getConfigurableAttributesData()['attributes_data'];
@@ -63,6 +61,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
                 }
             }
         } else {
+            // TODO: Removed after refactoring(removed) old product fixture.
             /** @var ConfigurableProduct $product */
             $attributesData = $product->getConfigurableAttributes();
             $checkoutData = $product->getCheckoutData();

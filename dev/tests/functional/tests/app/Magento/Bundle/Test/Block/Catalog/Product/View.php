@@ -83,13 +83,12 @@ class View extends \Magento\Catalog\Test\Block\Product\View
      */
     public function fillOptions(FixtureInterface $product)
     {
-        $bundleCheckoutData = [];
-
         if ($product instanceof InjectableFixture) {
             /** @var \Magento\Bundle\Test\Fixture\CatalogProductBundle $product */
             $checkoutData = $product->getCheckoutData();
             $bundleCheckoutData = isset($checkoutData['bundle_options']) ? $checkoutData['bundle_options'] : [];
         } else {
+            // TODO: Removed after refactoring(removed) old product fixture.
             /** @var \Magento\Bundle\Test\Fixture\BundleFixed $product */
             $bundleCheckoutData = $product->getSelectionData();
         }

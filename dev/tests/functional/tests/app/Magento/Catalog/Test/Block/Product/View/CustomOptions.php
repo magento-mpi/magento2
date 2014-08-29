@@ -117,13 +117,12 @@ class CustomOptions extends Form
      * @return array
      * @throws \Exception
      */
-    public function getOptions(FixtureInterface $product = null)
+    public function getOptions(FixtureInterface $product)
     {
-        $dataOptions = ($product && $product->hasData('custom_options'))
+        $dataOptions = $product->hasData('custom_options')
             ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
             : [];
         $listCustomOptions = $this->getListOptions();
-        $readyOptions = [];
         $result = [];
 
         foreach ($dataOptions as $option) {
@@ -144,14 +143,7 @@ class CustomOptions extends Form
                 ? 'Yes'
                 : 'No';
 
-            $readyOptions[] = $title;
             $result[$title] = $optionData;
-        }
-
-        $unreadyCustomOptions = array_diff_key($listCustomOptions, array_flip($readyOptions));
-        foreach ($unreadyCustomOptions as $optionElement) {
-            $title = $optionElement->find($this->title, Locator::SELECTOR_XPATH)->getText();
-            $result[$title] = ['title' => $title];
         }
 
         return $result;

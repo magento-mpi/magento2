@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="wishlist/index" module="Magento_MultipleWishlist">
+<page mca="wishlist/index">
     <blocks>
         <managementBlock>
             <class>Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management</class>
@@ -19,10 +19,5 @@
             <locator>[id$="wishlist-block"].popup.active</locator>
             <strategy>css selector</strategy>
         </behaviourBlock>
-        <messagesBlock>
-            <class>Magento\Core\Test\Block\Messages</class>
-            <locator>.page.messages .messages</locator>
-            <strategy>css selector</strategy>
-        </messagesBlock>
     </blocks>
 </page>

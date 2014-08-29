@@ -16,6 +16,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 
 /**
  * Class AssertProductAttributeIsConfigurable
+ * Assert check whether the attribute is used to create a configurable products
  */
 class AssertProductAttributeIsConfigurable extends AbstractConstraint
 {
@@ -85,6 +86,6 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Attribute label, present on the product page in variations section.';
+        return 'Attribute label present on the product page in variations section.';
     }
 }

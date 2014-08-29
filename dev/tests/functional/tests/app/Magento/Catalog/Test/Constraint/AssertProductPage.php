@@ -13,6 +13,7 @@ use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Class AssertProductPage
@@ -30,7 +31,7 @@ class AssertProductPage extends AbstractAssertForm
     /**
      * Product fixture
      *
-     * @var \Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable
+     * @var ConfigurableProductInjectable
      */
     protected $product;
 
@@ -57,7 +58,6 @@ class AssertProductPage extends AbstractAssertForm
      */
     public function processAssert(Browser $browser, CatalogProductView $catalogProductView, FixtureInterface $product)
     {
-        // TODO fix initialization url for frontend page
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         $this->product = $product;
@@ -84,7 +84,7 @@ class AssertProductPage extends AbstractAssertForm
         $errors[] = $this->verifySpecialPrice();
         $errors[] = $this->verifySku();
         $errors[] = $this->verifyDescription();
-        $errors[] = $this->verifyShortDeacription();
+        $errors[] = $this->verifyShortDescription();
 
         return array_filter($errors);
     }
@@ -183,7 +183,7 @@ class AssertProductPage extends AbstractAssertForm
      *
      * @return string|null
      */
-    protected function verifyShortDeacription()
+    protected function verifyShortDescription()
     {
         $fixtureProductShortDescription = $this->product->getShortDescription();
         $formProductShortDescription = $this->productView->getProductShortDescription();

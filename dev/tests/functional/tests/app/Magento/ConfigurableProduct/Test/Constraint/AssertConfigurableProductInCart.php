@@ -36,7 +36,6 @@ class AssertConfigurableProductInCart extends AbstractConstraint
         CheckoutCart $checkoutCart,
         ConfigurableProductInjectable $product
     ) {
-        // TODO fix initialization url for frontend page
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         $catalogProductView->getViewBlock()->addToCart($product);

@@ -17,6 +17,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
  *
  *  Data keys:
  *  - presets
+ *  - attributes
  */
 class AssignedAttributes implements FixtureInterface
 {

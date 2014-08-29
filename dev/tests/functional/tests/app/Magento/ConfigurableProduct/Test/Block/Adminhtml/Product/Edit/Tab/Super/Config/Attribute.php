@@ -8,12 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
-use Mtf\Block\BlockFactory;
-use Mtf\Block\Mapper;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element;
 use Magento\Backend\Test\Block\Widget\Form;
-use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector;
+use Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector;
 
 /**
  * Class Attribute
