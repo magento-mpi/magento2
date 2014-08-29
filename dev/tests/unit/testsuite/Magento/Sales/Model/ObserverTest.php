@@ -64,11 +64,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $bestsellersFactoryMock;
 
     /**
-     * @var \Magento\Catalog\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $catalogDataMock;
-
-    /**
      * @var \Magento\Customer\Helper\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerAddressHelperMock;
@@ -112,9 +107,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        $this->catalogDataMock = $this->getMockBuilder('Magento\Catalog\Helper\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->customerAddressHelperMock = $this->getMockBuilder('Magento\Customer\Helper\Address')
             ->disableOriginalConstructor()
             ->getMock();
@@ -131,7 +123,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     'invoicedFactory' => $this->invoiceFactoryMock,
                     'refundedFactory' => $this->refundedFactoryMock,
                     'bestsellersFactory' => $this->bestsellersFactoryMock,
-                    'catalogData' => $this->catalogDataMock,
                     'customerAddressHelper' => $this->customerAddressHelperMock,
                 ]
             );
@@ -263,61 +254,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('date')
             ->will($this->returnValue($dateMock));
         return $date;
-    }
-
-    /**
-     * @param bool $isMsrpEnabled
-     * @param bool $canApplyMsrp
-     * @dataProvider setQuoteCanApplyMsrpDataProvider
-     */
-    public function testSetQuoteCanApplyMsrp($isMsrpEnabled, $canApplyMsrp)
-    {
-        $eventMock = $this->getMockBuilder('Magento\Framework\Event')
-            ->disableOriginalConstructor()
-            ->setMethods(['getQuote'])
-            ->getMock();
-        $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
-            ->disableOriginalConstructor()
-            ->setMethods(['__wakeup', 'setCanApplyMsrp', 'getAllAddresses'])
-            ->getMock();
-        $observerMock = $this->getMockBuilder('Magento\Framework\Event\Observer')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $observerMock->expects($this->once())
-            ->method('getEvent')
-            ->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())
-            ->method('getQuote')
-            ->will($this->returnValue($quoteMock));
-        $this->catalogDataMock->expects($this->once())
-            ->method('isMsrpEnabled')
-            ->will($this->returnValue($isMsrpEnabled));
-        $quoteMock->expects($this->once())
-            ->method('setCanApplyMsrp')
-            ->with($canApplyMsrp);
-        $addressMock1 = $this->getMockBuilder('Magento\Customer\Model\Address\AbstractAddress')
-            ->disableOriginalConstructor()
-            ->setMethods(['__wakeup'])
-            ->getMockForAbstractClass();
-        $addressMock1->setCanApplyMsrp($canApplyMsrp);
-        $addressMock2 = $this->getMockBuilder('Magento\Customer\Model\Address\AbstractAddress')
-            ->disableOriginalConstructor()
-            ->setMethods(['__wakeup'])
-            ->getMockForAbstractClass();
-        $addressMock2->setCanApplyMsrp(false);
-        $quoteMock->expects($this->any())
-            ->method('getAllAddresses')
-            ->will($this->returnValue([$addressMock1, $addressMock2]));
-        $this->observer->setQuoteCanApplyMsrp($observerMock);
-    }
-
-    public function setQuoteCanApplyMsrpDataProvider()
-    {
-        return [
-            [false, false],
-            [true, true],
-            [true, false]
-        ];
     }
 
     /**
