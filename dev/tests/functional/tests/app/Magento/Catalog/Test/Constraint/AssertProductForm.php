@@ -19,6 +19,16 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 class AssertProductForm extends AbstractAssertForm
 {
     /**
+     * List skipped fixture fields in verify
+     *
+     * @var array
+     */
+    protected $skippedFixtureFields = [
+        'id',
+        'checkout_data'
+    ];
+
+    /**
      * Sort fields for fixture and form data
      *
      * @var array
@@ -78,6 +88,8 @@ class AssertProductForm extends AbstractAssertForm
      */
     protected function prepareFixtureData(array $data, array $sortFields = [])
     {
+        $data = array_diff_key($data, array_flip($this->skippedFixtureFields));
+
         if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
             $data['website_ids'] = [$data['website_ids']];
         }

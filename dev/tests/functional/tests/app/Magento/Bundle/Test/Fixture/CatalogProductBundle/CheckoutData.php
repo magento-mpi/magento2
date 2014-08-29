@@ -21,7 +21,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
      * @param string $name
      * @return array|null
      */
-    public function getPreset($name)
+    protected function getPreset($name)
     {
         $presets = [
             'default' => [

@@ -12,6 +12,7 @@ use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Custom Options
@@ -119,9 +120,15 @@ class CustomOptions extends Form
      */
     public function getOptions(FixtureInterface $product)
     {
-        $dataOptions = $product->hasData('custom_options')
-            ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
-            : [];
+        if ($product instanceof InjectableFixture) {
+            $dataOptions = $product->hasData('custom_options')
+                ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+                : [];
+        } else {
+            // TODO: Removed after refactoring(removed) old product fixture.
+            $dataOptions = $product->getData('fields/custom_options/value');
+            $dataOptions = $dataOptions ? $dataOptions : [];
+        }
         $listCustomOptions = $this->getListOptions();
         $result = [];
 
@@ -146,7 +153,7 @@ class CustomOptions extends Form
             $result[$title] = $optionData;
         }
 
-        return $result;
+        return ['custom_options' => $result];
     }
 
     /**

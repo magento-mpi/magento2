@@ -8,11 +8,11 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Search;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Sales\Test\Fixture\Order;
 use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
+use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure;
+use Magento\Sales\Test\Fixture\Order;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class Grid
@@ -68,12 +68,13 @@ class Grid extends GridInterface
     /**
      * Get catalog product composite configure block
      *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure
+     * @return Configure
      */
     protected function getConfigureBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductCompositeConfigure(
-            $this->_rootElement->find($this->configureBlock, Locator::SELECTOR_XPATH)
+        return $this->blockFactory->create(
+            '\Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure',
+            ['element' => $this->_rootElement->find($this->configureBlock, Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -86,28 +87,11 @@ class Grid extends GridInterface
     {
         $this->search(['sku' => $product->getProductSku()]);
 
-        $productOptions = $product->getProductOptions();
-        if (!empty($productOptions)) {
-            $this->_rootElement->find($this->configure)->click();
-            $this->getTemplateBlock()->waitLoader();
-
-            $configurableOptions = [];
-            $checkoutData = [];
-            foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
-                $configurableOptions[] = [
-                    'type' => 'dropdown',
-                    'title' => $attributeLabel,
-                    'value' => $options
-                ];
-            }
-            foreach ($productOptions as $checkoutOption) {
-                $checkoutData[] = [
-                    'type' => $configurableOptions[$checkoutOption['title']]['type'],
-                    'title' => $configurableOptions[$checkoutOption['title']]['title'],
-                    'value' => $configurableOptions[$checkoutOption['title']]['value'][$checkoutOption['value']],
-                ];
-            }
-            $this->getConfigureBlock()->fillOptions($checkoutData);
+        $this->_rootElement->find($this->configure)->click();
+        $this->getTemplateBlock()->waitLoader();
+        $configureBlock = $this->getConfigureBlock();
+        if ($configureBlock->isVisible()) {
+            $this->getConfigureBlock()->fillOptions($product);
         }
 
         $this->_rootElement

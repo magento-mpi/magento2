@@ -102,12 +102,10 @@ class BundleDynamicTest extends Functional
         $this->assertSame($product->getName(), $productViewBlock->getProductName());
         $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
-        // @TODO: add click on "Customize and Add To Cart" button and assert options count
-        $productOptionsBlock = $productPage->getViewBlock()->getCustomOptionsBlock();
-        $actualOptions = $productOptionsBlock->getOptions();
+        $actualOptions = $productPage->getViewBlock()->getOptions($product)['bundle_options'];
         $expectedOptions = $product->getBundleOptions();
-        foreach ($actualOptions as $optionType => $actualOption) {
-            $this->assertContains($expectedOptions[$optionType], $actualOption);
+        foreach ($actualOptions as $key => $actualOption) {
+            $this->assertContains($expectedOptions[$key]['title'], $actualOption);
         }
     }
 }

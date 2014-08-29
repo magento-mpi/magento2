@@ -69,8 +69,6 @@ class AssertConfigurableProductForm extends AssertProductForm
      */
     protected function prepareFixtureData(array $data, array $sortFields = [])
     {
-        $data = array_diff_key($data, array_flip($this->skippedFixtureFields));
-
         // filter values and reset keys in attributes data
         $attributeData = $data['configurable_attributes_data']['attributes_data'];
         foreach ($attributeData as $attributeKey => $attribute) {

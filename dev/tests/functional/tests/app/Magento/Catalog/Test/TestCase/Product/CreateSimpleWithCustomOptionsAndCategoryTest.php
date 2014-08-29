@@ -40,7 +40,7 @@ class CreateSimpleWithCustomOptionsAndCategoryTest extends Functional
         $product->switchData('simple_custom_options');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productForm = $createProductPage->getForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $createProductPage->open([
                 'type' => $product->getDataConfig()['create_url_params']['type'],

@@ -75,10 +75,14 @@ class AssertBundleItemsOnProductPage extends AbstractAssertForm
                 'is_require' => $bundleOption['required'],
             ];
 
-            foreach ($bundleSelections['products'][$optionKey] as $productKey => $assignedProduct) {
+            foreach ($bundleOption['assigned_products'] as $productKey => $assignedProduct) {
+                $price = isset($assignedProduct['data']['selection_price_value'])
+                    ? $assignedProduct['data']['selection_price_value']
+                    : $bundleSelections['products'][$optionKey][$productKey]->getPrice();
+
                 $optionData['options'][$productKey] = [
-                    'title' => $assignedProduct->getName(),
-                    'price' => number_format($assignedProduct->getPrice(), 2)
+                    'title' => $assignedProduct['search_data']['name'],
+                    'price' => number_format($price, 2)
                 ];
             }
 

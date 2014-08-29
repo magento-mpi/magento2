@@ -11,9 +11,12 @@ namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
+use Magento\Bundle\Test\Fixture\Bundle as BundleDataFixture;
+use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
 /**
  * Class Bundle
@@ -86,16 +89,23 @@ class Bundle extends Block
     /**
      * Get product options
      *
-     * @param CatalogProductBundle|null $product [optional]
+     * @param FixtureInterface $product
      * @return array
      * @throws \Exception
      */
-    public function getOptions(CatalogProductBundle $product = null)
+    public function getOptions(FixtureInterface $product)
     {
-        $bundleSelections = $product->getBundleSelections();
-        $bundleOptions = isset($bundleSelections['bundle_options']) ? $bundleSelections['bundle_options'] : [];
+        if ($product instanceof InjectableFixture) {
+            /** @var CatalogProductBundle  $product */
+            $bundleSelections = $product->getBundleSelections();
+            $bundleOptions = isset($bundleSelections['bundle_options']) ? $bundleSelections['bundle_options'] : [];
+        } else {
+            // TODO: Removed after refactoring(removed) old product fixture.
+            /** @var BundleDataFixture $product */
+            $bundleOptions = $product->getBundleOptions();
+        }
+
         $listFormOptions = $this->getListOptions();
-        $readyOptions = [];
         $formOptions = [];
 
         foreach ($bundleOptions as $option) {
@@ -115,14 +125,7 @@ class Bundle extends Block
                 ? 'Yes'
                 : 'No';
 
-            $readyOptions[] = $title;
             $formOptions[] = $optionData;
-        }
-
-        $unreadyCustomOptions = array_diff_key($listFormOptions, array_flip($readyOptions));
-        foreach ($unreadyCustomOptions as $optionElement) {
-            $title = $optionElement->find($this->title, Locator::SELECTOR_XPATH)->getText();
-            $formOptions[$title] = ['title' => $title];
         }
 
         return $formOptions;
@@ -168,7 +171,7 @@ class Bundle extends Block
      * @param Element $option
      * @return array
      */
-    protected function getMultipleData(Element $option)
+    protected function getMultipleselectData(Element $option)
     {
         $multiselect = $option->find($this->selectOption, Locator::SELECTOR_XPATH, 'multiselect');
         return $this->getSelectOptionsData($multiselect, 1);
@@ -180,7 +183,7 @@ class Bundle extends Block
      * @param Element $option
      * @return array
      */
-    protected function getRadioData(Element $option)
+    protected function getRadiobuttonsData(Element $option)
     {
         $listOptions = [];
 
@@ -203,7 +206,7 @@ class Bundle extends Block
      */
     protected function getCheckboxData(Element $option)
     {
-        return $this->getRadioData($option);
+        return $this->getRadiobuttonsData($option);
     }
 
     /**

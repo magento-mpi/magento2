@@ -11,7 +11,7 @@
     <blocks>
         <managementBlock>
             <class>Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management</class>
-            <locator>//*[*[contains(@class,"message notice") or contains(@class,"wishlist management")]]</locator>
+            <locator>.//*[*[contains(@class,"wishlist-management")]]</locator>
             <strategy>xpath</strategy>
         </managementBlock>
         <behaviourBlock>
