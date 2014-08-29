@@ -14,7 +14,7 @@ define([
         remove: function (idOrIds) {
             var isReady = $.Deferred();
 
-            var result = idOrIds === 'array' ? removeCollection(idOrIds) : this.backend.removeOne(idOrIds);
+            var result = Array.isArray(idOrIds) ? this.backend.removeCollection(idOrIds) : this.backend.removeOne(idOrIds);
 
             resolve(isReady, result);
             return isReady.promise();

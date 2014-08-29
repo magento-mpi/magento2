@@ -13,7 +13,7 @@ define([
     return Scope.extend({
         initialize: function(initial, config) {
             _.extend( this, initial );
-            
+
             this.observe({
                 rows:           initial.rows,
                 fields:         initial.fields,
@@ -22,8 +22,8 @@ define([
                 view:           DEFAULT_VIEW,
                 isLocked:       false,
 
-                massActions: initial.massactions || [],
-                currentMassAction: '',
+                massActions:         initial.massactions || [],
+                currentMassAction:   '',
                 isMassActionVisible: false
             });
 
@@ -45,15 +45,6 @@ define([
             this.currentMassAction.subscribe(this._applyMassAction.bind(this), 'change');
         },
 
-        remove: function() {
-            var idsToRemove = this.checkedIds();
-
-            this.lock();
-            this.client.remove(idsToRemove).done(function(removedIds) {
-                this.reload()._unselect(removedIds);
-            }.bind(this));
-        },
-
         _applyMassAction: function (action) {
             if (action) {
                 action = action.type;
@@ -65,6 +56,16 @@ define([
 
         toggleMassActions: function () {
             this.isMassActionVisible(!this.isMassActionVisible());
+        },
+
+        isAllVisibleSelected: function () {
+            var checkedIds = this.checkedIds();
+            var visibleIds = _.pluck(this.rows(), ID_ATTRIBUTE);
+
+            var intersectedIds = _.intersection(checkedIds, visibleIds);
+            var difference = _.difference(visibleIds, intersectedIds);
+            
+            return (checkedIds.length && visibleIds.length) && !difference.length;
         },
 
         _unselectOne: function(id) {
@@ -104,6 +105,16 @@ define([
 
         selectVisible: function() {
             this.select(this.rows());
+        },
+
+
+        remove: function() {
+            var idsToRemove = this.checkedIds();
+
+            this.lock();
+            this.client.remove(idsToRemove).done(function(removedIds) {
+                this.reload()._unselect(removedIds);
+            }.bind(this));
         },
 
         reload: function() {
