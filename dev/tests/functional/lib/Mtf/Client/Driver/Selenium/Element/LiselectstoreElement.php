@@ -84,11 +84,11 @@ class LiselectstoreElement extends Element
     }
 
     /**
-     * Get all available store views
+     * Get all li elements from dropdown
      *
      * @return array
      */
-    public function getValues()
+    protected function getLiElements()
     {
         $this->_context->find($this->toggleSelector)->click();
         $criteria = new \PHPUnit_Extensions_Selenium2TestCase_ElementCriteria('css selector');
@@ -107,6 +107,16 @@ class LiselectstoreElement extends Element
                 'default_config' => $this->isSubstring($class, "store-switcher-all"),
             ];
         }
+        return $dropdownData;
+    }
+    /**
+     * Get all available store views
+     *
+     * @return array
+     */
+    public function getValues()
+    {
+        $dropdownData = $this->getLiElements();
         foreach ($dropdownData as $key => $dropdownElement) {
             if ($dropdownElement['storeView']) {
                 $data[] = $this->findNearestElement('website', $key, $dropdownData) . "/"
@@ -156,7 +166,7 @@ class LiselectstoreElement extends Element
     public function getValue()
     {
         $this->_eventManager->dispatchEvent(['get_value'], [(string)$this->_locator]);
-        $storeViews = $this->getValues();
+        $storeViews = $this->getLiElements();
         foreach ($storeViews as $storeView) {
             if ($storeView['current'] == true) {
                 if ($storeView['default_config'] == true) {
