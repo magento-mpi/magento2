@@ -28,4 +28,13 @@ interface AdminTokenServiceInterface
      * @throws LocalizedException
      */
     public function createAdminAccessToken($username, $password);
+
+    /**
+     * Revoke token by admin id.
+     *
+     * @param int $adminId
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function revokeAdminAccessToken($adminId);
 }

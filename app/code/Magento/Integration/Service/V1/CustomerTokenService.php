@@ -74,11 +74,7 @@ class CustomerTokenService implements CustomerTokenServiceInterface
     }
 
     /**
-     * Revoke token by customer id.
-     *
-     * @param int $customerId
-     * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * {@inheritdoc}
      */
     public function revokeCustomerAccessToken($customerId)
     {

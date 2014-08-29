@@ -24,4 +24,13 @@ interface CustomerTokenServiceInterface
      * @throws AuthenticationException
      */
     public function createCustomerAccessToken($username, $password);
+
+    /**
+     * Revoke token by customer id.
+     *
+     * @param int $customerId
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function revokeCustomerAccessToken($customerId);
 }
