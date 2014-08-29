@@ -9,12 +9,11 @@
 namespace Magento\Integration\Service\V1;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Integration\Helper\Validator;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
 use Magento\Integration\Model\Oauth\Token as Token;
 use Magento\Integration\Model\Resource\Oauth\Token\CollectionFactory as TokenCollectionFactory;
-use Magento\Integration\Helper\Validator;
 
 class CustomerTokenService implements CustomerTokenServiceInterface
 {
@@ -32,15 +31,17 @@ class CustomerTokenService implements CustomerTokenServiceInterface
      */
     private $customerAccountService;
 
-    /** @var \Magento\Integration\Helper\Validator */
-    public $validatorHelper;
+    /**
+     * @var \Magento\Integration\Helper\Validator
+     */
+    private $validatorHelper;
 
     /**
      * Token Collection Factory
      *
      * @var TokenCollectionFactory
      */
-    public $tokenModelCollectionFactory;
+    private $tokenModelCollectionFactory;
 
     /**
      * Initialize service

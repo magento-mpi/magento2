@@ -22,7 +22,6 @@ interface CustomerTokenServiceInterface
      * @param string $username
      * @param string $password
      * @return string Token created
-     * @throws InputException For invalid input
      * @throws AuthenticationException
      */
     public function createCustomerAccessToken($username, $password);

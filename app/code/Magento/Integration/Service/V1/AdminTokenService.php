@@ -11,8 +11,8 @@ namespace Magento\Integration\Service\V1;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Helper\Validator;
-use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
 use Magento\Integration\Model\Oauth\Token as Token;
+use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
 use Magento\Integration\Model\Resource\Oauth\Token\CollectionFactory as TokenCollectionFactory;
 use Magento\User\Model\User as UserModel;
 
@@ -36,15 +36,17 @@ class AdminTokenService implements AdminTokenServiceInterface
      */
     private $userModel;
 
-    /** @var \Magento\Integration\Helper\Validator */
-    public $validatorHelper;
+    /**
+     * @var \Magento\Integration\Helper\Validator
+     */
+    private $validatorHelper;
 
     /**
      * Token Collection Factory
      *
      * @var TokenCollectionFactory
      */
-    public $tokenModelCollectionFactory;
+    private $tokenModelCollectionFactory;
 
     /**
      * Initialize service

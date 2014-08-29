@@ -33,9 +33,7 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Integration\Helper\Validator|\PHPUnit_Framework_MockObject_MockObject */
     protected $validatorHelperMock;
 
-    /**
-     * @var \Magento\Integration\Model\Oauth\Token|\PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var \Magento\Integration\Model\Oauth\Token|\PHPUnit_Framework_MockObject_MockObject */
     private $_tokenMock;
 
     protected function setUp()

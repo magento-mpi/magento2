@@ -10,7 +10,9 @@ namespace Magento\Integration\Helper;
 
 use Magento\Framework\Exception\InputException;
 
-
+/**
+ * Validator Helper for user credentials
+ */
 class Validator
 {
     /**
