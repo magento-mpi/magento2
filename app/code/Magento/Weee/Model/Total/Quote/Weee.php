@@ -12,7 +12,7 @@ use Magento\Tax\Model\Calculation;
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
 use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
 
-class Weee extends CommonTaxCollector
+class Weee extends AbstractTotal
 {
     /**
      * Constant for weee item code prefix
@@ -183,12 +183,12 @@ class Weee extends CommonTaxCollector
                 $weeeItemCode = self::ITEM_CODE_WEEE_PREFIX . $this->getNextIncrement();
                 $weeeItemCode .= '-' . $title;
                 $associatedTaxables[] = [
-                    self::KEY_ASSOCIATED_TAXABLE_TYPE => self::ITEM_TYPE,
-                    self::KEY_ASSOCIATED_TAXABLE_CODE => $weeeItemCode,
-                    self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $valueExclTax,
-                    self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $baseValueExclTax,
-                    self::KEY_ASSOCIATED_TAXABLE_QUANTITY => $item->getQty(),
-                    self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $item->getProduct()->getTaxClassId(),
+                    CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE => self::ITEM_TYPE,
+                    CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_CODE => $weeeItemCode,
+                    CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $valueExclTax,
+                    CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $baseValueExclTax,
+                    CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_QUANTITY => $item->getQty(),
+                    CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $item->getProduct()->getTaxClassId(),
                 ];
                 $this->weeeCodeToItemMap[$weeeItemCode] = $item;
             }

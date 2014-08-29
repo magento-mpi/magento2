@@ -85,23 +85,11 @@ class CommonTaxCollector extends AbstractTotal
     /**#@-*/
 
     /**
-     * Static counter
-     *
-     * @var int
-     */
-    protected static $counter = 0;
-
-    /**
      * Tax configuration object
      *
      * @var \Magento\Tax\Model\Config
      */
     protected $_config;
-
-    /**
-     * @var Store
-     */
-    protected $_store;
 
     /**
      * Tax calculation service, the collector will call the service which performs the actual calculation
@@ -154,17 +142,6 @@ class CommonTaxCollector extends AbstractTotal
         $addressBuilder->setStreet($address->getStreet());
 
         return $addressBuilder->create();
-    }
-
-    /**
-     * Increment and return static counter. This function is intended to be used to generate temporary
-     * id for an item.
-     *
-     * @return int
-     */
-    protected function getNextIncrement()
-    {
-        return ++self::$counter;
     }
 
     /**
@@ -384,10 +361,10 @@ class CommonTaxCollector extends AbstractTotal
         $itemBuilder->setTaxClassKey(
             $itemBuilder->getTaxClassKeyBuilder()
                 ->setType(TaxClassKey::TYPE_ID)
-                ->setValue($this->_config->getShippingTaxClass($this->_store))
+                ->setValue($this->_config->getShippingTaxClass($address->getQuote()->getStore()))
                 ->create()
         );
-        $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($this->_store));
+        $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($address->getQuote()->getStore()));
         return $itemBuilder->create();
     }
 
@@ -479,7 +456,7 @@ class CommonTaxCollector extends AbstractTotal
             /** @var ItemTaxDetails $baseTaxDetail */
             $baseTaxDetail = $itemTaxDetail[self::KEY_BASE_ITEM];
             $quoteItem = $keyedAddressItems[$code];
-            $this->updateItemTaxInfo($quoteItem, $taxDetail, $baseTaxDetail);
+            $this->updateItemTaxInfo($quoteItem, $taxDetail, $baseTaxDetail, $address->getQuote()->getStore());
 
             //Update aggregated values
             if ($quoteItem->getHasChildren() && $quoteItem->isChildrenCalculated()) {
@@ -591,9 +568,10 @@ class CommonTaxCollector extends AbstractTotal
      * @param AbstractItem $quoteItem
      * @param ItemTaxDetails $itemTaxDetails
      * @param ItemTaxDetails $baseItemTaxDetails
+     * @param Store $store
      * @return $this
      */
-    public function updateItemTaxInfo($quoteItem, $itemTaxDetails, $baseItemTaxDetails)
+    public function updateItemTaxInfo($quoteItem, $itemTaxDetails, $baseItemTaxDetails, $store)
     {
         //The price should be base price
         $quoteItem->setPrice($baseItemTaxDetails->getPrice());
@@ -614,7 +592,7 @@ class CommonTaxCollector extends AbstractTotal
         $quoteItem->setBaseHiddenTaxAmount($baseItemTaxDetails->getDiscountTaxCompensationAmount());
 
         //Set discount calculation price, this may be needed by discount collector
-        if ($this->_config->discountTax($this->_store)) {
+        if ($this->_config->discountTax($store)) {
             $quoteItem->setDiscountCalculationPrice($itemTaxDetails->getPriceInclTax());
             $quoteItem->setBaseDiscountCalculationPrice($baseItemTaxDetails->getPriceInclTax());
         } else {
@@ -649,7 +627,7 @@ class CommonTaxCollector extends AbstractTotal
         $address->addTotalAmount('tax', $shippingTaxDetails->getRowTax());
         $address->addBaseTotalAmount('tax', $baseShippingTaxDetails->getRowTax());
 
-        if ($this->_config->discountTax($this->_store)) {
+        if ($this->_config->discountTax($address->getQuote()->getStore())) {
             $address->setShippingAmountForDiscount($shippingTaxDetails->getRowTotalInclTax());
             $address->setBaseShippingAmountForDiscount($baseShippingTaxDetails->getRowTotalInclTax());
         }
