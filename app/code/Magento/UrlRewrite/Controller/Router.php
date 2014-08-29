@@ -114,7 +114,7 @@ class Router implements \Magento\Framework\App\RouterInterface
     }
 
     /**
-     * @param $requestPath
+     * @param string $requestPath
      * @param int $storeId
      * @return UrlRewrite|null
      */

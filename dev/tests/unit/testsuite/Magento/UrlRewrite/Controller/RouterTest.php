@@ -111,7 +111,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $urlRewrite->expects($this->any())->method('getRequestPath')->will($this->returnValue('new-request-path'));
 
         $this->urlFinder->expects($this->any())->method('findOneByData')->will($this->returnValueMap([
-            [[UrlRewrite::REQUEST_PATH => 'request-path', UrlRewrite::STORE_ID => 'old-store-id',], $oldUrlRewrite],
+            [[UrlRewrite::REQUEST_PATH => 'request-path', UrlRewrite::STORE_ID => 'old-store-id'], $oldUrlRewrite],
             [
                 [
                     UrlRewrite::ENTITY_TYPE => 'entity-type',
