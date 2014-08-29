@@ -8,6 +8,9 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 
+/**
+ * @codeCoverageIgnore
+ */
 class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**

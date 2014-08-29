@@ -12,7 +12,7 @@ use Magento\Framework\Stdlib\BooleanUtils;
 
 /**
  * Class Mapper
- * @package Magento\Doc\DocumentReader
+ * @package Magento\Doc\Document\Scheme
  */
 class Mapper implements \Magento\Framework\Config\ConverterInterface
 {

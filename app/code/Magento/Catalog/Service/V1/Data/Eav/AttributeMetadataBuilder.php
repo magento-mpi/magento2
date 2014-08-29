@@ -62,6 +62,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  int $attributeId
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setAttributeId($attributeId)
     {
@@ -73,6 +74,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $attributeCode
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setAttributeCode($attributeCode)
     {
@@ -84,6 +86,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isSystem
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setSystem($isSystem)
     {
@@ -95,6 +98,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $frontendInput
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setFrontendInput($frontendInput)
     {
@@ -106,6 +110,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  \Magento\Catalog\Service\V1\Data\Eav\ValidationRule[] $validationRules
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setValidationRules($validationRules)
     {
@@ -117,6 +122,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  \Magento\Catalog\Service\V1\Data\Eav\Option[] $options
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setOptions($options)
     {
@@ -128,6 +134,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $visible
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setVisible($visible)
     {
@@ -139,6 +146,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $required
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setRequired($required)
     {
@@ -150,6 +158,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isUserDefined
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setUserDefined($isUserDefined)
     {
@@ -161,6 +170,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel[] $frontendLabel
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setFrontendLabel($frontendLabel)
     {
@@ -172,6 +182,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $note
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setNote($note)
     {
@@ -181,6 +192,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
     /**
      * @param  string $backendType
      * @return AttributeMetadataBuilder
+     * @codeCoverageIgnore
      */
     public function setBackendType($backendType)
     {
@@ -192,6 +204,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $value
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setBackendModel($value)
     {
@@ -203,6 +216,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $value
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setSourceModel($value)
     {
@@ -214,6 +228,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $value
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setDefaultValue($value)
     {
@@ -225,6 +240,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isUnique
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setUnique($isUnique)
     {
@@ -275,6 +291,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isConfigurable
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setConfigurable($isConfigurable)
     {
@@ -286,6 +303,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isSearchable
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setSearchable($isSearchable)
     {
@@ -297,6 +315,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isVisibleInAdvancedSearch
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setVisibleInAdvancedSearch($isVisibleInAdvancedSearch)
     {
@@ -308,6 +327,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isComparable
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setComparable($isComparable)
     {
@@ -319,6 +339,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isUsedForPromoRules
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setUsedForPromoRules($isUsedForPromoRules)
     {
@@ -330,6 +351,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isVisibleOnFront
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setVisibleOnFront($isVisibleOnFront)
     {
@@ -341,6 +363,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $usedInProductListing
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setUsedInProductListing($usedInProductListing)
     {
@@ -352,6 +375,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $scope
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setScope($scope)
     {
@@ -363,6 +387,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $usedForSortBy
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setUsedForSortBy($usedForSortBy)
     {
@@ -374,6 +399,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isFilterable
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setFilterable($isFilterable)
     {
@@ -385,6 +411,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isFilterableInSearch
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setFilterableInSearch($isFilterableInSearch)
     {
@@ -396,6 +423,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  int $position
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setPosition($position)
     {
@@ -407,6 +435,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isWysiwygEnabled
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setWysiwygEnabled($isWysiwygEnabled)
     {
@@ -418,6 +447,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  bool $isHtmlAllowedOnFront
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setHtmlAllowedOnFront($isHtmlAllowedOnFront)
     {
@@ -429,6 +459,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      *
      * @param  string $frontendClass
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setFrontendClass($frontendClass)
     {
