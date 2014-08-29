@@ -108,13 +108,12 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
     }
 
     /**
-     * @return array|string
+     * Prepare page title
      */
     protected function preparePageTitle()
     {
         $this->_title->add($this->pageConfig->getDefaultTitle(), true);
         $this->pageConfig->setTitle(array_reverse($this->_title->get()));
-        return parent::getTitle();
     }
 
     /**
