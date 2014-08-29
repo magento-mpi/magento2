@@ -1,6 +1,5 @@
 <?php
 /**
- * Bool Query
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +9,9 @@ namespace Magento\Framework\Search\Request\Query;
 
 use Magento\Framework\Search\Request\QueryInterface;
 
+/**
+ * Bool Query
+ */
 class Bool implements QueryInterface
 {
     const QUERY_CONDITION_MUST = 'must';
@@ -94,7 +96,7 @@ class Bool implements QueryInterface
     /**
      * Get Should queries
      *
-     * @return array
+     * @return QueryInterface[]
      */
     public function getShould()
     {
@@ -104,7 +106,7 @@ class Bool implements QueryInterface
     /**
      * Get Must queries
      *
-     * @return array
+     * @return QueryInterface[]
      */
     public function getMust()
     {
@@ -114,7 +116,7 @@ class Bool implements QueryInterface
     /**
      * Get Must Not queries
      *
-     * @return array
+     * @return QueryInterface[]
      */
     public function getMustNot()
     {

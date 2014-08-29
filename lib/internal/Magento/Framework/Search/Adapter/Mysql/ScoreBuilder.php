@@ -13,11 +13,9 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 class ScoreBuilder
 {
     /**
-     * List of score conditions
-     *
-     * @var string[]
+     * @var string
      */
-    private $scoreQueryList = [];
+    private $scoreCondition = '';
 
     /**
      * Get column alias for global score query in sql
@@ -30,63 +28,49 @@ class ScoreBuilder
     }
 
     /**
-     * Set boost for some query by queryName
-     *
-     * @param string $queryName
-     * @param float $boost
-     * @return $this
-     */
-    public function setQueryBoost($queryName, $boost = 1.0)
-    {
-        $this->scoreQueryList[$queryName]['boost'] = $boost;
-
-        return $this;
-    }
-
-    /**
-     * Add condition to score list
-     *
-     * @param string $queryName
-     * @param string $match
-     * @param float|null $boost
-     * @return $this
-     */
-    public function addCondition($queryName, $match, $boost = 1.0)
-    {
-        if (!$this->hasQuery($queryName)) {
-            $this->setQueryBoost($queryName);
-        }
-
-        $this->scoreQueryList[$queryName]['values'][] = ['value' => $match, 'boost' => $boost];
-
-        return $this;
-    }
-
-    /**
      * Get generated sql condition for global score
      *
      * @return string
      */
     public function build()
     {
-        $scoreCondition = $this->processQueries();
-        if (!empty($scoreCondition)) {
-            $scoreCondition = "({$scoreCondition}) AS " . $this->getScoreAlias();
-        }
+        $scoreCondition = $this->scoreCondition;
         $this->clear();
+        $scoreAlias = $this->getScoreAlias();
 
-        return $scoreCondition;
+        return "({$scoreCondition}) AS {$scoreAlias}";
     }
 
     /**
-     * Check whether query exists in ScoreBuilder
-     *
-     * @param string $queryName
-     * @return bool
+     * @return void
      */
-    private function hasQuery($queryName)
+    public function startQuery()
     {
-        return isset($this->scoreQueryList[$queryName]);
+        $this->addPlus();
+        $this->scoreCondition .= '(';
+    }
+
+    public function endQuery($boost)
+    {
+        $this->scoreCondition .= ") * {$boost}";
+    }
+
+    /**
+     * @param $score
+     * @param $boost
+     * @return void
+     */
+    public function addCondition($score, $boost)
+    {
+        $this->addPlus();
+        $this->scoreCondition .= "{$score} * {$boost}";
+    }
+
+    private function addPlus()
+    {
+        if (!empty($this->scoreCondition) && substr($this->scoreCondition, -1) != '(') {
+            $this->scoreCondition .= ' + ';
+        }
     }
 
     /**
@@ -96,36 +80,6 @@ class ScoreBuilder
      */
     private function clear()
     {
-        $this->scoreQueryList = [];
-    }
-
-    /**
-     * Convert array of queries and conditions to string for sql
-     *
-     * @return string
-     */
-    private function processQueries()
-    {
-        $resultCondition = [];
-        foreach ($this->scoreQueryList as $query) {
-            $conditions = $this->processConditions($query['values']);
-            $resultCondition[] = "({$conditions}) * {$query['boost']}";
-        }
-        return implode(' + ', $resultCondition);
-    }
-
-    /**
-     * Convert array of conditions to condition string for sql
-     *
-     * @param array $conditions
-     * @return string
-     */
-    private function processConditions($conditions)
-    {
-        $resultConditions = [];
-        foreach ($conditions as $condition) {
-            $resultConditions[] = "{$condition['value']} * {$condition['boost']}";
-        }
-        return implode(' + ', $resultConditions);
+        $this->scoreCondition = '';
     }
 }

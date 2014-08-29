@@ -1,6 +1,5 @@
 <?php
 /**
- * Search Request xml converter
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Framework\Search\Request\Config;
 
+/**
+ * Search Request xml converter
+ */
 class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
