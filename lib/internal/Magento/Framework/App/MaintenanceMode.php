@@ -35,7 +35,8 @@ class MaintenanceMode
 
     /**
      * Path to store files
-     * @var \Magento\Framework\Filesystem\Directory\Write
+     *
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $flagDir;
 
@@ -59,8 +60,7 @@ class MaintenanceMode
      */
     public function isOn($remoteAddr = '')
     {
-        $file = $this->getFile(self::FLAG_FILENAME);
-        if (!$this->flagDir->getDriver()->isExists($file)) {
+        if (!$this->flagDir->isExist(self::FLAG_FILENAME)) {
             return false;
         }
         $info = $this->getAddressInfo();
@@ -78,7 +78,7 @@ class MaintenanceMode
         if ($isOn) {
             return $this->flagDir->touch(self::FLAG_FILENAME);
         }
-        if ($this->flagDir->getDriver()->isExists($this->getFile(self::FLAG_FILENAME))) {
+        if ($this->flagDir->isExist(self::FLAG_FILENAME)) {
             return $this->flagDir->delete(self::FLAG_FILENAME);
         }
         return true;
@@ -95,7 +95,7 @@ class MaintenanceMode
     {
         $addresses = (string)$addresses;
         if (empty($addresses)) {
-            if ($this->flagDir->getDriver()->isExists($this->getFile(self::IP_FILENAME))) {
+            if ($this->flagDir->isExist(self::IP_FILENAME)) {
                 return $this->flagDir->delete(self::IP_FILENAME);
             }
             return true;
@@ -114,22 +114,11 @@ class MaintenanceMode
      */
     public function getAddressInfo()
     {
-        if ($this->flagDir->getDriver()->isExists($this->getFile(self::IP_FILENAME))) {
+        if ($this->flagDir->isExist(self::IP_FILENAME)) {
             $temp = $this->flagDir->readFile(self::IP_FILENAME);
             return explode(',', trim($temp));
         } else {
             return [];
         }
-    }
-
-    /**
-     * Gets the absolute file name from the configured directory
-     *
-     * @param string $basename
-     * @return string
-     */
-    private function getFile($basename)
-    {
-        return $this->flagDir->getAbsolutePath() . $basename;
     }
 }
