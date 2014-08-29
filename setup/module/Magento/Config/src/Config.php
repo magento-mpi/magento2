@@ -17,6 +17,7 @@ class Config extends ZendConfig
      * @var Inflector
      */
     private $inflector;
+    private $path;
 
     /**
      * @param Inflector $inflector
@@ -34,8 +35,9 @@ class Config extends ZendConfig
             } else {
                 $this->data[$key] = $value;
             }
-
             $this->count++;
+
+            $this->path = '';
         }
     }
 
@@ -64,7 +66,26 @@ class Config extends ZendConfig
      */
     public function getMagentoBasePath()
     {
-        return $this->magento->basePath;
+        if ($this->path !== '') {
+            return $this->path;
+        } else {
+            return $this->magento->basePath;
+        }
+    }
+
+    /**
+     * Set Magento base path
+     *
+     * @param  string $path
+     * @return void
+     */
+    public function setMagentoBasePath($path = null)
+    {
+        if ($path) {
+            $this->path = $path;
+        } else {
+            $this->path = $this->magento->basePath;
+        }
     }
 
     /**

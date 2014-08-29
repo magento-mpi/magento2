@@ -68,6 +68,7 @@ class Module implements
         return array_merge(
             include __DIR__ . '/config/module.config.php',
             include __DIR__ . '/config/router.config.php',
+            include __DIR__ . '/../../../shell/config/console.config.php',
             include __DIR__ . '/config/di.config.php',
             include __DIR__ . '/config/states.config.php',
             include __DIR__ . '/config/languages.config.php'
