@@ -195,12 +195,12 @@ class MainTest extends \PHPUnit_Framework_TestCase
                 'enginePool' => $this->templateEnginePool,
                 'appState' => $this->appState,
                 'storeManager' => $this->storeManagerInterface,
+                'pageConfig' => $this->pageConfig,
                 'authorization' => $this->authorizationInterface,
                 'backendSession' => $this->backendSession,
                 'mathRandom' => $this->random,
                 'formKey' => $this->formKey,
-                'nameBuilder' => $this->nameBuilder,
-                'pageConfig' => $this->pageConfig
+                'nameBuilder' => $this->nameBuilder
             ]
         );
 
