@@ -166,7 +166,7 @@ class Downloadable extends \Magento\Backend\Block\Widget implements \Magento\Bac
                 'title' => __('Links'),
                 'content' => $this->getLayout()->createBlock(
                     'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
-                    'catalog.product.edit.tab.downloadable.links' . mt_rand(10000,99999)
+                    'catalog.product.edit.tab.downloadable.links'
                 )->toHtml(),
                 'open' => true
             )
