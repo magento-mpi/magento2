@@ -11,7 +11,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 /**
  * @codeCoverageIgnore
  */
-class Item extends \Magento\Framework\Service\Data\AbstractObject
+class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array

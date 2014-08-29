@@ -11,11 +11,11 @@ namespace Magento\Framework\Service;
 use Magento\Customer\Service\V1\Data\Customer;
 
 /**
- * Class implements tests for DataObjectConverterTest class.
+ * Class implements tests for SimpleDataObjectConverter class.
  */
-class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
+class SimpleDataObjectConverterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var DataObjectConverter */
+    /** @var SimpleDataObjectConverter */
     protected $dataObjectConverter;
 
     const CONFIRMATION = 'a4fg7h893e39d';
@@ -53,14 +53,14 @@ class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->dataObjectConverter = $objectManager->getObject('Magento\Framework\Service\DataObjectConverter');
+        $this->dataObjectConverter = $objectManager->getObject('Magento\Framework\Service\SimpleDataObjectConverter');
         parent::setUp();
     }
 
     public function testToFlatArray()
     {
         //Unpack Data Object as an array and convert keys to camelCase to match property names in WSDL
-        $response = DataObjectConverter::toFlatArray($this->getCustomerDetails());
+        $response = SimpleDataObjectConverter::toFlatArray($this->getCustomerDetails());
         //Check if keys are correctly converted to camel case wherever necessary
         $this->assertEquals(self::FIRSTNAME, $response['firstname']);
         $this->assertEquals(self::GROUP_ID, $response['group_id']);

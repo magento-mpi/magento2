@@ -12,7 +12,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  *
  * @codeCoverageIgnore
  */
-class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set global currency code

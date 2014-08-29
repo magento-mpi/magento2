@@ -8,9 +8,10 @@
 namespace Magento\Framework\Service\Data;
 
 /**
+ * Base Builder Class for simple data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractObjectBuilder
+abstract class AbstractSimpleObjectBuilder
 {
     /**
      * @var array
@@ -34,11 +35,11 @@ abstract class AbstractObjectBuilder
     /**
      * Populates the fields with an existing entity.
      *
-     * @param AbstractObject $prototype the prototype to base on
+     * @param AbstractSimpleObject $prototype the prototype to base on
      * @return $this
      * @throws \LogicException If $prototype object class is not the same type as object that is constructed
      */
-    public function populate(AbstractObject $prototype)
+    public function populate(AbstractSimpleObject $prototype)
     {
         $objectType = $this->_getDataObjectType();
         if (get_class($prototype) != $objectType) {
@@ -74,8 +75,8 @@ abstract class AbstractObjectBuilder
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
             $possibleMethods = array(
-                'get' . \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($key),
-                'is' . \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($key)
+                'get' . \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToCamelCase($key),
+                'is' . \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToCamelCase($key)
             );
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
@@ -88,12 +89,12 @@ abstract class AbstractObjectBuilder
      * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
      * result.
      *
-     * @param AbstractObject $firstDataObject
-     * @param AbstractObject $secondDataObject
-     * @return AbstractObject
+     * @param AbstractSimpleObject $firstDataObject
+     * @param AbstractSimpleObject $secondDataObject
+     * @return AbstractSimpleObject
      * @throws \LogicException
      */
-    public function mergeDataObjects(AbstractObject $firstDataObject, AbstractObject $secondDataObject)
+    public function mergeDataObjects(AbstractSimpleObject $firstDataObject, AbstractSimpleObject $secondDataObject)
     {
         $objectType = $this->_getDataObjectType();
         if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
@@ -108,12 +109,12 @@ abstract class AbstractObjectBuilder
      * Merged data provided in array format with Data Object data and create new Data Object object based on merge
      * result.
      *
-     * @param AbstractObject $dataObject
+     * @param AbstractSimpleObject $dataObject
      * @param array $data
-     * @return AbstractObject
+     * @return AbstractSimpleObject
      * @throws \LogicException
      */
-    public function mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
+    public function mergeDataObjectWithArray(AbstractSimpleObject $dataObject, array $data)
     {
         $objectType = $this->_getDataObjectType();
         if (get_class($dataObject) != $objectType) {
@@ -127,7 +128,7 @@ abstract class AbstractObjectBuilder
     /**
      * Builds the Data Object
      *
-     * @return AbstractObject
+     * @return AbstractSimpleObject
      */
     public function create()
     {
