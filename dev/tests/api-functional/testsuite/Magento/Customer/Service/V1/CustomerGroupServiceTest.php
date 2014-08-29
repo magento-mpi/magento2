@@ -478,7 +478,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             // @codingStandardsIgnoreStart
             $this->assertContains(
-                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":""}',
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":null}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
