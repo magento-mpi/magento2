@@ -105,12 +105,16 @@ define([
         },
 
         removeOne: function (id) {
-            var position = indexOf(this.storage, id);
-            var found = null;
+            var found = findById(this.storage, id) || null;
+            var position;
 
-            if (position >= 0) {
-                removePositionIn(this.storage, position);
-                found = id;
+            if (found) {
+                position = indexOf(this.storage, found);
+
+                if (position >= 0) {
+                    removePositionIn(this.storage, position);
+                    found = id;
+                }
             }
 
             return found;
@@ -118,7 +122,6 @@ define([
 
         removeCollection: function (ids) {
             var removed = [];
-            var position;
 
             if (ids) {
                 _.each(ids, function (id) {
@@ -142,16 +145,14 @@ define([
     }
 
     function findById(collection, id) {
-        return _.findOne(collection, { id: id });
+        return _.findWhere(collection, { id: id });
     }
 
-    function indexOf(collection, id) {
-        return _.indexOf(collection, { id: id });
+    function indexOf(collection, item) {
+        return _.indexOf(collection, item);
     }
 
     function removePositionIn(collection, position) {
-        if (typeof collection === 'array') {
-            collection.splice(position, 1);
-        }
+        var removed = collection.splice(position, 1);
     }
 });
