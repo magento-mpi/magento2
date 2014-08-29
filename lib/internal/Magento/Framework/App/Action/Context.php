@@ -55,11 +55,6 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $messageManager;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
-
-    /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\ObjectManager $objectManager
@@ -94,7 +89,6 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         $this->_actionFlag = $actionFlag;
         $this->_view = $view;
         $this->messageManager = $messageManager;
-        $this->pageConfig = $pageConfig;
     }
 
     /**
@@ -167,13 +161,5 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     public function getMessageManager()
     {
         return $this->messageManager;
-    }
-
-    /**
-     * @return \Magento\Framework\View\Page\Config
-     */
-    public function getPageConfig()
-    {
-        return $this->pageConfig;
     }
 }

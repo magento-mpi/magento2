@@ -75,7 +75,7 @@ class Action extends AbstractAction
         $this->_redirect = $context->getRedirect();
         $this->_view = $context->getView();
         $this->messageManager = $context->getMessageManager();
-        $this->pageConfig = $context->getPageConfig();
+        $this->pageConfig = $this->_view->getPage()->getConfig();
     }
 
     /**
