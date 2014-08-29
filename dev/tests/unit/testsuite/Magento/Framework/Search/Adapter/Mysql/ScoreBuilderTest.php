@@ -13,9 +13,6 @@ class ScoreBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuild()
     {
-        $queryName = 'query_name';
-        $queryName2 = $queryName . '_2';
-
         /** @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder $builder */
         $builder = (new ObjectManager($this))->getObject('Magento\Framework\Search\Adapter\Mysql\ScoreBuilder');
 
