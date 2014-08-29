@@ -242,13 +242,11 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     private function createMatchQuery()
     {
         $query = $this->getMockBuilder('Magento\Framework\Search\Request\Query\Match')
-            ->setMethods(['getType', 'build'])
+            ->setMethods(['getType'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $query->expects($this->once())->method('getType')
             ->will($this->returnValue(QueryInterface::TYPE_MATCH));
-        $query->expects($this->once())->method('build')
-            ->will($this->returnValue($this->select));
         return $query;
     }
 
