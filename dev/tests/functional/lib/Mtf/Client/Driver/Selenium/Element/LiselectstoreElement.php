@@ -95,7 +95,6 @@ class LiselectstoreElement extends Element
         $criteria->value('li');
         $elements = $this->_getWrappedElement()->elements($criteria);
         $dropdownData = [];
-        $data = [];
         foreach ($elements as $element) {
             $class = $element->attribute('class');
             $dropdownData[] = [
@@ -109,6 +108,7 @@ class LiselectstoreElement extends Element
         }
         return $dropdownData;
     }
+
     /**
      * Get all available store views
      *
@@ -117,6 +117,7 @@ class LiselectstoreElement extends Element
     public function getValues()
     {
         $dropdownData = $this->getLiElements();
+        $data = [];
         foreach ($dropdownData as $key => $dropdownElement) {
             if ($dropdownElement['storeView']) {
                 $data[] = $this->findNearestElement('website', $key, $dropdownData) . "/"
