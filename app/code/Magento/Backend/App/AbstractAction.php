@@ -84,11 +84,6 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
     protected $_title;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(Action\Context $context)
@@ -103,17 +98,6 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
         $this->_localeResolver = $context->getLocaleResolver();
         $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
         $this->_session = $context->getSession();
-        $this->pageConfig = $context->getPageConfig();
-        $this->preparePageTitle();
-    }
-
-    /**
-     * Prepare page title
-     */
-    protected function preparePageTitle()
-    {
-        $this->_title->add($this->pageConfig->getDefaultTitle(), true);
-        $this->pageConfig->setTitle(array_reverse($this->_title->get()));
     }
 
     /**

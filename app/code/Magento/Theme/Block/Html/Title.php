@@ -43,7 +43,5 @@ class Title extends \Magento\Framework\View\Element\Template
     public function setPageTitle($pageTitle)
     {
         $this->_pageTitle = $pageTitle;
-        $this->pageConfig->setTitle($pageTitle);
-        return $this;
     }
 }
