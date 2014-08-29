@@ -23,4 +23,7 @@
     <assertProductReviewIsAvailableForProduct module="Magento_Reports">
         <severeness>low</severeness>
     </assertProductReviewIsAvailableForProduct>
+    <assertNewAccountsReportTotalResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertNewAccountsReportTotalResult>
 </constraint>
