@@ -135,6 +135,7 @@ class Page extends Layout
             $layout = $this->getLayout();
             $config = $this->getConfig();
 
+            $this->assign('requireJs', $layout->getBlock('require.js')->toHtml());
             $this->assign('headContent', $this->pageConfigRenderer->renderHeadContent());
             $this->addDefaultBodyClasses();
             $this->assign('bodyClasses', $config->getElementAttribute($config::ELEMENT_TYPE_BODY, 'classes'));

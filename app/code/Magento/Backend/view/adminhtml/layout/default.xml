@@ -71,7 +71,10 @@
         <block class="Magento\Framework\View\Element\Template" name="page.loader" template="Magento_Backend::admin/loader.phtml" after="-"/>
     </referenceContainer>
 
+    <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Backend::page/js/require_js.phtml" />
+
     <referenceContainer name="after.body.start">
+        <block class="Magento\Framework\View\Element\Template" name="head.scripts" template="Magento_Backend::page/js/head_scripts.phtml"/>
         <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Backend::page/js/components.phtml"/>
         <block class="Magento\Framework\View\Element\Html\Calendar" name="head.calendar" as="calendar" template="Magento_Backend::page/js/calendar.phtml"/>
     </referenceContainer>
