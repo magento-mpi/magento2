@@ -63,8 +63,6 @@ class Edit extends \Magento\Reminder\Controller\Adminhtml\Reminder
             $this->getUrl('adminhtml/*/save')
         );
 
-//        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setCanLoadRulesJs(true);
-
         $caption = $model->getId() ? __('Edit Rule') : __('New Reminder Rule');
         $this->_addBreadcrumb($caption, $caption);
         $this->_view->renderLayout();

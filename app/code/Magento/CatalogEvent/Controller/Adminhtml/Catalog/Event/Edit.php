@@ -41,7 +41,6 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
 
         $this->_initAction();
         $layout = $this->_view->getLayout();
-//        $layout->getBlock('head')->setCanLoadExtJs(true);
         if ($switchBlock = $layout->getBlock('store_switcher')) {
             if (!$event->getId() || $this->_storeManager->isSingleStoreMode()) {
                 $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');

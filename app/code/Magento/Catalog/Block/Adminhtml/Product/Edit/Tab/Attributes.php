@@ -16,52 +16,6 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 {
     /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
-     */
-    protected $_catalogData = null;
-
-    /**
-     * @var \Magento\Cms\Model\Wysiwyg\Config
-     */
-    protected $_wysiwygConfig;
-
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        \Magento\Catalog\Helper\Data $catalogData,
-        array $data = array()
-    ) {
-        $this->_wysiwygConfig = $wysiwygConfig;
-        $this->_catalogData = $catalogData;
-        parent::__construct($context, $registry, $formFactory, $data);
-    }
-
-    /**
-     * Load Wysiwyg on demand and prepare layout
-     *
-     * @return void
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        if ($this->_catalogData->isModuleEnabled('Magento_Cms') && $this->_wysiwygConfig->isEnabled()) {
-//            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
-        }
-    }
-
-    /**
      * Prepare attributes form
      *
      * @return void

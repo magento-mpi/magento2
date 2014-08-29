@@ -315,21 +315,4 @@ class Observer
 
         return $this;
     }
-
-    /**
-     * Assign a flag to HTML head block signaling whether GiftRegistry is enabled or not
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     */
-    public function assignHtmlHeadRenderingFlag(\Magento\Framework\Event\Observer $observer)
-    {
-        /** @var $layout \Magento\Framework\View\LayoutInterface */
-        $layout = $observer->getEvent()->getLayout();
-        /** @var $blockHead \Magento\Theme\Block\Html\Head */
-//        $blockHead = $layout->getBlock('head');
-//        if ($blockHead && $this->isGiftregistryEnabled()) {
-//            $blockHead->setData('giftregistry_enabled', true);
-//        }
-    }
 }

@@ -56,19 +56,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * Load Wysiwyg on demand and Prepare layout
-     *
-     * @return void
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        if ($this->_wysiwygConfig->isEnabled()) {
-//            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
-        }
-    }
-
-    /**
      * Prepare form
      *
      * @return $this

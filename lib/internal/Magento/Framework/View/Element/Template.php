@@ -12,6 +12,7 @@ use Magento\Framework\App\Filesystem;
 /**
  * Base html block
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Template extends AbstractBlock
 {
