@@ -167,13 +167,16 @@ class LiselectstoreElement extends Element
     public function getValue()
     {
         $this->_eventManager->dispatchEvent(['get_value'], [(string)$this->_locator]);
-        $storeViews = $this->getLiElements();
-        foreach ($storeViews as $storeView) {
-            if ($storeView['current'] == true) {
-                if ($storeView['default_config'] == true) {
-                    return $storeView['element']->text();
+        $elements = $this->getLiElements();
+        foreach ($elements as $key => $element) {
+            if ($element['current'] == true) {
+                if ($element['default_config'] == true) {
+                    return $element['element']->text();
                 }
-                return $storeView;
+                $path = $this->findNearestElement('website', $key, $elements) . "/"
+                    . $this->findNearestElement('store', $key, $elements) . "/"
+                    . $element['element']->text();
+                return $path;
             } else {
                 throw new \Exception('Class "current" is absent in stores dropdown.');
             }
