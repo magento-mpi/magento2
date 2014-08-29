@@ -9,6 +9,6 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <head>
-        <link src="Magento_Install::survey_notification.js" after="jquery"/>
+        <link src="Magento_Install::survey_notification.js"/>
     </head>
 </page>
