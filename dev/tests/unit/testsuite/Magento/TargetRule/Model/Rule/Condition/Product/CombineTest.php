@@ -10,7 +10,7 @@ namespace Magento\TargetRule\Model\Rule\Condition;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
-class AttributesTest extends \PHPUnit_Framework_TestCase
+class CombineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Combine
