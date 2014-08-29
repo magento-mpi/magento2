@@ -126,11 +126,13 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAppliesToOptions()
     {
-        $result = array( 1 => 'Related Products', 2 => 'Up-sells', 3 => 'Cross-sells');
+        $result[\Magento\TargetRule\Model\Rule::RELATED_PRODUCTS] = __('Related Products');
+        $result[\Magento\TargetRule\Model\Rule::UP_SELLS] = __('Up-sells');
+        $result[\Magento\TargetRule\Model\Rule::CROSS_SELLS] = __('Cross-sells');
 
         $this->assertEquals($result, $this->_rule->getAppliesToOptions());
 
-        $result = array( '' => '-- Please Select --', 1 => 'Related Products', 2 => 'Up-sells', 3 => 'Cross-sells');
+        $result[''] = __('-- Please Select --');
 
         $this->assertEquals($result, $this->_rule->getAppliesToOptions('test'));
     }
@@ -235,7 +237,9 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->will($this->returnValue($array));
 
-        $result = array( 0 => 'This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.');
+        $result = array( 0 => __(
+            'This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.'
+        ));
         $this->assertEquals($result, $this->_rule->validateData($object));
     }
 
