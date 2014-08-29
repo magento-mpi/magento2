@@ -30,6 +30,7 @@ class StoreGroup extends AbstractRepository
                 'dataSet' => 'main_website'
             ],
             'name' => 'Main Website Store',
+            'group_id' => 1,
             'root_category_id' => [
                 'dataSet' => 'default_category'
             ],

@@ -61,14 +61,21 @@ class Switcher extends Block
     public function isStoreViewVisible($store)
     {
         $storeViewDropdown = $this->_rootElement->find($this->dropDownButton);
-        if (!$storeViewDropdown->isVisible()) {
-            return true;
-        }
 
         $storeViewDropdown->click();
         $isStoreViewVisible = $this->_rootElement->find(sprintf($this->storeViewSelector, $store->getCode()))
             ->isVisible();
         $storeViewDropdown->click();
         return $isStoreViewVisible;
+    }
+
+    /**
+     * Check if StoreView dropdown is visible
+     *
+     * @return bool
+     */
+    public function isStoreViewDropdownVisible()
+    {
+       return $this->_rootElement->find($this->dropDownButton)->isVisible();
     }
 }

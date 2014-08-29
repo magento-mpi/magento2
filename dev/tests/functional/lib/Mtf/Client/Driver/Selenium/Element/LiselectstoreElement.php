@@ -67,9 +67,10 @@ class LiselectstoreElement extends Element
      */
     public function setValue($value)
     {
+        $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
         $this->_context->find($this->toggleSelector)->click();
 
-        $optionSelector = array();
+        $optionSelector = [];
         foreach ($value as $key => $option) {
             $optionSelector[] = sprintf($this->optionMaskElement, $value[$key]);
         }
@@ -102,13 +103,15 @@ class LiselectstoreElement extends Element
                 'storeView' => $this->isSubstring($class, "store-switcher-store-view"),
                 'store' => $this->isSubstring($class, "store-switcher-store "),
                 'website' => $this->isSubstring($class, "store-switcher-website"),
+                'current' => $this->isSubstring($class, "current"),
+                'default_config' => $this->isSubstring($class, "store-switcher-all"),
             ];
         }
         foreach ($dropdownData as $key => $dropdownElement) {
             if ($dropdownElement['storeView']) {
                 $data[] = $this->findNearestElement('website', $key, $dropdownData) . "/"
-                . $this->findNearestElement('store', $key, $dropdownData) . "/"
-                . $dropdownElement['element']->text();
+                    . $this->findNearestElement('store', $key, $dropdownData) . "/"
+                    . $dropdownElement['element']->text();
             }
         }
         return $data;
@@ -143,22 +146,25 @@ class LiselectstoreElement extends Element
         }
         return $elementText;
     }
+
     /**
      * Get selected store value
      *
-     * @return string|void
+     * @throws \Exception
+     * @return string
      */
     public function getValue()
     {
-        $selectedStoreView = $this->_context->find($this->toggleSelector)->getText();
-        if ($selectedStoreView == 'Default Config') {
-            return $selectedStoreView;
-        } else {
-            $storeViews = $this->getValues();
-            foreach ($storeViews as $storeView) {
-                if (strpos($storeView, $selectedStoreView) != false) {
-                    return $storeView;
+        $this->_eventManager->dispatchEvent(['get_value'], [(string)$this->_locator]);
+        $storeViews = $this->getValues();
+        foreach ($storeViews as $storeView) {
+            if ($storeView['current'] == true) {
+                if ($storeView['default_config'] == true) {
+                    return $storeView['element']->text();
                 }
+                return $storeView;
+            } else {
+                throw new \Exception('Class "current" is absent in stores dropdown.');
             }
         }
     }

@@ -52,7 +52,7 @@ class GroupId implements FixtureInterface
         if (isset($data['dataSet'])) {
             $storeGroup = $fixtureFactory->createByCode('storeGroup', ['dataSet' => $data['dataSet']]);
             /** @var StoreGroup $storeGroup */
-            if ($storeGroup->getName() != 'Main Website Store') {
+            if (!$storeGroup->getGroupId()) {
                 $storeGroup->persist();
             }
             $this->storeGroup = $storeGroup;
