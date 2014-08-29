@@ -37,7 +37,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildQuery()
     {
-        $queryBoost = 3.14;
+        $boost = 3.14;
 
         /** @var Select|\PHPUnit_Framework_MockObject_MockObject $select */
         $select = $this->getMockBuilder('Magento\Framework\DB\Select')
@@ -61,13 +61,13 @@ class MatchTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $query->expects($this->once())->method('getMatches')->will(
-            $this->returnValue([['field' => 'some_field', 'value' => 'some_value', 'boost' => 6.28]])
+            $this->returnValue([['field' => 'some_field', 'value' => 'some_value', 'boost' => $boost]])
         );
 
         $this->scoreBuilder->expects($this->once())->method('addCondition')
             ->with(
                 $this->equalTo('matchedQuery'),
-                $this->equalTo(6.28)
+                $this->equalTo($boost)
             );
 
         $result = $this->match->build($this->scoreBuilder, $select, $query, Bool::QUERY_CONDITION_NOT);
