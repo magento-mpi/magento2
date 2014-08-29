@@ -12,6 +12,7 @@ define([
 
     return Scope.extend({
         initialize: function(initial, config) {
+            _.extend( this, initial );
             
             this.observe({
                 rows:           initial.rows,
@@ -25,6 +26,16 @@ define([
                 currentMassAction: '',
                 isMassActionVisible: false
             });
+
+            this.observe({
+                'meta.pages':       this.meta.pages,
+                'meta.items':       this.meta.items,
+                'paging.current':   this.paging.current,
+                'paging.pageSize':  this.paging.pageSize
+            });
+
+            this.paging.current.subscribe( this.updatePaging.bind(this) );
+            this.paging.pageSize.subscribe( this.updatePaging.bind(this) );
 
             this.params = {};
 
@@ -95,6 +106,23 @@ define([
             this.select(this.rows());
         },
 
+        /*
+        reload: function() {
+            this.lock().client.read(this.params).done(function(result) {
+                var meta = result.meta;
+
+                this.unlock();
+
+                this.rows(result.rows);
+
+                this.meta.pages( meta.pages );
+                this.meta.items( meta.items )
+
+            }.bind(this));
+
+            return this;
+        },
+        */
         reload: function() {
             this.lock().client.read(this.params).done(function(rows) {
 
@@ -127,6 +155,19 @@ define([
             _.extend(this.params, params);
 
             return this;
+        },
+
+        updatePaging: function(){
+            var paging = this.paging,
+                size = paging.pageSize(),
+                current = paging.current();
+
+            this.setParams({
+                paging: {
+                    pageSize: paging.pageSize(),
+                    current: paging.current()
+                }
+            }).reload();
         }
     }, Resourceful);
 });
