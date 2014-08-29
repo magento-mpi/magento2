@@ -49,6 +49,16 @@ class UpdateCmsPageEntityTest extends Injectable
     protected $cmsNew;
 
     /**
+     * This method is called before the first test of this test class is run.
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        self::markTestIncomplete('MAGETWO-27635');
+    }
+
+    /**
      * Inject page
      *
      * @param CmsIndex $cmsIndex
@@ -73,7 +83,6 @@ class UpdateCmsPageEntityTest extends Injectable
      */
     public function test(CmsPage $cms, CmsPage $cmsOriginal)
     {
-        $this->markTestIncomplete('MAGETWO-27635');
         $this->cmsIndex->open();
         $filter = ['title' => $cmsOriginal->getTitle()];
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);

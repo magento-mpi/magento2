@@ -87,7 +87,11 @@ class OnlineRefundTest extends RefundTest
     public function dataProviderOrder()
     {
         return [
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()],
             [Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder()]
         ];
     }
 }

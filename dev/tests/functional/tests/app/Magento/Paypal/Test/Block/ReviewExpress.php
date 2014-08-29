@@ -15,14 +15,14 @@ use Mtf\Client\Element\Locator;
  * Class Review
  * Paypal sandbox review block
  */
-class Review extends Block
+class ReviewExpress extends Block
 {
     /**
      * Continue button
      *
      * @var string
      */
-    protected $continue = 'input[type="submit"]';
+    protected $continue = '#confirmButtonTop';
 
     /**
      * Press 'Continue' button
