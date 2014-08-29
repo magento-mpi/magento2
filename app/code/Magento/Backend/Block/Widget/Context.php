@@ -87,12 +87,12 @@ class Context extends \Magento\Backend\Block\Template\Context
         \Magento\Framework\View\TemplateEnginePool $enginePool,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
-        \Magento\Framework\View\Page\Config $pageConfig,
         Button\ButtonList $buttonList,
         Button\ToolbarInterface $toolbar
     ) {
@@ -120,12 +120,12 @@ class Context extends \Magento\Backend\Block\Template\Context
             $enginePool,
             $appState,
             $storeManager,
+            $pageConfig,
             $authorization,
             $backendSession,
             $mathRandom,
             $formKey,
-            $nameBuilder,
-            $pageConfig
+            $nameBuilder
         );
 
         $this->buttonList = $buttonList;
