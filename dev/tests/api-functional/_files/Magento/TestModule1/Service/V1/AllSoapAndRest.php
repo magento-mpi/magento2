@@ -9,6 +9,7 @@ namespace Magento\TestModule1\Service\V1;
 
 use Magento\TestModule1\Service\V1\Entity\Item;
 use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
+use Magento\TestModule1\Service\V1\Entity\CustomAttributeDataObjectBuilder;
 
 class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestInterface
 {
@@ -18,11 +19,20 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
     protected $itemBuilder;
 
     /**
-     * @param ItemBuilder $itemBuilder
+     * @var CustomAttributeDataObjectBuilder
      */
-    public function __construct(ItemBuilder $itemBuilder)
-    {
+    protected $customAttributeDataObjectBuilder;
+
+    /**
+     * @param ItemBuilder $itemBuilder
+     * @param CustomAttributeDataObjectBuilder $customAttributeNestedDataObjectBuilder
+     */
+    public function __construct(
+        ItemBuilder $itemBuilder,
+        CustomAttributeDataObjectBuilder $customAttributeNestedDataObjectBuilder
+    ) {
         $this->itemBuilder = $itemBuilder;
+        $this->customAttributeDataObjectBuilder = $customAttributeNestedDataObjectBuilder;
     }
 
     /**
@@ -74,6 +84,26 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
      */
     public function itemAnyType($item)
     {
+        return $item;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPreconfiguredItem()
+    {
+        $customAttributeDataObject = $this->customAttributeDataObjectBuilder
+            ->setName('nameValue')
+            ->setCustomAttribute('custom_attribute_int', 1)
+            ->create();
+
+        $item = $this->itemBuilder
+            ->setItemId(1)
+            ->setName('testProductAnyType')
+            ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
+            ->setCustomAttribute('custom_attribute_string', 'someStringValue')
+            ->create();
+
         return $item;
     }
 }

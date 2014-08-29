@@ -45,4 +45,9 @@ interface AllSoapAndRestInterface
      * @return \Magento\TestModule1\Service\V1\Entity\Item
      */
     public function itemAnyType($entityItem);
+
+    /**
+     * @return \Magento\TestModule1\Service\V1\Entity\Item
+     */
+    public function getPreconfiguredItem();
 }

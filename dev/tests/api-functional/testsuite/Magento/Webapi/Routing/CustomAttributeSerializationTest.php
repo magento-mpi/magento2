@@ -160,6 +160,34 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         $this->assertEquals($expectedResponse, $result);
     }
 
+    public function testDataObjectCustomAttributesPreconfiguredItem()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => $this->_restResourcePath . 'getPreconfiguredItem',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'GetPreconfiguredItem']
+        ];
+
+        $result = $this->_webApiCall($serviceInfo, []);
+
+
+        $customAttributeDataObject = $this->customAttributeDataObjectBuilder
+            ->setName('nameValue')
+            ->setCustomAttribute('custom_attribute_int', 1)
+            ->create();
+
+        $item = $this->itemBuilder
+            ->setItemId(1)
+            ->setName('testProductAnyType')
+            ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
+            ->setCustomAttribute('custom_attribute_string', 'someStringValue')
+            ->create();
+        $expectedResponse = $this->dataObjectConverter->processServiceOutput($item);
+        $this->assertEquals($expectedResponse, $result);
+    }
+
     public function testNestedDataObjectCustomAttributes()
     {
         $customAttributeNestedDataObject = $this->customAttributeNestedDataObjectBuilder
