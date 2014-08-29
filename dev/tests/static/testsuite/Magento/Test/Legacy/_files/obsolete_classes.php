@@ -2721,5 +2721,15 @@ return array(
     ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
     ['\Magento\Theme\Helper\Layout'],
     ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
+    ['\Magento\Framework\Service\Data\Eav\AbstractObject', 'Magento\Framework\Service\Data\AbstractExtensibleObject'],
+    ['\Magento\Framework\Service\Data\AbstractObject', 'Magento\Framework\Service\Data\AbstractSimpleObject'],
+    [
+        '\Magento\Framework\Service\Data\Eav\AbstractObjectBuilder',
+        'Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder'
+    ],
+    [
+        '\Magento\Framework\Service\Data\AbstractObjectBuilder',
+        'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
+    ],
     ['Magento\PageCache\Model\Observer']
 );

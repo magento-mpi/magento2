@@ -12,7 +12,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart\Totals;
  *
  * @codeCoverageIgnore
  */
-class Item extends \Magento\Framework\Service\Data\AbstractObject
+class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
 {
     /* ITEM DATA */
     const PRICE = 'price';
