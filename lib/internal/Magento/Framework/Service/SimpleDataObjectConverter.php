@@ -92,7 +92,30 @@ class SimpleDataObjectConverter
                 $result[$key] = $value;
             }
         }
-        return $result;
+        return $this->_unpackAssociativeArray($result);
+    }
+
+    /**
+     * Unpack associative array packed by SOAP server into key-value
+     *
+     * @param mixed $data
+     * @return array Unpacked associative array if array was passed as argument or original value otherwise
+     */
+    protected function _unpackAssociativeArray($data)
+    {
+        if (!is_array($data)) {
+            return $data;
+        } else {
+            foreach ($data as $key => $value) {
+                if (is_array($value) && count($value) == 2 && isset($value['key']) && isset($value['value'])) {
+                    $data[$value['key']] = $this->_unpackAssociativeArray($value['value']);
+                    unset($data[$key]);
+                } else {
+                    $data[$key] = $this->_unpackAssociativeArray($value);
+                }
+            }
+            return $data;
+        }
     }
 
     /**

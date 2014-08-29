@@ -175,26 +175,37 @@ class ServiceArgsSerializer
             return $this->_convertValue($customAttributesValueArray, $returnType);
         }
         $dataObjectAttributes = $allAttributes[$dataObjectClassName];
-        foreach ($customAttributesValueArray as $key => $item) {
+        foreach ($customAttributesValueArray as $customAttribute) {
+            $camelCaseAttributeCodeKey = lcfirst(
+                str_replace(' ', '', ucwords(str_replace('_', ' ', AttributeValue::ATTRIBUTE_CODE)))
+            );
+            if (isset($customAttribute[AttributeValue::ATTRIBUTE_CODE])) {
+                $customAttributeCode = $customAttribute[AttributeValue::ATTRIBUTE_CODE];
+            } else if (isset($customAttribute[$camelCaseAttributeCodeKey])) {
+                $customAttributeCode = $customAttribute[$camelCaseAttributeCodeKey];
+            } else {
+                $customAttributeCode = null;
+            }
 
             //Check if type is defined, else default to mixed
-            $type = isset($dataObjectAttributes[$item[AttributeValue::ATTRIBUTE_CODE]])
-                ? $dataObjectAttributes[$item[AttributeValue::ATTRIBUTE_CODE]]
+            $type = isset($dataObjectAttributes[$customAttributeCode])
+                ? $dataObjectAttributes[$customAttributeCode]
                 : TypeProcessor::ANY_TYPE;
 
-            if (is_array($item[AttributeValue::VALUE])) {
+            $customAttributeValue = $customAttribute[AttributeValue::VALUE];
+            if (is_array($customAttributeValue)) {
                 //If type for AttributeValue's value as array is mixed, further processing is not possible
                 if ($type === TypeProcessor::ANY_TYPE) {
                     continue;
                 }
                 //If custom attribute value is an array then its a data object type
-                $attributeValue = $this->_createFromArray($type, $item[AttributeValue::VALUE]);
+                $attributeValue = $this->_createFromArray($type, $customAttributeValue);
             } else {
-                $attributeValue = $this->_convertValue($item[AttributeValue::VALUE], $type);
+                $attributeValue = $this->_convertValue($customAttributeValue, $type);
             }
             //Populate the attribute value data object once the value for custom attribute is derived based on type
-            $result[$key] = $this->attributeValueBuilder
-                ->setAttributeCode($key)
+            $result[$customAttributeCode] = $this->attributeValueBuilder
+                ->setAttributeCode($customAttributeCode)
                 ->setValue($attributeValue)
                 ->create();
         }
