@@ -36,13 +36,13 @@ class AssertStoreFrontend extends AbstractConstraint
     {
         $cmsIndex->open();
 
-        if (!$cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store)) {
+        $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible();
+        if (!$isStoreViewVisible) {
             $cmsIndex->getFooterBlock()->selectStoreGroup($store);
+            $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible() === false
+                ? true
+                : $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
         }
-
-        $isStoreViewVisible =  $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible() === false
-            ? true
-            : $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $isStoreViewVisible,
