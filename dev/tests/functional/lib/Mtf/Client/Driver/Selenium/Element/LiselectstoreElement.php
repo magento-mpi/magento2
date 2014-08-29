@@ -62,7 +62,7 @@ class LiselectstoreElement extends Element
     /**
      * Select value in liselect dropdown
      *
-     * @param array $value
+     * @param string $value
      * @throws \Exception
      */
     public function setValue($value)
@@ -70,6 +70,7 @@ class LiselectstoreElement extends Element
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
         $this->_context->find($this->toggleSelector)->click();
 
+        $value = explode('/', $value);
         $optionSelector = [];
         foreach ($value as $key => $option) {
             $optionSelector[] = sprintf($this->optionMaskElement, $value[$key]);
@@ -95,7 +96,6 @@ class LiselectstoreElement extends Element
         $criteria->value('li');
         $elements = $this->_getWrappedElement()->elements($criteria);
         $dropdownData = [];
-        $data = [];
         foreach ($elements as $element) {
             $class = $element->attribute('class');
             $dropdownData[] = [
@@ -109,6 +109,7 @@ class LiselectstoreElement extends Element
         }
         return $dropdownData;
     }
+
     /**
      * Get all available store views
      *
@@ -117,6 +118,7 @@ class LiselectstoreElement extends Element
     public function getValues()
     {
         $dropdownData = $this->getLiElements();
+        $data = [];
         foreach ($dropdownData as $key => $dropdownElement) {
             if ($dropdownElement['storeView']) {
                 $data[] = $this->findNearestElement('website', $key, $dropdownData) . "/"
@@ -166,15 +168,16 @@ class LiselectstoreElement extends Element
     public function getValue()
     {
         $this->_eventManager->dispatchEvent(['get_value'], [(string)$this->_locator]);
-        $storeViews = $this->getLiElements();
-        foreach ($storeViews as $storeView) {
-            if ($storeView['current'] == true) {
-                if ($storeView['default_config'] == true) {
-                    return $storeView['element']->text();
+        $elements = $this->getLiElements();
+        foreach ($elements as $key => $element) {
+            if ($element['current'] == true) {
+                if ($element['default_config'] == true) {
+                    return $element['element']->text();
                 }
-                return $storeView;
-            } else {
-                throw new \Exception('Class "current" is absent in stores dropdown.');
+                $path = $this->findNearestElement('website', $key, $elements) . "/"
+                    . $this->findNearestElement('store', $key, $elements) . "/"
+                    . $element['element']->text();
+                return $path;
             }
         }
     }

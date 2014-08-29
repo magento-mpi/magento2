@@ -27,7 +27,7 @@ class Store extends InjectableFixture
     protected $handlerInterface = 'Magento\Store\Test\Handler\Store\StoreInterface';
 
     protected $defaultDataSet = [
-        'group_id' => 'Main Website Store',
+        'group_id' => ['dataSet' => 'default'],
         'name' => 'Custom_Store_%isolation%',
         'code' => 'code_%isolation%',
         'is_active' => 'Enabled',
