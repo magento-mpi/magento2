@@ -8,11 +8,12 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
- * Backend customer report grid block
+ * New Customer Account report grid
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
@@ -56,6 +57,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function searchAccounts(array $customersReport)
     {
+        $customersReport = $this->prepareData($customersReport);
         foreach ($customersReport as $name => $value) {
             $this->_rootElement
                 ->find(sprintf($this->filter, $name), Locator::SELECTOR_CSS, $this->dataMapping[$name])
@@ -72,5 +74,26 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     public function getTotalResults()
     {
         return $this->_rootElement->find($this->totalResults)->getText();
+    }
+
+    /**
+     * Prepare data
+     *
+     * @param array $customersReport
+     * @return array
+     */
+    protected function prepareData(array $customersReport)
+    {
+        foreach ($customersReport as $name => $reportFilter) {
+            if ($name === 'report_period') {
+                continue;
+            }
+            $date = ObjectManager::getInstance()->create(
+                '\Magento\Backend\Test\Fixture\Date',
+                ['params' => [], 'data' => ['pattern' => $reportFilter]]
+            );
+            $customersReport[$name] = $date->getData();
+        }
+        return $customersReport;
     }
 }

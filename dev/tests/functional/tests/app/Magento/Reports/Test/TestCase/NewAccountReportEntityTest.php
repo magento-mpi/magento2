@@ -73,31 +73,9 @@ class NewAccountReportEntityTest extends Injectable
         $this->customerIndexPage->open();
         $this->customerIndexPage->getCustomerGridBlock()->massaction([], 'Delete', true, 'Select All');
         $customer->persist();
-        $customersReport = $this->prepareData($customersReport);
 
         // Steps
         $this->customerAccounts->open();
         $this->customerAccounts->getGridBlock()->searchAccounts($customersReport);
-    }
-
-    /**
-     * Prepare data
-     *
-     * @param array $customersReport
-     * @return array
-     */
-    protected function prepareData(array $customersReport)
-    {
-        foreach ($customersReport as $name => $reportFilter) {
-            if ($name === 'report_period') {
-                continue;
-            }
-            $date = $this->objectManager->create(
-                '\Magento\Backend\Test\Fixture\Date',
-                ['params' => [], 'data' => ['pattern' => $reportFilter]]
-            );
-            $customersReport[$name] = $date->getData();
-        }
-        return $customersReport;
     }
 }
