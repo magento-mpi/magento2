@@ -67,7 +67,7 @@ class ModerateProductReviewEntityTest extends Injectable
      *
      * @param ReviewInjectable $reviewInitial
      * @param ReviewInjectable $review
-     * @return void
+     * @return array
      */
     public function test(ReviewInjectable $reviewInitial, ReviewInjectable $review)
     {
@@ -79,5 +79,8 @@ class ModerateProductReviewEntityTest extends Injectable
         $this->reviewIndex->getReviewGrid()->searchAndOpen(['review_id' => $reviewInitial->getReviewId()]);
         $this->reviewEdit->getReviewForm()->fill($review);
         $this->reviewEdit->getPageActions()->save();
+        $product = $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
+
+        return ['product' => $product];
     }
 }

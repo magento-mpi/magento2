@@ -91,8 +91,7 @@ class ProductForm extends FormTabs
                 : $category->getCategoryName();
         }
 
-        $this->showAdvancedSettings();
-        return parent::fillTabs($tabs, $element);
+        return $this->fillTabs($tabs, $element);
     }
 
     /**
@@ -122,12 +121,12 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Open advanced tab
+     * Open tab
      *
      * @param string $tabName
      * @return Tab
      */
-    public function openAdvancedTab($tabName)
+    public function openTab($tabName)
     {
         $this->showAdvancedSettings();
 

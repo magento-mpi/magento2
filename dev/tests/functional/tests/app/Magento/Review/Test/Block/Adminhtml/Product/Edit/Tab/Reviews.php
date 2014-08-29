@@ -8,13 +8,13 @@
 
 namespace Magento\Review\Test\Block\Adminhtml\Product\Edit\Tab;
 
-use Magento\Review\Test\Block\Adminhtml\Customer\Edit\Tab\Reviews as ParentReviews;
+use Magento\Review\Test\Block\Adminhtml\ReviewsTab;
 
 /**
  * Class Reviews
- * Reviews tab on product edit page.
+ * Reviews tab on product edit page
  */
-class Reviews extends ParentReviews
+class Reviews extends ReviewsTab
 {
     //
 }

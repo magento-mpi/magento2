@@ -33,7 +33,7 @@ class AssertProductRatingInProductPage extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param Browser $browser
-     * @param CatalogProductSimple|null $product [optional]
+     * @param CatalogProductSimple $product
      * @param ReviewInjectable|null $review [optional]
      * @param Rating|null $productRating [optional]
      * @return void
@@ -41,11 +41,10 @@ class AssertProductRatingInProductPage extends AbstractConstraint
     public function processAssert(
         CatalogProductView $catalogProductView,
         Browser $browser,
-        CatalogProductSimple $product = null,
+        CatalogProductSimple $product,
         ReviewInjectable $review = null,
         Rating $productRating = null
     ) {
-        $product = $product === null ? $review->getDataFieldConfig('entity_id')['source']->getEntity() : $product;
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $reviewSummaryBlock = $catalogProductView->getReviewSummary();
         if ($reviewSummaryBlock->isVisible()) {

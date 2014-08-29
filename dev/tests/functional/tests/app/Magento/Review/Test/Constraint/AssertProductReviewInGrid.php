@@ -47,20 +47,17 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * Assert that review is displayed in grid
      *
      * @param ReviewIndex $reviewIndex
-     * @param ReviewInjectable $review
+     * @param ReviewInjectable $review ,
+     * @param FixtureInterface $product
      * @param string $gridStatus
-     * @param ReviewInjectable $reviewInitial
      * @return void
      */
     public function processAssert(
         ReviewIndex $reviewIndex,
         ReviewInjectable $review,
-        $gridStatus = '',
-        ReviewInjectable $reviewInitial = null
+        FixtureInterface $product,
+        $gridStatus = ''
     ) {
-        $product = $reviewInitial === null
-            ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
-            : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
         $filter = $this->prepareFilter($product, $review->getData(), $gridStatus);
 
         $reviewIndex->open();

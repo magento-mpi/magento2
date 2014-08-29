@@ -26,10 +26,10 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  *
  * Preconditions:
  * 1. Create Product
- * 3. Create review with rating for this product
+ * 2. Create review with rating for this product
  *
  * Steps:
- * 1. Open Products ->Catalog
+ * 1. Open Products -> Catalog
  * 2. Search and open product from preconditions
  * 3. Open Review tab
  * 4. Search and open review created in preconditions
@@ -142,7 +142,7 @@ class UpdateProductReviewEntityOnProductPageTest extends Injectable
     }
 
     /**
-     * Run test update product review on product page
+     * Update product review on product page
      *
      * @param ReviewInjectable $review
      * @param int $rating
@@ -156,7 +156,7 @@ class UpdateProductReviewEntityOnProductPageTest extends Injectable
         /** @var CatalogProductSimple $product */
         $product = $this->reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
         $this->catalogProductIndex->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
-        $this->catalogProductEdit->getForm()->openAdvancedTab('product_reviews');
+        $this->catalogProductEdit->getForm()->openTab('product_reviews');
         $filter = [
             'title' => $this->reviewInitial->getTitle(),
             'sku' => $product->getSku()
@@ -167,7 +167,7 @@ class UpdateProductReviewEntityOnProductPageTest extends Injectable
         $this->reviewEdit->getPageActions()->save();
         $productRating = $this->reviewInitial->getDataFieldConfig('ratings')['source']->getRatings()[0];
 
-        return ['reviewInitial' => $this->reviewInitial, 'product' => $product, 'productRating' => $productRating];
+        return ['product' => $product, 'productRating' => $productRating];
     }
 
     /**
@@ -180,10 +180,9 @@ class UpdateProductReviewEntityOnProductPageTest extends Injectable
     protected function createReview($review, $rating)
     {
         $reviewData = $review->getData();
-        $ratings = $this->reviewInitial->getDataFieldConfig('ratings')['source']->getRatings();
-        foreach ($ratings as $itemRating) {
-            $reviewData['ratings'][] = ['fixtureRating' => $itemRating, 'rating' => $rating];
-        }
+        $fixtureRating = $this->reviewInitial->getDataFieldConfig('ratings')['source']->getRatings()[0];
+        $reviewData['ratings'][0] = ['fixtureRating' => $fixtureRating, 'rating' => $rating];
+
         return $this->fixtureFactory->createByCode('reviewInjectable', ['data' => $reviewData]);
     }
 
@@ -194,12 +193,13 @@ class UpdateProductReviewEntityOnProductPageTest extends Injectable
      */
     public function tearDown()
     {
+        if (!$this->reviewInitial instanceof ReviewInjectable) {
+            return;
+        }
         $this->ratingIndex->open();
-        if ($this->reviewInitial instanceof ReviewInjectable) {
-            foreach ($this->reviewInitial->getRatings() as $rating) {
-                $this->ratingIndex->getRatingGrid()->searchAndOpen(['rating_code' => $rating['title']]);
-                $this->ratingEdit->getPageActions()->delete();
-            }
+        foreach ($this->reviewInitial->getRatings() as $rating) {
+            $this->ratingIndex->getRatingGrid()->searchAndOpen(['rating_code' => $rating['title']]);
+            $this->ratingEdit->getPageActions()->delete();
         }
     }
 }
