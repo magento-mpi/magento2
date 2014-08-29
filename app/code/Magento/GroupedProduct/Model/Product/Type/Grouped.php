@@ -472,7 +472,11 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         return parent::beforeSave($product);
     }
 
-    public function getChildrenMsrp($product)
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return int
+     */
+    public function getChildrenMsrp(\Magento\Catalog\Model\Product $product)
     {
         $prices = [];
         foreach ($this->getAssociatedProducts($product) as $item) {

@@ -47,9 +47,9 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     protected $resourceIteratorMock;
 
     /**
-     * @var \Magento\Catalog\Helper\Data
+     * @var \Magento\Msrp\Helper\Data
      */
-    protected $catalogHelperMock;
+    protected $msrpHelperMock;
 
     /**
      * @var \Magento\Framework\Pricing\PriceCurrencyInterface
@@ -64,7 +64,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $templateContextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
-        $this->catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
+        $this->msrpHelperMock = $this->getMock('Magento\Msrp\Helper\Data', [], [], '', false);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(
             'Magento\Framework\Pricing\PriceCurrencyInterface',
             [],
@@ -117,7 +117,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             'Magento\Rss\Block\Catalog\Special',
             [
                 'context' => $templateContextMock,
-                'catalogData' => $this->catalogHelperMock,
+                'msrpData' => $this->msrpHelperMock,
                 'priceCurrency' => $this->priceCurrencyMock,
                 'productFactory' => $this->productFactoryMock,
                 'rssFactory' => $this->rssFactoryMock,
@@ -241,7 +241,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             ->method('getFrontendName')
             ->will($this->returnValue('store name'));
 
-        $this->catalogHelperMock->expects($this->once())
+        $this->msrpHelperMock->expects($this->once())
             ->method('canApplyMsrp')
             ->will($this->returnValue(false));
         $this->resourceIteratorMock->expects($this->once())

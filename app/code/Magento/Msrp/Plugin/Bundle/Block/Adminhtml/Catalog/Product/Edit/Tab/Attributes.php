@@ -11,6 +11,11 @@ use Magento\Msrp\Model\Product\Attribute\Source\Type\Price;
 
 class Attributes
 {
+    /**
+     * @param \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes $subject
+     * @param \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes $result
+     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes
+     */
     public function afterSetForm(
         \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes $subject,
         \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes $result
