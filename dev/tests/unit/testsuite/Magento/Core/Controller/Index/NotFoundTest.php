@@ -34,8 +34,7 @@ class NotFoundTest extends \PHPUnit_Framework_TestCase
             ['response' => $responseMock]
         );
 
-        // The execute method is empty and returns void, just calling to verify
-        // the method exists and does not throw an exception
+        // Make the call to test
         $controller->execute();
     }
 }
