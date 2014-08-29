@@ -127,7 +127,7 @@ define([
             this.lock().client.read(this.params).done(function(rows) {
 
                 this.unlock().rows(rows);
-                this._ensureCheckedRows();
+
             }.bind(this));
 
             return this;
