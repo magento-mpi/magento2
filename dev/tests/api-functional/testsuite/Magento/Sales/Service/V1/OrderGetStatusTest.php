@@ -16,9 +16,9 @@ use Magento\Webapi\Model\Rest\Config;
  */
 class OrderGetStatusTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/orders/%d/status';
+    const RESOURCE_PATH = '/V1/order/%d/status';
 
-    const SERVICE_READ_NAME = 'salesOrderGetStatusV1';
+    const SERVICE_READ_NAME = 'salesOrderReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -51,7 +51,7 @@ class OrderGetStatusTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'getStatus'
             ]
         ];
 

@@ -8,6 +8,9 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Metadata extends \Magento\Framework\Service\Data\Eav\AbstractObject
 {
     const PRICE = 'price';

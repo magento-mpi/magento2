@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="system_store/deleteGroup" module="Magento_Backend">
+    <blocks>
+        <deleteGroupForm>
+            <class>Magento\Backend\Test\Block\System\Store\Delete\Form</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </deleteGroupForm>
+        <formPageFooterActions>
+            <class>Magento\Backend\Test\Block\System\Store\FormPageFooterActions</class>
+            <locator>.content-footer</locator>
+            <strategy>css selector</strategy>
+        </formPageFooterActions>
+    </blocks>
+</page>

@@ -67,8 +67,9 @@ class UpdateGiftWrappingEntityTest extends Injectable
      * @param GiftWrapping $giftWrapping
      * @return void
      */
-    public function testUpdateGiftWrapping(GiftWrapping $initialGiftWrapping, GiftWrapping $giftWrapping)
+    public function test(GiftWrapping $initialGiftWrapping, GiftWrapping $giftWrapping)
     {
+        $this->markTestIncomplete('MAGETWO-27729');
         // Precondition
         $initialGiftWrapping->persist();
 

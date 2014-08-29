@@ -1,6 +1,6 @@
 <?php
 /**
- * Pluginization of \Magento\CatalogSearch\Model\Fulltext model
+ * Pluginization of \Magento\CatalogSearch\Model\Indexer\Fulltext
  *
  * {license_notice}
  *
@@ -37,7 +37,7 @@ class FulltextIndexRebuild
      *
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
-    protected $_engineProvider = null;
+    protected $_engineProvider;
 
     /**
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
@@ -60,21 +60,15 @@ class FulltextIndexRebuild
     /**
      * Hold commit at indexation start if needed
      *
-     * @param \Magento\CatalogSearch\Model\Fulltext $subject
-     * @param int|null $storeId Store View Id
-     * @param int|array|null $productIds Product Entity Id
-     *
+     * @param \Magento\CatalogSearch\Model\Indexer\Fulltext $subject
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeRebuildIndex(
-        \Magento\CatalogSearch\Model\Fulltext $subject,
-        $storeId = null,
-        $productIds = null
-    ) {
+    public function beforeExecuteFull(\Magento\CatalogSearch\Model\Indexer\Fulltext $subject)
+    {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_engineProvider->get();
-            if ($engine->holdCommit() && is_null($productIds)) {
+            if ($engine->holdCommit()) {
                 $engine->setIndexNeedsOptimization();
             }
         }
@@ -85,16 +79,12 @@ class FulltextIndexRebuild
      * Make index optimization if documents were added to index.
      * Allow commit if it was held.
      *
-     * @param \Magento\CatalogSearch\Model\Fulltext $subject
-     * @param \Magento\CatalogSearch\Model\Fulltext $result
-     *
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @param \Magento\CatalogSearch\Model\Indexer\Fulltext $subject
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterRebuildIndex(
-        \Magento\CatalogSearch\Model\Fulltext $subject,
-        \Magento\CatalogSearch\Model\Fulltext $result
-    ) {
+    public function afterExecuteFull(\Magento\CatalogSearch\Model\Indexer\Fulltext $subject)
+    {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 
             $engine = $this->_engineProvider->get();
@@ -113,7 +103,5 @@ class FulltextIndexRebuild
                 $this->_cache->clean(array($cacheTag));
             }
         }
-
-        return $result;
     }
 }

@@ -8,14 +8,14 @@
  */
 -->
 <constraint>
-    <assertCmsCurrentlyPublishedRevision module="Magento_VersionsCms">
-        <severeness>medium</severeness>
+    <assertCmsPageCurrentlyPublishedRevision module="Magento_VersionsCms">
+        <severeness>high</severeness>
         <require>
             <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
             <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
-    </assertCmsCurrentlyPublishedRevision>
+    </assertCmsPageCurrentlyPublishedRevision>
     <assertCmsPageVersionInGrid module="Magento_VersionsCms">
         <severeness>medium</severeness>
         <require>
@@ -95,4 +95,28 @@
             <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
         </require>
     </assertCmsPageRevisionInGrid>
+    <assertCmsPageRevisionSuccessSaveMessage module="Magento_VersionsCms">
+        <severeness>high</severeness>
+        <require>
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageRevisionSuccessSaveMessage>
+    <assertCmsPageRevisionSuccessPublishMessage module="Magento_VersionsCms">
+        <severeness>high</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+        </require>
+    </assertCmsPageRevisionSuccessPublishMessage>
+    <assertCmsPageRevisionPreview module="Magento_VersionsCms">
+        <severeness>high</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <revision class="Magento\VersionsCms\Test\Fixture\Revision"/>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+            <cmsRevisionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit" />
+            <cmsRevisionPreview class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionPreview" />
+        </require>
+    </assertCmsPageRevisionPreview>
 </constraint>

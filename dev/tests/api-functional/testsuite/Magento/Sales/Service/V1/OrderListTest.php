@@ -18,7 +18,7 @@ class OrderListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/orders';
 
-    const SERVICE_READ_NAME = 'salesOrderListV1';
+    const SERVICE_READ_NAME = 'salesOrderReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -61,12 +61,12 @@ class OrderListTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'search'
             ]
         ];
 

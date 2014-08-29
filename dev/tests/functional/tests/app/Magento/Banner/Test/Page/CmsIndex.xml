@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="cms/index/index" module="Magento_Cms">
+    <blocks>
+        <bannersBlock>
+            <class>Magento\Banner\Test\Block\Banners</class>
+            <locator>.widget.banners</locator>
+            <strategy>css selector</strategy>
+        </bannersBlock>
+    </blocks>
+</page>
