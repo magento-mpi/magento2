@@ -7,7 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <update handle="sales_order_shipment_grid_block"/>
-    <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments" name="sales_order_shipment.grid.container" output="1"/>
+    <container name="root">
+        <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments" name="sales_order_shipment.grid.container"/>
+    </container>
 </layout>

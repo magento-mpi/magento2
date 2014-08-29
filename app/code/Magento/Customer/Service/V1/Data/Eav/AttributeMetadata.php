@@ -7,10 +7,13 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Service\Data\MetadataObjectInterface;
+
 /**
  * Class AttributeMetadata
  */
-class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
+class AttributeMetadata extends AbstractExtensibleObject implements MetadataObjectInterface
 {
     /**#@+
      * Constants used as keys into $_data

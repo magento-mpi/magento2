@@ -14,6 +14,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**
  * Class MetadataService
@@ -101,7 +102,7 @@ class MetadataService implements MetadataServiceInterface
     {
         /** @var AbstractAttribute $attribute */
         $attribute = $this->eavConfig->getAttribute($entityType, $attributeCode);
-        if ($attribute) {
+        if ($attribute->getId()) {
             $attributeMetadata = $this->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
@@ -129,7 +130,7 @@ class MetadataService implements MetadataServiceInterface
         $attributeCollection->join(
             ['eav_entity_attribute' => $attributeCollection->getTable('eav_entity_attribute')],
             'main_table.attribute_id = eav_entity_attribute.attribute_id',
-            ['attribute_set_id']
+            []
         );
         $attributeCollection->join(
             array('additional_table' => $attributeCollection->getTable('catalog_eav_attribute')),
@@ -140,13 +141,18 @@ class MetadataService implements MetadataServiceInterface
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $attributeCollection);
         }
-        foreach ((array)$searchCriteria->getSortOrders() as $field => $direction) {
+        /** @var SortOrder $sortOrder */
+        foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
             $attributeCollection->addOrder(
-                $this->translateField($field),
-                $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                $this->translateField($sortOrder->getField()),
+                ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
             );
         }
+
         $totalCount = $attributeCollection->getSize();
+
+        // Group attributes by id to prevent duplicates with different attribute sets
+        $attributeCollection->addAttributeGrouping();
 
         $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
         $attributeCollection->setPageSize($searchCriteria->getPageSize());

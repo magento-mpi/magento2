@@ -20,11 +20,11 @@
                 <event controller_action="invitations_index__save" action_alias="save" />
                 <event controller_action="invitations_index__saveInvitation"
                        action_alias="save" />
-                <event controller_action="invitations_index__massCancel"
+                <event controller_action="invitations_index_massCancel"
                        action_alias="massUpdate" />
-                <event controller_action="invitations_index__massResend"
+                <event controller_action="invitations_index_massResend"
                        action_alias="massUpdate"
-                       post_dispatch="Magento\Invitation\Model\Observer::postDispatchInvitationMassUpdate" />
+                       post_dispatch="Magento\Invitation\Model\Logging::postDispatchInvitationMassUpdate" />
             </events>
         </group>
     </groups>

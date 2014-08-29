@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
@@ -17,4 +17,4 @@
     <referenceContainer name="content">
         <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml" cacheable="false"/>
     </referenceContainer>
-</layout>
+</page>
