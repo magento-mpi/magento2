@@ -9,7 +9,6 @@
 namespace Magento\Integration\Service\V1;
 
 use Magento\Framework\Exception\AuthenticationException;
-use Magento\Framework\Exception\InputException;
 
 /**
  * Interface providing token generation for Customers
