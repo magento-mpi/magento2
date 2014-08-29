@@ -17,14 +17,25 @@ define([
                 suggestions: []
             });
 
-            this._bind();
+            this._bind()._subscribe();
+        },
+
+        _bind: function () {
+            _.bindAll(this, '_formatData', '_load');
+
+            return this;
+        },
+
+        _subscribe: function () {
+            this.query.subscribe(function (query) {
+                this.rawQuery(query.value);
+            }, this);
 
             this.rawQuery.subscribe(function (rawQuery) {
-                // this.client
-                //     .read({ query: rawQuery })
-                //     .then(this._load)
-                //     .then(this._formatData)
-                //     .done(this.suggestions.bind(this));
+                this.client
+                    .read({ query: rawQuery })
+                    .then(this._formatData)
+                    .done(this.suggestions.bind(this));
 
             }, this);
         },
@@ -39,12 +50,8 @@ define([
             this.target.reload();
         },
 
-        _bind: function () {
-            _.bindAll(this, '_formatData', '_load');
-        },
-
-        _formatData: function (collection) {
-            var result = _.map(collection, function (entry) {
+        _formatData: function (result) {
+            result = _.map(result.rows, function (entry) {
                 return {
                     value: entry.title,
                     data: entry
