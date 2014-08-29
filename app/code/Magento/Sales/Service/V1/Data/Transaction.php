@@ -109,7 +109,7 @@ class Transaction extends DataObject
     /**
      * Returns additional_information
      *
-     * @return Transaction\AdditionalInformation[]
+     * @return \Magento\Sales\Service\V1\Data\Transaction\AdditionalInformation[]
      */
     public function getAdditionalInformation()
     {
@@ -149,7 +149,7 @@ class Transaction extends DataObject
     /**
      * Returns child_transactions
      *
-     * @return Transaction[]
+     * @return \Magento\Sales\Service\V1\Data\Transaction[]
      */
     public function getChildTransactions()
     {

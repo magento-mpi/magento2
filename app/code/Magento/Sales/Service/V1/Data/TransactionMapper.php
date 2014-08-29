@@ -108,7 +108,6 @@ class TransactionMapper
         $transactionBuilder->setAdditionalInformation($this->getAdditionalInfo($transactionModel));
         $transactionBuilder->setIncrementId($this->getIncrementId($transactionModel));
         $transactionBuilder->setChildTransactions($lazy ? [] : $this->getChildTransactions($transactionModel));
-        $dto =  $transactionBuilder->create();
-        return $dto;
+        return $transactionBuilder->create();
     }
 }

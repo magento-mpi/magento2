@@ -74,11 +74,12 @@ class TransactionRepository
      * @param int $id
      * @return Transaction
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\InputException
      */
     public function get($id)
     {
         if (!$id) {
-            throw new \Magento\Framework\Exception\NoSuchEntityException('Requested product doesn\'t exist');
+            throw new \Magento\Framework\Exception\InputException('ID required');
         }
         if (!isset($this->registry[$id])) {
             $filter = $this->filterBuilder->setField('transaction_id')->setValue($id)->setConditionType('eq')->create();

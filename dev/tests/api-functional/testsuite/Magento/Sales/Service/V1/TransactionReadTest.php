@@ -80,7 +80,6 @@ class TransactionListTest extends WebapiAbstract
     /**
      * Tests list of order transactions
      * @dataProvider filtersDataProvider
-     * @magentoApiDataFixture Magento/Sales/_files/transactions_detailed.php
      */
     public function testTransactionList($filters)
     {
@@ -172,7 +171,13 @@ class TransactionListTest extends WebapiAbstract
 
         return [
             [[$filterBuilder->setField('increment_id')->setValue('100000006')->setConditionType('eq')->create()]],
-            [[$filterBuilder->setField('method')->setValue('checkmo')->setConditionType('eq')->create()]]
+            [[$filterBuilder->setField('method')->setValue('checkmo')->setConditionType('eq')->create()]],
+            [
+                [
+                    $filterBuilder->setField('created_at')->setValue('2020-12-12 00:00:00')
+                        ->setConditionType('lteq')->create()
+                ]
+            ]
         ];
     }
 }
