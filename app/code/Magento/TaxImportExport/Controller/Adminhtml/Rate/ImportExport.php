@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Controller\Adminhtml\Rate;
+namespace Magento\TaxImportExport\Controller\Adminhtml\Rate;
 
-class ImportExport extends \Magento\Tax\Controller\Adminhtml\Rate
+class ImportExport extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
 {
     /**
      * Import and export Page
@@ -23,11 +23,11 @@ class ImportExport extends \Magento\Tax\Controller\Adminhtml\Rate
 
         $this->_view->loadLayout();
         $this->_setActiveMenu(
-            'Magento_Tax::system_convert_tax'
+            'Magento_TaxImportExport::system_convert_tax'
         )->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader')
+            $this->_view->getLayout()->createBlock('Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExportHeader')
         )->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExport')
+            $this->_view->getLayout()->createBlock('Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExport')
         );
         $this->_view->renderLayout();
     }

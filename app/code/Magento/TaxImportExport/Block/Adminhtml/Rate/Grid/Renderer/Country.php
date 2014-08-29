@@ -11,7 +11,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer;
+namespace Magento\TaxImportExport\Block\Adminhtml\Rate\Grid\Renderer;
 
 class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Country
 {

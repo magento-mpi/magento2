@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Model\Rate;
+namespace Magento\TaxImportExport\Model\Rate;
 
 class CsvImportHandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class CsvImportHandlerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_importHandler = $objectManager->create('Magento\Tax\Model\Rate\CsvImportHandler');
+        $this->_importHandler = $objectManager->create('Magento\TaxImportExport\Model\Rate\CsvImportHandler');
     }
 
     protected function tearDown()

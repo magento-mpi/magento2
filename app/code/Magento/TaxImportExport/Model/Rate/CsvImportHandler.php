@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TaxImportExport\Model\Rate;
 
 /**
  * Tax Rate CSV Import Handler
  */
-namespace Magento\Tax\Model\Rate;
-
 class CsvImportHandler
 {
     /**

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Block\Adminhtml\Rate;
+namespace Magento\TaxImportExport\Block\Adminhtml\Rate;
 
 class ImportExport extends \Magento\Backend\Block\Widget
 {

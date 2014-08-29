@@ -8,10 +8,8 @@
 
 /**
  * Adminhtml import/export header block
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Block\Adminhtml\Rate;
+namespace Magento\TaxImportExport\Block\Adminhtml\Rate;
 
 class ImportExportHeader extends \Magento\Backend\Block\Widget
 {

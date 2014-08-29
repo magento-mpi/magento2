@@ -6,11 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Controller\Adminhtml\Rate;
+namespace Magento\TaxImportExport\Controller\Adminhtml\Rate;
 
 use \Magento\Framework\App\ResponseInterface;
 
-class ExportXml extends \Magento\Tax\Controller\Adminhtml\Rate
+class ExportXml extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
 {
     /**
      * Export rates grid to XML format
@@ -21,7 +21,7 @@ class ExportXml extends \Magento\Tax\Controller\Adminhtml\Rate
     {
         $this->_view->loadLayout(false);
         $content = $this->_view->getLayout()->getChildBlock('adminhtml.tax.rate.grid', 'grid.export');
-        return $this->_fileFactory->create(
+        return $this->fileFactory->create(
             'rates.xml',
             $content->getExcelFile(),
             \Magento\Framework\App\Filesystem::VAR_DIR
