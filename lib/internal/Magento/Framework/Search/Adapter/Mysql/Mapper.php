@@ -37,7 +37,7 @@ class Mapper
     private $scoreBuilderFactory;
 
     /**
-     * @var \Magento\Framework\Search\Request\Query\Match
+     * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match
      */
     private $matchQueryBuilder;
     /**
@@ -71,6 +71,7 @@ class Mapper
      */
     public function buildQuery(RequestInterface $request)
     {
+        /** @var ScoreBuilder $scoreBuilder */
         $scoreBuilder = $this->scoreBuilderFactory->create();
         $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), self::BOOL_MUST);
         return $select;
