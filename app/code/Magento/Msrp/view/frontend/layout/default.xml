@@ -8,11 +8,10 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <update handle="msrp_popup"/>
-    <referenceContainer name="checkout.cart.totals.container">
-        <block name="checkout.cart.totals.msrp" before="checkout.cart.totals" class="Magento\Msrp\Block\Total" template="cart/totals.phtml">
+    <referenceContainer name="minicart.subtotal.container">
+        <block name="minicart.subtotal.msrp" before="minicart.subtotal" class="Magento\Msrp\Block\Total" template="cart/subtotal.phtml">
             <arguments>
-                <argument name="original_block_name" xsi:type="string">checkout.cart.totals</argument>
+                <argument name="original_block_name" xsi:type="string">minicart.subtotal</argument>
             </arguments>
         </block>
     </referenceContainer>

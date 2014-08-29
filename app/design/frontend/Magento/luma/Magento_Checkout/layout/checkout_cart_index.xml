@@ -32,7 +32,7 @@
     <move element="checkout.cart.crosssell" destination="checkout.cart.container" after="-" />
     <move element="checkout.cart.shipping" destination="cart.summary" after="checkout.cart.summary.title" />
     <move element="checkout.cart.coupon" destination="cart.discount" />
-    <move element="checkout.cart.totals" destination="cart.summary"/>
+    <move element="checkout.cart.totals.container" destination="cart.summary"/>
     <move element="checkout.cart.methods.bottom" destination="cart.summary"/>
     <move element="checkout.cart.shortcut.buttons" destination="checkout.cart.methods" after="checkout.cart.methods.onepage.bottom"/>
 </page>

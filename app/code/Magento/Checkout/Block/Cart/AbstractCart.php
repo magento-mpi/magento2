@@ -150,19 +150,4 @@ class AbstractCart extends \Magento\Framework\View\Element\Template
         }
         return $this->_totals;
     }
-
-    /**
-     * Check if can apply msrp to totals
-     *
-     * @return bool
-     */
-    public function canApplyMsrp()
-    {
-        /** @var \Magento\Msrp\Model\Config $msrpConfig */
-        $msrpConfig = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Msrp\Model\Config');
-        if (!$this->getQuote()->hasCanApplyMsrp() && $msrpConfig->isEnabled()) {
-            $this->getQuote()->collectTotals();
-        }
-        return $this->getQuote()->getCanApplyMsrp();
-    }
 }

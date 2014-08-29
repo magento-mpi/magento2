@@ -9,5 +9,5 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
-    <move element="checkout.cart.giftcardaccount" destination="cart.summary" after="checkout.cart.coupon" before="checkout.cart.totals"/>
+    <move element="checkout.cart.giftcardaccount" destination="cart.summary" after="checkout.cart.coupon" before="checkout.cart.totals.container"/>
 </page>

@@ -1899,4 +1899,5 @@ return array(
     ['removeTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['addTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', '\Magento\UrlRewrite\Model\UrlRewrite'],
+    ['canApplyMsrp', '\Magento\Checkout\Block\Cart\AbstractCart', '\Magento\Msrp\Block\Total']
 );
