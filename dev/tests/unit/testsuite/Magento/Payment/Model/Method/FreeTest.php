@@ -64,14 +64,13 @@ class FreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsAvailable($grandTotal, $isActive, $notEmptyQuote, $result)
     {
+        $quote = null;
         if ($notEmptyQuote) {
             $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
             $quote->expects($this->any())
                 ->method('__call')
                 ->with($this->equalTo('getGrandTotal'))
                 ->will($this->returnValue($grandTotal));
-        } else {
-            $quote = null;
         }
 
         $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
