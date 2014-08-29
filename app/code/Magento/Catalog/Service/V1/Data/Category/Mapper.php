@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Category;
 
-use Magento\Framework\Service\EavDataObjectConverter;
+use Magento\Framework\Service\ExtensibleDataObjectConverter;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\catalog\Service\V1\Data\Category as CategoryDataObject;
 
@@ -36,7 +36,7 @@ class Mapper
         \Magento\Catalog\Model\Category $categoryModel = null
     ) {
         $categoryModel = $categoryModel ?: $this->categoryFactory->create();
-        $data = EavDataObjectConverter::toFlatArray($category);
+        $data = ExtensibleDataObjectConverter::toFlatArray($category);
         /** @see /app/code/Magento/Catalog/Controller/Adminhtml/Category.php method "_filterCategoryPostData" */
         if (isset($data['image']) && is_array($data['image'])) {
             $data['image_additional_data'] = $data['image'];

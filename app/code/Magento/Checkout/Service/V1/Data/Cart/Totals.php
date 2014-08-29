@@ -12,7 +12,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  *
  * @codeCoverageIgnore
  */
-class Totals extends \Magento\Framework\Service\Data\AbstractObject
+class Totals extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /* TOTALS */
     const GRAND_TOTAL = 'grand_total';

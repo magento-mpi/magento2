@@ -12,7 +12,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  *
  * @codeCoverageIgnore
  */
-class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set grand total in quote currency

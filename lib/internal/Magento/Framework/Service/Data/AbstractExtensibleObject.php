@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Data\Eav;
+namespace Magento\Framework\Service\Data;
 
 /**
- * Class EAV AbstractObject
+ * Base Class for extensible data Objects
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractObject extends \Magento\Framework\Service\Data\AbstractObject
+abstract class AbstractExtensibleObject extends AbstractSimpleObject
 {
     /**
      * Array key for custom attributes
@@ -21,7 +22,7 @@ abstract class AbstractObject extends \Magento\Framework\Service\Data\AbstractOb
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Service\Data\Eav\AttributeValue|null The value. Null if the attribute has not been set
+     * @return \Magento\Framework\Service\Data\AttributeValue|null The value. Null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -34,7 +35,7 @@ abstract class AbstractObject extends \Magento\Framework\Service\Data\AbstractOb
     /**
      * Retrieve custom attributes values as an associative array.
      *
-     * @return \Magento\Framework\Service\Data\Eav\AttributeValue[]|null
+     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
      */
     public function getCustomAttributes()
     {
