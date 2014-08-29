@@ -187,24 +187,6 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     }
 
     /**
-     * Get customer last login date
-     *
-     * @return string
-     */
-    public function getLastLoginDate()
-    {
-        return __('Never');
-    }
-
-    /**
-     * @return string
-     */
-    public function getStoreLastLoginDate()
-    {
-        return __('Never');
-    }
-
-    /**
      * @return string
      */
     public function getStoreLastLoginDateTimezone()
@@ -214,14 +196,6 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getCustomer()->getStoreId()
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrentStatus()
-    {
-        return __('Offline');
     }
 
     /**

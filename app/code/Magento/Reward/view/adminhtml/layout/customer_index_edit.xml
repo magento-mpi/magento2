@@ -18,6 +18,6 @@
         </action>
     </referenceBlock>
     <referenceBlock name="customer_edit_tab_view">
-        <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance" name="reward.points.balance" before="-"/>
+        <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance" name="reward.points.balance" after="personal_info"/>
     </referenceBlock>
 </layout>
