@@ -9,8 +9,9 @@
 namespace Magento\Framework\Search\Adapter\Mysql;
 
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\App\Resource\Config;
+use Magento\Framework\App\Resource;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class AdapterTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,7 +71,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
         $this->resource->expects($this->once())
             ->method('getConnection')
-            ->with(Config::DEFAULT_SETUP_CONNECTION)
+            ->with(Resource::DEFAULT_READ_RESOURCE)
             ->will($this->returnValue($this->connectionAdapter));
 
         $this->mapper = $this->getMockBuilder('\Magento\Framework\Search\Adapter\Mysql\Mapper')
@@ -96,15 +97,16 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testQuery()
     {
         $selectResult = [
-            [
+            'documents' => [
                 'id' => 1,
                 'sku' => 'Product'
-            ]
+            ],
+            'aggregations' => []
         ];
 
         $this->connectionAdapter->expects($this->once())
             ->method('fetchAssoc')
-            ->will($this->returnValue($selectResult));
+            ->will($this->returnValue($selectResult['documents']));
         $this->mapper->expects($this->once())
             ->method('buildQuery')
             ->with($this->request)
