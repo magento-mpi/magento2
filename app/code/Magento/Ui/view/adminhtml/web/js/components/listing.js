@@ -12,6 +12,8 @@ define([
 
     return Scope.extend({
         initialize: function(initial, config) {
+            var paging;
+
             _.extend( this, initial );
 
             this.observe({
@@ -33,11 +35,18 @@ define([
                 'paging.current':   this.paging.current,
                 'paging.pageSize':  this.paging.pageSize
             });
+            
+            paging = this.paging;
 
-            this.paging.current.subscribe( this.updatePaging.bind(this) );
-            this.paging.pageSize.subscribe( this.updatePaging.bind(this) );
+            paging.current.subscribe( this.updatePaging.bind(this) );
+            paging.pageSize.subscribe( this.updatePaging.bind(this) );
 
-            this.params = {};
+            this.params = {
+                paging: {
+                    current: paging.current(),
+                    pageSize: paging.pageSize()
+                }
+            };
 
             var adapter = new LocalAdapter(config.resource);
             this.client = new RestClient(adapter);
@@ -92,6 +101,7 @@ define([
         selectAll: function() {
             this.client
                 .read(null)
+                .then(function (result) { return result.rows })
                 .done(this.select.bind(this));
         },
 
@@ -106,7 +116,6 @@ define([
         selectVisible: function() {
             this.select(this.rows());
         },
-
 
         remove: function() {
             var idsToRemove = this.checkedIds();
@@ -158,9 +167,7 @@ define([
         },
 
         updatePaging: function(){
-            var paging = this.paging,
-                size = paging.pageSize(),
-                current = paging.current();
+            var paging = this.paging;
 
             this.setParams({
                 paging: {

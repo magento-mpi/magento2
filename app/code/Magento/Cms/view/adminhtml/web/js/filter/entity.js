@@ -34,7 +34,9 @@ define([
 
             this.target
                 .setParams({ query: query })
-                .reload();
+                .paging.current(1);
+
+            this.target.reload();
         },
 
         _bind: function () {
