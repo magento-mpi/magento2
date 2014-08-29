@@ -27,7 +27,7 @@ class GiftWrapping extends InjectableFixture
 
     protected $defaultDataSet = [
         'design' => 'Gift Wrapping %isolation%',
-        'website_ids' => ['Main Website'],
+        'website_ids' => ['dataSet' => 'main_website'],
         'status' => 'Enabled',
         'base_price' => 10,
     ];

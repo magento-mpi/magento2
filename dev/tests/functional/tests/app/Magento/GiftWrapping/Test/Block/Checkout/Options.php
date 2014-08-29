@@ -49,10 +49,9 @@ class Options extends Block
         $this->_rootElement->find($this->allowGiftOptions)->click();
         $this->_rootElement->find($this->allowGiftOptionsForItems)->click();
         if ($this->_rootElement->find($this->giftWrapping)->isVisible()) {
-            $giftWrappings = $this->_rootElement->find($this->giftWrapping)->getText();
+            return strpos($this->_rootElement->find($this->giftWrapping)->getText(), $giftWrapping->getDesign());
         } else {
             return false;
         }
-        return strpos($giftWrappings, $giftWrapping->getDesign());
     }
 }
