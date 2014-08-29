@@ -51,8 +51,8 @@ class PayflowProTest extends Functional
         //Proceed Checkout on PayPal side
         $paypalCustomer = $fixture->getPaypalCustomer();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        $paypalPage->getLoginBlock()->login($paypalCustomer);
-        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getLoginExpressBlock()->login($paypalCustomer);
+        $paypalPage->getReviewExpressBlock()->continueCheckout();
 
         //Proceed Checkout on Magento side
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
