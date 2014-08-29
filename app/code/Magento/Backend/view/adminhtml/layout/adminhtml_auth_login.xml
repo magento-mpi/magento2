@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <container name="root" label="Root" output="1">
+<page layout="empty" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceContainer name="main.content">
         <block class="Magento\Backend\Block\Template" name="content" template="admin/login.phtml">
             <block class="Magento\Backend\Block\Page\Copyright" name="copyright" as="copyright"/>
             <container name="form.additional.info" label="Form Additional Info"/>
@@ -16,5 +16,5 @@
                 <block class="Magento\Backend\Block\Template" name="adminhtml_auth_login_buttons" template="admin/login_buttons.phtml"/>
             </container>
         </block>
-    </container>
-</layout>
+    </referenceContainer>
+</page>

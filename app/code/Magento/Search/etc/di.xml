@@ -9,7 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Search\Helper\ClientInterface" type="Magento\Search\Helper\Data" />
-    <type name="Magento\CatalogSearch\Model\Fulltext">
+    <type name="Magento\CatalogSearch\Model\Indexer\Fulltext">
         <plugin name="fulltextIndexRebuild" type="Magento\Search\Model\Plugin\FulltextIndexRebuild" />
     </type>
     <type name="Magento\Search\Block\Suggestions">
@@ -19,21 +19,16 @@
     </type>
     <type name="Magento\Search\Model\Layer\Category\Filter\Price">
         <arguments>
-            <argument name="resourceEngine" xsi:type="object">Magento\Search\Model\Resource\Engine\Proxy</argument>
+            <argument name="resourceEngine" xsi:type="object">Magento\Search\Model\Resource\Solr\Engine\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Search\Model\Observer">
         <arguments>
-            <argument name="searchSearchLayer" xsi:type="object">Magento\Catalog\Model\Layer\Search\Proxy</argument>
-            <argument name="searchCatalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category\Proxy</argument>
-            <argument name="indexer" xsi:type="object">Magento\Index\Model\Indexer\Proxy</argument>
             <argument name="searchData" xsi:type="object">Magento\Search\Helper\Data\Proxy</argument>
-            <argument name="coreRegistry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Search\Model\Resource\Engine">
+    <type name="Magento\Search\Model\Resource\Solr\Engine">
         <arguments>
-            <argument name="catalogSearchResourceFulltext" xsi:type="object">Magento\CatalogSearch\Model\Resource\Fulltext\Proxy</argument>
             <argument name="searchResourceIndex" xsi:type="object">Magento\Search\Model\Resource\Index\Proxy</argument>
             <argument name="catalogProductVisibility" xsi:type="object">Magento\Catalog\Model\Product\Visibility\Proxy</argument>
             <argument name="searchResource" xsi:type="object">Magento\Search\Model\Resource\Advanced\Proxy</argument>
@@ -43,7 +38,6 @@
         <arguments>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
             <argument name="resourceIndex" xsi:type="object">Magento\Search\Model\Resource\Index\Proxy</argument>
-            <argument name="resourceFulltext" xsi:type="object">Magento\CatalogSearch\Model\Resource\Fulltext\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Layer\Category">
@@ -69,5 +63,8 @@
     </virtualType>
     <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
         <plugin name="search" type="Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Customer\Model\Resource\Group">
+        <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Search\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
     </type>
 </config>

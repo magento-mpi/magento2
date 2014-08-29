@@ -7,12 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">2columns-right.phtml</argument>
-        </action>
-    </referenceBlock>
+<page layout="2columns-right" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
             <argument name="title" translate="true" xsi:type="string">RSS Feeds</argument>
@@ -21,4 +16,4 @@
     <referenceContainer name="content">
         <block class="Magento\Rss\Block\ListBlock" name="rss.list" template="list.phtml"/>
     </referenceContainer>
-</layout>
+</page>

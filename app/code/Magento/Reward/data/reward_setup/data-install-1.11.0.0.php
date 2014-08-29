@@ -177,7 +177,7 @@ $installer->addAttribute(
 
 $cmsPage = array(
     'title' => 'Reward Points',
-    'root_template' => 'one_column',
+    'page_layout' => '1column',
     'identifier' => 'reward-points',
     'content_heading' => 'Reward Points',
     'is_active' => 1,

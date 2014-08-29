@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="customerbalance.balance">
         <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\Grid" name="customer.balance.grid" as="grid">
             <arguments>
@@ -41,4 +41,4 @@
             </block>
         </block>
     </referenceBlock>
-</layout>
+</page>

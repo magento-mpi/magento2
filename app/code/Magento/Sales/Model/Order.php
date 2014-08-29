@@ -351,13 +351,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     const REPORT_DATE_TYPE_UPDATED = 'updated';
 
-    /*
-     * Identifier for history item
-     *
-     * @var string
-     */
-    const HISTORY_ENTITY_NAME = 'order';
-
     /**
      * @var string
      */
@@ -442,7 +435,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      *
      * @var string
      */
-    protected $_historyEntityName = self::HISTORY_ENTITY_NAME;
+    protected $entityType = 'order';
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -732,8 +725,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
         if (!$this->_canVoidOrder()) {
             return false;
         }
-
-        if (!$this->getPayment()->canReviewPayment() && $this->getPayment()->canFetchTransactionInfo()) {
+        if ($this->canUnhold()) {
+            return false;
+        }
+        if (!$this->canReviewPayment() && $this->canFetchPaymentReviewUpdate()) {
             return false;
         }
 
@@ -1272,7 +1267,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         )->setComment(
             $comment
         )->setEntityName(
-            $this->_historyEntityName
+            $this->entityType
         );
         $this->addStatusHistory($history);
         return $history;
@@ -1286,8 +1281,18 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function setHistoryEntityName($entityName)
     {
-        $this->_historyEntityName = $entityName;
+        $this->entityType = $entityName;
         return $this;
+    }
+
+    /**
+     * Return order entity type
+     *
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return $this->entityType;
     }
 
     /**

@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<page>
     <block class="Magento\Framework\View\Element\Template" template="fixture_template_two.phtml"/>
-</layout>
+</page>
