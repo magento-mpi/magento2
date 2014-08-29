@@ -137,4 +137,27 @@ class Data extends AbstractHelper
     {
         return $this->canApplyMsrp($product, Type::TYPE_BEFORE_ORDER_CONFIRM);
     }
+
+    /**
+     * @param int|Product $product
+     * @return bool|float
+     */
+    public function isMinimalPriceLessMsrp($product)
+    {
+        if (is_numeric($product)) {
+            $product = $this->productFactory->create()
+                ->setStoreId($this->storeManager->getStore()->getId())
+                ->load($product);
+        }
+        $msrp = $product->getMsrp();
+        $price = $product->getPriceInfo()->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
+        if ($msrp === null) {
+            if ($product->getTypeId() !== \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
+                return false;
+            } else {
+                $msrp = $product->getTypeInstance()->getChildrenMsrp($product);
+            }
+        }
+        return $msrp > $price->getValue();
+    }
 }

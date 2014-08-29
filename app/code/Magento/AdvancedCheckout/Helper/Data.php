@@ -464,7 +464,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if ($this->msrpData->canApplyMsrp($itemProduct)) {
+                        if ($this->msrpData->canApplyMsrp($itemProduct)
+                            && $this->msrpData->isMinimalPriceLessMsrp($itemProduct)
+                        ) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 $this->_storeManager->getStore()->formatPrice(

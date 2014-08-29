@@ -98,15 +98,6 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
      */
     public function isMinimalPriceLessMsrp(Product $product)
     {
-        $msrp = $product->getMsrp();
-        $price = $product->getPriceInfo()->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
-        if ($msrp === null) {
-            if ($product->getTypeId() !== \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
-                return false;
-            } else {
-                $msrp = $product->getTypeInstance()->getChildrenMsrp($product);
-            }
-        }
-        return $msrp > $price->getValue();
+        return $this->msrpData->isMinimalPriceLessMsrp($product);
     }
 }

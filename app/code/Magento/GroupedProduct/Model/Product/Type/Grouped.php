@@ -476,7 +476,9 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     {
         $prices = [];
         foreach ($this->getAssociatedProducts($product) as $item) {
-            $prices[] = $item->getMsrp();
+            if ($item->getMsrp() !== null) {
+                $prices[] = $item->getMsrp();
+            }
         }
         return min($prices);
     }

@@ -42,7 +42,10 @@ class Total extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $canApplyMsrp = false;
         foreach ($items as $item) {
-            if (!$item->getParentItemId() && $this->msrpData->isShowBeforeOrderConfirm($item->getProductId())) {
+            if (!$item->getParentItemId()
+                    && $this->msrpData->isShowBeforeOrderConfirm($item->getProductId())
+                    && $this->msrpData->isMinimalPriceLessMsrp($item->getProductId())
+            ) {
                 $canApplyMsrp = true;
                 break;
             }
