@@ -18,13 +18,6 @@ class PreventClearCheckoutSession
     protected $_customerSession;
 
     /**
-     * Checkout session
-     *
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $_checkoutSession;
-
-    /**
      * Persistent session
      *
      * @var \Magento\Persistent\Helper\Session
@@ -41,18 +34,15 @@ class PreventClearCheckoutSession
     /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
-     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Persistent\Helper\Data $persistentData,
-        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_persistentData = $persistentData;
-        $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
     }
 

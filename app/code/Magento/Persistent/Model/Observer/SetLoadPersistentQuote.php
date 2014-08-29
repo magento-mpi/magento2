@@ -41,9 +41,9 @@ class SetLoadPersistentQuote
 
     /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
-     * @param \Magento\Persistent\Helper\Data $quoteManager
+     * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Persistent\Model\Persistent\ConfigFactory $eventManager
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
@@ -66,8 +66,7 @@ class SetLoadPersistentQuote
      */
     public function execute($observer)
     {
-        if (!(
-            ($this->_persistentSession->isPersistent() && !$this->_customerSession->isLoggedIn())
+        if (!(($this->_persistentSession->isPersistent() && !$this->_customerSession->isLoggedIn())
             && !$this->_persistentData->isShoppingCartPersist()
         )) {
             return;
