@@ -65,11 +65,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $taxCalculationService;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
-
-    /**
      * @param Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
@@ -80,7 +75,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
      * @param TaxCalculationServiceInterface $taxCalculationService
-     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
      */
     public function __construct(
@@ -94,7 +88,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         TaxCalculationServiceInterface $taxCalculationService,
-        \Magento\Framework\View\Page\Config $pageConfig,
         array $data = array()
     ) {
         $this->_productHelper = $productHelper;
@@ -106,7 +99,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         $this->_localeFormat = $localeFormat;
         $this->customerSession = $customerSession;
         $this->taxCalculationService = $taxCalculationService;
-        $this->pageConfig = $pageConfig;
         parent::__construct(
             $context,
             $data

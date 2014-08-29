@@ -33,16 +33,10 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
     protected $_categoryHelper;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Helper\Category $categoryHelper
-     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
      */
     public function __construct(
@@ -50,13 +44,11 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\Category $categoryHelper,
-        \Magento\Framework\View\Page\Config $pageConfig,
         array $data = array()
     ) {
         $this->_categoryHelper = $categoryHelper;
         $this->_catalogLayer = $catalogLayer;
         $this->_coreRegistry = $registry;
-        $this->pageConfig = $pageConfig;
         parent::__construct($context, $data);
     }
 

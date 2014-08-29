@@ -54,7 +54,6 @@ class Page extends Layout
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
-     * @param View\Page\Config $pageConfig
      * @param \Magento\Framework\View\Page\Config\Renderer $pageConfigRenderer
      * @param string $pageType
      * @param array $data
@@ -63,12 +62,10 @@ class Page extends Layout
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
         \Magento\Framework\Translate\InlineInterface $translateInline,
-        View\Page\Config $pageConfig,
         View\Page\Config\Renderer $pageConfigRenderer,
         $pageType,
         array $data = array()
     ) {
-        $this->pageConfig = $pageConfig;
         $this->pageType = $pageType;
         $this->pageConfigRenderer = $pageConfigRenderer;
         parent::__construct($context, $layoutFactory, $translateInline, $data);

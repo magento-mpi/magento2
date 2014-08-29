@@ -57,7 +57,6 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         TaxCalculationServiceInterface $taxCalculationService,
-        \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
@@ -73,7 +72,6 @@ class View extends \Magento\Catalog\Block\Product\View
             $localeFormat,
             $customerSession,
             $taxCalculationService,
-            $pageConfig,
             $data
         );
     }
