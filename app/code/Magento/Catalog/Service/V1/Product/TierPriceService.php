@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,9 +9,9 @@ namespace Magento\Catalog\Service\V1\Product;
 
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ProductRepository;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Data\Product;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
 
 class TierPriceService implements TierPriceServiceInterface
 {
@@ -72,7 +71,6 @@ class TierPriceService implements TierPriceServiceInterface
 
     /**
      * {@inheritdoc}
-     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -164,10 +162,12 @@ class TierPriceService implements TierPriceServiceInterface
             if ((is_numeric($customerGroupId) && intval($price['cust_group']) === intval($customerGroupId))
                 || ($customerGroupId === 'all' && $price['all_groups'])
             ) {
-                $this->priceBuilder->populateWithArray(array(
-                    Product\TierPrice::VALUE => $price[$priceKey],
-                    Product\TierPrice::QTY => $price['price_qty']
-                ));
+                $this->priceBuilder->populateWithArray(
+                    array(
+                        Product\TierPrice::VALUE => $price[$priceKey],
+                        Product\TierPrice::QTY => $price['price_qty']
+                    )
+                );
                 $prices[] = $this->priceBuilder->create();
             }
         }

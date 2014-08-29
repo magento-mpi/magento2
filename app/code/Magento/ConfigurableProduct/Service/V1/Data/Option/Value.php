@@ -5,9 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Service\V1\Data\Option;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Value extends \Magento\Framework\Service\Data\AbstractObject
 {
     const INDEX = 'index';
