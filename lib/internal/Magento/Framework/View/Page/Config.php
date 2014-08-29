@@ -102,6 +102,16 @@ class Config
     /**
      * @var array
      */
+    protected $includes;
+
+    /**
+     * @var \Magento\Translation\Block\Js
+     */
+    protected $jsTranslation;
+
+    /**
+     * @var array
+     */
     protected $metadata = [
         'charset' => null,
         'media_type' => null,
@@ -118,6 +128,7 @@ class Config
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Translation\Block\Js $jsTranslation
      */
     public function __construct(
         \Magento\Framework\View\Asset\Repository $assetRepo,
@@ -125,7 +136,8 @@ class Config
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Translation\Block\Js $jsTranslation
     ) {
         $this->assetRepo = $assetRepo;
         $this->pageAssets = $pageAssets;
@@ -133,6 +145,7 @@ class Config
         $this->fileStorageDatabase = $fileStorageDatabase;
         $this->storeManager = $storeManager;
         $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->jsTranslation = $jsTranslation;
     }
 
     /**
@@ -546,5 +559,31 @@ class Config
             $this->fileStorageDatabase->saveFileToFilesystem($filename);
         }
         return $this->mediaDirectory->isFile($filename);
+    }
+
+    /**
+     * Get miscellaneous scripts/styles to be included in head before head closing tag
+     *
+     * @return string
+     */
+    public function getIncludes()
+    {
+        if (empty($this->includes)) {
+            $this->includes = $this->scopeConfig->getValue(
+                'design/head/includes',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+        }
+        return $this->includes;
+    }
+
+    /**
+     * Get translation js script
+     *
+     * @return string
+     */
+    public function getTranslatorScript()
+    {
+        return $this->jsTranslation->render();
     }
 }
