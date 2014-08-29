@@ -76,6 +76,6 @@ class Switcher extends Block
      */
     public function isStoreViewDropdownVisible()
     {
-       return $this->_rootElement->find($this->dropDownButton)->isVisible();
+        return $this->_rootElement->find($this->dropDownButton)->isVisible();
     }
 }
