@@ -6,7 +6,7 @@ define([
 
     return Scope.extend({
         initialize: function(initial, config, listing) {
-            this.listing = listing;
+            this.target = listing;
 
             _.extend( this, initial );
 
@@ -17,8 +17,8 @@ define([
 
             this.setParams();
 
-            this.current.subscribe( this.onChange.bind(this) );
-            this.pageSize.subscribe( this.onChange.bind(this) );
+            this.current.subscribe( this.reloadTarget.bind(this) );
+            this.pageSize.subscribe( this.reloadTarget.bind(this) );
         },
 
         go: function( val ){
@@ -43,12 +43,8 @@ define([
             return +this.current() === 1;
         },
 
-        getViewTemplate: function () {
-            return 'Magento_Ui.templates.pagination.toolbar';
-        },
-
         setParams: function(){
-            this.listing.setParams({
+            this.target.setParams({
                 paging: {
                     pageSize: this.pageSize(),
                     current: this.current()
@@ -58,12 +54,8 @@ define([
             return this;
         },
 
-        onChange: function(){
-            this.setParams().listing.reload();
-        },
-
-        onReload: function(){
-            console.log('hello');
+        reloadTarget: function(){
+            this.setParams().target.reload();
         }
     });
 

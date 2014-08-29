@@ -7,6 +7,7 @@ define([
 
     initialize: function (listing) {
       this.target = listing;
+      this.populate();
     },
 
     reloadListing: function () {

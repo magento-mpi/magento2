@@ -91,12 +91,12 @@ define([
                     break;
                 }
 
-                result.push(arr.slice(bottomMargin, topMargin));
+                result.push(storage.slice(bottomMargin, topMargin));
 
-                bottomMargin += cachedPageSize;
+                bottomMargin += pageSize;
                 topMargin    += pageSize;
             }
-
+            
             return result;
         },
 

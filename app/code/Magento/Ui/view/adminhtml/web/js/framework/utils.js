@@ -29,12 +29,12 @@ define(['_'], function(_) {
             var parent = this,
                 child,
                 args,
-                hasCosntructor;
+                hasConstructor;
 
             protoProps      = protoProps || {};
-            hasCosntructor  = protoProps.hasOwnProperty('constructor');
+            hasConstructor  = protoProps.hasOwnProperty('constructor');
 
-            child = hasCosntructor ?
+            child = hasConstructor ?
                 protoProps.constructor :
                 function() {
                     return parent.apply(this, arguments);

@@ -11,6 +11,7 @@ define([
 
     return Scope.extend({
         initialize: function(initial, config) {
+            
             this.observe({
                 rows:           initial.rows,
                 fields:         initial.fields,
