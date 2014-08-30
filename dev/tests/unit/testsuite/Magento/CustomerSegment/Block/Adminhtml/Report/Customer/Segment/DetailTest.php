@@ -101,7 +101,16 @@ class DetailTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->model = null;
+        unset(
+            $this->model,
+            $this->segment,
+            $this->registry,
+            $this->urlBuilder,
+            $this->layout,
+            $this->storeManager,
+            $this->buttonList,
+            $this->context
+        );
     }
 
     public function testGetRefreshUrl()

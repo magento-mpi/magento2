@@ -51,7 +51,12 @@ class AbstractCombineTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->model = null;
+        unset(
+            $this->model,
+            $this->context,
+            $this->conditionFactory,
+            $this->resourceSegment
+        );
     }
 
     public function testGetMatchedEvents()

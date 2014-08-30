@@ -49,10 +49,12 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unset($this->model);
-        unset($this->objectManager);
-        unset($this->abstractCondition);
-        unset($this->context);
+        unset(
+            $this->model,
+            $this->objectManager,
+            $this->abstractCondition,
+            $this->context
+        );
     }
 
     public function testCreate()

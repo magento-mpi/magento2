@@ -44,7 +44,11 @@ class AbstractConditionTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->model = null;
+        unset(
+            $this->model,
+            $this->context,
+            $this->resourceSegment
+        );
     }
 
     public function testGetMatchedEvents()

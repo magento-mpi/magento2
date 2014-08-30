@@ -104,7 +104,16 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->model = null;
+        unset(
+            $this->model,
+            $this->segment,
+            $this->registry,
+            $this->urlBuilder,
+            $this->buttonList,
+            $this->request,
+            $this->escaper,
+            $this->context
+        );
     }
 
     public function testGetMatchUrl()

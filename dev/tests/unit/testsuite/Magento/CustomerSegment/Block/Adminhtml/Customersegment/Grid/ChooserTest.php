@@ -91,7 +91,16 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->model = null;
+        unset(
+            $this->model,
+            $this->helper,
+            $this->store,
+            $this->segmentFactory,
+            $this->request,
+            $this->filesystem,
+            $this->urlBuilder,
+            $this->context
+        );
     }
 
     public function testGetRowClickCallback()
