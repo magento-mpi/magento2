@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model;
 
 /**
  * Class UtilityTest
  *
- * @package Magento\SalesRule\Model
  */
 class UtilityTest extends \PHPUnit_Framework_TestCase
 {
@@ -526,5 +524,9 @@ class UtilityTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->utility, $this->utility->deltaRoundingFix($discountData, $this->item));
         $this->assertEquals($this->utility, $this->utility->deltaRoundingFix($discountData, $this->item));
     }
+
+    public function testResetRoundingDeltas()
+    {
+        $this->assertNull($this->utility->resetRoundingDeltas());
+    }
 }
- 

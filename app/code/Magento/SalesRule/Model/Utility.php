@@ -262,4 +262,13 @@ class Utility
         }
         return $a;
     }
+
+    /**
+     * @return void
+     */
+    public function resetRoundingDeltas()
+    {
+        $this->_roundingDeltas = [];
+        $this->_baseRoundingDeltas = [];
+    }
 }
