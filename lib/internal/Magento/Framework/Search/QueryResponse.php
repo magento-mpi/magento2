@@ -22,15 +22,15 @@ class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
     /**
      * Aggregation Collection
      *
-     * @var Aggregation[]
+     * @var Document
      */
     protected $aggregations;
 
     /**
      * @param Document[] $documents
-     * @param Aggregation[] $aggregations
+     * @param Document $aggregations
      */
-    public function __construct(array $documents, array $aggregations)
+    public function __construct(array $documents, Document $aggregations)
     {
         $this->documents = $documents;
         $this->aggregations = $aggregations;
@@ -38,6 +38,7 @@ class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
 
     /**
      * Countable: return count of fields in document
+     *
      * @return int
      */
     public function count()
