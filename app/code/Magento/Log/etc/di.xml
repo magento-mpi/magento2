@@ -13,7 +13,4 @@
             <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManager\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Block\Adminhtml\Edit\Tab\View">
-        <plugin name="customer_log" type="Magento\Log\Block\Adminhtml\Edit\Tab\View\Plugin"/>
-    </type>
 </config>

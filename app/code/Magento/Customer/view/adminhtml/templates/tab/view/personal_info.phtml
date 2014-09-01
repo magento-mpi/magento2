@@ -20,7 +20,7 @@ $createDateStore    = $this->getStoreCreateDate();
     </div>
     <table class="data-table">
         <tbody>
-        <?php echo $this->getChildHtml('', true); ?>
+        <?php echo $this->getChildHtml(); ?>
         <tr>
             <th><?php echo __('Confirmed email:') ?></th>
             <td><?php echo $this->getIsConfirmedStatus() ?></td>
