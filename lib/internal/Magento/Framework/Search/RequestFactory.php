@@ -89,7 +89,7 @@ class RequestFactory
                 'objectManager' => $this->objectManager,
                 'rootQueryName' => $data['query'],
                 'queries' => $data['queries'],
-                'aggregation' => $data['aggregation'],
+                'aggregations' => $data['aggregations'],
                 'filters' => $data['filters']
             ]
         );

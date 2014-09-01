@@ -35,7 +35,7 @@ class Mapper
     /**
      * @var array
      */
-    private $aggregation;
+    private $aggregations;
 
     /**
      * @var \Magento\Framework\ObjectManager
@@ -51,7 +51,7 @@ class Mapper
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param array $queries
      * @param string $rootQueryName
-     * @param array $aggregation
+     * @param array $aggregations
      * @param array $filters
      * @throws \Exception
      * @throws \InvalidArgumentException
@@ -61,12 +61,12 @@ class Mapper
         \Magento\Framework\ObjectManager $objectManager,
         array $queries,
         $rootQueryName,
-        array $aggregation,
+        array $aggregations,
         array $filters = []
     ) {
         $this->objectManager = $objectManager;
         $this->queries = $queries;
-        $this->aggregation = $aggregation;
+        $this->aggregations = $aggregations;
         $this->filters = $filters;
 
         $this->rootQuery = $this->get($rootQueryName);
@@ -304,7 +304,7 @@ class Mapper
     public function getBuckets()
     {
         $buckets = array();
-        foreach ($this->aggregation as $bucketData) {
+        foreach ($this->aggregations as $bucketData) {
             $arguments =
             [
                 'name' => $bucketData['name'],
