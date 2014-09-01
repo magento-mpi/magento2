@@ -12,13 +12,19 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ActionFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Rule\Model\ActionFactory */
+    /**
+     * @var \Magento\Rule\Model\ActionFactory
+     */
     protected $actionFactory;
 
-    /** @var ObjectManagerHelper */
+    /**
+     * @var ObjectManagerHelper
+     */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $objectManagerMock;
 
     protected function setUp()

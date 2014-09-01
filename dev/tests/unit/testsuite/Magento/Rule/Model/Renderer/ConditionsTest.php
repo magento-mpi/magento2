@@ -29,7 +29,6 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->conditions = $this->objectManagerHelper->getObject('Magento\Rule\Model\Renderer\Conditions');
         $this->_element = $this->getMock(
