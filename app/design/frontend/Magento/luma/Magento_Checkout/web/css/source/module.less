@@ -264,9 +264,6 @@
                 border-bottom: @border-width-base solid @border-color-base;
             }
         }
-        th.col.subtotal {
-            text-align: center;
-        }
         .col {
             &.price,
             &.qty {
@@ -276,6 +273,10 @@
             &.subtotal {
                 text-align: right;
                 white-space: nowrap;
+            }
+            &.price,
+            &.subtotal {
+                &:extend(.abstract-incl-excl-tax all);
             }
         }
         .amount {
@@ -295,7 +296,7 @@
             .font-size(18);
             font-weight: @font-weight-light;
         }
-        .cart.price {
+        .cart-price {
             color: @color-primary-lighter;
             .font-size(16);
             font-weight: @font-weight-bold;
@@ -342,14 +343,17 @@
 //
 //    Checkout Progress
 //--------------------------------------
+.opc-block-progress-wrapper {
+    margin-top: 20px;
+    margin-bottom: @indent-l-base;
+}
+
 .opc-block-progress {
     display: none;
     &.order-review-step {
         display: block;
     }
     &:extend(.add-box-sizing all);
-    margin-top: 20px;
-    margin-bottom: @indent-l-base;
     > .title {
         background: @sidebar-background;
         .font-size(18);

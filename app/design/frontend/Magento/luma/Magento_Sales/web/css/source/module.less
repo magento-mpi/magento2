@@ -129,6 +129,9 @@
     }
     .cart-tax-total {
         &:extend(.abstract-tax-total all);
+        &-expanded {
+            &:extend(.abstract-tax-total-expanded all);
+        }
     }
     tfoot {
         td {
@@ -324,9 +327,8 @@
         .col {
             &.price,
             &.subtotal {
-                .incl.tax,
-                .excl.tax,
-                .incl.tax + .excl.tax {
+                .price-including-tax,
+                .price-excluding-tax {
                     display: inline-block;
                 }
             }

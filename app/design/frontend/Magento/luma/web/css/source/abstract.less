@@ -714,7 +714,8 @@
 //    Excl/Incl tax
 //--------------------------------------
 .abstract-incl-excl-tax {
-    .tax {
+    .price-including-tax,
+    .price-excluding-tax {
         color: @cart-price-color;
         display: block;
         .font-size(18);
@@ -724,18 +725,19 @@
         }
     }
 
-    .incl.tax + .excl.tax,
-    .weee {
-        display: block;
-        .font-size(18);
-        &:before {
-            content: attr(data-th) ": ";
-            .font-size(11);
-        }
-        .price {
-            .font-size(11);
-        }
-    }
+//// TODO: !!!
+//    .incl.tax + .excl.tax,
+//    .weee {
+//        display: block;
+//        .font-size(18);
+//        &:before {
+//            content: attr(data-th) ": ";
+//            .font-size(11);
+//        }
+//        .price {
+//            .font-size(11);
+//        }
+//    }
 }
 
 //
@@ -757,12 +759,13 @@
         right: 0;
         top: 4px;
     }
-    &-expanded {
-        .icon-font-symbol(
-            @_icon-font-content: @icon-up,
-            @_icon-font-position: after
-        );
-    }
+}
+
+.abstract-tax-total-expanded {
+    .icon-font-symbol(
+        @_icon-font-content: @icon-up,
+        @_icon-font-position: after
+    );
 }
 
 //

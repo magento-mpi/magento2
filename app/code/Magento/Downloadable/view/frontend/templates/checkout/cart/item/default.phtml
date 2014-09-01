@@ -63,7 +63,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         </td>
     <?php if ($canApplyMsrp): ?>
         <td class="col msrp">
-            <span class="cart price">
+            <span class="cart-price">
                 <span class="msrp notice"><?php echo __('See price before order confirmation.'); ?></span>
                 <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
                 <a id="<?php echo $helpLinkId ?>" href="#" class="action help map"><?php echo __("What's this?"); ?></a>

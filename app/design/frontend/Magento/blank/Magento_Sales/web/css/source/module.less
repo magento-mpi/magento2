@@ -32,13 +32,10 @@
         }
     }
     .col {
-        &.price,
-        &.subtotal {
-            &:extend(.abstract-incl-excl-tax all);
-        }
-    }
-    .cart-tax-total {
-        &:extend(.abstract-tax-total all);
+//        &.price,
+//        &.subtotal {
+//            &:extend(.abstract-incl-excl-tax all);
+//        }
     }
     .items-qty {
         &:extend(.reset-list all);
@@ -182,8 +179,8 @@
                 .col {
                     &.price,
                     &.subtotal {
-                        .tax,
-                        .incl.tax + .excl.tax,
+                        .price-including-tax,
+                        .price-excluding-tax,
                         .weee {
                             display: inline-block;
                         }

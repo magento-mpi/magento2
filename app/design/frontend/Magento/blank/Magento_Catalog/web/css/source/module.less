@@ -174,8 +174,19 @@
     }
 
     .price-box {
-        .price {
-            font-size: @font-size-l;
+        .price-including-tax + .price-excluding-tax,
+        .weee + .price-excluding-tax,
+        .weee {
+            .font-size(12);
+            margin-bottom: 5px;
+            line-height: 14px;
+            .price {
+                .font-size(12);
+                font-weight: @font-weight-bold;
+            }
+        }
+        .price-wrapper .price {
+            .font-size(18);
             font-weight: @font-weight-bold;
         }
     }
@@ -212,18 +223,22 @@
     }
 }
 
-.prices.tier.items {
+.prices-tier {
     &:extend(.reset-list all);
     background: @sidebar-background;
     padding: @indent-s-base (0.75 * @indent-base);
     margin: @indent-s-base 0;
-}
-
-.minimal-price-link,
-.price-excluding-tax,
-.price-including-tax {
-    white-space: nowrap;
-    display: block;
+    .price-tier_price {
+        display: inline-block;
+    }
+    .price-including-tax,
+    .price-excluding-tax,
+    .weee {
+        display: inline-block;
+        .price {
+            .font-size(14);
+        }
+    }
 }
 
 .ui-dialog-titlebar-close {

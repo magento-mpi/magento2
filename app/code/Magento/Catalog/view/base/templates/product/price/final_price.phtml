@@ -21,7 +21,7 @@ $finalPriceModel = $this->getPriceType('final_price');
 <?php if ($this->hasSpecialPrice()): ?>
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel->getAmount(), [
-            'display_label'     => __('Regular Price:'),
+            'display_label'     => __('Regular Price'),
             'price_id'          => $this->getPriceId('old-price-'),
             'include_container' => true,
             'skip_adjustments'  => true
@@ -29,7 +29,7 @@ $finalPriceModel = $this->getPriceType('final_price');
     </p>
     <p class="special-price">
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
-            'display_label'     => __('Special Price:'),
+            'display_label'     => __('Special Price'),
             'price_id'          => $this->getPriceId('product-price-'),
             'include_container' => false
         ]); ?>

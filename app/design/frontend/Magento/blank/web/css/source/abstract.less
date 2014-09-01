@@ -435,27 +435,27 @@
 //    Excl/Incl tax
 //--------------------------------------
 .abstract-incl-excl-tax {
-    .tax {
-        display: block;
-        .font-size(18);
-        line-height: 1;
-        .price {
-            font-weight: @font-weight-bold;
-        }
-    }
-
-    .incl.tax + .excl.tax,
-    .weee {
-        display: block;
-        .font-size(18);
-        &:before {
-            content: attr(data-th) ": ";
-            .font-size(11);
-        }
-        .price {
-            .font-size(11);
-        }
-    }
+//    .tax {
+//        display: block;
+//        .font-size(18);
+//        line-height: 1;
+//        .price {
+//            font-weight: @font-weight-bold;
+//        }
+//    }
+//
+//    .incl.tax + .excl.tax,
+//    .weee {
+//        display: block;
+//        .font-size(18);
+//        &:before {
+//            content: attr(data-th) ": ";
+//            .font-size(11);
+//        }
+//        .price {
+//            .font-size(11);
+//        }
+//    }
 }
 
 //
@@ -483,6 +483,13 @@
             @_icon-font-position: after
         );
     }
+}
+
+.abstract-tax-total-expanded {
+    .icon-font-symbol(
+        @_icon-font-content: @icon-up,
+        @_icon-font-position: after
+    );
 }
 
 //
