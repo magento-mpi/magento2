@@ -30,7 +30,6 @@ class LockValidator implements LockValidatorInterface
      * @param \Magento\Framework\Model\AbstractModel $object
      * @param null $attributeSet
      * @throws \Magento\Framework\Model\Exception
-     *
      * @return void
      */
     public function validate(\Magento\Framework\Model\AbstractModel $object, $attributeSet = null)

@@ -8,9 +8,12 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class DownloadableLinkInfo extends AbstractObject
+/**
+ * @codeCoverageIgnore
+ */
+class DownloadableLinkInfo extends AbstractExtensibleObject
 {
     const ID = 'id';
 

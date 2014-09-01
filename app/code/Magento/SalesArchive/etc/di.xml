@@ -8,6 +8,8 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\SalesArchive\Service\V1\WriteServiceInterface" type="Magento\SalesArchive\Service\V1\WriteService"/>
+    <preference for="Magento\SalesArchive\Service\V1\ReadServiceInterface" type="Magento\SalesArchive\Service\V1\ReadService"/>
     <type name="Magento\SalesArchive\Model\Observer">
         <arguments>
             <argument name="config" xsi:type="object">Magento\SalesArchive\Model\Config\Proxy</argument>
