@@ -74,6 +74,11 @@ class SaveBillingTest extends \PHPUnit_Framework_TestCase
      */
     protected $coreHelper;
 
+    /**
+     * @var \Magento\Framework\View\LayoutFactory | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $layoutFactory;
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -85,7 +90,7 @@ class SaveBillingTest extends \PHPUnit_Framework_TestCase
         $this->view = $this->getMock('Magento\Framework\App\View', [], [], '', false);
         $this->quote = $this->getMock(
             'Magento\Sales\Model\Quote',
-            ['getHasError', 'hasItems', 'validateMinimumAmount', 'isVirtual', 'getStoreId'],
+            ['__wakeup', 'getHasError', 'hasItems', 'validateMinimumAmount', 'isVirtual', 'getStoreId'],
             [],
             '',
             false
@@ -112,6 +117,7 @@ class SaveBillingTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap($valueMap));
+        $this->layoutFactory = $this->getMock('Magento\Framework\View\LayoutFactory', ['create'], [], '', false);
 
         //Context mock initialization
         $context = $this->getMock('Magento\Framework\App\Action\Context', [], [], '', false);
@@ -135,7 +141,8 @@ class SaveBillingTest extends \PHPUnit_Framework_TestCase
             'Magento\Checkout\Controller\Onepage\SaveBilling',
             [
                 'context' => $context,
-                'scopeConfig' => $this->scopeConfig
+                'scopeConfig' => $this->scopeConfig,
+                'layoutFactory' => $this->layoutFactory
             ]
         );
     }
@@ -177,16 +184,23 @@ class SaveBillingTest extends \PHPUnit_Framework_TestCase
             ->method('getPost')
             ->willReturn($data);
 
-        $layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
-        $update = $this->getMock('Magento\Core\Model\Layout\Merge', [], [], '', false);
+        $layout = $this->getMock(
+            'Magento\Framework\View\Layout',
+            ['getUpdate', 'generateXml', 'generateElements', 'getOutput'],
+            [],
+            '',
+            false
+        );
+        $this->layoutFactory->expects($this->once())
+            ->method('create')
+            ->willReturn($layout);
+
+        $update = $this->getMock('Magento\Core\Model\Layout\Merge', ['load'], [], '', false);
         $layout->expects($this->any())
             ->method('getUpdate')
             ->willReturn($update);
-
-        $this->view->expects($this->once())
-            ->method('getLayout')
-            ->willReturn($layout);
-
+        $update->expects($this->once())
+            ->method('load');
         $this->coreHelper->expects($this->once())
             ->method('jsonEncode')
             ->with($expectedResult);
