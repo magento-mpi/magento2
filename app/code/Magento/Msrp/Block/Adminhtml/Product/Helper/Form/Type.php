@@ -48,9 +48,7 @@ class Type extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
     }
 
     /**
-     * Get the html.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function toHtml()
     {

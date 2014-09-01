@@ -38,15 +38,13 @@ class Price extends \Magento\Framework\Data\Form\Element\Select
     }
 
     /**
-     * Get the html.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function toHtml()
     {
-        if ($this->config->isEnabled()) {
-            return parent::toHtml();
+        if (!$this->config->isEnabled()) {
+            return '';
         }
-        return '';
+        return parent::toHtml();
     }
 }

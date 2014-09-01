@@ -55,7 +55,7 @@ $installer->addAttribute(
         'visible' => true,
         'required' => false,
         'user_defined' => false,
-        'default' => '',
+        'default' => \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG,
         'default_value' => \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG,
         'apply_to' => $productTypes,
         'input_renderer' => 'Magento\Msrp\Block\Adminhtml\Product\Helper\Form\Type\Price',

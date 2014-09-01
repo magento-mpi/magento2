@@ -71,6 +71,8 @@ class Data extends AbstractHelper
      * @param int|Product $product
      * @param int|null $visibility Check displaying price in concrete place (by default generally)
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function canApplyMsrp($product, $visibility = null)
     {

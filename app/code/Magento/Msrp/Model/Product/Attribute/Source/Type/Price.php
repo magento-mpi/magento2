@@ -22,14 +22,14 @@ class Price extends \Magento\Msrp\Model\Product\Attribute\Source\Type
      *
      * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
      */
-    protected $_entityAttributeFactory;
+    protected $entityAttributeFactory;
 
     /**
      * Eav resource helper
      *
      * @var \Magento\Eav\Model\Resource\Helper
      */
-    protected $_eavResourceHelper;
+    protected $eavResourceHelper;
 
     /**
      * Construct
@@ -41,7 +41,8 @@ class Price extends \Magento\Msrp\Model\Product\Attribute\Source\Type
         \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory,
         \Magento\Eav\Model\Resource\Helper $eavResourceHelper
     ) {
-        $this->_eavResourceHelper = $eavResourceHelper;
+        $this->entityAttributeFactory = $entityAttributeFactory;
+        $this->eavResourceHelper = $eavResourceHelper;
     }
 
     /**
@@ -75,7 +76,7 @@ class Price extends \Magento\Msrp\Model\Product\Attribute\Source\Type
                 'unsigned' => false,
                 'default' => null,
                 'extra' => null,
-                'type' => $this->_eavResourceHelper->getDdlTypeByColumnType($attributeType),
+                'type' => $this->eavResourceHelper->getDdlTypeByColumnType($attributeType),
                 'nullable' => true,
             ],
         ];
@@ -89,6 +90,6 @@ class Price extends \Magento\Msrp\Model\Product\Attribute\Source\Type
      */
     public function getFlatUpdateSelect($store)
     {
-        return $this->_entityAttributeFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->entityAttributeFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

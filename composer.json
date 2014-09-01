@@ -76,6 +76,7 @@
         "magento/module-layered-navigation": "self.version",
         "magento/module-log": "self.version",
         "magento/module-logging": "self.version",
+        "magento/module-msrp": "self.version",
         "magento/module-multiple-wishlist": "self.version",
         "magento/module-multishipping": "self.version",
         "magento/module-newsletter": "self.version",
