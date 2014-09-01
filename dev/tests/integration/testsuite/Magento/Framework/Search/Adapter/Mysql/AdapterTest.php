@@ -39,7 +39,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Search\Request\Config $config */
         $config = $this->objectManager->create('Magento\Framework\Search\Request\Config');
-        $config->merge($requestConfig); // need to fix
+        $config->merge($requestConfig);
 
         /** @var \Magento\Framework\Search\RequestFactory $requestFactory */
         $this->requestFactory = $this->objectManager->create(
@@ -58,16 +58,15 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store catalog/search/search_type 2
      * @magentoDataFixture Magento/Framework/Search/_files/products.php
      */
-    public function testQuery()
+    public function testOneMatchQuery()
     {
         $bindValues = [
             '%request.title%' => 'socks',
-            '%request.description%' => 'socks',
         ];
-        $requestName = 'suggested_search_container';
+        $requestName = 'one_match';
 
         $queryResponse = $this->executeQuery($requestName, $bindValues);
-        var_dump($queryResponse->getIterator());
+        $this->assertEquals(1, $queryResponse->count());
     }
 
     private function executeQuery($requestName, $bindValues)
