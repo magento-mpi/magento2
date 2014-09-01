@@ -38,10 +38,13 @@ class AssertStoreFrontend extends AbstractConstraint
 
         $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible();
         if (!$isStoreViewVisible) {
-            $cmsIndex->getFooterBlock()->selectStoreGroup($store);
-            $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible() === false
-                ? true
-                : $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
+            if ($cmsIndex->getFooterBlock()->isStoreGroupSwitcherVisible()) {
+                $cmsIndex->getFooterBlock()->selectStoreGroup($store);
+            } else {
+                $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible() === false
+                    ? true
+                    : $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
+            }
         } else {
             $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
         }

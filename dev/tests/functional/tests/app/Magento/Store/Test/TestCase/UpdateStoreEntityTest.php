@@ -73,7 +73,7 @@ class UpdateStoreEntityTest extends Injectable
 
         // Steps:
         $this->storeIndex->open();
-        $this->storeIndex->getStoreGrid()->editStore($storeInitial->getName());
+        $this->storeIndex->getStoreGrid()->searchAndOpenStore($storeInitial);
         $this->storeNew->getStoreForm()->fill($store);
         $this->storeNew->getFormPageActions()->save();
     }

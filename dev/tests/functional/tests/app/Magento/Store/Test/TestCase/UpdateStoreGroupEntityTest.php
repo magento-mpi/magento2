@@ -77,7 +77,7 @@ class UpdateStoreGroupEntityTest extends Injectable
 
         //Steps
         $this->storeIndex->open();
-        $this->storeIndex->getStoreGrid()->editStore($storeGroupOrigin->getName());
+        $this->storeIndex->getStoreGrid()->searchAndOpenStoreGroup($storeGroupOrigin);
         $this->editGroup->getEditFormGroup()->fill($storeGroup);
         $this->editGroup->getFormPageActions()->save();
     }

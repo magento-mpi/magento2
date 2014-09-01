@@ -100,4 +100,14 @@ class Footer extends Block
         );
         $storeGroup->click();
     }
+
+    /**
+     * Check if store group switcher is visible
+     *
+     * @return bool
+     */
+    public function isStoreGroupSwitcherVisible()
+    {
+        return $this->_rootElement->find($this->storeGroupSwitch)->isVisible();
+    }
 }
