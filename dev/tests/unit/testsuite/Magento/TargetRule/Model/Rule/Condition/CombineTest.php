@@ -17,7 +17,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
      */
     protected $_combine;
 
-    public $returnArray = array(
+    protected $returnArray = array(
         'value' => 'Test',
         'label' => 'Test Conditions'
     );
@@ -47,10 +47,12 @@ class CombineTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($attribute));
 
         $this->_combine = (new ObjectManager($this))->getObject(
-            '\Magento\TargetRule\Model\Rule\Condition\Combine', [
-            'context' => $this->_getCleanMock('\Magento\Rule\Model\Condition\Context'),
-            'attributesFactory' => $attributesFactory,
-        ]);
+            '\Magento\TargetRule\Model\Rule\Condition\Combine',
+            [
+                'context' => $this->_getCleanMock('\Magento\Rule\Model\Condition\Context'),
+                'attributesFactory' => $attributesFactory,
+            ]
+        );
     }
 
     /**

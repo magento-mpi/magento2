@@ -35,15 +35,17 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $this->_attributes = (new ObjectManager($this))->getObject(
-            '\Magento\TargetRule\Model\Rule\Condition\Product\Attributes', [
-            'context' => $this->_getCleanMock('Magento\Rule\Model\Condition\Context'),
-            'backendData' => $this->_getCleanMock('\Magento\Backend\Helper\Data'),
-            'config' => $this->_getCleanMock('\Magento\Eav\Model\Config'),
-            'productFactory' => $this->_getCleanMock('\Magento\Catalog\Model\ProductFactory'),
-            'productResource' => $productResource,
-            'attrSetCollection' => $this->_getCleanMock('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection'),
-            'localeFormat' => $this->_getCleanMock('\Magento\Framework\Locale\FormatInterface'),
-        ]);
+            '\Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
+            [
+                'context' => $this->_getCleanMock('Magento\Rule\Model\Condition\Context'),
+                'backendData' => $this->_getCleanMock('\Magento\Backend\Helper\Data'),
+                'config' => $this->_getCleanMock('\Magento\Eav\Model\Config'),
+                'productFactory' => $this->_getCleanMock('\Magento\Catalog\Model\ProductFactory'),
+                'productResource' => $productResource,
+                'attrSetCollection' => $this->_getCleanMock('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection'),
+                'localeFormat' => $this->_getCleanMock('\Magento\Framework\Locale\FormatInterface'),
+            ]
+        );
     }
 
     /**

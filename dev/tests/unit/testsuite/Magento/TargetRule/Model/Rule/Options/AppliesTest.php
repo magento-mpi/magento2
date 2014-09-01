@@ -31,9 +31,11 @@ class AppliesTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(1, 2)));
 
         $this->_applies = (new ObjectManager($this))->getObject(
-            '\Magento\TargetRule\Model\Rule\Options\Applies', [
-            'targetRuleModel' => $rule,
-        ]);
+            '\Magento\TargetRule\Model\Rule\Options\Applies',
+            [
+                'targetRuleModel' => $rule,
+            ]
+        );
     }
 
     public function testToOptionArray()

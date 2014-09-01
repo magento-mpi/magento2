@@ -92,16 +92,18 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_collection));
 
-        $this->_index = (new ObjectManager($this))->getObject('\Magento\TargetRule\Model\Index', [
-            'context' => $this->_getCleanMock('\Magento\Framework\Model\Context'),
-            'registry' => $this->_getCleanMock('\Magento\Framework\Registry'),
-            'ruleFactory' => $this->_collectionFactory,
-            'storeManager' => $this->_storeManager,
-            'session' => $this->_session,
-            'targetRuleData' => $this->_targetRuleData,
-            'resource' => $this->_resource,
-            'resourceCollection' => $this->_getCleanMock('\Magento\Framework\Data\Collection\Db')
-        ]);
+        $this->_index = (new ObjectManager($this))->getObject('\Magento\TargetRule\Model\Index',
+            [
+                'context' => $this->_getCleanMock('\Magento\Framework\Model\Context'),
+                'registry' => $this->_getCleanMock('\Magento\Framework\Registry'),
+                'ruleFactory' => $this->_collectionFactory,
+                'storeManager' => $this->_storeManager,
+                'session' => $this->_session,
+                'targetRuleData' => $this->_targetRuleData,
+                'resource' => $this->_resource,
+                'resourceCollection' => $this->_getCleanMock('\Magento\Framework\Data\Collection\Db')
+            ]
+        );
     }
 
     /**
@@ -196,7 +198,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProduct()
     {
-        $object = $this->_getCleanMock('\Magento\Framework\Object2');
+        $object = $this->getMock('\Magento\Framework\Object2', [], [], '', false, false, false);
         $this->_index->setData('product', $object);
         $this->assertEquals($object, $this->_index->getProduct());
     }
