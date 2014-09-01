@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <request query="one_match" index="catalogsearch_fulltext">
+        <dimensions>
+            <dimension name="scope" value="default" />
+        </dimensions>
+        <queries>
+            <query xsi:type="boolQuery" name="one_match" boost="2">
+                <queryReference clause="must" ref="fulltext_search_query" />
+            </query>
+
+            <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
+                <match field="data_index" value="%request.title%" boost="2" />
+            </query>
+        </queries>
+        <from>10</from>
+        <size>10</size>
+    </request>
+</requests>
