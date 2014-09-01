@@ -13,7 +13,7 @@ namespace Magento\Customer\Service\V1\Data;
  *
  * @method CustomerGroup create()
  */
-class CustomerGroupBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class CustomerGroupBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set id

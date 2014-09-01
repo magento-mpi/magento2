@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-class AssociativeArrayDataObjectBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class AssociativeArrayDataObjectBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * @param string[] $associativeArray

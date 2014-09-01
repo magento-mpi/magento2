@@ -19,7 +19,7 @@
     <referenceContainer name="sidebar.additional">
         <block class="Magento\MultipleWishlist\Block\Customer\Sidebar" name="multiple-wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
     </referenceContainer>
-    <referenceContainer name="before_body_end">
+    <referenceContainer name="before.body.end">
         <block class="Magento\MultipleWishlist\Block\Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
     </referenceContainer>
 </page>
