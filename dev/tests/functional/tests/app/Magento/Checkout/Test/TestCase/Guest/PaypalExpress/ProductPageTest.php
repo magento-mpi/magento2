@@ -42,8 +42,8 @@ class ProductPageTest extends Functional
         //Proceed Checkout
         $productPage->getViewBlock()->paypalCheckout();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        $paypalPage->getLoginExpressBlock()->login($fixture->getPaypalCustomer());
-        $paypalPage->getReviewExpressBlock()->continueCheckout();
+        $paypalPage->getLoginBlock()->login($fixture->getPaypalCustomer());
+        $paypalPage->getReviewBlock()->continueCheckout();
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
         $checkoutReviewPage->getReviewBlock()->placeOrder();
