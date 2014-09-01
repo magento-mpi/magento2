@@ -124,14 +124,9 @@ class SimpleDataObjectConverter
      * @param string $input
      * @return string
      */
-    public static function snakeCaseToCamelCase($input)
+    public static function snakeCaseToUpperCamelCase($input)
     {
-        $output = '';
-        $segments = explode('_', $input);
-        foreach ($segments as $segment) {
-            $output .= ucfirst($segment);
-        }
-        return $output;
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $input)));
     }
 
     /**

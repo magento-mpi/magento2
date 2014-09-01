@@ -17,6 +17,7 @@ use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 
 class ServiceArgsSerializer
 {
@@ -138,7 +139,7 @@ class ServiceArgsSerializer
         foreach ($data as $propertyName => $value) {
             // Converts snake_case to uppercase CamelCase to help form getter/setter method names
             // This use case is for REST only. SOAP request data is already camel cased
-            $camelCaseProperty = str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
+            $camelCaseProperty = SimpleDataObjectConverter::snakeCaseToUpperCamelCase($propertyName);
             $methodName = $this->_processGetterMethod($class, $camelCaseProperty);
             $methodReflection = $class->getMethod($methodName);
             if ($methodReflection->isPublic()) {
@@ -167,18 +168,15 @@ class ServiceArgsSerializer
     {
         $result = [];
         $allAttributes = $this->serviceConfigReader->read();
-        //Remove preceding '\' for comparison
-        $dataObjectClassName = strpos($dataObjectClassName, '\\') === 0
-            ? substr($dataObjectClassName, 1)
-            : $dataObjectClassName;
+        $dataObjectClassName = ltrim($dataObjectClassName, '\\');
         if (!isset($allAttributes[$dataObjectClassName])) {
             return $this->_convertValue($customAttributesValueArray, $returnType);
         }
         $dataObjectAttributes = $allAttributes[$dataObjectClassName];
+        $camelCaseAttributeCodeKey = lcfirst(
+            SimpleDataObjectConverter::snakeCaseToUpperCamelCase(AttributeValue::ATTRIBUTE_CODE)
+        );
         foreach ($customAttributesValueArray as $customAttribute) {
-            $camelCaseAttributeCodeKey = lcfirst(
-                str_replace(' ', '', ucwords(str_replace('_', ' ', AttributeValue::ATTRIBUTE_CODE)))
-            );
             if (isset($customAttribute[AttributeValue::ATTRIBUTE_CODE])) {
                 $customAttributeCode = $customAttribute[AttributeValue::ATTRIBUTE_CODE];
             } else if (isset($customAttribute[$camelCaseAttributeCodeKey])) {
@@ -204,7 +202,7 @@ class ServiceArgsSerializer
                 $attributeValue = $this->_convertValue($customAttributeValue, $type);
             }
             //Populate the attribute value data object once the value for custom attribute is derived based on type
-            $result[$customAttributeCode] = $this->attributeValueBuilder
+            $result[] = $this->attributeValueBuilder
                 ->setAttributeCode($customAttributeCode)
                 ->setValue($attributeValue)
                 ->create();
