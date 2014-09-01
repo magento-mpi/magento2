@@ -11,7 +11,6 @@ namespace Magento\Store\Test\TestCase;
 use Magento\Store\Test\Fixture\Store;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\StoreNew;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -60,10 +59,16 @@ class UpdateStoreEntityTest extends Injectable
         $this->storeNew = $storeNew;
     }
 
-    public function test(FixtureFactory $fixtureFactory, Store $store)
+    /**
+     * Runs Update Store Entity test
+     *
+     * @param Store $storeInitial
+     * @param Store $store
+     * @return void
+     */
+    public function test(Store $storeInitial, Store $store)
     {
         // Preconditions:
-        $storeInitial = $fixtureFactory->createByCode('store');
         $storeInitial->persist();
 
         // Steps:

@@ -81,19 +81,6 @@ class StoreGrid extends GridInterface
     }
 
     /**
-     * Search and open appropriate store
-     *
-     * @param StoreGroup $storeGroup
-     * @return void
-     */
-    public function searchAndOpenStore(StoreGroup $storeGroup)
-    {
-        $storeName = $storeGroup->getName();
-        $this->search(['group_title' => $storeName]);
-        $this->editStore($storeName);
-    }
-
-    /**
      * Check if website exists
      *
      * @param Website $website
