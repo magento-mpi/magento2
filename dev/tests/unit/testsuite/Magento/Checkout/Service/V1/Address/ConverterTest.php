@@ -11,7 +11,7 @@ namespace Magento\Checkout\Service\V1\Address;
 
 use \Magento\Checkout\Service\V1\Data\Cart\Address;
 use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
-use \Magento\Framework\Service\Data\Eav\AttributeValue;
+use \Magento\Framework\Service\Data\AttributeValue;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,13 +25,25 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected $addressBuilderMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $metadataServiceMock;
+
     protected function setUp()
     {
         $this->addressBuilderMock = $this->getMock(
             '\Magento\Checkout\Service\V1\Data\Cart\AddressBuilder', [], [], '', false
         );
-
-        $this->model = new Converter($this->addressBuilderMock);
+        $this->metadataServiceMock = $this
+            ->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataServiceInterface')
+            ->setMethods(['getCustomAttributesMetadata'])
+            ->getMockForAbstractClass();
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManager->getObject(
+            'Magento\Checkout\Service\V1\Address\Converter',
+            ['addressBuilder' => $this->addressBuilderMock, 'metadataService' => $this->metadataServiceMock]
+        );
     }
 
     public  function testConvertModelToDataObject()
@@ -89,9 +101,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             Address::CUSTOM_ATTRIBUTES_KEY => [['attribute_code' => 'custom_field', 'value' => 'custom_value']]
         ];
 
-        $this->addressBuilderMock->expects($this->any())->method('getCustomAttributesCodes')->will(
-            $this->returnValue(array('custom_field'))
-        );
+        $this->metadataServiceMock
+            ->expects($this->any())
+            ->method('getCustomAttributesMetadata')
+            ->will($this->returnValue([new \Magento\Framework\Object(['attribute_code' => 'custom_field'])]));
+
         $this->addressBuilderMock->expects($this->once())->method('populateWithArray')->with($testData)->will(
             $this->returnValue($this->addressBuilderMock)
         );
@@ -107,7 +121,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $dataObjectMock = $this->getMock('Magento\Checkout\Service\V1\Data\Cart\Address', [], [], '', false);
         $methods = ['setData', 'setStreet', 'setRegionId', 'setRegion', '__wakeUp'];
         $addressMock = $this->getMock('Magento\Sales\Model\Quote\Address', $methods, [], '', false);
-        $attributeValueMock = $this->getMock('\Magento\Framework\Service\Data\Eav\AttributeValue', [], [], '', false);
+        $attributeValueMock = $this->getMock('\Magento\Framework\Service\Data\AttributeValue', [], [], '', false);
         $attributeValueMock->expects($this->once())->method('getAttributeCode')->will($this->returnValue('value_code'));
         $attributeValueMock->expects($this->once())->method('getValue')->will($this->returnValue('value'));
 

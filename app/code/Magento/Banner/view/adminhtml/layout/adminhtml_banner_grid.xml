@@ -7,8 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <remove name="root"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <update handle="formkey"/>
-    <block class="Magento\Banner\Block\Adminhtml\Banner\Grid" name="banner_grid" output="1"/>
+    <container name="root">
+        <block class="Magento\Banner\Block\Adminhtml\Banner\Grid" name="banner_grid"/>
+    </container>
 </layout>

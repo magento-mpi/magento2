@@ -106,7 +106,7 @@ class PhpCookieManager implements CookieManager
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
      * @throws InputException If the cookie name is empty or contains invalid characters.
      */
-    private function setCookie($name, $value, array $metadataArray)
+    protected function setCookie($name, $value, array $metadataArray)
     {
         $expire = $this->computeExpirationTime($metadataArray);
 
@@ -256,9 +256,6 @@ class PhpCookieManager implements CookieManager
      */
     public function deleteCookie($name, CookieMetadata $metadata = null)
     {
-        // Remove the cookie
-        unset($_COOKIE[$name]);
-
         $metadataArray = $this->scope->getCookieMetadata($metadata)->__toArray();
 
         // explicitly set an expiration time in the metadataArray.
@@ -268,5 +265,8 @@ class PhpCookieManager implements CookieManager
 
         // cookie value set to empty string to delete from the remote client
         $this->setCookie($name, '', $metadataArray);
+
+        // Remove the cookie
+        unset($_COOKIE[$name]);
     }
 }

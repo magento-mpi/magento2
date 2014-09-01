@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
         <block class="Magento\RecurringPayment\Block\Adminhtml\Payment\View" name="sales.recurring.payment.view" template="Magento_Backend::widget/view/container.phtml">
             <action method="setDestElementId">
@@ -88,4 +88,4 @@
             </action>
         </block>
     </referenceContainer>
-</layout>
+</page>

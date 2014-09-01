@@ -14,4 +14,16 @@
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>sharingInfoBlock</name>
+        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Sharing</class>
+        <locator>#edit_form</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

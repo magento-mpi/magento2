@@ -39,11 +39,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_layout;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_encryptionFactory;
 
     /**
@@ -60,7 +55,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $this->_cartFactory = $this->getMock('Magento\Payment\Model\CartFactory', array('create'), array(), '', false);
         $this->_checkoutSession = $this->getMock('Magento\Checkout\Model\Session', ['getQuote'], array(), '', false);
-        $this->_layout = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
         $this->_paypalCartFactory = $this->getMock(
             'Magento\Paypal\Model\CartFactory',
             array('create'),
@@ -75,7 +69,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'cartFactory' => $this->_cartFactory,
                 'paypalCartFactory' => $this->_paypalCartFactory,
                 'checkoutSession' => $this->_checkoutSession,
-                'layout' => $this->_layout,
                 'encryptionFactory' => $this->_encryptionFactory
             ]
         );
@@ -125,13 +118,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getContinueButtonDataProvider
      */
-    public function testGetContinueButtonTemplate($quote, $blockObject, $expected)
+    public function testGetContinueButtonTemplate($quote, $expected)
     {
         $name = 'template name';
-        $block = 'buttons block name';
         $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quote));
-        $this->_layout->expects($this->any())->method('getBlock')->with($block)->will($this->returnValue($blockObject));
-        $this->assertEquals($expected, $this->_model->getContinueButtonTemplate($name, $block));
+        $this->assertEquals($expected, $this->_model->getContinueButtonTemplate($name));
     }
 
     public function getContinueButtonDataProvider()
@@ -148,18 +139,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getPayment', '__wakeup'], [], '', false);
         $quoteMock->expects($this->any())->method('getPayment')->will($this->returnValue($paymentMock));
-        $blockObject = $this->getMock(
-            'Magento\Framework\View\Element\BlockInterface',
-            ['getTemplate', 'toHtml'],
-            [],
-            '',
-            false
-        );
-        $blockObject->expects($this->once())->method('getTemplate')->will($this->returnValue('block template'));
         return [
-            [$quoteMock, null, 'template name'],
-            [null, $blockObject, 'block template'],
-            [null, false, '']
+            [$quoteMock, 'template name'],
+            [null, '']
         ];
     }
 

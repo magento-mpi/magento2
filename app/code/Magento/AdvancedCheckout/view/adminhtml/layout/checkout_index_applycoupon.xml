@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <remove name="root"/>
-    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon" template="form/coupon.phtml" name="form_coupon" output="1"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <container name="root">
+        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon" template="form/coupon.phtml" name="form_coupon"/>
+    </container>
 </layout>

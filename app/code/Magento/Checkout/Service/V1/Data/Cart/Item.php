@@ -11,11 +11,13 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 /**
  * @codeCoverageIgnore
  */
-class Item extends \Magento\Framework\Service\Data\AbstractObject
+class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array
      */
+    const ITEM_ID = 'item_id';
+
     const SKU = 'sku';
 
     const QTY = 'qty';
@@ -24,7 +26,15 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
 
     const PRICE = 'price';
 
-    const TYPE = 'type';
+    const PRODUCT_TYPE = 'product_type';
+
+    /**
+     * @return int|null
+     */
+    public function getItemId()
+    {
+        return $this->_get(self::ITEM_ID);
+    }
 
     /**
      * @return string|null
@@ -61,8 +71,8 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * @return string|null
      */
-    public function getType()
+    public function getProductType()
     {
-        return $this->_get(self::TYPE);
+        return $this->_get(self::PRODUCT_TYPE);
     }
 }
