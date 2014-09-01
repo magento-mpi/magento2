@@ -63,6 +63,7 @@ class Store extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => 'select',
+        'source' => 'Magento\Store\Test\Fixture\Store\GroupId',
     ];
 
     protected $name = [
