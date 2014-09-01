@@ -1,7 +1,5 @@
 <?php
 /**
- * Response Factory
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +9,9 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 
 use Magento\Framework\Search\QueryResponse;
 
+/**
+ * Response Factory
+ */
 class ResponseFactory
 {
     /**

@@ -1,6 +1,5 @@
 <?php
 /**
- * Bool Filter
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +9,9 @@ namespace Magento\Framework\Search\Request\Filter;
 
 use Magento\Framework\Search\Request\FilterInterface;
 
+/**
+ * Bool Filter
+ */
 class Bool implements FilterInterface
 {
     /**
