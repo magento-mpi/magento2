@@ -157,7 +157,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
      */
     public function getIsConfirmedStatus()
     {
-        $id = $this->getCustomer()->getId();
+        $id = $this->getCustomerId();
         switch ($this->accountService->getConfirmationStatus($id)) {
             case CustomerAccountServiceInterface::ACCOUNT_CONFIRMED:
                 return __('Confirmed');
