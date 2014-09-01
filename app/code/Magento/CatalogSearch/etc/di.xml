@@ -25,4 +25,15 @@
             <argument name="layer" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced</argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\Search\MetadataEntityId" />
+    <virtualType name="Magento\Framework\Search\ProductEntityId" type="Magento\Framework\Search\MetadataEntityId">
+        <arguments>
+            <argument name="entityId" xsi:type="string">product_id</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\Search\Adapter\Mysql\DocumentFactory">
+        <arguments>
+            <argument name="entityId" xsi:type="object">Magento\Framework\Search\ProductEntityId</argument>
+        </arguments>
+    </type>
 </config>
