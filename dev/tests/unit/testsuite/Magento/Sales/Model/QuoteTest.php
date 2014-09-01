@@ -13,6 +13,8 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * Test class for \Magento\Sales\Model\Order
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
@@ -103,14 +105,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->quoteAddressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
             [
-                'isDeleted',
-                'getCollection',
-                'getId',
-                'getCustomerAddressId',
-                '__wakeup',
-                'getAddressType',
-                'getDeleteImmediately',
-                'validateMinimumAmount'
+                'isDeleted', 'getCollection', 'getId', 'getCustomerAddressId',
+                '__wakeup', 'getAddressType', 'getDeleteImmediately', 'validateMinimumAmount'
             ],
             [],
             '',

@@ -9,7 +9,8 @@ namespace Magento\Checkout\Controller\Onepage;
 
 /**
  * Class SaveBillingTest
- * @package Magento\Checkout\Controller\Onepage
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class SaveBillingTest extends \PHPUnit_Framework_TestCase
 {
