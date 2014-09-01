@@ -323,6 +323,9 @@ class Config extends \Magento\Framework\Object
             $store
         );
         return $this->_scopeConfig->getValue(
-            'trans_email/ident_' . $senderCode . '/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+            'trans_email/ident_' . $senderCode . '/email',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }
