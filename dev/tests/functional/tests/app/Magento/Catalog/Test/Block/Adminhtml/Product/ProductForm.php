@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;

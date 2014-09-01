@@ -124,6 +124,8 @@ class UpdateProductReviewEntityTest extends Injectable
         $this->reviewIndex->getReviewGrid()->searchAndOpen(['review_id' => $reviewInitial->getReviewId()]);
         $this->reviewEdit->getReviewForm()->fill($review);
         $this->reviewEdit->getPageActions()->save();
+
+        // Prepare data for asserts
         $product = $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
 
         return ['product' => $product];
