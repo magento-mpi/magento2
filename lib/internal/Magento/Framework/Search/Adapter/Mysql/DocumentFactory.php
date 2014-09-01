@@ -18,14 +18,21 @@ class DocumentFactory
      * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
+    /**
+     * @var \Magento\Framework\Search\MetadataEntityId
+     */
+    private $entityId;
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\Search\MetadataEntityId $entityId
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\Search\MetadataEntityId $entityId
     ) {
         $this->objectManager = $objectManager;
+        $this->entityId = $entityId;
     }
 
     /**
@@ -37,16 +44,25 @@ class DocumentFactory
     public function create($rawDocument)
     {
         $fields = array();
-        foreach ($rawDocument as $rawField) {
+        $documentId = null;
+        if (!empty($rawDocument)) {
+            $entityId = $this->entityId->getEntityId();
+            $documentId = $rawDocument[$entityId];
+            unset($rawDocument[$entityId]);
+        }
+        foreach ($rawDocument as $rawKey => $rawField) {
             /** @var \Magento\Framework\Search\DocumentField[] $fields */
             $fields[] = $this->objectManager->create(
                 '\Magento\Framework\Search\DocumentField',
                 [
-                    $rawField['name'],
-                    $rawField['values']
+                    'name' => $rawKey,
+                    'value' => $rawField
                 ]
             );
         }
-        return $this->objectManager->create('\Magento\Framework\Search\Document', $fields);
+        return $this->objectManager->create(
+            '\Magento\Framework\Search\Document',
+            ['documentFields' => $fields, 'documentId' => $documentId]
+        );
     }
 }
