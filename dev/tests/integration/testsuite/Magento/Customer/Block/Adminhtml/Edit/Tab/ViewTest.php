@@ -45,6 +45,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  View */
     private $_block;
 
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime
+     */
+    protected $_dateTime;
+
     public function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -73,6 +78,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 'registry' => $this->_coreRegistry
             )
         );
+
+        $this->_dateTime = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime');
     }
 
     public function tearDown()
@@ -126,9 +133,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStoreCreateDate()
     {
-        $this->markTestIncomplete('MAGETWO-18300');
         $customer = $this->_loadCustomer();
-        $date = $this->_context->getLocaleDate()->scopeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
+        $date = $this->_context->getLocaleDate()
+            ->scopeDate($customer->getStoreId(), $this->_dateTime->toTimestamp($customer->getCreatedAt()), true);
         $storeCreateDate = $this->_block->formatDate(
             $date,
             \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
