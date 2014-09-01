@@ -126,6 +126,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStoreCreateDate()
     {
+        $this->markTestIncomplete('MAGETWO-18300');
         $customer = $this->_loadCustomer();
         $date = $this->_context->getLocaleDate()->scopeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
         $storeCreateDate = $this->_block->formatDate(
