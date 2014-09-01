@@ -153,9 +153,12 @@ body {
 @footer-links-color-hover: #333;
 @footer-links-color-current: @color-primary-light;
 
+.page-footer {
+    margin-top: 25px;
+}
+
 .footer {
     &.content {
-        margin-top: 25px;
         padding-top: 20px;
         border-top: 1px solid @footer-links-separator-border-color;
         ul {
@@ -206,7 +209,7 @@ body {
 }
 
 .page-header,
-.footer.content {
+.page-footer {
     .switcher {
         .options {
             .dropdown(
@@ -409,10 +412,13 @@ body {
         .transition(margin .3s ease-out 0);
     }
 
+    .page-footer {
+        background: @footer-bg-color;
+        padding-bottom: 25px;
+    }
+
     .footer {
         &.content {
-            background: @footer-bg-color;
-            padding-bottom: 25px;
             border-top: none;
             .block {
                 float: right;

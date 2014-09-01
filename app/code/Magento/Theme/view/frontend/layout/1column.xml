@@ -12,6 +12,8 @@
     <referenceContainer name="page.wrapper">
         <container name="header.container" as="header_container" label="Page Header Container"  htmlTag="header" htmlClass="page-header" after="global.notices"/>
         <container name="page.top" as="page_top" label="After Page Header" after="header.container"/>
-        <container name="footer" label="Page Footer" htmlTag="div" htmlClass="footer content" after="page.bottom" before="before.body.end"/>
+        <container name="footer.wrapper" as="footer-wrapper" label="Page Footer Wrapper" htmlTag="div" htmlClass="page-footer" after="page.bottom" before="before.body.end">
+            <container name="footer" label="Page Footer" htmlTag="div" htmlClass="footer content"/>
+        </container>
     </referenceContainer>
 </layout>
