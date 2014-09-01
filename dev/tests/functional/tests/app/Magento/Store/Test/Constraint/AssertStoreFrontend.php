@@ -36,18 +36,15 @@ class AssertStoreFrontend extends AbstractConstraint
     {
         $cmsIndex->open();
 
-        $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible();
-        if (!$isStoreViewVisible) {
-            if ($cmsIndex->getFooterBlock()->isStoreGroupSwitcherVisible()) {
-                $cmsIndex->getFooterBlock()->selectStoreGroup($store);
-            } else {
-                $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible() === false
-                    ? true
-                    : $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
-            }
-        } else {
-            $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
+        if (!$cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible()
+            && $cmsIndex->getFooterBlock()->isStoreGroupSwitcherVisible()
+        ) {
+            $cmsIndex->getFooterBlock()->selectStoreGroup($store);
         }
+
+        $isStoreViewVisible = !$cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible()
+            ? true // if only one store view is assigned to store group
+            : $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $isStoreViewVisible,
