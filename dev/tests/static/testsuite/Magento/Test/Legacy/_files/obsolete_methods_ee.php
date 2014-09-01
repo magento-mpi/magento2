@@ -98,6 +98,7 @@ return array(
     array('addCustomerSegmentRelationsToCollection', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_getRuleProductsTable', 'Magento\TargetRule\Model\Resource\Rule'),
     array('getCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
+    array('setCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_saveCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_prepareRuleProducts', 'Magento\TargetRule\Model\Resource\Rule'),
     array('getInetNtoaExpr', 'Magento\Logging\Model\Resource\Helper'),
