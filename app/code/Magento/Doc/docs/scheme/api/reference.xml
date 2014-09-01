@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scheme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../scheme.xsd">
+    <content>
+        <item name="Overview" type="article" module="Magento_Doc">
+            <label>Overview</label>
+        </item>
+        <item name="Customer" type="article" module="Magento_Doc">
+            <label>Customer</label>
+            <content>
+                <item name="CustomerOverview" type="article" module="Magento_Doc">
+                    <label>Overview</label>
+                </item>
+                <item name="CustomerApi" type="article" module="Magento_Doc">
+                    <label>API</label>
+                    <content>
+                        <item name="CustomerApiLoad" type="api" module="Magento_Doc" reference="Magento\Customer\Model\Customer::load">
+                            <label>Load</label>
+                        </item>
+                        <item name="CustomerApiSave" type="api" module="Magento_Doc" reference="Magento\Customer\Model\Customer::save">
+                            <label>Save</label>
+                        </item>
+                        <item name="CustomerApiDelete" type="api" module="Magento_Doc" reference="Magento\Customer\Model\Customer::delete">
+                            <label>Delete</label>
+                        </item>
+                    </content>
+                </item>
+            </content>
+        </item>
+    </content>
+</scheme>

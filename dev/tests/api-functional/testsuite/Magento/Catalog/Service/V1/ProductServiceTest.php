@@ -166,8 +166,13 @@ class ProductServiceTest extends WebapiAbstract
             }
             $searchCriteriaBuilder->addFilter($group);
         }
-
-        $searchCriteriaBuilder->setSortOrders([$sortField => $sortValue]);
+        /**@var \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder */
+        $sortOrderBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
+        /** @var \Magento\Framework\Service\V1\Data\SortOrder $sortOrder */
+        $sortOrder = $sortOrderBuilder->setField($sortField)->setDirection($sortValue)->create();
+        $searchCriteriaBuilder->setSortOrders([$sortOrder]);
         $searchData = $searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $serviceInfo = [
@@ -181,8 +186,6 @@ class ProductServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'search'
             ]
         ];
-
-
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('items', $searchResults);
         $this->assertEquals(count($expected), count($searchResults['items']));
@@ -442,30 +445,6 @@ class ProductServiceTest extends WebapiAbstract
 
         return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
             $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
-    }
-
-    /**
-     * @param \Exception $e
-     * @return array
-     * <pre> ex.
-     * 'message' => "No such entity with %fieldName1 = %value1, %fieldName2 = %value2"
-     * 'parameters' => [
-     *      "fieldName1" => "email",
-     *      "value1" => "dummy@example.com",
-     *      "fieldName2" => "websiteId",
-     *      "value2" => 0
-     * ]
-     * </pre>
-     */
-    protected function processRestExceptionResult(\Exception $e)
-    {
-        $error = json_decode($e->getMessage(), true);
-        //Remove line breaks and replace with space
-        $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
-        // remove trace and type, will only be present if server is in dev mode
-        unset($error['trace']);
-        unset($error['type']);
-        return $error;
     }
 
     /**

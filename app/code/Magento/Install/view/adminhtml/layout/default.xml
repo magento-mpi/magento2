@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceBlock name="head">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-install-survey-notification-js" after="jquery">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Install::survey_notification.js</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</page>

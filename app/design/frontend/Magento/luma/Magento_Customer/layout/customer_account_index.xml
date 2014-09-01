@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../code/Magento/Core/etc/layout_single.xsd">
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../code/Magento/Core/etc/page.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="page.main.title">
         <block class="Magento\Customer\Block\Account\Dashboard\Hello" name="customer_account_dashboard_toggle_hello" as="toggle_hello" template="account/dashboard/toggle_hello.phtml" before="-"/>
     </referenceBlock>
-</layout>
+</page>

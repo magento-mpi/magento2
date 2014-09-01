@@ -55,16 +55,22 @@
     .button-responsive();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .button-desktop {
         width: auto;
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-button-responsive-smaller {
+        .button-responsive();
     }
 }
 
 //
 //    Blocks in 2 columns
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .blocks-2columns {
         width: 48.8%;
         &:nth-child(odd) {
@@ -92,12 +98,13 @@
 //
 //    Simple Dropdown
 //--------------------------------------
-.dropdown-simple {
-    line-height: normal;
-    .dropdown();
-    ul.items.dropdown {
-        min-width: 155px;
-    }
+.abstract-dropdown-simple {
+    .dropdown(
+        @_dropdown-list-item-padding: 5px 5px 5px 23px,
+        @_dropdown-list-min-width: 200px,
+        @_icon-font-margin: 0 0 0 5px,
+        @_icon-font-vertical-align: middle
+    );
 }
 
 //
@@ -157,7 +164,7 @@
     margin-left: 0;
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .reset-left-margin-desktop {
         margin-left: 0;
     }
@@ -180,7 +187,7 @@
 //
 //    Action with icon remove with text for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .action-remove-desktop when not (@form-field-type-inline-label-width = false) and not (@form-field-type-inline-label-width = '') {
         top: 6px;
         margin-left: @form-field-type-inline-label-width + 50%;
@@ -227,7 +234,7 @@
 //
 //    Add Recipient for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-recipients-desktop {
         .recipients {
             .additional {
@@ -242,7 +249,7 @@
 //
 //    Margin for forms
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .margin-for-forms-desktop when not (@form-field-type-inline-label-width = false) and not (@form-field-type-inline-label-width = '') {
         margin-left: @form-field-type-inline-label-width;
     }
@@ -255,10 +262,16 @@
     .visually-hidden();
 }
 
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .visually-hidden-mobile {
         .visually-hidden();
     } 
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .visually-hidden-mobile-m {
+        .visually-hidden();
+    }
 }
 
 //
@@ -268,13 +281,13 @@
     .clearfix();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-clearfix-desktop {
         .clearfix();
     }
 }
 
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .add-clearfix-mobile {
         .clearfix();
     }
@@ -287,7 +300,7 @@
     .box-sizing();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-box-sizing-desktop {
         .box-sizing();
     }
@@ -296,7 +309,7 @@
 //
 //    Revert field type
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .revert-field-type-desktop {
         .fieldset {
             > .field,
@@ -343,9 +356,21 @@
 //
 //    Action addto
 //--------------------------------------
-.abstract-action-addto {
+.abstract-action-addto-product {
     &:extend(.action-link-button all);
     .button-s();
+}
+
+.abstract-actions-addto-gridlist {
+    .icon-font(
+        @_icon-font-content: '',
+        @_icon-font-size: 29px,
+        @_icon-font-color: @addto-color,
+        @_icon-font-color-hover: @addto-hover-color,
+        @_icon-font-text-hide: true,
+        @_icon-font-vertical-align: middle,
+        @_icon-font-line-height: 24px
+    );
 }
 
 //
@@ -389,7 +414,7 @@
 //
 //    Vertical Table
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-m) {
     .table-vertical-mobile {
         .table-responsive();
         tbody > tr {
@@ -457,5 +482,88 @@
             @_icon-font-content: @icon-up,
             @_icon-font-position: after
         );
+    }
+}
+
+//
+//    Add colon
+//--------------------------------------
+.abstract-colon {
+    &:after {
+        content: ": ";
+    }
+}
+
+//
+//    Icon - create add
+//--------------------------------------
+.abstract-icon-add {
+    .icon-font(
+        @_icon-font-content: @icon-expand,
+        @_icon-font-size: 10px,
+        @_icon-font-line-height: 10px,
+        @_icon-font-vertical-align: middle
+    ); 
+}
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-icon-add-mobile {
+        .icon-font(
+            @_icon-font-content: @icon-expand,
+            @_icon-font-size: 10px,
+            @_icon-font-line-height: 10px,
+            @_icon-font-vertical-align: middle,
+            @_icon-font-margin: 0 5px 0 0,
+            @_icon-font-display: block
+        ); 
+    }
+}
+
+//
+//    Dropdown items - create new
+//--------------------------------------
+.abstract-dropdown-items-new {
+    .items .item:last-child {
+        &:hover {
+            background: @dropdown-list-item-hover;
+        }
+    }
+    .action.new {
+        &:extend(.abstract-icon-add all);
+        &:before {
+            margin-left: -17px;
+            margin-right: 5px;
+        }
+    }
+}
+
+//
+//    Abstract toggle title block
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-toggling-title-mobile {
+        border-top: @border-width-base solid @border-color-base;
+        border-bottom: @border-width-base solid @border-color-base;
+        cursor: pointer;
+        margin-bottom: 0;
+        padding: 10px 40px 10px 20px;
+        position: relative;
+        .icon-font(
+            @_icon-font-content: @icon-down,
+            @_icon-font-size: 28px,
+            @_icon-font-text-hide: false,
+            @_icon-font-position: after,
+            @_icon-font-display: block
+        );
+        &:after {
+            position: absolute;
+            right: 10px;
+            top: 0;
+        }
+        &.active {
+            .icon-font-symbol(
+                @_icon-font-content: @icon-up,
+                @_icon-font-position: after
+            );
+        }
     }
 }

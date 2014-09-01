@@ -27,7 +27,7 @@ class WidgetInstanceIndex extends BackendPage
         ],
         'widgetGrid' => [
             'name' => 'widgetGrid',
-            'class' => 'Magento\Backend\Test\Block\Widget\Grid',
+            'class' => 'Magento\Widget\Test\Block\Adminhtml\Widget\WidgetGrid',
             'locator' => '#widgetInstanceGrid',
             'strategy' => 'css selector',
         ],
@@ -42,9 +42,9 @@ class WidgetInstanceIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\Widget\Grid
+     * @return \Magento\Widget\Test\Block\Adminhtml\Widget\WidgetGrid
      */
-    public function getGrid()
+    public function getWidgetGrid()
     {
         return $this->getBlockInstance('widgetGrid');
     }

@@ -159,8 +159,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddDataAfterRoleLoad(array $fixtureRoleData, array $expectedRoleData)
     {
-        /** @var \Magento\User\Model\Role|\PHPUnit_Framework_MockObject_MockObject $role */
-        $role = $this->getMock('Magento\User\Model\Role', array('__wakeup'), array(), '', false);
+        /** @var \Magento\Authorization\Model\Role|\PHPUnit_Framework_MockObject_MockObject $role */
+        $role = $this->getMock('Magento\Authorization\Model\Role', array('__wakeup'), array(), '', false);
         $role->setData($fixtureRoleData);
 
         $event = $this->getMock('Magento\Framework\Event', array('getObject'), array(), '', false);
@@ -182,8 +182,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefreshRolePermissions(array $fixtureRoleData, array $expectedRoleData)
     {
-        /** @var \Magento\User\Model\Role|\PHPUnit_Framework_MockObject_MockObject $role */
-        $role = $this->getMock('Magento\User\Model\Role', array('__wakeup'), array(), '', false);
+        /** @var \Magento\Authorization\Model\Role|\PHPUnit_Framework_MockObject_MockObject $role */
+        $role = $this->getMock('Magento\Authorization\Model\Role', array('__wakeup'), array(), '', false);
         $role->setData($fixtureRoleData);
 
         $user = $this->getMock('Magento\User\Model\User', array(), array(), '', false);

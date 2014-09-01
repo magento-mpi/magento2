@@ -1,7 +1,5 @@
 <?php
 /**
- * Response Factory
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
+/**
+ * Document Factory
+ */
 class DocumentFactory
 {
     /**

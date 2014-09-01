@@ -12,7 +12,7 @@ use Mtf\TestCase\Injectable;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
-use Magento\Backend\Test\Page\AdminCache;
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 
 /**
  * Class CatalogRuleEntityTest
