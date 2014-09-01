@@ -10,6 +10,12 @@ namespace Magento\TargetRule\Model\Rule\Condition\Product;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Class AttributesTest
+ * @package Magento\TargetRule\Model\Rule\Condition\Product
+ *
+ *
+ */
 class AttributesTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -42,7 +48,9 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
                 'config' => $this->_getCleanMock('\Magento\Eav\Model\Config'),
                 'productFactory' => $this->_getCleanMock('\Magento\Catalog\Model\ProductFactory'),
                 'productResource' => $productResource,
-                'attrSetCollection' => $this->_getCleanMock('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection'),
+                'attrSetCollection' => $this->_getCleanMock(
+                        '\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection'
+                    ),
                 'localeFormat' => $this->_getCleanMock('\Magento\Framework\Locale\FormatInterface'),
             ]
         );

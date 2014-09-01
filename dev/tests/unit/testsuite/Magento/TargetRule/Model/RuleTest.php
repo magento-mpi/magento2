@@ -11,6 +11,12 @@ namespace Magento\TargetRule\Model;
 use Magento\Catalog\Model\Product;
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Class RuleTest
+ * @package Magento\TargetRule\Model
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
