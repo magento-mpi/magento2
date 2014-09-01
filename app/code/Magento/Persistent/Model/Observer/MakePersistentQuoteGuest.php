@@ -40,18 +40,18 @@ class MakePersistentQuoteGuest
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Persistent\Model\QuoteManager $quoteManager
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+        \Magento\Persistent\Model\QuoteManager $quoteManager
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_persistentData = $persistentData;
         $this->_customerSession = $customerSession;
-        $this->_customerAccountService = $customerAccountService;
+        $this->quoteManager = $quoteManager;
     }
 
     /**
