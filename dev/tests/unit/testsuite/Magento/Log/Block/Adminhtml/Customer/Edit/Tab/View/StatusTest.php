@@ -55,7 +55,12 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->logFactory->expects($this->any())->method('create')->will($this->returnValue($this->customerLog));
 
-        $dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime');
+        $dateTime = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime')->setMethods(['now'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $dateTime->expects($this->any())->method('now')->will($this->returnCallback(function(){
+            return date('Y-m-d H:i:s');
+        }));
 
         $customer = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
             ->setMethods(['getId', 'getStoreId'])
@@ -117,8 +122,9 @@ class StatusTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentStatusOnline()
     {
+        $date = date('Y-m-d H:i:s');
         $this->customerLog->expects($this->any())->method('getLogoutAt')->will($this->returnValue(0));
-        $this->customerLog->expects($this->any())->method('getLastVisitAt')->will($this->returnValue(time()));
+        $this->customerLog->expects($this->any())->method('getLastVisitAt')->will($this->returnValue($date));
         $this->assertEquals('Online', $this->block->getCurrentStatus());
     }
 

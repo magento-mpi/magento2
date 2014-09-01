@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -53,6 +54,13 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     protected $dateTime;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $coreRegistry;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
@@ -60,6 +68,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -70,8 +79,10 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
+        $this->coreRegistry = $registry;
         $this->accountService = $accountService;
         $this->addressService = $addressService;
         $this->groupService = $groupService;
@@ -92,6 +103,14 @@ class PersonalInfo extends \Magento\Backend\Block\Template
             )->create();
         }
         return $this->customer;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerId()
+    {
+        return $this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**
