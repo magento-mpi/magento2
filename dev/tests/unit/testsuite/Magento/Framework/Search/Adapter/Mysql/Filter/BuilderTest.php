@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Search\Adapter\Mysql\Builder\Filter;
+namespace Magento\Framework\Search\Adapter\Mysql\Filter;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
