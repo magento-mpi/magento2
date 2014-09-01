@@ -82,7 +82,9 @@ class OrderCreateTest extends WebapiAbstract
     {
         $refClass = new \ReflectionClass ($className);
         $constants = $refClass->getConstants();
-        return array_fill_keys($constants, null);
+        $data = array_fill_keys($constants, null);
+        unset($data['custom_attributes']);
+        return $data;
     }
 
     public function testOrderCreate()
