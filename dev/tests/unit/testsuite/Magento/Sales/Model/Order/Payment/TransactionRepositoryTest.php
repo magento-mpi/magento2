@@ -12,7 +12,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Sales\Model\Order\Payment\TransactionRepository */
+    /** @var TransactionRepository */
     protected $transactionRepository;
 
     /** @var ObjectManagerHelper */
@@ -24,7 +24,7 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
     protected $transactionFactory;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $transactionCollectionFactory;
 
@@ -82,9 +82,12 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param int $id
+     * @param array $collectionIds
+     * @param $conditionType
      * @dataProvider getDataProvider
      */
-    public function testGet($id, $conditionType)
+    public function testGet($id, array $collectionIds, $conditionType)
     {
         $filter = $this->getMock(
             'Magento\Framework\Service\V1\Data\Filter',
@@ -114,22 +117,41 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->searchCriteriaBuilder->expects($this->once())
             ->method('create')
             ->willReturn($searchCriteria);
+        $transactionModelMock = $this->getMockBuilder('Magento\Sales\Model\Order\Payment\Transaction')
+            ->disableOriginalConstructor()->setMethods([])->getMock();
+        $transactionModelMock->expects($this->any())->method('getId')->will($this->returnValue($id));
 
-        $collection = $this->getMock(
-            'Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection',
-            [
-                'addFieldToFilter', 'setCurPage', 'setPageSize', 'addPaymentInformation',
-                'addOrderInformation', 'getAllIds', 'dispatch'
-            ],
-            [],
-            '',
-            false
+        $this->prepareCollection($transactionModelMock, $collectionIds);
+
+        $this->assertSame($transactionModelMock, $this->transactionRepository->get($id));
+    }
+
+    public function testFind()
+    {
+        list($id, $collectionIds, $filterData) = [1, [1], ['field', 'value', 'lteq']];
+        $transactionModelMock = $this->getMockBuilder('Magento\Sales\Model\Order\Payment\Transaction')
+            ->disableOriginalConstructor()->setMethods([])->getMock();
+        $transactionModelMock->expects($this->any())->method('getId')->will($this->returnValue($id));
+        $collection = $this->prepareCollection($transactionModelMock, $collectionIds);
+
+        $searchCriteriaMock = $this->getMock('Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
+        $filterGroup = $this->getMock('Magento\Framework\Service\V1\Data\Search\FilterGroup', [], [], '', false);
+        $filter = $this->getMock('Magento\Framework\Service\V1\Data\Filter', [], [], '', false);
+
+        $searchCriteriaMock->expects($this->once())->method('getFilterGroups')->will(
+            $this->returnValue([$filterGroup])
         );
-        $this->transactionCollectionFactory->expects($this->once())
-            ->method('create')
-            ->willReturn($collection);
-
-        $this->transactionRepository->get($id);
+        $filterGroup->expects($this->once())->method('getFilters')->will($this->returnValue([$filter]));
+        $filter->expects($this->once())->method('getField')->will($this->returnValue($filterData[0]));
+        $filter->expects($this->once())->method('getValue')->will($this->returnValue($filterData[1]));
+        $filter->expects($this->any())->method('getConditionType')->will($this->returnValue($filterData[2]));
+        $collection->expects($this->once())->method('addFieldToFilter')->with(
+            $filterData[0],
+            [$filterData[2] => $filterData[1]]
+        );
+        $collection->expects($this->once())->method('addPaymentInformation')->with(['method']);
+        $collection->expects($this->once())->method('addOrderInformation')->with(['increment_id']);
+        $this->assertSame([$id => $transactionModelMock], $this->transactionRepository->find($searchCriteriaMock));
     }
 
     /**
@@ -138,8 +160,32 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
     public function getDataProvider()
     {
         return [
-            [1, 'eq'],
-            [1, null],
+            [1, [1], 'eq'],
+            [1, [], null],
         ];
+    }
+
+    /**
+     * @param $transactionModelMock
+     * @param $collectionIds
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function prepareCollection($transactionModelMock, $collectionIds)
+    {
+        $collection = $this->getMock(
+            'Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection',
+            [],
+            [],
+            '',
+            false
+        );
+        $collection->expects($this->once())->method('getIterator')->will(
+            $this->returnValue(new \ArrayIterator([$transactionModelMock]))
+        );
+        $collection->expects($this->once())->method('getAllIds')->will($this->returnValue($collectionIds));
+        $this->transactionCollectionFactory->expects($this->once())
+            ->method('create')
+            ->willReturn($collection);
+        return $collection;
     }
 }
