@@ -42,6 +42,8 @@ class ScoreBuilder
     }
 
     /**
+     * Start Query
+     *
      * @return void
      */
     public function startQuery()
@@ -50,14 +52,22 @@ class ScoreBuilder
         $this->scoreCondition .= '(';
     }
 
+    /**
+     * End Query
+     *
+     * @param float $boost
+     * @return void
+     */
     public function endQuery($boost)
     {
         $this->scoreCondition .= ") * {$boost}";
     }
 
     /**
-     * @param $score
-     * @param $boost
+     * Add Condition for score calculation
+     *
+     * @param string $score
+     * @param float $boost
      * @return void
      */
     public function addCondition($score, $boost)
@@ -66,6 +76,11 @@ class ScoreBuilder
         $this->scoreCondition .= "{$score} * {$boost}";
     }
 
+    /**
+     * Add Plus sign for Score calculation
+     *
+     * @return void
+     */
     private function addPlus()
     {
         if (!empty($this->scoreCondition) && substr($this->scoreCondition, -1) != '(') {
