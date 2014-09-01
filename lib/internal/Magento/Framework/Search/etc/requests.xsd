@@ -152,8 +152,8 @@
     <xs:complexContent>
       <xs:extension base="filter">
         <xs:attribute type="xs:string" name="field" use="required" />
-        <xs:attribute type="xs:string" name="from" use="required" />
-        <xs:attribute type="xs:string" name="to" use="required" />
+        <xs:attribute type="xs:string" name="from" use="optional" />
+        <xs:attribute type="xs:string" name="to" use="optional" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
