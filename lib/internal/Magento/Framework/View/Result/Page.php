@@ -76,9 +76,8 @@ class Page extends Layout
         $update->addHandle($this->getDefaultLayoutHandle());
         if ($update->isLayoutDefined()) {
             $update->removeHandle('default');
-        } else {
-            $this->setTemplate(self::DEFAULT_ROOT_TEMPLATE);
         }
+        $this->setTemplate(self::DEFAULT_ROOT_TEMPLATE);
         return $this;
     }
 
@@ -124,7 +123,7 @@ class Page extends Layout
      */
     public function renderResult(ResponseInterface $response)
     {
-        if ($this->getTemplate()) {
+        if ($this->getConfig()->getPageLayout()) {
             $layout = $this->getLayout();
             $config = $this->getConfig();
 
