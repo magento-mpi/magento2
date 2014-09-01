@@ -29,7 +29,7 @@ class Grid extends GridAbstract
             'selector' => 'input[name="title"]',
         ],
         'status' => [
-            'selector' => 'select[name="status"]',
+            'selector' => '#reviwGrid_filter_status',
             'input' => 'select',
         ],
         'nickname' => [
