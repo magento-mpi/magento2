@@ -23,10 +23,7 @@ define([
                 currentAction:  '',
                 view:           DEFAULT_VIEW,
                 isLocked:       false,
-
-                massActions:         initial.massactions || [],
-                currentMassAction:   '',
-                isMassActionVisible: false
+                massActions:    initial.massActions || []
             });
 
             this.observe({
@@ -50,17 +47,12 @@ define([
 
             var adapter = new LocalAdapter(config.resource);
             this.client = new RestClient(adapter);
-
-            this.currentMassAction.subscribe(this._applyMassAction.bind(this), 'change');
         },
 
-        _applyMassAction: function (action) {
-            if (action) {
-                action = action.type;
-                if (this[action]) {
-                    this[action]();
-                }    
-            }
+        applyMassAction: function (action) {
+            if (this[action]) {
+                this[action]();
+            }    
         },
 
         toggleMassActions: function () {

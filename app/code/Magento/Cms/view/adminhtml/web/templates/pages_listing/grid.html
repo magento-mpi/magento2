@@ -1,9 +1,19 @@
 <table data-template-extend="Magento_Ui.templates.listing.grid">
   <thead data-part-replace="grid.heading">
     <tr class="headings">
-      <th class="col-select col-massaction listing-massaction" data-bind="click: toggleMassActions, css: { 'active': isMassActionVisible }">
-        <input type="checkbox" data-bind="checked: isAllVisibleSelected()">
-        <select class="select" data-bind="options: massActions, optionsText: 'title', value: currentMassAction, optionsCaption: 'Mass Actions'"></select>  
+      <th class="col-select col-massaction">
+        <div title="Select Items" class="actions-split">
+            <button title="Select All" class="action-default scalable  add">
+                <span>[ ]</span>
+            </button>
+            <button title="" class="action-toggle scalable  add" data-toggle="dropdown">
+                <span>|</span>
+            </button>
+
+            <ul class="dropdown-menu" data-bind="foreach: { data: massactions, as: 'action' }, on: { 'click li': 'applyMassaction', data: 'action' }">
+                <li data-bind="attr: { 'data-action': action.type }"><span title="Select" class="item item-default" data-bind="text: action.title"></span></li>
+            </ul>
+        </div>
       </th>
       <!-- ko foreach: { data: fields, as: 'field' } -->
       <th>
