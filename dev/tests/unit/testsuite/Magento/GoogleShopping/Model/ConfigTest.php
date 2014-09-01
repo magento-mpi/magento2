@@ -12,10 +12,20 @@ use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $scopeConfig;
+
+    /**
+     * @var \Magento\GoogleShopping\Model\Config
+     */
+    protected $model;
+
     public function setUp()
     {
         $this->scopeConfig = $this->getMock(
-            '\Magento\Framework\App\Config\ScopeConfigInterface',
+            'Magento\Framework\App\Config\ScopeConfigInterface',
             ['getValue', 'isSetFlag'],
             [],
             '',
