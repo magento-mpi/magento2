@@ -75,7 +75,8 @@ class Mapper
         $scoreBuilder = $this->scoreBuilderFactory->create();
         $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), self::BOOL_MUST);
         $select->from($request->getIndex())
-            ->columns($scoreBuilder->build());
+            ->columns($scoreBuilder->build())
+            ->order($scoreBuilder->getScoreAlias() . ' DESC');
         return $select;
     }
 
