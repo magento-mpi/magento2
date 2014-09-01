@@ -194,9 +194,6 @@ body {
                 );
             }
         }
-        .switcher {
-            display: none;
-        }
     }
 }
 
@@ -266,7 +263,41 @@ body {
         top: 7px;
         right: 10px;
     }
+    .page-footer .footer.content {
+        .switcher-store {
+            background: @footer-bg-color;
+            font-size: 16px;
+            margin: 0 -@layout-width-xs-indent;
+            .switcher-options {
+                display: block;
+                ul.dropdown {
+                    position: relative;
+                    box-shadow: none;
+                    margin: 0;
+                    border: 0;
+                    background: none;
+                    &:before,
+                    &:after {
+                        display: none;
+                    }
+                }
+                .switcher-trigger,
+                .switcher-option {
+                    border-top: 1px solid @footer-links-separator-border-color;
+                    display: block;
+                    padding: 10px @layout-indent;
+                }
+                .switcher-trigger strong {
+                    padding: 10px 0;
+                }
+                .switcher-option a {
+                    padding: 0;
+                }
+            }
+        }
+    }
 }
+
 //
 //    Layered navigation
 //--------------------------------------
