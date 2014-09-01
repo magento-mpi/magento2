@@ -218,17 +218,20 @@ class ApplyCatalogPriceRuleTest extends Functional
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
         $billingAddress = $fixture->getBillingAddress();
         $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
         $shippingMethod = $fixture->getShippingMethods()->getData('fields');
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
         $payment = [
             'method' => $fixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
             'credit_card' => $fixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $reviewBlock = $checkoutOnePage->getReviewBlock();
 
-        $this->assertContains($fixture->getGrandTotal(), $reviewBlock->getGrandTotal(), 'Incorrect Grand Total');
+        $this->assertContains($fixture->getGrandTotal(), '$' . $reviewBlock->getGrandTotal(), 'Incorrect Grand Total');
         $reviewBlock->placeOrder();
     }
 
@@ -241,7 +244,7 @@ class ApplyCatalogPriceRuleTest extends Functional
     protected function verifyPriceRules(array $products)
     {
         // Verify Banner on the front end store home page
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexBanner();
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
         $bannerBlock = $frontendHomePage->getBannersBlock();
         $this->assertNotEmpty($bannerBlock->getBannerText(), "Banner is empty.");

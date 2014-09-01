@@ -14,7 +14,6 @@ $installer->addAttribute(
     'catalog_product',
     'related_tgtr_position_limit',
     array(
-        'group' => 'General',
         'label' => 'Related Target Rule Rule Based Positions',
         'visible' => false,
         'user_defined' => false,
@@ -30,7 +29,6 @@ $installer->addAttribute(
     'catalog_product',
     'related_tgtr_position_behavior',
     array(
-        'group' => 'General',
         'label' => 'Related Target Rule Position Behavior',
         'visible' => false,
         'user_defined' => false,
@@ -46,7 +44,6 @@ $installer->addAttribute(
     'catalog_product',
     'upsell_tgtr_position_limit',
     array(
-        'group' => 'General',
         'label' => 'Upsell Target Rule Rule Based Positions',
         'visible' => false,
         'user_defined' => false,
@@ -62,7 +59,6 @@ $installer->addAttribute(
     'catalog_product',
     'upsell_tgtr_position_behavior',
     array(
-        'group' => 'General',
         'label' => 'Upsell Target Rule Position Behavior',
         'visible' => false,
         'user_defined' => false,

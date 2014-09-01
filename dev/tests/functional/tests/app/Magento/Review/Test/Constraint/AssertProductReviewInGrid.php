@@ -61,7 +61,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
         $product = $reviewInitial === null
             ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
             : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
-        $filter = $this->prepareFilter($product, $review, $gridStatus);
+        $filter = $this->prepareFilter($product, $review->getData(), $gridStatus);
 
         $reviewIndex->open();
         $reviewIndex->getReviewGrid()->search($filter);
@@ -76,11 +76,11 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * Prepare filter for assert
      *
      * @param FixtureInterface $product
-     * @param ReviewInjectable $review
-     * @param string $gridStatus
+     * @param array $review
+     * @param string $gridStatus [optional]
      * @return array
      */
-    public function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
+    public function prepareFilter(FixtureInterface $product, array $review, $gridStatus = '')
     {
         $filter = [];
         foreach ($this->filter as $key => $item) {
@@ -94,13 +94,13 @@ class AssertProductReviewInGrid extends AbstractConstraint
                     $value = $product->getData($param);
                     break;
                 case 'select_stores':
-                    $value = $review->getData($param)[0];
+                    $value = isset($review[$param]) ? $review[$param][0] : null;
                     break;
                 case 'status_id':
-                    $value = $gridStatus != '' ? $gridStatus : $review->getData($param);
+                    $value = $gridStatus != '' ? $gridStatus : (isset($review[$param]) ? $review[$param] : null);
                     break;
                 default:
-                    $value = $review->getData($param);
+                    $value = isset($review[$param]) ? $review[$param] : null;
                     break;
             }
             if ($value !== null) {

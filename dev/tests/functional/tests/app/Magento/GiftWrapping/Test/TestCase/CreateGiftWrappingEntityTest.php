@@ -63,7 +63,7 @@ class CreateGiftWrappingEntityTest extends Injectable
      * @param GiftWrapping $giftWrapping
      * @return void
      */
-    public function testCreateGiftWrapping(GiftWrapping $giftWrapping)
+    public function test(GiftWrapping $giftWrapping)
     {
         // Steps
         $this->giftWrappingIndexPage->open();
