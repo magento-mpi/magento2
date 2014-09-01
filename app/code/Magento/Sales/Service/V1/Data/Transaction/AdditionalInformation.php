@@ -10,10 +10,18 @@ namespace Magento\Sales\Service\V1\Data\Transaction;
 
 use Magento\Framework\Service\Data\AbstractObject as DataObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AdditionalInformation extends DataObject
 {
+    /**#@+
+     * Data object properties
+     * @var string
+     */
     const KEY = 'key';
     const VALUE = 'value';
+    /**#@-*/
 
     /**
      * Returns key

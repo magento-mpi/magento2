@@ -10,8 +10,15 @@ namespace Magento\Sales\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObject as DataObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Transaction extends DataObject
 {
+    /**#@+
+     * Data object properties
+     * @var string
+     */
     const TRANSACTION_ID = 'transaction_id';
     const PARENT_ID = 'parent_id';
     const ORDER_ID = 'order_id';
@@ -25,6 +32,7 @@ class Transaction extends DataObject
     const METHOD = 'method';
     const INCREMENT_ID = 'increment_id';
     const CHILD_TRANSACTIONS = 'child_transactions';
+    /**#@-*/
 
     /**
      * Returns transaction_id
