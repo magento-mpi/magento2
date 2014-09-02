@@ -19,17 +19,17 @@ class DocumentFactory
      */
     protected $objectManager;
     /**
-     * @var \Magento\Framework\Search\MetadataEntityId
+     * @var \Magento\Framework\Search\EntityMetadata
      */
     private $entityId;
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\Search\MetadataEntityId $entityId
+     * @param \Magento\Framework\Search\EntityMetadata $entityId
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\Search\MetadataEntityId $entityId
+        \Magento\Framework\Search\EntityMetadata $entityId
     ) {
         $this->objectManager = $objectManager;
         $this->entityId = $entityId;

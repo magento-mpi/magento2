@@ -8,8 +8,10 @@
 
 namespace Magento\Framework\Search;
 
-
-class MetadataEntityId
+/**
+ * Entity metadata
+ */
+class EntityMetadata
 {
     /**
      * @var string
@@ -25,7 +27,9 @@ class MetadataEntityId
     }
 
     /**
-     * {@inheritdoc}
+     * Get entity id
+     *
+     * @return string
      */
     public function getEntityId()
     {
