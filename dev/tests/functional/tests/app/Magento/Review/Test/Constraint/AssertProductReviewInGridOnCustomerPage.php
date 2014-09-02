@@ -13,7 +13,7 @@ use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
-use Magento\Review\Test\Block\Adminhtml\Edit\Tab\Reviews\ReviewsGrid;
+use Magento\Review\Test\Block\Adminhtml\Product\Grid as ReviewsGrid;
 
 /**
  * Class AssertProductReviewInGridOnCustomerPage

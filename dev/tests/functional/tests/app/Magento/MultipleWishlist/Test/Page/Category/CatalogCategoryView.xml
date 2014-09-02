@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="wishlist/catalog/category/view" module="Magento_MultipleWishlist">
+<page mca="catalog/category/view">
     <blocks>
         <wishlistSearchBlock>
             <class>Magento\MultipleWishlist\Test\Block\Widget\Search</class>

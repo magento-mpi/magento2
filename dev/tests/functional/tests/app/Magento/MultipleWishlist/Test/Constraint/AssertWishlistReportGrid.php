@@ -11,7 +11,7 @@ namespace Magento\MultipleWishlist\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
+use Magento\Wishlist\Test\Page\Adminhtml\CustomerWishlistReport;
 
 /**
  * Class AssertWishlistReportGrid

@@ -70,11 +70,11 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
             ]
         );
 
-        $productBlockForm = $newProductPage->getForm();
+        $productBlockForm = $newProductPage->getProductForm();
         $productBlockForm->fill($productConfigurable);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $newProductPage->getForm()->findAttribute($this->attribute->getFrontendLabel()),
+            $productBlockForm->checkAttributeInSearchAttributeForm($this->attribute),
             "Product attribute is absent on the product page."
         );
     }

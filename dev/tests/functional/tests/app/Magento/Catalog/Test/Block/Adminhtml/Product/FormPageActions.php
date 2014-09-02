@@ -80,21 +80,6 @@ class FormPageActions extends ParentFormPageActions
     }
 
     /**
-     * Save product form with window confirmation
-     *
-     * @param BackendPage $page
-     * @param FixtureInterface $product
-     * @return void
-     */
-    public function saveProduct(BackendPage $page, FixtureInterface $product)
-    {
-        parent::save();
-        /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\AffectedAttributeSetForm $affectedAttributeSetForm */
-        $affectedAttributeSetForm = $page->getAffectedAttributeSetForm();
-        $affectedAttributeSetForm->fill($product)->confirm();
-    }
-
-    /**
      * Click save and duplicate action
      *
      * @return void

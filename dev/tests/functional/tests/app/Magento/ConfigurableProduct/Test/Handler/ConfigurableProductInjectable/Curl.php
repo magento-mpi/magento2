@@ -33,8 +33,8 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
 
         $this->mappingData += [
             'is_percent' => [
-                '%' => 1,
-                '$' => 0
+                'Yes' => 1,
+                'No' => 0
             ],
             'include' => [
                 'Yes' => 1,
@@ -83,23 +83,23 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
         ];
         $result = [];
 
-        foreach ($configurableAttributesData->getAttributesData() as $attributeKey => $attribute) {
+        foreach ($configurableAttributesData->getAttributesData() as $attribute) {
             $attributeId = isset($attribute['attribute_id']) ? $attribute['attribute_id'] : null;
             $dataOptions = [];
 
-            foreach ($attribute['options'] as $optionKey => $option) {
+            foreach ($attribute['options'] as $option) {
                 $optionId = isset($option['id']) ? $option['id'] : null;
 
-                $dataOption['value_index'] = $optionId;
                 $dataOption = array_intersect_key($option, array_flip($optionFields));
+                $dataOption['value_index'] = $optionId;
 
                 $dataOptions[$optionId] = $dataOption;
             }
 
             $result[$attributeId] = [
-                'label' => $attribute['frontend_label'],
                 'code' => $attribute['attribute_code'],
                 'attribute_id' => $attributeId,
+                'label' => $attribute['frontend_label'],
                 'values' => $dataOptions
             ];
         }

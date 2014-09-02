@@ -106,7 +106,6 @@ class AssertProductDuplicateForm extends AssertProductForm
             $compareData['special_price'] = ['special_price' => $compareData['special_price']];
         }
         $compareData['sku'] .= '-1';
-        $compareData['quantity_and_stock_status']['is_in_stock'] = 'Out of Stock';
         unset($compareData['category_ids'], $compareData['id']);
 
         return $compareData;
