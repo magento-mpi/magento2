@@ -13,7 +13,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 /**
  * Class HistoryTest
  *
- * @package Magento\Rma\Model\Rma\Status
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class HistoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -97,7 +97,28 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $context = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
         $context->expects($this->once())->method('getEventDispatcher')->will($this->returnValue($this->eventManager));
 
-        $this->rmaConfig = $this->getMock('Magento\Rma\Model\Config', [], [], '', false);
+        $this->rmaConfig = $this->getMock(
+            'Magento\Rma\Model\Config',
+            [
+                '__wakeup',
+                'getRootCommentEmail',
+                'getCustomerEmailRecipient',
+                'getRootCustomerCommentEmail',
+                'init',
+                'isEnabled',
+                'getCopyTo',
+                'getCopyMethod',
+                'getGuestTemplate',
+                'getTemplate',
+                'getIdentity',
+                'getRootRmaEmail',
+                'getRootAuthEmail',
+
+            ],
+            [],
+            '',
+            false
+        );
         $this->rma = $this->getMock(
             'Magento\Rma\Model\Rma',
             [
@@ -444,6 +465,13 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $this->rmaConfig->expects($this->once())
             ->method('isEnabled')
             ->will($this->returnValue(false));
+        $this->assertEquals($this->history, $this->history->sendAuthorizeEmail());
+    }
+
+    public function testSendAuthorizeEmailFail()
+    {
+        $this->history->setRma($this->rma);
+        $this->rma->setIsSendAuthEmail(false);
         $this->assertEquals($this->history, $this->history->sendAuthorizeEmail());
     }
 
