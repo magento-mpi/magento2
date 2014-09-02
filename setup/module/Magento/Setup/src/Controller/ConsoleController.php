@@ -8,16 +8,15 @@
 
 namespace Magento\Setup\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Console\Request as ConsoleRequest;
-use Magento\Locale\Lists;
-use Magento\Setup\Model\Helper;
-use Magento\Setup\Model\FilePermissions;
 use Magento\Config\ConfigFactory;
 use Magento\Framework\DB\Adapter\Pdo\Mysql;
-use Magento\Setup\Model\DatabaseCheck;
 use Magento\Framework\Math\Random;
+use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;
+use Magento\Setup\Helper\Helper;
+use Magento\Setup\Model\DatabaseCheck;
+use Magento\Setup\Model\FilePermissions;
+use Zend\Mvc\Controller\AbstractActionController;
 
 class ConsoleController extends AbstractActionController
 {
@@ -68,7 +67,7 @@ class ConsoleController extends AbstractActionController
         $this->config = $config;
     }
 
-    public function consoleAction()
+    public function installLocalAction()
     {
         $request = $this->getRequest();
 
@@ -249,19 +248,38 @@ class ConsoleController extends AbstractActionController
         $request = $this->getRequest();
         Helper::checkRequest($request);
 
-        $locale = $request->getParam('show_locales');
+        $locale = $request->getParam('locales');
         if ($locale) {
             return  Helper::arrayToString($this->list->getLocaleList());
         }
 
-        $currency = $request->getParam('show_currencies');
+        $currency = $request->getParam('currencies');
         if ($currency) {
             return  Helper::arrayToString($this->list->getCurrencyList());
         }
 
-        $time = $request->getParam('show_timezones');
+        $time = $request->getParam('timezones');
         if ($time) {
             return  Helper::arrayToString($this->list->getTimezoneList());
         }
+
+        else return "Hello World";
+    }
+
+
+    public function installSchemaAction()
+    {
+        $request = $this->getRequest();
+        Helper::checkRequest($request);
+
+        return  "I have successfully installed Schema" . PHP_EOL;
+    }
+
+    public function installDataAction()
+    {
+        $request = $this->getRequest();
+        Helper::checkRequest($request);
+
+        return  "I have successfully installed Data" . PHP_EOL;
     }
 }

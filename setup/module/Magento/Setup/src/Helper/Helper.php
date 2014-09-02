@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Setup\Model;
+namespace Magento\Setup\Helper;
 
 use Zend\Console\Request as ConsoleRequest;
 
