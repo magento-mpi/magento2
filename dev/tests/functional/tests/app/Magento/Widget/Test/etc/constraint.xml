@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertWidgetSuccessSaveMessage module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetSuccessSaveMessage>
+    <assertWidgetInGrid module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetInGrid>
+    <assertWidgetOnFrontendInCatalog module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetOnFrontendInCatalog>
+    <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetAbsentOnFrontendHome>
+    <assertWidgetOnFrontendAllPages module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetOnFrontendAllPages>
+    <assertWidgetOnProductPage module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetOnProductPage>
+    <assertWidgetCmsPageLink module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetCmsPageLink>
+    <assertWidgetCatalogLink module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetCatalogLink>
+    <assertWidgetEventLink module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetEventLink>
+    <assertWidgetProductLink module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetProductLink>
+    <assertWidgetOrderBySku module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetOrderBySku>
+    <assertProductInRecentlyViewedBlock module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertProductInRecentlyViewedBlock>
+</constraint>

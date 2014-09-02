@@ -114,6 +114,20 @@ class Widget extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $layout = [
+        'attribute_code' => 'layout',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\LayoutUpdates',
+        'group' => 'layout_updates',
+    ];
+
+    protected $widgetOptions = [
+        'attribute_code' => 'widgetOptions',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\WidgetOptions',
+        'group' => 'widget_options',
+    ];
+
     public function getAnchorText()
     {
         return $this->getData('anchor_text');
@@ -187,5 +201,15 @@ class Widget extends InjectableFixture
     public function getId()
     {
         return $this->getData('id');
+    }
+
+    public function getLayout()
+    {
+        return $this->getData('layout');
+    }
+
+    public function getWidgetOptions()
+    {
+        return $this->getData('widgetOptions');
     }
 }

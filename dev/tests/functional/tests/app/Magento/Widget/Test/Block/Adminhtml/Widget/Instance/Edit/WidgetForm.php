@@ -11,7 +11,7 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
+ * Class WidgetForm
  * Widget Instance edit form
  */
 class WidgetForm extends FormTabs
