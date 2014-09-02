@@ -8,24 +8,17 @@
 
 namespace Magento\Checkout\Service\V1\PaymentMethod;
 
-use \Magento\Checkout\Service\V1\QuoteLoader;
-use \Magento\Store\Model\StoreManagerInterface;
+use \Magento\Sales\Model\QuoteRepository;
 use \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Builder;
 use \Magento\Framework\Exception\State\InvalidTransitionException;
 use \Magento\Payment\Model\Checks\ZeroTotal;
 
-
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var StoreManagerInterface
+     * @var QuoteRepository
      */
-    protected $storeManager;
-
-    /**
-     * @var QuoteLoader
-     */
-    protected $quoteLoader;
+    protected $quoteRepository;
 
     /**
      * @var Builder
@@ -38,19 +31,16 @@ class WriteService implements WriteServiceInterface
     protected $zeroTotalValidator;
 
     /**
-     * @param QuoteLoader $quoteLoader
-     * @param StoreManagerInterface $storeManager
+     * @param QuoteRepository $quoteRepository
      * @param Builder $paymentMethodBuilder
      * @param ZeroTotal $zeroTotalValidator
      */
     public function __construct(
-        QuoteLoader $quoteLoader,
-        StoreManagerInterface $storeManager,
+        QuoteRepository $quoteRepository,
         Builder $paymentMethodBuilder,
         ZeroTotal $zeroTotalValidator
     ) {
-        $this->storeManager = $storeManager;
-        $this->quoteLoader = $quoteLoader;
+        $this->quoteRepository = $quoteRepository;
         $this->paymentMethodBuilder = $paymentMethodBuilder;
         $this->zeroTotalValidator = $zeroTotalValidator;
     }
@@ -60,7 +50,7 @@ class WriteService implements WriteServiceInterface
      */
     public function set(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId)
     {
-        $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
+        $quote = $this->quoteRepository->get($cartId);
 
         $payment = $this->paymentMethodBuilder->build($method, $quote);
         if ($quote->isVirtual()) {
