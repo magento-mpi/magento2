@@ -23,32 +23,32 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     private $objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\RequestInterface
      */
     private $requestMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Route\ConfigInterface
      */
     private $routeConfigMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\State
      */
     private $appStateMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Router\ActionList
      */
     private $actionListMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\ActionFactory
      */
     private $actionFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Code\NameBuilder
      */
     private $nameBuilderMock;
 
@@ -115,10 +115,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->requestExpects('setActionName', $actionName)
             ->requestExpects('setControllerModule', $moduleName);
 
-        $this->assertEquals($actionInstance, $this->model->match($this->requestMock));
+        $this->assertSame($actionInstance, $this->model->match($this->requestMock));
     }
 
-    public function testEmptyModuleList()
+    public function testMatchEmptyModuleList()
     {
         // Test Data
         $actionInstance = 'action instance';
@@ -141,7 +141,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->model->match($this->requestMock));
     }
 
-    public function testEmptyActionInstance()
+    public function testMatchEmptyActionInstance()
     {
         // Test Data
         $nullActionInstance = null;
@@ -167,13 +167,16 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
     public function testGetActionClassName()
     {
+        $className = 'name of class';
         $module = 'module';
         $prefix = 'Controller';
         $actionPath = 'action path';
         $this->nameBuilderMock->expects($this->once())
             ->method('buildClassName')
-            ->with([$module, $prefix, $actionPath]);
-        $this->model->getActionClassName($module, $actionPath);
+            ->with([$module, $prefix, $actionPath])
+            ->willReturn($className);
+        $this->assertEquals($className, $this->model->getActionClassName($module, $actionPath));
+
     }
 
     /**
