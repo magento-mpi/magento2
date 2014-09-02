@@ -9,7 +9,6 @@
 @import "listings.less";
 @import "toolbar.less";
 
-
 @product-info-price: #575757;
 
 //
@@ -143,7 +142,6 @@
         width: 100%;
         color: @product-info-price;
         margin-bottom: @indent-s-base + @indent-xs-base;
-        width: 100%;
         .price-box {
             display: table-cell;
             vertical-align: top;
@@ -244,10 +242,13 @@
     padding-bottom: @indent-s-base;
     .old-price {
         font-size: 20px;
+        .price-container > span {
+            display: inline-block;
+        }
         .price {
         }
     }
-    .price-container.price-final_price {
+    .price-container {
         > span {
             display: block;
             margin-bottom: @indent-xs-base;
@@ -259,6 +260,16 @@
             font-size: 22px;
             line-height: 22px;
             font-weight: @font-weight-semibold;
+        }
+        .price-including-tax + .price-excluding-tax,
+        .weee + .price-excluding-tax,
+        .weee {
+            .font-size(12);
+            line-height: 14px;
+            .price {
+                .font-size(12);
+                font-weight: @font-weight-bold;
+            }
         }
     }
 }
@@ -299,7 +310,7 @@
     }
 }
 
-.prices.tier.items {
+.prices-tier {
     &:extend(.reset-list all);
     margin-bottom: @indent-s-base + @indent-xs-base;
     .item {
@@ -335,7 +346,7 @@
 }
 
 //
-// Product view Desktop
+//    Product view Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .product-info-main {
@@ -362,7 +373,7 @@
     .product-options-bottom,
     .product-info-price {
         .price-box {
-            .price-container.price-final_price {
+            .price-container {
                 font-size: @font-size-xl;
                 .price {
                     font-size: 36px;
