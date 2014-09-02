@@ -23,6 +23,25 @@ use Mtf\Fixture\FixtureInterface;
 class Curl extends AbstractCurl implements CustomerBalanceInterface
 {
     /**
+     * Mapping values for data
+     *
+     * @var array
+     */
+    protected $mappingData = [
+        'group_id' => [
+            'General' => 1,
+            'Wholesale' => 2,
+            'Retailer' => 3
+        ],
+        'country_id' => [
+            'United States' => 'US'
+        ],
+        'region_id' => [
+            'California' => 12
+        ]
+    ];
+
+    /**
      * Post request for creating customer balance backend
      *
      * @param FixtureInterface|null $fixture
@@ -31,13 +50,7 @@ class Curl extends AbstractCurl implements CustomerBalanceInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        /** @var \Magento\CustomerBalance\Test\Fixture\CustomerBalance $fixture */
-        $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
-        /** @var CustomerInjectable $customer */
-        $data = $customer->getData();
-        $data['customer_id'] = $customer->getId();
-        $data['customerbalance']['amount_delta'] = $fixture->getBalanceDelta();
-
+        $data = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . 'customer/index/save/active_tab/customerbalance/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
@@ -50,5 +63,26 @@ class Curl extends AbstractCurl implements CustomerBalanceInterface
                 "Adding customer balance by curl handler was not successful! Response: $response"
             );
         }
+    }
+
+    /**
+     * Prepare data from text to values
+     *
+     * @param FixtureInterface $fixture
+     * @return array
+     */
+    protected function prepareData($fixture)
+    {
+        /** @var \Magento\CustomerBalance\Test\Fixture\CustomerBalance $fixture */
+        $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
+        /** @var \Magento\Store\Test\Fixture\Website $website */
+        $website = $fixture->getDataFieldConfig('website_id')['source']->getWebsite();
+        /** @var CustomerInjectable $customer */
+        $data = $this->replaceMappingData($customer->getData());
+        $data['customer_id'] = $customer->getId();
+        $data['customerbalance']['amount_delta'] = $fixture->getBalanceDelta();
+        $data['customerbalance']['website_id'] = $website->getWebsiteId();
+
+        return $data;
     }
 }
