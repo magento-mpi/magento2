@@ -270,16 +270,6 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     }
 
     /**
-     * Get declared page layout for current handles
-     *
-     * @return null|string
-     */
-    public function getPageLayout()
-    {
-        return $this->pageConfig->getPageLayout();
-    }
-
-    /**
      * If page layout not defined in page config model set page layout from page configuration
      */
     protected function processLayoutPage()
@@ -415,10 +405,11 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
             $this->_merge($handle);
         }
         $this->processLayoutPage();
+        $pageLayoutHandle = $this->pageConfig->getPageLayout();
         if ($this->pageLayout) {
-            $this->_merge($this->getPageLayout());
-            $this->addHandle($this->getPageLayout());
-            $this->_saveCache($this->getPageLayout(), $cacheIdPageLayout);
+            $this->_merge($pageLayoutHandle);
+            $this->addHandle($pageLayoutHandle);
+            $this->_saveCache($pageLayoutHandle, $cacheIdPageLayout);
         }
 
         $layout = $this->asString();
