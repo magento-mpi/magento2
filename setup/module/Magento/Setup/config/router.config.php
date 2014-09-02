@@ -45,7 +45,7 @@ return [
             'routes' => [
                 'show' => [
                     'options' => [
-                        'route' => 'show (locales|currencies|timezones)',
+                        'route' => 'show (locales|currencies|timezones|options)',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'info',
@@ -91,7 +91,7 @@ return [
                 ],
                 'install-data' => [
                     'options' => [
-                        'route' => 'install data',
+                        'route' => 'install data --magentoDir=',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installData',

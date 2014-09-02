@@ -17,6 +17,10 @@ class Config extends ZendConfig
      * @var Inflector
      */
     private $inflector;
+
+    /**
+     * @var path
+     */
     private $path;
 
     /**
@@ -36,9 +40,8 @@ class Config extends ZendConfig
                 $this->data[$key] = $value;
             }
             $this->count++;
-
-            $this->path = '';
         }
+        $this->path = '';
     }
 
     /**

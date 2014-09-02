@@ -139,11 +139,12 @@ class Module implements
     {
         return [
             'Retrieving List of Options',
-            'show locales'             => 'Show possible locales',
-            'show currencies'          => 'Show all acceptable currencies',
-            'show timezones'           => 'Show all timezones',
+            'show locales'              => 'Show possible locales',
+            'show currencies'               => 'Show all acceptable currencies',
+            'show timezones'                => 'Show all timezones',
+            'show options'              => 'Show all install options',
             'Command Line Options',
-            'install local [--<install_option_name> "<option_value>" ...]'         => 'Installing Local.xml file',
+            'install local [--<install_option_name> "<option_value>" ...]'              => 'Installing Local.xml file',
             [   'license_agreement_accepted' , 'yes' ],
             [   'db_host' , 'localhost'],
             [   'db_name' , 'magento'],
@@ -162,12 +163,12 @@ class Module implements
             [   'admin_username' , 'admin'],
             [   'admin_password' , '1234qasd'],
             'Example of installation: ',
-            'php -f install.php install --license_agreement_accepted yes --locale en_US --timezone "America/Los_Angeles"'.
-            '--default_currency USD --db_host localhost --db_name magento --db_user root --url "http://magento.local/"'.
-            '--use_rewrites no --use_secure_admin yes --admin_lastname Smith --admin_firstname John --admin_email '.
-            '"john.smith@some-email.com" --admin_username admin --admin_password 1234qasd --use_secure no '.
-            '--secure_base_url "https://magento.local" --cleanup_database',
-            'install data'      => 'Installs Data files'
+            'php -f index.php install local --license_agreement_accepted yes --db_host localhost' .
+            ' --db_name magentosetup --db_user root --store_url "http://127.0.0.1/"' .
+            ' --admin_url "http://127.0.0.1/admin" --secure_store_url yes --locale "en_US"' .
+            ' --timezone "America/Los_Angeles" --currency "USD" --admin_lastname Smith --admin_firstname John' .
+            ' --admin_email 123@gmail.com --admin_username "admin" --admin_password "123123q"',
+            'install data'          => 'Installs Data files'
         ];
     }
 }

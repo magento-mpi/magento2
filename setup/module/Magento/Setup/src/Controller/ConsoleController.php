@@ -67,6 +67,11 @@ class ConsoleController extends AbstractActionController
         $this->config = $config;
     }
 
+    /**
+     * Creates the local.xml file
+     * @return string
+     * @throws \Exception
+     */
     public function installLocalAction()
     {
         $request = $this->getRequest();
@@ -101,8 +106,6 @@ class ConsoleController extends AbstractActionController
         //Set maintenance mode "on"
         touch($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
 
-
-
         //Build all data required for creating local.xml
         $dbHost   = $request->getParam('db_host');
         $dbName   = $request->getParam('db_name');
@@ -127,8 +130,7 @@ class ConsoleController extends AbstractActionController
             ),
         );
         $checkDB = new DatabaseCheck($dbConnectionInfo);
-        if (!$checkDB->checkConnection())
-        {
+        if (!$checkDB->checkConnection()) {
             throw new \Exception('Database connection failure.');
         }
 
@@ -230,19 +232,50 @@ class ConsoleController extends AbstractActionController
         $this->config->setConfigData($data);
         $this->config->install();
 
-        /********************** Here goes schema updater **********************/
+        /********************** Here goes schema updater (for one install step) **********************/
 
         $this->config->replaceTmpEncryptKey($encryptionKey);
         $this->config->replaceTmpInstallDate(date('r'));
 
-        /********************** Here goes data updater **********************/
+        /********************** Here goes data updater (for one install step) **********************/
 
         //Set maintenance mode "off"
         unlink($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
 
-        return "Installation was successful\n";
+        return  "local.xml file has been created successfully." . PHP_EOL;
     }
 
+    /**
+     * Installs and updates database schema
+     * @return string
+     * @throws \Exception
+     */
+    public function installSchemaAction()
+    {
+        $request = $this->getRequest();
+        Helper::checkRequest($request);
+
+        return  "Schema have been installed successfully." . PHP_EOL;
+    }
+
+    /**
+     * Installs and updates data
+     * @return string
+     * @throws \Exception
+     */
+    public function installDataAction()
+    {
+        $request = $this->getRequest();
+        Helper::checkRequest($request);
+
+        return  "Data have been installed successfully." . PHP_EOL;
+    }
+
+    /**
+     * IShows necessay information for installing Magento
+     * @return string
+     * @throws \Exception
+     */
     public function infoAction()
     {
         $request = $this->getRequest();
@@ -263,23 +296,11 @@ class ConsoleController extends AbstractActionController
             return  Helper::arrayToString($this->list->getTimezoneList());
         }
 
-        else return "Hello World";
-    }
+        $options = $request->getParam('options');
+        if ($options) {
+            return  Helper::showOptions();
+        }
 
-
-    public function installSchemaAction()
-    {
-        $request = $this->getRequest();
-        Helper::checkRequest($request);
-
-        return  "I have successfully installed Schema" . PHP_EOL;
-    }
-
-    public function installDataAction()
-    {
-        $request = $this->getRequest();
-        Helper::checkRequest($request);
-
-        return  "I have successfully installed Data" . PHP_EOL;
+        return "Wrong command!";
     }
 }
