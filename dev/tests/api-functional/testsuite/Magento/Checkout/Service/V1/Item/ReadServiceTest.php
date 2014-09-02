@@ -29,22 +29,23 @@ class ReadServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_items_saved.php
      */
     public function testGetList()
     {
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
-        $quote->load('test_order_1', 'reserved_order_id');
+        $quote->load('test_order_item_with_items', 'reserved_order_id');
         $cartId = $quote->getId();
         $output = [];
         foreach ($quote->getAllItems() as $item) {
             $data = [
+                Item::ITEM_ID => $item->getId(),
                 Item::SKU => $item->getSku(),
                 Item::NAME => $item->getName(),
                 Item::PRICE => $item->getPrice(),
                 Item::QTY => $item->getQty(),
-                Item::TYPE => $item->getProductType()
+                Item::PRODUCT_TYPE => $item->getProductType(),
             ];
 
             $output[] = $data;

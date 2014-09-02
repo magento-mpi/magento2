@@ -10,7 +10,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 /**
  * Builder for the Shipping Method Data
  */
-class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set carrier code
