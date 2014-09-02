@@ -9,7 +9,7 @@
  
 namespace Magento\AdvancedCheckout\Model\Observer;
  
-class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase 
+class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CollectTotalsFailedItems
@@ -43,7 +43,7 @@ class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\AdvancedCheckout\Model\FailedItemProcessor', [], [], '', false);
         $this->eventMock =
             $this->getMock('Magento\Framework\Event', ['getFullActionName', '__wakeup'], [], '', false);
-        $this->observerMock = $this->getMock('Magento\Framework\Event\Observer',[] ,[], '', false);
+        $this->observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
 
         $this->model = new CollectTotalsFailedItems($this->cartMock, $this->failedItemProcessorMock);
     }

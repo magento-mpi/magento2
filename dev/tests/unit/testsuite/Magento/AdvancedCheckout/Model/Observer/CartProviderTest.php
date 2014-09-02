@@ -11,7 +11,7 @@ namespace Magento\AdvancedCheckout\Model\Observer;
 
 use \Magento\AdvancedCheckout\Model\Cart;
  
-class CartProviderTest extends \PHPUnit_Framework_TestCase 
+class CartProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CartProvider

@@ -9,7 +9,7 @@
  
 namespace Magento\AdvancedCheckout\Model\Observer;
  
-class AddCartLinkTest extends \PHPUnit_Framework_TestCase 
+class AddCartLinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var AddCartLink

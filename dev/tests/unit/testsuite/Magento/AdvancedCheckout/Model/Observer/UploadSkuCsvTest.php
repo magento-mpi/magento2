@@ -9,7 +9,7 @@
  
 namespace Magento\AdvancedCheckout\Model\Observer;
  
-class UploadSkuCsvTest extends \PHPUnit_Framework_TestCase 
+class UploadSkuCsvTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var UploadSkuCsv
