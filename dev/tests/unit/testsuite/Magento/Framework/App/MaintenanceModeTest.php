@@ -20,7 +20,7 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
      */
     protected $flagDir ;
 
-    protected function setup()
+    protected function setUp()
     {
         $this->flagDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
@@ -39,37 +39,7 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->isOn());
     }
 
-    public function testisOnWithoutIP()
-    {
-        $mapIsExist = [
-            [MaintenanceMode::FLAG_FILENAME, true],
-            [MaintenanceMode::IP_FILENAME, false]
-        ];
-        $this->flagDir->expects($this->exactly(2))->method('isExist')
-            ->will(($this->returnValueMap($mapIsExist)));
-        $this->assertTrue($this->model->isOn());
-    }
-
-    public function testisOnWithIP()
-    {
-        $mapIsExist = [
-            [MaintenanceMode::FLAG_FILENAME, true],
-            [MaintenanceMode::IP_FILENAME, true]
-        ];
-        $this->flagDir->expects($this->exactly(2))->method('isExist')
-            ->will(($this->returnValueMap($mapIsExist)));
-        $this->assertFalse($this->model->isOn());
-    }
-
-    public function testisOnWithIPNoMaintenance()
-    {
-        $this->flagDir->expects($this->once())->method('isExist')
-            ->with(MaintenanceMode::FLAG_FILENAME)
-            ->willReturn(false);
-        $this->assertFalse($this->model->isOn());
-    }
-
-    public function testMaintenanceModeOn()
+    public function testSetMaintenanceModeOn()
     {
         $this->flagDir->expects($this->at(0))->method('isExist')->with(MaintenanceMode::FLAG_FILENAME)
             ->will($this->returnValue(false));
@@ -85,7 +55,7 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->model->isOn());
     }
 
-    public function testMaintenanceModeOff()
+    public function testSetMaintenanceModeOff()
     {
         $this->flagDir->expects($this->at(0))->method('isExist')->with(MaintenanceMode::FLAG_FILENAME)
             ->will($this->returnValue(true));
