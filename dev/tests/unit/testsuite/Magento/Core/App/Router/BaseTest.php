@@ -66,7 +66,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             'getControllerName',
             'setControllerName',
             'setControllerModule',
-            'setAlias'
+            'setAlias',
+            'getCookie',
         ];
 
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface', $requestMethods);

@@ -42,7 +42,8 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
             'getParam',
             'setActionName',
             'setModuleName',
-            'setControllerName'
+            'setControllerName',
+            'getCookie',
         ];
         $this->requestMock = $this->getMock(
             'Magento\Framework\App\RequestInterface',
