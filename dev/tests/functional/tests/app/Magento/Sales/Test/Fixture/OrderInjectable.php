@@ -32,7 +32,7 @@ class OrderInjectable extends InjectableFixture
     protected $defaultDataSet = [
         'customer' => ['preset' => 'default'],
         'base_currency_code' => false,
-        'store_id' => '',
+        'store_id' => ['value' => 'Default Store View'],
         'order_currency_code' => 'USD',
         'shipping_method' => 'flatrate_flatrate',
         'billing_address_id' => ['preset' => 'default'],
@@ -103,6 +103,8 @@ class OrderInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\StoreId',
+        'group' => null
     ];
 
     protected $customer_id = [

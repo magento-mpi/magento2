@@ -115,8 +115,6 @@ class EntityId implements FixtureInterface
      * @param string $name
      * @return mixed
      * @throws \InvalidArgumentException
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {

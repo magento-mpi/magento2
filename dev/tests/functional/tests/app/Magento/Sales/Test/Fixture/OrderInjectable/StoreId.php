@@ -10,12 +10,13 @@ namespace Magento\Sales\Test\Fixture\OrderInjectable;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Store\Test\Fixture\Store;
 
 /**
- * Class BillingAddressId
- * Billing address  preset
+ * Class StoreId
+ * Prepare StoreId for Store Group
  */
-class BillingAddressId implements FixtureInterface
+class StoreId implements FixtureInterface
 {
     /**
      * Prepared dataSet data
@@ -32,16 +33,15 @@ class BillingAddressId implements FixtureInterface
     protected $params;
 
     /**
-     * Current preset
+     * Store fixture
      *
-     * @var string
+     * @var Store
      */
-    protected $currentPreset;
+    public $store;
 
     /**
      * Constructor
      *
-     * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params [optional]
@@ -49,18 +49,22 @@ class BillingAddressId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
         $this->params = $params;
-        if (isset($data['value'])) {
+        if (isset($data['dataSet'])) {
+            $store = $fixtureFactory->createByCode('store', ['dataSet' => $data['dataSet']]);
+            /** @var Store $website */
+            if (!$store->getStoreId()) {
+                $store->persist();
+            }
+            $this->store = $store;
+            $this->data = $store->getName();
+        } elseif (isset($data['value'])) {
+            $this->store = null;
             $this->data = $data['value'];
-            return;
-        }
-        if (isset($data['preset'])) {
-            $this->currentPreset = $data['preset'];
-            $this->data = $this->getPreset($this->currentPreset);
         }
     }
 
     /**
-     * Persist order products
+     * Persist attribute options
      *
      * @return void
      */
@@ -72,7 +76,7 @@ class BillingAddressId implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param string $key [optional]
+     * @param string|null $key [optional]
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -93,31 +97,12 @@ class BillingAddressId implements FixtureInterface
     }
 
     /**
-     * Preset array
+     * Return Store fixture
      *
-     * @param string $name
-     * @return mixed
-     * @throws \InvalidArgumentException
+     * @return Store
      */
-    protected function getPreset($name)
+    public function getWebsite()
     {
-        $presets = [
-            'default' => [
-                'firstname' => '%customer_first_name%',
-                'lestname' => '%customer_last_name%',
-                'street' => ['Улица Пушкина дом короля.'],
-                'city' => 'Los Angeles',
-                'country_id' => 'US',
-                'region_id' => 'California',
-                'postcode' => 90001,
-                'telephone' => '0980074678',
-            ]
-        ];
-        if (!isset($presets[$name])) {
-            throw new \InvalidArgumentException(
-                sprintf('Wrong Order preset name: %s', $name)
-            );
-        }
-        return $presets[$name];
+        return $this->store;
     }
 }

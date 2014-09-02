@@ -12,6 +12,7 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
+use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Class AssertProductInItemsOrderedGrid
@@ -100,19 +101,28 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
      * Get configurable product price
      *
      * @param FixtureInterface $product
+     * @throws \Exception
      * @return int
      */
     protected function getConfigurablePrice(FixtureInterface $product)
     {
         $price = 0;
+        if (!$product instanceof CatalogProductConfigurable) {
+            throw new \Exception("Product '$product->getName()' is not configurable product.");
+        }
         $checkoutData = $product->getCheckoutData();
-        if ($checkoutData !== null) {
-            $attributesData = $product->getConfigurableAttributesData()['attributes_data'];
-            foreach ($checkoutData['configurable_options'] as $option) {
-                $attributeIndex = str_replace('attribute_', '', $option['title']);
-                $optionIndex = str_replace('option_', '', $option['value']);
-                $price += $attributesData[$attributeIndex]['options'][$optionIndex]['pricing_value'];
-            }
+        if ($checkoutData === null) {
+            return 0;
+        }
+        $attributesData = $product->getConfigurableAttributesData()['attributes_data'];
+        foreach ($checkoutData['configurable_options'] as $option) {
+            $attributeIndex = str_replace('attribute_', '', $option['title']);
+            $optionIndex = str_replace('option_', '', $option['value']);
+            $itemOption = $attributesData[$attributeIndex]['options'][$optionIndex];
+            $itemPrice = $itemOption['is_percent'] == 'No'
+                ? $itemOption['pricing_value']
+                : $product->getPrice() / 100 * $itemOption['pricing_value'];
+            $price += $itemPrice;
         }
 
         return $price;

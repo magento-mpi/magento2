@@ -23,7 +23,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
      * @param $name
      * @return array|null
      */
-    public function getPreset($name)
+    protected function getPreset($name)
     {
         $presets = [
             'two_options' => [

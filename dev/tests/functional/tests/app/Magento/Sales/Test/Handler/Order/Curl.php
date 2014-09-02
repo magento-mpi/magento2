@@ -13,6 +13,7 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
@@ -30,6 +31,13 @@ class Curl extends AbstractCurl implements OrderInterface
     protected $customer;
 
     /**
+     * Customer fixture
+     *
+     * @var OrderInjectable
+     */
+    protected $order;
+
+    /**
      * Mapping values for data.
      *
      * @var array
@@ -38,6 +46,9 @@ class Curl extends AbstractCurl implements OrderInterface
         'region_id' => [
             'California' => '12',
         ],
+        'store_id' => [
+            'Default Store View' => 1
+        ]
     ];
 
     /**
@@ -61,6 +72,7 @@ class Curl extends AbstractCurl implements OrderInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
+        $this->order = $fixture;
         $this->customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomerId();
         $data = $this->replaceMappingData($this->prepareData($fixture));
         return ['id' => $this->createOrder($data)];
@@ -196,13 +208,19 @@ class Curl extends AbstractCurl implements OrderInterface
      */
     protected function prepareCustomerData(array $data)
     {
-        $result = [
+        if ($this->order->getDataFieldConfig('store_id')['source']->store === null) {
+            $storeId = $data['store_id'];
+        } else {
+            $storeId = $this->order->getDataFieldConfig('store_id')['source']->store->getStoreId();
+            $this->steps['customer_choice'] .= ',data';
+        }
+
+        return [
             'currency_id' => $data['base_currency_code'],
             'customer_id' => $this->customer->getData('id'),
             'payment' => ['method' => 'free'],
-            'store_id' => $data['store_id']
+            'store_id' => $storeId
         ];
-        return $result;
     }
 
     /**
@@ -251,6 +269,9 @@ class Curl extends AbstractCurl implements OrderInterface
     {
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         foreach ($this->steps as $key => $step) {
+            if (!isset($data[$key])) {
+                continue;
+            }
             $url = $_ENV['app_backend_url'] . 'sales/order_create/loadBlock/block/' . $step . '?isAjax=true';
             $curl->write(CurlInterface::POST, $url, '1.1', [], $data[$key]);
             $curl->read();

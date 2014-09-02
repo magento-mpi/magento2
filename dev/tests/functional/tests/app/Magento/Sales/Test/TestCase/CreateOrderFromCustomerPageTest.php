@@ -122,7 +122,7 @@ class CreateOrderFromCustomerPageTest extends Injectable
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $this->customerIndexEdit->getPageActionsBlock()->createOrder();
-        $products = $this->prepareProductsData($order->getEntityId());
+        $products = $this->extractProductNames($order->getEntityId());
         $this->orderCreateIndex->getCustomerActivitiesBlock()->getLastOrderedItemsBlock()->addToOrderByName($products);
         $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();
 
@@ -143,6 +143,7 @@ class CreateOrderFromCustomerPageTest extends Injectable
         $data['billing_address_id'] = ['value' => $data['billing_address_id']];
         $data['entity_id'] = ['value' => $order->getEntityId()];
         $data['customer_id'] = ['customer' => $customer];
+        $data['store_id'] = ['value' => $data['store_id']];
         $order = $this->fixtureFactory->createByCode('orderInjectable', ['data' => $data]);
         $order->persist();
 
@@ -150,13 +151,13 @@ class CreateOrderFromCustomerPageTest extends Injectable
     }
 
     /**
-     * Prepare products data
+     * Extract products name
      *
      * @param array|null $data
      * @throws \Exception
      * @return array
      */
-    protected function prepareProductsData($data)
+    protected function extractProductNames($data)
     {
         $result = [];
         if ($data === null || !isset($data['data'])) {
