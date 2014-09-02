@@ -9,8 +9,10 @@
 namespace Magento\Setup\Controller;
 
 use Magento\Config\ConfigFactory;
+use Magento\Module\ModuleListInterface;
 use Magento\Framework\DB\Adapter\Pdo\Mysql;
 use Magento\Framework\Math\Random;
+use Magento\Module\SetupFactory;
 use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;
 use Magento\Setup\Helper\Helper;
@@ -29,6 +31,11 @@ class ConsoleController extends AbstractActionController
      * @var Lists
      */
     protected $list;
+
+    /**
+     * @var []
+     */
+    protected $moduleList;
 
     /**
      * @var Config
@@ -51,13 +58,17 @@ class ConsoleController extends AbstractActionController
      * @param ConfigFactory $configFactory
      * @param Random $random
      * @param Config $config
+     * @param ModuleListInterface $moduleList
+     * @param SetupFactory $setupFactory
      */
     public function __construct(
         FilePermissions $filePermission,
         Lists $list,
         ConfigFactory $configFactory,
         Random $random,
-        Config $config
+        Config $config,
+        ModuleListInterface $moduleList,
+        SetupFactory $setupFactory
     ) {
         $this->filePermission = $filePermission;
         $this->list = $list;
@@ -65,6 +76,8 @@ class ConsoleController extends AbstractActionController
         $this->factoryConfig = $this->configFactory->create();
         $this->random = $random;
         $this->config = $config;
+        $this->setupFactory = $setupFactory;
+        $this->moduleList = $moduleList->getModules();
     }
 
     /**
@@ -255,7 +268,16 @@ class ConsoleController extends AbstractActionController
         $request = $this->getRequest();
         Helper::checkRequest($request);
 
-        return  "Schema have been installed successfully." . PHP_EOL;
+        $this->config->loadFromConfigFile();
+        $this->setupFactory->setConfig($this->config->getConfigData());
+
+        $moduleNames = array_keys($this->moduleList);
+        foreach ($moduleNames as $moduleName) {
+            $setup = $this->setupFactory->create($moduleName);
+            $setup->applyUpdates();
+        }
+
+        return  "Completed: Schema Installation." . PHP_EOL;
     }
 
     /**
@@ -300,7 +322,5 @@ class ConsoleController extends AbstractActionController
         if ($options) {
             return  Helper::showOptions();
         }
-
-        return "Wrong command!";
     }
 }

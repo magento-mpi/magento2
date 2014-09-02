@@ -56,12 +56,21 @@ class Config
      * @param array $data
      * @return $this
      */
-    public function setConfigData($data)
+    public function setConfigData(array $data)
     {
         if (is_array($data)) {
-            $this->configData = $this->convert($data);
+            $this->addConfigData($this->convert($data));
         }
         return $this;
+    }
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function addConfigData(array $data)
+    {
+        $this->configData = array_merge($this->configData, $data);
     }
 
 
@@ -82,6 +91,7 @@ class Config
      */
     public function install()
     {
+        print_r($this->configData);
         $this->configData['date'] = self::TMP_INSTALL_DATE_VALUE;
         $this->configData['key'] = self::TMP_ENCRYPT_KEY_VALUE;
 
@@ -94,6 +104,57 @@ class Config
 
         $this->configDirectory->writeFile($this->localConfigFile, $contents, LOCK_EX);
         $this->configDirectory->changePermissions($this->localConfigFile, 0777);
+    }
+
+    /**
+     * Loads Configuration from Local Config File
+     */
+    public function loadFromConfigFile()
+    {
+        $xmlData = $this->configDirectory->readFile($this->localConfigFile);
+        $xmlObj = @simplexml_load_string($xmlData, NULL, LIBXML_NOCDATA);
+        $xmlConfig = json_decode(json_encode((array)$xmlObj), true);
+        $config = $this->convertFromConfigData((array)$xmlConfig);
+        $this->addConfigData($config);
+        return $this;
+    }
+
+    /**
+     * Convert config
+     * @param array $source
+     * @return array
+     */
+    protected function convertFromConfigData(array $source = array())
+    {
+        $result = array();
+        $result['db_host'] = isset($source['connection']['host']) && !is_array($source['connection']['host'])
+            ? $source['connection']['host'] : '';
+        $result['db_name'] = isset($source['connection']['dbName']) && !is_array($source['connection']['dbName'])
+            ? $source['connection']['dbName'] : '';
+        $result['db_user'] = isset($source['connection']['username']) && !is_array($source['connection']['username'])
+            ? $source['connection']['username'] :'';
+        $result['db_pass'] = isset($source['connection']['password']) && !is_array($source['connection']['password'])
+            ? $source['connection']['password'] : '';
+        $result['db_prefix'] = isset($source['db']['table_prefix']) && !is_array($source['db']['table_prefix'])
+            ? $source['db']['table_prefix'] : '';
+        $result['session_save'] = isset($source['session_save']) && !is_array($source['session_save'])
+            ? $source['session_save'] : 'files';
+        $result['backend_frontname'] = isset($source['config']['address']['admin']) &&
+            !is_array($source['config']['address']['admin'])
+            ? $source['config']['address']['admin']
+            : '';
+        $result['db_model'] = '';
+        $result['db_init_statements'] = isset($source['connection']['initStatements'])
+            && !is_array($source['connection']['initStatements']) ? $source['connection']['initStatements'] : '';
+
+        $result['admin_username'] = isset($source['admin']['username']) && !is_array($source['admin']['username'])
+            ? $source['admin']['username'] : '';
+        $result['admin_password'] = isset($source['admin']['password']) && !is_array($source['admin']['password'])
+            ? $source['admin']['password'] : '';
+        $result['admin_email'] = isset($source['admin']['email']) && !is_array($source['admin']['email'])
+            ? $source['admin']['email'] : '';
+
+        return $result;
     }
 
     /**
