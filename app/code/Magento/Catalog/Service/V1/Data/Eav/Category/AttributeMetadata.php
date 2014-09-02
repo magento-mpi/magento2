@@ -9,6 +9,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
 use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 use Magento\Framework\Service\Data\MetadataObjectInterface;
+
 /**
  * @codeCoverageIgnore
  */
