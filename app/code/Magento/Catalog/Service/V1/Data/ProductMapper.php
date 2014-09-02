@@ -38,11 +38,11 @@ class ProductMapper
     public function toModel(
         Product $product,
         \Magento\Catalog\Model\Product $productModel = null,
-        $skipCustomAttributes = array()
+        $customAttributesToSkip = array()
     ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
         $productModel = $productModel ?: $this->productFactory->create();
-        $productModel->addData(EavDataObjectConverter::toFlatArray($product, $skipCustomAttributes));
+        $productModel->addData(EavDataObjectConverter::toFlatArray($product, $customAttributesToSkip));
         if (!is_numeric($productModel->getAttributeSetId())) {
             $productModel->setAttributeSetId($productModel->getDefaultAttributeSetId());
         }

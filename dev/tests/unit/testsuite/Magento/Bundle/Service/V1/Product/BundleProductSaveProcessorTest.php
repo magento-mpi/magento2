@@ -83,6 +83,11 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
      */
     private $productBuilder;
 
+    /**
+     * @var \Magento\Framework\Service\Data\Eav\AttributeValue|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $attributeValue;
+
     protected function setup()
     {
         $helper = new ObjectManager($this);
@@ -129,13 +134,13 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->productOption1->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue('productOption1Id'));
+            ->will($this->returnValue('productOption1Sku'));
         $this->productOption2 = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Option')
             ->disableOriginalConstructor()
             ->getMock();
         $this->productOption2->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue('productOption2Id'));
+            ->will($this->returnValue('productOption2Sku'));
 
         $this->linkWriteService = $this->getMockBuilder('Magento\Bundle\Service\V1\Product\Link\WriteService')
             ->disableOriginalConstructor()
@@ -158,6 +163,11 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->attributeValue = $this->getMockBuilder('Magento\Framework\Service\Data\Eav\AttributeValue')
+            ->setMethods(['getValue'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->saveProcessor = $helper->getObject(
             'Magento\Bundle\Service\V1\Product\BundleProductSaveProcessor',
             [
@@ -173,7 +183,6 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $productSku = 'sku';
-        $productLinks = [$this->productLink1, $this->productLink2];
         $productOptions = [$this->productOption1, $this->productOption2];
 
         $this->productData->expects($this->any())
@@ -182,23 +191,13 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $this->productData->expects($this->any())
             ->method('getSku')
             ->will($this->returnValue($productSku));
-        $this->productData->expects($this->at(3))
-            ->method('getCustomAttribute')
-            ->with('bundle_product_links')
-            ->will($this->returnValue($productLinks));
-        $this->productData->expects($this->at(4))
+        $this->productData->expects($this->once())
             ->method('getCustomAttribute')
             ->with('bundle_product_options')
+            ->will($this->returnValue($this->attributeValue));
+        $this->attributeValue->expects($this->any())
+            ->method('getValue')
             ->will($this->returnValue($productOptions));
-
-        $this->linkWriteService->expects($this->at(0))
-            ->method('addChild')
-            ->with($productSku, $this->productLink1)
-            ->will($this->returnValue(1));
-        $this->linkWriteService->expects($this->at(1))
-            ->method('addChild')
-            ->with($productSku, $this->productLink2)
-            ->will($this->returnValue(2));
 
         $this->optionWriteService->expects($this->at(0))
             ->method('add')
@@ -215,83 +214,51 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdate()
     {
-        $product1Id = '1';
         $product1Sku = 'sku1';
-        $productLink1Sku = 'productLink1Sku';
-        $productLink2Sku = 'productLink2Sku';
-        $productLink3Sku = 'productLink3Sku';
-        $product1Links = [$this->productLink1, $this->productLink2];
-        $productOption1Id = 'productOption1Id';
-        $productOption2Id = 'productOption2Id';
+        $productOption1Sku = 'productOption1Sku';
+        $productOption2Sku = 'productOption2Sku';
         $product1Options = [$this->productOption1, $this->productOption2];
 
-        $product2Links = [$this->productLink1, $this->productLink2, $this->productLink3];
         $product2Options = [$this->productOption1];
 
         $this->productRepository->expects($this->once())
             ->method('get')
-            ->with($product1Id, true)
+            ->with($product1Sku, true)
             ->will($this->returnValue($this->product));
         $this->product->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue(ProductType::TYPE_BUNDLE));
-        $this->product->expects($this->once())
-            ->method('getSku')
-            ->will($this->returnValue($product1Sku));
-
-        $this->linkReadService->expects($this->once())
-            ->method('getChildren')
-            ->with($product1Id)
-            ->will($this->returnValue($product1Links));
-        $this->productData->expects($this->at(0))
-            ->method('getCustomAttribute')
-            ->with('bundle_product_links')
-            ->will($this->returnValue($product2Links));
-        $this->productLink1->expects($this->any())
-            ->method('getSku')
-            ->will($this->returnValue($productLink1Sku));
-        $this->productLink2->expects($this->any())
-            ->method('getSku')
-            ->will($this->returnValue($productLink2Sku));
-        $this->productLink3->expects($this->any())
-            ->method('getSku')
-            ->will($this->returnValue($productLink3Sku));
-        $this->linkWriteService->expects($this->once())
-            ->method('addChild')
-            ->with($product1Sku, $this->productLink3)
-            ->will($this->returnValue(1));
 
         $this->optionReadService->expects($this->once())
             ->method('getList')
             ->with($product1Sku)
             ->will($this->returnValue($product1Options));
-        $this->productData->expects($this->at(1))
+        $this->productData->expects($this->once())
             ->method('getCustomAttribute')
             ->with('bundle_product_options')
+            ->will($this->returnValue($this->attributeValue));
+        $this->attributeValue->expects($this->any())
+            ->method('getValue')
             ->will($this->returnValue($product2Options));
         $this->productOption1->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue($productOption1Id));
+            ->will($this->returnValue($productOption1Sku));
         $this->productOption2->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue($productOption2Id));
+            ->will($this->returnValue($productOption2Sku));
         $this->optionWriteService->expects($this->once())
             ->method('remove')
-            ->with($product1Sku, $productOption2Id)
+            ->with($product1Sku, $productOption2Sku)
             ->will($this->returnValue(1));
 
-        $this->assertEquals($product1Sku, $this->saveProcessor->update($product1Id, $this->productData));
+        $this->assertEquals($product1Sku, $this->saveProcessor->update($product1Sku, $this->productData));
     }
 
     public function testDelete()
     {
         $productSku = 'sku1';
-        $productLinks = [$this->productLink1, $this->productLink2, $this->productLink3];
         $productOptions = [$this->productOption1];
-        $productOption1Id = 'productOption1Id';
-        $productOption2Id = 'productOption2Id';
-        $productLink1Sku = 'productLink1Sku';
-        $productLink2Sku = 'productLink2Sku';
+        $productOption1Sku = 'productOption1Sku';
 
         $this->productData->expects($this->once())
             ->method('getTypeId')
@@ -299,31 +266,16 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $this->productData->expects($this->once())
             ->method('getSku')
             ->will($this->returnValue($productSku));
-        $this->productData->expects($this->at(2))
-            ->method('getCustomAttribute')
-            ->with('bundle_product_links')
-            ->will($this->returnValue($productLinks));
-        $this->productData->expects($this->at(3))
+        $this->productData->expects($this->once())
             ->method('getCustomAttribute')
             ->with('bundle_product_options')
+            ->will($this->returnValue($this->attributeValue));
+        $this->attributeValue->expects($this->any())
+            ->method('getValue')
             ->will($this->returnValue($productOptions));
-        $this->productLink1->expects($this->once())
-            ->method('getOptionId')
-            ->will($this->returnValue($productOption1Id));
-        $this->linkWriteService->expects($this->at(0))
-            ->method('removeChild')
-            ->with($productSku, $productOption1Id, $productLink1Sku)
-            ->will($this->returnValue(1));
-        $this->productLink2->expects($this->once())
-            ->method('getOptionId')
-            ->will($this->returnValue($productOption2Id));
-        $this->linkWriteService->expects($this->at(1))
-            ->method('removeChild')
-            ->with($productSku, $productOption2Id, $productLink2Sku)
-            ->will($this->returnValue(1));
         $this->optionWriteService->expects($this->once())
             ->method('remove')
-            ->with($productSku, $productOption1Id)
+            ->with($productSku, $productOption1Sku)
             ->will($this->returnValue(1));
         $this->saveProcessor->delete($this->productData);
     }

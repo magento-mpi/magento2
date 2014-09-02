@@ -8,10 +8,10 @@
 
 namespace Magento\Bundle\Service\V1\Product;
 
-use Magento\Bundle\Service\V1\Data\Product\Link;
 use Magento\Bundle\Service\V1\Data\Product\Option;
 use Magento\Bundle\Service\V1\Product\Option\ReadService as OptionReadService;
 use Magento\Bundle\Service\V1\Product\Option\WriteService as OptionWriteService;
+use Magento\Framework\Service\Data\Eav\AttributeValue;
 use Magento\Catalog\Model\Product as ProductModel;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Catalog\Model\Product\Type as ProductType;
@@ -86,7 +86,15 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
         }
 
         /** @var Option[] $bundleProductOptions */
-        $bundleProductOptions = $productData->getCustomAttribute('bundle_product_options')->getValue();
+
+        /* @var AttributeValue $bundleProductOptionsAttrValue */
+        $bundleProductOptionsAttrValue = $productData->getCustomAttribute('bundle_product_options');
+        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue->getValue())) {
+            $bundleProductOptions = array();
+        } else {
+            $bundleProductOptions = $bundleProductOptionsAttrValue->getValue();
+        }
+
         if (is_array($bundleProductOptions)) {
             foreach ($bundleProductOptions as $option) {
                 $this->optionWriteService->add($productSku, $option);
@@ -121,9 +129,14 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
         /**
          * @var Option[] $newProductOptions
          */
-        $newProductOptions = $updatedProduct->getCustomAttribute('bundle_product_options')->getValue();
-        if (!is_array($newProductOptions)) {
+        /**
+         * @var AttributeValue $newProductOptionsAttrValue
+         */
+        $newProductOptionsAttrValue = $updatedProduct->getCustomAttribute('bundle_product_options');
+        if (is_null($newProductOptionsAttrValue) || !is_array($newProductOptionsAttrValue->getValue())) {
             $newProductOptions = array();
+        } else {
+            $newProductOptions = $newProductOptionsAttrValue->getValue();
         }
         /**
          * @var Option[] $optionsToDelete
@@ -168,9 +181,14 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
         /**
          * @var Option[] $bundleProductOptions
          */
-        $bundleProductOptions = $product->getCustomAttribute('bundle_product_options'); //->getValue();
-        if (!is_array($bundleProductOptions)) {
+        /**
+         * @var AttributeValue $bundleProductOptionsAttrValue
+         */
+        $bundleProductOptionsAttrValue = $product->getCustomAttribute('bundle_product_options');
+        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue->getValue())) {
             $bundleProductOptions = array();
+        } else {
+            $bundleProductOptions = $bundleProductOptionsAttrValue->getValue();
         }
         foreach ($bundleProductOptions as $option) {
             $this->optionWriteService->remove($productSku, $option->getId());
