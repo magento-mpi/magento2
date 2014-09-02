@@ -345,6 +345,29 @@
     .button-as-link();
 }
 
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .product-social-links {
+        .action.tocompare {
+            display: none;
+        }
+    }
+    .product-info-price {
+        margin: 0 -@indent-s-base 0;
+        width: ~"calc(100% + 2*@{indent-s-base})"!important;
+        > *:first-child {
+            padding-left: @indent-s-base;
+        }
+        > *:last-child {
+            padding-right: @indent-s-base;
+        }
+    }
+
+}
+
 //
 //    Product view Desktop
 //--------------------------------------
