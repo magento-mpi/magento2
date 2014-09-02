@@ -51,6 +51,11 @@ class Onepage extends Action
     protected $layoutFactory;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param CustomerAccountService $customerAccountService
@@ -58,6 +63,7 @@ class Onepage extends Action
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      */
     public function __construct(
@@ -68,11 +74,13 @@ class Onepage extends Action
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\View\LayoutFactory $layoutFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_translateInline = $translateInline;
         $this->_formKeyValidator = $formKeyValidator;
+        $this->scopeConfig = $scopeConfig;
         $this->layoutFactory = $layoutFactory;
         parent::__construct($context, $customerSession, $customerAccountService, $customerMetadataService);
     }
@@ -148,7 +156,7 @@ class Onepage extends Action
     protected function _getHtmlByHandle($handle)
     {
         $layout = $this->layoutFactory->create();
-        $layout->getUpdate()->load(array($handle));
+        $layout->getUpdate()->load([$handle]);
         $layout->generateXml();
         $layout->generateElements();
         $output = $layout->getOutput();
