@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Block\Adminhtml;
+namespace Magento\Log\Block\Adminhtml;
 
 /**
  * Adminhtml online customers page content block
@@ -32,7 +32,7 @@ class Online extends \Magento\Backend\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->addChild('filterForm', 'Magento\Customer\Block\Adminhtml\Online\Filter');
+        $this->addChild('filterForm', 'Magento\Log\Block\Adminhtml\Online\Filter');
         return parent::_prepareLayout();
     }
 

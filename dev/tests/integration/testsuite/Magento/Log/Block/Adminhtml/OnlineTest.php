@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Block\Adminhtml;
+namespace Magento\Log\Block\Adminhtml;
 
 /**
  * @magentoAppArea adminhtml
@@ -22,8 +22,8 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Layout',
             array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
         );
-        /** @var $block \Magento\Customer\Block\Adminhtml\Online */
-        $block = $layout->createBlock('Magento\Customer\Block\Adminhtml\Online', 'block');
+        /** @var $block \Magento\Log\Block\Adminhtml\Online */
+        $block = $layout->createBlock('Magento\Log\Block\Adminhtml\Online', 'block');
         $this->assertNotEmpty($block->getFilterFormHtml());
     }
 }

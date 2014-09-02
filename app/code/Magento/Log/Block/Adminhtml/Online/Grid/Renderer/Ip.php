@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Block\Adminhtml\Online\Grid\Renderer;
+namespace Magento\Log\Block\Adminhtml\Online\Grid\Renderer;
 
 /**
  * Adminhtml customers online grid block item renderer by ip.

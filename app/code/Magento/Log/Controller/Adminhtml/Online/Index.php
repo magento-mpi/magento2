@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Controller\Adminhtml\Online;
+namespace Magento\Log\Controller\Adminhtml\Online;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -15,7 +15,7 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Customer::online');
+        return $this->_authorization->isAllowed('Magento_Log::online');
     }
 
     /**
