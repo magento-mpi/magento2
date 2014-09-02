@@ -336,36 +336,40 @@ class CommonTaxCollector extends AbstractTotal
      */
     public function getShippingDataObject(Address $address, $useBaseCurrency)
     {
-        if ($address->getShippingTaxCalculationAmount() == null) {
+        if ($address->getShippingTaxCalculationAmount() === null) {
             //Save the original shipping amount because shipping amount will be overridden
             //with shipping amount excluding tax
             $address->setShippingTaxCalculationAmount($address->getShippingAmount());
             $address->setBaseShippingTaxCalculationAmount($address->getBaseShippingAmount());
         }
-        $itemBuilder = $this->quoteDetailsBuilder->getItemBuilder();
-        $itemBuilder->setType(self::ITEM_TYPE_SHIPPING);
-        $itemBuilder->setCode(self::ITEM_CODE_SHIPPING);
-        $itemBuilder->setQuantity(1);
-        if ($useBaseCurrency) {
-            $itemBuilder->setUnitPrice($address->getBaseShippingTaxCalculationAmount());
-        } else {
-            $itemBuilder->setUnitPrice($address->getShippingTaxCalculationAmount());
-        }
-        if ($address->getShippingDiscountAmount()) {
+        if ($address->getShippingTaxCalculationAmount() !== null ) {
+            $itemBuilder = $this->quoteDetailsBuilder->getItemBuilder();
+            $itemBuilder->setType(self::ITEM_TYPE_SHIPPING);
+            $itemBuilder->setCode(self::ITEM_CODE_SHIPPING);
+            $itemBuilder->setQuantity(1);
             if ($useBaseCurrency) {
-                $itemBuilder->setDiscountAmount($address->getBaseShippingDiscountAmount());
+                $itemBuilder->setUnitPrice($address->getBaseShippingTaxCalculationAmount());
             } else {
-                $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
+                $itemBuilder->setUnitPrice($address->getShippingTaxCalculationAmount());
             }
+            if ($address->getShippingDiscountAmount()) {
+                if ($useBaseCurrency) {
+                    $itemBuilder->setDiscountAmount($address->getBaseShippingDiscountAmount());
+                } else {
+                    $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
+                }
+            }
+            $itemBuilder->setTaxClassKey(
+                $itemBuilder->getTaxClassKeyBuilder()
+                    ->setType(TaxClassKey::TYPE_ID)
+                    ->setValue($this->_config->getShippingTaxClass($address->getQuote()->getStore()))
+                    ->create()
+            );
+            $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($address->getQuote()->getStore()));
+            return $itemBuilder->create();
         }
-        $itemBuilder->setTaxClassKey(
-            $itemBuilder->getTaxClassKeyBuilder()
-                ->setType(TaxClassKey::TYPE_ID)
-                ->setValue($this->_config->getShippingTaxClass($address->getQuote()->getStore()))
-                ->create()
-        );
-        $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($address->getQuote()->getStore()));
-        return $itemBuilder->create();
+
+        return null;
     }
 
     /**
