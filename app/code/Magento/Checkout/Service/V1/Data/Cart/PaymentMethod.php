@@ -8,7 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
-class PaymentMethod extends \Magento\Framework\Service\Data\AbstractObject
+class PaymentMethod extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**
      * Payment method

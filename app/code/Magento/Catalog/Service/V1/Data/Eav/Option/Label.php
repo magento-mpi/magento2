@@ -11,8 +11,10 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Option;
 
 /**
  * Class Store Scope Label
+ *
+ * @codeCoverageIgnore
  */
-class Label extends \Magento\Framework\Service\Data\AbstractObject
+class Label extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**
      * Constants used as keys into $_data

@@ -46,8 +46,8 @@ class CreatePaypalExpressOrder extends Ui
 
         $paypalCustomer = $fixture->getPaypalCustomer();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        $paypalPage->getLoginBlock()->login($paypalCustomer);
-        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getLoginExpressBlock()->login($paypalCustomer);
+        $paypalPage->getReviewExpressBlock()->continueCheckout();
 
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
