@@ -17,12 +17,13 @@ $priceModel = $this->getPriceType('regular_price');
 
 /** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
 $finalPriceModel = $this->getPriceType('final_price');
+$idSuffix = $this->getIdSuffix() ? $this->getIdSuffix() : '';
 ?>
 <?php if ($this->hasSpecialPrice()): ?>
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel->getAmount(), [
             'display_label'     => __('Regular Price'),
-            'price_id'          => $this->getPriceId('old-price-'),
+            'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
             'include_container' => true,
             'skip_adjustments'  => true
         ]); ?>
@@ -30,13 +31,13 @@ $finalPriceModel = $this->getPriceType('final_price');
     <p class="special-price">
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price'),
-            'price_id'          => $this->getPriceId('product-price-'),
+            'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
             'include_container' => false
         ]); ?>
     </p>
 <?php else: ?>
     <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
-        'price_id'          => $this->getPriceId('product-price-'),
+        'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
         'include_container' => true
     ]); ?>
 <?php endif; ?>

@@ -18,6 +18,76 @@
         );
     }
 }
+.product-downloadable {
+    .product-add-form {
+        clear: both;
+        margin-bottom: @indent-m-base;
+        &:extend(.add-clearfix all);
+    }
+}
+.product-options-bottom {
+    .field.qty {
+        display: none;
+    }
+}
+.samples {
+    &-item-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 0 0 @indent-s-base;
+    }
+    &-item {
+        margin: 0 0 @indent-s-base;
+
+    }
+}
+.field.downloads {
+    margin-bottom: @indent-s-base;
+    .product-downloadable .product-add-form .product-options-wrapper & > .control {
+        width: 100%;
+    }
+    .price-container {
+        font-weight:  @font-weight-semibold;
+    }
+    .price-wrapper {
+        display: none;
+    }
+    .price-notice {
+        white-space: nowrap;
+    }
+    .field.choice {
+        .box-sizing();
+        border-bottom: 1px solid #ebebeb;
+        padding-bottom: @indent-s-base;
+        margin-bottom: @indent-s-base;
+        &:extend(.clearer all);
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        input {
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+        padding-left: 25px;
+    }
+    .field.choice:last-child {
+        padding-left: 0;
+        border-bottom: 0;
+    }
+    .sample.link {
+        float: right;
+    }
+    &-all {
+        .label {
+            .link();
+            cursor: pointer;
+        }
+        input {
+            opacity: 0;
+        }
+    }
+}
 
 //
 //    Mobile
@@ -25,6 +95,9 @@
 .responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.downloadable-products {
         &:extend(.abstract-account-table-border all);
+    }
+    .product-downloadable .product-options-wrapper {
+        margin-bottom: @indent-m-base;
     }
     .table-downloadable-products {
         .product-name {
@@ -35,6 +108,25 @@
             &:before {
                 &:extend(.visually-hidden-mobile all);
             }
-        } 
+        }
+    }
+}
+
+//
+// Product view Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+.product-downloadable {
+        .product-add-form {
+            &:extend(.clearer all);
+        }
+        .product-options-wrapper {
+            float: left;
+            width: 55%;
+        }
+        .product-options-bottom {
+            float: right;
+            width: 40%;
+        }
     }
 }
