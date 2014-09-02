@@ -8,7 +8,7 @@
  
 namespace Magento\Sales\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject as DataObject;
+use Magento\Framework\Service\Data\AbstractSimpleObject as DataObject;
 
 /**
  * @codeCoverageIgnore

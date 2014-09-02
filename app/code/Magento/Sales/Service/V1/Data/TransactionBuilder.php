@@ -11,7 +11,7 @@ namespace Magento\Sales\Service\V1\Data;
 /**
  * Builder class for \Magento\Sales\Service\V1\Data\Transaction
  */
-class TransactionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class TransactionBuilder extends \Magento\Framework\Service\Data\AbstractSimpleObjectBuilder
 {
     /**
      * {@inheritdoc}
