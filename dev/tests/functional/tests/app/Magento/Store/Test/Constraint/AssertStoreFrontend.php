@@ -35,11 +35,10 @@ class AssertStoreFrontend extends AbstractConstraint
     public function processAssert(Store $store, CmsIndex $cmsIndex)
     {
         $cmsIndex->open();
-
-        if (!$cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible()
-            && $cmsIndex->getFooterBlock()->isStoreGroupSwitcherVisible()
+        if ($cmsIndex->getFooterBlock()->isStoreGroupSwitcherVisible()
+            && $cmsIndex->getFooterBlock()->isStoreGroupVisible($store)
         ) {
-            $cmsIndex->getFooterBlock()->selectStoreGroup($store);
+                $cmsIndex->getFooterBlock()->selectStoreGroup($store);
         }
 
         $isStoreViewVisible = !$cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible()
