@@ -28,7 +28,7 @@
         <callback class="Magento\CatalogEvent\Model\Resource\Event\Collection" method="limitCatalogEvents" />
         <callback class="Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection" method="addStoreFilter" />
         <callback class="Magento\Catalog\Model\Resource\Category\Collection" method="limitCatalogCategories" />
-        <callback class="Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection" method="limitCoreUrlRewrites" />
+        <callback class="Magento\UrlRewrite\Model\Resource\UrlRewriteCollection" method="limitUrlRewrites" />
         <callback class="Magento\Review\Model\Resource\Rating\Collection" method="limitRatings" />
         <callback class="Magento\GoogleShopping\Model\Resource\Item\Collection" method="addStoreFilter" />
         <callback class="Magento\Sitemap\Model\Resource\Sitemap\Collection" method="addStoreFilter" />
@@ -124,7 +124,7 @@
         <callback class="Magento\Store\Model\Website" method="coreWebsiteLoadAfter" />
         <callback class="Magento\Store\Model\Group" method="coreStoreGroupLoadAfter" />
         <callback class="Magento\Store\Model\Store" method="coreStoreGroupLoadAfter" />
-        <callback class="\Magento\UrlRewrite\Model\UrlRewrite" method="coreUrlRewriteLoadAfter" />
+        <callback class="Magento\UrlRewrite\Model\UrlRewrite" method="urlRewriteLoadAfter" />
         <callback class="Magento\Newsletter\Model\Queue" method="newsletterQueueLoadAfter" />
         <callback class="Magento\Banner\Model\Banner" method="bannerLoadAfter" />
         <callback class="Magento\Widget\Model\Widget\Instance" method="widgetInstanceLoadAfter" />
@@ -151,7 +151,7 @@
         <callback class="adminhtml__catalog_event__edit" method="validateCatalogEventEdit" />
         <callback class="adminhtml__sales_order_create__" method="validateSalesOrderCreation" />
         <callback class="adminhtml__system_store__" method="validateSystemStore" />
-        <callback class="adminhtml__urlrewrite__edit" method="validateUrlRewriteEditAction" />
+        <callback class="adminhtml__url_rewrite__edit" method="validateUrlRewriteEditAction" />
         <callback class="adminhtml__system_currency__" method="validateManageCurrencyRates" />
         <callback class="adminhtml__system_email_template__" method="validateTransactionalEmails" />
         <callback class="adminhtml__sales_order__view" method="validateSalesOrderViewAction" />
@@ -239,7 +239,6 @@
         <callback class="Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\Websites" method="catalogProductMassUpdateWebsites" />
         <callback class="Magento\Catalog\Block\Adminhtml\Product\Grid" method="catalogProductPrepareMassaction" />
         <callback class="Magento\CurrencySymbol\Block\Adminhtml\System\Currency" method="removeManageCurrencyRatesButtons" />
-        <callback class="Magento\Index\Block\Adminhtml\Process\Grid" method="removeProcessListButtons" />
         <callback class="Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form" method="setIsRequiredSubscribersFromFieldForNewsletterQueueForm" />
         <callback class="Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Options" method="disableRmaAttributeDeleteOptionButton" />
         <callback class="Magento\TargetRule\Block\Adminhtml\Product" method="readonlyTargetRuleProductAttribute" />
@@ -268,7 +267,6 @@
         <callback class="Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount" method="removeGiftCardAccountAddButton" />
         <callback class="Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit" method="removeGiftCardAccountControlButtons" />
         <callback class="Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit" method="removeGiftWrappingEditButtons" />
-        <callback class="Magento\Index\Block\Adminhtml\Process\Edit" method="removeProcessEditButtons" />
         <callback class="Magento\Reminder\Block\Adminhtml\Reminder\Edit" method="removeRuleEntityEditButtons" />
         <callback class="Magento\Review\Block\Adminhtml\Rating\Edit" method="removeRatingEditButtons" />
         <callback class="Magento\Reward\Block\Adminhtml\Reward\Rate\Edit" method="removeRewardRateButtons" />

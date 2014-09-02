@@ -15,4 +15,4 @@ $params = array(
 );
 
 $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $params);
-$entryPoint->run('Magento\Index\App\Shell', array('entryFileName' => basename(__FILE__)));
+$entryPoint->run('Magento\Indexer\App\Shell', array('entryFileName' => basename(__FILE__)));

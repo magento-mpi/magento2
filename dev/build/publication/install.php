@@ -66,6 +66,6 @@ if ($installOptions) {
 require_once __DIR__ . '/../../../app/bootstrap.php';
 
 $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, array());
-$entryPoint->run('Magento\Index\App\Indexer', array(
+$entryPoint->run('Magento\Indexer\App\Indexer', array(
     'reportDir' => $reportDir
 ));

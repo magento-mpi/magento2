@@ -12,7 +12,6 @@
         <sequence>
             <module name="Magento_Core"/>
             <module name="Magento_Store"/>
-            <module name="Magento_UrlRewrite" />
             <module name="Magento_Theme"/>
         </sequence>
         <depends>

@@ -25,8 +25,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     const XML_PATH_PRICE_SCOPE = 'catalog/price/scope';
 
-    const XML_PATH_SEO_SAVE_HISTORY = 'catalog/seo/save_rewrites_history';
-
     const CONFIG_USE_STATIC_URLS = 'cms/wysiwyg/use_static_urls_in_catalog';
 
     const CONFIG_PARSE_URL_DIRECTIVES = 'catalog/frontend/parse_url_directives';
@@ -396,21 +394,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isPriceGlobal()
     {
         return $this->getPriceScope() == self::PRICE_SCOPE_GLOBAL;
-    }
-
-    /**
-     * Indicate whether to save URL Rewrite History or not (create redirects to old URLs)
-     *
-     * @param int $storeId Store View
-     * @return bool
-     */
-    public function shouldSaveUrlRewritesHistory($storeId = null)
-    {
-        return $this->_scopeConfig->isSetFlag(
-            self::XML_PATH_SEO_SAVE_HISTORY,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
     }
 
     /**

@@ -306,7 +306,6 @@ return array(
         '',
         '\Magento\Framework\App\Filesystem::getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR)::search())'
     ),
-    array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
     array('collectRoutes', 'Magento\Backend\App\Router'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),
     array('composeLocaleHierarchy', 'Magento\Translation\Helper\Data'),
@@ -643,16 +642,6 @@ return array(
     array('getTrackingPopUpUrlByShipId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getTrackingPopUpUrlByTrackId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getUnixProcessMemoryUsage', 'Magento\TestFramework\Helper\Memory', 'getRealMemoryUsage'),
-    array(
-        'getUnprocessedEvents',
-        'Magento\Index\Model\Resource\Event',
-        'Magento_Index_Model_EventRepository::getUnprocessed()'
-    ),
-    array(
-        'getUnprocessedEventsCollection',
-        'Magento\Index\Model\Process',
-        'Magento_Index_Model_EventRepository::getUnprocessed()'
-    ),
     array('getUploadMaxSize', 'Magento\Backend\Block\Media\Uploader', 'Magento_File_Size::getUploadMaxSize()'),
     array('getUrlForReferer', 'Magento\Backend\Block\Page\Footer'),
     array('getValidator', 'Magento\SalesRule\Model\Observer'),
@@ -994,7 +983,6 @@ return array(
     array('getCatalogHelper', 'Magento\Backend\Block\Catalog\Category\Tabs'),
     array('_getSession', 'Magento\Centinel\Model\Service'),
     array('_getValidationStateModel', 'Magento\Centinel\Model\Service'),
-    array('_getIndexer', 'Magento\Index\Model\Shell'),
     array('_getApi', 'Magento\Ogone\Block\Placeform'),
     array(
         '_getResource',
@@ -1900,4 +1888,5 @@ return array(
     ['addTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', '\Magento\UrlRewrite\Model\UrlRewrite'],
     ['canApplyMsrp', '\Magento\Checkout\Block\Cart\AbstractCart', '\Magento\Msrp\Block\Total']
+    ['createController', 'Magento\Framework\App\ActionFactory', 'Magento\Framework\App\ActionFactory::create'],
 );
