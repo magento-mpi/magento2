@@ -91,7 +91,6 @@ class Config
      */
     public function install()
     {
-        print_r($this->configData);
         $this->configData['date'] = self::TMP_INSTALL_DATE_VALUE;
         $this->configData['key'] = self::TMP_ENCRYPT_KEY_VALUE;
 

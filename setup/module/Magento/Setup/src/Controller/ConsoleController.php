@@ -277,6 +277,11 @@ class ConsoleController extends AbstractActionController
             $setup->applyUpdates();
         }
 
+        foreach ($moduleNames as $moduleName) {
+            $setup = $this->setupFactory->create($moduleName);
+            $setup->applyRecurringUpdates();
+        }
+
         return  "Completed: Schema Installation." . PHP_EOL;
     }
 
