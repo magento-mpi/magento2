@@ -21,7 +21,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             'some searchable text',
             Select::FULLTEXT_MODE_NATURAL
         );
-        $expectedResult = "MATCH ('title,description') AGAINST ('some searchable text' IN NATURAL LANGUAGE MODE)";
+        $expectedResult = "MATCH (title, description) AGAINST ('some searchable text' IN NATURAL LANGUAGE MODE)";
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -36,12 +36,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             false
         );
         $adapter->expects($this->at(0))->method('quote')
-            ->with($this->equalTo('title,description'))
-            ->will($this->returnValue("'title,description'"));
-        $adapter->expects($this->at(1))->method('quote')
             ->with($this->equalTo('some searchable text'))
             ->will($this->returnValue("'some searchable text'"));
-        $adapter->expects($this->at(2))->method('quote')
+        $adapter->expects($this->at(1))->method('quote')
             ->will($this->returnValue(''));
 
         /** @var Select $select */
@@ -53,7 +50,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select->from('test');
         $select->match(['title', 'description'], 'some searchable text', true, Select::FULLTEXT_MODE_NATURAL);
 
-        $expectedResult = "SELECT `test`.* FROM `test` WHERE (MATCH ('title,description') " .
+        $expectedResult = "SELECT `test`.* FROM `test` WHERE (MATCH (title, description) " .
             "AGAINST ('some searchable text' IN NATURAL LANGUAGE MODE))";
         $result = $select->assemble();
 
