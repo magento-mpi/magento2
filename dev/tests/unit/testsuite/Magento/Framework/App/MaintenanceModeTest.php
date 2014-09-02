@@ -41,23 +41,23 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
 
     public function testisOnWithoutIP()
     {
-        $mapisExist = [
+        $mapIsExist = [
             [MaintenanceMode::FLAG_FILENAME, true],
             [MaintenanceMode::IP_FILENAME, false]
         ];
         $this->flagDir->expects($this->exactly(2))->method('isExist')
-            ->will(($this->returnValueMap($mapisExist)));
+            ->will(($this->returnValueMap($mapIsExist)));
         $this->assertTrue($this->model->isOn());
     }
 
     public function testisOnWithIP()
     {
-        $mapisExist = [
+        $mapIsExist = [
             [MaintenanceMode::FLAG_FILENAME, true],
             [MaintenanceMode::IP_FILENAME, true]
         ];
         $this->flagDir->expects($this->exactly(2))->method('isExist')
-            ->will(($this->returnValueMap($mapisExist)));
+            ->will(($this->returnValueMap($mapIsExist)));
         $this->assertFalse($this->model->isOn());
     }
 
@@ -100,11 +100,11 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAddresses()
     {
-        $mapisExist = [
+        $mapIsExist = [
             [MaintenanceMode::FLAG_FILENAME, true],
             [MaintenanceMode::IP_FILENAME, true]
         ];
-        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapisExist));
+        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapIsExist));
         $this->flagDir->expects($this->any())->method('writeFile')
             ->with(MaintenanceMode::IP_FILENAME)
             ->will($this->returnValue(true));
@@ -119,12 +119,12 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
 
     public function testSetSingleAddresses()
     {
-        $mapisExist = [
+        $mapIsExist = [
             [MaintenanceMode::FLAG_FILENAME, true],
             [MaintenanceMode::IP_FILENAME, true]
         ];
-        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapisExist));
-        $this->flagDir->expects($this->any())->method('delete')->will($this->returnValueMap($mapisExist));
+        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapIsExist));
+        $this->flagDir->expects($this->any())->method('delete')->will($this->returnValueMap($mapIsExist));
 
         $this->flagDir->expects($this->any())->method('writeFile')
             ->will($this->returnValue(10));
@@ -139,12 +139,12 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
 
     public function testOnSetMultipleAddresses()
     {
-        $mapisExist = [
+        $mapIsExist = [
             [MaintenanceMode::FLAG_FILENAME, true],
             [MaintenanceMode::IP_FILENAME, true]
         ];
-        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapisExist));
-        $this->flagDir->expects($this->any())->method('delete')->will($this->returnValueMap($mapisExist));
+        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapIsExist));
+        $this->flagDir->expects($this->any())->method('delete')->will($this->returnValueMap($mapIsExist));
 
         $this->flagDir->expects($this->any())->method('writeFile')
             ->will($this->returnValue(10));
@@ -162,12 +162,12 @@ class MaintenanceModeTest extends \PHPUnit_Framework_TestCase
 
     public function testOffSetMultipleAddresses()
     {
-        $mapisExist = [
+        $mapIsExist = [
             [MaintenanceMode::FLAG_FILENAME, false],
             [MaintenanceMode::IP_FILENAME, true]
         ];
-        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapisExist));
-        $this->flagDir->expects($this->any())->method('delete')->will($this->returnValueMap($mapisExist));
+        $this->flagDir->expects($this->any())->method('isExist')->will($this->returnValueMap($mapIsExist));
+        $this->flagDir->expects($this->any())->method('delete')->will($this->returnValueMap($mapIsExist));
 
         $this->flagDir->expects($this->any())->method('readFile')
             ->with(MaintenanceMode::IP_FILENAME)
