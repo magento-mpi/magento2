@@ -24,10 +24,10 @@ interface AllSoapAndRestInterface
     public function create($name);
 
     /**
-     * @param \Magento\TestModule1\Service\V1\Entity\Item $item
+     * @param \Magento\TestModule1\Service\V1\Entity\Item $entityItem
      * @return \Magento\TestModule1\Service\V1\Entity\Item
      */
-    public function update(Item $item);
+    public function update(Item $entityItem);
 
     /**
      * @return \Magento\TestModule1\Service\V1\Entity\Item[]

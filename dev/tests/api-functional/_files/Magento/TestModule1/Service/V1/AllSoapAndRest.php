@@ -7,9 +7,9 @@
  */
 namespace Magento\TestModule1\Service\V1;
 
+use Magento\TestModule1\Service\V1\Entity\CustomAttributeDataObjectBuilder;
 use Magento\TestModule1\Service\V1\Entity\Item;
 use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
-use Magento\TestModule1\Service\V1\Entity\CustomAttributeDataObjectBuilder;
 
 class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestInterface
 {
@@ -65,9 +65,11 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
     /**
      * {@inheritdoc}
      */
-    public function update(Item $item)
+    public function update(Item $entityItem)
     {
-        return $this->itemBuilder->setItemId($item->getItemId())->setName('Updated'.$item->getName())->create();
+        return $this->itemBuilder->setItemId($entityItem->getItemId())
+            ->setName('Updated' . $entityItem->getName())
+            ->create();
     }
 
     public function testOptionalParam($name = null)
