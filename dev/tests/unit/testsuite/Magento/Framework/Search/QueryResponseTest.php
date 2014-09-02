@@ -17,7 +17,7 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
     private $documents = [];
 
     /**
-     * @var \Magento\Framework\Search\Aggregation[]
+     * @var \Magento\Framework\Search\Aggregation
      */
     private $aggregations = [];
 
