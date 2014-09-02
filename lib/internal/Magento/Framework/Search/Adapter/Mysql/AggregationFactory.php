@@ -47,6 +47,6 @@ class AggregationFactory
                 ]
             );
         }
-        return $this->objectManager->create('\Magento\Framework\Search\Aggregation', $buckets);
+        return $this->objectManager->create('\Magento\Framework\Search\Aggregation', ['buckets' => $buckets]);
     }
 }

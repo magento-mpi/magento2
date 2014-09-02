@@ -63,8 +63,8 @@ class ResponseFactory
             /** @var \Magento\Framework\Search\Document[] $documents */
             $documents[] = $this->documentFactory->create($rawDocument);
         }
-        /** @var \Magento\Framework\Search\Document $aggregations */
-        $aggregations = $this->documentFactory->create($rawResponse['aggregations']);
+        /** @var \Magento\Framework\Search\Aggregation $aggregations */
+        $aggregations = $this->aggregationFactory->create($rawResponse['aggregations']);
         return $this->objectManager->create(
             '\Magento\Framework\Search\QueryResponse',
             [

@@ -61,7 +61,7 @@ class Mapper
         \Magento\Framework\ObjectManager $objectManager,
         array $queries,
         $rootQueryName,
-        $aggregations,
+        array $aggregations = [],
         array $filters = []
     ) {
         $this->objectManager = $objectManager;
