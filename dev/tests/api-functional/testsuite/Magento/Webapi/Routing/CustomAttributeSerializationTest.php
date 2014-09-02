@@ -164,14 +164,13 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => $this->_restResourcePath . 'getPreconfiguredItem',
+                'resourcePath' => $this->_restResourcePath . 'itemPreconfigured',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'GetPreconfiguredItem']
         ];
 
         $result = $this->_webApiCall($serviceInfo, []);
-
 
         $customAttributeDataObject = $this->customAttributeDataObjectBuilder
             ->setName('nameValue')
