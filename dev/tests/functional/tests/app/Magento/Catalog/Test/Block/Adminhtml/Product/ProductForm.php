@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
@@ -86,13 +87,12 @@ class ProductForm extends FormTabs
         $tabs = $this->getFieldsByTabs($product);
 
         if ($category) {
-            $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture )
+            $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture)
                 ? $category->getName()
                 : $category->getCategoryName();
         }
 
-        $this->showAdvancedSettings();
-        return parent::fillTabs($tabs, $element);
+        return $this->fillTabs($tabs, $element);
     }
 
     /**
@@ -119,6 +119,19 @@ class ProductForm extends FormTabs
             $this->_rootElement->find($this->advancedSettingTrigger)->click();
             $this->waitForElementVisible($this->advancedSettingContent);
         }
+    }
+
+    /**
+     * Open tab
+     *
+     * @param string $tabName
+     * @return Tab
+     */
+    public function openTab($tabName)
+    {
+        $this->showAdvancedSettings();
+
+        return parent::openTab($tabName);
     }
 
     /**

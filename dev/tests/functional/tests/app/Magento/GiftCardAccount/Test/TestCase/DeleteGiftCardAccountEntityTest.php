@@ -79,14 +79,16 @@ class DeleteGiftCardAccountEntityTest extends Injectable
      * Delete gift card account entity
      *
      * @param GiftCardAccount $giftCardAccount
-     * @return void
+     * @return array
      */
     public function testDeleteGiftCardAccount(GiftCardAccount $giftCardAccount)
     {
+        $this->markTestIncomplete('MAGETWO-27663');
         $giftCardAccount->persist();
         $this->giftCardAccountIndex->open();
-        $filter = ['code' => $giftCardAccount->getCode()];
-        $this->giftCardAccountIndex->getGiftCardAccount()->searchAndOpen($filter);
+        $code = $giftCardAccount->getCode();
+        $this->giftCardAccountIndex->getGiftCardAccount()->searchAndOpen(['code' => $code]);
         $this->newIndex->getPageMainActions()->delete();
+        return ['code' => $code];
     }
 }
