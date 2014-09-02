@@ -26,7 +26,7 @@ class Indexer
      * Products become visible after products bunch is indexed.
      * This is not auto commit using search engine feature.
      *
-     * @see \Magento\CatalogSearch\Model\Resource\Fulltext::_getSearchableProducts() limitation
+     * @see \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableProducts() limitation
      */
     const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL = 1;
 
@@ -51,17 +51,19 @@ class Indexer
     protected $_searchData = null;
 
     /**
-     * @var \Magento\Index\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerFactory
      */
-    protected $_indexer;
+    protected $indexerFactory;
 
     /**
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param \Magento\Search\Helper\Data $searchData
      */
-    public function __construct(\Magento\Index\Model\Indexer $indexer, \Magento\Search\Helper\Data $searchData)
-    {
-        $this->_indexer = $indexer;
+    public function __construct(
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        \Magento\Search\Helper\Data $searchData
+    ) {
+        $this->indexerFactory = $indexerFactory;
         $this->_searchData = $searchData;
     }
 
@@ -73,11 +75,9 @@ class Indexer
     public function reindexAll()
     {
         if ($this->_searchData->isThirdPartyEngineAvailable()) {
-            /* Change index status to running */
-            $indexProcess = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
-            if ($indexProcess) {
-                $indexProcess->reindexAll();
-            }
+            $indexer = $this->indexerFactory->create();
+            $indexer->load(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID);
+            $indexer->invalidate();
         }
 
         return $this;

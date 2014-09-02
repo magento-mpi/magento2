@@ -8,6 +8,8 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml\Index;
 
+use Magento\Framework\Model\Exception;
+
 class Index extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
 {
     /**

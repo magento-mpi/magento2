@@ -58,7 +58,7 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
         $customer = parent::extract($formCode, $request);
         $this->customerBuilder->populate($customer);
 
-        $invitation = $this->invitationProvider->get();
+        $invitation = $this->invitationProvider->get($request);
         $this->registry->register("skip_confirmation_if_email", $invitation->getEmail());
 
         $groupId = $invitation->getGroupId();

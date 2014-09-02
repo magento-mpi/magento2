@@ -35,4 +35,31 @@
     <assertGiftRegistrySuccessDeleteMessageOnBackend module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistrySuccessDeleteMessageOnBackend>
+    <assertGiftRegistrySuccessShareMessageOnFrontend module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistrySuccessShareMessageOnFrontend>
+    <assertGiftRegistryTypeSuccessSaveMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeSuccessSaveMessage>
+    <assertGiftRegistryTypeInGrid module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeInGrid>
+    <assertGiftRegistryTypeOnFrontend module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeOnFrontend>
+    <assertGiftRegistryTypeForm module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeForm>
+    <assertGiftRegistrySuccessShareMessageOnBackend module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistrySuccessShareMessageOnBackend>
+    <assertGiftRegistryTypeSuccessDeleteMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeSuccessDeleteMessage>
+    <assertGiftRegistryTypeNotInGrid module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeNotInGrid>
+    <assertGiftRegistryTypeNotOnFrontend module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeNotOnFrontend>
 </constraint>

@@ -35,7 +35,7 @@ class QuoteLoader
     {
         $quote = $this->quoteFactory->create();
         $quote->setStoreId($storeId)->load($cartId);
-        if (!$quote->getId()) {
+        if (!$quote->getId() || !$quote->getIsActive()) {
             throw NoSuchEntityException::singleField('cartId', $cartId);
         }
         return $quote;

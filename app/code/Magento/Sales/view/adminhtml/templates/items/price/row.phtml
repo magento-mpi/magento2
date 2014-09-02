@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $this */
+
+$_item = $this->getItem();
+?>
+
+<div class="price-excl-tax">
+    <?php echo $this->displayPrices($_item->getBaseRowTotal(), $_item->getRowTotal()) ?>
+</div>
