@@ -45,6 +45,11 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     /** @var  PersonalInfo */
     private $_block;
 
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime
+     */
+    protected $dateTime;
+
     public function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -61,6 +66,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
         $this->_groupService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $this->dateTime = $this->_objectManager->get('\Magento\Framework\Stdlib\DateTime');
 
         $this->_block = $this->_objectManager->get(
             'Magento\Framework\View\LayoutInterface'
@@ -127,7 +133,11 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     public function testGetStoreCreateDate()
     {
         $customer = $this->_loadCustomer();
-        $date = $this->_context->getLocaleDate()->scopeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
+        $date = $this->_context->getLocaleDate()->scopeDate(
+            $customer->getStoreId(),
+            $this->dateTime->toTimestamp($customer->getCreatedAt()),
+            true
+        );
         $storeCreateDate = $this->_block->formatDate(
             $date,
             \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
