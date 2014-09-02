@@ -98,30 +98,20 @@ class StartController extends AbstractActionController
 
         $this->setupFactory->setConfig($this->config->getConfigData());
 
-        $phpPath = $this->phpExecutablePath();
-        exec(
-            $phpPath .
-            'php -f ' . escapeshellarg($this->systemConfig->create()->getMagentoBasePath() .
-                '/dev/shell/run_schema_updater.php'),
-            $output,
-            $exitCode
-        );
-        if ($exitCode !== 0) {
-            $outputMsg = implode(PHP_EOL, $output);
-            $this->logger->logError(
-                new \Exception('Schema Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg)
-            );
-            $this->json->setVariable('success', false);
-        } else {
-            $this->logger->logSuccess('Schema Updates');
-            $this->json->setVariable('success', true);
-        }
-
         $moduleNames = array_keys($this->moduleList);
+
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
+            $setup->applyUpdates();
             $this->logger->logSuccess($moduleName);
         }
+
+        foreach ($moduleNames as $moduleName) {
+            $setup = $this->setupFactory->create($moduleName);
+            $setup->applyRecurringUpdates();
+            $this->logger->logSuccess($moduleName);
+        }
+
         $this->logger->logSuccess('Artifact');
 
         // Set data to config
@@ -177,6 +167,7 @@ class StartController extends AbstractActionController
         $this->config->replaceTmpEncryptKey($key);
         $this->config->replaceTmpInstallDate(date('r'));
 
+        $phpPath = $this->phpExecutablePath();
         exec(
             $phpPath .
             'php -f ' . escapeshellarg($this->systemConfig->create()->getMagentoBasePath() .

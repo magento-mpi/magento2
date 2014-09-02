@@ -221,6 +221,18 @@ class Setup implements SetupInterface
     }
 
     /**
+     * Apply module resource install, upgrade and data scripts
+     *
+     * @return $this
+     */
+    public function applyRecurringUpdates()
+    {
+        $this->_modifyResourceDb(self::TYPE_DB_RECURRING, '', '');
+
+        return $this;
+    }
+
+    /**
      * Run resource installation file
      *
      * @param string $newVersion
@@ -312,6 +324,34 @@ class Setup implements SetupInterface
     }
 
     /**
+     * Retrieve available Database install/upgrade recurring files for current module
+     *
+     * @return array
+     */
+    protected function _getAvailableRecurringFiles()
+    {
+        $modName = (string)$this->moduleConfig['name'];
+
+        $dbFiles = array();
+        $regExpDb = sprintf('#%s\.(php)$#i', self::TYPE_DB_RECURRING);
+        foreach ($this->setupFileResolver->get($modName) as $file) {
+            if (preg_match($regExpDb, $file)) {
+                $dbFiles[] = [
+                    'fileName'  => $this->setupFileResolver->getAbsolutePath($file),
+                    'toVersion' => ''
+                ];
+
+            }
+        }
+
+        if (empty($dbFiles)) {
+            return array();
+        }
+
+        return $dbFiles;
+    }
+
+    /**
      * Save resource version
      *
      * @param string $actionType
@@ -348,6 +388,9 @@ class Setup implements SetupInterface
             case self::TYPE_DB_INSTALL:
             case self::TYPE_DB_UPGRADE:
                 $files = $this->_getAvailableDbFiles($actionType, $fromVersion, $toVersion);
+                break;
+            case self::TYPE_DB_RECURRING:
+                $files = $this->_getAvailableRecurringFiles();
                 break;
             case self::TYPE_DATA_INSTALL:
             case self::TYPE_DATA_UPGRADE:

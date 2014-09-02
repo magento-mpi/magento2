@@ -21,6 +21,8 @@ interface SetupInterface
 
     const TYPE_DB_UPGRADE = 'upgrade';
 
+    const TYPE_DB_RECURRING = 'recurring';
+
     const TYPE_DB_ROLLBACK = 'rollback';
 
     const TYPE_DB_UNINSTALL = 'uninstall';
