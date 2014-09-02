@@ -17,7 +17,7 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
     private $documents = [];
 
     /**
-     * @var \Magento\Framework\Search\Document
+     * @var \Magento\Framework\Search\Aggregation[]
      */
     private $aggregations = [];
 
@@ -39,7 +39,7 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
             $this->documents[] = $document;
         }
 
-        $this->aggregations = $document = $this->getMockBuilder('Magento\Framework\Search\Document')
+        $this->aggregations = $this->getMockBuilder('Magento\Framework\Search\Aggregation')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -56,8 +56,8 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
     {
         $count = 0;
         foreach ($this->queryResponse as $document) {
-             $this->assertEquals($document->getId(), $count);
-             $count++;
+            $this->assertEquals($document->getId(), $count);
+            $count++;
         }
     }
 
@@ -69,6 +69,6 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
     public function testGetAggregations()
     {
         $aggregations = $this->queryResponse->getAggregations();
-        $this->assertInstanceOf('Magento\Framework\Search\Document', $aggregations);
+        $this->assertInstanceOf('Magento\Framework\Search\Aggregation', $aggregations);
     }
 }
