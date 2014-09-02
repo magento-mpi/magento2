@@ -10,14 +10,13 @@ namespace Mtf\TestSuite;
 
 /**
  * Test suite prepared for Github Publication
- *
  */
 class GithubPublicationTests
 {
     /**
      * List of tests used for Github Publication
      *
-     * @return mixed
+     * @return TestSuite
      */
     public static function suite()
     {
