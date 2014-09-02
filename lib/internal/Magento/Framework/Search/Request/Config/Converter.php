@@ -30,12 +30,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $request = $this->mergeAttributes((array)$simpleXmlNode);
             $request['dimensions'] = $this->convertNodes($simpleXmlNode->dimensions, 'name');
             $request['queries'] = $this->convertNodes($simpleXmlNode->queries, 'name');
-            if (!empty($simpleXmlNode->filters) && is_array($simpleXmlNode->filters)) {
+            if (!empty($simpleXmlNode->filters)) {
                 $request['filters'] = $this->convertNodes($simpleXmlNode->filters, 'name');
             } else {
                 $request['filters'] = [];
             }
-            if (!empty($simpleXmlNode->aggregations) && is_array($simpleXmlNode->aggregations)) {
+            if (!empty($simpleXmlNode->aggregations)) {
                 $request['aggregations'] = $this->convertNodes($simpleXmlNode->aggregations, 'name');
             } else {
                 $request['aggregations'] = [];
