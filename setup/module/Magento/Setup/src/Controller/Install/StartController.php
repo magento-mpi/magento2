@@ -99,11 +99,19 @@ class StartController extends AbstractActionController
         $this->setupFactory->setConfig($this->config->getConfigData());
 
         $moduleNames = array_keys($this->moduleList);
+
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
             $setup->applyUpdates();
             $this->logger->logSuccess($moduleName);
         }
+
+        foreach ($moduleNames as $moduleName) {
+            $setup = $this->setupFactory->create($moduleName);
+            $setup->applyRecurringUpdates();
+            $this->logger->logSuccess($moduleName);
+        }
+
         $this->logger->logSuccess('Artifact');
 
         // Set data to config

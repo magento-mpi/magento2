@@ -56,7 +56,7 @@ class Source
     /**
      * @var \Magento\Framework\View\Design\Theme\ListInterface
      */
-    protected $themeList;
+    private $themeList;
 
     /**
      * @param PreProcessor\Cache $cache

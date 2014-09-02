@@ -11,6 +11,11 @@ namespace Magento\Framework\App;
 class BootstrapTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\Framework\App\Bootstrap | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $bootstrap;
+
+    /**
      * @var \Magento\Framework\Application | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $application;
@@ -28,7 +33,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Magento\Framework\Logger | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $logger;
+    protected $loggerMock;
 
     /**
      * @var \Magento\Framework\App\Filesystem\DirectoryList | \PHPUnit_Framework_MockObject_MockObject
@@ -38,36 +43,52 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     /**
      * @var MaintenanceMode | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $maintenanceMode;
+    protected $maintenanceModeMock;
+
+    /**
+     * @var array
+     */
+    protected $testArgs;
+
+    /**
+     * @var array
+     */
+    protected $testParams;
 
     public function setUp()
     {
+
+        $this->testParams = ['value1', 'value2'];
+        $this->testArgs = ['arg1', 'arg2'];
+
         $this->objectManagerFactory = $this->getMock('\Magento\Framework\App\ObjectManagerFactory', [], [], '', false);
         $this->objectManager = $this->getMockForAbstractClass('\Magento\Framework\ObjectManager');
         $this->dirs = $this->getMock('Magento\Framework\App\Filesystem\DirectoryList', ['getDir'], [], '', false);
-        $this->maintenanceMode = $this->getMock('Magento\Framework\App\MaintenanceMode', ['isOn'], [], '', false);
-        $this->logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $this->maintenanceModeMock = $this->getMock('Magento\Framework\App\MaintenanceMode', ['isOn'], [], '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+    }
+
+    public function tearDown()
+    {
+        unset($this->objectManagerFactory);
+        unset($this->objectManager);
+        unset($this->dirs);
+        unset($this->maintenanceModeMock);
+
     }
 
     public function testGetParams()
     {
-        $testParams = ['testValue1', 'testValue2'];
-        $bootstrap = self::createBootstrap($testParams);
-        $this->assertSame($testParams, $bootstrap->getParams());
+        $this->bootstrap = new Bootstrap($this->objectManagerFactory, '', $this->testParams);
+        $this->assertSame($this->testParams, $this->bootstrap->getParams());
     }
 
-    /**
-     * Creates a boostrap object
-     *
-     * @param array $testParams
-     * @return Bootstrap
-     */
-    private function createBootstrap($testParams = ['value1', 'value2'])
+    private function initBootstrapTest()
     {
         $mapObjectManager = [
             ['Magento\Framework\App\Filesystem\DirectoryList', $this->dirs],
-            ['Magento\Framework\App\MaintenanceMode', $this->maintenanceMode],
-            ['Magento\Framework\Logger', $this->logger]
+            ['Magento\Framework\App\MaintenanceMode', $this->maintenanceModeMock],
+            ['Magento\Framework\Logger', $this->loggerMock]
         ];
 
         $this->objectManager->expects($this->any())->method('get')
@@ -81,36 +102,35 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerFactory->expects($this->any())->method('create')
             ->will(($this->returnValue($this->objectManager)));
 
-        $bootstrap = new Bootstrap($this->objectManagerFactory, '', $testParams);
-        return($bootstrap);
+        $this->bootstrap = new Bootstrap($this->objectManagerFactory, '', $this->testParams);
     }
 
     public function testCreateApplication()
     {
-        $bootstrap = self::createBootstrap();
-        $testArgs = ['arg1', 'arg2'];
-        $this->assertSame($this->application, $bootstrap->createApplication('someApplicationType', $testArgs));
+        self::initBootstrapTest();
+        $this->assertSame($this->application,
+            $this->bootstrap->createApplication('someApplicationType', $this->testArgs));
     }
 
     public function testGetObjectManager()
     {
-        $bootstrap = self::createBootstrap();
-        $this->assertSame($this->objectManager, $bootstrap->getObjectManager());
+        self::initBootstrapTest();
+        $this->assertSame($this->objectManager, $this->bootstrap->getObjectManager());
     }
 
     public function testGetDirList()
     {
-        $bootstrap = self::createBootstrap();
-        $this->assertSame($this->dirs, $bootstrap->getDirList());
+        self::initBootstrapTest();
+        $this->assertSame($this->dirs, $this->bootstrap->getDirList());
     }
 
     public function testIsDeveloperMode()
     {
-        $bootstrap = self::createBootstrap();
-        $this->assertFalse($bootstrap->isDeveloperMode());
-        $testParams = [State::PARAM_MODE => State::MODE_DEVELOPER];
-        $bootstrap = self::createBootstrap($testParams);
-        $this->assertTrue($bootstrap->isDeveloperMode());
+        self::initBootstrapTest();
+        $this->assertFalse($this->bootstrap->isDeveloperMode());
+        $this->testParams = [State::PARAM_MODE => State::MODE_DEVELOPER];
+        self::initBootstrapTest();
+        $this->assertTrue($this->bootstrap->isDeveloperMode());
     }
 
     /**
@@ -119,24 +139,25 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
      * @param bool $installMode
      * @param int $errorCode
      *
-     * @dataProvider testRunErrorsProvider
+     * @dataProvider maintenanceModeAndRunDataProvider
      */
     public function testRunErrors($params, $maintenanceMode, $installMode, $errorCode)
     {
-        $bootstrap = self::createBootstrap([$params]);
-        $this->maintenanceMode->expects($this->any())->method('isOn')->willReturn($maintenanceMode);
+        $this->testParams = [$params];
+        self::initBootstrapTest();
+        $this->maintenanceModeMock->expects($this->any())->method('isOn')->willReturn($maintenanceMode);
         $this->dirs->expects($this->any())->method('getDir')->willReturn($installMode);
         $this->application->expects($this->any())->method('catchException')->willReturn(true);
-        $bootstrap->run($this->application);
-        $this->assertEquals($errorCode, (int)$bootstrap->getErrorCode());
+        $this->bootstrap->run($this->application);
+        $this->assertEquals($errorCode, (int)$this->bootstrap->getErrorCode());
     }
 
     /**
-     * Data provider for testRunErrors
+     * Data provider for testMaintenanceMode
      *
      * @return array
      */
-    public function testRunErrorsProvider()
+    public function maintenanceModeAndRunDataProvider()
     {
         $ternaryCases = [true, false, null];
         $binaryCases = [true, false];

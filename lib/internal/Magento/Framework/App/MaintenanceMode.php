@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\App;
 
-use Magento\Framework\App\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -34,20 +33,16 @@ class MaintenanceMode
     const FLAG_DIR = Filesystem::VAR_DIR;
 
     /**
-     * Path to store files
-     *
-     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
-    protected $flagDir;
+    protected $dirList;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem\DirectoryList $dirList
      */
-    public function __construct(Filesystem $filesystem)
+    public function __construct(DirectoryList $dirList)
     {
-        $this->flagDir = $filesystem->getDirectoryWrite(self::FLAG_DIR);
+        $this->dirList = $dirList;
     }
 
     /**
@@ -60,7 +55,8 @@ class MaintenanceMode
      */
     public function isOn($remoteAddr = '')
     {
-        if (!$this->flagDir->isExist(self::FLAG_FILENAME)) {
+        $file = $this->getFile(self::FLAG_FILENAME);
+        if (!file_exists($file)) {
             return false;
         }
         $info = $this->getAddressInfo();
@@ -75,11 +71,12 @@ class MaintenanceMode
      */
     public function set($isOn)
     {
+        $flagFile = $this->getFile(self::FLAG_FILENAME);
         if ($isOn) {
-            return $this->flagDir->touch(self::FLAG_FILENAME);
+            return touch($flagFile);
         }
-        if ($this->flagDir->isExist(self::FLAG_FILENAME)) {
-            return $this->flagDir->delete(self::FLAG_FILENAME);
+        if (file_exists($flagFile)) {
+            return unlink($flagFile);
         }
         return true;
     }
@@ -94,16 +91,17 @@ class MaintenanceMode
     public function setAddresses($addresses)
     {
         $addresses = (string)$addresses;
+        $addressesFile = $this->getFile(self::IP_FILENAME);
         if (empty($addresses)) {
-            if ($this->flagDir->isExist(self::IP_FILENAME)) {
-                return $this->flagDir->delete(self::IP_FILENAME);
+            if (file_exists($addressesFile)) {
+                return unlink($addressesFile);
             }
             return true;
         }
         if (!preg_match('/^[^\s,]+(,[^\s,]+)*$/', $addresses)) {
             throw new \InvalidArgumentException("One or more IP-addresses is expected (comma-separated)\n");
         }
-        $result = $this->flagDir->writeFile(self::IP_FILENAME, $addresses);
+        $result = file_put_contents($addressesFile, $addresses);
         return false !== $result ? true : false;
     }
 
@@ -114,11 +112,22 @@ class MaintenanceMode
      */
     public function getAddressInfo()
     {
-        if ($this->flagDir->isExist(self::IP_FILENAME)) {
-            $temp = $this->flagDir->readFile(self::IP_FILENAME);
-            return explode(',', trim($temp));
+        $file = $this->getFile(self::IP_FILENAME);
+        if (file_exists($file)) {
+            return explode(',', trim(file_get_contents($file)));
         } else {
             return [];
         }
+    }
+
+    /**
+     * Gets the absolute file name from the configured directory
+     *
+     * @param string $basename
+     * @return string
+     */
+    private function getFile($basename)
+    {
+        return $this->dirList->getDir(self::FLAG_DIR) . '/' . $basename;
     }
 }

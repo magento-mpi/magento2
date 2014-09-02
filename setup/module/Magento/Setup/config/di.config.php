@@ -24,7 +24,6 @@ return [
             'Magento\Setup\Controller\LandingController',
             'Magento\Setup\Controller\EnvironmentController',
             'Magento\Setup\Controller\UserController',
-            'Magento\Setup\Controller\ConsoleController',
 
             'Magento\Setup\Controller\Controls\HeaderController',
             'Magento\Setup\Controller\Controls\MenuController',
