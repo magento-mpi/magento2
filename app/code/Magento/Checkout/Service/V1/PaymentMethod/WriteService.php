@@ -12,7 +12,8 @@ use \Magento\Checkout\Service\V1\QuoteLoader;
 use \Magento\Store\Model\StoreManagerInterface;
 use \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Builder;
 use \Magento\Framework\Exception\State\InvalidTransitionException;
-use \Magento\Payment\Model\MethodList;
+use \Magento\Payment\Model\Checks\ZeroTotal;
+
 
 class WriteService implements WriteServiceInterface
 {
@@ -32,7 +33,7 @@ class WriteService implements WriteServiceInterface
     protected $paymentMethodBuilder;
 
     /**
-     * @var \Magento\Payment\Model\Checks\ZeroTotal
+     * @var ZeroTotal
      */
     protected $zeroTotalValidator;
 
@@ -40,13 +41,13 @@ class WriteService implements WriteServiceInterface
      * @param QuoteLoader $quoteLoader
      * @param StoreManagerInterface $storeManager
      * @param Builder $paymentMethodBuilder
-     * @param \Magento\Payment\Model\Checks\ZeroTotal $zeroTotalValidator
+     * @param ZeroTotal $zeroTotalValidator
      */
     public function __construct(
         QuoteLoader $quoteLoader,
         StoreManagerInterface $storeManager,
         Builder $paymentMethodBuilder,
-        \Magento\Payment\Model\Checks\ZeroTotal $zeroTotalValidator
+        ZeroTotal $zeroTotalValidator
     ) {
         $this->storeManager = $storeManager;
         $this->quoteLoader = $quoteLoader;

@@ -42,13 +42,6 @@ class ReadService implements ReadServiceInterface
      */
     protected $methodList;
 
-    /**
-     * @param QuoteLoader $quoteLoader
-     * @param StoreManagerInterface $storeManager
-     * @param QuoteMethodConverter $quoteMethodConverter
-     * @param PaymentMethodConverter $paymentMethodConverter
-     * @param MethodList $methodList
-     */
     public function __construct(
         QuoteLoader $quoteLoader,
         StoreManagerInterface $storeManager,

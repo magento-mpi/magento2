@@ -133,12 +133,24 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->searchResultsBuilderMock =
             $this->getMock('\Magento\Checkout\Service\V1\Data\CartSearchResultsBuilder', [], [], '', false);
 
-        $this->cartBuilderMock =
-            $this->getMock('\Magento\Checkout\Service\V1\Data\CartBuilder', [], [], '', false);
+        $this->cartBuilderMock = $this->getMock(
+            '\Magento\Checkout\Service\V1\Data\CartBuilder',
+            [],
+            [],
+            '',
+            false
+        );
+
         $this->cartMapperMock = $this->getMock('\Magento\Checkout\Service\V1\Data\CartMapper', ['map']);
 
-        $this->totalsBuilderMock =
-            $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder', [], [], '', false);
+        $this->totalsBuilderMock = $this->getMock(
+            '\Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder',
+            ['populateWithArray', 'create', 'setItems'],
+            [],
+            '',
+            false
+        );
+
         $this->totalsMapperMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\TotalsMapper', ['map']);
         $this->totalsMock = $this->getMock('Magento\Sales\Model\Order\Total', [], [], '', false);
 

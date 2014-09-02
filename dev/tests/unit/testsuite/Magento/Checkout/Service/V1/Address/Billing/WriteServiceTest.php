@@ -127,8 +127,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->with('cartId', $storeId)
             ->will($this->returnValue($quoteMock));
 
+        $builder = $this->getMock(
+            '\Magento\Checkout\Service\V1\Data\Cart\Address\RegionBuilder', ['create'], [], '', false
+        );
+
         /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
-        $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
+        $addressDataBuilder = $this->objectManager->getObject(
+            'Magento\Checkout\Service\V1\Data\Cart\AddressBuilder',
+            ['regionBuilder' => $builder]
+        );
         /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
         $addressData = $addressDataBuilder->setId(454)->create();
 

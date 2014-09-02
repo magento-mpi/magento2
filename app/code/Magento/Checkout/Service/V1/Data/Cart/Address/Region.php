@@ -8,7 +8,7 @@
 namespace Magento\Checkout\Service\V1\Data\Cart\Address;
 
 /**
- * Data Object for Address Region
+ * @codeCoverageIgnore
  */
 class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

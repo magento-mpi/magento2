@@ -128,8 +128,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
 
+        $builder = $this->getMock(
+            '\Magento\Checkout\Service\V1\Data\Cart\Address\RegionBuilder', ['create'], [], '', false
+        );
+
         /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
-        $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
+        $addressDataBuilder = $this->objectManager->getObject(
+            'Magento\Checkout\Service\V1\Data\Cart\AddressBuilder',
+            ['regionBuilder' => $builder]
+        );
 
         /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
         $addressData = $addressDataBuilder->setId(356)->create();
@@ -173,8 +180,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(true));
 
+        $builder = $this->getMock(
+            '\Magento\Checkout\Service\V1\Data\Cart\Address\RegionBuilder', ['create'], [], '', false
+        );
+
         /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
-        $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
+        $addressDataBuilder = $this->objectManager->getObject(
+            'Magento\Checkout\Service\V1\Data\Cart\AddressBuilder',
+            ['regionBuilder' => $builder]
+        );
 
         /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
         $addressData = $addressDataBuilder->setId(356)->create();
