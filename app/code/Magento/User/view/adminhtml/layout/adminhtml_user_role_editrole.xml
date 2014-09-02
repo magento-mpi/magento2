@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="left">
         <block class="Magento\User\Block\Role\Edit" name="adminhtml.user.editroles">
             <block class="Magento\User\Block\Role\Tab\Edit" name="adminhtml.user.tab.rolesedit"/>
@@ -22,4 +22,4 @@
         <block class="Magento\Backend\Block\Template" name="adminhtml.user.roles.users.grid.js" template="Magento_User::role/users_grid_js.phtml"/>
         <block class="Magento\User\Block\Buttons" name="adminhtml.user.role.buttons" template="role/info.phtml"/>
     </referenceContainer>
-</layout>
+</page>

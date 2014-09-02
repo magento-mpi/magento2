@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
         <block class="Magento\ImportExport\Block\Adminhtml\Import\Edit\Before" template="Magento_ScheduledImportExport::scheduled/form/before.phtml" name="export.form.before" as="form_before"/>
         <block class="Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit" name="operation.edit"/>
         <block class="Magento\ImportExport\Block\Adminhtml\Form\After" template="Magento_ScheduledImportExport::scheduled/form/after.phtml" name="operation.form.after"/>
         <block class="Magento\Backend\Block\Template" template="Magento_ImportExport::export/form/filter/after.phtml" name="export.form.after" as="form_after"/>
     </referenceContainer>
-</layout>
+</page>

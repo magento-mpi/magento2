@@ -53,7 +53,7 @@
         </arguments>
     </type>
 
-    <type name="Magento\Doc\DocumentReader\Collector">
+    <type name="Magento\Doc\Document\Scheme\Collector">
         <arguments>
             <argument name="baseFiles" xsi:type="object">templateFileSourceBaseSorted</argument>
         </arguments>
@@ -68,7 +68,7 @@
             <argument name="subject" xsi:type="object">templateFileSourceBase</argument>
         </arguments>
     </virtualType>
-    <virtualType name="templateFileSourceBase" type="Magento\Doc\DocumentReader\Collector\Base">
+    <virtualType name="templateFileSourceBase" type="Magento\Doc\Document\Scheme\Collector\Base">
         <arguments>
             <argument name="subDir" xsi:type="string">docs</argument>
         </arguments>

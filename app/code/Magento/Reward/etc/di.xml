@@ -29,4 +29,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sales\Model\Resource\Order\Creditmemo">
+        <plugin name="refundRewardPoints" type="\Magento\Reward\Model\Plugin\RewardPointsRefund"/>
+    </type>
 </config>

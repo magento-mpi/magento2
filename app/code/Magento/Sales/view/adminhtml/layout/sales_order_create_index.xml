@@ -7,8 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="sales_order_create_customer_block"/>
+    <update handle="sales_order_create_item_price"/>
     <referenceBlock name="page-title">
         <action method="setTitleId">
             <argument translate="true" name="id" xsi:type="string">order-header</argument>
@@ -30,8 +31,8 @@
     <referenceContainer name="js">
         <block class="Magento\Backend\Block\Template" template="Magento_Sales::order/create/js.phtml" name="create"/>
     </referenceContainer>
-    <referenceBlock name="root">
-        <block class="Magento\Sales\Block\Adminhtml\Order\Create" name="content">
+    <referenceBlock name="content">
+        <block class="Magento\Sales\Block\Adminhtml\Order\Create" name="order_content">
             <block class="Magento\Sales\Block\Adminhtml\Order\Create\Form" template="order/create/form.phtml" name="order_create_form" as="form">
                 <block class="Magento\Sales\Block\Adminhtml\Order\Create\Messages" name="message"/>
                 <block class="Magento\Sales\Block\Adminhtml\Order\Create\Customer" template="order/create/abstract.phtml" name="customer.grid.container"/>
@@ -80,7 +81,7 @@
             </block>
         </block>
     </referenceBlock>
-    <referenceContainer name="before_body_end">
+    <referenceContainer name="before.body.end">
         <block class="Magento\Catalog\Block\Adminhtml\Product\Composite\Configure" template="Magento_Catalog::catalog/product/composite/configure.phtml"/>
     </referenceContainer>
-</layout>
+</page>

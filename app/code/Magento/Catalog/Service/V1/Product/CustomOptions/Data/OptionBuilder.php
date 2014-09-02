@@ -8,7 +8,10 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 
-class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+/**
+ * @codeCoverageIgnore
+ */
+class OptionBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set option id
