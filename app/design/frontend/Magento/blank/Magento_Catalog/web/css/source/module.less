@@ -43,7 +43,7 @@
     text-decoration: line-through;
 }
 
-.actual.price {
+.actual-price {
     font-weight: @font-weight-bold;
 }
 
@@ -191,6 +191,26 @@
         }
     }
 
+    .special-price {
+        display: block;
+        margin: @indent-s-base 0;
+        .price-container {
+            .font-size(14);
+        }
+        .price-label + .price-wrapper {
+            display: inline-block;
+        }
+    }
+
+    .old-price,
+    .special-price {
+        .price-label {
+            &:after {
+                content: ": ";
+            }
+        }
+    }
+
     .box-tocart {
         margin: @indent-base 0;
         .field.qty {
@@ -237,6 +257,15 @@
         display: inline-block;
         .price {
             .font-size(14);
+        }
+    }
+    .price-excluding-tax + .price-including-tax {
+        &:before {
+            content: attr(data-label) ": ";
+            .font-size(11);
+        }
+        .price {
+            .font-size(11);
         }
     }
 }
@@ -328,6 +357,11 @@
         margin-bottom: 15px;
         .price-box {
             float: left;
+            .label {
+                &:after {
+                    content: ": ";
+                }
+            }
         }
     }
     .form.map.checkout {

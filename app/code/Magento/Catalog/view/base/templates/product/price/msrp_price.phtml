@@ -45,8 +45,8 @@ if ($product->isSaleable()) {
     <span id="<?php echo $this->getPriceId() ? $this->getPriceId() : $priceElementId ?>" style="display: none"></span>
     <?php $popupId = 'msrp-popup-' . $productId . $this->getRandomString(20); ?>
     <a href="#"
-       id="<?php echo($popupId);?>"
-       data-mage-init='{"addToCart":{"cartForm": "#product_addtocart_form_from_popup",
+        id="<?php echo($popupId);?>"
+        data-mage-init='{"addToCart":{"cartForm": "#product_addtocart_form_from_popup",
                                      "popupId": "#<?php echo $popupId; ?>",
                                      "productName": "<?php echo $product->getName() ?>",
                                      "realPrice": <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,

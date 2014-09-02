@@ -109,21 +109,22 @@
             }
         }
 
-        .minimal-price-link {
-            margin-top: 5px;
-        }
-
-        .special-price,
-        .old-price {
-            margin: 0;
-        }
-
         .old-price {
             color: @text-color-muted;
             margin: 5px 0;
             .price {
                 font-weight: normal;
             }
+        }
+
+        .minimal-price {
+            .price-container {
+                display: block;
+            }
+        }
+
+        .minimal-price-link {
+            margin-top: 5px;
         }
 
         .price-from,

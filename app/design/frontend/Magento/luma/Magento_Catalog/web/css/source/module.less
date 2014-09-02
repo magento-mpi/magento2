@@ -20,7 +20,7 @@
     //text-decoration: line-through;
 }
 
-.actual.price {
+.actual-price {
     font-weight: @font-weight-bold;
 }
 
@@ -143,6 +143,45 @@
         width: 100%;
         color: @product-info-price;
         margin-bottom: @indent-s-base + @indent-xs-base;
+        width: 100%;
+        .price-box {
+            display: table-cell;
+            vertical-align: top;
+            .price-final_price > span {
+                display: block;
+                margin-bottom: @indent-xs-base;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .price-including-tax + .price-excluding-tax,
+        .weee + .price-excluding-tax,
+        .weee {
+            .font-size(14);
+            .price {
+                .font-size(14);
+                font-weight: @font-weight-semibold;
+                line-height: 16px;
+            }
+        }
+        .price-wrapper .price {
+            .font-size(22);
+            font-weight: @font-weight-semibold;
+            line-height: 22px;
+        }
+        .old-price {
+            .price-wrapper .price {
+                .font-size(20);
+            }
+        }
+        .special-price {
+            .price-label {
+                &:after {
+                    content: ": ";
+                }
+            }
+        }
     }
     .product-info-stock-sku {
         text-align: right;
@@ -262,13 +301,26 @@
 
 .prices.tier.items {
     &:extend(.reset-list all);
+    margin-bottom: @indent-s-base + @indent-xs-base;
     .item {
         margin-bottom: @indent-s-base;
         &:last-child {
             margin-bottom: 0;
         }
     }
-    margin-bottom: @indent-s-base + @indent-xs-base;
+    .price-excluding-tax,
+    .price-including-tax {
+        display: inline-block;
+    }
+    .price-excluding-tax + .price-including-tax {
+        &:before {
+            content: attr(data-label) ": ";
+            .font-size(11);
+        }
+        .price {
+            .font-size(11);
+        }
+    }
 }
 
 .minimal-price-link,
@@ -315,6 +367,12 @@
                 .price {
                     font-size: 36px;
                     line-height: 36px;
+                }
+            }
+            .price-including-tax + .price-excluding-tax {
+                .price {
+                    .font-size(14);
+                    line-height: 16px;
                 }
             }
         }
@@ -390,9 +448,24 @@
         border-bottom-style: solid;
         left: 50%;
     }
+
     .map.add.form {
+        &:extend(.add-clearfix all);
         margin: 0 0 20px;
+        .price-box {
+            float: left;
+            .label {
+                &:after {
+                    content: ": ";
+                }
+            }
+        }
     }
+
+    .form.map.checkout {
+        float: right;
+    }
+
     .additional-addtocart-box {
         display: inline-block;
     }
@@ -402,16 +475,12 @@
     }
     .map.msrp {
         margin-bottom: 9px;
-        .label {
-            display: none;
-        }
     }
-    .actual.price {
+    .actual-price {
         font-size: @font-size-l;
         margin: 3px 0 15px;
     }
-    .popup-header,
-    .map.msrp .label {
+    .popup-header {
         display: none;
     }
 }

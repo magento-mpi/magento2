@@ -22,14 +22,14 @@ $idSuffix = $this->getIdSuffixSome() ? $this->getIdSuffixSome() : '';
 <?php if ($this->hasSpecialPrice()): ?>
     <p class="special-price">
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
-            'display_label'     => __('Special Price:'),
+            'display_label'     => __('Special Price'),
             'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
-            'include_container' => false
+            'include_container' => true
         ]); ?>
     </p>
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel->getAmount(), [
-            'display_label'     => __('Regular Price:'),
+            'display_label'     => __('Regular Price'),
             'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
             'include_container' => true,
             'skip_adjustments'  => true

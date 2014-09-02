@@ -58,7 +58,6 @@
             }
             .price-notice {
                 float: left;
-                text-align: right;
             }
             .price-excluding-tax {
                 display: inline-block;
@@ -206,6 +205,12 @@
                 .price {
                     font-size: @price-size-desktop;
                     line-height: @price-size-desktop;
+                }
+            }
+            .price-including-tax + .price-excluding-tax {
+                .price {
+                    .font-size(14);
+                    line-height: 16px;
                 }
             }
             .box-tocart {
