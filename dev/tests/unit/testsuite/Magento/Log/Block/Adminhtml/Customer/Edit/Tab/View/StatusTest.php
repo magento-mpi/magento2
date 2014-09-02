@@ -46,7 +46,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $log->expects($this->any())->method('getOnlineMinutesInterval')->will($this->returnValue(1));
 
         $this->customerLog = $this->getMockBuilder('Magento\Log\Model\Customer')->disableOriginalConstructor()
-            ->setMethods(['getLoginAtTimestamp', 'loadByCustomer', 'getLogoutAt', 'getLastVisitAt'])
+            ->setMethods(['getLoginAt', 'getLoginAtTimestamp', 'loadByCustomer', 'getLogoutAt', 'getLastVisitAt'])
             ->getMock();
         $this->customerLog->expects($this->any())->method('loadByCustomer')->will($this->returnSelf());
 
@@ -131,8 +131,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
     public function testGetLastLoginDate()
     {
         $date = date('Y-m-d H:i:s');
-        $time = strtotime($date);
-        $this->customerLog->expects($this->any())->method('getLoginAtTimestamp')->will($this->returnValue($time));
+        $this->customerLog->expects($this->any())->method('getLoginAt')->will($this->returnValue($date));
         $this->localeDate->expects($this->once())->method('formatDate')->will($this->returnValue($date));
         $this->assertEquals($date, $this->block->getLastLoginDate());
     }

@@ -112,7 +112,7 @@ class Status extends \Magento\Backend\Block\Template
      */
     public function getLastLoginDate()
     {
-        $date = $this->getCustomerLog()->getLoginAtTimestamp();
+        $date = $this->getCustomerLog()->getLoginAt();
         if ($date) {
             return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
