@@ -173,7 +173,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $optionMock = $this->getMockBuilder('Magento\Wishlist\Model\Item\Option')
             ->disableOriginalConstructor()
-            ->setMethods(array('getCode'))
+            ->setMethods(array('getCode', '__wakeup'))
             ->getMock();
         $optionMock->expects($this->any())
             ->method('getCode')
