@@ -30,18 +30,26 @@ class RestrictWebsite
     protected $restrictor;
 
     /**
+     * @var \Magento\Framework\Object\Factory
+     */
+    protected $objectFactory;
+
+    /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\WebsiteRestriction\Model\Restrictor $restrictor
+     * @param \Magento\Framework\Object\Factory $objectFactory
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\WebsiteRestriction\Model\Restrictor $restrictor
+        \Magento\WebsiteRestriction\Model\Restrictor $restrictor,
+        \Magento\Framework\Object\Factory $objectFactory
     ) {
         $this->config = $config;
         $this->eventManager = $eventManager;
         $this->restrictor = $restrictor;
+        $this->objectFactory = $objectFactory;
     }
 
     /**
@@ -55,17 +63,16 @@ class RestrictWebsite
         /* @var $controller \Magento\Framework\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
-        $dispatchResult = new \Magento\Framework\Object(array('should_proceed' => true, 'customer_logged_in' => false));
+        $dispatchResult = $this->objectFactory->create(array('should_proceed' => true, 'customer_logged_in' => false));
         $this->eventManager->dispatch(
             'websiterestriction_frontend',
             array('controller' => $controller, 'result' => $dispatchResult)
         );
-        if (!$dispatchResult->getShouldProceed()) {
+
+        if (!$dispatchResult->getShouldProceed() || !$this->config->isRestrictionEnabled()) {
             return;
         }
-        if (!$this->config->isRestrictionEnabled()) {
-            return;
-        }
+
         $this->restrictor->restrict(
             $observer->getEvent()->getRequest(),
             $controller->getResponse(),

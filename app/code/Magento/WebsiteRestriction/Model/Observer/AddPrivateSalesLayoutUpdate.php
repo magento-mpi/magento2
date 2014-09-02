@@ -16,6 +16,16 @@ class AddPrivateSalesLayoutUpdate
     protected $_config;
 
     /**
+     * List of allowed mode
+     *
+     * @var int[]
+     */
+    protected $allowedTypes = [
+        \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER,
+        \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN
+    ];
+
+    /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      */
     public function __construct(\Magento\WebsiteRestriction\Model\ConfigInterface $config)
@@ -31,16 +41,10 @@ class AddPrivateSalesLayoutUpdate
      */
     public function execute($observer)
     {
-        if (in_array(
-            $this->_config->getMode(),
-            array(
-                \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER,
-                \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN
-            ),
-            true
-        )
-        ) {
-            $observer->getEvent()->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
+        if (in_array($this->_config->getMode(), $this->allowedTypes, true)) {
+            /** @var \Magento\Framework\View\LayoutInterface $layout */
+            $layout = $observer->getEvent()->getLayout();
+            $layout->getUpdate()->addHandle('restriction_privatesales_mode');
         }
     }
 }
