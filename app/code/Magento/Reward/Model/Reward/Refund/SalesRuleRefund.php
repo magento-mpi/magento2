@@ -97,7 +97,6 @@ class SalesRuleRefund
         }
         return (int)$rewardModel->getPointsBalance();
     }
-}
 
     /**
      * Return is refund allowed for creditmemo
