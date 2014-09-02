@@ -58,12 +58,34 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store catalog/search/search_type 2
      * @magentoDataFixture Magento/Framework/Search/_files/products.php
      */
-    public function testOneMatchQuery()
+    public function testMatchQuery()
     {
         $bindValues = [
             '%request.title%' => 'socks',
         ];
         $requestName = 'one_match';
+
+        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $this->assertEquals(1, $queryResponse->count());
+    }
+
+    /**
+     * Sample test
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testMatchQueryFilters()
+    {
+        $bindValues = [
+            '%request.title%' => 'socks',
+            '%pidm_from%' => 1,
+            '%pidm_to%' => 3,
+            '%pidsh%' => 4
+        ];
+        $requestName = 'one_match_filters';
 
         $queryResponse = $this->executeQuery($requestName, $bindValues);
         $this->assertEquals(1, $queryResponse->count());
