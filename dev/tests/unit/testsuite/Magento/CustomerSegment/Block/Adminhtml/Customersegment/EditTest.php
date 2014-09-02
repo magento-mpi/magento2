@@ -55,7 +55,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->segment = $this->getMock(
-            'Magento\CustomerSegment\Model\Segment', ['getId', 'getSegmentId', 'getName'], [], '', false
+            'Magento\CustomerSegment\Model\Segment', ['getId', 'getSegmentId', 'getName', '__wakeup'], [], '', false
         );
 
         $this->registry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
