@@ -12,7 +12,7 @@ namespace Magento\Catalog\Controller\Product;
  */
 class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 {
-    public function _testAddAction()
+    public function testAddAction()
     {
         $this->_requireVisitorWithNoProducts();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -37,7 +37,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_assertCompareListEquals(array(1));
     }
 
-    public function _testIndexActionAddProducts()
+    public function testIndexActionAddProducts()
     {
         $this->_requireVisitorWithNoProducts();
 
@@ -48,7 +48,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_assertCompareListEquals(array(2));
     }
 
-    public function _testRemoveAction()
+    public function testRemoveAction()
     {
         $this->_requireVisitorWithTwoProducts();
 
@@ -71,7 +71,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_assertCompareListEquals(array(1));
     }
 
-    public function _testRemoveActionWithSession()
+    public function testRemoveActionWithSession()
     {
         $this->_requireCustomerWithTwoProducts();
 
@@ -92,7 +92,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_assertCompareListEquals(array(2));
     }
 
-    public function _testIndexActionDisplay()
+    public function testIndexActionDisplay()
     {
         $this->_requireVisitorWithTwoProducts();
 
@@ -140,7 +140,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple_xss.php
      */
-    public function _testRemoveActionProductNameXss()
+    public function testRemoveActionProductNameXss()
     {
         $this->_prepareCompareListWithProductNameXss();
         $this->dispatch('catalog/product_compare/remove/product/1?nocookie=1');
