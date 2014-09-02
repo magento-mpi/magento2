@@ -11,7 +11,10 @@ use Magento\Framework\Exception\ErrorMessage;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Service\V1\Data\TaxRule;
+use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Class TaxRuleServiceTest
@@ -66,6 +69,11 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $objectManager;
 
+    /**
+     * @var TaxClassService | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $taxClassServiceMock;
+
     public function setUp()
     {
         $this->objectManager = new ObjectManager($this);
@@ -100,6 +108,40 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRateServiceMock = $this->getMockBuilder('\Magento\Tax\Service\V1\TaxRateServiceInterface')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->taxClassServiceMock = $this->getMockBuilder('\Magento\Tax\Service\V1\TaxClassService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $taxClassBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxClassBuilder');
+
+        $customerTaxClassArray = [
+            TaxClass::KEY_ID => 3,
+            TaxClass::KEY_NAME => 'Some Customer Tax Class',
+            TaxClass::KEY_TYPE => TaxClassModel::TAX_CLASS_TYPE_CUSTOMER,
+        ];
+
+        $productTaxClassArray = [
+            TaxClass::KEY_ID => 2,
+            TaxClass::KEY_NAME => 'Some Product Tax Class',
+            TaxClass::KEY_TYPE => TaxClassModel::TAX_CLASS_TYPE_PRODUCT,
+        ];
+
+        $customerTaxClass = $taxClassBuilder->populateWithArray($customerTaxClassArray)->create();
+        $productTaxClass = $taxClassBuilder->populateWithArray($productTaxClassArray)->create();
+
+        $map = [
+            [
+                3, $customerTaxClass,
+            ],
+            [
+                2, $productTaxClass,
+            ],
+        ];
+
+        $this->taxClassServiceMock->expects($this->any())
+            ->method('getTaxClass')
+            ->will($this->returnValueMap($map));
 
         $this->taxRuleService = $this->getTaxRuleService($taxRuleResultsBuilder);
     }
@@ -244,7 +286,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
-            ->setId(2)
             ->setCode('code')
             ->setCustomerTaxClassIds([3])
             ->setProductTaxClassIds([2])
@@ -266,6 +307,24 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $result = $this->taxRuleService->createTaxRule($taxRule);
 
         $this->assertSame($expectedTaxRule, $result);
+    }
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testCreateTaxRuleSpecifyingId()
+    {
+        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $taxRule = $taxRuleBuilder
+            ->setId(9)
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        $this->taxRuleService->createTaxRule($taxRule);
     }
 
     /**
@@ -309,7 +368,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ],
             'negative fields' => [
                 [
-                    'id' => 3,
                     'customer_tax_class_ids' => [3],
                     'product_tax_class_ids' => [2],
                     'tax_rate_ids' => [1],
@@ -332,7 +390,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
-            ->setId(2)
             ->setCode('code')
             ->setCustomerTaxClassIds([3])
             ->setProductTaxClassIds([2])
@@ -349,6 +406,39 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception()));
 
         $this->taxRuleService->createTaxRule($taxRule);
+    }
+
+    public function testCreateTaxRuleInvalidTaxClassIds()
+    {
+        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $taxRule = $taxRuleBuilder
+            ->setCode('code')
+            ->setCustomerTaxClassIds([2])
+            ->setProductTaxClassIds([3])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        try {
+            //Tax rule service call
+            $this->taxRuleService->createTaxRule($taxRule);
+            $this->fail('Did not throw expected InputException');
+        } catch (InputException $e) {
+            $expectedCustomerTaxClassIdParams = [
+                'fieldName' => $taxRule::CUSTOMER_TAX_CLASS_IDS,
+                'value'     => 2,
+            ];
+            $expectedProductTaxClassIdParams = [
+                'fieldName' => $taxRule::PRODUCT_TAX_CLASS_IDS,
+                'value'    => 3,
+            ];
+
+            $actualErrors = $e->getErrors();
+            $this->assertEquals(2, count($actualErrors));
+            $this->assertEquals($expectedCustomerTaxClassIdParams, $actualErrors[0]->getParameters());
+            $this->assertEquals($expectedProductTaxClassIdParams, $actualErrors[1]->getParameters());
+        }
     }
 
     public function testSearchTaxRulesEmptyResult()
@@ -421,9 +511,14 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
+        $sortOrderBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\SortOrderBuilder');
+        $sortOrder = $sortOrderBuilder
+            ->setField('id')
+            ->setDirection(SearchCriteria::SORT_ASC)
+            ->create();
         $searchCriteria = $searchCriteriaBuilder
             ->addFilter([$filter])
-            ->addSortOrder('id', \Magento\Framework\Service\V1\Data\SearchCriteria::SORT_ASC)
+            ->addSortOrder($sortOrder)
             ->create();
 
         /** @var \Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder $searchResultsBuilder */
@@ -594,7 +689,8 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                 'taxRuleSearchResultsBuilder' => $taxRuleResultsBuilder,
                 'filterBuilder' => $this->filterBuilderMock,
                 'taxRateService' => $this->taxRateServiceMock,
-                'searchCriteriaBuilder' => $this->searchCriteriaBuilderMock
+                'searchCriteriaBuilder' => $this->searchCriteriaBuilderMock,
+                'taxClassService' => $this->taxClassServiceMock
             ]
         );
     }

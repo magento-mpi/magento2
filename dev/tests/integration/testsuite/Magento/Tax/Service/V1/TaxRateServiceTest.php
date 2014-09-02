@@ -44,12 +44,24 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $taxRateFixtureFactory;
 
+    /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    private $countryFactory;
+
+    /**
+     * @var  \Magento\Directory\Model\RegionFactory
+     */
+    private $regionFactory;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->taxRateService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRateServiceInterface');
         $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $this->taxRateFixtureFactory = new TaxRuleFixtureFactory();
+        $this->countryFactory = $this->objectManager->create('Magento\Directory\Model\CountryFactory');
+        $this->regionFactory = $this->objectManager->create('Magento\Directory\Model\RegionFactory');
     }
 
     /**
@@ -70,7 +82,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $taxRateServiceData = $this->taxRateService->createTaxRate($taxRate);
 
         //Assertions
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
+        $this->assertInstanceOf('Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
         $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
         $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
@@ -88,7 +100,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateTaxRateWithTitles()
     {
-        $store = $this->objectManager->get('\Magento\Store\Model\Store');
+        $store = $this->objectManager->get('Magento\Store\Model\Store');
         $store->load('test', 'code');
 
         $taxData = [
@@ -110,7 +122,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $taxRateServiceData = $this->taxRateService->createTaxRate($taxRate);
 
         //Assertions
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
+        $this->assertInstanceOf('Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
         $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
         $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
@@ -132,6 +144,25 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($titles));
         $this->assertEquals($store->getId(), $titles[0]->getStoreId());
         $this->assertEquals($taxData['titles'][0]['value'], $titles[0]->getValue());
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage id is not expected for this request.
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateTaxRateWithId()
+    {
+        $invalidTaxData = [
+            'id' => 2,
+            'country_id' => 'US',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate' . rand(),
+            'zip_range' => ['from' => 78765, 'to' => 78780]
+        ];
+        $taxRate = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
+        $this->taxRateService->createTaxRate($taxRate);
     }
 
     /**
@@ -165,30 +196,30 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateTaxRateWithExceptionMessages($dataArray, $errorMessages)
     {
-        $expectedErrorMessages = [
-            'country_id is a required field.',
-            'percentage_rate is a required field.',
-            'code is a required field.'
-        ];
-        $expectedErrorMessages = array_merge($expectedErrorMessages, $errorMessages);
         $taxRate = $this->taxRateBuilder->populateWithArray($dataArray)->create();
         try {
             $this->taxRateService->createTaxRate($taxRate);
         } catch (InputException $exception) {
             $errors = $exception->getErrors();
             foreach ($errors as $key => $error) {
-                $this->assertEquals($expectedErrorMessages[$key], $error->getMessage());
+                $this->assertEquals($errorMessages[$key], $error->getMessage());
             }
             throw $exception;
         }
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function createDataProvider()
     {
         return [
             'invalidZipRange' => [
                 ['zip_range' => ['from' => 'from', 'to' => 'to']],
                 'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
                     'Invalid value of "from" provided for the zip_from field.',
                     'Invalid value of "to" provided for the zip_to field.'
                 ]
@@ -196,22 +227,88 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'emptyZipRange' => [
                 ['zip_range' => ['from' => '', 'to' => '']],
                 'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
                     'Invalid value of "" provided for the zip_from field.',
                     'Invalid value of "" provided for the zip_to field.'
                 ]
             ],
             'empty' => [
                 [],
-                'error' => ['postcode is a required field.']
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
             ],
             'zipRangeAndPostcode' => [
                 ['postcode' => 78727, 'zip_range' => ['from' => 78765, 'to' => 78780]],
-                'error' => []
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.'
+                ]
             ],
             'higherRange' => [
                 ['zip_range' => ['from' => 78780, 'to' => 78765]],
-                'error' => ['Range To should be equal or greater than Range From.']
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'Range To should be equal or greater than Range From.'
+                ]
+            ],
+            'invalidCountry' => [
+                ['country_id' => 'XX'],
+                'error' => [
+                    'Invalid value of "XX" provided for the country_id field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
+            ],
+            'invalidCountry2' => [
+                ['country_id' => ' '],
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
+            ],
+            'invalidRegion1' => [
+                ['region_id' => '-'],
+                'error' => [
+                    'country_id is a required field.',
+                    'Invalid value of "-" provided for the region_id field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
+            ],
+            'spaceRegion' => [
+                ['region_id' => ' '],
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
+            ],
+            'emptyPercentageRate' => [
+                ['country_id' => 'US',
+                    'region_id' => '8',
+                    'percentage_rate' => '',
+                    'code' => 'US-CA-*-Rate' . rand(),
+                    'zip_range' => ['from' => 78765, 'to' => 78780]
+                ],
+                'error' => [
+                    'percentage_rate is a required field.'
+                ]
             ]
+
         ];
     }
 
@@ -437,7 +534,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     public function searchTaxRatesDataProvider()
     {
-        $filterBuilder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
 
         return [
             'eq' => [

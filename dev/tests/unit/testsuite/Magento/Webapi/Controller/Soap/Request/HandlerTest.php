@@ -28,7 +28,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     protected $_requestMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $_authzServiceMock;
+    protected $_authorizationMock;
 
     /** @var DataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
     protected $_dataObjectConverter;
@@ -46,7 +46,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getServiceMethodInfo'))->disableOriginalConstructor()->getMock();
         $this->_requestMock = $this->getMock('Magento\Webapi\Controller\Soap\Request', [], [], '', false);
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
-        $this->_authzServiceMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface', [], [], '', false);
+        $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
         $this->_dataObjectConverter = $this->getMock(
             'Magento\Framework\Service\DataObjectConverter',
             ['convertStdObjectToArray'],
@@ -60,7 +60,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             $this->_requestMock,
             $this->_objectManagerMock,
             $this->_apiConfigMock,
-            $this->_authzServiceMock,
+            $this->_authorizationMock,
             $this->_dataObjectConverter,
             $this->_serializerMock
         );
@@ -95,7 +95,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $serviceMock = $this->getMockBuilder($className)
             ->disableOriginalConstructor()
             ->setMethods(array($methodName))

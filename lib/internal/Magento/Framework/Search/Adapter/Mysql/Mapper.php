@@ -15,7 +15,6 @@ use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
 use Magento\Framework\Search\Request\Query\Filter as FilterQuery;
 use Magento\Framework\Search\Request\Query\Match as MatchQuery;
 use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
-use Magento\Framework\Search\Request\QueryInterface;
 use Magento\Framework\Search\RequestInterface;
 
 /**
@@ -164,7 +163,7 @@ class Mapper
      * Process bool query condition (must, should, must_not)
      *
      * @param ScoreBuilder $scoreBuilder
-     * @param QueryInterface[] $subQueryList
+     * @param RequestQueryInterface[] $subQueryList
      * @param Select $select
      * @param bool $isNot
      * @return Select

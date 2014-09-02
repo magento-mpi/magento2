@@ -85,7 +85,7 @@ class Method extends \Magento\Payment\Model\Method\Cc
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $formBlock,
+        $formBlock = '',
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;

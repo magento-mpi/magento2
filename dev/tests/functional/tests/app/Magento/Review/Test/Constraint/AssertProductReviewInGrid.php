@@ -30,7 +30,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
      *
      * @var array
      */
-    protected $filter = [
+    public $filter = [
         'review_id',
         'status' => 'status_id',
         'title',
@@ -79,7 +79,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * @param string $gridStatus
      * @return array
      */
-    protected function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
+    public function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
     {
         $filter = [];
         foreach ($this->filter as $key => $item) {

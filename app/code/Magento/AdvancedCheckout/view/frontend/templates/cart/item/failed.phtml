@@ -52,11 +52,11 @@ $qtyDisabled = !$this->hasProductUrl() ||
             </div>
         </td>
         <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
-            <?php $priceExcludingTax = $helper->getPrice($_item->getProduct(), $_item->getBasePrice(), false);?>
+            <?php $priceExcludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), false);?>
             <td class="col price"><?php echo $this->convertPrice($priceExcludingTax, true);?></td>
         <?php endif;?>
         <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
-            <?php $priceIncludingTax = $helper->getPrice($_item->getProduct(), $_item->getBasePrice(), true);?>
+            <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true);?>
             <td class="col price"><?php echo $this->convertPrice($priceIncludingTax, true);?></td>
         <?php endif;?>
         <td class="col qty">

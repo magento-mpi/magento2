@@ -11,31 +11,7 @@
     <event name="adminhtml_catalog_product_attribute_edit_frontend_prepare_form">
         <observer name="magento_search" instance="Magento\Search\Model\Observer" method="eavAttributeEditFormInit" />
     </event>
-    <event name="catelogsearch_searchable_attributes_load_after">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="storeSearchableAttributes" />
-    </event>
     <event name="catalogsearch_query_save_after">
         <observer name="magento_search" instance="Magento\Search\Model\Observer" method="searchQueryEditFormAfterSave" />
-    </event>
-    <event name="customer_group_save_after">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="customerGroupSaveAfter" />
-    </event>
-    <event name="website_delete_before">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="saveStoreIdsBeforeScopeDelete" />
-    </event>
-    <event name="store_group_delete_before">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="saveStoreIdsBeforeScopeDelete" />
-    </event>
-    <event name="website_delete_after">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="clearIndexForStores" />
-    </event>
-    <event name="store_group_delete_after">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="clearIndexForStores" />
-    </event>
-    <event name="store_delete_after">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="clearIndexForStores" />
-    </event>
-    <event name="after_reindex_process_catalog_product_price">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="runFulltextReindexAfterPriceReindex" />
     </event>
 </config>

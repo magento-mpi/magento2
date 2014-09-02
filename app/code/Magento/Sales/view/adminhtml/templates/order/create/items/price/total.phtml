@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var \Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid $this */
+
+$_item = $this->getItem();
+?>
+
+<?php $_rowTotalWithoutDiscount = $_item->getRowTotal() - $_item->getDiscountAmount(); ?>
+<?php echo $this->formatPrice(max(0, $_rowTotalWithoutDiscount)) ?>

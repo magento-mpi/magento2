@@ -46,9 +46,19 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $searchResult;
 
+    /**
+     * @var \Magento\Framework\Service\Config\MetadataConfig|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $metadataConfig;
+
     protected function setUp()
     {
         $helper = new ObjectManager($this);
+
+        $this->metadataConfig = $this->getMockBuilder('Magento\Framework\Service\Config\MetadataConfig')
+            ->setMethods(['getCustomAttributesMetadata'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->metadataService = $this->getMockBuilder('Magento\Catalog\Service\V1\MetadataService')
             ->setMethods(['getAllAttributeMetadata'])
@@ -83,7 +93,8 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'metadataService' => $this->metadataService,
                 'searchCriteriaBuilder' => $this->searchCriteriaBuilder,
-                'filterBuilder' => $this->filterBuilder
+                'filterBuilder' => $this->filterBuilder,
+                'metadataConfig' => $this->metadataConfig
             ]
         );
     }
@@ -91,6 +102,10 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomAttributesMetadata()
     {
         $this->getProductAttributesMetadata(MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID);
+
+        $this->metadataConfig->expects($this->once())->method('getCustomAttributesMetadata')
+            ->with($this->equalTo(MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID))
+            ->will($this->returnValue([]));
 
         $result = $this->service->getCustomAttributesMetadata(MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID);
 
