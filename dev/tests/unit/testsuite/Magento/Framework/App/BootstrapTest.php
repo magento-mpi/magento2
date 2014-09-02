@@ -146,7 +146,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
 
     public function testRunWithMaintenanceErrors()
     {
-        $expectedException = new \Exception('Unable to proceed: the maintenance mode is enabled.', 0, null);
+        $expectedException = new \Exception('');
         $this->bootstrapMock->expects($this->once())->method('assertMaintenance')
             ->will($this->throwException($expectedException));
         $this->bootstrapMock->expects($this->once())->method('terminate')->with($expectedException);
@@ -156,7 +156,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
 
     public function testRunWithInstallErrors()
     {
-        $expectedException = new \Exception('Application is not installed yet');
+        $expectedException = new \Exception('');
         $this->bootstrapMock->expects($this->once())->method('assertMaintenance')->will($this->returnValue(null));
         $this->bootstrapMock->expects($this->once())->method('assertInstalled')
             ->will($this->throwException($expectedException));
@@ -167,7 +167,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
 
     public function testRunWithBothErrors()
     {
-        $expectedMaintenanceException = new \Exception('Unable to proceed: the maintenance mode is enabled.');
+        $expectedMaintenanceException = new \Exception('');
         $this->bootstrapMock->expects($this->once())->method('assertMaintenance')
             ->will($this->throwException($expectedMaintenanceException));
         $this->bootstrapMock->expects($this->never())->method('assertInstalled');
@@ -177,21 +177,24 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param bool $isOn
+     * @param bool $isExpected
+     *
      * @dataProvider assertMaintenanceDataProvider
      */
     public function testAssertMaintenance($isOn, $isExpected)
     {
         $bootstrap = self::createBootstrap([Bootstrap::PARAM_REQUIRE_MAINTENANCE => $isExpected]);
-
-
         $this->maintenanceMode->expects($this->once())->method('isOn')->willReturn($isOn);
         $this->application->expects($this->never())->method('launch');
         $this->application->expects($this->once())->method('catchException')->willReturn(true);
         $bootstrap->run($this->application);
-        $this->assertEquals($bootstrap->getErrorCode(), Bootstrap::ERR_MAINTENANCE);
-
+        $this->assertEquals(Bootstrap::ERR_MAINTENANCE, $bootstrap->getErrorCode());
     }
 
+    /**
+     * @return array
+     */
     public function assertMaintenanceDataProvider()
     {
         return [
@@ -201,6 +204,9 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param bool $isInstalled
+     * @param bool $isExpected
+     *
      * @dataProvider assertInstalledDataProvider
      */
     public function testAssertInstalled($isInstalled, $isExpected)
@@ -210,9 +216,12 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->application->expects($this->never())->method('launch');
         $this->application->expects($this->once())->method('catchException')->willReturn(true);
         $bootstrap->run($this->application);
-        $this->assertEquals($bootstrap->getErrorCode(), Bootstrap::ERR_IS_INSTALLED);
+        $this->assertEquals(Bootstrap::ERR_IS_INSTALLED, $bootstrap->getErrorCode());
     }
 
+    /**
+     * @return array
+     */
     public function assertInstalledDataProvider()
     {
         return [
