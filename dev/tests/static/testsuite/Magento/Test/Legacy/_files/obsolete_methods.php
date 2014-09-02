@@ -1074,6 +1074,7 @@ return array(
     array('getPublicFilesValidPath', '\Magento\Core\Helper\Data'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
     array('_getSession', '\Magento\Catalog\Helper\Product\Compare', '$this->_catalogSession'),
+    array('getSitemapValidPaths', '\Magento\Catalog\Helper\Catalog', '\Magento\Sitemap\Helper\Data::getValidPaths'),
     array('getEnginePool', '\Magento\Framework\View\Element\Template\Context', 'getEngineFactory'),
     array('getHtml', 'Magento\Framework\View\Element\Messages'),
     array('is_dir_writeable'),
