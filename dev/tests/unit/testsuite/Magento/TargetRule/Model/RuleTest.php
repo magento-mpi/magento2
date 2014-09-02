@@ -244,7 +244,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($array));
 
         $result = array( 0 => __(
-            'This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.'
+            'This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_),'
+            . ' and be sure the code begins with a letter.'
         ));
         $this->assertEquals($result, $this->_rule->validateData($object));
     }
