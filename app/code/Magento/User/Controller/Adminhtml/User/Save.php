@@ -65,6 +65,9 @@ class Save extends \Magento\User\Controller\Adminhtml\User
             $this->_redirect('adminhtml/*/');
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addMessages($e->getMessages());
+            if ($e->getMessage()) {
+                $this->messageManager->addError($e->getMessage());
+            }
             $this->_getSession()->setUserData($data);
             $arguments = $model->getId() ? ['user_id' => $model->getId()] : [];
             $arguments = array_merge($arguments, ['_current' => true]);

@@ -1,18 +1,18 @@
 <?php
 /**
- * Unit test for model \Magento\User\Model\User
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Test class for \Magento\User\Model\User testing
- */
 namespace Magento\User\Model;
 
+/**
+ * Test class for \Magento\User\Model\User testing
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\User\Model\User */
