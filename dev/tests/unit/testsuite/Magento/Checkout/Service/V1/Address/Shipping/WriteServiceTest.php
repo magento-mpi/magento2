@@ -188,13 +188,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $storeId = 323;
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
-        $this->quoteLoaderMock->expects($this->once())
-            ->method('load')
-            ->with('cart867', $storeId)
-            ->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
 
         $builder = $this->getMock(
