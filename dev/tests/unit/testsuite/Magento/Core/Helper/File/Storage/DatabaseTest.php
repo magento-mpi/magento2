@@ -107,6 +107,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($dbModelMock));
         $resourceModelMock = $this->getMockBuilder('Magento\Framework\Model\Resource\Db\AbstractDb')
             ->disableOriginalConstructor()
+            ->setMethods(['__wakeup'])
             ->getMockForAbstractClass();
         $dbModelMock->expects($this->once())
             ->method('getResource')
@@ -445,7 +446,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($map));
         $dbModelMock->expects($this->exactly($callNum))
             ->method('saveFile');
-        $this->helper->saveUploadedFile($result);
+        $this->assertEquals($expected, $this->helper->saveUploadedFile($result));
     }
 
     public function saveUploadedFileDataProvider()
@@ -466,7 +467,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ],
             'non-media database' => [
                 ['file' => 'filename.ext', 'path' => 'directory/'],
-                'filename,ext',
+                'filename.ext',
                 10,
                 0,
             ],
