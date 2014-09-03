@@ -8,19 +8,13 @@
  * @license   {license_link}
  */
 namespace Magento\Core\App\Router;
-use Magento\TestFramework\Helper\ObjectManager;
 
-class BaseTest extends \PHPUnit_Framework_TestCase
+class BaseTest extends \Magento\Test\Helper
 {
     /**
      * @var \Magento\Core\App\Router\Base
      */
     private $model;
-
-    /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
-     */
-    private $objectManager;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\RequestInterface
@@ -54,6 +48,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
         // Create mocks
         $requestMethods = [
             'getActionName',
@@ -78,7 +73,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->nameBuilderMock = $this->basicMock('Magento\Framework\Code\NameBuilder');
 
         // Prepare SUT
-        $this->objectManager = new ObjectManager($this);
         $mocks = [
             'actionList' => $this->actionListMock,
             'actionFactory' => $this->actionFactoryMock,
@@ -192,33 +186,5 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->method($method)
             ->with($with);
         return $this;
-    }
-
-    /**
-     * Generate a basic method stub
-     *
-     * @param \PHPUnit_Framework_MockObject_MockObject $mock
-     * @param string $method
-     *
-     * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
-     */
-    private function basicStub($mock, $method)
-    {
-        return $mock->expects($this->any())
-            ->method($method)
-            ->withAnyParameters();
-    }
-
-    /**
-     * Build a basic mock object
-     *
-     * @param string $className
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function basicMock($className)
-    {
-        return $this->getMockBuilder($className)
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 } 

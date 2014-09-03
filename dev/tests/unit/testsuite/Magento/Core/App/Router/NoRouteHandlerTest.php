@@ -8,15 +8,9 @@
  * @license   {license_link}
  */
 namespace Magento\Core\App\Router;
-use Magento\TestFramework\Helper\ObjectManager;
 
-class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
+class NoRouteHandlerTest extends \Magento\Test\Helper
 {
-    /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
-     */
-    private $objectManager;
-
     /**
      * @var \Magento\Core\App\Router\NoRouteHandler
      */
@@ -34,7 +28,7 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->objectManager = new ObjectManager($this);
+        parent::setUp();
         $this->configMock = $this->basicMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $requestMethods = [
             'getActionName',
@@ -107,16 +101,5 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
 
         // Test
         $this->assertTrue($this->model->process($this->requestMock));
-    }
-
-    /**
-     * @param string $className
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function basicMock($className)
-    {
-        return $this->getMockBuilder($className)
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 } 
