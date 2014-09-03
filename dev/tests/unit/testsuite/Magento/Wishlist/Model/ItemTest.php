@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Wishlist\Model;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
@@ -187,5 +188,78 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             array('second_key',$optionMock),
             array('third_key', new \Magento\Framework\Object(array('code' => 'third_key', 'product' => $productMock))),
         );
+    }
+
+    public function testCompareOptionsPositive()
+    {
+        $code = 'someOption';
+        $optionValue = 100;
+        $optionsOneMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getCode', '__wakeup', 'getValue'))
+            ->getMock();
+        $optionsTwoMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__wakeup', 'getValue'))
+            ->getMock();
+
+        $optionsOneMock->expects($this->once())->method('getCode')->will($this->returnValue($code));
+        $optionsOneMock->expects($this->once())->method('getValue')->will($this->returnValue($optionValue));
+        $optionsTwoMock->expects($this->once())->method('getValue')->will($this->returnValue($optionValue));
+
+        $result = $this->model->compareOptions(
+            array($code => $optionsOneMock),
+            array($code => $optionsTwoMock)
+        );
+
+        $this->assertTrue($result);
+    }
+
+    public function testCompareOptionsNegative()
+    {
+        $code = 'someOption';
+        $optionOneValue = 100;
+        $optionTwoValue = 200;
+        $optionsOneMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getCode', '__wakeup', 'getValue'))
+            ->getMock();
+        $optionsTwoMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__wakeup', 'getValue'))
+            ->getMock();
+
+        $optionsOneMock->expects($this->once())->method('getCode')->will($this->returnValue($code));
+        $optionsOneMock->expects($this->once())->method('getValue')->will($this->returnValue($optionOneValue));
+        $optionsTwoMock->expects($this->once())->method('getValue')->will($this->returnValue($optionTwoValue));
+
+        $result = $this->model->compareOptions(
+            array($code => $optionsOneMock),
+            array($code => $optionsTwoMock)
+        );
+
+        $this->assertFalse($result);
+    }
+
+    public function testCompareOptionsNegativeOptionsTwoHaveNotOption()
+    {
+        $code = 'someOption';
+        $optionsOneMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getCode', '__wakeup'))
+            ->getMock();
+        $optionsTwoMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__wakeup'))
+            ->getMock();
+
+        $optionsOneMock->expects($this->once())->method('getCode')->will($this->returnValue($code));
+
+        $result = $this->model->compareOptions(
+            array($code => $optionsOneMock),
+            array('someOneElse' => $optionsTwoMock)
+        );
+
+        $this->assertFalse($result);
     }
 }

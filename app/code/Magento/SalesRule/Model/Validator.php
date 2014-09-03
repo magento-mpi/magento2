@@ -181,6 +181,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      */
     public function reset(Address $address)
     {
+        $this->validatorUtility->resetRoundingDeltas();
         if ($this->_isFirstTimeResetRun) {
             $address->setAppliedRuleIds('');
             $address->getQuote()->setAppliedRuleIds('');
@@ -237,7 +238,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         $appliedRuleIds = array();
         foreach ($this->_getRules() as $rule) {
             /* @var \Magento\SalesRule\Model\Rule $rule */
-            if (!$rule->getApplyToShipping() || !$this->_canProcessRule($rule, $address)) {
+            if (!$rule->getApplyToShipping() || !$this->validatorUtility->canProcessRule($rule, $address)) {
                 continue;
             }
 
