@@ -58,12 +58,12 @@ class ResponseFactoryTest extends \PHPUnit_Framework_TestCase
         $exceptedResponse = [
             'documents' => [
                 [
-                    ['name' => 'title', 'values' => 'oneTitle'],
-                    ['name' => 'description', 'values' => 'oneDescription'],
+                    ['name' => 'title', 'value' => 'oneTitle'],
+                    ['name' => 'description', 'value' => 'oneDescription'],
                 ],
                 [
-                    ['name' => 'title', 'values' => 'twoTitle'],
-                    ['name' => 'description', 'values' => 'twoDescription'],
+                    ['name' => 'title', 'value' => 'twoTitle'],
+                    ['name' => 'description', 'value' => 'twoDescription'],
                 ]
             ],
             'aggregations' => []

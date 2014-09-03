@@ -229,8 +229,8 @@ class Mapper
                     [
                         'name' => $filter['name'],
                         'field' => $filter['field'],
-                        'from' => $filter['from'],
-                        'to' => $filter['to']
+                        'from' => isset($filter['from']) ? $filter['from'] : null,
+                        'to' => isset($filter['to']) ? $filter['to'] : null,
                     ]
                 );
 
