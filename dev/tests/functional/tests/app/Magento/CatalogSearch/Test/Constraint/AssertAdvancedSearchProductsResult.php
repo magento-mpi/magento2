@@ -79,7 +79,7 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
             /** @var CatalogProductSimple $product */
             $name = $product->getName();
             $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($product->getName());
-            while (!$isProductVisible && $resultPage->getToolbar()->nextPage()) {
+            while (!$isProductVisible && $resultPage->getBottomToolbar()->nextPage()) {
                 $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($product->getName());
             }
             if (!$isProductVisible) {

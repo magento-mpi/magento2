@@ -30,7 +30,7 @@ class PageActions extends AbstractPageActions
     /**
      * Select store
      *
-     * @param array $websiteScope
+     * @param string $websiteScope
      * @return $this
      */
     public function selectStore($websiteScope)
