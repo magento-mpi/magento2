@@ -1431,6 +1431,6 @@
     </fields>
     <data_set></data_set>
     <data_config></data_config>
-    <repository_class>Magento\Sales\Test\Repository\Order</repository_class>
-    <handler_interface>Magento\Sales\Test\Handler\Order\OrderInterface</handler_interface>
+    <repository_class>Magento\Sales\Test\Repository\OrderInjectable</repository_class>
+    <handler_interface>Magento\Sales\Test\Handler\OrderInjectable\OrderInjectableInterface</handler_interface>
 </fixture>

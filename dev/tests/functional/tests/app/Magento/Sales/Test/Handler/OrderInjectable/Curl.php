@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Handler\Order;
+namespace Magento\Sales\Test\Handler\OrderInjectable;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
@@ -21,7 +21,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * Class Curl
  * Create new order via curl
  */
-class Curl extends AbstractCurl implements OrderInterface
+class Curl extends AbstractCurl implements OrderInjectableInterface
 {
     /**
      * Customer fixture
@@ -46,8 +46,8 @@ class Curl extends AbstractCurl implements OrderInterface
         'region_id' => [
             'California' => '12',
         ],
-        'store_id' => [
-            'Default Store View' => 1
+        'country_id' => [
+            'United States' => 'US'
         ]
     ];
 
@@ -57,7 +57,7 @@ class Curl extends AbstractCurl implements OrderInterface
      * @var array
      */
     protected $steps = [
-        'customer_choice' => 'header',
+        'customer_choice' => 'header,data',
         'products_choice' => 'search,items,shipping_method,totals,giftmessage,billing_method',
         'shipping_data_address' => 'shipping_method,billing_method,shipping_address,totals,giftmessage',
         'shipping_data_method_get' => 'shipping_method,totals',
@@ -73,7 +73,7 @@ class Curl extends AbstractCurl implements OrderInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $this->order = $fixture;
-        $this->customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomerId();
+        $this->customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
         $data = $this->replaceMappingData($this->prepareData($fixture));
         return ['id' => $this->createOrder($data)];
     }
@@ -93,12 +93,12 @@ class Curl extends AbstractCurl implements OrderInterface
         $result['order_data'] = $this->prepareOrderData($data);
         $result['shipping_data_address'] = $this->prepareShippingData($result['order_data']);
         $result['shipping_data_method_get'] = [
-            'payment' => ['method' => 'checkmo'],
+            'payment' => $data['payment_auth_expiration'],
             'collect_shipping_rates' => 1
         ];
         $result['shipping_data_method_set'] = [
-            'order' => ['shipping_method' => 'flatrate_flatrate'],
-            'payment' => ['method' => 'checkmo']
+            'order' => ['shipping_method' => $data['shipping_method']],
+            'payment' => $data['payment_auth_expiration']
         ];
 
         return $result;
@@ -116,7 +116,7 @@ class Curl extends AbstractCurl implements OrderInterface
             'order' => [
                 'billing_address' => $data['billing_address'],
             ],
-            'payment' => ['method' => 'checkmo'],
+            'payment' => $this->order->getPaymentAuthExpiration(),
             'reset_shipping' => 1,
             'shipping_as_billing' => 1,
         ];
@@ -131,17 +131,13 @@ class Curl extends AbstractCurl implements OrderInterface
      */
     protected function prepareProductsData(array $data)
     {
-        $result = [];
-        foreach ($data['products'] as $key => $value) {
-            $result['item'][$value->getId()]['qty'] = $data['data'][$key]['qty'];
+        $result['item'] = [];
+        foreach ($data['products'] as $value) {
             if (!$value->hasData('checkout_data')) {
                 continue;
             }
-            $checkoutData = $value->getCheckoutData();
-            if ($checkoutData !== null) {
-                preg_match('/CatalogProduct(.*)/', get_class($value), $matches);
-                $result['item'][$value->getId()] += $this->{'prepare' . $matches[1] . 'Data'}($checkoutData, $value);
-            }
+            $methodName = ucfirst($value->getDataConfig()['type_id']);
+            $result['item'][$value->getId()] = $this->{'prepare' . $methodName . 'Data'}($value);
         }
         return $result;
     }
@@ -149,27 +145,38 @@ class Curl extends AbstractCurl implements OrderInterface
     /**
      * Prepare data for configurable product
      *
-     * @param array $checkoutData
      * @param FixtureInterface $product
      * @return array
      */
-    protected function prepareConfigurableData(array $checkoutData, FixtureInterface $product)
+    protected function prepareConfigurableData(FixtureInterface $product)
     {
         $result = [];
+        $checkoutData = $product->getCheckoutData();
+        $result['qty'] = $checkoutData['qty'];
         $attributesData = $product->hasData('configurable_attributes_data')
-            ? $product->getConfigurableAttributesData()['attributes_data']
+            ? $product->getDataFieldConfig('configurable_attributes_data')['source']->getAttributesData()
             : null;
         if ($attributesData == null) {
             return $result;
         }
         foreach ($checkoutData['configurable_options'] as $option) {
-            $attributeIndex = str_replace('attribute_', '', $option['title']);
-            $attributeId = $attributesData[$attributeIndex]['id'];
-            $optionId = $attributesData[$attributeIndex]['options'][str_replace('option_', '', $option['value'])]['id'];
+            $attributeId = $attributesData[$option['title']]['attribute_id'];
+            $optionId = $attributesData[$option['title']]['options'][$option['value']]['id'];
             $result['super_attribute'][$attributeId] = $optionId;
         }
 
         return $result;
+    }
+
+    /**
+     * Prepare data for simple product
+     *
+     * @param FixtureInterface $product
+     * @return array
+     */
+    protected function prepareSimpleData(FixtureInterface $product)
+    {
+        return ['qty' => $product->getCheckoutData()['qty']];
     }
 
     /**
@@ -193,7 +200,7 @@ class Curl extends AbstractCurl implements OrderInterface
             'item' => $this->prepareOrderProductsData($data['entity_id']),
             'billing_address' => $this->prepareBillingAddress($data['billing_address_id']),
             'shipping_same_as_billing' => 'on',
-            'payment' => ['method' => 'checkmo'],
+            'payment' => $data['payment_auth_expiration'],
 
         ];
 
@@ -208,18 +215,11 @@ class Curl extends AbstractCurl implements OrderInterface
      */
     protected function prepareCustomerData(array $data)
     {
-        if ($this->order->getDataFieldConfig('store_id')['source']->store === null) {
-            $storeId = $data['store_id'];
-        } else {
-            $storeId = $this->order->getDataFieldConfig('store_id')['source']->store->getStoreId();
-            $this->steps['customer_choice'] .= ',data';
-        }
-
         return [
             'currency_id' => $data['base_currency_code'],
             'customer_id' => $this->customer->getData('id'),
-            'payment' => ['method' => 'free'],
-            'store_id' => $storeId
+            'payment' => $data['payment_authorization_amount'],
+            'store_id' => $this->order->getDataFieldConfig('store_id')['source']->store->getStoreId()
         ];
     }
 
@@ -232,11 +232,9 @@ class Curl extends AbstractCurl implements OrderInterface
     protected function prepareOrderProductsData(array $data)
     {
         $result = [];
-        foreach ($data['products'] as $key => $value) {
+        foreach ($data['products'] as $value) {
             $result[$value->getId()] = [
-                'qty' => $data['data'][$key]['qty'],
-                'use_discount' => $data['data'][$key]['use_discount'],
-                'action' => '',
+                'qty' => ['qty' => $value->getCheckoutData()['qty']],
             ];
         }
 

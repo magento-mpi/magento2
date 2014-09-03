@@ -101,13 +101,14 @@ class Management extends Block
     }
 
     /**
-     * Get notice type
+     * Notice type visibility
      *
-     * @return string
+     * @param string $type
+     * @return bool
      */
-    public function getNoticeType()
+    public function isNoticeTypeVisible($type)
     {
-        return trim($this->_rootElement->find($this->noticeType)->getText());
+        return $this->_rootElement->find($this->noticeType . $type)->isVisible();
     }
 
     /**

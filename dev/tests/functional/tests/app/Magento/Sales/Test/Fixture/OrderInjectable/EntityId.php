@@ -55,24 +55,21 @@ class EntityId implements FixtureInterface
             return;
         }
 
-        if (isset($data['preset'])) {
-            $this->currentPreset = $data['preset'];
-            $this->data = $this->getPreset($this->currentPreset);
-            if (!empty($data['products'])) {
-                $this->data['products'] = explode(',', $data['products']);
-            }
+        $products = '';
+        if (isset($data['products'])) {
+            $products = $data['products'];
+            $products = explode(',', $products);
+        } elseif (isset($data['preset'])) {
+            $products = $this->getPreset($data['preset'])['products'];
         }
 
-        if (!empty($this->data['products'])) {
-            $productsSelections = $this->data['products'];
-            $this->data['products'] = [];
-            foreach ($productsSelections as $index => $product) {
-                list($fixture, $dataSet) = explode('::', $product);
-                $productSelection[$index] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-                $productSelection[$index]->persist();
-                $this->data['data'][$index]['name'] = $productSelection[$index]->getName();
-                $this->data['products'] = $productSelection;
+        foreach ($products as $product) {
+            list($fixture, $dataSet) = explode('::', $product);
+            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            if ($product->hasData('id') === false) {
+                $product->persist();
             }
+            $this->data['products'][] = $product;
         }
     }
 
@@ -120,30 +117,10 @@ class EntityId implements FixtureInterface
     {
         $presets = [
             'default' => [
-                'data' => [
-                    [
-                        'name' => '%product_name%',
-                        'qty' => 2,
-                        'use_discount' => ''
-                    ],
-                ],
                 'products' => [
                     'catalogProductSimple::default',
                 ]
             ],
-            'default_configurable' => [
-                'data' => [
-                    [
-                        'name' => '%product_name%',
-                        'qty' => 2,
-                        'use_discount' => '',
-                        'super_attribute' => '',
-                    ],
-                ],
-                'products' => [
-                    'catalogProductSimple::default',
-                ]
-            ]
         ];
         if (!isset($presets[$name])) {
             throw new \InvalidArgumentException(

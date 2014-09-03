@@ -46,8 +46,8 @@ class CustomerId implements FixtureInterface
             $this->data = $data['customer'];
             return;
         }
-        if (isset($data['preset'])) {
-            $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => $data['preset']]);
+        if (isset($data['dataSet'])) {
+            $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => $data['dataSet']]);
             if ($customer->hasData('id') === false) {
                 $customer->persist();
             }
@@ -83,7 +83,7 @@ class CustomerId implements FixtureInterface
      *
      * @return array
      */
-    public function getCustomerId()
+    public function getCustomer()
     {
         return $this->data;
     }

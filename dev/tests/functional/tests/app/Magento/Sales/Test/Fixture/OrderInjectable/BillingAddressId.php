@@ -13,7 +13,7 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class BillingAddressId
- * Billing address  preset
+ * Billing address preset
  */
 class BillingAddressId implements FixtureInterface
 {
@@ -53,9 +53,9 @@ class BillingAddressId implements FixtureInterface
             $this->data = $data['value'];
             return;
         }
-        if (isset($data['preset'])) {
-            $this->currentPreset = $data['preset'];
-            $this->data = $this->getPreset($this->currentPreset);
+        if (isset($data['dataSet'])) {
+            $addresses = $fixtureFactory->createByCode('addressInjectable', ['dataSet' => $data['dataSet']]);
+            $this->data = $addresses->getData();
         }
     }
 
@@ -90,34 +90,5 @@ class BillingAddressId implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
-    }
-
-    /**
-     * Preset array
-     *
-     * @param string $name
-     * @return mixed
-     * @throws \InvalidArgumentException
-     */
-    protected function getPreset($name)
-    {
-        $presets = [
-            'default' => [
-                'firstname' => '%customer_first_name%',
-                'lestname' => '%customer_last_name%',
-                'street' => ['Улица Пушкина дом короля.'],
-                'city' => 'Los Angeles',
-                'country_id' => 'US',
-                'region_id' => 'California',
-                'postcode' => 90001,
-                'telephone' => '0980074678',
-            ]
-        ];
-        if (!isset($presets[$name])) {
-            throw new \InvalidArgumentException(
-                sprintf('Wrong Order preset name: %s', $name)
-            );
-        }
-        return $presets[$name];
     }
 }

@@ -18,11 +18,11 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 class AssertMultipleWishlistIsPublic extends AbstractAssertMultipleWishlistState
 {
     /**
-     * Public notice type
+     * Public notice type css selector
      *
      * @var string
      */
-    protected $noticeType = 'Public Wish List';
+    protected $noticeType = '.public';
 
     /**
      * Assert that Wishlist can be find by another Customer (or guest) via "Wishlist Search"

@@ -67,11 +67,11 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     {
         $fixtureData = [];
         $pageData = [];
-        foreach ($data['products'] as $key => $product) {
+        foreach ($data['products'] as $product) {
             $fixtureData[] = [
-                'name' => $data['data'][$key]['name'],
+                'name' => $product->getName(),
                 'price' => number_format($this->getProductPrice($product), 2),
-                'qty' => $data['data'][$key]['qty'],
+                'qty' => $product->getCheckoutData()['qty'],
             ];
             $pageData[] = $itemsBlock->getItemProductByName($product->getName())->getData($this->fields);
         }
@@ -87,45 +87,7 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
      */
     protected function getProductPrice(FixtureInterface $product)
     {
-        $price = $product->getPrice();
-        preg_match('/CatalogProduct(.*)/', get_class($product), $matches);
-        $methodName = 'get' . $matches[1] . 'Price';
-        if (method_exists($this, $methodName)) {
-            $price += $this->$methodName($product);
-        }
-
-        return $price;
-    }
-
-    /**
-     * Get configurable product price
-     *
-     * @param FixtureInterface $product
-     * @throws \Exception
-     * @return int
-     */
-    protected function getConfigurablePrice(FixtureInterface $product)
-    {
-        $price = 0;
-        if (!$product instanceof CatalogProductConfigurable) {
-            throw new \Exception("Product '$product->getName()' is not configurable product.");
-        }
-        $checkoutData = $product->getCheckoutData();
-        if ($checkoutData === null) {
-            return 0;
-        }
-        $attributesData = $product->getConfigurableAttributesData()['attributes_data'];
-        foreach ($checkoutData['configurable_options'] as $option) {
-            $attributeIndex = str_replace('attribute_', '', $option['title']);
-            $optionIndex = str_replace('option_', '', $option['value']);
-            $itemOption = $attributesData[$attributeIndex]['options'][$optionIndex];
-            $itemPrice = $itemOption['is_percent'] == 'No'
-                ? $itemOption['pricing_value']
-                : $product->getPrice() / 100 * $itemOption['pricing_value'];
-            $price += $itemPrice;
-        }
-
-        return $price;
+        return $product->getPrice();
     }
 
     /**
@@ -135,6 +97,6 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product is added to Items Ordered grid in customer account on Order creation page backend.';
+        return 'Product is added to Items Ordered grid from "Last Ordered Items" section on Order creation page.';
     }
 }

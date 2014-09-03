@@ -22,20 +22,22 @@ class OrderInjectable extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Sales\Test\Repository\Order';
+    protected $repositoryClass = 'Magento\Sales\Test\Repository\OrderInjectable';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Sales\Test\Handler\Order\OrderInterface';
+    protected $handlerInterface = 'Magento\Sales\Test\Handler\OrderInjectable\OrderInjectableInterface';
 
     protected $defaultDataSet = [
-        'customer' => ['preset' => 'default'],
+        'customer_id' => ['preset' => 'default'],
         'base_currency_code' => false,
-        'store_id' => ['value' => 'Default Store View'],
+        'store_id' => ['dataSet' => 'default_store_view'],
         'order_currency_code' => 'USD',
         'shipping_method' => 'flatrate_flatrate',
-        'billing_address_id' => ['preset' => 'default'],
+        'payment_auth_expiration' => ['method' => 'checkmo'],
+        'payment_authorization_amount' => ['method' => 'free'],
+        'billing_address_id' => ['dataSet' => 'default'],
         'entity_id' => ['preset' => 'default']
     ];
 

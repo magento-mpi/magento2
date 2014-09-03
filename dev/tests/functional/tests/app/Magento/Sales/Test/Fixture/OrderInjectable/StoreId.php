@@ -57,9 +57,6 @@ class StoreId implements FixtureInterface
             }
             $this->store = $store;
             $this->data = $store->getName();
-        } elseif (isset($data['value'])) {
-            $this->store = null;
-            $this->data = $data['value'];
         }
     }
 
@@ -101,7 +98,7 @@ class StoreId implements FixtureInterface
      *
      * @return Store
      */
-    public function getWebsite()
+    public function getStore()
     {
         return $this->store;
     }

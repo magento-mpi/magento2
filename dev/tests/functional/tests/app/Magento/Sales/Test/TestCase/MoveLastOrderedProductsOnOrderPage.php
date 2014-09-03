@@ -9,7 +9,6 @@
 namespace Magento\Sales\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
@@ -23,11 +22,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  *
  * Preconditions:
  * 1. Create customer
- * 2. Create Product
- * 3. Create Order with this product
+ * 2. Create product
+ * 3. Create order with this product
  *
  * Steps:
- * 1. Open Customers ->All Customers
+ * 1. Open Customers -> All Customers
  * 2. Search and open customer from preconditions
  * 3. Click Create Order
  * 4. Check product in Last Ordered Items section
@@ -35,9 +34,9 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * 6. Perform all assertions
  *
  * @group Customers_(CS), Order_Management_(CS)
- * @ZephyrId MTA-352
+ * @ZephyrId MAGETWO-27640
  */
-class CreateOrderFromCustomerPageTest extends Injectable
+class MoveLastOrderedProductsOnOrderPage extends Injectable
 {
     /**
      * Order create index page
@@ -61,30 +60,6 @@ class CreateOrderFromCustomerPageTest extends Injectable
     protected $customerIndexEdit;
 
     /**
-     * Fixture factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
-     * Prepare data
-     *
-     * @param CustomerInjectable $customer
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(
-        CustomerInjectable $customer,
-        FixtureFactory $fixtureFactory
-    ) {
-        $customer->persist();
-        $this->fixtureFactory = $fixtureFactory;
-
-        return ['customer' => $customer];
-    }
-
-    /**
      * Injection data
      *
      * @param OrderCreateIndex $orderCreateIndex
@@ -106,48 +81,24 @@ class CreateOrderFromCustomerPageTest extends Injectable
      * Run test
      *
      * @param OrderInjectable $order
-     * @param OrderInjectable $orderInitial
-     * @param CustomerInjectable $customer
      * @return array
      */
-    public function test(
-        OrderInjectable $order,
-        OrderInjectable $orderInitial,
-        CustomerInjectable $customer
-    ) {
+    public function test(OrderInjectable $order)
+    {
         // Preconditions:
-        $order = $this->createOrder($order, $orderInitial, $customer);
+        $order->persist();
+        $customer = $order->getDataFieldConfig('customer_id')['source']->getCustomer();
 
         // Steps:
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $this->customerIndexEdit->getPageActionsBlock()->createOrder();
+        $this->orderCreateIndex->getStoreBlock()->selectStoreView();
         $products = $this->extractProductNames($order->getEntityId());
         $this->orderCreateIndex->getCustomerActivitiesBlock()->getLastOrderedItemsBlock()->addToOrderByName($products);
         $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();
 
         return ['entityData' => $order->getEntityId()];
-    }
-
-    /**
-     * Create order via curl
-     *
-     * @param OrderInjectable $order
-     * @param OrderInjectable $orderInitial
-     * @param CustomerInjectable $customer
-     * @return OrderInjectable
-     */
-    protected function createOrder(OrderInjectable $order, OrderInjectable $orderInitial, CustomerInjectable $customer)
-    {
-        $data = $orderInitial->getData();
-        $data['billing_address_id'] = ['value' => $data['billing_address_id']];
-        $data['entity_id'] = ['value' => $order->getEntityId()];
-        $data['customer_id'] = ['customer' => $customer];
-        $data['store_id'] = ['value' => $data['store_id']];
-        $order = $this->fixtureFactory->createByCode('orderInjectable', ['data' => $data]);
-        $order->persist();
-
-        return $order;
     }
 
     /**
@@ -160,11 +111,8 @@ class CreateOrderFromCustomerPageTest extends Injectable
     protected function extractProductNames($data)
     {
         $result = [];
-        if ($data === null || !isset($data['data'])) {
-            throw new \Exception("In this order no products");
-        }
-        foreach ($data['data'] as $item) {
-            $result[] = $item['name'];
+        foreach ($data['products'] as $product) {
+            $result[] = $product->getName();
         }
         return $result;
     }

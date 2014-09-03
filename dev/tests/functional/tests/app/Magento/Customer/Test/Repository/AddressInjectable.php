@@ -25,6 +25,17 @@ class AddressInjectable extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
+        $this->_data['default'] = [
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'street' => ['6161 West Centinela Avenue'],
+            'city' => 'Culver City',
+            'region_id' => 'California',
+            'postcode' => '90230',
+            'country_id' => 'United States',
+            'telephone' => '555-55-555-55',
+        ];
+
         $this->_data['US_address'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',

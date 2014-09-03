@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Handler\Order;
+namespace Magento\Sales\Test\Handler\OrderInjectable;
 
 use Mtf\Handler\HandlerInterface;
 
 /**
- * Interface OrderInterface
+ * Interface OrderInjectableInterface
  */
-interface OrderInterface extends HandlerInterface
+interface OrderInjectableInterface extends HandlerInterface
 {
     //
 }
