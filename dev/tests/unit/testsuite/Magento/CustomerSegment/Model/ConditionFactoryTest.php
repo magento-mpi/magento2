@@ -39,7 +39,7 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->abstractCondition = $this->getMockForAbstractClass(
-            'Magento\Rule\Model\Condition\AbstractCondition',  [$this->context]
+            'Magento\Rule\Model\Condition\AbstractCondition', [$this->context]
         );
 
         $this->model = new ConditionFactory(

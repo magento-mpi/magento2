@@ -168,14 +168,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $event->expects($this->once())
             ->method('getInfo')
-            ->willReturn(
-                [
-                    $itemId => [
-                        'qty' => $itemQty,
-                        'wishlist' => true,
-                    ]
-                ]
-            );
+            ->willReturn([$itemId => ['qty' => $itemQty, 'wishlist' => true]]);
 
         $cart->expects($this->any())
             ->method('getQuote')
@@ -254,31 +247,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $eventObserver->expects($this->any())
-            ->method('getEvent')
-            ->willReturn($event);
+        $eventObserver->expects($this->any())->method('getEvent')->willReturn($event);
 
-        $request->expects($this->any())
-            ->method('getParam')
-            ->with('wishlist_next')
-            ->willReturn(true);
-        $event->expects($this->once())
-            ->method('getRequest')
-            ->willReturn($request);
+        $request->expects($this->any())->method('getParam')->with('wishlist_next')->willReturn(true);
+        $event->expects($this->once())->method('getRequest')->willReturn($request);
 
-        $this->checkoutSession->expects($this->once())
-            ->method('getSharedWishlist');
-        $this->checkoutSession->expects($this->once())
-            ->method('getWishlistPendingMessages')
-            ->willReturn([$message]);
-        $this->checkoutSession->expects($this->once())
-            ->method('getWishlistPendingUrls')
-            ->willReturn([$url]);
-        $this->checkoutSession->expects($this->once())
-            ->method('getWishlistIds');
-        $this->checkoutSession->expects($this->once())
-            ->method('getSingleWishlistId')
-            ->willReturn($wishlistId);
+        $this->checkoutSession->expects($this->once())->method('getSharedWishlist');
+        $this->checkoutSession->expects($this->once())->method('getWishlistPendingMessages')->willReturn([$message]);
+        $this->checkoutSession->expects($this->once())->method('getWishlistPendingUrls')->willReturn([$url]);
+        $this->checkoutSession->expects($this->once())->method('getWishlistIds');
+        $this->checkoutSession->expects($this->once())->method('getSingleWishlistId')->willReturn($wishlistId);
 
         $this->customerSession->expects($this->once())
             ->method('isLoggedIn')

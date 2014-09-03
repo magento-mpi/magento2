@@ -7,6 +7,9 @@
  */
 namespace Magento\Wishlist\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class WishlistTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -189,50 +192,24 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     {
         $storeId = 1;
         $productId = 1;
-        $stores = [
-            (new \Magento\Framework\Object)->setId($storeId)
-        ];
+        $stores = [(new \Magento\Framework\Object)->setId($storeId)];
 
-        $newItem = $this->getMockBuilder('Magento\Wishlist\Model\Item')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $newItem->expects($this->any())
-            ->method('setProductId')
-            ->will($this->returnSelf());
-        $newItem->expects($this->any())
-            ->method('setWishlistId')
-            ->will($this->returnSelf());
-        $newItem->expects($this->any())
-            ->method('setStoreId')
-            ->will($this->returnSelf());
-        $newItem->expects($this->any())
-            ->method('setOptions')
-            ->will($this->returnSelf());
-        $newItem->expects($this->any())
-            ->method('setProduct')
-            ->will($this->returnSelf());
-        $newItem->expects($this->any())
-            ->method('setQty')
-            ->will($this->returnSelf());
-        $newItem->expects($this->any())
-            ->method('getItem')
-            ->will($this->returnValue(2));
+        $newItem = $this->getMockBuilder('Magento\Wishlist\Model\Item')->disableOriginalConstructor()->getMock();
+        $newItem->expects($this->any())->method('setProductId')->will($this->returnSelf());
+        $newItem->expects($this->any())->method('setWishlistId')->will($this->returnSelf());
+        $newItem->expects($this->any())->method('setStoreId')->will($this->returnSelf());
+        $newItem->expects($this->any())->method('setOptions')->will($this->returnSelf());
+        $newItem->expects($this->any())->method('setProduct')->will($this->returnSelf());
+        $newItem->expects($this->any())->method('setQty')->will($this->returnSelf());
+        $newItem->expects($this->any())->method('getItem')->will($this->returnValue(2));
 
-        $this->itemFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($newItem));
+        $this->itemFactory->expects($this->once())->method('create')->will($this->returnValue($newItem));
 
-        $this->storeManager->expects($this->any())
-            ->method('getStores')
-            ->will($this->returnValue($stores));
-        $this->storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($stores[0]));
+        $this->storeManager->expects($this->any())->method('getStores')->will($this->returnValue($stores));
+        $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($stores[0]));
 
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()->getMock();
-        $product->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($productId));
+        $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
         $instanceType = $this->getMockBuilder('Magento\Catalog\Model\Product\Type\AbstractType')
             ->disableOriginalConstructor()
