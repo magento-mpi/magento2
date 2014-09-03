@@ -103,7 +103,7 @@ class ResponseFactory
             foreach ($document as $name => $values) {
                 $documentFieldList[] = [
                     'name' => $name,
-                    'values' => $values
+                    'value' => $values
                 ];
             }
             $documentList[] = $documentFieldList;

@@ -43,22 +43,16 @@ class DocumentFactory
      */
     public function create($rawDocument)
     {
-        $fields = array();
+        /** @var \Magento\Framework\Search\DocumentField[] $fields */
+        $fields = [];
         $documentId = null;
-        if (!empty($rawDocument)) {
-            $entityId = $this->entityId->getEntityId();
-            $documentId = $rawDocument[$entityId];
-            unset($rawDocument[$entityId]);
-        }
-        foreach ($rawDocument as $rawKey => $rawField) {
-            /** @var \Magento\Framework\Search\DocumentField[] $fields */
-            $fields[] = $this->objectManager->create(
-                '\Magento\Framework\Search\DocumentField',
-                [
-                    'name' => $rawKey,
-                    'value' => $rawField
-                ]
-            );
+        $entityId = $this->entityId->getEntityId();
+        foreach ($rawDocument as $rawField) {
+            if ($rawField['name'] == $entityId) {
+                $documentId = $rawField['value'];
+            } else {
+                $fields[] = $this->objectManager->create('\Magento\Framework\Search\DocumentField', $rawField);
+            }
         }
         return $this->objectManager->create(
             '\Magento\Framework\Search\Document',
