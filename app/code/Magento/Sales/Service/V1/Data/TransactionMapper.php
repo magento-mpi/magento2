@@ -9,7 +9,6 @@
 namespace Magento\Sales\Service\V1\Data;
 
 use \Magento\Sales\Model\Order\Payment\Transaction as TrasactionModel;
-use \Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 class TransactionMapper
 {
