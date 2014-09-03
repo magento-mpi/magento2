@@ -9,7 +9,7 @@
 /**
  * Class to test if custom attributes are serialized correctly
  */
-namespace Magento\Webapi\Routing;
+namespace Magento\Webapi\DataObjectSerialization;
 
 use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\TestFramework\Helper\Bootstrap;

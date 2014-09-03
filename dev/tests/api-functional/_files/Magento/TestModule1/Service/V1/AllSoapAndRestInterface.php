@@ -44,7 +44,7 @@ interface AllSoapAndRestInterface
      * @param \Magento\TestModule1\Service\V1\Entity\Item $entityItem
      * @return \Magento\TestModule1\Service\V1\Entity\Item
      */
-    public function itemAnyType($entityItem);
+    public function itemAnyType(Item $entityItem);
 
     /**
      * @return \Magento\TestModule1\Service\V1\Entity\Item

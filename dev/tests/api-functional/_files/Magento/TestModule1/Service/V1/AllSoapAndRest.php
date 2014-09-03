@@ -84,7 +84,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
     /**
      * {@inheritdoc}
      */
-    public function itemAnyType($item)
+    public function itemAnyType(Item $item)
     {
         return $item;
     }
