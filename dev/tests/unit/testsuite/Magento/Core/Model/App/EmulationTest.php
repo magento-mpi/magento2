@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\App;
 
-class EmulationTest extends \Magento\Test\Helper
+class EmulationTest extends \Magento\Test\BaseTestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\StoreManagerInterface
@@ -187,7 +187,7 @@ class EmulationTest extends \Magento\Test\Helper
         $this->translateMock->expects($this->once())
             ->method('setLocale')
             ->with($initLocale);
-        
+
         // Test
         $this->model->stopEnvironmentEmulation($initialEnvInfo);
     }
