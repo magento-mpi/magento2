@@ -73,6 +73,10 @@ class Mapper
         /** @var ScoreBuilder $scoreBuilder */
         $scoreBuilder = $this->scoreBuilderFactory->create();
         $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), self::BOOL_MUST);
+        $tableName = $this->resource->getTableName($request->getIndex());
+        $select->from($tableName)
+            ->columns($scoreBuilder->build())
+            ->order($scoreBuilder->getScoreAlias() . ' ' . Select::SQL_DESC);
         return $select;
     }
 

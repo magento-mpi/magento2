@@ -65,7 +65,7 @@ class ResponseFactory
             $documents[] = $this->documentFactory->create($rawDocument);
         }
         /** @var \Magento\Framework\Search\Aggregation $aggregations */
-        $aggregations = $this->documentFactory->create($rawResponse['aggregations']);
+        $aggregations = $this->aggregationFactory->create($rawResponse['aggregations']);
         return $this->objectManager->create(
             '\Magento\Framework\Search\QueryResponse',
             [
@@ -103,7 +103,7 @@ class ResponseFactory
             foreach ($document as $name => $values) {
                 $documentFieldList[] = [
                     'name' => $name,
-                    'values' => $values
+                    'value' => $values
                 ];
             }
             $documentList[] = $documentFieldList;

@@ -13,6 +13,13 @@ namespace Magento\Framework\Search;
 class DocumentField
 {
     /**
+     * Document field values
+     *
+     * @var mixed
+     */
+    protected $value;
+
+    /**
      * Document field name
      *
      * @var string
@@ -20,20 +27,23 @@ class DocumentField
     protected $name;
 
     /**
-     * Document field values
-     *
-     * @var array
-     */
-    protected $values;
-
-    /**
      * @param string $name
-     * @param array $values
+     * @param mixed $value
      */
-    public function __construct($name, array $values)
+    public function __construct($name, $value)
     {
         $this->name = $name;
-        $this->values = $values;
+        $this->value = $value;
+    }
+
+    /**
+     * Get field values
+     *
+     * @return array
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 
     /**
@@ -44,15 +54,5 @@ class DocumentField
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Get field values
-     *
-     * @return array
-     */
-    public function getValues()
-    {
-        return $this->values;
     }
 }

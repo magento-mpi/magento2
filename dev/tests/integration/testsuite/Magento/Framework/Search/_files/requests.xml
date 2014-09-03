@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <request query="one_match" index="catalogsearch_fulltext">
+        <dimensions>
+            <dimension name="scope" value="default" />
+        </dimensions>
+        <queries>
+            <query xsi:type="boolQuery" name="one_match" boost="2">
+                <queryReference clause="must" ref="fulltext_search_query" />
+            </query>
+
+            <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
+                <match field="data_index" value="%request.title%" boost="2" />
+            </query>
+        </queries>
+        <from>10</from>
+        <size>10</size>
+    </request>
+    <request query="one_match_filters" index="catalogsearch_fulltext">
+        <dimensions>
+            <dimension name="scope" value="default" />
+        </dimensions>
+        <queries>
+            <query xsi:type="boolQuery" name="one_match_filters" boost="2">
+                <queryReference clause="must" ref="fulltext_search_query" />
+                <queryReference clause="must" ref="fulltext_search_query2" />
+            </query>
+
+            <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
+                <match field="data_index" value="%request.title%" boost="2" />
+            </query>
+
+            <query xsi:type="filteredQuery" name="fulltext_search_query2">
+                <filterReference ref="pid" />
+            </query>
+        </queries>
+        <filters>
+            <filter xsi:type="boolFilter" name="pid">
+                <filterReference clause="should" ref="pidm" />
+                <filterReference clause="should" ref="pidsh" />
+            </filter>
+            <filter name="pidm" xsi:type="rangeFilter" field="product_id" from="%pidm_from%" to="%pidm_to%" />
+            <filter name="pidsh" xsi:type="termFilter" field="product_id" value="%pidsh%" />
+        </filters>
+        <from>10</from>
+        <size>10</size>
+    </request>
+</requests>

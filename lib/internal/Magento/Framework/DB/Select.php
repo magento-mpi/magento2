@@ -150,10 +150,9 @@ class Select extends \Zend_Db_Select
     public function getMatchQuery($columns, $expression, $mode = self::FULLTEXT_MODE_NATURAL)
     {
         if (is_array($columns)) {
-            $columns = implode(',', $columns);
+            $columns = implode(', ', $columns);
         }
 
-        $columns = $this->getAdapter()->quote($columns);
         $expression = $this->getAdapter()->quote($expression);
 
         $condition = self::MATCH . " ({$columns}) " . self::AGAINST . " ({$expression} {$mode})";

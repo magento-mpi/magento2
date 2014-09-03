@@ -142,6 +142,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
         $this->request->expects($this->once())->method('getQuery')->will($this->returnValue($query));
 
+        $this->select->expects($this->once())->method('from')->will($this->returnValue($this->select));
+        $this->select->expects($this->once())->method('columns')->will($this->returnValue($this->select));
+
         $response = $this->mapper->buildQuery($this->request);
 
         $this->assertEquals($this->select, $response);
@@ -152,6 +155,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $query = $this->createFilterQuery();
         $query->expects($this->once())->method('getReferenceType')->will($this->returnValue(Filter::REFERENCE_FILTER));
         $query->expects($this->once())->method('getReference')->will($this->returnValue($this->filter));
+
+        $this->select->expects($this->once())->method('from')->will($this->returnValue($this->select));
+        $this->select->expects($this->once())->method('columns')->will($this->returnValue($this->select));
 
         $this->request->expects($this->once())->method('getQuery')->will($this->returnValue($query));
 
@@ -184,6 +190,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $this->request->expects($this->once())->method('getQuery')->will($this->returnValue($query));
 
         $this->filterBuilder->expects($this->once())->method('build')->will($this->returnValue('(1)'));
+
+        $this->select->expects($this->once())->method('from')->will($this->returnValue($this->select));
+        $this->select->expects($this->once())->method('columns')->will($this->returnValue($this->select));
 
         $query->expects($this->once())
             ->method('getMust')
