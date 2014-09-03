@@ -100,4 +100,30 @@ class Footer extends Block
         );
         $storeGroup->click();
     }
+
+    /**
+     * Check if store visible in dropdown
+     *
+     * @param Store $store
+     * @return bool
+     */
+    public function isStoreGroupVisible(Store $store)
+    {
+        $storeGroupName = explode("/", $store->getGroupId())[1];
+        $this->_rootElement->find($this->storeGroupSwitch)->click();
+        return $storeGroup = $this->_rootElement->find(
+            sprintf($this->storeGroupSelector, $storeGroupName),
+            Locator::SELECTOR_XPATH
+        )->isVisible();
+    }
+
+    /**
+     * Check if store group switcher is visible
+     *
+     * @return bool
+     */
+    public function isStoreGroupSwitcherVisible()
+    {
+        return $this->_rootElement->find($this->storeGroupSwitch)->isVisible();
+    }
 }

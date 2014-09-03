@@ -62,7 +62,7 @@ class LiselectstoreElement extends Element
     /**
      * Select value in liselect dropdown
      *
-     * @param array $value
+     * @param string $value
      * @throws \Exception
      */
     public function setValue($value)
@@ -70,6 +70,7 @@ class LiselectstoreElement extends Element
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
         $this->_context->find($this->toggleSelector)->click();
 
+        $value = explode('/', $value);
         $optionSelector = [];
         foreach ($value as $key => $option) {
             $optionSelector[] = sprintf($this->optionMaskElement, $value[$key]);
@@ -177,8 +178,6 @@ class LiselectstoreElement extends Element
                     . $this->findNearestElement('store', $key, $elements) . "/"
                     . $element['element']->text();
                 return $path;
-            } else {
-                throw new \Exception('Class "current" is absent in stores dropdown.');
             }
         }
     }

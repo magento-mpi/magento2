@@ -43,26 +43,25 @@ class UpsellTest extends Functional
         $simple1->persist();
         $assignToSimple1 = Factory::getFixtureFactory()->getMagentoCatalogUpsellProducts();
         $assignToSimple1->switchData('add_upsell_products');
-        $verify = array($assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable'));
+        $verify = [$assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable')];
         //Data
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
-        $productForm = $editProductPage->getProductForm();
-        $productForm->fill($assignToSimple1);
-        $editProductPage->getFormAction()->save();
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getProductSku()]);
+        $editProductPage->getProductForm()->fill($assignToSimple1);
+        $editProductPage->getFormPageActions()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
-            array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
+            ['sku' => $assignToSimple1->getProduct('configurable')->getProductSku()]
         );
         $assignToSimple1->switchData('add_upsell_product');
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
-        $editProductPage->getFormAction()->save();
+        $editProductPage->getFormPageActions()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);

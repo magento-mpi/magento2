@@ -10,11 +10,13 @@ namespace Magento\Checkout\Test\TestCase\Guest;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\CheckMoneyOrder;
-use Magento\Catalog\Test\Fixture;
+use Magento\Checkout\Test\Block\Cart;
 use Magento\Catalog\Test\Block\Product;
-use Magento\Checkout\Test\Block;
 use Magento\Checkout\Test\Block\Onepage;
+use Magento\Catalog\Test\Fixture\Product as FixtureProduct;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
+use Magento\Bundle\Test\Fixture\Bundle;
+use Magento\Checkout\Test\Fixture\CheckMoneyOrder;
 
 /**
  * Class CheckMoneyOrderTest
@@ -45,6 +47,7 @@ class CheckMoneyOrderTest extends Functional
      * Add products to cart
      *
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function addProducts(CheckMoneyOrder $fixture)
     {
@@ -55,7 +58,13 @@ class CheckMoneyOrderTest extends Functional
 
         $products = $fixture->getProducts();
         foreach ($products as $product) {
-            $productPage = Factory::getPageFactory()->getCatalogProductView();
+            if ($product instanceof ConfigurableProduct) {
+                $productPage = Factory::getPageFactory()->getConfigurableProductView();
+            } elseif ($product instanceof Bundle) {
+                $productPage = Factory::getPageFactory()->getBundleCatalogProductView();
+            } else {
+                $productPage = Factory::getPageFactory()->getCatalogProductView();
+            }
             Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
             $cartPage = Factory::getPageFactory()->getCheckoutCartIndex();
@@ -68,6 +77,7 @@ class CheckMoneyOrderTest extends Functional
      * Process Magento Checkout
      *
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function checkoutProcess(CheckMoneyOrder $fixture)
     {
@@ -103,13 +113,14 @@ class CheckMoneyOrderTest extends Functional
      * Check product price in cart
      *
      * @param CheckMoneyOrder $fixture
-     * @param Fixture\Product $product
-     * @param Block\Cart $block
+     * @param FixtureProduct $product
+     * @param Cart $block
+     * @return void
      */
-    protected function checkProductPrice(CheckMoneyOrder $fixture, Fixture\Product $product, Block\Cart $block)
+    protected function checkProductPrice(CheckMoneyOrder $fixture, FixtureProduct $product, Cart $block)
     {
         $expected = $fixture->getProductPriceWithTax($product);
-        $this->assertEquals($expected, $block->getProductPriceByName($product->getName()));
+        $this->assertEquals($expected, $block->getCartItem($product)->getPrice());
     }
 
     /**
@@ -134,6 +145,7 @@ class CheckMoneyOrderTest extends Functional
      *
      * @param string $orderId
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function verifyOrderOnBackend($orderId, CheckMoneyOrder $fixture)
     {
@@ -155,6 +167,7 @@ class CheckMoneyOrderTest extends Functional
      *
      * @param Onepage\Review $block
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function verifyOrderOnReview(Onepage\Review $block, CheckMoneyOrder $fixture)
     {

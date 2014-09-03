@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\MultipleWishlist\Test\Page\SearchResult;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\MultipleWishlist\Test\Page\CatalogCategoryView;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
