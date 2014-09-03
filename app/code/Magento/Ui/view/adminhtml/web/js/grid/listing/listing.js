@@ -3,54 +3,58 @@ define([
     '../core/storage',
     'Magento_Ui/js/framework/ko/scope',
     'Magento_Ui/js/framework/mixin/loader'
-], function(_, Storage, Scope, Loader){
+], function(_, Storage, Scope, Loader) {
     'use strict';
 
     return Scope.extend({
-        initialize: function( config, initial ){
-            this.fields = config.fields;
+        initialize: function(settings) {
+            this.initObservable()
+                .initStorage(settings)
+                .updateItems();
 
-            this.initObservable( initial )
-                .initStorage( config, initial );
+            this.fields = this.storage.getMeta().fields;
         },
 
-        initObservable: function(initial){
+        initObservable: function(settings) {
             this.observe({
-                rows:       initial.data,
-                isLocked:   false
+                rows: [],
+                isLocked: false
             });
 
             return this;
         },
 
-        initStorage: function( config, initial ){
+        initStorage: function(settings) {
             var options;
 
-            options = {
-                namespace: config.namespace,
+            options = _.extend({
                 beforeLoad: this.lock.bind(this)
-            };
-
-            _.extend( options, config.storage );
+            }, settings);
 
             this.storage = new Storage(options);
 
-            this.storage
-                .setResult( initial )
-                .on( 'load', this.onReload.bind(this) );
+            this.storage.on('load', this.onLoad.bind(this));
 
             return this;
         },
 
-        getSortableClassFor: function (heading) {
+        getSortableClassFor: function(heading) {
             var rule = heading.sorted;
-            
+
             return rule ? 'sort-arrow-' + rule : 'not-sorted';
         },
 
-        onReload: function( result ){
+        updateItems: function() {
+            var items = this.storage.getData().items;
+
+            this.rows(items);
+
+            return this;
+        },
+
+        onLoad: function() {
             this.unlock()
-                .rows( result.data );
+                .updateItems();
         }
-    }, Loader); 
+    }, Loader);
 });

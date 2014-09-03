@@ -4,9 +4,9 @@ define([
 ], function(Listing, registry) {
     'use strict';
 
-    return function(el, config, initial) {
-        var listing = new Listing(config, initial),
-            namespace = config.namespace;
+    return function(el, data) {
+        var listing = new Listing( data ),
+            namespace = data.config.namespace;
 
 
         registry

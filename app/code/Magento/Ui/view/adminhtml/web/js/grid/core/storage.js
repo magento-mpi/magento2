@@ -2,71 +2,76 @@ define([
     '_',
     './rest',
     'Magento_Ui/js/framework/ko/scope'
-], function(_, Rest, Scope){
+], function(_, Rest, Scope) {
     'use strict';
-    
+
     return Scope.extend({
-        initialize: function( config ){
+        initialize: function(config) {
             this.params = {};
-            this.meta = {};
 
             _.extend(this, config);
 
             this.initClient();
         },
 
-        initClient: function(){
-            this.client = new Rest({
-                api : this.api,
+        initClient: function() {
+            var config;
+
+            config = _.extend({
                 onRead: this.onRead.bind(this)
-            });
+            }, this.config.client);
+
+            this.client = new Rest(config);
 
             return this;
         },
 
-        load: function(options, callback){
+        load: function(options, callback) {
             var params;
 
-            if( typeof options === 'function' ){
+            if (typeof options === 'function') {
                 callback = options;
                 options = {};
             }
 
-            params = _.extend({}, this.params, options )
+            params = _.extend({}, this.params, options);
 
-            if( this.beforeLoad ){
+            if (this.beforeLoad) {
                 this.beforeLoad();
             }
 
-            this.client.read( params );
+            this.client.read(params);
 
             return this;
         },
 
-        setResult: function( result ){
-            this.data = result.data;
-            this.meta = result.meta;
+        getData: function() {
+            return this.data;
+        },
+
+        setData: function(result) {
+            _.extend(this.data, result);
 
             return this;
         },
 
-        setParams: function(params){
+        getParams: function() {
+            return this.params;
+        },
+
+        setParams: function(params) {
             _.extend(this.params, params);
 
             return this;
         },
 
-        getParams: function(){
-            return this.params;
-        },
-
-        getMeta: function(){
+        getMeta: function() {
             return this.meta;
         },
 
-        onRead: function( result ){
-            this.setResult( result )
-                .trigger( 'load', result );
+        onRead: function(result) {
+            this.setData(result)
+                .trigger('load', result);
         }
     });
 });

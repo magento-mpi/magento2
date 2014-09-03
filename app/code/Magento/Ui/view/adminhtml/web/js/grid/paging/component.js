@@ -4,13 +4,16 @@ define([
 ], function(Paging, registry) {
     'use strict';
     
-    return function(el, config, initial) {
-        var namespace = config.namespace;
+    return function(el, data) {
+        var config = data.config,
+            namespace = config.namespace;
 
         registry.get( namespace + ':storage', function( storage ){
+            var paging;
+
             config.storage = storage;
 
-            var paging = new Paging(config, initial);
+            paging = new Paging( config );
 
             registry.set( namespace + ':paging', paging );
         });
