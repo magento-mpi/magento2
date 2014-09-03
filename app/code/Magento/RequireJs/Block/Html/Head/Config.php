@@ -8,8 +8,6 @@
 
 namespace Magento\RequireJs\Block\Html\Head;
 
-use Magento\Theme\Block\Html\Head\AssetBlockInterface;
-
 /**
  * Block responsible for including RequireJs config on the page
  */

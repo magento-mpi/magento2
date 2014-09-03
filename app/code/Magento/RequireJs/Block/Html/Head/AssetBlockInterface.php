@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Theme\Block\Html\Head;
+namespace Magento\RequireJs\Block\Html\Head;
 
 /**
  * Asset block interface
