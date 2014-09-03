@@ -35,6 +35,11 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     const TYPE_ATTRIBUTE = 'xsi:type';
 
     /**
+     * Cache id suffix for page layout
+     */
+    const PAGE_LAYOUT_CACHE_SUFFIX = 'page_layout';
+
+    /**
      * @var \Magento\Core\Model\Theme
      */
     private $_theme;
@@ -393,7 +398,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $this->addHandle($handles);
 
         $cacheId = $this->_getCacheId(md5(implode('|', $this->getHandles())));
-        $cacheIdPageLayout = $cacheId . 'page_layout';
+        $cacheIdPageLayout = $cacheId . '_' . self::PAGE_LAYOUT_CACHE_SUFFIX . '_' . $this->pageConfig->getPageLayout();
         $result = $this->_loadCache($cacheId);
         if ($result) {
             $this->addUpdate($result);
