@@ -68,4 +68,19 @@
     <assertStoreForm module="Magento_Store">
         <severeness>low</severeness>
     </assertStoreForm>
+    <assertStoreSuccessDeleteMessage module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreSuccessDeleteMessage>
+    <assertStoreSuccessDeleteMessage module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreSuccessDeleteMessage>
+    <assertStoreNotInGrid module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreNotInGrid>
+    <assertStoreNotOnFrontend module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreNotOnFrontend>
+    <assertStoreSuccessDeleteAndBackupMessages module="Magento_Store">
+        <severeness>low</severeness>
+    </assertStoreSuccessDeleteAndBackupMessages>
 </constraint>

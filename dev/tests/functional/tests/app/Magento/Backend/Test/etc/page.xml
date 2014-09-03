@@ -28,6 +28,11 @@
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\StoreNew</class>
     </storeNew>
+    <editStore>
+        <mca>admin/system_store/editStore</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\EditStore</class>
+    </editStore>
     <storeDelete>
         <mca>admin/system_store/deleteStore</mca>
         <area>adminhtml</area>

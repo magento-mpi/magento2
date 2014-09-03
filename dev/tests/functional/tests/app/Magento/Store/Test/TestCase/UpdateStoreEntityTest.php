@@ -10,7 +10,7 @@ namespace Magento\Store\Test\TestCase;
 
 use Magento\Store\Test\Fixture\Store;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
-use Magento\Backend\Test\Page\Adminhtml\StoreNew;
+use Magento\Backend\Test\Page\Adminhtml\EditStore;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -40,23 +40,23 @@ class UpdateStoreEntityTest extends Injectable
     protected $storeIndex;
 
     /**
-     * Page StoreNew
+     * Page EditStore
      *
-     * @var StoreNew
+     * @var EditStore
      */
-    protected $storeNew;
+    protected $editStore;
 
     /**
      * Preparing pages for test
      *
      * @param StoreIndex $storeIndex
-     * @param StoreNew $storeNew
+     * @param EditStore $editStore
      * @return void
      */
-    public function __inject(StoreIndex $storeIndex, StoreNew $storeNew)
+    public function __inject(StoreIndex $storeIndex, EditStore $editStore)
     {
         $this->storeIndex = $storeIndex;
-        $this->storeNew = $storeNew;
+        $this->editStore = $editStore;
     }
 
     /**
@@ -74,7 +74,7 @@ class UpdateStoreEntityTest extends Injectable
         // Steps:
         $this->storeIndex->open();
         $this->storeIndex->getStoreGrid()->searchAndOpenStore($storeInitial);
-        $this->storeNew->getStoreForm()->fill($store);
-        $this->storeNew->getFormPageActions()->save();
+        $this->editStore->getStoreForm()->fill($store);
+        $this->editStore->getFormPageActions()->save();
     }
 }
