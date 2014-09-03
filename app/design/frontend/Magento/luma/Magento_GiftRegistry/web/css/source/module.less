@@ -1,0 +1,183 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.form-giftregistry-share,
+.form-giftregistry-edit {
+    &:extend(.add-recipients all);
+    .actions-toolbar:not(:last-child) {
+        margin-bottom: @indent-xl-base;
+    }
+}
+
+.form.giftregistry.items {
+    .actions-toolbar {
+        &:extend(.reset-left-margin all);
+    }
+}
+
+.giftregisty-dropdown {
+    &:extend(.abstract-dropdown-simple all);
+    .action.toggle {
+        color: @link-color;
+    }
+}
+
+.table-giftregistry-items {
+    .field.qty .qty {
+        &:extend(.abstract-input-qty all);
+    }
+    .product-image {
+        float: left;
+        .css(margin-right, @indent-s-base);
+    }
+}
+
+.form.giftregistry .fieldset {
+    .cart-summary & {
+        margin: 15px 0 25px;
+        text-align: left;
+        .field {
+            margin: 0 0 10px;
+            .control {
+                float: none;
+                width: auto;
+            }
+        }
+        .action.primary {
+            &:extend(.abstract-revert-to-action-secondary all);
+        }
+    }
+}
+
+.form-giftregistry-create { 
+    .fieldset {
+        &:extend(.abstract-forms-margin-small all);
+    }
+}
+
+.form-giftregistry-edit {
+   .giftregistry-type {
+        .css(margin-bottom, @indent-l-base);
+        .css(margin-top, -@indent-m-base);
+   }
+   .field.date {
+        .control {
+            position: relative;
+            &:extend(.add-box-sizing all);
+            .icon-font(
+                @_icon-font-content: @icon-calendar,
+                @_icon-font-color: @color-primary-lighter,
+                @_icon-font-size: 23px,
+                @_icon-font-line-height: 23px,
+                @_icon-font-display: block
+            );
+            &:before {
+                position: absolute;
+                top: 5px;
+                .css(left, @indent-s-base);
+                margin-left: 90%;
+                z-index: 0;
+            }
+        }
+
+        img {
+            opacity: 0; 
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            vertical-align: middle;
+        }
+        input {
+            width: 90%;
+            .css(margin-right, @indent-s-base);
+        }
+   }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .table-wrapper.giftregistry {
+        &:extend(.abstract-account-table-border all);
+    }
+    .account {
+        .table-giftregistry {
+            .col.actions {
+                &:extend(.abstract-account-col-actions all);
+            }
+            .col.message {
+            }
+        }
+    }
+    .table-giftregistry-items {
+        .col.product {
+            &:before {
+                &:extend(.visually-hidden-mobile all);
+            }
+            &:extend(.add-clearfix-mobile all);
+        }
+        .field.choice,
+        .field.qty {
+            display: inline-block;
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .form-giftregistry-share,
+    .form-giftregistry-edit {
+        &:extend(.add-recipients-desktop all);
+        &:extend(.form-field-column-2 all);
+        .fieldset .field {
+           width: 45%;
+        }
+    }
+    .form-giftregistry-edit {
+        .fieldset.shipping_address {
+            .fieldset {
+                margin-top: @form-field-vertical-indent;
+            }
+        }
+    }
+    .form-giftregistry-create {
+        &:extend(.abstract-forms-general-desktop all);
+    }
+    .table-giftregistry {
+        .col.create {
+            white-space: nowrap;
+        }
+        .col.message {
+            width: 40%;
+        }
+        .col.actions {
+            width: 30%;
+        }
+    }
+    .table-giftregistry-items {
+        .col.note {
+            width: 30%;
+        }
+        .account .data.table& {
+            th {
+                border-bottom: 0;
+            }
+            .table-bordered(@_type: horizontal);
+            > tbody > tr:nth-child(even) {
+                > td,
+                > th {
+                    background: none;
+                }
+            }
+        }
+    }
+}

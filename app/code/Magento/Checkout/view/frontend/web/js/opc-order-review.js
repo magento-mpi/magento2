@@ -8,15 +8,20 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($, window) {
-    'use strict';    
+define([
+    "jquery",
+    "jquery/ui",
+    "Magento_Checkout/js/opc-payment-info"
+], function($){
+    'use strict';
+
     // Extension for mage.opcheckout - last section(Order Review) in one page checkout accordion
     $.widget('mage.opcOrderReview', $.mage.opcPaymentInfo, {
         options: {
             review: {
                 continueSelector: '#opc-review [data-role=review-save]',
                 container: '#opc-review',
-                agreementFormSelector: '#checkout-agreements-form'
+                agreementGroupSelector: '#checkout-agreements'
             }
         },
 
@@ -29,17 +34,26 @@
         },
 
         _saveOrder: function() {
-            var agreementForm = $(this.options.review.agreementFormSelector),
+            var agreementFormsGroup = $(this.options.review.agreementGroupSelector),
                 paymentForm = $(this.options.payment.form);
-            agreementForm.validation();
-            if (agreementForm.validation &&
-                agreementForm.validation('isValid') &&
+            var isAgreementValid = true;
+            agreementFormsGroup.find('form').each(
+                function(){
+                    $(this).validation();
+                    isAgreementValid = isAgreementValid && $(this).validation && $(this).validation('isValid');
+                }
+            );
+
+            if (isAgreementValid &&
                 paymentForm.validation &&
                 paymentForm.validation('isValid')) {
+                var serializedAgreement = '';
+                agreementFormsGroup.find('form').each(function(){serializedAgreement += '&' + $(this).serialize();});
                 this._ajaxContinue(
                     this.options.review.saveUrl,
-                    paymentForm.serialize() + '&' + agreementForm.serialize());
+                    paymentForm.serialize() + serializedAgreement);
             }
         }
     });
-})(jQuery, window);
+
+});

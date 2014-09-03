@@ -5,6 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\GiftWrapping\Block\Checkout\Options */
 ?>
 <?php if ($this->canDisplayGiftWrapping()): ?>
 
@@ -42,13 +44,13 @@
 <script id="gift-options-container" type="text/x-jQuery-tmpl">
     <?php if ($this->getAllowGiftReceipt()): ?>
     <div class="field choice receipt">
-        <input type="checkbox" name="giftwrapping[${id}][allow_gift_receipt]" id="allow-gift-receipt-${id}" value="1" class="checkbox" />
+        <input type="checkbox" name="giftwrapping[${type}][${id}][allow_gift_receipt]" id="allow-gift-receipt-${id}" value="1" class="checkbox" />
         <label for="allow-gift-receipt-${id}" class="label"><span><?php echo __('Send Gift Receipt') ?></span></label>
     </div>
     <?php endif;?>
     <?php if ($this->getAllowPrintedCard()): ?>
     <div class="field choice card">
-        <input type="checkbox" name="giftwrapping[${id}][add_printed_card]" id="add-printed-card-${id}" value="1" onclick="" class="checkbox" />
+        <input type="checkbox" name="giftwrapping[${type}][${id}][add_printed_card]" id="add-printed-card-${id}" value="1" onclick="" class="checkbox" />
         <label for="add-printed-card-${id}" class="label"><span><?php echo __('Add Printed Card') ?></span></label>
     </div>
     <div class="price box no-display" id="price-options-box-${id}">
@@ -72,13 +74,19 @@
 </script>
 
 <script type="text/javascript">
+require(['jquery', 'mage/mage'], function(jQuery){
+
     jQuery('#checkoutSteps, #shipping_method_form').mage('giftWrapping', {
         designsInfo: <?php echo $this->getDesignsInfo()->toJson() ?>,
         itemsInfo: <?php echo $this->getItemsInfo()->toJson() ?>,
         cardInfo: <?php echo $this->getCardInfo()->toJson() ?>,
         allowForOrder: <?php echo (int)$this->getAllowForOrder() ?>,
         allowGiftReceipt: <?php echo (int)$this->getAllowGiftReceipt() ?>,
-        allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>
+        allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>,
+        orderLevelType: "<?php echo $this->getCheckoutTypeVariable('order_level') ?>",
+        orderItemType: "<?php echo $this->getCheckoutTypeVariable('item_level') ?>"
     });
+
+});
 </script>
 <?php endif; ?>

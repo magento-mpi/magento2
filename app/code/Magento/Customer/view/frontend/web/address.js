@@ -6,8 +6,13 @@
  */
 /*jshint browser:true, jquery:true*/
 /*global confirm:true*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
     "use strict";
+    
     $.widget('mage.address', {
         /**
          * Options common to all instances of this widget.
@@ -22,8 +27,8 @@
          * @private
          */
         _create: function() {
-            $(this.options.addAddress).on('click', $.proxy(this._addAddress, this));
-            $(this.options.deleteAddress).on('click', $.proxy(this._deleteAddress, this));
+            $(document).on('click', this.options.addAddress, $.proxy(this._addAddress, this));
+            $(document).on('click', this.options.deleteAddress, $.proxy(this._deleteAddress, this));
         },
 
         /**
@@ -52,4 +57,4 @@
             return false;
         }
     });
-})(jQuery, window);
+});

@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Data\Address;
@@ -16,21 +17,20 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerCustomerMetadataServiceV1";
     const SERVICE_VERSION = "V1";
-    const RESOURCE_PATH = "/V1/customerMetadata";
+    const RESOURCE_PATH = "/V1/customerAttributeMetadata";
 
     /**
-     * Test retrieval of attribute metadata for the specified entity type.
+     * Test retrieval of attribute metadata for the customer entity type.
      *
-     * @param string $entityType Either 'customer' or 'customer_address'.
      * @param string $attributeCode The attribute code of the requested metadata.
      * @param array $expectedMetadata Expected entity metadata for the attribute code.
      * @dataProvider getAttributeMetadataDataProvider
      */
-    public function testGetAttributeMetadata($entityType, $attributeCode, $expectedMetadata)
+    public function testGetAttributeMetadata($attributeCode, $expectedMetadata)
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$attributeCode/attribute",
+                'resourcePath' => self::RESOURCE_PATH . "/$attributeCode",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -41,7 +41,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         ];
 
         $requestData = [
-            "entityType"    => $entityType,
             "attributeCode" => $attributeCode
         ];
 
@@ -61,7 +60,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         return [
             Customer::FIRSTNAME => [
-                CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 Customer::FIRSTNAME,
                 [
                     AttributeMetadata::ATTRIBUTE_CODE   => 'firstname',
@@ -87,7 +85,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 ]
             ],
             Customer::GENDER => [
-                CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 Customer::GENDER,
                 [
                     AttributeMetadata::ATTRIBUTE_CODE   => 'gender',
@@ -112,135 +109,59 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::BACKEND_TYPE     => 'int',
                     AttributeMetadata::SORT_ORDER       => 110
                 ]
-            ],
-            Address::KEY_POSTCODE => [
-                CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
-                Address::KEY_POSTCODE,
-                [
-                    AttributeMetadata::ATTRIBUTE_CODE   => 'postcode',
-                    AttributeMetadata::FRONTEND_INPUT   => 'text',
-                    AttributeMetadata::INPUT_FILTER     => '',
-                    AttributeMetadata::STORE_LABEL      => 'Zip/Postal Code',
-                    AttributeMetadata::VALIDATION_RULES => [],
-                    AttributeMetadata::VISIBLE          => true,
-                    AttributeMetadata::REQUIRED         => true,
-                    AttributeMetadata::MULTILINE_COUNT  => 0,
-                    AttributeMetadata::DATA_MODEL       => 'Magento\Customer\Model\Attribute\Data\Postcode',
-                    AttributeMetadata::OPTIONS          => [],
-                    AttributeMetadata::FRONTEND_CLASS   => ' required-entry',
-                    AttributeMetadata::FRONTEND_LABEL   => 'Zip/Postal Code',
-                    AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::IS_SYSTEM           => true,
-                    AttributeMetadata::IS_USER_DEFINED     => false,
-                    AttributeMetadata::BACKEND_TYPE     => 'varchar',
-                    AttributeMetadata::SORT_ORDER       => 110
-                ]
             ]
-        ];
-    }
-
-    /**
-     * Test retrieval of customer attribute metadata given a specific attribute code.
-     *
-     * @param string $attributeCode The customer metadata attribute code.
-     * @param array $expectedMetadata The expected metadata for the specified attribute code.
-     * @dataProvider getCustomerAttributeMetadataDataProvider
-     */
-    public function testGetCustomerAttributeMetadata($attributeCode, $expectedMetadata)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/customer/$attributeCode/attribute",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetCustomerAttributeMetadata'
-            ]
-        ];
-
-        $requestData = ['attributeCode' => $attributeCode];
-        $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
-
-        $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
-        list($expectedMetadata, $attributeMetadata) = $validationResult;
-        $this->assertEquals($expectedMetadata, $attributeMetadata);
-    }
-
-    /**
-     * Data provider for testGetCustomerAttributeMetadata.
-     *
-     * @return array
-     */
-    public function getCustomerAttributeMetadataDataProvider()
-    {
-        $attributeMetadata = $this->getAttributeMetadataDataProvider();
-        return [
-            Customer::FIRSTNAME => [Customer::FIRSTNAME, $attributeMetadata[Customer::FIRSTNAME][2]],
-            Customer::GENDER => [Customer::GENDER, $attributeMetadata[Customer::GENDER][2]]
         ];
     }
 
     /**
      * Test retrieval of all customer attribute metadata.
      */
-    public function testGetAllCustomerAttributeMetadata()
+    public function testGetAllAttributeMetadata()
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/customer/all",
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAllCustomerAttributeMetadata'
+                'operation' => 'customerCustomerMetadataServiceV1GetAllAttributesMetadata'
             ]
         ];
 
-        $attributeMetadata = array_map(
-            function ($array) {
-                return $array;
-            },
-            $this->_webApiCall($serviceInfo)
-        );
+        $attributeMetadata = $this->_webApiCall($serviceInfo);
 
         $this->assertCount(23, $attributeMetadata);
 
-        $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][2];
+        $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][1];
         $validationResult = $this->checkMultipleAttributesValidationRules($firstName, $attributeMetadata);
         list($firstName, $attributeMetadata) = $validationResult;
         $this->assertContains($firstName, $attributeMetadata);
     }
 
     /**
-     * Test retrieval of address attribute metadata given a specific attribute code.
-     *
-     * @param string $attributeCode The address metadata attribute code.
-     * @param array $expectedMetadata The expected metadata for the specified attribute code.
-     * @dataProvider getAddressAttributeMetadataDataProvider
+     * Test retrieval of custom customer attribute metadata.
      */
-    public function testGetAddressAttributeMetadata($attributeCode, $expectedMetadata)
+    public function testGetCustomAttributeMetadata()
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/address/$attributeCode/attribute",
+                'resourcePath' => self::RESOURCE_PATH . '/custom',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAddressAttributeMetadata'
+                'operation' => 'customerCustomerMetadataServiceV1GetCustomAttributesMetadata'
             ]
         ];
 
-        $requestData = ['attributeCode' => $attributeCode];
-        $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
+        $attributeMetadata = $this->_webApiCall($serviceInfo);
 
-        $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
-        list($expectedMetadata, $attributeMetadata) = $validationResult;
-        $this->assertEquals($expectedMetadata, $attributeMetadata);
+        //Default custom attribute code 'disable_auto_group_change'
+        $this->assertCount(1, $attributeMetadata);
+        $this->assertEquals('disable_auto_group_change', $attributeMetadata[0]['attribute_code']);
     }
 
     /**
@@ -623,7 +544,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 foreach($actualResultSet as $actualAttributeKey => $actualAttribute) {
                     if (isset($actualAttribute[AttributeMetadata::ATTRIBUTE_CODE])
                         && $expectedResult[AttributeMetadata::ATTRIBUTE_CODE]
-                            == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
+                        == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
                     ) {
                         $this->checkValidationRules($expectedResult, $actualAttribute);
                         unset($actualResultSet[$actualAttributeKey][AttributeMetadata::VALIDATION_RULES]);

@@ -10,6 +10,9 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use \Magento\Framework\Model\Exception;
 use Magento\Backend\App\Action;
+use \Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender;
+use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
+use \Magento\Sales\Model\Order\Invoice;
 
 class Save extends \Magento\Backend\App\Action
 {
@@ -19,14 +22,30 @@ class Save extends \Magento\Backend\App\Action
     protected $invoiceLoader;
 
     /**
+     * @var InvoiceCommentSender
+     */
+    protected $invoiceCommentSender;
+
+    /**
+     * @var ShipmentSender
+     */
+    protected $shipmentSender;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader $invoiceLoader
+     * @param InvoiceCommentSender $invoiceCommentSender
+     * @param ShipmentSender $shipmentSender
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader $invoiceLoader
+        \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader $invoiceLoader,
+        InvoiceCommentSender $invoiceCommentSender,
+        ShipmentSender $shipmentSender
     ) {
         $this->invoiceLoader = $invoiceLoader;
+        $this->invoiceCommentSender = $invoiceCommentSender;
+        $this->shipmentSender = $shipmentSender;
         parent::__construct($context);
     }
 
@@ -88,7 +107,11 @@ class Save extends \Magento\Backend\App\Action
         }
 
         try {
-            $invoice = $this->invoiceLoader->load($this->_request);
+            $invoiceId = $this->getRequest()->getParam('invoice_id');
+            $invoiceData = $this->getRequest()->getParam('invoice', []);
+            $invoiceData = isset($invoiceData['items']) ? $invoiceData['items'] : [];
+            /** @var Invoice $invoice */
+            $invoice = $this->invoiceLoader->load($orderId, $invoiceId, $invoiceData);
             if ($invoice) {
 
                 if (!empty($data['capture_case'])) {
@@ -148,14 +171,14 @@ class Save extends \Magento\Backend\App\Action
                     $comment = $data['comment_text'];
                 }
                 try {
-                    $invoice->sendEmail(!empty($data['send_email']), $comment);
+                    $this->invoiceCommentSender->send($invoice, !empty($data['send_email']), $comment);
                 } catch (\Exception $e) {
                     $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                     $this->messageManager->addError(__('We can\'t send the invoice email.'));
                 }
                 if ($shipment) {
                     try {
-                        $shipment->sendEmail(!empty($data['send_email']));
+                        $this->shipmentSender->send($shipment, !empty($data['send_email']));
                     } catch (\Exception $e) {
                         $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                         $this->messageManager->addError(__('We can\'t send the shipment.'));

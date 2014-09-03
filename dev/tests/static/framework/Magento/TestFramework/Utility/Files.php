@@ -67,10 +67,9 @@ class Files
      */
     public static function composeDataSets(array $files)
     {
-        $result = array();
+        $result = [];
         foreach ($files as $file) {
-            /* Use filename as a data set name to not include it to every assertion message */
-            $result[$file] = array($file);
+            $result[substr($file, strlen(BP))] = [$file];
         }
         return $result;
     }
@@ -122,7 +121,6 @@ class Files
                     $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
-                    self::getFiles(array("{$this->_path}/downloader"), '*.php'),
                     self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php')
                 );
             }
@@ -144,8 +142,6 @@ class Files
      * @param bool $appCode   application PHP-code
      * @param bool $devTests
      * @param bool $devTools
-     * @param bool $downloaderApp
-     * @param bool $downloaderLib
      * @param bool $lib
      * @param bool $asDataSet
      * @return array
@@ -154,13 +150,10 @@ class Files
         $appCode = true,
         $devTests = true,
         $devTools = true,
-        $downloaderApp = true,
-        $downloaderLib = true,
         $lib = true,
         $asDataSet = true
     ) {
-        $key = __METHOD__ .
-            "/{$this->_path}/{$appCode}/{$devTests}/{$devTools}/{$downloaderApp}/{$downloaderLib}/{$lib}";
+        $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$devTests}/{$devTools}/{$lib}";
         if (!isset(self::$_cache[$key])) {
             $files = array();
             if ($appCode) {
@@ -171,12 +164,6 @@ class Files
             }
             if ($devTools) {
                 $files = array_merge($files, self::getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php'));
-            }
-            if ($downloaderApp) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/downloader/app/Magento"), '*.php'));
-            }
-            if ($downloaderLib) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'));
             }
             if ($lib) {
                 $files = array_merge($files, self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php'));
@@ -364,7 +351,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', $namespace . '_' . $module, $filePath);
+        return array($area, '', $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -388,7 +375,7 @@ class Files
         }
         preg_match($invariant . '(.+)$/i', $file, $matches);
         list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $module, $filePath);
+        return array($area, $themeNS . '/' . $themeCode, $module, $filePath, $file);
     }
 
     /**
@@ -552,7 +539,7 @@ class Files
         foreach (self::getFiles($patterns, $filePattern) as $file) {
             $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
             if ($subroutine) {
-                $result[$file] = $this->$subroutine($file, $path);
+                $result[] = $this->$subroutine($file, $path);
             } else {
                 $result[] = $file;
             }
@@ -574,7 +561,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', '', $namespace . '_' . $module, $filePath);
+        return array($area, '', '', $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -593,7 +580,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $locale, $filePath) = $matches;
-        return array($area, '', $locale, $namespace . '_' . $module, $filePath);
+        return array($area, '', $locale, $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -612,7 +599,7 @@ class Files
             $matches
         )) {
             list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, '', $module, $filePath);
+            return array($area, $themeNS . '/' . $themeCode, '', $module, $filePath, $file);
         }
 
         preg_match(
@@ -621,7 +608,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, '', '', $filePath);
+        return array($area, $themeNS . '/' . $themeCode, '', '', $filePath, $file);
     }
 
     /**
@@ -640,7 +627,7 @@ class Files
             $matches
         )) {
             list(, $area, $themeNS, $themeCode, $module, $locale, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, $locale, $module, $filePath);
+            return array($area, $themeNS . '/' . $themeCode, $locale, $module, $filePath, $file);
         }
 
         preg_match(
@@ -649,7 +636,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $locale, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $locale, '', $filePath);
+        return array($area, $themeNS . '/' . $themeCode, $locale, '', $filePath, $file);
     }
 
     /**
@@ -738,7 +725,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', $namespace . '_' . $module, $filePath);
+        return array($area, '', $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -757,7 +744,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $module, $filePath);
+        return array($area, $themeNS . '/' . $themeCode, $module, $filePath, $file);
     }
 
     /**
@@ -794,7 +781,6 @@ class Files
             array(
                 $this->_path . '/app',
                 $this->_path . '/dev',
-                $this->_path . '/downloader',
                 $this->_path . '/lib',
                 $this->_path . '/pub'
             ),
@@ -850,9 +836,9 @@ class Files
         $configs = array_merge($primaryConfigs, $moduleConfigs);
 
         if ($asDataSet) {
-            $output = array();
+            $output = [];
             foreach ($configs as $file) {
-                $output[$file] = array($file);
+                $output[] = [$file];
             }
 
             return $output;
@@ -879,8 +865,6 @@ class Files
         $directories = array(
             '/app/code/',
             '/lib/internal/',
-            '/downloader/app/',
-            '/downloader/lib/',
             '/dev/tools/',
             '/dev/tools/performance_toolkit/framework/',
             '/dev/tests/api-functional/framework/',
@@ -903,7 +887,7 @@ class Files
              * of file names
              * Note that realpath() automatically changes directory separator to the OS-native
              */
-            if (realpath($fullPath) == str_replace(array('/', '\\'), '/', $fullPath)) {
+            if (realpath($fullPath) == str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $fullPath)) {
                 $fileContent = file_get_contents($fullPath);
                 if (strpos(
                     $fileContent,

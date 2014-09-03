@@ -14,6 +14,7 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
 
     public function testLoadNewAttributesActionWithoutUserAttributes()
     {
+        $itemId = 2;
         $productId = 1;
         $rmaMock = $this->getMock('Magento\Rma\Model\Item', [], [], '', false);
         $layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
@@ -25,10 +26,14 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             false
         );
 
-        $this->requestMock->expects($this->once())
+        $this->requestMock->expects($this->at(0))
             ->method('getParam')
             ->with('product_id', null)
             ->will($this->returnValue($productId));
+        $this->requestMock->expects($this->at(1))
+            ->method('getParam')
+            ->with('item_id')
+            ->will($this->returnValue($itemId));
         $this->objectManagerMock->expects($this->once())
             ->method('create')
             ->with('Magento\Rma\Model\Item', [])
@@ -58,6 +63,7 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
 
     public function testLoadNewAttributeActionResponseArray()
     {
+        $itemId = 2;
         $productId = 1;
         $responseArray = ['html', 'html'];
         $responseString = 'json';
@@ -71,10 +77,14 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             false
         );
 
-        $this->requestMock->expects($this->once())
+        $this->requestMock->expects($this->at(0))
             ->method('getParam')
             ->with('product_id', null)
             ->will($this->returnValue($productId));
+        $this->requestMock->expects($this->at(1))
+            ->method('getParam')
+            ->with('item_id')
+            ->will($this->returnValue($itemId));
         $this->objectManagerMock->expects($this->once())
             ->method('create')
             ->with('Magento\Rma\Model\Item', [])
@@ -121,6 +131,7 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
 
     public function testLoadNewAttributesActionResponseString()
     {
+        $itemId = 2;
         $productId = 1;
         $responseString = 'json';
         $rmaMock = $this->getMock('Magento\Rma\Model\Item', [], [], '', false);
@@ -133,10 +144,14 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             false
         );
 
-        $this->requestMock->expects($this->once())
+        $this->requestMock->expects($this->at(0))
             ->method('getParam')
             ->with('product_id', null)
             ->will($this->returnValue($productId));
+        $this->requestMock->expects($this->at(1))
+            ->method('getParam')
+            ->with('item_id')
+            ->will($this->returnValue($itemId));
         $this->objectManagerMock->expects($this->once())
             ->method('create')
             ->with('Magento\Rma\Model\Item', [])
@@ -172,6 +187,58 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $this->responseMock->expects($this->once())
             ->method('setBody')
             ->with($responseString);
+        $this->assertNull($this->action->execute());
+    }
+
+    public function testLoadNewAttributesAction()
+    {
+        $blockHtml = 'test';
+        $productId = 1;
+        $itemId = 2;
+        $this->requestMock->expects($this->at(0))
+            ->method('getParam')
+            ->with('product_id')
+            ->will($this->returnValue($productId));
+        $this->requestMock->expects($this->at(1))
+            ->method('getParam')
+            ->with('item_id')
+            ->will($this->returnValue($itemId));
+
+        $rmaBlockMock = $this->getMockBuilder('Magento\Rma\Block\Adminhtml\Rma\Edit\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(['setProductId', 'setHtmlPrefixId', 'initForm', 'hasNewAttributes', 'toHtml'])
+            ->getMock();
+
+        $rmaBlockMock->expects($this->once())
+            ->method('setProductId')
+            ->with($productId)
+            ->will($this->returnSelf());
+        $rmaBlockMock->expects($this->once())
+            ->method('setHtmlPrefixId')
+            ->with($itemId)
+            ->will($this->returnSelf());
+        $rmaBlockMock->expects($this->once())
+            ->method('initForm')
+            ->will($this->returnSelf());
+        $rmaBlockMock->expects($this->once())
+            ->method('hasNewAttributes')
+            ->will($this->returnValue(true));
+        $rmaBlockMock->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($blockHtml));
+
+        $layoutMock = $this->getMockBuilder('Magento\Framework\View\Layout')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with('magento_rma_edit_item')
+            ->will($this->returnValue($rmaBlockMock));
+
+        $this->viewMock->expects($this->any())
+            ->method('getLayout')
+            ->will($this->returnValue($layoutMock));
+
         $this->assertNull($this->action->execute());
     }
 }

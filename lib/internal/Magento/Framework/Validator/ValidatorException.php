@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Validator;
 
-class ValidatorException extends \Exception
+class ValidatorException extends \Magento\Framework\Exception\InputException
 {
     /**
      * @var array
@@ -19,23 +19,32 @@ class ValidatorException extends \Exception
     /**
      * Constructor
      *
+     * @param string $message
+     * @param [] $params
+     * @param \Exception $cause
      * @param array $messages Validation error messages
      */
-    public function __construct(array $messages = array())
-    {
-        $this->_messages = $messages;
-
-        $message = '';
-        foreach ($this->_messages as $propertyMessages) {
-            foreach ($propertyMessages as $propertyMessage) {
-                if ($message) {
-                    $message .= PHP_EOL;
+    public function __construct(
+        $message = self::DEFAULT_MESSAGE,
+        $params = [],
+        \Exception $cause = null,
+        array $messages = array()
+    ) {
+        if (!empty($messages)) {
+            $this->_messages = $messages;
+            $message = '';
+            foreach ($this->_messages as $propertyMessages) {
+                foreach ($propertyMessages as $propertyMessage) {
+                    if ($message) {
+                        $message .= PHP_EOL;
+                    }
+                    $message .= $propertyMessage;
                 }
-                $message .= $propertyMessage;
             }
+        } else {
+            $this->_messages = [$message];
         }
-
-        parent::__construct($message);
+        parent::__construct($message, $params, $cause);
     }
 
     /**

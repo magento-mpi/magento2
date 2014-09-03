@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "jquery/template"
+], function($){
     'use strict';
     $.widget('mage.groupedProduct', {
         /**
@@ -143,7 +148,7 @@
                 }, this)
             );
 
-            var gridPopup = this.options.gridPopup;
+            var gridPopup = $(this.options.gridPopup).data('gridObject');
 
             $('[data-role=add-product]').on('click', function(event) {
                 event.preventDefault();
@@ -180,4 +185,4 @@
             this.element.find('.no-products-message').toggle(!showGrid);
         }
     });
-})(jQuery);
+});

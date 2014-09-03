@@ -7,16 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-sales-order-create-giftmessage-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-sales-js-bootstrap-order-create-index-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Sales::order/create/giftmessage.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-sales-order-giftoptions-tooltip-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Sales::order/giftoptions_tooltip.js</argument>
+                <argument name="file" xsi:type="string">Magento_Sales::js/bootstrap/order-create-index.js</argument>
             </arguments>
         </block>
     </referenceBlock>
@@ -27,6 +22,7 @@
     <update handle="sales_order_shipment_grid_block"/>
     <update handle="sales_order_transactions_grid_block"/>
     <update handle="sales_order_creditmemo_grid_block"/>
+    <update handle="sales_order_item_price"/>
     <referenceContainer name="left">
         <block class="Magento\Sales\Block\Adminhtml\Order\View\Tabs" name="sales_order_tabs">
             <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Info" name="order_tab_info" template="order/view/tab/info.phtml">
@@ -80,4 +76,4 @@
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="sales_page_head_components" template="Magento_Sales::page/js/components.phtml"/>
     </referenceBlock>
-</layout>
+</page>

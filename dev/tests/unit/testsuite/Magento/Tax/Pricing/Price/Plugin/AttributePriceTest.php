@@ -53,7 +53,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         );
         $this->calculationServiceMock = $this->getMock(
             'Magento\Tax\Service\V1\TaxCalculationService',
-            ['getDefaultCalculatedRate', 'getCalculatedRate', '__wakeup'],
+            ['getDefaultCalculatedRate', 'getCalculatedRate'],
             [],
             '',
             false,

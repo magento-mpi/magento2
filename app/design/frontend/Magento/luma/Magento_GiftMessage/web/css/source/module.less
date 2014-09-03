@@ -109,7 +109,20 @@
     }
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.order-details-items {
+    .gift-message {
+        margin: 0;
+        .gift-sender,
+        .gift-recipient {
+            font-weight: @font-weight-base;
+        }
+        .gift-message-text {
+            margin: 0;
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
     .opc-wrapper {
         .gift-message {
             .items {

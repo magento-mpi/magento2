@@ -8,38 +8,31 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductForm
  */
-class AssertProductForm extends AbstractConstraint
+class AssertProductForm extends AbstractAssertForm
 {
     /**
-     * Formatting options for numeric values
+     * Sort fields for fixture and form data
      *
      * @var array
      */
-    protected $formattingOptions = [
-        'price' => [
-            'decimals' => 2,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ],
-        'qty' => [
-            'decimals' => 4,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ],
-        'weight' => [
-            'decimals' => 4,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ]
+    protected $sortFields = [
+        'custom_options::title'
     ];
+
+    /**
+     * Formatting options for array values
+     *
+     * @var array
+     */
+    protected $specialArray = [];
 
     /**
      * Constraint severeness
@@ -62,86 +55,72 @@ class AssertProductForm extends AbstractConstraint
         CatalogProductEdit $productPage
     ) {
         $filter = ['sku' => $product->getSku()];
-        $productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $productGrid->open();
+        $productGrid->getProductGrid()->searchAndOpen($filter);
 
-        $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareFixtureData($product);
-
-        $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
-            "These data must be equal to each other:\n" . implode("\n", $errors)
-        );
+        $fixtureData = $this->prepareFixtureData($product->getData(), $product, $this->sortFields);
+        $formData = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
+        $error = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
 
     /**
-     * Prepares and returns data to the fixture, ready for comparison
+     * Prepares fixture data for comparison
      *
+     * @param array $data
      * @param FixtureInterface $product
+     * @param array $sortFields [optional]
      * @return array
      */
-    protected function prepareFixtureData(FixtureInterface $product)
+    protected function prepareFixtureData(array $data, FixtureInterface $product, array $sortFields = [])
     {
-        $compareData = $product->getData();
-        $compareData = array_filter($compareData);
-
-        array_walk_recursive(
-            $compareData,
-            function (&$item, $key, $formattingOptions) {
-                if (isset($formattingOptions[$key])) {
-                    $item = number_format(
-                        $item,
-                        $formattingOptions[$key]['decimals'],
-                        $formattingOptions[$key]['dec_point'],
-                        $formattingOptions[$key]['thousands_sep']
-                    );
-                }
-            },
-            $this->formattingOptions
-        );
-
-        if (isset($compareData['special_price'])) {
-            $compareData['special_price'] = ['special_price' => $compareData['special_price']];
+        if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
+            $data['website_ids'] = [$data['website_ids']];
+        }
+        if (isset($data['custom_options'])) {
+            $data['custom_options'] = $product->getDataFieldConfig('custom_options')['source']->getCustomOptions();
+        }
+        if (!empty($this->specialArray)) {
+            $data = $this->prepareSpecialPriceArray($data);
         }
 
-        return $compareData;
+        foreach ($sortFields as $path) {
+            $data = $this->sortDataByPath($data, $path);
+        }
+        return $data;
     }
 
     /**
-     * Comparison of multidimensional arrays
+     * Prepare special price array for product
      *
-     * @param array $fixtureData
-     * @param array $formData
+     * @param array $fields
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function compareArray(array $fixtureData, array $formData)
+    protected function prepareSpecialPriceArray(array $fields)
     {
-        $errors = [];
-        $keysDiff = array_diff(array_keys($formData), array_keys($fixtureData));
-        if (!empty($keysDiff)) {
-            return ['- fixture data do not correspond to form data in composition.'];
-        }
-
-        foreach ($fixtureData as $key => $value) {
-            if (is_array($value) && is_array($formData[$key])
-                && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
-            ) {
-                $errors = array_merge($errors, $innerErrors);
-            } elseif ($value != $formData[$key]) {
-                $fixtureValue = empty($value) ? '<empty-value>' : $value;
-                $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
-                $errors = array_merge(
-                    $errors,
-                    [
-                        "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
-                    ]
-                );
+        foreach ($this->specialArray as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                if (isset($value['type']) && $value['type'] == 'date') {
+                    $fields[$key] = vsprintf('%d/%d/%d', explode('/', $fields[$key]));
+                }
             }
         }
+        return $fields;
+    }
 
-        return $errors;
+    /**
+     * Prepares form data for comparison
+     *
+     * @param array $data
+     * @param array $sortFields [optional]
+     * @return array
+     */
+    protected function prepareFormData(array $data, array $sortFields = [])
+    {
+        foreach ($sortFields as $path) {
+            $data = $this->sortDataByPath($data, $path);
+        }
+        return $data;
     }
 
     /**

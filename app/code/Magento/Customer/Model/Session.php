@@ -97,6 +97,8 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
@@ -117,6 +119,8 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
@@ -140,7 +144,16 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_httpContext = $httpContext;
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct(
+            $request,
+            $sidResolver,
+            $sessionConfig,
+            $saveHandler,
+            $validator,
+            $storage,
+            $cookieManager,
+            $cookieMetadataFactory
+        );
         $this->start($sessionName);
         $this->_converter = $converter;
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
@@ -236,6 +249,12 @@ class Session extends \Magento\Framework\Session\SessionManager
         if (!$customerModel->isConfirmationRequired() && $customerModel->getConfirmation()) {
             $customerModel->setConfirmation(null)->save();
         }
+
+        /**
+         * The next line is a workaround.
+         * It is used to distinguish users that are logged in from user data set via methods similar to setCustomerId()
+         */
+        $this->unsIsCustomerEmulated();
 
         return $this;
     }
@@ -340,7 +359,9 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function isLoggedIn()
     {
-        return (bool)$this->getCustomerId() && (bool)$this->checkCustomerId($this->getId());
+        return (bool)$this->getCustomerId()
+            && $this->checkCustomerId($this->getId())
+            && !$this->getIsCustomerEmulated();
     }
 
     /**
@@ -531,12 +552,11 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Reset core session hosts after reseting session ID
      *
-     * @param bool $deleteOldSession
      * @return $this
      */
-    public function regenerateId($deleteOldSession = true)
+    public function regenerateId()
     {
-        parent::regenerateId($deleteOldSession);
+        parent::regenerateId();
         $this->_cleanHosts();
         return $this;
     }

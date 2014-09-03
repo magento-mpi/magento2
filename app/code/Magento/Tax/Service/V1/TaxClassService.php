@@ -11,14 +11,19 @@ namespace Magento\Tax\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\ClassModelRegistry;
 use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
+use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder;
 use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
+use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**
  * Tax class service.
@@ -48,19 +53,39 @@ class TaxClassService implements TaxClassServiceInterface
     const CLASS_ID_NOT_ALLOWED = 'class_id is not expected for this request.';
 
     /**
+     * Search Criteria Builder
+     *
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
+     * Filter Builder
+     *
+     * @var FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * Initialize dependencies.
      *
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param FilterBuilder $filterBuilder
      * @param TaxClassCollectionFactory $taxClassCollectionFactory
      * @param TaxClassSearchResultsBuilder $searchResultsBuilder
      * @param Converter $converter
      * @param ClassModelRegistry $classModelRegistry
      */
     public function __construct(
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder,
         TaxClassCollectionFactory $taxClassCollectionFactory,
         TaxClassSearchResultsBuilder $searchResultsBuilder,
         Converter $converter,
         ClassModelRegistry $classModelRegistry
     ) {
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
         $this->taxClassCollectionFactory = $taxClassCollectionFactory;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->converter = $converter;
@@ -207,9 +232,13 @@ class TaxClassService implements TaxClassServiceInterface
         }
         $this->searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
+        /** @var SortOrder $sortOrder */
         if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            foreach ($searchCriteria->getSortOrders() as $sortOrder) {
+                $collection->addOrder(
+                    $sortOrder->getField(),
+                    ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
+                );
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -244,5 +273,33 @@ class TaxClassService implements TaxClassServiceInterface
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxClassId($taxClassKey, $taxClassType = TaxClassServiceInterface::TYPE_PRODUCT)
+    {
+        if (!empty($taxClassKey)) {
+            switch ($taxClassKey->getType()) {
+                case TaxClassKey::TYPE_ID:
+                    return $taxClassKey->getValue();
+                case TaxClassKey::TYPE_NAME:
+                    $searchCriteria = $this->searchCriteriaBuilder->addFilter(
+                        [$this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue($taxClassType)->create()]
+                    )->addFilter(
+                        [
+                            $this->filterBuilder->setField(TaxClass::KEY_NAME)
+                                ->setValue($taxClassKey->getValue())
+                                ->create()
+                        ]
+                    )->create();
+                    $taxClasses = $this->searchTaxClass($searchCriteria)->getItems();
+                    $taxClass = array_shift($taxClasses);
+                    return (null == $taxClass) ? null : $taxClass->getClassId();
+                default:
+            }
+        }
+        return null;
     }
 }

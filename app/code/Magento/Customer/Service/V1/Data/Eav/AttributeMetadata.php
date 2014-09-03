@@ -7,10 +7,13 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Service\Data\MetadataObjectInterface;
+
 /**
  * Class AttributeMetadata
  */
-class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
+class AttributeMetadata extends AbstractExtensibleObject implements MetadataObjectInterface
 {
     /**#@+
      * Constants used as keys into $_data
@@ -168,7 +171,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function isUserDefined()
     {
-        return $this->_get(self::IS_USER_DEFINED);
+        return $this->_get(self::USER_DEFINED);
     }
 
     /**
@@ -208,7 +211,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function isSystem()
     {
-        return $this->_get(self::IS_SYSTEM);
+        return $this->_get(self::SYSTEM);
     }
 
     /**

@@ -41,6 +41,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param Paypal $paypal
      * @param string $formBlock
@@ -60,9 +61,10 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         Paypal $paypal,
-        $formBlock,
+        $formBlock = '',
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -80,6 +82,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
             $storeManager,
             $configFactory,
             $mathRandom,
+            $httpClientFactory,
             $data
         );
     }

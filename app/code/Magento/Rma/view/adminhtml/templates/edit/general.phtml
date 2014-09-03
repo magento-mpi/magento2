@@ -6,6 +6,13 @@
  * @license     {license_link}
  */
 ?>
+<script type="text/javascript">
+    require(['prototype', 'Magento_Rma/rma'], function() {
+        window.rma = new AdminRma();
+    });
+    require(['Magento_Rma/details-validator']);
+</script>
+
 <?php
 /**
  * @see \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General
@@ -26,5 +33,6 @@
     <div class="order-return-address">
         <?php echo $this->getChildHtml('return_address') ?>
     </div>
+
 </div>
 <?php echo $this->getChildHtml('comments_history') ?>

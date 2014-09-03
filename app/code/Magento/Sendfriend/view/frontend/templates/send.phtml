@@ -15,7 +15,7 @@
     <div class="actions-toolbar">
         <div class="secondary">
             <button type="button" id="btn-remove${_index_}" class="action remove"
-               title="<?php echo $this->escapeJsQuote(__('Remove Email')) ?>"><span><?php echo $this->escapeJsQuote(__('Remove Email')) ?></span></button>
+               title="<?php echo $this->escapeJsQuote(__('Remove')) ?>"><span><?php echo $this->escapeJsQuote(__('Remove')) ?></span></button>
         </div>
     </div>
     <fieldset class="fieldset">
@@ -114,7 +114,11 @@
     </div>
 </form>
 <script type="text/javascript">
+require(['jquery'], function(jQuery){
+
     //<![CDATA[
         jQuery('a[role="back"]').on('click', function() { history.back(); return false; });
     //]]>
+
+});
 </script>

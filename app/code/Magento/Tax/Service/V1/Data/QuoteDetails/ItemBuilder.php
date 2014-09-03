@@ -7,13 +7,51 @@
  */
 namespace Magento\Tax\Service\V1\Data\QuoteDetails;
 
+use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
+
 /**
  * Builder for the Item Service Data Object
  *
  * @method Item create()
  */
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
+    /**
+     * TaxClassKey data object builder
+     *
+     * @var \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     */
+    protected $taxClassKeyBuilder;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
+     */
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService,
+        \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
+    ) {
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
+        $this->taxClassKeyBuilder = $taxClassKeyBuilder;
+    }
+
+    /**
+     * Get tax class key builder
+     *
+     * @return \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     */
+    public function getTaxClassKeyBuilder()
+    {
+        return $this->taxClassKeyBuilder;
+    }
+
     /**
      * Set code (sku or shipping code)
      *
@@ -37,14 +75,14 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * Set tax class id
+     * Set tax class key
      *
-     * @param int $taxClassId
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKey $taxClassKey
      * @return $this
      */
-    public function setTaxClassId($taxClassId)
+    public function setTaxClassKey($taxClassKey)
     {
-        return $this->_set(Item::KEY_TAX_CLASS_ID, $taxClassId);
+        return $this->_set(Item::KEY_TAX_CLASS_KEY, $taxClassKey);
     }
 
     /**
@@ -111,5 +149,30 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     public function setParentCode($code)
     {
         return $this->_set(Item::KEY_PARENT_CODE, $code);
+    }
+
+    /**
+     * Set associated item code
+     *
+     * @param string $code
+     * @return $this
+     */
+    public function setAssociatedItemCode($code)
+    {
+        return $this->_set(Item::KEY_ASSOCIATED_ITEM_CODE, $code);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _setDataValues(array $data)
+    {
+        if (array_key_exists(Item::KEY_TAX_CLASS_KEY, $data)) {
+            $data[Item::KEY_TAX_CLASS_KEY] = $this->taxClassKeyBuilder->populateWithArray(
+                $data[Item::KEY_TAX_CLASS_KEY]
+            )->create();
+        }
+
+        return parent::_setDataValues($data);
     }
 }

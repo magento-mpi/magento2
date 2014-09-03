@@ -8,8 +8,15 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/validation/validation",
+    "Magento_Checkout/js/accordion",
+    "mage/translate"
+], function($){
     'use strict';
+
     // Base widget, handle ajax events and first section(Checkout Method) in one page checkout accordion
     $.widget('mage.opcCheckoutMethod', {
         options: {
@@ -21,6 +28,7 @@
                 registerCustomerPasswordSelector: '#co-billing-form .field.password,#co-billing-form .field.confirm',
                 suggestRegistration: false
             },
+            pageMessages: '#maincontent .messages .message',
             sectionSelectorPrefix: 'opc-',
             billingSection: 'billing',
             ajaxLoaderPlaceButton: false,
@@ -48,8 +56,9 @@
             events['click ' + this.options.checkout.continueSelector] = function(e) {
                 this._continue($(e.currentTarget));
             };
-            events['click ' + this.options.backSelector] = function() {
-                var prev  = self.steps.index($('.' + self.sectionActiveClass)) -1 ;
+            events['click ' + this.options.backSelector] = function(event) {
+                event.preventDefault();
+                var prev  = self.steps.index($('li.' + self.sectionActiveClass)) -1 ;
                 this._activateSection(prev);
             };
             events['click ' + '[data-action=checkout-method-login]'] = function(event) {
@@ -145,19 +154,41 @@
          * @return {Boolean}
          */
         _continue: function(elem) {
-            var json = elem.data('checkout');
+            var json            = elem.data('checkout'),
+                checkout        = this.options.checkout,
+                guestChecked    = $( checkout.loginGuestSelector ).is( ':checked' ),
+                registerChecked = $( checkout.loginRegisterSelector ).is( ':checked' ),
+                method          = 'register',
+                action          = 'show';
+
+            //Remove page messages
+            $(this.options.pageMessages).remove();
+            
             if (json.isGuestCheckoutAllowed) {
-                if ($(this.options.checkout.loginGuestSelector).is(':checked')) {
-                    this._ajaxContinue(this.options.checkout.saveUrl, {method:'guest'}, this.options.billingSection);
-                    this.element.find(this.options.checkout.registerCustomerPasswordSelector).hide();
-                } else if ($(this.options.checkout.loginRegisterSelector).is(':checked')) {
-                    this._ajaxContinue(this.options.checkout.saveUrl, {method:'register'}, this.options.billingSection);
-                    this.element.find(this.options.checkout.registerCustomerPasswordSelector).show();
-                } else {
-                    alert($.mage.__('Please choose to register or to checkout as a guest.'));
+                
+                if( !guestChecked && !registerChecked ){
+                    alert( $.mage.__('Please choose to register or to checkout as a guest.') );
+                    
                     return false;
                 }
+
+                if( guestChecked ){
+                    method = 'guest';
+                    action = 'hide';
+                }
+
+                this._ajaxContinue(
+                    checkout.saveUrl,
+                    { method: method },
+                    this.options.billingSection
+                );
+
+                this.element.find( checkout.registerCustomerPasswordSelector )[action]();
             }
+            else if( json.registrationUrl ){
+                window.location = json.registrationUrl;
+            }
+
             this.element.trigger('login');
         },
 
@@ -249,4 +280,4 @@
             }
         }
     });
-})(jQuery, window);
+});

@@ -94,7 +94,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @var \Magento\Framework\Object
      */
-    protected $_renderingOutput = null;
+    protected $_renderingOutput;
 
     /**
      * Cache of generated elements' HTML
@@ -309,6 +309,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->_scheduledStructure->flushScheduledStructure();
 
         $this->_readStructure($this->getNode());
+        $this->_addToOutputRootContainers($this->getNode());
 
         while (false === $this->_scheduledStructure->isStructureEmpty()) {
             $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
@@ -331,9 +332,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
             $elementName = key($this->_scheduledStructure->getElements());
 
-            if (isset($node['output'])) {
-                $this->addOutputElement($elementName);
-            }
             if ($type == Element::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
             } else {
@@ -343,6 +341,23 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         }
         \Magento\Framework\Profiler::stop('generate_elements');
         \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
+    }
+
+    /**
+     * Add parent containers to output
+     *
+     * @param Element $nodeList
+     * @return $this
+     */
+    protected function _addToOutputRootContainers(Element $nodeList)
+    {
+        /** @var $node Element */
+        foreach ($nodeList as $node) {
+            if ($node->getName() === Element::TYPE_CONTAINER) {
+                $this->addOutputElement($node->getElementName());
+            }
+        }
+        return $this;
     }
 
     /**
@@ -1474,14 +1489,14 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * Get block singleton
      *
      * @param string $type
-     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\App\Helper\AbstractHelper
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getBlockSingleton($type)
     {
         if (!isset($this->_helpers[$type])) {
             if (!$type) {
-                throw new \Magento\Framework\Model\Exception(__('Invalid block type: %1', $type));
+                throw new \Magento\Framework\Model\Exception('Invalid block type');
             }
 
             $helper = $this->_blockFactory->createBlock($type);
@@ -1516,12 +1531,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template, $data = array())
     {
-        if (!isset($namespace)) {
-            $this->_renderers[$namespace] = array();
-        }
-        if (!isset($namespace)) {
-            $this->_renderers[$namespace][$staticType] = array();
-        }
         $this->_renderers[$namespace][$staticType][$dynamicType] = array(
             'type' => $type,
             'template' => $template,
@@ -1562,18 +1571,11 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         if ($options = $this->getRendererOptions($namespace, $staticType, $dynamicType)) {
             $dictionary = array();
             /** @var $block \Magento\Framework\View\Element\Template */
-            $block = $this->createBlock(
-                $options['type'],
-                ''
-            )->setData(
-                $data
-            )->assign(
-                $dictionary
-            )->setTemplate(
-                $options['template']
-            )->assign(
-                $data
-            );
+            $block = $this->createBlock($options['type'], '')
+                ->setData($data)
+                ->assign($dictionary)
+                ->setTemplate($options['template'])
+                ->assign($data);
 
             echo $this->_renderBlock($block->getNameInLayout());
         }

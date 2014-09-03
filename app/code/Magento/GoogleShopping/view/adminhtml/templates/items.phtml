@@ -25,9 +25,13 @@
 </div>
 
 <script type="text/javascript">
-//<![CDATA[
+require([
+	'Magento_GoogleShopping/googleshopping'
+], function(){
+
 Mage.GoogleShopping.isProcessRunning = <?php echo $this->isProcessRunning() ? 'true' : 'false'; ?>;
 Mage.GoogleShopping.statusUrl = '<?php echo $this->getStatusUrl(); ?>';
 Mage.GoogleShopping.runningMessage = '<?php echo __('Google Shopping synchronization process is running');?>';
-//]]>
+
+});
 </script>

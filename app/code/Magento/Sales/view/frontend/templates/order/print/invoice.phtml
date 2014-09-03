@@ -54,7 +54,7 @@
         </div>
     </div>
     <?php endif; ?>
-    <div class="block order payment method">
+    <div class="block order payment-method">
         <div class="title">
             <strong><?php echo __('Payment Method') ?></strong>
         </div>
@@ -63,8 +63,8 @@
         </div>
     </div>
 </div>
-<div class="order details items">
-    <div class="order subtitle caption">
+<div class="order-details-items">
+    <div class="order-title">
         <strong><?php echo __('Items Invoiced') ?></strong>
     </div>
     <table class="data table order items" id="my-invoice-table-<?php echo $_invoice->getId(); ?>">
@@ -91,4 +91,6 @@
     </table>
 </div>
 <?php endforeach; ?>
-<script type="text/javascript">window.print();</script>
+<script type="text/javascript">
+window.print();
+</script>

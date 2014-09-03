@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scheme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../scheme.xsd">
+    <content>
+        <item name="Overview" type="article" module="Magento_Doc">
+            <label>Overview</label>
+        </item>
+    </content>
+</scheme>

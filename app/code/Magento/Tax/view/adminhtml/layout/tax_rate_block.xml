@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="adminhtml.tax.rate.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.tax.rate.grid" as="grid">
             <arguments>
@@ -45,7 +45,7 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Tax Identifier</argument>
                         <argument name="header_export" xsi:type="string" translate="true">Code</argument>
-                        <argument name="filter_index" xsi:type="string">main_table.code</argument>
+                        <argument name="filter_index" xsi:type="string">code</argument>
                         <argument name="index" xsi:type="string">code</argument>
                         <argument name="column_css_class" xsi:type="string">col-name</argument>
                         <argument name="header_css_class" xsi:type="string">col-name</argument>
@@ -55,7 +55,7 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Country</argument>
                         <argument name="type" xsi:type="string">country</argument>
-                        <argument name="filter_index" xsi:type="string">main_table.tax_country_id</argument>
+                        <argument name="filter_index" xsi:type="string">tax_country_id</argument>
                         <argument name="index" xsi:type="string">tax_country_id</argument>
                         <argument name="renderer" xsi:type="string">Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer\Country</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
@@ -65,7 +65,7 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">State/Region</argument>
                         <argument name="header_export" xsi:type="string" translate="true">State</argument>
-                        <argument name="filter_index" xsi:type="string">region_table.code</argument>
+                        <argument name="filter_index" xsi:type="string">region_name</argument>
                         <argument name="index" xsi:type="string">region_name</argument>
                         <argument name="default" xsi:type="string">*</argument>
                     </arguments>
@@ -91,4 +91,4 @@
             </block>
         </block>
     </referenceBlock>
-</layout>
+</page>

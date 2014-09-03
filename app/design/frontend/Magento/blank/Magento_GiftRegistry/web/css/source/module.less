@@ -6,8 +6,8 @@
 //  * @license     {license_link}
 //  */
 
-.form.giftregistry.share,
-.form.giftregistry.edit {
+.form-giftregistry-share,
+.form-giftregistry-edit {
     &:extend(.add-recipients all);
     .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
@@ -20,12 +20,18 @@
     }
 }
 
-.dropdown.giftregisty {
-    &:extend(.dropdown-simple all);
+.giftregisty-dropdown {
+    &:extend(.abstract-dropdown-simple all);
 }
 
-.data.table.giftregistry .field.qty .qty {
-    &:extend(.input-qty all);
+.table-giftregistry-items {
+    .field.qty .qty {
+        &:extend(.abstract-input-qty all);
+    }
+    .product-image {
+        float: left;
+        .css(margin-right, @indent-s-base);
+    }
 }
 
 .form.giftregistry .fieldset {
@@ -47,11 +53,29 @@
 }
 
 //
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .table-giftregistry-items {
+        .col.product {
+            &:before {
+                &:extend(.visually-hidden-mobile all);
+            }
+            &:extend(.add-clearfix-mobile all);
+        }
+        .field.choice,
+        .field.qty {
+            display: inline-block;
+        }
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
-    .form.giftregistry.share,
-    .form.giftregistry.edit {
+.responsive(@break) when (@break = @screen-m) {
+    .form-giftregistry-share,
+    .form-giftregistry-edit {
         &:extend(.add-recipients-desktop all);
     }
 }

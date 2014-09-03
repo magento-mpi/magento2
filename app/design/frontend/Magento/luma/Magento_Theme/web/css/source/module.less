@@ -32,6 +32,9 @@
 @price-size: 22px;
 @price-size-desktop: 36px;
 
+@button-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 1), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
+@button-shadow-active: inset 0px 1px 0px 0px fade(@border-color-base, 80), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
+
 body {
     .css(background-color, @page-bg-color);
 }
@@ -42,7 +45,7 @@ body {
 .page-header {
     .css(background-color, @header-bg-color);
     border-bottom: 1px solid @border-color-base;
-    margin-bottom: 20px;
+    margin-bottom: @indent-base;
     .panel.wrapper {
         .css(background-color, @header-panel-bg-color);
         .css(color, @header-panel-text-color);
@@ -246,6 +249,25 @@ body {
 }
 
 //
+//    Navigation
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .customer.name,
+    .customer-welcome + .authorization-link {
+        display: none;
+    }
+    .nav-sections .switcher-trigger strong:after {
+        font-size: 16px;
+        right: -25px;
+        top: 2px;
+    }
+    .navigation .parent .level-top:after {
+        font-size: 16px;
+        top: 7px;
+        right: 10px;
+    }
+}
+//
 //    Layered navigation
 //--------------------------------------
 
@@ -257,7 +279,7 @@ body {
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .page-header {
         border: 0;
         margin-bottom: 0;
@@ -291,7 +313,7 @@ body {
         }
     }
 
-    .customer.welcome {
+    .customer-welcome {
         .dropdown(
             @_toggle-selector : ~".action.switch",
             @_options-selector : ~"ul",
@@ -326,6 +348,23 @@ body {
                 line-height: 1.4;
             }
         }
+        .customer-menu {
+            display: none;
+        }
+        &.active {
+            .action.switch {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
+                );
+            }
+            .customer-menu {
+                display: block;
+            }
+        }
+        .greet {
+            display: none;
+        }
     }
 
     .header {
@@ -333,6 +372,7 @@ body {
             > .header.links {
                 float: right;
                 .list-inline();
+                margin-left: auto;
                 > li {
                     margin: 0 0 0 15px;
                     &.welcome,
@@ -341,11 +381,13 @@ body {
                         display: inline-block;
                     }
                 }
-                margin-left: auto;
                 > .authorization-link:after {
                     content: "or";
                     display: inline-block;
                     margin: 0 -5px 0 5px;
+                }
+                > .customer-welcome + .authorization-link {
+                    display: none;
                 }
             }
         }

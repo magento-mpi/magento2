@@ -12,19 +12,19 @@
 </div>
 <?php if (!$this->isSingleStoreMode()): ?>
 <script type="text/javascript">
-//<![CDATA[
-    Event.observe(window, 'load', updateCurrency);
-    Event.observe($('_infowebsite_id'), 'change', updateCurrency);
-
+require(['prototype'], function(){
     var currencies = <?php echo $this->getCurrencyJson(); ?>;
 
-    function updateCurrency()
+    var updateCurrency = function()
     {
-        val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
+        var val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
         if (currencies[val]) {
             $('balance_currency').innerHTML = '<b>[' + currencies[val] + ']</b>';
         }
-    }
-//]]>
+    };
+
+    Event.observe(window, 'load', updateCurrency);
+    Event.observe($('_infowebsite_id'), 'change', updateCurrency);
+});
 </script>
 <?php endif; ?>

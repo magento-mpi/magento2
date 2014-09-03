@@ -36,9 +36,45 @@
             <content />
         </fields>
     </content>
+    <design>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#page_tabs_design_section</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <page_layout>
+                <input>select</input>
+            </page_layout>
+            <layout_update_xml>
+                <selector>#page_layout_update_xml</selector>
+                <input>textarea</input>
+            </layout_update_xml>
+            <custom_theme_from />
+            <custom_theme_to />
+            <custom_theme>
+                <input>select</input>
+            </custom_theme>
+            <custom_page_layout>
+                <input>select</input>
+            </custom_page_layout>
+            <custom_layout_update_xml>
+                <selector>#page_custom_layout_update_xml</selector>
+                <input>textarea</input>
+            </custom_layout_update_xml>
+        </fields>
+    </design>
     <meta_data>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#page_tabs_meta_section</selector>
         <strategy>css selector</strategy>
+        <fields>
+            <meta_keywords>
+                <selector>#page_meta_keywords</selector>
+                <input>textarea</input>
+            </meta_keywords>
+            <meta_description>
+                <selector>#page_meta_description</selector>
+                <input>textarea</input>
+            </meta_description>
+        </fields>
     </meta_data>
 </tabs>

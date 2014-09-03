@@ -258,7 +258,6 @@ return array(
     array('_frameOpenTag', 'Magento\Framework\View\Element\AbstractBlock'),
     array('_frameCloseTag', 'Magento\Framework\View\Element\AbstractBlock'),
     array('_messagesBlock', 'Magento\Framework\View\Element\AbstractBlock'),
-    array('_messagesBlock', 'Magento\Connect\Helper\Data'),
     array('escapeMessageFlag', 'Magento\Framework\View\Block\Messages'),
     array('_handlerFactory', 'Magento\Backend\Block\Widget\Grid\Massaction\Additional'),
     array('_flatResourceFactory', 'Magento\Catalog\Model\Observer'),
@@ -324,4 +323,8 @@ return array(
     ['_productInstance', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['_regionBuilder', 'Magento\Customer\Model\Address\Converter'],
     ['_scopeConfig', 'Magento\CatalogInventory\Helper\Minsaleqty', 'scopeConfig'],
+    ['_stopFurtherRules', 'Magento\SalesRule\Model\Validator'],
+    ['_usageFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
+    ['_couponFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
+    ['_customerFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
 );

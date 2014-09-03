@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <reward_points>
+        <class>\Magento\Reward\Test\Block\Adminhtml\Edit\Tab\Reward</class>
+        <selector>#customer_info_tabs_customer_edit_tab_reward</selector>
+        <strategy>css selector</strategy>
+        <wrapper>reward</wrapper>
+        <fields>
+            <store_id>
+                <input>selectstore</input>
+            </store_id>
+            <points_delta />
+            <comment />
+            <reward_update_notification>
+                <input>checkbox</input>
+            </reward_update_notification>
+            <reward_warning_notification>
+                <input>checkbox</input>
+            </reward_warning_notification>
+        </fields>
+    </reward_points>
+</tabs>

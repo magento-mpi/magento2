@@ -8,10 +8,17 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice;
 
+/**
+ * Class Email
+ *
+ * @package Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice
+ */
 abstract class Email extends \Magento\Backend\App\Action
 {
     /**
-     * {@inheritdoc}
+     * Check if email sending is allowed for the current user
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -25,25 +32,22 @@ abstract class Email extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId)) {
-                $invoice->sendEmail();
-                $historyItem = $this->_objectManager->create(
-                    'Magento\Sales\Model\Resource\Order\Status\History\Collection'
-                )->getUnnotifiedForInstance(
-                    $invoice,
-                    \Magento\Sales\Model\Order\Invoice::HISTORY_ENTITY_NAME
-                );
-                if ($historyItem) {
-                    $historyItem->setIsCustomerNotified(1);
-                    $historyItem->save();
-                }
-                $this->messageManager->addSuccess(__('We sent the message.'));
-                $this->_redirect(
-                    'sales/invoice/view',
-                    array('order_id' => $invoice->getOrder()->getId(), 'invoice_id' => $invoiceId)
-                );
-            }
+        $invoiceId = $this->getRequest()->getParam('invoice_id');
+        if (!$invoiceId) {
+            return;
         }
+        $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+        if (!$invoice) {
+            return;
+        }
+
+        $this->_objectManager->create('Magento\Sales\Model\InvoiceNotifier')
+            ->notify($invoice);
+
+        $this->messageManager->addSuccess(__('We sent the message.'));
+        $this->_redirect(
+            'sales/invoice/view',
+            array('order_id' => $invoice->getOrder()->getId(), 'invoice_id' => $invoiceId)
+        );
     }
 }

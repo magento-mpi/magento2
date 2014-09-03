@@ -4,16 +4,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+
     $.widget('mage.toggleGiftCard', {
         options: {
             amountSelector: '#giftcard-amount-input',
             amountBoxSelector: '#giftcard-amount-box',
-            amountLabelSelector: '#amount-label-input',
-            amountLabelDropDownSelector: '#amount-label-select'
+            amountLabelSelector: null,
+            amountLabelDropDownSelector: null
         },
 
         /**
@@ -42,4 +45,5 @@
             }
         }
     });
-})(jQuery);
+
+});

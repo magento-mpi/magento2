@@ -12,6 +12,7 @@ use Magento\Store\Model\Store;
 use Magento\Payment\Block\Form;
 use Magento\Payment\Model\Info;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\LayoutInterface;
 
 /**
  * Payment module base helper
@@ -63,9 +64,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param LayoutInterface $layout
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \Magento\Framework\App\Config\Initial $initialConfig
@@ -73,7 +73,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\View\LayoutInterface $layout,
+        LayoutInterface $layout,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Payment\Model\Config $paymentConfig,
@@ -115,7 +115,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $res = array();
         $methods = $this->getPaymentMethods();
-        uasort($methods, array($this, '_sortMethods'));
+
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
             if (!($model = $this->_scopeConfig->getValue(
@@ -126,10 +126,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             ) {
                 continue;
             }
+
             $methodInstance = $this->_methodFactory->create($model);
-            if (!$methodInstance) {
-                continue;
-            }
             $methodInstance->setStore($store);
             if (!$methodInstance->isAvailable($quote)) {
                 /* if the payment method cannot be used at this time */
@@ -140,36 +138,38 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $res[] = $methodInstance;
         }
 
+        uasort($res, array($this, '_sortMethods'));
+
         return $res;
     }
 
     /**
-     * @param $mixed $a
-     * @param $mixed $b
+     * Sort payments methods
+     *
+     * @param \Magento\Payment\Model\MethodInterface $a
+     * @param \Magento\Payment\Model\MethodInterface $b
      * @return int
      */
     protected function _sortMethods($a, $b)
     {
-        if (is_object($a)) {
-            return (int)$a->sort_order <
-                (int)$b->sort_order ? -1 : ((int)$a->sort_order >
-                (int)$b->sort_order ? 1 : 0);
-        }
-        return 0;
+        return (int)$a->getSortOrder() <
+            (int)$b->getSortOrder() ? -1 : ((int)$a->getSortOrder() >
+            (int)$b->getSortOrder() ? 1 : 0);
     }
 
     /**
      * Retrieve payment method form html
      *
      * @param \Magento\Payment\Model\MethodInterface $method
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @return Form
      */
-    public function getMethodFormBlock(\Magento\Payment\Model\MethodInterface $method)
+    public function getMethodFormBlock(\Magento\Payment\Model\MethodInterface $method, LayoutInterface $layout)
     {
         $block = false;
         $blockType = $method->getFormBlockType();
-        if ($this->_layout) {
-            $block = $this->_layout->createBlock($blockType, $method->getCode());
+        if ($layout) {
+            $block = $layout->createBlock($blockType, $method->getCode());
             $block->setMethod($method);
         }
         return $block;

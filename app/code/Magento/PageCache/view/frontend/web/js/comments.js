@@ -7,13 +7,15 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function ($, win) {
+define([
+    "jquery"
+], function($){
     "use strict";
     $.fn.comments = function () {
         var elements = [];
         var lookup = function (el) {
             if (el.is('iframe')) {
-                var hostName = win.location.hostname,
+                var hostName = window.location.hostname,
                     iFrameHostName = $('<a>').prop('href', el.prop('src')).prop('hostname');
                 if (hostName != iFrameHostName) {
                     return elements;
@@ -30,4 +32,5 @@
         lookup(this);
         return elements;
     };
-})(jQuery, window);
+
+});

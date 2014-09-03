@@ -4,7 +4,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-var directPost = Class.create();
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([
+            "jquery",
+            "mage/backend/validation",
+            "prototype"
+        ], factory);
+    } else {
+        factory(jQuery);
+    }
+}(function (jQuery) {
+
+window.directPost = Class.create();
 directPost.prototype = {
     initialize : function(methodCode, iframeId, controller, orderSaveUrl,
             cgiUrl, nativeAction) {
@@ -122,7 +134,7 @@ directPost.prototype = {
     loadOrderIframe : function() {
         if (this.orderRequestSent) {
             $(this.iframeId).hide();
-            var data = $('order-' + this.iframeId).contentWindow.document.body.innerHTML;
+            var data = $('order-' + this.iframeId).contentWindow.document.body.getElementsByTagName('pre')[0].innerHTML;
             this.saveAdminOrderSuccess(data);
             this.orderRequestSent = false;
         }
@@ -398,3 +410,4 @@ directPost.prototype = {
         }
     }
 };
+}));

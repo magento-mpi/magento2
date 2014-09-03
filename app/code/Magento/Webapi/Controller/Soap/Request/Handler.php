@@ -7,10 +7,10 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
-use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\DataObjectConverter;
+use Magento\Framework\Service\Data\AbstractSimpleObject;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
@@ -36,10 +36,10 @@ class Handler
     /** @var SoapConfig */
     protected $_apiConfig;
 
-    /** @var AuthorizationService */
-    protected $_authorizationService;
+    /** @var AuthorizationInterface */
+    protected $_authorization;
 
-    /** @var DataObjectConverter */
+    /** @var SimpleDataObjectConverter */
     protected $_dataObjectConverter;
 
     /** @var ServiceArgsSerializer */
@@ -51,22 +51,22 @@ class Handler
      * @param SoapRequest $request
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
-     * @param AuthorizationService $authorizationService
-     * @param DataObjectConverter $dataObjectConverter
+     * @param AuthorizationInterface $authorization
+     * @param SimpleDataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
      */
     public function __construct(
         SoapRequest $request,
         \Magento\Framework\ObjectManager $objectManager,
         SoapConfig $apiConfig,
-        AuthorizationService $authorizationService,
-        DataObjectConverter $dataObjectConverter,
+        AuthorizationInterface $authorization,
+        SimpleDataObjectConverter $dataObjectConverter,
         ServiceArgsSerializer $serializer
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
-        $this->_authorizationService = $authorizationService;
+        $this->_authorization = $authorization;
         $this->_dataObjectConverter = $dataObjectConverter;
         $this->_serializer = $serializer;
     }
@@ -94,8 +94,8 @@ class Handler
         }
 
         $isAllowed = false;
-        foreach ($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] as $resources) {
-            if ($this->_authorizationService->isAllowed($resources)) {
+        foreach ($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] as $resource) {
+            if ($this->_authorization->isAllowed($resource)) {
                 $isAllowed = true;
                 break;
             }
@@ -139,11 +139,11 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
-        if ($data instanceof AbstractObject) {
+        if ($data instanceof AbstractSimpleObject) {
             $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                if ($value instanceof AbstractObject) {
+                if ($value instanceof AbstractSimpleObject) {
                     $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray());
                 } else {
                     $result[$key] = $value;

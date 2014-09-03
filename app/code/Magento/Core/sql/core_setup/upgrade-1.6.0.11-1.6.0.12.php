@@ -72,7 +72,11 @@ $connection->changeColumn(
  */
 $connection->addIndex(
     $newTableName,
-    $installer->getIdxName($newTableName, 'theme_id', \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName(
+        $newTableName,
+        'theme_id',
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
     'theme_id',
     \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
@@ -87,7 +91,11 @@ $connection->addForeignKey(
 );
 $connection->addIndex(
     $newTableName,
-    $installer->getIdxName($newTableName, 'layout_update_id', \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX),
+    $installer->getIdxName(
+        $newTableName,
+        'layout_update_id',
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+    ),
     'layout_update_id',
     \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
 );

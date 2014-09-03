@@ -7,6 +7,8 @@
  */
 namespace Magento\Paypal\Model;
 
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+
 /**
  * Payflow Link payment gateway model
  */
@@ -129,6 +131,11 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     protected $_websiteFactory;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -140,11 +147,13 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
+     * @param OrderSender $orderSender
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -161,11 +170,13 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
+        OrderSender $orderSender,
         array $data = array()
     ) {
         $this->_requestFactory = $requestFactory;
@@ -173,6 +184,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         $this->_orderFactory = $orderFactory;
         $this->_requestHttp = $requestHttp;
         $this->_websiteFactory = $websiteFactory;
+        $this->orderSender = $orderSender;
         parent::__construct(
             $eventManager,
             $paymentData,
@@ -185,6 +197,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $storeManager,
             $configFactory,
             $mathRandom,
+            $httpClientFactory,
             $data
         );
     }
@@ -370,7 +383,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
 
         try {
             if ($canSendNewOrderEmail) {
-                $order->sendNewOrderEmail();
+                $this->orderSender->send($order);
             }
             $this->_quoteFactory->create()->load($order->getQuoteId())->setIsActive(false)->save();
         } catch (\Exception $e) {

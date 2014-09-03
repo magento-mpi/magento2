@@ -7,14 +7,13 @@
  */
 namespace Magento\Catalog\Service\V1\Category;
 
-use Magento\Catalog\Model\Category;
+use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config;
-use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Webapi\Model\Rest\Config;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -30,7 +29,125 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function categoryCreationProvider()
     {
-        return [[$this->getSimpleCategoryData(['name' => 'Test Category Name'])]];
+        return [
+            [
+                $this->getSimpleCategoryData(
+                    [
+                        AttributeMetadata::NAME => 'Test Category Name'
+                    ]
+                )
+            ]
+        ];
+    }
+
+    /**
+     * Test for create category process
+     *
+     * @magentoApiDataFixture Magento/Catalog/Model/Category/_files/service_category_create.php
+     * @dataProvider categoryCreationProvider
+     */
+    public function testCreate($category)
+    {
+        $categoryId = $this->createCategory($category);
+        $this->assertGreaterThan(0, $categoryId);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/category.php
+     */
+    public function testDelete()
+    {
+        $this->assertTrue($this->deleteCategory($this->modelId));
+    }
+
+    public function testDeleteNoSuchEntityException()
+    {
+        try {
+            $this->deleteCategory(-1);
+        } catch (\Exception $e) {
+            $this->assertContains('No such entity with %fieldName = %fieldValue', $e->getMessage());
+        }
+    }
+
+    /**
+     * @dataProvider deleteSystemOrRootDataProvider
+     * @expectedException \Exception
+     */
+    public function testDeleteSystemOrRoot()
+    {
+        $this->deleteCategory($this->modelId);
+    }
+
+    public function deleteSystemOrRootDataProvider()
+    {
+        return array(
+            [\Magento\Catalog\Model\Category::TREE_ROOT_ID],
+            [2] //Default root category
+        );
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/category.php
+     */
+    public function testUpdate()
+    {
+        $categoryId = 333;
+        $categoryData = [
+            'custom_attributes' => [
+                [
+                    'attribute_code' => AttributeMetadata::NAME,
+                    'value' => "Update Category Test"
+                ],
+                [
+                    'attribute_code' => AttributeMetadata::DESCRIPTION,
+                    'value' => "Update Category Description Test"
+                ]
+            ]
+        ];
+        $this->assertTrue($this->updateCategory($categoryId, $categoryData));
+        /** @var \Magento\Catalog\Model\Category $model */
+        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
+        $model->load($categoryId);
+        foreach ($categoryData['custom_attributes'] as $attribute) {
+            $this->assertEquals($attribute['value'], $model->getData($attribute['attribute_code']));
+        }
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/category_tree.php
+     * @dataProvider updateMoveDataProvider
+     */
+    public function testUpdateMove($categoryId, $parentId, $afterId, $expectedPosition)
+    {
+        $expectedPath = '1/2/400/' . $categoryId;
+        $categoryData = ['categoryId' => $categoryId, 'parentId' => $parentId, 'afterId' => $afterId];
+        $serviceInfo = array_merge_recursive(
+            $this->serviceInfo,
+            [
+                'rest' => [
+                    'resourcePath' => self::RESOURCE_PATH . '/' . $categoryId . '/move',
+                    'httpMethod' => Config::HTTP_METHOD_PUT
+                ],
+                'soap' => ['operation' => self::SERVICE_NAME . 'move']
+            ]
+        );
+        $this->assertTrue($this->_webApiCall($serviceInfo, $categoryData));
+        /** @var \Magento\Catalog\Model\Category $model */
+        $readService = Bootstrap::getObjectManager()->get('\Magento\Catalog\Service\V1\Category\ReadService');
+        $model = $readService->info($categoryId);
+        $this->assertEquals($expectedPath, $model->getPath());
+        $this->assertEquals($expectedPosition, $model->getPosition());
+        $this->assertEquals($parentId, $model->getParentId());
+    }
+
+    public function updateMoveDataProvider()
+    {
+        return array(
+            [402, 400, null, 2],
+            [402, 400, 401, 2],
+            [402, 400, 999, 2],
+            [402, 400, 0, 1]
+        );
     }
 
     protected function getSimpleCategoryData($categoryData = array())
@@ -39,7 +156,7 @@ class WriteServiceTest extends WebapiAbstract
             'path' => '2',
             'parent_id' => '2',
             'name' => isset($categoryData[AttributeMetadata::NAME])
-                ? $categoryData[AttributeMetadata::NAME] : uniqid('Category-', true),
+                    ? $categoryData[AttributeMetadata::NAME] : uniqid('Category-', true),
             'active' => '0',
             'custom_attributes' => [
                 ['attribute_code' => 'url_key', 'value' => ''],
@@ -63,22 +180,6 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * Test for create category process
-     *
-     * @dataProvider categoryCreationProvider
-     */
-    public function testCreate($category)
-    {
-        $categoryId = $this->createCategory($category);
-        $this->assertGreaterThan(0, $categoryId);
-
-        $category = Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Category');
-        $category->setId($categoryId);
-
-        self::setFixture('testCreate.remove.category', $category);
-    }
-
-    /**
      * Create category process
      *
      * @param  $category
@@ -99,30 +200,14 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Catalog/_files/category.php
-     */
-    public function testDelete()
-    {
-        $this->assertTrue($this->deleteCategory($this->modelId));
-    }
-
-    public function testDeleteNoSuchEntityException()
-    {
-        try {
-            $this->deleteCategory(-1);
-        } catch (\Exception $e) {
-            $this->assertContains('No such entity with %fieldName = %fieldValue', $e->getMessage());
-        }
-    }
-
-    /**
      * @param int $id
      * @return bool
      * @throws \Exception
      */
     protected function deleteCategory($id)
     {
-        $serviceInfo = array_merge_recursive($this->serviceInfo,
+        $serviceInfo = array_merge_recursive(
+            $this->serviceInfo,
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $id,
@@ -134,71 +219,10 @@ class WriteServiceTest extends WebapiAbstract
         return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
     }
 
-    /**
-     * @magentoApiDataFixture Magento/Catalog/_files/category.php
-     */
-    public function testUpdate()
-    {
-        $categoryId = 333;
-        $categoryData = [
-            'custom_attributes' => [
-                [
-                    'attribute_code' => AttributeMetadata::NAME,
-                    'value' => "Update Category Test"
-                ], [
-                    'attribute_code' => AttributeMetadata::DESCRIPTION,
-                    'value' => "Update Category Description Test"
-                ]
-            ]
-        ];
-        $this->assertTrue($this->updateCategory($categoryId, $categoryData));
-        /** @var \Magento\Catalog\Model\Category $model */
-        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
-        $model->load($categoryId);
-        foreach($categoryData['custom_attributes'] as $attribute) {
-            $this->assertEquals($attribute['value'], $model->getData($attribute['attribute_code']));
-        }
-    }
-
-    /**
-     * @magentoApiDataFixture Magento/Catalog/_files/category_tree.php
-     * @dataProvider updateMoveDataProvider
-     */
-    public function testUpdateMove($categoryId, $parentId, $afterId, $expectedPosition)
-    {
-        $expectedPath = '1/2/400/' . $categoryId;
-        $categoryData = ['categoryId' => $categoryId, 'parentId' => $parentId, 'afterId' => $afterId];
-        $serviceInfo = array_merge_recursive($this->serviceInfo,
-            [
-                'rest' => [
-                    'resourcePath' => self::RESOURCE_PATH . '/' . $categoryId . '/move',
-                    'httpMethod' => Config::HTTP_METHOD_PUT
-                ],
-                'soap' => ['operation' => self::SERVICE_NAME . 'move']
-            ]
-        );
-        $this->assertTrue($this->_webApiCall($serviceInfo, $categoryData));
-        /** @var \Magento\Catalog\Model\Category $model */
-        $readService = Bootstrap::getObjectManager()->get('\Magento\Catalog\Service\V1\Category\ReadService');
-        $model = $readService->info($categoryId);
-        $this->assertEquals($expectedPath, $model->getPath());
-        $this->assertEquals($expectedPosition, $model->getPosition());
-        $this->assertEquals($parentId, $model->getParentId());
-    }
-
-    public function updateMoveDataProvider()
-    {
-        return array(
-            [402, 400, null, 2],
-            [402, 400, 401, 2],
-            [402, 400, 100, 1],
-            [402, 400, 0, 1]
-        );
-    }
-
     protected function updateCategory($id, $data)
     {
-        $serviceInfo = array_merge_recursive($this->serviceInfo,
+        $serviceInfo = array_merge_recursive(
+            $this->serviceInfo,
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $id,

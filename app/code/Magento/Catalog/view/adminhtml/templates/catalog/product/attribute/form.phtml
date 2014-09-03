@@ -13,14 +13,18 @@
 ?>
 <?php echo $this->getFormInitScripts() ?>
 <form id="edit_form" action="<?php echo $this->escapeHtml($this->getSaveUrl()) ?>" method="post">
-    <input name="form_key" type="hidden"  value="<?php echo $this->escapeHtml($this->getFormKey()) ?>" />
+    <input name="form_key" type="hidden" value="<?php echo $this->escapeHtml($this->getFormKey()) ?>" />
     <?php echo $this->getChildHtml('form') ?>
 </form>
 <div class="page-actions" <?php echo $this->getUiId('content-header') ?>>
     <?php echo $this->getButtonsHtml('header') ?>
 </div>
 <script type="text/javascript">
+require(['jquery', "mage/mage"], function(jQuery){
+
     jQuery('#edit_form').mage('form').mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+
+});
 </script>
 <?php echo $this->getFormScripts() ?>
 

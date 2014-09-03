@@ -25,7 +25,8 @@ class Location extends \Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Ex
     {
         $this->setElement($element);
         $js = '
-            document.observe("dom:loaded", function() {
+            require(["jquery", "prototype"], function(jQuery){
+            jQuery("body").on("adminConfigDefined", function() {
                 $$(".with-button button.button").each(function(configureButton) {
                     togglePaypalSolutionConfigureButton(configureButton, true);
                 });
@@ -385,6 +386,8 @@ class Location extends \Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Ex
                         });
                     }
                 });
+            });
+
             });
         ';
         return parent::render($element) . $this->_jsHelper->getScript($js);

@@ -40,7 +40,7 @@
     .value p:last-child {
         margin-bottom: 0;
     }
-    .wrapper.table {
+    .table-wrapper {
         margin: 0;
     }
 }
@@ -48,7 +48,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .product.data.items {
         .data-tabs();
         border-bottom: 0;

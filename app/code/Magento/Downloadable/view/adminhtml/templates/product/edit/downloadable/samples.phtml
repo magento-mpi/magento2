@@ -50,6 +50,12 @@ $this->getConfigJson();
     <div><small><?php echo __('Alphanumeric, dash and underscore characters are recommended for filenames. Improper characters are replaced with \'_\'.')?></small></div>
 </div>
 <script type="text/javascript">
+require([
+    'jquery',
+    'jquery/file-uploader',
+    'prototype'
+], function(jQuery){
+
 //<![CDATA[>
 var sampleTemplate = '<tr>'+
                         '<td>'+
@@ -79,7 +85,7 @@ var sampleTemplate = '<tr>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div class="row">'+
-                                    '<label for="downloadable_sample_{{id}}_url_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_url_type" name="downloadable[sample][{{id}}][type]" value="url"{{url_checked}} /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" />'+
+                                    '<label for="downloadable_sample_{{id}}_url_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_url_type" name="downloadable[sample][{{id}}][type]" value="url"{{url_checked}} /> URL:</label> <input type="text" class="validate-downloadable-url validate-url input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" />'+
                                 '</div>'+
                                 '<div>'+
                                     '<span id="downloadable_sample_{{id}}_container"></span>'+
@@ -92,7 +98,7 @@ var sampleTemplate = '<tr>'+
                             '<button type="button" class="action- scalable delete icon-btn delete-sample-item"><span>Delete</span></button>'+
                         '</td>'+
                     '</tr>';
-var sampleItems = {
+sampleItems = {
     tbody: $('sample_items_body'),
     templateSyntax: /(^|.|\r|\n)({{(\w+)}})/,
     templateText: sampleTemplate,
@@ -229,7 +235,6 @@ sampleUploader = function (id) {
     })(jQuery, id);
 };
 
-
 if($('add_sample_item')){
     Event.observe('add_sample_item', 'click', sampleItems.add.bind(sampleItems));
 }
@@ -238,6 +243,6 @@ if($('add_sample_item')){
     sampleItems.add(<?php echo $item->toJson() ?>);
 <?php endforeach; ?>
 
-//]]>
+});
 </script>
 

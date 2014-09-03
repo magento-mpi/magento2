@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-catalogpermissions-system-config-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-catalogpermissions-js-bootstrap-edit-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_CatalogPermissions::system_config.js</argument>
+                <argument name="file" xsi:type="string">Magento_CatalogPermissions::js/bootstrap/edit.js</argument>
             </arguments>
         </block>
     </referenceBlock>
-</layout>
+</page>

@@ -4,7 +4,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-var AdminOrder = new Class.create();
+define([
+    "jquery",
+    "mage/translate",
+    "prototype",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(jQuery){
+
+window.AdminOrder = new Class.create();
+
 AdminOrder.prototype = {
     initialize : function(data){
         if(!data) data = {};
@@ -50,7 +58,7 @@ AdminOrder.prototype = {
                 window.setTimeout(function () {
                     el.remove();
                 }, 10);
-            }
+            };
 
             this.dataArea.onLoad = this.dataArea.onLoad.wrap(function(proceed) {
                 proceed();
@@ -60,7 +68,7 @@ AdminOrder.prototype = {
 
             this.itemsArea.onLoad = this.itemsArea.onLoad.wrap(function(proceed) {
                 proceed();
-                if (!$(searchAreaId).visible()) {
+                if ($(searchAreaId) && !$(searchAreaId).visible()) {
                     this.addControlButton(searchButton);
                 }
             });
@@ -894,6 +902,7 @@ AdminOrder.prototype = {
     },
 
     loadArea : function(area, indicator, params){
+        var deferred = new jQuery.Deferred();
         var url = this.loadBaseUrl;
         if (area) {
             area = this.prepareArea(area);
@@ -911,15 +920,23 @@ AdminOrder.prototype = {
                 onSuccess: function(transport) {
                     var response = transport.responseText.evalJSON();
                     this.loadAreaResponseHandler(response);
+                    deferred.resolve();
                 }.bind(this)
             });
         }
         else {
-            new Ajax.Request(url, {parameters:params,loaderArea: indicator});
+            new Ajax.Request(url, {
+                parameters:params,
+                loaderArea: indicator,
+                onSuccess: function(transport) {
+                    deferred.resolve();
+                }
+            });
         }
         if (typeof productConfigure != 'undefined' && area instanceof Array && area.indexOf('items') != -1) {
             productConfigure.clean('quote_items');
         }
+        return deferred.promise();
     },
 
     loadAreaResponseHandler : function (response) {
@@ -1186,7 +1203,7 @@ AdminOrder.prototype = {
     }
 };
 
-var OrderFormArea = Class.create();
+window.OrderFormArea = Class.create();
 OrderFormArea.prototype = {
     _name: null,
     _node: null,
@@ -1194,6 +1211,8 @@ OrderFormArea.prototype = {
     _callbackName: null,
 
     initialize: function(name, node, parent){
+        if(!node)
+            return;
         this._name = name;
         this._parent = parent;
         this._callbackName = node.callback;
@@ -1220,7 +1239,8 @@ OrderFormArea.prototype = {
     }
 };
 
-var ControlButton = Class.create();
+window.ControlButton = Class.create();
+
 ControlButton.prototype = {
     _label: '',
     _node: null,
@@ -1245,3 +1265,5 @@ ControlButton.prototype = {
         Element.insert(element, content);
     }
 };
+
+});

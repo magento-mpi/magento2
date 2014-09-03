@@ -7,6 +7,8 @@
  */
 namespace Magento\Tax\Service\V1\Data\TaxDetails;
 
+use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 
 /**
@@ -15,7 +17,7 @@ use Magento\Tax\Service\V1\Data\TaxDetails;
  * @method Item create()
  */
 
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Applied Tax data object builder
@@ -28,13 +30,17 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      * Initialize dependencies
      *
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
      * @param AppliedTaxBuilder $appliedTaxBuilder
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService,
         \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder $appliedTaxBuilder
     ) {
-        parent::__construct($objectFactory);
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->appliedTaxBuilder = $appliedTaxBuilder;
     }
 
@@ -193,20 +199,30 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Set the associated item code
+     *
+     * @param string $code
+     * @return $this
+     */
+    public function setAssociatedItemCode($code)
+    {
+        $this->_set(Item::KEY_ASSOCIATED_ITEM_CODE, $code);
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function _setDataValues(array $data)
     {
-        $appliedTaxDataObjects = [];
-
         if (isset($data[Item::KEY_APPLIED_TAXES])) {
+            $appliedTaxDataObjects = [];
             $appliedTaxes = $data[Item::KEY_APPLIED_TAXES];
             foreach ($appliedTaxes as $appliedTax) {
                 $appliedTaxDataObjects[] = $this->appliedTaxBuilder->populateWithArray($appliedTax)->create();
             }
+            $data[Item::KEY_APPLIED_TAXES] = $appliedTaxDataObjects;
         }
-
-        $data[Item::KEY_APPLIED_TAXES] = $appliedTaxDataObjects;
 
         return parent::_setDataValues($data);
     }

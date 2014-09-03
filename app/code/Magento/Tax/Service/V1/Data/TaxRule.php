@@ -8,12 +8,12 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Class TaxRule
  */
-class TaxRule extends AbstractObject
+class TaxRule extends AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -58,7 +58,7 @@ class TaxRule extends AbstractObject
     /**
      * Get customer tax class id
      *
-     * @return int[]|null
+     * @return int[]
      */
     public function getCustomerTaxClassIds()
     {
@@ -68,7 +68,7 @@ class TaxRule extends AbstractObject
     /**
      * Get product tax class id
      *
-     * @return int[]|null
+     * @return int[]
      */
     public function getProductTaxClassIds()
     {
@@ -78,7 +78,7 @@ class TaxRule extends AbstractObject
     /**
      * Get tax rate ids
      *
-     * @return string[]|null
+     * @return int[]
      */
     public function getTaxRateIds()
     {

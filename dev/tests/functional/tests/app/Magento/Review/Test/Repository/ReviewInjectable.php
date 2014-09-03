@@ -17,7 +17,8 @@ use Mtf\Repository\AbstractRepository;
 class ReviewInjectable extends AbstractRepository
 {
     /**
-     * @constructor
+     * Constructor
+     *
      * @param array $defaultConfig
      * @param array $defaultData
      *
@@ -32,11 +33,20 @@ class ReviewInjectable extends AbstractRepository
             'title' => 'title_%isolation%',
             'detail' => 'review_detail_%isolation%',
             'ratings' => [
-                1 => [
+                [
                     'dataSet' => 'visibleOnDefaultWebsite',
                     'rating' => mt_rand(1, 5)
                 ]
             ],
+            'entity_id' => ['dataSet' => 'catalogProductSimple::default']
+        ];
+
+        $this->_data['frontend_review'] = [
+            'status_id' => 'Pending',
+            'select_stores' => ['Main Website/Main Website Store/Default Store View'],
+            'nickname' => 'nickname_%isolation%',
+            'title' => 'title_%isolation%',
+            'detail' => 'review_detail_%isolation%',
             'entity_id' => ['dataSet' => 'catalogProductSimple::default']
         ];
     }

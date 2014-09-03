@@ -26,7 +26,7 @@ class UrlRewrite extends InjectableFixture
     protected $handlerInterface = 'Magento\UrlRewrite\Test\Handler\UrlRewrite\UrlRewriteInterface';
 
     protected $defaultDataSet = [
-        'store_id' => 'Default Store View',
+        'store_id' => 'Main Website/Main Website Store/Default Store View',
         'request_path' => 'test_request%isolation%',
     ];
 
@@ -46,6 +46,7 @@ class UrlRewrite extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '1',
         'default_value' => 'Default Store View',
+        'source' => 'Magento\UrlRewrite\Test\Fixture\UrlRewrite\StoreId',
         'input' => 'select',
     ];
 

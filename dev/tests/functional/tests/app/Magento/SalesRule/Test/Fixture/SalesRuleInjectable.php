@@ -30,8 +30,8 @@ class SalesRuleInjectable extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Default price rule %isolation%',
         'is_active' => 'Active',
-        'website_ids' => 'Main Website',
-        'customer_group_ids' => 'NOT LOGGED IN',
+        'website_ids' => ['Main Website'],
+        'customer_group_ids' => ['NOT LOGGED IN'],
         'coupon_type' => 'No Coupon',
         'simple_action' => 'Percent of product price discount',
         'discount_amount' => '50',
@@ -87,6 +87,7 @@ class SalesRuleInjectable extends InjectableFixture
         'attribute_code' => 'conditions_serialized',
         'backend_type' => 'mediumtext',
         'group' => 'conditions',
+        'source' => 'Magento\SalesRule\Test\Fixture\SalesRuleInjectable\ConditionsSerialized'
     ];
 
     protected $actions_serialized = [

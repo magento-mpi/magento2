@@ -16,58 +16,34 @@ use Mtf\Repository\AbstractRepository;
 class Widget extends AbstractRepository
 {
     /**
+     * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array('config' => $defaultConfig, 'data' => $this->getFrontEndAppData());
-    }
-
-    /**
-     * Data for Front End App Type
-     */
-    protected function getFrontEndAppData()
-    {
-        return array(
-            'fields' => array(
-                // Title
-                'title' => array(
-                    'value' => 'Test Frontend App'
-                ),
-                // All Store Views
-                'store_ids' => array(
-                    'value' => array(
-                        '0' => '0'
-                    )
-                ),
-                // Layout Updates
-                'widget_instance' => array(
-                    'value' => array(
-                        '0' => array(
-                            // Display On = All Pages
-                            'page_group' => 'all_pages',
-                            'all_pages' => array(
-                                'page_id' => '0',
-                                'layout_handle' => 'default',
-                                'for' => 'all',
-                                // Container = Main Content Area
-                                'block' => 'content',
-                                'template' => 'widget/block.phtml'
-                            )
-                        )
-                    )
-                ),
-                // Catalog Promotions Related
-                'parameters' => array(
-                    'value' => array(
-                        'display_mode' => 'catalogrule'
-                    )
-                )
-            ),
-            'theme' => '2'
-        );
+        $this->_data['default'] = [
+            'title' => 'Test Frontend App',
+            'store_ids' => [
+                '0' => 'All Store Views'
+            ],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'all_pages',
+                    'all_pages' => [
+                        'layout_handle' => 'default',
+                        'for' => 'all',
+                        'block' => 'content',
+                        'template' => 'widget/block.phtml'
+                    ]
+                ]
+            ],
+            'parameters' => [
+                'display_mode' => 'catalogrule'
+            ],
+            'theme_id' => '2'
+        ];
     }
 }

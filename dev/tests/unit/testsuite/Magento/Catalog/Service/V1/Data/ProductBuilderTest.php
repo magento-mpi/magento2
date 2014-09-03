@@ -18,7 +18,7 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Catalog\Service\V1\MetadataService */
     private $_productMetadataService;
 
-    /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
+    /** @var \Magento\Framework\Service\Data\AttributeValueBuilder */
     private $_valueBuilder;
 
     protected function setUp()
@@ -41,7 +41,7 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->_valueBuilder = $this->_objectManager->getObject(
-            'Magento\Framework\Service\Data\Eav\AttributeValueBuilder'
+            'Magento\Framework\Service\Data\AttributeValueBuilder'
         );
         $this->_productBuilder = $this->_objectManager->getObject(
             'Magento\Catalog\Service\V1\Data\ProductBuilder',
@@ -99,11 +99,5 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
     public function testReadonlyFields($method)
     {
         $this->_productBuilder->$method('');
-    }
-
-    public function testGetCustomAttributes()
-    {
-        $expectedAttributesCodes = ['attribute_code_1', 'attribute_code_2'];
-        $this->assertEquals($expectedAttributesCodes, $this->_productBuilder->getCustomAttributesCodes());
     }
 }

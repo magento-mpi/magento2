@@ -25,6 +25,20 @@
 }
 
 //
+//    Secondary button
+//--------------------------------------
+.abstract-revert-to-action-secondary {
+    &:extend(.abstract-revert-secondary-color all);
+    //&:extend(.abstract-revert-secondary-size all);
+    border-radius: @button-border-radius;
+    .css(box-shadow, @button-shadow);
+    &:active,
+    &:focus {
+        .css(box-shadow, @button-shadow-active);
+    }
+}
+
+//
 //    Link as a button
 //--------------------------------------
 .action-link-button {
@@ -37,9 +51,14 @@
 //   Button as a link
 //--------------------------------------
 .abstract-action-button-as-link {
-  .button-as-link();
-  border-radius: 0;
-  font-weight: @font-weight-base;
+    .button-as-link();
+    border-radius: 0;
+    font-weight: @font-weight-base;
+    .css(box-shadow, none);
+    &:active,
+    &:focus {
+        .css(box-shadow, none);
+    }
 }
 
 //
@@ -89,7 +108,7 @@
     .button-responsive();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .button-desktop {
         width: auto;
     }
@@ -98,24 +117,27 @@
 //
 //    Blocks in 2 columns
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .blocks-2columns {
-        width: 48.8%;
-        &:nth-child(odd) {
+        width: 48%;
+        &:nth-child(1) {
             float: left;
             clear: left;
         }
-        &:nth-child(even) {
+        &:nth-child(2) {
             float: right;
+            & + * {
+                clear: both;
+            }
         }
-    }
+        }
     .blocks-2columns-reverse {
         width: 48.8%;
-        &:nth-child(odd) {
+        &:nth-child(1) {
             float: right;
             clear: right;
         }
-        &:nth-child(even) {
+        &:nth-child(2) {
             float: left;
         }
     }
@@ -136,18 +158,22 @@
 //
 //    Simple Dropdown
 //--------------------------------------
-.dropdown-simple {
-    line-height: normal;
-    .dropdown();
-    ul.items.dropdown {
-        min-width: 155px;
+.abstract-dropdown-simple {
+    .dropdown(
+        @_dropdown-list-item-padding: 5px 5px 5px 23px,
+        @_dropdown-list-min-width: 200px,
+        @_icon-font-margin: 0 0 0 5px,
+        @_icon-font-vertical-align: middle
+    );
+    ul.items {
+        padding: 6px 0;
     }
 }
 
 //
 //    Input quantity
 //--------------------------------------
-.input-qty {
+.abstract-input-qty {
     .form-element-size(@_width: 54px);
     text-align: center;
 }
@@ -157,6 +183,12 @@
 //--------------------------------------
 .margin-for-blocks-and-widgets {
     margin-bottom: @indent-xl-base;
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-margin-for-blocks-and-widgets-desktop {
+        margin-bottom: @indent-xl-base + @indent-s-base;
+    }
 }
 
 //
@@ -201,7 +233,7 @@
     margin-left: 0;
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .reset-left-margin-desktop {
         margin-left: 0;
     }
@@ -216,17 +248,16 @@
     width: auto;
     line-height: normal;
     position: absolute;
-    top: 31px; // 6px
-    left: 10px;
-    margin-left: 70%;
+    top: 34px; // 6px
+    margin-left: 73%;
 }
 
 //
 //    Action with icon remove with text for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .action-remove-desktop {
-        margin-left: 86%;
+        margin-left: 90%;
     }
 }
 
@@ -269,14 +300,14 @@
 //
 //    Add Recipient for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-recipients-desktop {
         .recipients {
             .field {
                  .control {
-                    width:auto;
+                    width: auto;
                 }
-            }
+                }
             .additional {
                 .action.remove {
                     &:extend(.action-remove-desktop all);
@@ -289,7 +320,7 @@
 //
 //    Margin for forms
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .margin-for-forms-desktop {
         margin-left: @form-field-type-inline-label-width;
     }
@@ -302,6 +333,22 @@
     .visually-hidden();
 }
 
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .visually-hidden-mobile {
+        .visually-hidden();
+    }
+}
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .visually-hidden-mobile-m {
+        .visually-hidden();
+    }
+}
+.responsive(@break) when (@break = @screen-m) {
+    .visually-hidden-desktop {
+        .visually-hidden();
+    }
+}
+
 //
 //    Clearfix
 //--------------------------------------
@@ -309,12 +356,23 @@
     .clearfix();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-clearfix-desktop {
         .clearfix();
     }
 }
 
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .add-clearfix-mobile {
+        .clearfix();
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .add-clearfix-mobile-m {
+        .clearfix();
+    }
+}
 //
 //    Box-sizing
 //--------------------------------------
@@ -322,7 +380,7 @@
     .box-sizing();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-box-sizing-desktop {
         .box-sizing();
     }
@@ -331,7 +389,7 @@
 //
 //    Revert field type
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .revert-field-type-desktop {
         .fieldset {
             > .field,
@@ -378,20 +436,28 @@
 //
 //    Field 2 column
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .form-field-column-2 {
         .fieldset {
             .field {
+                &:nth-last-child(1),
+                &:nth-last-child(2) {
+                    margin-bottom: 0;
+                }
                 .form-field-column(@_column: true);
+                .field {
+                    width: 100%;
+                    padding: 0;
             }
         }
     }
+}
 }
 
 //
 //    Field 1 column
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .form-field-revert-column-1 {
         .form-field-column-number(@_column-number: 1);
     }
@@ -409,10 +475,9 @@
 //
 //    Add to Actions
 //--------------------------------------
-.abstract-add-to-actions {
+.abstract-actions-addto {
     color: @addto-color;
     display: inline-block;
-    line-height: 26px;
     text-transform: uppercase;
     font-weight: @font-weight-semibold;
     letter-spacing: .05em;
@@ -439,7 +504,7 @@
 //
 //    General pages forms
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .abstract-forms-general-desktop {
         max-width: 500px;
         .legend {
@@ -447,6 +512,354 @@
         }
         .legend + br {
             display: none;
+        }
+    }
+}
+
+//
+//    Vertical Table
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .table-vertical-mobile {
+        .table-responsive();
+    }
+}
+
+//
+//    Revert side paddings
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-revert-side-paddings {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+//
+//    Abstract toggle title block
+//--------------------------------------
+.abstract-toggling-title {
+    border-top: @border-width-base solid @border-color-base;
+    cursor: pointer;
+    margin-bottom: 0;
+    padding: 10px 40px 10px @mobile-cart-padding;
+    position: relative;
+    .icon-font(
+        @icon-down,
+        @_icon-font-size: 12px,
+        @_icon-font-line-height: 12px,
+        @_icon-font-text-hide: true,
+        @_icon-font-margin: 3px 0 0,
+        @_icon-font-position: after,
+        @_icon-font-display: block
+    );
+    &:after {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-toggling-title-mobile {
+        border-top: @border-width-base solid @border-color-base;
+        border-bottom: @border-width-base solid @border-color-base;
+        cursor: pointer;
+        margin-bottom: 0;
+        padding: 10px 40px 10px @mobile-cart-padding;
+        position: relative;
+        .icon-font(
+            @icon-down,
+            @_icon-font-size: 12px,
+            @_icon-font-text-hide: false,
+            @_icon-font-margin: 3px 0 0 0,
+            @_icon-font-position: after,
+            @_icon-font-display: block
+        );
+        &:after {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        &.active {
+            .icon-font-symbol(
+                @_icon-font-content: @icon-up,
+                @_icon-font-position: after
+            );
+        }
+    }
+}
+
+//
+//    Cart discount block
+//--------------------------------------
+.abstract-cart-block {
+    margin: 0;
+    > .title {
+        &:extend(.abstract-toggling-title all);
+        .column.main & {
+            strong {
+                .font-size(14);
+                font-weight: @font-weight-semibold;
+            }
+        }
+    }
+    .content {
+        display: none;
+        padding: 5px @mobile-cart-padding 23px;
+        position: relative;
+    }
+    &.active {
+        > .title {
+            .icon-font-symbol(
+                @_icon-font-content: @icon-up,
+                @_icon-font-position: after
+            );
+        }
+        .content {
+            display: block;
+        }
+    }
+}
+
+.abstract-cart-block-content {
+    margin: 0;
+}
+
+//
+//    Account pages: title
+//--------------------------------------
+.abstract-account-title {
+    > strong,
+    > span {
+        //.heading(h3);
+        font-size: 22px;
+        .css(font-weight, @font-weight-light);
+    }
+    .css(margin-bottom, @indent-m-base);
+    .css(padding-bottom, @indent-s-base);
+    border-bottom: 1px solid @account-title-border-color;
+}
+
+//
+//    Account pages: block font size
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-account-block-font-size {
+        .font-size(16);
+    }
+}
+
+//
+//    Account pages: block line-height
+//--------------------------------------
+.abstract-account-block-line-height {
+    line-height: 24px;
+}
+
+//
+//    Account pages: margin for table
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-account-table-margin-mobile {
+        .css(margin-top, -@indent-base);
+    }
+}
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-account-table-margin-desktop {
+        .css(margin-top, -@indent-m-base);
+    }
+}
+
+//
+//    Account pages: table col actions
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-account-col-actions {
+        padding-top: 9px;
+        &:before {
+            .visually-hidden();
+        }
+    }
+}
+
+//
+//    Account pages: table border
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-account-table-border {
+        border-top: 1px solid @account-title-border-color;
+    }
+}
+
+//
+//    Action print with icon
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-action-print {
+        .icon-font(
+            @icon-print,
+            @_icon-font-size: 16px,
+            @_icon-font-line-height: 16px,
+            @_icon-font-margin: 0 4px 0 0,
+            @_icon-font-position: before
+        );
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+//
+//    Excl/Incl tax
+//--------------------------------------
+.abstract-incl-excl-tax {
+    .tax {
+        color: @cart-price-color;
+        display: block;
+        .font-size(18);
+        line-height: 1;
+        .price {
+            font-weight: @font-weight-bold;
+        }
+    }
+
+    .incl.tax + .excl.tax,
+    .weee {
+        display: block;
+        .font-size(18);
+        &:before {
+            content: attr(data-th) ": ";
+            .font-size(11);
+        }
+        .price {
+            .font-size(11);
+        }
+    }
+}
+
+//
+//    Cart tax total
+//--------------------------------------
+.abstract-tax-total {
+    cursor: pointer;
+    position: relative;
+    padding-right: 10px;
+    .icon-font(
+        @icon-down,
+        @_icon-font-size: 8px,
+        @_icon-font-line-height: 8px,
+        @_icon-font-margin: 3px 0 0 0,
+        @_icon-font-position: after
+    );
+    &:after {
+        position: absolute;
+        right: 0;
+        top: 4px;
+    }
+    &-expanded {
+        .icon-font-symbol(
+            @_icon-font-content: @icon-up,
+            @_icon-font-position: after
+        );
+    }
+}
+
+//
+//    Forms: margin-bottom for small forms
+//--------------------------------------
+.abstract-forms-margin-small {
+    .css(margin-bottom, @indent-base);
+}
+
+//
+//    Forms: margin-bottom for small forms
+//--------------------------------------
+.abstract-rating-summary {
+    .rating {
+        &-summary {
+            display: table-row;
+        }
+        &-label {
+            display: table-cell;
+            vertical-align: top;
+            padding-top: 1px;
+            padding-right: @indent-m-base;
+            padding-bottom: @indent-xs-base;
+        }
+        &-result {
+            vertical-align: top;
+            display: table-cell;
+        }
+    }
+}
+
+//
+//    Account pages: actions
+//--------------------------------------
+.abstract-account-actions {
+    &:extend(.abstract-account-actions all);
+    &:after {
+        content: "";
+        display: inline-block;
+        height: 12px;
+        margin: 0 10px;
+        border-left: 1px @color-primary-light solid;
+        vertical-align: -1px;
+    }
+    &:last-child {
+        &:after {
+            display: none;
+        }
+    }
+}
+
+//
+//    Add colon
+//--------------------------------------
+.abstract-colon {
+    &:after {
+        content: ": ";
+    }
+}
+
+//
+//    Icon - create add
+//--------------------------------------
+.abstract-icon-add {
+    .icon-font(
+        @_icon-font-content: @icon-expand,
+        @_icon-font-size: 10px,
+        @_icon-font-line-height: 10px,
+        @_icon-font-vertical-align: middle
+    ); 
+}
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-icon-add-mobile {
+        .icon-font(
+            @_icon-font-content: @icon-expand,
+            @_icon-font-size: 10px,
+            @_icon-font-line-height: 10px,
+            @_icon-font-vertical-align: middle,
+            @_icon-font-margin: 0 5px 0 0,
+            @_icon-font-display: block
+        ); 
+    }
+}
+//
+//    Dropdown items - create new
+//--------------------------------------
+.abstract-dropdown-items-new {
+    .items .item:last-child {
+        &:hover {
+            background: @dropdown-list-item-hover;
+        }
+    }
+    .action.new {
+        &:extend(.abstract-icon-add all);
+        &:before {
+            margin-left: -17px;
+            margin-right: 5px;
         }
     }
 }

@@ -12,7 +12,7 @@ use Mtf\TestCase\Injectable;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
-use Magento\Backend\Test\Page\AdminCache;
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 
 /**
  * Class CatalogRuleEntityTest
@@ -44,9 +44,9 @@ abstract class CatalogRuleEntityTest extends Injectable
     /**
      * Fixture CatalogRule
      *
-     * @var CatalogRule
+     * @var array
      */
-    protected $catalogRules;
+    protected $catalogRules = [];
 
     /**
      * Injection data
@@ -73,12 +73,12 @@ abstract class CatalogRuleEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $this->catalogRules = (is_array($this->catalogRules)) ? $this->catalogRules : [$this->catalogRules];
         foreach ($this->catalogRules as $catalogRule) {
             $filter = ['name' => $catalogRule->getName()];
             $this->catalogRuleIndex->open();
             $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
             $this->catalogRuleNew->getFormPageActions()->delete();
         }
+        $this->catalogRules = [];
     }
 }

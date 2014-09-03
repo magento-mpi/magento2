@@ -13,7 +13,7 @@
  * @var $this \Magento\Customer\Block\Address\Edit
  */
 ?>
-<form class="form address edit" action="<?php echo $this->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php echo __('* Required Fields') ?>">
+<form class="form-address-edit" action="<?php echo $this->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php echo __('* Required Fields') ?>">
     <fieldset class="fieldset">
         <legend class="legend"><span><?php echo __('Contact Information') ?></span></legend><br>
         <?php echo $this->getBlockHtml('formkey')?>
@@ -129,10 +129,14 @@
     </div>
 </form>
 <script type="text/javascript">
-    (function($) {
+require([
+    "jquery",
+    "mage/validation",
+    "Magento_Checkout/js/region-updater"
+], function($){
         var $form = $('#form-validate');
-        $form.mage('validation');
-        $('#country').mage('regionUpdater', {
+        $form.validation();
+        $('#country').regionUpdater({
             optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
             regionListId: '#region_id',
             regionInputId: '#region',
@@ -142,5 +146,5 @@
             defaultRegion: "<?php echo $this->getRegionId() ?>",
             countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
         });
-    })(jQuery);
+});
 </script>

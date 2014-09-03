@@ -47,6 +47,22 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_code = self::CODE;
 
     /**
+     * Types of rates, order is important
+     *
+     * @var array
+     */
+    protected $_ratesOrder = [
+        'RATED_ACCOUNT_PACKAGE',
+        'PAYOR_ACCOUNT_PACKAGE',
+        'RATED_ACCOUNT_SHIPMENT',
+        'PAYOR_ACCOUNT_SHIPMENT',
+        'RATED_LIST_PACKAGE',
+        'PAYOR_LIST_PACKAGE',
+        'RATED_LIST_SHIPMENT',
+        'PAYOR_LIST_SHIPMENT'
+    ];
+
+    /**
      * Rate request data
      *
      * @var RateRequest|null
@@ -398,7 +414,10 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                 'PackageDetail' => 'INDIVIDUAL_PACKAGES',
                 'RequestedPackageLineItems' => array(
                     '0' => array(
-                        'Weight' => array('Value' => (double)$r->getWeight(), 'Units' => 'LB'),
+                        'Weight' => [
+                            'Value' => (double)$r->getWeight(),
+                            'Units' => $this->getConfigData('unit_of_measure')
+                        ],
                         'GroupPackageCount' => 1
                     )
                 )
@@ -493,7 +512,12 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
 
         if (is_object($response)) {
             if ($response->HighestSeverity == 'FAILURE' || $response->HighestSeverity == 'ERROR') {
-                $errorTitle = (string)$response->Notifications->Message;
+                if (is_array($response->Notifications)) {
+                    $notification = array_pop($response->Notifications);
+                    $errorTitle = (string)$notification->Message;
+                } else {
+                    $errorTitle = (string)$response->Notifications->Message;
+                }
             } elseif (isset($response->RateReplyDetails)) {
                 $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
 
@@ -561,8 +585,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                 $rateTypeAmounts[$rateType] = $netAmount;
             }
 
-            // Order is important
-            foreach (array('RATED_ACCOUNT_SHIPMENT', 'RATED_LIST_SHIPMENT', 'RATED_LIST_PACKAGE') as $rateType) {
+            foreach ($this->_ratesOrder as $rateType) {
                 if (!empty($rateTypeAmounts[$rateType])) {
                     $amount = $rateTypeAmounts[$rateType];
                     break;
@@ -900,7 +923,11 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                 'ADULT' => __('Adult'),
                 'DIRECT' => __('Direct'),
                 'INDIRECT' => __('Indirect')
-            )
+            ),
+            'unit_of_measure' => array(
+                'LB'   =>  __('Pounds'),
+                'KG'   =>  __('Kilograms'),
+            ),
         );
 
         if (!isset($codes[$type])) {

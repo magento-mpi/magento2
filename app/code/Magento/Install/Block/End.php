@@ -8,8 +8,6 @@
 
 /**
  * Installation ending block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Install\Block;
 
@@ -21,7 +19,7 @@ class End extends \Magento\Install\Block\AbstractBlock
     protected $_template = 'end.phtml';
 
     /**
-     * @var \Magento\AdminNotification\Model\Survey
+     * @var \Magento\Install\Model\Survey
      */
     protected $_survey;
 
@@ -37,7 +35,7 @@ class End extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\AdminNotification\Model\Survey $survey
+     * @param \Magento\Install\Model\Survey $survey
      * @param string $cryptKey
      * @param array $data
      */
@@ -46,7 +44,7 @@ class End extends \Magento\Install\Block\AbstractBlock
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Framework\Session\Generic $session,
-        \Magento\AdminNotification\Model\Survey $survey,
+        \Magento\Install\Model\Survey $survey,
         $cryptKey,
         array $data = array()
     ) {

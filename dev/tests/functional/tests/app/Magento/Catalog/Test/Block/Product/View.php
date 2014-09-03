@@ -18,9 +18,26 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Class View
  * Product view block on the product page
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class View extends Block
 {
+    /**
+     * XPath selector for tab
+     *
+     * @var string
+     */
+    protected $tabSelector = './/div[@data-role="collapsible" and a[contains(text(),"%s")]]';
+
+    /**
+     * Custom options CSS selector
+     *
+     * @var string
+     */
+    protected $customOptionsSelector = '.product-options-wrapper';
+
     /**
      * 'Add to Cart' button
      *
@@ -54,7 +71,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productName = '.page-title.product span';
+    protected $productName = '.page-title.product h1.title .base';
 
     /**
      * Product sku element
@@ -127,6 +144,27 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
+     * Selector for price block
+     *
+     * @var string
+     */
+    protected $priceBlock = '//*[@class="product-info-main"]//*[contains(@class,"price-box")]';
+
+    /**
+     * 'Add to Compare' button
+     *
+     * @var string
+     */
+    protected $clickAddToCompare = '.action.tocompare';
+
+    /**
+     * "Add to Wishlist" button
+     *
+     * @var string
+     */
+    protected $addToWishlist = '[data-action="add-to-wishlist"]';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -145,8 +183,9 @@ class View extends Block
      */
     protected function getPriceBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find('.product-info-main .price-box')
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\Price',
+            ['element' => $this->_rootElement->find($this->priceBlock, Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -248,6 +287,19 @@ class View extends Block
     }
 
     /**
+     * This method returns the custom options block.
+     *
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
+     */
+    public function getCustomOptionsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\View\CustomOptions',
+            ['element' => $this->_rootElement->find($this->customOptionsSelector)]
+        );
+    }
+
+    /**
      * Return product price displayed on page
      *
      * @return array|string Returns arrays with keys corresponding to fixture keys
@@ -290,7 +342,7 @@ class View extends Block
      */
     public function getProductOptions()
     {
-        $options = array();
+        $options = [];
         for ($i = 2; $i <= 3; $i++) {
             $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child({$i})")->getText();
         }
@@ -342,14 +394,14 @@ class View extends Block
         }
         if ($configureSection->isVisible()) {
             $productOptions = $product->getProductOptions();
-            $this->getBundleBlock()->fillProductOptions($productOptions);
+            $this->getCustomOptionsBlock()->fillProductOptions($productOptions);
         }
     }
 
     /**
      * This method return array tier prices
      *
-     * @param int $lineNumber
+     * @param int $lineNumber [optional]
      * @return array
      */
     public function getTierPrices($lineNumber = 1)
@@ -368,7 +420,7 @@ class View extends Block
     public function clickCustomize()
     {
         $this->_rootElement->find($this->customizeButton)->click();
-
+        $this->waitForElementVisible($this->addToCart);
     }
 
     /**
@@ -429,6 +481,37 @@ class View extends Block
      */
     public function stockAvailability()
     {
-        return $this->_rootElement->find($this->stockAvailability)->getText();
+        return strtolower($this->_rootElement->find($this->stockAvailability)->getText());
+    }
+
+    /**
+     * Click "Add to Compare" button
+     *
+     * @return void
+     */
+    public function clickAddToCompare()
+    {
+        $this->_rootElement->find($this->clickAddToCompare, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Click "Add to Wishlist" button
+     *
+     * @return void
+     */
+    public function addToWishlist()
+    {
+        $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Select tab on the product page
+     *
+     * @param string $name
+     * @return void
+     */
+    public function selectTab($name)
+    {
+        $this->_rootElement->find(sprintf($this->tabSelector, $name), Locator::SELECTOR_XPATH)->click();
     }
 }

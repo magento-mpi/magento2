@@ -12,10 +12,12 @@
  */
 ?>
 <script type="text/javascript">
-//<![CDATA[
-    var rma = new AdminRma();
-//]]>
+    require(['prototype', 'Magento_Rma/rma'], function() {
+        window.rma = new AdminRma();
+    });
+    require(['Magento_Rma/details-validator']);
 </script>
+
 <div class="clearfix">
     <?php if ($this->getChildHtml('shipping_method')): ?>
     <div class="rma-request-details">

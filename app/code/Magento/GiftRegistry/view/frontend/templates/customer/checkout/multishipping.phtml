@@ -12,18 +12,26 @@
     <option value="${_value_}">${_text_}</option>
 </script>
 <script type="text/javascript">
+require(['jquery', "mage/mage"], function(jQuery){
+
     <?php $selectedGrAddressesIndexes = $this->getGiftregistrySelectedAddressesIndexes(); ?>
     <?php $selectedGrAddressesIndexesJson = '[' . implode(',', $selectedGrAddressesIndexes) . ']'; ?>
+    
     (function($) {
-        var registryItems = [];
-        <?php foreach ($this->getItems() as $itemId => $registryItem): ?>
-            registryItems.push({"item": <?php echo $itemId ?>, "address": <?php echo $registryItem['item_id'] ?>});
-        <?php endforeach ?>
-        $('#multiship-addresses-table').mage('addressOption', {
-            'registryItems': registryItems,
-            'addressItemPrefix': '<?php echo $this->getAddressIdPrefix(); ?>',
-            'selectedAddressIndices': <?php echo $selectedGrAddressesIndexesJson ?>
+        'use strict';
+        $(document).ready(function() {
+            var registryItems = [];
+            <?php foreach ($this->getItems() as $itemId => $registryItem): ?>
+                registryItems.push({"item": <?php echo $itemId ?>, "address": <?php echo $registryItem['item_id'] ?>});
+            <?php endforeach ?>
+            $('#multiship-addresses-table').mage('addressOption', {
+                'registryItems': registryItems,
+                'addressItemPrefix': '<?php echo $this->getAddressIdPrefix(); ?>',
+                'selectedAddressIndices': <?php echo $selectedGrAddressesIndexesJson ?>
+            });
         });
     })(jQuery);
+
+});
 </script>
 <?php endif; ?>

@@ -73,7 +73,8 @@ class Save extends \Magento\Framework\Object
         }
 
         foreach ($giftmessages as $entityId => $giftmessage) {
-            $this->_saveOne($entityId, $giftmessage);
+            $entityType = $this->getMappedType($giftmessage['type']);
+            $this->_saveOne($entityId, $giftmessage, $entityType);
         }
 
         return $this;
@@ -92,14 +93,17 @@ class Save extends \Magento\Framework\Object
      */
     public function saveAllInOrder()
     {
-        $giftmessages = $this->getGiftmessages();
+        $giftMessages = $this->getGiftmessages();
 
-        if (!is_array($giftmessages)) {
+        if (!is_array($giftMessages)) {
             return $this;
         }
 
-        foreach ($giftmessages as $entityId => $giftmessage) {
-            $this->_saveOne($entityId, $giftmessage);
+        // types are 'quote', 'quote_item', etc
+        foreach ($giftMessages as $type => $giftMessageEntities) {
+            foreach ($giftMessageEntities as $entityId => $giftmessage) {
+                $this->_saveOne($entityId, $giftmessage, $type);
+            }
         }
 
         return $this;
@@ -110,13 +114,13 @@ class Save extends \Magento\Framework\Object
      *
      * @param int $entityId
      * @param array $giftmessage
+     * @param string $entityType
      * @return $this
      */
-    protected function _saveOne($entityId, $giftmessage)
+    protected function _saveOne($entityId, $giftmessage, $entityType)
     {
         /* @var $giftmessageModel \Magento\GiftMessage\Model\Message */
         $giftmessageModel = $this->_messageFactory->create();
-        $entityType = $this->_getMappedType($giftmessage['type']);
 
         switch ($entityType) {
             case 'quote':
@@ -333,14 +337,18 @@ class Save extends \Magento\Framework\Object
      * @param string $type
      * @return string|null
      */
-    protected function _getMappedType($type)
+    protected function getMappedType($type)
     {
-        $map = array('main' => 'quote', 'item' => 'quote_item', 'order' => 'order', 'order_item' => 'order_item');
+        $map = [
+            'main' => 'quote',
+            'item' => 'quote_item',
+            'order' => 'order',
+            'order_item' => 'order_item'
+        ];
 
         if (isset($map[$type])) {
             return $map[$type];
         }
-
         return null;
     }
 

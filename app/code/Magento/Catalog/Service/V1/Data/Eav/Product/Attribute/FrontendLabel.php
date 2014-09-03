@@ -9,9 +9,11 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Product\Attribute;
 
 /**
  * Class FrontendLabel
+ *
  * @package Magento\Catalog\Service\V1\Data\Eav\Product\Attribute
+ * @codeCoverageIgnore
  */
-class FrontendLabel extends \Magento\Framework\Service\Data\AbstractObject
+class FrontendLabel extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**
      * Constants used as keys into $_data

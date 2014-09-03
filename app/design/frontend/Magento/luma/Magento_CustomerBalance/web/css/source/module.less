@@ -1,0 +1,50 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.block-balance {
+    .balance-price-label {
+        &:extend(.visually-hidden all);
+    }
+    .price {
+        .font-size(32);
+        line-height: 32px;
+        display: inline-block;
+        .css(margin-top, -@indent-s-base);
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .storecredit {
+        .block {
+            &:extend(.blocks-2columns all);
+        }
+        .block-balance-history {
+            width: 100%;
+        }
+    }
+    .table-balance-history {
+        .col {
+            width: 25%;
+        }
+    }
+    .table-wrapper.balance-history {
+        &:extend(.abstract-account-table-margin-desktop all);
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .table-wrapper.balance-history {
+        &:extend(.abstract-account-table-margin-mobile all);
+    }
+}

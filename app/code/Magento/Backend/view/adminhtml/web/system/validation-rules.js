@@ -6,7 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function ($) {
+define([
+	"jquery",
+	"jquery/validate"
+], function(jQuery){
+
     jQuery.validator.addMethod('required-synchronize', function(){
         storage = getConnectionName(
             jQuery('#system_media_storage_configuration_media_storage').val(),
@@ -14,4 +18,5 @@
         );
         return allowedStorages.include(storage);
     }, 'Synchronization is required.');
-})(jQuery);
+
+});

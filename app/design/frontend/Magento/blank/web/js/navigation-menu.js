@@ -6,9 +6,14 @@
  */
 /*jshint jquery:true*/
 
-(function($) {
+define([
+    "jquery",
+    "jquery/template",
+    "matchMedia",
+    "mage/dropdowns",
+    "mage/terms"
+],function($) {
     'use strict';
-
     $.widget('mage.navigationMenu', {
         options: {
             itemsContainer: '> ul',
@@ -292,7 +297,7 @@
             mainContainer: 'body',
             pageWrapper: '.page-wrapper',
             openedMenuClass: 'opened',
-            toggleActionPlaceholder: '.block.search',
+            toggleActionPlaceholder: '.block-search',
             itemWithSubmenu: 'li.parent',
             titleWithSubmenu: 'li.parent > a',
             submenu: 'li.parent > .submenu',
@@ -547,4 +552,4 @@
             }
         }
     });
-})(window.jQuery);
+});

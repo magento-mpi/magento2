@@ -1,0 +1,42 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.giftcard-account {
+    .please-wait {
+        display: none;
+    }
+    .form-giftcard-redeem {
+        .giftcard.info {
+            margin-bottom: @indent-l-base;
+        }
+        .fieldset {
+            &:extend(.abstract-forms-margin-small all);
+        }
+    }
+}
+
+.checkout-payment-giftcardaccount {
+    margin: 20px 0 0;
+    .price {
+        font-weight: @font-weight-bold;
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .form-giftcard-redeem {
+        &:extend(.abstract-forms-general-desktop all);
+    }
+    .block-balance-giftcard {
+        .block-content {
+            &:extend(.abstract-account-block-font-size all);
+        }
+    }
+}

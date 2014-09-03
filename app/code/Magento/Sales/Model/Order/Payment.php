@@ -339,6 +339,8 @@ class Payment extends \Magento\Payment\Model\Info
             } else {
                 $orderState = \Magento\Sales\Model\Order::STATE_PROCESSING;
                 $this->processAction($action, $order);
+                $orderState = $order->getState() ? $order->getState() : $orderState;
+                $orderStatus = $order->getStatus() ? $order->getStatus() : $orderStatus;
             }
         }
 
@@ -521,9 +523,10 @@ class Payment extends \Magento\Payment\Model\Info
      * TODO: eliminate logic duplication with capture()
      *
      * @param float $amount
+     * @param bool $skipFraudDetection
      * @return $this
      */
-    public function registerCaptureNotification($amount)
+    public function registerCaptureNotification($amount, $skipFraudDetection = false)
     {
         $this->_generateTransactionId(
             \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE,
@@ -541,7 +544,7 @@ class Payment extends \Magento\Payment\Model\Info
                 $order->addRelatedObject($invoice);
                 $this->setCreatedInvoice($invoice);
             } else {
-                $this->setIsFraudDetected(true);
+                $this->setIsFraudDetected(!$skipFraudDetection);
                 $this->_updateTotals(array('base_amount_paid_online' => $amount));
             }
         }
@@ -841,10 +844,10 @@ class Payment extends \Magento\Payment\Model\Info
             $amount = $amountRefundLeft;
         }
 
-        if ($amount <= 0) {
+        if ($amount != $baseGrandTotal) {
             $order->addStatusHistoryComment(
                 __(
-                    'IPN "Refunded". Refund issued by merchant. Registered notification about refunded amount of %1. Transaction ID: "%2"',
+                    'IPN "Refunded". Refund issued by merchant. Registered notification about refunded amount of %1. Transaction ID: "%2". Credit Memo has not been created. Please create offline Credit Memo.',
                     $this->_formatPrice($notificationAmount),
                     $this->getTransactionId()
                 ),
@@ -1051,7 +1054,6 @@ class Payment extends \Magento\Payment\Model\Info
                         $this,
                         $transactionId
                     );
-                } else {
                 }
                 if ($this->getIsTransactionApproved()) {
                     $result = true;
@@ -1073,9 +1075,16 @@ class Payment extends \Magento\Payment\Model\Info
         }
 
         // process payment in case of positive or negative result, or add a comment
-        if (-1 === $result) {
-            // switch won't work with such $result!
-            $order->addStatusHistoryComment($message);
+        if (-1 === $result) { // switch won't work with such $result!
+            if ($order->getState() != \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW) {
+                $status = $this->getIsFraudDetected() ? \Magento\Sales\Model\Order::STATUS_FRAUD : false;
+                $order->setState(\Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW, $status, $message);
+                if ($transactionId) {
+                    $this->setLastTransId($transactionId);
+                }
+            } else {
+                $order->addStatusHistoryComment($message);
+            }
         } elseif (true === $result) {
             if ($invoice) {
                 $invoice->pay();
@@ -1151,6 +1160,13 @@ class Payment extends \Magento\Payment\Model\Info
      */
     protected function _authorize($isOnline, $amount)
     {
+        // check for authorization amount to be equal to grand total
+        $this->setShouldCloseParentTransaction(false);
+        $isSameCurrency = $this->_isSameCurrency();
+        if (!$isSameCurrency || !$this->_isCaptureFinal($amount)) {
+            $this->setIsFraudDetected(true);
+        }
+
         // update totals
         $amount = $this->_formatAmount($amount, true);
         $this->setBaseAmountAuthorized($amount);
@@ -1171,11 +1187,19 @@ class Payment extends \Magento\Payment\Model\Info
                 $this->_formatPrice($amount)
             );
             $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
-            if ($this->getIsFraudDetected()) {
-                $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
-            }
         } else {
-            $message = __('Authorized amount of %1', $this->_formatPrice($amount));
+            if ($this->getIsFraudDetected()) {
+                $message = __(
+                    'Order is suspended as its authorizing amount %1 is suspected to be fraudulent.',
+                    $this->_formatPrice($amount, $this->getCurrencyCode())
+                );
+            } else {
+                $message = __('Authorized amount of %1', $this->_formatPrice($amount));
+            }
+        }
+        if ($this->getIsFraudDetected()) {
+            $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
+            $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
         }
 
         // update transactions, order state and add comments

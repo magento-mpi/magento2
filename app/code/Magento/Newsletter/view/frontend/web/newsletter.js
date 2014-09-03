@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/validation/validation"
+], function($){
+
     $.widget('mage.newsletter', {
         options: {
             errorClass: 'mage-error'
@@ -26,4 +31,4 @@
             }, this));
         }
     });
-})(jQuery);
+});

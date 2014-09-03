@@ -12,13 +12,46 @@
 
 .paypal {
     display: inline-block;
-    .minicart & {
+    vertical-align: top;
+    .block-minicart &,
+    .cart-summary & {
         display: block;
+    }
+    img {
+        display: block;
+        margin: 5px auto 0;
+    }
+    .opc & {
+        vertical-align: middle;
     }
 }
 
-.form.new.agreement {
-    .actions-toolbar {
-        &:extend(.reset-left-margin all);
+//
+//    Account
+//--------------------------------------
+.table-wrapper.billing-agreements {
+    margin-bottom: @indent-xl-base;
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .table-wrapper.billing-agreements,
+    .table-wrapper.billing-agreements-related {
+        &:extend(.abstract-account-table-border all);
+    }
+    .account {
+        .table-billing-agreements,
+        .table-billing-agreements-related {
+            .col.actions {
+                &:extend(.abstract-account-col-actions all);
+            }
+        }
+    }
+    .form-new-agreement {
+        select {
+            width: auto;
+        }
     }
 }

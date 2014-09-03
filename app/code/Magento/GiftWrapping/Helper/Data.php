@@ -7,6 +7,12 @@
  */
 namespace Magento\GiftWrapping\Helper;
 
+use Magento\GiftWrapping\Model\System\Config\Source\Display\Type as DisplayType;
+use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
+use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
+use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
+
 /**
  * Gift wrapping default helper
  *
@@ -50,6 +56,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_PRINTED_CARD_PRICE = 'sales/gift_options/printed_card_price';
 
     /**
+     * Constant for gift wrapping taxable item code
+     */
+    const TAXABLE_ITEM_CODE = 'giftwrapping_code';
+
+    /**
+     * Constant for type of taxable item
+     */
+    const TAXABLE_ITEM_TYPE = 'giftwrapping_type';
+
+    /**
      * Core store config
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -62,25 +78,50 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var \Magento\Tax\Model\Calculation
+     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
      */
-    protected $_taxCalculation;
+    protected $quoteDetailsBuilder;
+
+    /**
+     * @var \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder
+     */
+    protected $quoteDetailsItemBuilder;
+
+    /**
+     * @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface
+     */
+    protected $taxCalculationService;
+
+    /**
+     * @var \Magento\Customer\Model\Address\Converter
+     */
+    protected $addressConverter;
+
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param QuoteDetailsBuilder $quoteDetailsBuilder
+     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
+     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param AddressConverter $addressConverter
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Tax\Model\Calculation $taxCalculation
+        QuoteDetailsBuilder $quoteDetailsBuilder,
+        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
+        TaxCalculationServiceInterface $taxCalculationService,
+        AddressConverter $addressConverter
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
-        $this->_taxCalculation = $taxCalculation;
+        $this->quoteDetailsBuilder = $quoteDetailsBuilder;
+        $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
+        $this->taxCalculationService = $taxCalculationService;
+        $this->addressConverter = $addressConverter;
         parent::__construct($context);
     }
 
@@ -203,8 +244,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
-            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH ||
+            $configValue == DisplayType::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -220,7 +261,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $configValue == DisplayType::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -236,7 +277,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -252,8 +293,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
-            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH ||
+            $configValue == DisplayType::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -269,7 +310,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -285,8 +326,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
-            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH ||
+            $configValue == DisplayType::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -302,7 +343,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $configValue == DisplayType::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -318,7 +359,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -334,8 +375,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
-            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH ||
+            $configValue == DisplayType::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -351,7 +392,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
+        return $configValue == DisplayType::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -523,11 +564,46 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $store = $this->_storeManager->getStore($store);
         $taxClassId = $item->getTaxClassId();
         if ($taxClassId && $includeTax) {
-            $request = $this->_taxCalculation->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
-            $percent = $this->_taxCalculation->getRate($request->setProductClassId($taxClassId));
-            if ($percent) {
-                $price = $price * (1 + $percent / 100);
+            $shippingAddressDataObject = null;
+            if ($shippingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
+                $shippingAddressDataObject = $this->addressConverter->createAddressFromModel(
+                    $shippingAddress,
+                    null,
+                    null
+                );
             }
+
+            $billingAddressDataObject = null;
+            if ($billingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
+                $billingAddressDataObject = $this->addressConverter->createAddressFromModel(
+                    $billingAddress,
+                    null,
+                    null
+                );
+            }
+
+            $taxableItem = $this->quoteDetailsItemBuilder->setQuantity(1)
+                ->setCode(self::TAXABLE_ITEM_CODE)
+                ->setTaxClassId($taxClassId)
+                ->setTaxIncluded(false)
+                ->setType(self::TAXABLE_ITEM_TYPE)
+                ->setUnitPrice($price)
+                ->create();
+            $quoteDetails = $this->quoteDetailsBuilder
+                ->setShippingAddress($shippingAddressDataObject)
+                ->setBillingAddress($billingAddressDataObject)
+                ->setCustomerTaxClassId($ctc)
+                ->setItems([$taxableItem])
+                ->create();
+
+            $storeId = null;
+            if ($store) {
+                $storeId = $store->getId();
+            }
+            $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
+            $taxDetailsItems = $taxDetails->getItems();
+            $taxDetailsItem = array_pop($taxDetailsItems);
+            return $taxDetailsItem->getPriceInclTax();
         }
         return $store->roundPrice($price);
     }

@@ -29,8 +29,8 @@ class SalesRuleInjectable extends AbstractRepository
             'name' => 'Shopping Cart Price Rule with Specific Coupon %isolation%',
             'description' => 'Description for Cart Price Rule',
             'is_active' => 'Active',
-            'website_ids' => [1 => 'Main Website'],
-            'customer_group_ids' => [0 => 'NOT LOGGED IN'],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN'],
             'coupon_type' => 'Specific Coupon',
             'coupon_code' => '123-abc-ABC-987-%isolation%',
             'simple_action' => 'Percent of product price discount',
@@ -41,17 +41,24 @@ class SalesRuleInjectable extends AbstractRepository
             ],
         ];
 
+        $this->_data['active_sales_rule_for_retailer'] = [
+            'name' => 'Shopping Cart Price Rule %isolation%',
+            'description' => 'Description for Cart Price Rule',
+            'is_active' => 'Active',
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['Retailer'],
+            'coupon_type' => 'No Coupon',
+            'simple_action' => 'Percent of product price discount',
+            'discount_amount' => '50',
+            'stop_rules_processing' => 'Yes',
+        ];
+
         $this->_data['active_sales_rule_with_complex_conditions'] = [
             'name' => 'Shopping Cart Price Rule with with complex conditions %isolation%',
             'description' => 'Shopping Cart Price Rule with with complex conditions',
             'is_active' => 'Active',
-            'website_ids' => [1 => 'Main Website'],
-            'customer_group_ids' => [
-                0 => 'NOT LOGGED IN',
-                1 => 'General',
-                2 => 'Wholesale',
-                3 => 'Retailer',
-            ],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'],
             'coupon_type' => 'Specific Coupon',
             'coupon_code' => '123-abc-ABC-987-%isolation%',
             'uses_per_coupon' => '13',
@@ -79,8 +86,8 @@ class SalesRuleInjectable extends AbstractRepository
         $this->_data['inactive_sales_rule'] = [
             'name' => 'Inactive Cart Price Rule %isolation%',
             'is_active' => 'Inactive',
-            'website_ids' => [1 => 'Main Website'],
-            'customer_group_ids' => [0 => 'NOT LOGGED IN'],
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN'],
             'coupon_type' => 'No Coupon',
             'simple_action' => 'Percent of product price discount',
             'discount_amount' => '50'

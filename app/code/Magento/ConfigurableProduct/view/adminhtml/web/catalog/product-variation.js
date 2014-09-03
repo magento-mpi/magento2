@@ -4,7 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template",
+    "js/theme"
+], function($){
+
     $.widget('mage.variationsAttributes', {
         _create: function () {
             var widgetContainer = $(this.element);
@@ -93,4 +99,5 @@
             );
         }
     });
-})(jQuery);
+
+});

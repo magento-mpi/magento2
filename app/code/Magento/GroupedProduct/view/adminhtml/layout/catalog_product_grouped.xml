@@ -7,17 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="groupedproduct_popup_grid"/>
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Css" name="magento-grouped-product-css-grouped-product-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_GroupedProduct::css/grouped-product.css</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-grouped-product-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_GroupedProduct::js/grouped-product.js</argument>
             </arguments>
         </block>
     </referenceBlock>
@@ -43,4 +38,4 @@
             </arguments>
         </referenceBlock>
     </referenceBlock>
-</layout>
+</page>

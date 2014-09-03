@@ -36,12 +36,24 @@ class CustomerInjectable extends InjectableFixture
         'password_confirmation' => '123123q',
     ];
 
+    protected $address = [
+        'attribute_code' => 'address',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address'
+    ];
+
     protected $confirmation = [
         'attribute_code' => 'confirmation',
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+    ];
+
+    protected $id = [
+        'attribute_code' => 'id',
+        'backend_type' => 'virtual',
+        'group' => null,
     ];
 
     protected $created_at = [
@@ -129,6 +141,7 @@ class CustomerInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'select',
         'group' => 'account_information',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId'
     ];
 
     protected $lastname = [
@@ -218,6 +231,15 @@ class CustomerInjectable extends InjectableFixture
         'group' => 'account_information',
     ];
 
+    protected $amount_delta = [
+        'attribute_code' => 'amount_delta',
+        'backend_type' => 'static',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'store_credit',
+    ];
+
     protected $is_subscribed = [
         'attribute_code' => 'is_subscribed',
         'backend_type' => 'virtual',
@@ -226,12 +248,19 @@ class CustomerInjectable extends InjectableFixture
     protected $password = [
         'attribute_code' => 'password',
         'backend_type' => 'virtual',
+        'group' => null,
     ];
 
     protected $password_confirmation = [
         'attribute_code' => 'password_confirmation',
         'backend_type' => 'virtual',
+        'group' => null,
     ];
+
+    public function getAddress()
+    {
+        return $this->getData('address');
+    }
 
     public function getConfirmation()
     {
@@ -301,6 +330,11 @@ class CustomerInjectable extends InjectableFixture
     public function getPasswordHash()
     {
         return $this->getData('password_hash');
+    }
+
+    public function getAmountDelta()
+    {
+        return $this->getData('amount_delta');
     }
 
     public function getPrefix()

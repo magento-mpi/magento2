@@ -7,9 +7,12 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class TreeBuilder extends AbstractObjectBuilder
+/**
+ * @codeCoverageIgnore
+ */
+class TreeBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Set category ID
@@ -64,6 +67,17 @@ class TreeBuilder extends AbstractObjectBuilder
     public function setPosition($position)
     {
         return $this->_set(Tree::POSITION, $position);
+    }
+
+    /**
+     * Set product count
+     *
+     * @param int $productCount
+     * @return int
+     */
+    public function setProductCount($productCount)
+    {
+        return $this->_set(Tree::PRODUCT_COUNT, $productCount);
     }
 
     /**
