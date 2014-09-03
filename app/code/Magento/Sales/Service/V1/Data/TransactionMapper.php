@@ -19,7 +19,7 @@ class TransactionMapper
     private $transactionBuilderFactory;
 
     /**
-     * @var Transaction\AdditionalInformationBuilder|AbstractObjectBuilder
+     * @var Transaction\AdditionalInformationBuilder
      */
     private $additionalInfoBuilder;
 
