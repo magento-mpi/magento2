@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule2\Service\V1\Entity;
 
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * @param int $id

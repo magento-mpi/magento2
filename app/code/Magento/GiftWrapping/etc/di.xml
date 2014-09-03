@@ -8,6 +8,8 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\GiftWrapping\Service\V1\WrappingReadInterface" type="Magento\GiftWrapping\Service\V1\WrappingRead"/>
+    <preference for="Magento\GiftWrapping\Service\V1\WrappingWriteInterface" type="Magento\GiftWrapping\Service\V1\WrappingWrite"/>
     <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
