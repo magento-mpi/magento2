@@ -20,6 +20,11 @@ class WriteService implements WriteServiceInterface
     protected $quoteFactory;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -31,15 +36,18 @@ class WriteService implements WriteServiceInterface
 
     /**
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry
     ) {
         $this->quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->storeManager = $storeManager;
         $this->customerRegistry = $customerRegistry;
     }
@@ -68,10 +76,7 @@ class WriteService implements WriteServiceInterface
     public function assignCustomer($cartId, $customerId)
     {
         $storeId = $this->storeManager->getStore()->getId();
-        $quote = $this->quoteFactory->create()->load($cartId);
-        if ($quote->getId() != $cartId || $quote->getStoreId() != $storeId) {
-            throw new NoSuchEntityException('There is no cart with provided ID.');
-        }
+        $quote = $this->quoteRepository->get($cartId);
         $customer = $this->customerRegistry->retrieve($customerId);
         if (!in_array($storeId, $customer->getSharedStoreIds())) {
             throw new StateException('Cannot assign customer to the given cart. The cart belongs to different store.');

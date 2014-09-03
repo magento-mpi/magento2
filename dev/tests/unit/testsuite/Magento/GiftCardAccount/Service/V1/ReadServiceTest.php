@@ -21,17 +21,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $quoteLoaderMock;
+    protected $quoteRepositoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $giftCardBuilderMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $storeManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -52,10 +47,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->quoteLoaderMock = $this->getMock('\Magento\Checkout\Service\V1\QuoteLoader', [], [], '', false);
+        $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->giftCardBuilderMock =
             $this->getMock('Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccountBuilder', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->giftCardHelperMock = $this->getMock('\Magento\GiftCardAccount\Helper\Data', [], [], '', false);
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote',
@@ -75,9 +69,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->service = $objectManager->getObject(
             'Magento\GiftCardAccount\Service\V1\ReadService',
             [
-                'quoteLoader' => $this->quoteLoaderMock,
+                'quoteRepository' => $this->quoteRepositoryMock,
                 'giftCardBuilder' => $this->giftCardBuilderMock,
-                'storeManager' => $this->storeManagerMock,
                 'giftCardHelper' => $this->giftCardHelperMock
             ]
         );
@@ -86,14 +79,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetList()
     {
         $cartId= 12;
-        $storeId = 34;
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock
+        $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
+            ->method('get')
+            ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->giftCardHelperMock
             ->expects($this->once())
@@ -124,4 +114,3 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Expected Value', $this->service->getList($cartId));
     }
 }
- 
