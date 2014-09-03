@@ -14,21 +14,29 @@ use Magento\Module\Setup;
 class AdminAccount
 {
     /**
-     * @var Seyup
+     * Setup
+     *
+     * @var Setup
      */
     protected $setup;
 
     /**
+     * Configurations
+     *
      * @var []
      */
     protected $config;
 
     /**
+     * Random Generator
+     *
      * @var \Magento\Framework\Math\Random
      */
     protected $random;
 
     /**
+     * Default Constructor
+     *
      * @param Setup $setup
      * @param Random $random
      * @param array $config

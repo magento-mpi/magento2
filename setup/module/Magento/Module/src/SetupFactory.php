@@ -14,31 +14,43 @@ use Magento\Setup\Model\Logger;
 class SetupFactory
 {
     /**
+     * Adapter
+     *
      * @var AdapterInterface
      */
     protected $adapter;
 
     /**
+     * List of all Modules
+     *
      * @var ModuleListInterface
      */
     protected $moduleList;
 
     /**
+     * File Resolver
+     *
      * @var Setup\FileResolver
      */
     protected $fileResolver;
 
     /**
+     * Configurations
+     *
      * @var array
      */
     protected $configuration = [];
 
     /**
+     * Logger
+     *
      * @var Logger
      */
     protected $logger;
 
     /**
+     * Default Constructor
+     *
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
      * @param Setup\FileResolver $setupFileResolver
@@ -57,6 +69,8 @@ class SetupFactory
     }
 
     /**
+     * Sets Configuration
+     *
      * @param array $config
      */
     public function setConfig(array $config)
@@ -65,6 +79,8 @@ class SetupFactory
     }
 
     /**
+     * Create Setup
+     *
      * @param string $moduleName
      * @return Setup
      */

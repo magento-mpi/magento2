@@ -33,16 +33,22 @@ class Config
     protected $configData = array();
 
     /**
+     * Filesystem
+     *
      * @var Filesystem
      */
     protected $filesystem;
 
     /**
+     * Config Directory
+     *
      * @var Write
      */
     protected $configDirectory;
 
     /**
+     * Default Constructor
+     *
      * @param Filesystem $filesystem
      */
     public function __construct(
@@ -53,6 +59,8 @@ class Config
     }
 
     /**
+     * Sets Configuration Data
+     *
      * @param array $data
      * @return $this
      */
@@ -65,14 +73,14 @@ class Config
     }
 
     /**
+     * Add Configuration Data
+     *
      * @param array $data
-     * @return $this
      */
     public function addConfigData(array $data)
     {
         $this->configData = array_merge($this->configData, $data);
     }
-
 
     /**
      * Retrieve config data
@@ -107,6 +115,7 @@ class Config
 
     /**
      * Loads Configuration from Local Config File
+     * @return $this
      */
     public function loadFromConfigFile()
     {
@@ -120,43 +129,52 @@ class Config
 
     /**
      * Convert config
+     *
      * @param array $source
      * @return array
      */
-    protected function convertFromConfigData(array $source = array())
+    protected function convertFromConfigData(array $source = [])
     {
         $result = array();
-        $result['db_host'] = isset($source['connection']['host']) && !is_array($source['connection']['host'])
-            ? $source['connection']['host'] : '';
-        $result['db_name'] = isset($source['connection']['dbName']) && !is_array($source['connection']['dbName'])
-            ? $source['connection']['dbName'] : '';
-        $result['db_user'] = isset($source['connection']['username']) && !is_array($source['connection']['username'])
-            ? $source['connection']['username'] :'';
-        $result['db_pass'] = isset($source['connection']['password']) && !is_array($source['connection']['password'])
-            ? $source['connection']['password'] : '';
-        $result['db_prefix'] = isset($source['db']['table_prefix']) && !is_array($source['db']['table_prefix'])
-            ? $source['db']['table_prefix'] : '';
-        $result['session_save'] = isset($source['session_save']) && !is_array($source['session_save'])
-            ? $source['session_save'] : 'files';
-        $result['backend_frontname'] = isset($source['config']['address']['admin']) &&
-            !is_array($source['config']['address']['admin'])
-            ? $source['config']['address']['admin']
-            : '';
-        $result['db_model'] = '';
-        $result['db_init_statements'] = isset($source['connection']['initStatements'])
-            && !is_array($source['connection']['initStatements']) ? $source['connection']['initStatements'] : '';
-
-        $result['admin_username'] = isset($source['admin']['username']) && !is_array($source['admin']['username'])
-            ? $source['admin']['username'] : '';
-        $result['admin_password'] = isset($source['admin']['password']) && !is_array($source['admin']['password'])
-            ? $source['admin']['password'] : '';
-        $result['admin_email'] = isset($source['admin']['email']) && !is_array($source['admin']['email'])
-            ? $source['admin']['email'] : '';
-
+        if (isset($source['connection']['host']) && !is_array($source['connection']['host'])) {
+            $result['db_host'] = $source['connection']['host'];
+        }
+        if (isset($source['connection']['dbName']) && !is_array($source['connection']['dbName'])) {
+            $result['db_name'] = $source['connection']['dbName'];
+        }
+        if (isset($source['connection']['username']) && !is_array($source['connection']['username'])) {
+            $result['db_user'] = $source['connection']['username'];
+        }
+        if (isset($source['connection']['password']) && !is_array($source['connection']['password'])) {
+            $result['db_pass'] = $source['connection']['password'];
+        }
+        if (isset($source['db']['table_prefix']) && !is_array($source['db']['table_prefix'])) {
+            $result['db_prefix'] = $source['db']['table_prefix'];
+        }
+        if (isset($source['session_save']) && !is_array($source['session_save'])) {
+            $result['session_save'] = $source['session_save'];
+        }
+        if (isset($source['config']['address']['admin']) && !is_array($source['config']['address']['admin'])) {
+            $result['backend_frontname'] = $source['config']['address']['admin'];
+        }
+        if (isset($source['connection']['initStatements']) && !is_array($source['connection']['initStatements']) ) {
+            $result['db_init_statements'] = $source['connection']['initStatements'];
+        }
+        if (isset($source['admin']['username']) && !is_array($source['admin']['username'])) {
+            $result['admin_username'] = $source['admin']['username'];
+        }
+        if (isset($source['admin']['password']) && !is_array($source['admin']['password']) ) {
+            $result['admin_password'] = $source['admin']['password'];
+        }
+        if (isset($source['admin']['email']) && !is_array($source['admin']['email']) ) {
+            $result['admin_email'] = $source['admin']['email'];
+        }
         return $result;
     }
 
     /**
+     * Replace Install Date
+     *
      * @param string $date
      * @return $this
      */
@@ -171,6 +189,8 @@ class Config
     }
 
     /**
+     * Replace Encryption Key
+     *
      * @param string $key
      * @return $this
      */
@@ -185,6 +205,7 @@ class Config
 
     /**
      * Convert config
+     *
      * @param array $source
      * @return array
      */
@@ -206,13 +227,13 @@ class Config
         $result['admin_username'] = isset($source['admin']['username']) ? $source['admin']['username'] : '';
         $result['admin_password'] = isset($source['admin']['password']) ? $source['admin']['password'] : '';
         $result['admin_email'] = isset($source['admin']['email']) ? $source['admin']['email'] : '';
-
         return $result;
     }
 
     /**
      * Check database connection data
      *
+     * @return void
      * @throws \Exception
      */
     protected function checkData()
@@ -228,7 +249,8 @@ class Config
         if ($this->configData['db_prefix'] != '') {
             if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $this->configData['db_prefix'])) {
                 throw new \Exception(
-                    'The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); the first character should be a letter.'
+                    'The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); '.
+                    'the first character should be a letter.'
                 );
             }
         }

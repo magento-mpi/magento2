@@ -46,6 +46,8 @@ class Synchronizer
     );
 
     /**
+     * Default Constructor
+     *
      * @param \Magento\Framework\Module\Setup|\Magento\Module\Updater\SetupInterface $installer
      */
     public function __construct(
@@ -109,7 +111,6 @@ class Synchronizer
                     }
                 } else {
                     $columnInfo = $adapter->getColumnCreateByDescribe($definition);
-
                     $adapter->addColumn($targetTable, $field, $columnInfo);
                     $targetFields[$field] = $definition;
                 }

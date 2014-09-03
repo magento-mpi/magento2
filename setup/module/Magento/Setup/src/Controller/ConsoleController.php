@@ -198,6 +198,7 @@ class ConsoleController extends AbstractActionController
             $this->factoryConfig->setMagentoBasePath();
         }
 
+        $this->config->setConfigData([]);
         $this->config->loadFromConfigFile();
         $this->setupFactory->setConfig($this->config->getConfigData());
 
@@ -317,6 +318,8 @@ class ConsoleController extends AbstractActionController
             ),
         );
 
+
+        $this->config->setConfigData($data);
         $this->config->loadFromConfigFile();
         $this->setupFactory->setConfig($this->config->getConfigData());
 
@@ -325,7 +328,6 @@ class ConsoleController extends AbstractActionController
             $setup = $this->setupFactory->create($moduleName);
         }
 
-        //$this->config->addConfigData($data);
         $setup->addConfigData(
             'web/seo/use_rewrites',
             isset($data['config']['rewrites']['allowed']) ? $data['config']['rewrites']['allowed'] : 0

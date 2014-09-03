@@ -57,6 +57,8 @@ class Setup implements SetupInterface
     protected $setupCache = array();
 
     /**
+     * Resource
+     *
      * @var ResourceInterface
      */
     protected $resource;
@@ -74,21 +76,27 @@ class Setup implements SetupInterface
     protected $setupFileResolver;
 
     /**
+     * Logger
+     *
      * @var Logger
      */
     protected $logger;
 
     /**
+     * Table Prefix
+     *
      * @var string
      */
     protected $tablePrefix;
 
     /**
+     * Default Constructor
+     *
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
      * @param SetupFileResolver $setupFileResolver
      * @param Logger $logger
-     * @param $moduleName
+     * @param String $moduleName
      * @param array $connectionConfig
      */
     public function __construct(
@@ -204,19 +212,18 @@ class Setup implements SetupInterface
             $status = version_compare($configVer, $dbVer);
             switch ($status) {
                 case self::VERSION_COMPARE_LOWER:
-                    $this->_rollbackResourceDb($configVer, $dbVer);
+                    $this->rollbackResourceDb($configVer, $dbVer);
                     break;
                 case self::VERSION_COMPARE_GREATER:
-                    $this->_upgradeResourceDb($dbVer, $configVer);
+                    $this->upgradeResourceDb($dbVer, $configVer);
                     break;
                 default:
                     return true;
                     break;
             }
         } elseif ($configVer) {
-            $this->_installResourceDb($configVer);
+            $this->installResourceDb($configVer);
         }
-
         return $this;
     }
 
@@ -227,8 +234,7 @@ class Setup implements SetupInterface
      */
     public function applyRecurringUpdates()
     {
-        $this->_modifyResourceDb(self::TYPE_DB_RECURRING, '', '');
-
+        $this->modifyResourceDb(self::TYPE_DB_RECURRING, '', '');
         return $this;
     }
 
@@ -238,10 +244,10 @@ class Setup implements SetupInterface
      * @param string $newVersion
      * @return $this
      */
-    protected function _installResourceDb($newVersion)
+    protected function installResourceDb($newVersion)
     {
-        $oldVersion = $this->_modifyResourceDb(self::TYPE_DB_INSTALL, '', $newVersion);
-        $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
+        $oldVersion = $this->modifyResourceDb(self::TYPE_DB_INSTALL, '', $newVersion);
+        $this->modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
         $this->resource->setDbVersion($this->resourceName, $newVersion);
 
         return $this;
@@ -254,9 +260,9 @@ class Setup implements SetupInterface
      * @param string $newVersion
      * @return $this
      */
-    protected function _upgradeResourceDb($oldVersion, $newVersion)
+    protected function upgradeResourceDb($oldVersion, $newVersion)
     {
-        $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
+        $this->modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
         $this->resource->setDbVersion($this->resourceName, $newVersion);
 
         return $this;
@@ -269,9 +275,9 @@ class Setup implements SetupInterface
      * @param string $oldVersion
      * @return $this
      */
-    protected function _rollbackResourceDb($newVersion, $oldVersion)
+    protected function rollbackResourceDb($newVersion, $oldVersion)
     {
-        $this->_modifyResourceDb(self::TYPE_DB_ROLLBACK, $newVersion, $oldVersion);
+        $this->modifyResourceDb(self::TYPE_DB_ROLLBACK, $newVersion, $oldVersion);
         return $this;
     }
 
@@ -281,9 +287,9 @@ class Setup implements SetupInterface
      * @param string $version existing resource version
      * @return $this
      */
-    protected function _uninstallResourceDb($version)
+    protected function uninstallResourceDb($version)
     {
-        $this->_modifyResourceDb(self::TYPE_DB_UNINSTALL, $version, '');
+        $this->modifyResourceDb(self::TYPE_DB_UNINSTALL, $version, '');
         return $this;
     }
 
@@ -295,7 +301,7 @@ class Setup implements SetupInterface
      * @param string $toVersion
      * @return array
      */
-    protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
+    protected function getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
         $modName = (string)$this->moduleConfig['name'];
 
@@ -320,7 +326,7 @@ class Setup implements SetupInterface
             $dbFiles[$version] = $file;
         }
 
-        return $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $dbFiles);
+        return $this->getModifySqlFiles($actionType, $fromVersion, $toVersion, $dbFiles);
     }
 
     /**
@@ -328,7 +334,7 @@ class Setup implements SetupInterface
      *
      * @return array
      */
-    protected function _getAvailableRecurringFiles()
+    protected function getAvailableRecurringFiles()
     {
         $modName = (string)$this->moduleConfig['name'];
 
@@ -358,7 +364,7 @@ class Setup implements SetupInterface
      * @param string $version
      * @return $this
      */
-    protected function _setResourceVersion($actionType, $version)
+    protected function setResourceVersion($actionType, $version)
     {
         switch ($actionType) {
             case self::TYPE_DB_INSTALL:
@@ -382,15 +388,15 @@ class Setup implements SetupInterface
      * @return false|string
      * @throws \Exception
      */
-    protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
+    protected function modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
         switch ($actionType) {
             case self::TYPE_DB_INSTALL:
             case self::TYPE_DB_UPGRADE:
-                $files = $this->_getAvailableDbFiles($actionType, $fromVersion, $toVersion);
+                $files = $this->getAvailableDbFiles($actionType, $fromVersion, $toVersion);
                 break;
             case self::TYPE_DB_RECURRING:
-                $files = $this->_getAvailableRecurringFiles();
+                $files = $this->getAvailableRecurringFiles();
                 break;
             case self::TYPE_DATA_INSTALL:
             case self::TYPE_DATA_UPGRADE:
@@ -404,14 +410,13 @@ class Setup implements SetupInterface
         }
 
         $version = false;
-
         foreach ($files as $file) {
             $fileName = $file['fileName'];
             $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
             try {
                 switch ($fileType) {
                     case 'php':
-                        $result = $this->_includeFile($fileName);
+                        $result = $this->includeFile($fileName);
                         break;
                     default:
                         $result = false;
@@ -419,7 +424,7 @@ class Setup implements SetupInterface
                 }
 
                 if ($result) {
-                    $this->_setResourceVersion($actionType, $file['toVersion']);
+                    $this->setResourceVersion($actionType, $file['toVersion']);
                     //@todo log
                 } else {
                     //@todo log "Failed resource setup: {$fileName}";
@@ -442,7 +447,7 @@ class Setup implements SetupInterface
      * @param string $fileName
      * @return mixed
      */
-    protected function _includeFile($fileName)
+    protected function includeFile($fileName)
     {
         return include $fileName;
     }
@@ -456,7 +461,7 @@ class Setup implements SetupInterface
      * @param array $arrFiles
      * @return array
      */
-    protected function _getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrFiles)
+    protected function getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrFiles)
     {
         $arrRes = [];
         switch ($actionType) {
