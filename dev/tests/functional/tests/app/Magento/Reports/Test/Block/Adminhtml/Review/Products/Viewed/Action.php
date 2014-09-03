@@ -31,6 +31,6 @@ class Action extends GridPageActions
      */
     public function showReport()
     {
-        $this->_rootElement->find($this->showReportButton, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->showReportButton)->click();
     }
 }

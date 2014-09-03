@@ -17,11 +17,18 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class ProductGrid extends Grid
 {
     /**
-     * Total results locator
+     * Product in grid locator
      *
      * @var string
      */
-    protected $totalResults = './/tr[td[contains(.,"%s")] and td[contains(.,"%d")]]/td[contains(@class,"col-qty")]';
+    protected $product = './/*[contains(.,"%s") and *[contains(@class,"price") and contains(.,"%d")]]';
+
+    /**
+     * Count product views
+     *
+     * @var string
+     */
+    protected $productView = '/*[contains(@class,"qty")]';
 
     /**
      * Get total Results from New Accounts Report grid
@@ -34,7 +41,8 @@ class ProductGrid extends Grid
         $views = [];
         foreach ($products as $product) {
             $views[] = $this->_rootElement
-                ->find(sprintf($this->totalResults, $product->getName(), $product->getPrice()))->getText();
+                ->find(sprintf($this->product . $this->productView, $product->getName(), $product->getPrice()))
+                ->getText();
         }
         return $views;
     }

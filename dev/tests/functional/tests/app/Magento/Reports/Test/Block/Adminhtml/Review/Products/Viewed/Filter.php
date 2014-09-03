@@ -23,7 +23,7 @@ class Filter extends Form
      *
      * @var string
      */
-    protected $filter = '[name=%s]';
+    protected $filter = '[name="%s"]';
 
     /**
      * Mapping for fields in Account Report Grid
@@ -47,8 +47,7 @@ class Filter extends Form
     {
         $viewsReport = $this->prepareData($viewsReport);
         foreach ($viewsReport as $name => $value) {
-            $this->_rootElement
-                ->find(sprintf($this->filter, $name), Locator::SELECTOR_CSS, $this->dataMapping[$name])
+            $this->_rootElement->find(sprintf($this->filter, $name), Locator::SELECTOR_CSS, $this->dataMapping[$name])
                 ->setValue($value);
         }
     }
