@@ -15,8 +15,9 @@
             </arguments>
         </block>
     </referenceBlock>
+    
     <referenceContainer name="content">
         <!-- <block class="Magento\Cms\Block\Adminhtml\Page" name="cms_page"/> -->
-        <block class="Magento\Framework\View\Element\Template" template="Magento_Cms::listing.phtml"></block>
+        <block class="Magento\Framework\View\Element\Template" template="Magento_Cms::listing-new.phtml"></block>
     </referenceContainer>
 </page>

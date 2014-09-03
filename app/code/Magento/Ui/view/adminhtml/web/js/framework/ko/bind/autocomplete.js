@@ -3,15 +3,15 @@ define([
     '_',
     'jquery',
     'jquery/autocomplete/jquery.autocomplete'
-], function (ko, _, $, Autocomplete) {
+], function(ko, _, $, Autocomplete) {
 
     ko.bindingHandlers.autocomplete = {
-        init: function (el, valueAccessor) {
+        init: function(el, valueAccessor) {
             var options = extractOptionsFrom(valueAccessor);
 
             var storage = options.storage;
             if (ko.isObservable(storage)) {
-                options.onSelect = function (newValue) {
+                options.onSelect = function(newValue) {
                     storage(newValue);
                 };
             }
@@ -20,10 +20,12 @@ define([
 
             var source = options.source;
             if (ko.isObservable(source)) {
-                source.subscribe(function (newData) {
-                    autocomplete.setOptions({ 'lookup': newData });
+                source.subscribe(function(newData) {
+                    autocomplete.setOptions({
+                        'lookup': newData
+                    });
                     if (newData.length) {
-                        $(el).focus();                        
+                        $(el).focus();
                     }
                 });
             }

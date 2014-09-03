@@ -1,8 +1,8 @@
-define(['ko'], function (ko) {
+define(['ko'], function(ko) {
 
-  return {
-    bind: function (el, model) {
-      ko.applyBindings(model, el);
+    return {
+        bind: function(el, model) {
+            ko.applyBindings(model, el);
+        }
     }
-  }
 });

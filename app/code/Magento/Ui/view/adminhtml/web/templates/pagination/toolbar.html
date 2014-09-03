@@ -2,7 +2,7 @@
     <span class="pages-total-found">Total <strong data-bind="text: meta.items"></strong> records</span>
     <label class="view-pages">
         View
-        <select data-bind="options: sizes, value: paging.pageSize"></select>
+        <select data-bind="options: sizes, value: paging.pageSize, on: { change: 'reload'}"></select>
         per page.
     </label>
 </span>
