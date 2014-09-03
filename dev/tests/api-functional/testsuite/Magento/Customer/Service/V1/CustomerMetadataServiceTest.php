@@ -134,7 +134,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $this->assertCount(23, $attributeMetadata);
 
-        $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][1];
+        $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][0];
         $validationResult = $this->checkMultipleAttributesValidationRules($firstName, $attributeMetadata);
         list($firstName, $attributeMetadata) = $validationResult;
         $this->assertContains($firstName, $attributeMetadata);
@@ -357,17 +357,12 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             [
                 CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 'adminhtml_customer',
-                $attributeMetadata[Customer::FIRSTNAME][2]
+                $attributeMetadata[Customer::FIRSTNAME][1]
             ],
             [
                 CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 'adminhtml_customer',
-                $attributeMetadata[Customer::GENDER][2]
-            ],
-            [
-                CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
-                'adminhtml_customer_address',
-                $attributeMetadata[Address::KEY_POSTCODE][2]
+                $attributeMetadata[Customer::GENDER][1]
             ]
         ];
     }
@@ -426,19 +421,13 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 0, //Default Attribute Set
                 1, //Default Store View. To test Admin - set to 0
-                $attributeMetadata[Customer::FIRSTNAME][2]
+                $attributeMetadata[Customer::FIRSTNAME][1]
             ],
             [
                 CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 0, //Default Attribute Set
                 1, //Default Store View. To test Admin - set to 0
-                $attributeMetadata[Customer::GENDER][2]
-            ],
-            [
-                CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
-                0, //Default Attribute Set
-                1, //Default Store View. To test Admin - set to 0
-                $attributeMetadata[Address::KEY_POSTCODE][2]
+                $attributeMetadata[Customer::GENDER][1]
             ]
         ];
     }
