@@ -10,13 +10,13 @@ define([
 
 
         registry
-        .set(
-            namespace + ':storage',
-            listing.storage
-        )
-        .set(
-            namespace + ':listing',
-            listing
-        );
+            .set(
+                namespace + ':storage',
+                listing.storage
+            )
+            .set(
+                namespace + ':listing',
+                listing
+            );
     }
 });

@@ -1,10 +1,17 @@
-define(['ko', './observable_source', 'Magento_Ui/js/framework/renderer', 'm2/m2'], function (ko, Source, Renderer, M2) {
+define([
+    'ko',
+    './observable_source',
+    'Magento_Ui/js/framework/renderer',
+    'm2/m2'
+], function (ko, SourceFactory, Renderer, M2) {
+    'use strict';
 
     var sources = {};
 
     var CustomTemplateEngine = function() {};
+    var NativeTemplateEngine = ko.nativeTemplateEngine;
 
-    CustomTemplateEngine.prototype = new ko.nativeTemplateEngine();
+    CustomTemplateEngine.prototype = new NativeTemplateEngine;
     CustomTemplateEngine.prototype.constructor = CustomTemplateEngine;
 
     CustomTemplateEngine.prototype.makeTemplateSource = function(template) {
@@ -14,7 +21,7 @@ define(['ko', './observable_source', 'Magento_Ui/js/framework/renderer', 'm2/m2'
             source = sources[template];
 
             if (!source) {
-                source = new Source(template);
+                source = SourceFactory.create(template);
                 sources[template] = source;
 
                 Renderer.render(template).done(function (rendered) {
