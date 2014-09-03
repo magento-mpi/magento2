@@ -34,7 +34,7 @@ use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
  * @group Customer_Groups_(CS), Customers_(CS)
  * @ZephyrId MAGETWO-27892
  */
-class CreationForMassAssignCustomerGroupTest extends Injectable
+class MassAssignCustomerGroupTest extends Injectable
 {
     /**
      * Customer index page
@@ -42,6 +42,13 @@ class CreationForMassAssignCustomerGroupTest extends Injectable
      * @var CustomerIndex
      */
     protected $customerIndex;
+
+    /**
+     * Customers grid actions
+     *
+     * @var string
+     */
+    protected $customersGridActions = 'Assign a Customer Group';
 
     /**
      * Prepare data
@@ -56,19 +63,32 @@ class CreationForMassAssignCustomerGroupTest extends Injectable
         return ['customer' => $customer];
     }
 
+    /**
+     * Injection data
+     *
+     * @param CustomerIndex $customerIndex
+     * @return void
+     */
     public function __inject(CustomerIndex $customerIndex)
     {
         $this->customerIndex = $customerIndex;
     }
 
-    public function test(CustomerInjectable $customer, CustomerGroupInjectable $customerGroup, $customersGridActions)
+    /**
+     * Mass assign customer group
+     *
+     * @param CustomerInjectable $customer
+     * @param CustomerGroupInjectable $customerGroup
+     * @return void
+     */
+    public function test(CustomerInjectable $customer, CustomerGroupInjectable $customerGroup)
     {
         // Steps
         $customerGroup->persist();
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->massaction(
             [['email' => $customer->getEmail()]],
-            [$customersGridActions => $customerGroup->getCustomerGroupCode()]
+            [$this->customersGridActions => $customerGroup->getCustomerGroupCode()]
         );
     }
 }
