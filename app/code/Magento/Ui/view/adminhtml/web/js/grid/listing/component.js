@@ -1,18 +1,22 @@
 define([
     './listing',
-    'Magento_Ui/js/framework/ko/view',
     'Magento_Ui/js/registry/registry'
-], function(Listing, View, registry) {
+], function(Listing, registry) {
     'use strict';
 
     return function(el, config, initial) {
-        var listing = new Listing(config, initial);
+        var listing = new Listing(config, initial),
+            namespace = config.namespace;
 
-        registry.set(
-            config.namespace + ':storage',
+
+        registry
+        .set(
+            namespace + ':storage',
             listing.storage
+        )
+        .set(
+            namespace + ':listing',
+            listing
         );
-
-        View.bind(el, listing);
     }
 });

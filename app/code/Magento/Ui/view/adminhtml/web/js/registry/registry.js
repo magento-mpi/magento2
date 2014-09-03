@@ -37,6 +37,8 @@ define([
                     set( elems[i], value )
                 }
             }
+
+            return this;
         },
 
         remove: function( elems ){

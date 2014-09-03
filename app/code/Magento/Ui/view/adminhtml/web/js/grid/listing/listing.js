@@ -37,7 +37,7 @@ define([
 
             this.storage
                 .setResult( initial )
-                .on( 'reload', this.onReload.bind(this) );
+                .on( 'load', this.onReload.bind(this) );
 
             return this;
         },

@@ -1,18 +1,18 @@
 define([
     './paging',
-    'Magento_Ui/js/framework/ko/view',
     'Magento_Ui/js/registry/registry'
-], function(Paging, View, registry) {
+], function(Paging, registry) {
     'use strict';
     
     return function(el, config, initial) {
-        
-        registry.get(config.namespace + ':storage', function(storage){
+        var namespace = config.namespace;
+
+        registry.get( namespace + ':storage', function( storage ){
             config.storage = storage;
 
             var paging = new Paging(config, initial);
 
-            View.bind(el, paging); 
+            registry.set( namespace + ':paging', paging );
         });
     }
 });

@@ -66,7 +66,7 @@ define([
 
         onRead: function( result ){
             this.setResult( result )
-                .trigger('load');
+                .trigger( 'load', result );
         }
     });
 });
