@@ -176,6 +176,7 @@ class Create extends Block
      * Add products to order
      *
      * @param Order $fixture
+     * @return void
      */
     public function addProducts(Order $fixture)
     {
