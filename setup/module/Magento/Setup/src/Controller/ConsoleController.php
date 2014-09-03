@@ -19,6 +19,7 @@ use Magento\Setup\Helper\Helper;
 use Magento\Setup\Model\DatabaseCheck;
 use Magento\Setup\Model\FilePermissions;
 use Zend\Mvc\Controller\AbstractActionController;
+use Magento\Setup\Model\AdminAccountFactory;
 
 class ConsoleController extends AbstractActionController
 {
@@ -53,6 +54,11 @@ class ConsoleController extends AbstractActionController
     protected $random;
 
     /**
+     * @var AdminAccountFactory
+     */
+    protected $adminAccountFactory;
+
+    /**
      * @param \Magento\Setup\Model\FilePermissions $filePermission
      * @param \Magento\Locale\Lists $list
      * @param ConfigFactory $configFactory
@@ -60,6 +66,7 @@ class ConsoleController extends AbstractActionController
      * @param Config $config
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
+     * @param AdminAccountFactory $adminAccountFactory
      */
     public function __construct(
         FilePermissions $filePermission,
@@ -68,7 +75,8 @@ class ConsoleController extends AbstractActionController
         Random $random,
         Config $config,
         ModuleListInterface $moduleList,
-        SetupFactory $setupFactory
+        SetupFactory $setupFactory,
+        AdminAccountFactory $adminAccountFactory
     ) {
         $this->filePermission = $filePermission;
         $this->list = $list;
@@ -78,6 +86,7 @@ class ConsoleController extends AbstractActionController
         $this->config = $config;
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList->getModules();
+        $this->adminAccountFactory = $adminAccountFactory;
     }
 
     /**
@@ -147,8 +156,84 @@ class ConsoleController extends AbstractActionController
             throw new \Exception('Database connection failure.');
         }
 
-        $storeUrl   = $request->getParam('store_url');
         $adminUrl   = $request->getParam('admin_url');
+
+        $data = array(
+            'db' => array(
+                'useExistingDB' => 1,
+                'useAccess' => 1,
+                'user' => $dbUser,
+                'password' => $dbPass,
+                'host' => $dbHost,
+                'name' => $dbName,
+                'tablePrefix' => $dbPrefix,
+            ),
+            'config' => array(
+                'address' => array(
+                    'admin' => $adminUrl,
+                )
+            ),
+        );
+
+        $this->config->setConfigData($data);
+        $this->config->install();
+
+        return  "Completed: Deployment Configuration." . PHP_EOL;
+    }
+
+    /**
+     * Installs and updates database schema
+     * @return string
+     * @throws \Exception
+     */
+    public function installSchemaAction()
+    {
+        $request = $this->getRequest();
+        Helper::checkRequest($request);
+
+        $magentoDir   = $request->getParam('magentoDir');
+        if ($magentoDir) {
+            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
+        } else {
+            $this->factoryConfig->setMagentoBasePath();
+        }
+
+        $this->config->loadFromConfigFile();
+        $this->setupFactory->setConfig($this->config->getConfigData());
+
+        $moduleNames = array_keys($this->moduleList);
+        foreach ($moduleNames as $moduleName) {
+            $setup = $this->setupFactory->create($moduleName);
+            $setup->applyUpdates();
+        }
+
+        foreach ($moduleNames as $moduleName) {
+            $setup = $this->setupFactory->create($moduleName);
+            $setup->applyRecurringUpdates();
+        }
+
+        return  "Completed: Schema Installation." . PHP_EOL;
+    }
+
+    /**
+     * Installs and updates data
+     * @return string
+     * @throws \Exception
+     */
+    public function installDataAction()
+    {
+
+        $request = $this->getRequest();
+        Helper::checkRequest($request);
+
+        $magentoDir   = $request->getParam('magentoDir');
+        if ($magentoDir) {
+            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
+        } else {
+            $this->factoryConfig->setMagentoBasePath();
+        }
+
+        $storeUrl   = $request->getParam('store_url');
         $secureStoreUrl   = $request->getParam('secure_store_url');
         if (!$secureStoreUrl) {
             $secureStoreUrl = false;
@@ -193,15 +278,6 @@ class ConsoleController extends AbstractActionController
         $adminPassword   = $request->getParam('admin_password');
 
         $data = array(
-            'db' => array(
-                'useExistingDB' => 1,
-                'useAccess' => 1,
-                'user' => $dbUser,
-                'password' => $dbPass,
-                'host' => $dbHost,
-                'name' => $dbName,
-                'tablePrefix' => $dbPrefix,
-            ),
             'admin' => array(
                 'passwordStatus' => array(
                     'class' => 'weak',
@@ -223,7 +299,6 @@ class ConsoleController extends AbstractActionController
             'config' => array(
                 'address' => array(
                     'front' => $storeUrl,
-                    'admin' => $adminUrl,
                 ),
                 'https' => array(
                     'web' => $secureStoreUrl,
@@ -242,60 +317,81 @@ class ConsoleController extends AbstractActionController
             ),
         );
 
-        $this->config->setConfigData($data);
-        $this->config->install();
-
-        /********************** Here goes schema updater (for one install step) **********************/
-
-        $this->config->replaceTmpEncryptKey($encryptionKey);
-        $this->config->replaceTmpInstallDate(date('r'));
-
-        /********************** Here goes data updater (for one install step) **********************/
-
-        //Set maintenance mode "off"
-        unlink($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
-
-        return  "local.xml file has been created successfully." . PHP_EOL;
-    }
-
-    /**
-     * Installs and updates database schema
-     * @return string
-     * @throws \Exception
-     */
-    public function installSchemaAction()
-    {
-        $request = $this->getRequest();
-        Helper::checkRequest($request);
-
         $this->config->loadFromConfigFile();
         $this->setupFactory->setConfig($this->config->getConfigData());
 
         $moduleNames = array_keys($this->moduleList);
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
-            $setup->applyUpdates();
         }
 
-        foreach ($moduleNames as $moduleName) {
-            $setup = $this->setupFactory->create($moduleName);
-            $setup->applyRecurringUpdates();
+        //$this->config->addConfigData($data);
+        $setup->addConfigData(
+            'web/seo/use_rewrites',
+            isset($data['config']['rewrites']['allowed']) ? $data['config']['rewrites']['allowed'] : 0
+        );
+
+        $setup->addConfigData(
+            'web/unsecure/base_url',
+            isset($data['config']['address']['front']) ? $data['config']['address']['front'] : '{{unsecure_base_url}}'
+        );
+        $setup->addConfigData(
+            'web/secure/use_in_frontend',
+            isset($data['config']['https']['web']) ? $data['config']['https']['web'] : 0
+        );
+        $setup->addConfigData(
+            'web/secure/base_url',
+            isset($data['config']['address']['front']) ? $data['config']['address']['front'] : '{{secure_base_url}}'
+        );
+        $setup->addConfigData(
+            'web/secure/use_in_adminhtml',
+            isset($data['config']['https']['admin']) ? $data['config']['https']['admin'] : 0
+        );
+        $setup->addConfigData(
+            'general/locale/code',
+            isset($data['store']['language']) ? $data['store']['language'] : 'en_US'
+        );
+        $setup->addConfigData(
+            'general/locale/timezone',
+            isset($data['store']['timezone']) ? $data['store']['timezone'] : 'America/Los_Angeles'
+        );
+
+        $currencyCode = isset($data['store']['currency']) ? $data['store']['currency'] : 'USD';
+
+        $setup->addConfigData('currency/options/base', $currencyCode);
+        $setup->addConfigData('currency/options/default', $currencyCode);
+        $setup->addConfigData('currency/options/allow', $currencyCode);
+
+        // Create administrator account
+        $this->adminAccountFactory->setConfig($this->config->getConfigData());
+        $adminAccount = $this->adminAccountFactory->create($setup);
+        $adminAccount->save();
+
+        if ($data['config']['encrypt']['type'] == 'magento') {
+            $key = md5($this->random->getRandomString(10));
+        } else {
+            $key = $data['config']['encrypt']['key'];
         }
 
-        return  "Completed: Schema Installation." . PHP_EOL;
-    }
+        $this->config->replaceTmpEncryptKey($key);
+        $this->config->replaceTmpInstallDate(date('r'));
 
-    /**
-     * Installs and updates data
-     * @return string
-     * @throws \Exception
-     */
-    public function installDataAction()
-    {
-        $request = $this->getRequest();
-        Helper::checkRequest($request);
+        $phpPath = Helper::phpExecutablePath();
+        exec(
+            $phpPath .
+            'php -f ' . $this->factoryConfig->getMagentoBasePath(). '/dev/shell/run_data_fixtures.php',
+            $output,
+            $exitCode
+        );
+        if ($exitCode !== 0) {
+            $outputMsg = implode(PHP_EOL, $output);
+            throw new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
+        }
 
-        return  "Data have been installed successfully." . PHP_EOL;
+        //Set maintenance mode "off"
+        unlink($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
+
+        return  "Completed: Data Installation." . PHP_EOL;
     }
 
     /**

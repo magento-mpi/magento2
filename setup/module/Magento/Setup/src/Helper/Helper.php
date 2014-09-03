@@ -92,4 +92,37 @@ class Helper
             'secure_admin_url => Full secure URL for admin . For example "https://myinstance.com/admin"' ."\n" .
             'encryption_key => Key to encrypt sensitive data. Auto-generated if not provided' ."\n";
     }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    public static function phpExecutablePath()
+    {
+        try {
+            $phpPath = '';
+            $iniFile = fopen(php_ini_loaded_file(), 'r');
+            while ($line = fgets($iniFile)) {
+                if ((strpos($line, 'extension_dir') !== false) && (strrpos($line, ";") !==0)) {
+                    $extPath = explode("=", $line);
+                    $pathFull = explode("\"", $extPath[1]);
+                    $pathParts[1] = str_replace('\\', '/', $pathFull[1]);
+                    foreach (explode('/', $pathParts[1]) as $piece) {
+                        $phpPath .= $piece . '/';
+                        if (strpos($piece, phpversion()) !== false) {
+                            if (file_exists($phpPath.'bin')) {
+                                $phpPath .= 'bin' . '/';
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            fclose($iniFile);
+        } catch(\Exception $e){
+            throw $e;
+        }
+
+        return $phpPath;
+    }
 }

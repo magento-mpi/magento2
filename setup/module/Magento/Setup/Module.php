@@ -144,13 +144,24 @@ class Module implements
             'show timezones'                => 'Show all timezones',
             'show options'              => 'Show all install options',
             'Command Line Options',
-            'install local [--<install_option_name> "<option_value>" ...]'              => 'Installing Local.xml file',
+            'install local [--<install_option_name> "<option_value>" ...]'=> 'Installing deployment configuration file',
             [   'license_agreement_accepted' , 'yes' ],
             [   'db_host' , 'localhost'],
             [   'db_name' , 'magento'],
             [   'db_user' , 'root'],
-            [   'store_url' , 'http://magento.local/'],
             [   'admin_url' , 'http://magento.local/admin'],
+            'Example of usage for Deployment Configuration tool: ',
+            'php -f index.php install local --license_agreement_accepted yes --db_host localhost' .
+            ' --db_name magentosetup --db_user root --admin_url "http://127.0.0.1/admin"',
+            '***************************************************' . "\n",
+            'install schema [--<install_option_name> "<option_value>" ...]'  => 'Installing database schema',
+            [   'magentoDir' , 'C:\wamp\www\magento2'],
+            'Example of usage for Schema Installer and Updater tool: ',
+            'php -f index.php install schema  --magentoDir "C:\wamp\www\magento2"',
+            '***************************************************' . "\n",
+            'install data [--<install_option_name> "<option_value>" ...]'   => 'Installing data files',
+            [   'magentoDir' , 'C:\wamp\www\magento2'],
+            [   'store_url' , 'http://magento.local/'],
             [   'secure_store_url' , 'yes'],
             [   'secure_admin_url' , 'yes'],
             [   'use_rewrites' , 'no'],
@@ -162,13 +173,12 @@ class Module implements
             [   'admin_email' , 'john.smith@some-email.com'],
             [   'admin_username' , 'admin'],
             [   'admin_password' , '1234qasd'],
-            'Example of installation: ',
-            'php -f index.php install local --license_agreement_accepted yes --db_host localhost' .
-            ' --db_name magentosetup --db_user root --store_url "http://127.0.0.1/"' .
-            ' --admin_url "http://127.0.0.1/admin" --secure_store_url yes --locale "en_US"' .
-            ' --timezone "America/Los_Angeles" --currency "USD" --admin_lastname Smith --admin_firstname John' .
-            ' --admin_email 123@gmail.com --admin_username "admin" --admin_password "123123q"',
-            'install data'          => 'Installs Data files'
+            'Example of usage for Data Installer and Updater tool: ',
+            'php -f index.php install data  --magentoDir "C:\wamp\www\magento2" --store_url "http://127.0.0.1/"' .
+            ' --secure_store_url yes --locale "en_US" --timezone "America/Los_Angeles" --currency "USD"' .
+            ' --admin_lastname Smith --admin_firstname John --admin_email 123@gmail.com --admin_username "admin"' .
+            ' --admin_password "123123q"',
+            '***************************************************' . "\n",
         ];
     }
 }
