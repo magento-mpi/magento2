@@ -98,7 +98,7 @@ class CreateProductReviewFrontendEntityTest extends Injectable
      *
      * @param ReviewInjectable $review
      * @param Browser $browser
-     * @return void
+     * @return array
      */
     public function test(ReviewInjectable $review, Browser $browser)
     {
@@ -115,6 +115,8 @@ class CreateProductReviewFrontendEntityTest extends Injectable
         $reviewForm = $this->catalogProductView->getReviewFormBlock();
         $reviewForm->fill($review);
         $reviewForm->submit();
+
+        return ['product' => $product];
     }
 
     /**

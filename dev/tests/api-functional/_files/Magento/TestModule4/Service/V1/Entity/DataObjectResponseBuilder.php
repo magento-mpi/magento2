@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DataObjectResponseBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class DataObjectResponseBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * @param int $entityId

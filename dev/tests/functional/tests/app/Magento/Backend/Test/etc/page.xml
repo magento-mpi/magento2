@@ -53,4 +53,9 @@
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\EditWebsite</class>
     </editWebsite>
+    <deleteWebsite>
+        <mca>system_store/deleteWebsite</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\DeleteWebsite</class>
+    </deleteWebsite>
 </page>
