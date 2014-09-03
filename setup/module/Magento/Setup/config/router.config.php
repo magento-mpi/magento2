@@ -78,7 +78,7 @@ return [
                 ],
                 'install-schema' => [
                     'options' => [
-                        'route' => 'install schema --magentoDir=',
+                        'route' => 'install schema [--magentoDir=]',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installSchema',
@@ -87,7 +87,7 @@ return [
                 ],
                 'install-data' => [
                     'options' => [
-                        'route' => 'install data --magentoDir= --store_url= [--secure_store_url=]' .
+                        'route' => 'install data [--magentoDir=] --store_url= [--secure_store_url=]' .
                             ' [--secure_admin_url=] [--use_rewrites=] [--encryption_key=] --locale=' .
                             ' --timezone= --currency= --admin_lastname= --admin_firstname=' .
                             ' --admin_email= --admin_username= --admin_password=',

@@ -16,6 +16,7 @@
  * @license    {license_link}
  */
 
+error_reporting(E_ALL);
 require __DIR__ . '/app/bootstrap.php';
 $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER, null);
 /** @var \Magento\Framework\App\Http $app */
