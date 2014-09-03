@@ -52,6 +52,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Sample test
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
@@ -71,6 +72,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Sample test
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
@@ -93,6 +95,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Range filter test with all fields filled
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
@@ -113,6 +116,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Range filter test with all fields filled
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
@@ -132,6 +136,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Range filter test with all fields filled
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
@@ -151,6 +156,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Term filter test
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
@@ -173,6 +179,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Bool filter test
+     *
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
