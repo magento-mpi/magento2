@@ -10,7 +10,7 @@ namespace Magento\Store\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
-use Magento\Backend\Test\Page\Adminhtml\StoreNew;
+use Magento\Backend\Test\Page\Adminhtml\EditStore;
 use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
 use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
 use Magento\Store\Test\Fixture\Store;
@@ -27,7 +27,7 @@ use Magento\Store\Test\Fixture\Store;
  * 2. Go to Stores -> All Stores
  * 3. Open created store view
  * 4. Click "Delete Store View"
- * 5. Set "Create DB Backup" = Yes
+ * 5. Set "Create DB Backup" according to dataSet
  * 6. Click "Delete Store View"
  * 7. Perform all assertions
  *
@@ -51,11 +51,11 @@ class DeleteStoreEntityTest extends Injectable
     protected $storeIndex;
 
     /**
-     * Page StoreNew
+     * Page EditStore
      *
-     * @var StoreNew
+     * @var EditStore
      */
-    protected $storeNew;
+    protected $editStore;
 
     /**
      * Page StoreDelete
@@ -69,24 +69,24 @@ class DeleteStoreEntityTest extends Injectable
      *
      * @param BackupIndex $backupIndex
      * @param StoreIndex $storeIndex
-     * @param StoreNew $storeNew
+     * @param EditStore $editStore
      * @param StoreDelete $storeDelete
      * @return void
      */
     public function __inject(
         BackupIndex $backupIndex,
         StoreIndex $storeIndex,
-        StoreNew $storeNew,
+        EditStore $editStore,
         StoreDelete $storeDelete
     ) {
         $this->storeIndex = $storeIndex;
-        $this->storeNew = $storeNew;
+        $this->editStore = $editStore;
         $this->backupIndex = $backupIndex;
         $this->storeDelete = $storeDelete;
     }
 
     /**
-     * Runs Delete Store Entity test
+     * Run Delete Store Entity test
      *
      * @param Store $store
      * @param string $createBackup
@@ -101,7 +101,7 @@ class DeleteStoreEntityTest extends Injectable
         // Steps:
         $this->storeIndex->open();
         $this->storeIndex->getStoreGrid()->searchAndOpenStore($store);
-        $this->storeNew->getFormPageActions()->delete();
+        $this->editStore->getFormPageActions()->delete();
         $this->storeDelete->getStoreForm()->fillForm(['create_backup' => $createBackup]);
         $this->storeDelete->getFormPageFooterActions()->delete();
     }
