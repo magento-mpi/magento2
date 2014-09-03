@@ -1,13 +1,166 @@
+<div data-m2-init='{"Magento_Cms/js/fixtures/component": ""}'></div>
+<div data-m2-init='{"Magento_Cms/js/massaction/component": ""}'>
+  <script type="mage/initial">
+    {
+      "actions": [
+        {
+          "type": "remove",
+          "title": "Delete"
+        },
+        {
+          "type": "updateAttributes",
+          "title": "Update Attributes"
+        }
+      ]
+    }
+  </script>
+</div>
+<div data-m2-init='{"Magento_Cms/js/filter/component": ""}'></div>
+<div data-m2-init='{"Magento_Cms/js/pagination/component": ""}'>
+  <script type="mage/initial">
+      {
+        "sizes": [ 5, 10, 20, 30, 50, 100, 200 ]
+      }
+  </script>
+</div>
+<div data-m2-init='{"Magento_Cms/js/listing/component": { "resource": "cms.pages" }}'>
+  <script type="mage/initial">
+    {
+      "massActions": [
+        {
+          "type": "selectAll",
+          "title": "Select All"
+        },
+        {
+          "type": "unselectAll",
+          "title": "Unselect All"
+        },
+        {
+          "type": "selectVisible",
+          "title": "Select Visible"
+        },
+        {
+          "type": "unselectVisible",
+          "title": "Unselect Visible"
+        }
+      ],
+      "fields": [
+        {
+          "title": "Title",
+          "id": "title"
+        },
+        {
+          "title": "URL Key",
+          "id": "url",
+          "sorted": "desc"
+        },
+        {
+          "title": "Layout",
+          "id": "layout"
+        },
+        {
+          "title": "Store View",
+          "id": "store_id"
+        },
+        {
+          "title": "Status",
+          "id": "status"
+        },
+        {
+          "title": "Created",
+          "id": "created"
+        },
+        {
+          "title": "Modified",
+          "id": "modified"
+        },
+        {
+          "title": "Action",
+          "id": "action"
+        }
+      ],
+      "meta": {
+        "pages": 8,
+        "items": 38 
+      },
+      "paging": {
+        "current": 1,
+        "pageSize": 5
+      },
+      "rows": [{
+          "id": "0",
+          "title": "UPDATED Enable Cookies",
+          "url": "enable-cookies",
+          "layout": "1 column",
+          "store_id": "All Store Views",
+          "status": true,
+          "created": 1407758413000,
+          "modified": 1407758413000,
+          "action": {
+              "href": "/enable-cookies/?___store=default",
+              "title": "Preview"
+          }
+      }, {
+          "id": "1",
+          "title": "UPDATED Home page",
+          "url": "home",
+          "layout": "1 column",
+          "store_id": "All Store Views",
+          "status": false,
+          "created": 1407848473000,
+          "modified": 1407848473000,
+          "action": {
+              "href": "/home/?___store=default",
+              "title": "Preview"
+          }
+      }, {
+          "id": "2",
+          "title": "404 Not Found 1",
+          "url": "no-route",
+          "layout": "2 columns right",
+          "store_id": "All Store Views",
+          "status": false,
+          "created": 1407848473000,
+          "modified": 1407848473000,
+          "action": {
+              "href": "/no-route/?___store=default",
+              "title": "Preview"
+          }
+      }, {
+          "id": "3",
+          "title": "UPDATED Privacy Policy",
+          "url": "privacy-policy-cookie-restriction-mode",
+          "layout": "1 column",
+          "store_id": "All Store Views",
+          "status": true,
+          "created": 1407848473000,
+          "modified": 1407848473000,
+          "action": {
+              "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
+              "title": "Preview"
+          }
+      }, {
+          "id": "4",
+          "title": "NEW Another Page",
+          "url": "privacy-policy-cookie-restriction-mode",
+          "layout": "2 columns right",
+          "store_id": "All Store Views",
+          "status": true,
+          "created": 1407848473000,
+          "modified": 1407848473000,
+          "action": {
+              "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
+              "title": "Preview"
+          }
+      }]
+    }
+  </script>
+</div>
+
+
 <div class="grid">
-  <div data-m2-init='{"Magento_Cms/js/fixtures/component": ""}' class="grid-actions">
-    <div class="filter-actions">
-      <button data-bind="click: setViewTo('tiles')">Tile view</button>
-      <button data-bind="click: setViewTo('grid')">Grid view</button>
-      <button data-bind="click: setViewTo('listing')">Listing view</button>
-    </div>
-  </div>
   <div class="grid-actions">
-    <span data-m2-init='{"Magento_Cms/js/massaction/component": ""}' data-part="actions">
+    <span data-part="actions" data-bind="scope: 'cms.pages.listing.massaction'">
       <div title="Select Items" class="actions-split">
         <button title="Actions" class="action-default scalable  add">
           <span>Actions</span>
@@ -23,37 +176,25 @@
       <span class="entry-select">
         <span class="items"><strong data-bind="text: getCheckedQuantity()"></strong> items selected</span>
       </span>
-      <script type="mage/initial">
-        {
-          "actions": [
-            {
-              "type": "remove",
-              "title": "Delete"
-            },
-            {
-              "type": "updateAttributes",
-              "title": "Update Attributes"
-            }
-          ]
-        }
-      </script>
     </span>
-    <span data-m2-init='{"Magento_Cms/js/filter/component": ""}' data-part="search">
+    <span data-part="search" data-bind="scope: 'cms.pages.listing.filter'">
         <form>
         <input type="text" class="filter-search" placeholder="Search" data-bind="autocomplete: { data: suggestions, writeTo: query }, value: rawQuery, valueUpdate: 'afterkeydown'"/>
         <button class="action-search" type="submit" data-bind="click: search"><span>Search</span></button>
         </form>
     </span>
   </div>
-  <div data-m2-init='{"Magento_Cms/js/pagination/component": ""}' class="pager">
-    <!-- ko template: 'Magento_Ui.templates.pagination.toolbar' --><!-- /ko -->
-    <script type="mage/initial">
-        {
-          "sizes": [ 5, 10, 20, 30, 50, 100, 200 ]
-        }
-    </script>
+  <div class="pager" data-bind="scope: 'cms.pages.listing.pagination'">
+    <div data-bind="template: 'Magento_Ui.templates.pagination.toolbar'"></div>
   </div>
-  <div data-m2-init='{"Magento_Cms/js/listing/component": { "resource": "cms.pages" }}'>
+  <div data-bind="scope: 'cms.pages.listing'">
+    <div class="grid-actions" data-bind="scope: 'cms.pages.listing.fixtures'">
+      <div class="filter-actions">
+        <button data-bind="click: setViewTo('tiles')">Tile view</button>
+        <button data-bind="click: setViewTo('grid')">Grid view</button>
+        <button data-bind="click: setViewTo('listing')">Listing view</button>
+      </div>
+    </div>
     <div style="display: none" class="loading-old" id="loading-mask" data-bind="visible: isLocked">
       <div class="loader" id="loading_mask_loader"><p>Please wait...</p></div>
     </div>
@@ -115,144 +256,8 @@
     </tr>
   </tbody>  
 </table>
-    <script type="mage/initial">
-      {
-        "massActions": [
-          {
-            "type": "selectAll",
-            "title": "Select All"
-          },
-          {
-            "type": "unselectAll",
-            "title": "Unselect All"
-          },
-          {
-            "type": "selectVisible",
-            "title": "Select Visible"
-          },
-          {
-            "type": "unselectVisible",
-            "title": "Unselect Visible"
-          }
-        ],
-        "fields": [
-          {
-            "title": "Title",
-            "id": "title"
-          },
-          {
-            "title": "URL Key",
-            "id": "url",
-            "sorted": "desc"
-          },
-          {
-            "title": "Layout",
-            "id": "layout"
-          },
-          {
-            "title": "Store View",
-            "id": "store_id"
-          },
-          {
-            "title": "Status",
-            "id": "status"
-          },
-          {
-            "title": "Created",
-            "id": "created"
-          },
-          {
-            "title": "Modified",
-            "id": "modified"
-          },
-          {
-            "title": "Action",
-            "id": "action"
-          }
-        ],
-        "meta": {
-          "pages": 8,
-          "items": 38 
-        },
-        "paging": {
-          "current": 1,
-          "pageSize": 5
-        },
-        "rows": [{
-            "id": "0",
-            "title": "UPDATED Enable Cookies",
-            "url": "enable-cookies",
-            "layout": "1 column",
-            "store_id": "All Store Views",
-            "status": true,
-            "created": 1407758413000,
-            "modified": 1407758413000,
-            "action": {
-                "href": "/enable-cookies/?___store=default",
-                "title": "Preview"
-            }
-        }, {
-            "id": "1",
-            "title": "UPDATED Home page",
-            "url": "home",
-            "layout": "1 column",
-            "store_id": "All Store Views",
-            "status": false,
-            "created": 1407848473000,
-            "modified": 1407848473000,
-            "action": {
-                "href": "/home/?___store=default",
-                "title": "Preview"
-            }
-        }, {
-            "id": "2",
-            "title": "404 Not Found 1",
-            "url": "no-route",
-            "layout": "2 columns right",
-            "store_id": "All Store Views",
-            "status": false,
-            "created": 1407848473000,
-            "modified": 1407848473000,
-            "action": {
-                "href": "/no-route/?___store=default",
-                "title": "Preview"
-            }
-        }, {
-            "id": "3",
-            "title": "UPDATED Privacy Policy",
-            "url": "privacy-policy-cookie-restriction-mode",
-            "layout": "1 column",
-            "store_id": "All Store Views",
-            "status": true,
-            "created": 1407848473000,
-            "modified": 1407848473000,
-            "action": {
-                "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
-                "title": "Preview"
-            }
-        }, {
-            "id": "4",
-            "title": "NEW Another Page",
-            "url": "privacy-policy-cookie-restriction-mode",
-            "layout": "2 columns right",
-            "store_id": "All Store Views",
-            "status": true,
-            "created": 1407848473000,
-            "modified": 1407848473000,
-            "action": {
-                "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
-                "title": "Preview"
-            }
-        }]
-      }
-    </script>
   </div>
-  <div data-m2-init='{"Magento_Cms/js/pagination/component": ""}' class="pager">
-    <!-- ko template: 'Magento_Ui.templates.pagination.toolbar' --><!-- /ko -->
-    <script type="mage/initial">
-        {
-          "sizes": [ 5, 10, 20, 30, 50, 100, 200 ]
-        }
-    </script>
+  <div class="pager" data-bind="scope: 'cms.pages.listing.pagination'">
+    <div data-bind="template: 'Magento_Ui.templates.pagination.toolbar'"></div>
   </div>
 </div>

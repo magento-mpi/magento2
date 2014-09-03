@@ -6,7 +6,7 @@ define([
     return Scope.extend({
         initialize: function(initial, config, listing) {
             this.target = listing;
-
+            
             this.meta = this.target.meta;
             this.paging = this.target.paging;
 

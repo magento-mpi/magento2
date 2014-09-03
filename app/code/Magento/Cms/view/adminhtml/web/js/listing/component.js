@@ -2,7 +2,6 @@ define(function (require) {
 
   var
     Listing      = require('./entity'),
-    View         = require('Magento_Ui/js/framework/ko/view'),
     DataProvider = require('Magento_Ui/js/framework/provider/model'),
     RestProvider = require('Magento_Ui/js/framework/provider/rest');
 
@@ -12,7 +11,5 @@ define(function (require) {
     
     var listing = new Listing(initial, config);
     DataProvider.register('cms.pages.listing', listing);
-    
-    View.bind(el, listing);
   }
 });

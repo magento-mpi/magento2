@@ -1,4 +1,4 @@
-define(['ko', './observable_source', 'Magento_Ui/js/framework/renderer'], function (ko, Source, renderer) {
+define(['ko', './observable_source', 'Magento_Ui/js/framework/renderer', 'm2/m2'], function (ko, Source, Renderer, M2) {
 
   var sources = {};
 
@@ -17,7 +17,10 @@ define(['ko', './observable_source', 'Magento_Ui/js/framework/renderer'], functi
         source = new Source(template);
         sources[template] = source;
 
-        renderer.render(template).done(source.nodes.bind(source));
+        Renderer.render(template).done(function (rendered) {
+          source.nodes(rendered);
+          M2.init(rendered);
+        });
       }
 
       return source;
