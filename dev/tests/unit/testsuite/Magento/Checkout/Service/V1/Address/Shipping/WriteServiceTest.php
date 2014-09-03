@@ -185,10 +185,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAddressWithInabilityToSaveQuote()
     {
-        $storeId = 323;
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('get')
+            ->with('cart867')
+            ->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
 
         $builder = $this->getMock(

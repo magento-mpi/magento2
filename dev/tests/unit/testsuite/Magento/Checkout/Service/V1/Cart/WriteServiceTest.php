@@ -183,11 +183,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteFactoryMock->expects($this->at(0))->method('create')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())
-            ->method('load')->with($cartId)->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue($cartId));
-        $this->quoteMock->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+
         $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
         $this->customerRegistryMock->expects($this->once())
             ->method('retrieve')->with($customerId)->will($this->returnValue($customerMock));
@@ -198,7 +196,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $customerQuoteMock->expects($this->once())->method('loadByCustomer')->with($customerMock)
             ->will($this->returnSelf());
         $customerQuoteMock->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $this->quoteFactoryMock->expects($this->at(1))->method('create')->will($this->returnValue($customerQuoteMock));
+        $this->quoteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($customerQuoteMock));
 
         $this->quoteMock->expects($this->never())->method('setCustomer');
 
