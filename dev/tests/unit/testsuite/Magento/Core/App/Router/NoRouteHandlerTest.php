@@ -23,12 +23,12 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
     private $model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Config\ScopeConfigInterface
      */
     private $configMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\RequestInterface
      */
     private $requestMock;
 
@@ -47,7 +47,6 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
         ];
         $this->requestMock = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            //[], '', true, true, true,
             $requestMethods
         );
         $this->model = $this->objectManager->getObject('Magento\Core\App\Router\NoRouteHandler',
