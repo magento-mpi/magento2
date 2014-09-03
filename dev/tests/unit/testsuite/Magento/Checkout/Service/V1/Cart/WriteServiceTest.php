@@ -171,6 +171,40 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->assignCustomer($cartId, $customerId);
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionMessage Cannot assign customer to the given cart. Customer already has active cart.
+     */
+    public function testAssignCustomerStateExceptionWithAlreadyAssignedCustomer()
+    {
+        $cartId = 956;
+        $customerId = 125;
+        $storeId = 12;
+
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->quoteFactoryMock->expects($this->at(0))->method('create')->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())
+            ->method('load')->with($cartId)->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue($cartId));
+        $this->quoteMock->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
+        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $this->customerRegistryMock->expects($this->once())
+            ->method('retrieve')->with($customerId)->will($this->returnValue($customerMock));
+        $customerMock->expects($this->once())->method('getSharedStoreIds')->will($this->returnValue([$storeId]));
+        $this->quoteMock->expects($this->once())->method('getCustomerId')->will($this->returnValue(null));
+
+        $customerQuoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $customerQuoteMock->expects($this->once())->method('loadByCustomer')->with($customerMock)
+            ->will($this->returnSelf());
+        $customerQuoteMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->quoteFactoryMock->expects($this->at(1))->method('create')->will($this->returnValue($customerQuoteMock));
+
+        $this->quoteMock->expects($this->never())->method('setCustomer');
+
+        $this->service->assignCustomer($cartId, $customerId);
+    }
+
     public function testAssignCustomer()
     {
         $cartId = 956;

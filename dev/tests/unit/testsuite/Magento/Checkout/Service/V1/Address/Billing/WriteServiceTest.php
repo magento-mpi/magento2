@@ -85,7 +85,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expected ExceptionMessage error123
+     * @expectedExceptionMessage error123
      */
     public function testSetAddressValidationFailed()
     {
@@ -140,5 +140,50 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($billingAddressMock));
 
         $this->assertEquals($addressId, $this->service->setAddress('cartId', $addressData));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Unable to save address. Please, check input data.
+     */
+    public function testSetAddressWithInabilityToSaveQuote()
+    {
+        $storeId = 323;
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $this->quoteLoaderMock->expects($this->once())
+            ->method('load')
+            ->with('cartId', $storeId)
+            ->will($this->returnValue($quoteMock));
+
+        $builder = $this->getMock(
+            '\Magento\Checkout\Service\V1\Data\Cart\Address\RegionBuilder', ['create'], [], '', false
+        );
+
+        /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
+        $addressDataBuilder = $this->objectManager->getObject(
+            'Magento\Checkout\Service\V1\Data\Cart\AddressBuilder',
+            ['regionBuilder' => $builder]
+        );
+        /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
+        $addressData = $addressDataBuilder->setId(454)->create();
+
+        $this->validatorMock->expects($this->once())->method('validate')
+            ->with($addressData)
+        ->will($this->returnValue(true));
+
+        $this->converterMock->expects($this->once())->method('convertDataObjectToModel')
+            ->with($addressData, $this->quoteAddressMock)
+            ->will($this->returnValue($this->quoteAddressMock));
+
+        $quoteMock->expects($this->once())->method('setBillingAddress')->with($this->quoteAddressMock);
+        $quoteMock->expects($this->once())->method('setDataChanges')->with(true);
+        $quoteMock->expects($this->once())->method('save')->willThrowException(
+            new \Exception('Some DB Error')
+        );
+        $this->service->setAddress('cartId', $addressData);
     }
 }
