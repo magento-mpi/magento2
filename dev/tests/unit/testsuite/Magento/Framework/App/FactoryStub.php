@@ -7,6 +7,9 @@
  */
 namespace Magento\Framework\App;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class FactoryStub implements \Magento\Framework\ObjectManager\Factory
 {
     /**
