@@ -19,7 +19,7 @@ use \Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Wishlist\Test\Page\WishlistIndex;
-use Magento\Wishlist\Test\Page\Adminhtml\CustomerWishlistReport;
+use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
 
 /**
  * Test Creation for WishlistReportEntity

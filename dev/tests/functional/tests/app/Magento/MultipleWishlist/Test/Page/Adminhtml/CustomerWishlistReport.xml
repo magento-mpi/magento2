@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="wishlist/report_customer_wishlist" module="Magento_Wishlist">
+<page mca="multiplewishlist/report_customer_wishlist" module="Magento_MultipleWishlist">
     <blocks>
         <wishlistReportGrid>
             <class>Magento\MultipleWishlist\Test\Block\Adminhtml\Report\Customer\Wishlist\Grid</class>

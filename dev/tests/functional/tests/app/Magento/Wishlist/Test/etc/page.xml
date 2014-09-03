@@ -8,15 +8,6 @@
  */
 -->
 <page module="Magento_Wishlist">
-    <customerWishlistReport>
-        <mca>multiplewishlist/report_customer_wishlist</mca>
-        <area>adminhtml</area>
-        <class>Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport</class>
-    </customerWishlistReport>
-    <searchResult>
-        <mca>wishlist/search/results</mca>
-        <class>Magento\MultipleWishlist\Test\Page\SearchResult</class>
-    </searchResult>
     <wishlistIndex>
         <mca>wishlist/index</mca>
         <class>Magento\Wishlist\Test\Page\WishlistIndex</class>
