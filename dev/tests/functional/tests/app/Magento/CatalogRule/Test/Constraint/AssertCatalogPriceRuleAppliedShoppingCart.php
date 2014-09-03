@@ -53,7 +53,7 @@ class AssertCatalogPriceRuleAppliedShoppingCart extends AbstractConstraint
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
         $pageCatalogProductView->getViewBlock()->clickAddToCartButton();
-        $actualGrandTotal = $pageCheckoutCart->getCartBlock()->getCartItemUnitPrice($product);
+        $actualGrandTotal = $pageCheckoutCart->getCartBlock()->getCartItem($product)->getPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             $price['grand_total'],
             $actualGrandTotal,

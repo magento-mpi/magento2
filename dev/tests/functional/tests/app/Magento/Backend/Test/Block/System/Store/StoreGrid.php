@@ -10,6 +10,7 @@ namespace Magento\Backend\Test\Block\System\Store;
 
 use Mtf\Client\Element\Locator;
 use Magento\Store\Test\Fixture\StoreGroup;
+use Magento\Store\Test\Fixture\Website;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -36,6 +37,9 @@ class StoreGrid extends GridInterface
         ],
         'group_title' => [
             'selector' => '#storeGrid_filter_group_title'
+        ],
+        'website_title' => [
+            'selector' => '#storeGrid_filter_website_title'
         ]
     ];
 
@@ -87,5 +91,30 @@ class StoreGrid extends GridInterface
         $storeName = $storeGroup->getName();
         $this->search(['group_title' => $storeName]);
         $this->editStore($storeName);
+    }
+
+    /**
+     * Check if website exists
+     *
+     * @param Website $website
+     * @return bool
+     */
+    public function isWebsiteExists($website)
+    {
+        return $this->_rootElement->find(sprintf($this->titleFormat, $website->getName()), Locator::SELECTOR_XPATH)
+            ->isVisible();
+    }
+
+    /**
+     * Search and open appropriate Website
+     *
+     * @param Website $website
+     * @return void
+     */
+    public function searchAndOpenWebsite(Website $website)
+    {
+        $websiteName = $website->getName();
+        $this->search(['website_title' => $websiteName]);
+        $this->_rootElement->find(sprintf($this->storeName, $websiteName), Locator::SELECTOR_XPATH)->click();
     }
 }
