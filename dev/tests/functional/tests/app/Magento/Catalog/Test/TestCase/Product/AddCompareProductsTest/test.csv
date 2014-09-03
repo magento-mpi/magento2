@@ -1,5 +1,5 @@
 "products";"constraint";"isCustomerLoggedIn"
 "catalogProductSimple::simple_for_composite_products";"assertProductCompareItemsLink, assertProductComparePage, assertProductCompareBlockOnCmsPage";"No"
 "catalogProductSimple::simple_for_composite_products,catalogProductBundle::bundle_dynamic_product";"assertProductCompareItemsLink, assertProductComparePage";"No"
-"catalogProductConfigurable::default";"assertProductCompareItemsLink, assertProductComparePage, assertProductCompareBlockOnCmsPage";"Yes"
-"catalogProductSimple::simple_for_composite_products,catalogProductVirtual::default,giftCardProduct::giftcard_product_with_price,catalogProductDownloadable::default,catalogProductGrouped::grouped_product_with_price,catalogProductConfigurable::default,catalogProductBundle::bundle_dynamic_product,catalogProductBundle::bundle_fixed_product";"assertProductCompareItemsLink, assertProductComparePage";"Yes"
+"configurableProductInjectable::default";"assertProductCompareItemsLink, assertProductComparePage, assertProductCompareBlockOnCmsPage";"Yes"
+"catalogProductSimple::simple_for_composite_products,catalogProductVirtual::default,giftCardProduct::giftcard_product_with_price,catalogProductDownloadable::default,catalogProductGrouped::grouped_product_with_price,configurableProductInjectable::default,catalogProductBundle::bundle_dynamic_product,catalogProductBundle::bundle_fixed_product";"assertProductCompareItemsLink, assertProductComparePage";"Yes"

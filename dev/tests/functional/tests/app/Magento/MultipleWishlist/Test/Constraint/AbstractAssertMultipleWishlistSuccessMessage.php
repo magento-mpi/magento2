@@ -10,7 +10,7 @@ namespace Magento\MultipleWishlist\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Abstract Class AssertMultipleWishlistSuccessSaveMessage
@@ -35,15 +35,15 @@ abstract class AbstractAssertMultipleWishlistSuccessMessage extends AbstractCons
     /**
      * Assert success message is displayed
      *
-     * @param MultipleWishlistIndex $multipleWishlistIndex
+     * @param WishlistIndex $wishlistIndex
      * @param MultipleWishlist $multipleWishlist
      * @return void
      */
-    public function processAssert(MultipleWishlistIndex $multipleWishlistIndex, MultipleWishlist $multipleWishlist)
+    public function processAssert(WishlistIndex $wishlistIndex, MultipleWishlist $multipleWishlist)
     {
         \PHPUnit_Framework_Assert::assertEquals(
             sprintf($this->message, $multipleWishlist->getName()),
-            $multipleWishlistIndex->getMessagesBlock()->getSuccessMessages(),
+            $wishlistIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }

@@ -89,9 +89,9 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         self::$widgetInstanceEdit = $widgetInstanceEdit;
         self::$browser = $browser;
         $this->openWishlistPage($customer);
-        $this->multipleWishlistIndex->getManagementBlock()->clickCreateNewWishlist();
-        $this->multipleWishlistIndex->getBehaviourBlock()->fill($multipleWishlist);
-        $this->multipleWishlistIndex->getBehaviourBlock()->save();
+        $this->wishlistIndex->getManagementBlock()->clickCreateNewWishlist();
+        $this->wishlistIndex->getBehaviourBlock()->fill($multipleWishlist);
+        $this->wishlistIndex->getBehaviourBlock()->save();
     }
 
     /**

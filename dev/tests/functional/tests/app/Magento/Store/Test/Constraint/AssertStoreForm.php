@@ -39,7 +39,7 @@ class AssertStoreForm extends AbstractAssertForm
         StoreNew $storeNew,
         Store $store
     ) {
-        $storeIndex->open()->getStoreGrid()->editStore($store->getName());
+        $storeIndex->open()->getStoreGrid()->searchAndOpenStore($store);
         $formData = $storeNew->getStoreForm()->getData();
         $fixtureData = $store->getData();
         $errors = $this->verifyData($fixtureData, $formData);
