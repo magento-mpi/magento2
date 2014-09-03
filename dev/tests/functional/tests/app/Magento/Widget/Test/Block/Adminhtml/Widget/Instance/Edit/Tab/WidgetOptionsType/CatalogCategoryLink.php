@@ -46,6 +46,7 @@ class CatalogCategoryLink extends WidgetOptionsForm
         foreach ($fields as $name => $field) {
             if ($name == 'entities') {
                 $this->_rootElement->find($this->selectPage)->click();
+                $this->getTemplateBlock()->waitLoader();
 
                 /** @var Form $catalogCategoryLinkForm  */
                 $catalogCategoryLinkForm = $this->blockFactory->create(

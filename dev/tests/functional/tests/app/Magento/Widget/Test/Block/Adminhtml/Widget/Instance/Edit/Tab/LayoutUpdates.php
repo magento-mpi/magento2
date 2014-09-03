@@ -20,6 +20,13 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesTy
 class LayoutUpdates extends Tab
 {
     /**
+     * Backend abstract block
+     *
+     * @var string
+     */
+    protected $templateBlock = './ancestor::body';
+
+    /**
      * Form selector
      *
      * @var string
@@ -55,6 +62,7 @@ class LayoutUpdates extends Tab
             $this->addLayoutUpdates();
             $this->_rootElement->find(sprintf($this->pageGroup, $key), Locator::SELECTOR_CSS, 'select')
                 ->setValue($field['page_group']);
+            $this->getTemplateBlock()->waitLoader();
 
             /** @var LayoutForm $layoutForm */
             $layoutForm = $this->blockFactory->create(
@@ -95,5 +103,18 @@ class LayoutUpdates extends Tab
                 return $name;
             }
         }
+    }
+
+    /**
+     * Get backend abstract block
+     *
+     * @return \Magento\Backend\Test\Block\Template
+     */
+    protected function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
+        );
     }
 }

@@ -148,6 +148,18 @@ class LayoutUpdates implements FixtureInterface
                     'template' => 'Product Link Block Template'
                 ]
             ],
+            'for_compared_products' => [
+                [
+                    'page_group' => 'All Pages',
+                    'block' => 'Main Content Area',
+                ]
+            ],
+            'for_viewed_products' => [
+                [
+                    'page_group' => 'All Pages',
+                    'block' => 'Main Content Area',
+                ]
+            ],
         ];
 
         if (!isset($presets[$name])) {
