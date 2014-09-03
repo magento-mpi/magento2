@@ -276,12 +276,15 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
 
     /**
      * If page layout not defined in page config model set page layout from page configuration
+     *
+     * @return $this
      */
     protected function processLayoutPage()
     {
         if (!$this->pageConfig->getPageLayout() && $this->pageLayout) {
             $this->pageConfig->setPageLayout($this->pageLayout);
         }
+        return $this;
     }
 
     /**
@@ -425,6 +428,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
 
     /**
      * @param string $cacheIdPageLayout
+     * @return $this
      */
     protected function loadLayoutCache($cacheIdPageLayout)
     {
@@ -432,6 +436,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         if ($pageLayout) {
             $this->pageConfig->setPageLayout($pageLayout);
         }
+        return $this;
     }
 
     /**
