@@ -73,7 +73,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param array $filters
+     * @param \Magento\Framework\Search\Request\FilterInterface[] $filters
      * @param string $unionOperator
      * @return string
      */
@@ -87,7 +87,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param array $queries
+     * @param string[] $queries
      * @param string $unionOperator
      * @return string
      */

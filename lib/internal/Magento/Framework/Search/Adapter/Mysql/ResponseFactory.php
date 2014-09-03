@@ -89,6 +89,12 @@ class ResponseFactory
         return $preparedResponse;
     }
 
+    /**
+     * Prepare Documents
+     *
+     * @param array $rawDocumentList
+     * @return array
+     */
     private function prepareDocuments(array $rawDocumentList)
     {
         $documentList = [];
@@ -105,6 +111,12 @@ class ResponseFactory
         return $documentList;
     }
 
+    /**
+     * Prepare Aggregations
+     *
+     * @param array $rawAggregations
+     * @return array
+     */
     private function prepareAggregations(array $rawAggregations)
     {
         return $rawAggregations; // Prepare aggregations here
