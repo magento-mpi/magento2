@@ -244,9 +244,12 @@ class MergeTest extends \PHPUnit_Framework_TestCase
             ->method('getPageLayout')
             ->will($this->returnValue(false));
         $this->pageConfig->expects($this->at(1))
+            ->method('getPageLayout')
+            ->will($this->returnValue(false));
+        $this->pageConfig->expects($this->at(2))
             ->method('setPageLayout')
             ->with('fixture_handle_page_layout');
-        $this->pageConfig->expects($this->at(2))
+        $this->pageConfig->expects($this->at(3))
             ->method('getPageLayout')
             ->will($this->returnValue('fixture_handle_page_layout'));
 
