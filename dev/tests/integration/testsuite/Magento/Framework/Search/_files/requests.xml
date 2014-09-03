@@ -173,4 +173,35 @@
         <from>10</from>
         <size>10</size>
     </request>
+    <request query="advanced_search_test" index="catalogsearch_fulltext">
+        <dimensions>
+            <dimension name="scope" value="default" />
+        </dimensions>
+        <queries>
+            <query xsi:type="boolQuery" name="advanced_search_test" boost="1">
+                <queryReference clause="should" ref="name_query" />
+                <queryReference clause="should" ref="description_query" />
+                <queryReference clause="should" ref="query_filter" />
+            </query>
+            <query xsi:type="matchQuery" name="name_query">
+                <match field="data_index" value="%request.name%" boost="1" />
+            </query>
+            <query xsi:type="matchQuery" name="description_query">
+                <match field="data_index" value="%request.description%" boost="1" />
+            </query>
+            <query xsi:type="filteredQuery" name="query_filter">
+                <filterReference ref="filter" />
+            </query>
+        </queries>
+        <filters>
+            <filter xsi:type="boolFilter" name="filter">
+                <filterReference clause="must" ref="store_filter" />
+                <filterReference clause="must" ref="product_id_filter" />
+            </filter>
+            <filter name="store_filter" xsi:type="termFilter" field="store_id" value="%request.store_id%" />
+            <filter name="product_id_filter" xsi:type="rangeFilter" field="product_id" from="%request.from_product_id%" to="%request.to_product_id%" />
+        </filters>
+        <from>10</from>
+        <size>10</size>
+    </request>
 </requests>

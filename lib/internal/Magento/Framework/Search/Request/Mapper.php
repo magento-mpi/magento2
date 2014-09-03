@@ -267,7 +267,7 @@ class Mapper
      */
     private function validateQueries()
     {
-        $this->validateNotUsed($this->queries, $this->mappedQueries, 'Query %1 not used in request hierarchy');
+        $this->validateNotUsed($this->queries, $this->mappedQueries, 'Query %1 is not used in request hierarchy');
     }
 
     /**
@@ -276,7 +276,7 @@ class Mapper
      */
     private function validateFilters()
     {
-        $this->validateNotUsed($this->filters, $this->mappedFilters, 'Filter %1 not used in request hierarchy');
+        $this->validateNotUsed($this->filters, $this->mappedFilters, 'Filter %1 is not used in request hierarchy');
     }
 
     /**

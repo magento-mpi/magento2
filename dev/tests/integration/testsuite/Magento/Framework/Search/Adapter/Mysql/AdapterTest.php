@@ -215,6 +215,73 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedIds, $actualIds);
     }
 
+    /**
+     * Sample Advanced search request test
+     *
+     * @dataProvider advancedSearchDataProvider
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testSimpleAdvancedSearch($bindValues, $expectedRecorsCount)
+    {
+        $requestName = 'advanced_search_test';
+
+        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $this->assertEquals($expectedRecorsCount, $queryResponse->count());
+    }
+
+    /**
+     * @return array
+     */
+    public function advancedSearchDataProvider()
+    {
+        return array(
+            [
+                [
+                    '%request.name%' => 'white',
+                    '%request.description%' => 'shorts',
+                    '%request.store_id%' => '1',
+                    '%request.from_product_id%' => '3',
+                    '%request.to_product_id%' => '4',
+                ],
+                0 // Record is not in filter range
+            ],
+            [
+                [
+                    '%request.name%' => 'white',
+                    '%request.description%' => 'shorts',
+                    '%request.store_id%' => '1',
+                    '%request.from_product_id%' => '1',
+                    '%request.to_product_id%' => '4',
+                ],
+                1 // One record is expected
+            ],
+            [
+                [
+                    '%request.name%' => 'white',
+                    '%request.description%' => 'shorts',
+                    '%request.store_id%' => '5',
+                    '%request.from_product_id%' => '1',
+                    '%request.to_product_id%' => '4',
+                ],
+                0 // store_id filter is invalid
+            ],
+            [
+                [
+                    '%request.name%' => 'black',
+                    '%request.description%' => 'tshirts',
+                    '%request.store_id%' => '1',
+                    '%request.from_product_id%' => '1',
+                    '%request.to_product_id%' => '5',
+                ],
+                0 // Non existing search terms
+            ],
+        );
+    }
+
     private function executeQuery($requestName, $bindValues)
     {
         $this->reindexAll();
