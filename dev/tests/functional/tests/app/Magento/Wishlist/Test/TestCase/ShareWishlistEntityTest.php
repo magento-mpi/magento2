@@ -8,6 +8,7 @@
 
 namespace Magento\Wishlist\Test\TestCase;
 
+use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
@@ -141,17 +142,18 @@ class ShareWishlistEntityTest extends Injectable
     /**
      * Share wish list
      *
+     * @param Browser $browser
      * @param CustomerInjectable $customer
      * @param CatalogProductSimple $product
      * @param array $sharingInfo
      * @return void
      */
-    public function test(CustomerInjectable $customer, CatalogProductSimple $product, $sharingInfo)
+    public function test(Browser $browser, CustomerInjectable $customer, CatalogProductSimple $product, $sharingInfo)
     {
         //Steps
         $this->loginCustomer($customer);
-        $this->catalogProductView->init($product);
-        $this->catalogProductView->open()->getViewBlock()->addToWishlist();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $this->catalogProductView->getViewBlock()->addToWishlist();
         $this->wishlistIndex->getWishlistBlock()->clickShareWishList();
         $this->wishlistShare->getSharingInfoForm()->fillForm($sharingInfo);
         $this->wishlistShare->getSharingInfoForm()->shareWishlist();
