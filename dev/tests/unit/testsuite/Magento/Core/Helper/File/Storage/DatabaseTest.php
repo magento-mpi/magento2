@@ -107,7 +107,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($dbModelMock));
         $resourceModelMock = $this->getMockBuilder('Magento\Framework\Model\Resource\Db\AbstractDb')
             ->disableOriginalConstructor()
-            ->setMethods('__wakeup')
+            ->setMethods(['__wakeup'])
             ->getMockForAbstractClass();
         $dbModelMock->expects($this->once())
             ->method('getResource')
