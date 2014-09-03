@@ -15,7 +15,7 @@ namespace Magento\Test;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
-class Helper extends \PHPUnit_Framework_TestCase
+class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

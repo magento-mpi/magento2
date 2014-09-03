@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\App\Router;
 
-class BaseTest extends \Magento\Test\Helper
+class BaseTest extends \Magento\Test\BaseTestCase
 {
     /**
      * @var \Magento\Core\App\Router\Base
