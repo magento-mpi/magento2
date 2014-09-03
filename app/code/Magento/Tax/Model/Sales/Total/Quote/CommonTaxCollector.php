@@ -342,7 +342,7 @@ class CommonTaxCollector extends AbstractTotal
             $address->setShippingTaxCalculationAmount($address->getShippingAmount());
             $address->setBaseShippingTaxCalculationAmount($address->getBaseShippingAmount());
         }
-        if ($address->getShippingTaxCalculationAmount() !== null ) {
+        if ($address->getShippingTaxCalculationAmount() !== null) {
             $itemBuilder = $this->quoteDetailsBuilder->getItemBuilder();
             $itemBuilder->setType(self::ITEM_TYPE_SHIPPING);
             $itemBuilder->setCode(self::ITEM_CODE_SHIPPING);
