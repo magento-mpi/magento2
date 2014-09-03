@@ -133,14 +133,14 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         $storageModelMock = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
             ->disableOriginalConstructor()
-            ->setMethods(['loadByFileName'])
+            ->setMethods(['loadByFileName', '__wakeup'])
             ->getMock();
         $this->storageMock->expects($this->exactly($callNum))
             ->method('getStorageModel')
             ->will($this->returnValue($storageModelMock));
         $fileMock = $this->getMockBuilder('Magento\Core\Model\File\Storage\Database')
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->setMethods(['getId', '__wakeup'])
             ->getMock();
         $storageModelMock->expects($this->exactly($callNum))
             ->method('loadByFilename')
