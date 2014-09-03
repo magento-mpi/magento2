@@ -67,10 +67,9 @@ class Files
      */
     public static function composeDataSets(array $files)
     {
-        $result = array();
+        $result = [];
         foreach ($files as $file) {
-            /* Use filename as a data set name to not include it to every assertion message */
-            $result[$file] = array($file);
+            $result[substr($file, strlen(BP))] = [$file];
         }
         return $result;
     }
@@ -352,7 +351,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', $namespace . '_' . $module, $filePath);
+        return array($area, '', $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -376,7 +375,7 @@ class Files
         }
         preg_match($invariant . '(.+)$/i', $file, $matches);
         list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $module, $filePath);
+        return array($area, $themeNS . '/' . $themeCode, $module, $filePath, $file);
     }
 
     /**
@@ -540,7 +539,7 @@ class Files
         foreach (self::getFiles($patterns, $filePattern) as $file) {
             $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
             if ($subroutine) {
-                $result[$file] = $this->$subroutine($file, $path);
+                $result[] = $this->$subroutine($file, $path);
             } else {
                 $result[] = $file;
             }
@@ -562,7 +561,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', '', $namespace . '_' . $module, $filePath);
+        return array($area, '', '', $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -581,7 +580,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $locale, $filePath) = $matches;
-        return array($area, '', $locale, $namespace . '_' . $module, $filePath);
+        return array($area, '', $locale, $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -600,7 +599,7 @@ class Files
             $matches
         )) {
             list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, '', $module, $filePath);
+            return array($area, $themeNS . '/' . $themeCode, '', $module, $filePath, $file);
         }
 
         preg_match(
@@ -609,7 +608,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, '', '', $filePath);
+        return array($area, $themeNS . '/' . $themeCode, '', '', $filePath, $file);
     }
 
     /**
@@ -628,7 +627,7 @@ class Files
             $matches
         )) {
             list(, $area, $themeNS, $themeCode, $module, $locale, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, $locale, $module, $filePath);
+            return array($area, $themeNS . '/' . $themeCode, $locale, $module, $filePath, $file);
         }
 
         preg_match(
@@ -637,7 +636,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $locale, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $locale, '', $filePath);
+        return array($area, $themeNS . '/' . $themeCode, $locale, '', $filePath, $file);
     }
 
     /**
@@ -726,7 +725,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', $namespace . '_' . $module, $filePath);
+        return array($area, '', $namespace . '_' . $module, $filePath, $file);
     }
 
     /**
@@ -745,7 +744,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $module, $filePath);
+        return array($area, $themeNS . '/' . $themeCode, $module, $filePath, $file);
     }
 
     /**
@@ -837,9 +836,9 @@ class Files
         $configs = array_merge($primaryConfigs, $moduleConfigs);
 
         if ($asDataSet) {
-            $output = array();
+            $output = [];
             foreach ($configs as $file) {
-                $output[$file] = array($file);
+                $output[] = [$file];
             }
 
             return $output;
@@ -888,7 +887,7 @@ class Files
              * of file names
              * Note that realpath() automatically changes directory separator to the OS-native
              */
-            if (realpath($fullPath) == str_replace(array('/', '\\'), '/', $fullPath)) {
+            if (realpath($fullPath) == str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $fullPath)) {
                 $fileContent = file_get_contents($fullPath);
                 if (strpos(
                     $fileContent,

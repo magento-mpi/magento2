@@ -7,7 +7,7 @@
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-use Magento\Framework\Service\DataObjectConverter;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
 use Magento\Webapi\Controller\Soap\Request\Handler as SoapHandler;
@@ -37,7 +37,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     protected $_helper;
 
     /**
-     * @var DataObjectConverter
+     * @var SimpleDataObjectConverter
      */
     protected $_converter;
 
@@ -50,7 +50,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $objectManager = Bootstrap::getObjectManager();
         $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
         $this->_helper = $objectManager->get('Magento\Webapi\Helper\Data');
-        $this->_converter = $objectManager->get('\Magento\Framework\Service\DataObjectConverter');
+        $this->_converter = $objectManager->get('\Magento\Framework\Service\SimpleDataObjectConverter');
     }
 
     /**

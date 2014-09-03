@@ -317,7 +317,15 @@ class Config extends \Magento\Framework\Object
      */
     public function getCustomerEmailRecipient($store)
     {
-        $senderCode = $this->_scopeConfig->getValue(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-        return $this->_scopeConfig->getValue('trans_email/ident_' . $senderCode . '/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $senderCode = $this->_scopeConfig->getValue(
+            self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        return $this->_scopeConfig->getValue(
+            'trans_email/ident_' . $senderCode . '/email',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

@@ -260,8 +260,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             }
         }
 
-        $this->eventManager->dispatch('customer_login', array('customer' => $customerModel));
-
         $customerData = $this->converter->createCustomerFromModel($customerModel);
         $this->eventManager->dispatch('customer_data_object_login', array('customer' => $customerData));
 
@@ -625,7 +623,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function validateCustomerData(Data\Customer $customer, array $attributes = [])
     {
         $customerErrors = $this->validator->validateData(
-            \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer),
+            \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer),
             $attributes,
             'customer'
         );

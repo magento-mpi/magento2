@@ -237,20 +237,15 @@ class History extends \Magento\Framework\Model\AbstractModel
         }
 
         foreach ($sendTo as $recipient) {
-            $transport = $this->_transportBuilder->setTemplateIdentifier(
-                $template
-            )->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $rma->getStoreId())
-            )->setTemplateVars(
-                array('rma' => $rma, 'order' => $rma->getOrder(), 'comment' => $this->getComment())
-            )->setFrom(
-                $this->_rmaConfig->getIdentity()
-            )->addTo(
-                $recipient['email'],
-                $recipient['name']
-            )->addBcc(
-                $bcc
-            )->getTransport();
+            $transport = $this->_transportBuilder->setTemplateIdentifier($template)
+                ->setTemplateOptions(
+                    ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $rma->getStoreId()]
+                )
+                ->setTemplateVars(['rma' => $rma, 'order' => $rma->getOrder(), 'comment' => $this->getComment()])
+                ->setFrom($this->_rmaConfig->getIdentity())
+                ->addTo($recipient['email'], $recipient['name'])
+                ->addBcc($bcc)
+                ->getTransport();
 
             $transport->sendMessage();
         }

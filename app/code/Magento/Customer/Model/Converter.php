@@ -11,7 +11,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
-use Magento\Framework\Service\EavDataObjectConverter;
+use Magento\Framework\Service\ExtensibleDataObjectConverter;
 use Magento\Framework\StoreManagerInterface;
 
 /**
@@ -39,12 +39,12 @@ class Converter
     /**
      * @param CustomerDataObjectBuilder $customerBuilder
      * @param CustomerFactory $customerFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         CustomerDataObjectBuilder $customerBuilder,
         CustomerFactory $customerFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager
     ) {
         $this->_customerBuilder = $customerBuilder;
         $this->_customerFactory = $customerFactory;
@@ -140,7 +140,7 @@ class Converter
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = EavDataObjectConverter::toFlatArray($customer);
+        $attributes = ExtensibleDataObjectConverter::toFlatArray($customer);
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {
@@ -174,7 +174,7 @@ class Converter
         \Magento\Customer\Model\Customer $customerModel,
         CustomerDataObject $customerData
     ) {
-        $attributes = EavDataObjectConverter::toFlatArray($customerData);
+        $attributes = ExtensibleDataObjectConverter::toFlatArray($customerData);
         foreach ($attributes as $attributeCode => $attributeValue) {
             $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }

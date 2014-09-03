@@ -1896,7 +1896,8 @@ return array(
         'updateCategoryIndex',
         'Magento\CatalogSearch\Model\Resource\Fulltext',
     ],
-    ['removeTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
-    ['addTag', '\Magento\UrlRewrite\Model\UrlRewrite'],
-    ['loadByTags', '\Magento\UrlRewrite\Model\UrlRewrite'],
+    ['removeTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
+    ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
+    ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],
+    ['getMethodFormBlock', 'Magento\Centinel\Helper\Data'],
 );
