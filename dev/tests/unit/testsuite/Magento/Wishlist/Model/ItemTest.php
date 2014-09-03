@@ -26,7 +26,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $contextMock = $this->getMock('\Magento\Framework\Model\Context', [], [], '', false);
         $registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
-        $storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface', [], [], '');
+        $storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface', [], [], '');
         $dateMock = $this->getMock('\Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
         $productFactoryMock = $this->getMock('\Magento\Catalog\Model\ProductFactory', [], [], '', false);
         $catalogUrlMock = $this->getMock('\Magento\Catalog\Model\Resource\Url', [], [], '', false);
