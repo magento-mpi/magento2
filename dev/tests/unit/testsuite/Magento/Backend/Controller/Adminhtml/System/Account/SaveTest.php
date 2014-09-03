@@ -85,7 +85,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->_userMock = $this->getMockBuilder(
             'Magento\User\Model\User'
         )->disableOriginalConstructor()->setMethods(
-            array('load', 'save', 'sendPasswordResetNotificationEmail', '__sleep', '__wakeup')
+            array('load', 'save', 'sendPasswordResetNotificationEmail', 'verifyIdentity', '__sleep', '__wakeup')
         )->getMock();
 
         $this->_validatorMock = $this->getMockBuilder(
@@ -148,7 +148,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             'username' => 'Foo',
             'firstname' => 'Bar',
             'lastname' => 'Dummy',
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
+            \Magento\Backend\Block\System\Account\Edit\Form::IDENTITY_VERIFICATION_PASSWORD_FIELD => 'current_password'
         );
 
         $testedMessage = 'The account has been saved.';
@@ -207,6 +208,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->_userMock->setUserId($userId);
 
         $this->_userMock->expects($this->once())->method('save');
+        $this->_userMock->expects($this->once())->method('verifyIdentity')->will($this->returnValue(true));
         $this->_userMock->expects($this->once())->method('sendPasswordResetNotificationEmail');
 
         $this->_requestMock->setParams($requestParams);
