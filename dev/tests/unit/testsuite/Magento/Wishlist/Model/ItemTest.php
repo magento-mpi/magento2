@@ -125,7 +125,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->model->getOptions());
         $optionMock = $this->getMockBuilder('Magento\Wishlist\Model\Item\Option')
             ->disableOriginalConstructor()
-            ->setMethods(array('setData', 'getCode'))
+            ->setMethods(array('setData', 'getCode', '__wakeup'))
             ->getMock();
         $optionMock->expects($this->any())
             ->method('setData')
@@ -149,7 +149,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->model->getOptions());
         $optionMock = $this->getMockBuilder('Magento\Wishlist\Model\Item\Option')
             ->disableOriginalConstructor()
-            ->setMethods(array('setData', 'getCode'))
+            ->setMethods(array('setData', 'getCode', '__wakeup'))
             ->getMock();
         $optionMock->expects($this->any())
             ->method('setData')
@@ -173,7 +173,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $optionMock = $this->getMockBuilder('Magento\Wishlist\Model\Item\Option')
             ->disableOriginalConstructor()
-            ->setMethods(array('getCode'))
+            ->setMethods(array('getCode', '__wakeup'))
             ->getMock();
         $optionMock->expects($this->any())
             ->method('getCode')
