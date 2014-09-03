@@ -1,19 +1,19 @@
-define(['ko', 'Magento_Ui/js/framework/class'], function (ko, Class) {
+define(['ko', 'Magento_Ui/js/framework/class'], function(ko, Class) {
 
-  return Class.extend({
-    
-    initialize: function (template) {
-      this.templateName = template;
-      this._data = {};
-      this.nodes = ko.observable([]);
-    },
+    return Class.extend({
 
-    data: function (key, value) {
-      if (arguments.length === 1) {
-        return this._data[key];
-      }
+        initialize: function(template) {
+            this.templateName = template;
+            this._data = {};
+            this.nodes = ko.observable([]);
+        },
 
-      this._data[key] = value;
-    }
-  });
+        data: function(key, value) {
+            if (arguments.length === 1) {
+                return this._data[key];
+            }
+
+            this._data[key] = value;
+        }
+    });
 });
