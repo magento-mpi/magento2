@@ -14,5 +14,5 @@ namespace Magento\CustomerBalance\Test\Fixture\CustomerBalance;
  */
 class WebsiteId extends \Magento\Store\Test\Fixture\StoreGroup\WebsiteId
 {
-
+    //
 }

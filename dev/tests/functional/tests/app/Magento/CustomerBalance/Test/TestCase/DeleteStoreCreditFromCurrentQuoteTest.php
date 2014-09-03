@@ -43,6 +43,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  *
  * @group Customers_(CS)
  * @ZephyrId MAGETWO-27688
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
 {
@@ -82,7 +84,14 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
     protected $checkoutOnepage;
 
     /**
-     * Enable free shipping in configuration
+     * Fixture Factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
+     * Enable free shipping in configuration and create simple product
      *
      * @param FixtureFactory $fixtureFactory
      * @return array
@@ -106,6 +115,7 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
@@ -113,19 +123,20 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
         CustomerAccountLogin $customerAccountLogin,
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
-        CheckoutOnepage $checkoutOnepage
+        CheckoutOnepage $checkoutOnepage,
+        FixtureFactory $fixtureFactory
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
         $this->catalogProductView = $catalogProductView;
         $this->checkoutCart = $checkoutCart;
         $this->checkoutOnepage = $checkoutOnepage;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
      * Delete Store Credit from current quote
      *
-     * @param FixtureFactory $fixtureFactory
      * @param CustomerInjectable $customer
      * @param Browser $browser
      * @param CatalogProductSimple $product
@@ -135,7 +146,6 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
      * @return void
      */
     public function test(
-        FixtureFactory $fixtureFactory,
         CustomerInjectable $customer,
         Browser $browser,
         CatalogProductSimple $product,
@@ -145,7 +155,7 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
     ) {
         // Precondition
         $customer->persist();
-        $customerBalance = $fixtureFactory->createByCode(
+        $customerBalance = $this->fixtureFactory->createByCode(
             'customerBalance',
             [
                 'dataSet' => 'customerBalance_100',
@@ -168,6 +178,7 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
         $this->checkoutOnepage->getShippingMethodBlock()->selectShippingMethod($shipping);
         $this->checkoutOnepage->getShippingMethodBlock()->clickContinue();
         $this->checkoutOnepage->getStoreCreditBlock()->fillStoreCredit($payment);
+        $this->checkoutOnepage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $this->checkoutOnepage->getPaymentMethodsBlock()->clickContinue();
         $this->checkoutOnepage->getOrderReviewBlock()->clickRemoveStoreCredit();
     }

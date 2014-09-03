@@ -8,14 +8,14 @@
 
 namespace Magento\CustomerBalance\Test\Block\Onepage;
 
-use Mtf\Block\Block;
 use Mtf\Client\Element;
+use Magento\Checkout\Test\Block\Onepage\Review as ParentBlock;
 
 /**
  * Class Review
  * One page checkout order review block
  */
-class Review extends Block
+class Review extends ParentBlock
 {
     /**
      * Remove store credit
