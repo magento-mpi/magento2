@@ -35,9 +35,17 @@ class AssertStoreNotOnFrontend extends AbstractConstraint
     public function processAssert(Store $store, CmsIndex $cmsIndex)
     {
         $cmsIndex->open();
-        $isStoreViewVisible = $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
+        if ($cmsIndex->getFooterBlock()->isStoreGroupSwitcherVisible()
+            && $cmsIndex->getFooterBlock()->isStoreGroupVisible($store)
+        ) {
+            $cmsIndex->getFooterBlock()->selectStoreGroup($store);
+        }
 
-        \PHPUnit_Framework_Assert::assertFalse(
+        $isStoreViewVisible = !$cmsIndex->getStoreSwitcherBlock()->isStoreViewDropdownVisible()
+            ? false // if only one store view is assigned to store group
+            : $cmsIndex->getStoreSwitcherBlock()->isStoreViewVisible($store);
+
+        \PHPUnit_Framework_Assert::assertfalse(
             $isStoreViewVisible,
             "Store view is visible in dropdown on CmsIndex page"
         );
