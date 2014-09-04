@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/system_currencysymbol/index" >
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>currencySymbolForm</name>
-        <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\CurrencySymbolForm</class>
-        <locator>#grid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>pageActions</name>
-        <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/system_currencysymbol/index" module="Magento_CurrencySymbol">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <currencySymbolForm>
+            <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\CurrencySymbolForm</class>
+            <locator>#grid</locator>
+            <strategy>css selector</strategy>
+        </currencySymbolForm>
+        <pageActions>
+            <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+    </blocks>
 </page>
