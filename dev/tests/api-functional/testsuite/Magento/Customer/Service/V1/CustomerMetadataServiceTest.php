@@ -184,6 +184,9 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllCustomerAttributeMetadata()
     {
+        $this->markTestSkipped(
+            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
+        );
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/customer/all",

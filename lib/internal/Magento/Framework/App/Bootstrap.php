@@ -78,6 +78,13 @@ class Bootstrap
     private $dirList;
 
     /**
+     * Configuration directory
+     *
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
+     */
+    private $configDir;
+
+    /**
      * Maintenance mode manager
      *
      * @var \Magento\Framework\App\MaintenanceMode
@@ -195,7 +202,7 @@ class Bootstrap
      * @return void
      * @throws \Exception
      */
-    private function assertMaintenance()
+    protected function assertMaintenance()
     {
         $isExpected = $this->getIsExpected(self::PARAM_REQUIRE_MAINTENANCE, self::DEFAULT_REQUIRE_MAINTENANCE);
         if (null === $isExpected) {
@@ -219,7 +226,7 @@ class Bootstrap
      * @return void
      * @throws \Exception
      */
-    private function assertInstalled()
+    protected function assertInstalled()
     {
         $isExpected = $this->getIsExpected(self::PARAM_REQUIRE_IS_INSTALLED, self::DEFAULT_REQUIRE_IS_INSTALLED);
         if (null === $isExpected) {
@@ -265,7 +272,7 @@ class Bootstrap
     private function isInstalled()
     {
         $this->init();
-        return file_exists($this->dirList->getDir(Filesystem::CONFIG_DIR) . '/local.xml');
+        return $this->configDir->isExist('local.xml');
     }
 
     /**
@@ -312,6 +319,9 @@ class Bootstrap
             $this->objectManager = $this->factory->create($this->rootDir, $this->server);
             $this->dirList = $this->objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
             $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
+            /** @var $fileSystem \Magento\Framework\App\Filesystem */
+            $fileSystem = $this->objectManager->get('Magento\Framework\App\Filesystem');
+            $this->configDir = $fileSystem->getDirectoryRead(Filesystem::CONFIG_DIR);
         }
     }
 
@@ -342,7 +352,7 @@ class Bootstrap
      * @return void
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function terminate(\Exception $e)
+    protected function terminate(\Exception $e)
     {
         if ($this->isDeveloperMode()) {
             echo $e;

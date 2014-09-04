@@ -79,7 +79,7 @@ class SetupFactory
     }
 
     /**
-     * Create Setup
+     * Creates Setup
      *
      * @param string $moduleName
      * @return Setup

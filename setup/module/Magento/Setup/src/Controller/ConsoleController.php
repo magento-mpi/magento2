@@ -56,6 +56,13 @@ class ConsoleController extends AbstractActionController
     protected $config;
 
     /**
+     * Configuration Facotry
+     *
+     * @var Config
+     */
+    protected $configFactory;
+
+    /**
      * Factory Configurations
      *
      * @var Config
@@ -110,6 +117,20 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
+     * Controller for Install Command
+     * @return string
+     * @throws \Exception
+     */
+    public function installAction()
+    {
+        $message = [];
+        $message[] = $this->installLocalAction();
+        $message[] = $this->installSchemaAction();
+        $message[] = $this->installDataAction();
+        return implode(PHP_EOL, $message);
+    }
+
+    /**
      * Creates the local.xml file
      *
      * @return string
@@ -140,9 +161,6 @@ class ConsoleController extends AbstractActionController
         if (array_diff($required, $current)) {
             throw new \Exception('You do no have appropriate file permissions.');
         }
-
-        //Set maintenance mode "on"
-        touch($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
 
         //Db Data Configuration
         $dbHost   = $request->getParam('db_host', '');
@@ -288,6 +306,7 @@ class ConsoleController extends AbstractActionController
         $this->config->loadFromConfigFile();
         $this->setupFactory->setConfig($this->config->getConfigData());
 
+        //Todo: this is not a good way to do that! However, we are going to refactor it in next story
         $moduleNames = array_keys($this->moduleList);
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
@@ -354,9 +373,6 @@ class ConsoleController extends AbstractActionController
             $outputMsg = implode(PHP_EOL, $output);
             throw new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
         }
-
-        //Set maintenance mode "off"
-        unlink($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
 
         return  "Completed: Data Installation." . PHP_EOL;
     }

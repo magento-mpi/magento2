@@ -94,6 +94,9 @@ class Handler
         }
 
         $isAllowed = false;
+        $serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] = array_values(
+            $serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES][0]
+        );
         foreach ($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] as $resource) {
             if ($this->_authorization->isAllowed($resource)) {
                 $isAllowed = true;
@@ -139,6 +142,7 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
+        $result = null;
         if ($data instanceof AbstractObject) {
             $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {

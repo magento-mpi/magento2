@@ -9,7 +9,6 @@
 namespace Magento\Framework\View\Asset;
 
 use Magento\Framework\View\Design\FileResolution\Fallback\Resolver\Simple;
-use Magento\Framework\View\Design\Theme\FlyweightFactory;
 
 /**
  * A service for preprocessing content of assets

@@ -48,7 +48,7 @@ class Helper
     /**
      * Check existence of a directory
      *
-     * @param $string $destinationDir
+     * @param string $destinationDir
      * @return void
      * @throws \Exception
      */
@@ -108,16 +108,17 @@ class Helper
                 if ((strpos($line, 'extension_dir') !== false) && (strrpos($line, ";") !==0)) {
                     $extPath = explode("=", $line);
                     $pathFull = explode("\"", $extPath[1]);
-                    $pathParts[1] = str_replace('\\', '/', $pathFull[1]);
-                    foreach (explode('/', $pathParts[1]) as $piece) {
+                    $pathParts = str_replace('\\', '/', $pathFull[1]);
+                    foreach (explode('/', $pathParts) as $piece) {
                         $phpPath .= $piece . '/';
                         if (strpos($piece, phpversion()) !== false) {
-                            if (file_exists($phpPath.'bin')) {
+                            if (file_exists($phpPath . 'bin')) {
                                 $phpPath .= 'bin' . '/';
                             }
                             break;
                         }
                     }
+                    break;
                 }
             }
             fclose($iniFile);
