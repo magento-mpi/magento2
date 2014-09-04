@@ -29,7 +29,6 @@
             <module name="Magento_Widget"/>
             <module name="Magento_GiftCard"/>
             <module name="Magento_Downloadable"/>
-            <module name="Magento_Weee"/>
         </depends>
     </module>
 </config>
