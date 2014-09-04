@@ -25,8 +25,8 @@ class MatchTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildQuery()
     {
-        $expectedSql = "SELECT `table`.* FROM `table` WHERE (MATCH (`with_boost`) AGAINST ('-wb' IN BOOLEAN MODE)) " .
-            "AND (MATCH (`without_boost`) AGAINST ('-wob' IN BOOLEAN MODE))";
+        $expectedSql = "SELECT `table`.* FROM `table` WHERE (MATCH (with_boost) AGAINST ('-wb' IN BOOLEAN MODE)) " .
+            "AND (MATCH (without_boost) AGAINST ('-wob' IN BOOLEAN MODE))";
 
         /** @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder $scoreBuilder */
         $scoreBuilder = $this->objectManager->create('Magento\Framework\Search\Adapter\Mysql\ScoreBuilder');
