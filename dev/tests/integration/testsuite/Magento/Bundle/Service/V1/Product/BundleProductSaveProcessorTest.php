@@ -85,10 +85,6 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $firstLink = $this->linkBuilder
             ->setSku('simple')
             ->create();
-        /** @var Link $secondLink */
-        $secondLink = $this->linkBuilder
-            ->setSku('secondLinkSku' . $skuSuffix)
-            ->create();
         /** @var Link[] $links */
         $links = array($firstLink);
 

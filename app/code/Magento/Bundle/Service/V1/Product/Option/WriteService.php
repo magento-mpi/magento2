@@ -197,5 +197,4 @@ class WriteService implements WriteServiceInterface
             return 1;
         }
     }
-
 }

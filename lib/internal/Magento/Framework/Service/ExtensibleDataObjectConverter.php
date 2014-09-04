@@ -21,6 +21,7 @@ class ExtensibleDataObjectConverter
      * Convert AbstractExtensibleObject into flat array.
      *
      * @param AbstractExtensibleObject $dataObject
+     * @param string[] $skipCustomAttributes
      * @return array
      */
     public static function toFlatArray(AbstractExtensibleObject $dataObject, $skipCustomAttributes = array())
