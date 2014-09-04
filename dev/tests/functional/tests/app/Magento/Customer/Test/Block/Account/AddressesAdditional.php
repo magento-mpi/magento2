@@ -40,7 +40,7 @@ class AddressesAdditional extends Block
      */
     public function deleteAdditionalAddress(AddressInjectable $address)
     {
-        $this->_rootElement->find(sprintf($this->addressSelector, $address->getStreet()),Locator::SELECTOR_XPATH)
+        $this->_rootElement->find(sprintf($this->addressSelector, $address->getStreet()), Locator::SELECTOR_XPATH)
             ->find($this->deleteAddressLink)->click();
         $this->_rootElement->acceptAlert();
     }

@@ -17,7 +17,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertAddressDeletedFrontend extends AbstractConstraint
 {
+    /**
+     * Expected message
+     */
     const EXPECTED_MESSAGE = 'You have no additional address entries in your address book.';
+
     /**
      * Constraint severeness
      *
@@ -36,7 +40,7 @@ class AssertAddressDeletedFrontend extends AbstractConstraint
         $actualText = $customerAccountIndex->getAdditionalAddressBlock()->getBlockText();
         \PHPUnit_Framework_Assert::assertTrue(
             in_array(self::EXPECTED_MESSAGE, $actualText),
-            'Expected text is absent in Additional Address block'
+            'Expected text is absent in Additional Address block.'
         );
     }
 
@@ -47,6 +51,6 @@ class AssertAddressDeletedFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Expected text is present in Additional Address block';
+        return 'Expected text is present in Additional Address block.';
     }
 }

@@ -19,6 +19,7 @@ use Mtf\TestCase\Injectable;
  * Test Creation for DeleteCustomerAddress
  *
  * Test Flow:
+ *
  * Preconditions:
  * 1. Create customer
  * 2. Add default address (NY)
@@ -78,26 +79,12 @@ class DeleteCustomerAddressTest extends Injectable
     /**
      * Runs Delete Customer Address test
      *
-     * @param FixtureFactory $fixtureFactory
-     * @param string $address1
-     * @param string $address2
+     * @param \Magento\Customer\Test\Fixture\CustomerInjectable $customer
      * @return array
      */
-    public function test(FixtureFactory $fixtureFactory, $address1, $address2)
+    public function test(CustomerInjectable $customer)
     {
         // Precondition:
-        /** @var CustomerInjectable $customer */
-        $customer = $fixtureFactory->createByCode(
-            'customerInjectable',
-            [
-                'dataSet' => 'default',
-                'data' => [
-                    'address' => [
-                        'presets' => $address1 . "," . $address2
-                    ]
-                ]
-            ]
-        );
         $customer->persist();
         $addressToDelete = $customer->getDataFieldConfig('address')['source']->getAddresses()[1];
 

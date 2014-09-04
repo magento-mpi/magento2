@@ -1,2 +1,2 @@
-"address1";"address2";"constraint"
-"US_address_default_billing";"US_address_custom_billing";"assertAddressDeletedFrontend, assertAddressDeletedBackend"
+"customer/dataSet";"customer/data/address/presets";"constraint"
+"default";"US_address_default_billing,US_address_custom_billing";"assertAddressDeletedFrontend, assertAddressDeletedBackend"
