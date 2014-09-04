@@ -10,7 +10,6 @@ namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
 
 use Mtf\Block\Form;
 use Mtf\ObjectManager;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Filter
