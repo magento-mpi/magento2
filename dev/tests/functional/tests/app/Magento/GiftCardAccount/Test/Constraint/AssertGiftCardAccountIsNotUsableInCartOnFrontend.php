@@ -8,12 +8,13 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\GiftCardAccount\Test\Page\CheckoutCart;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Class AssertGiftCardAccountIsNotUsableInCartOnFrontend
@@ -36,6 +37,7 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
      * @param Index $index
      * @param FixtureInterface $product
      * @param GiftCardAccount $giftCardAccount
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
@@ -43,7 +45,8 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
         CheckoutCart $checkoutCart,
         Index $index,
         FixtureInterface $product,
-        GiftCardAccount $giftCardAccount
+        GiftCardAccount $giftCardAccount,
+        Browser $browser
     ) {
         if ($giftCardAccount->hasData('code')) {
             $value = $giftCardAccount->getCode();
@@ -53,8 +56,7 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
             $value = $index->getGiftCardAccount()->getCode($filter, false);
         }
 
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $catalogProductView->getViewBlock()->clickAddToCart();
         $checkoutCart->getGiftCardAccountBlock()->addGiftCard($value);
 

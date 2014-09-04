@@ -9,7 +9,7 @@
 namespace Magento\CustomerBalance\Test\TestCase;
 
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Magento\CustomerBalance\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 use Mtf\TestCase\Injectable;
 use \Magento\Customer\Test\Fixture\CustomerInjectable;
@@ -95,7 +95,7 @@ class CreatingCustomerBalanceEntityTest extends Injectable
         $this->customerIndex->open();
         $filter = ['email' => $this->customer->getEmail()];
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
-        $this->customerIndexEdit->getCustomerForm()->fill($customerBalance);
+        $this->customerIndexEdit->getCustomerBalanceForm()->fill($customerBalance);
         $this->customerIndexEdit->getPageActionsBlock()->save();
     }
 }

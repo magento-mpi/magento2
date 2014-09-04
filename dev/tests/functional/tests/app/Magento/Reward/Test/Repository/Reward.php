@@ -12,7 +12,7 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class Reward
- * Reward repository
+ * Reward points repository
  */
 class Reward extends AbstractRepository
 {
@@ -25,20 +25,8 @@ class Reward extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['rate_points_to_currency'] = [
-            'website_id' => 'Main Website',
-            'customer_group_id' => ['dataSet' => 'All Customer Groups'],
-            'direction' => 'Points to Currency',
-            'value' => 10,
-            'equal_value' => 1
-        ];
-
-        $this->_data['rate_currency_to_points'] = [
-            'website_id' => 'Main Website',
-            'customer_group_id' => ['dataSet' => 'All Customer Groups'],
-            'direction' => 'Currency to Points',
-            'value' => 10,
-            'equal_value' => 1
+        $this->_data['reward_points_50'] = [
+            'points_delta' => 50,
         ];
     }
 }
