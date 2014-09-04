@@ -2,27 +2,27 @@ define([
     '_',
     'jquery',
     'Magento_Ui/js/framework/class'
-], function( _, $, Class ){
+], function(_, $, Class) {
     'use strict';
-    
+
     return Class.extend({
-        initialize: function( config ){
-            _.extend( this, config );
+        initialize: function(config) {
+            _.extend(this, config);
         },
 
-        create: function(){
-            
-        },
-
-        read: function(){
+        create: function() {
 
         },
 
-        update: function(){
+        read: function() {
 
         },
 
-        delete: function(){
+        update: function() {
+
+        },
+
+        delete: function() {
 
         }
     });

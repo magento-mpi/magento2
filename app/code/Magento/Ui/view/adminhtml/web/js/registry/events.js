@@ -1,81 +1,81 @@
 define([
-	'./storage'
-], function( storage ){
+    './storage'
+], function(storage) {
     'use strict';
-    
-	var id = 0,
-		wait = {},
-		map = {};
 
-	function clear( resolved ){
-		var ei,
-			elems,
-			index,
-			pending;
-			
-		resolved.forEach(function( cid ){
-			elems = wait[cid].deps;
+    var id = 0,
+        wait = {},
+        map = {};
 
-			for( ei = elems.length; ei--; ){
-				pending = elems[ei];
+    function clear(resolved) {
+        var ei,
+            elems,
+            index,
+            pending;
 
-				index = pending.indexOf( cid );
+        resolved.forEach(function(cid) {
+            elems = wait[cid].deps;
 
-				if( ~index ){
-					pending.splice( index, 1 );
-				}
-			}
+            for (ei = elems.length; ei--;) {
+                pending = map[elems[ei]];
 
-			delete wait[ cid ];
-		});
-	}
+                index = pending.indexOf(cid);
+
+                if (~index) {
+                    pending.splice(index, 1);
+                }
+            }
+
+            delete wait[cid];
+        });
+    }
 
     return {
-    	resolve: function( elem ){
-    		var pending,
-    			handler,
-    			elems,
-    			resolved;
+        resolve: function(elem) {
+            var pending,
+                handler,
+                elems,
+                resolved;
 
-    		pending = map[ elem ];
-    		
-    		if( typeof pending === 'undefined' ){
-    			return;
-    		}
+            pending = map[elem];
 
-    		resolved = [];
+            if (typeof pending === 'undefined') {
+                return;
+            }
 
-    		pending.forEach(function(cid){
-    			handler = wait[ cid ];
-    			elems	= handler.deps;
+            resolved = [];
 
-    			if( storage.has( elems ) ){
-    				handler.callback.apply( window, storage.get( elems ) );
-    				resolved.push( cid );
-    			}
-    		});
+            pending.forEach(function(cid) {
+                handler = wait[cid];
+                elems = handler.deps;
 
-    		clear( resolved );
-    	},
+                if (storage.has(elems)) {
+                    handler.callback.apply(window, storage.get(elems));
+                    resolved.push(cid);
+                }
+            });
 
-    	wait: function( elems, callback ){
-    		
-    		if( storage.has( elems ) ){
-    			return callback.apply( window, storage.get( elems ) );
-    		}
+            clear(resolved);
+        },
 
-    		wait[ id ] = {
-    			callback: callback,
-    			deps: elems
-    		};
+        wait: function(elems, callback) {
 
-    		elems.forEach(function( elem ){
-    			elem = map[ elem ] = map[ elem ] || [];
+            if (storage.has(elems)) {
+                return callback.apply(window, storage.get(elems));
+            }
 
-    			elem.push( id );
-    		});
+            wait[id] = {
+                callback: callback,
+                deps: elems
+            };
 
-    		id++;
-    	}
+            elems.forEach(function(elem) {
+                elem = map[elem] = map[elem] || [];
+
+                elem.push(id);
+            });
+
+            id++;
+        }
     };
 });

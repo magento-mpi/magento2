@@ -1,16 +1,50 @@
-define(['ko', 'Magento_Ui/js/registry/registry'], function (ko, registry) {
+define([
+    'ko',
+    'Magento_Ui/js/registry/registry'
+], function(ko, registry) {
+
+    function getMultiple(bindings, viewModel, callback) {
+        var key,
+            components,
+            ctx;
+
+        components = [];
+
+        ctx = {
+            parent: viewModel
+        };
+
+        for (key in bindings) {
+            components.push(bindings[key]);
+        }
+
+        registry.get(components, function() {
+
+            for (key in bindings) {
+                ctx[key] = registry.get(bindings[key])[0];
+            }
+
+            callback(ctx);
+        });
+    }
+
+    function applyComponents(el, bindingContext, component) {
+        component = bindingContext.createChildContext(component);
+        ko.applyBindingsToDescendants(component, el);
+    }
 
     ko.bindingHandlers.scope = {
-        init: function (el, valueAccessor, allBindings, viewModel, bindingContext) {
-            var component = valueAccessor();
-            var childBindingContext;
+        init: function(el, valueAccessor, allBindings, viewModel, bindingContext) {
+            var component = valueAccessor(),
+                apply = applyComponents.bind(this, el, bindingContext);
 
-            registry.get(component, function( component ){
-                childBindingContext = bindingContext.createChildContext(component);
-                ko.applyBindingsToDescendants(childBindingContext, el);
-            });
+            typeof component === 'object' ?
+                getMultiple(component, viewModel, apply) :
+                registry.get(component, apply);
 
-            return { controlsDescendantBindings: true };
+            return {
+                controlsDescendantBindings: true
+            };
         }
     };
 });

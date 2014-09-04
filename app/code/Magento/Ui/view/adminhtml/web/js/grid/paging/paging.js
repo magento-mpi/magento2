@@ -5,7 +5,7 @@ define([
 ], function(_, ko, Scope) {
     'use strict';
 
-    return Scope.extend({        
+    return Scope.extend({
         initialize: function(config) {
             var data;
 
@@ -14,38 +14,38 @@ define([
 
             _.bindAll(this, 'reload', 'onLoad');
 
-            this.initObservable( config )
+            this.initObservable(config)
                 .initComputed()
                 .updateParams();
 
-            this._current.subscribe( this.reload );
+            this.current.subscribe(this.reload);
 
-            this.storage.on( 'load', this.onLoad );
+            this.storage.on('load', this.onLoad);
         },
 
-        initObservable: function( config ){
+        initObservable: function(config) {
             var data = this.storage.getData();
 
             this.observe({
                 'pages': data.pages,
                 'totalCount': data.totalCount,
-                '_current': config.current,
-                'pageSize': config.pageSize
+                '_current': config.params.current,
+                'pageSize': config.params.pageSize
             });
 
             return this;
         },
 
-        initComputed: function(){
+        initComputed: function() {
             this.current = ko.pureComputed({
-                read: function(){
+                read: function() {
                     return this._current();
                 },
 
-                write: function( value ){
+                write: function(value) {
                     var valid;
 
-                    valid = Math.min( Math.max(1, +value), this.pages() );
+                    valid = Math.min(Math.max(1, +value), this.pages());
 
                     return this._current(valid);
                 }
@@ -54,50 +54,50 @@ define([
             return this;
         },
 
-        go: function( val ){
+        go: function(val) {
             var current = this.current;
 
-            current( current() + val );
+            current(current() + val);
         },
 
-        next: function(){
-            this.go( 1 );    
+        next: function() {
+            this.go(1);
         },
 
-        prev: function(){
-            this.go( -1 );
+        prev: function() {
+            this.go(-1);
         },
 
-        isLast: function(){
+        isLast: function() {
             return this.current() === this.pages();
         },
 
-        isFirst: function(){
+        isFirst: function() {
             return this.current() === 1;
         },
 
-        reload: function(){
+        reload: function() {
             this.updateParams().storage.load();
 
             return this;
         },
 
-        updateParams: function(){
+        updateParams: function() {
             this.storage.setParams({
                 paging: {
                     pageSize: this.pageSize(),
                     current: this.current()
                 }
             });
-            
+
             return this;
         },
 
-        onLoad: function(){
+        onLoad: function() {
             var data = this.storage.getData();
 
-            this.totalCount( data.totalCount );
-            this.pages( data.pages );
+            this.totalCount(data.totalCount);
+            this.pages(data.pages);
         }
     });
 });

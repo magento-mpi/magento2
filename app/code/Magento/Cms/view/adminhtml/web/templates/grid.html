@@ -1,5 +1,5 @@
  <table data-template-extend="Magento_Ui.templates.listing.grid">
-    <thead data-part-replace="grid.heading">
+    <thead data-part-replace="grid.heading" data-bind="scope: { sorting: 'cms.pages:sorting'}">
         <tr class="headings">
             <!--
             <th class="col-select col-massaction">
@@ -14,9 +14,17 @@
                 </div>
             </th>
             -->
-            <!-- ko foreach: { data: fields, as: 'field' } -->
+            <!-- ko foreach: { data: parent.fields, as: 'field' } -->
             <th>
-                <span><a href="#" data-bind="text: field.title, css: $parent.getSortableClassFor(field)"></a></span>
+                <!-- ko if: field.sortable -->
+                <span>
+                    <a href="#" data-bind="text: field.title, css: $parent.sorting.setClass(field.id), click: $parent.sorting.onClick(field)"></a>
+                </span>
+                <!-- /ko -->
+                
+                <!-- ko if: !field.sortable -->
+                <span data-bind="text: field.title"></span>
+                <!-- /ko -->
             </th>
             <!-- /ko -->
         </tr>

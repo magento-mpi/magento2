@@ -38,12 +38,6 @@ define([
             return this;
         },
 
-        getSortableClassFor: function(heading) {
-            var rule = heading.sorted;
-
-            return rule ? 'sort-arrow-' + rule : 'not-sorted';
-        },
-
         updateItems: function() {
             var items = this.storage.getData().items;
 
