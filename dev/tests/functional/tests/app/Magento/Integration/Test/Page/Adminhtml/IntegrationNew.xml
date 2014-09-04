@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/integration/new" >
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Integration\Test\Block\Adminhtml\Integration\Edit\IntegrationFormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>integrationForm</name>
-        <class>Magento\Integration\Test\Block\Adminhtml\Integration\Edit\IntegrationForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/integration/new" module="Magento_Integration">
+    <blocks>
+        <formPageActions>
+            <class>Magento\Integration\Test\Block\Adminhtml\Integration\Edit\IntegrationFormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <integrationForm>
+            <class>Magento\Integration\Test\Block\Adminhtml\Integration\Edit\IntegrationForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </integrationForm>
+    </blocks>
 </page>

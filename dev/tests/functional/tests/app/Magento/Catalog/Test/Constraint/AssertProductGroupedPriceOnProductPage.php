@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Block\Product\View;
@@ -44,12 +45,12 @@ class AssertProductGroupedPriceOnProductPage extends AbstractConstraint implemen
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
+     * @param Browser $browser
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product, Browser $browser)
     {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         //Process assertions
         $this->assertPrice($product, $catalogProductView);

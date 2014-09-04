@@ -33,12 +33,12 @@ class Checkout extends DataFixture
      *
      * @var \Magento\Catalog\Test\Fixture\SimpleProduct[]
      */
-    protected $products = array();
+    protected $products = [];
 
     /**
      * Checkout billing address
      *
-     * @var \Magento\Customer\Test\Fixture\Address
+     * @var \Magento\Customer\Test\Fixture\AddressInjectable
      */
     protected $billingAddress;
 
@@ -47,14 +47,14 @@ class Checkout extends DataFixture
      *
      * @var \Magento\Customer\Test\Fixture\Address[]
      */
-    protected $shippingAddresses = array();
+    protected $shippingAddresses = [];
 
     /**
      * Shipping addresses that should be added during checkout
      *
      * @var \Magento\Customer\Test\Fixture\Address[]
      */
-    protected $newShippingAddresses = array();
+    protected $newShippingAddresses = [];
 
     /**
      * Shipping methods
@@ -121,7 +121,7 @@ class Checkout extends DataFixture
     /**
      * Get customer billing address
      *
-     * @return \Magento\Customer\Test\Fixture\Address
+     * @return \Magento\Customer\Test\Fixture\AddressInjectable
      */
     public function getBillingAddress()
     {

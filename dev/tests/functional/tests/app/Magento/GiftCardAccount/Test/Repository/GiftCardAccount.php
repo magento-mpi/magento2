@@ -35,5 +35,12 @@ class GiftCardAccount extends AbstractRepository
             'recipient_name' => 'John Doe',
             'recipient_store' => 'Default Store View',
         ];
+
+        $this->_data['active_redeemable_account'] = [
+            'status' => 'Yes',
+            'is_redeemable' => 'Yes',
+            'website_id' => 1,
+            'balance' => '10',
+        ];
     }
 }

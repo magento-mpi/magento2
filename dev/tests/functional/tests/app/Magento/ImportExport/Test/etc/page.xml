@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_ImportExport">
+    <adminExportIndex>
+        <mca>admin/export/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\ImportExport\Test\Page\Adminhtml\AdminExportIndex</class>
+    </adminExportIndex>
+</page>
