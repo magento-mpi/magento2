@@ -20,8 +20,11 @@
     }
 }
 
-.dropdown.giftregisty {
-    &:extend(.dropdown-simple all);
+.giftregisty-dropdown {
+    &:extend(.abstract-dropdown-simple all);
+    .action.toggle {
+        color: @link-color;
+    }
 }
 
 .table-giftregistry-items {

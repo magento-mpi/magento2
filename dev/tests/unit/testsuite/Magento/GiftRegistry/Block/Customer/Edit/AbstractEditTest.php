@@ -40,7 +40,8 @@ class AbstractEditTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getLocaleDate')
             ->will($this->returnValue($this->localeDateMock));
-        $methods = ['isSecure', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'];
+        $methods =
+            ['isSecure', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getCookie'];
         $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', $methods);
         $this->contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($requestMock));
         $assertRepoMock = $this->getMock('\Magento\Framework\View\Asset\Repository', [], [], '', false);

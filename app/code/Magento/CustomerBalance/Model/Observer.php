@@ -497,10 +497,9 @@ class Observer
      */
     public function creditmemoDataImport(\Magento\Framework\Event\Observer $observer)
     {
-        $request = $observer->getEvent()->getRequest();
         $creditmemo = $observer->getEvent()->getCreditmemo();
 
-        $input = $request->getParam('creditmemo');
+        $input = $observer->getEvent()->getInput();
 
         if (isset($input['refund_customerbalance_return']) && isset($input['refund_customerbalance_return_enable'])) {
             $enable = $input['refund_customerbalance_return_enable'];

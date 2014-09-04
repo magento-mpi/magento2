@@ -7,12 +7,12 @@
  */
 namespace Magento\Bundle\Service\V1\Data\Product;
 
-use \Magento\Framework\Service\Data\AbstractObject;
+use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * @codeCoverageIgnore
  */
-class Link extends AbstractObject
+class Link extends AbstractExtensibleObject
 {
     const SKU = 'sku';
 

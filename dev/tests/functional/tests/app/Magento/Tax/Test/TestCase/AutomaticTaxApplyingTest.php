@@ -40,7 +40,7 @@ class AutomaticTaxApplyingTest extends Functional
     {
         // Pages
         $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
@@ -54,8 +54,8 @@ class AutomaticTaxApplyingTest extends Functional
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         // Add products to cart
-        $productPage->init($this->fixture->getSimpleProduct());
-        $productPage->open();
+        $url = $_ENV['app_frontend_url'] . $this->fixture->getSimpleProduct()->getUrlKey() . '.html';
+        Factory::getClientBrowser()->open($url);
         $productPage->getViewBlock()->addToCart($this->fixture->getSimpleProduct());
 
         // Fill 'Estimate Shipping and Tax' section
@@ -68,9 +68,19 @@ class AutomaticTaxApplyingTest extends Functional
 
         // Proceed Checkout
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
-        $checkoutOnePage->getBillingBlock()->fillBilling($this->fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($this->fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($this->fixture);
+        $billingAddress = $this->fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        $shippingMethod = $this->fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $this->fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $this->fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $this->fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         // Verify order in Backend
@@ -83,7 +93,7 @@ class AutomaticTaxApplyingTest extends Functional
      */
     protected function verifyCartTotals()
     {
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $totalsBlock = $checkoutCartPage->getTotalsBlock();
         $this->assertContains(
             $this->fixture->getCartTax(),
@@ -112,7 +122,7 @@ class AutomaticTaxApplyingTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
 
         $this->assertContains(

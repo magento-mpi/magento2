@@ -7,12 +7,12 @@
  */
 namespace Magento\Bundle\Service\V1\Data\Product;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore
  */
-class LinkBuilder extends AbstractObjectBuilder
+class LinkBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * @param string $value

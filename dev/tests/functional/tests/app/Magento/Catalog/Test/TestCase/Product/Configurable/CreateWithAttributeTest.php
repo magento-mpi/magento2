@@ -101,7 +101,7 @@ class CreateWithAttributeTest extends Functional
         $newAttributeForm->openFrontendProperties();
         $newAttributeForm->fill($attribute);
         $newAttributeForm->saveAttribute();
-        $createProductPage->switchToMainPage();
+        Factory::getClientBrowser()->switchToFrame();
     }
 
     /**
@@ -113,8 +113,7 @@ class CreateWithAttributeTest extends Functional
     protected function fillProductVariationsAndSave(ConfigurableProduct $variations)
     {
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->getProductForm()
-            ->fillVariations($variations);
+        $createProductPage->getProductForm()->fillVariations($variations);
         $createProductPage->getFormAction()->saveProduct($createProductPage, $variations);
     }
 

@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class OrderCommentsListTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'salesOrderCommentsListV1';
+    const SERVICE_NAME = 'salesOrderReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -31,13 +31,13 @@ class OrderCommentsListTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/' . $order->getId() . '/comments',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/comments',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'commentsList'
             ]
         ];
         $requestData = ['id' => $order->getId()];

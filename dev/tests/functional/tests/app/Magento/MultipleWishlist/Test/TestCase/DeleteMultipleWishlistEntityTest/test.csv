@@ -1,0 +1,4 @@
+"multipleWishlist/dataSet";"isCreateMultipleWishlist";"constraint"
+"wishlist_private_without_customer";"Yes";"assertMultipleWishlistSuccessDeleteMessage, assertMultipleWishlistAbsentInMyAccount"
+"wishlist_public_without_customer";"Yes";"assertMultipleWishlistSuccessDeleteMessage, assertMultipleWishlistAbsentInMyAccount"
+"-";"No";"assertDeleteMultipleWishlistButtonIsAbsent"

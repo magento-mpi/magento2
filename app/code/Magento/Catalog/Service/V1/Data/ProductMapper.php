@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
-use \Magento\Framework\Service\EavDataObjectConverter;
+use \Magento\Framework\Service\ExtensibleDataObjectConverter;
 
 class ProductMapper
 {
@@ -41,14 +41,14 @@ class ProductMapper
         $customAttributesToSkip = array()
     ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
-        $productModel = $productModel ?: $this->productFactory->create();
-        $productModel->addData(EavDataObjectConverter::toFlatArray($product, $customAttributesToSkip));
+        $productModel = $productModel ? : $this->productFactory->create();
+        $productModel->addData(ExtensibleDataObjectConverter::toFlatArray($product));
         if (!is_numeric($productModel->getAttributeSetId())) {
             $productModel->setAttributeSetId($productModel->getDefaultAttributeSetId());
         }
         if (!$productModel->hasTypeId()) {
             $productModel->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE);
-        } else if (!isset($this->productTypes->getTypes()[$productModel->getTypeId()])) {
+        } elseif (!isset($this->productTypes->getTypes()[$productModel->getTypeId()])) {
             throw new \RuntimeException('Illegal product type');
         }
         return $productModel;

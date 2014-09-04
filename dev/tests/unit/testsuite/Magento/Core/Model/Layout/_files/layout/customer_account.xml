@@ -7,4 +7,4 @@
  * @license     {license_link}
  */
 -->
-<layout label="Customer My Account (All Pages)" design_abstraction="custom"/>
+<page label="Customer My Account (All Pages)" design_abstraction="custom"/>

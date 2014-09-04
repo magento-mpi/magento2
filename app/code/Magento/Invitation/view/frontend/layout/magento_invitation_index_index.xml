@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <referenceContainer name="content">
         <block class="Magento\Invitation\Block\Customer\ListCustomer" name="invitations_list" template="list.phtml" cacheable="false">
             <container name="invitations.list.list.before" as="list_before" label="Invitation List Before" htmlTag="div" htmlClass="rewards"/>
         </block>
     </referenceContainer>
-</layout>
+</page>
