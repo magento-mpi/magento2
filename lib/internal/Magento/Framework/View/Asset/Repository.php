@@ -11,7 +11,6 @@ namespace Magento\Framework\View\Asset;
 use Magento\Framework\View\Asset\File;
 use \Magento\Framework\UrlInterface;
 use \Magento\Framework\App\Filesystem;
-use \Magento\Framework\View\Design\Theme\FlyweightFactory;
 
 /**
  * A repository service for view assets
