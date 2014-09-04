@@ -62,7 +62,7 @@ class MainTest extends \Magento\Backend\Utility\Controller
             $actualHtml
         );
         $this->assertSelectCount(
-            'input.validate-current-user-password[type="password"][name="' . Main::CURRENT_USER_PASSWORD_FIELD . '"]',
+            'input.validate-current-password[type="password"][name="' . Main::CURRENT_USER_PASSWORD_FIELD . '"]',
             1,
             $actualHtml
         );

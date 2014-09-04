@@ -14,7 +14,7 @@ namespace Magento\Backend\Block\System\Account\Edit;
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
-    const IDENTITY_VERIFICATION_PASSWORD_FIELD = 'current_user_password';
+    const IDENTITY_VERIFICATION_PASSWORD_FIELD = 'current_password';
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -140,7 +140,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Your Password'),
                 'id' => self::IDENTITY_VERIFICATION_PASSWORD_FIELD,
                 'title' => __('Your Password'),
-                'class' => 'input-text validate-current-user-password required-entry',
+                'class' => 'input-text validate-current-password required-entry',
                 'required' => true
             )
         );
