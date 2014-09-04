@@ -193,9 +193,11 @@ class Create extends Block
      * Add products to order
      *
      * @param Order $fixture
+     * @return void
      */
     public function addProducts(Order $fixture)
     {
+        $this->waitForElementVisible($this->itemsBlock);
         $this->getItemsBlock()->clickAddProducts();
         $this->getGridBlock()->selectProducts($fixture);
         //Loader appears twice

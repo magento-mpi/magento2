@@ -70,14 +70,17 @@ class AutomaticTaxApplyingTest extends Functional
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
         $billingAddress = $this->fixture->getBillingAddress();
         $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
         $shippingMethod = $this->fixture->getShippingMethods()->getData('fields');
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
         $payment = [
             'method' => $this->fixture->getPaymentMethod()->getPaymentCode(),
             'dataConfig' => $this->fixture->getPaymentMethod()->getDataConfig(),
             'credit_card' => $this->fixture->getCreditCard(),
         ];
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         // Verify order in Backend

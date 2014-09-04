@@ -22,7 +22,7 @@ class GuestPayPalPayflowProValidCc extends AbstractCreditCard
         parent::_initData();
         $this->_data = [
             'totals' => [
-                'grand_total' => '$10',
+                'grand_total' => '10',
                 'comment_history' => 'Authorized amount of $10'
             ],
             'payment_info' => [
