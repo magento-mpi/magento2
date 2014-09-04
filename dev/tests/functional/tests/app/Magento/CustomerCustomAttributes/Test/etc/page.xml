@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_CustomerCustomAttributes">
+    <customerAttributeIndex>
+        <mca>admin/customer_attribute</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex</class>
+    </customerAttributeIndex>
+    <customerAttributeNew>
+        <mca>admin/customer_attribute/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew</class>
+    </customerAttributeNew>
+    <checkoutOnepage>
+        <mca>checkout/onepage/index</mca>
+        <class>Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage</class>
+    </checkoutOnepage>
+    <orderCreateIndex>
+        <mca>sales/order_create</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex</class>
+    </orderCreateIndex>
+</page>

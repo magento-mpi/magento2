@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Actions
  * Order actions block
- *
  */
 class Actions extends Block
 {
@@ -101,6 +100,13 @@ class Actions extends Block
      * @var string
      */
     protected $refundOffline = '.submit-button';
+
+    /**
+     * General button selector
+     *
+     * @var string
+     */
+    protected $button = 'button[data-ui-id$="%s-button"]';
 
     /**
      * Ship order
@@ -220,5 +226,17 @@ class Actions extends Block
     public function refundOffline()
     {
         $this->_rootElement->find($this->refundOffline, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Check if action button is visible
+     *
+     * @param string $buttonName
+     * @return bool
+     */
+    public function isActionButtonVisible($buttonName)
+    {
+        $buttonName = str_replace(' ', '-', strtolower($buttonName));
+        return $this->_rootElement->find(sprintf($this->button, $buttonName))->isVisible();
     }
 }

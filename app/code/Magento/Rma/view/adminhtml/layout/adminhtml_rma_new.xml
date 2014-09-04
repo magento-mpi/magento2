@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
         <block class="Magento\Rma\Block\Adminhtml\Rma\NewRma" name="magento_rma_new"/>
     </referenceContainer>
@@ -34,11 +34,11 @@
             </action>
         </block>
     </referenceContainer>
-    <referenceContainer name="before_body_end">
+    <referenceContainer name="before.body.end">
         <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
         <block class="Magento\Rma\Block\Adminhtml\Product\Bundle\Js" template="edit/bundle/js.phtml" name="magento_rma_js_create"/>
     </referenceContainer>
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="rma_page_head_components" template="Magento_Rma::edit/components.phtml"/>
     </referenceBlock>
-</layout>
+</page>

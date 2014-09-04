@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule1\Service\V2\Entity;
 
-class Item extends \Magento\Framework\Service\Data\AbstractObject
+class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**
      * @return int

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="page.main.actions">
         <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" template="Magento_Backend::store/switcher.phtml"/>
     </referenceContainer>
@@ -33,4 +33,4 @@
     <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute" name="attribute" template="catalog/product/edit/action/attribute.phtml"/>
     </referenceContainer>
-</layout>
+</page>
