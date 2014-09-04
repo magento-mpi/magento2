@@ -1,6 +1,6 @@
 define([
     './paging',
-    'Magento_Ui/js/registry/registry'
+    'Magento_Ui/js/lib/registry/registry'
 ], function(Paging, registry) {
     'use strict';
 

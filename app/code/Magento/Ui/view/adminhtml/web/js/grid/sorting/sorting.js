@@ -1,6 +1,6 @@
 define([
     '_',
-    'Magento_Ui/js/framework/ko/scope'
+    'Magento_Ui/js/lib/ko/scope'
 ], function(_, Scope) {
     return Scope.extend({
         initialize: function(config) {

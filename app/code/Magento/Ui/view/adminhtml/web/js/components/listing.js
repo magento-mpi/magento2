@@ -1,8 +1,8 @@
 define([
-   '../framework/ko/scope',
-    '../framework/rest/client',
-    '../framework/rest/adapter/local',
-    '../framework/mixin/resourceful',
+   '../lib/ko/scope',
+    '../lib/rest/client',
+    '../lib/rest/adapter/local',
+    '../lib/mixin/resourceful',
     '_',
     'ko'
 ], function(Scope, RestClient, LocalAdapter, Resourceful, _, ko) {

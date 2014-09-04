@@ -1,6 +1,6 @@
 define([
     './sorting',
-    'Magento_Ui/js/registry/registry'
+    'Magento_Ui/js/lib/registry/registry'
 ], function(Sorting, registry) {
     'use strict';
     
