@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -100,7 +101,7 @@ class Create extends Block
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Billing\Address
      */
-    protected function getBillingAddressBlock()
+    public function getBillingAddressBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateBillingAddress(
             $this->_rootElement->find($this->billingAddressBlock, Locator::SELECTOR_CSS)
@@ -182,7 +183,7 @@ class Create extends Block
     /**
      * Wait display order details
      *
-     * return void
+     * @return void
      */
     public function waitOrderDetails()
     {
@@ -193,6 +194,7 @@ class Create extends Block
      * Add products to order
      *
      * @param Order $fixture
+     * @return void
      */
     public function addProducts(Order $fixture)
     {
@@ -207,6 +209,7 @@ class Create extends Block
      * Fill addresses based on present data in customer and order fixtures
      *
      * @param Order $fixture
+     * @return void
      */
     public function fillAddresses(Order $fixture)
     {
@@ -226,6 +229,7 @@ class Create extends Block
      * Select shipping method
      *
      * @param Order $fixture
+     * @return void
      */
     public function selectShippingMethod(Order $fixture)
     {
@@ -237,6 +241,7 @@ class Create extends Block
      * Select payment method
      *
      * @param Order $fixture
+     * @return void
      */
     public function selectPaymentMethod(Order $fixture)
     {
@@ -246,9 +251,32 @@ class Create extends Block
 
     /**
      * Submit order
+     *
+     * @return void
      */
     public function submitOrder()
     {
         $this->getTotalsBlock()->submitOrder();
+    }
+
+    /**
+     * Prepare customer address
+     *
+     * @param AddressInjectable $address
+     * @return string
+     */
+    public function prepareAddress(AddressInjectable $address)
+    {
+        $addressPattern = '%s %s, %s, %s, %s %s, %s';
+        return sprintf(
+            $addressPattern,
+            $address->getFirstname(),
+            $address->getLastname(),
+            $address->getStreet(),
+            $address->getCity(),
+            $address->getRegionId(),
+            $address->getPostcode(),
+            $address->getCountryId()
+        );
     }
 }

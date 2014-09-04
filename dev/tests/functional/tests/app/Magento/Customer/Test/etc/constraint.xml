@@ -117,4 +117,12 @@
         <severeness>low</severeness>
         <require />
     </assertCustomerMassDeleteInGrid>
+    <assertAddressDeletedFrontend module="Magento_Customer">
+        <severeness>low</severeness>
+        <require />
+    </assertAddressDeletedFrontend>
+    <assertAddressDeletedBackend module="Magento_Customer">
+        <severeness>low</severeness>
+        <require />
+    </assertAddressDeletedBackend>
 </constraint>
