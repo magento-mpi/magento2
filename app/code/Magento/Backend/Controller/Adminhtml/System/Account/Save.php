@@ -36,10 +36,6 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Account
         )->setEmail(
             strtolower($this->getRequest()->getParam('email', false))
         );
-        if ($password !== '') {
-            $user->setPassword($password);
-            $user->setPasswordConfirmation($passwordConfirmation);
-        }
 
         if ($this->_objectManager->get('Magento\Framework\Locale\Validator')->isValid($interfaceLocale)) {
             $user->setInterfaceLocale($interfaceLocale);
@@ -58,6 +54,10 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Account
                 throw new \Magento\Backend\Model\Auth\Exception(
                     __('You have entered an invalid password for current user.')
                 );
+            }
+            if ($password !== '') {
+                $user->setPassword($password);
+                $user->setPasswordConfirmation($passwordConfirmation);
             }
             $user->save();
             $user->sendPasswordResetNotificationEmail();
