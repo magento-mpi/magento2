@@ -110,6 +110,20 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
+     * Controller for Install Command
+     * @return string
+     * @throws \Exception
+     */
+    public function installAction()
+    {
+        $message = [];
+        $message[] = $this->installLocalAction();
+        $message[] = $this->installSchemaAction();
+        $message[] = $this->installDataAction();
+        return implode(PHP_EOL, $message);
+    }
+
+    /**
      * Creates the local.xml file
      *
      * @return string
