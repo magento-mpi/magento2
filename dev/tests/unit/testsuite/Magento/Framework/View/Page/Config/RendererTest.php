@@ -76,13 +76,27 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
-            ->setMethods(['getMetadata', 'renderTitle', 'prepareFavicon', 'renderAssets', 'getTitle', 'getDefaultTitle',
-                'getFaviconFile', 'addPageAsset', 'getAssetCollection', 'processMerge', 'getMetadataTemplate',
-                    'processMetadataContent', 'addRemotePageAsset'])->disableOriginalConstructor()
+            ->setMethods(
+                [
+                    'getMetadata',
+                    'renderTitle',
+                    'prepareFavicon',
+                    'renderAssets',
+                    'getTitle',
+                    'getDefaultTitle',
+                    'getFaviconFile',
+                    'addPageAsset',
+                    'getAssetCollection',
+                    'processMerge',
+                    'getMetadataTemplate',
+                    'processMetadataContent',
+                    'addRemotePageAsset'
+                ]
+            )->disableOriginalConstructor()
             ->getMock();
 
         $this->assetMinifyServiceMock = $this->getMockBuilder('Magento\Framework\View\Asset\MinifyService')
-        ->setMethods(['getAssets'])
+            ->setMethods(['getAssets'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -152,24 +166,20 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->pageConfigMock
             ->expects($this->once())
             ->method('getMetadata')
-            ->will($this->returnValue(['name' =>'value'])
-            );
+            ->will($this->returnValue(['name' => 'value']));
         $this->pageConfigMock
             ->expects($this->once())
             ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection)
-            );
+            ->will($this->returnValue($this->assetsCollection));
         $this->assetsCollection
             ->expects($this->once())
             ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock])
-            );
+            ->will($this->returnValue([$this->propertyGroupMock]));
         $this->assetInterfaceMock->expects($this->once())->method('getUrl')->will($this->returnValue($someUrl));
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
-            ->will($this->returnValue([$this->assetInterfaceMock])
-            );
+            ->will($this->returnValue([$this->assetInterfaceMock]));
         $this->assertEquals($expected, $this->renderer->renderHeadContent());
     }
 
@@ -184,8 +194,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->pageConfigMock
             ->expects($this->once())
             ->method('getMetadata')
-            ->will($this->returnValue([$metadataTemplate => '%content'])
-            );
+            ->will($this->returnValue([$metadataTemplate => '%content']));
         $this->assertEquals($expected, $this->renderer->renderMetadata());
     }
 
@@ -210,23 +219,24 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderAsset()
     {
-        $expectedResult = '<link  href="" />' ."\n" . '<link  href="" />' . "\n";
+        $expectedResult = '<link  href="" />' . "\n" . '<link  href="" />' . "\n";
         $this->pageConfigMock->expects($this->once())
-        ->method('getAssetCollection')
-        ->will($this->returnValue($this->assetsCollection)
-        );
+            ->method('getAssetCollection')
+            ->will($this->returnValue($this->assetsCollection));
         $this->assetsCollection->expects($this->once())
             ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock])
-            );
+            ->will($this->returnValue([$this->propertyGroupMock]));
         $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
-            ->will($this->returnValue($groupAssets)
-            );
-        $this->propertyGroupMock->expects($this->at(0))->method('getProperty')->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(0))->method('getProperty')->will($this->returnValue(['ie_condition']));
+            ->will($this->returnValue($groupAssets));
+        $this->propertyGroupMock->expects($this->at(0))
+            ->method('getProperty')
+            ->will($this->returnValue(['attributes']));
+        $this->propertyGroupMock->expects($this->at(0))
+            ->method('getProperty')
+            ->will($this->returnValue(['ie_condition']));
         $this->assertEquals($expectedResult, $this->renderer->renderAssets());
     }
 
@@ -236,17 +246,14 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $exception = new \Magento\Framework\Exception('my message');
         $this->pageConfigMock->expects($this->once())
             ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection)
-            );
+            ->will($this->returnValue($this->assetsCollection));
         $this->assetsCollection->expects($this->once())
             ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock])
-            );
+            ->will($this->returnValue([$this->propertyGroupMock]));
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
-            ->will($this->returnValue([$this->assetInterfaceMock])
-            );
+            ->will($this->returnValue([$this->assetInterfaceMock]));
         $this->assetInterfaceMock->expects($this->once())->method('getUrl')->will($this->throwException($exception));
         $this->loggerMock->expects($this->once())->method('logException')->with($exception);
         $this->renderer->renderAssets();
@@ -260,29 +267,29 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->pageConfigMock->expects($this->once())
             ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection)
-            );
+            ->will($this->returnValue($this->assetsCollection));
         $this->assetsCollection->expects($this->once())
             ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock])
-            );
+            ->will($this->returnValue([$this->propertyGroupMock]));
         $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
-            ->will($this->returnValue($groupAssets)
-            );
+            ->will($this->returnValue($groupAssets));
         $this->propertyGroupMock->expects($this->any())->method('getProperty')
-            ->will($this->returnValueMap([
-                ['can_merge', true],
-                ['content_type', $contentType]
-            ]));
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['can_merge', true],
+                        ['content_type', $contentType]
+                    ]
+                )
+            );
         $this->assetMergeServiceMock
             ->expects($this->once())
             ->method('getMergedAssets')
             ->with($groupAssets, $contentType)
-            ->will($this->returnValue($groupAssets)
-            );
+            ->will($this->returnValue($groupAssets));
         $this->assertEquals($expectedResult, $this->renderer->renderAssets());
     }
 
@@ -293,29 +300,29 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             . '<script  type="text/javascript"  src=""></script>' . "\n";
         $this->pageConfigMock->expects($this->once())
             ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection)
-            );
+            ->will($this->returnValue($this->assetsCollection));
         $this->assetsCollection->expects($this->once())
             ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock])
-            );
+            ->will($this->returnValue([$this->propertyGroupMock]));
         $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
-            ->will($this->returnValue($groupAssets)
-            );
+            ->will($this->returnValue($groupAssets));
         $this->propertyGroupMock->expects($this->any())->method('getProperty')
-            ->will($this->returnValueMap([
-                ['can_merge', true],
-                ['content_type', $contentType]
-            ]));
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['can_merge', true],
+                        ['content_type', $contentType]
+                    ]
+                )
+            );
         $this->assetMergeServiceMock
             ->expects($this->once())
             ->method('getMergedAssets')
             ->with($groupAssets, $contentType)
-            ->will($this->returnValue($groupAssets)
-            );
+            ->will($this->returnValue($groupAssets));
         $this->assertEquals($expectedResult, $this->renderer->renderAssets());
     }
 
@@ -328,30 +335,42 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAttributes()
     {
-        $expectedResult = '<link  0="" href="" />' ."\n" . '<link  0="" href="" />' . "\n";
+        $expectedResult = '<link  0="" href="" />' . "\n" . '<link  0="" href="" />' . "\n";
         $this->pageConfigMock->expects($this->once())
             ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection)
-            );
-        $this->propertyGroupMock->expects($this->at(0))->method('getProperty')->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(1))->method('getProperty')->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(2))->method('getProperty')->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(3))->method('getProperty')->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(4))->method('getProperty')->will($this->returnValue('ie_condition'));
+            ->will($this->returnValue($this->assetsCollection));
+        $this->propertyGroupMock->expects($this->at(0))
+            ->method('getProperty')
+            ->will($this->returnValue(['attributes']));
+        $this->propertyGroupMock->expects($this->at(1))
+            ->method('getProperty')
+            ->will($this->returnValue(['attributes']));
+        $this->propertyGroupMock->expects($this->at(2))
+            ->method('getProperty')
+            ->will($this->returnValue(['attributes']));
+        $this->propertyGroupMock->expects($this->at(3))
+            ->method('getProperty')
+            ->will($this->returnValue(['attributes']));
+        $this->propertyGroupMock->expects($this->at(4))->method('getProperty')->will(
+            $this->returnValue('ie_condition')
+        );
         $this->assetsCollection->expects($this->once())
             ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock])
+            ->will(
+                $this->returnValue([$this->propertyGroupMock])
             );
         $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
-            ->will($this->returnValue($groupAssets)
+            ->will(
+                $this->returnValue($groupAssets)
             );
         $this->assetMergeServiceMock
             ->expects($this->once())
             ->method('getMergedAssets')
-            ->will($this->returnValue($groupAssets)
+            ->will(
+                $this->returnValue($groupAssets)
             );
         $this->assertEquals($expectedResult, $this->renderer->renderAssets());
     }

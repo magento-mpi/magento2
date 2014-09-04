@@ -62,8 +62,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->structureMock->expects($this->once())->method('getAssets')->will($this->returnValue($data));
         $this->structureMock->expects($this->once())
             ->method('getMetadata')
-            ->will($this->returnValue(['name' => 'content'])
-            );
+            ->will($this->returnValue(['name' => 'content']));
         $this->pageConfigMock->expects($this->once())->method('setTitle')->will($this->returnSelf());
         $this->pageConfigMock->expects($this->once())->method('addRemotePageAsset')->will($this->returnSelf());
         $this->assertInstanceOf('\Magento\Framework\View\Page\Config\Generator', $this->generator->process());
@@ -78,8 +77,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->structureMock->expects($this->once())->method('getAssets')->will($this->returnValue($data));
         $this->structureMock->expects($this->once())
             ->method('getMetadata')
-            ->will($this->returnValue(['name' => 'content'])
-            );
+            ->will($this->returnValue(['name' => 'content']));
         $this->pageConfigMock->expects($this->once())->method('setTitle')->will($this->returnSelf());
         $this->pageConfigMock->expects($this->never())->method('addRemotePageAsset');
         $this->assertInstanceOf('\Magento\Framework\View\Page\Config\Generator', $this->generator->process());

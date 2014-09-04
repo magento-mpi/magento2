@@ -60,7 +60,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadHead($filePath)
     {
         $this->elementMock = new \Magento\Framework\View\Layout\Element(file_get_contents(__DIR__ . $filePath));
-        $this->assertInstanceOf('\Magento\Framework\View\Page\Config\Reader',
+        $this->assertInstanceOf(
+            '\Magento\Framework\View\Page\Config\Reader',
             $this->reader->readHead($this->elementMock)
         );
     }
