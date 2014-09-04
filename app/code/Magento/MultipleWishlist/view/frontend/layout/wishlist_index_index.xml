@@ -12,7 +12,7 @@
         <title>My Wish Lists</title>
     </head>
     <body>
-        <attribute name="class" value="page-multiple-wishlist" />
+        <attribute name="class" value="page-multiple-wishlist"/>
     </body>
     <referenceBlock name="page.main.title">
         <action method="setPageTitle" ifconfig="wishlist/general/multiple_enabled">

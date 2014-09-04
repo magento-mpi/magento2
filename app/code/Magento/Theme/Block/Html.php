@@ -59,7 +59,7 @@ class Html extends \Magento\Framework\View\Element\Template
             'current' => $this->_request->getRequestUri()
         );
 
-        $this->addBodyClass($this->_request->getFullActionName('-'));
+        $this->pageConfig->addBodyClass($this->_request->getFullActionName('-'));
 
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
             $this->_sidResolver->setUseSessionVar(true);
@@ -175,19 +175,6 @@ class Html extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Add CSS class to page body tag
-     *
-     * @param string $className
-     * @return $this
-     */
-    public function addBodyClass($className)
-    {
-        $className = preg_replace('#[^a-z0-9]+#', '-', strtolower($className));
-        $this->setBodyClass($this->getBodyClass() . ' ' . $className);
-        return $this;
-    }
-
-    /**
      * Retrieve base language
      *
      * @return string
@@ -198,16 +185,6 @@ class Html extends \Magento\Framework\View\Element\Template
             $this->setData('lang', substr($this->_localeResolver->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
-    }
-
-    /**
-     * Retrieve body class
-     *
-     * @return string
-     */
-    public function getBodyClass()
-    {
-        return $this->_getData('body_class');
     }
 
     /**
