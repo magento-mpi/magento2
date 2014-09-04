@@ -1,4 +1,4 @@
-define(['ko', 'Magento_Ui/js/framework/class'], function(ko, Class) {
+define(['ko', 'Magento_Ui/js/lib/class'], function(ko, Class) {
 
     return Class.extend({
 

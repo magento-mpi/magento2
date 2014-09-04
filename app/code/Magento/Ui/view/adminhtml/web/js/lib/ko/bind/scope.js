@@ -1,4 +1,4 @@
-define(['ko', 'Magento_Ui/js/registry/registry'], function(ko, registry) {
+define(['ko', 'Magento_Ui/js/lib/registry/registry'], function(ko, registry) {
 
     ko.bindingHandlers.scope = {
         init: function(el, valueAccessor, allBindings, viewModel, bindingContext) {

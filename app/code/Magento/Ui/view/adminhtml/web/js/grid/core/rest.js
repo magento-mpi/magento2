@@ -1,7 +1,7 @@
 define([
     '_',
     'jquery',
-    'Magento_Ui/js/framework/class'
+    'Magento_Ui/js/lib/class'
 ], function( _, $, Class ){
     'use strict';
     

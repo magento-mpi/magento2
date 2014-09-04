@@ -1,7 +1,7 @@
 define([
     '_',
     'ko',
-    'Magento_Ui/js/framework/ko/scope'
+    'Magento_Ui/js/lib/ko/scope'
 ], function(_, ko, Scope) {
     'use strict';
 
