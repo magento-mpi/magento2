@@ -8,6 +8,9 @@
  */
 -->
 <page layout="admin-1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <body>
+        <attribute name="id" value="html-body"/>
+    </body>
     <remove name="backend.page"/>
     <referenceContainer name="root">
         <block name="preview.page.content" class="Magento\Framework\View\Element\Template" template="Magento_VersionsCms::page/preview.phtml">

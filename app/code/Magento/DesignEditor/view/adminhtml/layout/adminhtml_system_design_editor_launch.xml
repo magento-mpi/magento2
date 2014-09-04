@@ -8,6 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <body>
+        <attribute name="id" value="html-body"/>
+    </body>
     <head>
         <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
         <css src="Magento_DesignEditor::css/styles.css"/>
