@@ -8,14 +8,14 @@
 
 namespace Magento\Wishlist\Test\Block\Adminhtml\Customer\Edit\Tab\Wishlist;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
  * Grid on Wishlist tab
  */
-class Grid extends GridInterface
+class Grid extends ParentGrid
 {
     /**
      * Grid fields map
