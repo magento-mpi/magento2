@@ -24,6 +24,20 @@ class Wishlist extends Block
     protected $shareWishList = '[name="save_and_share"]';
 
     /**
+     * Selector for 'Add to Cart' button
+     *
+     * @var string
+     */
+    protected $addToCart = '.action.tocart';
+
+    /**
+     * Button 'Update Wish List' css selector
+     *
+     * @var string
+     */
+    protected $updateButton = '.action.update';
+
+    /**
      * Click button "Share Wish List"
      *
      * @return void
@@ -31,5 +45,25 @@ class Wishlist extends Block
     public function clickShareWishList()
     {
         $this->_rootElement->find($this->shareWishList)->click();
+    }
+
+    /**
+     * Click button 'Add To Cart'
+     *
+     * @return void
+     */
+    public function clickAddToCart()
+    {
+        $this->_rootElement->find($this->addToCart)->click();
+    }
+
+    /**
+     * Click button 'Update Wish List'
+     *
+     * @return void
+     */
+    public function clickUpdateWishlist()
+    {
+        $this->_rootElement->find($this->updateButton)->click();
     }
 }

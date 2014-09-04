@@ -35,4 +35,7 @@
     <assertProductReportByCustomerNotInGrid module="Magento_Reports">
         <severeness>low</severeness>
     </assertProductReportByCustomerNotInGrid>
+    <assertProductViewsReportTotalResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertProductViewsReportTotalResult>
 </constraint>

@@ -26,6 +26,22 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
     protected function getPreset($name)
     {
         $presets = [
+            'default' => [
+                'configurable_options' => [
+                    [
+                        'title' => 'attribute_0',
+                        'value' => 'option_0',
+                    ],
+                    [
+                        'title' => 'attribute_1',
+                        'value' => 'option_0',
+                    ]
+                ],
+                'checkoutItemForm' => [
+                    'price' => 101,
+                ],
+                'qty' => 1
+            ],
             'two_options' => [
                 'configurable_options' => [
                     [
