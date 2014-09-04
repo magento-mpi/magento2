@@ -21,8 +21,7 @@ class ChildrenCategoriesProvider
         return $category->getResourceCollection()
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
-            ->addIdFilter($this->getChildrenIds($category, $recursive))
-            ->load();
+            ->addIdFilter($this->getChildrenIds($category, $recursive));
     }
 
     /**
