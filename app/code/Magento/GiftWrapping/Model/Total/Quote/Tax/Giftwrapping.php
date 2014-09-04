@@ -13,7 +13,7 @@ use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
 /**
  * GiftWrapping tax total calculator for quote
  */
-class Giftwrapping extends CommonTaxCollector
+class Giftwrapping extends AbstractTotal
 {
     /**
      * Constant for item gift wrapping item type
@@ -132,13 +132,13 @@ class Giftwrapping extends CommonTaxCollector
             $gwItemCodeToItemMapping[$gwItemCode] = $item;
 
             $associatedTaxables[] = [
-                self::KEY_ASSOCIATED_TAXABLE_TYPE => self::ITEM_TYPE,
-                self::KEY_ASSOCIATED_TAXABLE_CODE => $gwItemCode,
-                self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $gwPrice,
-                self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $gwBasePrice,
-                self::KEY_ASSOCIATED_TAXABLE_QUANTITY => $item->getQty(),
-                self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
-                self::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE => self::ITEM_TYPE,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_CODE => $gwItemCode,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $gwPrice,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $gwBasePrice,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_QUANTITY => $item->getQty(),
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
             ];
 
             $item->setAssociatedTaxables($associatedTaxables);
@@ -168,14 +168,15 @@ class Giftwrapping extends CommonTaxCollector
             $wrappingAmount = $this->_quoteEntity->getGwPrice();
 
             $associatedTaxables[] = [
-                self::KEY_ASSOCIATED_TAXABLE_TYPE => self::QUOTE_TYPE,
-                self::KEY_ASSOCIATED_TAXABLE_CODE => self::CODE_QUOTE_GW,
-                self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $wrappingAmount,
-                self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $wrappingBaseAmount,
-                self::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
-                self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
-                self::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
-                self::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE => self::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE => self::QUOTE_TYPE,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_CODE => self::CODE_QUOTE_GW,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $wrappingAmount,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $wrappingBaseAmount,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE =>
+                    CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
             ];
 
             $address->setAssociatedTaxables($associatedTaxables);
@@ -202,14 +203,15 @@ class Giftwrapping extends CommonTaxCollector
             $printedCardTaxAmount = $this->_quoteEntity->getGwCardPrice();
 
             $associatedTaxables[] = [
-                self::KEY_ASSOCIATED_TAXABLE_TYPE => self::PRINTED_CARD_TYPE,
-                self::KEY_ASSOCIATED_TAXABLE_CODE => self::CODE_PRINTED_CARD,
-                self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $printedCardTaxAmount,
-                self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $printedCardBaseTaxAmount,
-                self::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
-                self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
-                self::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
-                self::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE => self::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE => self::PRINTED_CARD_TYPE,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_CODE => self::CODE_PRINTED_CARD,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $printedCardTaxAmount,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $printedCardBaseTaxAmount,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE =>
+                    CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
             ];
 
             $address->setAssociatedTaxables($associatedTaxables);
