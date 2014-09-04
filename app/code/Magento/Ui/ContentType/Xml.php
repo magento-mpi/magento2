@@ -1,16 +1,18 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\ContentType;
 
 use Magento\Ui\UiInterface;
+use Magento\Framework\Object;
 use Magento\Framework\Xml\Generator;
 
 /**
  * Class Xml
- * @package Magento\Ui\ContentType
  */
 class Xml implements ContentTypeInterface
 {
@@ -53,10 +55,10 @@ class Xml implements ContentTypeInterface
     }
 
     /**
-     * @param $object
+     * @param Object $object
      * @return string
      */
-    protected function objectToXml($object)
+    protected function objectToXml(Object $object)
     {
         return '';
     }

@@ -1,15 +1,16 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\DataType;
 
 use Magento\Framework\Object as DataObject;
 
 /**
  * Class Boolean
- * @package Magento\Ui\DataType
  */
 class Boolean extends AbstractDataType implements DataTypeInterface
 {

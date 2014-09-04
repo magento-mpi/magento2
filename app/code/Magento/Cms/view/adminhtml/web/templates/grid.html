@@ -1,19 +1,6 @@
  <table data-template-extend="Magento_Ui.templates.listing.grid">
     <thead data-part-replace="grid.heading">
         <tr class="headings">
-            <!--
-            <th class="col-select col-massaction">
-                <div class="mass-select">
-                    <div class="field choice mass-select-field">
-                        <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isAllVisibleSelected()"> <label for="mass-checkbox" class="label"><span>Select</span></label>
-                    </div>
-                    <button class="mass-select-toggle" data-toggle="dropdown">
-                        <span>Options</span>
-                    </button>
-                    <ul class="mass-select-menu" data-bind="foreach: { data: massActions, as: 'action' }, on: { 'click li': 'applyMassAction', data: 'action' }"></ul>
-                </div>
-            </th>
-            -->
             <!-- ko foreach: { data: fields, as: 'field' } -->
             <th>
                 <span><a href="#" data-bind="text: field.title, css: $parent.getSortableClassFor(field)"></a></span>
@@ -23,11 +10,6 @@
     </thead>
     <tbody data-part-replace="grid.body" data-bind="foreach: { data: rows, as: 'row' }">
         <tr class="even pointer">
-            <!--
-            <td class="col-select col-massaction">
-                <input data-bind="checkedValue: row.id, checked: $parent.checkedIds" type="checkbox" class="massaction-checkbox">
-            </td>
-            -->
             <td data-bind="text: row.title"></td>
             <td data-bind="text: row.url"></td>
             <td data-bind="text: row.layout"></td>

@@ -1,0 +1,18 @@
+<?php
+/**
+ * @var \Magento\Ui\Listing\View $this
+ */
+?>
+<div data-m2-init='{"Magento_Ui/js/grid/listing/component": ""}'>
+    <script type="mage/config" data-role="Magento_Ui/js/grid/listing/component">
+        <?php echo $this->getConfigurationJson(); ?>
+    </script>
+</div>
+<div class="grid">
+    <?php echo $this->getChildHtml('cms_page_listing_before'); ?>
+    <div data-bind="scope: 'cms.pages:listing'">
+        <!-- ko template: 'Magento_Cms.templates.grid' --><!-- /ko -->
+        <!-- ko template: 'Magento_Cms.templates.loader' --><!-- /ko -->
+    </div>
+    <?php echo $this->getChildHtml('cms_page_listing_after'); ?>
+</div>

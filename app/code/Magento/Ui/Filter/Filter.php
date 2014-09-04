@@ -1,15 +1,16 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\Filter;
 
 use Magento\Ui\DataType\DataTypeInterface;
 
 /**
  * Class Filter
- * @package Magento\Ui\Filter
  */
 class Filter implements FilterInterface
 {

@@ -15,9 +15,21 @@
             </arguments>
         </block>
     </referenceBlock>
-    
     <referenceContainer name="content">
-        <!-- <block class="Magento\Cms\Block\Adminhtml\Page" name="cms_page"/> -->
-        <block class="Magento\Framework\View\Element\Template" template="Magento_Cms::listing-new.phtml"></block>
+         <block class="Magento\Ui\Listing\View" name="cms_page" template="Magento_Ui::listing/grid/horizontal.phtml">
+             <arguments>
+                 <argument name="id" xsi:type="string">notificationGrid</argument>
+                 <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Collection</argument>
+                 <argument name="default_dir" xsi:type="string">DESC</argument>
+                 <argument name="default_sort" xsi:type="string">date_added</argument>
+                 <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+             </arguments>
+             <container name="cms_page_listing_before" label="" htmlTag="div">
+                 <block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml" />
+             </container>
+             <container name="cms_page_listing_after" label="" htmlTag="div">
+                 <block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml" />
+             </container>
+         </block>
     </referenceContainer>
 </page>

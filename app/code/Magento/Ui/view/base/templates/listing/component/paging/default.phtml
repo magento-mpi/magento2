@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var \Magento\Ui\Listing\Component\Paging\View $this
+ */
+
+?>
+<div data-m2-init='{"Magento_Ui/js/grid/paging/component" : ""}'>
+    <script type="mage/config" data-role="Magento_Ui/js/grid/paging/component">
+       <?php echo $this->getConfigurationJson(); ?>
+    </script>
+</div>
+<div data-bind="scope: 'cms.pages:paging'" class="pager">
+    <!-- ko template: 'Magento_Ui.templates.pagination.toolbar' --><!-- /ko -->
+</div>

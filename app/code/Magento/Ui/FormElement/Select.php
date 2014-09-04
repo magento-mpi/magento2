@@ -1,12 +1,17 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\FormElement;
 
 use Magento\Ui\DataType\DataTypeInterface;
 
+/**
+ * Class Select
+ */
 class Select extends AbstractFormElement implements ElementInterface
 {
     /**

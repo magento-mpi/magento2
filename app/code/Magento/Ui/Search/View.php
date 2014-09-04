@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\ListingContainer;
+namespace Magento\Ui\Search;
+
+use Magento\Ui\AbstractView;
 
 /**
- * Class Paging
+ * Class View
  */
-class Paging implements ListingContainerInterface
+class View extends AbstractView
 {
     //
 }
