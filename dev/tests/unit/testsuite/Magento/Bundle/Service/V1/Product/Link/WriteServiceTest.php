@@ -134,7 +134,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('product_sku')
             ->will($this->returnValue($productMock));
-        $this->service->addChild('product_sku', $productLink);
+        $this->service->addChild('product_sku', 1, $productLink);
     }
 
     /**
@@ -184,7 +184,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionCollectionFactoryMock->expects($this->any())->method('create')->will(
             $this->returnValue($optionsCollectionMock)
         );
-        $this->service->addChild('product_sku', $productLink);
+        $this->service->addChild('product_sku', 1, $productLink);
     }
 
     /**
@@ -252,7 +252,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([]));
         $this->bundleFactoryMock->expects($this->once())->method('create')->will($this->returnValue($bundle));
 
-        $this->service->addChild('product_sku', $productLink);
+        $this->service->addChild('product_sku', 1, $productLink);
     }
 
     /**
@@ -323,7 +323,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($selections));
         $this->bundleFactoryMock->expects($this->once())->method('create')->will($this->returnValue($bundle));
 
-        $this->service->addChild('product_sku', $productLink);
+        $this->service->addChild('product_sku', 1, $productLink);
     }
 
     /**
@@ -404,7 +404,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 )
             );
         $this->bundleSelectionMock->expects($this->once())->method('create')->will($this->returnValue($selection));
-        $this->service->addChild('product_sku', $productLink);
+        $this->service->addChild('product_sku', 1, $productLink);
     }
 
     public function testAddChild()
@@ -476,7 +476,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $selection->expects($this->once())->method('save');
         $selection->expects($this->once())->method('getId')->will($this->returnValue(42));
         $this->bundleSelectionMock->expects($this->once())->method('create')->will($this->returnValue($selection));
-        $result = $this->service->addChild('product_sku', $productLink);
+        $result = $this->service->addChild('product_sku', 1, $productLink);
         $this->assertEquals(42, $result);
     }
 

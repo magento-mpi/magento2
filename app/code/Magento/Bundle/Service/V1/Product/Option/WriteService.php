@@ -99,11 +99,13 @@ class WriteService implements WriteServiceInterface
         }
 
         $optionId = $optionModel->getId();
-        foreach ($option->getProductLinks() as $link) {
-            $this->linkWriteService->addChild($productSku, $optionId, $link);
+        if (is_array($option->getProductLinks())) {
+            foreach ($option->getProductLinks() as $link) {
+                $this->linkWriteService->addChild($productSku, $optionId, $link);
+            }
         }
 
-        return $optionModel->getId();
+        return $optionId;
     }
 
     /**
@@ -128,6 +130,9 @@ class WriteService implements WriteServiceInterface
          * @var Link[] $existingProductLinks
          */
         $existingProductLinks = $optionModel->getProductLinks();
+        if (!is_array($existingProductLinks)) {
+            $existingProductLinks = array();
+        }
         /**
          * @var Link[] $newProductLinks
          */
