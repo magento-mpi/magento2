@@ -324,7 +324,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $attribute->expects($this->any())->method('getProductAttribute')->will($this->returnValue($eavAttribute));
 
         $product = $this->getMockBuilder('\Magento\Catalog\Model\Product')
-            ->setMethods(['getStoreId','getData', 'hasData', '__wakeup', '__sleep'])
+            ->setMethods(['getStoreId', 'getData', 'hasData', '__wakeup', '__sleep'])
             ->disableOriginalConstructor()
             ->getMock();
         $product->expects($this->any())->method('getStoreId')->will($this->returnValue($productStore));

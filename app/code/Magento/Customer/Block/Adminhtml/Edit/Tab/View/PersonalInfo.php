@@ -15,6 +15,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Adminhtml customer view personal information sales block
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class PersonalInfo extends \Magento\Backend\Block\Template
 {
