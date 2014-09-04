@@ -146,7 +146,11 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
             $this->optionWriteService->remove($sku, $option->getId());
         }
         /** @var Option[] $optionsToUpdate */
-        $optionsToUpdate = array_uintersect($existingProductOptions, $newProductOptions, array($this, 'compareOptions'));
+        $optionsToUpdate = array_uintersect(
+            $existingProductOptions,
+            $newProductOptions,
+            array($this, 'compareOptions')
+        );
         foreach ($optionsToUpdate as $option) {
             $this->optionWriteService->update($sku, $option->getId(), $option);
         }
