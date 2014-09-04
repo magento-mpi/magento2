@@ -107,8 +107,8 @@ class MultishippingTest extends Functional
             $orderPage->open();
             $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
             $this->assertContains(
-                $grandTotals[$num],
                 Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+                $grandTotals[$num],
                 'Incorrect grand total value for the order #' . $orderId
             );
         }

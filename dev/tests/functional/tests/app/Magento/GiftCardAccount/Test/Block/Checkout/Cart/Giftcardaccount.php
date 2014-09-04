@@ -9,13 +9,12 @@
 namespace Magento\GiftCardAccount\Test\Block\Checkout\Cart;
 
 use Mtf\Block\Form;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount as GiftCardAccountFixture;
 
 /**
- * Class Giftcardaccount
+ * Class GiftCardAccount
  * Gift card account block in cart
  */
-class Giftcardaccount extends Form
+class GiftCardAccount extends Form
 {
     /**
      * Add gift cards button
@@ -32,6 +31,13 @@ class Giftcardaccount extends Form
     protected $giftCardsSection = '.giftcard .title';
 
     /**
+     * Redeem button
+     *
+     * @var string
+     */
+    protected $checkStatusAndBalance = ".action.check";
+
+    /**
      * Fill gift card in cart
      *
      * @param string $code
@@ -39,8 +45,31 @@ class Giftcardaccount extends Form
      */
     public function addGiftCard($code)
     {
+        $this->enterGiftCardCode($code);
+        $this->_rootElement->find($this->addGiftCardButton)->click();
+    }
+
+    /**
+     * Enter gift card code
+     *
+     * @param string $code
+     * @return void
+     */
+    protected function enterGiftCardCode($code)
+    {
         $this->_rootElement->find($this->giftCardsSection)->click();
         $this->_fill($this->dataMapping(['code' => $code]));
-        $this->_rootElement->find($this->addGiftCardButton)->click();
+    }
+
+    /**
+     * Check status and balance
+     *
+     * @param string $code
+     * @return void
+     */
+    public function checkStatusAndBalance($code)
+    {
+        $this->enterGiftCardCode($code);
+        $this->_rootElement->find($this->checkStatusAndBalance)->click();
     }
 }

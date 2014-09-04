@@ -96,6 +96,7 @@ class CreateProductRatingEntityTest extends Injectable
      */
     public function testCreateProductRatingEntityTest(Rating $productRating)
     {
+        $this->markTestIncomplete('MAGETWO-27663');
         // Prepare data for tear down
         $this->productRating = $productRating;
 
@@ -113,6 +114,9 @@ class CreateProductRatingEntityTest extends Injectable
      */
     public function tearDown()
     {
+        if (!($this->productRating instanceof Rating)) {
+            return;
+        }
         $filter = ['rating_code' => $this->productRating->getRatingCode()];
         $this->ratingIndex->open();
         $this->ratingIndex->getRatingGrid()->searchAndOpen($filter);

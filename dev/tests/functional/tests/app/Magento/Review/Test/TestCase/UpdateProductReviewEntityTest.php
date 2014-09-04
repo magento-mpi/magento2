@@ -74,6 +74,16 @@ class UpdateProductReviewEntityTest extends Injectable
     protected $review;
 
     /**
+     * This method is called before a test is executed
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        self::markTestIncomplete('MAGETWO-27663');
+    }
+
+    /**
      * Injection data
      *
      * @param ReviewIndex $reviewIndex
@@ -99,7 +109,7 @@ class UpdateProductReviewEntityTest extends Injectable
      *
      * @param ReviewInjectable $reviewInitial
      * @param ReviewInjectable $review
-     * @return void
+     * @return array
      */
     public function test(ReviewInjectable $reviewInitial, ReviewInjectable $review)
     {
@@ -114,6 +124,11 @@ class UpdateProductReviewEntityTest extends Injectable
         $this->reviewIndex->getReviewGrid()->searchAndOpen(['review_id' => $reviewInitial->getReviewId()]);
         $this->reviewEdit->getReviewForm()->fill($review);
         $this->reviewEdit->getPageActions()->save();
+
+        // Prepare data for asserts
+        $product = $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
+
+        return ['product' => $product];
     }
 
     /**
@@ -124,11 +139,11 @@ class UpdateProductReviewEntityTest extends Injectable
     public function tearDown()
     {
         $this->ratingIndex->open();
-        $ratingGrid = $this->ratingIndex->getRatingGrid();
-        $pageActions = $this->ratingEdit->getPageActions();
-        foreach ($this->review->getRatings() as $rating) {
-            $ratingGrid->searchAndOpen(['rating_code' => $rating['title']]);
-            $pageActions->delete();
+        if ($this->review instanceof ReviewInjectable) {
+            foreach ($this->review->getRatings() as $rating) {
+                $this->ratingIndex->getRatingGrid()->searchAndOpen(['rating_code' => $rating['title']]);
+                $this->ratingEdit->getPageActions()->delete();
+            }
         }
     }
 }

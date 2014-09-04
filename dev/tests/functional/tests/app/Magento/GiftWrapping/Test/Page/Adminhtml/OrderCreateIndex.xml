@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_create/index">
+    <blocks>
+        <giftOptionsBlock>
+            <class>Magento\GiftWrapping\Test\Block\Adminhtml\Order\Create</class>
+            <locator>#orderCreateGiftWrapping</locator>
+            <strategy>css selector</strategy>
+        </giftOptionsBlock>
+    </blocks>
+</page>

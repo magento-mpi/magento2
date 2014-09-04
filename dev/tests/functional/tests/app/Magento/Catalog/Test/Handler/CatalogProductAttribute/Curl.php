@@ -57,7 +57,6 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-
         $data = $this->replaceMappingData($fixture->getData());
         $data['frontend_label'] = [0 => $data['frontend_label']];
 

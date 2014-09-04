@@ -84,9 +84,9 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
             $common = array_merge($common, $files->toArray());
         }
 
-        $output = array();
-        foreach ($common as $file) {
-            $output[$file] = array($file);
+        $output = [];
+        foreach ($common as $path => $file) {
+            $output[$path] = [$file];
         }
 
         return $output;

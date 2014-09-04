@@ -80,6 +80,7 @@ class DeleteProductRatingEntityTest extends Injectable
      */
     public function testDeleteProductRatingEntity(Rating $productRating)
     {
+        $this->markTestIncomplete('MAGETWO-27663');
         // Preconditions
         $productRating->persist();
 
