@@ -79,9 +79,9 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
     public function afterCreate(ProductModel $product, Product $productData)
     {
         /** @var string $productSku */
-        $productSku = $productData->getSku();
+        $productSku = $product->getSku();
 
-        if ($productData->getTypeId() != ProductType::TYPE_BUNDLE) {
+        if ($product->getTypeId() != ProductType::TYPE_BUNDLE) {
             return $productSku;
         }
 
