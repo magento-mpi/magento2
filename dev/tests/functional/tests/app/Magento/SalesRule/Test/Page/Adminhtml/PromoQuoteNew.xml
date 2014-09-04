@@ -7,29 +7,27 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales_rule/promo_quote/new" >
-    <block>
-        <name>salesRuleForm</name>
-        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>conditionsTab</name>
-        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions</class>
-        <locator>#conditions__1__children</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="sales_rule/promo_quote/new" module="Magento_SalesRule">
+    <blocks>
+        <salesRuleForm>
+            <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </salesRuleForm>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <conditionsTab>
+            <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions</class>
+            <locator>#conditions__1__children</locator>
+            <strategy>css selector</strategy>
+        </conditionsTab>
+    </blocks>
 </page>

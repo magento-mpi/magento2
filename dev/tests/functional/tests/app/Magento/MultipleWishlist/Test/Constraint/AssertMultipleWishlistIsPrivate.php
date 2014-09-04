@@ -13,12 +13,12 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class AssertMultipleWishlistIsPrivate
- * Assert that Wishlist can't be find by another Customer (or guest) via "Wishlist Search"
+ * Assert wish list is private
  */
 class AssertMultipleWishlistIsPrivate extends AbstractAssertMultipleWishlistState
 {
     /**
-     * Assert wish list is private
+     * Assert that Wishlist can't be find by another Customer (or guest) via "Wishlist Search"
      *
      * @param SearchResult $searchResult
      * @param MultipleWishlist $multipleWishlist
