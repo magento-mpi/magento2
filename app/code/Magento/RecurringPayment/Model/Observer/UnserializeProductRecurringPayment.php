@@ -21,7 +21,8 @@ class UnserializeProductRecurringPayment
         $collection = $observer->getEvent()->getCollection();
 
         foreach ($collection as $product) {
-            if ($product->getIsRecurring() && ($payment = $product->getRecurringPayment())) {
+            $payment = $product->getRecurringPayment();
+            if ($product->getIsRecurring() && $payment) {
                 $product->setRecurringPayment(unserialize($payment));
             }
         }
