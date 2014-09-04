@@ -12,7 +12,6 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
-use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Class AssertProductInItemsOrderedGrid

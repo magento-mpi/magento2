@@ -78,7 +78,7 @@ class MoveLastOrderedProductsOnOrderPage extends Injectable
     }
 
     /**
-     * Run test
+     * Move last ordered products on order page
      *
      * @param OrderInjectable $order
      * @return array

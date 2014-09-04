@@ -13,7 +13,7 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class BillingAddressId
- * Billing address preset
+ * Billing address data
  */
 class BillingAddressId implements FixtureInterface
 {
@@ -56,6 +56,7 @@ class BillingAddressId implements FixtureInterface
         if (isset($data['dataSet'])) {
             $addresses = $fixtureFactory->createByCode('addressInjectable', ['dataSet' => $data['dataSet']]);
             $this->data = $addresses->getData();
+            $this->data['street'] = [$this->data['street']];
         }
     }
 

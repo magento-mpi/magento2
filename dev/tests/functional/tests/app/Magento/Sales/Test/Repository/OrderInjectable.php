@@ -33,8 +33,8 @@ class OrderInjectable extends AbstractRepository
             'shipping_method' => 'flatrate_flatrate',
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
-            'billing_address_id' => ['dataSet' => 'default'],
-            'entity_id' => ['preset' => 'default']
+            'billing_address_id' => ['dataSet' => 'US_address'],
+            'entity_id' => ['products' => 'catalogProductSimple::default']
         ];
     }
 }

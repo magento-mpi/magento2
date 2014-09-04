@@ -108,7 +108,7 @@ class Management extends Block
      */
     public function isNoticeTypeVisible($type)
     {
-        return $this->_rootElement->find($this->noticeType . $type)->isVisible();
+        return $this->_rootElement->find($this->noticeType . '.' . $type)->isVisible();
     }
 
     /**

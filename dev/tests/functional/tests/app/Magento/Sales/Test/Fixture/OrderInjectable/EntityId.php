@@ -13,7 +13,7 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class EntityId
- * EntityId preset
+ * EntityId data
  */
 class EntityId implements FixtureInterface
 {
@@ -55,14 +55,10 @@ class EntityId implements FixtureInterface
             return;
         }
 
-        $products = '';
-        if (isset($data['products'])) {
-            $products = $data['products'];
-            $products = explode(',', $products);
-        } elseif (isset($data['preset'])) {
-            $products = $this->getPreset($data['preset'])['products'];
+        if (!isset($data['products'])) {
+            return;
         }
-
+        $products = explode(',', $data['products']);
         foreach ($products as $product) {
             list($fixture, $dataSet) = explode('::', $product);
             $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
@@ -104,29 +100,5 @@ class EntityId implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
-    }
-
-    /**
-     * Preset array
-     *
-     * @param string $name
-     * @return mixed
-     * @throws \InvalidArgumentException
-     */
-    protected function getPreset($name)
-    {
-        $presets = [
-            'default' => [
-                'products' => [
-                    'catalogProductSimple::default',
-                ]
-            ],
-        ];
-        if (!isset($presets[$name])) {
-            throw new \InvalidArgumentException(
-                sprintf('Wrong Order preset name: %s', $name)
-            );
-        }
-        return $presets[$name];
     }
 }
