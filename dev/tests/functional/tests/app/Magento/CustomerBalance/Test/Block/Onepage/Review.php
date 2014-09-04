@@ -9,7 +9,6 @@
 namespace Magento\CustomerBalance\Test\Block\Onepage;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Review
@@ -22,7 +21,7 @@ class Review extends \Magento\Checkout\Test\Block\Onepage\Review
      *
      * @var string
      */
-    protected $removeButton = '//td[contains(.,"Store Credit")]/a';
+    protected $removeButton = '.ballance .action.delete';
 
     /**
      * Click on 'Remove Store Credit' link
@@ -31,6 +30,6 @@ class Review extends \Magento\Checkout\Test\Block\Onepage\Review
      */
     public function clickRemoveStoreCredit()
     {
-        $this->_rootElement->find($this->removeButton, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->removeButton)->click();
     }
 }
