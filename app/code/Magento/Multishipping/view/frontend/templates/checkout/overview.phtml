@@ -51,22 +51,28 @@
                     <?php echo $_address->format('html') ?>
                 </address>
             </div>
-            <div class="box method">
-                <strong class="subtitle">
+            <div class="box box-order-shipping-method">
+                <strong class="box-title">
                     <span><?php echo __('Shipping Method') ?></span>
                     <a href="<?php echo $this->getEditShippingUrl() ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
                 </strong>
                 <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
-                    <p>
+                    <div class="box-content">
                         <?php echo $this->escapeHtml($_rate->getCarrierTitle()) ?> (<?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>)
                         <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
                         <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
 
-                        <?php echo $_excl; ?>
                         <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                            (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        <span class="price-including-tax" data-label="<?php echo __('Incl. Tax'); ?>">
                         <?php endif; ?>
-                    </p>
+                            <?php echo $_incl; ?>
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        </span>
+                        <?php endif; ?>
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            <span class="price-excluding-tax" data-label="<?php echo __('Excl. Tax'); ?>"><?php echo $_excl; ?></span>
+                        <?php endif; ?>
+                    </div>
                 <?php endif; ?>
             </div>
             <div class="box items">

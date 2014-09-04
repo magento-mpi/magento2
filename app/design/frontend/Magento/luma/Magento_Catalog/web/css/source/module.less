@@ -323,15 +323,6 @@
     .price-including-tax {
         display: inline-block;
     }
-    .price-excluding-tax + .price-including-tax {
-        &:before {
-            content: attr(data-label) ": ";
-            .font-size(11);
-        }
-        .price {
-            .font-size(11);
-        }
-    }
 }
 
 .minimal-price-link,

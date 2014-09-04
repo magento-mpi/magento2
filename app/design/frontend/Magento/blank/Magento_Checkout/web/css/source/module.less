@@ -120,6 +120,7 @@
             .price {
                 font-weight: @font-weight-bold;
             }
+            &:extend(.abstract-shipping-incl-excl-tax all);
         }
         .price-box {
             margin-left: 20px;
@@ -172,10 +173,6 @@
                 text-align: right;
                 white-space: nowrap;
             }
-//            &.price,
-//            &.subtotal {
-//                &:extend(.abstract-incl-excl-tax all);
-//            }
         }
         .mark,
         .amount {
@@ -220,6 +217,10 @@
     .actions-toolbar {
         margin: 40px 0 0;
     }
+}
+
+.cart-tax-info + .cart-tax-total {
+    display: block;
 }
 
 //

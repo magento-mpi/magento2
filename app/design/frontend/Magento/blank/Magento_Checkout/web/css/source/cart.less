@@ -74,6 +74,15 @@
                     }
                 }
             }
+            .fieldset {
+                .methods {
+                    .field {
+                        > .label {
+                            display: inline;
+                        }
+                    }
+                }
+            }
         }
         .actions-toolbar {
             > .primary {
@@ -82,6 +91,7 @@
                 }
             }
         }
+        &:extend(.abstract-shipping-incl-excl-tax all);
     }
 
     //  Totals block
@@ -300,9 +310,6 @@
                 width: 100%;
             }
         }
-    }
-    .cart-tax-info + .cart-tax-total {
-        display: block;
     }
 }
 

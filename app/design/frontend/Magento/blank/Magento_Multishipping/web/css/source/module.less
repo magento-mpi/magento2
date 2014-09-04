@@ -54,6 +54,10 @@
         }
     }
 
+    .box-order-shipping-method {
+        &:extend(.abstract-shipping-incl-excl-tax all);
+    }
+
     .column.main & {
         .block:not(.widget):not(.widget) {
             &:extend(.account .column.main .block:not(.widget) all);
