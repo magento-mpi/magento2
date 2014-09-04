@@ -104,8 +104,7 @@ class MoveLastOrderedProductsOnOrderPageTest extends Injectable
     /**
      * Extract products name
      *
-     * @param array|null $data
-     * @throws \Exception
+     * @param array $data
      * @return array
      */
     protected function extractProductNames($data)

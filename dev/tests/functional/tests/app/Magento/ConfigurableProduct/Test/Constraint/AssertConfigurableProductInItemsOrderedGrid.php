@@ -28,6 +28,9 @@ class AssertConfigurableProductInItemsOrderedGrid extends AssertProductInItemsOr
     protected function getProductPrice(FixtureInterface $product)
     {
         $price = $product->getPrice();
+        if (!$this->productsIsConfigured) {
+            return $price;
+        }
         if (!$product instanceof ConfigurableProductInjectable) {
             throw new \Exception("Product '$product->getName()' is not configurable product.");
         }

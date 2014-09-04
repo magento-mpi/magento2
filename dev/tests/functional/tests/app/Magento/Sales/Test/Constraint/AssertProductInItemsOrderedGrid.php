@@ -34,18 +34,27 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     protected $fields = ['name', 'price', 'qty'];
 
     /**
+     * Check configured products
+     *
+     * @var bool
+     */
+    protected $productsIsConfigured;
+
+    /**
      * Assert product was added to Items Ordered grid in customer account on Order creation page backend
      *
      * @param OrderCreateIndex $orderCreateIndex
      * @param array $entityData
+     * @param bool $productsIsConfigured
      * @throws \Exception
      * @return void
      */
-    public function processAssert(OrderCreateIndex $orderCreateIndex, array $entityData)
+    public function processAssert(OrderCreateIndex $orderCreateIndex, array $entityData, $productsIsConfigured = true)
     {
         if (!isset($entityData['products'])) {
             throw new \Exception("No products");
         }
+        $this->productsIsConfigured = $productsIsConfigured;
         $data = $this->prepareData($entityData, $orderCreateIndex->getCreateBlock()->getItemsBlock());
 
         \PHPUnit_Framework_Assert::assertEquals(
@@ -70,7 +79,7 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
             $fixtureData[] = [
                 'name' => $product->getName(),
                 'price' => number_format($this->getProductPrice($product), 2),
-                'qty' => $product->getCheckoutData()['qty'],
+                'qty' => $this->productsIsConfigured ? $product->getCheckoutData()['qty'] : 1,
             ];
             $pageData[] = $itemsBlock->getItemProductByName($product->getName())->getData($this->fields);
         }

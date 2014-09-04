@@ -12,17 +12,17 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class LastOrderedItems
- * Last ordered items block
+ * Abstract Class Sidebar
+ * Sidebar block
  */
-class LastOrderedItems extends Block
+abstract class Sidebar extends Block
 {
     /**
      * 'Add to order' checkbox
      *
      * @var string
      */
-    protected $addToOrder = '//tr[td[.="%s"]]//input';
+    protected $addToOrder = '//tr[td[.="%s"]]//input[@title="Add To Order"]';
 
     /**
      * Add product to order by name
