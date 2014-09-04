@@ -7,8 +7,6 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
-//use Magento\Sales\Model\Order;
-
 /**
  * Class OrderMapper
  */
@@ -114,7 +112,7 @@ class OrderMapper
 
     /**
      * @param \Magento\Sales\Model\Order $object
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return \Magento\Sales\Service\V1\Data\Order
      */
     public function extractDto(\Magento\Sales\Model\Order $object)
     {

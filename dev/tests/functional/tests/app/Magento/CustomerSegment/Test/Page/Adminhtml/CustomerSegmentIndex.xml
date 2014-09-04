@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="customersegment/index" >
-    <block>
-        <name>pageActionsBlock</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>grid</name>
-        <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Grid</class>
-        <locator>#customersegmentGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages .messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="customersegment/index" module="Magento_CustomerSegment">
+    <blocks>
+        <pageActionsBlock>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActionsBlock>
+        <grid>
+            <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Grid</class>
+            <locator>#customersegmentGrid</locator>
+            <strategy>css selector</strategy>
+        </grid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

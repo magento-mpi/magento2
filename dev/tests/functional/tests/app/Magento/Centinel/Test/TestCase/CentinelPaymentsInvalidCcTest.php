@@ -50,10 +50,10 @@ class CentinelPaymentsInvalidCcTest extends AbstractCentinelPaymentsTest
      */
     public function invalidCreditCardDataProvider()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPayflowProInvalidCc()),
-            array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPaymentsProInvalidCc()),
-            array(Factory::getFixtureFactory()->getMagentoCentinelGuestAuthorizenetInvalidCc()),
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPayflowProInvalidCc()],
+            [Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPaymentsProInvalidCc()],
+            [Factory::getFixtureFactory()->getMagentoCentinelGuestAuthorizenetInvalidCc()],
+        ];
     }
 }

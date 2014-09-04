@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/logging/details" >
-    <block>
-        <name>detailsBlock</name>
-        <class>Magento\Logging\Test\Block\Adminhtml\Details</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/logging/details" module="Magento_Logging">
+    <blocks>
+        <detailsBlock>
+            <class>Magento\Logging\Test\Block\Adminhtml\Details</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </detailsBlock>
+    </blocks>
 </page>

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Widget">
+    <widgetInstanceIndex>
+        <mca>admin/widget_instance/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex</class>
+    </widgetInstanceIndex>
+    <widgetInstanceNew>
+        <mca>admin/widget_instance/new/</mca>
+        <area>adminhtml</area>
+        <class>Magento\Widget\Test\Page\Adminhtml\WidgetInstanceNew</class>
+    </widgetInstanceNew>
+    <widgetInstanceEdit>
+        <mca>admin/widget_instance/edit/code/magento_banner/</mca>
+        <area>adminhtml</area>
+        <class>Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit</class>
+    </widgetInstanceEdit>
+</page>

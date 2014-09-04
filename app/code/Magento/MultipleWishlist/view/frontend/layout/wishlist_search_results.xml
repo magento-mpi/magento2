@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
         <block class="Magento\MultipleWishlist\Block\Search\Form" name="wishlist.search.form" template="search/form.phtml"/>
         <block class="Magento\MultipleWishlist\Block\Search\Results" name="wishlist.search.results" template="search/results.phtml"/>
     </referenceContainer>
-</layout>
+</page>

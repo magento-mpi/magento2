@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertProductRatingSuccessSaveMessage module="Magento_Review">
+        <severeness>high</severeness>
+    </assertProductRatingSuccessSaveMessage>
+    <assertProductRatingSuccessDeleteMessage module="Magento_Review">
+        <severeness>high</severeness>
+    </assertProductRatingSuccessDeleteMessage>
+    <assertProductRatingInGrid module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductRatingInGrid>
+    <assertProductRatingNotInGrid module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductRatingNotInGrid>
+    <assertProductRatingInProductPage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductRatingInProductPage>
+    <assertProductRatingNotInProductPage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductRatingNotInProductPage>
+    <assertReviewSuccessSaveMessage module="Magento_Review">
+        <severeness>high</severeness>
+    </assertReviewSuccessSaveMessage>
+    <assertReviewCreationSuccessMessage module="Magento_Review">
+        <severeness>high</severeness>
+    </assertReviewCreationSuccessMessage>
+    <assertProductReviewInGrid module="Magento_Review">
+        <severeness>low</severeness>
+    </assertProductReviewInGrid>
+    <assertProductRatingOnReviewPage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductRatingOnReviewPage>
+    <assertProductRatingInProductPage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductRatingInProductPage>
+    <assertProductReviewMassActionSuccessMessage module="Magento_Review">
+        <severeness>high</severeness>
+        <require>
+            <reviewIndex class="Magento\Review\Test\Page\Adminhtml\ReviewIndex"/>
+        </require>
+    </assertProductReviewMassActionSuccessMessage>
+    <assertProductReviewMassActionSuccessDeleteMessage module="Magento_Review">
+        <severeness>high</severeness>
+        <require>
+            <reviewIndex class="Magento\Review\Test\Page\Adminhtml\ReviewIndex"/>
+        </require>
+    </assertProductReviewMassActionSuccessDeleteMessage>
+    <assertProductReviewBackendSuccessSaveMessage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductReviewBackendSuccessSaveMessage>
+    <assertProductReviewNotOnProductPage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductReviewNotOnProductPage>
+    <assertProductReviewOnProductPage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductReviewOnProductPage>
+    <assertProductReviewNotInGrid module="Magento_Review">
+        <severeness>low</severeness>
+    </assertProductReviewNotInGrid>
+</constraint>

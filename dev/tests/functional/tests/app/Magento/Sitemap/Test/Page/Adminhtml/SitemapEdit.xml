@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/sitemap/edit" >
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/sitemap/edit" module="Magento_Sitemap">
+    <blocks>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+    </blocks>
 </page>
