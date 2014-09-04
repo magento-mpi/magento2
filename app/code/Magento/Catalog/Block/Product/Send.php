@@ -72,5 +72,4 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         return $this->getRequest()->getParam('id');
     }
-
 }

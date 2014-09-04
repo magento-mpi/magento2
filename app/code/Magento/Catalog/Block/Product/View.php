@@ -186,7 +186,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      */
     public function canEmailToFriend()
     {
-       return false;
+        return false;
     }
 
     /**

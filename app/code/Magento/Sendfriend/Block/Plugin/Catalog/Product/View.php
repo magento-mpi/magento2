@@ -28,6 +28,7 @@ class View
      * @param \Magento\Catalog\Block\Product\View $subject
      * @param bool $result
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterCanEmailToFriend(\Magento\Catalog\Block\Product\View $subject, $result)
     {
@@ -36,5 +37,4 @@ class View
         }
         return $result;
     }
-
 }

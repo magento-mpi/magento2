@@ -1789,7 +1789,6 @@ return array(
     ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
     ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
     ['getMaxRecipients', 'Magento\Catalog\Block\Product\Send'],
-    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
