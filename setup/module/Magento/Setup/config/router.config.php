@@ -52,19 +52,6 @@ return [
                         ]
                     ],
                 ],
-                'install' => [
-                    'options' => [
-                        'route' => 'install --license_agreement_accepted= --db_host= --db_name= --db_user='.
-                            ' --store_url= --admin_url= --locale= --timezone= --currency= --admin_lastname='.
-                            ' --admin_firstname= --admin_email= --admin_username= --admin_password= '.
-                            ' [--use_rewrites=] [--encryption_key=] [--secure_store_url=] [--secure_admin_url=]'.
-                            ' [--db_pass=] [--db_table_prefix=] [--magentoDir=]',
-                        'defaults' => [
-                            'controller' => 'Magento\Setup\Controller\ConsoleController',
-                            'action' => 'console',
-                        ]
-                    ],
-                ],
                 'install-local' => [
                     'options' => [
                         'route' => 'install local --license_agreement_accepted= --db_host= --db_name=' .

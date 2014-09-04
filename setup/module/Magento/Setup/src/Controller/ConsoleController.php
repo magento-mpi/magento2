@@ -21,46 +21,66 @@ use Magento\Setup\Model\FilePermissions;
 use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\AdminAccountFactory;
 
+/**
+ * Class ConsoleController
+ * @package Magento\Setup\Controller
+ */
 class ConsoleController extends AbstractActionController
 {
     /**
+     * File Permissions
+     *
      * @var FilePermissions
      */
     protected $filePermission;
 
     /**
+     * Options Lists
+     *
      * @var Lists
      */
     protected $list;
 
     /**
+     * Module Lists
+     *
      * @var []
      */
     protected $moduleList;
 
     /**
+     * Configurations
+     *
      * @var Config
      */
     protected $config;
 
     /**
+     * Factory Configurations
+     *
      * @var Config
      */
     protected $factoryConfig;
 
     /**
+     * Random Generator
+     *
      * @var Random
      */
     protected $random;
 
     /**
+     * Admin Account Factory
+     *
      * @var AdminAccountFactory
      */
     protected $adminAccountFactory;
 
     /**
-     * @param \Magento\Setup\Model\FilePermissions $filePermission
-     * @param \Magento\Locale\Lists $list
+     * Default Constructor
+     *
+     * @param FilePermissions $filePermission
+     * @param Lists $list
      * @param ConfigFactory $configFactory
      * @param Random $random
      * @param Config $config
@@ -129,7 +149,7 @@ class ConsoleController extends AbstractActionController
         $dbName   = $request->getParam('db_name', '');
         $dbUser   = $request->getParam('db_user', '');
         $dbPass   = $request->getParam('db_pass', '');
-        $dbPrefix   = $request->getParam('db_table_prefix','');
+        $dbPrefix = $request->getParam('db_table_prefix', '');
         $adminUrl = $request->getParam('admin_url');
 
         //Checks Database Connectivity
@@ -341,6 +361,7 @@ class ConsoleController extends AbstractActionController
         return  "Completed: Data Installation." . PHP_EOL;
     }
 
+
     /**
      * Shows necessary information for installing Magento
      *
@@ -373,6 +394,7 @@ class ConsoleController extends AbstractActionController
      * Updates Magento Directory
      *
      * @param string $magentoDir
+     * @return void
      */
     private function updateMagentoDirectory($magentoDir)
     {
