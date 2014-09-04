@@ -131,8 +131,8 @@ class WriteService implements WriteServiceInterface
         /**
          * @var Link[] $newProductLinks
          */
-        $newProductLinks = $option->getCustomAttribute('bundle_product_options')->getValue();
-        if (!is_array($newProductLinks)) {
+        $newProductLinks = $option->getProductLinks();
+        if (is_null($newProductLinks)) {
             $newProductLinks = array();
         }
         /**
