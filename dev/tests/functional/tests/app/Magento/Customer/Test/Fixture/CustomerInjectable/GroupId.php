@@ -101,7 +101,7 @@ class GroupId implements FixtureInterface
      *
      * @return array
      */
-    public function getAddresses()
+    public function getCustomerGroup()
     {
         return $this->customerGroupFixture;
     }
