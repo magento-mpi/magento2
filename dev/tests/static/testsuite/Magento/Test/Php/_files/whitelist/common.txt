@@ -113,6 +113,7 @@ app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php
 app/code/Magento/Sales/Model/Observer
 app/code/Magento/Sales/Model/Quote/Address/*Interface.php
 app/code/Magento/SalesRule/Model/Plugin
+app/code/Magento/Sendfriend/Block/Plugin/Catalog/Product/View.php
 app/code/Magento/Shipping/Block/Adminhtml/Order/Tracking/Invoice.php
 app/code/Magento/Shipping/Model/Observer.php
 app/code/Magento/Shipping/Model/Order/Track.php

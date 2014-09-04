@@ -12,7 +12,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model\Config\Source;
+namespace Magento\Sendfriend\Model\Source;
 
 class Checktype implements \Magento\Framework\Option\ArrayInterface
 {
