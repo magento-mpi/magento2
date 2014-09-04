@@ -10,7 +10,6 @@ namespace Magento\Checkout\Test\Block\Onepage\Shipping;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Method
@@ -43,23 +42,24 @@ class Method extends Block
     /**
      * Select shipping method
      *
-     * @param Checkout|\Magento\Shipping\Test\Fixture\Method[] $fixture
+     * @param array $method
+     * @return void
      */
-    public function selectShippingMethod($fixture)
+    public function selectShippingMethod(array $method)
     {
-        if ($fixture instanceof \Magento\Shipping\Test\Fixture\Method) {
-            $shippingMethod = $fixture->getData('fields');
-        } else {
-            $shippingMethod = $fixture->getShippingMethods()->getData('fields');
-        }
-        $selector = sprintf(
-            $this->shippingMethod,
-            $shippingMethod['shipping_service'],
-            $shippingMethod['shipping_method']
-        );
+        $selector = sprintf($this->shippingMethod, $method['shipping_service'], $method['shipping_method']);
         $this->waitForElementVisible($selector, Locator::SELECTOR_XPATH);
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Click continue button
+     *
+     * @return void
+     */
+    public function clickContinue()
+    {
+        $this->_rootElement->find($this->continue)->click();
         $this->waitForElementNotVisible($this->waitElement);
     }
 }

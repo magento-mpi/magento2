@@ -8,10 +8,11 @@
  */
 -->
 <page mca="catalog/product/view">
-   <block>
-        <name>giftCardBlock</name>
-        <class>Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard</class>
-        <locator>[data-container-for=giftcard_info]</locator>
-        <strategy>css selector</strategy>
-   </block>
+    <blocks>
+        <giftCardBlock>
+            <class>Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard</class>
+            <locator>.product-info-main</locator>
+            <strategy>css selector</strategy>
+        </giftCardBlock>
+    </blocks>
 </page>
