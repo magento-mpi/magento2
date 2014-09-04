@@ -59,15 +59,15 @@ class Copier
         $this->copyConstructor->build($product, $duplicate);
         $isDuplicateSaved = false;
         do {
+            $urlKey = $duplicate->getUrlKey();
+            $urlKey = preg_match('/(.*)-(\d+)$/', $urlKey, $matches)
+                ? $matches[1] . '-' . ($matches[2] + 1)
+                : $urlKey . '-1';
+            $duplicate->setUrlKey($urlKey);
             try {
                 $duplicate->save();
                 $isDuplicateSaved = true;
             } catch (DuplicateEntryException $e) {
-                $urlKey = $duplicate->getUrlKey();
-                $urlKey = preg_match('/(.*)-(\d+)$/', $urlKey, $matches)
-                    ? $matches[1] . '-' . ($matches[2] + 1)
-                    : $urlKey . '-1';
-                $duplicate->setUrlKey($urlKey);
             }
         } while (!$isDuplicateSaved);
 

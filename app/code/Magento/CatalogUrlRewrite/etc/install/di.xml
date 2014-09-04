@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\CatalogImportExport\Model\Import\Product">
+        <plugin name="import_save_plugin" type="Magento\CatalogUrlRewrite\Model\Product\Plugin\Import"/>
+    </type>
+    <type name="Magento\Catalog\Model\Resource\Category">
+        <plugin name="category_move_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category\Move"/>
+    </type>
+    <type name="Magento\UrlRewrite\Model\StorageInterface">
+        <plugin name="storage_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Storage"/>
+    </type>
+</config>
