@@ -41,7 +41,7 @@ class AssertGiftCardDuplicateForm extends AssertProductDuplicateForm
         $filter = ['sku' => $product->getSku() . '-1'];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $formData = $productPage->getForm()->getData($product);
+        $formData = $productPage->getProductForm()->getData($product);
         $fixtureData = $this->prepareFixtureData($product->getData());
 
         $errors = $this->verifyData($fixtureData, $formData);

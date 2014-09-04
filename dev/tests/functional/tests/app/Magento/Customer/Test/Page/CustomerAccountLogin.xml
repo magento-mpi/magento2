@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customer/account/login" module="Magento_Customer">
+    <blocks>
+        <messages>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.page.messages</locator>
+            <strategy>css selector</strategy>
+        </messages>
+        <loginBlock>
+            <class>Magento\Customer\Test\Block\Form\Login</class>
+            <locator>#login-form</locator>
+            <strategy>css selector</strategy>
+        </loginBlock>
+    </blocks>
+</page>
