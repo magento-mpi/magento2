@@ -140,7 +140,6 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testGetCartList()
     {
-        $this->markTestIncomplete('Need to be fixed');
         $cart = $this->getCart('test01');
 
         $serviceInfo = array(
@@ -179,7 +178,13 @@ class ReadServiceTest extends WebapiAbstract
         $this->searchBuilder->addFilter(array($grandTotalFilter, $subtotalFilter));
         $this->searchBuilder->addFilter(array($minCreatedAtFilter));
         $this->searchBuilder->addFilter(array($maxCreatedAtFilter));
-        $this->searchBuilder->setSortOrders(array('subtotal' => SearchCriteria::SORT_ASC));
+        $this->searchBuilder->setSortOrders([
+                [
+                    \Magento\Framework\Service\V1\Data\SortOrder::FIELD => 'subtotal',
+                    \Magento\Framework\Service\V1\Data\SortOrder::DIRECTION => SearchCriteria::SORT_ASC
+                ]
+            ]
+        );
         $searchCriteria = $this->searchBuilder->create()->__toArray();
 
         $requestData = array('searchCriteria' => $searchCriteria);

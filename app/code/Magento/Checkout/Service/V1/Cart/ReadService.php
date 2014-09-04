@@ -100,10 +100,10 @@ class ReadService implements ReadServiceInterface
         $this->searchResultsBuilder->setTotalCount($this->quoteCollection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
-            foreach ($sortOrders as $field => $direction) {
+            foreach ($sortOrders as $order) {
                 $this->quoteCollection->addOrder(
-                    $this->getQuoteSearchField($field),
-                    $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                    $this->getQuoteSearchField($order->getField()),
+                    $order->getDirection() == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
                 );
             }
         }
