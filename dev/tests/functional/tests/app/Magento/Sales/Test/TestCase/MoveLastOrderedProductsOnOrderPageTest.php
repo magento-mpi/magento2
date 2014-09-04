@@ -36,7 +36,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * @group Customers_(CS), Order_Management_(CS)
  * @ZephyrId MAGETWO-27640
  */
-class MoveLastOrderedProductsOnOrderPage extends Injectable
+class MoveLastOrderedProductsOnOrderPageTest extends Injectable
 {
     /**
      * Order create index page

@@ -187,12 +187,15 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
      */
     protected function prepareOrderData(array $data)
     {
+        $customerGroupId = $this->customer->hasData('group_id')
+            ? $this->customer->getDataFieldConfig('group_id')['source']->getCustomerGroup()->getCustomerGroupId()
+            : 1;
         $result = [
             'name' => $this->customer->getFirstname(),
             'order' => [
                 'currency' => $data['order_currency_code'],
                 'account' => [
-                    'group_id' => $this->customer->hasData('group_id') ? $this->customer->getGroupId() : 1,
+                    'group_id' => $customerGroupId,
                     'email' => $this->customer->getEmail()
                 ],
                 'shipping_method' => $data['shipping_method']
