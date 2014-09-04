@@ -91,6 +91,7 @@ class ConsoleController extends AbstractActionController
 
     /**
      * Creates the local.xml file
+     *
      * @return string
      * @throws \Exception
      */
@@ -109,11 +110,7 @@ class ConsoleController extends AbstractActionController
 
         //Setting the basePath of Magento appilcation
         $magentoDir   = $request->getParam('magentoDir');
-        if ($magentoDir) {
-            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
-        } else {
-            $this->factoryConfig->setMagentoBasePath();
-        }
+        $this->updateMagentoDirectory($magentoDir);
 
         //Check File permission
         Helper::checkAndCreateDirectory($this->factoryConfig->getMagentoBasePath() . '/var/cache');
@@ -128,18 +125,11 @@ class ConsoleController extends AbstractActionController
         //Set maintenance mode "on"
         touch($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
 
-        //Build all data required for creating local.xml
-        $dbHost   = $request->getParam('db_host');
-        $dbName   = $request->getParam('db_name');
-        $dbUser   = $request->getParam('db_user');
-        $dbPass   = $request->getParam('db_pass');
-        if (!$dbPass) {
-            $dbPass = '';
-        }
-        $dbPrefix   = $request->getParam('db_table_prefix');
-        if (!$dbPrefix) {
-            $dbPrefix = '';
-        }
+        $dbHost   = $request->getParam('db_host', '');
+        $dbName   = $request->getParam('db_name', '');
+        $dbUser   = $request->getParam('db_user', '');
+        $dbPass   = $request->getParam('db_pass', '');
+        $dbPrefix   = $request->getParam('db_table_prefix','');
 
         //Check DB connection
         $dbConnectionInfo = array(
@@ -156,7 +146,7 @@ class ConsoleController extends AbstractActionController
             throw new \Exception('Database connection failure.');
         }
 
-        $adminUrl   = $request->getParam('admin_url');
+        $adminUrl = $request->getParam('admin_url');
 
         $data = array(
             'db' => array(
@@ -183,6 +173,7 @@ class ConsoleController extends AbstractActionController
 
     /**
      * Installs and updates database schema
+     *
      * @return string
      * @throws \Exception
      */
@@ -192,22 +183,20 @@ class ConsoleController extends AbstractActionController
         Helper::checkRequest($request);
 
         $magentoDir   = $request->getParam('magentoDir');
-        if ($magentoDir) {
-            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
-        } else {
-            $this->factoryConfig->setMagentoBasePath();
-        }
+        $this->updateMagentoDirectory($magentoDir);
 
         $this->config->setConfigData([]);
         $this->config->loadFromConfigFile();
         $this->setupFactory->setConfig($this->config->getConfigData());
 
         $moduleNames = array_keys($this->moduleList);
+        // Do schema updates for each module
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
             $setup->applyUpdates();
         }
 
+        // Do post-schema updates for each module
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
             $setup->applyRecurringUpdates();
@@ -218,21 +207,17 @@ class ConsoleController extends AbstractActionController
 
     /**
      * Installs and updates data
+     *
      * @return string
      * @throws \Exception
      */
     public function installDataAction()
     {
-
         $request = $this->getRequest();
         Helper::checkRequest($request);
 
         $magentoDir   = $request->getParam('magentoDir');
-        if ($magentoDir) {
-            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
-        } else {
-            $this->factoryConfig->setMagentoBasePath();
-        }
+        $this->updateMagentoDirectory($magentoDir);
 
         $storeUrl   = $request->getParam('store_url');
         $secureStoreUrl   = $request->getParam('secure_store_url');
@@ -265,10 +250,7 @@ class ConsoleController extends AbstractActionController
                 $useRewrites = false;
             }
         }
-        $encryptionKey   = $request->getParam('encryption_key');
-        if (!$encryptionKey) {
-            $encryptionKey = md5($this->random->getRandomString(10));
-        }
+        $encryptionKey = $request->getParam('encryption_key', $this->getRandomEncryptionKey());
         $locale   = $request->getParam('locale');
         $timezone   = $request->getParam('timezone');
         $currency   = $request->getParam('currency');
@@ -280,10 +262,6 @@ class ConsoleController extends AbstractActionController
 
         $data = array(
             'admin' => array(
-                'passwordStatus' => array(
-                    'class' => 'weak',
-                    'label' => 'Weak',
-                ),
                 'password' => $adminPassword,
                 'username' => $adminUsername,
                 'email' => $adminEmail,
@@ -317,7 +295,6 @@ class ConsoleController extends AbstractActionController
                 ),
             ),
         );
-
 
         $this->config->setConfigData($data);
         $this->config->loadFromConfigFile();
@@ -370,7 +347,7 @@ class ConsoleController extends AbstractActionController
         $adminAccount->save();
 
         if ($data['config']['encrypt']['type'] == 'magento') {
-            $key = md5($this->random->getRandomString(10));
+            $key = $this->getRandomEncryptionKey();
         } else {
             $key = $data['config']['encrypt']['key'];
         }
@@ -397,7 +374,8 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
-     * IShows necessay information for installing Magento
+     * Shows necessary information for installing Magento
+     *
      * @return string
      * @throws \Exception
      */
@@ -425,5 +403,28 @@ class ConsoleController extends AbstractActionController
         if ($options) {
             return  Helper::showOptions();
         }
+    }
+
+    /**
+     * Updates Magento Directory
+     *
+     * @param string $magentoDir
+     */
+    private function updateMagentoDirectory($magentoDir)
+    {
+        if ($magentoDir) {
+            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
+        } else {
+            $this->factoryConfig->setMagentoBasePath();
+        }
+    }
+
+    /**
+     *
+     * @return string
+     */
+    private function getRandomEncryptionKey()
+    {
+       return md5($this->random->getRandomString(10));
     }
 }

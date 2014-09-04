@@ -98,8 +98,8 @@ class Module implements
      * The banner is shown in the console window, when the user supplies invalid command-line parameters or invokes
      * the application with no parameters.
      *
-     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly access Console and send
-     * output.
+     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly access
+     * Console and send output.
      *
      * @param AdapterInterface $console
      * @return string|null
@@ -138,7 +138,7 @@ class Module implements
     public function getConsoleUsage(AdapterInterface $console)
     {
         return [
-            'Retrieving List of Options',
+            'List of Options',
             'show locales'              => 'Show possible locales',
             'show currencies'               => 'Show all acceptable currencies',
             'show timezones'                => 'Show all timezones',
@@ -150,13 +150,13 @@ class Module implements
             [   'db_name' , 'magento'],
             [   'db_user' , 'root'],
             [   'admin_url' , 'http://magento.local/admin'],
-            'Example of usage for Deployment Configuration tool: ',
+            'Sample Deployment Configuration tool command: ',
             'php -f index.php install local --license_agreement_accepted yes --db_host localhost' .
-            ' --db_name magentosetup --db_user root --admin_url "http://127.0.0.1/admin"',
+            ' --db_name magentosetup --db_user root --admin_url "admin"',
             '***************************************************' . "\n",
             'install schema [--<install_option_name> "<option_value>" ...]'  => 'Installing database schema',
             [   'magentoDir' , 'C:\wamp\www\magento2'],
-            'Example of usage for Schema Installer and Updater tool: ',
+            'Sample Schema Installer and Updater tool command: ',
             'php -f index.php install schema  --magentoDir "C:\wamp\www\magento2"',
             '***************************************************' . "\n",
             'install data [--<install_option_name> "<option_value>" ...]'   => 'Installing data files',
@@ -173,7 +173,7 @@ class Module implements
             [   'admin_email' , 'john.smith@some-email.com'],
             [   'admin_username' , 'admin'],
             [   'admin_password' , '1234qasd'],
-            'Example of usage for Data Installer and Updater tool: ',
+            'Sample Data Installer and Updater tool command: ',
             'php -f index.php install data  --magentoDir "C:\wamp\www\magento2" --store_url "http://127.0.0.1/"' .
             ' --secure_store_url yes --locale "en_US" --timezone "America/Los_Angeles" --currency "USD"' .
             ' --admin_lastname Smith --admin_firstname John --admin_email 123@gmail.com --admin_username "admin"' .
