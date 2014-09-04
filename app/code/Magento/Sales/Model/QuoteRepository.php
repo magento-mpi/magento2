@@ -30,6 +30,7 @@ class QuoteRepository
     /**
      * @param QuoteFactory $quoteFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param UserContextInterface $userContext
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,

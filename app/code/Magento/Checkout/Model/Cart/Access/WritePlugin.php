@@ -8,7 +8,7 @@
 
 namespace Magento\Checkout\Model\Cart\Access;
 
-use Magento\Authorization\Model\UserContextInterface;;
+use Magento\Authorization\Model\UserContextInterface;
 
 class WritePlugin
 {
@@ -43,7 +43,8 @@ class WritePlugin
      * @throws \Exception if access denied
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeCreate(\Magento\Checkout\Service\V1\Cart\WriteServiceInterface $subject) {
+    public function beforeCreate(\Magento\Checkout\Service\V1\Cart\WriteServiceInterface $subject)
+    {
         if (!in_array($this->userContext->getUserType(), $this->allowedUserTypes)) {
             throw new \Exception('Access denied');
         }

@@ -132,7 +132,6 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Customer/_files/customer.php
      * @expectedException \Exception
-     * @expectedExceptionMessage There is no cart with provided ID.
      */
     public function testAssignCustomerThrowsExceptionIfThereIsNoCartWithGivenId()
     {
