@@ -31,7 +31,7 @@ class ProductGrid extends Grid
     protected $productView = '/*[contains(@class,"qty")]';
 
     /**
-     * Get total Results from New Accounts Report grid
+     * Get views Results from Products Report grid
      *
      * @param array $products
      * @return array

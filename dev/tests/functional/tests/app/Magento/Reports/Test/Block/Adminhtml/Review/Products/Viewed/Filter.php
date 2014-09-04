@@ -8,9 +8,9 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
 
+use Mtf\Block\Form;
 use Mtf\ObjectManager;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Form;
 
 /**
  * Class Filter
@@ -18,25 +18,6 @@ use Magento\Backend\Test\Block\Widget\Form;
  */
 class Filter extends Form
 {
-    /**
-     * Filter locator
-     *
-     * @var string
-     */
-    protected $filter = '[name="%s"]';
-
-    /**
-     * Mapping for fields in Account Report Grid
-     *
-     * @var array
-     */
-    protected $dataMapping = [
-        'from' => 'datepicker',
-        'to' => 'datepicker',
-        'period_type' => 'select',
-        'show_empty_rows' => 'select',
-    ];
-
     /**
      * Search products in report grid
      *
@@ -46,10 +27,8 @@ class Filter extends Form
     public function viewsReport(array $viewsReport)
     {
         $viewsReport = $this->prepareData($viewsReport);
-        foreach ($viewsReport as $name => $value) {
-            $this->_rootElement->find(sprintf($this->filter, $name), Locator::SELECTOR_CSS, $this->dataMapping[$name])
-                ->setValue($value);
-        }
+        $data = $this->dataMapping($viewsReport);
+        $this->_fill($data);
     }
 
     /**

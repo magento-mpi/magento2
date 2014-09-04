@@ -8,7 +8,6 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\GridPageActions;
 
 /**

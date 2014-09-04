@@ -11,7 +11,7 @@
     <blocks>
         <actionsBlock>
             <class>Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed\Action</class>
-            <locator>#anchor-content</locator>
+            <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </actionsBlock>
         <gridBlock>
