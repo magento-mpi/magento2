@@ -63,7 +63,7 @@ class DeleteGiftWrappingEntityTest extends Injectable
      * Delete Gift Wrapping Entity test
      *
      * @param GiftWrapping $giftWrapping
-     * @return void
+     * @return array
      */
     public function test(GiftWrapping $giftWrapping)
     {
@@ -75,5 +75,7 @@ class DeleteGiftWrappingEntityTest extends Injectable
         $this->giftWrappingIndexPage->open();
         $this->giftWrappingIndexPage->getGiftWrappingGrid()->searchAndOpen($filter);
         $this->giftWrappingNewPage->getFormPageActions()->delete();
+
+        return ['giftWrappingsModified' => [$giftWrapping]];
     }
 }

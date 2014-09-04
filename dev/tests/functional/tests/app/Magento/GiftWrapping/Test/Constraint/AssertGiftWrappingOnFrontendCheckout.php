@@ -14,16 +14,16 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
 use Magento\Customer\Test\Fixture\AddressInjectable;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AssertGiftWrappingNotOnFrontendCheckout
- * Assert that deleted Gift Wrapping can not be found during one page checkout on frontend
+ * Class AssertGiftWrappingOnFrontendCheckout
+ * Assert that Gift Wrapping can be found during one page checkout on frontend
  */
-class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
+class AssertGiftWrappingOnFrontendCheckout extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -33,7 +33,7 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that deleted Gift Wrapping can not be found during one page checkout on frontend
+     * Assert that Gift Wrapping can be found during one page checkout on frontend
      *
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
@@ -71,9 +71,9 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
             $giftWrappingsModified
         );
         $customerAccountLogout->open();
-        \PHPUnit_Framework_Assert::assertEmpty(
+        \PHPUnit_Framework_Assert::assertNotEmpty(
             $giftWrappingAvailable,
-            'Gift Wrapping is present in one page checkout on frontend.'
+            'Gift Wrapping is not present in one page checkout on frontend.'
             . "\nLog:\n" . implode(";\n", $giftWrappingAvailable)
         );
     }
@@ -85,6 +85,6 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift Wrapping can not be found during one page checkout on frontend.';
+        return 'Gift Wrapping can be found during one page checkout on frontend.';
     }
 }

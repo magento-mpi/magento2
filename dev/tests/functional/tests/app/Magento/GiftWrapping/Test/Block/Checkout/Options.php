@@ -32,26 +32,32 @@ class Options extends Block
     protected $allowGiftOptionsForItems = 'input[name="allow_gift_options_for_items"]';
 
     /**
-     * Gift Wrapping Design
+     * Gift Wrapping Design Options
      *
      * @var string
      */
-    protected $giftWrapping = 'select[name$="[design]"]';
+    protected $giftWrappingOptions = 'select[name$="[design]"] > option';
 
     /**
-     * Check if Gift Wrapping Design Available on Onepage Checkout
+     * Get Gift Wrapping Available on Onepage Checkout
      *
-     * @param GiftWrapping $giftWrapping
-     * @return bool
+     * @param array $giftWrappings
+     * @return array
      */
-    public function isGiftWrappingAvailable(GiftWrapping $giftWrapping)
+    public function getGiftWrappingAvailable(array $giftWrappings)
     {
         $this->_rootElement->find($this->allowGiftOptions)->click();
         $this->_rootElement->find($this->allowGiftOptionsForItems)->click();
-        if ($this->_rootElement->find($this->giftWrapping)->isVisible()) {
-            return strpos($this->_rootElement->find($this->giftWrapping)->getText(), $giftWrapping->getDesign());
-        } else {
-            return false;
+        $giftWrappingElements = $this->_rootElement->find($this->giftWrappingOptions)->getElements();
+        $matches = [];
+        foreach ($giftWrappings as $giftWrapping) {
+            foreach ($giftWrappingElements as $giftWrappingElement) {
+                if ($giftWrapping->getDesign() === $giftWrappingElement->getText()) {
+                    $matches[] = $giftWrapping->getDesign();
+                }
+            }
         }
+
+        return $matches;
     }
 }
