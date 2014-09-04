@@ -37,7 +37,7 @@ class Management extends Block
      *
      * @var string
      */
-    protected $wishlistOptions = '.items.dropdown';
+    protected $wishlistOptions = '#wishlists-select li';
 
     /**
      * Item wish list
@@ -100,13 +100,17 @@ class Management extends Block
      */
     public function getWishlists()
     {
-        $this->clickMultipleWishlistSelect();
-        $options = trim($this->_rootElement->find($this->wishlistOptions)->getText());
-        $options = explode("\n", $options);
-        if (in_array('Create New Wish List', $options)) {
-            array_pop($options);
+        $options = $this->_rootElement->find($this->wishlistOptions)->getElements();
+        $wishLists = [];
+
+        foreach ($options as $option) {
+            $wishLists[] = trim($option->getText());
         }
-        return $options;
+        if (in_array('Create New Wish List', $wishLists)) {
+            array_pop($wishLists);
+        }
+
+        return $wishLists;
     }
 
     /**

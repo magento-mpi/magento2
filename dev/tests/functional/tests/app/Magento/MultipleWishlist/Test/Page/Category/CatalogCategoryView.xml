@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/category/view">
+    <blocks>
+        <wishlistSearchBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Widget\Search</class>
+            <locator>.widget.block.wishlist.find</locator>
+            <strategy>css selector</strategy>
+        </wishlistSearchBlock>
+    </blocks>
+</page>

@@ -66,6 +66,16 @@ class CreateProductReviewFrontendEntityTest extends Injectable
     protected $review;
 
     /**
+     * This method is called before a test is executed
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        self::markTestIncomplete('MAGETWO-27663');
+    }
+
+    /**
      * Injection data
      *
      * @param CatalogProductView $catalogProductView
@@ -88,7 +98,7 @@ class CreateProductReviewFrontendEntityTest extends Injectable
      *
      * @param ReviewInjectable $review
      * @param Browser $browser
-     * @return void
+     * @return array
      */
     public function test(ReviewInjectable $review, Browser $browser)
     {
@@ -105,6 +115,8 @@ class CreateProductReviewFrontendEntityTest extends Injectable
         $reviewForm = $this->catalogProductView->getReviewFormBlock();
         $reviewForm->fill($review);
         $reviewForm->submit();
+
+        return ['product' => $product];
     }
 
     /**
@@ -115,12 +127,11 @@ class CreateProductReviewFrontendEntityTest extends Injectable
     public function tearDown()
     {
         $this->ratingIndex->open();
-        $ratingGrid = $this->ratingIndex->getRatingGrid();
-        $pageActions = $this->ratingEdit->getPageActions();
-        foreach ($this->review->getRatings() as $rating) {
-            $filter = ['rating_code' => $rating['title']];
-            $ratingGrid->searchAndOpen($filter);
-            $pageActions->delete();
+        if ($this->review instanceof ReviewInjectable) {
+            foreach ($this->review->getRatings() as $rating) {
+                $this->ratingIndex->getRatingGrid()->searchAndOpen(['rating_code' => $rating['title']]);
+                $this->ratingEdit->getPageActions()->delete();
+            }
         }
     }
 }
