@@ -33,7 +33,7 @@ use Mtf\Fixture\FixtureFactory;
  * @group Customers_(MX)
  * @ZephyrId MAGETWO-24387
  */
-class CreatingCustomerBalanceEntityTest extends Injectable
+class CreateCustomerBalanceEntityTest extends Injectable
 {
     /**
      * Customer fixture
@@ -90,7 +90,7 @@ class CreatingCustomerBalanceEntityTest extends Injectable
      * @param CustomerBalance $customerBalance
      * @return void
      */
-    public function testCreatingCustomerBalance(CustomerBalance $customerBalance)
+    public function test(CustomerBalance $customerBalance)
     {
         $this->customerIndex->open();
         $filter = ['email' => $this->customer->getEmail()];
