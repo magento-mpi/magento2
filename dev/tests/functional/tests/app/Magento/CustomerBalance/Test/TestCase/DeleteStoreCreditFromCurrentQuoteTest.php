@@ -35,7 +35,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  * 1. Login to frontend as customer
  * 2. Add simple product to shopping cart
  * 3. Click "Proceed Checkout" button
- * 4. On Billing Information tab select address by default and click "Continue" button
+ * 4. On Billing Information tab fill address and click "Continue" button
  * 5. On Shipping Method tab select "Free Shipping" by default and click "Continue"
  * 6. On Payment Information tab select "Use Store Credit" checkbox and click "Continue"
  * 7. On Order Review tab click "Remove" link(Remove Store Credit)
@@ -180,6 +180,6 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
         $this->checkoutOnepage->getStoreCreditBlock()->fillStoreCredit($payment);
         $this->checkoutOnepage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $this->checkoutOnepage->getPaymentMethodsBlock()->clickContinue();
-        $this->checkoutOnepage->getOrderReviewBlock()->clickRemoveStoreCredit();
+        $this->checkoutOnepage->getBalanceReviewBlock()->clickRemoveStoreCredit();
     }
 }

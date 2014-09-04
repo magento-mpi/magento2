@@ -23,25 +23,6 @@ use Mtf\Fixture\FixtureInterface;
 class Curl extends AbstractCurl implements CustomerBalanceInterface
 {
     /**
-     * Mapping values for data
-     *
-     * @var array
-     */
-    protected $mappingData = [
-        'group_id' => [
-            'General' => 1,
-            'Wholesale' => 2,
-            'Retailer' => 3
-        ],
-        'country_id' => [
-            'United States' => 'US'
-        ],
-        'region_id' => [
-            'California' => 12
-        ]
-    ];
-
-    /**
      * Post request for creating customer balance backend
      *
      * @param FixtureInterface|null $fixture
@@ -77,9 +58,13 @@ class Curl extends AbstractCurl implements CustomerBalanceInterface
         $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
         /** @var \Magento\Store\Test\Fixture\Website $website */
         $website = $fixture->getDataFieldConfig('website_id')['source']->getWebsite();
+        /** @var \Magento\Customer\Test\Fixture\CustomerGroupInjectable $customerGroup */
+        /** @var \Magento\Customer\Test\Fixture\CustomerInjectable $customer */
+        $customerGroup = $customer->getDataFieldConfig('group_id')['source']->getCustomerGroup();
         /** @var CustomerInjectable $customer */
-        $data = $this->replaceMappingData($customer->getData());
+        $data = $customer->getData();
         $data['customer_id'] = $customer->getId();
+        $data['group_id'] = $customerGroup->getCustomerGroupId();
         $data['customerbalance']['amount_delta'] = $fixture->getBalanceDelta();
         $data['customerbalance']['website_id'] = $website->getWebsiteId();
 
