@@ -30,16 +30,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $request = $this->mergeAttributes((array)$simpleXmlNode);
             $request['dimensions'] = $this->convertNodes($simpleXmlNode->dimensions, 'name');
             $request['queries'] = $this->convertNodes($simpleXmlNode->queries, 'name');
-            if (!empty($simpleXmlNode->filters)) {
-                $request['filters'] = $this->convertNodes($simpleXmlNode->filters, 'name');
-            } else {
-                $request['filters'] = [];
-            }
-            if (!empty($simpleXmlNode->aggregations)) {
-                $request['aggregations'] = $this->convertNodes($simpleXmlNode->aggregations, 'name');
-            } else {
-                $request['aggregations'] = [];
-            }
+            $request['filters'] = $this->convertNodes($simpleXmlNode->filters, 'name');
+            $request['aggregations'] = $this->convertNodes($simpleXmlNode->aggregations, 'name');
             $requests[$name] = $request;
         }
         return $requests;
@@ -61,17 +53,6 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     }
 
     /**
-     * Deep converting simlexml element to array
-     *
-     * @param \SimpleXMLElement $node
-     * @return array
-     */
-    protected function convertToArray(\SimpleXMLElement $node)
-    {
-        return $this->mergeAttributes(json_decode(json_encode($node), true));
-    }
-
-    /**
      * Convert nodes to array
      *
      * @param \SimpleXMLElement $nodes
@@ -81,20 +62,33 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     protected function convertNodes(\SimpleXMLElement $nodes, $name)
     {
         $list = [];
-        /** @var \SimpleXMLElement $node */
-        foreach ($nodes->children() as $node) {
-            $element = $this->convertToArray($node->attributes());
-            if ($node->count() > 0) {
-                $element = $this->convertChildNodes($element, $node);
-            }
-            $type = (string)$node->attributes('xsi', true)['type'];
-            if (!empty($type)) {
-                $element['type'] = $type;
-            }
+        if (!empty($nodes)) {
+            /** @var \SimpleXMLElement $node */
+            foreach ($nodes->children() as $node) {
+                $element = $this->convertToArray($node->attributes());
+                if ($node->count() > 0) {
+                    $element = $this->convertChildNodes($element, $node);
+                }
+                $type = (string)$node->attributes('xsi', true)['type'];
+                if (!empty($type)) {
+                    $element['type'] = $type;
+                }
 
-            $list[$element[$name]] = $element;
+                $list[$element[$name]] = $element;
+            }
         }
         return $list;
+    }
+
+    /**
+     * Deep converting simlexml element to array
+     *
+     * @param \SimpleXMLElement $node
+     * @return array
+     */
+    protected function convertToArray(\SimpleXMLElement $node)
+    {
+        return $this->mergeAttributes(json_decode(json_encode($node), true));
     }
 
     /**
