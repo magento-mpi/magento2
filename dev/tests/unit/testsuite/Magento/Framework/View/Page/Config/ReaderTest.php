@@ -47,12 +47,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDown()
-    {
-        unset($this->structureMock);
-        unset($this->reader);
-    }
-
     /**
      * @param string $filePath
      * @dataProvider readHeadDataProvider

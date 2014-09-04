@@ -158,20 +158,6 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDownAfterTestClass()
-    {
-        unset($this->propertyGroupMock);
-        unset($this->assetInterfaceMock);
-        unset($this->assetMergeServiceMock);
-        unset($this->assetsCollection);
-        unset($this->$pageConfigMock);
-        unset($this->$assetMinifyServiceMock);
-        unset($this->$urlBuilderMock);
-        unset($this->escaperMock);
-        unset($this->stringMock);
-        unset($this->loggerMock);
-    }
-
     public function testRenderHeadContent()
     {
         $title = 'some_title';
