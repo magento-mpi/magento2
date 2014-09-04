@@ -150,13 +150,15 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
         $urlFirst->expects($this->any())
             ->method('getByKey')
             ->will($this->returnValueMap([
-                [UrlRewrite::REQUEST_PATH, 'request_path_1'],
+                [UrlRewrite::ENTITY_TYPE, 'product'],
+                [UrlRewrite::ENTITY_ID, 'entity_1'],
                 [UrlRewrite::STORE_ID, 'store_id_1']
             ]));
         $urlSecond->expects($this->any())
             ->method('getByKey')
             ->will($this->returnValueMap([
-                [UrlRewrite::REQUEST_PATH, 'request_path_2'],
+                [UrlRewrite::ENTITY_TYPE, 'category'],
+                [UrlRewrite::ENTITY_ID, 'entity_2'],
                 [UrlRewrite::STORE_ID, 'store_id_2']
             ]));
 
@@ -166,13 +168,17 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
 
         $this->select->expects($this->at(1))
             ->method('where')
-            ->with('request_path IN (?)', ['request_path_1', 'request_path_2']);
+            ->with('entity_type IN (?)', ['product', 'category']);
 
         $this->select->expects($this->at(2))
             ->method('where')
-            ->with('store_id IN (?)', ['store_id_1', 'store_id_2']);
+            ->with('entity_id IN (?)', ['entity_1', 'entity_2']);
 
         $this->select->expects($this->at(3))
+            ->method('where')
+            ->with('store_id IN (?)', ['store_id_1', 'store_id_2']);
+
+        $this->select->expects($this->at(4))
             ->method('deleteFromSelect')
             ->with('table_name')
             ->will($this->returnValue('sql delete query'));

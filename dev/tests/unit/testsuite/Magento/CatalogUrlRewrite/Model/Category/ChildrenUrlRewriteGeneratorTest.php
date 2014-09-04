@@ -18,6 +18,9 @@ class ChildrenUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
     protected $category;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $childrenCategoriesProvider;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $categoryUrlRewriteGeneratorFactory;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -25,6 +28,9 @@ class ChildrenUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->childrenCategoriesProvider = $this->getMockBuilder(
+            'Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider'
+        )->disableOriginalConstructor()->getMock();
         $this->category = $this->getMockBuilder('Magento\Catalog\Model\Category')
             ->disableOriginalConstructor()->getMock();
         $this->categoryUrlRewriteGeneratorFactory = $this->getMockBuilder(
@@ -36,6 +42,7 @@ class ChildrenUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->childrenUrlRewriteGenerator = (new ObjectManager($this))->getObject(
             'Magento\CatalogUrlRewrite\Model\Category\ChildrenUrlRewriteGenerator',
             [
+                'childrenCategoriesProvider' => $this->childrenCategoriesProvider,
                 'categoryUrlRewriteGeneratorFactory' => $this->categoryUrlRewriteGeneratorFactory
             ]
         );
@@ -43,7 +50,8 @@ class ChildrenUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testNoChildrenCategories()
     {
-        $this->category->expects($this->once())->method('getChildrenCategories')->will($this->returnValue([]));
+        $this->childrenCategoriesProvider->expects($this->once())->method('getChildren')->with($this->category, false)
+            ->will($this->returnValue([]));
 
         $this->assertEquals([], $this->childrenUrlRewriteGenerator->generate('store_id', $this->category));
     }
@@ -58,7 +66,7 @@ class ChildrenUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         $childCategory->expects($this->once())->method('setStoreId')->with($storeId);
         $childCategory->expects($this->once())->method('setData')
             ->with('save_rewrites_history', $saveRewritesHistory);
-        $this->category->expects($this->once())->method('getChildrenCategories')
+        $this->childrenCategoriesProvider->expects($this->once())->method('getChildren')->with($this->category, false)
             ->will($this->returnValue([$childCategory]));
         $this->category->expects($this->any())->method('getData')->with('save_rewrites_history')
             ->will($this->returnValue($saveRewritesHistory));

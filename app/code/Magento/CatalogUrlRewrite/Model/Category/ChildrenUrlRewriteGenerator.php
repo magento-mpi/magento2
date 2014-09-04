@@ -12,15 +12,21 @@ use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGeneratorFactory;
 
 class ChildrenUrlRewriteGenerator
 {
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider */
+    protected $childrenCategoriesProvider;
+
     /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGeneratorFactory */
     protected $categoryUrlRewriteGeneratorFactory;
 
     /**
+     * @param \Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider $childrenCategoriesProvider
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGeneratorFactory $categoryUrlRewriteGeneratorFactory
      */
     public function __construct(
+        ChildrenCategoriesProvider $childrenCategoriesProvider,
         CategoryUrlRewriteGeneratorFactory $categoryUrlRewriteGeneratorFactory
     ) {
+        $this->childrenCategoriesProvider = $childrenCategoriesProvider;
         $this->categoryUrlRewriteGeneratorFactory = $categoryUrlRewriteGeneratorFactory;
     }
 
@@ -34,7 +40,7 @@ class ChildrenUrlRewriteGenerator
     public function generate($storeId, Category $category)
     {
         $urls = [];
-        foreach ($category->getChildrenCategories() as $childCategory) {
+        foreach ($this->childrenCategoriesProvider->getChildren($category) as $childCategory) {
             $childCategory->setStoreId($storeId);
             $childCategory->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
             $urls = array_merge(

@@ -19,6 +19,9 @@ use Magento\CatalogUrlRewrite\Block\UrlKeyRenderer;
 
 class Observer
 {
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider */
+    protected $childrenCategoriesProvider;
+
     /** @var CategoryUrlRewriteGenerator */
     protected $categoryUrlRewriteGenerator;
 
@@ -35,17 +38,20 @@ class Observer
     protected $isSkippedProduct;
 
     /**
+     * @param \Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider $childrenCategoriesProvider
      * @param CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator
      * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      * @param UrlPersistInterface $urlPersist
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
+        ChildrenCategoriesProvider $childrenCategoriesProvider,
         CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator,
         ProductUrlRewriteGenerator $productUrlRewriteGenerator,
         UrlPersistInterface $urlPersist,
         ScopeConfigInterface $scopeConfig
     ) {
+        $this->childrenCategoriesProvider = $childrenCategoriesProvider;
         $this->categoryUrlRewriteGenerator = $categoryUrlRewriteGenerator;
         $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
         $this->urlPersist = $urlPersist;
@@ -110,7 +116,7 @@ class Observer
         $saveRewriteHistory = $category->getData('save_rewrites_history');
         $storeId = $category->getStoreId();
         $productUrls = $this->getCategoryProductsUrlRewrites($category, $storeId, $saveRewriteHistory);
-        foreach ($category->getChildrenCategories() as $childCategory) {
+        foreach ($this->childrenCategoriesProvider->getChildren($category, true) as $childCategory) {
             $productUrls = array_merge(
                 $productUrls,
                 $this->getCategoryProductsUrlRewrites($childCategory, $storeId, $saveRewriteHistory)

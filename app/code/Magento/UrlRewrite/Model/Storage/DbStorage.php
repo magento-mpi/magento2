@@ -123,7 +123,7 @@ class DbStorage extends AbstractStorage
     protected function createFilterDataBasedOnUrls($urls)
     {
         $data = [];
-        $uniqueKeys = [UrlRewrite::REQUEST_PATH, UrlRewrite::STORE_ID];
+        $uniqueKeys = [UrlRewrite::ENTITY_TYPE, UrlRewrite::ENTITY_ID, UrlRewrite::STORE_ID];
         foreach ($urls as $url) {
             foreach ($uniqueKeys as $key) {
                 $fieldValue = $url->getByKey($key);
