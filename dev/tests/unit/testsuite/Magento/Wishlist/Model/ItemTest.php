@@ -8,6 +8,9 @@
 
 namespace Magento\Wishlist\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
