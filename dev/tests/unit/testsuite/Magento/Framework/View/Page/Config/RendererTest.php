@@ -60,9 +60,6 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     protected $loggerMock;
 
-    /** @var ObjectManagerHelper */
-    protected $objectManagerHelper;
-
     /**
      * @var \Magento\Framework\View\Asset\GroupedCollection|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -72,6 +69,14 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\View\Asset\PropertyGroup|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $propertyGroupMock;
+
+    /**
+     * @var \Magento\Framework\App\Action\Title|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $titlesMock;
+
+    /** @var ObjectManagerHelper */
+    protected $objectManagerHelper;
 
     protected function setUp()
     {
@@ -90,7 +95,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                     'processMerge',
                     'getMetadataTemplate',
                     'processMetadataContent',
-                    'addRemotePageAsset'
+                    'addRemotePageAsset',
+                    'setTitle',
+                    'getIncludes',
+                    'getTranslatorScript'
                 ]
             )->disableOriginalConstructor()
             ->getMock();
@@ -129,6 +137,11 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->assetInterfaceMock = $this->getMockForAbstractClass('Magento\Framework\View\Asset\AssetInterface');
 
+        $this->titlesMock = $this->getMockBuilder('Magento\Framework\App\Action\Title')
+            ->setMethods(['add', 'get'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->renderer = $this->objectManagerHelper->getObject(
             'Magento\Framework\View\Page\Config\Renderer',
@@ -139,12 +152,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                 'urlBuilder' => $this->urlBuilderMock,
                 'escaper' => $this->escaperMock,
                 'string' => $this->stringMock,
-                'logger' => $this->loggerMock
+                'logger' => $this->loggerMock,
+                'titles' => $this->titlesMock
             ]
         );
     }
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         unset($this->propertyGroupMock);
         unset($this->assetInterfaceMock);
@@ -160,9 +174,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderHeadContent()
     {
+        $title = 'some_title';
         $someUrl = 'some_url';
         $expected = '<meta name="name" content="value"/>' . "\n"
-            . "<title></title>" . "\n" . '<link  href="' . $someUrl . '" />' . "\n";
+            . "<title>some_title</title>" . "\n" . '<link  href="' . $someUrl . '" />' . "\n";
         $this->pageConfigMock
             ->expects($this->once())
             ->method('getMetadata')
@@ -171,11 +186,30 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getAssetCollection')
             ->will($this->returnValue($this->assetsCollection));
+        $this->pageConfigMock
+            ->expects($this->exactly(2))
+            ->method('getTitle')
+            ->will($this->returnValue($title));
+        $this->titlesMock
+            ->expects($this->once())
+            ->method('add')
+            ->will($this->returnSelf());
+        $this->titlesMock
+            ->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue([$title]));
+        $this->pageConfigMock
+            ->expects($this->once())
+            ->method('setTitle')
+            ->will($this->returnSelf());
         $this->assetsCollection
             ->expects($this->once())
             ->method('getGroups')
             ->will($this->returnValue([$this->propertyGroupMock]));
-        $this->assetInterfaceMock->expects($this->once())->method('getUrl')->will($this->returnValue($someUrl));
+        $this->assetInterfaceMock
+            ->expects($this->once())
+            ->method('getUrl')
+            ->will($this->returnValue($someUrl));
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
@@ -211,8 +245,24 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderTitle()
     {
-        $expected = "<title>name</title>" . "\n";
-        $this->pageConfigMock->expects($this->once())->method('getTitle')->will($this->returnValue('name'));
+        $title = 'some_title';
+        $expected = "<title>some_title</title>" . "\n";
+        $this->pageConfigMock
+            ->expects($this->exactly(2))
+            ->method('getTitle')
+            ->will($this->returnValue($title));
+        $this->titlesMock
+            ->expects($this->once())
+            ->method('add')
+            ->will($this->returnSelf());
+        $this->titlesMock
+            ->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue([$title]));
+        $this->pageConfigMock
+            ->expects($this->once())
+            ->method('setTitle')
+            ->will($this->returnSelf());
 
         $this->assertEquals($expected, $this->renderer->renderTitle());
     }
