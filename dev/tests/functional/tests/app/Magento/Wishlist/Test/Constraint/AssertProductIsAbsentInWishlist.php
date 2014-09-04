@@ -11,6 +11,9 @@ namespace Magento\Wishlist\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
 
 /**
  * Class AssertProductIsAbsentInWishlist
@@ -31,16 +34,27 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
      * @param CustomerAccountIndex $customerAccountIndex
      * @param WishlistIndex $wishlistIndex
      * @param string $productName
+     * @param CustomerInjectable $customer
+     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountLogin $customerAccountLogin
      * @return void
      */
     public function processAssert(
         CustomerAccountIndex $customerAccountIndex,
         WishlistIndex $wishlistIndex,
-        $productName
+        $productName,
+        CustomerInjectable $customer,
+        CmsIndex $cmsIndex,
+        CustomerAccountLogin $customerAccountLogin
     ) {
+        $cmsIndex->open();
+        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
+            $cmsIndex->getLinksBlock()->openLink('Log In');
+            $customerAccountLogin->getLoginBlock()->login($customer);
+        }
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("My Wish List");
         \PHPUnit_Framework_Assert::assertFalse(
-            $wishlistIndex->getWishlistBlock()->isProductPresent($productName),
+            $wishlistIndex->getWishlistBlock()->getProductItemsBlock()->isProductPresent($productName),
             'Product \'' . $productName . '\' is present in Wishlist on Frontend.'
         );
     }

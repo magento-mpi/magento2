@@ -9,7 +9,6 @@
 namespace Magento\Wishlist\Test\Block\Customer;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Wishlist
@@ -25,11 +24,11 @@ class Wishlist extends Block
     protected $shareWishList = '[name="save_and_share"]';
 
     /**
-     * Product name link selector
+     * Product items selector
      *
      * @var string
      */
-    protected $productName = '//a[contains(@class,"product-item-link") and contains(.,"%s")]';
+    protected $productItems = '.product-items';
 
     /**
      * Click button "Share Wish List"
@@ -42,15 +41,15 @@ class Wishlist extends Block
     }
 
     /**
-     * Check that product present in wishlist
-     * @param string $productName
+     * Get items product block
      *
-     * @return bool
+     * @return \Magento\Wishlist\Test\Block\Customer\Wishlist\Items
      */
-    public function isProductPresent($productName)
+    public function getProductItemsBlock()
     {
-        $productNameSelector = sprintf($this->productName, $productName);
-
-        return $this->_rootElement->find($productNameSelector, Locator::SELECTOR_XPATH)->isVisible();
+        return $this->blockFactory->create(
+            'Magento\Wishlist\Test\Block\Customer\Wishlist\Items',
+            ['element' => $this->_rootElement->find($this->productItems)]
+        );
     }
 }

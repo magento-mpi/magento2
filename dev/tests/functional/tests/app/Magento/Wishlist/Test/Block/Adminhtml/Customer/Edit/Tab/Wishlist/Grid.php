@@ -39,6 +39,7 @@ class Grid extends GridInterface
      * Search item and delete it
      *
      * @param array $filter
+     * @return void
      * @throws \Exception
      */
     public function searchAndDelete(array $filter)

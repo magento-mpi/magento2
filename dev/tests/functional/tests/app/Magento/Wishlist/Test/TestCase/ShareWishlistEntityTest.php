@@ -150,8 +150,12 @@ class ShareWishlistEntityTest extends Injectable
      * @param array $sharingInfo
      * @return void
      */
-    public function test(Browser $browser, CustomerInjectable $customer, CatalogProductSimple $product, array $sharingInfo)
-    {
+    public function test(
+        Browser $browser,
+        CustomerInjectable $customer,
+        CatalogProductSimple $product,
+        array $sharingInfo
+    ) {
         //Steps
         $this->loginCustomer($customer);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
