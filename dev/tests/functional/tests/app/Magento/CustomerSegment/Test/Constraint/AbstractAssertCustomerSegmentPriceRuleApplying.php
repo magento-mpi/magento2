@@ -8,6 +8,7 @@
 
 namespace Magento\CustomerSegment\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
@@ -110,6 +111,7 @@ abstract class AbstractAssertCustomerSegmentPriceRuleApplying extends AbstractCo
      * @param CustomerInjectable $customer
      * @param CustomerSegment $customerSegment
      * @param CustomerSegmentIndex $customerSegmentIndex
+     * @param Browser $browser
      * @param CustomerSegmentNew $customerSegmentNew
      * @return void
      *
@@ -125,6 +127,7 @@ abstract class AbstractAssertCustomerSegmentPriceRuleApplying extends AbstractCo
         CustomerInjectable $customer,
         CustomerSegment $customerSegment,
         CustomerSegmentIndex $customerSegmentIndex,
+        Browser $browser,
         CustomerSegmentNew $customerSegmentNew
     ) {
         $this->checkoutCart = $checkoutCart;
@@ -142,8 +145,7 @@ abstract class AbstractAssertCustomerSegmentPriceRuleApplying extends AbstractCo
 
         $product->persist();
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
-        $this->catalogProductView->init($product);
-        $this->catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->clickAddToCart();
         $this->checkoutCart->getMessagesBlock()->getSuccessMessages();
         $this->assert();
