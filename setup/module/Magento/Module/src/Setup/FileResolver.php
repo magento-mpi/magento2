@@ -88,21 +88,41 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
+     * @param string $path
+     * @return array|false
+     */
+    protected function getDirs($path)
+    {
+        return Glob::glob($this->config->getMagentoBasePath() . $path, GLOB_ONLYDIR);
+    }
+
+    /**
      * @param string $moduleName
      * @return string
      */
     public function getResourceCode($moduleName)
     {
-        $codes = [];
+        $sqlResources  = [];
+        $dataResources = [];
         $modulePath = str_replace('_', '/', $moduleName);
+
         // Collect files by /app/code/{modulePath}/sql/*/ pattern
-        $files = $this->getFiles($this->config->getMagentoModulePath() . $modulePath . '/sql/*/');
-        foreach ($files as $file) {
-            $pieces = explode('/', rtrim($this->fixSeparator($file), '/'));
-            $codes[] = array_pop($pieces);
+        $resourceDirs = $this->getDirs($this->config->getMagentoModulePath() . $modulePath . '/sql/*/');
+        if (!empty($resourceDirs)) {
+            foreach ($resourceDirs as $resourceDir) {
+                $sqlResources[] = basename($resourceDir);
+            }
         }
 
-        return array_shift($codes);
+        // Collect files by /app/code/{modulePath}/sql/*/ pattern
+        $resourceDirs = $this->getDirs($this->config->getMagentoModulePath() . $modulePath . '/data/*/');
+        if (!empty($resourceDirs)) {
+            foreach ($resourceDirs as $resourceDir) {
+                $dataResources[] = basename($resourceDir);
+            }
+        }
+
+        return array_shift(array_unique(array_merge($sqlResources, $dataResources)));
     }
 
     /**
