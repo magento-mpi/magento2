@@ -23,7 +23,7 @@ class ExtensibleDataObjectConverter
      * @param AbstractExtensibleObject $dataObject
      * @return array
      */
-    public static function toFlatArray(AbstractObject $dataObject, $skipCustomAttributes = array())
+    public static function toFlatArray(AbstractExtensibleObject $dataObject, $skipCustomAttributes = array())
     {
         $dataObjectArray = $dataObject->__toArray();
         //process custom attributes if present
