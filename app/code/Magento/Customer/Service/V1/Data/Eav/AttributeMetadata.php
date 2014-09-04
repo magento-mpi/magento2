@@ -38,7 +38,7 @@ class AttributeMetadata extends AbstractExtensibleObject implements MetadataObje
 
     const DATA_MODEL = 'data_model';
 
-    const IS_USER_DEFINED = 'user_defined';
+    const USER_DEFINED = 'user_defined';
 
     const FRONTEND_CLASS = 'frontend_class';
 
@@ -46,7 +46,7 @@ class AttributeMetadata extends AbstractExtensibleObject implements MetadataObje
 
     const FRONTEND_LABEL = 'frontend_label';
 
-    const IS_SYSTEM = 'system';
+    const SYSTEM = 'system';
 
     const NOTE = 'note';
 

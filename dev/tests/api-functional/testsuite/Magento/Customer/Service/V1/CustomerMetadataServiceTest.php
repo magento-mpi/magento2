@@ -78,8 +78,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => ' required-entry',
                     AttributeMetadata::FRONTEND_LABEL   => 'First Name',
                     AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::IS_SYSTEM           => true,
-                    AttributeMetadata::IS_USER_DEFINED     => false,
+                    AttributeMetadata::SYSTEM           => true,
+                    AttributeMetadata::USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'varchar',
                     AttributeMetadata::SORT_ORDER       => 40
                 ]
@@ -104,8 +104,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'Gender',
                     AttributeMetadata::NOTE             => null,
-                    AttributeMetadata::IS_SYSTEM           => false,
-                    AttributeMetadata::IS_USER_DEFINED     => false,
+                    AttributeMetadata::SYSTEM           => false,
+                    AttributeMetadata::USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'int',
                     AttributeMetadata::SORT_ORDER       => 110
                 ]
@@ -230,8 +230,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'Address user attribute',
                     AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::IS_SYSTEM           => false,
-                    AttributeMetadata::IS_USER_DEFINED     => true,
+                    AttributeMetadata::SYSTEM           => false,
+                    AttributeMetadata::USER_DEFINED     => true,
                     AttributeMetadata::BACKEND_TYPE     => 'static',
                     AttributeMetadata::SORT_ORDER       => 2
                 ]
@@ -299,8 +299,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'frontend_label',
                     AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::IS_SYSTEM           => false,
-                    AttributeMetadata::IS_USER_DEFINED     => true,
+                    AttributeMetadata::SYSTEM           => false,
+                    AttributeMetadata::USER_DEFINED     => true,
                     AttributeMetadata::BACKEND_TYPE     => 'static',
                     AttributeMetadata::SORT_ORDER       => 1221
                 ]
