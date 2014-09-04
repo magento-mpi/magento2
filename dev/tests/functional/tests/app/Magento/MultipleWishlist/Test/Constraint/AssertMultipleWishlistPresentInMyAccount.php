@@ -8,17 +8,11 @@
 
 namespace Magento\MultipleWishlist\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
-
 /**
  * Class AssertMultipleWishlistPresentInMyAccount
  * Assert that Wishlist exists on 'My Account' page
  */
-class AssertMultipleWishlistPresentInMyAccount extends AbstractConstraint
+class AssertMultipleWishlistPresentInMyAccount extends AbstractAssertMultipleWishlistExist
 {
     /**
      * Constraint severeness
@@ -28,23 +22,13 @@ class AssertMultipleWishlistPresentInMyAccount extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that Wishlist exists on 'My Account' page
+     * Assert wish list is present
      *
-     * @param CmsIndex $cmsIndex
-     * @param MultipleWishlistIndex $multipleWishlistIndex
-     * @param MultipleWishlist $multipleWishlist
-     * @param CustomerAccountIndex $customerAccountIndex
+     * @param bool $isPresent
      * @return void
      */
-    public function processAssert(
-        CmsIndex $cmsIndex,
-        MultipleWishlistIndex $multipleWishlistIndex,
-        MultipleWishlist $multipleWishlist,
-        CustomerAccountIndex $customerAccountIndex
-    ) {
-        $cmsIndex->open()->getLinksBlock()->openLink('My Account');
-        $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        $isPresent = $multipleWishlistIndex->getManagementBlock()->isWishlistVisible($multipleWishlist->getName());
+    protected function assert($isPresent)
+    {
         \PHPUnit_Framework_Assert::assertTrue($isPresent, 'Multiple wish list is not exist on "My Account" page.');
     }
 

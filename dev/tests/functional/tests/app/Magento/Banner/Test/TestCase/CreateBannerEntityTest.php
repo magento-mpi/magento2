@@ -8,10 +8,10 @@
 
 namespace Magento\Banner\Test\TestCase;
 
-use Magento\Banner\Test\Fixture\BannerInjectable;
-use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
-use Magento\Banner\Test\Page\Adminhtml\BannerNew;
 use Mtf\TestCase\Injectable;
+use Magento\Banner\Test\Fixture\BannerInjectable;
+use Magento\Banner\Test\Page\Adminhtml\BannerNew;
+use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 
 /**
  * Test Creation for CreateBannerEntity

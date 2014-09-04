@@ -13,9 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class Reward
  * Reward point fixture
- *
- * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Reward extends InjectableFixture
 {
@@ -30,11 +27,8 @@ class Reward extends InjectableFixture
     protected $handlerInterface = 'Magento\Reward\Test\Handler\Reward\RewardInterface';
 
     protected $defaultDataSet = [
-        'website_id' => 'Main Website/Main Website Store/Default Store View',
-        'customer_group_id' => ['dataSet' => 'All Customer Groups'],
-        'direction' => 'Points to Currency',
         'points_delta' => 10,
-        'equal_value' => 1
+        'customer_id' => ['dataSet' => 'default'],
     ];
 
     protected $reward_id = [
@@ -51,6 +45,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\Reward\Test\Fixture\Reward\CustomerId'
     ];
 
     protected $website_id = [
@@ -78,47 +73,6 @@ class Reward extends InjectableFixture
         'input' => '',
     ];
 
-    protected $rate_id = [
-        'attribute_code' => 'rate_id',
-        'backend_type' => 'int',
-        'is_required' => '1',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $customer_group_id = [
-        'attribute_code' => 'customer_group_id',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '0',
-        'input' => '',
-        'source' => 'Magento\Reward\Test\Fixture\Reward\CustomerGroup'
-    ];
-
-    protected $direction = [
-        'attribute_code' => 'direction',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '1',
-        'input' => '',
-    ];
-
-    protected $points = [
-        'attribute_code' => 'points',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '0',
-        'input' => '',
-    ];
-
-    protected $currency_amount = [
-        'attribute_code' => 'currency_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
     protected $reward_update_notification = [
         'attribute_code' => 'reward_update_notification',
         'backend_type' => 'virtual',
@@ -132,23 +86,6 @@ class Reward extends InjectableFixture
     protected $points_delta = [
         'attribute_code' => 'points_delta',
         'backend_type' => 'virtual',
-        'group' => 'reward_points'
-    ];
-
-    protected $value = [
-        'attribute_code' => 'value',
-        'backend_type' => 'virtual',
-    ];
-
-    protected $equal_value = [
-        'attribute_code' => 'equal_value',
-        'backend_type' => 'virtual',
-    ];
-
-    protected $comment = [
-        'attribute_code' => 'comment',
-        'backend_type' => 'virtual',
-        'group' => 'reward_points'
     ];
 
     public function getRewardId()
@@ -176,58 +113,18 @@ class Reward extends InjectableFixture
         return $this->getData('website_currency_code');
     }
 
-    public function getRateId()
+    public function getRewardUpdateNotification()
     {
-        return $this->getData('rate_id');
+        return $this->getData('reward_update_notification');
     }
 
-    public function getCustomerGroupId()
+    public function getRewardWarningNotification()
     {
-        return $this->getData('customer_group_id');
-    }
-
-    public function getDirection()
-    {
-        return $this->getData('direction');
-    }
-
-    public function getPoints()
-    {
-        return $this->getData('points');
-    }
-
-    public function getCurrencyAmount()
-    {
-        return $this->getData('currency_amount');
-    }
-
-    public function getSubscribeUpdates()
-    {
-        return $this->getData('subscribe_updates');
-    }
-
-    public function getSubscribeWarnings()
-    {
-        return $this->getData('subscribe_warnings');
+        return $this->getData('reward_warning_notification');
     }
 
     public function getPointsDelta()
     {
         return $this->getData('points_delta');
-    }
-
-    public function getValue()
-    {
-        return $this->getData('value');
-    }
-
-    public function getEqualValue()
-    {
-        return $this->getData('equal_value');
-    }
-
-    public function getComment()
-    {
-        return $this->getData('comment');
     }
 }

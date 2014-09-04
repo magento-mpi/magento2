@@ -1,3 +1,3 @@
-"reward/dataSet";"constraint"
+"rate/dataSet";"constraint"
 "rate_points_to_currency";"assertRewardPointsSuccessDeleteMessage, assertRewardNoExchangeMessageForPointsToCurrency"
 "rate_currency_to_points";"assertRewardPointsSuccessDeleteMessage, assertRewardNoExchangeMessageForCurrencyToPoints"
