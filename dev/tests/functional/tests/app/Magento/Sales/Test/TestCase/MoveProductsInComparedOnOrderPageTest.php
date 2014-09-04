@@ -43,13 +43,6 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 class MoveProductsInComparedOnOrderPageTest extends Injectable
 {
     /**
-     * Array products
-     *
-     * @var array
-     */
-    protected $products;
-
-    /**
      * Cms index page
      *
      * @var CmsIndex
@@ -117,13 +110,15 @@ class MoveProductsInComparedOnOrderPageTest extends Injectable
      *
      * @param FixtureFactory $fixtureFactory
      * @param CustomerInjectable $customer
+     * @param Browser $browser
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory, CustomerInjectable $customer)
+    public function __prepare(FixtureFactory $fixtureFactory, CustomerInjectable $customer, Browser $browser)
     {
         $this->fixtureFactory = $fixtureFactory;
         $customer->persist();
         $this->customer = $customer;
+        $this->browser = $browser;
     }
 
     /**
@@ -131,7 +126,6 @@ class MoveProductsInComparedOnOrderPageTest extends Injectable
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogProductView $catalogProductView
-     * @param Browser $browser
      * @param CustomerAccountLogin $customerAccountLogin
      * @param OrderCreateIndex $orderCreateIndex
      * @param CustomerIndex $customerIndex
@@ -141,7 +135,6 @@ class MoveProductsInComparedOnOrderPageTest extends Injectable
     public function __inject(
         CmsIndex $cmsIndex,
         CatalogProductView $catalogProductView,
-        Browser $browser,
         CustomerAccountLogin $customerAccountLogin,
         OrderCreateIndex $orderCreateIndex,
         CustomerIndex $customerIndex,
@@ -150,7 +143,6 @@ class MoveProductsInComparedOnOrderPageTest extends Injectable
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
         $this->customerAccountLogin = $customerAccountLogin;
-        $this->browser = $browser;
         $this->orderCreateIndex = $orderCreateIndex;
         $this->customerIndex = $customerIndex;
         $this->customerIndexEdit = $customerIndexEdit;
@@ -159,7 +151,7 @@ class MoveProductsInComparedOnOrderPageTest extends Injectable
     /**
      * Move compare products on order page
      *
-     * @param $products
+     * @param string $products
      * @return array
      */
     public function test($products)
@@ -174,7 +166,7 @@ class MoveProductsInComparedOnOrderPageTest extends Injectable
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $this->customer->getEmail()]);
         $this->customerIndexEdit->getPageActionsBlock()->createOrder();
         $this->orderCreateIndex->getStoreBlock()->selectStoreView();
-        $activitiesBlock =  $this->orderCreateIndex->getCustomerActivitiesBlock();
+        $activitiesBlock = $this->orderCreateIndex->getCustomerActivitiesBlock();
         $activitiesBlock->getProductsInComparisonBlock()->addToOrderByName($this->extractProductNames($products));
         $activitiesBlock->updateChanges();
 

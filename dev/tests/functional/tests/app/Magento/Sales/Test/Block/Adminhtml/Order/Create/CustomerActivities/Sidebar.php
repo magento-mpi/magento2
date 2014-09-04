@@ -22,7 +22,7 @@ abstract class Sidebar extends Block
      *
      * @var string
      */
-    protected $addToOrder = '//tr[td[.="%s"]]//input[@title="Add To Order"]';
+    protected $addToOrder = '//tr[td[.="%s"]]//input[contains(@name,"add")]';
 
     /**
      * Add product to order by name
