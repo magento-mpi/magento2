@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="adminhtml.tax.rate.grid">
         <block class="Magento\Backend\Block\Widget\Grid\Export" name="adminhtml.tax.rate.grid.export" as="grid.export">
             <arguments>
@@ -39,4 +39,4 @@
             <argument name="header_export" xsi:type="string" translate="true">State</argument>
         </arguments>
     </referenceBlock>
-</layout>
+</page>

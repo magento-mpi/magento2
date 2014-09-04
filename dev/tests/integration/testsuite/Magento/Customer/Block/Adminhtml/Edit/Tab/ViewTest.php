@@ -33,9 +33,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  CustomerAccountServiceInterface */
     private $_customerAccountService;
 
-    /** @var  CustomerGroupServiceInterface */
-    private $_groupService;
-
     /** @var \Magento\Store\Model\StoreManagerInterface */
     private $_storeManager;
 

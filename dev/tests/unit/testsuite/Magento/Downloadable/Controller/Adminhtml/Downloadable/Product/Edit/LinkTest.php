@@ -60,7 +60,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
                 'getModuleName',
                 'setModuleName',
                 'getActionName',
-                'setActionName'
+                'setActionName',
+                'getCookie'
             )
         );
         $this->response = $this->getMock(

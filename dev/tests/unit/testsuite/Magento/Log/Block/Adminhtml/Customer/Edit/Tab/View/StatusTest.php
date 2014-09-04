@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Log\Block\Adminhtml\Edit\Tab\View;
+namespace Magento\Log\Block\Adminhtml\Customer\Edit\Tab\View;
 
 use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
@@ -58,7 +58,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $dateTime = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime')->setMethods(['now'])
             ->disableOriginalConstructor()
             ->getMock();
-        $dateTime->expects($this->any())->method('now')->will($this->returnCallback(function(){
+        $dateTime->expects($this->any())->method('now')->will($this->returnCallback(function () {
             return date('Y-m-d H:i:s');
         }));
 
