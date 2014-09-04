@@ -93,7 +93,8 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param Utility $utility
      * @param RulesApplier $rulesApplier
-     * @param \Magento\SalesRule\Model\Validator\Pool $validators
+     * @param Validator\Pool $validators
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data

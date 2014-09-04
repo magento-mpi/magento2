@@ -30,7 +30,7 @@ class Discount implements \Zend_Validate_Interface
      */
     public function isValid($item)
     {
-        if(Giftcard::TYPE_GIFTCARD == $item->getProductType()) {
+        if (Giftcard::TYPE_GIFTCARD == $item->getProductType()) {
             $this->messages[] = __('Cannot apply discount to GiftCard');
             return false;
         }
