@@ -1,6 +1,6 @@
 define(['ko', 'Magento_Ui/js/framework/class'], function(ko, Class) {
 
-    var Source = Class.extend({
+    return Class.extend({
 
         initialize: function(template) {
             this.templateName = template;
@@ -16,10 +16,4 @@ define(['ko', 'Magento_Ui/js/framework/class'], function(ko, Class) {
             this._data[key] = value;
         }
     });
-
-    return {
-        create: function (template) {
-            return new Source(template);
-        }
-    }
 });

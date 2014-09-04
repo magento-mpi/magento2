@@ -3,7 +3,7 @@ define([
     './observable_source',
     'Magento_Ui/js/framework/renderer',
     'm2/m2'
-], function (ko, SourceFactory, Renderer, M2) {
+], function (ko, Source, Renderer, M2) {
     'use strict';
 
     var sources = {};
@@ -21,7 +21,7 @@ define([
             source = sources[template];
 
             if (!source) {
-                source = SourceFactory.create(template);
+                source = new Source(template);
                 sources[template] = source;
 
                 Renderer.render(template).done(function (rendered) {

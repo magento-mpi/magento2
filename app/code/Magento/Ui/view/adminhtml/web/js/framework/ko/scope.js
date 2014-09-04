@@ -2,9 +2,10 @@ define([
     '../class',
     '../events',
     '../utils',
-    'ko'
+    'ko',
+    '../initializers/ko'
 ], function(Class, EventBus, utils, ko) {
-
+    
     return Class.extend({
         observe: function( path, value ){
             var key,

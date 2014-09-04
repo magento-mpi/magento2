@@ -7,11 +7,8 @@ define([
   'Magento_Ui/js/framework/ko/bind/on',
   'Magento_Ui/js/framework/ko/bind/scope'
 ], function (ko, $, templateEngine) {
-  ko.setTemplateEngine(templateEngine);
 
-  return {
-    apply: function () {
-      ko.applyBindings();
-    }
-  }
+  ko.setTemplateEngine(templateEngine);
+  ko.applyBindings();
+  
 });
