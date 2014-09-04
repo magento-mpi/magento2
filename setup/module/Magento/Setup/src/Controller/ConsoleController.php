@@ -97,9 +97,8 @@ class ConsoleController extends AbstractActionController
      */
     public function installLocalAction()
     {
+        //Validating that request is console based
         $request = $this->getRequest();
-
-        //Validating the request
         Helper::checkRequest($request);
 
         //Checking license agreement
@@ -108,7 +107,7 @@ class ConsoleController extends AbstractActionController
             throw new \Exception('You have to agree on license requirements to proceed.');
         }
 
-        //Setting the basePath of Magento appilcation
+        //Setting the basePath of Magento application
         $magentoDir   = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
@@ -125,28 +124,16 @@ class ConsoleController extends AbstractActionController
         //Set maintenance mode "on"
         touch($this->factoryConfig->getMagentoBasePath() . '/var/.maintenance.flag');
 
+        //Db Data Configuration
         $dbHost   = $request->getParam('db_host', '');
         $dbName   = $request->getParam('db_name', '');
         $dbUser   = $request->getParam('db_user', '');
         $dbPass   = $request->getParam('db_pass', '');
         $dbPrefix   = $request->getParam('db_table_prefix','');
-
-        //Check DB connection
-        $dbConnectionInfo = array(
-            'driver'         => "Pdo",
-            'dsn'            => "mysql:dbname=" . $dbName . ";host=" . $dbHost,
-            'username'       => $dbUser,
-            'password'       => $dbPass,
-            'driver_options' => array(
-                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
-            ),
-        );
-        $checkDB = new DatabaseCheck($dbConnectionInfo);
-        if (!$checkDB->checkConnection()) {
-            throw new \Exception('Database connection failure.');
-        }
-
         $adminUrl = $request->getParam('admin_url');
+
+        //Checks Database Connectivity
+        $this->checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass);
 
         $data = array(
             'db' => array(
@@ -166,6 +153,7 @@ class ConsoleController extends AbstractActionController
         );
 
         $this->config->setConfigData($data);
+        //Creates Deployment Configuration
         $this->config->install();
 
         return  "Completed: Deployment Configuration." . PHP_EOL;
@@ -179,9 +167,11 @@ class ConsoleController extends AbstractActionController
      */
     public function installSchemaAction()
     {
+        //Validating that request is console based
         $request = $this->getRequest();
         Helper::checkRequest($request);
 
+        //Setting the basePath of Magento application
         $magentoDir   = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
@@ -189,7 +179,9 @@ class ConsoleController extends AbstractActionController
         $this->config->loadFromConfigFile();
         $this->setupFactory->setConfig($this->config->getConfigData());
 
+        //List of All Module Names
         $moduleNames = array_keys($this->moduleList);
+
         // Do schema updates for each module
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
@@ -213,43 +205,19 @@ class ConsoleController extends AbstractActionController
      */
     public function installDataAction()
     {
+        //Validating that request is console based
         $request = $this->getRequest();
         Helper::checkRequest($request);
 
+        //Setting the basePath of Magento application
         $magentoDir   = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
-        $storeUrl   = $request->getParam('store_url');
-        $secureStoreUrl   = $request->getParam('secure_store_url');
-        if (!$secureStoreUrl) {
-            $secureStoreUrl = false;
-        } else {
-            if ($secureStoreUrl === 'yes') {
-                $secureStoreUrl = true;
-            } else {
-                $secureStoreUrl = false;
-            }
-        }
-        $secureAdminUrl   = $request->getParam('secure_admin_url');
-        if (!$secureAdminUrl) {
-            $secureAdminUrl = false;
-        } else {
-            if ($secureAdminUrl === 'yes') {
-                $secureAdminUrl = true;
-            } else {
-                $secureAdminUrl = false;
-            }
-        }
-        $useRewrites   = $request->getParam('use_rewrites');
-        if (!$useRewrites) {
-            $useRewrites = false;
-        } else {
-            if ($useRewrites === 'yes') {
-                $useRewrites = true;
-            } else {
-                $useRewrites = false;
-            }
-        }
+        //Data Information
+        $storeUrl       = $request->getParam('store_url');
+        $secureStoreUrl = $request->getParam('secure_store_url', false) == 'yes' ? true : false;
+        $secureAdminUrl = $request->getParam('secure_admin_url', false) == 'yes' ? true : false;
+        $useRewrites    = $request->getParam('use_rewrites', false) == 'yes' ? true : false;
         $encryptionKey = $request->getParam('encryption_key', $this->getRandomEncryptionKey());
         $locale   = $request->getParam('locale');
         $timezone   = $request->getParam('timezone');
@@ -384,24 +352,20 @@ class ConsoleController extends AbstractActionController
         $request = $this->getRequest();
         Helper::checkRequest($request);
 
-        $locale = $request->getParam('locales');
-        if ($locale) {
-            return  Helper::arrayToString($this->list->getLocaleList());
-        }
-
-        $currency = $request->getParam('currencies');
-        if ($currency) {
-            return  Helper::arrayToString($this->list->getCurrencyList());
-        }
-
-        $time = $request->getParam('timezones');
-        if ($time) {
-            return  Helper::arrayToString($this->list->getTimezoneList());
-        }
-
-        $options = $request->getParam('options');
-        if ($options) {
-            return  Helper::showOptions();
+        switch($request->getParam('type')){
+            case 'locales':
+                return  Helper::arrayToString($this->list->getLocaleList());
+                break;
+            case 'currencies':
+                return  Helper::arrayToString($this->list->getCurrencyList());
+                break;
+            case 'timezones':
+                return  Helper::arrayToString($this->list->getTimezoneList());
+                break;
+            case 'options':
+            default:
+                return  Helper::showOptions();
+                break;
         }
     }
 
@@ -420,11 +384,40 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
+     * Creates Random Encryption Key
      *
      * @return string
      */
     private function getRandomEncryptionKey()
     {
-       return md5($this->random->getRandomString(10));
+        return md5($this->random->getRandomString(10));
+    }
+
+    /**
+     * Checks Database Connection
+     *
+     * @param string $dbName
+     * @param string $dbHost
+     * @param string $dbUser
+     * @param string $dbPass
+     * @return void
+     * @throws \Exception
+     */
+    private function checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass)
+    {
+        //Check DB connection
+        $dbConnectionInfo = array(
+            'driver' => "Pdo",
+            'dsn' => "mysql:dbname=" . $dbName . ";host=" . $dbHost,
+            'username' => $dbUser,
+            'password' => $dbPass,
+            'driver_options' => array(
+                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+            ),
+        );
+        $checkDB = new DatabaseCheck($dbConnectionInfo);
+        if (!$checkDB->checkConnection()) {
+            throw new \Exception('Database connection failure.');
+        }
     }
 }

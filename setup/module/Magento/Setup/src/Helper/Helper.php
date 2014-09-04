@@ -79,7 +79,7 @@ class Helper
         'db_name => Database name' ."\n" .
         'db_user => Database user name' ."\n" .
         'store_url => Store URL. For example, "http://myinstance.com"' ."\n" .
-        'admin_url => Admin URL. For example, "http://myinstance.com/admin"' ."\n" .
+        'admin_url => Admin Front Name. For example, "admin"' ."\n" .
         'admin_lastname => Admin user last name' ."\n" .
         'admin_firstname => Admin user first name' ."\n" .
         'admin_email => Admin email' ."\n" .

@@ -45,7 +45,7 @@ return [
             'routes' => [
                 'show' => [
                     'options' => [
-                        'route' => 'show (locales|currencies|timezones|options)',
+                        'route' => 'show (locales|currencies|timezones|options):type',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'info',
@@ -54,12 +54,11 @@ return [
                 ],
                 'install' => [
                     'options' => [
-                        'route' => 'install [--magentoDir=] --license_agreement_accepted= --db_host= --db_name=' .
-                            ' --db_user= [--db_pass=] [--db_table_prefix=] --store_url=' .
-                            ' --admin_url= [--secure_store_url=] [--secure_admin_url=]' .
-                            ' [--use_rewrites=] [--encryption_key=] --locale=' .
-                            ' --timezone= --currency= --admin_lastname= --admin_firstname=' .
-                            ' --admin_email= --admin_username= --admin_password=',
+                        'route' => 'install --license_agreement_accepted= --db_host= --db_name= --db_user='.
+                            ' --store_url= --admin_url= --locale= --timezone= --currency= --admin_lastname='.
+                            ' --admin_firstname= --admin_email= --admin_username= --admin_password= '.
+                            ' [--use_rewrites=] [--encryption_key=] [--secure_store_url=] [--secure_admin_url=]'.
+                            ' [--db_pass=] [--db_table_prefix=] [--magentoDir=]',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'console',
@@ -68,8 +67,8 @@ return [
                 ],
                 'install-local' => [
                     'options' => [
-                        'route' => 'install local [--magentoDir=] --license_agreement_accepted= --db_host= --db_name=' .
-                            ' --db_user= [--db_pass=] [--db_table_prefix=] --admin_url=',
+                        'route' => 'install local --license_agreement_accepted= --db_host= --db_name=' .
+                            ' --db_user= --admin_url= [--db_pass=] [--db_table_prefix=] [--magentoDir=]',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installLocal',
@@ -87,10 +86,11 @@ return [
                 ],
                 'install-data' => [
                     'options' => [
-                        'route' => 'install data [--magentoDir=] --store_url= [--secure_store_url=]' .
-                            ' [--secure_admin_url=] [--use_rewrites=] [--encryption_key=] --locale=' .
-                            ' --timezone= --currency= --admin_lastname= --admin_firstname=' .
-                            ' --admin_email= --admin_username= --admin_password=',
+                        'route' => 'install data --store_url= ' .
+                            ' --locale= --timezone= --currency= --admin_lastname= --admin_firstname= '.
+                            ' --admin_email= --admin_username= --admin_password='.
+                            ' [--secure_admin_url=] [--use_rewrites=]'.
+                            ' [--encryption_key=] [--secure_store_url=] [--magentoDir=]',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installData',
