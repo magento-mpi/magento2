@@ -108,6 +108,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getFilterGroups')
             ->will($this->returnValue([$filterGroupMock]));
+        $sortOrderMock = $this->getMock('\Magento\Framework\Service\V1\Data\SortOrder', [], [], '', false);
+        $searchCriteriaMock
+            ->expects($this->any())
+            ->method('getSortOrders')
+            ->will($this->returnValue([$sortOrderMock]));
+        $sortOrderMock->expects($this->once())->method('getField')->will($this->returnValue('id'));
+        $sortOrderMock->expects($this->once())->method('getDirection')->will($this->returnValue($direction));
+
         $filterMock = $this->getMock('\Magento\Framework\Service\V1\Data\Filter', [], [], '', false);
         $filterGroupMock->expects($this->any())->method('getFilters')->will($this->returnValue([$filterMock]));
         $filterMock->expects($this->once())->method('getField')->will($this->returnValue('store_id'));
@@ -121,10 +129,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteCollectionMock->expects($this->once())->method('getSize')->will($this->returnValue(10));
         $this->searchResultsBuilderMock->expects($this->once())->method('setTotalCount')->with(10);
 
-        $searchCriteriaMock
-            ->expects($this->once())
-            ->method('getSortOrders')
-            ->will($this->returnValue(['id' => $direction]));
         $this->quoteCollectionMock->expects($this->once())->method('addOrder')->with('entity_id', $expected);
         $searchCriteriaMock->expects($this->once())->method('getCurrentPage')->will($this->returnValue(1));
         $searchCriteriaMock->expects($this->once())->method('getPageSize')->will($this->returnValue(10));
