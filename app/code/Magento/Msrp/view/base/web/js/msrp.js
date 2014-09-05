@@ -68,6 +68,10 @@ define(["jquery", "jquery/ui", "mage/dropdown"], function($) {
             if (this.options.addToCartUrl) {
                 $('.mage-dropdown-dialog > .ui-dialog-content').dropdownDialog("close");
                 $(this.options.cartForm).attr('action', this.options.addToCartUrl);
+                if (!$(this.options.cartForm).length) {
+                    location.href = this.options.addToCartUrl;
+                    return false;
+                }
             }
             $(this.options.cartForm).submit();
         }
