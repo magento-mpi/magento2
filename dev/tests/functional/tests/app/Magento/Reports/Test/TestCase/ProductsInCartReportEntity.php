@@ -60,7 +60,7 @@ class ProductsInCartReportEntity extends Injectable
     protected $catalogProductView;
 
     /**
-     * Page CustomerAccountLogout
+     * Customer logout page
      *
      * @var CustomerAccountLogout
      */
@@ -101,18 +101,18 @@ class ProductsInCartReportEntity extends Injectable
     }
 
     /**
-     * Creation products in cart report entity
+     * Create products in cart report entity
      *
      * @param CustomerInjectable $customer
      * @param CatalogProductSimple $product
-     * @param string $unregistered
+     * @param string $isGuest
      * @param Browser $browser
      * @return void
      */
     public function test(
         CustomerInjectable $customer,
         CatalogProductSimple $product,
-        $unregistered,
+        $isGuest,
         Browser $browser
     ) {
         // Preconditions
@@ -124,7 +124,7 @@ class ProductsInCartReportEntity extends Injectable
         $productUrl = $_ENV['app_frontend_url'] . $product->getUrlKey() . '.html';
         $browser->open($productUrl);
         $this->catalogProductView->getViewBlock()->addToCart($product);
-        if ($unregistered) {
+        if ($isGuest) {
             $this->customerAccountLogout->open();
             $browser->open($productUrl);
             $this->catalogProductView->getViewBlock()->addToCart($product);

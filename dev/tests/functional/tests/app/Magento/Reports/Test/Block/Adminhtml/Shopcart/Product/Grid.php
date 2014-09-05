@@ -8,7 +8,6 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Shopcart\Product;
 
-use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Client\Element\Locator;
 
@@ -16,14 +15,14 @@ use Mtf\Client\Element\Locator;
  * Class Grid
  * Products in Carts Report grid
  */
-class Grid extends AbstractGrid
+class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
-     * Product name selector
+     * Product row selector
      *
      * @var string
      */
-    protected $productName = '//tr[td[contains(@class,"col-name")] and contains(.,"%s")]';
+    protected $productRow = '//tr[td[contains(@class,"col-name")] and contains(.,"%s")]';
 
     /**
      * Product price selector
@@ -49,15 +48,12 @@ class Grid extends AbstractGrid
     public function isProductVisible(CatalogProductSimple $product, $carts)
     {
         $result = false;
-        $productName = sprintf($this->productName, $product->getName());
+        $productRowSelector = sprintf($this->productRow, $product->getName());
         $productPrice = sprintf($this->productPrice, $product->getPrice());
-        $productRow = $this->_rootElement->find($productName, Locator::SELECTOR_XPATH);
+        $productRow = $this->_rootElement->find($productRowSelector, Locator::SELECTOR_XPATH);
         if ($productRow->isVisible()) {
-            if ($productRow->find($productPrice, Locator::SELECTOR_XPATH)->isVisible() &&
-                $productRow->find(sprintf($this->productCarts, $carts), Locator::SELECTOR_XPATH)->isVisible()
-            ) {
-                $result = true;
-            }
+            $result = $productRow->find($productPrice, Locator::SELECTOR_XPATH)->isVisible()
+                && $productRow->find(sprintf($this->productCarts, $carts), Locator::SELECTOR_XPATH)->isVisible();
         }
 
         return $result;
