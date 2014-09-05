@@ -6,6 +6,8 @@
 //  * @license     {license_link}
 //  */
 
+@import "collapsible_navigation.less";
+
 @message-global-note-color: @text-color;
 @message-global-note-background: #ffee9c;
 @message-global-note-link-color: @link-color;
@@ -170,7 +172,7 @@ body {
                 font-size: 16px;
                 background: @footer-bg-color;
                 margin: 0 -@layout-width-xs-indent;
-                padding: 0 @layout-indent;
+                padding: 0 @layout-width-xs-indent;
             }
             strong,
             a {
@@ -311,6 +313,9 @@ body {
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
+    .navigation ul {
+        padding: 0 8px;
+    }
     .page-header {
         border: 0;
         margin-bottom: 0;

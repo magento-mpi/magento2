@@ -7,8 +7,6 @@
 //  */
 
 .table-wrapper.grouped {
-    margin-left: -@layout-width-xs-indent;
-    margin-right: -@layout-width-xs-indent;
     width: auto;
 }
 
@@ -74,13 +72,18 @@
         border-top: 0;
     }
 }
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .table-wrapper.grouped {
+        margin-left: -@layout-width-xs-indent;
+        margin-right: -@layout-width-xs-indent;
+    }
+}
 
 //
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .table-wrapper.grouped {
-        margin-left: 0;
-        margin-right: 0;
-    }
 }

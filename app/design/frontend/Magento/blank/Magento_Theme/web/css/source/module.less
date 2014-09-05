@@ -6,6 +6,8 @@
 //  * @license     {license_link}
 //  */
 
+@import "collapsible_navigation.less";
+
 @message-global-note-color: @text-color;
 @message-global-note-background: #ffee9c;
 @message-global-note-link-color: @link-color;
@@ -184,6 +186,9 @@ body {
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
+    .navigation ul {
+        padding: 0 8px;
+    }
     .header {
         &.panel {
             > .header.links {

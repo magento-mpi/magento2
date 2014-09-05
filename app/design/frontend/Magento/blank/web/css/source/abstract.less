@@ -274,6 +274,11 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-m) {
+    .visually-hidden-desktop {
+        .visually-hidden();
+    }
+}
 //
 //    Clearfix
 //--------------------------------------
@@ -552,7 +557,7 @@
         border-bottom: @border-width-base solid @border-color-base;
         cursor: pointer;
         margin-bottom: 0;
-        padding: 10px 40px 10px 20px;
+        padding: 10px 40px 10px @layout-width-xs-indent;
         position: relative;
         .icon-font(
             @_icon-font-content: @icon-down,

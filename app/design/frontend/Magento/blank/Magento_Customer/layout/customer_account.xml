@@ -17,7 +17,7 @@
         <block class="Magento\Framework\View\Element\Template" name="customer_account_navigation_block" template="Magento_Theme::html/collapsible.phtml">
             <arguments>
                 <argument name="block_title" translate="true" xsi:type="string">Account Dashboard</argument>
-                <argument name="block_css" xsi:type="string">block-account-nav</argument>
+                <argument name="block_css" xsi:type="string">block-collapsible-nav</argument>
             </arguments>
             <block class="Magento\Framework\View\Element\Html\Links" name="customer_account_navigation" before="-">
                 <arguments>
