@@ -110,9 +110,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with('import-service')
             ->will($this->returnValue($importInterfaceMock));
 
-        $currencyMock = $this->getMockBuilder('\Magento\Directory\Model\Currency')
+        $currencyMock = $this->getMockBuilder('Magento\Directory\Model\Currency')
             ->disableOriginalConstructor()
-            ->setMethods(['saveRates'])
+            ->setMethods(['saveRates', '__wakeup', '__sleep'])
             ->getMock();
         $currencyMock->expects($this->once())
             ->method('saveRates')
