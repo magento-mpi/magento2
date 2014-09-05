@@ -14,11 +14,9 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Integration test for \Magento\Directory\Model\Observer
- *
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  ObjectManager */
     protected $objectManager;
 

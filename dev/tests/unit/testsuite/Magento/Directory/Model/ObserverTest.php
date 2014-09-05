@@ -13,14 +13,13 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \Magento\TestFramework\Helper\ObjectManager */
     protected $objectManager;
 
     /** @var Observer */
     protected $observer;
 
-    /** @var  \Magento\AdvancedCheckout\Model\ImportFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Directory\Model\Currency\Import\Factory|\PHPUnit_Framework_MockObject_MockObject */
     protected $importFactory;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -124,6 +123,5 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($currencyMock));
 
         $this->observer->scheduledUpdateCurrencyRates(null);
-
     }
 }
