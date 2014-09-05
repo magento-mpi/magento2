@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_CustomerSegment">
+    <customerSegmentIndex>
+        <mca>customersegment</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex</class>
+    </customerSegmentIndex>
+    <customerSegmentNew>
+        <mca>customersegment/index/new/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew</class>
+    </customerSegmentNew>
+    <customerSegmentReportIndex>
+        <mca>customersegment/report_customer_customersegment/segment</mca>
+        <class>Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportIndex</class>
+        <area>adminhtml</area>
+    </customerSegmentReportIndex>
+    <customerSegmentReportDetail>
+        <mca>customersegment/report_customer_customersegment/detail</mca>
+        <class>Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportDetail</class>
+        <area>adminhtml</area>
+    </customerSegmentReportDetail>
+</page>

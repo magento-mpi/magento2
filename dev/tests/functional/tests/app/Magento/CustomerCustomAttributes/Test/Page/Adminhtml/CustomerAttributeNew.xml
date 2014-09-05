@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/customer_attribute/new" >
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>customerCustomAttributesForm</name>
-        <class>Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\CustomerCustomAttributesForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/customer_attribute/new" module="Magento_CustomerCustomAttributes">
+    <blocks>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <customerCustomAttributesForm>
+            <class>Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\CustomerCustomAttributesForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </customerCustomAttributesForm>
+    </blocks>
 </page>
