@@ -10,6 +10,7 @@ namespace Magento\Checkout\Model\Cart\Access;
 
 use Magento\Authorization\Model\UserContextInterface;
 use \Magento\Framework\Service\V1\Data\SearchCriteria;
+use \Magento\Framework\Exception\AuthorizationException;
 
 class ReadPlugin
 {
@@ -41,7 +42,7 @@ class ReadPlugin
      * @param int $cartId
      *
      * @return void
-     * @throws \Exception if access denied
+     * @throws AuthorizationException if access denied
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeGetCart(
@@ -49,7 +50,7 @@ class ReadPlugin
         $cartId
     ) {
         if (!in_array($this->userContext->getUserType(), $this->allowedUserTypes)) {
-            throw new \Exception('Access denied');
+            throw new AuthorizationException('Access denied');
         }
     }
 
@@ -60,7 +61,7 @@ class ReadPlugin
      * @param SearchCriteria $searchCriteria
      *
      * @return void
-     * @throws \Exception if access denied
+     * @throws AuthorizationException if access denied
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeGetCartList(
@@ -68,7 +69,7 @@ class ReadPlugin
         SearchCriteria $searchCriteria
     ) {
         if (!in_array($this->userContext->getUserType(), $this->allowedUserTypes)) {
-            throw new \Exception('Access denied');
+            throw new AuthorizationException('Access denied');
         }
     }
 }
