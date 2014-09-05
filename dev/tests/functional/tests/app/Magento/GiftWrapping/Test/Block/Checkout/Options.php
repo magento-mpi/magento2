@@ -39,25 +39,14 @@ class Options extends Block
     protected $giftWrappingOptions = 'select[name$="[design]"] > option';
 
     /**
-     * Get Gift Wrapping Available on Onepage Checkout
+     * Get Gift Wrappings Available on Onepage Checkout
      *
-     * @param array $giftWrappings
      * @return array
      */
-    public function getGiftWrappingAvailable(array $giftWrappings)
+    public function getGiftWrappingsAvailable()
     {
         $this->_rootElement->find($this->allowGiftOptions)->click();
         $this->_rootElement->find($this->allowGiftOptionsForItems)->click();
-        $giftWrappingElements = $this->_rootElement->find($this->giftWrappingOptions)->getElements();
-        $matches = [];
-        foreach ($giftWrappings as $giftWrapping) {
-            foreach ($giftWrappingElements as $giftWrappingElement) {
-                if ($giftWrapping->getDesign() === $giftWrappingElement->getText()) {
-                    $matches[] = $giftWrapping->getDesign();
-                }
-            }
-        }
-
-        return $matches;
+        return $this->_rootElement->find($this->giftWrappingOptions)->getElements();
     }
 }

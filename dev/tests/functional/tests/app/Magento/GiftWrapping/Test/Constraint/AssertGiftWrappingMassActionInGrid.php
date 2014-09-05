@@ -29,31 +29,20 @@ class AssertGiftWrappingMassActionInGrid extends AbstractConstraint
      * Assert Gift Wrapping availability in Gift Wrapping grid after mass action
      *
      * @param GiftWrappingIndex $giftWrappingIndexPage
-     * @param array $giftWrappings
+     * @param array $giftWrappingsToStay
      * @param string $status
+     * @param AssertGiftWrappingInGrid $assert
      * @return void
      */
-    public function processAssert(GiftWrappingIndex $giftWrappingIndexPage, array $giftWrappings, $status)
-    {
-        $giftWrappingIndexPage->open();
-        $errors = [];
-        foreach ($giftWrappings as $giftWrapping) {
-            $data = $giftWrapping->getData();
-            reset($data['website_ids']);
-            $filter = [
-                'design' => $data['design'],
-                'status' => $status === '-' ? $data['status'] : $status,
-                'website_ids' => current($data['website_ids']),
-                'base_price' => $data['base_price'],
-            ];
-            if (!$giftWrappingIndexPage->getGiftWrappingGrid()->isRowVisible($filter, true, false)) {
-                $errors[] = '- row "' . implode(', ', $filter) . '" was not found in gift wrapping grid';
-            }
+    public function processAssert(
+        GiftWrappingIndex $giftWrappingIndexPage,
+        $giftWrappingsToStay,
+        $status,
+        AssertGiftWrappingInGrid $assert
+    ) {
+        foreach ($giftWrappingsToStay as $giftWrapping) {
+            $assert->processAssert($giftWrappingIndexPage, $giftWrapping, $status);
         }
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $errors,
-            'Gift Wrapping is present in Gift Wrapping grid.'
-        );
     }
 
     /**
@@ -63,6 +52,6 @@ class AssertGiftWrappingMassActionInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift Wrapping is present in grid.';
+        return 'All Gift Wrappings are present in grid.';
     }
 }

@@ -49,59 +49,52 @@ class MassActionsGiftWrappingEntityTest extends Injectable
     protected $giftWrappingNewPage;
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Injection data
      *
      * @param GiftWrappingIndex $giftWrappingIndexPage
      * @param GiftWrappingNew $giftWrappingNewPage
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
-    public function __inject(GiftWrappingIndex $giftWrappingIndexPage, GiftWrappingNew $giftWrappingNewPage)
-    {
+    public function __inject(
+        GiftWrappingIndex $giftWrappingIndexPage,
+        GiftWrappingNew $giftWrappingNewPage,
+        FixtureFactory $fixtureFactory
+    ) {
         $this->giftWrappingIndexPage = $giftWrappingIndexPage;
         $this->giftWrappingNewPage = $giftWrappingNewPage;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
      * Mass actions for Gift Wrapping entity test
      *
      * @param string $giftWrappings
-     * @param FixtureFactory $fixtureFactory
      * @param string $giftWrappingsIndexToSelect
      * @param string $action
      * @param string $status
      * @param string $giftWrappingsIndexToStay
      * @return array
      */
-    public function test(
-        $giftWrappings,
-        FixtureFactory $fixtureFactory,
-        $giftWrappingsIndexToSelect,
-        $action,
-        $status,
-        $giftWrappingsIndexToStay
-    ) {
+    public function test($giftWrappings, $giftWrappingsIndexToSelect, $action, $status, $giftWrappingsIndexToStay)
+    {
         // Precondition
-        $elements = explode(",", $giftWrappings);
-        $giftWrappings = [];
-        foreach ($elements as $giftWrapping) {
-            $giftWrapping = $fixtureFactory->createByCode('giftWrapping', ['dataSet' => $giftWrapping]);
-            $giftWrapping->persist();
-            $giftWrappings[] = $giftWrapping;
-        }
+        $giftWrappingsInitial = explode(",", $giftWrappings);
+        $giftWrappings = $this->createGiftWrappings($giftWrappingsInitial);
 
         // Steps
         $giftWrappingsIndexToSelect = explode(",", $giftWrappingsIndexToSelect);
-        $giftWrappingsToSelect = [];
-        $giftWrappingsToModify = [];
-        foreach ($giftWrappingsIndexToSelect as $giftWrappingIndex) {
-            $giftWrappingsToSelect[] = ['design' => $giftWrappings[$giftWrappingIndex-1]->getDesign()];
-            $giftWrappingsToModify[] = $giftWrappings[$giftWrappingIndex-1];
-        }
+        $giftWrappingsToSelect = $this->prepareGiftWrappingsToSelect($giftWrappingsIndexToSelect, $giftWrappings);
+        $giftWrappingsToModify = $this->prepareGiftWrappingsToModify($giftWrappingsIndexToSelect, $giftWrappings);
         $giftWrappingsIndexToStay = explode(",", $giftWrappingsIndexToStay);
-        $giftWrappingsToStay = [];
-        foreach ($giftWrappingsIndexToStay as $giftWrappingIndex) {
-            $giftWrappingsToStay[] = $giftWrappingIndex !== '-' ? $giftWrappings[$giftWrappingIndex-1] : null;
-        }
+        $giftWrappingsToStay = $this->prepareGiftWrappingsToStay($giftWrappingsIndexToStay, $giftWrappings);
         $this->giftWrappingIndexPage->open();
         $this->giftWrappingIndexPage->getGiftWrappingGrid()->massaction(
             $giftWrappingsToSelect,
@@ -110,8 +103,80 @@ class MassActionsGiftWrappingEntityTest extends Injectable
         );
 
         return [
-            'giftWrappingsModified' => $giftWrappingsToModify,
-            'giftWrappings' => $giftWrappingsToStay,
+            'giftWrapping' => $giftWrappingsToModify,
+            'giftWrappingsToStay' => $giftWrappingsToStay,
         ];
+    }
+
+    /**
+     * Create Gift Wrappings
+     *
+     * @param array $giftWrappingsInitial
+     * @return array
+     */
+    protected function createGiftWrappings(array $giftWrappingsInitial)
+    {
+        $giftWrappings = [];
+        foreach ($giftWrappingsInitial as $giftWrappingInitial) {
+            $giftWrappingInitial = $this->fixtureFactory->createByCode(
+                'giftWrapping',
+                ['dataSet' => $giftWrappingInitial]
+            );
+            $giftWrappingInitial->persist();
+            $giftWrappings[] = $giftWrappingInitial;
+        }
+
+        return $giftWrappings;
+    }
+
+    /**
+     * Prepare Gift Wrapping names to select in mass action
+     *
+     * @param array $giftWrappingsIndexToSelect
+     * @param array $giftWrappings
+     * @return array
+     */
+    protected function prepareGiftWrappingsToSelect(array $giftWrappingsIndexToSelect, array $giftWrappings)
+    {
+        $giftWrappingsToSelect = [];
+        foreach ($giftWrappingsIndexToSelect as $giftWrappingIndex) {
+            $giftWrappingsToSelect[] = ['design' => $giftWrappings[$giftWrappingIndex-1]->getDesign()];
+        }
+
+        return $giftWrappingsToSelect;
+    }
+
+    /**
+     * Prepare array of Gift Wrapping fixtures to be modified by mass action
+     *
+     * @param array $giftWrappingsIndexToSelect
+     * @param array $giftWrappings
+     * @return array
+     */
+    protected function prepareGiftWrappingsToModify(array $giftWrappingsIndexToSelect, array $giftWrappings)
+    {
+        $giftWrappingsToModify = [];
+        foreach ($giftWrappingsIndexToSelect as $giftWrappingIndex) {
+            $giftWrappingsToModify[] = $giftWrappings[$giftWrappingIndex-1];
+        }
+
+        return $giftWrappingsToModify;
+    }
+
+    /**
+     * Prepare Gift wrappings that stayed after mass action
+     *
+     * @param array $giftWrappingsIndexToStay
+     * @param array $giftWrappings
+     * @return array
+     */
+    protected function prepareGiftWrappingsToStay(array $giftWrappingsIndexToStay, array $giftWrappings)
+    {
+        $giftWrappingsToStay = [];
+        foreach ($giftWrappingsIndexToStay as $giftWrappingIndex) {
+            $giftWrappingsToStay[] = $giftWrappingIndex !== '-' ? $giftWrappings[$giftWrappingIndex-1] : null;
+        }
+
+        return $giftWrappingsToStay;
     }
 }

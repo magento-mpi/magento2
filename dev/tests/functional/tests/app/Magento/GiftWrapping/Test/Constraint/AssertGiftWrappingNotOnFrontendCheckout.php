@@ -39,7 +39,7 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
      * @param CheckoutCart $checkoutCart
      * @param Browser $browser
      * @param CheckoutOnepage $checkoutOnepage
-     * @param array $giftWrappingsModified
+     * @param GiftWrapping|GiftWrapping[] $giftWrapping
      * @param AddressInjectable $billingAddress
      * @param CatalogProductSimple $product
      * @param CustomerInjectable $customer
@@ -51,7 +51,7 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
         CheckoutCart $checkoutCart,
         Browser $browser,
         CheckoutOnepage $checkoutOnepage,
-        array $giftWrappingsModified,
+        $giftWrapping,
         AddressInjectable $billingAddress,
         CatalogProductSimple $product,
         CustomerInjectable $customer,
@@ -67,14 +67,21 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
         $checkoutOnepage->getLoginBlock()->loginCustomer($customer);
         $checkoutOnepage->getBillingBlock()->fillBilling($billingAddress);
         $checkoutOnepage->getBillingBlock()->clickContinue();
-        $giftWrappingAvailable = $checkoutOnepage->getGiftOptionsBlock()->getGiftWrappingAvailable(
-            $giftWrappingsModified
-        );
+        $giftWrappingsAvailable = $checkoutOnepage->getGiftOptionsBlock()->getGiftWrappingsAvailable();
+        $matches = [];
+        $giftWrappings = !is_array($giftWrapping) ? [$giftWrapping] : $giftWrapping;
+        foreach ($giftWrappings as $giftWrapping) {
+            foreach ($giftWrappingsAvailable as $giftWrappingAvailable) {
+                if ($giftWrapping->getDesign() === $giftWrappingAvailable->getText()) {
+                    $matches[] = $giftWrapping->getDesign();
+                }
+            }
+        }
         $customerAccountLogout->open();
         \PHPUnit_Framework_Assert::assertEmpty(
-            $giftWrappingAvailable,
+            $matches,
             'Gift Wrapping is present in one page checkout on frontend.'
-            . "\nLog:\n" . implode(";\n", $giftWrappingAvailable)
+            . "\nLog:\n" . implode(";\n", $matches)
         );
     }
 

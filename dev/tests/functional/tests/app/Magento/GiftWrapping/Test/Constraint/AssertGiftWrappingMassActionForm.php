@@ -8,16 +8,16 @@
 
 namespace Magento\GiftWrapping\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
-use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
 use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
+use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
 
 /**
  * Class AssertGiftWrappingMassActionForm
  * Assert that mass action Gift Wrapping form was filled correctly
  */
-class AssertGiftWrappingMassActionForm extends AbstractAssertForm
+class AssertGiftWrappingMassActionForm extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,39 +27,23 @@ class AssertGiftWrappingMassActionForm extends AbstractAssertForm
     protected $severeness = 'low';
 
     /**
-     * Skipped fields while verifying
-     *
-     * @var array
-     */
-    protected $skippedFields = [
-        'wrapping_id',
-    ];
-
-    /**
      * @param GiftWrappingIndex $giftWrappingIndexPage
      * @param GiftWrappingNew $giftWrappingNewPage
-     * @param array $giftWrappingsModified
+     * @param array $giftWrapping
      * @param string $status
+     * @param AssertGiftWrappingForm $assert
      * @return void
      */
     public function processAssert(
         GiftWrappingIndex $giftWrappingIndexPage,
         GiftWrappingNew $giftWrappingNewPage,
-        array $giftWrappingsModified,
-        $status
+        array $giftWrapping,
+        $status,
+        AssertGiftWrappingForm $assert
     ) {
-        $errors = [];
-        foreach ($giftWrappingsModified as $giftWrappingModified) {
-            $data = $giftWrappingModified->getData();
-            $data['base_price'] = number_format($data['base_price'], 2);
-            $data['status'] = $status === '-' ? $data['status'] : $status;
-            $filter = ['design' => $data['design']];
-            $giftWrappingIndexPage->open();
-            $giftWrappingIndexPage->getGiftWrappingGrid()->searchAndOpen($filter);
-            $formData = $giftWrappingNewPage->getGiftWrappingForm()->getData();
-            $errors = $this->verifyData($formData, $data);
+        foreach ($giftWrapping as $item) {
+            $assert->processAssert($giftWrappingIndexPage, $giftWrappingNewPage, $item, $status);
         }
-        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**

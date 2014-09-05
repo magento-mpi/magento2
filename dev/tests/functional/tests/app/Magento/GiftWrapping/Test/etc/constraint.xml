@@ -44,4 +44,7 @@
     <assertGiftWrappingMassActionForm module="Magento_GiftWrapping">
         <severeness>low</severeness>
     </assertGiftWrappingMassActionForm>
+    <assertGiftWrappingMassActionNotInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingMassActionNotInGrid>
 </constraint>

@@ -39,7 +39,7 @@ class AssertGiftWrappingOnFrontendCheckout extends AbstractConstraint
      * @param CheckoutCart $checkoutCart
      * @param Browser $browser
      * @param CheckoutOnepage $checkoutOnepage
-     * @param array $giftWrappingsModified
+     * @param array $giftWrapping
      * @param AddressInjectable $billingAddress
      * @param CatalogProductSimple $product
      * @param CustomerInjectable $customer
@@ -51,7 +51,7 @@ class AssertGiftWrappingOnFrontendCheckout extends AbstractConstraint
         CheckoutCart $checkoutCart,
         Browser $browser,
         CheckoutOnepage $checkoutOnepage,
-        array $giftWrappingsModified,
+        array $giftWrapping,
         AddressInjectable $billingAddress,
         CatalogProductSimple $product,
         CustomerInjectable $customer,
@@ -67,14 +67,20 @@ class AssertGiftWrappingOnFrontendCheckout extends AbstractConstraint
         $checkoutOnepage->getLoginBlock()->loginCustomer($customer);
         $checkoutOnepage->getBillingBlock()->fillBilling($billingAddress);
         $checkoutOnepage->getBillingBlock()->clickContinue();
-        $giftWrappingAvailable = $checkoutOnepage->getGiftOptionsBlock()->getGiftWrappingAvailable(
-            $giftWrappingsModified
-        );
+        $giftWrappingsAvailable = $checkoutOnepage->getGiftOptionsBlock()->getGiftWrappingsAvailable();
+        $matches = [];
+        foreach ($giftWrapping as $item) {
+            foreach ($giftWrappingsAvailable as $giftWrappingAvailable) {
+                if ($item->getDesign() === $giftWrappingAvailable->getText()) {
+                    $matches[] = $item->getDesign();
+                }
+            }
+        }
         $customerAccountLogout->open();
         \PHPUnit_Framework_Assert::assertNotEmpty(
-            $giftWrappingAvailable,
+            $matches,
             'Gift Wrapping is not present in one page checkout on frontend.'
-            . "\nLog:\n" . implode(";\n", $giftWrappingAvailable)
+            . "\nLog:\n" . implode(";\n", $matches)
         );
     }
 
