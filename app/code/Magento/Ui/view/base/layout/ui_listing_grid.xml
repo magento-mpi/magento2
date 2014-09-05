@@ -7,21 +7,13 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Css" name="autocomplete-css-styles-css">
-            <arguments>
-                <argument name="file" xsi:type="string">jquery/autocomplete/autocomplete.css</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
-    <referenceContainer name="content">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <update handle="formkey"/>
+    <container name="root" label="Root">
         <block class="Magento\Ui\Listing\View" name="cms_page" template="Magento_Ui::listing/grid/horizontal.phtml">
             <arguments>
                 <argument name="id" xsi:type="string">notificationGrid</argument>
                 <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Collection</argument>
-                <argument name="default_dir" xsi:type="string">desc</argument>
-                <argument name="default_sort" xsi:type="string">page_id</argument>
                 <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 <argument name="config" xsi:type="array">
                     <item name="namespace" xsi:type="string">cms.pages</item>
@@ -79,12 +71,12 @@
                     </item>
                 </argument>
             </arguments>
-            <container name="cms_page_listing_before" label="" htmlTag="div">
-                <block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml"/>
-            </container>
+            <!--<container name="cms_page_listing_before" label="" htmlTag="div">-->
+                <!--<block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml" />-->
+            <!--</container>-->
             <!--<container name="cms_page_listing_after" label="" htmlTag="div">-->
-            <!--<block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml" />-->
+                <!--<block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml" />-->
             <!--</container>-->
         </block>
-    </referenceContainer>
-</page>
+    </container>
+</layout>

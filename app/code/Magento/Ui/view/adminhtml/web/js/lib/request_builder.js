@@ -10,7 +10,7 @@ define(['_'], function (_) {
     function extractSortParams(params) {
         params = params.sorting;
 
-        return '/sort/' + params.field + '/dir/' + params.direction;
+        return 'sort/' + params.field + '/dir/' + params.direction + '/';
     }
 
     /**
@@ -23,7 +23,7 @@ define(['_'], function (_) {
     function extractPagerParams(params) {
         params = params.paging;
 
-        return '/limit/' + params.pageSize + '/page/' + params.current;
+        return 'limit/' + params.pageSize + '/page/' + params.current + '/';
     }
 
     return {

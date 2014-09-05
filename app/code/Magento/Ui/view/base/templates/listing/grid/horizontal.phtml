@@ -8,10 +8,15 @@
         <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
+<div data-m2-init='{"Magento_Ui/js/grid/sorting": ""}'>
+    <script type="mage/config">
+       <?php echo $this->getSortingJson(); ?>
+    </script>
+</div>
 <div class="grid">
     <?php echo $this->getChildHtml('cms_page_listing_before'); ?>
     <div data-bind="scope: 'cms.pages:listing'">
-        <!-- ko template: 'Magento_Cms.templates.grid' --><!-- /ko -->
+        <!-- ko template: 'Magento_Ui.templates.listing.grid' --><!-- /ko -->
         <!-- ko template: 'Magento_Cms.templates.loader' --><!-- /ko -->
     </div>
     <?php echo $this->getChildHtml('cms_page_listing_after'); ?>

@@ -8,30 +8,80 @@
 namespace Magento\Ui\Listing;
 
 use Magento\Ui\AbstractView;
+use \Magento\Framework\ObjectManager;
 use \Magento\Backend\Block\Template\Context;
-use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;
 
 /**
  * Class View
  */
 class View extends AbstractView
 {
+    const DEFAULT_GRID_URL = 'ui/listing/grid';
+
     /**
-     * @var \Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder
+     * @var ObjectManager
      */
-    protected $actionUrlBuilder;
+    protected $objectManager;
+
+    /**
+     * @var \Magento\Ui\Provider\ProviderInterface[]
+     */
+    protected $providerActionPoll = [];
+
+    /**
+     * @var array
+     */
+    protected $sortingConfig = [];
 
     /**
      * @param Context $context
-     * @param UrlBuilder $actionUrlBuilder
+     * @param ObjectManager $objectManager
      * @param array $data
      */
-    public function __construct(Context $context, UrlBuilder $actionUrlBuilder, array $data = [])
+    public function __construct(Context $context, ObjectManager $objectManager, array $data = [])
     {
-        $this->actionUrlBuilder = $actionUrlBuilder;
+        $this->objectManager = $objectManager;
         parent::__construct($context, $data);
 
+        $this->configuration = [
+            'config' => [
+                'client' => [
+                    'root' => $this->getUrl(static::DEFAULT_GRID_URL)
+                ]
+            ]
+        ];
+        $this->createProviders();
         $this->initialConfiguration();
+    }
+
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    protected function createProviders()
+    {
+        $cache = [];
+        if ($this->hasData('provider_action_poll')) {
+            $this->providerActionPoll = $this->getData('provider_action_poll');
+        }
+
+        foreach ($this->providerActionPoll as $key => $item) {
+            if (empty($cache[$item['class']])) {
+                $cache[$item['class']] = $this->objectManager->create(
+                    $item['class'],
+                    empty($item['arguments']) ? [] : $item['arguments']
+                );
+                if (!($cache[$item['class']] instanceof \Magento\Ui\Provider\ProviderInterface)) {
+                    throw new \Exception(
+                        sprintf(
+                            '%s must implement the interface \Magento\Ui\Provider\ProviderInterface',
+                            $item['class']
+                        )
+                    );
+                }
+            }
+            $this->providerActionPoll[$key] = $cache[$item['class']];
+        }
     }
 
     /**
@@ -45,33 +95,40 @@ class View extends AbstractView
     }
 
     /**
+     * @param array $item
+     * @return array
+     */
+    protected function applyActionProviders(array $item)
+    {
+        foreach ($this->providerActionPoll as $name => $provider) {
+            if (!empty($item[$name])) {
+                $value = $item[$name];
+                $item[$name] = [];
+                $item[$name] = $value;
+            }
+            $item[$name][] = $provider->provide($item);
+        }
+
+        return $item;
+    }
+
+    /**
      * return array
      */
     protected function getCollectionItems()
     {
-        $collection = $this->getCollection();
-        $rows = $collection->getItems();
         $items = [];
-        /** @var \Magento\Cms\Model\Page $row */
-        foreach ($rows as $row) {
-            $item = [];
-            $item['id'] = $row->getId();
-            $item['store_id'] = 'All Store Views';
-            $item['title'] = $row->getTitle();
-            $item['url'] = $row->getIdentifier();
-            $item['layout'] = $row->getPageLayout();
-            $item['created'] = $row->getCreationTime();
-            $item['modified'] = $row->getUpdateTime();
-            $item['status'] = boolval($row->getIsActive());
-            $item['action'] = [
-                'href' => $this->actionUrlBuilder->getUrl(
-                    $row->getIdentifier(),
-                    $row->getData('_first_store_id'),
-                    $row->getStoreCode()
-                ),
-                'title' => 'Preview'
-            ];
-            $items[] = $item;
+        /** @var \Magento\Framework\Object $row */
+        $collection = $this->getCollection()->setOrder(
+            $this->getRequest()->getParam('sort', $this->getData('default_sort')),
+            strtoupper($this->getRequest()->getParam('dir', $this->getData('default_dir')))
+        );
+        foreach ($collection->getItems() as $row) {
+            $rowData = [];
+            foreach (array_keys($this->getData('columns')) as $column) {
+                $rowData[$column] = $row->getData($column);
+            }
+            $items[] = $this->applyActionProviders($rowData);
         }
 
         return $items;
@@ -82,41 +139,9 @@ class View extends AbstractView
      */
     protected function getMetaFields()
     {
-        return [
-            [
-                'title' => 'Title',
-                'id' => 'title'
-            ],
-            [
-                'title' => 'URL Key',
-                'id' => 'url',
-                'sorted' => 'desc'
-            ],
-            [
-                'title' => 'Layout',
-                'id' => 'page_layout'
-            ],
-            [
-                'title' => 'Store View',
-                'id' => 'store_id'
-            ],
-            [
-                'title' => 'Status',
-                'id' => 'status'
-            ],
-            [
-                'title' => 'Created',
-                'id' => 'created'
-            ],
-            [
-                'title' => 'Modified',
-                'id' => 'modified'
-            ],
-            [
-                'title' => 'Action',
-                'id' => 'action'
-            ],
-        ];
+        $columns = $this->getData('columns');
+
+        return empty($columns) ? [] : array_values($columns);
     }
 
     /**
@@ -124,11 +149,7 @@ class View extends AbstractView
      */
     protected function initialConfiguration()
     {
-        $result = [
-            'config' => [
-                'namespace' => 'cms.pages'
-            ]
-        ];
+        $result['config'] = $this->hasData('config') ? $this->getData('config') : [];
 
         $result['meta']['fields'] = $this->getMetaFields();
         $result['data']['items'] = $this->getCollectionItems();
@@ -137,6 +158,37 @@ class View extends AbstractView
         $result['data']['pages'] = ceil($countItems / 5);
         $result['data']['totalCount'] = $countItems;
 
-        $this->configuration = array_merge($this->configuration, $result);
+        $this->configuration = array_merge_recursive($this->configuration, $result);
+
+        $this->sortingConfig['config']['namespace'] = $this->configuration['config']['namespace'];
+        $this->sortingConfig['config']['params']['direction'] = $this->getData('default_dir');
+        $this->sortingConfig['config']['params']['field'] = $this->getData('default_sort');
+    }
+
+    /**
+     * Produce and return block's html output
+     * This method should not be overridden. You can override _toHtml() method in descendants if needed
+     *
+     * @return string
+     */
+    public function toHtml()
+    {
+        // TODO FIXME PLEASE !!
+        if (boolval($this->getRequest()->getParam('isAjax')) === true) {
+            $this->configuration = $this->configuration['data'];
+            return $this->getConfigurationJson();
+        } else {
+            return parent::toHtml();
+        }
+    }
+
+    /**
+     * Getting JSON configuration sorting data
+     *
+     * @return string
+     */
+    public function getSortingJson()
+    {
+        return json_encode($this->sortingConfig);
     }
 }

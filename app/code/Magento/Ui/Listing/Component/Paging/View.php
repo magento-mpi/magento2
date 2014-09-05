@@ -21,8 +21,10 @@ class View extends AbstractView
         'config' => [
             'namespace' => 'cms.pages',
             'sizes' => [5, 10, 20, 30, 50, 100, 200],
-            'size' => 5,
-            'current' => 1
+            'params' => [
+                'pageSize' => 5,
+                'current' => 1
+            ]
         ]
     ];
 }
