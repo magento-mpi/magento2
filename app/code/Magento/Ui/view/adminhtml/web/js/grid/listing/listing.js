@@ -1,8 +1,8 @@
 define([
     '_',
     '../core/storage',
-    'Magento_Ui/js/framework/ko/scope',
-    'Magento_Ui/js/framework/mixin/loader'
+    'Magento_Ui/js/lib/ko/scope',
+    'Magento_Ui/js/lib/mixin/loader'
 ], function(_, Storage, Scope, Loader) {
     'use strict';
 
@@ -36,12 +36,6 @@ define([
             this.storage.on('load', this.onLoad.bind(this));
 
             return this;
-        },
-
-        getSortableClassFor: function(heading) {
-            var rule = heading.sorted;
-
-            return rule ? 'sort-arrow-' + rule : 'not-sorted';
         },
 
         updateItems: function() {
