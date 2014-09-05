@@ -231,7 +231,7 @@ class Setup implements SetupInterface
     }
 
     /**
-     * Apply module resource install, upgrade and data scripts
+     * Apply module recurring post schema updates
      *
      * @return $this
      */
@@ -306,13 +306,13 @@ class Setup implements SetupInterface
      */
     protected function getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
-        $modName = (string)$this->moduleConfig['name'];
+        $moduleName = (string)$this->moduleConfig['name'];
 
         $dbFiles = array();
         $typeFiles = array();
         $regExpDb = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
         $regExpType = sprintf('#%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
-        foreach ($this->setupFileResolver->get($modName) as $file) {
+        foreach ($this->setupFileResolver->get($moduleName) as $file) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
                 $dbFiles[$matches[1]] = $this->setupFileResolver->getAbsolutePath($file);

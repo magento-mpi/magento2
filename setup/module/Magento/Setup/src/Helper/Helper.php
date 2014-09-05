@@ -14,23 +14,6 @@ class Helper
 {
 
     /**
-     * Check the validity of a request if it is from the console or not
-     *
-     * @param \Zend\Console\Request $request
-     * @return boolean
-     * @throws \RuntimeException
-     */
-    public static function validateConsoleRequest($request)
-    {
-        // Make sure that we are running in a console and the user has not tricked our
-        // application into running this action from a public web server.
-        if (!$request instanceof ConsoleRequest) {
-            throw new \RuntimeException('You can only use this action from a console!');
-        }
-        return true;
-    }
-
-    /**
      * Convert an array to string
      *
      * @param array $input

@@ -134,7 +134,7 @@ class ConsoleController extends AbstractActionController
     {
         //Validating that request is console based
         $request = $this->getRequest();
-        Helper::validateConsoleRequest($request);
+        $this->validateConsoleRequest($request);
 
         //Checking license agreement
         $license   = $request->getParam('license_agreement_accepted');
@@ -143,7 +143,7 @@ class ConsoleController extends AbstractActionController
         }
 
         //Setting the basePath of Magento application
-        $magentoDir   = $request->getParam('magentoDir');
+        $magentoDir = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
         //Check File permission
@@ -201,10 +201,10 @@ class ConsoleController extends AbstractActionController
     {
         //Validating that request is console based
         $request = $this->getRequest();
-        Helper::validateConsoleRequest($request);
+        $this->validateConsoleRequest($request);
 
         //Setting the basePath of Magento application
-        $magentoDir   = $request->getParam('magentoDir');
+        $magentoDir = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
         $this->config->setConfigData([]);
@@ -239,10 +239,10 @@ class ConsoleController extends AbstractActionController
     {
         //Validating that request is console based
         $request = $this->getRequest();
-        Helper::validateConsoleRequest($request);
+        $this->validateConsoleRequest($request);
 
         //Setting the basePath of Magento application
-        $magentoDir   = $request->getParam('magentoDir');
+        $magentoDir = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
         //Data Information
@@ -381,7 +381,7 @@ class ConsoleController extends AbstractActionController
     public function infoAction()
     {
         $request = $this->getRequest();
-        Helper::validateConsoleRequest($request);
+        $this->validateConsoleRequest($request);
 
         switch($request->getParam('type')){
             case 'locales':
@@ -451,5 +451,22 @@ class ConsoleController extends AbstractActionController
         if (!$checkDB->checkConnection()) {
             throw new \Exception('Database connection failure.');
         }
+    }
+
+    /**
+     * Check the validity of a request if it is from the console or not
+     *
+     * @param \Zend\Console\Request $request
+     * @return boolean
+     * @throws \RuntimeException
+     */
+    public static function validateConsoleRequest($request)
+    {
+        // Make sure that we are running in a console and the user has not tricked our
+        // application into running this action from a public web server.
+        if (!$request instanceof ConsoleRequest) {
+            throw new \RuntimeException('You can only use this action from a console!');
+        }
+        return true;
     }
 }
