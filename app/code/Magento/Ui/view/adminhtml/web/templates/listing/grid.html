@@ -1,11 +1,46 @@
-<div class="hor-scroll">
-  <table class="data">
-    <thead data-part="heading"></thead>
-    <tbody data-part="body"></tbody>
-    <tfoot>
-      <tr>
-        <!--<td class="empty-text" data-bind="visible: isEmpty(), attr: { colspan: fields().length + 1 }">We couldn't find any records.</td>-->
-      </tr>  
-    </tfoot>
-  </table>  
+ <div class="hor-scroll">
+    <table class="data">
+        <thead data-bind="scope: { sorting: 'cms.pages:sorting'}">
+            <tr class="headings">
+                <!--
+                <th class="col-select col-massaction">
+                    <div class="mass-select">
+                        <div class="field choice mass-select-field">
+                            <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isAllVisibleSelected()"> <label for="mass-checkbox" class="label"><span>Select</span></label>
+                        </div>
+                        <button class="mass-select-toggle" data-toggle="dropdown">
+                            <span>Options</span>
+                        </button>
+                        <ul class="mass-select-menu" data-bind="foreach: { data: massActions, as: 'action' }, on: { 'click li': 'applyMassAction', data: 'action' }"></ul>
+                    </div>
+                </th>
+                -->
+                <!-- ko foreach: { data: parent.fields, as: 'field' } -->
+                <th>
+                    <!-- ko if: field.sortable -->
+                    <span>
+                        <a href="#" data-bind="text: field.title, css: $parent.sorting.setClass(field.id), click: $parent.sorting.onClick(field)"></a>
+                    </span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: !field.sortable -->
+                    <span data-bind="text: field.title"></span>
+                    <!-- /ko -->
+                </th>
+                <!-- /ko -->
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: { data: rows, as: 'row' }">
+            <tr class="even pointer" data-bind="forin: row">
+                <!--
+                <td class="col-select col-massaction">
+                    <input data-bind="checkedValue: row.id, checked: $parent.checkedIds" type="checkbox" class="massaction-checkbox">
+                </td>
+                -->
+                <!-- ko ifnot: $key === 'id' -->
+                <td data-bind="text: $value"></td>
+                <!-- /ko -->
+            </tr>
+        </tbody>
+    </table>
 </div>

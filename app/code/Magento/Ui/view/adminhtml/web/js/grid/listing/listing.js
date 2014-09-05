@@ -15,7 +15,7 @@ define([
             this.fields = this.storage.getMeta().fields;
         },
 
-        initObservable: function(settings) {
+        initObservable: function() {
             this.observe({
                 rows: [],
                 isLocked: false
@@ -44,6 +44,10 @@ define([
             this.rows(items);
 
             return this;
+        },
+
+        getTemplateForCell: function (field) {
+            return 'Magento_Ui.templates.cell.' + field.dataType;
         },
 
         onLoad: function() {

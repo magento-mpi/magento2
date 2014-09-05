@@ -70,8 +70,8 @@ define([
 
         onClick: function(field) {
             return function(){
-                return this.handleClick(this, field.id)
-            }
+                this.handleClick(field.id)
+            }.bind(this);
         }
     });
 
