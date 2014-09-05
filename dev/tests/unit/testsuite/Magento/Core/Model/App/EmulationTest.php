@@ -115,7 +115,6 @@ class EmulationTest extends \Magento\Test\BaseTestCase
         $this->scopeConfigMock->expects($this->any())->method('getValue')->willReturn($newLocale);
 
         // Expectations
-        $this->once();
         $this->inlineTranslationMock->expects($this->once())->method('suspend')->with($newInlineTranslate);
         $this->viewDesignMock->expects($this->once())->method('setDesignTheme')->with($newDesignData);
         $this->localeResolverMock->expects($this->once())->method('setLocaleCode')->with($newLocale);
@@ -124,9 +123,9 @@ class EmulationTest extends \Magento\Test\BaseTestCase
 
         // Test
         $initialEnvironment = $this->model->startEnvironmentEmulation($newStoreId);
-        $this->assertEquals($inlineTranslate, $initialEnvironment->getInitialTranslateInline());
-        $this->assertEquals($initDesignData, $initialEnvironment->getInitialDesign());
-        $this->assertEquals($initLocale, $initialEnvironment->getInitialLocaleCode());
+        $this->assertSame($inlineTranslate, $initialEnvironment->getInitialTranslateInline());
+        $this->assertSame($initDesignData, $initialEnvironment->getInitialDesign());
+        $this->assertSame($initLocale, $initialEnvironment->getInitialLocaleCode());
     }
 
     public function testStartWithInlineTranslation()
@@ -189,6 +188,6 @@ class EmulationTest extends \Magento\Test\BaseTestCase
             ->with($initLocale);
 
         // Test
-        $this->model->stopEnvironmentEmulation($initialEnvInfo);
+        $this->assertSame($this->model, $this->model->stopEnvironmentEmulation($initialEnvInfo));
     }
 } 

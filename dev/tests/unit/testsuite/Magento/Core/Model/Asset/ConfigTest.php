@@ -32,22 +32,28 @@ class ConfigTest extends \Magento\Test\BaseTestCase
 
     }
 
-    public function testIsMergeCssFiles()
+    /**
+     * @dataProvider booleanDataProvider
+     */
+    public function testIsMergeCssFiles($booleanData)
     {
         $this->scopeConfigMock->expects($this->once())
             ->method('isSetFlag')
             ->with(Config::XML_PATH_MERGE_CSS_FILES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->willReturn(true);
-        $this->assertTrue($this->model->isMergeCssFiles());
+            ->willReturn($booleanData);
+        $this->assertSame($booleanData, $this->model->isMergeCssFiles());
     }
 
-    public function testIsMergeJsFiles()
+    /**
+     * @dataProvider booleanDataProvider
+     */
+    public function testIsMergeJsFiles($booleanData)
     {
         $this->scopeConfigMock->expects($this->once())
             ->method('isSetFlag')
             ->with(Config::XML_PATH_MERGE_JS_FILES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->willReturn(true);
-        $this->assertTrue($this->model->isMergeJsFiles());
+            ->willReturn($booleanData);
+        $this->assertSame($booleanData, $this->model->isMergeJsFiles());
 
     }
 
@@ -73,7 +79,7 @@ class ConfigTest extends \Magento\Test\BaseTestCase
                 sprintf(Config::XML_PATH_MINIFICATION_ADAPTER, $contentType),
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )->willReturn($adapter);
-        $this->assertEquals($adapter, $this->model->getAssetMinificationAdapter($contentType));
+        $this->assertSame($adapter, $this->model->getAssetMinificationAdapter($contentType));
     }
 }
 

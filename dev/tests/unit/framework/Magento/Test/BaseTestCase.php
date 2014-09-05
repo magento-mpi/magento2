@@ -39,4 +39,9 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
     }
+
+    public function booleanDataProvider()
+    {
+        return [[true], [false]];
+    }
 }
