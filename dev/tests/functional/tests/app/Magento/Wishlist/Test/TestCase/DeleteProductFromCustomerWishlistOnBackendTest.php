@@ -137,7 +137,7 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
      */
     public function test(Browser $browser, CustomerInjectable $customer, FixtureFactory $fixtureFactory, $product)
     {
-        $this->markTestIncomplete('MAGETWO-27949, MAGETWO-27950');
+        $this->markTestIncomplete('MAGETWO-27949');
         //Preconditions
         list($fixture, $dataSet) = explode('::', $product);
         $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
@@ -154,7 +154,7 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         $filter = ['product_name' => $product->getName()];
         $customerForm->getTabElement('wishlist')->getSearchGridBlock()->searchAndDelete($filter);
 
-        return ['productName' => $product->getName()];
+        return ['product' => $product];
     }
 
     /**

@@ -13,7 +13,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
- * Grid on Wishlist tab
+ * Grid on Wishlist tab in customer details on backend
  */
 class Grid extends ParentGrid
 {
@@ -46,11 +46,7 @@ class Grid extends ParentGrid
     {
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
-        if ($rowItem->isVisible()) {
-            $rowItem->find($this->deleteLink, Locator::SELECTOR_XPATH)->click();
-            $this->waitForElement();
-        } else {
-            throw new \Exception('Searched item was not found.');
-        }
+        $rowItem->find($this->deleteLink, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->acceptAlert();
     }
 }

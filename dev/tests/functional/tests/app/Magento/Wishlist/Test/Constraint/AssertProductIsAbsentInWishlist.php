@@ -14,10 +14,12 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AssertProductIsAbsentInWishlist
- * Assert that product is not present in Wishlist on Frontend
+ * Assert that product is absent in Wishlist on Frontend
  */
 class AssertProductIsAbsentInWishlist extends AbstractConstraint
 {
@@ -33,25 +35,26 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
      *
      * @param CustomerAccountIndex $customerAccountIndex
      * @param WishlistIndex $wishlistIndex
-     * @param string $productName
+     * @param InjectableFixture $product
      * @param CustomerInjectable $customer
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function processAssert(
         CustomerAccountIndex $customerAccountIndex,
         WishlistIndex $wishlistIndex,
-        $productName,
+        InjectableFixture $product,
         CustomerInjectable $customer,
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin
+        CustomerAccountLogin $customerAccountLogin,
+        CustomerAccountLogout $customerAccountLogout
     ) {
-        $cmsIndex->open();
-        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $cmsIndex->getLinksBlock()->openLink('Log In');
-            $customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $productName = $product->getName();
+        $customerAccountLogout->open();
+        $cmsIndex->getLinksBlock()->openLink('Log In');
+        $customerAccountLogin->getLoginBlock()->login($customer);
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("My Wish List");
         \PHPUnit_Framework_Assert::assertFalse(
             $wishlistIndex->getWishlistBlock()->getProductItemsBlock()->isProductPresent($productName),
@@ -66,6 +69,6 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product is not present in Wishlist on Frontend.';
+        return 'Product is absent in Wishlist on Frontend.';
     }
 }
