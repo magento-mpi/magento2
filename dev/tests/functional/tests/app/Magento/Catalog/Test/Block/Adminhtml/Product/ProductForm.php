@@ -263,7 +263,7 @@ class ProductForm extends FormTabs
         return $this->_rootElement->find(
             $this->attributeSearch,
             Locator::SELECTOR_CSS,
-            'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector'
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
         )->isExistAttributeInSearchResult($productAttribute);
     }
 
@@ -276,8 +276,9 @@ class ProductForm extends FormTabs
     public function isTabVisible($tabName)
     {
         $tabName = strtolower($tabName);
-
-        return $this->_rootElement->find(sprintf($this->customTab, $tabName), Locator::SELECTOR_XPATH)->isVisible();
+        $selector = sprintf($this->customTab, $tabName);
+        $this->waitForElementVisible($selector, Locator::SELECTOR_XPATH);
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 
     /**

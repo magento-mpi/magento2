@@ -8,33 +8,20 @@
 
 namespace Magento\Sales\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for CreateOrderFromCustomerPage (comparedProducts)
+ * Test Creation for CreateOrderFromCustomerPage (RecentlyComparedProducts)
  *
  * Test Flow:
  *
- * Preconditions:
- * 1. Create customer
- * 2. Create products
- * 3. Add products to compare list
- *
- * Steps:
- * 1. Open Customers -> All Customers
- * 2. Search and open customer from preconditions
- * 3. Click 'Create Order'
- * 4. Check product in comparison list section
- * 5. Click 'Update Changes'
- * 6. Perform all assertions
- *
  * @group Order_Management_(CS)
- * @ZephyrId MAGETWO-28050
+ * @ZephyrId MTA-395
  */
-class MoveProductsInComparedOnOrderPageTest extends AbstractMoveComparedProductsOnOrderPageTest
+class MoveRecentlyComparedProductsOnOrderPageTest extends AbstractMoveComparedProductsOnOrderPageTest
 {
     /**
-     * Move compare products on order page
+     * Move recently compared products on order page
      *
      * @param string $products
      * @return array
@@ -45,11 +32,12 @@ class MoveProductsInComparedOnOrderPageTest extends AbstractMoveComparedProducts
         $products = $this->createProducts($products);
         $this->loginCustomer();
         $this->addProducts($products);
+        $this->removeProductsFromComparedList();
 
         // Steps:
         $this->openCustomerPageAndClickCreateOrder();
         $activitiesBlock = $this->orderCreateIndex->getCustomerActivitiesBlock();
-        $activitiesBlock->getRecentlyComparedProductsBlock()->addToOrderByName($this->extractProductNames($products));
+        $activitiesBlock->getProductsInComparisonBlock()->addToOrderByName($this->extractProductNames($products));
         $activitiesBlock->updateChanges();
 
         return ['entityData' => ['products' => $products], 'productsIsConfigured' => false];

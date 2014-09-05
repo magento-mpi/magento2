@@ -77,5 +77,20 @@ class CatalogProductAttribute extends AbstractRepository
                 ]
             ]
         ];
+
+        $this->_data['attribute_type_dropdown_one_options'] = [
+            'frontend_label' => 'attribute_dropdown%isolation%',
+            'attribute_code' => 'attribute_dropdown%isolation%',
+            'frontend_input' => 'Dropdown',
+            'is_required' => 'No',
+            'is_configurable' => 'Yes',
+            'options' => [
+                [
+                    'is_default' => 'Yes',
+                    'admin' => 'black',
+                    'view' => 'option_0_%isolation%',
+                ],
+            ]
+        ];
     }
 }

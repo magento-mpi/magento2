@@ -38,6 +38,13 @@ class CustomerActivities extends Block
     protected $comparedSidebar = '#order-sidebar_compared';
 
     /**
+     * Order sidebar compared css selector
+     *
+     * @var string
+     */
+    protected $recentlyComparedSidebar = '#order-sidebar_pcompared';
+
+    /**
      * Get last ordered items block
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems
@@ -60,6 +67,19 @@ class CustomerActivities extends Block
         return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison',
             ['element' => $this->_rootElement->find($this->comparedSidebar)]
+        );
+    }
+
+    /**
+     * Get products in comparison block
+     *
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts
+     */
+    public function getRecentlyComparedProductsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts',
+            ['element' => $this->_rootElement->find($this->recentlyComparedSidebar)]
         );
     }
 
