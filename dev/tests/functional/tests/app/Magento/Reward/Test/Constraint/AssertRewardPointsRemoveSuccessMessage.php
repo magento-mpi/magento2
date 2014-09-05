@@ -51,6 +51,6 @@ class AssertRewardPointsRemoveSuccessMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Reward points success remove message is present.';
+        return 'Success message about removed reward points is present.';
     }
 }

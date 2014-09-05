@@ -24,9 +24,10 @@ use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Test Creation for Removing Reward Points On Checkout
+ * Test Creation for Remove Reward Points On Checkout
  *
  * Test Flow:
+ *
  * Preconditions:
  * 1. Create Simple Product
  * 2. Setup reward points rates
@@ -45,8 +46,10 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  *
  * @group Reward_Points_(CS)
  * @ZephyrId MAGETWO-28074
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class RemovingRewardPointsOnCheckoutTest extends Injectable
+class RemoveRewardPointsOnCheckoutTest extends Injectable
 {
     /**
      * Factory for fixture
@@ -114,11 +117,18 @@ class RemovingRewardPointsOnCheckoutTest extends Injectable
     /**
      * Create simple product and setup reward rates
      *
+     * @param RewardRateIndex $rewardRateIndexPage
+     * @param RewardRateNew $rewardRateNewPage
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
+    public function __prepare(
+        RewardRateIndex $rewardRateIndexPage,
+        RewardRateNew $rewardRateNewPage,
+        FixtureFactory $fixtureFactory
+    ) {
+        self::$rewardRateIndexPage = $rewardRateIndexPage;
+        self::$rewardRateNewPage = $rewardRateNewPage;
         $this->fixtureFactory = $fixtureFactory;
         $product = $fixtureFactory->createByCode('catalogProductSimple');
         $product->persist();
@@ -138,8 +148,6 @@ class RemovingRewardPointsOnCheckoutTest extends Injectable
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
-     * @param RewardRateIndex $rewardRateIndexPage
-     * @param RewardRateNew $rewardRateNewPage
      * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
@@ -149,8 +157,6 @@ class RemovingRewardPointsOnCheckoutTest extends Injectable
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
-        RewardRateIndex $rewardRateIndexPage,
-        RewardRateNew $rewardRateNewPage,
         CustomerAccountLogout $customerAccountLogout
     ) {
         $this->cmsIndex = $cmsIndex;
@@ -159,8 +165,6 @@ class RemovingRewardPointsOnCheckoutTest extends Injectable
         $this->checkoutCart = $checkoutCart;
         $this->checkoutOnepage = $checkoutOnepage;
         $this->customerAccountLogout = $customerAccountLogout;
-        self::$rewardRateIndexPage = $rewardRateIndexPage;
-        self::$rewardRateNewPage = $rewardRateNewPage;
     }
 
     /**
@@ -225,7 +229,7 @@ class RemovingRewardPointsOnCheckoutTest extends Injectable
     }
 
     /**
-     * Deleting reward exchange rates
+     * Delete reward exchange rates
      *
      * @return void
      */
