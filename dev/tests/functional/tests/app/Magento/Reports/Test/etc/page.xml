@@ -38,4 +38,9 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\ProductReportView</class>
     </productReportView>
+    <shopCartProductReport>
+        <mca>reports/report_shopcart/product</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\ShopCartProductReport</class>
+    </shopCartProductReport>
 </page>
