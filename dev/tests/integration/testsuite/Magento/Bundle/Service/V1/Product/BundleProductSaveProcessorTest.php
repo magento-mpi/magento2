@@ -111,6 +111,7 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
      * data fixture below automatically isolates the db
      *
      * @magentoDataFixture Magento/Catalog/_files/products.php
+     * @magentoAppIsolation enabled
      */
     public function testCreateBundleProduct()
     {
@@ -136,7 +137,8 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php
-     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Catalog/_files/second_product_simple.php
+     * @magentoAppIsolation enabled
      */
     public function testUpdateBundleProduct()
     {
@@ -160,6 +162,7 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
             ->populate($savedProduct)
             ->setCustomAttribute('bundle_product_options', array($newOption))
             ->setCustomAttribute('price_view', 'test')
+            ->setCustomAttribute('price', 10)
             ->create();
 
         $this->assertEquals('bundle-product', $this->productService->update('bundle-product', $updatedBundleProduct));
