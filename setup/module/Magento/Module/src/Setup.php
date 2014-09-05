@@ -234,10 +234,20 @@ class Setup implements SetupInterface
      * Apply module recurring post schema updates
      *
      * @return $this
+     * @throws \Exception
      */
     public function applyRecurringUpdates()
     {
-        $this->modifyResourceDb(self::TYPE_DB_RECURRING, '', '');
+        $moduleName = (string)$this->moduleConfig['name'];
+        foreach ($this->setupFileResolver->getSqlSetupFiles($moduleName, self::TYPE_DB_RECURRING . '.php') as $file) {
+            try {
+                $file = $this->setupFileResolver->getAbsolutePath($file);
+                $this->includeFile($file);
+            } catch (\Exception $e) {
+                $this->logger->logError($e);
+                throw new \Exception(sprintf('Error in file: "%s" - %s', $file, $e->getMessage()), 0, $e);
+            }
+        }
         return $this;
     }
 
@@ -307,12 +317,11 @@ class Setup implements SetupInterface
     protected function getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
         $moduleName = (string)$this->moduleConfig['name'];
-
         $dbFiles = array();
         $typeFiles = array();
         $regExpDb = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
         $regExpType = sprintf('#%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
-        foreach ($this->setupFileResolver->get($moduleName) as $file) {
+        foreach ($this->setupFileResolver->getSqlSetupFiles($moduleName, '*.{php,sql}') as $file) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
                 $dbFiles[$matches[1]] = $this->setupFileResolver->getAbsolutePath($file);
@@ -330,34 +339,6 @@ class Setup implements SetupInterface
         }
 
         return $this->getModifySqlFiles($actionType, $fromVersion, $toVersion, $dbFiles);
-    }
-
-    /**
-     * Retrieve available Database install/upgrade recurring files for current module
-     *
-     * @return array
-     */
-    protected function getAvailableRecurringFiles()
-    {
-        $modName = (string)$this->moduleConfig['name'];
-
-        $dbFiles = array();
-        $regExpDb = sprintf('#%s\.(php)$#i', self::TYPE_DB_RECURRING);
-        foreach ($this->setupFileResolver->get($modName) as $file) {
-            if (preg_match($regExpDb, $file)) {
-                $dbFiles[] = [
-                    'fileName'  => $this->setupFileResolver->getAbsolutePath($file),
-                    'toVersion' => ''
-                ];
-
-            }
-        }
-
-        if (empty($dbFiles)) {
-            return array();
-        }
-
-        return $dbFiles;
     }
 
     /**
@@ -397,9 +378,6 @@ class Setup implements SetupInterface
             case self::TYPE_DB_INSTALL:
             case self::TYPE_DB_UPGRADE:
                 $files = $this->getAvailableDbFiles($actionType, $fromVersion, $toVersion);
-                break;
-            case self::TYPE_DB_RECURRING:
-                $files = $this->getAvailableRecurringFiles();
                 break;
             case self::TYPE_DATA_INSTALL:
             case self::TYPE_DATA_UPGRADE:

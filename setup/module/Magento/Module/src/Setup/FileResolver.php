@@ -9,11 +9,10 @@
 namespace Magento\Module\Setup;
 
 use Zend\Stdlib\Glob;
-use Magento\Config\FileResolverInterface;
 use Magento\Config\FileIteratorFactory;
 use Magento\Config\ConfigFactory;
 
-class FileResolver implements FileResolverInterface
+class FileResolver
 {
     /**
      * File Iterator Factory
@@ -52,17 +51,18 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
-     * Get Module
+     * Get SQL setup files by pattern
      *
      * @param string $moduleName
+     * @param string $fileNamePattern
      * @return array
      */
-    public function get($moduleName)
+    public function getSqlSetupFiles($moduleName, $fileNamePattern = '*.php')
     {
         $paths = [];
         $modulePath = str_replace('_', '/', $moduleName);
         // Collect files by /app/code/{modulePath}/sql/*/*.php pattern
-        $files = $this->getFiles($this->config->getMagentoModulePath() . $modulePath . '/sql/*/*.php');
+        $files = $this->getFiles($this->config->getMagentoModulePath() . $modulePath . '/sql/*/' . $fileNamePattern);
         foreach ($files as $file) {
             $paths[] = $this->getRelativePath($file);
         }
@@ -96,7 +96,7 @@ class FileResolver implements FileResolverInterface
      */
     protected function getFiles($path)
     {
-        return Glob::glob($this->config->getMagentoBasePath() . $path);
+        return Glob::glob($this->config->getMagentoBasePath() . $path, Glob::GLOB_BRACE);
     }
 
     /**
@@ -107,7 +107,7 @@ class FileResolver implements FileResolverInterface
      */
     protected function getDirs($path)
     {
-        return Glob::glob($this->config->getMagentoBasePath() . $path, GLOB_ONLYDIR);
+        return Glob::glob($this->config->getMagentoBasePath() . $path, Glob::GLOB_ONLYDIR);
     }
 
     /**
