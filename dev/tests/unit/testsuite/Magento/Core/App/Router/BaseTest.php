@@ -90,7 +90,6 @@ class BaseTest extends \Magento\Test\BaseTestCase
             'appState' => $this->appStateMock,
             'nameBuilder' => $this->nameBuilderMock,
             'defaultPath' => $this->defaultPathMock,
-            'applyNoRoute'
         ];
         $this->model = $this->objectManager->getObject('Magento\Core\App\Router\Base', $mocks);
     }
