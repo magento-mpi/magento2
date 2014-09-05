@@ -25,10 +25,12 @@ class Match implements QueryInterface
     ) {
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         foreach ($query->getMatches() as $match) {
-            $mode = Select::FULLTEXT_MODE_NATURAL;
-            if ($conditionType === Bool::QUERY_CONDITION_NOT) {
+            $mode = Select::FULLTEXT_MODE_BOOLEAN;
+            if ($conditionType == Bool::QUERY_CONDITION_MUST) {
+                $match['value'] = '+' . $match['value'];
+            } elseif ($conditionType === Bool::QUERY_CONDITION_NOT
+            ) {
                 $match['value'] = '-' . $match['value'];
-                $mode = Select::FULLTEXT_MODE_BOOLEAN;
             }
 
             $scoreBuilder->addCondition(
