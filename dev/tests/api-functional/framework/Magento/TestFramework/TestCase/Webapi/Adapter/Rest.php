@@ -113,22 +113,33 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $response = json_encode($response, JSON_PRETTY_PRINT);
         $varDir = realpath(__DIR__ . '/../../../../../../var');
         $documentationDir = $varDir . '/log/rest-documentation/';
-        if (!file_exists($documentationDir)) {
-            if (!mkdir($documentationDir, 0777, true)) {
+        $debugBackTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $pathToFile = $documentationDir;
+        foreach ($debugBackTrace as $traceItem) {
+            /** Test invocation trace item is the only item which has 3 elements, other trace items have 5 elements */
+            if (count($traceItem) == 3) {
+                /** Remove 'test' prefix from method name, e.g. testCreate => create */
+                $fileName = lcfirst(substr($traceItem['function'], 4));
+                /** Remove 'Test' suffix from test class name */
+                $pathToFile .= str_replace('\\', '/', substr($traceItem['class'], 0, -4)) . '/';
+                break;
+            }
+        }
+        if (!isset($fileName)) {
+            $fileName = 'unclassified';
+        }
+        if (!file_exists($pathToFile)) {
+            if (!mkdir($pathToFile, 0755, true)) {
                 throw new \RuntimeException('Unable to create missing directory for REST documentation generation');
             }
         }
-        $fileName = $httpMethod . '--' . str_replace('/', '--', trim($resourcePath, '/'));
-        $filePath = $documentationDir . $fileName . '.txt';
+        $filePath = $pathToFile . $fileName . '.txt';
         if ($resourcePath && $arguments && $response) {
             if (!is_writable(dirname($filePath))) {
                 throw new \RuntimeException('Directory for documentation generation is not writable.');
             }
-            $content = '';
-            if (!file_exists($filePath)) {
-                $content .= "{$httpMethod} {$resourcePath}";
-            }
-            $content .= "\n\n\nInput:\n{$arguments}\nOutput:\n{$response}";
+            $resourcePath = urldecode($resourcePath);
+            $content = "{$httpMethod} {$resourcePath}\nInput:\n{$arguments}\nOutput:\n{$response}\n\n\n";
             file_put_contents($filePath, $content, FILE_APPEND);
         }
     }
