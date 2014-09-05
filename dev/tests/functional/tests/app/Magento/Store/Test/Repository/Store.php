@@ -32,6 +32,11 @@ class Store extends AbstractRepository
             'is_active' => 'Enabled',
         ];
 
+        $this->_data['default_store_view'] = [
+            'store_id' => 1,
+            'name' => 'Default Store View',
+        ];
+
         $this->_data['All Store Views'] = [
             'name' => 'All Store Views',
             'store_id' => 0,

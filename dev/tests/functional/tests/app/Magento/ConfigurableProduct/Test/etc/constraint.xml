@@ -23,6 +23,9 @@
     <assertConfigurableProductForm module="Magento_ConfigurableProduct">
         <severeness>low</severeness>
     </assertConfigurableProductForm>
+    <assertConfigurableProductInItemsOrderedGrid module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+    </assertConfigurableProductInItemsOrderedGrid>
     <assertConfigurableProductPage module="Magento_ConfigurableProduct">
         <severeness>high</severeness>
     </assertConfigurableProductPage>

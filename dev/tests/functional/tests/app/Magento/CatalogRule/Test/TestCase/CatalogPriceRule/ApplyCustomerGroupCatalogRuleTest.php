@@ -151,8 +151,8 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getEffectivePrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
         $this->assertContains(
             $product->getProductPrice(),

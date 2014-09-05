@@ -71,8 +71,9 @@ class CatalogProductSimple extends InjectableFixture
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
         }
     }
-    
+
     protected $dataConfig = [
+        'type_id' => 'simple',
         'create_url_params' => [
             'type' => 'simple',
             'set' => '4',
