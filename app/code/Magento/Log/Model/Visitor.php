@@ -57,7 +57,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     protected $_ignores;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -97,7 +97,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Framework\Session\SessionManagerInterface $session
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Framework\HTTP\Header $httpHeader
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -116,7 +116,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Framework\Session\SessionManagerInterface $session,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Framework\HTTP\Header $httpHeader,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,

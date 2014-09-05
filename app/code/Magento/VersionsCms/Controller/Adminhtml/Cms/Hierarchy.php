@@ -48,19 +48,19 @@ class Hierarchy extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;

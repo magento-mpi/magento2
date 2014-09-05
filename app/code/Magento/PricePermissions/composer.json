@@ -3,7 +3,6 @@
     "description": "N/A",
     "require": {
         "php": "~5.4.11|~5.5.0",
-        "magento/module-store": "0.1.0-alpha93",
         "magento/module-bundle": "0.1.0-alpha93",
         "magento/module-catalog": "0.1.0-alpha93",
         "magento/module-downloadable": "0.1.0-alpha93",

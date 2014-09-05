@@ -185,7 +185,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_importFactory = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -210,7 +210,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
@@ -229,7 +229,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_cart = $cart;

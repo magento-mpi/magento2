@@ -10,14 +10,14 @@ namespace Magento\Store\Model\Resolver;
 class Store implements \Magento\Framework\App\ScopeResolverInterface
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Framework\StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
     }

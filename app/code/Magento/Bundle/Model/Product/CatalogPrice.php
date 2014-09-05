@@ -13,7 +13,7 @@ namespace Magento\Bundle\Model\Product;
 class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterface
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -28,12 +28,12 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
     protected $coreRegistry;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\CatalogPrice $commonPriceModel
      * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\CatalogPrice $commonPriceModel,
         \Magento\Framework\Registry $coreRegistry
     ) {

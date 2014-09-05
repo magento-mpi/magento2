@@ -4,7 +4,6 @@
     "require": {
         "php": "~5.4.11|~5.5.0",
         "magento/module-authorization": "0.1.0-alpha93",
-        "magento/module-store": "0.1.0-alpha93",
         "magento/module-backend": "0.1.0-alpha93",
         "magento/module-core": "0.1.0-alpha93",
         "magento/module-integration": "0.1.0-alpha93",

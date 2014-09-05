@@ -93,7 +93,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
@@ -103,7 +103,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,

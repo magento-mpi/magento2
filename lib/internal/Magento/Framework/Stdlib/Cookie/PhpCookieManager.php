@@ -40,14 +40,14 @@ class PhpCookieManager implements CookieManager
 
 
     /**
-     * @var CookieScope
+     * @var CookieScopeInterface
      */
     private $scope;
 
     /**
-     * @param CookieScope $scope
+     * @param CookieScopeInterface $scope
      */
-    public function __construct(CookieScope $scope)
+    public function __construct(CookieScopeInterface $scope)
     {
         $this->scope = $scope;
     }
@@ -69,9 +69,6 @@ class PhpCookieManager implements CookieManager
     public function setSensitiveCookie($name, $value, SensitiveCookieMetadata $metadata = null)
     {
         $metadataArray = $this->scope->getSensitiveCookieMetadata($metadata)->__toArray();
-        $metadataArray[PublicCookieMetadata::KEY_SECURE] = true;
-        $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY] = true;
-
         $this->setCookie($name, $value, $metadataArray);
     }
 
@@ -118,8 +115,8 @@ class PhpCookieManager implements CookieManager
             $expire,
             $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, ''),
             $this->extractValue(CookieMetadata::KEY_DOMAIN, $metadataArray, ''),
-            $this->extractValue(PublicCookieMetadata::KEY_SECURE, $metadataArray, false),
-            $this->extractValue(PublicCookieMetadata::KEY_HTTP_ONLY, $metadataArray, false)
+            $this->extractValue(CookieMetadata::KEY_SECURE, $metadataArray, false),
+            $this->extractValue(CookieMetadata::KEY_HTTP_ONLY, $metadataArray, false)
         );
 
         if (!$phpSetcookieSuccess) {
@@ -203,8 +200,8 @@ class PhpCookieManager implements CookieManager
         ) {
             $expireTime = $metadataArray[PhpCookieManager::KEY_EXPIRE_TIME];
         } else {
-            if (isset($metadataArray[PublicCookieMetadata::KEY_DURATION])) {
-                $expireTime = $metadataArray[PublicCookieMetadata::KEY_DURATION] + time();
+            if (isset($metadataArray[CookieMetadata::KEY_DURATION])) {
+                $expireTime = $metadataArray[CookieMetadata::KEY_DURATION] + time();
             } else {
                 $expireTime = PhpCookieManager::EXPIRE_AT_END_OF_SESSION_TIME;
             }
