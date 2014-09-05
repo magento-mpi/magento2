@@ -7,9 +7,9 @@
  */
 
 /**
- * Test class for \Magento\Backend\AdminConfig
+ * Test class for \Magento\Backend\Model\AdminConfig
  */
-namespace Magento\Backend;
+namespace Magento\Backend\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
@@ -17,9 +17,14 @@ use Magento\TestFramework\ObjectManager;
 class AdminConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $requestMock;
+
+    /**
+     * @var \Magento\Framework\ValidatorFactory | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $validatorFactory;
 
     /**
      * @var \Magento\Framework\App\State
@@ -48,6 +53,10 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
         $this->appState = $this->getMock('\Magento\Framework\App\State',
             ['isInstalled'], [], '', false, false);
         $this->appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
+        $this->validatorFactory = $this->getMockBuilder('Magento\Framework\ValidatorFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
     }
 
     public function testSetCookiePathNonDefault()
@@ -60,10 +69,23 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getFrontName')
             ->will($this->returnValue('backend'));
 
+        $validatorMock = $this->getMockBuilder('Magento\Framework\Validator\ValidatorInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $validatorMock->expects($this->any())
+            ->method('isValid')
+            ->willReturn(true);
+        $this->validatorFactory->expects($this->any())
+            ->method('setInstanceName')
+            ->willReturnSelf();
+        $this->validatorFactory->expects($this->any())
+            ->method('create')
+            ->willReturn($validatorMock);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $adminConfig = $objectManager->getObject(
-            'Magento\Backend\AdminConfig',
+            'Magento\Backend\Model\AdminConfig',
             [
+                'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,
                 'appState' => $this->appState,
                 'frontNameResolver' => $mockFrontNameResolver,

@@ -50,4 +50,16 @@ class ValidatorFactory
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }
+
+    /**
+     * Set validator instance name
+     *
+     * @param string $instanceName
+     * @return $this
+     */
+    public function setInstanceName($instanceName)
+    {
+        $this->_instanceName = $instanceName;
+        return $this;
+    }
 }
