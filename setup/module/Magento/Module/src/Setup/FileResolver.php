@@ -122,7 +122,8 @@ class FileResolver implements FileResolverInterface
             }
         }
 
-        return array_shift(array_unique(array_merge($sqlResources, $dataResources)));
+        $resources = array_unique(array_merge($sqlResources, $dataResources));
+        return array_shift($resources);
     }
 
     /**
