@@ -23,6 +23,8 @@ use Magento\Setup\Model\AdminAccountFactory;
 
 /**
  * Class ConsoleController
+ * Controller that handles all setup commands via command line interface.
+ *
  * @package Magento\Setup\Controller
  */
 class ConsoleController extends AbstractActionController
@@ -44,7 +46,7 @@ class ConsoleController extends AbstractActionController
     /**
      * Module Lists
      *
-     * @var []
+     * @var array
      */
     protected $moduleList;
 
@@ -54,13 +56,6 @@ class ConsoleController extends AbstractActionController
      * @var Config
      */
     protected $config;
-
-    /**
-     * Configuration Facotry
-     *
-     * @var Config
-     */
-    protected $configFactory;
 
     /**
      * Factory Configurations
@@ -107,8 +102,7 @@ class ConsoleController extends AbstractActionController
     ) {
         $this->filePermission = $filePermission;
         $this->list = $list;
-        $this->configFactory = $configFactory;
-        $this->factoryConfig = $this->configFactory->create();
+        $this->factoryConfig = $configFactory->create();
         $this->random = $random;
         $this->config = $config;
         $this->setupFactory = $setupFactory;
@@ -124,7 +118,7 @@ class ConsoleController extends AbstractActionController
     public function installAction()
     {
         $message = [];
-        $message[] = $this->installLocalAction();
+        $message[] = $this->installDeploymentConfigAction();
         $message[] = $this->installSchemaAction();
         $message[] = $this->installDataAction();
         return implode(PHP_EOL, $message);
@@ -136,11 +130,11 @@ class ConsoleController extends AbstractActionController
      * @return string
      * @throws \Exception
      */
-    public function installLocalAction()
+    public function installDeploymentConfigAction()
     {
         //Validating that request is console based
         $request = $this->getRequest();
-        Helper::checkRequest($request);
+        Helper::validateConsoleRequest($request);
 
         //Checking license agreement
         $license   = $request->getParam('license_agreement_accepted');
@@ -207,7 +201,7 @@ class ConsoleController extends AbstractActionController
     {
         //Validating that request is console based
         $request = $this->getRequest();
-        Helper::checkRequest($request);
+        Helper::validateConsoleRequest($request);
 
         //Setting the basePath of Magento application
         $magentoDir   = $request->getParam('magentoDir');
@@ -245,7 +239,7 @@ class ConsoleController extends AbstractActionController
     {
         //Validating that request is console based
         $request = $this->getRequest();
-        Helper::checkRequest($request);
+        Helper::validateConsoleRequest($request);
 
         //Setting the basePath of Magento application
         $magentoDir   = $request->getParam('magentoDir');
@@ -387,7 +381,7 @@ class ConsoleController extends AbstractActionController
     public function infoAction()
     {
         $request = $this->getRequest();
-        Helper::checkRequest($request);
+        Helper::validateConsoleRequest($request);
 
         switch($request->getParam('type')){
             case 'locales':
@@ -401,7 +395,7 @@ class ConsoleController extends AbstractActionController
                 break;
             case 'options':
             default:
-                return  Helper::showOptions();
+                return  Helper::showInstallationOptions();
                 break;
         }
     }

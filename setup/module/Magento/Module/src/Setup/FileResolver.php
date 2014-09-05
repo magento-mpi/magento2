@@ -16,21 +16,29 @@ use Magento\Config\ConfigFactory;
 class FileResolver implements FileResolverInterface
 {
     /**
+     * File Iterator Factory
+     *
      * @var FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
+     * Configuration Factory
+     *
      * @var ConfigFactory
      */
     protected $configFactory;
 
     /**
+     * Configurations
+     *
      * @var Config
      */
     protected $config;
 
     /**
+     * Default Constructor
+     *
      * @param FileIteratorFactory $iteratorFactory
      * @param ConfigFactory $configFactory
      */
@@ -44,6 +52,8 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
+     * Get Module
+     *
      * @param string $moduleName
      * @return array
      */
@@ -79,6 +89,8 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
+     * Get Files
+     *
      * @param string $path
      * @return array|false
      */
@@ -88,6 +100,8 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
+     * Get Directories
+     *
      * @param string $path
      * @return array|false
      */
@@ -97,6 +111,8 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
+     * Get Resource Code by Module Name
+     *
      * @param string $moduleName
      * @return string
      */
@@ -127,6 +143,8 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
+     * Get Absolute Path
+     *
      * @param string $path
      * @return string
      */

@@ -71,6 +71,8 @@ class Setup implements SetupInterface
     protected $filesystem;
 
     /**
+     * Setup File Resolver
+     *
      * @var SetupFileResolver
      */
     protected $setupFileResolver;
@@ -96,8 +98,9 @@ class Setup implements SetupInterface
      * @param ModuleListInterface $moduleList
      * @param SetupFileResolver $setupFileResolver
      * @param Logger $logger
-     * @param String $moduleName
+     * @param string $moduleName
      * @param array $connectionConfig
+     * @return void
      */
     public function __construct(
         AdapterInterface $connection,

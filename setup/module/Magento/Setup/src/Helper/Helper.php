@@ -17,16 +17,17 @@ class Helper
      * Check the validity of a request if it is from the console or not
      *
      * @param \Zend\Console\Request $request
-     * @return void
+     * @return boolean
      * @throws \RuntimeException
      */
-    public static function checkRequest($request)
+    public static function validateConsoleRequest($request)
     {
         // Make sure that we are running in a console and the user has not tricked our
         // application into running this action from a public web server.
         if (!$request instanceof ConsoleRequest) {
             throw new \RuntimeException('You can only use this action from a console!');
         }
+        return true;
     }
 
     /**
@@ -68,7 +69,7 @@ class Helper
      *
      * @return string
      */
-    public static function showOptions()
+    public static function showInstallationOptions()
     {
         return "\n" . 'Required parameters:' ."\n\n" .
         'license_agreement_accepted => Accept licence. See LICENSE*.txt. Flag value.' ."\n" .

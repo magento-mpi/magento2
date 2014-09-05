@@ -115,6 +115,7 @@ class Config
 
     /**
      * Loads Configuration from Local Config File
+     *
      * @return $this
      */
     public function loadFromConfigFile()
@@ -249,8 +250,8 @@ class Config
         if ($this->configData['db_prefix'] != '') {
             if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $this->configData['db_prefix'])) {
                 throw new \Exception(
-                    'The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); '.
-                    'the first character should be a letter.'
+                    'The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); '
+                    . 'the first character should be a letter.'
                 );
             }
         }

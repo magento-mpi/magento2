@@ -152,8 +152,8 @@ class Module implements
             [   'db_user' , 'root'],
             [   'admin_url' , 'admin'],
             'Sample Deployment Configuration tool command: ',
-            'php -f index.php install local --license_agreement_accepted yes --db_host localhost' .
-            ' --db_name magentosetup --db_user root --admin_url "admin"',
+            'php -f index.php install local --license_agreement_accepted yes --db_host localhost'
+            . ' --db_name magentosetup --db_user root --admin_url "admin"',
             '***************************************************' . "\n",
             'install schema [--<install_option_name> "<option_value>" ...]' => 'Installing database schema',
             [   'magentoDir' , 'C:\wamp\www\magento2'],
@@ -175,10 +175,10 @@ class Module implements
             [   'admin_username' , 'admin'],
             [   'admin_password' , '1234qasd'],
             'Sample Data Installer and Updater tool command: ',
-            'php -f index.php install data  --magentoDir "C:\wamp\www\magento2" --store_url "http://127.0.0.1/"' .
-            ' --secure_store_url yes --locale "en_US" --timezone "America/Los_Angeles" --currency "USD"' .
-            ' --admin_lastname Smith --admin_firstname John --admin_email 123@gmail.com --admin_username "admin"' .
-            ' --admin_password "123123q"',
+            'php -f index.php install data  --magentoDir "C:\wamp\www\magento2" --store_url "http://127.0.0.1/"'
+            . ' --secure_store_url yes --locale "en_US" --timezone "America/Los_Angeles" --currency "USD"'
+            . ' --admin_lastname Smith --admin_firstname John --admin_email 123@gmail.com --admin_username "admin"'
+            . ' --admin_password "123123q"',
             '***************************************************' . "\n",
         ];
     }
