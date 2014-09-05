@@ -9,7 +9,8 @@
  */
 namespace Magento\Core\Model\Asset;
 
-class ConfigTest extends \Magento\Test\BaseTestCase {
+class ConfigTest extends \Magento\Test\BaseTestCase
+{
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Config\ScopeConfigInterface
