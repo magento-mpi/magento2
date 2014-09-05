@@ -35,11 +35,11 @@
    * Fixed an issue where trying to a new rating resulted in a fatal error
    * Fixed an issue where the minimum order amount was compared with subtotal without taxes
    * Fixed an issue where it was impossible to open the previous step during Onepage Checkout
-   * Fixed an issue with Persistent Shopping Cart where an unexpected message was displayed during checkout if a user started the checkout  after the short-term cookie had expired.
+   * Fixed an issue with Persistent Shopping Cart where an unexpected message was displayed during checkout if a user started the checkout  after the short-term cookie had expired
    * Fixed an issue where a customer was redirected to the shopping cart after selecting shipping method during checkout with a payment method using 3D Secure
    * Fixed an issue where the Cart Item service used itemSku instead itemId
    * Fixed an issue where gift messages for individual items were not saved during backend order creation
-   * Fixed an issue where the Purchase Order Number input field was not displayed in Onepage checkout  if only one payment method was enabled
+   * Fixed an issue where the Purchase Order Number input field was not displayed in Onepage Checkout  if only one payment method was enabled
  * GitHub requests:
    * [#446] (https://github.com/magento/magento2/issues/446) -- Rounding different in order to original quote calculation
 
