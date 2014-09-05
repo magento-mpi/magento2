@@ -143,9 +143,11 @@ class Handler
             $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $value instanceof AbstractSimpleObject
-                    ? $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray())
-                    : $value;
+                if ($value instanceof AbstractSimpleObject) {
+                    $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray());
+                } else {
+                    $result[$key] = $value;
+                }
             }
         } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;
