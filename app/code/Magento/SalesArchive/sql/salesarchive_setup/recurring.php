@@ -7,6 +7,7 @@
  */
 
 use Magento\SalesArchive\Model\Resource\Synchronizer;
+
 require_once __DIR__ . '/../../Model/Resource/Synchronizer.php';
 
 $synchronizer = new Synchronizer($this);
