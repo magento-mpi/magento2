@@ -10,19 +10,6 @@
 <?php /** @var \Magento\Framework\Pricing\Render\Amount $this */ ?>
 
 <span class="price-container <?php echo $this->getAdjustmentCssClasses() ?>">
-<?php if ($this->getPriceDisplayLabel()): ?>
-    <?php if ($this->getDisplayLabel()): ?>
-        <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
-    <?php endif; ?>
-    <?php if ($this->hasAdjustmentsHtml()): ?>
-        <?php echo $this->getAdjustmentsHtml() ?>
-    <?php endif; ?>
-        <span<?php if ($this->getPriceId()): ?> id="<?php echo $this->getPriceId() ?>"<?php endif;?>
-            <?php echo ($this->getPriceDisplayLabel()) ? 'data-label="' . $this->getPriceDisplayLabel() . $this->getPriceDisplayInclExclTaxes() . '"' : '' ?>
-              class="price-wrapper <?php echo $this->getPriceWrapperCss(); ?>">
-        <?php echo $this->convertAndFormatCurrency($this->getDisplayValue(), (bool)$this->getIncludeContainer()) ?>
-    </span>
-<?php else: ?>
     <?php if ($this->getDisplayLabel()): ?>
         <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
     <?php endif; ?>
@@ -34,5 +21,4 @@
     <?php if ($this->hasAdjustmentsHtml()): ?>
         <?php echo $this->getAdjustmentsHtml() ?>
     <?php endif; ?>
-<?php endif; ?>
 </span>

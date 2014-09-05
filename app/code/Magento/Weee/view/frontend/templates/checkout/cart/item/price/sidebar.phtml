@@ -37,7 +37,7 @@
         <?php if ($this->displayFinalPrice()): ?>
             <div class="rate weee total">
                 <span class="label"><?php echo __('Total'); ?></span>
-                <span class="value"><?php echo $this->formatPrice($this->getFinalUnitDisplayPriceInclTax()); ?></span>
+                <?php echo $this->formatPrice($this->getFinalUnitDisplayPriceInclTax()); ?>
             </div>
         <?php endif; ?>
     <?php endif; ?>
@@ -71,7 +71,7 @@
         <?php if ($this->displayFinalPrice()): ?>
             <div class="rate weee total">
                 <span class="label"><?php echo __('Total'); ?></span>
-                <span class="value"><?php echo $this->formatPrice($this->getFinalUnitDisplayPriceExclTax()); ?></span>
+                <?php echo $this->formatPrice($this->getFinalUnitDisplayPriceExclTax()); ?>
             </div>
         <?php endif; ?>
     <?php endif; ?>
