@@ -45,18 +45,7 @@
     }
 
     .price-notice {
-        .price-including-tax,
-        .price-excluding-tax {
-            display: inline-block;
-        }
-        .price-including-tax + .price-excluding-tax {
-            &:before {
-                content: "("attr(data-label)": ";
-            }
-            &:after {
-                content:")";
-            }
-        }
+        &:extend(.abstract-adjustment-incl-excl-tax all);
     }
 
     .block-bundle-summary {
