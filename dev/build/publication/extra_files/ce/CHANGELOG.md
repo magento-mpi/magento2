@@ -14,8 +14,6 @@
  * Checkout API:
    * Create Shopping Cart Gift Message service
    * Create Shopping Cart Totals service
- * Framework Improvements:
-   * Moved Service infrastructure library classes from \Data\Eav to \Data, and renamed library Service Data objects to Extensible and Simple Abstract Object for more clarity. Made custom attribute codes cachable in extensible data object.
  * Fixed bugs:
    * Fixed an issue where  selecting a shipping method in PayPal Express Checkout resulted in a fatal error
    * Fixed an issue where the information displayed on the Payment Information step of Zero Subtotal Checkout was confusing
