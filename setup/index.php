@@ -6,8 +6,7 @@
  * @license   {license_link}
  */
 
-include "vendor/autoload.php";
-
+include __DIR__ . "/vendor/autoload.php";
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
