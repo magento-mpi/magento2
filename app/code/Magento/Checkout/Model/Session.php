@@ -107,8 +107,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $sessionName = null
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_orderFactory = $orderFactory;
         $this->_customerSession = $customerSession;
@@ -126,7 +125,7 @@ class Session extends \Magento\Framework\Session\SessionManager
             $cookieManager,
             $cookieMetadataFactory
         );
-        $this->start($sessionName);
+        $this->start();
     }
 
     /**

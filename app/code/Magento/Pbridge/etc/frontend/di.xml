@@ -16,7 +16,6 @@
     <type name="Magento\Pbridge\Model\Session">
         <arguments>
             <argument name="storage" xsi:type="object">Magento\Pbridge\Model\Session\Storage</argument>
-            <argument name="sessionName" xsi:type="string">frontend</argument>
         </arguments>
     </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
