@@ -42,7 +42,8 @@ interface PriceInterface
      *
      * @param float $amount
      * @param null|bool|string $exclude
+     * @param null|array $context
      * @return AmountInterface
      */
-    public function getCustomAmount($amount = null, $exclude = null);
+    public function getCustomAmount($amount = null, $exclude = null, $context = []);
 }
