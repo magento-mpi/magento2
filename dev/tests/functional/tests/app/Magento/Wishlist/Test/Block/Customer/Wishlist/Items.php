@@ -14,29 +14,27 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Items
- * Wishlist block
+ * Customer wishlist items block on frontend
  */
 class Items extends Block
 {
     /**
-     * Item product block
+     * Product name link selector
      *
      * @var string
      */
-    protected $itemBlock = '//li[.//a[contains(.,"%s")]]';
+    protected $productName = '//a[contains(@class,"product-item-link") and contains(.,"%s")]';
 
     /**
-     * Get item product block
+     * Check that product present in wishlist
      *
      * @param string $productName
-     * @return \Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product
+     * @return bool
      */
-    public function getItemProductByName($productName)
+    public function isProductPresent($productName)
     {
-        $productBlock = sprintf($this->itemBlock, $productName);
-        return $this->blockFactory->create(
-            'Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product',
-            ['element' => $this->_rootElement->find($productBlock, Locator::SELECTOR_XPATH)]
-        );
+        $productNameSelector = sprintf($this->productName, $productName);
+
+        return $this->_rootElement->find($productNameSelector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }

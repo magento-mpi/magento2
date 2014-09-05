@@ -10,37 +10,38 @@ namespace Magento\Wishlist\Test\TestCase;
 
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Wishlist\Test\Page\WishlistIndex;
-use Magento\Wishlist\Test\Page\WishlistShare;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 
 /**
- * Test Creation for ShareWishlistEntity
+ * Test creation for DeleteProductFromCustomerWishlistOnBackend
  *
  * Test Flow:
  *
  * Preconditions:
- * 1. Create Customer Account
+ * 1. Create customer
  * 2. Create product
+ * 3. Login to frontend as a customer
+ * 4. Add product to Wish List
  *
  * Steps:
- * 1. Login to frontend as a Customer
- * 2. Add product to Wish List
- * 3. Click "Share Wish List" button
- * 4. Fill in all data according to data set
- * 5. Click "Share Wishlist" button
- * 6. Perform all assertions
+ * 1. Go to Backend
+ * 2. Go to Customers > All Customers
+ * 3. Open the customer
+ * 4. Open wishlist tab
+ * 5. Click 'Delete'
+ * 6. Perform assertions
  *
  * @group Wishlist_(CS)
- * @ZephyrId MAGETWO-23394
+ * @ZephyrId MAGETWO-27813
  */
-class ShareWishlistEntityTest extends Injectable
+class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
 {
     /**
      * Cms index page
@@ -57,13 +58,6 @@ class ShareWishlistEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
-     * Customer account index page
-     *
-     * @var CustomerAccountIndex
-     */
-    protected $customerAccountIndex;
-
-    /**
      * Product view page
      *
      * @var CatalogProductView
@@ -78,37 +72,30 @@ class ShareWishlistEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
-     * Wishlist index page
+     * Page of all customer grid
      *
-     * @var WishlistIndex
+     * @var CustomerIndex
      */
-    protected $wishlistIndex;
+    protected $customerIndex;
 
     /**
-     * Wishlist share page
+     * Customer edit page
      *
-     * @var WishlistShare
+     * @var CustomerIndexEdit
      */
-    protected $wishlistShare;
+    protected $customerIndexEdit;
 
     /**
      * Prepare data
      *
      * @param CustomerInjectable $customer
-     * @param CatalogProductSimple $product
      * @return array
      */
-    public function __prepare(
-        CustomerInjectable $customer,
-        CatalogProductSimple $product
-    ) {
+    public function __prepare(CustomerInjectable $customer)
+    {
         $customer->persist();
-        $product->persist();
 
-        return [
-            'customer' => $customer,
-            'product' => $product
-        ];
+        return ['customer' => $customer];
     }
 
     /**
@@ -116,53 +103,58 @@ class ShareWishlistEntityTest extends Injectable
      *
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
-     * @param CustomerAccountIndex $customerAccountIndex
      * @param CustomerAccountLogout $customerAccountLogout
      * @param CatalogProductView $catalogProductView
-     * @param WishlistIndex $wishlistIndex
-     * @param WishlistShare $wishlistShare
+     * @param CustomerIndex $customerIndex
+     * @param CustomerIndexEdit $customerIndexEdit
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
-        CustomerAccountIndex $customerAccountIndex,
         CustomerAccountLogout $customerAccountLogout,
         CatalogProductView $catalogProductView,
-        WishlistIndex $wishlistIndex,
-        WishlistShare $wishlistShare
+        CustomerIndex $customerIndex,
+        CustomerIndexEdit $customerIndexEdit
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
-        $this->customerAccountIndex = $customerAccountIndex;
         $this->customerAccountLogout = $customerAccountLogout;
         $this->catalogProductView = $catalogProductView;
-        $this->wishlistIndex = $wishlistIndex;
-        $this->wishlistShare = $wishlistShare;
+        $this->customerIndex = $customerIndex;
+        $this->customerIndexEdit = $customerIndexEdit;
+
     }
 
     /**
-     * Share wish list
+     * Delete product from customer wishlist on backend
      *
      * @param Browser $browser
      * @param CustomerInjectable $customer
-     * @param CatalogProductSimple $product
-     * @param array $sharingInfo
-     * @return void
+     * @param FixtureFactory $fixtureFactory
+     * @param string $product
+     * @return array
      */
-    public function test(
-        Browser $browser,
-        CustomerInjectable $customer,
-        CatalogProductSimple $product,
-        array $sharingInfo
-    ) {
-        //Steps
+    public function test(Browser $browser, CustomerInjectable $customer, FixtureFactory $fixtureFactory, $product)
+    {
+        $this->markTestIncomplete('MAGETWO-27949');
+        //Preconditions
+        list($fixture, $dataSet) = explode('::', $product);
+        $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+        $product->persist();
         $this->loginCustomer($customer);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->addToWishlist();
-        $this->wishlistIndex->getWishlistBlock()->clickShareWishList();
-        $this->wishlistShare->getSharingInfoForm()->fillForm($sharingInfo);
-        $this->wishlistShare->getSharingInfoForm()->shareWishlist();
+
+        //Steps
+        $this->customerIndex->open();
+        $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
+        $customerForm = $this->customerIndexEdit->getCustomerForm();
+        $customerForm->openTab('wishlist');
+        $filter = ['product_name' => $product->getName()];
+        $customerForm->getTabElement('wishlist')->getSearchGridBlock()->searchAndDelete($filter);
+
+        return ['product' => $product];
     }
 
     /**
@@ -175,7 +167,7 @@ class ShareWishlistEntityTest extends Injectable
     {
         $this->cmsIndex->open();
         if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
+            $this->cmsIndex->getLinksBlock()->openLink('Log In');
             $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
     }
