@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yuxzheng
- * Date: 8/21/14
- * Time: 4:06 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Framework\Service\Data;
