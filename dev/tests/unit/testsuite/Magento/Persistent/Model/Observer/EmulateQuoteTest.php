@@ -146,7 +146,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
         $this->model->execute($this->observerMock);
     }
 
-    public function testExecuteWhenShoppingCartIsPersist()
+    public function testExecuteWhenShoppingCartIsPersistent()
     {
         $customerId = 1;
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
@@ -183,7 +183,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
         $this->model->execute($this->observerMock);
     }
 
-    public function testExecuteWhenShoppingCartIsNotPersist()
+    public function testExecuteWhenShoppingCartIsNotPersistent()
     {
         $this->helperMock
             ->expects($this->once())
@@ -206,7 +206,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
         $this->model->execute($this->observerMock);
     }
 
-    public function testExecuteWhenShoppingCartIsPersistAndQuoteExist()
+    public function testExecuteWhenShoppingCartIsPersistentAndQuoteExist()
     {
         $customerId = 1;
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);

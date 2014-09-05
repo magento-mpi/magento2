@@ -91,7 +91,7 @@ class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
         $this->model->execute($this->observerMock);
     }
 
-    public function testExecuteWhenBlockIsNotExist()
+    public function testExecuteWhenBlockDoesNotExist()
     {
         $this->sessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
         $this->customerSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
@@ -101,7 +101,7 @@ class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
         $this->model->execute($this->observerMock);
     }
 
-    public function testExecuteWhenConfigFilePathIsNotExists()
+    public function testExecuteWhenConfigFilePathDoesNotExist()
     {
         $this->sessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
         $this->customerSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
