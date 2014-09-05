@@ -70,9 +70,9 @@ class EmulationTest extends \Magento\Test\BaseTestCase
         $this->viewDesignMock = $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface');
 
         // Stubs
-        $this->basicStub($this->designMock, 'loadChange')->willReturnSelf();
-        $this->basicStub($this->designMock, 'getData')->willReturn(false);
-        $this->basicStub($this->translateMock, 'setLocale')->willReturnSelf();
+        $this->designMock->expects($this->any())->method('loadChange')->willReturnSelf();
+        $this->designMock->expects($this->any())->method('getData')->willReturn(false);
+        $this->translateMock->expects($this->any())->method('setLocale')->willReturnSelf();
 
         // Prepare SUT
         $this->model = $this->objectManager->getObject('Magento\Core\Model\App\Emulation',
@@ -105,14 +105,14 @@ class EmulationTest extends \Magento\Test\BaseTestCase
 
         // Stubs
 
-        $this->basicStub($this->inlineTranslationMock, 'isEnabled')->willReturn($inlineTranslate);
-        $this->basicStub($this->viewDesignMock, 'getArea')->willReturn($initArea);
-        $this->basicStub($this->viewDesignMock, 'getDesignTheme')->willReturn($initTheme);
-        $this->basicStub($this->storeManagerMock, 'getStore')->willReturn($initStore);
-        $this->basicStub($this->localeResolverMock, 'getLocaleCode')->willReturn($initLocale);
-        $this->basicStub($this->inlineConfigMock, 'isActive')->willReturn($newInlineTranslate);
-        $this->basicStub($this->viewDesignMock, 'getConfigurationDesignTheme')->willReturn($newDesignData);
-        $this->basicStub($this->scopeConfigMock, 'getValue')->willReturn($newLocale);
+        $this->inlineTranslationMock->expects($this->any())->method('isEnabled')->willReturn($inlineTranslate);
+        $this->viewDesignMock->expects($this->any())->method('getArea')->willReturn($initArea);
+        $this->viewDesignMock->expects($this->any())->method('getDesignTheme')->willReturn($initTheme);
+        $this->storeManagerMock->expects($this->any())->method('getStore')->willReturn($initStore);
+        $this->localeResolverMock->expects($this->any())->method('getLocaleCode')->willReturn($initLocale);
+        $this->inlineConfigMock->expects($this->any())->method('isActive')->willReturn($newInlineTranslate);
+        $this->viewDesignMock->expects($this->any())->method('getConfigurationDesignTheme')->willReturn($newDesignData);
+        $this->scopeConfigMock->expects($this->any())->method('getValue')->willReturn($newLocale);
 
         // Expectations
         $this->once();
@@ -133,7 +133,7 @@ class EmulationTest extends \Magento\Test\BaseTestCase
     {
         $inlineTranslation = true;
 
-        $this->basicStub($this->inlineConfigMock, 'isActive')->willReturn($inlineTranslation);
+        $this->inlineConfigMock->expects($this->any())->method('isActive')->willReturn($inlineTranslation);
 
         $this->inlineTranslationMock->expects($this->once())
             ->method('suspend')
@@ -148,7 +148,7 @@ class EmulationTest extends \Magento\Test\BaseTestCase
         $area = 'backend';
         $newDesignData = ['array', 'with', 'data'];
 
-        $this->basicStub($this->viewDesignMock, 'getConfiguratioNDesignTheme')->willReturn($newDesignData);
+        $this->viewDesignMock->expects($this->any())->method('getConfiguratioNDesignTheme')->willReturn($newDesignData);
 
         $this->viewDesignMock->expects($this->once())
             ->method('setDesignTheme')

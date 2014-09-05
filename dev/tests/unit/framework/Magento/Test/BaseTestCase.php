@@ -26,22 +26,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = new ObjectManager($this);
     }
-
-    /**
-     * Generate a basic method stub
-     *
-     * @param \PHPUnit_Framework_MockObject_MockObject $mock
-     * @param string $method
-     *
-     * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
-     */
-    protected function basicStub($mock, $method)
-    {
-        return $mock->expects($this->any())
-            ->method($method)
-            ->withAnyParameters();
-    }
-
+    
     /**
      * Build a basic mock object
      *
