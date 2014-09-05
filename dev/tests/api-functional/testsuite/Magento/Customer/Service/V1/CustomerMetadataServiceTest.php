@@ -204,7 +204,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetCustomAddressAttributeMetadata($expectedMetadata)
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/address/custom",
@@ -274,7 +274,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetCustomCustomerAttributeMetadata($expectedMetadata)
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/customer/custom",
@@ -335,7 +335,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAttributes($entityType, $formCode, $expectedMetadata)
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$formCode/form",
@@ -402,7 +402,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllAttributeSetMetadata($entityType, $attributeSetId, $storeId, $expectedMetadata)
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$attributeSetId/attributeSet/$storeId/store",
