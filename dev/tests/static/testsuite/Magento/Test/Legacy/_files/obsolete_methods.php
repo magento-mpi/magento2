@@ -1900,4 +1900,5 @@ return array(
     ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['getMethodFormBlock', 'Magento\Centinel\Helper\Data'],
+    ['login', 'Magento\Customer\Model\Session'],
 );

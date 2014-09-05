@@ -172,6 +172,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
             return;
         }
 
+        $this->_session->regenerateId();
+
         try {
             $customer = $this->customerExtractor->extract('customer_account_create', $this->_request);
             $address = $this->_extractAddress();
