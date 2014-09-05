@@ -28,7 +28,7 @@ class ChildrenCategoriesProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->category = $this->getMockBuilder('Magento\Catalog\Model\Category')
             ->disableOriginalConstructor()
-            ->setMethods(['getPath', 'getResourceCollection', 'getResource', 'getLevel'])->getMock();
+            ->setMethods(['getPath', 'getResourceCollection', 'getResource', 'getLevel', '__wakeup'])->getMock();
         $categoryCollection = $this->getMockBuilder(
             'Magento\Catalog\Model\Resource\Collection\AbstractCollection'
         )->disableOriginalConstructor()->setMethods(['addAttributeToSelect', 'addIdFilter'])->getMock();
