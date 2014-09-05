@@ -223,7 +223,7 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * Set guest-view cookie
      *
-     * @param $cookieValue
+     * @param string $cookieValue
      * @return void
      */
     private function setGuestViewCookie($cookieValue)
