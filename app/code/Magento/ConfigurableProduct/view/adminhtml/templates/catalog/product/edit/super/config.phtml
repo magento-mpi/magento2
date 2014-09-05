@@ -70,8 +70,7 @@ require([
         },
         enableElement = function (element) {
             if (!isLocked(element)) {
-            element.removeProp('disabled').trigger('change');
-
+                element.removeProp('disabled').trigger('change');
             }
         };
 
@@ -84,6 +83,7 @@ require([
             attributesInput.prop('disabled', false);
 
             disableElement(qtyField);
+            stockAvailabilityField.val(1);
             enableElement(stockAvailabilityField);
 
             $.each($.mage.variationsAttributes($('#configurable-attributes-container')).getAttributes(), function() {

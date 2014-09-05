@@ -185,8 +185,10 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
                             $('[data-tab-panel=product-details]').trigger(stockBeforeDisable);
                             if (stockBeforeDisable.result !== false) {
                                 var manageStockValue = (qty.val() === '') ? 0 : 1;
-                                stockAvailabilityField.prop('disabled', !manageStockValue);
-                                $('#' + fieldsAssociations['{$inStockFieldId}']).prop('disabled', !manageStockValue);
+                                stockAvailabilityField.prop('disabled', !manageStockValue).val(manageStockValue);
+                                $('#' + fieldsAssociations['{$inStockFieldId}'])
+                                    .prop('disabled', !manageStockValue)
+                                    .val(manageStockValue);
                                 if (manageStockField.val() != manageStockValue && !(event && event.type == 'keyup')) {
                                     if (useConfigManageStockField.val() == 1) {
                                         useConfigManageStockField.removeAttr('checked').val(0);

@@ -9,7 +9,8 @@
 <script type="text/javascript">
 require(['jquery'], function($){
     $('[data-tab-panel=product-details]').on('stockbeforedisable', function(e) {
-        if ($('[data-panel=product-variations]').is('.opened')) {
+        if ($('[data-panel=product-variations]').is('.opened') || e.productType === 'configurable') {
+            e.stopImmediatePropagation();
             return false;
         }
     });
