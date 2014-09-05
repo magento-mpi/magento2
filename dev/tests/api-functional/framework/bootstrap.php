@@ -65,5 +65,18 @@ if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'ena
     }
 }
 
+/** Clear all existing generated documentation */
+if (defined('GENERATE_REST_DOCUMENTATION') && GENERATE_REST_DOCUMENTATION) {
+    $pathToRestDocumentation = realpath(__DIR__ . '/../var/log/rest-documentation');
+    if ($pathToRestDocumentation) {
+        $files = glob("{$pathToRestDocumentation}/*");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+    }
+}
+
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
 unset($bootstrap, $installCmd, $installConfigFile, $installConfig, $installExitCode);

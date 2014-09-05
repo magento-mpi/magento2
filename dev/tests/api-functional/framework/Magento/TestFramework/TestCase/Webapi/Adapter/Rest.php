@@ -92,7 +92,45 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             default:
                 throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");
         }
+        if (defined('GENERATE_REST_DOCUMENTATION') && GENERATE_REST_DOCUMENTATION) {
+            $this->generateDocumentation($httpMethod, $resourcePath, $arguments, $response);
+        }
+
         return $response;
+    }
+
+    /**
+     * Generate documentation based on request-response data during REST requests.
+     *
+     * @param string $httpMethod
+     * @param string $resourcePath
+     * @param array $arguments
+     * @param array $response
+     */
+    protected function generateDocumentation($httpMethod, $resourcePath, $arguments, $response)
+    {
+        $arguments = json_encode($arguments, JSON_PRETTY_PRINT);
+        $response = json_encode($response, JSON_PRETTY_PRINT);
+        $varDir = realpath(__DIR__ . '/../../../../../../var');
+        $documentationDir = $varDir . '/log/rest-documentation/';
+        if (!file_exists($documentationDir)) {
+            if (!mkdir($documentationDir, 0777, true)) {
+                throw new \RuntimeException('Unable to create missing directory for REST documentation generation');
+            }
+        }
+        $fileName = $httpMethod . '--' . str_replace('/', '--', trim($resourcePath, '/'));
+        $filePath = $documentationDir . $fileName . '.txt';
+        if ($resourcePath && $arguments && $response) {
+            if (!is_writable(dirname($filePath))) {
+                throw new \RuntimeException('Directory for documentation generation is not writable.');
+            }
+            $content = '';
+            if (!file_exists($filePath)) {
+                $content .= "{$httpMethod} {$resourcePath}";
+            }
+            $content .= "\n\n\nInput:\n{$arguments}\nOutput:\n{$response}";
+            file_put_contents($filePath, $content, FILE_APPEND);
+        }
     }
 
     /**
