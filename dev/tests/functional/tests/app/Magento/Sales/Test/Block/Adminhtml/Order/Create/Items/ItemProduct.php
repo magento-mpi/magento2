@@ -30,7 +30,7 @@ class ItemProduct extends Block
             'action' => 'getText'
         ],
         'price' => [
-            'selector' => '.col-price span',
+            'selector' => '.col-price span.price',
             'strategy' => Locator::SELECTOR_CSS,
             'input' => null,
             'action' => 'getText'
