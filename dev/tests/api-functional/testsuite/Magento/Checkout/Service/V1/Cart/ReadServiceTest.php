@@ -14,8 +14,6 @@ use \Magento\Framework\Service\V1\Data\FilterBuilder;
 use \Magento\TestFramework\ObjectManager;
 use \Magento\Checkout\Service\V1\Data\Cart;
 use \Magento\Framework\Service\V1\Data\SearchCriteria;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -235,58 +233,5 @@ class ReadServiceTest extends WebapiAbstract
         $searchCriteria = $this->searchBuilder->create()->__toArray();
         $requestData = array('searchCriteria' => $searchCriteria);
         $this->_webApiCall($serviceInfo, $requestData);
-    }
-
-    /**
-     * Adjust response details for SOAP protocol
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function formatTotalsData($data)
-    {
-        foreach ($data as $key => $field) {
-            if (is_numeric($field)) {
-                $data[$key] = round($field, 1);
-                if ($data[$key] === null) {
-                    $data[$key] = 0.0;
-                }
-            }
-        }
-
-        unset($data[Totals::BASE_SUBTOTAL_INCL_TAX]);
-
-        return $data;
-    }
-
-    /**
-     * Fetch quote item totals data from quote
-     *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return array
-     */
-    protected function getQuoteItemTotalsData(\Magento\Sales\Model\Quote $quote)
-    {
-        $items = $quote->getAllItems();
-        $item = array_shift($items);
-
-        return [
-            ItemTotals::PRICE => $item->getPrice(),
-            ItemTotals::BASE_PRICE => $item->getBasePrice(),
-            ItemTotals::QTY => $item->getQty(),
-            ItemTotals::ROW_TOTAL => $item->getRowTotal(),
-            ItemTotals::BASE_ROW_TOTAL => $item->getBaseRowTotal(),
-            ItemTotals::ROW_TOTAL_WITH_DISCOUNT => $item->getRowTotalWithDiscount(),
-            ItemTotals::TAX_AMOUNT => $item->getTaxAmount(),
-            ItemTotals::BASE_TAX_AMOUNT => $item->getBaseTaxAmount(),
-            ItemTotals::TAX_PERCENT => $item->getTaxPercent(),
-            ItemTotals::DISCOUNT_AMOUNT => $item->getDiscountAmount(),
-            ItemTotals::BASE_DISCOUNT_AMOUNT => $item->getBaseDiscountAmount(),
-            ItemTotals::DISCOUNT_PERCENT => $item->getDiscountPercent(),
-            ItemTotals::PRICE_INCL_TAX => $item->getPriceInclTax(),
-            ItemTotals::BASE_PRICE_INCL_TAX => $item->getBasePriceInclTax(),
-            ItemTotals::ROW_TOTAL_INCL_TAX => $item->getRowTotalInclTax(),
-            ItemTotals::BASE_ROW_TOTAL_INCL_TAX => $item->getBaseRowTotalInclTax(),
-        ];
     }
 }
