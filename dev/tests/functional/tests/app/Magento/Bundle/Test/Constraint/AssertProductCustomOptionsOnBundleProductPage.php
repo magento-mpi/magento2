@@ -8,6 +8,7 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertProductCustomOptionsOnProductPage;
@@ -30,12 +31,15 @@ class AssertProductCustomOptionsOnBundleProductPage extends AssertProductCustomO
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
+     * @param Browser $browser
      * @return void
      */
-    protected function openProductPage(CatalogProductView $catalogProductView, FixtureInterface $product)
-    {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+    protected function openProductPage(
+        CatalogProductView $catalogProductView,
+        FixtureInterface $product,
+        Browser $browser
+    ) {
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $catalogProductView->getViewBlock()->clickCustomize();
     }
 }

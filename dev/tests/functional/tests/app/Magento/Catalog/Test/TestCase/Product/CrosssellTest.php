@@ -49,20 +49,19 @@ class CrosssellTest extends Functional
         $configurable->switchData('configurable');
         $configurable->persist();
 
-        $this->addCrosssellProducts($simple1, array($simple2, $configurable));
-        $this->addCrosssellProducts($configurable, array($simple1, $simple2));
+        $this->addCrosssellProducts($simple1, [$simple2, $configurable]);
+        $this->addCrosssellProducts($configurable, [$simple1, $simple2]);
 
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($simple1);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $simple1->getUrlKey() . '.html');
         $productPage->getViewBlock()->addToCart($simple1);
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
 
         $cartBlock = $checkoutCartPage->getCartBlock();
@@ -86,11 +85,10 @@ class CrosssellTest extends Functional
         $crosssellBlock->clickLink($configurable);
 
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($configurable);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $configurable->getUrlKey() . '.html');
         $productPage->getViewBlock()->addToCart($configurable);
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $cartBlock = $checkoutCartPage->getCartBlock();
         $this->assertTrue($cartBlock->isProductInShoppingCart($configurable));
         $this->assertTrue($cartBlock->isProductInShoppingCart($simple1));
@@ -99,11 +97,10 @@ class CrosssellTest extends Functional
         $crosssellBlock->clickLink($simple2);
 
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($simple2);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $simple2->getUrlKey() . '.html');
         $productPage->getViewBlock()->addToCart($simple2);
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $cartBlock = $checkoutCartPage->getCartBlock();
         $this->assertTrue($cartBlock->isProductInShoppingCart($configurable));
         $this->assertTrue($cartBlock->isProductInShoppingCart($simple1));
@@ -129,7 +126,7 @@ class CrosssellTest extends Functional
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $product->getProductSku()));
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $product->getProductSku()]);
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($crosssellFixture);
         $editProductPage->getFormAction()->save();

@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/reward_rate/new" >
-    <block>
-        <name>rewardRateForm</name>
-        <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardRateForm</class>
-        <locator>#edit_form</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/reward_rate/new" module="Magento_Reward">
+    <blocks>
+        <rewardRateForm>
+            <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardRateForm</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </rewardRateForm>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+    </blocks>
 </page>
