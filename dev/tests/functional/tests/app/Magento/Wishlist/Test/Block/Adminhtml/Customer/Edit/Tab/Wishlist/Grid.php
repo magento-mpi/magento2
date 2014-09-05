@@ -33,7 +33,7 @@ class Grid extends ParentGrid
      *
      * @var string
      */
-    protected $deleteLink = '//a[contains(.,"Delete")]';
+    protected $deleteLink = 'a[onclick*="removeItem"]';
 
     /**
      * Search item and delete it
@@ -46,7 +46,7 @@ class Grid extends ParentGrid
     {
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
-        $rowItem->find($this->deleteLink, Locator::SELECTOR_XPATH)->click();
+        $rowItem->find($this->deleteLink, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->acceptAlert();
     }
 }
