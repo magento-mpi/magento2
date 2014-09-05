@@ -65,7 +65,7 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
      */
     public function create(ProductModel $product, Product $productData)
     {
-        return $productData->getSku();
+        return $product->getSku();
     }
 
     /**
