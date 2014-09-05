@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
- * Class AssertRewardPointsRemoveSuccessMessage
+ * Class AssertRewardPointsSuccessRemoveMessage
  * Assert that after remove reward points successful message appears
  */
-class AssertRewardPointsRemoveSuccessMessage extends AbstractConstraint
+class AssertRewardPointsSuccessRemoveMessage extends AbstractConstraint
 {
     /**
      * Message displayed after remove reward points

@@ -29,8 +29,8 @@ class Reward extends AbstractRepository
             'points_delta' => 50,
         ];
 
-        $this->_data['reward_points_100'] = [
-            'points_delta' => 100,
+        $this->_data['reward_points_150'] = [
+            'points_delta' => 150,
         ];
     }
 }
