@@ -1,49 +1,49 @@
 0.1.0-alpha94
 =============
- * Implemented API services
-   * Sales transactions (MAGETWO-25670)
- * Added the following functional tests
-   * Create Store Group (MTA-377)
-   * Customer Review Report (MTA-276)
-   * Delete Store Group (MTA-383)
-   * Update Store Group (MTA-380)
- * Improved error reporting when ini_set fails (MAGETWO-27523)
- * Increased coverage for the following Magento modules with unit tests (MAGETWO-26103)
+ * Implemented API services:
+   * Sales transactions
+ * Added the following functional tests:
+   * Create Store Group
+   * Customer Review Report
+   * Delete Store Group
+   * Update Store Group
+ * Improved error reporting when ini_set fails
+ * Increased unit test coverage for the following modules:
    * SalesRule
- * Tests coverage
-   * Increased unit tests coverage of Payment module (MAGETWO-26209)
- * Checkout API
-   * Create Shopping Cart Gift Message Service (MAGETWO-25977)
-   * Create Shopping Cart Totals service (MAGETWO-25979)
- * Framework Improvements
-   * Moved Service infra library classes from \Data\Eav to \Data and renamed library Service Data objects to Extensible and Simple Abstract Object for more clarity. Made custom attribute codes cachable in extensible data object.
+   * Payment
+ * Checkout API:
+   * Create Shopping Cart Gift Message service
+   * Create Shopping Cart Totals service
+ * Framework Improvements:
+   * Moved Service infrastructure library classes from \Data\Eav to \Data, and renamed library Service Data objects to Extensible and Simple Abstract Object for more clarity. Made custom attribute codes cachable in extensible data object.
  * Fixed bugs:
-   * "Fatal error: Call to a member function setQuote() on a non-object" after selecting shipping method on PayPal Express Checkout (MAGETWO-27945)
-   * Behavior of "Zero Subtotal Checkout" confuses customers during placing order (MAGETWO-26870)
-   * JS error while creating the shipping label (MAGETWO-27695)
-   * Wrong layout on frontend pages (MAGETWO-27687)
-   * [MAGETWO-18665] [GITHUB] rounding different in order to original quote calculation
-   * [MAGETWO-24822] Price incl tax is incorrect on catalog page when customer tax rate is different from store tax rate
-   * [MAGETWO-27600] FPT is not included in grand total when 'Include FPT in Subtotal' is set to Yes
-   * [MAGETWO-27590] Shipping Incl. Tax amount is not updated when changing shipping method
-   * [MAGETWO-27739] Store tax configuration is ignored when order from backend
-   * [MAGETWO-27747] Tax is not applied in shopping cart after registering customer
-   * [MAGETWO-27680] Wrong WEEE tax html markup is generated on My order pages
-   * Fixed built-in caching now works on product pages (MAGETWO-27058)
-   * Incompatibility with allow_url_fopen = Off (MAGETWO-9881)
-   * Backend New Return page layout is broken (MAGETWO-27667)
-   * Fixed It's impossible to apply specific coupon code when option "Apply to Shipping Amount" set to Yes in Shopping Cart Rule (MAGETWO-26852)
-   * Fixed Remove file paths/content from testcase names in data-driven tests (MAGETWO-26286)
-   * Fixed Pagination is absent on Order Status grid (MAGETWO-23560)
-   * Fixed Promo Code with shopping cart displays incorrectly information when changing currencies (MAGETWO-5392)
-   * Fixed Fatal error 'No element found with ID 'left'.' while creating new rating (MAGETWO-27663)
-   * Fixed The minimum order amount are compared with subtotal without taxes (MAGETWO-5450)
-   * It's impossible to open previous step during Onepage Checkout (MAGETWO-27543)
-   * Persistent Shopping Cart: Unexpected msg 'Wish List could not be created.' is present during checkout if user starts it after short-term cookie session was ended (MAGETWO-27638)
-   * Customer is redirected to shopping cart after selecting shipping method while placing order using payment method with 3D Secure (MAGETWO-27658)
-   * Cart Item service should use itemId instead itemSku (MAGETWO-27583)
-   * Gift messages for individual items aren't saved while crating Order from backend (MAGETWO-27158)
-   * "Purchase Order Number" input field is absent on Onepage checkout if there is only one payment method (MAGETWO-27446)
+   * Fixed an issue where  selecting a shipping method in PayPal Express Checkout resulted in a fatal error
+   * Fixed an issue where the information displayed on the Payment Information step of Zero Subtotal Checkout was confusing
+   * Fixed a JavaScript error in shipping label
+   * Fixed an issue with wrong layout of the storefront pages
+   * Fixed an issue where the price including tax value was incorrect on catalog pages when customer tax rate is different from store tax rate
+   * Fixed an issue where fixed product tax (FPT) was not included in the Grand total when 'Include FPT in Subtotal' was set to Yes
+   * Fixed an issue where Shipping Incl. Tax amount was not updated when changing shipping method
+   * Fixed an issue where the store tax configuration was ignored during backend order creation
+   * Fixed an issue where taxes were not applied in the shopping cart after registering customer on the storefront
+   * Fixed an issue where the wrong html markup was generated on My order pages for the WEEE tax
+   * Fixed an issue where the built-in caching did not work on product pages
+   * Removed the stream resource usage to avoid errors when  the allow_url_fopen PHP option is set to Off
+   * Fixed the New Return page layout on the backend
+   * Fixed an issue where  it was impossible to apply a specific coupon code when the Apply to Shipping Amount option of the Shopping Cart Rule was set to Yes
+   * Removed file paths/content from test case names in data-driven tests
+   * Fixed an issue where pagination was absent in the  Order Status grid
+   * Fixed an issue where after applying a discount coupon and changing the currency the discount value was incorrect
+   * Fixed an issue where trying to a new rating resulted in a fatal error
+   * Fixed an issue where the minimum order amount was compared with subtotal without taxes
+   * Fixed an issue where it was impossible to open the previous step during Onepage Checkout
+   * Fixed an issue with Persistent Shopping Cart where an unexpected message was displayed during checkout if a user started the checkout  after the short-term cookie had expired.
+   * Fixed an issue where a customer was redirected to the shopping cart after selecting shipping method during checkout with a payment method using 3D Secure
+   * Fixed an issue where the Cart Item service used itemSku instead itemId
+   * Fixed an issue where gift messages for individual items were not saved during backend order creation
+   * Fixed an issue where the Purchase Order Number input field was not displayed in Onepage checkout  if only one payment method was enabled
+ * GitHub requests:
+   * [#446] (https://github.com/magento/magento2/issues/446) -- Rounding different in order to original quote calculation
 
 0.1.0-alpha93
 =============
