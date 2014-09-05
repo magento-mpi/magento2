@@ -21,8 +21,8 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
      */
     public function testInvalidateSingleToken()
     {
-        /** @var \Magento\Integration\Service\V1\TokenService $tokenService */
-        $tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\TokenService');
+        /** @var \Magento\Integration\Service\V1\AdminTokenService $tokenService */
+        $tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\AdminTokenService');
         /** @var \Magento\Integration\Model\Oauth\Token $tokenModel */
         $tokenModel = Bootstrap::getObjectManager()->get('Magento\Integration\Model\Oauth\Token');
         /** @var \Magento\User\Model\User $userModel */
@@ -47,8 +47,8 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
      */
     public function testInvalidateMultipleTokens()
     {
-        /** @var \Magento\Integration\Service\V1\TokenService $tokenService */
-        $tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\TokenService');
+        /** @var \Magento\Integration\Service\V1\AdminTokenService $tokenService */
+        $tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\AdminTokenService');
         /** @var \Magento\User\Model\User $userModel */
         $userModel = Bootstrap::getObjectManager()->get('Magento\User\Model\User');
 

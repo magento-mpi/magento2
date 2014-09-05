@@ -8,26 +8,20 @@
 
 namespace Magento\Integration\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerAccountService;
 use Magento\Framework\Exception\InputException;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\User\Model\User as UserModel;
 
 /**
- * Test class for \Magento\Integration\Service\V1\TokenService.
+ * Test class for \Magento\Integration\Service\V1\AdminTokenService.
  */
-class TokenServiceTest extends \PHPUnit_Framework_TestCase
+class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var TokenServiceInterface
+     * @var AdminTokenServiceInterface
      */
     private $tokenService;
-
-    /**
-     * @var CustomerAccountService
-     */
-    private $customerAccountService;
 
     /**
      * @var TokenModel
@@ -40,53 +34,13 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
     private $userModel;
 
     /**
-     * Setup TokenService
+     * Setup AdminTokenService
      */
     public function setUp()
     {
-        $this->tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\TokenService');
-        $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountService'
-        );
+        $this->tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\AdminTokenService');
         $this->tokenModel = Bootstrap::getObjectManager()->get('Magento\Integration\Model\Oauth\Token');
         $this->userModel = Bootstrap::getObjectManager()->get('Magento\User\Model\User');
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     */
-    public function testCreateCustomerAccessToken()
-    {
-        $customerUserName = 'customer@example.com';
-        $password = 'password';
-        $accessToken = $this->tokenService->createCustomerAccessToken($customerUserName, $password);
-        $customerData = $this->customerAccountService->authenticate($customerUserName, $password);
-        /** @var $token TokenModel */
-        $token = $this->tokenModel->loadByCustomerId($customerData->getId())->getToken();
-        $this->assertEquals($accessToken, $token);
-    }
-
-    /**
-     * @dataProvider validationDataProvider
-     */
-    public function testCreateCustomerAccessTokenEmptyOrNullCredentials($username, $password)
-    {
-        try {
-            $this->tokenService->createCustomerAccessToken($username, $password);
-        } catch (InputException $e) {
-            $this->assertInputExceptionMessages($e);
-        }
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
-     * @expectedExceptionMessage Invalid login or password.
-     */
-    public function testCreateCustomerAccessTokenInvalidCustomer()
-    {
-        $customerUserName = 'invalid';
-        $password = 'invalid';
-        $this->tokenService->createCustomerAccessToken($customerUserName, $password);
     }
 
     /**

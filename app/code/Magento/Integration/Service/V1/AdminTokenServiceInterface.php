@@ -13,9 +13,9 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Interface providing token generation for Admins and Customers
+ * Interface providing token generation for Admins
  */
-interface TokenServiceInterface
+interface AdminTokenServiceInterface
 {
     /**
      * Create access token for admin given the admin credentials.
@@ -30,13 +30,11 @@ interface TokenServiceInterface
     public function createAdminAccessToken($username, $password);
 
     /**
-     * Create access token for admin given the customer credentials.
+     * Revoke token by admin id.
      *
-     * @param string $username
-     * @param string $password
-     * @return string Token created
-     * @throws InputException For invalid input
-     * @throws AuthenticationException
+     * @param int $adminId
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function createCustomerAccessToken($username, $password);
+    public function revokeAdminAccessToken($adminId);
 }
