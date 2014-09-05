@@ -134,21 +134,18 @@ class TransactionListTest extends WebapiAbstract
     {
         $additionalInfo = [];
         foreach ($transaction->getAdditionalInformation() as $key => $value) {
-            $additionalInfo[] = [
-                'key' => $key,
-                'value' => $value
-            ];
+            $additionalInfo[$key] = $value;
         }
 
         $expectedData = [
-            'transaction_id' => $transaction->getId(),
-            'parent_id' => $transaction->getParentId(),
-            'order_id' => $transaction->getOrderId(),
-            'payment_id' => $transaction->getPaymentId(),
+            'transaction_id' => (int)$transaction->getId(),
+            'parent_id' => ($transaction->getParentId() ? (int)$transaction->getParentId() : ''),
+            'order_id' => (int)$transaction->getOrderId(),
+            'payment_id' => (int)$transaction->getPaymentId(),
             'txn_id' => $transaction->getTxnId(),
-            'parent_txn_id' => $transaction->getParentTxnId(),
+            'parent_txn_id' => ($transaction->getParentTxnId() ? (string)$transaction->getParentTxnId() : ''),
             'txn_type' => $transaction->getTxnType(),
-            'is_closed' => $transaction->getIsClosed(),
+            'is_closed' => (int)$transaction->getIsClosed(),
             'additional_information' => $additionalInfo,
             'created_at' => $transaction->getCreatedAt(),
             'increment_id' => '100000006',

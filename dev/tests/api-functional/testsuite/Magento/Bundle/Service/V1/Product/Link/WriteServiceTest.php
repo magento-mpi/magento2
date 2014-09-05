@@ -70,7 +70,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $linkedProduct = [
             'sku' => 'virtual-product',
-            'optionId' => $optionId,
+            'option_id' => $optionId,
             'position' => '1',
             'default' => 1,
             'priceType' => 2,
@@ -110,7 +110,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         ];
         return $this->_webApiCall(
             $serviceInfo,
-            ['productSku' => $productSku, 'linkedProduct' => $linkedProduct]
+            ['productSku' => $productSku, 'optionId' => $optionId, 'linkedProduct' => $linkedProduct]
         );
     }
 
