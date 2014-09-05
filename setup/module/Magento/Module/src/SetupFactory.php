@@ -94,7 +94,7 @@ class SetupFactory
             $moduleName,
             $this->configuration
         );
-        if(isset($this->configuration['db_prefix'])){
+        if (isset($this->configuration['db_prefix'])) {
             $setup->setTablePrefix($this->configuration['db_prefix']);
         }
 

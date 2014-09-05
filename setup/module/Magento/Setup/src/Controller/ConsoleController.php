@@ -328,11 +328,7 @@ class ConsoleController extends AbstractActionController
         $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
         $this->setupFactory->setConfig($this->config->getConfigData());
 
-        //Todo: this is not a good way to do that! However, we are going to refactor it in next story
-        $moduleNames = array_keys($this->moduleList);
-        foreach ($moduleNames as $moduleName) {
-            $setup = $this->setupFactory->create($moduleName);
-        }
+        $setup = $this->setupFactory->create('');
 
         $setup->addConfigData(
             'web/seo/use_rewrites',

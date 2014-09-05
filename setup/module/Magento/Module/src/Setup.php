@@ -698,6 +698,13 @@ class Setup implements SetupInterface
         return $this;
     }
 
+    /**
+     * Add configuration data to core_config_data table
+     *
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
     public function addConfigData($key, $value)
     {
         $this->getConnection()->insert(
