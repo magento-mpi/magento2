@@ -7,12 +7,17 @@
  */
 namespace Magento\SalesRule\Model;
 
+/**
+ * Class ValidatorTest
+ * @@SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $helper;
+
     /**
      * @var \Magento\SalesRule\Model\Validator
      */

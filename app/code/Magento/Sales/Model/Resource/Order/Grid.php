@@ -91,7 +91,7 @@ class Grid implements GridInterface
     {
         return $this->getConnection()->delete(
             $this->getGridTableName(),
-            [($field ?: 'sfo.entity_id') . ' = ?' => $value]
+            [($field ?: 'entity_id') . ' = ?' => $value]
         );
     }
 
