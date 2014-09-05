@@ -9,7 +9,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <move element="product.price.final" destination="product.info.form.options" before="product.info.giftcard"/>
-    <referenceBlock name="root">
+    <referenceBlock name="body.class">
         <action method="addBodyClass">
             <argument name="class" xsi:type="string">page-product-giftcard</argument>
         </action>
