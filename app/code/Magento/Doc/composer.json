@@ -1,14 +1,10 @@
 {
-    "name": "magento/module-design-editor",
+    "name": "magento/module-doc",
     "description": "N/A",
     "require": {
         "php": "~5.4.11|~5.5.0",
-        "magento/module-store": "0.1.0-alpha94",
-        "magento/module-theme": "0.1.0-alpha94",
-        "magento/module-backend": "0.1.0-alpha94",
         "magento/module-core": "0.1.0-alpha94",
-        "magento/module-eav": "0.1.0-alpha94",
-        "magento/module-url-rewrite": "0.1.0-alpha94",
+        "magento/module-theme": "0.1.0-alpha94",
         "magento/framework": "0.1.0-alpha94",
         "magento/magento-composer-installer": "*"
     },
@@ -18,7 +14,7 @@
         "map": [
             [
                 "*",
-                "Magento/DesignEditor"
+                "Magento/Doc"
             ]
         ]
     }
