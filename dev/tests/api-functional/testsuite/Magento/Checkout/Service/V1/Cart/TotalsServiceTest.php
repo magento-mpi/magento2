@@ -113,9 +113,9 @@ class TotalsServiceTest extends WebapiAbstract
     {
         return [
             'soap' => [
-                'service' => 'checkoutCartReadServiceV1',
+                'service' => 'checkoutCartTotalsServiceV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'checkoutCartReadServiceV1GetTotals',
+                'operation' => 'checkoutCartTotalsServiceV1GetTotals',
             ],
             'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId . '/totals',
