@@ -24,7 +24,7 @@ class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $failedItemProcessorMock;
+    protected $itemProcessorMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -39,13 +39,13 @@ class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->cartMock = $this->getMock('Magento\AdvancedCheckout\Model\Cart', [], [], '', false);
-        $this->failedItemProcessorMock =
+        $this->itemProcessorMock =
             $this->getMock('Magento\AdvancedCheckout\Model\FailedItemProcessor', [], [], '', false);
         $this->eventMock =
             $this->getMock('Magento\Framework\Event', ['getFullActionName', '__wakeup'], [], '', false);
         $this->observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
 
-        $this->model = new CollectTotalsFailedItems($this->cartMock, $this->failedItemProcessorMock);
+        $this->model = new CollectTotalsFailedItems($this->cartMock, $this->itemProcessorMock);
     }
 
     public function testExecuteWhenActionNameIsNotCheckoutCartItem()
@@ -63,7 +63,7 @@ class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
         $this->eventMock->expects($this->once())
             ->method('getFullActionName')->will($this->returnValue('checkout_cart_index'));
         $this->cartMock->expects($this->once())->method('getFailedItems')->will($this->returnValue([]));
-        $this->failedItemProcessorMock->expects($this->never())->method('process');
+        $this->itemProcessorMock->expects($this->never())->method('process');
 
         $this->model->execute($this->observerMock);
     }
@@ -74,7 +74,7 @@ class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
         $this->eventMock->expects($this->once())
             ->method('getFullActionName')->will($this->returnValue('checkout_cart_index'));
         $this->cartMock->expects($this->once())->method('getFailedItems')->will($this->returnValue(['not empty']));
-        $this->failedItemProcessorMock->expects($this->once())->method('process');
+        $this->itemProcessorMock->expects($this->once())->method('process');
 
         $this->model->execute($this->observerMock);
     }

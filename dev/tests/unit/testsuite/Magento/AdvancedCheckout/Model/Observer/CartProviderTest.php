@@ -37,6 +37,11 @@ class CartProviderTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $sessionMock;
+
+    /**
+     * @var int
+     */
+    protected $soreId = 12;
     
     protected function setUp()
     {
@@ -66,12 +71,12 @@ class CartProviderTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')->will($this->returnValue(null));
         $this->observerMock->expects($this->exactly(2))
             ->method('getSession')->will($this->returnValue($this->sessionMock));
-        $this->sessionMock->expects($this->once())->method('getStoreId')->will($this->returnValue(12));
+        $this->sessionMock->expects($this->once())->method('getStoreId')->will($this->returnValue($this->soreId));
         $this->cartMock->expects($this->once())->method('setSession')
             ->with($this->sessionMock)->will($this->returnValue($this->cartMock));
         $this->cartMock->expects($this->once())->method('setContext')
             ->with(Cart::CONTEXT_ADMIN_ORDER)->will($this->returnValue($this->cartMock));
-        $this->cartMock->expects($this->once())->method('setCurrentStore')->with(12);
+        $this->cartMock->expects($this->once())->method('setCurrentStore')->with($this->soreId);
 
         $this->model->get($this->observerMock);
     }
@@ -81,14 +86,14 @@ class CartProviderTest extends \PHPUnit_Framework_TestCase
         $this->observerMock->expects($this->once())
             ->method('getRequestModel')->will($this->returnValue($this->requestInterfaceMock));
         $this->requestInterfaceMock->expects($this->once())
-            ->method('getParam')->will($this->returnValue(13));
+            ->method('getParam')->will($this->returnValue($this->soreId));
         $this->observerMock->expects($this->once())
             ->method('getSession')->will($this->returnValue($this->sessionMock));
         $this->cartMock->expects($this->once())->method('setSession')
             ->with($this->sessionMock)->will($this->returnValue($this->cartMock));
         $this->cartMock->expects($this->once())->method('setContext')
             ->with(Cart::CONTEXT_ADMIN_ORDER)->will($this->returnValue($this->cartMock));
-        $this->cartMock->expects($this->once())->method('setCurrentStore')->with(13);
+        $this->cartMock->expects($this->once())->method('setCurrentStore')->with($this->soreId);
 
         $this->model->get($this->observerMock);
     }

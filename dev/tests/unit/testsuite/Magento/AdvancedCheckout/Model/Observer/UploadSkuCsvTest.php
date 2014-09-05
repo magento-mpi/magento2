@@ -65,7 +65,7 @@ class UploadSkuCsvTest extends \PHPUnit_Framework_TestCase
         $this->model = new UploadSkuCsv($this->checkoutDataMock, $this->cartProviderMock);
     }
 
-    public function testExecuteSkuFileUploadFalse()
+    public function testExecuteWhenSkuFileIsNotUploaded()
     {
         $requestInterfaceMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->observerMock->expects($this->once())
