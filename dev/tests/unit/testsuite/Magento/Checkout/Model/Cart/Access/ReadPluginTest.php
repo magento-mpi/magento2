@@ -33,7 +33,7 @@ class ReadPluginTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $userType
+     * @param int $userType
      * @dataProvider successTypeDataProvider
      */
     public function testBeforeGetCartSuccess($userType)
@@ -62,7 +62,7 @@ class ReadPluginTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $userType
+     * @param int $userType
      * @dataProvider successTypeDataProvider
      */
     public function testBeforeGetCartListSuccess($userType)

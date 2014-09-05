@@ -34,7 +34,7 @@ class WritePluginTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $userType
+     * @param int $userType
      * @dataProvider successTypeDataProvider
      */
     public function testBeforeCreateSuccess($userType)
