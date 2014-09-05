@@ -20,6 +20,10 @@ use Magento\Setup\Model\DatabaseCheck;
 use Magento\Setup\Model\FilePermissions;
 use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\AdminAccountFactory;
+use Zend\Console\Request as ConsoleRequest;
+use Zend\Console\Console;
+use Zend\EventManager\EventManagerInterface;
+use Zend\Stdlib\RequestInterface as Request;
 
 /**
  * Class ConsoleController
@@ -79,6 +83,13 @@ class ConsoleController extends AbstractActionController
     protected $adminAccountFactory;
 
     /**
+     * Console
+     *
+     * @var \Zend\Console\Console
+     */
+    protected $console;
+
+    /**
      * Default Constructor
      *
      * @param FilePermissions $filePermission
@@ -108,6 +119,28 @@ class ConsoleController extends AbstractActionController
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList->getModules();
         $this->adminAccountFactory = $adminAccountFactory;
+        $this->console = Console::getInstance();
+    }
+
+    /**
+     * Adding Check for Allowing only console application to come through
+     *
+     * @param  EventManagerInterface $events
+     * @return AbstractController
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        parent::setEventManager($events);
+        $controller = $this;
+        $events->attach('dispatch', function ($e) use ($controller) {
+            /** @var $e \Zend\Mvc\Controller\AbstractActionController */
+            // Make sure that we are running in a console and the user has not tricked our
+            // application into running this action from a public web server.
+            if (!$e->getRequest() instanceof ConsoleRequest) {
+                throw new \RuntimeException('You can only use this action from a console!');
+            }
+        }, 100); // execute before executing action logic
+        return $this;
     }
 
     /**
@@ -127,14 +160,13 @@ class ConsoleController extends AbstractActionController
     /**
      * Creates the local.xml file
      *
-     * @return string
      * @throws \Exception
      */
     public function installDeploymentConfigAction()
     {
-        //Validating that request is console based
+
+        $this->console->writeLine("Starting to install Deployment Configuration Data.");
         $request = $this->getRequest();
-        $this->validateConsoleRequest($request);
 
         //Checking license agreement
         $license   = $request->getParam('license_agreement_accepted');
@@ -184,31 +216,27 @@ class ConsoleController extends AbstractActionController
             ),
         );
 
-        $this->config->setConfigData($data);
+        $this->config->setConfigData($this->config->convertFromDataObject($data));
         //Creates Deployment Configuration
         $this->config->install();
-
-        return  "Completed: Deployment Configuration." . PHP_EOL;
+        $this->console->writeLine("Completed: Deployment Configuration.");
     }
 
     /**
      * Installs and updates database schema
      *
-     * @return string
      * @throws \Exception
      */
     public function installSchemaAction()
     {
-        //Validating that request is console based
+        $this->console->writeLine("Starting to install Schema");
         $request = $this->getRequest();
-        $this->validateConsoleRequest($request);
 
         //Setting the basePath of Magento application
         $magentoDir = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
-        $this->config->setConfigData([]);
-        $this->config->loadFromConfigFile();
+        $this->config->setConfigData($this->config->getConfigurationFromDeploymentFile());
         $this->setupFactory->setConfig($this->config->getConfigData());
 
         //List of All Module Names
@@ -218,28 +246,28 @@ class ConsoleController extends AbstractActionController
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
             $setup->applyUpdates();
+            $this->console->writeLine("Installed schema : " . $moduleName);
         }
 
+        $this->console->writeLine("Installing recurring post-schema updates.");
         // Do post-schema updates for each module
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
             $setup->applyRecurringUpdates();
         }
 
-        return  "Completed: Schema Installation." . PHP_EOL;
+        $this->console->writeLine("Completed: Schema Installation");
     }
 
     /**
      * Installs and updates data
      *
-     * @return string
      * @throws \Exception
      */
     public function installDataAction()
     {
-        //Validating that request is console based
+        $this->console->writeLine("Starting to install Data Updates");
         $request = $this->getRequest();
-        $this->validateConsoleRequest($request);
 
         //Setting the basePath of Magento application
         $magentoDir = $request->getParam('magentoDir');
@@ -296,8 +324,8 @@ class ConsoleController extends AbstractActionController
             ),
         );
 
-        $this->config->setConfigData($data);
-        $this->config->loadFromConfigFile();
+        $this->config->setConfigData($this->config->convertFromDataObject($data));
+        $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
         $this->setupFactory->setConfig($this->config->getConfigData());
 
         //Todo: this is not a good way to do that! However, we are going to refactor it in next story
@@ -367,8 +395,7 @@ class ConsoleController extends AbstractActionController
             $outputMsg = implode(PHP_EOL, $output);
             throw new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
         }
-
-        return  "Completed: Data Installation." . PHP_EOL;
+        $this->console->writeLine("Completed: Data Installation.");
     }
 
 
@@ -381,7 +408,6 @@ class ConsoleController extends AbstractActionController
     public function infoAction()
     {
         $request = $this->getRequest();
-        $this->validateConsoleRequest($request);
 
         switch($request->getParam('type')){
             case 'locales':
@@ -453,20 +479,5 @@ class ConsoleController extends AbstractActionController
         }
     }
 
-    /**
-     * Check the validity of a request if it is from the console or not
-     *
-     * @param \Zend\Console\Request $request
-     * @return boolean
-     * @throws \RuntimeException
-     */
-    public static function validateConsoleRequest($request)
-    {
-        // Make sure that we are running in a console and the user has not tricked our
-        // application into running this action from a public web server.
-        if (!$request instanceof ConsoleRequest) {
-            throw new \RuntimeException('You can only use this action from a console!');
-        }
-        return true;
-    }
+
 }

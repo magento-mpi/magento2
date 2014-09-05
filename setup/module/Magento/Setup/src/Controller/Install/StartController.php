@@ -93,7 +93,7 @@ class StartController extends AbstractActionController
 
         $data = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
 
-        $this->config->setConfigData($data);
+        $this->config->setConfigData($this->config->convertFromDataObject($data));
         $this->config->install();
 
         $this->setupFactory->setConfig($this->config->getConfigData());

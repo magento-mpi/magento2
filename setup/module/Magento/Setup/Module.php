@@ -144,7 +144,7 @@ class Module implements
             'show timezones' => 'Show all timezones',
             'show options' => 'Show all install options',
             'Command Line Options',
-            'install local [--<install_option_name> "<option_value>" ...]'
+            'install configuration [--<install_option_name> "<option_value>" ...]'
             => 'Installing deployment configuration file',
             [   'license_agreement_accepted' , 'yes' ],
             [   'db_host' , 'localhost'],
@@ -152,7 +152,7 @@ class Module implements
             [   'db_user' , 'root'],
             [   'admin_url' , 'admin'],
             'Sample Deployment Configuration tool command: ',
-            'php -f index.php install local --license_agreement_accepted yes --db_host localhost'
+            'php -f index.php install configuration --license_agreement_accepted yes --db_host localhost'
             . ' --db_name magentosetup --db_user root --admin_url "admin"',
             '***************************************************' . "\n",
             'install schema [--<install_option_name> "<option_value>" ...]' => 'Installing database schema',

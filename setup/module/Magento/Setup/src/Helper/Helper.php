@@ -8,8 +8,6 @@
 
 namespace Magento\Setup\Helper;
 
-use Zend\Console\Request as ConsoleRequest;
-
 class Helper
 {
 

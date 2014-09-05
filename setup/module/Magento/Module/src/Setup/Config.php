@@ -67,7 +67,7 @@ class Config
     public function setConfigData(array $data)
     {
         if (is_array($data)) {
-            $this->addConfigData($this->convert($data));
+            $this->configData = $data;
         }
         return $this;
     }
@@ -76,10 +76,12 @@ class Config
      * Add Configuration Data
      *
      * @param array $data
+     * @return $this
      */
     public function addConfigData(array $data)
     {
-        $this->configData = array_merge($this->configData, $data);
+        $this->setConfigData(array_merge($this->configData, $data));
+        return $this;
     }
 
     /**
@@ -103,7 +105,6 @@ class Config
         $this->configData['key'] = self::TMP_ENCRYPT_KEY_VALUE;
 
         $this->checkData();
-
         $contents = $this->configDirectory->readFile('local.xml.template');
         foreach ($this->configData as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
@@ -116,16 +117,15 @@ class Config
     /**
      * Loads Configuration from Local Config File
      *
-     * @return $this
+     * @return array
      */
-    public function loadFromConfigFile()
+    public function getConfigurationFromDeploymentFile()
     {
         $xmlData = $this->configDirectory->readFile($this->localConfigFile);
         $xmlObj = @simplexml_load_string($xmlData, NULL, LIBXML_NOCDATA);
         $xmlConfig = json_decode(json_encode((array)$xmlObj), true);
         $config = $this->convertFromConfigData((array)$xmlConfig);
-        $this->addConfigData($config);
-        return $this;
+        return $config;
     }
 
     /**
@@ -200,17 +200,16 @@ class Config
         $localXml = $this->configDirectory->readFile($this->localConfigFile);
         $localXml = str_replace(self::TMP_ENCRYPT_KEY_VALUE, $key, $localXml);
         $this->configDirectory->writeFile($this->localConfigFile, $localXml, LOCK_EX);
-
         return $this;
     }
 
     /**
-     * Convert config
+     * Transforms Configuration Data to Deployment Configuration
      *
      * @param array $source
      * @return array
      */
-    protected function convert(array $source = array())
+    public function convertFromDataObject(array $source = array())
     {
         $result = array();
         $result['db_host'] = isset($source['db']['host']) ? $source['db']['host'] : '';
