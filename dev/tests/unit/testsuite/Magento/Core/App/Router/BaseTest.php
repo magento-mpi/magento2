@@ -107,13 +107,13 @@ class BaseTest extends \Magento\Test\BaseTestCase
         $moduleList = [$moduleName];
 
         // Stubs
-        $this->basicStub($this->requestMock, 'getModuleName')->willReturn($moduleFrontName);
-        $this->basicStub($this->requestMock, 'getControllerName')->willReturn($actionPath);
-        $this->basicStub($this->requestMock, 'getActionName')->willReturn($actionName);
-        $this->basicStub($this->routeConfigMock, 'getModulesByFrontName')->willReturn($moduleList);
-        $this->basicStub($this->appStateMock, 'isInstalled')->willReturn(true);
-        $this->basicStub($this->actionListMock, 'get')->willReturn($actionClassName);
-        $this->basicStub($this->actionFactoryMock, 'create')->willReturn($actionInstance);
+        $this->requestMock->expects($this->any())->method('getModuleName')->willReturn($moduleFrontName);
+        $this->requestMock->expects($this->any())->method('getControllerName')->willReturn($actionPath);
+        $this->requestMock->expects($this->any())->method('getActionName')->willReturn($actionName);
+        $this->routeConfigMock->expects($this->any())->method('getModulesByFrontName')->willReturn($moduleList);
+        $this->appStateMock->expects($this->any())->method('isInstalled')->willReturn(true);
+        $this->actionListMock->expects($this->any())->method('get')->willReturn($actionClassName);
+        $this->actionFactoryMock->expects($this->any())->method('create')->willReturn($actionInstance);
 
         // Expectations and Test
         $this->requestExpects('setModuleName', $moduleFrontName)
@@ -137,11 +137,11 @@ class BaseTest extends \Magento\Test\BaseTestCase
         $paramList = $moduleFrontName . '/' . $actionPath . '/' . $actionName . '/key/val/key2/val2/';
 
         // Stubs
-        $this->basicStub($this->requestMock, 'getPathInfo')->willReturn($paramList);
-        $this->basicStub($this->routeConfigMock, 'getModulesByFrontName')->willReturn($moduleList);
-        $this->basicStub($this->appStateMock, 'isInstalled')->willReturn(false);
-        $this->basicStub($this->actionListMock, 'get')->willReturn($actionClassName);
-        $this->basicStub($this->actionFactoryMock, 'create')->willReturn($actionInstance);
+        $this->requestMock->expects($this->any())->method('getPathInfo')->willReturn($paramList);
+        $this->routeConfigMock->expects($this->any())->method('getModulesByFrontName')->willReturn($moduleList);
+        $this->appStateMock->expects($this->any())->method('isInstalled')->willReturn(false);
+        $this->actionListMock->expects($this->any())->method('get')->willReturn($actionClassName);
+        $this->actionFactoryMock->expects($this->any())->method('create')->willReturn($actionInstance);
 
         // Expectations and Test
         $this->requestExpects('setModuleName', $moduleFrontName)
@@ -169,11 +169,11 @@ class BaseTest extends \Magento\Test\BaseTestCase
             ['controller', $actionPath],
             ['action', $actionName]
         ];
-        $this->basicStub($this->defaultPathMock, 'getPart')->willReturnMap($defaultReturnMap);
-        $this->basicStub($this->routeConfigMock, 'getModulesByFrontName')->willReturn($moduleList);
-        $this->basicStub($this->appStateMock, 'isInstalled')->willReturn(false);
-        $this->basicStub($this->actionListMock, 'get')->willReturn($actionClassName);
-        $this->basicStub($this->actionFactoryMock, 'create')->willReturn($actionInstance);
+        $this->defaultPathMock->expects($this->any())->method('getPart')->willReturnMap($defaultReturnMap);
+        $this->routeConfigMock->expects($this->any())->method('getModulesByFrontName')->willReturn($moduleList);
+        $this->appStateMock->expects($this->any())->method('isInstalled')->willReturn(false);
+        $this->actionListMock->expects($this->any())->method('get')->willReturn($actionClassName);
+        $this->actionFactoryMock->expects($this->any())->method('create')->willReturn($actionInstance);
 
         // Expectations and Test
         $this->requestExpects('setModuleName', $moduleFrontName)
@@ -195,13 +195,13 @@ class BaseTest extends \Magento\Test\BaseTestCase
         $emptyModuleList = [];
 
         // Stubs
-        $this->basicStub($this->requestMock, 'getModuleName')->willReturn($moduleFrontName);
-        $this->basicStub($this->routeConfigMock, 'getModulesByFrontName')->willReturn($emptyModuleList);
-        $this->basicStub($this->requestMock, 'getControllerName')->willReturn($actionPath);
-        $this->basicStub($this->requestMock, 'getActionName')->willReturn($actionName);
-        $this->basicStub($this->appStateMock, 'isInstalled')->willReturn(false);
-        $this->basicStub($this->actionListMock, 'get')->willReturn($actionClassName);
-        $this->basicStub($this->actionFactoryMock, 'create')->willReturn($actionInstance);
+        $this->requestMock->expects($this->any())->method('getModuleName')->willReturn($moduleFrontName);
+        $this->routeConfigMock->expects($this->any())->method('getModulesByFrontName')->willReturn($emptyModuleList);
+        $this->requestMock->expects($this->any())->method('getControllerName')->willReturn($actionPath);
+        $this->requestMock->expects($this->any())->method('getActionName')->willReturn($actionName);
+        $this->appStateMock->expects($this->any())->method('isInstalled')->willReturn(false);
+        $this->actionListMock->expects($this->any())->method('get')->willReturn($actionClassName);
+        $this->actionFactoryMock->expects($this->any())->method('create')->willReturn($actionInstance);
 
         // Test
         $this->assertNull($this->model->match($this->requestMock));
@@ -219,13 +219,13 @@ class BaseTest extends \Magento\Test\BaseTestCase
         $moduleList = [$moduleName];
 
         // Stubs
-        $this->basicStub($this->requestMock, 'getModuleName')->willReturn($moduleFrontName);
-        $this->basicStub($this->routeConfigMock, 'getModulesByFrontName')->willReturn($moduleList);
-        $this->basicStub($this->requestMock, 'getControllerName')->willReturn($actionPath);
-        $this->basicStub($this->requestMock, 'getActionName')->willReturn($actionName);
-        $this->basicStub($this->appStateMock, 'isInstalled')->willReturn(false);
-        $this->basicStub($this->actionListMock, 'get')->willReturn($actionClassName);
-        $this->basicStub($this->actionFactoryMock, 'create')->willReturn($nullActionInstance);
+        $this->requestMock->expects($this->any())->method('getModuleName')->willReturn($moduleFrontName);
+        $this->routeConfigMock->expects($this->any())->method('getModulesByFrontName')->willReturn($moduleList);
+        $this->requestMock->expects($this->any())->method('getControllerName')->willReturn($actionPath);
+        $this->requestMock->expects($this->any())->method('getActionName')->willReturn($actionName);
+        $this->appStateMock->expects($this->any())->method('isInstalled')->willReturn(false);
+        $this->actionListMock->expects($this->any())->method('get')->willReturn($actionClassName);
+        $this->actionFactoryMock->expects($this->any())->method('create')->willReturn($nullActionInstance);
 
         // Expectations and Test
         $this->assertNull($this->model->match($this->requestMock));
