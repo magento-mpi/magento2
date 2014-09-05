@@ -1,11 +1,12 @@
 define([
     '_',
     'ko',
-    'Magento_Ui/js/lib/ko/scope'
-], function(_, ko, Scope) {
+    'Magento_Ui/js/lib/ko/scope',
+    './core/component'
+], function(_, ko, Scope, Component) {
     'use strict';
 
-    return Scope.extend({
+    var Paging = Scope.extend({
         initialize: function(config) {
             var data;
 
@@ -99,5 +100,10 @@ define([
             this.totalCount(data.totalCount);
             this.pages(data.pages);
         }
+    });
+
+    return Component({
+        name:   'paging',
+        constr: Paging
     });
 });

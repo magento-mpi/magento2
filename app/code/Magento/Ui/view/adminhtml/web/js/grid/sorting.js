@@ -1,8 +1,11 @@
 define([
     '_',
-    'Magento_Ui/js/lib/ko/scope'
-], function(_, Scope) {
-    return Scope.extend({
+    'Magento_Ui/js/lib/ko/scope',
+    './core/component'
+], function(_, Scope, Component) {
+    'use strict';
+    
+    var Sorting = Scope.extend({
         initialize: function(config) {
             this.dirs = {
                 asc: 'sort-arrow-asc',
@@ -14,8 +17,8 @@ define([
             this.storage = config.storage;
 
             this.observe({
-                field: config.params.field,
-                direction: config.params.direction
+                field:      config.params.field,
+                direction:  config.params.direction
             });
 
             this.updateParams();
@@ -66,11 +69,14 @@ define([
         },
 
         onClick: function(field) {
-            return function() {
-                if (field.sortable) {
-                    this.handleClick(field.id);
-                }
-            }.bind(this);
+            return function(){
+                return this.handleClick(this, field.id)
+            }
         }
+    });
+
+    return Component({
+        name:   'sorting',
+        constr: Sorting
     });
 });
