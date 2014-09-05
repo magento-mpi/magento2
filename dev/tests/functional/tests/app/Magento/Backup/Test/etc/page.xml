@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Backup">
+    <backupIndex>
+        <mca>backup/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backup\Test\Page\Adminhtml\BackupIndex</class>
+    </backupIndex>
+</page>

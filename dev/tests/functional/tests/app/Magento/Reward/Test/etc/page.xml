@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Reward">
+    <rewardRateIndex>
+        <mca>admin/reward_rate/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reward\Test\Page\Adminhtml\RewardRateIndex</class>
+    </rewardRateIndex>
+    <rewardRateNew>
+        <mca>admin/reward_rate/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reward\Test\Page\Adminhtml\RewardRateNew</class>
+    </rewardRateNew>
+    <rewardCustomerInfo>
+        <mca>reward/customer/info</mca>
+        <class>Magento\Reward\Test\Page\RewardCustomerInfo</class>
+    </rewardCustomerInfo>
+</page>

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="system_store/newGroup/index" module="Magento_Backend">
+    <blocks>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\System\Store\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <editFormGroup>
+            <class>Magento\Backend\Test\Block\System\Store\Edit\Form\GroupForm</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </editFormGroup>
+    </blocks>
+</page>
