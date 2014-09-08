@@ -40,7 +40,7 @@ class DepersonalizePlugin
     protected $moduleManager;
 
     /**
-     * @var \Magento\Log\Model\Visitor
+     * @var \Magento\Customer\Model\Visitor
      */
     protected $visitor;
 
@@ -65,7 +65,7 @@ class DepersonalizePlugin
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Module\Manager $moduleManager
-     * @param \Magento\Log\Model\Visitor $visitor
+     * @param \Magento\Customer\Model\Visitor $visitor
      * @param \Magento\PageCache\Model\Config $cacheConfig
      */
     public function __construct(
@@ -74,7 +74,7 @@ class DepersonalizePlugin
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Module\Manager $moduleManager,
-        \Magento\Log\Model\Visitor $visitor,
+        \Magento\Customer\Model\Visitor $visitor,
         \Magento\PageCache\Model\Config $cacheConfig
     ) {
         $this->session = $session;
