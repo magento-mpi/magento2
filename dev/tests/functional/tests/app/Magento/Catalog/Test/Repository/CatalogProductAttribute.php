@@ -78,7 +78,7 @@ class CatalogProductAttribute extends AbstractRepository
             ]
         ];
 
-        $this->_data['attribute_type_dropdown_one_options'] = [
+        $this->_data['attribute_type_dropdown_one_option'] = [
             'frontend_label' => 'attribute_dropdown%isolation%',
             'attribute_code' => 'attribute_dropdown%isolation%',
             'frontend_input' => 'Dropdown',

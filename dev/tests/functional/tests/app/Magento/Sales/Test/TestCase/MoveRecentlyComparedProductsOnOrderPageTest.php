@@ -8,15 +8,27 @@
 
 namespace Magento\Sales\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-
 /**
  * Test Creation for CreateOrderFromCustomerPage (RecentlyComparedProducts)
  *
  * Test Flow:
  *
+ * Preconditions:
+ * 1. Create customer
+ * 2. Create products
+ * 3. Add products to compare list
+ * 4. Clear compare list
+ *
+ * Steps:
+ * 1. Open Customers -> All Customers
+ * 2. Search and open customer from preconditions
+ * 3. Click 'Create Order'
+ * 4. Check product in 'Recently compared List' section
+ * 5. Click 'Update Changes'
+ * 6. Perform all assertions
+ *
  * @group Order_Management_(CS)
- * @ZephyrId MTA-395
+ * @ZephyrId MAGETWO-28109
  */
 class MoveRecentlyComparedProductsOnOrderPageTest extends AbstractMoveComparedProductsOnOrderPageTest
 {
@@ -28,6 +40,7 @@ class MoveRecentlyComparedProductsOnOrderPageTest extends AbstractMoveComparedPr
      */
     public function test($products)
     {
+        $this->markTestIncomplete('MAGETWO-26865');
         // Preconditions
         $products = $this->createProducts($products);
         $this->loginCustomer();
@@ -37,9 +50,20 @@ class MoveRecentlyComparedProductsOnOrderPageTest extends AbstractMoveComparedPr
         // Steps:
         $this->openCustomerPageAndClickCreateOrder();
         $activitiesBlock = $this->orderCreateIndex->getCustomerActivitiesBlock();
-        $activitiesBlock->getProductsInComparisonBlock()->addToOrderByName($this->extractProductNames($products));
+        $activitiesBlock->getRecentlyComparedProductsBlock()->addToOrderByName($this->extractProductNames($products));
         $activitiesBlock->updateChanges();
 
         return ['entityData' => ['products' => $products], 'productsIsConfigured' => false];
+    }
+
+    /**
+     * Remove products from compare list
+     *
+     * @return void
+     */
+    protected function removeProductsFromComparedList()
+    {
+        $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
+        $this->catalogProductCompare->getCompareProductsBlock()->removeAllProducts();
     }
 }

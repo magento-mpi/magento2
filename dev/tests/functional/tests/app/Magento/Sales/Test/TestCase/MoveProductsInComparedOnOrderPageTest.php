@@ -49,7 +49,7 @@ class MoveProductsInComparedOnOrderPageTest extends AbstractMoveComparedProducts
         // Steps:
         $this->openCustomerPageAndClickCreateOrder();
         $activitiesBlock = $this->orderCreateIndex->getCustomerActivitiesBlock();
-        $activitiesBlock->getRecentlyComparedProductsBlock()->addToOrderByName($this->extractProductNames($products));
+        $activitiesBlock->getProductsInComparisonBlock()->addToOrderByName($this->extractProductNames($products));
         $activitiesBlock->updateChanges();
 
         return ['entityData' => ['products' => $products], 'productsIsConfigured' => false];

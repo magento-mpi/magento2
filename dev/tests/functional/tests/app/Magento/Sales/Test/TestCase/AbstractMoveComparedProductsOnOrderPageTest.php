@@ -21,27 +21,10 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
- * Test Creation for CreateOrderFromCustomerPage (comparedProducts)
- *
- * Test Flow:
- *
- * Preconditions:
- * 1. Create customer
- * 2. Create products
- * 3. Add products to compare list
- *
- * Steps:
- * 1. Open Customers -> All Customers
- * 2. Search and open customer from preconditions
- * 3. Click 'Create Order'
- * 4. Check product in comparison list section
- * 5. Click 'Update Changes'
- * 6. Perform all assertions
- *
- * @group Order_Management_(CS)
- * @ZephyrId MAGETWO-28050
+ * Class AbstractMoveComparedProductsOnOrderPageTest
+ * Abstract class for move compared products on order page
  */
-class AbstractMoveComparedProductsOnOrderPageTest extends Injectable
+abstract class AbstractMoveComparedProductsOnOrderPageTest extends Injectable
 {
     /**
      * Cms index page
@@ -107,7 +90,7 @@ class AbstractMoveComparedProductsOnOrderPageTest extends Injectable
     protected $customerIndexEdit;
 
     /**
-     * catalog product compare page
+     * Catalog product compare page
      *
      * @var CatalogProductCompare
      */
@@ -159,18 +142,17 @@ class AbstractMoveComparedProductsOnOrderPageTest extends Injectable
         $this->catalogProductCompare = $catalogProductCompare;
     }
 
+    /**
+     * Open customer page and click create order button
+     *
+     * @return void
+     */
     protected function openCustomerPageAndClickCreateOrder()
     {
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $this->customer->getEmail()]);
         $this->customerIndexEdit->getPageActionsBlock()->createOrder();
         $this->orderCreateIndex->getStoreBlock()->selectStoreView();
-    }
-
-    protected function removeProductsFromComparedList()
-    {
-        $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
-        $this->catalogProductCompare->getCompareProductsBlock()->removeAllProducts();
     }
 
     /**

@@ -196,7 +196,7 @@ class ConfigurableAttributesData implements FixtureInterface
 
             ],
             'attributes' => [
-                'attribute_0' => 'catalogProductAttribute::attribute_type_dropdown_one_options'
+                'attribute_0' => 'catalogProductAttribute::attribute_type_dropdown_one_option'
             ],
             'matrix' => [
                 'attribute_0:option_0' => [
