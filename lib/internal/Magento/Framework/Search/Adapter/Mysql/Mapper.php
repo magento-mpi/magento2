@@ -238,7 +238,7 @@ class Mapper
     private function processDimensions(RequestInterface $request, Select $select)
     {
         $dimensions = [];
-        foreach ((array)$request->getDimensions() as $dimension) {
+        foreach ($request->getDimensions() as $dimension) {
             $dimensions[] = $this->dimensionsBuilder->build($dimension);
         }
 

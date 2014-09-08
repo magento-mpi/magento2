@@ -24,20 +24,24 @@ class Dimensions
     /**
      * @var ScopeResolverInterface
      */
-    private $scopeResolverInterface;
+    private $scopeResolver;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param ScopeResolverInterface $scopeResolverInterface
+     * @param ScopeResolverInterface $scopeResolver
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        ScopeResolverInterface $scopeResolverInterface
+        ScopeResolverInterface $scopeResolver
     ) {
         $this->resource = $resource;
-        $this->scopeResolverInterface = $scopeResolverInterface;
+        $this->scopeResolver = $scopeResolver;
     }
 
+    /**
+     * @param Dimension $dimension
+     * @return string
+     */
     public function build(Dimension $dimension)
     {
         /** @var AdapterInterface $adapter */
@@ -58,7 +62,7 @@ class Dimensions
 
         if (self::DEFAULT_DIMENSION_NAME === $identifier) {
             $identifier = self::STORE_FIELD_NAME;
-            $value = $this->scopeResolverInterface->getScope($value . 'xx')->getId();
+            $value = $this->scopeResolver->getScope($value)->getId();
         }
 
         return sprintf(
