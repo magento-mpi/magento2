@@ -22,5 +22,5 @@ interface CalculatorInterface
      * @param null|array $context
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
-    public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null, $context =[]);
+    public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null, $context = []);
 }
