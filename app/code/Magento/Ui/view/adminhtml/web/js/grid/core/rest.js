@@ -18,27 +18,24 @@ define([
         },
 
         read: function(params, config){
-            var url = requestBuilder( this.config.root, params ),
+            config = this.getConfig( params, config );
+
+            $.ajax(config)
+                .done(this.config.onRead);
+        },
+
+        getConfig: function(params, config){
+            var url,
                 data;
 
-            config = config || {};
+            url = requestBuilder( this.config.root, params );
 
             data = _.extend({
                 form_key: FORM_KEY,
                 namespace: this.config.namespace
             }, params);
 
-            config = _.extend(
-                {
-                    url: url,
-                    data: data
-                },
-                this.config.ajax,
-                config
-            );
-
-            $.ajax(config)
-                .done(this.config.onRead);
+            return _.extend({url: url, data: data}, this.config.ajax, config);
         }
     });
 

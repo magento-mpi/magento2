@@ -1,56 +1,33 @@
 define([
     '_',
-    'ko',
     'Magento_Ui/js/lib/ko/scope',
     './core/component'
-], function(_, ko, Scope, Component) {
+], function(_, Scope, Component) {
     'use strict';
+
+    var defaults = {
+        sizes: [5, 10, 20, 30, 50, 100, 200]
+    };
 
     var Paging = Scope.extend({
         initialize: function(config) {
-            var data;
-
-            this.storage = config.storage;
-            this.sizes = config.sizes;
-
-            _.bindAll(this, 'reload', 'onLoad');
+            _.extend(this, defaults, config);
 
             this.initObservable(config)
-                .initComputed()
                 .updateParams();
 
-            this.current.subscribe(this.reload);
-
-            this.storage.on('load', this.onLoad);
+            this.storage.on('load', this.onLoad.bind(this) );
         },
 
         initObservable: function(config) {
             var data = this.storage.getData();
 
             this.observe({
-                'pages': data.pages,
-                'totalCount': data.totalCount,
-                '_current': config.params.current,
-                'pageSize': config.params.pageSize
+                'pages':        data.pages,
+                'totalCount':   data.totalCount,
+                'current':      this.params.current,
+                'pageSize':     this.params.pageSize
             });
-
-            return this;
-        },
-
-        initComputed: function() {
-            this.current = ko.pureComputed({
-                read: function() {
-                    return this._current();
-                },
-
-                write: function(value) {
-                    var valid;
-
-                    valid = Math.min(Math.max(1, +value), this.pages());
-
-                    return this._current(valid);
-                }
-            }, this);
 
             return this;
         },
@@ -59,6 +36,8 @@ define([
             var current = this.current;
 
             current(current() + val);
+
+            this.reload();
         },
 
         next: function() {
@@ -77,6 +56,10 @@ define([
             return this.current() === 1;
         },
 
+        getInRange: function( page ){
+            return Math.min(Math.max(1, page), this.pages());
+        },
+
         reload: function() {
             this.updateParams().storage.load();
 
@@ -84,11 +67,13 @@ define([
         },
 
         updateParams: function() {
+            _.extend(this.params, {
+                pageSize: this.pageSize(),
+                current: this.current()
+            });
+
             this.storage.setParams({
-                paging: {
-                    pageSize: this.pageSize(),
-                    current: this.current()
-                }
+                paging: this.params
             });
 
             return this;
@@ -99,6 +84,28 @@ define([
 
             this.totalCount(data.totalCount);
             this.pages(data.pages);
+        },
+
+        onSizeChange: function(){
+            var size = this.pageSize();
+
+            if( size * this.current() > this.totalCount() ){
+                this.current(1);
+            }
+
+            this.reload();
+        },
+
+        onPageChange: function(){
+            var current,
+                valid;
+
+            current = +this.current();
+            valid   = !isNaN(current) ? this.getInRange(current) : 1;
+
+            this.current(valid);
+
+            this.reload();
         }
     });
 
