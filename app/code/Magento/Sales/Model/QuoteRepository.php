@@ -59,9 +59,11 @@ class QuoteRepository
     }
 
     /**
-     * Load quote
+     * Load quote with different methods
      *
-     * @param $cartId
+     * @param string $loadMethod
+     * @param string $loadField
+     * @param int $identifier
      * @return Quote
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
