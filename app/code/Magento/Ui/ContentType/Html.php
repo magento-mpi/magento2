@@ -1,17 +1,18 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\ContentType;
 
 use Magento\Ui\UiInterface;
-use Magento\Framework\View\TemplateEnginePool;
 use Magento\Framework\View\FileSystem;
+use Magento\Framework\View\TemplateEnginePool;
 
 /**
  * Class Html
- * @package Magento\Ui\ContentType
  */
 class Html implements ContentTypeInterface
 {
@@ -29,9 +30,7 @@ class Html implements ContentTypeInterface
      * @param FileSystem $filesystem
      * @param TemplateEnginePool $templateEnginePool
      */
-    public function __construct(
-        FileSystem $filesystem,
-        TemplateEnginePool $templateEnginePool)
+    public function __construct(FileSystem $filesystem, TemplateEnginePool $templateEnginePool)
     {
         $this->filesystem = $filesystem;
         $this->templateEnginePool = $templateEnginePool;

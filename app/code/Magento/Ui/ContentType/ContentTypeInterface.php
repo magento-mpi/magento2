@@ -1,15 +1,16 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\ContentType;
 
 use Magento\Ui\UiInterface;
 
 /**
  * Interface ContentTypeInterface
- * @package Magento\Ui\ContentType
  */
 interface ContentTypeInterface
 {
