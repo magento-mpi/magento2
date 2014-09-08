@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reward\Model\Observer\PlaceOrder;
+namespace Magento\Reward\Model\Observer;
 
 class CreditmemoRefundTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,4 +55,3 @@ class CreditmemoRefundTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 
