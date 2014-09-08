@@ -1,10 +1,8 @@
 define([
-    '../class',
-    '../events',
-    '../utils',
     'ko',
+    '../class',
     '../initializers/ko'
-], function(Class, EventBus, utils, ko) {
+], function(ko, Class) {
 
     return Class.extend({
         observe: function(path, value) {
@@ -23,9 +21,9 @@ define([
         _observe: function(path, value) {
             var method = Array.isArray(value) ? 'observableArray' : 'observable';
 
-            utils.setValueByPathIn(this, path, ko[method](value));
+            this[path] = ko[method](value);
 
             return this;
         }
-    }, EventBus);
+    });
 });

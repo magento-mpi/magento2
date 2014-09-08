@@ -21,7 +21,7 @@ define([
         registry.get(components, function() {
 
             for (key in bindings) {
-                ctx[key] = registry.get(bindings[key])[0];
+                ctx[key] = registry.get(bindings[key]);
             }
 
             callback(ctx);

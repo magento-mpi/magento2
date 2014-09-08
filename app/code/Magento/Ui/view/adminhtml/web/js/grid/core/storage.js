@@ -1,11 +1,12 @@
 define([
     '_',
     './rest',
-    'Magento_Ui/js/lib/ko/scope'
-], function(_, Rest, Scope) {
+    'Magento_Ui/js/lib/class',
+    'Magento_Ui/js/lib/events'
+], function(_, Rest, Class, EventsBus) {
     'use strict';
 
-    return Scope.extend({
+    return Class.extend({
         initialize: function(config) {
             this.params = {};
             this._bulk = {};
@@ -19,7 +20,8 @@ define([
             var config;
 
             config = _.extend({
-                onRead: this.onRead.bind(this)
+                onRead: this.onRead.bind(this),
+                namespace: this.config.namespace,
             }, this.config.client);
 
             this.client = new Rest(config);
@@ -84,5 +86,5 @@ define([
             this.setData(result)
                 .trigger('load', result);
         }
-    });
+    }, EventsBus);
 });
