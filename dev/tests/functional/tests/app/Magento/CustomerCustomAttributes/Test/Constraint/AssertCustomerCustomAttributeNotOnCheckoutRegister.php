@@ -8,6 +8,7 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
@@ -38,6 +39,7 @@ class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstra
      * @param CheckoutOnepage $checkoutOnepage
      * @param CatalogProductView $catalogProductViewPage
      * @param CustomerCustomAttribute $customerAttribute
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
@@ -46,7 +48,8 @@ class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstra
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
         CatalogProductView $catalogProductViewPage,
-        CustomerCustomAttribute $customerAttribute
+        CustomerCustomAttribute $customerAttribute,
+        Browser $browser
     ) {
         // Precondition
         $productSimple->persist();
@@ -57,13 +60,12 @@ class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstra
         }
 
         // Steps
-        $catalogProductViewPage->init($productSimple);
-        $catalogProductViewPage->open();
+        $browser->open($_ENV['app_frontend_url'] . $productSimple->getUrlKey() . '.html');
         $catalogProductViewPage->getViewBlock()->clickAddToCartButton();
         $checkoutCart->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
         $checkoutOnepage->getLoginBlock()->registerCustomer();
         \PHPUnit_Framework_Assert::assertFalse(
-            $checkoutOnepage->getBillingBlock()->isCustomerAttributeVisible($customerAttribute),
+            $checkoutOnepage->getCustomerAttributeBillingBlock()->isCustomerAttributeVisible($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is absent during register customer on checkout.'
         );
