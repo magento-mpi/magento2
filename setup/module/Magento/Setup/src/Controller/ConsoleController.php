@@ -16,8 +16,8 @@ use Magento\Module\SetupFactory;
 use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;
 use Magento\Setup\Helper\Helper;
-use Magento\Setup\Model\DatabaseCheck;
 use Magento\Setup\Model\FilePermissions;
+use Magento\Setup\Model\UserConfigurationDataFactory;
 use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\AdminAccountFactory;
 use Zend\Console\Request as ConsoleRequest;
@@ -50,7 +50,7 @@ class ConsoleController extends AbstractActionController
     /**
      * Module Lists
      *
-     * @var array
+     * @var ModuleListInterface
      */
     protected $moduleList;
 
@@ -83,6 +83,13 @@ class ConsoleController extends AbstractActionController
     protected $adminAccountFactory;
 
     /**
+     * User Configuration Data Factory
+     *
+     * @var UserConfigurationDataFactory
+     */
+    protected $userConfigurationDataFactory;
+
+    /**
      * Console
      *
      * @var \Zend\Console\Console
@@ -100,6 +107,7 @@ class ConsoleController extends AbstractActionController
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
+     * @param UserConfigurationDataFactory $userConfigurationDataFactory
      */
     public function __construct(
         FilePermissions $filePermission,
@@ -109,7 +117,8 @@ class ConsoleController extends AbstractActionController
         Config $config,
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
-        AdminAccountFactory $adminAccountFactory
+        AdminAccountFactory $adminAccountFactory,
+        UserConfigurationDataFactory $userConfigurationDataFactory
     ) {
         $this->filePermission = $filePermission;
         $this->list = $list;
@@ -117,9 +126,11 @@ class ConsoleController extends AbstractActionController
         $this->random = $random;
         $this->config = $config;
         $this->setupFactory = $setupFactory;
-        $this->moduleList = $moduleList->getModules();
+        $this->moduleList = $moduleList;
         $this->adminAccountFactory = $adminAccountFactory;
+        $this->userConfigurationDataFactory = $userConfigurationDataFactory;
         $this->console = Console::getInstance();
+        $this->logger = new \Logger(Console::getInstance());
     }
 
     /**
@@ -132,11 +143,11 @@ class ConsoleController extends AbstractActionController
     {
         parent::setEventManager($events);
         $controller = $this;
-        $events->attach('dispatch', function ($e) use ($controller) {
+        $events->attach('dispatch', function ($action) use ($controller) {
             /** @var $e \Zend\Mvc\Controller\AbstractActionController */
             // Make sure that we are running in a console and the user has not tricked our
             // application into running this action from a public web server.
-            if (!$e->getRequest() instanceof ConsoleRequest) {
+            if (!$action->getRequest() instanceof ConsoleRequest) {
                 throw new \RuntimeException('You can only use this action from a console!');
             }
         }, 100); // execute before executing action logic
@@ -145,16 +156,16 @@ class ConsoleController extends AbstractActionController
 
     /**
      * Controller for Install Command
-     * @return string
+     *
      * @throws \Exception
      */
     public function installAction()
     {
-        $message = [];
-        $message[] = $this->installDeploymentConfigAction();
-        $message[] = $this->installSchemaAction();
-        $message[] = $this->installDataAction();
-        return implode(PHP_EOL, $message);
+        $this->console->writeLine("Beginning Magento Installation...");
+        $this->installDeploymentConfigAction();
+        $this->installSchemaAction();
+        $this->installDataAction();
+        $this->console->writeLine("Completed Magento Installation Successfully.");
     }
 
     /**
@@ -164,8 +175,9 @@ class ConsoleController extends AbstractActionController
      */
     public function installDeploymentConfigAction()
     {
-
         $this->console->writeLine("Starting to install Deployment Configuration Data.");
+
+        /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
 
         //Checking license agreement
@@ -197,7 +209,7 @@ class ConsoleController extends AbstractActionController
         $adminUrl = $request->getParam('admin_url');
 
         //Checks Database Connectivity
-        $this->checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass);
+        Helper::checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass);
 
         $data = array(
             'db' => array(
@@ -230,17 +242,16 @@ class ConsoleController extends AbstractActionController
     public function installSchemaAction()
     {
         $this->console->writeLine("Starting to install Schema");
-        $request = $this->getRequest();
 
         //Setting the basePath of Magento application
-        $magentoDir = $request->getParam('magentoDir');
+        $magentoDir = $this->getRequest()->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
         $this->config->setConfigData($this->config->getConfigurationFromDeploymentFile());
         $this->setupFactory->setConfig($this->config->getConfigData());
 
         //List of All Module Names
-        $moduleNames = array_keys($this->moduleList);
+        $moduleNames = array_keys($this->moduleList->getModules());
 
         // Do schema updates for each module
         foreach ($moduleNames as $moduleName) {
@@ -249,7 +260,7 @@ class ConsoleController extends AbstractActionController
             $this->console->writeLine("Installed schema : " . $moduleName);
         }
 
-        $this->console->writeLine("Installing recurring post-schema updates.");
+        $this->console->writeLine("Installing recurring post-schema updates for all modules.");
         // Do post-schema updates for each module
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
@@ -267,26 +278,123 @@ class ConsoleController extends AbstractActionController
     public function installDataAction()
     {
         $this->console->writeLine("Starting to install Data Updates");
+        /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
 
         //Setting the basePath of Magento application
         $magentoDir = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
-        //Data Information
-        $storeUrl       = $request->getParam('store_url');
+        $data = $this->parseUserConfigurationData($request);
+        $this->installUserConfigurationData($data);
+
+        if ($data['config']['encrypt']['type'] == 'magento') {
+            $key = $this->getRandomEncryptionKey();
+        } else {
+            $key = $data['config']['encrypt']['key'];
+        }
+
+        $this->config->replaceTmpEncryptKey($key);
+        $this->config->replaceTmpInstallDate(date('r'));
+
+        $this->installDataUpdates();
+        $this->console->writeLine("Completed: Data Installation.");
+    }
+
+
+    /**
+     * Shows necessary information for installing Magento
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function infoAction()
+    {
+        switch($this->getRequest()->getParam('type')){
+            case 'locales':
+                return  $this->arrayToString($this->list->getLocaleList());
+                break;
+            case 'currencies':
+                return  $this->arrayToString($this->list->getCurrencyList());
+                break;
+            case 'timezones':
+                return  $this->arrayToString($this->list->getTimezoneList());
+                break;
+            case 'options':
+            default:
+                return  $this->showInstallationOptions();
+                break;
+        }
+    }
+
+    /**
+     * Updates Magento Directory
+     *
+     * @param string $magentoDir
+     * @return void
+     */
+    private function updateMagentoDirectory($magentoDir)
+    {
+        if ($magentoDir) {
+            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
+        } else {
+            $this->factoryConfig->setMagentoBasePath();
+        }
+    }
+
+    /**
+     * Creates Random Encryption Key
+     *
+     * @return string
+     */
+    private function getRandomEncryptionKey()
+    {
+        return md5($this->random->getRandomString(10));
+    }
+
+    /**
+     * Installs User Configuration Data
+     *
+     * @param array $data
+     * @return void
+     */
+    protected function installUserConfigurationData($data)
+    {
+        $setup = $this->setupFactory->create();
+
+        //Loading Configurations
+        $this->config->setConfigData($this->config->convertFromDataObject($data));
+        $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
+        $this->userConfigurationDataFactory->setConfig($this->config->getConfigData());
+        $this->userConfigurationDataFactory->create($setup)->install($data);
+
+        // Create administrator account
+        $this->adminAccountFactory->setConfig($this->config->getConfigData());
+        $adminAccount = $this->adminAccountFactory->create($setup);
+        $adminAccount->save();
+    }
+
+    /**
+     * Parses User Configuration Data from Request Parameters
+     *
+     * @param \Zend\Console\Request $request
+     * @return array
+     */
+    protected function parseUserConfigurationData($request)
+    {
+        $storeUrl = $request->getParam('store_url');
         $secureStoreUrl = $request->getParam('secure_store_url', false) == 'yes' ? true : false;
         $secureAdminUrl = $request->getParam('secure_admin_url', false) == 'yes' ? true : false;
-        $useRewrites    = $request->getParam('use_rewrites', false) == 'yes' ? true : false;
+        $useRewrites = $request->getParam('use_rewrites', false) == 'yes' ? true : false;
         $encryptionKey = $request->getParam('encryption_key', $this->getRandomEncryptionKey());
-        $locale   = $request->getParam('locale');
-        $timezone   = $request->getParam('timezone');
-        $currency   = $request->getParam('currency');
-        $adminLstname   = $request->getParam('admin_lastname');
-        $adminFirstname   = $request->getParam('admin_firstname');
-        $adminEmail   = $request->getParam('admin_email');
-        $adminUsername   = $request->getParam('admin_username');
-        $adminPassword   = $request->getParam('admin_password');
+        $locale = $request->getParam('locale');
+        $timezone = $request->getParam('timezone');
+        $currency = $request->getParam('currency');
+        $adminLstname = $request->getParam('admin_lastname');
+        $adminFirstname = $request->getParam('admin_firstname');
+        $adminEmail = $request->getParam('admin_email');
+        $adminUsername = $request->getParam('admin_username');
+        $adminPassword = $request->getParam('admin_password');
 
         $data = array(
             'admin' => array(
@@ -323,67 +431,23 @@ class ConsoleController extends AbstractActionController
                 ),
             ),
         );
+        return $data;
+    }
 
-        $this->config->setConfigData($this->config->convertFromDataObject($data));
-        $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
-        $this->setupFactory->setConfig($this->config->getConfigData());
-
-        $setup = $this->setupFactory->create('');
-
-        $setup->addConfigData(
-            'web/seo/use_rewrites',
-            isset($data['config']['rewrites']['allowed']) ? $data['config']['rewrites']['allowed'] : 0
-        );
-
-        $setup->addConfigData(
-            'web/unsecure/base_url',
-            isset($data['config']['address']['front']) ? $data['config']['address']['front'] : '{{unsecure_base_url}}'
-        );
-        $setup->addConfigData(
-            'web/secure/use_in_frontend',
-            isset($data['config']['https']['web']) ? $data['config']['https']['web'] : 0
-        );
-        $setup->addConfigData(
-            'web/secure/base_url',
-            isset($data['config']['address']['front']) ? $data['config']['address']['front'] : '{{secure_base_url}}'
-        );
-        $setup->addConfigData(
-            'web/secure/use_in_adminhtml',
-            isset($data['config']['https']['admin']) ? $data['config']['https']['admin'] : 0
-        );
-        $setup->addConfigData(
-            'general/locale/code',
-            isset($data['store']['language']) ? $data['store']['language'] : 'en_US'
-        );
-        $setup->addConfigData(
-            'general/locale/timezone',
-            isset($data['store']['timezone']) ? $data['store']['timezone'] : 'America/Los_Angeles'
-        );
-
-        $currencyCode = isset($data['store']['currency']) ? $data['store']['currency'] : 'USD';
-
-        $setup->addConfigData('currency/options/base', $currencyCode);
-        $setup->addConfigData('currency/options/default', $currencyCode);
-        $setup->addConfigData('currency/options/allow', $currencyCode);
-
-        // Create administrator account
-        $this->adminAccountFactory->setConfig($this->config->getConfigData());
-        $adminAccount = $this->adminAccountFactory->create($setup);
-        $adminAccount->save();
-
-        if ($data['config']['encrypt']['type'] == 'magento') {
-            $key = $this->getRandomEncryptionKey();
-        } else {
-            $key = $data['config']['encrypt']['key'];
-        }
-
-        $this->config->replaceTmpEncryptKey($key);
-        $this->config->replaceTmpInstallDate(date('r'));
-
+    /**
+     * Installs Data Updates
+     *
+     * @return int
+     * @throws \Exception
+     */
+    protected function installDataUpdates()
+    {
+        $exitCode = null;
+        $output = null;
         $phpPath = Helper::phpExecutablePath();
         exec(
             $phpPath .
-            'php -f ' . $this->factoryConfig->getMagentoBasePath(). '/dev/shell/run_data_fixtures.php',
+            'php -f ' . $this->factoryConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
             $output,
             $exitCode
         );
@@ -391,89 +455,23 @@ class ConsoleController extends AbstractActionController
             $outputMsg = implode(PHP_EOL, $output);
             throw new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
         }
-        $this->console->writeLine("Completed: Data Installation.");
-    }
-
-
-    /**
-     * Shows necessary information for installing Magento
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function infoAction()
-    {
-        $request = $this->getRequest();
-
-        switch($request->getParam('type')){
-            case 'locales':
-                return  Helper::arrayToString($this->list->getLocaleList());
-                break;
-            case 'currencies':
-                return  Helper::arrayToString($this->list->getCurrencyList());
-                break;
-            case 'timezones':
-                return  Helper::arrayToString($this->list->getTimezoneList());
-                break;
-            case 'options':
-            default:
-                return  Helper::showInstallationOptions();
-                break;
-        }
+        return $exitCode;
     }
 
     /**
-     * Updates Magento Directory
+     * Convert an array to string
      *
-     * @param string $magentoDir
-     * @return void
-     */
-    private function updateMagentoDirectory($magentoDir)
-    {
-        if ($magentoDir) {
-            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
-        } else {
-            $this->factoryConfig->setMagentoBasePath();
-        }
-    }
-
-    /**
-     * Creates Random Encryption Key
-     *
+     * @param array $input
      * @return string
      */
-    private function getRandomEncryptionKey()
+    public static function arrayToString($input)
     {
-        return md5($this->random->getRandomString(10));
-    }
-
-    /**
-     * Checks Database Connection
-     *
-     * @param string $dbName
-     * @param string $dbHost
-     * @param string $dbUser
-     * @param string $dbPass
-     * @return void
-     * @throws \Exception
-     */
-    private function checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass)
-    {
-        //Check DB connection
-        $dbConnectionInfo = array(
-            'driver' => "Pdo",
-            'dsn' => "mysql:dbname=" . $dbName . ";host=" . $dbHost,
-            'username' => $dbUser,
-            'password' => $dbPass,
-            'driver_options' => array(
-                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
-            ),
-        );
-        $checkDB = new DatabaseCheck($dbConnectionInfo);
-        if (!$checkDB->checkConnection()) {
-            throw new \Exception('Database connection failure.');
+        $result = '';
+        foreach ($input as $key => $value) {
+            $result .= "$key => $value\n";
         }
-    }
 
+        return $result;
+    }
 
 }

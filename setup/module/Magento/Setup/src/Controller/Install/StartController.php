@@ -13,12 +13,18 @@ use Magento\Module\Setup\Config;
 use Magento\Module\SetupFactory;
 use Magento\Setup\Model\AdminAccountFactory;
 use Magento\Setup\Model\Logger;
+use Magento\Setup\Model\UserConfigurationDataFactory;
 use Magento\Config\ConfigFactory;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Magento\Setup\Helper\Helper;
 
+/**
+ * UI Controller that handles installation
+ *
+ * @package Magento\Setup\Controller\Install
+ */
 class StartController extends AbstractActionController
 {
     /**
@@ -57,6 +63,13 @@ class StartController extends AbstractActionController
     protected $random;
 
     /**
+     * User Configuration Data Factory
+     *
+     * @var UserConfigurationDataFactory
+     */
+    protected $userConfigurationDataFactory;
+
+    /**
      * @param JsonModel $view
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
@@ -74,7 +87,8 @@ class StartController extends AbstractActionController
         Logger $logger,
         Random $random,
         Config $config,
-        ConfigFactory $systemConfig
+        ConfigFactory $systemConfig,
+        UserConfigurationDataFactory $userConfigurationDataFactory
     ) {
         $this->logger = $logger;
         $this->json = $view;
@@ -84,6 +98,7 @@ class StartController extends AbstractActionController
         $this->systemConfig = $systemConfig;
         $this->adminAccountFactory = $adminAccountFactory;
         $this->random = $random;
+        $this->userConfigurationDataFactory = $userConfigurationDataFactory;
     }
 
     /**
@@ -116,47 +131,14 @@ class StartController extends AbstractActionController
         $this->logger->logSuccess('Artifact');
 
         $setup = $this->setupFactory->create('');
-        // Set data to config
-        $setup->addConfigData(
-            'web/seo/use_rewrites',
-            isset($data['config']['rewrites']['allowed']) ? $data['config']['rewrites']['allowed'] : 0
-        );
 
-        $setup->addConfigData(
-            'web/unsecure/base_url',
-            isset($data['config']['address']['web']) ? $data['config']['address']['web'] : '{{unsecure_base_url}}'
-        );
-        $setup->addConfigData(
-            'web/secure/use_in_frontend',
-            isset($data['config']['https']['front']) ? $data['config']['https']['front'] : 0
-        );
-        $setup->addConfigData(
-            'web/secure/base_url',
-            isset($data['config']['address']['web']) ? $data['config']['address']['web'] : '{{secure_base_url}}'
-        );
-        $setup->addConfigData(
-            'web/secure/use_in_adminhtml',
-            isset($data['config']['https']['admin']) ? $data['config']['https']['admin'] : 0
-        );
-        $setup->addConfigData(
-            'general/locale/code',
-            isset($data['store']['language']) ? $data['store']['language'] : 'en_US'
-        );
-        $setup->addConfigData(
-            'general/locale/timezone',
-            isset($data['store']['timezone']) ? $data['store']['timezone'] : 'America/Los_Angeles'
-        );
-
-        $currencyCode = isset($data['store']['currency']) ? $data['store']['currency'] : 'USD';
-
-        $setup->addConfigData('currency/options/base', $currencyCode);
-        $setup->addConfigData('currency/options/default', $currencyCode);
-        $setup->addConfigData('currency/options/allow', $currencyCode);
+        // Installs Configuration Data
+        $this->userConfigurationDataFactory->setConfig($this->config->getConfigData());
+        $this->userConfigurationDataFactory->create($setup)->install($data);
 
         // Create administrator account
         $this->adminAccountFactory->setConfig($this->config->getConfigData());
-        $adminAccount = $this->adminAccountFactory->create($setup);
-        $adminAccount->save();
+        $this->adminAccountFactory->create($setup)->save();
 
         $this->logger->logSuccess('Admin User');
 

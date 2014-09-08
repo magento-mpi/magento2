@@ -8,24 +8,42 @@
 
 namespace Magento\Setup\Helper;
 
+use Magento\Setup\Model\DatabaseCheck;
+
 class Helper
 {
 
-    /**
-     * Convert an array to string
-     *
-     * @param array $input
-     * @return string
-     */
-    public static function arrayToString($input)
-    {
-        $result = '';
-        foreach ($input as $key => $value) {
-            $result .= "$key => $value\n";
-        }
 
-        return $result;
+    /**
+     * Checks Database Connection
+     *
+     * @param string $dbName
+     * @param string $dbHost
+     * @param string $dbUser
+     * @param string $dbPass
+     * @return boolean
+     * @throws \Exception
+     */
+    public static function checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass = '')
+    {
+        //Check DB connection
+        $dbConnectionInfo = array(
+            'driver' => "Pdo",
+            'dsn' => "mysql:dbname=" . $dbName . ";host=" . $dbHost,
+            'username' => $dbUser,
+            'password' => $dbPass,
+            'driver_options' => array(
+                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+            ),
+        );
+        $checkDB = new DatabaseCheck($dbConnectionInfo);
+        if (!$checkDB->checkConnection()) {
+            throw new \Exception('Database connection failure.');
+        }
+        return true;
     }
+
+
 
     /**
      * Check existence of a directory
@@ -93,11 +111,11 @@ class Helper
                     $pathFull = explode("\"", $extPath[1]);
                     $pathParts = str_replace('\\', '/', $pathFull[1]);
                     foreach (explode('/', $pathParts) as $piece) {
-                        if ((file_exists($phpPath . 'php')&&!is_dir($phpPath . 'php'))
-                            || (file_exists($phpPath . 'php.exe')&&!is_dir($phpPath . 'php.exe'))) {
+                        if ((file_exists($phpPath . 'php') && !is_dir($phpPath . 'php'))
+                            || (file_exists($phpPath . 'php.exe') && !is_dir($phpPath . 'php.exe'))) {
                             break;
-                        } else if ((file_exists($phpPath . 'bin/php')&&!is_dir($phpPath . 'bin/php'))
-                            || (file_exists($phpPath . 'bin/php.exe')&&!is_dir($phpPath . 'bin/php.exe'))) {
+                        } else if ((file_exists($phpPath . 'bin/php') && !is_dir($phpPath . 'bin/php'))
+                            || (file_exists($phpPath . 'bin/php.exe') && !is_dir($phpPath . 'bin/php.exe'))) {
                             $phpPath .= 'bin' . '/';
                             break;
                         } else {

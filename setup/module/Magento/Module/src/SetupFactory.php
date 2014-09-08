@@ -84,7 +84,7 @@ class SetupFactory
      * @param string $moduleName
      * @return Setup
      */
-    public function create($moduleName)
+    public function create($moduleName = null)
     {
         $setup =  new Setup(
             $this->adapter,

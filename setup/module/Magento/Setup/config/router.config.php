@@ -65,7 +65,7 @@ return [
                         ]
                     ],
                 ],
-                'install-local' => [
+                'install-configuration' => [
                     'options' => [
                         'route' => 'install configuration --license_agreement_accepted= --db_host= --db_name='
                             . ' --db_user= --admin_url= [--db_pass=] [--db_table_prefix=] [--magentoDir=]',
