@@ -1,8 +1,13 @@
 <div class="range">
+    <label for="" class="label">
+        <span data-bind="text: title"></span>
+    </label>
     <div class="range-line date">
-        <input type="text" class="input-text no-changes" placeholder="From" data-bind="datepicker: from">
+        <label data-bind="text: $t('To')"></label><br>
+        <input type="text" class="input-text no-changes" data-bind="datepicker: from">
     </div>
     <div class="range-line date">
-        <input type="text" class="input-text no-changes" placeholder="To" data-bind="datepicker: to">
+        <label data-bind="text: $t('From')"></label><br>
+        <input type="text" class="input-text no-changes" data-bind="datepicker: to">
     </div>
 </div>
