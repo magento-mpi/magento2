@@ -82,7 +82,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetPersistentDataIfDataCantProcess()
+    public function testSetPersistentDataIfDataCannotBeProcessed()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
         $this->mPersistentDataMock->expects($this->once())
@@ -92,7 +92,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
         $this->subject->execute($observerMock);
     }
 
-    public function testSetPersistentDataIfCustomerNotPersists()
+    public function testSetPersistentDataIfCustomerIsNotPersistent()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
         $this->mPersistentDataMock->expects($this->once())

@@ -13,7 +13,7 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $ePersistentDataMock;
+    protected $historyHelperMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -40,7 +40,7 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->ePersistentDataMock = $this->getMock(
+        $this->historyHelperMock = $this->getMock(
             '\Magento\PersistentHistory\Helper\Data',
             ['isCompareProductsPersist', 'isComparedProductsPersist'],
             [],
@@ -66,7 +66,7 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
         $this->subject = $objectManager->getObject(
             '\Magento\PersistentHistory\Model\Observer\ExpireSidebars',
             [
-                'ePersistentData' => $this->ePersistentDataMock,
+                'ePersistentData' => $this->historyHelperMock,
                 'compareItem' => $this->compareItemMock,
                 'comparedFactory' => $this->comparedFactoryMock,
                 'viewedFactory' => $this->viewedFactoryMock
@@ -77,10 +77,10 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
     public function testSidebarExpireDataIfCompareProductsNotPersistAndComparedProductsNotPersist()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->historyHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(false));
-        $this->ePersistentDataMock->expects($this->exactly(2))
+        $this->historyHelperMock->expects($this->exactly(2))
             ->method('isComparedProductsPersist')
             ->will($this->returnValue(false));
         $this->subject->execute($observerMock);
@@ -89,13 +89,13 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
     public function testSidebarExpireDataIfComparedProductsNotPersist()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->historyHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(true));
 
         $this->compareItemMock->expects($this->once())->method('bindCustomerLogout')->will($this->returnSelf());
 
-        $this->ePersistentDataMock->expects($this->exactly(2))
+        $this->historyHelperMock->expects($this->exactly(2))
             ->method('isComparedProductsPersist')
             ->will($this->returnValue(false));
         $this->subject->execute($observerMock);
@@ -104,11 +104,11 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
     public function testSidebarExpireDataIfCompareProductsNotPersist()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->historyHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(false));
 
-        $this->ePersistentDataMock->expects($this->exactly(2))
+        $this->historyHelperMock->expects($this->exactly(2))
             ->method('isComparedProductsPersist')
             ->will($this->returnValue(true));
 
@@ -128,13 +128,13 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
     public function testSidebarExpireDataSuccess()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->historyHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(true));
 
         $this->compareItemMock->expects($this->once())->method('bindCustomerLogout')->will($this->returnSelf());
 
-        $this->ePersistentDataMock->expects($this->exactly(2))
+        $this->historyHelperMock->expects($this->exactly(2))
             ->method('isComparedProductsPersist')
             ->will($this->returnValue(true));
 

@@ -13,12 +13,12 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $ePersistentDataMock;
+    protected $historyHelperMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mPersistentDataMock;
+    protected $persistentHelperMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -28,7 +28,7 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $persistentSessionMock;
+    protected $sessionHelperMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -45,8 +45,8 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->ePersistentDataMock = $this->getMock('\Magento\PersistentHistory\Helper\Data', [], [], '', false);
-        $this->persistentSessionMock = $this->getMock('\Magento\Persistent\Helper\Session', [], [], '', false);
+        $this->historyHelperMock = $this->getMock('\Magento\PersistentHistory\Helper\Data', [], [], '', false);
+        $this->sessionHelperMock = $this->getMock('\Magento\Persistent\Helper\Session', [], [], '', false);
         $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', [], [], '', false);
         $this->configFactoryMock = $this->getMock(
             '\Magento\Persistent\Model\Persistent\ConfigFactory',
@@ -55,7 +55,7 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->mPersistentDataMock = $this->getMock(
+        $this->persistentHelperMock = $this->getMock(
             '\Magento\Persistent\Helper\Data',
             ['isCompareProductsPersist', 'canProcess', '__wakeup'],
             [],
@@ -66,9 +66,9 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
         $this->subject = $objectManager->getObject(
             '\Magento\PersistentHistory\Model\Observer\ApplyPersistentData',
             [
-                'ePersistentData' => $this->ePersistentDataMock,
-                'persistentSession' => $this->persistentSessionMock,
-                'mPersistentData' => $this->mPersistentDataMock,
+                'ePersistentData' => $this->historyHelperMock,
+                'persistentSession' => $this->sessionHelperMock,
+                'mPersistentData' => $this->persistentHelperMock,
                 'customerSession' => $this->customerSessionMock,
                 'configFactory' => $this->configFactoryMock
             ]
@@ -78,7 +78,7 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
     public function testApplyPersistentDataIfDataCantProcess()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->mPersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('canProcess')
             ->with($observerMock)
             ->will($this->returnValue(false));
@@ -88,22 +88,22 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
     public function testApplyPersistentDataIfSessionNotPersistent()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->mPersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('canProcess')
             ->with($observerMock)
             ->will($this->returnValue(true));
-        $this->persistentSessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(false));
+        $this->sessionHelperMock->expects($this->once())->method('isPersistent')->will($this->returnValue(false));
         $this->subject->execute($observerMock);
     }
 
     public function testApplyPersistentDataIfUserLoggedIn()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->mPersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('canProcess')
             ->with($observerMock)
             ->will($this->returnValue(true));
-        $this->persistentSessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
+        $this->sessionHelperMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
         $this->customerSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(true));
         $this->subject->execute($observerMock);
     }
@@ -112,11 +112,11 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
     {
         $configFilePath = 'file/path';
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->mPersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('canProcess')
             ->with($observerMock)
             ->will($this->returnValue(true));
-        $this->persistentSessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
+        $this->sessionHelperMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
         $this->customerSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
 
         $configMock = $this->getMock('\Magento\Persistent\Model\Persistent\Config', [], [], '', false);
@@ -125,7 +125,7 @@ class ApplyPersistentDataTest extends \PHPUnit_Framework_TestCase
             ->with($configFilePath)
             ->will($this->returnSelf());
 
-        $this->ePersistentDataMock->expects($this->once())
+        $this->historyHelperMock->expects($this->once())
             ->method('getPersistentConfigFilePath')
             ->will($this->returnValue($configFilePath));
 

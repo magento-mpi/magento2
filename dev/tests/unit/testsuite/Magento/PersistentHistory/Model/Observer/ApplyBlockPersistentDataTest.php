@@ -13,7 +13,7 @@ class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $ePersistentDataMock;
+    protected $persistentHelperMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -30,7 +30,7 @@ class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->ePersistentDataMock = $this->getMock('\Magento\PersistentHistory\Helper\Data', [], [], '', false);
+        $this->persistentHelperMock = $this->getMock('\Magento\PersistentHistory\Helper\Data', [], [], '', false);
         $this->observerMock = $this->getMock(
             '\Magento\Persistent\Model\Observer\ApplyBlockPersistentData',
             [],
@@ -42,7 +42,7 @@ class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
         $this->subject = $objectManager->getObject(
             '\Magento\PersistentHistory\Model\Observer\ApplyBlockPersistentData',
             [
-                'ePersistentData' => $this->ePersistentDataMock,
+                'ePersistentData' => $this->persistentHelperMock,
                 'observer' => $this->observerMock,
             ]
         );
@@ -61,7 +61,7 @@ class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
 
         $eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
 
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('getPersistentConfigFilePath')
             ->will($this->returnValue($configFilePath));
 

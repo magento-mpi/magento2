@@ -13,12 +13,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $ePersistentDataMock;
+    protected $persistentHelperMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $persistentSessionMock;
+    protected $sessionHelperMock;
 
     /**
      * @var \Magento\PersistentHistory\Model\Observer
@@ -29,7 +29,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->ePersistentDataMock = $this->getMock(
+        $this->persistentHelperMock = $this->getMock(
             '\Magento\PersistentHistory\Helper\Data',
             [
                 'isOrderedItemsPersist',
@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->persistentSessionMock = $this->getMock(
+        $this->sessionHelperMock = $this->getMock(
             '\Magento\Persistent\Helper\Session',
             ['getSession'],
             [],
@@ -50,14 +50,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->subject = $objectManager->getObject(
             '\Magento\PersistentHistory\Model\Observer',
-            ['ePersistentData' => $this->ePersistentDataMock, 'persistentSession' => $this->persistentSessionMock]
+            ['ePersistentData' => $this->persistentHelperMock, 'persistentSession' => $this->sessionHelperMock]
         );
     }
 
     public function testInitReorderSidebarIfOrderItemsNotPersist()
     {
         $blockMock = $this->getMock('\Magento\Framework\View\Element\AbstractBlock', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isOrderedItemsPersist')
             ->will($this->returnValue(false));
         $this->subject->initReorderSidebar($blockMock);
@@ -65,7 +65,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testInitReorderSidebarSuccess()
     {
-        $this->setCustomerIdMock();
+        $customerId = 100;
+        $this->sessionHelperMock->expects($this->once())
+            ->method('getSession')
+            ->will($this->returnValue($this->getSessionMock()));
+
         $blockMock = $this->getMock(
             '\Magento\Framework\View\Element\AbstractBlock',
             ['setCustomerId', '__wakeup', 'initOrders'],
@@ -73,13 +77,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isOrderedItemsPersist')
             ->will($this->returnValue(true));
 
         $blockMock->expects($this->once())
             ->method('setCustomerId')
-            ->with($this->getCustomerId())
+            ->with($customerId)
             ->will($this->returnSelf());
         $blockMock->expects($this->once())->method('initOrders')->will($this->returnSelf());
         $this->subject->initReorderSidebar($blockMock);
@@ -88,7 +92,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testEmulateViewedProductsIfProductsNotPersist()
     {
         $blockMock = $this->getMock('\Magento\Reports\Block\Product\Viewed', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isViewedProductsPersist')
             ->will($this->returnValue(false));
         $this->subject->emulateViewedProductsBlock($blockMock);
@@ -96,7 +100,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testEmulateViewedProductsSuccess()
     {
-        $this->setCustomerIdMock();
+        $customerId = 100;
+        $this->sessionHelperMock->expects($this->once())
+            ->method('getSession')
+            ->will($this->returnValue($this->getSessionMock()));
+
         $blockMock = $this->getMock(
             '\Magento\Reports\Block\Product\Viewed',
             ['getModel', 'setCustomerId', '__wakeup'],
@@ -104,7 +112,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isViewedProductsPersist')
             ->will($this->returnValue(true));
 
@@ -117,7 +125,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $modelMock->expects($this->once())
             ->method('setCustomerId')
-            ->with($this->getCustomerId())
+            ->with($customerId)
             ->will($this->returnSelf());
         $modelMock->expects($this->once())->method('calculate')->will($this->returnSelf());
 
@@ -126,7 +134,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($modelMock));
         $blockMock->expects($this->once())
             ->method('setCustomerId')
-            ->with($this->getCustomerId())
+            ->with($customerId)
             ->will($this->returnSelf());
 
         $this->subject->emulateViewedProductsBlock($blockMock);
@@ -135,7 +143,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testEmulateComparedProductsIfProductsNotPersist()
     {
         $blockMock = $this->getMock('\Magento\Reports\Block\Product\Compared', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isComparedProductsPersist')
             ->will($this->returnValue(false));
         $this->subject->emulateComparedProductsBlock($blockMock);
@@ -143,7 +151,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testEmulateComparedProductsSuccess()
     {
-        $this->setCustomerIdMock();
+        $customerId = 100;
+        $this->sessionHelperMock->expects($this->once())
+            ->method('getSession')
+            ->will($this->returnValue($this->getSessionMock()));
+
         $blockMock = $this->getMock(
             '\Magento\Reports\Block\Product\Compared',
             ['getModel', 'setCustomerId', '__wakeup'],
@@ -151,7 +163,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isComparedProductsPersist')
             ->will($this->returnValue(true));
 
@@ -164,7 +176,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $modelMock->expects($this->once())
             ->method('setCustomerId')
-            ->with($this->getCustomerId())
+            ->with($customerId)
             ->will($this->returnSelf());
         $modelMock->expects($this->once())->method('calculate')->will($this->returnSelf());
 
@@ -173,7 +185,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($modelMock));
         $blockMock->expects($this->once())
             ->method('setCustomerId')
-            ->with($this->getCustomerId())
+            ->with($customerId)
             ->will($this->returnSelf());
 
         $this->subject->emulateComparedProductsBlock($blockMock);
@@ -182,7 +194,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testEmulateCompareProductsIfProductsNotPersist()
     {
         $blockMock = $this->getMock('\Magento\Catalog\Block\Product\Compare\Sidebar', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(false));
         $this->subject->emulateCompareProductsBlock($blockMock);
@@ -190,7 +202,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testEmulateCompareProductsSuccess()
     {
-        $this->setCustomerIdMock();
+        $customerId = 100;
+        $this->sessionHelperMock->expects($this->once())
+            ->method('getSession')
+            ->will($this->returnValue($this->getSessionMock()));
+
         $blockMock = $this->getMock(
             '\Magento\Catalog\Block\Product\Compare\Sidebar',
             ['getCompareProductHelper', '__wakeup', 'setItems'],
@@ -198,7 +214,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(true));
 
@@ -214,7 +230,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($compareHelperMock));
         $compareHelperMock->expects($this->once())
             ->method('setCustomerId')
-            ->with($this->getCustomerId())
+            ->with($customerId)
             ->will($this->returnSelf());
 
         $itemCollectionMock = $this->getMock(
@@ -239,7 +255,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testEmulateCompareProductListIfProductsNotPersistent()
     {
         $blockMock = $this->getMock('\Magento\Catalog\Block\Product\Compare\ListCompare', [], [], '', false);
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(false));
         $this->subject->emulateCompareProductsListBlock($blockMock);
@@ -247,7 +263,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testEmulateCompareProductListSuccess()
     {
-        $this->setCustomerIdMock();
+        $customerId = 100;
+        $this->sessionHelperMock->expects($this->once())
+            ->method('getSession')
+            ->will($this->returnValue($this->getSessionMock()));
+
         $blockMock = $this->getMock(
             '\Magento\Catalog\Block\Product\Compare\ListCompare',
             ['setCustomerId'],
@@ -255,18 +275,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->ePersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(true));
         $blockMock->expects($this->once())
             ->method('setCustomerId')
-            ->with($this->getCustomerId())
+            ->with($customerId)
             ->will($this->returnSelf());
         $this->subject->emulateCompareProductsListBlock($blockMock);
     }
 
-    protected function setCustomerIdMock()
+    protected function getSessionMock()
     {
+        $customerId = 100;
         $sessionMock = $this->getMock(
             '\Magento\Persistent\Model\Session',
             ['getCustomerId', '__wakeup'],
@@ -274,15 +295,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($this->getCustomerId()));
-        $this->persistentSessionMock->expects($this->once())
-            ->method('getSession')
-            ->will($this->returnValue($sessionMock));
-    }
-
-    protected function getCustomerId()
-    {
-        return 100;
+        $sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
+        return $sessionMock;
     }
 }
  

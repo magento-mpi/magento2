@@ -13,17 +13,17 @@ class ApplyCustomerIdTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $ePersistentDataMock;
+    protected $historyHelperMoc;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mPersistentDataMock;
+    protected $persistentHelperMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $persistentSessionMock;
+    protected $sessionHelperMock;
 
     /**
      * @var \Magento\PersistentHistory\Model\Observer\ApplyCustomerId
@@ -35,9 +35,9 @@ class ApplyCustomerIdTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->ePersistentDataMock = $this->getMock('\Magento\PersistentHistory\Helper\Data', [], [], '', false);
-        $this->persistentSessionMock = $this->getMock('\Magento\Persistent\Helper\Session', [], [], '', false);
-        $this->mPersistentDataMock = $this->getMock(
+        $this->historyHelperMoc = $this->getMock('\Magento\PersistentHistory\Helper\Data', [], [], '', false);
+        $this->sessionHelperMock = $this->getMock('\Magento\Persistent\Helper\Session', [], [], '', false);
+        $this->persistentHelperMock = $this->getMock(
             '\Magento\Persistent\Helper\Data',
             ['isCompareProductsPersist', 'canProcess', '__wakeup'],
             [],
@@ -48,9 +48,9 @@ class ApplyCustomerIdTest extends \PHPUnit_Framework_TestCase
         $this->subject = $objectManager->getObject(
             '\Magento\PersistentHistory\Model\Observer\ApplyCustomerId',
             [
-                'ePersistentData' => $this->ePersistentDataMock,
-                'persistentSession' => $this->persistentSessionMock,
-                'mPersistentData' => $this->mPersistentDataMock
+                'ePersistentData' => $this->historyHelperMoc,
+                'persistentSession' => $this->sessionHelperMock,
+                'mPersistentData' => $this->persistentHelperMock
             ]
         );
     }
@@ -58,7 +58,7 @@ class ApplyCustomerIdTest extends \PHPUnit_Framework_TestCase
     public function testApplyPersistentCustomerIdIfPersistentDataCantProcess()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->mPersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('canProcess')
             ->with($observerMock)
             ->will($this->returnValue(false));
@@ -68,11 +68,11 @@ class ApplyCustomerIdTest extends \PHPUnit_Framework_TestCase
     public function testApplyPersistentCustomerIdIfCannotCompareProduct()
     {
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->mPersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('canProcess')
             ->with($observerMock)
             ->will($this->returnValue(true));
-        $this->ePersistentDataMock->expects($this->once())
+        $this->historyHelperMoc->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(false));
         $this->subject->execute($observerMock);
@@ -82,11 +82,11 @@ class ApplyCustomerIdTest extends \PHPUnit_Framework_TestCase
     {
         $customerId = 1;
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $this->mPersistentDataMock->expects($this->once())
+        $this->persistentHelperMock->expects($this->once())
             ->method('canProcess')
             ->with($observerMock)
             ->will($this->returnValue(true));
-        $this->ePersistentDataMock->expects($this->once())
+        $this->historyHelperMoc->expects($this->once())
             ->method('isCompareProductsPersist')
             ->will($this->returnValue(true));
 
@@ -108,7 +108,7 @@ class ApplyCustomerIdTest extends \PHPUnit_Framework_TestCase
             false
         );
         $sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
-        $this->persistentSessionMock->expects($this->once())
+        $this->sessionHelperMock->expects($this->once())
             ->method('getSession')
             ->will($this->returnValue($sessionMock));
 
