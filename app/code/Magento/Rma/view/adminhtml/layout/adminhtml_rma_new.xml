@@ -34,7 +34,7 @@
             </action>
         </block>
     </referenceContainer>
-    <referenceContainer name="before_body_end">
+    <referenceContainer name="before.body.end">
         <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
         <block class="Magento\Rma\Block\Adminhtml\Product\Bundle\Js" template="edit/bundle/js.phtml" name="magento_rma_js_create"/>
     </referenceContainer>

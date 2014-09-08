@@ -49,6 +49,14 @@ class History extends Block
      */
     public function getCapturedAmount()
     {
+        $element = $this->_rootElement;
+        $selector = $this->capturedAmount;
+        $this->_rootElement->waitUntil(
+            function () use ($element, $selector) {
+                $addProductsButton = $element->find($selector, Locator::SELECTOR_XPATH);
+                return $addProductsButton->isVisible() ? true : null;
+            }
+        );
         return $this->_rootElement->find($this->capturedAmount, Locator::SELECTOR_XPATH)->getText();
     }
 }

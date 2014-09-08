@@ -88,7 +88,7 @@ class Create extends Block
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
      */
-    protected function getItemsBlock()
+    public function getItemsBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateItems(
             $this->_rootElement->find($this->itemsBlock, Locator::SELECTOR_CSS)
@@ -193,6 +193,7 @@ class Create extends Block
      * Add products to order
      *
      * @param Order $fixture
+     * @return void
      */
     public function addProducts(Order $fixture)
     {
