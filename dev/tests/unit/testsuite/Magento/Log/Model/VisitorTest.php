@@ -28,7 +28,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
     protected $sessionManagerInterface;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerInterface;
 
@@ -52,11 +52,11 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
      */
     protected $dateTime;
 
-    protected function setUp()
+    public function setUp()
     {
         $this->registry = $this->getMock('Magento\Framework\Registry');
         $this->sessionManagerInterface = $this->getMock('Magento\Framework\Session\SessionManagerInterface');
-        $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerInterface = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->header = $this->getMock('Magento\Framework\HTTP\Header', [], [], '', false);
         $this->remoteAddress = $this->getMock('Magento\Framework\HTTP\PhpEnvironment\RemoteAddress', [], [], '', false);
         $this->serverAddress = $this->getMock('Magento\Framework\HTTP\PhpEnvironment\ServerAddress', [], [], '', false);
@@ -132,7 +132,8 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
 
     public function testLogNewVisitor()
     {
-        $visitor = $this->getMock('Magento\Customer\Model\Visitor', ['getData', 'setData'], [], '', false, false);
+        $visitor = $this->getMockBuilder('Magento\Customer\Model\Visitor')
+            ->disableOriginalConstructor()->getMock();
         $visitor->expects($this->once())->method('setData')->will($this->returnSelf());
         $visitor->expects($this->once())->method('getData')->will($this->returnValue([]));
         $event = new \Magento\Framework\Object(['visitor' => $visitor]);
@@ -142,7 +143,8 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
 
     public function testLogVisitorActivity()
     {
-        $visitor = $this->getMock('Magento\Customer\Model\Visitor', ['getData', 'setData'], [], '', false, false);
+        $visitor = $this->getMockBuilder('Magento\Customer\Model\Visitor')
+            ->disableOriginalConstructor()->getMock();
         $visitor->expects($this->once())->method('setData')->will($this->returnSelf());
         $visitor->expects($this->once())->method('getData')->will($this->returnValue(['visitor_id' => 1]));
 
