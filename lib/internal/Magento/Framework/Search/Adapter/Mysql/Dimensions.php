@@ -7,44 +7,41 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
-use Magento\Framework\App\Resource;
+use Magento\Framework\App\ScopeResolverInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Search\Request\Dimension;
-use Magento\Store\Model\StoreManagerInterface;
 
 class Dimensions
 {
-    /**#@+
-     * Default identifiers
-     */
     const DEFAULT_DIMENSION_NAME = 'scope';
 
-    const DEFAULT_DIMENSION_VALUE = 'default';
-
-    /**#@-*/
-
     const STORE_FIELD_NAME = 'store_id';
+
     /**
-     * @var Resource
+     * @var \Magento\Framework\App\Resource
      */
     private $resource;
     /**
-     * @var StoreManagerInterface
+     * @var ScopeResolverInterface
      */
-    private $storeManager;
+    private $scopeResolverInterface;
 
+    /**
+     * @param \Magento\Framework\App\Resource $resource
+     * @param ScopeResolverInterface $scopeResolverInterface
+     */
     public function __construct(
-        Resource $resource,
-        StoreManagerInterface $storeManager
+        \Magento\Framework\App\Resource $resource,
+        ScopeResolverInterface $scopeResolverInterface
     ) {
         $this->resource = $resource;
-        $this->storeManager = $storeManager;
+        $this->scopeResolverInterface = $scopeResolverInterface;
     }
 
     public function build(Dimension $dimension)
     {
         /** @var AdapterInterface $adapter */
-        $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+        $adapter = $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE);
 
         return $this->generateExpression($dimension, $adapter);
     }
@@ -59,11 +56,9 @@ class Dimensions
         $identifier = $dimension->getName();
         $value = $dimension->getValue();
 
-        if (self::DEFAULT_DIMENSION_NAME === $identifier or self::STORE_FIELD_NAME === $identifier) {
-            $identifier = $this->getDefaultIdentifier();
-            if (self::DEFAULT_DIMENSION_VALUE === $value) {
-                $value = $this->getDefaultValue();
-            }
+        if (self::DEFAULT_DIMENSION_NAME === $identifier) {
+            $identifier = self::STORE_FIELD_NAME;
+            $value = $this->scopeResolverInterface->getScope($value . 'xx')->getId();
         }
 
         return sprintf(
@@ -72,20 +67,4 @@ class Dimensions
             $adapter->quote($value)
         );
     }
-
-    /**
-     * @return string
-     */
-    private function getDefaultIdentifier()
-    {
-        return self::STORE_FIELD_NAME;
-    }
-
-    /**
-     * @return int
-     */
-    private function getDefaultValue()
-    {
-        return $this->storeManager->getStore('default')->getId();
-    }
-} 
+}
