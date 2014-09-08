@@ -85,8 +85,8 @@ class Messages extends Block
         $browser = $this->browser;
         return $browser->waitUntil(
             function () use ($browser, $selector) {
-                $productMessage = $browser->find($selector);
-                return $productMessage->isVisible() ? true : null;
+                $message = $browser->find($selector);
+                return $message->isVisible() ? true : null;
             }
         );
     }
