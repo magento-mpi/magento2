@@ -11,11 +11,12 @@
         "magento/module-catalog": "0.1.0-alpha93",
         "magento/module-email": "0.1.0-alpha93",
         "magento/module-install": "0.1.0-alpha93",
+        "magento/module-ui": "0.1.0-alpha91",
         "magento/framework": "0.1.0-alpha93",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.0-alpha93",
+    "version": "0.1.0-alpha91",
     "extra": {
         "map": [
             [
