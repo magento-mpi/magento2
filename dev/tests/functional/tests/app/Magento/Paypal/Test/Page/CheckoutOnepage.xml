@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="checkout/onepage">
+    <blocks>
+        <payflowAdvancedCcBlock>
+            <class>Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced</class>
+            <locator>body</locator>
+            <strategy>css selector</strategy>
+        </payflowAdvancedCcBlock>
+        <payflowLinkCcBlock>
+            <class>Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcLink</class>
+            <locator>body</locator>
+            <strategy>css selector</strategy>
+        </payflowLinkCcBlock>
+    </blocks>
+</page>

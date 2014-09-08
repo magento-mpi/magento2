@@ -83,12 +83,12 @@ class BasicPromoTest extends Functional
         $loginBlock->login($fixture->getCustomerFixture());
         // Go to product page
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($fixture->getProductFixture());
-        $productPage->open();
+        $url = $_ENV['app_frontend_url'] . $fixture->getProductFixture()->getUrlKey() . '.html';
+        Factory::getClientBrowser()->open($url);
         // Add product to cart
         $productPage->getViewBlock()->addToCart($fixture->getProductFixture());
         // Open Cart
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         // Verify correct discount applied
         $discount = $checkoutCartPage->getCartBlock()->getDiscountTotal();

@@ -32,6 +32,19 @@ class Totals extends Block
      */
     public function getGrandTotal()
     {
-        return $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
+        $grandTotal = $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
+        return $this->escapeCurrency($grandTotal);
+    }
+
+    /**
+     * Method that escapes currency symbols
+     *
+     * @param string $price
+     * @return string|null
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }

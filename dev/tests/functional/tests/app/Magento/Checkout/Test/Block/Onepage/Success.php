@@ -15,7 +15,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
 /**
  * Class Success
  * One page checkout success block
- *
  */
 class Success extends Block
 {
@@ -66,7 +65,7 @@ class Success extends Block
      *
      * @return string
      */
-    protected function getGuestOrderId()
+    public function getGuestOrderId()
     {
         $orderString = $this->_rootElement->find($this->orderIdGuest, Locator::SELECTOR_XPATH)->getText();
         preg_match('/[\d]+/', $orderString, $orderId);

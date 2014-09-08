@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/export/index" >
-    <block>
-        <name>filterExport</name>
-        <class>Magento\ImportExport\Test\Block\Adminhtml\Export\Filter</class>
-        <locator>#export_filter_container</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>exportForm</name>
-        <class>Magento\ImportExport\Test\Block\Adminhtml\Export\Edit\Form</class>
-        <locator>#base_fieldset</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/export/index" module="Magento_ImportExport">
+    <blocks>
+        <filterExport>
+            <class>Magento\ImportExport\Test\Block\Adminhtml\Export\Filter</class>
+            <locator>#export_filter_container</locator>
+            <strategy>css selector</strategy>
+        </filterExport>
+        <exportForm>
+            <class>Magento\ImportExport\Test\Block\Adminhtml\Export\Edit\Form</class>
+            <locator>#base_fieldset</locator>
+            <strategy>css selector</strategy>
+        </exportForm>
+    </blocks>
 </page>
