@@ -28,5 +28,9 @@ class Reward extends AbstractRepository
         $this->_data['reward_points_50'] = [
             'points_delta' => 50,
         ];
+
+        $this->_data['reward_points_150'] = [
+            'points_delta' => 150,
+        ];
     }
 }

@@ -24,6 +24,13 @@ class Wishlist extends Block
     protected $shareWishList = '[name="save_and_share"]';
 
     /**
+     * Product items selector
+     *
+     * @var string
+     */
+    protected $productItems = '.product-items';
+
+    /**
      * Selector for 'Add to Cart' button
      *
      * @var string
@@ -45,6 +52,19 @@ class Wishlist extends Block
     public function clickShareWishList()
     {
         $this->_rootElement->find($this->shareWishList)->click();
+    }
+
+    /**
+     * Get items product block
+     *
+     * @return \Magento\Wishlist\Test\Block\Customer\Wishlist\Items
+     */
+    public function getProductItemsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Wishlist\Test\Block\Customer\Wishlist\Items',
+            ['element' => $this->_rootElement->find($this->productItems)]
+        );
     }
 
     /**

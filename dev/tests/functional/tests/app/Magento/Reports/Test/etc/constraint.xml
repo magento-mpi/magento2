@@ -38,4 +38,7 @@
     <assertProductViewsReportTotalResult module="Magento_Reports">
         <severeness>low</severeness>
     </assertProductViewsReportTotalResult>
+    <assertProductInCartResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertProductInCartResult>
 </constraint>
