@@ -59,6 +59,6 @@ class AddressesAdditional extends Block
      */
     public function getBlockText()
     {
-        return explode("\n", $this->_rootElement->find($this->additionalAddressContent)->getText());
+        return $this->_rootElement->find($this->additionalAddressContent)->getText();
     }
 }

@@ -60,7 +60,7 @@ class AddressInjectable extends AbstractRepository
             'lastname' => 'Doe',
             'email' => 'John.Doe%isolation%@example.com',
             'company' => 'Magento %isolation%',
-            'street' => '6262 Fith Avenue',
+            'street' => '6262 Fifth Avenue',
             'city' => 'New York',
             'region_id' => 'New York',
             'postcode' => '90230',

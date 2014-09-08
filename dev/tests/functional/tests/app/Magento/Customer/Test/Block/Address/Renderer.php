@@ -75,7 +75,7 @@ class Renderer
             $output = str_replace($field, $data, $output);
         }
 
-        $output = preg_replace('@[\{\}]@', '', $output);
+        $output = str_replace(['{', '}'], '', $output);
         return $output;
     }
 
@@ -88,12 +88,11 @@ class Renderer
     protected function getFieldsArray($outputPattern)
     {
         preg_match_all('@\{\{(\w+)\}\}@', $outputPattern, $matches);
-        array_filter(
-            $matches[1],
-            function ($item) {
-                return $item != 'depend';
+        foreach ($matches[1] as $key => $item) {
+            if ($item == 'depend') {
+                unset($matches[1][$key]);
             }
-        );
+        }
         return $matches[1];
     }
 
@@ -124,6 +123,6 @@ class Renderer
      */
     protected function resolveRegion()
     {
-        return $this->address->getRegionId() === null ? 'region' : 'region_id';
+        return $this->address->hasData('region') ? 'region' : 'region_id';
     }
 }
