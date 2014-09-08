@@ -70,10 +70,8 @@ class AssertGiftWrappingOnFrontendCheckout extends AbstractConstraint
         $giftWrappingsAvailable = $checkoutOnepage->getGiftOptionsBlock()->getGiftWrappingsAvailable();
         $matches = [];
         foreach ($giftWrapping as $item) {
-            foreach ($giftWrappingsAvailable as $giftWrappingAvailable) {
-                if ($item->getDesign() === $giftWrappingAvailable->getText()) {
-                    $matches[] = $item->getDesign();
-                }
+            if (in_array($item->getDesign(), $giftWrappingsAvailable)) {
+                $matches[] = $item->getDesign();
             }
         }
         $customerAccountLogout->open();

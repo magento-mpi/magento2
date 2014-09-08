@@ -71,10 +71,8 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
         $matches = [];
         $giftWrappings = !is_array($giftWrapping) ? [$giftWrapping] : $giftWrapping;
         foreach ($giftWrappings as $giftWrapping) {
-            foreach ($giftWrappingsAvailable as $giftWrappingAvailable) {
-                if ($giftWrapping->getDesign() === $giftWrappingAvailable->getText()) {
-                    $matches[] = $giftWrapping->getDesign();
-                }
+            if (in_array($giftWrapping->getDesign(), $giftWrappingsAvailable)) {
+                $matches[] = $giftWrapping->getDesign();
             }
         }
         $customerAccountLogout->open();

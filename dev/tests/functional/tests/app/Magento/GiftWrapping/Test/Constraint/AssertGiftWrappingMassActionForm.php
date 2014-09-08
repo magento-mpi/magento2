@@ -53,6 +53,6 @@ class AssertGiftWrappingMassActionForm extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift Wrapping form was filled correctly.';
+        return 'All Gift Wrapping forms were filled correctly.';
     }
 }

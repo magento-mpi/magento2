@@ -47,6 +47,12 @@ class Options extends Block
     {
         $this->_rootElement->find($this->allowGiftOptions)->click();
         $this->_rootElement->find($this->allowGiftOptionsForItems)->click();
-        return $this->_rootElement->find($this->giftWrappingOptions)->getElements();
+        $giftWrappings = $this->_rootElement->find($this->giftWrappingOptions)->getElements();
+        $getGiftWrappingsAvailable = [];
+        foreach ($giftWrappings as $giftWrapping) {
+            $getGiftWrappingsAvailable[] = $giftWrapping->getText();
+        }
+
+        return $getGiftWrappingsAvailable;
     }
 }
