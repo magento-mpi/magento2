@@ -37,25 +37,31 @@ class Observer
     /** @var array */
     protected $isSkippedProduct;
 
+    /** @var \Magento\Catalog\Model\Resource\Product\CollectionFactory */
+    protected $productCollectionFactory;
+
     /**
      * @param \Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider $childrenCategoriesProvider
      * @param CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator
      * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      * @param UrlPersistInterface $urlPersist
      * @param ScopeConfigInterface $scopeConfig
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      */
     public function __construct(
         ChildrenCategoriesProvider $childrenCategoriesProvider,
         CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator,
         ProductUrlRewriteGenerator $productUrlRewriteGenerator,
         UrlPersistInterface $urlPersist,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory  $productCollectionFactory
     ) {
         $this->childrenCategoriesProvider = $childrenCategoriesProvider;
         $this->categoryUrlRewriteGenerator = $categoryUrlRewriteGenerator;
         $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
         $this->urlPersist = $urlPersist;
         $this->scopeConfig = $scopeConfig;
+        $this->productCollectionFactory = $productCollectionFactory;
     }
 
     /**
@@ -71,7 +77,7 @@ class Observer
         if ($category->getParentId() == Category::TREE_ROOT_ID) {
             return;
         }
-        if ($category->dataHasChangedFor('url_key') || $category->dataHasChangedFor('affected_product_ids')) {
+        if ($category->dataHasChangedFor('url_key') || $category->getIsChangedProductList()) {
             $urlRewrites = array_merge(
                 $this->categoryUrlRewriteGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)
@@ -112,10 +118,23 @@ class Observer
      */
     protected function generateProductUrlRewrites(Category $category)
     {
-        $this->isSkippedProduct = [];
+        $this->isSkippedProduct = $category->getAffectedProductIds();
         $saveRewriteHistory = $category->getData('save_rewrites_history');
         $storeId = $category->getStoreId();
-        $productUrls = $this->getCategoryProductsUrlRewrites($category, $storeId, $saveRewriteHistory);
+        $productUrls =[];
+        if ($category->getAffectedProductIds()) {
+            $collection = $this->productCollectionFactory->create()
+                ->setStoreId($storeId)
+                ->addIdFilter($category->getAffectedProductIds())
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('url_key')
+                ->addAttributeToSelect('url_path');
+            foreach ($collection as $product) {
+                $product->setStoreId($storeId);
+                $product->setData('save_rewrites_history', $saveRewriteHistory);
+                $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));
+            }
+        }
         foreach ($this->childrenCategoriesProvider->getChildren($category, true) as $childCategory) {
             $productUrls = array_merge(
                 $productUrls,
@@ -135,14 +154,15 @@ class Observer
     {
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $productCollection */
         $productCollection = $category->getProductCollection()
+            ->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('url_path');
         $productUrls = [];
         foreach ($productCollection as $product) {
-            if (isset($this->isSkippedProduct[$product->getId()])) {
+            if (in_array($product->getId(), $this->isSkippedProduct)) {
                 continue;
             }
-            $this->isSkippedProduct[$product->getId()] = true;
+            $this->isSkippedProduct[] = $product->getId();
             $product->setStoreId($storeId);
             $product->setData('save_rewrites_history', $saveRewriteHistory);
             $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));

@@ -83,8 +83,10 @@ class DbStorage extends AbstractStorage
      */
     protected function doReplace($urls)
     {
-        $this->deleteByData($this->createFilterDataBasedOnUrls($urls));
-
+        foreach ($this->createFilterDataBasedOnUrls($urls) as $type => $urlData) {
+            $urlData[UrlRewrite::ENTITY_TYPE] = $type;
+            $this->deleteByData($urlData);
+        }
         $data = [];
         foreach ($urls as $url) {
             $data[] = $url->toArray();
@@ -123,13 +125,12 @@ class DbStorage extends AbstractStorage
     protected function createFilterDataBasedOnUrls($urls)
     {
         $data = [];
-        $uniqueKeys = [UrlRewrite::ENTITY_TYPE, UrlRewrite::ENTITY_ID, UrlRewrite::STORE_ID];
         foreach ($urls as $url) {
-            foreach ($uniqueKeys as $key) {
+            $entityType = $url->getEntityType();
+            foreach ([UrlRewrite::ENTITY_ID, UrlRewrite::STORE_ID] as $key) {
                 $fieldValue = $url->getByKey($key);
-
-                if (!isset($data[$key]) || !in_array($fieldValue, $data[$key])) {
-                    $data[$key][] = $fieldValue;
+                if (!isset($data[$entityType][$key]) || !in_array($fieldValue, $data[$entityType][$key])) {
+                    $data[$entityType][$key][] = $fieldValue;
                 }
             }
         }
