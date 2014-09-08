@@ -9,7 +9,7 @@
 namespace Magento\Module;
 
 use Magento\Module\Setup\Connection\AdapterInterface;
-use Magento\Setup\Model\Logger;
+use Magento\Setup\Model\WebLogger;
 
 class SetupFactory
 {
@@ -44,7 +44,7 @@ class SetupFactory
     /**
      * Logger
      *
-     * @var Logger
+     * @var WebLogger
      */
     protected $logger;
 
@@ -54,13 +54,13 @@ class SetupFactory
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
      * @param Setup\FileResolver $setupFileResolver
-     * @param Logger $logger
+     * @param WebLogger $logger
      */
     public function __construct(
         AdapterInterface $connection,
         ModuleListInterface $moduleList,
         Setup\FileResolver $setupFileResolver,
-        Logger $logger
+        WebLogger $logger
     ) {
         $this->logger = $logger;
         $this->adapter = $connection;

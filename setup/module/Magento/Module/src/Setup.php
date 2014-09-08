@@ -11,7 +11,7 @@ use Magento\Module\Setup\Connection\AdapterInterface;
 use Magento\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Module\Resource\Resource;
 use Magento\Module\Updater\SetupInterface;
-use Magento\Setup\Model\Logger;
+use Magento\Setup\Model\WebLogger;
 
 class Setup implements SetupInterface
 {
@@ -80,7 +80,7 @@ class Setup implements SetupInterface
     /**
      * Logger
      *
-     * @var Logger
+     * @var WebLogger
      */
     protected $logger;
 
@@ -97,7 +97,7 @@ class Setup implements SetupInterface
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
      * @param SetupFileResolver $setupFileResolver
-     * @param Logger $logger
+     * @param WebLogger $logger
      * @param string $moduleName
      * @param array $connectionConfig
      * @return void
@@ -106,7 +106,7 @@ class Setup implements SetupInterface
         AdapterInterface $connection,
         ModuleListInterface $moduleList,
         SetupFileResolver $setupFileResolver,
-        Logger $logger,
+        WebLogger $logger,
         $moduleName,
         array $connectionConfig = array()
     ) {

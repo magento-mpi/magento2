@@ -16,15 +16,15 @@ use Magento\Module\SetupFactory;
 use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;
 use Magento\Setup\Helper\Helper;
+use Magento\Setup\Model\ConsoleLogger;
 use Magento\Setup\Model\FilePermissions;
 use Magento\Setup\Model\UserConfigurationDataFactory;
-use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\AdminAccountFactory;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\Console\Console;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\RequestInterface as Request;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Zend\Mvc\Controller\AbstractController;
 
 /**
  * Class ConsoleController
@@ -32,7 +32,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
  *
  * @package Magento\Setup\Controller
  */
-class ConsoleController extends AbstractActionController
+class ConsoleController extends AbstractInstallActionController
 {
     /**
      * File Permissions
@@ -47,101 +47,39 @@ class ConsoleController extends AbstractActionController
      * @var Lists
      */
     protected $list;
-
-    /**
-     * Module Lists
-     *
-     * @var ModuleListInterface
-     */
-    protected $moduleList;
-
-    /**
-     * Configurations
-     *
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * Factory Configurations
-     *
-     * @var Config
-     */
-    protected $factoryConfig;
-
-    /**
-     * Random Generator
-     *
-     * @var Random
-     */
-    protected $random;
-
-    /**
-     * Admin Account Factory
-     *
-     * @var AdminAccountFactory
-     */
-    protected $adminAccountFactory;
-
-    /**
-     * User Configuration Data Factory
-     *
-     * @var UserConfigurationDataFactory
-     */
-    protected $userConfigurationDataFactory;
-
-    /**
-     * Console
-     *
-     * @var \Zend\Console\Console
-     */
-    protected $console;
-
-    /**
-     * PHP executable finder
-     *
-     * @var \Symfony\Component\Process\PhpExecutableFinder
-     */
-     protected $phpExecutableFinder;
-
-
+    
     /**
      * Default Constructor
      *
      * @param FilePermissions $filePermission
      * @param Lists $list
-     * @param ConfigFactory $configFactory
-     * @param Random $random
-     * @param Config $config
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
+     * @param Random $random
+     * @param Config $config
+     * @param ConfigFactory $systemConfig
      * @param UserConfigurationDataFactory $userConfigurationDataFactory
+     * @param ConsoleLogger $consoleLogger
      * @param PhpExecutableFinder $phpExecutableFinder
      */
     public function __construct(
         FilePermissions $filePermission,
         Lists $list,
-        ConfigFactory $configFactory,
-        Random $random,
-        Config $config,
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
         AdminAccountFactory $adminAccountFactory,
+        Random $random,
+        Config $config,
+        ConfigFactory $systemConfig,
         UserConfigurationDataFactory $userConfigurationDataFactory,
+        ConsoleLogger $consoleLogger,
         PhpExecutableFinder $phpExecutableFinder
     ) {
+        parent::__construct($moduleList, $setupFactory, $adminAccountFactory, $random,
+            $config, $systemConfig, $userConfigurationDataFactory, $consoleLogger, $phpExecutableFinder);
         $this->filePermission = $filePermission;
         $this->list = $list;
-        $this->factoryConfig = $configFactory->create();
-        $this->random = $random;
-        $this->config = $config;
-        $this->setupFactory = $setupFactory;
-        $this->moduleList = $moduleList;
-        $this->adminAccountFactory = $adminAccountFactory;
-        $this->userConfigurationDataFactory = $userConfigurationDataFactory;
-        $this->console = Console::getInstance();
-        $this->logger = new \Logger(Console::getInstance());
         $this->phpExecutableFinder = $phpExecutableFinder;
     }
 
@@ -169,25 +107,27 @@ class ConsoleController extends AbstractActionController
     /**
      * Controller for Install Command
      *
+     * @return void
      * @throws \Exception
      */
     public function installAction()
     {
-        $this->console->writeLine("Beginning Magento Installation...");
+        $this->logger->log("Beginning Magento Installation...");
         $this->installDeploymentConfigAction();
         $this->installSchemaAction();
         $this->installDataAction();
-        $this->console->writeLine("Completed Magento Installation Successfully.");
+        $this->logger->log("Completed Magento Installation Successfully.");
     }
 
     /**
      * Creates the local.xml file
      *
+     * @return void
      * @throws \Exception
      */
     public function installDeploymentConfigAction()
     {
-        $this->console->writeLine("Starting to install Deployment Configuration Data.");
+        $this->logger->log("Starting to install Deployment Configuration Data.");
 
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
@@ -233,75 +173,39 @@ class ConsoleController extends AbstractActionController
                     'admin' => $adminUrl,
                 )
             ),
-            'config' => array(
-                'address' => array(
-                    'admin' => $adminUrl,
-                ),
-            ),
         );
 
-        $this->config->setConfigData($this->config->convertFromDataObject($data));
-        //Creates Deployment Configuration
-        $this->config->install();
-
-        //Finalizes the deployment configuration
-        $encryptionKey = $request->getParam('encryption_key');
-        if (!$encryptionKey) {
-            $key = $this->getRandomEncryptionKey();
-        } else {
-            $key = $encryptionKey;
-        }
-
-        $this->config->replaceTmpEncryptKey($key);
-        $this->config->replaceTmpInstallDate(date('r'));
-
-        $this->console->writeLine("Completed: Deployment Configuration.");
+        $this->installDeploymentConfiguration($data);
     }
 
     /**
      * Installs and updates database schema
      *
+     * @return void
      * @throws \Exception
      */
     public function installSchemaAction()
     {
-        $this->console->writeLine("Starting to install Schema");
+        $this->logger->log("Starting to install Schema");
 
         //Setting the basePath of Magento application
         $magentoDir = $this->getRequest()->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
         $this->config->setConfigData($this->config->getConfigurationFromDeploymentFile());
-        $this->setupFactory->setConfig($this->config->getConfigData());
-
-        //List of All Module Names
-        $moduleNames = array_keys($this->moduleList->getModules());
-
-        // Do schema updates for each module
-        foreach ($moduleNames as $moduleName) {
-            $setup = $this->setupFactory->create($moduleName);
-            $setup->applyUpdates();
-            $this->console->writeLine("Installed schema : " . $moduleName);
-        }
-
-        $this->console->writeLine("Installing recurring post-schema updates for all modules.");
-        // Do post-schema updates for each module
-        foreach ($moduleNames as $moduleName) {
-            $setup = $this->setupFactory->create($moduleName);
-            $setup->applyRecurringUpdates();
-        }
-
-        $this->console->writeLine("Completed: Schema Installation");
+        $this->installSchemaUpdates();
+        $this->logger->log("Completed: Schema Installation");
     }
 
     /**
      * Installs and updates data
      *
+     * @return void
      * @throws \Exception
      */
     public function installDataAction()
     {
-        $this->console->writeLine("Starting to install Data Updates");
+        $this->logger->log("Starting to install Data Updates");
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
 
@@ -309,11 +213,8 @@ class ConsoleController extends AbstractActionController
         $magentoDir = $request->getParam('magentoDir');
         $this->updateMagentoDirectory($magentoDir);
 
-        $data = $this->parseUserConfigurationData($request);
-        $this->installUserConfigurationData($data);
-
         $this->installDataUpdates();
-        $this->console->writeLine("Completed: Data Installation.");
+        $this->logger->log("Completed: Data Installation.");
     }
 
 
@@ -343,133 +244,6 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
-     * Updates Magento Directory
-     *
-     * @param string $magentoDir
-     * @return void
-     */
-    private function updateMagentoDirectory($magentoDir)
-    {
-        if ($magentoDir) {
-            $this->factoryConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
-        } else {
-            $this->factoryConfig->setMagentoBasePath();
-        }
-    }
-
-    /**
-     * Creates Random Encryption Key
-     *
-     * @return string
-     */
-    private function getRandomEncryptionKey()
-    {
-        return md5($this->random->getRandomString(10));
-    }
-
-    /**
-     * Installs User Configuration Data
-     *
-     * @param array $data
-     * @return void
-     */
-    protected function installUserConfigurationData($data)
-    {
-        $setup = $this->setupFactory->create();
-
-        //Loading Configurations
-        $this->config->setConfigData($this->config->convertFromDataObject($data));
-        $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
-        $this->userConfigurationDataFactory->setConfig($this->config->getConfigData());
-        $this->userConfigurationDataFactory->create($setup)->install($data);
-
-        // Create administrator account
-        $this->adminAccountFactory->setConfig($this->config->getConfigData());
-        $adminAccount = $this->adminAccountFactory->create($setup);
-        $adminAccount->save();
-    }
-
-    /**
-     * Parses User Configuration Data from Request Parameters
-     *
-     * @param \Zend\Console\Request $request
-     * @return array
-     */
-    protected function parseUserConfigurationData($request)
-    {
-        $storeUrl = $request->getParam('store_url');
-        $secureStoreUrl = $request->getParam('secure_store_url', false) == 'yes' ? true : false;
-        $secureAdminUrl = $request->getParam('secure_admin_url', false) == 'yes' ? true : false;
-        $useRewrites = $request->getParam('use_rewrites', false) == 'yes' ? true : false;
-        $locale = $request->getParam('locale');
-        $timezone = $request->getParam('timezone');
-        $currency = $request->getParam('currency');
-        $adminLstname = $request->getParam('admin_lastname');
-        $adminFirstname = $request->getParam('admin_firstname');
-        $adminEmail = $request->getParam('admin_email');
-        $adminUsername = $request->getParam('admin_username');
-        $adminPassword = $request->getParam('admin_password');
-
-        $data = array(
-            'admin' => array(
-                'password' => $adminPassword,
-                'username' => $adminUsername,
-                'email' => $adminEmail,
-                'confirm' => $adminPassword,
-                'lastname' => $adminLstname,
-                'firstname' => $adminFirstname,
-            ),
-            'store' => array(
-                'timezone' => $timezone,
-                'currency' => $currency,
-                'language' => $locale,
-                'usaSampleData' => false,
-            ),
-            'config' => array(
-                'address' => array(
-                    'front' => $storeUrl,
-                ),
-                'https' => array(
-                    'web' => $secureStoreUrl,
-                    'admin' => $secureAdminUrl,
-                ),
-                'rewrites' => array(
-                    'allowed' => $useRewrites,
-                ),
-                'advanced' => array(
-                    'expanded' => true,
-                ),
-            ),
-        );
-        return $data;
-    }
-
-    /**
-     * Installs Data Updates
-     *
-     * @return int
-     * @throws \Exception
-     */
-    protected function installDataUpdates()
-    {
-        $exitCode = null;
-        $output = null;
-        $phpPath = $this->phpExecutableFinder->find();
-
-        exec(
-            $phpPath .
-            '/php -f ' . $this->factoryConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
-            $output,
-            $exitCode
-        );
-        if ($exitCode !== 0) {
-            $outputMsg = implode(PHP_EOL, $output);
-            throw new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
-        }
-        return $exitCode;
-    }
-
-    /**
      * Convert an array to string
      *
      * @param array $input
@@ -484,7 +258,7 @@ class ConsoleController extends AbstractActionController
 
         return $result;
     }
-
+    
     /**
      * Show installation options
      *

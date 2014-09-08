@@ -8,9 +8,7 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Module\SetupFactory;
 use Magento\Module\Setup;
-use Magento\Module\Setup\Config;
 
 /**
  * Model Class to Install User Configuration Data
@@ -29,12 +27,9 @@ class UserConfigurationData
     /**
      * Default Constructor
      *
-     * @param SetupFactory $setupFactory
-     * @param Config $config
+     * @param Setup $setup
      */
-    public function __construct(
-        Setup $setup
-    )
+    public function __construct(Setup $setup)
     {
         $this->setup = $setup;
     }
@@ -43,7 +38,7 @@ class UserConfigurationData
      * Installs All Configuration Data
      *
      * @param array $data
-     * @returns void
+     * @return void
      */
     public function install($data) {
         $this->initSetup($data);
@@ -64,7 +59,7 @@ class UserConfigurationData
      * @param string $key
      * @param mixed $value
      * @param mixed $default
-     * @returns void
+     * @return void
      * @throws \Exception
      */
     public function installData($key, $value, $default) {

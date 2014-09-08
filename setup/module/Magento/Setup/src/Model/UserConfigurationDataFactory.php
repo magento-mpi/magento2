@@ -28,6 +28,7 @@ class UserConfigurationDataFactory
      * Sets Configurations
      *
      * @param array $config
+     * @return void
      */
     public function setConfig(array $config)
     {
@@ -35,6 +36,8 @@ class UserConfigurationDataFactory
     }
 
     /**
+     * Creates Setup Instance
+     *
      * @param Setup $setup
      * @return UserConfigurationData
      */

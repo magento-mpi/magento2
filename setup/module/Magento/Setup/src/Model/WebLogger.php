@@ -8,9 +8,16 @@
 
 namespace Magento\Setup\Model;
 
-class Logger
+/**
+ * UI Logger
+ *
+ * @package Magento\Setup\Model
+ */
+class WebLogger implements LoggerInterface
 {
     /**
+     * Log File
+     *
      * @var string
      */
     protected $logFile = 'install.log';
@@ -58,6 +65,17 @@ class Logger
         $this->open();
         fwrite($this->resource, '<span class="text-danger">[ERROR] ' . $e . '<span>' . PHP_EOL);
         $this->close();
+    }
+
+    /**
+     * Currently, this is not supported
+     *
+     * @param string $message
+     * @return void
+     */
+    public function log($message)
+    {
+        // Do Nothing
     }
 
     /**

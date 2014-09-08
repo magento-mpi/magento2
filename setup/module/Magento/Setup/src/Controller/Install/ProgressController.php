@@ -8,7 +8,7 @@
 namespace Magento\Setup\Controller\Install;
 
 use Magento\Module\ModuleListInterface;
-use Magento\Setup\Model\Logger;
+use Magento\Setup\Model\WebLogger;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -20,7 +20,7 @@ class ProgressController extends AbstractActionController
     protected $json;
 
     /**
-     * @var Logger
+     * @var WebLogger
      */
     protected $logger;
 
@@ -29,12 +29,12 @@ class ProgressController extends AbstractActionController
     /**
      * @param JsonModel $view
      * @param ModuleListInterface $moduleList
-     * @param Logger $logger
+     * @param WebLogger $logger
      */
     public function __construct(
         JsonModel $view,
         ModuleListInterface $moduleList,
-        Logger $logger
+        WebLogger $logger
     ) {
         $this->moduleList = $moduleList;
         $this->logger = $logger;

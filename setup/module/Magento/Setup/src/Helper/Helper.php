@@ -10,8 +10,14 @@ namespace Magento\Setup\Helper;
 
 use Magento\Setup\Model\DatabaseCheck;
 
+/**
+ * Helper Class
+ *
+ * @package Magento\Setup\Helper
+ */
 class Helper
 {
+
     /**
      * Checks Database Connection
      *
