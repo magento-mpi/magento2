@@ -89,6 +89,15 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function getCartForCustomer($customerId)
+    {
+        $quote = $this->quoteRepository->getForCustomer($customerId);
+        return $this->cartMapper->map($quote);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCartList(SearchCriteria $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);

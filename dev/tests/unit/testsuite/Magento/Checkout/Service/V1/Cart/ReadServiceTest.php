@@ -49,7 +49,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', ['get'], [], '', false);
+        $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $methods = [
             'getId', 'getStoreId', 'getCreatedAt', 'getUpdatedAt', 'getConvertedAt',
             'getIsActive', 'getIsVirtual', 'getItemsCount', 'getItemsQty', 'getCheckoutMethod', 'getReservedOrderId',
@@ -86,6 +86,17 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->cartMapperMock->expects($this->once())->method('map')->with($this->quoteMock);
 
         $this->service->getCart($cartId);
+    }
+
+    public function testGetCartForCustomer()
+    {
+        $customerId = 12;
+        $this->quoteRepositoryMock->expects($this->once())->method('getForCustomer')->with($customerId)
+            ->will($this->returnValue($this->quoteMock));
+
+        $this->cartMapperMock->expects($this->once())->method('map')->with($this->quoteMock);
+
+        $this->service->getCartForCustomer($customerId);
     }
 
     /**

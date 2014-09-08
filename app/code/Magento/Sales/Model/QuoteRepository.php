@@ -8,7 +8,6 @@
 namespace Magento\Sales\Model;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Authorization\Model\UserContextInterface;
 
 class QuoteRepository
 {
@@ -23,27 +22,19 @@ class QuoteRepository
     protected $storeManager;
 
     /**
-     * @var \Magento\Authorization\Model\UserContextInterface
-     */
-    protected $userContext;
-
-    /**
      * @param QuoteFactory $quoteFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param UserContextInterface $userContext
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Authorization\Model\UserContextInterface $userContext
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->quoteFactory = $quoteFactory;
         $this->storeManager = $storeManager;
-        $this->userContext = $userContext;
     }
 
     /**
-     * Get cart by id
+     * Get quote by id
      *
      * @param int $cartId
      * @return Quote
@@ -51,24 +42,36 @@ class QuoteRepository
      */
     public function get($cartId)
     {
-        $quote = $this->quoteFactory->create();
-        $quote->setStoreId($this->storeManager->getStore()->getId())->load($cartId);
-        if (!$quote->getId() || !$quote->getIsActive() || !$this->isAllowed($quote)) {
-            throw NoSuchEntityException::singleField('cartId', $cartId);
-        }
-        return $quote;
+        return $this->loadQuote('load', 'cartId', $cartId);
+    }
+
+
+    /**
+     * Get quote by customer Id
+     *
+     * @param int $cartId
+     * @return Quote
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getForCustomer($customerId)
+    {
+        return $this->loadQuote('loadByCustomer', 'customerId', $customerId);
     }
 
     /**
-     * Check whether quote is allowed for current user context
+     * Load quote
      *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return bool
+     * @param $cartId
+     * @return Quote
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    protected function isAllowed(\Magento\Sales\Model\Quote $quote)
+    protected function loadQuote($loadMethod, $loadField, $identifier)
     {
-        return $this->userContext->getUserType() == UserContextInterface::USER_TYPE_CUSTOMER
-            ? $quote->getCustomerId() == $this->userContext->getUserId()
-            : true;
+        $quote = $this->quoteFactory->create();
+        $quote->setStoreId($this->storeManager->getStore()->getId())->$loadMethod($identifier);
+        if (!$quote->getId() || !$quote->getIsActive()) {
+            throw NoSuchEntityException::singleField($loadField, $identifier);
+        }
+        return $quote;
     }
 }
