@@ -13,7 +13,6 @@
         "magento/module-checkout": "0.1.0-alpha93",
         "magento/module-wishlist": "0.1.0-alpha93",
         "magento/module-index": "0.1.0-alpha93",
-        "magento/module-log": "0.1.0-alpha93",
         "magento/module-theme": "0.1.0-alpha93",
         "magento/module-backend": "0.1.0-alpha93",
         "magento/module-review": "0.1.0-alpha93",
