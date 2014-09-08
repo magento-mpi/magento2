@@ -285,7 +285,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testCanApplyDiscount()
     {
         $validator = $this->getMockBuilder('Magento\Framework\Validator\AbstractValidator')
-            ->setMethods(['isValid', 'getMessages'])
+            ->setMethods(['isValid'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
@@ -297,9 +297,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('isValid')
             ->with($this->item)
             ->willReturn(false);
-        $validator->expects($this->once())
-            ->method('getMessages')
-            ->willReturn(['Cannot apply discount']);
 
         $this->model->init(
             $this->model->getWebsiteId(),
@@ -335,17 +332,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $iterator = new \ArrayIterator([$rule]);
         $this->ruleCollection->expects($this->once())->method('getIterator')->willReturn($iterator);
         $validator = $this->getMockBuilder('Magento\Framework\Validator\AbstractValidator')
-            ->setMethods(['isValid', 'getMessages'])
+            ->setMethods(['isValid'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
         $this->validators->expects($this->atLeastOnce())->method('getValidators')->with('discount')
             ->willReturn([$validator]);
         $validator->expects($this->at(0))->method('isValid')->with($item1)->willReturn(false);
-        $validator->expects($this->at(2))->method('isValid')->with($item2)->willReturn(true);
-        $messages = ['Invalid item message'];
-        $validator->expects($this->once())->method('getMessages')->willReturn($messages);
-        $this->messageManager->expects($this->once())->method('addMessages')->with($messages);
+        $validator->expects($this->at(1))->method('isValid')->with($item2)->willReturn(true);
 
         $item1->expects($this->any())->method('getParentItemId')->willReturn(false);
         $item1->expects($this->never())->method('getDiscountCalculationPrice');

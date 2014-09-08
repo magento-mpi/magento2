@@ -512,7 +512,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         foreach ($this->validators->getValidators('discount') as $validator) {
             $result = $validator->isValid($item);
             if (!$result) {
-                $this->messageManager->addMessages($validator->getMessages());
                 break;
             }
         }

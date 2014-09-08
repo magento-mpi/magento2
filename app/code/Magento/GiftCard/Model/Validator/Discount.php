@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Validator;
 
-use \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard;
-use \Magento\Sales\Model\Quote\Item;
+use Magento\GiftCard\Model\Catalog\Product\Type\Giftcard;
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Class Discount Validator
@@ -31,19 +30,16 @@ class Discount implements \Zend_Validate_Interface
     public function isValid($item)
     {
         if (Giftcard::TYPE_GIFTCARD == $item->getProductType()) {
-            $this->messages[] = __('Cannot apply discount to GiftCard');
             return false;
         }
         return true;
     }
 
     /**
-     * Returns messages on isValid() returns False
-     *
      * @return array
      */
     public function getMessages()
     {
-        return $this->messages;
+        return [];
     }
 }

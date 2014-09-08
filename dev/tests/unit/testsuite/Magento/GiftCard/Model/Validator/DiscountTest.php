@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Validator;
 
 /**
@@ -29,7 +28,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($discount->isValid($item));
         $this->assertTrue($discount->isValid($item));
 
-        $this->assertContains('Cannot apply discount to GiftCard', $discount->getMessages());
+        $this->assertEmpty($discount->getMessages());
     }
 }
  
