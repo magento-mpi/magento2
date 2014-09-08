@@ -17,7 +17,9 @@ use Magento\Ui\ContentType\ContentTypeFactory;
  */
 class View extends AbstractView
 {
-    const DEFAULT_GRID_URL = 'ui/listing/grid';
+    const DEFAULT_GRID_URL = 'mui/listing/grid';
+
+    const DEFAULT_PAGE_LIMIT = 5;
 
     /**
      * @var ObjectManager
@@ -124,7 +126,9 @@ class View extends AbstractView
         $collection = $this->getCollection()->setOrder(
             $this->getRequest()->getParam('sort', $this->getData('default_sort')),
             strtoupper($this->getRequest()->getParam('dir', $this->getData('default_dir')))
-        );
+        )->setCurPage(
+            $this->getRequest()->getParam('page')
+        )->setPageSize($this->getRequest()->getParam('limit', static::DEFAULT_PAGE_LIMIT));
         foreach ($collection->getItems() as $row) {
             $rowData = [];
             foreach (array_keys($this->getData('columns')) as $column) {
@@ -157,8 +161,10 @@ class View extends AbstractView
         $result['meta']['fields'] = $this->getMetaFields();
         $result['data']['items'] = $this->getCollectionItems();
 
-        $countItems = $this->getCollection()->count();
-        $result['data']['pages'] = ceil($countItems / 5);
+        $countItems = $this->getCollection()->getSize();
+        $result['data']['pages'] = ceil(
+            $countItems / $this->getRequest()->getParam('limit', static::DEFAULT_PAGE_LIMIT)
+        );
         $result['data']['totalCount'] = $countItems;
 
         $this->viewConfiguration = array_merge_recursive($this->viewConfiguration, $result);
@@ -177,7 +183,7 @@ class View extends AbstractView
     public function toHtml()
     {
         // TODO FIXME PLEASE !!
-        if (boolval($this->getRequest()->getParam('isAjax')) === true) {
+        if ($this->getRequest()->getParam('isAjax') === 'true') {
             $this->viewConfiguration = $this->viewConfiguration['data'];
             return $this->getConfigurationJson();
         } else {

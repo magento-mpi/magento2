@@ -15,9 +15,10 @@ define([
             this.fields = this.storage.getMeta().fields;
         },
 
-        initObservable: function(settings) {
+        initObservable: function() {
             this.observe({
                 rows: [],
+                view: 'grid',
                 isLocked: false
             });
 
@@ -44,6 +45,18 @@ define([
             this.rows(items);
 
             return this;
+        },
+
+        getCellTemplateFor: function (field) {
+            return this.getRootTemplatePath() +  '.cell.' + field.data_type;
+        },
+
+        getTemplate: function () {
+            return this.getRootTemplatePath();
+        },
+
+        getRootTemplatePath: function () {
+            return 'Magento_Ui.templates.listing.' + this.view();
         },
 
         onLoad: function() {

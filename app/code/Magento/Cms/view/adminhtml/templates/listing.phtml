@@ -1,263 +1,227 @@
-<div data-m2-init='{"Magento_Cms/js/fixtures/component": ""}'></div>
-<div data-m2-init='{"Magento_Cms/js/massaction/component": ""}'>
-  <script type="mage/initial">
-    {
-      "actions": [
-        {
-          "type": "remove",
-          "title": "Delete"
-        },
-        {
-          "type": "updateAttributes",
-          "title": "Update Attributes"
-        }
-      ]
-    }
-  </script>
-</div>
-<div data-m2-init='{"Magento_Cms/js/filter/component": ""}'></div>
-<div data-m2-init='{"Magento_Cms/js/pagination/component": ""}'>
-  <script type="mage/initial">
-      {
-        "sizes": [ 5, 10, 20, 30, 50, 100, 200 ]
-      }
-  </script>
-</div>
-<div data-m2-init='{"Magento_Cms/js/listing/component": { "resource": "cms.pages" }}'>
-  <script type="mage/initial">
-    {
-      "massActions": [
-        {
-          "type": "selectAll",
-          "title": "Select All"
-        },
-        {
-          "type": "unselectAll",
-          "title": "Unselect All"
-        },
-        {
-          "type": "selectVisible",
-          "title": "Select Visible"
-        },
-        {
-          "type": "unselectVisible",
-          "title": "Unselect Visible"
-        }
-      ],
-      "fields": [
-        {
-          "title": "Title",
-          "id": "title"
-        },
-        {
-          "title": "URL Key",
-          "id": "url",
-          "sorted": "desc"
-        },
-        {
-          "title": "Layout",
-          "id": "layout"
-        },
-        {
-          "title": "Store View",
-          "id": "store_id"
-        },
-        {
-          "title": "Status",
-          "id": "status"
-        },
-        {
-          "title": "Created",
-          "id": "created"
-        },
-        {
-          "title": "Modified",
-          "id": "modified"
-        },
-        {
-          "title": "Action",
-          "id": "action"
-        }
-      ],
-      "meta": {
-        "pages": 8,
-        "items": 38 
-      },
-      "paging": {
-        "current": 1,
-        "pageSize": 5
-      },
-      "rows": [{
-          "id": "0",
-          "title": "UPDATED Enable Cookies",
-          "url": "enable-cookies",
-          "layout": "1 column",
-          "store_id": "All Store Views",
-          "status": true,
-          "created": 1407758413000,
-          "modified": 1407758413000,
-          "action": {
-              "href": "/enable-cookies/?___store=default",
-              "title": "Preview"
-          }
-      }, {
-          "id": "1",
-          "title": "UPDATED Home page",
-          "url": "home",
-          "layout": "1 column",
-          "store_id": "All Store Views",
-          "status": false,
-          "created": 1407848473000,
-          "modified": 1407848473000,
-          "action": {
-              "href": "/home/?___store=default",
-              "title": "Preview"
-          }
-      }, {
-          "id": "2",
-          "title": "404 Not Found 1",
-          "url": "no-route",
-          "layout": "2 columns right",
-          "store_id": "All Store Views",
-          "status": false,
-          "created": 1407848473000,
-          "modified": 1407848473000,
-          "action": {
-              "href": "/no-route/?___store=default",
-              "title": "Preview"
-          }
-      }, {
-          "id": "3",
-          "title": "UPDATED Privacy Policy",
-          "url": "privacy-policy-cookie-restriction-mode",
-          "layout": "1 column",
-          "store_id": "All Store Views",
-          "status": true,
-          "created": 1407848473000,
-          "modified": 1407848473000,
-          "action": {
-              "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
-              "title": "Preview"
-          }
-      }, {
-          "id": "4",
-          "title": "NEW Another Page",
-          "url": "privacy-policy-cookie-restriction-mode",
-          "layout": "2 columns right",
-          "store_id": "All Store Views",
-          "status": true,
-          "created": 1407848473000,
-          "modified": 1407848473000,
-          "action": {
-              "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
-              "title": "Preview"
-          }
-      }]
-    }
-  </script>
-</div>
+<div data-m2-init='{"Magento_Ui/js/grid/listing/component": ""}'>
+    <script type="mage/config">
+            {                    
+                "config": {
+                    "namespace": "cms.pages",
 
+                    "client": {
+                        "root": "sad"
+                    }
+                },
+                
+                "meta": {
+                    "fields": [
+                        {
+                            "index": "title",
+                            "title": "Title",
+                            "sortable": true,
+                            "filterable": true,
+                            "filter_type": "input",
+                            "input_type": "input",
+                            "data_type": "text"
+                        },
+                        {
+                            "index": "url",
+                            "title": "URL Key",
+                            "sortable": true,
+                            "filter_type": "input",
+                            "input_type": "input",
+                            "data_type": "text"
+                        },
+                        {
+                            "index": "layout",
+                            "title": "Layout",
+                            "sortable": true,
+                            "filter_type": "select",
+                            "input_type": "select",
+                            "data_type": "text",
+                            "options": [
+                                { "0": "1 column" },
+                                { "1": "2 columns with left bar" },
+                                { "2": "2 columns with right bar" },
+                                { "3": "3 columns" },
+                                { "4": "Empty" }
+                            ]
+                        },
+                        {
+                            "index": "store_id",
+                            "title": "Store View",
+                            "sortable": true,
+                            "filter_type": "select",
+                            "input_type": "select",
+                            "data_type": "text"
+                        },
+                        {
+                            "index": "status",
+                            "title": "Status",
+                            "sortable": true,
+                            "filter_type": "select",
+                            "input_type": "select",
+                            "data_type": "text",
+                            "options": [
+                                { "0": "Disabled" },
+                                { "1": "Enabled" }
+                            ]
+                        },
+                        {
+                            "index": "created",
+                            "title": "Created",
+                            "sortable": true,
+                            "filter_type": "date",
+                            "input_type": "date",
+                            "data_type": "text"
+                        },
+                        {
+                            "index": "modified",
+                            "title": "Modified",
+                            "sortable": true,
+                            "filter_type": "date",
+                            "input_type": "date",
+                            "data_type": "text"
+                        },
+                        {
+                            "index": "actions",
+                            "title": "Action",
+                            "data_type": "actions",
+                            "filterable": false
+                        }
+                    ]
+                },
+
+                "data": {
+
+                    "items": [
+                        {
+                            "id": "0",
+                            "title": "UPDATED Enable Cookies",
+                            "url": "enable-cookies",
+                            "layout": "1 column",
+                            "store_id": "All Store Views",
+                            "status": "Disabled",
+                            "created": "Aug 8, 2014 1:48:32 AM",
+                            "modified": "Aug 8, 2014 1:48:32 AM",
+                            "actions": [{
+                                "href": "/enable-cookies/?___store=default",
+                                "title": "Preview"
+                            }]
+                        },
+                        {
+                            "id": "1",
+                            "title": "UPDATED Home page",
+                            "url": "home",
+                            "layout": "1 column",
+                            "store_id": "All Store Views",
+                            "status": "Disabled",
+                            "created": "Aug 8, 2014 1:48:32 AM",
+                            "modified": "Aug 8, 2014 1:48:32 AM",
+                            "actions": [{
+                                "href": "/home/?___store=default",
+                                "title": "Preview"
+                            }]
+                        },
+                        {
+                            "id": "2",
+                            "title": "404 Not Found 1",
+                            "url": "no-route",
+                            "layout": "2 columns right",
+                            "store_id": "All Store Views",
+                            "status": "Disabled",
+                            "created": "Aug 8, 2014 1:48:32 AM",
+                            "modified": "Aug 8, 2014 1:48:32 AM",
+                            "actions": [{
+                                "href": "/no-route/?___store=default",
+                                "title": "Preview"
+                            }]
+                        },
+                        {
+                            "id": "3",
+                            "title": "UPDATED Privacy Policy",
+                            "url": "privacy-policy-cookie-restriction-mode",
+                            "layout": "1 column",
+                            "store_id": "All Store Views",
+                            "status": "Disabled",
+                            "created": "Aug 8, 2014 1:48:32 AM",
+                            "modified": "Aug 8, 2014 1:48:32 AM",
+                            "actions": [{
+                                "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
+                                "title": "Preview"
+                            }]
+                        },
+                        {
+                            "id": "4",
+                            "title": "NEW Another Page",
+                            "url": "privacy-policy-cookie-restriction-mode",
+                            "layout": "2 columns right",
+                            "store_id": "All Store Views",
+                            "status": "Disabled",
+                            "created": "Aug 8, 2014 1:48:32 AM",
+                            "modified": "Aug 8, 2014 1:48:32 AM",
+                            "actions": [{
+                                "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
+                                "title": "Preview"
+                            }]
+                        }
+                    ],
+
+                    "pages": 8,
+
+                    "totalCount": 38
+                }
+            }
+    </script>
+</div>
+<div data-m2-init='{"Magento_Ui/js/grid/paging" : ""}'>
+    <script type="mage/config">
+       {   
+            "config": {
+                "namespace": "cms.pages",
+                
+                "sizes": [5, 10, 20, 30, 50, 100, 200],
+                
+                "params": {
+                    "pageSize": 5,
+                
+                    "current": 1
+                }
+            }
+        }
+    </script>
+</div>
+<div data-m2-init='{"Magento_Ui/js/grid/sorting": ""}'>
+    <script type="mage/config">
+       {   
+            "config": {
+                "namespace": "cms.pages",
+
+                "params": {
+
+                    "direction": "desc",
+                    
+                    "field": "url"   
+                }
+            }
+        }
+    </script>
+</div>
+<div data-m2-init='{"Magento_Ui/js/grid/filter": ""}'>
+    <script type="mage/config">
+        {   
+            "config": {
+                "namespace": "cms.pages"
+            }
+        }
+    </script>
+</div>
 
 <div class="grid">
-  <div class="grid-actions">
-    <span data-part="actions" data-bind="scope: 'cms.pages.listing.massaction'">
-      <div title="Select Items" class="actions-split">
-        <button title="Actions" class="action-default scalable  add">
-          <span>Actions</span>
-        </button>
-        <button title="" class="action-toggle scalable  add" data-toggle="dropdown">
-          <span>|</span>
-        </button>
-
-        <ul class="dropdown-menu" data-bind="foreach: { data: actions, as: 'action' }, on: { 'click li': 'applyAction', data: 'action' }">
-          <li data-bind="attr: { 'data-action': action.type }"><span title="Delete" class="item item-default" data-bind="text: action.title"></span></li>
-        </ul>
-      </div>
-      <span class="entry-select">
-        <span class="items"><strong data-bind="text: getCheckedQuantity()"></strong> items selected</span>
-      </span>
-    </span>
-    <span data-part="search" data-bind="scope: 'cms.pages.listing.filter'">
-        <form>
-        <input type="text" class="filter-search" placeholder="Search" data-bind="autocomplete: { data: suggestions, writeTo: query }, value: rawQuery, valueUpdate: 'afterkeydown'"/>
-        <button class="action-search" type="submit" data-bind="click: search"><span>Search</span></button>
-        </form>
-    </span>
-  </div>
-  <div class="pager" data-bind="scope: 'cms.pages.listing.pagination'">
-    <div data-bind="template: 'Magento_Ui.templates.pagination.toolbar'"></div>
-  </div>
-  <div data-bind="scope: 'cms.pages.listing'">
-    <div class="grid-actions" data-bind="scope: 'cms.pages.listing.fixtures'">
-      <div class="filter-actions">
-        <button data-bind="click: setViewTo('tiles')">Tile view</button>
-        <button data-bind="click: setViewTo('grid')">Grid view</button>
-        <button data-bind="click: setViewTo('listing')">Listing view</button>
-      </div>
+    <div data-bind="scope: 'cms.pages:paging'" class="pager">
+        <!-- ko template: 'Magento_Ui.templates.pagination.toolbar' --><!-- /ko -->
     </div>
-    <div style="display: none" class="loading-old" id="loading-mask" data-bind="visible: isLocked">
-      <div class="loader" id="loading_mask_loader"><p>Please wait...</p></div>
+    <div data-bind="scope: 'cms.pages:filter'">
+        <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
     </div>
-    <table data-template-extend="Magento_Ui.templates.listing.grid">
-  <thead data-part-replace="grid.heading">
-    <tr class="headings">
-      <th class="col-select col-massaction">
-         <div class="mass-select">
-           <div class="field choice mass-select-field">
-             <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isAllVisibleSelected()" />
-             <label for="mass-checkbox" class="label"><span>Select</span></label>
-           </div>
-           <button class="mass-select-toggle" data-toggle="dropdown"><span>Options</span></button>
-           <ul class="mass-select-menu" data-bind="foreach: { data: massActions, as: 'action' }, on: { 'click li': 'applyMassAction', data: 'action' }">
-              <li data-bind="attr: { 'data-action': action.type }"><span title="Select" data-bind="text: action.title"></span></li>
-           </ul>
-         </div>
-<!--         <div title="Select Items" class="actions-split">
-            <button title="Select All" class="action-default scalable  add" style="padding: 3px 7px;">
-                <span>
-                  <input type="checkbox" data-bind="checked: isAllVisibleSelected()">
-                </span>
-            </button>
-            <button style="padding-bottom: 5px;" title="" class="action-toggle scalable  add" data-toggle="dropdown">
-                <span>|</span>
-            </button>
-
-            <ul class="dropdown-menu" data-bind="foreach: { data: massActions, as: 'action' }, on: { 'click li': 'applyMassAction', data: 'action' }">
-                <li data-bind="attr: { 'data-action': action.type }"><span title="Select" class="item item-default" data-bind="text: action.title"></span></li>
-            </ul>
-        </div> -->
-      </th>
-      <!-- ko foreach: { data: fields, as: 'field' } -->
-      <th>
-        <span>
-          <a href="#" data-bind="css: $parent.getSortableClassFor(field)">
-            <label for="" data-bind="text: title"></label>
-          </a>
-        </span>
-      </th>
-      <!-- /ko -->
-    </tr>
-  </thead>  
-  <tbody data-part-replace="grid.body" data-bind="foreach: { data: rows, as: 'row' }">
-    <tr class="even pointer">
-      <td class="col-select col-massaction">
-        <input data-bind="checkedValue: row.id, checked: $parent.checkedIds" type="checkbox" class="massaction-checkbox">
-      </td>
-      <td data-bind="text: row.title"></td>
-      <td data-bind="text: row.url"></td>
-      <td data-bind="text: row.layout"></td>
-      <td data-bind="text: row.store_id"></td>
-      <td data-bind="text: $parent.getStatusTextFor(row.status)"></td>
-      <td data-bind="date: row.created"></td>
-      <td data-bind="date: row.modified"></td>
-      <td>
-        <a href="#" data-bind="attr: { href: row.action.href }, text: row.action.title" target="_blank"></a>
-      </td>
-    </tr>
-  </tbody>  
-</table>
-  </div>
-  <div class="pager" data-bind="scope: 'cms.pages.listing.pagination'">
-    <div data-bind="template: 'Magento_Ui.templates.pagination.toolbar'"></div>
-  </div>
+    <div data-bind="scope: 'cms.pages:listing'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- ko template: 'Magento_Ui.templates.loader' --><!-- /ko -->
+    </div>
 </div>
