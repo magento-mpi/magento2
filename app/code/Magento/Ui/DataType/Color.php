@@ -1,12 +1,17 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\DataType;
 
 use Magento\Framework\Object as DataObject;
 
+/**
+ * Class Color
+ */
 class Color extends AbstractDataType implements DataTypeInterface
 {
     /**

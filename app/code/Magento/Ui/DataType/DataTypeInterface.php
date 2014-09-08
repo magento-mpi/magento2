@@ -1,12 +1,17 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\DataType;
 
 use Magento\Framework\Object;
 
+/**
+ * Interface DataTypeInterface
+ */
 interface DataTypeInterface
 {
     public function getLabel();

@@ -7,201 +7,81 @@
  */
 namespace Magento\Ui\Listing;
 
+use Magento\Ui\AbstractView;
+use \Magento\Framework\ObjectManager;
+use \Magento\Backend\Block\Template\Context;
+
 /**
- * Backend grid widget block
- *
- * @method string getRowClickCallback() getRowClickCallback()
- * @method \Magento\Ui\Listing\View setRowClickCallback() setRowClickCallback(string $value)
+ * Class View
  */
-class View extends \Magento\Backend\Block\Widget
+class View extends AbstractView
 {
-    /**
-     * Page and sorting var names
-     *
-     * @var string
-     */
-    protected $_varNameLimit = 'limit';
+    const DEFAULT_GRID_URL = 'mui/listing/grid';
 
     /**
-     * @var string
+     * @var ObjectManager
      */
-    protected $_varNamePage = 'page';
+    protected $objectManager;
 
     /**
-     * @var string
+     * @var \Magento\Ui\Provider\ProviderInterface[]
      */
-    protected $_varNameSort = 'sort';
-
-    /**
-     * @var string
-     */
-    protected $_varNameDir = 'dir';
-
-    /**
-     * @var string
-     */
-    protected $_varNameFilter = 'filter';
-
-    /**
-     * @var int
-     */
-    protected $_defaultLimit = 20;
-
-    /**
-     * @var int
-     */
-    protected $_defaultPage = 1;
-
-    /**
-     * @var bool|string
-     */
-    protected $_defaultSort = false;
-
-    /**
-     * @var string
-     */
-    protected $_defaultDir = 'desc';
+    protected $providerActionPoll = [];
 
     /**
      * @var array
      */
-    protected $_defaultFilter = array();
+    protected $sortingConfig = [];
 
     /**
-     * Empty grid text
-     *
-     * @var string|null
-     */
-    protected $_emptyText;
-
-    /**
-     * Empty grid text CSS class
-     *
-     * @var string|null
-     */
-    protected $_emptyTextCss = 'empty-text';
-
-    /**
-     * Pager visibility
-     *
-     * @var boolean
-     */
-    protected $_pagerVisibility = true;
-
-    /**
-     * Massage block visibility
-     *
-     * @var boolean
-     */
-    protected $_messageBlockVisibility = false;
-
-    /**
-     * Should parameters be saved in session
-     *
-     * @var bool
-     */
-    protected $_saveParametersInSession = false;
-
-    /**
-     * Count totals
-     *
-     * @var boolean
-     */
-    protected $_countTotals = false;
-
-    /**
-     * Totals
-     *
-     * @var \Magento\Framework\Object
-     */
-    protected $_varTotals;
-
-    /**
-     * RSS list
-     *
-     * @var \Magento\Framework\Object[]
-     */
-    protected $_rssLists = array();
-
-    /**
-     * @var string
-     */
-    protected $_template = 'Magento_Ui::grid.phtml';
-
-    /**
-     * @var \Magento\Backend\Model\Session
-     */
-    protected $_backendSession;
-
-    /**
-     * @var \Magento\Backend\Helper\Data
-     */
-    protected $_backendHelper;
-
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Backend\Helper\Data $backendHelper
+     * @param Context $context
+     * @param ObjectManager $objectManager
      * @param array $data
      */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Backend\Helper\Data $backendHelper,
-        array $data = array()
-    ) {
-        $this->_backendHelper = $backendHelper;
-        $this->_backendSession = $context->getBackendSession();
+    public function __construct(Context $context, ObjectManager $objectManager, array $data = [])
+    {
+        $this->objectManager = $objectManager;
         parent::__construct($context, $data);
+
+        $this->configuration = [
+            'config' => [
+                'client' => [
+                    'root' => $this->getUrl(static::DEFAULT_GRID_URL)
+                ]
+            ]
+        ];
+        $this->createProviders();
+        $this->initialConfiguration();
     }
 
     /**
      * @return void
+     * @throws \Exception
      */
-    protected function _construct()
+    protected function createProviders()
     {
-        parent::_construct();
-
-        if (!$this->getRowClickCallback()) {
-            $this->setRowClickCallback('openGridRow');
+        $cache = [];
+        if ($this->hasData('provider_action_poll')) {
+            $this->providerActionPoll = $this->getData('provider_action_poll');
         }
 
-        if ($this->hasData('id')) {
-            $this->setId($this->getData('id'));
-        }
-
-        if ($this->hasData('default_sort')) {
-            $this->setDefaultSort($this->getData('default_sort'));
-        }
-
-        if ($this->hasData('default_dir')) {
-            $this->setDefaultDir($this->getData('default_dir'));
-        }
-
-        if ($this->hasData('save_parameters_in_session')) {
-            $this->setSaveParametersInSession($this->getData('save_parameters_in_session'));
-        }
-
-        $this->setPagerVisibility(
-            $this->hasData('pager_visibility') ? (bool)$this->getData('pager_visibility') : true
-        );
-
-        $this->setData('use_ajax', $this->hasData('use_ajax') ? (bool)$this->getData('use_ajax') : false);
-
-        if ($this->hasData('rssList') && is_array($this->getData('rssList'))) {
-            foreach ($this->getData('rssList') as $item) {
-                $this->addRssList($item['url'], $item['label']);
+        foreach ($this->providerActionPoll as $key => $item) {
+            if (empty($cache[$item['class']])) {
+                $cache[$item['class']] = $this->objectManager->create(
+                    $item['class'],
+                    empty($item['arguments']) ? [] : $item['arguments']
+                );
+                if (!($cache[$item['class']] instanceof \Magento\Ui\Provider\ProviderInterface)) {
+                    throw new \Exception(
+                        sprintf(
+                            '%s must implement the interface \Magento\Ui\Provider\ProviderInterface',
+                            $item['class']
+                        )
+                    );
+                }
             }
+            $this->providerActionPoll[$key] = $cache[$item['class']];
         }
-    }
-
-    /**
-     * Set collection object
-     *
-     * @param \Magento\Framework\Data\Collection $collection
-     * @return void
-     */
-    public function setCollection($collection)
-    {
-        $this->setData('dataSource', $collection);
     }
 
     /**
@@ -215,663 +95,100 @@ class View extends \Magento\Backend\Block\Widget
     }
 
     /**
-     * Retrieve column set block
-     *
-     * @return \Magento\Ui\Listing\Block\ColumnSet
-     */
-    public function getColumnSet()
-    {
-        return $this->getChildBlock('grid.columnSet');
-    }
-
-    /**
-     * Retrieve export block
-     *
-     * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Framework\View\Element\AbstractBlock|bool
-     */
-    public function getExportBlock()
-    {
-        if (!$this->getChildBlock('grid.export')) {
-            throw new \Magento\Framework\Model\Exception('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
-        }
-        return $this->getChildBlock('grid.export');
-    }
-
-    /**
-     * Retrieve list of grid columns
-     *
+     * @param array $item
      * @return array
      */
-    public function getColumns()
+    protected function applyActionProviders(array $item)
     {
-        return $this->getColumnSet()->getColumns();
-    }
-
-    /**
-     * Count grid columns
-     *
-     * @return int
-     */
-    public function getColumnCount()
-    {
-        return count($this->getColumns());
-    }
-
-    /**
-     * Retrieve column by id
-     *
-     * @param string $columnId
-     * @return \Magento\Framework\View\Element\AbstractBlock|bool
-     */
-    public function getColumn($columnId)
-    {
-        return $this->getColumnSet()->getChildBlock($columnId);
-    }
-
-    /**
-     * Process column filtration values
-     *
-     * @param mixed $data
-     * @return $this
-     */
-    protected function _setFilterValues($data)
-    {
-        foreach ($this->getColumns() as $columnId => $column) {
-            if (isset(
-                $data[$columnId]
-            ) && (is_array(
-                $data[$columnId]
-            ) && !empty($data[$columnId]) || strlen(
-                $data[$columnId]
-            ) > 0) && $column->getFilter()
-            ) {
-                $column->getFilter()->setValue($data[$columnId]);
-                $this->_addColumnFilterToCollection($column);
+        foreach ($this->providerActionPoll as $name => $provider) {
+            if (!empty($item[$name])) {
+                $value = $item[$name];
+                $item[$name] = [];
+                $item[$name] = $value;
             }
-        }
-        return $this;
-    }
-
-    /**
-     * Add column filtering conditions to collection
-     *
-     * @param \Magento\Ui\Listing\Block\Column $column
-     * @return $this
-     */
-    protected function _addColumnFilterToCollection($column)
-    {
-        if ($this->getCollection()) {
-            $field = $column->getFilterIndex() ? $column->getFilterIndex() : $column->getIndex();
-            if ($column->getFilterConditionCallback()) {
-                call_user_func($column->getFilterConditionCallback(), $this->getCollection(), $column);
-            } else {
-                $condition = $column->getFilter()->getCondition();
-                if ($field && isset($condition)) {
-                    $this->getCollection()->addFieldToFilter($field, $condition);
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Sets sorting order by some column
-     *
-     * @param \Magento\Ui\Listing\Block\Column $column
-     * @return $this
-     */
-    protected function _setCollectionOrder($column)
-    {
-        $collection = $this->getCollection();
-        if ($collection) {
-            $columnIndex = $column->getFilterIndex() ? $column->getFilterIndex() : $column->getIndex();
-            $collection->setOrder($columnIndex, strtoupper($column->getDir()));
-        }
-        return $this;
-    }
-
-    /**
-     * Get prepared collection
-     *
-     * @return \Magento\Framework\Data\Collection
-     */
-    public function getPreparedCollection()
-    {
-        $this->_prepareCollection();
-        return $this->getCollection();
-    }
-
-    /**
-     * Apply sorting and filtering to collection
-     *
-     * @return $this
-     */
-    protected function _prepareCollection()
-    {
-        if ($this->getCollection()) {
-
-            $this->_preparePage();
-
-            $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
-            $dir = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
-            $filter = $this->getParam($this->getVarNameFilter(), null);
-
-            if (is_null($filter)) {
-                $filter = $this->_defaultFilter;
-            }
-
-            if (is_string($filter)) {
-                $data = $this->_backendHelper->prepareFilterString($filter);
-                $data = array_merge($data, (array)$this->getRequest()->getPost($this->getVarNameFilter()));
-                $this->_setFilterValues($data);
-            } else if ($filter && is_array($filter)) {
-                $this->_setFilterValues($filter);
-            } else if (0 !== sizeof($this->_defaultFilter)) {
-                $this->_setFilterValues($this->_defaultFilter);
-            }
-
-            if ($this->getColumn($columnId) && $this->getColumn($columnId)->getIndex()) {
-                $dir = strtolower($dir) == 'desc' ? 'desc' : 'asc';
-                $this->getColumn($columnId)->setDir($dir);
-                $this->_setCollectionOrder($this->getColumn($columnId));
-            }
+            $item[$name][] = $provider->provide($item);
         }
 
-        return $this;
+        return $item;
     }
 
     /**
-     * Apply pagination to collection
-     *
-     * @return void
+     * return array
      */
-    protected function _preparePage()
+    protected function getCollectionItems()
     {
-        $this->getCollection()->setPageSize((int)$this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
-        $this->getCollection()->setCurPage((int)$this->getParam($this->getVarNamePage(), $this->_defaultPage));
-    }
-
-    /**
-     * Initialize grid
-     *
-     * @return void
-     */
-    protected function _prepareGrid()
-    {
-        if ($this->getChildBlock('grid.massaction') && $this->getChildBlock('grid.massaction')->isAvailable()) {
-            $this->getChildBlock('grid.massaction')->prepareMassactionColumn();
-        }
-
-        $this->_prepareCollection();
-        if ($this->hasColumnRenderers()) {
-            foreach ($this->getColumnRenderers() as $renderer => $rendererClass) {
-                $this->getColumnSet()->setRendererType($renderer, $rendererClass);
-            }
-        }
-        if ($this->hasColumnFilters()) {
-            foreach ($this->getColumnFilters() as $filter => $filterClass) {
-                $this->getColumnSet()->setFilterType($filter, $filterClass);
-            }
-        }
-        $this->getColumnSet()->setSortable($this->getSortable());
-        $this->_prepareFilterButtons();
-    }
-
-    /**
-     * Get massaction block
-     *
-     * @return bool|\Magento\Framework\View\Element\AbstractBlock
-     */
-    public function getMassactionBlock()
-    {
-        return $this->getChildBlock('grid.massaction');
-    }
-
-    /**
-     * Prepare grid filter buttons
-     *
-     * @return void
-     */
-    protected function _prepareFilterButtons()
-    {
-        $this->setChild(
-            'reset_filter_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
-                array('label' => __('Reset Filter'), 'onclick' => $this->getJsObjectName() . '.resetFilter()', 'class' => 'action-reset')
-            )
+        $items = [];
+        /** @var \Magento\Framework\Object $row */
+        $collection = $this->getCollection()->setOrder(
+            $this->getRequest()->getParam('sort', $this->getData('default_sort')),
+            strtoupper($this->getRequest()->getParam('dir', $this->getData('default_dir')))
         );
-        $this->setChild(
-            'search_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
-                array(
-                    'label' => __('Search'),
-                    'onclick' => $this->getJsObjectName() . '.doFilter()',
-                    'class' => 'task'
-                )
-            )
-        );
-    }
-
-    /**
-     * Initialize grid before rendering
-     *
-     * @return $this
-     */
-    protected function _beforeToHtml()
-    {
-        $this->_prepareGrid();
-        return parent::_beforeToHtml();
-    }
-
-    /**
-     * Retrieve limit request key
-     *
-     * @return string
-     */
-    public function getVarNameLimit()
-    {
-        return $this->_varNameLimit;
-    }
-
-    /**
-     * Retrieve page request key
-     *
-     * @return string
-     */
-    public function getVarNamePage()
-    {
-        return $this->_varNamePage;
-    }
-
-    /**
-     * Retrieve sort request key
-     *
-     * @return string
-     */
-    public function getVarNameSort()
-    {
-        return $this->_varNameSort;
-    }
-
-    /**
-     * Retrieve sort direction request key
-     *
-     * @return string
-     */
-    public function getVarNameDir()
-    {
-        return $this->_varNameDir;
-    }
-
-    /**
-     * Retrieve filter request key
-     *
-     * @return string
-     */
-    public function getVarNameFilter()
-    {
-        return $this->_varNameFilter;
-    }
-
-    /**
-     * Set Limit request key
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setVarNameLimit($name)
-    {
-        $this->_varNameLimit = $name;
-        return $this;
-    }
-
-    /**
-     * Set Page request key
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setVarNamePage($name)
-    {
-        $this->_varNamePage = $name;
-        return $this;
-    }
-
-    /**
-     * Set Sort request key
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setVarNameSort($name)
-    {
-        $this->_varNameSort = $name;
-        return $this;
-    }
-
-    /**
-     * Set Sort Direction request key
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setVarNameDir($name)
-    {
-        $this->_varNameDir = $name;
-        return $this;
-    }
-
-    /**
-     * Set Filter request key
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setVarNameFilter($name)
-    {
-        $this->_varNameFilter = $name;
-        return $this;
-    }
-
-    /**
-     * Set visibility of pager
-     *
-     * @param bool $visible
-     * @return $this
-     */
-    public function setPagerVisibility($visible = true)
-    {
-        $this->_pagerVisibility = $visible;
-        return $this;
-    }
-
-    /**
-     * Return visibility of pager
-     *
-     * @return bool
-     */
-    public function getPagerVisibility()
-    {
-        return $this->_pagerVisibility;
-    }
-
-    /**
-     * Set visibility of message blocks
-     *
-     * @param bool $visible
-     * @return void
-     */
-    public function setMessageBlockVisibility($visible = true)
-    {
-        $this->_messageBlockVisibility = $visible;
-    }
-
-    /**
-     * Return visibility of message blocks
-     *
-     * @return bool
-     */
-    public function getMessageBlockVisibility()
-    {
-        return $this->_messageBlockVisibility;
-    }
-
-    /**
-     * Set default limit
-     *
-     * @param int $limit
-     * @return $this
-     */
-    public function setDefaultLimit($limit)
-    {
-        $this->_defaultLimit = $limit;
-        return $this;
-    }
-
-    /**
-     * Set default page
-     *
-     * @param int $page
-     * @return $this
-     */
-    public function setDefaultPage($page)
-    {
-        $this->_defaultPage = $page;
-        return $this;
-    }
-
-    /**
-     * Set default sort
-     *
-     * @param string $sort
-     * @return $this
-     */
-    public function setDefaultSort($sort)
-    {
-        $this->_defaultSort = $sort;
-        return $this;
-    }
-
-    /**
-     * Set default direction
-     *
-     * @param string $dir
-     * @return $this
-     */
-    public function setDefaultDir($dir)
-    {
-        $this->_defaultDir = $dir;
-        return $this;
-    }
-
-    /**
-     * Set default filter
-     *
-     * @param string $filter
-     * @return $this
-     */
-    public function setDefaultFilter($filter)
-    {
-        $this->_defaultFilter = $filter;
-        return $this;
-    }
-
-    /**
-     * Retrieve rss lists types
-     *
-     * @return \Magento\Framework\Object[]|false
-     */
-    public function getRssLists()
-    {
-        return empty($this->_rssLists) ? false : $this->_rssLists;
-    }
-
-    /**
-     * Add new rss list to grid
-     *
-     * @param   string $url
-     * @param   string $label
-     * @return  $this
-     */
-    public function addRssList($url, $label)
-    {
-        $this->_rssLists[] = new \Magento\Framework\Object(
-            array('url' => $this->getUrl($url, array('_nosecret' => true)), 'label' => $label)
-        );
-        return $this;
-    }
-
-    /**
-     * Clear rss list in grid
-     *
-     * @return  $this
-     */
-    public function clearRss()
-    {
-        $this->_rssLists = array();
-        return $this;
-    }
-
-    /**
-     * Check whether grid container should be displayed
-     *
-     * @return bool
-     */
-    public function canDisplayContainer()
-    {
-        if ($this->getRequest()->getQuery('ajax')) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Retrieve grid reload url
-     *
-     * @return string;
-     */
-    public function getGridUrl()
-    {
-        return $this->hasData('grid_url') ? $this->getData('grid_url') : $this->getAbsoluteGridUrl();
-    }
-
-    /**
-     * Grid url getter
-     * Version of getGridUrl() but with parameters
-     *
-     * @param array $params url parameters
-     * @return string current grid url
-     */
-    public function getAbsoluteGridUrl($params = array())
-    {
-        return $this->getCurrentUrl($params);
-    }
-
-    /**
-     * Retrieve grid
-     *
-     * @param string $paramName
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getParam($paramName, $default = null)
-    {
-        $sessionParamName = $this->getId() . $paramName;
-        if ($this->getRequest()->has($paramName)) {
-            $param = $this->getRequest()->getParam($paramName);
-            if ($this->_saveParametersInSession) {
-                $this->_backendSession->setData($sessionParamName, $param);
+        foreach ($collection->getItems() as $row) {
+            $rowData = [];
+            foreach (array_keys($this->getData('columns')) as $column) {
+                $rowData[$column] = $row->getData($column);
             }
-            return $param;
-        } elseif ($this->_saveParametersInSession && ($param = $this->_backendSession->getData($sessionParamName))) {
-            return $param;
+            $items[] = $this->applyActionProviders($rowData);
         }
 
-        return $default;
+        return $items;
     }
 
     /**
-     * Set whether grid parameters should be saved in session
-     *
-     * @param bool $flag
-     * @return $this
+     * @return array
      */
-    public function setSaveParametersInSession($flag)
+    protected function getMetaFields()
     {
-        $this->_saveParametersInSession = $flag;
-        return $this;
+        $columns = $this->getData('columns');
+
+        return empty($columns) ? [] : array_values($columns);
     }
 
     /**
-     * Retrieve grid javascript object name
-     *
-     * @return string
-     */
-    public function getJsObjectName()
-    {
-        return $this->getId() . 'JsObject';
-    }
-
-    /**
-     * Set count totals
-     *
-     * @param bool $count
-     * @return $this
-     */
-    public function setCountTotals($count = true)
-    {
-        $this->_countTotals = $count;
-        return $this;
-    }
-
-    /**
-     * Return count totals
-     *
-     * @return bool
-     */
-    public function getCountTotals()
-    {
-        return $this->_countTotals;
-    }
-
-    /**
-     * Set totals
-     *
-     * @param \Magento\Framework\Object $totals
      * @return void
      */
-    public function setTotals(\Magento\Framework\Object $totals)
+    protected function initialConfiguration()
     {
-        $this->_varTotals = $totals;
+        $result['config'] = $this->hasData('config') ? $this->getData('config') : [];
+
+        $result['meta']['fields'] = $this->getMetaFields();
+        $result['data']['items'] = $this->getCollectionItems();
+
+        $countItems = $this->getCollection()->count();
+        $result['data']['pages'] = ceil($countItems / 5);
+        $result['data']['totalCount'] = $countItems;
+
+        $this->configuration = array_merge_recursive($this->configuration, $result);
+
+        $this->sortingConfig['config']['namespace'] = $this->configuration['config']['namespace'];
+        $this->sortingConfig['config']['params']['direction'] = $this->getData('default_dir');
+        $this->sortingConfig['config']['params']['field'] = $this->getData('default_sort');
     }
 
     /**
-     * Retrieve totals
-     *
-     * @return \Magento\Framework\Object
-     */
-    public function getTotals()
-    {
-        return $this->_varTotals;
-    }
-
-    /**
-     * Generate list of grid buttons
+     * Produce and return block's html output
+     * This method should not be overridden. You can override _toHtml() method in descendants if needed
      *
      * @return string
      */
-    public function getMainButtonsHtml()
+    public function toHtml()
     {
-        $html = '';
-        if ($this->getColumnSet()->isFilterVisible()) {
-            $html .= $this->getResetFilterButtonHtml();
-            $html .= $this->getSearchButtonHtml();
+        // TODO FIXME PLEASE !!
+        if (boolval($this->getRequest()->getParam('isAjax')) === true) {
+            $this->configuration = $this->configuration['data'];
+            return $this->getConfigurationJson();
+        } else {
+            return parent::toHtml();
         }
-        return $html;
     }
 
     /**
-     * Generate reset button
+     * Getting JSON configuration sorting data
      *
      * @return string
      */
-    public function getResetFilterButtonHtml()
+    public function getSortingJson()
     {
-        return $this->getChildHtml('reset_filter_button');
-    }
-
-    /**
-     * Generate search button
-     *
-     * @return string
-     */
-    public function getSearchButtonHtml()
-    {
-        return $this->getChildHtml('search_button');
+        return json_encode($this->sortingConfig);
     }
 }

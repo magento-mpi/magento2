@@ -1,15 +1,17 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\ContentType;
 
 use Magento\Ui\UiInterface;
+use Magento\Framework\Object;
 
 /**
  * Class Json
- * @package Magento\Ui\ContentType
  */
 class Json implements ContentTypeInterface
 {
@@ -49,10 +51,10 @@ class Json implements ContentTypeInterface
     }
 
     /**
-     * @param $object
+     * @param Object $object
      * @return string
      */
-    protected function objectToJson($object)
+    protected function objectToJson(Object $object)
     {
         return '';
     }

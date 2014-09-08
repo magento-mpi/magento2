@@ -1,13 +1,14 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\ListingContainer;
 
 /**
  * Class Paging
- * @package Magento\Ui\ListingContainer
  */
 class Paging implements ListingContainerInterface
 {

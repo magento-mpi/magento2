@@ -70,7 +70,7 @@ define([
 
         onClick: function(field) {
             return function(){
-                this.handleClick(field.id)
+                this.handleClick(field.index)
             }.bind(this);
         }
     });

@@ -1,15 +1,25 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\Control;
+
+use Magento\Framework\Object;
 
 /**
  * Class Button
- * @package Magento\Ui\Control
  */
 class Button implements ControlInterface
 {
-    //
+    /**
+     * @param Object $dataObject
+     * @return string
+     */
+    public function render(Object $dataObject)
+    {
+        return '';
+    }
 }

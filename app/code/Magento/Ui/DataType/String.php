@@ -1,12 +1,17 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\DataType;
 
 use Magento\Framework\Object as DataObject;
 
+/**
+ * Class String
+ */
 class String extends AbstractDataType implements DataTypeInterface
 {
     /**
