@@ -19,6 +19,8 @@ class Link extends Block
 {
     /**
      * Press 'Proceed to Checkout' link
+     *
+     * @return void
      */
     public function proceedToCheckout()
     {

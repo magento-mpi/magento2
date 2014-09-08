@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_GiftRegistry">
+    <giftRegistryIndex>
+        <mca>giftregistry/index</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistryIndex</class>
+    </giftRegistryIndex>
+    <giftRegistryAddSelect>
+        <mca>giftregistry/index/addselect</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect</class>
+    </giftRegistryAddSelect>
+    <giftRegistryEdit>
+        <mca>giftregistry/index/edit</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistryEdit</class>
+    </giftRegistryEdit>
+    <giftRegistryItems>
+        <mca>giftregistry/index/items</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistryItems</class>
+    </giftRegistryItems>
+    <checkoutCart>
+        <mca>giftregistry/cart</mca>
+        <class>Magento\GiftRegistry\Test\Page\CheckoutCart</class>
+    </checkoutCart>
+    <wishlistIndex>
+        <mca>giftregistry/wishlist</mca>
+        <class>Magento\GiftRegistry\Test\Page\WishlistIndex</class>
+    </wishlistIndex>
+    <giftRegistryShare>
+        <mca>giftregistry/index/share</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistryShare</class>
+    </giftRegistryShare>
+    <giftRegistryIndex>
+        <mca>admin/giftregistry</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex</class>
+    </giftRegistryIndex>
+    <giftRegistryNew>
+        <mca>admin/giftregistry/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryNew</class>
+    </giftRegistryNew>
+</page>
