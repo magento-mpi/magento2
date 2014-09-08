@@ -6,6 +6,8 @@ define([
 ], function(_, Scope, Component, controls) {
     'use strict';
 
+    var DEFAULT_FILTER_TYPE = 'input';
+
     var Filter = Scope.extend({
         initialize: function(config) {
             this.storage = config.storage;
@@ -41,7 +43,7 @@ define([
                 Control;
 
             this.filters = this.fields.map(function (field) {
-                type = field.filter_type || field.input_type;
+                type = field.type = (field.filter_type || field.input_type || DEFAULT_FILTER_TYPE);
                 Control = controls[type];
 
                 return new Control(field);
@@ -66,7 +68,7 @@ define([
     });
 
     return Component({
-        name:   'filter',
+        name: 'filter',
         constr: Filter
     });
 });
