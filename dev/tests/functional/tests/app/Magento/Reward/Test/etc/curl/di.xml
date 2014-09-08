@@ -8,5 +8,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="\Magento\Reward\Test\Handler\RewardRate\RewardRateInterface" type="\Magento\Reward\Test\Handler\RewardRate\Curl" />
     <preference for="\Magento\Reward\Test\Handler\Reward\RewardInterface" type="\Magento\Reward\Test\Handler\Reward\Curl" />
 </config>
