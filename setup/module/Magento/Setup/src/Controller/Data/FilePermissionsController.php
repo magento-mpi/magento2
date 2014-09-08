@@ -40,11 +40,8 @@ class FilePermissionsController extends AbstractActionController
      */
     public function indexAction()
     {
-        $required = $this->permissions->getRequired();
-        $current = $this->permissions->getCurrent();
-
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
-        if (array_diff($required, $current)) {
+        if (!$this->permissions->checkPermission()) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
 

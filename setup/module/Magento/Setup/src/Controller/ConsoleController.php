@@ -24,6 +24,7 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\Console\Console;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\RequestInterface as Request;
+use Symfony\Component\Process\PhpExecutableFinder;
 
 /**
  * Class ConsoleController
@@ -97,6 +98,14 @@ class ConsoleController extends AbstractActionController
     protected $console;
 
     /**
+     * PHP executable finder
+     *
+     * @var \Symfony\Component\Process\PhpExecutableFinder
+     */
+     protected $phpExecutableFinder;
+
+
+    /**
      * Default Constructor
      *
      * @param FilePermissions $filePermission
@@ -108,6 +117,7 @@ class ConsoleController extends AbstractActionController
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
      * @param UserConfigurationDataFactory $userConfigurationDataFactory
+     * @param PhpExecutableFinder $phpExecutableFinder
      */
     public function __construct(
         FilePermissions $filePermission,
@@ -118,7 +128,8 @@ class ConsoleController extends AbstractActionController
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
         AdminAccountFactory $adminAccountFactory,
-        UserConfigurationDataFactory $userConfigurationDataFactory
+        UserConfigurationDataFactory $userConfigurationDataFactory,
+        PhpExecutableFinder $phpExecutableFinder
     ) {
         $this->filePermission = $filePermission;
         $this->list = $list;
@@ -131,6 +142,7 @@ class ConsoleController extends AbstractActionController
         $this->userConfigurationDataFactory = $userConfigurationDataFactory;
         $this->console = Console::getInstance();
         $this->logger = new \Logger(Console::getInstance());
+        $this->phpExecutableFinder = $phpExecutableFinder;
     }
 
     /**
@@ -191,12 +203,7 @@ class ConsoleController extends AbstractActionController
         $this->updateMagentoDirectory($magentoDir);
 
         //Check File permission
-        Helper::checkAndCreateDirectory($this->factoryConfig->getMagentoBasePath() . '/var/cache');
-        Helper::checkAndCreateDirectory($this->factoryConfig->getMagentoBasePath() . '/var/log');
-        Helper::checkAndCreateDirectory($this->factoryConfig->getMagentoBasePath() . '/var/session');
-        $required = $this->filePermission->getRequired();
-        $current = $this->filePermission->getCurrent();
-        if (array_diff($required, $current)) {
+        if (!$this->filePermission->checkPermission()) {
             throw new \Exception('You do no have appropriate file permissions.');
         }
 
@@ -226,11 +233,28 @@ class ConsoleController extends AbstractActionController
                     'admin' => $adminUrl,
                 )
             ),
+            'config' => array(
+                'address' => array(
+                    'admin' => $adminUrl,
+                ),
+            ),
         );
 
         $this->config->setConfigData($this->config->convertFromDataObject($data));
         //Creates Deployment Configuration
         $this->config->install();
+
+        //Finalizes the deployment configuration
+        $encryptionKey = $request->getParam('encryption_key');
+        if (!$encryptionKey) {
+            $key = $this->getRandomEncryptionKey();
+        } else {
+            $key = $encryptionKey;
+        }
+
+        $this->config->replaceTmpEncryptKey($key);
+        $this->config->replaceTmpInstallDate(date('r'));
+
         $this->console->writeLine("Completed: Deployment Configuration.");
     }
 
@@ -287,15 +311,6 @@ class ConsoleController extends AbstractActionController
 
         $data = $this->parseUserConfigurationData($request);
         $this->installUserConfigurationData($data);
-
-        if ($data['config']['encrypt']['type'] == 'magento') {
-            $key = $this->getRandomEncryptionKey();
-        } else {
-            $key = $data['config']['encrypt']['key'];
-        }
-
-        $this->config->replaceTmpEncryptKey($key);
-        $this->config->replaceTmpInstallDate(date('r'));
 
         $this->installDataUpdates();
         $this->console->writeLine("Completed: Data Installation.");
@@ -386,7 +401,6 @@ class ConsoleController extends AbstractActionController
         $secureStoreUrl = $request->getParam('secure_store_url', false) == 'yes' ? true : false;
         $secureAdminUrl = $request->getParam('secure_admin_url', false) == 'yes' ? true : false;
         $useRewrites = $request->getParam('use_rewrites', false) == 'yes' ? true : false;
-        $encryptionKey = $request->getParam('encryption_key', $this->getRandomEncryptionKey());
         $locale = $request->getParam('locale');
         $timezone = $request->getParam('timezone');
         $currency = $request->getParam('currency');
@@ -422,10 +436,6 @@ class ConsoleController extends AbstractActionController
                 'rewrites' => array(
                     'allowed' => $useRewrites,
                 ),
-                'encrypt' => array(
-                    'type' => 'magento',
-                    'key' => $encryptionKey,
-                ),
                 'advanced' => array(
                     'expanded' => true,
                 ),
@@ -444,10 +454,11 @@ class ConsoleController extends AbstractActionController
     {
         $exitCode = null;
         $output = null;
-        $phpPath = Helper::phpExecutablePath();
+        $phpPath = $this->phpExecutableFinder->find();
+
         exec(
             $phpPath .
-            'php -f ' . $this->factoryConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
+            '/php -f ' . $this->factoryConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
             $output,
             $exitCode
         );
@@ -464,7 +475,7 @@ class ConsoleController extends AbstractActionController
      * @param array $input
      * @return string
      */
-    public static function arrayToString($input)
+    protected function arrayToString($input)
     {
         $result = '';
         foreach ($input as $key => $value) {
@@ -472,6 +483,38 @@ class ConsoleController extends AbstractActionController
         }
 
         return $result;
+    }
+
+    /**
+     * Show installation options
+     *
+     * @return string
+     */
+    protected function showInstallationOptions()
+    {
+        return "\n" . 'Required parameters:' ."\n\n" .
+        'license_agreement_accepted => Accept licence. See LICENSE*.txt. Flag value.' ."\n"
+        . 'locale => Locale to use. Run with "show locales" for full list' ."\n"
+        . 'timezone => Time zone to use. Run with "show timezones" for full list' ."\n"
+        . 'currency => Default currency. Run with "show currencies" for full list' ."\n"
+        . 'db_host => IP or name of your DB host' ."\n"
+        . 'db_name => Database name' ."\n"
+        . 'db_user => Database user name' ."\n"
+        . 'store_url => Store URL. For example, "http://myinstance.com"' ."\n"
+        . 'admin_url => Admin Front Name. For example, "admin"' ."\n"
+        . 'admin_lastname => Admin user last name' ."\n"
+        . 'admin_firstname => Admin user first name' ."\n"
+        . 'admin_email => Admin email' ."\n"
+        . 'admin_username => Admin login' ."\n"
+        . 'admin_password => Admin password' ."\n\n"
+        . 'Optional parameters:' ."\n\n"
+        . 'magentoDir => The Magento application directory.' ."\n"
+        . 'use_rewrites => Use web server rewrites. Value "yes"/"no".' ."\n"
+        . 'db_pass => DB password. Empty by default' ."\n"
+        . 'db_table_prefix => Use prefix for tables of this installation. Empty by default' ."\n"
+        . 'secure_store_url => Full secure URL for store. For example "https://myinstance.com"' ."\n"
+        . 'secure_admin_url => Full secure URL for admin . For example "https://myinstance.com/admin"' ."\n"
+        . 'encryption_key => Key to encrypt sensitive data. Auto-generated if not provided' ."\n";
     }
 
 }
