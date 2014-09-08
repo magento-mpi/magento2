@@ -55,7 +55,8 @@ class UserConfigurationData
     }
 
     /**
-     * Installs Coniguration Data
+     * Installs Configuration Data
+     *
      * @param string $key
      * @param mixed $value
      * @param mixed $default
