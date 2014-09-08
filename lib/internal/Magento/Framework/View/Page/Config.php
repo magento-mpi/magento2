@@ -17,6 +17,8 @@ namespace Magento\Framework\View\Page;
  * - meta info
  * - root element properties
  * - etc...
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Config
 {
@@ -234,6 +236,7 @@ class Config
     /**
      * @param string $name
      * @param string $content
+     * @return void
      */
     public function setMetadata($name, $content)
     {
@@ -250,6 +253,7 @@ class Config
 
     /**
      * @param string $contentType
+     * @return void
      */
     public function setContentType($contentType)
     {
@@ -271,6 +275,7 @@ class Config
 
     /**
      * @param string $mediaType
+     * @return void
      */
     public function setMediaType($mediaType)
     {
@@ -295,6 +300,7 @@ class Config
 
     /**
      * @param string $charset
+     * @return void
      */
     public function setCharset($charset)
     {
@@ -319,6 +325,7 @@ class Config
 
     /**
      * @param string $description
+     * @return void
      */
     public function setDescription($description)
     {
@@ -343,6 +350,7 @@ class Config
 
     /**
      * @param string $keywords
+     * @return void
      */
     public function setKeywords($keywords)
     {
@@ -367,6 +375,7 @@ class Config
 
     /**
      * @param string $robots
+     * @return void
      */
     public function setRobots($robots)
     {

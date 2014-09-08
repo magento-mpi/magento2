@@ -20,6 +20,9 @@ use Magento\Framework\App\ResponseInterface;
  * and a guaranteed handle that stands for page layout (a wireframe of a page)
  *
  * Page result is a more specific implementation of a generic layout response
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Page extends Layout
 {

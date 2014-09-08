@@ -144,6 +144,11 @@ class Renderer
         return $result;
     }
 
+    /**
+     * @param string $name
+     * @param string $content
+     * @return mixed
+     */
     protected function processMetadataContent($name, $content)
     {
         $method = 'get' . $this->string->upperCaseWords($name, '_', '');
@@ -153,6 +158,10 @@ class Renderer
         return $content;
     }
 
+    /**
+     * @param string $name
+     * @return bool|string
+     */
     protected function getMetadataTemplate($name)
     {
         switch($name) {
@@ -211,6 +220,9 @@ class Renderer
         }
     }
 
+    /**
+     * @return string
+     */
     public function renderAssets()
     {
         $result = '';
@@ -273,6 +285,11 @@ class Renderer
         return $attributes;
     }
 
+    /**
+     * @param string $contentType
+     * @param string $attributes
+     * @return string
+     */
     protected function addDefaultAttributes($contentType, $attributes)
     {
         switch ($contentType) {
