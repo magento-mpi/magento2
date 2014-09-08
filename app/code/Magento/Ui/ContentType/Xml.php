@@ -7,7 +7,9 @@
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Ui\UiInterface;
+use Magento\Ui\ViewInterface;
+use Magento\Framework\View\FileSystem;
+use Magento\Framework\View\TemplateEnginePool;
 use Magento\Framework\Object;
 use Magento\Framework\Xml\Generator;
 
@@ -17,38 +19,72 @@ use Magento\Framework\Xml\Generator;
 class Xml implements ContentTypeInterface
 {
     /**
+     * @var \Magento\Framework\View\FileSystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Framework\View\TemplateEnginePool
+     */
+    protected $templateEnginePool;
+
+    /**
      * @var \Magento\Framework\Xml\Generator
      */
     protected $generator;
 
     /**
+     * @param FileSystem $filesystem
+     * @param TemplateEnginePool $templateEnginePool
      * @param Generator $generator
      */
-    public function __construct(Generator $generator)
+    public function __construct(FileSystem $filesystem, TemplateEnginePool $templateEnginePool, Generator $generator)
     {
+        $this->filesystem = $filesystem;
+        $this->templateEnginePool = $templateEnginePool;
         $this->generator = $generator;
     }
 
     /**
-     * @param UiInterface $ui
-     * @param array $data
-     * @param array $configuration
+     * @param ViewInterface $view
+     * @param string $template
      * @return string
      */
-    public function render(UiInterface $ui, array $data, array $configuration)
+    public function render(ViewInterface $view, $template = '')
+    {
+        $templateEngine = false;
+        if ($template) {
+            $extension = pathinfo($template, PATHINFO_EXTENSION);
+            $templateEngine = $this->templateEnginePool->get($extension);
+        }
+        if ($templateEngine) {
+            $path = $this->filesystem->getTemplateFileName($template);
+            $result = $templateEngine->render($view, $path);
+        } else {
+            $result = $this->getDataXml($view);
+        }
+        return $result;
+    }
+
+    /**
+     * @param ViewInterface $view
+     * @return string
+     */
+    protected function getDataXml(ViewInterface $view)
     {
         $result = [
-            'configuration' => $ui->getConfiguration()
+            'configuration' => $view->getViewConfiguration(),
+            'data' => []
         ];
-        foreach ($data as $key => $value) {
+        foreach ($view->getViewData() as $key => $value) {
             if (is_object($value)) {
-                if (method_exists($value, 'toJson')) {
-                    $result[$key] = $value->toJson();
+                if (method_exists($value, 'toXml')) {
+                    $result['data'][$key] = $value->toXml();
                 } else {
-                    $result[$key] = $this->objectToXml($value);
+                    $result['data'][$key] = $this->objectToXml($value);
                 }
             } else {
-                $result[$key] = $value;
+                $result['data'][$key] = $value;
             }
         }
         return $this->generator->arrayToXml($result);
@@ -60,6 +96,6 @@ class Xml implements ContentTypeInterface
      */
     protected function objectToXml(Object $object)
     {
-        return '';
+        return '[object]';
     }
 }

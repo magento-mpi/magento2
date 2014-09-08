@@ -20,7 +20,16 @@ class Grid extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $this->_view->loadLayout();
+        $handles = [
+            'default',
+            $this->getLayoutHandle()
+        ];
+        $this->_view->loadLayout($handles);
         $this->_view->renderLayout();
+    }
+
+    protected function getLayoutHandle()
+    {
+        return$this->_request->getParam('namespace');
     }
 }

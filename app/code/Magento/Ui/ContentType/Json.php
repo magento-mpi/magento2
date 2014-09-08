@@ -7,7 +7,9 @@
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Ui\UiInterface;
+use Magento\Ui\ViewInterface;
+use Magento\Framework\View\FileSystem;
+use Magento\Framework\View\TemplateEnginePool;
 use Magento\Framework\Object;
 
 /**
@@ -16,35 +18,66 @@ use Magento\Framework\Object;
 class Json implements ContentTypeInterface
 {
     /**
-     * @param UiInterface $ui
-     * @param array $data
-     * @param array $configuration
-     * @return string
+     * @var \Magento\Framework\View\FileSystem
      */
-    public function render(UiInterface $ui, array $data, array $configuration)
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Framework\View\TemplateEnginePool
+     */
+    protected $templateEnginePool;
+
+    /**
+     * @param FileSystem $filesystem
+     * @param TemplateEnginePool $templateEnginePool
+     */
+    public function __construct(FileSystem $filesystem, TemplateEnginePool $templateEnginePool)
     {
-        return json_encode($this->getDataJson($data, $ui));
+        $this->filesystem = $filesystem;
+        $this->templateEnginePool = $templateEnginePool;
     }
 
     /**
-     * @param array $data
-     * @param UiInterface $ui
+     * @param ViewInterface $view
+     * @param string $template
+     * @return string
+     */
+    public function render(ViewInterface $view, $template = '')
+    {
+        $templateEngine = false;
+        if ($template) {
+            $extension = pathinfo($template, PATHINFO_EXTENSION);
+            $templateEngine = $this->templateEnginePool->get($extension);
+        }
+        if ($templateEngine) {
+            $path = $this->filesystem->getTemplateFileName($template);
+            $result = $templateEngine->render($view, $path);
+        } else {
+            $result = json_encode($this->getDataJson($view));
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param ViewInterface $view
      * @return array
      */
-    protected function getDataJson(array $data, UiInterface $ui)
+    protected function getDataJson(ViewInterface $view)
     {
         $result = [
-            'configuration' => $ui->getConfiguration()
+            'configuration' => $view->getViewConfiguration(),
+            'data' => []
         ];
-        foreach ($data as $key => $value) {
+        foreach ($view->getViewData() as $key => $value) {
             if (is_object($value)) {
                 if (method_exists($value, 'toJson')) {
-                    $result[$key] = $value->toJson();
+                    $result['data'][$key] = $value->toJson();
                 } else {
-                    $result[$key] = $this->objectToJson($value);
+                    $result['data'][$key] = $this->objectToJson($value);
                 }
             } else {
-                $result[$key] = $value;
+                $result['data'][$key] = $value;
             }
         }
         return $result;
@@ -56,6 +89,6 @@ class Json implements ContentTypeInterface
      */
     protected function objectToJson(Object $object)
     {
-        return '';
+        return '[object]';
     }
 }

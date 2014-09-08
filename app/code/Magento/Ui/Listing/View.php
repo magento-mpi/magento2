@@ -10,6 +10,7 @@ namespace Magento\Ui\Listing;
 use Magento\Ui\AbstractView;
 use \Magento\Framework\ObjectManager;
 use \Magento\Backend\Block\Template\Context;
+use Magento\Ui\ContentType\ContentTypeFactory;
 
 /**
  * Class View
@@ -35,15 +36,16 @@ class View extends AbstractView
 
     /**
      * @param Context $context
+     * @param ContentTypeFactory $factory
      * @param ObjectManager $objectManager
      * @param array $data
      */
-    public function __construct(Context $context, ObjectManager $objectManager, array $data = [])
+    public function __construct(Context $context, ContentTypeFactory $factory, ObjectManager $objectManager, array $data = [])
     {
         $this->objectManager = $objectManager;
-        parent::__construct($context, $data);
+        parent::__construct($context, $factory, $data);
 
-        $this->configuration = [
+        $this->viewConfiguration = [
             'config' => [
                 'client' => [
                     'root' => $this->getUrl(static::DEFAULT_GRID_URL)
@@ -150,6 +152,7 @@ class View extends AbstractView
     protected function initialConfiguration()
     {
         $result['config'] = $this->hasData('config') ? $this->getData('config') : [];
+        $result['config']['namespace'] = $this->getNameInLayout();
 
         $result['meta']['fields'] = $this->getMetaFields();
         $result['data']['items'] = $this->getCollectionItems();
@@ -158,9 +161,9 @@ class View extends AbstractView
         $result['data']['pages'] = ceil($countItems / 5);
         $result['data']['totalCount'] = $countItems;
 
-        $this->configuration = array_merge_recursive($this->configuration, $result);
+        $this->viewConfiguration = array_merge_recursive($this->viewConfiguration, $result);
 
-        $this->sortingConfig['config']['namespace'] = $this->configuration['config']['namespace'];
+        $this->sortingConfig['config']['namespace'] = $this->viewConfiguration['config']['namespace'];
         $this->sortingConfig['config']['params']['direction'] = $this->getData('default_dir');
         $this->sortingConfig['config']['params']['field'] = $this->getData('default_sort');
     }
@@ -175,7 +178,7 @@ class View extends AbstractView
     {
         // TODO FIXME PLEASE !!
         if (boolval($this->getRequest()->getParam('isAjax')) === true) {
-            $this->configuration = $this->configuration['data'];
+            $this->viewConfiguration = $this->viewConfiguration['data'];
             return $this->getConfigurationJson();
         } else {
             return parent::toHtml();

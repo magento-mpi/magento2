@@ -17,7 +17,7 @@ class View extends AbstractView
     /**
      * @var array
      */
-    protected $configuration = [
+    protected $viewConfiguration = [
         'config' => [
             'namespace' => 'cms.pages',
             'sizes' => [5, 10, 20, 30, 50, 100, 200],

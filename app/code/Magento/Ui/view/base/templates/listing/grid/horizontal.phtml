@@ -14,10 +14,10 @@
     </script>
 </div>
 <div class="grid">
-    <?php echo $this->getChildHtml('cms_page_listing_before'); ?>
+    <?php echo $this->getChildHtml('listing_before'); ?>
     <div data-bind="scope: 'cms.pages:listing'">
         <!-- ko template: 'Magento_Ui.templates.listing.grid' --><!-- /ko -->
         <!-- ko template: 'Magento_Cms.templates.loader' --><!-- /ko -->
     </div>
-    <?php echo $this->getChildHtml('cms_page_listing_after'); ?>
+    <?php echo $this->getChildHtml('listing_after'); ?>
 </div>
