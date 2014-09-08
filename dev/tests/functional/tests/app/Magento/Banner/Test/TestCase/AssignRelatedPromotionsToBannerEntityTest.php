@@ -115,6 +115,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
         $customerSegment,
         $widget
     ) {
+        $this->markTestIncomplete('MAGETWO-27635');
         // Preconditions
         $customer = $this->createCustomer($customer);
         $customerSegment = $this->createCustomerSegment($customerSegment);
@@ -274,7 +275,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     /**
      * Logout customer from frontend account
      *
-     * return void
+     * @return void
      */
     public function tearDown()
     {

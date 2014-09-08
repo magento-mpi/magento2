@@ -24,11 +24,11 @@ class PaypalPaymentsAdvancedOrder extends OrderCheckout
     {
         $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalAdvanced();
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$156.81'
-            )
-        );
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '156.81'
+            ]
+        ];
     }
 
     /**
@@ -38,7 +38,7 @@ class PaypalPaymentsAdvancedOrder extends OrderCheckout
     {
         parent::persist();
 
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
+        /** @var \Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced $formBlock */
         $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowAdvancedCcBlock();
         $formBlock->fill($this->checkoutFixture->getCreditCard());
         $formBlock->pressContinue();

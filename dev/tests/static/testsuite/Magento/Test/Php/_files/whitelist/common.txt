@@ -55,6 +55,8 @@ app/code/Magento/Directory/Helper
 app/code/Magento/Customer/Block
 app/code/Magento/Customer/Controller
 app/code/Magento/Customer/Helper
+app/code/Magento/Customer/Model/Visitor.php
+app/code/Magento/Customer/Model/Resource/Visitor.php
 app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Customer/Service
@@ -65,6 +67,8 @@ app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/Eav/Model/Cache/Type.php
 app/code/Magento/GiftMessage/Model/Plugin
+app/code/Magento/GiftMessage/Model/Type/Plugin
+app/code/Magento/GiftMessage/Service
 app/code/Magento/GoogleShopping/Block/SiteVerification.php
 app/code/Magento/GoogleShopping/Model/AttributeFactory.php
 app/code/Magento/GroupedImportExport
@@ -109,6 +113,7 @@ app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php
 app/code/Magento/Sales/Model/Observer
 app/code/Magento/Sales/Model/Quote/Address/*Interface.php
 app/code/Magento/SalesRule/Model/Plugin
+app/code/Magento/Sendfriend/Block/Plugin/Catalog/Product/View.php
 app/code/Magento/Shipping/Block/Adminhtml/Order/Tracking/Invoice.php
 app/code/Magento/Shipping/Model/Observer.php
 app/code/Magento/Shipping/Model/Order/Track.php

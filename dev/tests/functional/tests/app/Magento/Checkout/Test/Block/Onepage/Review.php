@@ -10,6 +10,9 @@ namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Mtf\Client\Driver\Selenium\Browser;
+use Mtf\Client\Element;
+use Mtf\Block\BlockFactory;
 
 /**
  * Class Review
@@ -38,7 +41,7 @@ class Review extends Block
      * @var string
      */
     protected $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
-    
+
     /**
      * Subtotal search mask
      *
@@ -61,7 +64,20 @@ class Review extends Block
     protected $waitElement = '.loading-mask';
 
     /**
+     * @constructor
+     * @param Element $element
+     * @param BlockFactory $blockFactory
+     * @param Browser $browser
+     */
+    public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser)
+    {
+        parent::__construct($element, $blockFactory, $browser);
+        $this->browser->switchToFrame();
+    }
+    /**
      * Fill billing address
+     *
+     * @return void
      */
     public function placeOrder()
     {
@@ -71,6 +87,8 @@ class Review extends Block
 
     /**
      * Wait for 3D Secure card validation
+     *
+     * @return void
      */
     public function waitForCardValidation()
     {
@@ -84,7 +102,8 @@ class Review extends Block
      */
     public function getGrandTotal()
     {
-        return $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
+        $grandTotal = $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
+        return $this->escapeCurrency($grandTotal);
     }
 
     /**
@@ -94,7 +113,8 @@ class Review extends Block
      */
     public function getTax()
     {
-        return $this->_rootElement->find($this->tax, Locator::SELECTOR_XPATH)->getText();
+        $tax = $this->_rootElement->find($this->tax, Locator::SELECTOR_XPATH)->getText();
+        return $this->escapeCurrency($tax);
     }
 
     /**
@@ -104,6 +124,19 @@ class Review extends Block
      */
     public function getSubtotal()
     {
-        return $this->_rootElement->find($this->subtotal, Locator::SELECTOR_XPATH)->getText();
+        $subTotal = $this->_rootElement->find($this->subtotal, Locator::SELECTOR_XPATH)->getText();
+        return $this->escapeCurrency($subTotal);
+    }
+
+    /**
+     * Method that escapes currency symbols
+     *
+     * @param string $price
+     * @return string|null
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }

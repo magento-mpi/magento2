@@ -7,18 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/system_currency/index" >
-    <block>
-        <name>gridPageActions</name>
-        <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\GridPageActions\GridPageActions</class>
-        <locator>.grid-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-
-    <block>
-        <name>mainPageActions</name>
-        <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\MainPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/system_currency/index" module="Magento_CurrencySymbol">
+    <blocks>
+        <gridPageActions>
+            <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\GridPageActions</class>
+            <locator>.grid-actions</locator>
+            <strategy>css selector</strategy>
+        </gridPageActions>
+        <mainPageActions>
+            <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\MainPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </mainPageActions>
+    </blocks>
 </page>
