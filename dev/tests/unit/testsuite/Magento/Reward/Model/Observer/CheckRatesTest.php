@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reward\Model\Observer\PlaceOrder;
+namespace Magento\Reward\Model\Observer;
 
 class CheckRatesTest extends \PHPUnit_Framework_TestCase
 {
