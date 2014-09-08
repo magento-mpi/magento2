@@ -31,7 +31,8 @@ class  VersionsTest extends \PHPUnit_Framework_TestCase
             'context' => $contextMock,
             'pageLoader' => $pageLoaderMock,
         ];
-        $model = (new ObjectManager($this))->getObject('Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Versions', $mocks);
+        $objectManager = new ObjectManager($this);
+        $model = $objectManager->getObject('Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Versions', $mocks);
 
         // Expectations and test
         $viewMock->expects($this->once())
