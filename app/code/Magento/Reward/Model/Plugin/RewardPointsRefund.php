@@ -145,6 +145,8 @@ class RewardPointsRefund
     /**
      * Update reward history row
      *
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return void
      */
     protected function updateHistoryRow(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
@@ -236,6 +238,7 @@ class RewardPointsRefund
     /**
      * Get reward history model for current order
      *
+     * @param \Magento\Sales\Model\Order $order
      * @return \Magento\Reward\Model\Reward\History|null
      */
     protected function getRewardHistoryRecordForOrder(\Magento\Sales\Model\Order $order)
@@ -273,4 +276,4 @@ class RewardPointsRefund
     {
         return $this->rewardFactory->create();
     }
-} 
+}

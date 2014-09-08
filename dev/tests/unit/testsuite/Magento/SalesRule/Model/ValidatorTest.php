@@ -133,14 +133,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\SalesRule\Model\Validator|\PHPUnit_Framework_MockObject_MockObject $validator */
         $validator = $this->getMock(
             'Magento\SalesRule\Model\Validator',
-            array('__wakeup'),
+            array(),
             array(),
             '',
             false
         );
 
         /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
-        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array('__wakeup'), array(), '', false);
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
 
         // 2. Set fixtures
         $item->setDiscountCalculationPrice($negativePrice);
@@ -170,7 +170,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         // 1. Get mocks
         $rulesApplier = $this->getMock(
             'Magento\SalesRule\Model\RulesApplier',
-            ['applyRules', 'setAppliedRuleIds'],
+            ['applyRules', 'setAppliedRuleIds', '__wakeup'],
             [],
             '',
             false
@@ -206,10 +206,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
         $item = $this->getMock('Magento\Sales\Model\Quote\Item', array('getAddress', '__wakeup'), array(), '', false);
         /** @var \Magento\SalesRule\Model\Rule|\PHPUnit_Framework_MockObject_MockObject $rule */
-        $rule = $this->getMock('Magento\SalesRule\Model\Rule', array('__wakeup'), array(), '', false);
+        $rule = $this->getMock('Magento\SalesRule\Model\Rule', array(), array(), '', false);
         $rule->setRuleId($ruleId1);
         /** @var \Magento\SalesRule\Model\Rule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
-        $rule2 = $this->getMock('Magento\SalesRule\Model\Rule', array('__wakeup'), array(), '', false);
+        $rule2 = $this->getMock('Magento\SalesRule\Model\Rule', array(), array(), '', false);
         $rule2->setRuleId($ruleId2);
         $rules = array($rule, $rule2);
         $validator->expects($this->any())->method('_getRules')->will($this->returnValue($rules));
@@ -256,7 +256,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $calculator = $this->getMockBuilder(
             'Magento\SalesRule\Model\Rule\Action\Discount\DiscountInterface'
         )->setMethods(
-            array('fixQuantity', 'calculate')
+            array('fixQuantity', 'calculate', '__wakeup')
         )->getMock();
 
         $discountData = $this->getMockBuilder('Magento\SalesRule\Model\Rule\Action\Discount\Data')->getMock();
@@ -265,7 +265,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $calculatorFactory = $this->getMockBuilder(
             'Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            array('create', '__wakeup')
         )->getMock();
 
         $calculator->expects($this->any())->method('fixQuantity');
@@ -399,7 +399,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         $ruleMock = $this->getMockBuilder('Magento\SalesRule\Model\Rule')
             ->disableOriginalConstructor()
-            ->setMethods(['getApplyToShipping', 'getSimpleAction', 'getDiscountAmount'])
+            ->setMethods(['getApplyToShipping', 'getSimpleAction', 'getDiscountAmount', '__wakeup'])
             ->getMock();
         $ruleMock->expects($this->any())
             ->method('getApplyToShipping')
@@ -449,7 +449,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(['setAppliedRuleIds', 'getStore'])
+            ->setMethods(['setAppliedRuleIds', 'getStore', '__wakeup'])
             ->getMock();
         $quoteMock->expects($this->any())
             ->method('getStore')
@@ -460,7 +460,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         $addressMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
-            ->setMethods(['getShippingAmountForDiscount', 'getQuote'])
+            ->setMethods(['getShippingAmountForDiscount', 'getQuote', '__wakeup'])
             ->getMock();
         $addressMock->expects($this->any())
             ->method('getShippingAmountForDiscount')
@@ -484,7 +484,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         $collectionMock = $this->getMockBuilder('Magento\SalesRule\Model\Resource\Rule\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['setValidationFilter', 'addFieldToFilter', 'load', 'getIterator'])
+            ->setMethods(['setValidationFilter', 'addFieldToFilter', 'load', 'getIterator', '__wakeup'])
             ->getMock();
         $collectionMock->expects($this->any())
             ->method('setValidationFilter')
