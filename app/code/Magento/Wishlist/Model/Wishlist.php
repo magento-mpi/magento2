@@ -284,21 +284,14 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
         if ($item === null) {
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $this->getStore()->getId();
             $item = $this->_wishlistItemFactory->create();
-            $item->setProductId(
-                $product->getId()
-            )->setWishlistId(
-                $this->getId()
-            )->setAddedAt(
-                $this->dateTime->now()
-            )->setStoreId(
-                $storeId
-            )->setOptions(
-                $product->getCustomOptions()
-            )->setProduct(
-                $product
-            )->setQty(
-                $qty
-            )->save();
+            $item->setProductId($product->getId());
+            $item->setWishlistId($this->getId());
+            $item->setAddedAt($this->dateTime->now());
+            $item->setStoreId($storeId);
+            $item->setOptions($product->getCustomOptions());
+            $item->setProduct($product);
+            $item->setQty($qty);
+            $item->save();
             if ($item->getId()) {
                 $this->getItemCollection()->addItem($item);
             }
@@ -390,7 +383,9 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
         }
 
         /* @var $product \Magento\Catalog\Model\Product */
-        $product = $this->_productFactory->create()->setStoreId($storeId)->load($productId);
+        $product = $this->_productFactory->create();
+        $product->setStoreId($storeId);
+        $product->load($productId);
 
         if ($buyRequest instanceof \Magento\Framework\Object) {
             $_buyRequest = $buyRequest;
@@ -636,7 +631,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
              * Error message
              */
             if (is_string($resultItem)) {
-                throw new \Magento\Framework\Model\Exception(__($resultItem));
+                throw new Exception(__($resultItem));
             }
 
             if ($resultItem->getId() != $itemId) {
@@ -650,7 +645,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
                 $resultItem->setOrigData('qty', 0);
             }
         } else {
-            throw new \Magento\Framework\Model\Exception(__('The product does not exist.'));
+            throw new Exception(__('The product does not exist.'));
         }
         return $this;
     }
