@@ -2,7 +2,8 @@ define([
     'ko',
     'Magento_Ui/js/lib/registry/registry'
 ], function(ko, registry) {
-
+    'use strict';
+    
     function getMultiple(bindings, viewModel, callback) {
         var key,
             components,

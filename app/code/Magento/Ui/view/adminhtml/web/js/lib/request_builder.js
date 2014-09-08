@@ -1,21 +1,15 @@
-define([
-    '_'
-], function (_) {
+define([], function () {
+    'use strict';
 
     function parseObject( name, value ){
-        var keys    = Object.keys(value),
-            len     = keys.length,
-            result  = '';
+        var key,
+            result = [];
 
-        keys.forEach(function(key, i){
-            result += name +'['+ key +']' + '=' + value[key];
+        for( key in value ){
+            result.push( name +'['+ key +']' + '=' + value[key] )
+        }
 
-            if( i < len - 1){
-                result += '&';
-            }
-        });
-
-        return result;
+        return result.join('&');
     }
 
     function parseValue(name, value){
@@ -28,12 +22,15 @@ define([
      * @returns {String} Formatted string of type .
      * @private
      */
-
     function extractSortParams(params) {
         var result, 
             sorting = params.sorting;
 
-        result = '/sort/' + sorting.field + '/dir/' + sorting.direction;;
+        if( typeof sorting === 'undefined'){
+            return '';
+        }
+
+        result = '/sort/' + sorting.field + '/dir/' + sorting.direction;
 
         delete params.sorting;
 
@@ -46,10 +43,13 @@ define([
      * @returns {String} Formatted string of type .
      * @private
      */
-
     function extractPagerParams(params) {
         var result, 
             paging = params.paging;
+
+        if( typeof paging === 'undefined'){
+            return '';
+        }
 
         result = '/limit/' + paging.pageSize + '/page/' + paging.current;
 
@@ -58,12 +58,18 @@ define([
         return result;
     }
 
+    function formatFilter( filter ){
+        var name    = filter.field,
+            value   = filter.value;
+
+        return typeof value !== 'object' ?
+            parseValue(name, value):
+            parseObject(name, value);
+    }
+
     function extractFilterParams(params){
         var filters,
-            len,
-            result,
-            name,
-            value;
+            result;
 
         filters = params.filter;
 
@@ -71,21 +77,9 @@ define([
             return '';
         }
 
-        len     = filters.length,
-        result  = '/filter/';
+        result = filters.map( formatFilter ).join('&');
 
-        fiters.forEach(function( filter, i ){
-            name    = filter.field;
-            value   = filter.value;
-
-            result += typeof value !== 'object' ? 
-                parseValue(name, value) :
-                parseObject(name, value);
-
-            if( i < len - 1 ){
-                result += '&';
-            }
-        });
+        result = '/filter/' + btoa( encodeURI(result) );
 
         delete params.filter;
 
@@ -93,7 +87,7 @@ define([
     }
 
     return function (root, params) {
-        var url = '',
+        var url,
             lastChar;
 
         lastChar = root.charAt(root.length-1);
@@ -102,7 +96,7 @@ define([
             root = root.substr(0, root.length-1);
         }
         
-        url +=
+        url =
             root +
             extractSortParams(params) +
             extractPagerParams(params) +
@@ -110,5 +104,5 @@ define([
 
         return url;
     };
-    
+
 });
