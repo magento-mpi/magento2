@@ -2,6 +2,7 @@ define([
     './abstract',
     '_'
 ], function (AbstractControl, _) {
+    'use strict';
 
     function toArrayIgnoringKeys (object) {
         return _.map(object, function (value) { return value; });

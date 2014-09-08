@@ -2,6 +2,7 @@ define([
     './abstract',
     '_'
 ], function (AbstractControl, _) {
+    'use strict';
     
     return AbstractControl.extend({
         initialize: function (data) {
