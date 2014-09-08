@@ -84,7 +84,7 @@ AdminRma.prototype = {
         this.showPopup(divId);
     },
 
-    c: function(itemId) {
+    getLoadAttributesLink: function(itemId) {
         return this.loadAttributesUrl + 'item_id/' + itemId + '?isAjax=true';
     },
 
@@ -403,33 +403,33 @@ AdminRma.prototype = {
         var url = this.getLoadAttributesLink(this.newRmaItemId);
         var hasUserAttributes = false;
 
-        if (this.bundleArray[idElement.value] !== undefined) {
-            var obj = this.bundleArray[idElement.value];
-            for(var key in obj) {
-                this.addOrderItemToGrid(obj[key], className);
-            }
-        } else {
-            var orderItem = this.getOrderItem(idElement);
-            this.addOrderItemToGrid(orderItem, className);
-        }
+        //if (this.bundleArray[idElement.value] !== undefined) {
+        //    var obj = this.bundleArray[idElement.value];
+        //    for(var key in obj) {
+        //        this.addOrderItemToGrid(obj[key], className);
+        //    }
+        //} else {
+        //    var orderItem = this.getOrderItem(idElement);
+        //    this.addOrderItemToGrid(orderItem, className);
+        //}
 
-//        new Ajax.Request(url, {
-//            onSuccess: function(transport) {
-//                var response = transport.responseText;
-//               if (response.length !== 0) {
-//                    hasUserAttributes = true;
-//                }
-//                if (self.bundleArray[idElement.value] !== undefined) {
-//                    var obj = self.bundleArray[idElement.value];
-//                    for(var key in obj) {
-//                        self.addOrderItemToGrid(obj[key], className, hasUserAttributes);
-//                    }
-//                } else {
-//                    var orderItem = self.getOrderItem(idElement);
-//                    self.addOrderItemToGrid(orderItem, className, hasUserAttributes);
-//                }
-//            }
-//        });
+        new Ajax.Request(url, {
+            onSuccess: function(transport) {
+                var response = transport.responseText;
+               if (response.length !== 0) {
+                    hasUserAttributes = true;
+                }
+                if (self.bundleArray[idElement.value] !== undefined) {
+                    var obj = self.bundleArray[idElement.value];
+                    for(var key in obj) {
+                        self.addOrderItemToGrid(obj[key], className, hasUserAttributes);
+                    }
+                } else {
+                    var orderItem = self.getOrderItem(idElement);
+                    self.addOrderItemToGrid(orderItem, className, hasUserAttributes);
+                }
+            }
+        });
     },
 
     addOrderItemToGrid: function (orderItem, className, hasUserAttributes) {
