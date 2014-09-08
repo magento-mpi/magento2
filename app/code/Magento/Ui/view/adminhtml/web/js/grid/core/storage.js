@@ -8,6 +8,7 @@ define([
     return Scope.extend({
         initialize: function(config) {
             this.params = {};
+            this._bulk = {};
 
             _.extend(this, config);
 
@@ -43,6 +44,16 @@ define([
             this.client.read(params);
 
             return this;
+        },
+
+        set: function(key, value){
+            this._bulk[key] = value;
+
+            this.trigger('set:' + key, value);
+        },
+
+        get: function(key){
+            return this._bulk[key];
         },
 
         getData: function() {
