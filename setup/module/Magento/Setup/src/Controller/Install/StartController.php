@@ -77,7 +77,16 @@ class StartController extends AbstractInstallActionController
         $data = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
 
         //Installs Deployment Configuration
-        $key = $this->installDeploymentConfiguration($data);
+        $this->installDeploymentConfiguration($data);
+
+        if ($data['config']['encrypt']['type'] == 'magento') {
+            $key = $this->getRandomEncryptionKey();
+        } else {
+            $key = $data['config']['encrypt']['key'];
+        }
+
+        $this->config->replaceTmpEncryptKey($key);
+        $this->config->replaceTmpInstallDate(date('r'));
 
         //Installs Schema
         $this->installSchemaUpdates();

@@ -120,16 +120,14 @@ class AbstractInstallActionController extends AbstractActionController
      * Installs Deployment Configuration
      *
      * @param array $data
-     * @return string Encryption Key
+     * @return void
      */
     public function installDeploymentConfiguration($data)
     {
         $this->config->setConfigData($this->config->convertFromDataObject($data));
 
         //Creates Deployment Configuration
-        $key = $this->config->install();
-        $this->logger->log("Completed: Deployment Configuration.");
-        return $key;
+        $this->config->install();
     }
 
     /**

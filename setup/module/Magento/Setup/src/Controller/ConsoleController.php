@@ -172,10 +172,23 @@ class ConsoleController extends AbstractInstallActionController
                 'address' => array(
                     'admin' => $adminUrl,
                 )
-            ),
+            )
         );
 
         $this->installDeploymentConfiguration($data);
+
+        //Finalizes the deployment configuration
+        $encryptionKey = $request->getParam('encryption_key');
+        if (!$encryptionKey) {
+            $key = $this->getRandomEncryptionKey();
+        } else {
+            $key = $encryptionKey;
+        }
+
+        $this->config->replaceTmpEncryptKey($key);
+        $this->config->replaceTmpInstallDate(date('r'));
+
+        $this->logger->log("Completed: Deployment Configuration.");
     }
 
     /**

@@ -10,7 +10,6 @@ namespace Magento\Module\Setup;
 
 use Magento\Filesystem\Directory\Write;
 use Magento\Filesystem\Filesystem;
-use Magento\Framework\Math\Random;
 
 /**
  * Config installer
@@ -48,24 +47,14 @@ class Config
     protected $configDirectory;
 
     /**
-     * Random Generator
-     *
-     * @var Random
-     */
-    protected $random;
-
-    /**
      * Default Constructor
      *
      * @param Filesystem $filesystem
-     * @param Random $random
      */
     public function __construct(
-        Filesystem $filesystem,
-        Random $random
+        Filesystem $filesystem
     ) {
         $this->filesystem = $filesystem;
-        $this->random = $random;
         $this->configDirectory = $filesystem->getDirectoryWrite('etc');
     }
 
@@ -108,7 +97,7 @@ class Config
     /**
      * Generate installation data and record them into local.xml using local.xml.template
      *
-     * @return string
+     * @return void
      */
     public function install()
     {
@@ -123,16 +112,6 @@ class Config
 
         $this->configDirectory->writeFile($this->localConfigFile, $contents, LOCK_EX);
         $this->configDirectory->changePermissions($this->localConfigFile, 0777);
-
-        if ($this->configData['config']['encrypt']['type'] == 'magento') {
-            $key = md5($this->random->getRandomString(10));
-        } else {
-            $key = $this->configData['config']['encrypt']['key'];
-        }
-
-        $this->replaceTmpEncryptKey($key);
-        $this->replaceTmpInstallDate(date('r'));
-        return $key;
     }
 
     /**
