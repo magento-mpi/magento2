@@ -32,7 +32,7 @@ class OnepageTest extends Functional
         $fixture->persist();
 
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
@@ -40,22 +40,31 @@ class OnepageTest extends Functional
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         //Verify order in Backend
@@ -69,11 +78,11 @@ class OnepageTest extends Functional
      */
     public function dataProviderOnepageCheckout()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowPro()),
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()],
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()],
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowPro()],
+        ];
     }
 
     /**
@@ -87,7 +96,7 @@ class OnepageTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $this->assertContains(
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
@@ -97,7 +106,7 @@ class OnepageTest extends Functional
         if ($fixture->getCommentHistory()) {
             $expectedAuthorizedAmount = $fixture->getCommentHistory();
         } else {
-            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
+            $expectedAuthorizedAmount = 'Authorized amount of $' . $fixture->getGrandTotal();
         }
         $this->assertContains(
             $expectedAuthorizedAmount,

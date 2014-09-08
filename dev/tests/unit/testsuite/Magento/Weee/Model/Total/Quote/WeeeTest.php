@@ -210,8 +210,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
 
         // 1. This collector does not compute tax.  Instead it sets up various fields for the tax calculation
         // 2. When the Weee is not taxable, this collector will change the address data as follows:
-        // 2a. If Weee is included in the subtotal, the 'subtotal' fields are populated
-        // 2b. Otherwise the 'weee_amount' fields are populated
+        //     accumulate the totals into 'weee_total_excl_tax' and 'weee_base_total_excl_tax'
 
         $data['price_incl_tax_weee_taxable_unit_included_in_subtotal'] = [
             'tax_config' => [
@@ -370,10 +369,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'address_data' => [
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
+                'weee_total_excl_tax' => 20,
+                'weee_base_total_excl_tax' => 20,
             ]
         ];
 
@@ -414,10 +411,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'address_data' => [
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
+                'weee_total_excl_tax' => 20,
+                'weee_base_total_excl_tax' => 20,
             ]
         ];
 
@@ -538,10 +533,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'address_data' => [
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
+                'weee_total_excl_tax' => 20,
+                'weee_base_total_excl_tax' => 20,
             ]
         ];
 
@@ -582,10 +575,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'address_data' => [
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
+                'weee_total_excl_tax' => 20,
+                'weee_base_total_excl_tax' => 20,
             ]
         ];
 
@@ -626,10 +617,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'address_data' => [
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
-                'subtotal' => 0,
-                'base_subtotal' => 0,
-                'weee_amount' => 20,
-                'base_weee_amount' => 20,
+                'weee_total_excl_tax' => 20,
+                'weee_base_total_excl_tax' => 20,
             ]
         ];
 

@@ -9,7 +9,7 @@
 namespace Magento\VersionsCms\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
 /**
  * Class AssertCmsPageVersionSuccessMassDeleteMessage

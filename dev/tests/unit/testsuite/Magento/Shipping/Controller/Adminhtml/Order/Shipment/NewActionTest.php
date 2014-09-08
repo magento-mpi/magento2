@@ -237,7 +237,8 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $menuModel = $this->getMock('Magento\Backend\Model\Menu', ['getParentItems'], [], '', false);
+        $menuModel = $this->getMockBuilder('Magento\Backend\Model\Menu')
+            ->disableOriginalConstructor()->getMock();
         $itemId = 'Magento_Sales::sales_order';
         $parents = [
             new \Magento\Framework\Object(['title' => 'title1']),
@@ -274,4 +275,3 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->newAction->execute());
     }
 }
- 
