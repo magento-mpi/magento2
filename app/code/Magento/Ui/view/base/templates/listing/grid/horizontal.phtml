@@ -13,10 +13,22 @@
        <?php echo $this->getSortingJson(); ?>
     </script>
 </div>
+<div data-m2-init='{"Magento_Ui/js/grid/filter": ""}'>
+    <script type="mage/config">
+        {   
+            "config": {
+                "namespace": "cms.pages"
+            }
+        }
+    </script>
+</div>
 <div class="grid">
     <?php echo $this->getChildHtml('cms_page_listing_before'); ?>
+    <div data-bind="scope: 'cms.pages:filter'">
+        <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
+    </div>
     <div data-bind="scope: 'cms.pages:listing'">
-        <!-- ko template: 'Magento_Ui.templates.listing.grid' --><!-- /ko -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- ko template: 'Magento_Ui.templates.loader' --><!-- /ko -->
     </div>
     <?php echo $this->getChildHtml('cms_page_listing_after'); ?>

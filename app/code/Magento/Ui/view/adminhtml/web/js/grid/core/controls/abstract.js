@@ -6,8 +6,6 @@ define([
     return Scope.extend({
         initialize: function (data) {
             _.extend(this, data);
-
-            this.type = this.filter_type || this.input_type;
         }
     });
 });

@@ -1,10 +1,13 @@
-<div class="range" id="cmsPageGrid_filter_creation_time085dfcaff8977808e5850085cd902bd5_range">
+<div class="range">
+    <label for="" class="label">
+        <span data-bind="text: title"></span>
+    </label>
     <div class="range-line date">
-        <input type="text" name="creation_time[from]" id="cmsPageGrid_filter_creation_time085dfcaff8977808e5850085cd902bd5_from" value="" class="input-text no-changes hasDatepicker" placeholder="From" data-ui-id="column-filter-datetime-filter-creation-time-from">
-        <img class="ui-datepicker-trigger v-middle" src="http://mage2.dev/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif" alt="Date selector" title="Date selector">
+        <label data-bind="text: $t('To')"></label><br>
+        <input type="text" class="input-text no-changes" data-bind="datepicker: from">
     </div>
     <div class="range-line date">
-        <input type="text" name="creation_time[to]" id="cmsPageGrid_filter_creation_time085dfcaff8977808e5850085cd902bd5_to" value="" class="input-text no-changes hasDatepicker" placeholder="To" data-ui-id="column-filter-datetime-filter-creation-time-to">
-        <img class="ui-datepicker-trigger" src="http://mage2.dev/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif" alt="Date selector" title="Date selector">
+        <label data-bind="text: $t('From')"></label><br>
+        <input type="text" class="input-text no-changes" data-bind="datepicker: to">
     </div>
 </div>
