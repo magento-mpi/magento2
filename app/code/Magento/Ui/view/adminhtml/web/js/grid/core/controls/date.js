@@ -21,6 +21,13 @@ define([
                     to:   this.to()
                 }
             }
+        },
+
+        reset: function () {
+            this.to(null);
+            this.from(null);
+
+            return this.dump();
         }
     });
 });

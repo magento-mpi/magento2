@@ -3,26 +3,36 @@ define([
     '_'
 ], function (AbstractControl, _) {
 
+    function toArrayIgnoringKeys (object) {
+        return _.map(object, function (value) { return value; });
+    };
+
     return AbstractControl.extend({
         initialize: function (data) {
             this.constructor.__super__.initialize.apply(this, arguments);
 
             this.observe('selected', '');
 
-            this.options = this.options || [];
-            this.formatOptions();
+            this.options = this.options ? this.formatOptions() : [];
         },
 
         formatOptions: function () {
-            var id,
-                newOption;
+            return toArrayIgnoringKeys(this.options);
+        },
 
-            this.options = this.options.map(function (option) {
-                id = Object.keys(option)[0];
-                newOption = { key: id, value: option[id] };
+        dump: function () {
+            var selected = this.selected();
 
-                return newOption;
-            });
+            return {
+                field: this.index,
+                value: selected && selected.value
+            }
+        },
+
+        reset: function () {
+            this.selected(null);
+
+            return this.dump();
         }
     });
 });

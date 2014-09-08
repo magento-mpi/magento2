@@ -12,18 +12,11 @@ define([
         initialize: function(config) {
             this.storage = config.storage;
 
-            this.initObservable()
-                .extractFilterable()
+            this.observe('isVisible', false);
+
+            this.extractFilterable()
                 .initFields();
-        },
-
-        initObservable: function(config) {
-            this.observe({
-                isVisible: false
-            });
-
-            return this;
-        },
+        },            
 
         extractFilterable: function (fields) {
             var fields = this.storage.getMeta().fields,
@@ -52,8 +45,30 @@ define([
             return this;
         },
 
-        getTemplateFor: function (filter) {
-            return 'Magento_Ui.templates.controls.' + filter.type;
+        apply: function () {
+            this.updateParams(this._dump()).storage.load();
+        },
+
+        reset: function () {
+            this.updateParams(this._reset()).storage.load();
+        },
+
+        _dump: function () {
+            return this.filters.map(function (filter) {
+                return filter.dump();
+            });
+        },
+
+        _reset: function () {
+            return this.filters.map(function (filter) {
+                return filter.reset();
+            });
+        },
+
+        updateParams: function (filters) {
+            this.storage.setParams({ filter: filters });
+
+            return this;
         },
 
         toggle: function () {
@@ -62,6 +77,10 @@ define([
 
         close: function () {
             this.isVisible(false);
+        },
+
+        getTemplateFor: function (filter) {
+            return 'Magento_Ui.templates.controls.' + filter.type;
         },
 
         onLoad: function () {}
