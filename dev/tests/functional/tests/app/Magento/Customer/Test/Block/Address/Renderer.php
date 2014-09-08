@@ -87,13 +87,14 @@ class Renderer
      */
     protected function getFieldsArray($outputPattern)
     {
+        $fieldsArray = [];
         preg_match_all('@\{\{(\w+)\}\}@', $outputPattern, $matches);
-        foreach ($matches[1] as $key => $item) {
-            if ($item == 'depend') {
-                unset($matches[1][$key]);
+        foreach ($matches[1] as $item) {
+            if ($item != 'depend') {
+                $fieldsArray[] = $item;
             }
         }
-        return $matches[1];
+        return $fieldsArray;
     }
 
     /**

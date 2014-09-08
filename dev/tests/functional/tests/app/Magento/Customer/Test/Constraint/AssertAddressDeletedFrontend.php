@@ -41,7 +41,7 @@ class AssertAddressDeletedFrontend extends AbstractConstraint
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Address Book');
         $actualText = $customerAccountIndex->getAdditionalAddressBlock()->getBlockText();
         \PHPUnit_Framework_Assert::assertTrue(
-            in_array(self::EXPECTED_MESSAGE, $actualText),
+            self::EXPECTED_MESSAGE == $actualText,
             'Expected text is absent in Additional Address block.'
         );
     }

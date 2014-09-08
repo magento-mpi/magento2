@@ -55,7 +55,7 @@ class AddressesAdditional extends Block
     /**
      * Get block text
      *
-     * @return array
+     * @return string
      */
     public function getBlockText()
     {
