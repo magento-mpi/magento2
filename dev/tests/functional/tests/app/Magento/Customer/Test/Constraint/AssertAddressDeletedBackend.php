@@ -16,7 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertAddressDeletedBackend
- * Asserts that deleted customers address does not displays on backend during order creation
+ * Assert that deleted customers address is not displayed on backend during order creation
  */
 class AssertAddressDeletedBackend extends AbstractConstraint
 {
@@ -28,7 +28,7 @@ class AssertAddressDeletedBackend extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Asserts that deleted customers address does not displays on backend during order creation
+     * Assert that deleted customers address is not displayed on backend during order creation
      *
      * @param OrderIndex $orderIndex
      * @param OrderCreateIndex $orderCreateIndex
@@ -47,10 +47,14 @@ class AssertAddressDeletedBackend extends AbstractConstraint
         $orderCreateIndex->getCustomerBlock()->searchAndOpen($filter);
         $orderCreateIndex->getStoreBlock()->selectStoreView();
         $actualAddresses = $orderCreateIndex->getCreateBlock()->getBillingAddressBlock()->getExistingAddresses();
-        $addressToSearch = $orderCreateIndex->getCreateBlock()->prepareAddress($deletedAddress);
+        $addressRenderer = $this->objectManager->create(
+            'Magento\Customer\Test\Block\Address\Renderer',
+            ['address' => $deletedAddress]
+        );
+        $addressToSearch = $addressRenderer->render();
         \PHPUnit_Framework_Assert::assertFalse(
             in_array($addressToSearch, $actualAddresses),
-            'Expected text is present in Additional Address dropdown'
+            'Deleted address is present on backend during order creation'
         );
     }
 
@@ -61,6 +65,6 @@ class AssertAddressDeletedBackend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Expected text is absent in Additional Address dropdown';
+        return 'Deleted address is absent on backend during order creation';
     }
 }

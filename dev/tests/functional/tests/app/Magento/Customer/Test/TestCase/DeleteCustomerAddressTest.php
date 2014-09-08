@@ -12,7 +12,6 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -79,7 +78,7 @@ class DeleteCustomerAddressTest extends Injectable
     /**
      * Runs Delete Customer Address test
      *
-     * @param \Magento\Customer\Test\Fixture\CustomerInjectable $customer
+     * @param CustomerInjectable $customer
      * @return array
      */
     public function test(CustomerInjectable $customer)
@@ -95,9 +94,6 @@ class DeleteCustomerAddressTest extends Injectable
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('Address Book');
         $this->customerAccountIndex->getAdditionalAddressBlock()->deleteAdditionalAddress($addressToDelete);
 
-        return [
-            'deletedAddress' => $addressToDelete,
-            'customer' => $customer
-        ];
+        return ['deletedAddress' => $addressToDelete];
     }
 }

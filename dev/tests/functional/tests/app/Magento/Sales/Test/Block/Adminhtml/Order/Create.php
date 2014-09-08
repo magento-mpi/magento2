@@ -258,25 +258,4 @@ class Create extends Block
     {
         $this->getTotalsBlock()->submitOrder();
     }
-
-    /**
-     * Prepare customer address
-     *
-     * @param AddressInjectable $address
-     * @return string
-     */
-    public function prepareAddress(AddressInjectable $address)
-    {
-        $addressPattern = '%s %s, %s, %s, %s %s, %s';
-        return sprintf(
-            $addressPattern,
-            $address->getFirstname(),
-            $address->getLastname(),
-            $address->getStreet(),
-            $address->getCity(),
-            $address->getRegionId(),
-            $address->getPostcode(),
-            $address->getCountryId()
-        );
-    }
 }

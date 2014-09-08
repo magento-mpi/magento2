@@ -33,6 +33,13 @@ class AddressesAdditional extends Block
     protected $deleteAddressLink = "[role='delete-address']";
 
     /**
+     * Content of additional address block
+     *
+     * @var string
+     */
+    protected $additionalAddressContent = '.block-content';
+
+    /**
      * Delete Additional Address
      *
      * @param AddressInjectable $address
@@ -52,6 +59,6 @@ class AddressesAdditional extends Block
      */
     public function getBlockText()
     {
-        return explode("\n", $this->_rootElement->getText());
+        return explode("\n", $this->_rootElement->find($this->additionalAddressContent)->getText());
     }
 }

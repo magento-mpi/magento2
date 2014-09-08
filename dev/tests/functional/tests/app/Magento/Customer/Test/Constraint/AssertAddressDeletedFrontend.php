@@ -13,7 +13,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertAddressDeletedFrontend
- * Asserts that deleted customers address does not displays on customer account page
+ * Assert that deleted customers address is absent in Address Book in Customer Account
  */
 class AssertAddressDeletedFrontend extends AbstractConstraint
 {
@@ -37,6 +37,8 @@ class AssertAddressDeletedFrontend extends AbstractConstraint
      */
     public function processAssert(CustomerAccountIndex $customerAccountIndex)
     {
+        $customerAccountIndex->open();
+        $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Address Book');
         $actualText = $customerAccountIndex->getAdditionalAddressBlock()->getBlockText();
         \PHPUnit_Framework_Assert::assertTrue(
             in_array(self::EXPECTED_MESSAGE, $actualText),
@@ -51,6 +53,6 @@ class AssertAddressDeletedFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Expected text is present in Additional Address block.';
+        return 'Deleted address is absent in "Additional Address Entries" block.';
     }
 }
