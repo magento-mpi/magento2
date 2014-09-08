@@ -18,6 +18,7 @@ define([
         initObservable: function() {
             this.observe({
                 rows: [],
+                view: 'grid',
                 isLocked: false
             });
 
@@ -46,8 +47,16 @@ define([
             return this;
         },
 
-        getTemplateForCell: function (field) {
-            return 'Magento_Ui.templates.cell.' + field.dataType;
+        getCellTemplateFor: function (field) {
+            return this.getRootTemplatePath() +  '.cell.' + field.data_type;
+        },
+
+        getTemplate: function () {
+            return this.getRootTemplatePath();
+        },
+
+        getRootTemplatePath: function () {
+            return 'Magento_Ui.templates.listing.' + this.view();
         },
 
         onLoad: function() {

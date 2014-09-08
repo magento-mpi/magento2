@@ -9,13 +9,7 @@ define([
             namespace = data.config.namespace;
 
         registry
-            .set(
-                namespace + ':storage',
-                listing.storage
-            )
-            .set(
-                namespace + ':listing',
-                listing
-            );
+            .set(namespace + ':storage', listing.storage)
+            .set(namespace + ':listing', listing);
     }
 });

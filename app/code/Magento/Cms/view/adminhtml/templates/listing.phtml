@@ -12,8 +12,8 @@
                 "meta": {
                     "fields": [
                         {
+                            "index": "title",
                             "title": "Title",
-                            "id": "title",
                             "sortable": true,
                             "filterable": true,
                             "filter_type": "input",
@@ -21,16 +21,16 @@
                             "data_type": "text"
                         },
                         {
+                            "index": "url",
                             "title": "URL Key",
-                            "id": "url",
                             "sortable": true,
                             "filter_type": "input",
                             "input_type": "input",
                             "data_type": "text"
                         },
                         {
+                            "index": "layout",
                             "title": "Layout",
-                            "id": "layout",
                             "sortable": true,
                             "filter_type": "select",
                             "input_type": "select",
@@ -44,45 +44,45 @@
                             ]
                         },
                         {
+                            "index": "store_id",
                             "title": "Store View",
-                            "id": "store_id",
                             "sortable": true,
                             "filter_type": "select",
                             "input_type": "select",
                             "data_type": "text"
                         },
                         {
+                            "index": "status",
                             "title": "Status",
-                            "id": "status",
                             "sortable": true,
                             "filter_type": "select",
                             "input_type": "select",
-                            "data_type": "boolean",
+                            "data_type": "text",
                             "options": [
                                 { "0": "Disabled" },
                                 { "1": "Enabled" }
                             ]
                         },
                         {
+                            "index": "created",
                             "title": "Created",
-                            "id": "Created",
                             "sortable": true,
                             "filter_type": "date",
                             "input_type": "date",
                             "data_type": "text"
                         },
                         {
+                            "index": "modified",
                             "title": "Modified",
-                            "id": "modified",
                             "sortable": true,
                             "filter_type": "date",
                             "input_type": "date",
                             "data_type": "text"
                         },
                         {
+                            "index": "actions",
                             "title": "Action",
-                            "id": "action",
-                            "data_type": "text",
+                            "data_type": "actions",
                             "filterable": false
                         }
                     ]
@@ -100,10 +100,10 @@
                             "status": "Disabled",
                             "created": "Aug 8, 2014 1:48:32 AM",
                             "modified": "Aug 8, 2014 1:48:32 AM",
-                            "action": {
+                            "actions": [{
                                 "href": "/enable-cookies/?___store=default",
                                 "title": "Preview"
-                            }
+                            }]
                         },
                         {
                             "id": "1",
@@ -114,10 +114,10 @@
                             "status": "Disabled",
                             "created": "Aug 8, 2014 1:48:32 AM",
                             "modified": "Aug 8, 2014 1:48:32 AM",
-                            "action": {
+                            "actions": [{
                                 "href": "/home/?___store=default",
                                 "title": "Preview"
-                            }
+                            }]
                         },
                         {
                             "id": "2",
@@ -128,10 +128,10 @@
                             "status": "Disabled",
                             "created": "Aug 8, 2014 1:48:32 AM",
                             "modified": "Aug 8, 2014 1:48:32 AM",
-                            "action": {
+                            "actions": [{
                                 "href": "/no-route/?___store=default",
                                 "title": "Preview"
-                            }
+                            }]
                         },
                         {
                             "id": "3",
@@ -142,10 +142,10 @@
                             "status": "Disabled",
                             "created": "Aug 8, 2014 1:48:32 AM",
                             "modified": "Aug 8, 2014 1:48:32 AM",
-                            "action": {
+                            "actions": [{
                                 "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
                                 "title": "Preview"
-                            }
+                            }]
                         },
                         {
                             "id": "4",
@@ -156,10 +156,10 @@
                             "status": "Disabled",
                             "created": "Aug 8, 2014 1:48:32 AM",
                             "modified": "Aug 8, 2014 1:48:32 AM",
-                            "action": {
+                            "actions": [{
                                 "href": "/privacy-policy-cookie-restriction-mode/?___store=default",
                                 "title": "Preview"
-                            }
+                            }]
                         }
                     ],
 
@@ -221,7 +221,7 @@
         <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
     </div>
     <div data-bind="scope: 'cms.pages:listing'">
-        <!-- ko template: 'Magento_Ui.templates.listing.grid' --><!-- /ko -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- ko template: 'Magento_Ui.templates.loader' --><!-- /ko -->
     </div>
 </div>

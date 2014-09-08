@@ -25,8 +25,8 @@ define([
                 sources[template] = source;
 
                 Renderer.render(template).done(function (rendered) {
-                  source.nodes(rendered);
-                  M2.init(rendered);
+                    source.nodes(rendered);
+                    M2.init(rendered);
                 });
             }
 
