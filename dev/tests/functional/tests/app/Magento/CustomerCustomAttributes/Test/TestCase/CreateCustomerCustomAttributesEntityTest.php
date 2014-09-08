@@ -34,6 +34,7 @@ class CreateCustomerCustomAttributesEntityTest extends AbstractCustomerCustomAtt
      */
     public function test(CustomerCustomAttribute $customerAttribute)
     {
+        $this->markTestIncomplete('MAGETWO-18664');
         // Steps
         $this->customerAttributeIndex->open();
         $this->customerAttributeIndex->getGridPageActions()->addNew();

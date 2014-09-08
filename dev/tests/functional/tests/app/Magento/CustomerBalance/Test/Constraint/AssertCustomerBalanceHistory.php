@@ -11,7 +11,7 @@ namespace Magento\CustomerBalance\Test\Constraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Magento\CustomerBalance\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -45,7 +45,7 @@ class AssertCustomerBalanceHistory extends AbstractConstraint
         $customerIndex->open();
         $filter = ['email' => $customer->getEmail()];
         $customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
-        $customerForm = $customerIndexEdit->getCustomerForm();
+        $customerForm = $customerIndexEdit->getCustomerBalanceForm();
         $customerForm->openTab('store_credit');
 
         \PHPUnit_Framework_Assert::assertTrue(

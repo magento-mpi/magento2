@@ -10,7 +10,6 @@ namespace Magento\Multishipping\Test\Block\Checkout;
 
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
-use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Class Shipping
@@ -29,24 +28,20 @@ class Billing extends Form
     /**
      * Select payment method
      *
-     * @param GuestPaypalDirect $fixture
+     * @param array $payment
+     * @return void
      */
-    public function selectPaymentMethod(GuestPaypalDirect $fixture)
+    public function selectPaymentMethod(array $payment)
     {
-        $payment = $fixture->getPaymentMethod();
-        $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find('#p_method_' . $paymentCode, Locator::SELECTOR_CSS)->click();
-
-        $dataConfig = $payment->getDataConfig();
+        $this->_rootElement->find('#p_method_' . $payment['method'], Locator::SELECTOR_CSS)->click();
+        $dataConfig = $payment['dataConfig'];
         if (isset($dataConfig['payment_form_class'])) {
-            $paymentFormClass = $dataConfig['payment_form_class'];
             /** @var $formBlock \Mtf\Block\Form */
-            $formBlock = new $paymentFormClass(
-                $this->_rootElement->find('#payment_form_' . $paymentCode, Locator::SELECTOR_CSS),
-                $this->blockFactory,
-                $this->mapper
+            $formBlock = $this->blockFactory->create(
+                $dataConfig['payment_form_class'],
+                ['element' => $this->_rootElement->find('#payment_form_' . $payment['method'], Locator::SELECTOR_CSS)]
             );
-            $formBlock->fill($fixture);
+            $formBlock->fill($payment['credit_card']);
         }
 
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();

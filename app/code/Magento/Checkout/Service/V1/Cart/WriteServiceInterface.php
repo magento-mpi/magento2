@@ -12,6 +12,8 @@ interface WriteServiceInterface
     /**
      * Create empty cart/quote for anonymous customer
      *
+     * Access level: admin or guest
+     *
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return int cart id
      */

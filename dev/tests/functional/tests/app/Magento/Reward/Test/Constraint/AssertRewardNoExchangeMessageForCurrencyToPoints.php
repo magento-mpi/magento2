@@ -12,7 +12,8 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Reward\Test\Fixture\Reward;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Magento\Reward\Test\Page\RewardCustomerInfo;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -37,33 +38,29 @@ class AssertRewardNoExchangeMessageForCurrencyToPoints extends AbstractConstrain
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param RewardCustomerInfo $rewardCustomerInfo
-     * @param Reward $reward
+     * @param RewardRate $rate
      * @return void
      */
     public function processAssert(
         CustomerInjectable $customer,
-        CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
+        CustomerAccountLogout $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
         RewardCustomerInfo $rewardCustomerInfo,
-        Reward $reward
+        RewardRate $rate
     ) {
-        $cmsIndex->open();
-        if ($cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $cmsIndex->getLinksBlock()->openLink('Log Out');
-        }
-
-        $cmsIndex->getLinksBlock()->openLink('Log In');
+        //Ensure that customer is logged out
+        $customerAccountLogout->open();
+        $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->fill($customer);
         $customerAccountLogin->getLoginBlock()->submit();
 
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Reward Points');
         $actualInformation = $rewardCustomerInfo->getRewardPointsBlock()->getRewardPointsBalance();
-
         $expectedMessage = sprintf(
             'Each $%s spent will earn %d Reward points.',
-            $reward->getPointsDelta(),
-            $reward->getEqualValue()
+            $rate->getValue(),
+            $rate->getEqualValue()
         );
 
         \PHPUnit_Framework_Assert::assertFalse(

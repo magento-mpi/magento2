@@ -10,7 +10,7 @@ namespace Magento\Banner\Test\Constraint;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Banner\Test\Page\Category\CatalogCategoryView;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
@@ -56,7 +56,7 @@ class AssertBannerNotOnCategoryPage extends AbstractConstraint
         }
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertFalse(
-            $catalogCategoryView->getViewBlock()->checkWidgetBanners($banner),
+            $catalogCategoryView->getBannerViewBlock()->checkWidgetBanners($banner),
             'Banner is presents on Category page.'
         );
     }

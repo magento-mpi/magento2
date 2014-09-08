@@ -8,6 +8,7 @@
 
 namespace Magento\Reward\Test\Handler\Reward;
 
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -17,28 +18,12 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
- * Curl creation of reward points exchange rate
+ * Curl creation of reward points
  */
 class Curl extends AbstractCurl implements RewardInterface
 {
     /**
-     * Mapping for reward rate exchange data
-     *
-     * @var array
-     */
-    protected $mappingData = [
-        'website_id' => [
-            'All Websites' => 0,
-            'Main Website' => 1,
-        ],
-        'direction' => [
-            'Points to Currency' => 1,
-            'Currency to Points' => 2,
-        ],
-    ];
-
-    /**
-     * Post request for creating rate exchange
+     * Post request for creating reward points
      *
      * @param FixtureInterface $fixture
      * @return array
@@ -46,42 +31,24 @@ class Curl extends AbstractCurl implements RewardInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        /**
-         * @var \Magento\Reward\Test\Fixture\Reward $fixture
-         */
-        $data['rate'] = $this->replaceMappingData($fixture->getData());
-        $data['rate']['customer_group_id'] = $fixture->getDataFieldConfig('customer_group_id')['source']
-            ->getCustomerGroup()
-            ->getCustomerGroupId();
+        /** @var \Magento\Reward\Test\Fixture\Reward $fixture */
+        $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
+        /** @var CustomerInjectable $customer */
+        $data = $customer->getData();
+        $data['customer_id'] = $customer->getId();
+        $data['reward']['points_delta'] = $fixture->getPointsDelta();
 
-        $url = $_ENV['app_backend_url'] . 'admin/reward_rate/save/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $url = $_ENV['app_backend_url'] . 'customer/index/save/active_tab/customer_edit_tab_reward/';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Exchange Rate creation by curl handler was not successful! Response: $response");
+            throw new \Exception(
+                "Adding reward points by curl handler was not successful! Response: $response"
+            );
         }
-
-        return ['rate_id' => $this->getRateId()];
-    }
-
-    /**
-     * Get Reward exchange rate id
-     *
-     * @return string|null
-     */
-    protected function getRateId()
-    {
-        $url = $_ENV['app_backend_url'] . 'admin/reward_rate/index/sort/rate_id/dir/desc/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::GET, $url, '1.0');
-        $response = $curl->read();
-        $curl->close();
-
-        preg_match('/data-column="rate_id"[^>]*>\s*([0-9]+)\s*</', $response, $match);
-        return empty($match[1]) ? null : $match[1];
     }
 }

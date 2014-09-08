@@ -41,11 +41,25 @@ class Paypal extends Page
     protected $loginBlock = '#loginBox';
 
     /**
+     * Form for customer login
+     *
+     * @var string
+     */
+    protected $loginExpressBlock = '#main';
+
+    /**
      * Paypal review block
      *
      * @var string
      */
     protected $reviewBlock = '#reviewModule';
+
+    /**
+     * Paypal review block
+     *
+     * @var string
+     */
+    protected $reviewExpressBlock = '#memberReview';
 
     /**
      * Paypal main panel block
@@ -75,6 +89,18 @@ class Paypal extends Page
     }
 
     /**
+     * Get login block
+     *
+     * @return \Magento\Paypal\Test\Block\LoginExpress
+     */
+    public function getLoginExpressBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoPaypalLoginExpress(
+            $this->_browser->find($this->loginExpressBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
      * Get review block
      *
      * @return \Magento\Paypal\Test\Block\Review
@@ -83,6 +109,18 @@ class Paypal extends Page
     {
         return Factory::getBlockFactory()->getMagentoPaypalReview(
             $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get review block
+     *
+     * @return \Magento\Paypal\Test\Block\ReviewExpress
+     */
+    public function getReviewExpressBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoPaypalReviewExpress(
+            $this->_browser->find($this->reviewExpressBlock, Locator::SELECTOR_CSS)
         );
     }
 

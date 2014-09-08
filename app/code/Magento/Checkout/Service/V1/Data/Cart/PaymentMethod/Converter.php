@@ -20,9 +20,8 @@ class Converter
     /**
      * @param \Magento\Checkout\Service\V1\Data\Cart\PaymentMethodBuilder $builder
      */
-    public function __construct(
-        \Magento\Checkout\Service\V1\Data\Cart\PaymentMethodBuilder $builder
-    ) {
+    public function __construct(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethodBuilder $builder)
+    {
         $this->builder = $builder;
     }
 
