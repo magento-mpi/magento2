@@ -1,4 +1,26 @@
-define(['_'], function (_) {
+define([
+    '_'
+], function (_) {
+
+    function parseObject( name, value ){
+        var keys    = Object.keys(value),
+            len     = keys.length,
+            result  = '';
+
+        keys.forEach(function(key, i){
+            result += name +'['+ key +']' + '=' + value[key];
+
+            if( i < len - 1){
+                result += '&';
+            }
+        });
+
+        return result;
+    }
+
+    function parseValue(name, value){
+        return name + '=' + value;
+    }
 
     /**
      * Extracts sorting parameters from object and returns string representation of it.
@@ -8,9 +30,14 @@ define(['_'], function (_) {
      */
 
     function extractSortParams(params) {
-        params = params.sorting;
+        var result, 
+            sorting = params.sorting;
 
-        return 'sort/' + params.field + '/dir/' + params.direction + '/';
+        result = '/sort/' + sorting.field + '/dir/' + sorting.direction;;
+
+        delete params.sorting;
+
+        return result;
     }
 
     /**
@@ -21,27 +48,67 @@ define(['_'], function (_) {
      */
 
     function extractPagerParams(params) {
-        params = params.paging;
+        var result, 
+            paging = params.paging;
 
-        return 'limit/' + params.pageSize + '/page/' + params.current + '/';
+        result = '/limit/' + paging.pageSize + '/page/' + paging.current;
+
+        delete params.paging;
+
+        return result;
     }
 
-    return {
+    function extractFilterParams(params){
+        var filters,
+            len,
+            result,
+            name,
+            value;
 
-        getFor: function (root, params) {
-            var url = '';
+        filters = params.filter;
 
-            if (root) {
-                url = root;
-
-                url += extractSortParams(params);
-                url += extractPagerParams(params);
-            }
-
-            return {
-                url: url,
-                data: { form_key: FORM_KEY }
-            };
+        if( typeof filters === 'undefined' || !filters.length ){
+            return '';
         }
+
+        len     = filters.length,
+        result  = '/filter/';
+
+        fiters.forEach(function( filter, i ){
+            name    = filter.field;
+            value   = filter.value;
+
+            result += typeof value !== 'object' ? 
+                parseValue(name, value) :
+                parseObject(name, value);
+
+            if( i < len - 1 ){
+                result += '&';
+            }
+        });
+
+        delete params.filter;
+
+        return result;
     }
+
+    return function (root, params) {
+        var url = '',
+            lastChar;
+
+        lastChar = root.charAt(root.length-1);
+        
+        if( lastChar === '/' ){
+            root = root.substr(0, root.length-1);
+        }
+        
+        url +=
+            root +
+            extractSortParams(params) +
+            extractPagerParams(params) +
+            extractFilterParams(params);
+
+        return url;
+    };
+    
 });
