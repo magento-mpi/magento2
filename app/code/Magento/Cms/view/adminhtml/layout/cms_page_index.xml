@@ -88,7 +88,7 @@
                 </argument>
             </arguments>
             <container name="cms_page_listing_before" label="" htmlTag="div">
-                <block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml"/>
+                <block class="Magento\Ui\ListingContainer\Paging\View" template="Magento_Ui::listingcontainer/paging/default.phtml"/>
             </container>
             <!--<container name="cms_page_listing_after" label="" htmlTag="div">-->
             <!--<block class="Magento\Ui\Listing\Component\Paging\View" template="Magento_Ui::listing/component/paging/default.phtml" />-->

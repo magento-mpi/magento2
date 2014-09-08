@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\Listing\Component\Paging;
+namespace Magento\Ui\ListingContainer\Paging;
 
 use Magento\Ui\AbstractView;
 

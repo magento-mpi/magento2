@@ -18,6 +18,8 @@ class View extends AbstractView
 {
     const DEFAULT_GRID_URL = 'mui/listing/grid';
 
+    const DEFAULT_PAGE_LIMIT = 5;
+
     /**
      * @var ObjectManager
      */
@@ -124,7 +126,7 @@ class View extends AbstractView
             strtoupper($this->getRequest()->getParam('dir', $this->getData('default_dir')))
         )->setCurPage(
             $this->getRequest()->getParam('page')
-        )->setPageSize($this->getRequest()->getParam('limit', 5));
+        )->setPageSize($this->getRequest()->getParam('limit', static::DEFAULT_PAGE_LIMIT));
         foreach ($collection->getItems() as $row) {
             $rowData = [];
             foreach (array_keys($this->getData('columns')) as $column) {
@@ -157,7 +159,9 @@ class View extends AbstractView
         $result['data']['items'] = $this->getCollectionItems();
 
         $countItems = $this->getCollection()->getSize();
-        $result['data']['pages'] = ceil($countItems / $this->getRequest()->getParam('limit', 5));
+        $result['data']['pages'] = ceil(
+            $countItems / $this->getRequest()->getParam('limit', static::DEFAULT_PAGE_LIMIT)
+        );
         $result['data']['totalCount'] = $countItems;
 
         $this->configuration = array_merge_recursive($this->configuration, $result);
