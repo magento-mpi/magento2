@@ -56,7 +56,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             'queries' => ':str',
             'filters' => 'f',
             'query' => 'q',
-            'aggregation' => 'a',
+            'aggregations' => 'a',
             'index' => 'i',
             'from' => '1',
             'size' => '15',
@@ -87,7 +87,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
                         'objectManager' => $this->objectManager,
                         'queries' => $bindValues[':str'],
                         'rootQueryName' => $configData['query'],
-                        'aggregation' => $configData['aggregation'],
+                        'aggregations' => $configData['aggregations'],
                         'filters' => $configData['filters']
                     ]
                 )

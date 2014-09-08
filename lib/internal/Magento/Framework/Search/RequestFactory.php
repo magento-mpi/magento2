@@ -1,6 +1,5 @@
 <?php
 /**
- * Search Request Pool
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Search Request Pool
+ */
 class RequestFactory
 {
     const CACHE_PREFIX = 'search_request::';
@@ -87,7 +89,7 @@ class RequestFactory
                 'objectManager' => $this->objectManager,
                 'rootQueryName' => $data['query'],
                 'queries' => $data['queries'],
-                'aggregation' => $data['aggregation'],
+                'aggregations' => $data['aggregations'],
                 'filters' => $data['filters']
             ]
         );

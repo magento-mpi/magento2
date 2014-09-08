@@ -1,7 +1,5 @@
 <?php
 /**
- * Search Document Field
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Search Document Field
+ */
 class DocumentField
 {
     /**
@@ -21,18 +22,18 @@ class DocumentField
     /**
      * Document field values
      *
-     * @var array
+     * @var mixed
      */
-    protected $values;
+    protected $value;
 
     /**
      * @param string $name
-     * @param array $values
+     * @param mixed $value
      */
-    public function __construct($name, array $values)
+    public function __construct($name, $value)
     {
         $this->name = $name;
-        $this->values = $values;
+        $this->value = $value;
     }
 
     /**
@@ -50,8 +51,8 @@ class DocumentField
      *
      * @return array
      */
-    public function getValues()
+    public function getValue()
     {
-        return $this->values;
+        return $this->value;
     }
 }
