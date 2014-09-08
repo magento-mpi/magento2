@@ -11,6 +11,9 @@ namespace Magento\Bundle\Service\V1\Product;
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Catalog\Model\Product\Type as ProductType;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
