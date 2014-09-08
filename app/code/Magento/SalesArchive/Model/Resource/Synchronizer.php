@@ -50,9 +50,7 @@ class Synchronizer
      *
      * @param \Magento\Framework\Module\Setup|\Magento\Module\Updater\SetupInterface $installer
      */
-    public function __construct(
-            $installer
-    ) {
+    public function __construct($installer) {
         $this->_installer = $installer;
     }
 
@@ -324,7 +322,7 @@ class Synchronizer
      * @param bool $after
      * @param bool $first
      * @return $this
-     * @throws \Magento\Framework\Model\Exception
+     * @throws \Exception
      */
     protected function _changeColumnPosition($table, $column, $after = false, $first = false)
     {
@@ -340,7 +338,7 @@ class Synchronizer
         }
 
         if (!$this->_installer->getConnection()->isTableExists($table)) {
-            throw new \Magento\Framework\Model\Exception(__("We can't find the table."));
+            throw new \Exception(sprintf('Table `%s` not found!', $table));
         }
 
         $columns = array();
@@ -353,9 +351,9 @@ class Synchronizer
         }
 
         if (!isset($columns[$column])) {
-            throw new \Magento\Framework\Model\Exception(__('Column not found'));
+            throw new \Exception(sprintf('Column `%s` not found in table `%s`!', $column, $table));
         } elseif ($after && !isset($columns[$after])) {
-            throw new \Magento\Framework\Model\Exception(__('Positioning column not found'));
+            throw new \Exception(sprintf('Positioning column `%s` not found in table `%s`!', $after, $table));
         }
 
         if ($after) {
