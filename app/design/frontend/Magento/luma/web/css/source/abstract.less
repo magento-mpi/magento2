@@ -822,6 +822,31 @@
 }
 
 //
+//    Account blocks
+//--------------------------------------
+.abstract-account-blocks {
+    .block-title {
+        &:extend(.abstract-account-title all);
+        > .action {
+            margin-left: 15px;
+        }
+    }
+    .box-title {
+        > span {
+            .font-size(16);
+        }
+        display: inline-block;
+        margin: 0 0 @indent-s-base;
+        > .action {
+            font-weight: 400;
+            margin-left: 15px;
+        }
+    }
+    .box-content {
+    }
+}
+
+//
 //    Add colon
 //--------------------------------------
 .abstract-colon {
