@@ -13,6 +13,27 @@ use \Magento\Framework\App\Action\NotFoundException;
 class PrintLabel extends \Magento\Rma\Controller\Tracking
 {
     /**
+     * @var \Magento\Rma\Model\Shipping\LabelService
+     */
+    protected $labelService;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Rma\Model\Shipping\LabelService $labelService
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Rma\Model\Shipping\LabelService $labelService
+    ) {
+        $this->labelService = $labelService;
+        parent::__construct($context, $coreRegistry, $fileResponseFactory);
+    }
+
+    /**
      * Print label for one specific shipment
      *
      * @return \Magento\Framework\App\ResponseInterface|void
@@ -46,7 +67,7 @@ class PrintLabel extends \Magento\Rma\Controller\Tracking
                     $pdfContent = $labelContent;
                 } else {
                     $pdf = new \Zend_Pdf();
-                    $page = $shipping->createPdfPageFromImageString($labelContent);
+                    $page = $this->labelService->createPdfPageFromImageString($labelContent);
                     if (!$page) {
                         $this->messageManager->addError(
                             __(

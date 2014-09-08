@@ -26,13 +26,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     const XML_PATH_USE_STORE_ADDRESS = 'sales/magento_rma/use_store_address';
 
     /**
-     * Rma Instance
-     *
-     * @var \Magento\Rma\Model\Rma
-     */
-    protected $_rma;
-
-    /**
      * Rma items collection
      *
      * @var null
@@ -470,7 +463,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         }
 
         $this->save();
-        $this->_rma = $this;
         return $this;
     }
 
