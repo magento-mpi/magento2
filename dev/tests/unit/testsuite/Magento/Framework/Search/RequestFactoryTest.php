@@ -60,8 +60,8 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             'index' => 'i',
             'from' => '1',
             'size' => '15',
-            'demensions' => [
-                'name' => ['name' =>'', 'value' => '']
+            'dimensions' => [
+                'name' => ['name' => '', 'value' => '']
             ]
         ];
         $mappedQuery = $configData['query'] . 'Mapped';
@@ -121,7 +121,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
                         'from' => $configData['from'],
                         'size' => $configData['size'],
                         'query' => $mappedQuery,
-                        'demensions' => [
+                        'dimensions' => [
                             'name' => $dimension
                         ],
                         'buckets' => [],
