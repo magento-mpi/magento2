@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\View\Page\Config;
 
+use Magento\Framework\View\Page\Config as PageConfig;
+
 /**
  * Page config structure model
  */
@@ -36,6 +38,86 @@ class Structure
      * @var string[]
      */
     protected $metadata = [];
+
+    /**
+     * @var array
+     */
+    protected $elementAttributes = [];
+
+    /**
+     * @var array
+     */
+    protected $removeElementAttributes = [];
+
+    /**
+     * @var array
+     */
+    protected $bodyClasses = [];
+
+    /**
+     * @var bool
+     */
+    protected $isBodyClassesDeleted = false;
+
+    /**
+     * @param string $element
+     * @param string $attributeName
+     * @param string $attributeValue
+     * @return $this
+     */
+    public function setElementAttribute($element, $attributeName, $attributeValue)
+    {
+        if (empty($attributeValue)) {
+            $this->removeElementAttributes[$element][] = $attributeName;
+        } else {
+            $this->elementAttributes[$element][$attributeName] = (string)$attributeValue;
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function processRemoveElementAttributes()
+    {
+        foreach ($this->removeElementAttributes as $element => $attributes) {
+            foreach ($attributes as $attributeName) {
+                unset($this->elementAttributes[$element][$attributeName]);
+            }
+        }
+        $this->removeElementAttributes = [];
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function setBodyClass($value)
+    {
+        if (empty($value)) {
+            $this->isBodyClassesDeleted = true;
+        } else {
+            $this->bodyClasses[] = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBodyClasses()
+    {
+        return $this->isBodyClassesDeleted ? [] : $this->bodyClasses;
+    }
+
+    /**
+     * @return array
+     */
+    public function getElementAttributes()
+    {
+        return $this->elementAttributes;
+    }
 
     /**
      * @param string $title

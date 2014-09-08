@@ -25,16 +25,23 @@ class Config
      */
     const ELEMENT_TYPE_BODY = 'body';
     const ELEMENT_TYPE_HTML = 'html';
+    const ELEMENT_TYPE_HEAD = 'head';
     /**#@-*/
+
+    /**
+     * Constant body attribute class
+     */
+    const BODY_ATTRIBUTE_CLASS = 'class';
 
     /**
      * Allowed group of types
      *
      * @var array
      */
-    private $allowedTypes = [
+    protected $allowedTypes = [
         self::ELEMENT_TYPE_BODY,
-        self::ELEMENT_TYPE_HTML
+        self::ELEMENT_TYPE_HTML,
+        self::ELEMENT_TYPE_HEAD
     ];
 
     /**
@@ -449,8 +456,15 @@ class Config
     public function addBodyClass($className)
     {
         $className = preg_replace('#[^a-z0-9]+#', '-', strtolower($className));
-        $bodyClasses = $this->getElementAttribute(self::ELEMENT_TYPE_BODY, 'classes');
-        $this->setElementAttribute(self::ELEMENT_TYPE_BODY, 'classes', $bodyClasses . ' ' . $className);
+        $bodyClasses = $this->getElementAttribute(self::ELEMENT_TYPE_BODY, self::BODY_ATTRIBUTE_CLASS);
+        $bodyClasses = $bodyClasses ? explode(' ', $bodyClasses) : [];
+        $bodyClasses[] = $className;
+        $bodyClasses = array_unique($bodyClasses);
+        $this->setElementAttribute(
+            self::ELEMENT_TYPE_BODY,
+            self::BODY_ATTRIBUTE_CLASS,
+            implode(' ', $bodyClasses)
+        );
         return $this;
     }
 
@@ -482,6 +496,15 @@ class Config
     public function getElementAttribute($elementType, $attribute)
     {
         return isset($this->elements[$elementType][$attribute]) ? $this->elements[$elementType][$attribute] : null;
+    }
+
+    /**
+     * @param string $elementType
+     * @return string[]
+     */
+    public function getElementAttributes($elementType)
+    {
+        return isset($this->elements[$elementType]) ? $this->elements[$elementType] : [];
     }
 
     /**

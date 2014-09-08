@@ -87,6 +87,19 @@ class Renderer
     }
 
     /**
+     * @param string $elementType
+     * @return string
+     */
+    public function renderElementAttributes($elementType)
+    {
+        $resultAttributes = [];
+        foreach ($this->pageConfig->getElementAttributes($elementType) as $name => $value) {
+            $resultAttributes[] = sprintf('%s="%s"', $name, $value);
+        }
+        return implode(' ', $resultAttributes);
+    }
+
+    /**
      * @return string
      */
     public function renderHeadContent()

@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\View\Page\Config;
 
+use Magento\Framework\View\Page\Config as PageConfig;
+
 class Reader
 {
     /**#@+
@@ -27,6 +29,11 @@ class Reader
     /**#@-*/
 
     /**
+     * Attribute element
+     */
+    const ATTRIBUTE = 'attribute';
+
+    /**
      * @var Structure
      */
     protected $structure;
@@ -37,6 +44,68 @@ class Reader
     public function __construct(Structure $structure)
     {
         $this->structure = $structure;
+    }
+
+    /**
+     * @param \Magento\Framework\View\Layout\Element $htmlElement
+     * @return $this
+     */
+    public function readHtml($htmlElement)
+    {
+        /** @var \Magento\Framework\View\Layout\Element $element */
+        foreach ($htmlElement as $element) {
+            switch ($element->getName()) {
+                case self::ATTRIBUTE:
+                    $this->structure->setElementAttribute(
+                        PageConfig::ELEMENT_TYPE_HTML,
+                        $element->getAttribute('name'),
+                        $element->getAttribute('value')
+                    );
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param \Magento\Framework\View\Layout\Element $bodyElement
+     * @return $this
+     */
+    public function readBody($bodyElement)
+    {
+        /** @var \Magento\Framework\View\Layout\Element $element */
+        foreach ($bodyElement as $element) {
+            switch ($element->getName()) {
+                case self::ATTRIBUTE:
+                    $this->setBodyAttributeTosStructure($element);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param \Magento\Framework\View\Layout\Element $element
+     * @return $this
+     */
+    protected function setBodyAttributeTosStructure($element)
+    {
+        if ($element->getAttribute('name') == PageConfig::BODY_ATTRIBUTE_CLASS) {
+            $this->structure->setBodyClass($element->getAttribute('value'));
+        } else {
+            $this->structure->setElementAttribute(
+                PageConfig::ELEMENT_TYPE_BODY,
+                $element->getAttribute('name'),
+                $element->getAttribute('value')
+            );
+        }
+        return $this;
     }
 
     /**
@@ -64,6 +133,14 @@ class Reader
 
                 case self::HEAD_META:
                     $this->structure->setMetaData($element->getAttribute('name'), $element->getAttribute('content'));
+                    break;
+
+                case self::ATTRIBUTE:
+                    $this->structure->setElementAttribute(
+                        PageConfig::ELEMENT_TYPE_HEAD,
+                        $element->getAttribute('name'),
+                        $element->getAttribute('value')
+                    );
                     break;
 
                 default:

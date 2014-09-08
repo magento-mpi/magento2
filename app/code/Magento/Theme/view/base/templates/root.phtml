@@ -7,15 +7,12 @@
  */
 ?>
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml"<?php echo $htmlAttributes ?>>
-<head>
-    <?php echo $requireJs ?>
-    <?php echo $headContent ?>
-</head>
-<body data-container="body" data-mage-init='{"loaderAjax": {}, "loader": {}}'<?php
-    echo !empty($bodyClasses) ? ' class="' . $bodyClasses . '"' : '';
-    echo !empty($bodyAttributes) ? $bodyAttributes : '';
-?>>
-<?php echo $layoutContent ?>
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml" <?php echo $htmlAttributes ?>>
+    <head <?php echo $headAttributes ?>>
+        <?php echo $requireJs ?>
+        <?php echo $headContent ?>
+    </head>
+    <body data-container="body" data-mage-init='{"loaderAjax": {}, "loader": {}}' <?php echo $bodyAttributes ?>>
+        <?php echo $layoutContent ?>
+    </body>
 </html>

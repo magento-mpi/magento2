@@ -82,11 +82,16 @@ class Generator
         $this->processAssets();
         $this->processTitle();
         $this->processMetadata();
+        $this->structure->processRemoveElementAttributes();
+        $this->processElementAttributes();
+        $this->processBodyClasses();
         return $this;
     }
 
     /**
      * Add assets to page config
+     *
+     * @return $this
      */
     protected function processAssets()
     {
@@ -95,15 +100,20 @@ class Generator
                 $this->pageConfig->addRemotePageAsset(
                     $name,
                     self::VIRTUAL_CONTENT_TYPE_LINK,
-                    $this->getProperties($data)
+                    $this->getAssetProperties($data)
                 );
             } else {
-                $this->pageConfig->addPageAsset($name, $this->getProperties($data));
+                $this->pageConfig->addPageAsset($name, $this->getAssetProperties($data));
             }
         }
+        return $this;
     }
 
-    protected function getProperties(array $data = [])
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function getAssetProperties(array $data = [])
     {
         $properties = [];
         $attributes = [];
@@ -118,16 +128,47 @@ class Generator
         return $properties;
     }
 
+    /**
+     * @return $this
+     */
     protected function processTitle()
     {
         $this->pageConfig->setTitle($this->structure->getTitle());
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function processMetadata()
     {
         foreach ($this->structure->getMetadata() as $name => $content) {
             $this->pageConfig->setMetadata($name, $content);
         }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function processElementAttributes()
+    {
+        foreach ($this->structure->getElementAttributes() as $element => $attributes) {
+            foreach ($attributes as $name => $value) {
+                $this->pageConfig->setElementAttribute($element, $name, $value);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function processBodyClasses()
+    {
+        foreach ($this->structure->getBodyClasses() as $class) {
+            $this->pageConfig->addBodyClass($class);
+        }
+        return $this;
     }
 }

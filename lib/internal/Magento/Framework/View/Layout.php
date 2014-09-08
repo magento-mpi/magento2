@@ -489,8 +489,16 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
                     $this->_scheduledStructure->setElementToRemoveList((string)$node->getAttribute('name'));
                     break;
 
-                case Element::TYPE_HEAD:
+                case Page\Config::ELEMENT_TYPE_HTML:
+                    $this->pageConfigReader->readHtml($node);
+                    break;
+
+                case Page\Config::ELEMENT_TYPE_HEAD:
                     $this->pageConfigReader->readHead($node);
+                    break;
+
+                case Page\Config::ELEMENT_TYPE_BODY:
+                    $this->pageConfigReader->readBody($node);
                     break;
 
                 default:
