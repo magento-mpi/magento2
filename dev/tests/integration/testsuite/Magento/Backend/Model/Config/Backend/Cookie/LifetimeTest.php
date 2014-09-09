@@ -19,7 +19,7 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSaveException()
     {
-        $invalidCookieLifetime = 'invalid domain';
+        $invalidCookieLifetime = 'invalid lifetime';
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Backend\Model\Config\Backend\Cookie\Lifetime $model */
         $model = $objectManager->create('Magento\Backend\Model\Config\Backend\Cookie\Lifetime');
