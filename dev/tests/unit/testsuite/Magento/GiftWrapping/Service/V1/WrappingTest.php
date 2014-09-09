@@ -174,7 +174,13 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         /** @var Data\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingDto */
-        $wrappingDto = $this->getMock('Magento\GiftWrapping\Service\V1\Data\Wrapping', ['getWrappingId'], [], '', false);
+        $wrappingDto = $this->getMock(
+            'Magento\GiftWrapping\Service\V1\Data\Wrapping',
+            ['getWrappingId'],
+            [],
+            '',
+            false
+        );
         $wrappingDto->expects($this->any())->method('getWrappingId')->will($this->returnValue(100));
         $this->writeService->update($id, $wrappingDto);
     }
