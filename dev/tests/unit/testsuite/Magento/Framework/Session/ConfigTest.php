@@ -308,7 +308,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_configMock,
             $this->_stringHelperMock,
             $this->_requestMock,
-            $this->_appState,
             $this->_filesystem,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER,

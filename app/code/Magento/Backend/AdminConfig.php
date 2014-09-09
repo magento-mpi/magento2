@@ -55,7 +55,6 @@ class AdminConfig extends Config
             $scopeConfig,
             $stringHelper,
             $request,
-            $appState,
             $filesystem,
             $scopeType,
             $saveMethod,
