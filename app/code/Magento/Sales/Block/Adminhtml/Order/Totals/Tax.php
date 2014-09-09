@@ -70,14 +70,20 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
     /**
      * Get full information about taxes applied to order
      *
+     * @param \Magento\Sales\Model\Order|\Magento\Sales\Model\Order\Invoice|\Magento\Sales\Model\Order\Creditmemo $current
      * @return array
      */
-    public function getFullTaxInfo()
+    public function getFullTaxInfo($current)
     {
         /** @var $source \Magento\Sales\Model\Order */
         $source = $this->getOrder();
-        $taxClassAmount = array();
+        $taxClassAmount = [];
         if ($source instanceof \Magento\Sales\Model\Order) {
+            if ($current instanceof \Magento\Sales\Model\Order\Invoice
+                || $current instanceof \Magento\Sales\Model\Order\Creditmemo
+            ) {
+                $source = $current;
+            }
             $taxClassAmount = $this->_taxHelper->getCalculatedTaxes($source);
             $shippingTax = $this->_taxHelper->getShippingTax($source);
             $taxClassAmount = array_merge($taxClassAmount, $shippingTax);
