@@ -52,7 +52,7 @@ class Dimensions
 
     /**
      * @param Dimension $dimension
-     * @param $adapter
+     * @param AdapterInterface $adapter
      * @return string
      */
     private function generateExpression(Dimension $dimension, AdapterInterface $adapter)

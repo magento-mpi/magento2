@@ -232,7 +232,7 @@ class Mapper
      * Add filtering by dimensions
      *
      * @param RequestInterface $request
-     * @param $select
+     * @param Select $select
      * @return \Magento\Framework\DB\Select
      */
     private function processDimensions(RequestInterface $request, Select $select)
