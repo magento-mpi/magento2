@@ -2755,5 +2755,6 @@ return array(
         '\Magento\Framework\Service\Data\AbstractObjectBuilder',
         'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
     ],
+    ['Magento\Catalog\Block\Product'],
     ['\Magento\Sales\Model\Observer'],
 );
