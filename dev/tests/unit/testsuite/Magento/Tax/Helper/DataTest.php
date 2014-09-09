@@ -29,16 +29,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Service\V1\OrderTaxService */
     private $orderTaxService;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Registry */
-    private $coreRegistry;
-
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->coreRegistry = $this->getMockBuilder('\Magento\Framework\Registry')
-            ->disableOriginalConstructor()
-            ->setMethods(['registry'])
-            ->getMock();
 
         $this->orderTaxService = $this->getMockBuilder('\Magento\Tax\Service\V1\OrderTaxService')
             ->disableOriginalConstructor()
@@ -47,10 +40,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->taxHelper = $objectManager->getObject(
             'Magento\Tax\Helper\Data',
-            [
-                'coreRegistry' => $this->coreRegistry,
-                'orderTaxService' => $this->orderTaxService,
-            ]
+            ['orderTaxService' => $this->orderTaxService]
         );
 
         $this->orderTaxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\OrderTaxDetailsBuilder');
@@ -170,79 +160,85 @@ class DataTest extends \PHPUnit_Framework_TestCase
         return $data;
     }
 
-    protected function commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $orderTaxDetails, $expectedResults)
-    {
+    /**
+     * @param \Magento\Framework\Object $source
+     * @param string $mockClassName
+     * @param \Magento\Framework\Object $invoiceOrCreditData
+     * @param OrderTaxDetails $orderTaxDetails
+     * @param array $expectedResults
+     */
+    protected function commonTestGetCalculatedTaxesInvoiceCreditmemo(
+        $source,
+        $mockClassName,
+        $invoiceOrCreditData,
+        $orderTaxDetails,
+        $expectedResults
+    ) {
         $this->orderTaxService->expects($this->once())
             ->method('getOrderTaxDetails')
             ->with($source->getId())
             ->will($this->returnValue($orderTaxDetails));
 
-        $orderTaxDetails = $this->taxHelper->getCalculatedTaxes($source);
-        $this->assertEquals($expectedResults, $orderTaxDetails);
+        $invoiceOrCreditMock = $this->getMockBuilder($mockClassName)
+            ->disableOriginalConstructor()
+            ->setMethods(
+                ['getOrder', 'getShippingTaxAmount', 'getBaseShippingTaxAmount', 'getItemsCollection', '__wakeup']
+            )
+            ->getMock();
+        $invoiceOrCreditMock->expects($this->once())
+            ->method('getOrder')
+            ->will($this->returnValue($source));
+        $invoiceOrCreditMock->expects($this->any())
+            ->method('getShippingTaxAmount')
+            ->will($this->returnValue($invoiceOrCreditData->getShippingTaxAmount()));
+        $invoiceOrCreditMock->expects($this->any())
+            ->method('getBaseShippingTaxAmount')
+            ->will($this->returnValue($invoiceOrCreditData->getBaseShippingTaxAmount()));
+
+        $invoiceOrCreditMock->expects($this->any())
+            ->method('getItemsCollection')
+            ->will($this->returnValue($invoiceOrCreditData->getItemsCollection()));
+
+        $result = $this->taxHelper->getCalculatedTaxes($invoiceOrCreditMock);
+        $this->assertEquals($expectedResults, $result);
     }
 
     /**
      * @param \Magento\Framework\Object $source
-     * @param \Magento\Framework\Object $invoice
+     * @param \Magento\Framework\Object $invoiceData
      * @param OrderTaxDetails $orderTaxDetails
      * @param array $expectedResults
-     * @dataProvider testGetCalculatedTaxesInvoiceCreditmemoDataProvider
+     * @dataProvider testGetCalculatedTaxesInvoiceCreditMemoDataProvider
      */
-    public function testGetCalculatedTaxesInvoice($source, $invoice, $orderTaxDetails, $expectedResults)
+    public function testGetCalculatedTaxesInvoice($source, $invoiceData, $orderTaxDetails, $expectedResults)
     {
-        $this->coreRegistry->expects($this->at(0))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue($invoice));
-        $this->coreRegistry->expects($this->at(1))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue($invoice));
-        $this->coreRegistry->expects($this->at(2))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue($invoice));
-        $this->coreRegistry->expects($this->at(3))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue($invoice));
-        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $orderTaxDetails, $expectedResults);
+        $className = 'Magento\Sales\Model\Order\Invoice';
+        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo(
+            $source,
+            $className,
+            $invoiceData,
+            $orderTaxDetails,
+            $expectedResults
+        );
     }
 
     /**
      * @param \Magento\Framework\Object $source
-     * @param \Magento\Framework\Object $creditmemo
+     * @param \Magento\Framework\Object $creditMemoData
      * @param OrderTaxDetails $orderTaxDetails
      * @param array $expectedResults
      * @dataProvider testGetCalculatedTaxesInvoiceCreditmemoDataProvider
      */
-    public function testGetCalculatedTaxesCreditmemo($source, $creditmemo, $orderTaxDetails, $expectedResults)
+    public function testGetCalculatedTaxesCreditmemo($source, $creditMemoData, $orderTaxDetails, $expectedResults)
     {
-        $this->coreRegistry->expects($this->at(0))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue(null));
-        $this->coreRegistry->expects($this->at(1))
-            ->method('registry')
-            ->with('current_creditmemo')
-            ->will($this->returnValue($creditmemo));
-        $this->coreRegistry->expects($this->at(2))
-            ->method('registry')
-            ->with('current_creditmemo')
-            ->will($this->returnValue($creditmemo));
-        $this->coreRegistry->expects($this->at(3))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue(null));
-        $this->coreRegistry->expects($this->at(4))
-            ->method('registry')
-            ->with('current_creditmemo')
-            ->will($this->returnValue($creditmemo));
-        $this->coreRegistry->expects($this->at(5))
-            ->method('registry')
-            ->with('current_creditmemo')
-            ->will($this->returnValue($creditmemo));
-        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $orderTaxDetails, $expectedResults);
+        $className = 'Magento\Sales\Model\Order\Creditmemo';
+        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo(
+            $source,
+            $className,
+            $creditMemoData,
+            $orderTaxDetails,
+            $expectedResults
+        );
     }
 
     /**
