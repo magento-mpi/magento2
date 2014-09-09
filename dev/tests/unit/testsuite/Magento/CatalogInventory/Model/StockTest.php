@@ -161,10 +161,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->model, $this->model->addItemsToProducts($productCollection));
     }
 
-    /**
-     * @covers \Magento\CatalogInventory\Model\Stock::getProductType
-     */
-    public function testGettingProductType()
+    public function testBackItemQty()
     {
         $productId = 1;
         $qty = 1;
@@ -178,12 +175,83 @@ class StockTest extends \PHPUnit_Framework_TestCase
 
         $this->stockItemFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($stockItem));
 
-        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $product->expects($this->atLeastOnce())->method('load')->with($productId);
-        $product->expects($this->atLeastOnce())->method('getTypeId')->will($this->returnValue($productType));
-        $this->productFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($product));
+        $this->getProductType($productId, $productType);
 
-        $this->stockItemService->expects($this->once())->method('isQty')->with($productType);
-        $this->model->backItemQty($productId, $qty);
+        $this->stockItemService->expects($this->once())
+            ->method('isQty')
+            ->with($productType)
+            ->will($this->returnValue(true));
+
+        $stockItem->expects($this->once())->method('getCanBackInStock')->will($this->returnValue(true));
+        $stockItem->expects($this->at(4))->method('__call')->with('getQty')->will($this->returnValue('10'));
+        $stockItem->expects($this->any())->method('getMinQty')->will($this->returnValue('3'));
+        $stockItem->expects($this->at(6))->method('__call')->with('setIsInStock')->will($this->returnSelf());
+        $stockItem->expects($this->at(7))
+            ->method('__call')
+            ->with('setStockStatusChangedAutomaticallyFlag')
+            ->will($this->returnSelf());
+        $stockItem->expects($this->once())->method('save');
+
+        $this->assertEquals($this->model, $this->model->backItemQty($productId, $qty));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage We cannot specify a product identifier for the order item.
+     */
+    public function testRegisterItemSaleException()
+    {
+        $item = $this->getMockBuilder('\Magento\Framework\Object')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->model->registerItemSale($item);
+    }
+
+
+    public function testRegisterItemSale()
+    {
+        $productId = 1;
+        $qty = 3;
+        $productType = 'simple';
+        $storeId = 1;
+
+        $item = $this->getMockBuilder('\Magento\Framework\Object')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $item->expects($this->at(0))->method('__call')->with('getProductId')->will($this->returnValue($productId));
+        $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $stockItem->expects($this->any())->method('loadByProduct')->with($productId)->will($this->returnSelf());
+        $this->stockItemFactory->expects($this->any())->method('create')->will($this->returnValue($stockItem));
+        $this->getProductType($productId, $productType);
+        $this->stockItemService->expects($this->once())
+            ->method('isQty')
+            ->with($productType)
+            ->will($this->returnValue(true));
+
+        $item->expects($this->at(1))->method('__call')->with('getStoreId')->will($this->returnValue($storeId));
+        $item->expects($this->at(2))->method('__call')->with('getStoreId')->will($this->returnValue($storeId));
+        $stockItem->expects($this->at(1))->method('__call')->with('setStoreId',[$storeId])->will($this->returnSelf());
+        $item->expects($this->at(3))->method('__call')->with('getQtyOrdered')->will($this->returnValue($qty));
+        $item->expects($this->at(4))->method('__call')->with('getQtyOrdered')->will($this->returnValue($qty));
+        $stockItem->expects($this->once())->method('checkQty')->with($qty)->will($this->returnValue(true));
+        $stockItem->expects($this->once())->method('subtractQty')->with($qty)->will($this->returnSelf());
+        $stockItem->expects($this->once())->method('save')->will($this->returnSelf());;
+
+        $this->assertEquals($this->model, $this->model->registerItemSale($item));
+    }
+
+    /**
+     * @param $productId
+     * @param $productType
+     */
+    private function getProductType($productId, $productType)
+    {
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $product->expects($this->any())->method('load')->with($productId);
+        $product->expects($this->any())->method('getTypeId')->will($this->returnValue($productType));
+        $this->productFactory->expects($this->any())->method('create')->will($this->returnValue($product));
     }
 }

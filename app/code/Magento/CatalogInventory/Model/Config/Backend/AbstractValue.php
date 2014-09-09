@@ -33,6 +33,7 @@ abstract class AbstractValue extends \Magento\Framework\App\Config\Value
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
+     * @codeCoverageIgnore
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,

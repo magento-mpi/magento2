@@ -216,6 +216,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param int $parentId
      * @param bool $required
      * @return array
+     * @codeCoverageIgnore
      */
     public function getChildrenIds($parentId, $required = true)
     {
@@ -227,6 +228,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      *
      * @param int|array $childId
      * @return array
+     * @codeCoverageIgnore
      */
     public function getParentIdsByChild($childId)
     {
@@ -311,9 +313,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                     $virtualCount++;
                 }
             }
-            if ($virtualCount == count($selections)) {
-                return true;
-            }
+            return  $virtualCount == count($selections);
         }
         return false;
     }

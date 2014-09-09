@@ -692,4 +692,39 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             $this->item->getIsInStock()
         );
     }
+
+    /**
+     * @param bool $getManageStock
+     * @param bool $setFlag
+     * @dataProvider addQtyDataProvider
+     */
+    public function testAddQty($getManageStock,$setFlag)
+    {
+        $qty = 5.5;
+
+        if ($getManageStock) {
+            $this->setDataArrayValue('manage_stock', 1);
+            $this->scopeConfig
+                ->expects($this->any())
+                ->method('isSetFlag')
+                ->with(
+                    $this->equalTo(Item::XML_PATH_CAN_SUBTRACT),
+                    $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE))
+                ->will($this->returnValue($setFlag));
+        }
+
+        $this->item->addQty($qty);
+    }
+
+    /**
+     * @return array
+     */
+    public function addQtyDataProvider()
+    {
+        return [
+            [false, null],
+            [true, false],
+            [true, true]
+        ];
+    }
 }
