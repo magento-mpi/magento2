@@ -155,7 +155,6 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param string $product
      * @param string $qty
-     * @param string $action
      * @return array
      */
     public function test(
@@ -164,22 +163,33 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
         Browser $browser,
         FixtureFactory $fixtureFactory,
         $product,
-        $qty,
-        $action
+        $qty
     ) {
         // Preconditions:
         // Creating product
         list($fixture, $dataSet) = explode("::", $product);
-        $product = $fixtureFactory->createByCode($fixture, ["dataSet" => $dataSet]);
+        $product = $fixtureFactory->createByCode(
+            $fixture,
+            [
+                'dataSet' => $dataSet,
+                'data' => [
+                    'checkout_data' => [
+                        'preset' => 'default',
+                        'value' => [
+                            'qty' => $qty
+                        ]
+                    ]
+                ]
+            ]
+        );
         $product->persist();
         // Creating gift registry
         $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
         $this->customerAccountLogin->getLoginBlock()->login($customer);
         $giftRegistry->persist();
-        // Adding product to gift registry
+        // Adding product to cart
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->addToCart($product);
-        $this->checkoutCart->getGiftRegistryCart()->addToGiftRegistry($giftRegistry->getTitle());
 
         // Steps:
         $this->customerIndex->open();
@@ -188,12 +198,13 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
         $customerForm->openTab('gift_registry');
         $filter = ['title' => $giftRegistry->getTitle()];
         $customerForm->getTabElement('gift_registry')->getSearchGridBlock()->searchAndOpen($filter);
+        $cartItemsGrid = $this->giftRegistryCustomerEdit->getCartItemsGrid();
         $filter = [
-            'name' => $product->getName(),
-            'qty' => $qty,
-            'action' => $action
+            'products' => [
+                'productName' => $product->getName()
+            ]
         ];
-        $this->giftRegistryCustomerEdit->getItemsGrid()->searchAndUpdate($filter);
+        $cartItemsGrid->massaction($filter, 'Add to Gift Registry');
 
         return ['product' => $product];
     }
