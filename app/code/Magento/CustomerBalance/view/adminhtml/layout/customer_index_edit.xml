@@ -17,6 +17,6 @@
         </action>
     </referenceBlock>
     <referenceBlock name="customer_edit_tab_view">
-        <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance" name="customerbalance.balance" template="balance.phtml" before="-"/>
+        <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance" name="customerbalance.balance" template="balance.phtml" before="sales"/>
     </referenceBlock>
 </page>

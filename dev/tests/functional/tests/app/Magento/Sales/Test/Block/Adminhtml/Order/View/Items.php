@@ -39,8 +39,8 @@ class Items extends Block
         if ($product instanceof ConfigurableProduct) {
             // Find the price for the specific configurable product that was purchased
             $configurableAttributes = $product->getConfigurableAttributes();
-            $productOptions = $product->getProductOptions();
-            $checkoutOption = current($productOptions);
+            $productOptions = $product->getCheckoutData()['configurable_options'];
+            $checkoutOption = reset($productOptions);
             $attributeKey = $checkoutOption['title'];
             $optionKey = $checkoutOption['value'];
             $attributeValue = $configurableAttributes[$attributeKey]['label']['value'];
