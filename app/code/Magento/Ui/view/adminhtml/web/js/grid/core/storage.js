@@ -62,8 +62,16 @@ define([
             return this.data;
         },
 
-        setData: function(result) {
-            _.extend(this.data, result);
+        setData: function(data) {
+            _.extend(this.data, data);
+
+            return this;
+        },
+
+        setResult: function(result){
+            if( result.data ){
+                this.setData(result.data);
+            }
 
             return this;
         },
@@ -83,7 +91,7 @@ define([
         },
 
         onRead: function(result) {
-            this.setData(result)
+            this.setResult(result)
                 .trigger('load', result);
         }
     }, EventsBus);
