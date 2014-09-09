@@ -19,9 +19,9 @@
                 <queryReference clause="not" ref="query_reference" />
             </query>
 
-            <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
-                <match field="title" value="%request.title%" boost="2" />
-                <match field="description" value="%request.description%" />
+            <query xsi:type="matchQuery" name="fulltext_search_query" value="default_value" boost="5">
+                <match field="title" boost="2" />
+                <match field="description" />
             </query>
 
             <query xsi:type="filteredQuery" name="promoted_documents_boost">
@@ -75,8 +75,8 @@
                 <queryReference clause="not" ref="fulltext_search_query_c_2" />
             </query>
             <query xsi:type="matchQuery" name="fulltext_search_query_c_2" boost="5">
-                <match field="title" value="%request.title%" boost="2" />
-                <match field="description" value="%request.description%" />
+                <match field="title" boost="2" />
+                <match field="description" />
             </query>
         </queries>
         <filters>

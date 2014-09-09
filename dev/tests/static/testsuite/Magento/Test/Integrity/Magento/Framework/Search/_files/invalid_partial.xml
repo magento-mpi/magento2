@@ -21,8 +21,8 @@
             </query>
 
             <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
-                <match field="title" value="%request.title%" boost="2" />
-                <match field="description" value="%request.description%" />
+                <match field="title" boost="2" />
+                <match field="description" />
             </query>
 
             <query xsi:type="filteredQuery" name="promoted_documents_boost">
