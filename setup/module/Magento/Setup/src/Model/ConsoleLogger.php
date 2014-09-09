@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: japatel
- * Date: 9/8/14
- * Time: 2:46 PM
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 
 namespace Magento\Setup\Model;
