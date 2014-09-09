@@ -88,7 +88,7 @@ require([
             stockAvailabilityField.val(1);
             enableElement(stockAvailabilityField);
             inventoryQty.prop('disabled', true);
-            inventoryAvailabilityField.prop('disabled', false);
+            inventoryAvailabilityField.removeProp('disabled');
 
             $.each($.mage.variationsAttributes($('#configurable-attributes-container')).getAttributes(), function() {
                 $('#attribute-' + this.code + '-container select').prop('disabled', true);
@@ -102,10 +102,9 @@ require([
                 .removeClass('disabled')
                 .removeProp('disabled');
 
-            stockAvailabilityField.val((qtyField.val() === '') ? 0 : 1);
             disableElement(stockAvailabilityField);
             enableElement(qtyField);
-            inventoryQty.prop('disabled', false);
+            inventoryQty.removeProp('disabled');
             inventoryAvailabilityField.prop('disabled', true);
         })
         .collapse(hasVariations ? 'show' : 'hide');

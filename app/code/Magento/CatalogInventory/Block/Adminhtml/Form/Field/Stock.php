@@ -181,14 +181,20 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
                             };
 
                         var disabler = function(event) {
+                            if (typeof(event) ===  'undefined'){
+                                return;
+                            }
                             var stockBeforeDisable = $.Event('stockbeforedisable', {productType: productType});
                             $('[data-tab-panel=product-details]').trigger(stockBeforeDisable);
                             if (stockBeforeDisable.result !== false) {
-                                var manageStockValue = (qty.val() === '') ? 0 : 1;
-                                stockAvailabilityField.prop('disabled', !manageStockValue).val(manageStockValue);
-                                $('#' + fieldsAssociations['{$inStockFieldId}'])
-                                    .prop('disabled', !manageStockValue)
-                                    .val(manageStockValue);
+                                var manageStockValue = (qty.val() === '') ? 0 : 1,
+                                    stockAssociations = $('#' + fieldsAssociations['{$inStockFieldId}']);
+                                stockAvailabilityField.prop('disabled', !manageStockValue);
+                                stockAssociations.prop('disabled', !manageStockValue);
+                                if ($(event.currentTarget).attr('id') === qty.attr('id')) {
+                                    stockAvailabilityField.val(manageStockValue);
+                                    stockAssociations.val(manageStockValue);
+                                }
                                 if (manageStockField.val() != manageStockValue && !(event && event.type == 'keyup')) {
                                     if (useConfigManageStockField.val() == 1) {
                                         useConfigManageStockField.removeAttr('checked').val(0);
