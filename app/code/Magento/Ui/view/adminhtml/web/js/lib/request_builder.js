@@ -1,18 +1,28 @@
-define([], function () {
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+define([], function() {
     'use strict';
 
-    function parseObject( name, value ){
+    function parseObject(name, value) {
         var key,
             result = [];
 
-        for( key in value ){
-            result.push( name +'['+ key +']' + '=' + value[key] )
+        for (key in value) {
+            result.push(name + '[' + key + ']' + '=' + value[key])
         }
 
         return result.join('&');
     }
 
-    function parseValue(name, value){
+    function parseValue(name, value) {
         return name + '=' + value;
     }
 
@@ -23,10 +33,10 @@ define([], function () {
      * @private
      */
     function extractSortParams(params) {
-        var result, 
+        var result,
             sorting = params.sorting;
 
-        if( typeof sorting === 'undefined'){
+        if (typeof sorting === 'undefined') {
             return '';
         }
 
@@ -44,10 +54,10 @@ define([], function () {
      * @private
      */
     function extractPagerParams(params) {
-        var result, 
+        var result,
             paging = params.paging;
 
-        if( typeof paging === 'undefined'){
+        if (typeof paging === 'undefined') {
             return '';
         }
 
@@ -58,44 +68,44 @@ define([], function () {
         return result;
     }
 
-    function formatFilter( filter ){
-        var name    = filter.field,
-            value   = filter.value;
+    function formatFilter(filter) {
+        var name = filter.field,
+            value = filter.value;
 
         return typeof value !== 'object' ?
-            parseValue(name, value):
+            parseValue(name, value) :
             parseObject(name, value);
     }
 
-    function extractFilterParams(params){
+    function extractFilterParams(params) {
         var filters,
             result;
 
         filters = params.filter;
 
-        if( typeof filters === 'undefined' || !filters.length ){
+        if (typeof filters === 'undefined' || !filters.length) {
             return '';
         }
 
-        result = filters.map( formatFilter ).join('&');
+        result = filters.map(formatFilter).join('&');
 
-        result = '/filter/' + btoa( encodeURI(result) );
+        result = '/filter/' + btoa(encodeURI(result));
 
         delete params.filter;
 
         return result;
     }
 
-    return function (root, params) {
+    return function(root, params) {
         var url,
             lastChar;
 
-        lastChar = root.charAt(root.length-1);
-        
-        if( lastChar === '/' ){
-            root = root.substr(0, root.length-1);
+        lastChar = root.charAt(root.length - 1);
+
+        if (lastChar === '/') {
+            root = root.substr(0, root.length - 1);
         }
-        
+
         url =
             root +
             extractSortParams(params) +
