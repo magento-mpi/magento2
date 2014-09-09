@@ -121,12 +121,12 @@ class CheckoutData implements FixtureInterface
                             'value' => 'Field value 2 %isolation%'
                         ],
                         [
-                            'title' => 2,
-                            'value' => 1
+                            'title' => 'attribute_key_2',
+                            'value' => 'option_key_1'
                         ],
                         [
-                            'title' => 3,
-                            'value' => 0
+                            'title' => 'attribute_key_3',
+                            'value' => 'option_key_0'
                         ]
                     ]
                 ]
@@ -135,8 +135,8 @@ class CheckoutData implements FixtureInterface
                 'options' => [
                     'custom_options' => [
                         [
-                            'title' => 0,
-                            'value' => 0
+                            'title' => 'attribute_key_0',
+                            'value' => 'option_key_0'
                         ]
                     ]
                 ]
@@ -145,12 +145,20 @@ class CheckoutData implements FixtureInterface
                 'options' => [
                     'custom_options' => [
                         [
-                            'title' => 0,
-                            'value' => 0
+                            'title' => 'attribute_key_0',
+                            'value' => 'option_key_0'
                         ]
                     ]
                 ]
             ],
+            'order_default' => [
+                'options' => [
+                    'qty' => 2
+                ],
+                'cartItem' => [
+                    'qty' => 2
+                ]
+            ]
         ];
         return isset($presets[$name]) ? $presets[$name] : null;
     }

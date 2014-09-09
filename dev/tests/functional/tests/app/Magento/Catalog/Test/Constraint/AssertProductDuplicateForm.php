@@ -100,15 +100,14 @@ class AssertProductDuplicateForm extends AssertProductForm
             $compareData['status'] = 'Product offline';
         }
         if (isset($compareData['quantity_and_stock_status']['qty'])) {
-            $compareData['quantity_and_stock_status']['qty'] = '';
+            $compareData['quantity_and_stock_status']['qty'] = 0;
         }
         if (isset($compareData['special_price'])) {
             $compareData['special_price'] = ['special_price' => $compareData['special_price']];
         }
         $compareData['sku'] .= '-1';
-        unset($compareData['category_ids'], $compareData['id']);
 
-        return $compareData;
+        return parent::prepareFixtureData($compareData, $sortFields);
     }
 
     /**

@@ -104,6 +104,7 @@ class DownloadableProductInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'product-details',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds'
     ];
 

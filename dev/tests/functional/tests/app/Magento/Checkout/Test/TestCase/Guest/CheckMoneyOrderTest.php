@@ -58,13 +58,7 @@ class CheckMoneyOrderTest extends Functional
 
         $products = $fixture->getProducts();
         foreach ($products as $product) {
-            if ($product instanceof ConfigurableProduct) {
-                $productPage = Factory::getPageFactory()->getConfigurableProductView();
-            } elseif ($product instanceof Bundle) {
-                $productPage = Factory::getPageFactory()->getBundleCatalogProductView();
-            } else {
-                $productPage = Factory::getPageFactory()->getCatalogProductView();
-            }
+            $productPage = Factory::getPageFactory()->getCatalogProductView();
             Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
             $cartPage = Factory::getPageFactory()->getCheckoutCartIndex();

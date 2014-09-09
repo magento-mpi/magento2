@@ -182,14 +182,9 @@ class ConfigurableAttributesData implements FixtureInterface
         ],
         'one_variation' => [
             'attributes_data' => [
-                [
-                    'id' => '%id%',
-                    'title' => '%title%',
-                    'label' => 'Test variation1 label',
+                'attribute_0' => [
                     'options' => [
-                        [
-                            'id' => '%id%',
-                            'name' => '%name%',
+                        'option_0' => [
                             'pricing_value' => 12.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
@@ -201,20 +196,15 @@ class ConfigurableAttributesData implements FixtureInterface
 
             ],
             'attributes' => [
-                'catalogProductAttribute::attribute_type_dropdown'
+                'attribute_0' => 'catalogProductAttribute::attribute_type_dropdown_one_option'
             ],
             'matrix' => [
-                '%attribute_0-option_key_0%' => [
+                '%attribute_key_0-option_key_0%' => [
                     'configurable_attribute' => [
                         '%attribute_0_code%' => '%attribute_0-option_0%',
                     ],
-                    'associated_product_ids' => [],
-                    'name' => 'In configurable %isolation% %attribute_0-option_0_name%',
-                    'sku' => 'sku_configurable_%isolation%_%attribute_0-option_0_id%',
-                    'qty' => 10,
-                    'weight' => 1,
-                    'options_names' => []
-                ]
+                    'weight' => 1
+                ],
             ]
         ],
         'two_options' => [

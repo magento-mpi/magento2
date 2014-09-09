@@ -16,7 +16,6 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/Flat
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/AddCompareProductsTest
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/AddCompareProductsTest.php
-~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapConfigurableTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ClearAllCompareProductsTest
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ClearAllCompareProductsTest.php
@@ -44,6 +43,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Cms/Test/Page/Adminhtml
 ~dev/tests/functional/tests/app/Magento/Cms/Test/Repository
 ~dev/tests/functional/tests/app/Magento/Cms/Test/TestCase
+~dev/tests/functional/tests/app/Magento/ConfigurableProduct/Test/TestCase/ApplyMapConfigurableTest.php
 ~dev/tests/functional/tests/app/Magento/Core/Test/Fixture
 ~dev/tests/functional/tests/app/Magento/Core/Test/Handler
 ~dev/tests/functional/tests/app/Magento/Core/Test/Repository

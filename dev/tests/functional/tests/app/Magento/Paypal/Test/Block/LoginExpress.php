@@ -26,15 +26,29 @@ class LoginExpress extends Form
     protected $submitLogin = 'input[type="submit"]';
 
     /**
+     * Login form locator
+     *
+     * @var string
+     */
+    protected $loginForm = '#login';
+
+    /**
      * Login to Paypal account
      *
      * @param Customer $fixture
+     * @return void
      * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function login(Customer $fixture)
     {
-        $this->waitForElementVisible($this->submitLogin);
+        // Wait for page to load in order to check logged customer
+        $this->_rootElement->click();
+        $loginForm = $this->_rootElement->find($this->loginForm);
+        if (!$loginForm->isVisible()) {
+            return;
+        }
+
         $this->fill($fixture);
-        $this->_rootElement->find($this->submitLogin, Locator::SELECTOR_CSS)->click();
+        $loginForm->find($this->submitLogin, Locator::SELECTOR_CSS)->click();
     }
 }

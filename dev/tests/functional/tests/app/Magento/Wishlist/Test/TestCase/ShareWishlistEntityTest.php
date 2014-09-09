@@ -23,11 +23,13 @@ use Magento\Wishlist\Test\Page\WishlistShare;
 /**
  * Test Creation for ShareWishlistEntity
  *
+ * Test Flow:
+ *
  * Preconditions:
  * 1. Create Customer Account
  * 2. Create product
  *
- * Test Flow:
+ * Steps:
  * 1. Login to frontend as a Customer
  * 2. Add product to Wish List
  * 3. Click "Share Wish List" button
@@ -148,8 +150,12 @@ class ShareWishlistEntityTest extends Injectable
      * @param array $sharingInfo
      * @return void
      */
-    public function test(Browser $browser, CustomerInjectable $customer, CatalogProductSimple $product, $sharingInfo)
-    {
+    public function test(
+        Browser $browser,
+        CustomerInjectable $customer,
+        CatalogProductSimple $product,
+        array $sharingInfo
+    ) {
         //Steps
         $this->loginCustomer($customer);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');

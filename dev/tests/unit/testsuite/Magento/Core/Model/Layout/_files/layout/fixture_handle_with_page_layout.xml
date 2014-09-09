@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page layout="fixture_handle_page_layout">
+    <referenceContainer name="main.container">
+        <block class="Magento\Framework\View\Element\Template" template="fixture_template_one.phtml"/>
+    </referenceContainer>
+</page>
