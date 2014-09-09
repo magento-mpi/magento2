@@ -122,6 +122,7 @@ class Mapper
                     'Magento\Framework\Search\Request\Query\Match',
                     [
                         'name' => $query['name'],
+                        'value' => $query['value'],
                         'boost' => isset($query['boost']) ? $query['boost'] : 1,
                         'matches' => $query['match']
                     ]
