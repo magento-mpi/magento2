@@ -17,21 +17,30 @@ class Observer
     /**
      * @var \Magento\Framework\ObjectManager
      */
-    protected $_objectManager;
+    protected $objectManager;
 
     /**
      * @var \Magento\DesignEditor\Helper\Data
      */
-    protected $_helper;
+    protected $helper;
+
+    /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $registry;
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\DesignEditor\Helper\Data $helper
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\DesignEditor\Helper\Data $helper)
-    {
-        $this->_objectManager = $objectManager;
-        $this->_helper = $helper;
+    public function __construct(
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\DesignEditor\Helper\Data $helper,
+        \Magento\Framework\Registry $registry
+    ) {
+        $this->objectManager = $objectManager;
+        $this->helper = $helper;
+        $this->registry = $registry;
     }
 
     /**
@@ -44,7 +53,12 @@ class Observer
     public function clearJs(EventObserver $event)
     {
         /** @var $pageAssets \Magento\Framework\View\Asset\GroupedCollection */
-        $pageAssets = $this->_objectManager->get('Magento\Framework\View\Asset\GroupedCollection');
+        $pageAssets = $this->objectManager->get('Magento\Framework\View\Asset\GroupedCollection');
+
+        /** @todo Temporary solution for vde mode should be verified with PO and refactored */
+        if (!$this->registry->registry('vde_design_mode')) {
+            return;
+        }
 
         $vdeAssets = array();
         foreach ($pageAssets->getGroups() as $group) {
@@ -77,14 +91,14 @@ class Observer
         $theme = $event->getData('theme');
         if ($configuration->getControlConfig() instanceof \Magento\DesignEditor\Model\Config\Control\QuickStyles) {
             /** @var $renderer \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer */
-            $renderer = $this->_objectManager->create('Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer');
+            $renderer = $this->objectManager->create('Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer');
             $content = $renderer->render($configuration->getAllControlsData());
             /** @var $cssService \Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss */
-            $cssService = $this->_objectManager->create(
+            $cssService = $this->objectManager->create(
                 'Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss'
             );
             /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
-            $singleFile = $this->_objectManager->create(
+            $singleFile = $this->objectManager->create(
                 'Magento\Theme\Model\Theme\SingleFile',
                 array('fileService' => $cssService)
             );
@@ -103,7 +117,7 @@ class Observer
         /** @var $theme \Magento\Core\Model\Theme|null */
         $theme = $event->getTheme() ?: $event->getDataObject()->getTheme();
         /** @var $change \Magento\DesignEditor\Model\Theme\Change */
-        $change = $this->_objectManager->create('Magento\DesignEditor\Model\Theme\Change');
+        $change = $this->objectManager->create('Magento\DesignEditor\Model\Theme\Change');
         if ($theme && $theme->getId()) {
             $change->loadByThemeId($theme->getId());
             $change->setThemeId($theme->getId())->setChangeTime(null);
