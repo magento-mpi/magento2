@@ -9,7 +9,7 @@
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
+use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
 
 /**
  * Class AssertCustomerCustomAttributeErrorSaveMessage
@@ -32,14 +32,14 @@ class AssertCustomerCustomAttributeErrorSaveMessage extends AbstractConstraint
     /**
      * Assert that after customer attribute save error message appears
      *
-     * @param CustomerAttributeIndex $customerAttributeIndex
+     * @param CustomerAttributeNew $customerAttributeNew
      * @return void
      */
-    public function processAssert(CustomerAttributeIndex $customerAttributeIndex)
+    public function processAssert(CustomerAttributeNew $customerAttributeNew)
     {
         \PHPUnit_Framework_Assert::assertEquals(
             self::ERROR_SAVE_MESSAGE,
-            $customerAttributeIndex->getMessagesBlock()->getErrorMessages(),
+            $customerAttributeNew->getMessagesBlock()->getErrorMessages(),
             'Wrong error message is displayed.'
         );
     }

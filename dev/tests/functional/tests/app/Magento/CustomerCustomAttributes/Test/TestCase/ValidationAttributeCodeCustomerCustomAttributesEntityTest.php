@@ -77,7 +77,7 @@ class ValidationAttributeCodeCustomerCustomAttributesEntityTest extends Injectab
         CustomerCustomAttribute $customerAttribute,
         CustomerCustomAttribute $initialCustomerAttribute
     ) {
-//        $this->markTestIncomplete('MAGETWO-28194');
+        $this->markTestIncomplete('MAGETWO-28194');
         //Preconditions
         $initialCustomerAttribute->persist();
         $customerAttribute = $fixtureFactory->createByCode(
@@ -92,6 +92,8 @@ class ValidationAttributeCodeCustomerCustomAttributesEntityTest extends Injectab
         $this->customerAttributeIndex->open();
         $this->customerAttributeIndex->getGridPageActions()->addNew();
         $this->customerAttributeNew->getCustomerCustomAttributesForm()->fill($customerAttribute);
-//        $this->customerAttributeNew->getFormPageActions()->save();
+        $this->customerAttributeNew->getFormPageActions()->save();
+
+        return ['customerAttribute' => $customerAttribute];
     }
 }
