@@ -114,7 +114,7 @@ class CustomOptions extends Form
     /**
      * Get product options
      *
-     * @param FixtureInterface|null $product [optional]
+     * @param FixtureInterface $product
      * @return array
      * @throws \Exception
      */
