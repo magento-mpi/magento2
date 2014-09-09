@@ -12,15 +12,15 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
 
 /**
- * Class AssertCustomerCustomAttributeFailSaveMessage
- * Assert that after customer attribute save fail message appears
+ * Class AssertCustomerCustomAttributeErrorSaveMessage
+ * Assert that after customer attribute save error message appears
  */
-class AssertCustomerCustomAttributeFailSaveMessage extends AbstractConstraint
+class AssertCustomerCustomAttributeErrorSaveMessage extends AbstractConstraint
 {
     /**
-     * Text of save fail message
+     * Text of save error message
      */
-    const FAIL_SAVE_MESSAGE = 'An attribute with this code already exists.';
+    const ERROR_SAVE_MESSAGE = 'An attribute with this code already exists.';
 
     /**
      * Constraint severeness
@@ -30,7 +30,7 @@ class AssertCustomerCustomAttributeFailSaveMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after customer attribute save fail message appears
+     * Assert that after customer attribute save error message appears
      *
      * @param CustomerAttributeIndex $customerAttributeIndex
      * @return void
@@ -38,9 +38,9 @@ class AssertCustomerCustomAttributeFailSaveMessage extends AbstractConstraint
     public function processAssert(CustomerAttributeIndex $customerAttributeIndex)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::FAIL_SAVE_MESSAGE,
-            $customerAttributeIndex->getMessagesBlock()->getSuccessMessages(),
-            'Wrong success message is displayed.'
+            self::ERROR_SAVE_MESSAGE,
+            $customerAttributeIndex->getMessagesBlock()->getErrorMessages(),
+            'Wrong error message is displayed.'
         );
     }
 
@@ -51,6 +51,6 @@ class AssertCustomerCustomAttributeFailSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer Attribute fail save message is present.';
+        return 'Customer Attribute error save message is present after creation attribute with already exist code.';
     }
 }
