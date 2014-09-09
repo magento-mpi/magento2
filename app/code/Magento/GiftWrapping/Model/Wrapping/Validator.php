@@ -21,11 +21,8 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
     ];
 
     /**
-     * Returns true if and only if $value meets the validation requirements
-     *
-     * If $value fails validation, then this method returns false, and
-     * getMessages() will return an array of messages that explain why the
-     * validation failed.
+     * Data validation
+     * When data validation fails, getMessages() will provide you array of error messages
      *
      * @param \Magento\GiftWrapping\Model\Wrapping $wrapping
      * @return bool
