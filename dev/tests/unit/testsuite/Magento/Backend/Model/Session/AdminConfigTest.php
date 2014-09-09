@@ -7,9 +7,9 @@
  */
 
 /**
- * Test class for \Magento\Backend\Model\AdminConfig
+ * Test class for \Magento\Backend\Model\Session\AdminConfig
  */
-namespace Magento\Backend\Model;
+namespace Magento\Backend\Model\Session;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
@@ -83,7 +83,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->willReturn($validatorMock);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $adminConfig = $objectManager->getObject(
-            'Magento\Backend\Model\AdminConfig',
+            'Magento\Backend\Model\Session\AdminConfig',
             [
                 'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,

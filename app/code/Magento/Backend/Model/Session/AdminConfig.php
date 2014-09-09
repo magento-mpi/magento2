@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Model;
+namespace Magento\Backend\Model\Session;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Framework\Session\Config;
