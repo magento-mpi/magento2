@@ -65,7 +65,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
-        $this->pageConfig->setTitle(__('Gift Card'));
+        $this->_view->getPage()->getConfig()->setTitle(__('Gift Card'));
         $this->_view->renderLayout();
     }
 }

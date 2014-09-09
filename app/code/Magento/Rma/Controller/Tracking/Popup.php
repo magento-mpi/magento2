@@ -30,7 +30,7 @@ class Popup extends \Magento\Rma\Controller\Tracking
             throw new NotFoundException();
         }
         $this->_view->loadLayout();
-        $this->pageConfig->setTitle(__('Tracking Information'));
+        $this->_view->getPage()->getConfig()->setTitle(__('Tracking Information'));
         $this->_view->renderLayout();
     }
 }

@@ -19,7 +19,7 @@ class Index extends \Magento\Customer\Controller\Account
     {
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
-        $this->pageConfig->setTitle(__('My Account'));
+        $this->_view->getPage()->getConfig()->setTitle(__('My Account'));
         $this->_view->renderLayout();
     }
 }

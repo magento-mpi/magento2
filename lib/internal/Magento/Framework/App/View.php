@@ -104,13 +104,14 @@ class View implements ViewInterface
         if ($this->_isLayoutLoaded) {
             throw new \RuntimeException('Layout must be loaded only once.');
         }
-        if ($addActionHandles) {
-            // add default layout handles for this action
-            $this->page->initLayout();
-        }
         // if handles were specified in arguments load them first
         if (!empty($handles)) {
             $this->getLayout()->getUpdate()->addHandle($handles);
+        }
+
+        if ($addActionHandles) {
+            // add default layout handles for this action
+            $this->page->initLayout();
         }
         $this->loadLayoutUpdates();
 

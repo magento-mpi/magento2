@@ -23,7 +23,7 @@ class Items extends \Magento\GiftRegistry\Controller\Index
             $this->_coreRegistry->register('current_entity', $this->_initEntity());
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
-            $this->pageConfig->setTitle(__('Gift Registry Items'));
+            $this->_view->getPage()->getConfig()->setTitle(__('Gift Registry Items'));
             $this->_view->renderLayout();
             return;
         } catch (Exception $e) {

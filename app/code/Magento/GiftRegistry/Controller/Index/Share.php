@@ -23,7 +23,7 @@ class Share extends \Magento\GiftRegistry\Controller\Index
             $entity = $this->_initEntity();
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
-            $this->pageConfig->setTitle(__('Share Gift Registry'));
+            $this->_view->getPage()->getConfig()->setTitle(__('Share Gift Registry'));
             $this->_view->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
             $this->_view->renderLayout();
             return;

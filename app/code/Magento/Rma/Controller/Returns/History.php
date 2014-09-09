@@ -25,7 +25,7 @@ class History extends \Magento\Rma\Controller\Returns
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
-        $this->pageConfig->setTitle(__('My Returns'));
+        $this->_view->getPage()->getConfig()->setTitle(__('My Returns'));
 
         if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());

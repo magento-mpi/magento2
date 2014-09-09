@@ -27,7 +27,7 @@ class Index extends \Magento\Review\Controller\Customer
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
 
-        $this->pageConfig->setTitle(__('My Product Reviews'));
+        $this->_view->getPage()->getConfig()->setTitle(__('My Product Reviews'));
 
         $this->_view->renderLayout();
     }

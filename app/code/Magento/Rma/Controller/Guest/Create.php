@@ -98,7 +98,7 @@ class Create extends \Magento\Rma\Controller\Guest
         }
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
-        $this->pageConfig->setTitle(__('Create New Return'));
+        $this->_view->getPage()->getConfig()->setTitle(__('Create New Return'));
         if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }

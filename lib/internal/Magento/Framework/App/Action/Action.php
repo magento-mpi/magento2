@@ -61,11 +61,6 @@ class Action extends AbstractAction
     protected $messageManager;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
-
-    /**
      * @param Context $context
      */
     public function __construct(Context $context)
@@ -78,7 +73,6 @@ class Action extends AbstractAction
         $this->_redirect = $context->getRedirect();
         $this->_view = $context->getView();
         $this->messageManager = $context->getMessageManager();
-        $this->pageConfig = $this->_view->getPage()->getConfig();
     }
 
     /**

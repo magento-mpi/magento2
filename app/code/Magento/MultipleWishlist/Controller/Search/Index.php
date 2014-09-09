@@ -19,7 +19,7 @@ class Index extends \Magento\MultipleWishlist\Controller\Search
     {
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
-        $this->pageConfig->setTitle(__('Wish List Search'));
+        $this->_view->getPage()->getConfig()->setTitle(__('Wish List Search'));
         $this->_view->renderLayout();
     }
 }
