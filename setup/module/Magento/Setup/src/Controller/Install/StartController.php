@@ -43,6 +43,7 @@ class StartController extends AbstractInstallActionController
      * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfig
+     * @param UserConfigurationDataFactory $userConfigurationDataFactory
      * @param JsonModel $view
      * @param WebLogger $logger
      * @param PhpExecutableFinder $phpExecutableFinder
@@ -54,12 +55,13 @@ class StartController extends AbstractInstallActionController
         Random $random,
         Config $config,
         ConfigFactory $systemConfig,
+        UserConfigurationDataFactory $userConfigurationDataFactory,
         JsonModel $view,
         WebLogger $logger,
         PhpExecutableFinder $phpExecutableFinder
     ) {
         parent::__construct($moduleList, $setupFactory, $adminAccountFactory, $random,
-            $config, $systemConfig, $logger, $phpExecutableFinder);
+            $config, $systemConfig, $userConfigurationDataFactory, $logger, $phpExecutableFinder);
         $this->json = $view;
     }
 
@@ -86,13 +88,7 @@ class StartController extends AbstractInstallActionController
         $this->logger->logSuccess('User Configuration');
 
         //Installs Data
-        $exitCode = $this->installDataUpdates();
-
-        if ($exitCode !== 0) {
-            $this->json->setVariable('success', false);
-        } else {
-            $this->json->setVariable('success', true);
-        }
+        $this->installDataUpdates();
 
         $this->json->setVariable('key', $key);
         return $this->json;

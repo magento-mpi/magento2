@@ -47,7 +47,7 @@ class ConsoleController extends AbstractInstallActionController
      * @var Lists
      */
     protected $list;
-    
+
     /**
      * Default Constructor
      *
@@ -58,7 +58,7 @@ class ConsoleController extends AbstractInstallActionController
      * @param AdminAccountFactory $adminAccountFactory
      * @param Random $random
      * @param Config $config
-     * @param ConfigFactory $systemConfig
+     * @param ConfigFactory $systemConfig* @param UserConfigurationDataFactory $userConfigurationDataFactory
      * @param ConsoleLogger $consoleLogger
      * @param PhpExecutableFinder $phpExecutableFinder
      */
@@ -71,11 +71,12 @@ class ConsoleController extends AbstractInstallActionController
         Random $random,
         Config $config,
         ConfigFactory $systemConfig,
+        UserConfigurationDataFactory $userConfigurationDataFactory,
         ConsoleLogger $consoleLogger,
         PhpExecutableFinder $phpExecutableFinder
     ) {
         parent::__construct($moduleList, $setupFactory, $adminAccountFactory, $random,
-            $config, $systemConfig, $consoleLogger, $phpExecutableFinder);
+            $config, $systemConfig, $userConfigurationDataFactory, $consoleLogger, $phpExecutableFinder);
         $this->filePermission = $filePermission;
         $this->list = $list;
         $this->phpExecutableFinder = $phpExecutableFinder;

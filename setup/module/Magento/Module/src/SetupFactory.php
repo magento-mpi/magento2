@@ -72,10 +72,12 @@ class SetupFactory
      * Sets Configuration
      *
      * @param array $config
+     * @return $this
      */
     public function setConfig(array $config)
     {
         $this->configuration = $config;
+        return $this;
     }
 
     /**

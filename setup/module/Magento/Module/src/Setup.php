@@ -364,27 +364,6 @@ class Setup implements SetupInterface
     }
 
     /**
-     * Installs User Configuration Data
-     *
-     * @param array $data
-     * @return void
-     */
-    public function installUserConfigurationData($data)
-    {
-        $this->addConfigData('web/seo/use_rewrites', $data['config']['rewrites']['allowed'], 0);
-        $this->addConfigData('web/unsecure/base_url', $data['config']['address']['front'], '{{unsecure_base_url}}');
-        $this->addConfigData('web/secure/use_in_frontend', $data['config']['https']['web'], 0);
-        $this->addConfigData('web/secure/base_url', $data['config']['address']['front'], '{{secure_base_url}}');
-        $this->addConfigData('web/secure/use_in_adminhtml', $data['config']['https']['admin'], 0);
-        $this->addConfigData('general/locale/code', $data['store']['language'], 'en_US');
-        $this->addConfigData('general/locale/timezone', $data['store']['timezone'], 'America/Los_Angeles');
-        $this->addConfigData('currency/options/base', $data['store']['currency'], 'USD');
-        $this->addConfigData('currency/options/default', $data['store']['currency'], 'USD');
-        $this->addConfigData('currency/options/allow', $data['store']['currency'], 'USD');
-    }
-
-
-    /**
      * Set table prefix
      *
      * @param string $tablePrefix

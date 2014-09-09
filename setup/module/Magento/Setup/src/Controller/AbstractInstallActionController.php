@@ -22,6 +22,7 @@ use Magento\Setup\Model\AdminAccountFactory;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\RequestInterface as Request;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Magento\Setup\Model\UserConfigurationDataFactory;
 
 /**
  * Abstract Controller for installation
@@ -60,6 +61,13 @@ class AbstractInstallActionController extends AbstractActionController
     protected $adminAccountFactory;
 
     /**
+     * User Configuration Data Factory
+     *
+     * @var UserConfigurationDataFactory
+     */
+    protected $userConfigurationDataFactory;
+
+    /**
      * Module Lists
      *
      * @var ModuleListInterface
@@ -82,6 +90,7 @@ class AbstractInstallActionController extends AbstractActionController
      * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfigFactory
+     * @param UserConfigurationDataFactory $userConfigurationDataFactory
      * @param LoggerInterface $loggerInterface
      * @param PhpExecutableFinder $phpExecutableFinder
      */
@@ -92,6 +101,7 @@ class AbstractInstallActionController extends AbstractActionController
         Random $random,
         Config $config,
         ConfigFactory $systemConfigFactory,
+        UserConfigurationDataFactory $userConfigurationDataFactory,
         LoggerInterface $loggerInterface,
         PhpExecutableFinder $phpExecutableFinder
     ) {
@@ -101,6 +111,7 @@ class AbstractInstallActionController extends AbstractActionController
         $this->systemConfig = $systemConfigFactory->create();
         $this->adminAccountFactory = $adminAccountFactory;
         $this->random = $random;
+        $this->userConfigurationDataFactory = $userConfigurationDataFactory;
         $this->logger = $loggerInterface;
         $this->phpExecutableFinder = $phpExecutableFinder;
     }
@@ -136,17 +147,16 @@ class AbstractInstallActionController extends AbstractActionController
         //Loading Configurations
         $this->config->setConfigData($this->config->convertFromDataObject($data));
         $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
-        $this->setupFactory->setConfig($this->config->getConfigData());
-        $setup = $this->setupFactory->create();
-
-        //Installing Configuration
-        $setup->installUserConfigurationData($data);
+        $setup = $this->setupFactory->setConfig($this->config->getConfigData())->create();
+        $this->userConfigurationDataFactory->setConfig($this->config->getConfigData());
+        $this->userConfigurationDataFactory->create($setup)->install($data);
 
         // Create administrator account
         $this->adminAccountFactory->setConfig($this->config->getConfigData());
         $adminAccount = $this->adminAccountFactory->create($setup);
         $adminAccount->save();
         $this->logger->log("Completed: User Configuration.");
+
     }
 
     /**
