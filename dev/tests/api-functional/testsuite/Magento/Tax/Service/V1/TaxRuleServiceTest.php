@@ -41,6 +41,12 @@ class TaxRuleServiceTest extends WebapiAbstract
      */
     public function setUp()
     {
+        $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+        );
+        $this->filterBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\FilterBuilder'
+        );
         $objectManager = Bootstrap::getObjectManager();
         $this->taxRateService = $objectManager->get('Magento\Tax\Service\V1\TaxRuleService');
 
@@ -512,6 +518,37 @@ class TaxRuleServiceTest extends WebapiAbstract
         /** @var \Magento\Tax\Model\Calculation\Rule $taxRule */
         $taxRate = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rate');
         $this->assertNull($taxRate->load($taxRuleId)->getId(), 'Tax rule was not deleted from DB.');
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testSearchTaxRule()
+    {
+        $fixtureRule = $this->getFixtureTaxRules()[0];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchTaxRules'
+            ]
+        ];
+
+        $filter = $this->filterBuilder->setField(TaxRule::CODE)
+            ->setValue($fixtureRule->getCode())
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter]);
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals($fixtureRule->getId(), $searchResults['items'][0][TaxRule::ID]);
+        $this->assertEquals($fixtureRule->getCode(), $searchResults['items'][0][TaxRule::CODE]);
     }
 
     /**
