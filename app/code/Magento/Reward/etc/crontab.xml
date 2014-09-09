@@ -9,10 +9,10 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
     <group id="default">
-        <job name="magento_reward_balance_warning_notification" instance="Magento\Reward\Model\Observer" method="scheduledBalanceExpireNotification">
+        <job name="magento_reward_balance_warning_notification" instance="Magento\Reward\Model\Observer\ScheduledBalanceExpireNotification" method="execute">
             <schedule>1 * * * *</schedule>
         </job>
-        <job name="magento_reward_expire_points" instance="Magento\Reward\Model\Observer" method="scheduledPointsExpiration">
+        <job name="magento_reward_expire_points" instance="Magento\Reward\Model\Observer\ScheduledPointsExpiration" method="execute">
             <schedule>1 * * * *</schedule>
         </job>
     </group>

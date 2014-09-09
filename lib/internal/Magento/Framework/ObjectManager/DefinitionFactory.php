@@ -20,6 +20,7 @@ use Magento\Framework\Service\Code\Generator\Mapper as MapperGenerator;
 use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerator;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\ObjectManager\Profiler\Code\Generator as ProfilerGenerator;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -110,6 +111,7 @@ class DefinitionFactory
                 $autoloader,
                 $generatorIo,
                 array(
+
                     SearchResultsBuilder::ENTITY_TYPE
                         => '\Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
                     Generator\Factory::ENTITY_TYPE
@@ -128,6 +130,8 @@ class DefinitionFactory
                         => '\Magento\Framework\Service\Code\Generator\SearchResults',
                     ConverterGenerator::ENTITY_TYPE
                         => '\Magento\Framework\ObjectManager\Code\Generator\Converter',
+                    ProfilerGenerator\Logger::ENTITY_TYPE
+                        => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);

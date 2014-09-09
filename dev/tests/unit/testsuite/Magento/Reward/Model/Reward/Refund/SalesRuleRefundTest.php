@@ -57,6 +57,9 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testRefundSuccess()
     {
         $websiteId = 2;

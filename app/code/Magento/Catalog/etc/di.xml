@@ -471,6 +471,21 @@
             <argument name="searchResultsBuilder" xsi:type="object" shared="false">Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder</argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\ProductTypes\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Catalog\Model\ProductTypes\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Attribute\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Catalog\Model\Attribute\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\ProductOptions\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Catalog\Model\ProductOptions\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\CatalogInventory\Model\Config\Backend\ShowOutOfStock">
         <plugin name="showOutOfStockValueChanged" type="\Magento\Catalog\Model\Plugin\ShowOutOfStockConfig"/>
     </type>

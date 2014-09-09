@@ -83,7 +83,6 @@ class RewardPointsRefund
      * @param \Closure $proceed
      * @param \Magento\Framework\Model\AbstractModel $object
      * @return bool
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         \Magento\Sales\Model\Resource\Order\Creditmemo $subject,
@@ -147,7 +146,7 @@ class RewardPointsRefund
      * Update reward history row
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return null
+     * @return void
      */
     protected function updateHistoryRow(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {

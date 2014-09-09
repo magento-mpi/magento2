@@ -2757,4 +2757,5 @@ return array(
     ],
     ['\Magento\Sales\Model\Observer'],
     ['\Magento\Checkout\Service\V1\QuoteLoader', '\Magento\Sales\Model\QuoteRepository'],
+    ['Magento\PageCache\Model\Observer']
 );
