@@ -73,6 +73,8 @@ class OrderInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\CouponCode',
+        'group' => null
     ];
 
     protected $protect_code = [
@@ -1661,6 +1663,14 @@ class OrderInjectable extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'is_required' => '1',
+        'group' => null,
+        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\CheckoutData',
+    ];
+
     public function getEntityId()
     {
         return $this->getData('entity_id');
@@ -2669,5 +2679,10 @@ class OrderInjectable extends InjectableFixture
     public function getId()
     {
         return $this->getData('id');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
     }
 }
