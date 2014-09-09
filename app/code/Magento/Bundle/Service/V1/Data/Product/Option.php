@@ -26,6 +26,8 @@ class Option extends AbstractExtensibleObject
 
     const SKU = 'sku';
 
+    const PRODUCT_LINKS = 'product_links';
+
     /**
      * Get option id
      *
@@ -84,5 +86,15 @@ class Option extends AbstractExtensibleObject
     public function getSku()
     {
         return $this->_get(self::SKU);
+    }
+
+    /**
+     * Get product links
+     *
+     * @return \Magento\Bundle\Service\V1\Data\Product\Link[]|null
+     */
+    public function getProductLinks()
+    {
+        return $this->_get(self::PRODUCT_LINKS);
     }
 }

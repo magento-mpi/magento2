@@ -155,7 +155,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/$fixtureCustomerId/address/DefaultBilling",
+                'resourcePath' => "/V1/customer/$fixtureCustomerId/address/DefaultShipping",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -202,7 +202,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     /**
      * @magentoApiDataFixture Magento/Customer/_files/customer.php
      */
-    public function testCreateAddress()
+    public function testSaveAddress()
     {
         $customerFixtureId = 1;
         $serviceInfo = [
