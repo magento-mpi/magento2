@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ui;
 
 use Magento\Ui\Render\Layout;
@@ -56,8 +55,8 @@ class Render extends AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $this->privateLayout->addHandle('ui_' . $this->getUiElement());
-        $this->privateLayout->addHandle($this->getLayoutHandle());
+        $this->privateLayout->addHandle('ui_' . $this->getComponent());
+        $this->privateLayout->addHandle($this->getName());
         $this->privateLayout->loadLayout();
         return parent::_prepareLayout();
     }
@@ -69,7 +68,7 @@ class Render extends AbstractBlock
      */
     protected function _toHtml()
     {
-        return $this->render($this->getUiElement());
+        return $this->render($this->getComponent());
     }
 
     /**
@@ -84,9 +83,9 @@ class Render extends AbstractBlock
     public function render($uiElementName, array $arguments = [])
     {
         $useArguments = array_replace($this->getData(), $arguments);
-        $useArguments['namespace'] = isset($useArguments['namespace'])
-            ? $useArguments['namespace']
-            : $this->getLayoutHandle();
+        $useArguments['config']['name'] = isset($useArguments['name'])
+            ? $useArguments['name']
+            : $this->getName();
 
         // obtain concrete UI Element View
         $view = $this->getUiElementView($uiElementName, $useArguments);
@@ -110,6 +109,7 @@ class Render extends AbstractBlock
                 'UI Element "' . $uiElementName . '" must implement \Magento\Ui\ViewInterface'
             );
         }
+
         return $view;
     }
 
@@ -130,6 +130,7 @@ class Render extends AbstractBlock
                 $acceptType = 'xml';
             }
         }
+
         return $acceptType;
     }
 }

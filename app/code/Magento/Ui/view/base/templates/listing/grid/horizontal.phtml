@@ -24,10 +24,10 @@
 </div>
 <div class="grid">
     <?php echo $this->getChildHtml('listing_before'); ?>
-    <div data-bind="scope: 'cms.pages:filter'">
+    <div data-bind="scope: '<?php echo $this->getName(); ?>:filter'">
         <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
     </div>
-    <div data-bind="scope: 'cms.pages:listing'">
+    <div data-bind="scope: '<?php echo $this->getName(); ?>:listing'">
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- ko template: 'Magento_Ui.templates.loader' --><!-- /ko -->
     </div>

@@ -64,9 +64,15 @@ abstract class AbstractView extends Template implements ViewInterface
     {
         $prevArgs = $this->_data;
         $this->_data = array_replace_recursive($this->_data, $arguments);
+        $this->prepare();
         $result = $this->factory->get($acceptType)->render($this, $this->getTemplate());
         $this->_data = $prevArgs;
         return $result;
+    }
+
+    protected function prepare()
+    {
+        //
     }
 
     /**
@@ -145,5 +151,15 @@ abstract class AbstractView extends Template implements ViewInterface
             $acceptType = 'html';
         }
         return $acceptType;
+    }
+
+    /**
+     * Getting name instance
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->viewConfiguration['config']['name'];
     }
 }

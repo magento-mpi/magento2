@@ -19,7 +19,6 @@ class View extends AbstractView
      */
     protected $viewConfiguration = [
         'config' => [
-            'namespace' => 'cms.pages',
             'sizes' => [5, 10, 20, 30, 50, 100, 200],
             'params' => [
                 'pageSize' => 5,
@@ -27,4 +26,14 @@ class View extends AbstractView
             ]
         ]
     ];
+
+    /**
+     * @return array
+     */
+    public function getViewConfiguration()
+    {
+        $this->viewConfiguration['config']['name'] = $this->getLayout()->getBlock('listing')->getData('config/name');
+
+        return parent::getViewConfiguration();
+    }
 }

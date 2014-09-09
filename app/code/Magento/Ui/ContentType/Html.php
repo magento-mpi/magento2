@@ -48,6 +48,7 @@ class Html implements ContentTypeInterface
             $extension = pathinfo($template, PATHINFO_EXTENSION);
             $templateEngine = $this->templateEnginePool->get($extension);
         }
+
         if ($templateEngine) {
             $extension = pathinfo($template, PATHINFO_EXTENSION);
             $templateEngine = $this->templateEnginePool->get($extension);
@@ -56,6 +57,7 @@ class Html implements ContentTypeInterface
         } else {
             $result = '';
         }
+
         return $result;
     }
 }

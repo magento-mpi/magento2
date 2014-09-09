@@ -44,19 +44,7 @@ class Json implements ContentTypeInterface
      */
     public function render(ViewInterface $view, $template = '')
     {
-        $templateEngine = false;
-        if ($template) {
-            $extension = pathinfo($template, PATHINFO_EXTENSION);
-            $templateEngine = $this->templateEnginePool->get($extension);
-        }
-        if ($templateEngine) {
-            $path = $this->filesystem->getTemplateFileName($template);
-            $result = $templateEngine->render($view, $path);
-        } else {
-            $result = json_encode($this->getDataJson($view));
-        }
-
-        return $result;
+        return json_encode($this->getDataJson($view));
     }
 
     /**
@@ -65,30 +53,31 @@ class Json implements ContentTypeInterface
      */
     protected function getDataJson(ViewInterface $view)
     {
-        $result = [
-            'configuration' => $view->getViewConfiguration(),
-            'data' => []
-        ];
-        foreach ($view->getViewData() as $key => $value) {
-            if (is_object($value)) {
-                if (method_exists($value, 'toJson')) {
-                    $result['data'][$key] = $value->toJson();
-                } else {
-                    $result['data'][$key] = $this->objectToJson($value);
-                }
-            } else {
-                $result['data'][$key] = $value;
-            }
-        }
-        return $result;
+//        $result = [
+//            'configuration' => $view->getViewConfiguration(),
+//            'data' => []
+//        ];
+//        foreach ($view->getViewData() as $key => $value) {
+//            if (is_object($value)) {
+//                if (method_exists($value, 'toJson')) {
+//                    $result['data'][$key] = $value->toJson();
+//                } else {
+//                    $result['data'][$key] = $this->objectToJson($value);
+//                }
+//            } else {
+//                $result['data'][$key] = $value;
+//            }
+//        }
+
+        return $view->getViewConfiguration();
     }
 
-    /**
-     * @param Object $object
-     * @return string
-     */
-    protected function objectToJson(Object $object)
-    {
-        return '[object]';
-    }
+//    /**
+//     * @param Object $object
+//     * @return string
+//     */
+//    protected function objectToJson(Object $object)
+//    {
+//        return '[object]';
+//    }
 }

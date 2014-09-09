@@ -47,4 +47,11 @@ interface ViewInterface
      * @return string
      */
     public function getConfigurationJson();
+
+    /**
+     * Getting instance name
+     *
+     * @return string
+     */
+    public function getName();
 }
