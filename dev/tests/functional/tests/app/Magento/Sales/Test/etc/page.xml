@@ -18,9 +18,13 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusNew</class>
     </orderStatusNew>
-    <orderIndex>
-        <mca>sales/order/index</mca>
+    <orderView>
+        <mca>sales/order/view/index</mca>
         <area>adminhtml</area>
-        <class>Magento\Sales\Test\Page\Adminhtml\OderIndex</class>
-    </orderIndex>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderView</class>
+    </orderView>
+    <orderHistory>
+        <mca>sales/order/history</mca>
+        <class>Magento\Sales\Test\Page\OrderHistory</class>
+    </orderHistory>
 </page>
