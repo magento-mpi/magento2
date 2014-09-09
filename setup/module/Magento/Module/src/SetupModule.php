@@ -236,4 +236,16 @@ class SetupModule extends Setup
         }
         return $arrRes;
     }
+
+    /**
+     * Set table prefix
+     *
+     * @param string $tablePrefix
+     * @return void
+     */
+    public function setTablePrefix($tablePrefix)
+    {
+        parent::setTablePrefix($tablePrefix);
+        $this->resource->setTablePrefix($this->tablePrefix);
+    }
 }

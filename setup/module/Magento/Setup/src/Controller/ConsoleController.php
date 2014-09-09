@@ -58,7 +58,8 @@ class ConsoleController extends AbstractInstallActionController
      * @param AdminAccountFactory $adminAccountFactory
      * @param Random $random
      * @param Config $config
-     * @param ConfigFactory $systemConfig* @param UserConfigurationDataFactory $userConfigurationDataFactory
+     * @param ConfigFactory $systemConfig
+     * @param UserConfigurationDataFactory $userConfigurationDataFactory
      * @param ConsoleLogger $consoleLogger
      * @param PhpExecutableFinder $phpExecutableFinder
      */

@@ -372,6 +372,5 @@ class Setup implements SetupInterface
     public function setTablePrefix($tablePrefix)
     {
         $this->tablePrefix = $tablePrefix;
-        $this->resource->setTablePrefix($this->tablePrefix);
     }
 }

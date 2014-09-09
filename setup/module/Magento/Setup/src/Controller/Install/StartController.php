@@ -87,14 +87,19 @@ class StartController extends AbstractInstallActionController
         $this->installUserConfigurationData($data);
         $this->logger->logSuccess('User Configuration');
 
-        //Installs Data
-        $exitCode = $this->installDataUpdates();
-        if ($exitCode !== 0) {
-            $this->json->setVariable('success', false);
-        } else {
-            $this->json->setVariable('success', true);
+        try {
+            //Installs Data
+            $this->installDataUpdates();
+            $exitCode = $this->installDataUpdates();
+            if ($exitCode !== 0) {
+                $this->json->setVariable('success', false);
+            } else {
+                $this->json->setVariable('success', true);
+            }
+        } catch(\Exception $ex) {
+            $this->logger->logError($ex);
         }
-
+        
         $this->json->setVariable('key', $key);
         return $this->json;
     }

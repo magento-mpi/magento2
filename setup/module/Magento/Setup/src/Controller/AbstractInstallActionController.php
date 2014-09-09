@@ -14,7 +14,6 @@ use Magento\Module\ModuleListInterface;
 use Magento\Framework\DB\Adapter\Pdo\Mysql;
 use Magento\Module\SetupFactory;
 use Magento\Module\Setup\Config;
-use Magento\Setup\Helper\Helper;
 use Magento\Config\Config as SystemConfig;
 use Magento\Setup\Model\LoggerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
