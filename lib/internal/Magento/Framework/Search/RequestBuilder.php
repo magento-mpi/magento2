@@ -46,6 +46,8 @@ class RequestBuilder
     }
 
     /**
+     * Set request name
+     *
      * @param string $requestName
      * @return $this
      */
@@ -56,6 +58,8 @@ class RequestBuilder
     }
 
     /**
+     * Set size
+     *
      * @param int $size
      * @return $this
      */
@@ -66,6 +70,8 @@ class RequestBuilder
     }
 
     /**
+     * Set from
+     *
      * @param int $from
      * @return $this
      */
@@ -76,6 +82,8 @@ class RequestBuilder
     }
 
     /**
+     * Bind dimension data by name
+     *
      * @param string $name
      * @param string $value
      * @return $this
@@ -87,6 +95,8 @@ class RequestBuilder
     }
 
     /**
+     * Bind query data by name
+     *
      * @param string $name
      * @param string|int|float $value
      * @return $this
@@ -98,6 +108,8 @@ class RequestBuilder
     }
 
     /**
+     * Bind filter data by name
+     *
      * @param string $name
      * @param string|int|float $value
      * @return $this
@@ -112,6 +124,8 @@ class RequestBuilder
     }
 
     /**
+     * Create request object
+     *
      * @return RequestInterface
      */
     public function create()
@@ -129,6 +143,8 @@ class RequestBuilder
     }
 
     /**
+     * Get request name
+     *
      * @return string
      */
     public function getRequestName()
@@ -136,6 +152,13 @@ class RequestBuilder
         return $this->data['requestName'];
     }
 
+    /**
+     * Replace binds
+     *
+     * @param array $data
+     * @param array $bindData
+     * @return array
+     */
     private function replaceBinds($data, $bindData)
     {
         $data = $this->replaceBindLimits($data, $bindData);
@@ -146,6 +169,13 @@ class RequestBuilder
         return $data;
     }
 
+    /**
+     * Replace bind limits
+     *
+     * @param array $data
+     * @param array $bindData
+     * @return array
+     */
     private function replaceBindLimits($data, $bindData)
     {
         $limitList = ['from', 'size'];
@@ -157,6 +187,11 @@ class RequestBuilder
         return $data;
     }
 
+    /**
+     * @param array $data
+     * @param array $bindData
+     * @return array
+     */
     private function replaceBindDimensions($data, $bindData)
     {
         foreach ($data as $name => $value) {
@@ -167,6 +202,13 @@ class RequestBuilder
         return $data;
     }
 
+    /**
+     * Replace bind match query
+     *
+     * @param array $queries
+     * @param array $bindData
+     * @return array
+     */
     private function replaceBindMatchQuery($queries, $bindData)
     {
         foreach ($queries as $queryName => $queryValue) {
@@ -177,6 +219,13 @@ class RequestBuilder
         return $queries;
     }
 
+    /**
+     * Replace bind filters
+     *
+     * @param array $filters
+     * @param array $bindDataList
+     * @return array
+     */
     private function replaceBindFilters($filters, $bindDataList)
     {
         foreach ($bindDataList as $bindFilterName => $bindFilterValue) {
@@ -189,6 +238,11 @@ class RequestBuilder
         return $filters;
     }
 
+    /**
+     * Clear data
+     *
+     * @return void
+     */
     private function clear()
     {
         $this->data = [];
