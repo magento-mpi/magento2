@@ -278,10 +278,10 @@ class AbstractInstallActionController extends AbstractActionController
             ),
             'config' => array(
                 'address' => array(
-                    'front' => $storeUrl,
+                    'web' => $storeUrl,
                 ),
                 'https' => array(
-                    'web' => $secureStoreUrl,
+                    'front' => $secureStoreUrl,
                     'admin' => $secureAdminUrl,
                 ),
                 'rewrites' => array(

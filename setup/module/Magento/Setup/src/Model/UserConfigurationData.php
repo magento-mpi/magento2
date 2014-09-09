@@ -42,9 +42,9 @@ class UserConfigurationData
      */
     public function install($data) {
         $this->installData('web/seo/use_rewrites', $data['config']['rewrites']['allowed'], 0);
-        $this->installData('web/unsecure/base_url', $data['config']['address']['front'], '{{unsecure_base_url}}');
-        $this->installData('web/secure/use_in_frontend', $data['config']['https']['web'], 0);
-        $this->installData('web/secure/base_url', $data['config']['address']['front'], '{{secure_base_url}}');
+        $this->installData('web/unsecure/base_url', $data['config']['address']['web'], '{{unsecure_base_url}}');
+        $this->installData('web/secure/use_in_frontend', $data['config']['https']['front'], 0);
+        $this->installData('web/secure/base_url', $data['config']['address']['web'], '{{secure_base_url}}');
         $this->installData('web/secure/use_in_adminhtml', $data['config']['https']['admin'], 0);
         $this->installData('general/locale/code', $data['store']['language'], 'en_US');
         $this->installData('general/locale/timezone', $data['store']['timezone'], 'America/Los_Angeles');
