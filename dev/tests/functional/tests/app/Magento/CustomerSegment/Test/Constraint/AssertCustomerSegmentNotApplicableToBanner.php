@@ -10,7 +10,7 @@ namespace Magento\CustomerSegment\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\CustomerSegment\Test\Page\Adminhtml\BannerNew;
+use Magento\Banner\Test\Page\Adminhtml\BannerNew;
 
 /**
  * Class AssertCustomerSegmentNotApplicableToBanner
@@ -38,7 +38,7 @@ class AssertCustomerSegmentNotApplicableToBanner extends AbstractConstraint
     ) {
         $bannerNew->open();
         \PHPUnit_Framework_Assert::assertFalse(
-            $bannerNew->getBannerForm()->isCustomerSegmentVisible($customerSegment->getName()),
+            $bannerNew->getSegmentBannerForm()->isCustomerSegmentVisible($customerSegment->getName()),
             'Customer segment is available on Banner edit page.'
         );
     }

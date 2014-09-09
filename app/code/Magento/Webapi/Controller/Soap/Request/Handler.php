@@ -9,8 +9,8 @@ namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\DataObjectConverter;
+use Magento\Framework\Service\Data\AbstractSimpleObject;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
@@ -39,7 +39,7 @@ class Handler
     /** @var AuthorizationInterface */
     protected $_authorization;
 
-    /** @var DataObjectConverter */
+    /** @var SimpleDataObjectConverter */
     protected $_dataObjectConverter;
 
     /** @var ServiceArgsSerializer */
@@ -52,7 +52,7 @@ class Handler
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
      * @param AuthorizationInterface $authorization
-     * @param DataObjectConverter $dataObjectConverter
+     * @param SimpleDataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Handler
         \Magento\Framework\ObjectManager $objectManager,
         SoapConfig $apiConfig,
         AuthorizationInterface $authorization,
-        DataObjectConverter $dataObjectConverter,
+        SimpleDataObjectConverter $dataObjectConverter,
         ServiceArgsSerializer $serializer
     ) {
         $this->_request = $request;
@@ -129,7 +129,7 @@ class Handler
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
-        $arguments = $this->_dataObjectConverter->convertStdObjectToArray($arguments);
+        $arguments = $this->_dataObjectConverter->convertStdObjectToArray($arguments, true);
         return $this->_serializer->getInputData($serviceClass, $serviceMethod, $arguments);
     }
 
@@ -143,13 +143,15 @@ class Handler
     protected function _prepareResponseData($data)
     {
         $result = null;
-        if ($data instanceof AbstractObject) {
+        if ($data instanceof AbstractSimpleObject) {
             $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $value instanceof AbstractObject
-                    ? $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray())
-                    : $value;
+                if ($value instanceof AbstractSimpleObject) {
+                    $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray());
+                } else {
+                    $result[$key] = $value;
+                }
             }
         } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;

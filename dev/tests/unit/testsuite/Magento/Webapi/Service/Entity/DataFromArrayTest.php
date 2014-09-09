@@ -7,8 +7,8 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\Data\AbstractObjectTest;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectTest;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 
 class DataFromArrayTest extends \PHPUnit_Framework_TestCase
@@ -21,7 +21,10 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $objectFactory = new \Magento\Webapi\Service\Entity\WebapiObjectManager($objectManager);
         $typeProcessor = $objectManager->getObject('Magento\Webapi\Model\Config\ClassReflector\TypeProcessor');
-        $this->serializer = new ServiceArgsSerializer($typeProcessor, $objectFactory);
+        $this->serializer = $objectManager->getObject(
+            'Magento\Webapi\Controller\ServiceArgsSerializer',
+            ['typeProcessor' => $typeProcessor, 'objectManager' => $objectFactory]
+        );
     }
 
     public function testSimpleProperties()

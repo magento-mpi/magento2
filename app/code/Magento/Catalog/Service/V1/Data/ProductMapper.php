@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
-use Magento\Framework\Service\EavDataObjectConverter;
+use \Magento\Framework\Service\ExtensibleDataObjectConverter;
 
 class ProductMapper
 {
@@ -32,16 +32,18 @@ class ProductMapper
     /**
      * @param  Product $product
      * @param  \Magento\Catalog\Model\Product $productModel
+     * @param  string[] $customAttributesToSkip
      * @return \Magento\Catalog\Model\Product
      * @throws \RuntimeException
      */
     public function toModel(
         Product $product,
-        \Magento\Catalog\Model\Product $productModel = null
+        \Magento\Catalog\Model\Product $productModel = null,
+        $customAttributesToSkip = array()
     ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
-        $productModel = $productModel ? : $this->productFactory->create();
-        $productModel->addData(EavDataObjectConverter::toFlatArray($product));
+        $productModel = $productModel ?: $this->productFactory->create();
+        $productModel->addData(ExtensibleDataObjectConverter::toFlatArray($product, $customAttributesToSkip));
         if (!is_numeric($productModel->getAttributeSetId())) {
             $productModel->setAttributeSetId($productModel->getDefaultAttributeSetId());
         }

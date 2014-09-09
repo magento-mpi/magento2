@@ -2720,6 +2720,30 @@ return array(
     ['Magento\Catalog\Model\Observer\Reindex'],
     ['Magento\CatalogSearch\Model\Fulltext\Observer'],
     ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer\Country',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\Grid\Renderer\Country'
+    ],
+    ['Magento\Tax\Block\Adminhtml\Rate\ImportExport', 'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExport'],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExportHeader'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportCsv', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportCsv'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ExportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportPost'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportXml', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportXml'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportExport',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportExport'
+    ],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportPost'
+    ],
+    ['Magento\Tax\Model\Rate\CsvImportHandler', 'Magento\TaxImportExport\Model\Rate\CsvImportHandler'],
     ['\Magento\Theme\Helper\Layout'],
     ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
     ['Magento\Framework\View\Design\Theme\Provider'],
@@ -2756,4 +2780,15 @@ return array(
     ['Magento\Framework\App\State\MaintenanceMode', 'Magento\Framework\App\MaintenanceMode'],
     ['Magento\Framework\Error\Handler', 'Magento\Framework\App\ErrorHandler'],
     ['Magento\Framework\Error\HandlerInterface', 'Magento\Framework\App\ErrorHandler'],
+    ['\Magento\Framework\Service\Data\Eav\AbstractObject', 'Magento\Framework\Service\Data\AbstractExtensibleObject'],
+    ['\Magento\Framework\Service\Data\AbstractObject', 'Magento\Framework\Service\Data\AbstractSimpleObject'],
+    [
+        '\Magento\Framework\Service\Data\Eav\AbstractObjectBuilder',
+        'Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder'
+    ],
+    [
+        '\Magento\Framework\Service\Data\AbstractObjectBuilder',
+        'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
+    ],
+    ['\Magento\Sales\Model\Observer'],
 );

@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service\Config;
 
-use Magento\Framework\Service\Data\Eav\MetadataServiceInterface;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
 
@@ -31,11 +31,11 @@ class MetadataConfig implements MetadataServiceInterface
      * Initialize dependencies.
      *
      * @param ServiceConfigReader $serviceConfigReader
-     * @param AttributeMetadataBuilderInterface|null $attributeMetadataBuilder
+     * @param AttributeMetadataBuilderInterface $attributeMetadataBuilder
      */
     public function __construct(
         ServiceConfigReader $serviceConfigReader,
-        AttributeMetadataBuilderInterface $attributeMetadataBuilder = null
+        AttributeMetadataBuilderInterface $attributeMetadataBuilder
     ) {
         $this->serviceConfigReader = $serviceConfigReader;
         $this->attributeMetadataBuilder = $attributeMetadataBuilder;

@@ -24,7 +24,7 @@
     </type>
     <type name="Magento\CustomerSegment\Model\Customer">
         <arguments>
-            <argument name="visitor" xsi:type="object">Magento\Log\Model\Visitor\Proxy</argument>
+            <argument name="visitor" xsi:type="object">Magento\Customer\Model\Visitor\Proxy</argument>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>

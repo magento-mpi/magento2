@@ -7,12 +7,12 @@
  */
 namespace Magento\Bundle\Service\V1\Data\Product;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore
  */
-class OptionBuilder extends AbstractObjectBuilder
+class OptionBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Set option id
@@ -78,5 +78,16 @@ class OptionBuilder extends AbstractObjectBuilder
     public function setSku($value)
     {
         return $this->_set(Option::SKU, $value);
+    }
+
+    /**
+     * Set product links
+     *
+     * @param \Magento\Bundle\Service\V1\Data\Product\Link[] $value
+     * @return $this
+     */
+    public function setProductLinks($value)
+    {
+        return $this->_set(Option::PRODUCT_LINKS, $value);
     }
 }

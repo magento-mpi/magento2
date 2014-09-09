@@ -12,6 +12,13 @@ use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector as CTC;
 
 class WeeeTaxTest extends \PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Constants for array keys
+     */
+    const KEY_WEEE_TOTALS = 'weee_total_excl_tax';
+    const KEY_WEEE_BASE_TOTALS = 'weee_base_total_excl_tax';
+    /**#@-*/
+
     /**
      * Setup tax helper with an array of methodName, returnValue
      *
@@ -111,9 +118,10 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
      * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Item $itemMock
      * @param boolean $isWeeeTaxable
      * @param array   $itemData
+     * @param array   $addressData
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function setupAddressMock($itemMock, $isWeeeTaxable, $itemData)
+    protected function setupAddressMock($itemMock, $isWeeeTaxable, $itemData, $addressData)
     {
         $addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
@@ -123,6 +131,8 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
                 'getQuote',
                 'getWeeeCodeToItemMap',
                 'getExtraTaxableDetails',
+                'getWeeeTotalExclTax',
+                'getWeeeBaseTotalExclTax',
             ],
             [],
             '',
@@ -131,6 +141,9 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
 
         $map = [];
         $extraDetails = [];
+        $weeeTotals = 0;
+        $weeeBaseTotals = 0;
+
         if ($isWeeeTaxable) {
             $code = 'weee1-myWeeeCode';
             $map = [$code => $itemMock];
@@ -155,6 +168,13 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             ];
+        } else {
+            if (isset($addressData[self::KEY_WEEE_TOTALS])) {
+                $weeeTotals = $addressData[self::KEY_WEEE_TOTALS];
+            }
+            if (isset($addressData[self::KEY_WEEE_BASE_TOTALS])) {
+                $weeeBaseTotals = $addressData[self::KEY_WEEE_BASE_TOTALS];
+            }
         }
 
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
@@ -166,6 +186,14 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
         $addressMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $addressMock->expects($this->any())->method('getWeeeCodeToItemMap')->will($this->returnValue($map));
         $addressMock->expects($this->any())->method('getExtraTaxableDetails')->will($this->returnValue($extraDetails));
+        $addressMock
+            ->expects($this->any())
+            ->method('getWeeeTotalExclTax')
+            ->will($this->returnValue($weeeTotals));
+        $addressMock
+            ->expects($this->any())
+            ->method('getWeeeBaseTotalExclTax')
+            ->will($this->returnValue($weeeBaseTotals));
 
         return $addressMock;
     }
@@ -192,7 +220,10 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
     public function verifyAddress(\Magento\Sales\Model\Quote\Address $address, $addressData)
     {
         foreach ($addressData as $key => $value) {
-            $this->assertEquals($value, $address->getData($key), 'address ' . $key . ' is incorrect');
+            if ($key != self::KEY_WEEE_TOTALS && $key != self::KEY_WEEE_BASE_TOTALS) {
+                // just check the output values
+                $this->assertEquals($value, $address->getData($key), 'address ' . $key . ' is incorrect');
+            }
         }
     }
 
@@ -210,7 +241,7 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
     public function testCollect($taxConfig, $weeeConfig, $taxRates, $itemData, $itemQty, $addressData = [])
     {
         $itemMock = $this->setupItemMock($itemQty);
-        $addressMock = $this->setupAddressMock($itemMock, $weeeConfig['isTaxable'], $itemData);
+        $addressMock = $this->setupAddressMock($itemMock, $weeeConfig['isTaxable'], $itemData, $addressData);
 
         $taxHelper = $this->setupTaxHelper($taxConfig);
         $weeeHelper = $this->setupWeeeHelper($weeeConfig);
@@ -241,7 +272,8 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
      */
     public function collectDataProvider()
     {
-        // 1. When the Weee is not taxable, this collector does not change the item or the address data
+        // 1. When the Weee is not taxable, this collector does not change the item, but it will update the address
+        //    data based on the weee totals accumulated in the previous 'weee' collector
         // 2. If the Weee amount is included in the subtotal, then it is not included in the 'weee_amount' field
 
         $data = [];
@@ -404,6 +436,16 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
             'item' => [
             ],
             'item_qty' => 2,
+            'address_data' => [
+                self::KEY_WEEE_TOTALS => 20,
+                self::KEY_WEEE_BASE_TOTALS => 20,
+                'subtotal' => 20,
+                'base_subtotal' => 20,
+                'subtotal_incl_tax' => 20,
+                'base_subtotal_incl_tax' => 20,
+                'weee_amount' => 0,
+                'base_weee_amount' => 0,
+            ]
         ];
 
         $data['price_excl_tax_weee_non_taxable_unit_include_in_subtotal'] = [
@@ -432,7 +474,18 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
             'item' => [
             ],
             'item_qty' => 2,
+            'address_data' => [
+                self::KEY_WEEE_TOTALS => 20,
+                self::KEY_WEEE_BASE_TOTALS => 20,
+                'subtotal' => 20,
+                'base_subtotal' => 20,
+                'subtotal_incl_tax' => 20,
+                'base_subtotal_incl_tax' => 20,
+                'weee_amount' => 0,
+                'base_weee_amount' => 0,
+            ]
         ];
+
         $data['price_incl_tax_weee_taxable_row_include_in_subtotal'] = [
             'tax_config' => [
                 'priceIncludesTax' => true,
@@ -547,6 +600,16 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
             'item' => [
             ],
             'item_qty' => 2,
+            'address_data' => [
+                self::KEY_WEEE_TOTALS => 20,
+                self::KEY_WEEE_BASE_TOTALS => 20,
+                'subtotal' => 20,
+                'base_subtotal' => 20,
+                'subtotal_incl_tax' => 20,
+                'base_subtotal_incl_tax' => 20,
+                'weee_amount' => 0,
+                'base_weee_amount' => 0,
+            ]
         ];
 
         $data['price_excl_tax_weee_non_taxable_row_not_included_in_subtotal'] = [
@@ -575,6 +638,16 @@ class WeeeTaxTest extends \PHPUnit_Framework_TestCase
             'item' => [
             ],
             'item_qty' => 2,
+            'address_data' => [
+                self::KEY_WEEE_TOTALS => 20,
+                self::KEY_WEEE_BASE_TOTALS => 20,
+                'subtotal' => 0,
+                'base_subtotal' => 0,
+                'subtotal_incl_tax' => 20,
+                'base_subtotal_incl_tax' => 20,
+                'weee_amount' => 20,
+                'base_weee_amount' => 20,
+            ]
         ];
 
         return $data;

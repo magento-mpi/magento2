@@ -13,7 +13,6 @@ use Magento\Catalog\Test\Fixture;
 
 /**
  * Guest checkout with taxes, Check/Money order payment method and offline shipping method
- *
  */
 class CheckMoneyOrder extends Checkout
 {
@@ -23,24 +22,24 @@ class CheckMoneyOrder extends Checkout
     protected function _initData()
     {
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$141.81',
-                'sub_total' => '$131.00',
-                'tax' => '$10.81',
-            ),
-            'product_price_with_tax' => array(
-                'SimpleProduct' => array(
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '141.81',
+                'sub_total' => '131.00',
+                'tax' => '10.81',
+            ],
+            'product_price_with_tax' => [
+                'SimpleProduct' => [
                     'value' => '10.00',
-                ),
-                'ConfigurableProduct' => array(
+                ],
+                'ConfigurableProduct' => [
                     'value' => '11.00',
-                ),
-                'BundleFixed' => array(
+                ],
+                'BundleFixed' => [
                     'value' => '110.00',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -49,13 +48,13 @@ class CheckMoneyOrder extends Checkout
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array(
+        $this->_persistConfiguration([
             'free_shipping',
             'check_money_order',
             'display_price',
             'display_shopping_cart',
             'default_tax_config',
-        ));
+        ]);
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
@@ -74,15 +73,17 @@ class CheckMoneyOrder extends Checkout
         $bundle->switchData('bundle_required');
         $bundle->persist();
 
-        $this->products = array(
+        $this->products = [
             $simple,
             $configurable,
             $bundle,
-        );
+        ];
 
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress = $objectManager->create(
+            '\Magento\Customer\Test\Fixture\AddressInjectable',
+            ['dataSet' => 'address_US_1']
+        );
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('free_shipping');

@@ -29,5 +29,5 @@ $file = array (
     'error' => 0,
     'size' => filesize($filename),
 );
-$importHandler = $this->getObjectManager()->create('Magento\Tax\Model\Rate\CsvImportHandler');
+$importHandler = $this->getObjectManager()->create('Magento\TaxImportExport\Model\Rate\CsvImportHandler');
 $importHandler->importFromCsvFile($file);

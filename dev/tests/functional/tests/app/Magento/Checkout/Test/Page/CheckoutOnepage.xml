@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="checkout/onepage" module="Magento_Checkout">
+    <blocks>
+        <loginBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Login</class>
+            <locator>#checkout-step-login</locator>
+            <strategy>css selector</strategy>
+        </loginBlock>
+        <billingBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Billing</class>
+            <locator>#checkout-step-billing</locator>
+            <strategy>css selector</strategy>
+        </billingBlock>
+        <shippingBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Shipping</class>
+            <locator>#checkout-step-shipping</locator>
+            <strategy>css selector</strategy>
+        </shippingBlock>
+        <shippingMethodBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Shipping\Method</class>
+            <locator>#checkout-step-shipping_method</locator>
+            <strategy>css selector</strategy>
+        </shippingMethodBlock>
+        <paymentMethodsBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Payment\Methods</class>
+            <locator>#checkout-step-payment</locator>
+            <strategy>css selector</strategy>
+        </paymentMethodsBlock>
+        <reviewBlock>
+            <class>Magento\Checkout\Test\Block\Onepage\Review</class>
+            <locator>#checkout-step-review</locator>
+            <strategy>css selector</strategy>
+        </reviewBlock>
+    </blocks>
+</page>

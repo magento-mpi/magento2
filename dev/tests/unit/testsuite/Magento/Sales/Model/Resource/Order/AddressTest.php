@@ -38,13 +38,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $validatorMock;
 
     /**
-     * Set up
+     * @var \Magento\Sales\Model\Resource\GridPool|\PHPUnit_Framework_MockObject_MockObject
      */
+    protected $gridPoolMock;
+
     public function setUp()
     {
         $this->addressMock = $this->getMock(
             'Magento\Sales\Model\Order\Address',
-            [],
+            ['__wakeup', 'getOrderId', 'hasDataChanges'],
             [],
             '',
             false
@@ -70,6 +72,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->gridPoolMock = $this->getMock(
+            'Magento\Sales\Model\Resource\GridPool',
+            ['refreshByOrderId'],
+            [],
+            '',
+            false
+        );
         $this->appResourceMock->expects($this->any())
             ->method('getConnection')
             ->will($this->returnValue($this->adapterMock));
@@ -85,7 +94,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Model\Resource\Order\Address',
             [
                 'resource' => $this->appResourceMock,
-                'validator' => $this->validatorMock
+                'validator' => $this->validatorMock,
+                'gridPool' => $this->gridPoolMock
             ]
         );
     }
@@ -99,6 +109,17 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->method('validate')
             ->with($this->equalTo($this->addressMock))
             ->will($this->returnValue([]));
+        $this->addressMock->expects($this->once())
+            ->method('hasDataChanges')
+            ->will($this->returnValue(true));
+        $this->addressMock->expects($this->exactly(2))
+            ->method('getOrderId')
+            ->will($this->returnValue(2));
+        $this->gridPoolMock->expects($this->once())
+            ->method('refreshByOrderId')
+            ->with($this->equalTo(2))
+            ->will($this->returnSelf());
+
         $this->addressResource->save($this->addressMock);
         $this->assertTrue(true);
     }

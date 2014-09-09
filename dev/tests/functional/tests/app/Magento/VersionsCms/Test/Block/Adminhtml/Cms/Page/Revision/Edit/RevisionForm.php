@@ -8,15 +8,15 @@
 
 namespace Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit;
 
+use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Form;
 
 /**
  * Class RevisionForm
  * Block Revision Content form
  */
-class RevisionForm extends Form
+class RevisionForm extends FormTabs
 {
     /**
      * Content Editor toggle button id
