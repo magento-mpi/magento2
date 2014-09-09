@@ -1,3 +1,13 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 define([
     '_',
     'Magento_Ui/js/lib/ko/scope',
@@ -6,18 +16,25 @@ define([
 ], function(_, Scope, Component, controls) {
     'use strict';
 
-    var DEFAULT_FILTER_TYPE = 'input';
-
     var Filter = Scope.extend({
+        /**
+         * Initializes instance properties 
+         * @param {Object} config - Filter component configuration
+         */
         initialize: function(config) {
-            this.storage = config.storage;
+            this.config  = config;
+            this.storage = this.config.storage;
 
             this.observe('isVisible', false);
 
             this.extractFilterable()
-                .initFields();
-        },            
+                .initFilters();
+        },
 
+        /**
+         * Filters filterable fields and stores them to this.fields 
+         * @param {Object} this - Reference to instance
+         */
         extractFilterable: function (fields) {
             var fields = this.storage.getMeta().fields,
                 filterable;
@@ -31,16 +48,23 @@ define([
             return this;
         },
 
-        initFields: function () {
+        /**
+         * Initializes filters by creating instances of corresponding classes found in controls by filter type
+         * @param {Object} this - Reference to instance
+         */
+        initFilters: function () {
             var type,
-                Control;
+                Control,
+                config       = this.config,
+                typeConfigs  = config.types;
 
             this.filters = this.fields.map(function (field) {
-                type = field.type = (field.filter_type || field.input_type || DEFAULT_FILTER_TYPE);
+                type    = field.type = (field.filter_type || field.input_type);
+                config  = typeConfigs && typeConfigs[type];
                 Control = controls[type];
 
-                return new Control(field);
-            });
+                return new Control(field, config);
+            }, this);
 
             return this;
         },

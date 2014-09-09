@@ -1,3 +1,14 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+/** Loads all available knockout bindings, sets custom template engine, initializes knockout on page */
 define([
 	'ko',
 	'jquery',
@@ -8,6 +19,7 @@ define([
 	'Magento_Ui/js/lib/ko/bind/scope',
     'Magento_Ui/js/lib/ko/bind/datepicker'
 ], function(ko, $, templateEngine) {
+	'use strict';
 
 	ko.setTemplateEngine(templateEngine);
 	ko.applyBindings();

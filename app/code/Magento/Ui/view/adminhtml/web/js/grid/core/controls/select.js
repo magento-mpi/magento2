@@ -1,26 +1,53 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 define([
     './abstract',
     '_'
 ], function (AbstractControl, _) {
     'use strict';
 
-    function toArrayIgnoringKeys (object) {
+    /**
+     * Convertes object to array, ignoring it's keys.
+     * @param {Object} object - Object to convert
+     * @returns {Array} - Converted result
+     */
+    function toArrayIgnoringKeys(object) {
         return _.map(object, function (value) { return value; });
     };
 
     return AbstractControl.extend({
+
+        /**
+         * Invokes initialize method of parent class and initializes properties of instance.
+         * @param {Object} data - Item of "fields" array from grid configuration
+         * @param {Object} config - Filter configuration
+         */
         initialize: function (data) {
             this.constructor.__super__.initialize.apply(this, arguments);
 
             this.observe('selected', '');
 
-            this.options = this.options ? this.formatOptions() : [];
+            this.options = this.options ? this.formatOptions(this.options) : [];
         },
 
-        formatOptions: function () {
-            return toArrayIgnoringKeys(this.options);
+        /**
+         * Formats options property of instance using toArrayIgnoringKeys function.
+         * @param {Object} options - object representing options
+         * @returns {Array} - Options, converted to array
+         */
+        formatOptions: function (options) {
+            return toArrayIgnoringKeys(options);
         },
 
+        /** Returns object which represents current state of instance */
         dump: function () {
             var selected = this.selected();
 
@@ -30,6 +57,7 @@ define([
             }
         },
 
+        /** Resets state properties of instance and then returns call of dump method */
         reset: function () {
             this.selected(null);
 
