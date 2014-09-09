@@ -10,23 +10,23 @@
 <fixture class="Magento\Checkout\Test\Fixture\Cart">
     <module>Magento_Checkout</module>
     <type>flat</type>
-    <entity_type>sales_flat_quote_item</entity_type>
+    <entity_type>sales_flat_quote</entity_type>
     <collection>Magento\Checkout\Model\Resource\Cart</collection>
     <fields>
-        <item_id>
-            <attribute_code>item_id</attribute_code>
+        <entity_id>
+            <attribute_code>entity_id</attribute_code>
             <backend_type>int</backend_type>
             <is_required>1</is_required>
             <default_value></default_value>
             <input></input>
-        </item_id>
-        <quote_id>
-            <attribute_code>quote_id</attribute_code>
-            <backend_type>int</backend_type>
+        </entity_id>
+        <store_id>
+            <attribute_code>store_id</attribute_code>
+            <backend_type>smallint</backend_type>
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
-        </quote_id>
+        </store_id>
         <created_at>
             <attribute_code>created_at</attribute_code>
             <backend_type>timestamp</backend_type>
@@ -41,272 +41,333 @@
             <default_value>0000-00-00 00:00:00</default_value>
             <input></input>
         </updated_at>
-        <product_id>
-            <attribute_code>product_id</attribute_code>
-            <backend_type>int</backend_type>
+        <converted_at>
+            <attribute_code>converted_at</attribute_code>
+            <backend_type>timestamp</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </product_id>
-        <store_id>
-            <attribute_code>store_id</attribute_code>
+        </converted_at>
+        <is_active>
+            <attribute_code>is_active</attribute_code>
             <backend_type>smallint</backend_type>
             <is_required></is_required>
-            <default_value></default_value>
+            <default_value>1</default_value>
             <input></input>
-        </store_id>
-        <parent_item_id>
-            <attribute_code>parent_item_id</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </parent_item_id>
+        </is_active>
         <is_virtual>
             <attribute_code>is_virtual</attribute_code>
             <backend_type>smallint</backend_type>
             <is_required></is_required>
-            <default_value></default_value>
+            <default_value>0</default_value>
             <input></input>
         </is_virtual>
-        <sku>
-            <attribute_code>sku</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </sku>
-        <name>
-            <attribute_code>name</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </name>
-        <description>
-            <attribute_code>description</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </description>
-        <applied_rule_ids>
-            <attribute_code>applied_rule_ids</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </applied_rule_ids>
-        <additional_data>
-            <attribute_code>additional_data</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </additional_data>
-        <is_qty_decimal>
-            <attribute_code>is_qty_decimal</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </is_qty_decimal>
-        <no_discount>
-            <attribute_code>no_discount</attribute_code>
+        <is_multi_shipping>
+            <attribute_code>is_multi_shipping</attribute_code>
             <backend_type>smallint</backend_type>
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
-        </no_discount>
-        <weight>
-            <attribute_code>weight</attribute_code>
+        </is_multi_shipping>
+        <items>
+            <attribute_code>items</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>Magento\Checkout\Test\Fixture\Cart\Items</source>
+        </items>
+        <items_count>
+            <attribute_code>items_count</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </items_count>
+        <items_qty>
+            <attribute_code>items_qty</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value>0.0000</default_value>
             <input></input>
-        </weight>
-        <qty>
-            <attribute_code>qty</attribute_code>
+        </items_qty>
+        <orig_order_id>
+            <attribute_code>orig_order_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </orig_order_id>
+        <store_to_base_rate>
+            <attribute_code>store_to_base_rate</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value>0.0000</default_value>
             <input></input>
-        </qty>
-        <price>
-            <attribute_code>price</attribute_code>
+        </store_to_base_rate>
+        <store_to_quote_rate>
+            <attribute_code>store_to_quote_rate</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value>0.0000</default_value>
             <input></input>
-        </price>
-        <base_price>
-            <attribute_code>base_price</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </base_price>
-        <custom_price>
-            <attribute_code>custom_price</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </custom_price>
-        <discount_percent>
-            <attribute_code>discount_percent</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </discount_percent>
-        <discount_amount>
-            <attribute_code>discount_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </discount_amount>
-        <base_discount_amount>
-            <attribute_code>base_discount_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </base_discount_amount>
-        <tax_percent>
-            <attribute_code>tax_percent</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </tax_percent>
-        <tax_amount>
-            <attribute_code>tax_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </tax_amount>
-        <base_tax_amount>
-            <attribute_code>base_tax_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </base_tax_amount>
-        <row_total>
-            <attribute_code>row_total</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </row_total>
-        <base_row_total>
-            <attribute_code>base_row_total</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </base_row_total>
-        <row_total_with_discount>
-            <attribute_code>row_total_with_discount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </row_total_with_discount>
-        <row_weight>
-            <attribute_code>row_weight</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value>0.0000</default_value>
-            <input></input>
-        </row_weight>
-        <product_type>
-            <attribute_code>product_type</attribute_code>
+        </store_to_quote_rate>
+        <base_currency_code>
+            <attribute_code>base_currency_code</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </product_type>
-        <base_tax_before_discount>
-            <attribute_code>base_tax_before_discount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </base_tax_before_discount>
-        <tax_before_discount>
-            <attribute_code>tax_before_discount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </tax_before_discount>
-        <original_custom_price>
-            <attribute_code>original_custom_price</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </original_custom_price>
-        <redirect_url>
-            <attribute_code>redirect_url</attribute_code>
+        </base_currency_code>
+        <store_currency_code>
+            <attribute_code>store_currency_code</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </redirect_url>
-        <base_cost>
-            <attribute_code>base_cost</attribute_code>
+        </store_currency_code>
+        <quote_currency_code>
+            <attribute_code>quote_currency_code</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </quote_currency_code>
+        <grand_total>
+            <attribute_code>grand_total</attribute_code>
+            <backend_type>decimal</backend_type>
+            <is_required></is_required>
+            <default_value>0.0000</default_value>
+            <input></input>
+        </grand_total>
+        <base_grand_total>
+            <attribute_code>base_grand_total</attribute_code>
+            <backend_type>decimal</backend_type>
+            <is_required></is_required>
+            <default_value>0.0000</default_value>
+            <input></input>
+        </base_grand_total>
+        <checkout_method>
+            <attribute_code>checkout_method</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </checkout_method>
+        <customer_id>
+            <attribute_code>customer_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </customer_id>
+        <customer_tax_class_id>
+            <attribute_code>customer_tax_class_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </customer_tax_class_id>
+        <customer_group_id>
+            <attribute_code>customer_group_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </customer_group_id>
+        <customer_email>
+            <attribute_code>customer_email</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_email>
+        <customer_prefix>
+            <attribute_code>customer_prefix</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_prefix>
+        <customer_firstname>
+            <attribute_code>customer_firstname</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_firstname>
+        <customer_middlename>
+            <attribute_code>customer_middlename</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_middlename>
+        <customer_lastname>
+            <attribute_code>customer_lastname</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_lastname>
+        <customer_suffix>
+            <attribute_code>customer_suffix</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_suffix>
+        <customer_dob>
+            <attribute_code>customer_dob</attribute_code>
+            <backend_type>datetime</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_dob>
+        <customer_note>
+            <attribute_code>customer_note</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_note>
+        <customer_note_notify>
+            <attribute_code>customer_note_notify</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>1</default_value>
+            <input></input>
+        </customer_note_notify>
+        <customer_is_guest>
+            <attribute_code>customer_is_guest</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </customer_is_guest>
+        <remote_ip>
+            <attribute_code>remote_ip</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </remote_ip>
+        <applied_rule_ids>
+            <attribute_code>applied_rule_ids</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </applied_rule_ids>
+        <reserved_order_id>
+            <attribute_code>reserved_order_id</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </reserved_order_id>
+        <password_hash>
+            <attribute_code>password_hash</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </password_hash>
+        <coupon_code>
+            <attribute_code>coupon_code</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </coupon_code>
+        <global_currency_code>
+            <attribute_code>global_currency_code</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </global_currency_code>
+        <base_to_global_rate>
+            <attribute_code>base_to_global_rate</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </base_cost>
-        <price_incl_tax>
-            <attribute_code>price_incl_tax</attribute_code>
+        </base_to_global_rate>
+        <base_to_quote_rate>
+            <attribute_code>base_to_quote_rate</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </price_incl_tax>
-        <base_price_incl_tax>
-            <attribute_code>base_price_incl_tax</attribute_code>
+        </base_to_quote_rate>
+        <customer_taxvat>
+            <attribute_code>customer_taxvat</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_taxvat>
+        <customer_gender>
+            <attribute_code>customer_gender</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </customer_gender>
+        <subtotal>
+            <attribute_code>subtotal</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </base_price_incl_tax>
-        <row_total_incl_tax>
-            <attribute_code>row_total_incl_tax</attribute_code>
+        </subtotal>
+        <base_subtotal>
+            <attribute_code>base_subtotal</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </row_total_incl_tax>
-        <base_row_total_incl_tax>
-            <attribute_code>base_row_total_incl_tax</attribute_code>
+        </base_subtotal>
+        <subtotal_with_discount>
+            <attribute_code>subtotal_with_discount</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </base_row_total_incl_tax>
-        <hidden_tax_amount>
-            <attribute_code>hidden_tax_amount</attribute_code>
+        </subtotal_with_discount>
+        <base_subtotal_with_discount>
+            <attribute_code>base_subtotal_with_discount</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </hidden_tax_amount>
-        <base_hidden_tax_amount>
-            <attribute_code>base_hidden_tax_amount</attribute_code>
-            <backend_type>decimal</backend_type>
+        </base_subtotal_with_discount>
+        <is_changed>
+            <attribute_code>is_changed</attribute_code>
+            <backend_type>int</backend_type>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-        </base_hidden_tax_amount>
+        </is_changed>
+        <trigger_recollect>
+            <attribute_code>trigger_recollect</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </trigger_recollect>
+        <ext_shipping_info>
+            <attribute_code>ext_shipping_info</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </ext_shipping_info>
+        <is_persistent>
+            <attribute_code>is_persistent</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </is_persistent>
         <gift_message_id>
             <attribute_code>gift_message_id</attribute_code>
             <backend_type>int</backend_type>
@@ -314,125 +375,12 @@
             <default_value></default_value>
             <input></input>
         </gift_message_id>
-        <giftregistry_item_id>
-            <attribute_code>giftregistry_item_id</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </giftregistry_item_id>
-        <gw_id>
-            <attribute_code>gw_id</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </gw_id>
-        <gw_base_price>
-            <attribute_code>gw_base_price</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </gw_base_price>
-        <gw_price>
-            <attribute_code>gw_price</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </gw_price>
-        <gw_base_tax_amount>
-            <attribute_code>gw_base_tax_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </gw_base_tax_amount>
-        <gw_tax_amount>
-            <attribute_code>gw_tax_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </gw_tax_amount>
-        <free_shipping>
-            <attribute_code>free_shipping</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </free_shipping>
-        <event_id>
-            <attribute_code>event_id</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </event_id>
-        <weee_tax_disposition>
-            <attribute_code>weee_tax_disposition</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </weee_tax_disposition>
-        <weee_tax_row_disposition>
-            <attribute_code>weee_tax_row_disposition</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </weee_tax_row_disposition>
-        <base_weee_tax_disposition>
-            <attribute_code>base_weee_tax_disposition</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </base_weee_tax_disposition>
-        <base_weee_tax_row_disposition>
-            <attribute_code>base_weee_tax_row_disposition</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </base_weee_tax_row_disposition>
-        <weee_tax_applied>
-            <attribute_code>weee_tax_applied</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </weee_tax_applied>
-        <weee_tax_applied_amount>
-            <attribute_code>weee_tax_applied_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </weee_tax_applied_amount>
-        <weee_tax_applied_row_amount>
-            <attribute_code>weee_tax_applied_row_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </weee_tax_applied_row_amount>
-        <base_weee_tax_applied_amount>
-            <attribute_code>base_weee_tax_applied_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </base_weee_tax_applied_amount>
-        <base_weee_tax_applied_row_amnt>
-            <attribute_code>base_weee_tax_applied_row_amnt</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
-        </base_weee_tax_applied_row_amnt>
+        <checkout_data>
+            <attribute_code>checkout_data</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group />
+            <source>Magento\Checkout\Test\Fixture\Cart\CheckoutData</source>
+        </checkout_data>
     </fields>
     <repository_class>Magento\Checkout\Test\Repository\Cart</repository_class>
     <handler_interface>Magento\Checkout\Test\Handler\Cart\CartInterface</handler_interface>

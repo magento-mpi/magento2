@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Links
- *
  * Downloadable links blocks on frontend
  */
 class Links extends Block
@@ -31,6 +30,13 @@ class Links extends Block
      * @var string
      */
     protected $linksListSelector = '//*[@id="downloadable-links-list"]/div[%d]/';
+
+    /**
+     * Selector for link by label
+     *
+     * @var string
+     */
+    protected $linkByLabel = './/input[@type="checkbox" and (./../label/span[contains(text(),"%s")])]';
 
     /**
      * Title selector item links
@@ -108,5 +114,23 @@ class Links extends Block
     {
         return $this->_rootElement->find($this->formatIndex($index) . $this->priceForList, Locator::SELECTOR_XPATH)
             ->getText();
+    }
+
+    /**
+     * Fill links on product view page
+     *
+     * @param array $data
+     * @return void
+     */
+    public function fill(array $data)
+    {
+        foreach ($data as $linkData) {
+            $link = $this->_rootElement->find(
+                sprintf($this->linkByLabel, $linkData['label']),
+                Locator::SELECTOR_XPATH,
+                'checkbox'
+            );
+            $link->setValue($linkData['value']);
+        }
     }
 }

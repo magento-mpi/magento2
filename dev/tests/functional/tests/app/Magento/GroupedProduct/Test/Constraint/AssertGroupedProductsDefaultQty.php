@@ -11,10 +11,11 @@ namespace Magento\GroupedProduct\Test\Constraint;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 
 /**
  * Class AssertGroupedProductsDefaultQty
+ * Assert that default qty for sub products in grouped product displays according to dataset on product page
  */
 class AssertGroupedProductsDefaultQty extends AbstractConstraint
 {
@@ -26,16 +27,16 @@ class AssertGroupedProductsDefaultQty extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that default qty for sub products in grouped product displays according to dataset on product page.
+     * Assert that default qty for sub products in grouped product displays according to dataset on product page
      *
      * @param CatalogProductView $groupedProductView
-     * @param CatalogProductGrouped $product
+     * @param GroupedProductInjectable $product
      * @param Browser $browser
      * @return void
      */
     public function processAssert(
         CatalogProductView $groupedProductView,
-        CatalogProductGrouped $product,
+        GroupedProductInjectable $product,
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');

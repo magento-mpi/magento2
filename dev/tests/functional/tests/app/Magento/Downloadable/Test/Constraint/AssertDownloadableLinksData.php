@@ -11,7 +11,7 @@ namespace Magento\Downloadable\Test\Constraint;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
+use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
 
 /**
  * Class AssertDownloadableLinksData
@@ -31,13 +31,13 @@ class AssertDownloadableLinksData extends AbstractConstraint
      * Assert Link block for downloadable product on front-end
      *
      * @param CatalogProductView $downloadableProductView
-     * @param CatalogProductDownloadable $product
+     * @param DownloadableProductInjectable $product
      * @param Browser $browser
      * @return void
      */
     public function processAssert(
         CatalogProductView $downloadableProductView,
-        CatalogProductDownloadable $product,
+        DownloadableProductInjectable $product,
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');

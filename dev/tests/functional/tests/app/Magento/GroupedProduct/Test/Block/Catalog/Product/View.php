@@ -9,6 +9,8 @@
 namespace Magento\GroupedProduct\Test\Block\Catalog\Product;
 
 use Magento\Catalog\Test\Block\Product\View as ParentView;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class View
@@ -72,5 +74,16 @@ class View extends ParentView
     public function itemPriceProductBlock($index)
     {
         $this->priceBlock = str_replace('%row-number%', $index, $this->formatSpecialPrice);
+    }
+
+    /**
+     * Fill specified option for the product
+     *
+     * @param FixtureInterface $product
+     * @return void
+     */
+    public function fillOptions(FixtureInterface $product)
+    {
+        $this->getGroupedProductBlock()->fill($product);
     }
 }

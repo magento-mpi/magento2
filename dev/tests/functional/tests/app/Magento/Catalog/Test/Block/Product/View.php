@@ -13,7 +13,7 @@ use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Fixture\GroupedProduct;
+use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
 
 /**
  * Class View
@@ -340,26 +340,32 @@ class View extends Block
     {
         $dataConfig = $product->getDataConfig();
         $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
+        $checkoutData = null;
 
         /** @var CatalogProductSimple $product */
         if ($this->hasRender($typeId)) {
             $this->callRender($typeId, 'fillOptions', ['product' => $product]);
         } else {
-            $optionsCheckoutData = [];
+            $checkoutCustomOptions = [];
 
             if ($product instanceof InjectableFixture) {
                 /** @var CatalogProductSimple $product */
                 $customOptions = $product->hasData('custom_options')
-                    ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+                    ? $product->getCustomOptions()
                     : [];
                 $checkoutData = $product->getCheckoutData();
-                $productCheckoutData = isset($checkoutData['custom_options'])
-                    ? $checkoutData['custom_options']
+                $checkoutCustomOptions = isset($checkoutData['options']['custom_options'])
+                    ? $checkoutData['options']['custom_options']
                     : [];
-                $optionsCheckoutData = $this->prepareCheckoutData($customOptions, $productCheckoutData);
+
+                $checkoutCustomOptions = $this->prepareCheckoutData($customOptions, $checkoutCustomOptions);
             }
 
-            $this->getCustomOptionsBlock()->fillCustomOptions($optionsCheckoutData);
+            $this->getCustomOptionsBlock()->fillCustomOptions($checkoutCustomOptions);
+        }
+
+        if (isset($checkoutData['options']['qty'])) {
+            $this->_rootElement->find($this->qty)->setValue($checkoutData['options']['qty']);
         }
     }
 
@@ -375,18 +381,18 @@ class View extends Block
         $result = [];
 
         foreach ($checkoutData as $checkoutOption) {
-            $attributeKey = $checkoutOption['title'];
-            $optionKey = $checkoutOption['value'];
+            $attribute = str_replace('attribute_key_', '', $checkoutOption['title']);
+            $option = str_replace('option_key_', '', $checkoutOption['value']);
 
-            if (isset($options[$attributeKey])) {
+            if (isset($options[$attribute])) {
                 $result[] = [
-                    'type' => strtolower(preg_replace('/[^a-z]/i', '', $options[$attributeKey]['type'])),
-                    'title' => isset($options[$attributeKey]['title'])
-                            ? $options[$attributeKey]['title']
-                            : $attributeKey,
-                    'value' => isset($options[$attributeKey]['options'][$optionKey]['title'])
-                            ? $options[$attributeKey]['options'][$optionKey]['title']
-                            : $optionKey
+                    'type' => strtolower(preg_replace('/[^a-z]/i', '', $options[$attribute]['type'])),
+                    'title' => isset($options[$attribute]['title'])
+                            ? $options[$attribute]['title']
+                            : $attribute,
+                    'value' => isset($options[$attribute]['options'][$option]['title'])
+                            ? $options[$attribute]['options'][$option]['title']
+                            : $option
                 ];
             }
         }

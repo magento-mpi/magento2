@@ -8,11 +8,6 @@
 
 namespace Magento\GiftCard\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
-use Mtf\Fixture\FixtureFactory;
-use Mtf\Repository\RepositoryFactory;
-use Mtf\System\Event\EventManagerInterface;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
@@ -35,44 +30,6 @@ class GiftCardProduct extends CatalogProductSimple
     protected $handlerInterface = 'Magento\GiftCard\Test\Handler\GiftCardProduct\GiftCardProductInterface';
 
     /**
-     * Constructor
-     *
-     * @constructor
-     * @param Config $configuration
-     * @param RepositoryFactory $repositoryFactory
-     * @param FixtureFactory $fixtureFactory
-     * @param HandlerFactory $handlerFactory
-     * @param EventManagerInterface $eventManager
-     * @param array $data
-     * @param string $dataSet
-     * @param bool $persist
-     */
-    public function __construct(
-        Config $configuration,
-        RepositoryFactory $repositoryFactory,
-        FixtureFactory $fixtureFactory,
-        HandlerFactory $handlerFactory,
-        EventManagerInterface $eventManager,
-        array $data = [],
-        $dataSet = '',
-        $persist = false
-    ) {
-        if (!isset($data['url_key']) && isset($data['name'])) {
-            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
-        }
-        parent::__construct(
-            $configuration,
-            $repositoryFactory,
-            $fixtureFactory,
-            $handlerFactory,
-            $eventManager,
-            $data,
-            $dataSet,
-            $persist
-        );
-    }
-
-    /**
      * @var array
      */
     protected $defaultDataSet = [
@@ -91,6 +48,7 @@ class GiftCardProduct extends CatalogProductSimple
     ];
 
     protected $dataConfig = [
+        'type_id' => 'giftcard',
         'create_url_params' => [
             'type' => 'giftcard',
             'set' => '4',
@@ -270,6 +228,13 @@ class GiftCardProduct extends CatalogProductSimple
         'source' => 'Magento\GiftCard\Test\Fixture\GiftCardProduct\Price',
     ];
 
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'group' => null,
+        'source' => 'Magento\GiftCard\Test\Fixture\GiftCardProduct\CheckoutData',
+    ];
+
     public function getAllowMessage()
     {
         return $this->getData('allow_message');
@@ -363,5 +328,10 @@ class GiftCardProduct extends CatalogProductSimple
     public function getUseConfigLifetime()
     {
         return $this->getData('use_config_lifetime');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
     }
 }

@@ -26,47 +26,75 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
     protected function getPreset($name)
     {
         $presets = [
+            'default' => [
+                'options' => [
+                    'configurable_options' => [
+                        [
+                            'title' => 'attribute_key_0',
+                            'value' => 'option_key_0',
+                        ],
+                        [
+                            'title' => 'attribute_key_1',
+                            'value' => 'option_key_1',
+                        ]
+                    ],
+                    'qty' => 3
+                ],
+                'cartItem' => [
+                    'price' => 172,
+                    'qty' => 3,
+                    'subtotal' => 516
+                ]
+            ],
             'two_options' => [
-                'configurable_options' => [
-                    [
-                        'title' => 'attribute_0',
-                        'value' => 'option_0',
+                'options' => [
+                    'configurable_options' => [
+                        [
+                            'title' => 'attribute_key_0',
+                            'value' => 'option_key_0',
+                        ]
                     ]
                 ],
-                'checkoutItemForm' => [
+                'cartItem' => [
                     'price' => 101,
                 ]
             ],
             'two_new_options' => [
-                'configurable_options' => [
-                    [
-                        'title' => 'attribute_0',
-                        'value' => 'option_1',
+                'options' => [
+                    'configurable_options' => [
+                        [
+                            'title' => 'attribute_key_0',
+                            'value' => 'option_key_1',
+                        ]
                     ]
                 ],
-                'checkoutItemForm' => [
+                'cartItem' => [
                     'price' => 102,
                 ]
             ],
             'two_new_options_with_special_price' =>[
-                'configurable_options' => [
-                    [
-                        'title' => 'attribute_0',
-                        'value' => 'option_1',
+                'options' => [
+                    'configurable_options' => [
+                        [
+                            'title' => 'attribute_key_0',
+                            'value' => 'option_key_1',
+                        ]
                     ]
                 ],
-                'checkoutItemForm' => [
+                'cartItem' => [
                     'price' => 12,
                 ]
             ],
             'two_options_with_assigned_product' => [
-                'configurable_options' => [
-                    [
-                        'title' => 'attribute_0',
-                        'value' => 'option_0',
+                'options' => [
+                    'configurable_options' => [
+                        [
+                            'title' => 'attribute_key_0',
+                            'value' => 'option_key_0',
+                        ]
                     ]
                 ],
-                'checkoutItemForm' => [
+                'cartItem' => [
                     'price' => 101,
                 ]
             ],

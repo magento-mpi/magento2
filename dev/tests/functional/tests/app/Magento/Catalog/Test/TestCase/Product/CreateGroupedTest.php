@@ -10,7 +10,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\GroupedProduct;
+use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
 
 /**
  * Class CreateGroupedTest
@@ -38,7 +38,7 @@ class CreateGroupedTest extends Functional
     public function testCreateGroupedProduct()
     {
         //Data
-        $product = Factory::getFixtureFactory()->getMagentoCatalogGroupedProduct();
+        $product = Factory::getFixtureFactory()->getMagentoGroupedProductGroupedProduct();
         $product->switchData('grouped');
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();

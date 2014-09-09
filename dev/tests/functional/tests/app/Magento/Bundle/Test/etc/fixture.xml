@@ -8,7 +8,7 @@
  */
 -->
 <fixture>
-    <catalogProductBundle module="Magento_Bundle">
+    <bundleProduct module="Magento_Bundle">
         <type>eav</type>
         <entity_type>catalog_product</entity_type>
         <product_type>bundle</product_type>
@@ -46,5 +46,5 @@
             </create_url_params>
             <input_prefix>product</input_prefix>
         </data_config>
-    </catalogProductBundle>
+    </bundleProduct>
 </fixture>

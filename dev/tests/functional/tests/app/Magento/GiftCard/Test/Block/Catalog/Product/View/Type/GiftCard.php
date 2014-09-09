@@ -8,15 +8,17 @@
 
 namespace Magento\GiftCard\Test\Block\Catalog\Product\View\Type;
 
-use Mtf\Block\Block;
+use Magento\GiftCard\Test\Fixture\GiftCardProduct;
+use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class GiftCard
  * Catalog gift card product info block
  */
-class GiftCard extends Block
+class GiftCard extends Form
 {
     /**
      * Selector for price
@@ -204,5 +206,29 @@ class GiftCard extends Block
             && $this->isSenderEmailVisible()
             && $this->isRecipientNameVisible()
             && $this->isRecipientEmailVisible();
+    }
+
+    /**
+     * Fill the GiftCard options
+     *
+     * @param FixtureInterface $product
+     * @param Element|null $element
+     * @return $this
+     */
+    public function fill(FixtureInterface $product, Element $element = null)
+    {
+        /** @var GiftCardProduct $product */
+        $giftcardAmounts = $product->getGiftcardAmounts();
+        $checkoutData = $product->getCheckoutData();
+        $checkoutGiftCardOptions = $checkoutData['options']['giftcard_options'];
+
+        // Replace option key to value
+        $amountOptionKey = str_replace('option_key_', '', $checkoutGiftCardOptions['giftcard_amount']);
+        $checkoutGiftCardOptions['giftcard_amount'] = $giftcardAmounts[$amountOptionKey]['price'];
+
+        $mapping = $this->dataMapping($checkoutGiftCardOptions);
+        $this->_fill($mapping, $element);
+
+        return $this;
     }
 }

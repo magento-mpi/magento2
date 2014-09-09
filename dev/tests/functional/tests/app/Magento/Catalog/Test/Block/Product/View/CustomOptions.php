@@ -15,7 +15,7 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Custom Options
+ * Class CustomOptions
  * Form of custom options product
  */
 class CustomOptions extends Form
@@ -114,7 +114,7 @@ class CustomOptions extends Form
     /**
      * Get product options
      *
-     * @param FixtureInterface|null $product [optional]
+     * @param FixtureInterface $product
      * @return array
      * @throws \Exception
      */
