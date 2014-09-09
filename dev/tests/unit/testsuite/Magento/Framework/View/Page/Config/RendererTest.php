@@ -12,6 +12,8 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Test for page config renderer model
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class RendererTest extends \PHPUnit_Framework_TestCase
 {

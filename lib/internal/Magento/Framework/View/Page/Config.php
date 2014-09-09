@@ -19,6 +19,7 @@ namespace Magento\Framework\View\Page;
  * - etc...
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Config
 {
