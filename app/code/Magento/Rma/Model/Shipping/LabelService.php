@@ -189,4 +189,57 @@ class LabelService
         $dir->delete($tmpFileName);
         return $page;
     }
+
+    /**
+     * @param $trackId
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function removeTrack($trackId)
+    {
+        /** @var $shippingModel \Magento\Rma\Model\Shipping */
+        $shippingModel = $this->shippingFactory->create();
+        $shippingModel->load($trackId);
+        if ($shippingModel->getId()) {
+            $shippingModel->delete();
+        } else {
+            throw new \Exception(
+                __('We cannot load track with retrieving identifier.')
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id
+     * @param string|mixed $number
+     * @param string|mixed $carrier
+     * @param string|mixed $title
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function addTrack($id, $number, $carrier, $title = '')
+    {
+        try {
+            /** @var $shippingModel \Magento\Rma\Model\Shipping */
+            $shippingModel = $this->shippingFactory->create();
+            $shippingModel->setTrackNumber(
+                $number
+            )->setCarrierCode(
+                $carrier
+            )->setCarrierTitle(
+                $title
+            )->setRmaEntityId(
+                $id
+            )->setIsAdmin(
+                \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER
+            )->save();
+        } catch (\Exception $e) {
+            throw new \Exception(__('We cannot add track.'));
+        }
+        return true;
+    }
 }
