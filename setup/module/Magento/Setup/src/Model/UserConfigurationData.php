@@ -40,7 +40,8 @@ class UserConfigurationData
      * @param array $data
      * @return void
      */
-    public function install($data) {
+    public function install($data)
+    {
         $this->installData('web/seo/use_rewrites', $data['config']['rewrites']['allowed'], 0);
         $this->installData('web/unsecure/base_url', $data['config']['address']['front'], '{{unsecure_base_url}}');
         $this->installData('web/secure/use_in_frontend', $data['config']['https']['web'], 0);
@@ -62,7 +63,8 @@ class UserConfigurationData
      * @return void
      * @throws \Exception
      */
-    public function installData($key, $value, $default) {
+    public function installData($key, $value, $default)
+    {
         $this->setup->addConfigData($key, isset($value) ? $value : $default);
     }
 
