@@ -8,7 +8,9 @@
 namespace Magento\Bundle\Service\V1\Product\Option;
 
 use Magento\Bundle\Model\Product\Type;
+use Magento\Bundle\Service\V1\Data\Product\LinkConverter;
 use Magento\Bundle\Service\V1\Data\Product\OptionConverter;
+use Magento\Bundle\Service\V1\Product\Link\ReadService as LinkReadService;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -31,18 +33,26 @@ class ReadService implements ReadServiceInterface
     private $type;
 
     /**
+     * @var LinkConverter
+     */
+    private $linkConverter;
+
+    /**
      * @param OptionConverter $optionConverter
      * @param ProductRepository $productRepository
      * @param Type $type
+     * @param LinkConverter $linkConverter
      */
     public function __construct(
         OptionConverter $optionConverter,
         ProductRepository $productRepository,
-        Type $type
+        Type $type,
+        LinkConverter $linkConverter
     ) {
         $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
         $this->type = $type;
+        $this->linkConverter = $linkConverter;
     }
 
     /**
@@ -59,7 +69,10 @@ class ReadService implements ReadServiceInterface
         if (!$option->getId()) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
-        return $this->optionConverter->createDataFromModel($option, $product);
+
+        $productLinks = $this->getProductLinks($product, $optionId);
+
+        return $this->optionConverter->createDataFromModel($option, $product, $productLinks);
     }
 
     /**
@@ -74,9 +87,37 @@ class ReadService implements ReadServiceInterface
         $optionDtoList = [];
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
-            $optionDtoList[] = $this->optionConverter->createDataFromModel($option, $product);
+            $productLinks = $this->getProductLinks($product, $option->getId());
+
+            $optionDtoList[] = $this->optionConverter->createDataFromModel($option, $product, $productLinks);
         }
         return $optionDtoList;
+    }
+
+    /**
+     * @param Product $product
+     * @param int $optionId
+     * @return array|null
+     */
+    private function getProductLinks(Product $product, $optionId)
+    {
+        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
+        $productTypeInstance = $product->getTypeInstance();
+        $productTypeInstance->setStoreFilter(
+            $product->getStoreId(),
+            $product
+        );
+        $selectionCollection = $productTypeInstance->getSelectionsCollection(
+            [ $optionId ],
+            $product
+        );
+
+        $productLinks = [];
+        /** @var \Magento\Catalog\Model\Product $selection */
+        foreach ($selectionCollection as $selection) {
+            $productLinks[] = $this->linkConverter->createDataFromModel($selection, $product);
+        }
+        return $productLinks;
     }
 
     /**
