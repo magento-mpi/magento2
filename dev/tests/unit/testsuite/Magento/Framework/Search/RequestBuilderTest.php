@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace testsuite\Magento\Framework\Search;
+namespace Magento\Framework\Search;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
