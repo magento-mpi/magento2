@@ -34,13 +34,6 @@ class SetupModule extends Setup
     protected $resource;
 
     /**
-     * Table Prefix
-     *
-     * @var string
-     */
-    protected $tablePrefix;
-
-    /**
      * Default Constructor
      *
      * @param AdapterInterface $connection
