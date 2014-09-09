@@ -230,7 +230,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
-        } catch (\Magento\Framework\Model\Exception $e) {
+        } catch (\Magento\Framework\App\InitException $e) {
             throw NoSuchEntityException::singleField('storeId', $storeId);
         }
         try {

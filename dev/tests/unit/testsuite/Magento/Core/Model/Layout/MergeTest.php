@@ -236,9 +236,8 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIXTURE_LAYOUT_XML, $this->_model->asString());
     }
 
-    public function testLoadDbAppInstalled()
+    public function testLoadDbApp()
     {
-        $this->_appState->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_resource->expects(
             $this->once()
         )->method(
@@ -256,18 +255,6 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->_model->load($handles);
         $this->assertEquals($handles, $this->_model->getHandles());
         $this->assertXmlStringEqualsXmlString(self::FIXTURE_LAYOUT_XML, $this->_model->asString());
-    }
-
-    public function testLoadDbAppNotInstalled()
-    {
-        $this->_appState->expects($this->any())->method('isInstalled')->will($this->returnValue(false));
-        $this->_resource->expects($this->never())->method('fetchUpdatesByHandle');
-        $this->assertEmpty($this->_model->getHandles());
-        $this->assertEmpty($this->_model->asString());
-        $handles = array('fixture_handle');
-        $this->_model->load($handles);
-        $this->assertEquals($handles, $this->_model->getHandles());
-        $this->assertEmpty($this->_model->asString());
     }
 
     public function testGetFileLayoutUpdatesXml()

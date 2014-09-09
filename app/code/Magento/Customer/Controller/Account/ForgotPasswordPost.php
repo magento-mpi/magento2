@@ -28,7 +28,6 @@ class ForgotPasswordPost extends \Magento\Customer\Controller\Account
      * @param UrlFactory $urlFactory
      * @param StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\State $appState
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\Escaper $escaper
      */
@@ -39,7 +38,6 @@ class ForgotPasswordPost extends \Magento\Customer\Controller\Account
         UrlFactory $urlFactory,
         StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\State $appState,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\Escaper $escaper
     ) {
@@ -51,7 +49,6 @@ class ForgotPasswordPost extends \Magento\Customer\Controller\Account
             $urlFactory,
             $storeManager,
             $scopeConfig,
-            $appState,
             $customerAccountService
         );
     }

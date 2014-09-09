@@ -147,9 +147,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
-            if (!$this->_appState->isInstalled()) {
-                throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
-            }
             $this->checkPermissions();
             $route = $this->getCurrentRoute();
             if ($route->isSecure() && !$this->_request->isSecure()) {
