@@ -5,21 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Msrp\Model;
+namespace Magento\Msrp\Model\Observer\Frontend\Quote;
 
 use Magento\Framework\Object;
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Sales\Model\Quote\Address;
 
 /**
- * Tests Magento\Msrp\Model\Observer
+ * Tests Magento\Msrp\Model\Observer\Frontend\Quote\SetCanApplyMsrp
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ObserverTest extends \PHPUnit_Framework_TestCase
+class SetCanApplyMsrpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Msrp\Model\Observer
+     * @var \Magento\Msrp\Model\Observer\Frontend\Quote\SetCanApplyMsrp
      */
     protected $observer;
 
@@ -34,7 +34,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->observer = (new ObjectManager($this))->getObject(
-            'Magento\Msrp\Model\Observer',
+            'Magento\Msrp\Model\Observer\Frontend\Quote\SetCanApplyMsrp',
             ['config' => $this->configMock]
         );
     }
@@ -82,7 +82,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())
             ->method('getAllAddresses')
             ->will($this->returnValue([$addressMock1, $addressMock2]));
-        $this->observer->setQuoteCanApplyMsrp($observerMock);
+        $this->observer->execute($observerMock);
     }
 
     public function setQuoteCanApplyMsrpDataProvider()

@@ -128,7 +128,7 @@ class CurrentUrlRewritesRegeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [$this->urlRewrite],
-            $this->currentUrlRewritesRegenerator->generate('store_id', $this->product, $this->objectRegistry)
+            $this->currentUrlRewritesRegenerator->generate($storeId, $this->product, $this->objectRegistry)
         );
     }
 
@@ -168,7 +168,7 @@ class CurrentUrlRewritesRegeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [$this->urlRewrite],
-            $this->currentUrlRewritesRegenerator->generate('store_id', $this->product, $this->objectRegistry)
+            $this->currentUrlRewritesRegenerator->generate($storeId, $this->product, $this->objectRegistry)
         );
     }
 
