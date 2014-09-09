@@ -6,24 +6,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Service\V1\Data\Product\Link;
+namespace Magento\Bundle\Service\V1\Data\Product;
 
 use Magento\Catalog\Model\Product;
 
 /**
  * @codeCoverageIgnore
  */
-class MetadataConverter
+class LinkConverter
 {
     /**
-     * @var MetadataBuilder
+     * @var LinkBuilder
      */
     private $builder;
 
     /**
-     * @param MetadataBuilder $builder
+     * @param LinkBuilder $builder
      */
-    public function __construct(MetadataBuilder $builder)
+    public function __construct(LinkBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -31,7 +31,7 @@ class MetadataConverter
     /**
      * @param Product $product
      * @param Product $bundle
-     * @return Metadata
+     * @return Link
      */
     public function createDataFromModel(Product $product, Product $bundle)
     {
