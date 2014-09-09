@@ -24,9 +24,11 @@ class CreditmemoCancelTest extends WebapiAbstract
     public function testCreditmemoCancel()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory */
-        $creditmemoFactory = $objectManager->create('Magento\Sales\Model\Order\CreditmemoFactory');
-        $creditmemo = $creditmemoFactory->create()->load(self::CREDITMEMO_INCREMENT_ID, 'increment_id');
+
+        /** @var \Magento\Sales\Model\Resource\Order\Creditmemo\Collection $creditmemoCollection */
+        $creditmemoCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Creditmemo\Collection');
+        $creditmemo = $creditmemoCollection->getFirstItem();
+
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/creditmemo/' . $creditmemo->getId(),

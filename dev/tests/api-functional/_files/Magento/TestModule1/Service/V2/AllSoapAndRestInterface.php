@@ -30,10 +30,10 @@ interface AllSoapAndRestInterface
     /**
      * Update item.
      *
-     * @param \Magento\TestModule1\Service\V2\Entity\Item $item
+     * @param \Magento\TestModule1\Service\V2\Entity\Item $entityItem
      * @return \Magento\TestModule1\Service\V2\Entity\Item
      */
-    public function update(Item $item);
+    public function update(Item $entityItem);
 
     /**
      * Retrieve a list of items.

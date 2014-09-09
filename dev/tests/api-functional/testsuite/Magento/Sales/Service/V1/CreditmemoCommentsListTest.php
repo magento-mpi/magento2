@@ -24,8 +24,9 @@ class CreditmemoCommentsListTest extends WebapiAbstract
         $comment = 'Test comment';
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Sales\Model\Order\Creditmemo $creditmemo */
-        $creditmemo = $objectManager->get('Magento\Sales\Model\Order\Creditmemo')->load('100000001', 'increment_id');
+        /** @var \Magento\Sales\Model\Resource\Order\Creditmemo\Collection $creditmemoCollection */
+        $creditmemoCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Creditmemo\Collection');
+        $creditmemo = $creditmemoCollection->getFirstItem();
         $creditmemo->addComment($comment);
         $creditmemo->save();
 
