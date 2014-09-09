@@ -135,7 +135,7 @@ class ApplyMapTest extends Functional
     {
         //Pages
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         //Steps
         $mapBlock = $productPage->getMapBlock();
         $mapBlock->addToCartFromMap();

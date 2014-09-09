@@ -11,7 +11,7 @@ namespace Magento\VersionsCms\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 
 /**
@@ -61,7 +61,7 @@ class AssertCmsPageRevisionInGrid extends AbstractConstraint
             . 'revision_number_from \'' . $filter['revision_number_from'] . '\', '
             . 'revision_number_to \'' . $filter['revision_number_to'] . '\', '
             . 'author \'' . $filter['author'] . '\', '
-            . 'is present in CMS Page Revisions grid.'
+            . 'is not present in CMS Page Revisions grid.'
         );
     }
 

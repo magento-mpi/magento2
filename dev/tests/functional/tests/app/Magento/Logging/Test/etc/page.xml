@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Logging">
+    <logging>
+        <mca>admin/logging</mca>
+        <area>adminhtml</area>
+        <class>Magento\Logging\Test\Page\Adminhtml\Logging</class>
+    </logging>
+    <details>
+        <mca>admin/logging/details</mca>
+        <area>adminhtml</area>
+        <class>Magento\Logging\Test\Page\Adminhtml\Details</class>
+    </details>
+</page>

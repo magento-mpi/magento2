@@ -8,22 +8,21 @@
  */
 -->
 <page mca="customer/account/index">
-    <block>
-        <name>accountMenuBlock</name>
-        <class>Magento\Customer\Test\Block\Account\Links</class>
-        <locator>.nav.items</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>redeemBlock</name>
-        <class>Magento\GiftCardAccount\Test\Block\Account\Redeem</class>
-        <locator>#giftcard-form</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>storeCreditBlock</name>
-        <class>Magento\CustomerBalance\Test\Block\Account\History</class>
-        <locator>#maincontent</locator>
-        <strategy>css selector</strategy>
-    </block>
+    <blocks>
+        <accountMenuBlock>
+            <class>Magento\Customer\Test\Block\Account\Links</class>
+            <locator>.nav.items</locator>
+            <strategy>css selector</strategy>
+        </accountMenuBlock>
+        <redeemBlock>
+            <class>Magento\GiftCardAccount\Test\Block\Account\Redeem</class>
+            <locator>#giftcard-form</locator>
+            <strategy>css selector</strategy>
+        </redeemBlock>
+        <storeCreditBlock>
+            <class>Magento\CustomerBalance\Test\Block\Account\History</class>
+            <locator>#maincontent</locator>
+            <strategy>css selector</strategy>
+        </storeCreditBlock>
+    </blocks>
 </page>

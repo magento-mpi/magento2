@@ -61,7 +61,7 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
             return false;
         }
 
-        if (!$this->getItem()->getWeeeTaxAppliedAmount()) {
+        if (!$this->getItem()->getWeeeTaxAppliedAmount() || $this->getItem()->getWeeeTaxAppliedAmount() <= 0) {
             return false;
         }
 
