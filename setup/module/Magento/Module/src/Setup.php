@@ -151,65 +151,6 @@ class Setup implements SetupInterface
     }
 
     /**
-     * Get data files for modifications
-     *
-     * @param string $actionType
-     * @param string $fromVersion
-     * @param string $toVersion
-     * @param array $arrFiles
-     * @return array
-     */
-    protected function getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrFiles)
-    {
-        $arrRes = [];
-        switch ($actionType) {
-            case self::TYPE_DB_INSTALL:
-            case self::TYPE_DATA_INSTALL:
-                uksort($arrFiles, 'version_compare');
-                foreach ($arrFiles as $version => $file) {
-                    if (version_compare($version, $toVersion) !== self::VERSION_COMPARE_GREATER) {
-                        $arrRes[0] = [
-                            'toVersion' => $version,
-                            'fileName'  => $file
-                        ];
-                    }
-                }
-                break;
-
-            case self::TYPE_DB_UPGRADE:
-            case self::TYPE_DATA_UPGRADE:
-                uksort($arrFiles, 'version_compare');
-                foreach ($arrFiles as $version => $file) {
-                    $versionInfo = explode('-', $version);
-
-                    // In array must be 2 elements: 0 => version from, 1 => version to
-                    if (count($versionInfo) !== 2) {
-                        break;
-                    }
-                    $infoFrom = $versionInfo[0];
-                    $infoTo   = $versionInfo[1];
-                    if (version_compare($infoFrom, $fromVersion, '>=')
-                        && version_compare($infoTo, $fromVersion, '>')
-                        && version_compare($infoTo, $toVersion, '<=')
-                        && version_compare($infoFrom, $toVersion, '<')
-                    ) {
-                        $arrRes[] = [
-                            'toVersion' => $infoTo,
-                            'fileName'  => $file
-                        ];
-                    }
-                }
-                break;
-
-            case self::TYPE_DB_ROLLBACK:
-            case self::TYPE_DB_UNINSTALL:
-            default:
-                break;
-        }
-        return $arrRes;
-    }
-
-    /**
      * Apply data updates to the system after upgrading.
      *
      * @return $this
@@ -440,5 +381,18 @@ class Setup implements SetupInterface
         $this->addConfigData('currency/options/base', $data['store']['currency'], 'USD');
         $this->addConfigData('currency/options/default', $data['store']['currency'], 'USD');
         $this->addConfigData('currency/options/allow', $data['store']['currency'], 'USD');
+    }
+
+
+    /**
+     * Set table prefix
+     *
+     * @param string $tablePrefix
+     * @return void
+     */
+    public function setTablePrefix($tablePrefix)
+    {
+        $this->tablePrefix = $tablePrefix;
+        $this->resource->setTablePrefix($this->tablePrefix);
     }
 }
