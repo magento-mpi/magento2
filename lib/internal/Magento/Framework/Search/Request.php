@@ -103,7 +103,7 @@ class Request implements RequestInterface
      */
     public function getDimensions()
     {
-        $this->dimensions;
+        return $this->dimensions;
     }
 
     /**
