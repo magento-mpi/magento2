@@ -42,7 +42,7 @@ class ProductMapper
         $customAttributesToSkip = array()
     ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
-        $productModel = $productModel ?: $this->productFactory->create();
+        $productModel = $productModel ? : $this->productFactory->create();
         $productModel->addData(ExtensibleDataObjectConverter::toFlatArray($product, $customAttributesToSkip));
         if (!is_numeric($productModel->getAttributeSetId())) {
             $productModel->setAttributeSetId($productModel->getDefaultAttributeSetId());
