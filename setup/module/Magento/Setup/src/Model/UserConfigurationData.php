@@ -68,5 +68,4 @@ class UserConfigurationData
         $this->setup->addConfigData($key, isset($value) ? $value : $default);
     }
 
-
 }

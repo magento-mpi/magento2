@@ -125,6 +125,7 @@ class AbstractInstallActionController extends AbstractActionController
      */
     protected function installUserConfigurationData($data)
     {
+        $this->logger->log("Starting: User Configuration.");
         //Loading Configurations
         $this->config->setConfigData($this->config->convertFromDataObject($data));
         $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
@@ -147,8 +148,8 @@ class AbstractInstallActionController extends AbstractActionController
      */
     protected function installSchemaUpdates()
     {
+        $this->logger->log("Starting: Schema Updates.");
         $this->setupFactory->setConfig($this->config->getConfigData());
-
         //List of All Module Names
         $moduleNames = array_keys($this->moduleList->getModules());
 
@@ -158,7 +159,8 @@ class AbstractInstallActionController extends AbstractActionController
             $setup->applyUpdates();
             $this->logger->logSuccess($moduleName);
         }
-        $this->logger->log("Installing recurring post-schema updates for all modules.");
+        $this->logger->log("Completed: Schema Updates.");
+        $this->logger->log("Starting: Post-Schema Updates.");
 
         // Do post-schema updates for each module
         foreach ($moduleNames as $moduleName) {
@@ -166,7 +168,6 @@ class AbstractInstallActionController extends AbstractActionController
             $setup->applyRecurringUpdates();
         }
         $this->logger->log("Completed: Post-Schema Updates.");
-
     }
 
     /**
@@ -177,6 +178,7 @@ class AbstractInstallActionController extends AbstractActionController
      */
     protected function installDataUpdates()
     {
+        $this->logger->log("Starting: DB Data Updates");
         $exitCode = null;
         $output = null;
         $phpPath = $this->phpExecutableFinder->find();
@@ -188,26 +190,11 @@ class AbstractInstallActionController extends AbstractActionController
         );
         if ($exitCode !== 0) {
             $outputMsg = implode(PHP_EOL, $output);
-            throw new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
+            throw new \Exception('DB Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
         } else {
-            $this->logger->log("Completed: Data Updates");
+            $this->logger->log("Completed: DB Data Updates");
         }
         return $exitCode;
-    }
-
-    /**
-     * Updates Magento Directory
-     *
-     * @param string $magentoDir
-     * @return void
-     */
-    protected function updateMagentoDirectory($magentoDir)
-    {
-        if ($magentoDir) {
-            $this->systemConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
-        } else {
-            $this->systemConfig->setMagentoBasePath();
-        }
     }
 
     /**
@@ -264,4 +251,4 @@ class AbstractInstallActionController extends AbstractActionController
         );
         return $data;
     }
-} 
+}

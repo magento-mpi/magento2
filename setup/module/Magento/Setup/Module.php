@@ -94,15 +94,7 @@ class Module implements
     }
 
     /**
-     * Returns a string containing a banner text, that describes the module and/or the application.
-     * The banner is shown in the console window, when the user supplies invalid command-line parameters or invokes
-     * the application with no parameters.
-     *
-     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly access
-     * Console and send output.
-     *
-     * @param AdapterInterface $console
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getConsoleBanner(AdapterInterface $console)
     {
@@ -115,25 +107,7 @@ class Module implements
 
 
     /**
-     * Returns an array or a string containing usage information for this module's Console commands.
-     * The method is called with active Zend\Console\Adapter\AdapterInterface that can be used to directly access
-     * Console and send output.
-     *
-     * If the result is a string it will be shown directly in the console window.
-     * If the result is an array, its contents will be formatted to console window width. The array must
-     * have the following format:
-     *
-     *     return array(
-     *                'Usage information line that should be shown as-is',
-     *                'Another line of usage info',
-     *
-     *                '--parameter'        =>   'A short description of that parameter',
-     *                '-another-parameter' =>   'A short description of another parameter',
-     *                ...
-     *            )
-     *
-     * @param AdapterInterface $console
-     * @return array|string|null
+     * {@inheritdoc}
      */
     public function getConsoleUsage(AdapterInterface $console)
     {
@@ -143,14 +117,14 @@ class Module implements
             'show currencies' => 'Show all acceptable currencies',
             'show timezones' => 'Show all timezones',
             'show options' => 'Show all install options',
-            'Command Line Options',
+            'Installation Commands',
             'install configuration [--<install_option_name> "<option_value>" ...]'
-            => 'Installing deployment configuration file',
-            [   'license_agreement_accepted' , 'yes' ],
-            [   'db_host' , 'localhost'],
-            [   'db_name' , 'magento'],
-            [   'db_user' , 'root'],
-            [   'admin_url' , 'admin'],
+                => 'Installing deployment configuration file',
+            ['license_agreement_accepted', 'yes'],
+            ['db_host', 'localhost'],
+            ['db_name', 'magento'],
+            ['db_user', 'root'],
+            ['admin_url', 'admin'],
             'Sample Deployment Configuration tool command: ',
             'php -f index.php install configuration --license_agreement_accepted yes --db_host localhost'
             . ' --db_name magentosetup --db_user root --admin_url "admin"',

@@ -45,13 +45,13 @@ class ConsoleController extends AbstractInstallActionController
      *
      * @var Lists
      */
-    protected $list;
+    protected $options;
 
     /**
      * Default Constructor
      *
      * @param FilePermissions $filePermission
-     * @param Lists $list
+     * @param Lists $options
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
@@ -63,7 +63,7 @@ class ConsoleController extends AbstractInstallActionController
      */
     public function __construct(
         FilePermissions $filePermission,
-        Lists $list,
+        Lists $options,
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
         AdminAccountFactory $adminAccountFactory,
@@ -83,8 +83,7 @@ class ConsoleController extends AbstractInstallActionController
             $phpExecutableFinder
         );
         $this->filePermission = $filePermission;
-        $this->list = $list;
-        $this->phpExecutableFinder = $phpExecutableFinder;
+        $this->options = $options;
     }
 
     /**
@@ -98,7 +97,7 @@ class ConsoleController extends AbstractInstallActionController
         parent::setEventManager($events);
         $controller = $this;
         $events->attach('dispatch', function ($action) use ($controller) {
-            /** @var $e \Zend\Mvc\Controller\AbstractActionController */
+            /** @var $action \Zend\Mvc\Controller\AbstractActionController */
             // Make sure that we are running in a console and the user has not tricked our
             // application into running this action from a public web server.
             if (!$action->getRequest() instanceof ConsoleRequest) {
@@ -131,8 +130,6 @@ class ConsoleController extends AbstractInstallActionController
      */
     public function installDeploymentConfigAction()
     {
-        $this->logger->log("Starting to install Deployment Configuration Data.");
-
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
 
@@ -144,7 +141,7 @@ class ConsoleController extends AbstractInstallActionController
 
         //Setting the basePath of Magento application
         $magentoDir = $request->getParam('magentoDir');
-        $this->updateMagentoDirectory($magentoDir);
+        $this->setMagentoBasePath($magentoDir);
 
         //Check File permission
         $results = $this->filePermission->checkPermission();
@@ -189,8 +186,6 @@ class ConsoleController extends AbstractInstallActionController
         );
 
         $this->installDeploymentConfiguration($data);
-
-        $this->logger->log("Completed: Deployment Configuration.");
     }
 
     /**
@@ -201,15 +196,12 @@ class ConsoleController extends AbstractInstallActionController
      */
     public function installSchemaAction()
     {
-        $this->logger->log("Starting to install Schema");
-
         //Setting the basePath of Magento application
         $magentoDir = $this->getRequest()->getParam('magentoDir');
-        $this->updateMagentoDirectory($magentoDir);
+        $this->setMagentoBasePath($magentoDir);
 
         $this->config->setConfigData($this->config->getConfigurationFromDeploymentFile());
         $this->installSchemaUpdates();
-        $this->logger->log("Completed: Schema Installation");
     }
 
     /**
@@ -220,16 +212,14 @@ class ConsoleController extends AbstractInstallActionController
      */
     public function installDataAction()
     {
-        $this->logger->log("Starting to install Data Updates");
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
 
         //Setting the basePath of Magento application
         $magentoDir = $request->getParam('magentoDir');
-        $this->updateMagentoDirectory($magentoDir);
+        $this->setMagentoBasePath($magentoDir);
 
         $this->installDataUpdates();
-        $this->logger->log("Completed: Data Installation.");
     }
 
 
@@ -243,13 +233,13 @@ class ConsoleController extends AbstractInstallActionController
     {
         switch($this->getRequest()->getParam('type')){
             case 'locales':
-                return  $this->arrayToString($this->list->getLocaleList());
+                return  $this->arrayToString($this->options->getLocaleList());
                 break;
             case 'currencies':
-                return  $this->arrayToString($this->list->getCurrencyList());
+                return  $this->arrayToString($this->options->getCurrencyList());
                 break;
             case 'timezones':
-                return  $this->arrayToString($this->list->getTimezoneList());
+                return  $this->arrayToString($this->options->getTimezoneList());
                 break;
             case 'options':
             default:
@@ -304,6 +294,21 @@ class ConsoleController extends AbstractInstallActionController
         . 'secure_store_url => Full secure URL for store. For example "https://myinstance.com"' ."\n"
         . 'secure_admin_url => Full secure URL for admin . For example "https://myinstance.com/admin"' ."\n"
         . 'encryption_key => Key to encrypt sensitive data. Auto-generated if not provided' ."\n";
+    }
+
+    /**
+     * Updates Magento Directory
+     *
+     * @param string $magentoDir
+     * @return void
+     */
+    protected function setMagentoBasePath($magentoDir)
+    {
+        if ($magentoDir) {
+            $this->systemConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
+        } else {
+            $this->systemConfig->setMagentoBasePath();
+        }
     }
 
 }

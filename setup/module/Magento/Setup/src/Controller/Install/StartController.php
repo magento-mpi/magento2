@@ -83,10 +83,11 @@ class StartController extends AbstractInstallActionController
 
         //Installs Deployment Configuration
         $key = $this->installDeploymentConfiguration($data);
+        $this->logger->logSuccess('Deployment Configuration');
 
         //Installs Schema
         $this->installSchemaUpdates();
-        $this->logger->logSuccess('Artifact');
+        $this->logger->logSuccess('Schema Updates');
 
         // Installs User Configuration Data
         $this->installUserConfigurationData($data);
@@ -95,14 +96,11 @@ class StartController extends AbstractInstallActionController
         try {
             //Installs Data
             $this->installDataUpdates();
-            $exitCode = $this->installDataUpdates();
-            if ($exitCode !== 0) {
-                $this->json->setVariable('success', false);
-            } else {
-                $this->json->setVariable('success', true);
-            }
+            $this->logger->logSuccess('Data Updates');
+            $this->json->setVariable('success', true);
         } catch(\Exception $ex) {
             $this->logger->logError($ex);
+            $this->json->setVariable('success', false);
         }
         
         $this->json->setVariable('key', $key);
