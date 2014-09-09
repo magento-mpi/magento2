@@ -41,7 +41,6 @@ class UserConfigurationData
      * @return void
      */
     public function install($data) {
-        $this->initSetup($data);
         $this->installData('web/seo/use_rewrites', $data['config']['rewrites']['allowed'], 0);
         $this->installData('web/unsecure/base_url', $data['config']['address']['front'], '{{unsecure_base_url}}');
         $this->installData('web/secure/use_in_frontend', $data['config']['https']['web'], 0);
