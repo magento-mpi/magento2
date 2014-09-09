@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Ui\UiInterface;
+use Magento\Ui\ViewInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;
 
@@ -37,20 +37,27 @@ class Html implements ContentTypeInterface
     }
 
     /**
-     * @param UiInterface $ui
-     * @param array $data
-     * @param array $configuration
+     * @param ViewInterface $view
+     * @param string $template
      * @return string
      */
-    public function render(UiInterface $ui, array $data, array $configuration)
+    public function render(ViewInterface $view, $template = '')
     {
-        $result = '';
-        if (isset($configuration['template'])) {
-            $extension = pathinfo($configuration['template'], PATHINFO_EXTENSION);
+        $templateEngine = false;
+        if ($template) {
+            $extension = pathinfo($template, PATHINFO_EXTENSION);
             $templateEngine = $this->templateEnginePool->get($extension);
-            $path = $this->filesystem->getTemplateFileName($configuration['template']);
-            $result = $templateEngine->render($ui, $path, $data);
         }
+
+        if ($templateEngine) {
+            $extension = pathinfo($template, PATHINFO_EXTENSION);
+            $templateEngine = $this->templateEnginePool->get($extension);
+            $path = $this->filesystem->getTemplateFileName($template);
+            $result = $templateEngine->render($view, $path);
+        } else {
+            $result = '';
+        }
+
         return $result;
     }
 }

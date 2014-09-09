@@ -21,7 +21,6 @@ define([
 
             config = _.extend({
                 onRead: this.onRead.bind(this),
-                namespace: this.config.namespace,
             }, this.config.client);
 
             this.client = new Rest(config);
@@ -39,8 +38,8 @@ define([
 
             params = _.extend({}, this.params, options);
 
-            if (this.beforeLoad) {
-                this.beforeLoad();
+            if (this.config.beforeLoad) {
+                this.config.beforeLoad();
             }
 
             this.client.read(params);
@@ -48,13 +47,13 @@ define([
             return this;
         },
 
-        set: function(key, value){
+        set: function(key, value) {
             this._bulk[key] = value;
 
             this.trigger('set:' + key, value);
         },
 
-        get: function(key){
+        get: function(key) {
             return this._bulk[key];
         },
 
@@ -62,8 +61,16 @@ define([
             return this.data;
         },
 
-        setData: function(result) {
-            _.extend(this.data, result);
+        setData: function(data) {
+            _.extend(this.data, data);
+
+            return this;
+        },
+
+        setResult: function(result) {
+            if (result.data) {
+                this.setData(result.data);
+            }
 
             return this;
         },
@@ -83,7 +90,7 @@ define([
         },
 
         onRead: function(result) {
-            this.setData(result)
+            this.setResult(result)
                 .trigger('load', result);
         }
     }, EventsBus);
