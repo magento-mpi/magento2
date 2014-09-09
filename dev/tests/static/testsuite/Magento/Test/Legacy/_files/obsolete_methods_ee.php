@@ -254,4 +254,5 @@ return array(
     ['runFulltextReindexAfterPriceReindex', 'Magento\Search\Model\Observer'],
     ['getDateModel', '\Magento\ScheduledImportExport\Model\Export'],
     ['getDateModel', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'],
+    ['modifyExpiredQuotesCleanup', 'Magento\PersistentHistory\Model\Observer'],
 );
