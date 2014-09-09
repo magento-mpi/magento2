@@ -42,27 +42,17 @@ class SetupFactory
     protected $configuration = [];
 
     /**
-     * Logger
-     *
-     * @var WebLogger
-     */
-    protected $logger;
-
-    /**
      * Default Constructor
      *
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
      * @param Setup\FileResolver $setupFileResolver
-     * @param WebLogger $logger
      */
     public function __construct(
         AdapterInterface $connection,
         ModuleListInterface $moduleList,
-        Setup\FileResolver $setupFileResolver,
-        WebLogger $logger
+        Setup\FileResolver $setupFileResolver
     ) {
-        $this->logger = $logger;
         $this->adapter = $connection;
         $this->moduleList = $moduleList;
         $this->fileResolver = $setupFileResolver;
