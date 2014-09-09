@@ -38,7 +38,7 @@ class AssertCustomerCustomAttributeNotInGrid extends AbstractConstraint
     ) {
         $data = $customerAttribute->getData();
         $filter = ['attribute_code' => $data['attribute_code']];
-
+        $customerAttributeIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(
             $customerAttributeIndex->getCustomerCustomAttributesGrid()->isRowVisible($filter, true, false),
             "Customer Attribute with code '" . $filter['attribute_code'] . "' is present in Customer Attributes grid."
