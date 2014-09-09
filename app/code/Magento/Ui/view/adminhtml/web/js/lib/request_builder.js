@@ -1,16 +1,21 @@
-<!--
 /**
  * {license_notice}
  *
- * @category    storage
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
--->
+/**
+ * @returns {Function} Request builder function.
+ */
 define([], function() {
     'use strict';
 
+    /**
+     * @param {String} - name of params set
+     * @param {Object} - params to convert
+     * @returns {String} - concatenated name/params pairs by custom logic and separator
+     * @private
+     */
     function parseObject(name, value) {
         var key,
             result = [];
@@ -22,6 +27,12 @@ define([], function() {
         return result.join('&');
     }
 
+    /**
+     * @param {String} - name of property
+     * @param {String} - corresponding value
+     * @returns {String} - concatenated params by separator "="
+     * @private
+     */
     function parseValue(name, value) {
         return name + '=' + value;
     }
@@ -29,7 +40,7 @@ define([], function() {
     /**
      * Extracts sorting parameters from object and returns string representation of it.
      * @param {Object} param - Sorting parameters object, e.g. { field: 'field_to_sort', dir: 'asc' }.
-     * @returns {String} Formatted string of type .
+     * @returns {String} - Chunk of url string that represents sorting params
      * @private
      */
     function extractSortParams(params) {
@@ -49,8 +60,8 @@ define([], function() {
 
     /**
      * Extracts pager parameters from an object and returns it's string representation.
-     * @param {Object} param - .
-     * @returns {String} Formatted string of type .
+     * @param {Object} params which contains "paging" params object.
+     * @returns {String} - Chunk of url string that represents pager params
      * @private
      */
     function extractPagerParams(params) {
@@ -68,6 +79,12 @@ define([], function() {
         return result;
     }
 
+    /**
+     * Formats filter data according to the type of it's value.
+     * @param {Object} filter - filter object to format.
+     * @returns {String} - Chunk of url string that represents filter's params
+     * @private
+     */
     function formatFilter(filter) {
         var name = filter.field,
             value = filter.value;
@@ -77,6 +94,12 @@ define([], function() {
             parseObject(name, value);
     }
 
+    /**
+     * Formats and assembles filter data.
+     * @param {Object} params - object containing "filter" array.
+     * @returns {String} - Chunk of url string that represents filters
+     * @private
+     */
     function extractFilterParams(params) {
         var filters,
             result;
