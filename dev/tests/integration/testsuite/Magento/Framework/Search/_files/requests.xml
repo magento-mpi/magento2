@@ -17,8 +17,8 @@
                 <queryReference clause="must" ref="fulltext_search_query" />
             </query>
 
-            <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
-                <match field="data_index" value="%request.title%" boost="2" />
+            <query xsi:type="matchQuery" name="fulltext_search_query" value="good" boost="5">
+                <match field="data_index" boost="2" />
             </query>
         </queries>
         <from>10</from>
@@ -35,7 +35,7 @@
             </query>
 
             <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
-                <match field="data_index" value="%request.title%" boost="2" />
+                <match field="data_index" boost="2" />
             </query>
 
             <query xsi:type="filteredQuery" name="fulltext_search_query2">
@@ -47,8 +47,8 @@
                 <filterReference clause="should" ref="pidm" />
                 <filterReference clause="should" ref="pidsh" />
             </filter>
-            <filter name="pidm" xsi:type="rangeFilter" field="product_id" from="%pidm_from%" to="%pidm_to%" />
-            <filter name="pidsh" xsi:type="termFilter" field="product_id" value="%pidsh%" />
+            <filter name="pidm" xsi:type="rangeFilter" field="product_id" />
+            <filter name="pidsh" xsi:type="termFilter" field="product_id" />
         </filters>
         <from>10</from>
         <size>10</size>
@@ -65,9 +65,7 @@
         <filters>
             <filter name="range_filter"
                     xsi:type="rangeFilter"
-                    field="product_id"
-                    from="%request.product_id.from%"
-                    to="%request.product_id.to%" />
+                    field="product_id" />
         </filters>
         <from>10</from>
         <size>10</size>
@@ -84,8 +82,7 @@
         <filters>
             <filter name="range_filter_without_from_field"
                     xsi:type="rangeFilter"
-                    field="product_id"
-                    to="%request.product_id.to%" />
+                    field="product_id" />
         </filters>
         <from>10</from>
         <size>10</size>
@@ -102,8 +99,7 @@
         <filters>
             <filter name="range_filter_without_to_field"
                     xsi:type="rangeFilter"
-                    field="product_id"
-                    from="%request.product_id.from%" />
+                    field="product_id" />
         </filters>
         <from>10</from>
         <size>10</size>
@@ -142,33 +138,25 @@
             </filter>
             <filter name="must_range_filter1"
                     xsi:type="rangeFilter"
-                    field="product_id"
-                    from="%request.must.range_filter1.from%"
-                    to="%request.must.range_filter1.to%" />
+                    field="product_id" />
             <filter name="should_term_filter1"
                     xsi:type="termFilter"
-                    field="product_id"
-                    value="%request.should.term_filter1%" />
+                    field="product_id" />
             <filter name="should_term_filter2"
                     xsi:type="termFilter"
-                    field="product_id"
-                    value="%request.should.term_filter2%" />
+                    field="product_id" />
             <filter name="should_term_filter3"
                     xsi:type="termFilter"
-                    field="product_id"
-                    value="%request.should.term_filter3%" />
+                    field="product_id" />
             <filter name="should_term_filter4"
                     xsi:type="termFilter"
-                    field="product_id"
-                    value="%request.should.term_filter4%" />
+                    field="product_id" />
             <filter name="not_term_filter1"
                     xsi:type="termFilter"
-                    field="product_id"
-                    value="%request.not.term_filter1%" />
+                    field="product_id" />
             <filter name="not_term_filter2"
                     xsi:type="termFilter"
-                    field="product_id"
-                    value="%request.not.term_filter2%" />
+                    field="product_id" />
         </filters>
         <from>10</from>
         <size>10</size>
@@ -184,10 +172,10 @@
                 <queryReference clause="should" ref="query_filter" />
             </query>
             <query xsi:type="matchQuery" name="name_query">
-                <match field="data_index" value="%request.name%" boost="1" />
+                <match field="data_index" boost="1" />
             </query>
             <query xsi:type="matchQuery" name="description_query">
-                <match field="data_index" value="%request.description%" boost="1" />
+                <match field="data_index" boost="1" />
             </query>
             <query xsi:type="filteredQuery" name="query_filter">
                 <filterReference ref="filter" />
@@ -198,7 +186,7 @@
                 <filterReference clause="must" ref="store_filter" />
                 <filterReference clause="must" ref="product_id_filter" />
             </filter>
-            <filter name="store_filter" xsi:type="termFilter" field="store_id" value="%request.store_id%" />
+            <filter name="store_filter" xsi:type="termFilter" field="store_id" />
             <filter name="product_id_filter" xsi:type="rangeFilter" field="product_id" from="%request.from_product_id%" to="%request.to_product_id%" />
         </filters>
         <from>10</from>
