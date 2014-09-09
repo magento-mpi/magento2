@@ -45,7 +45,6 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('init.host')
         );
-        $this->appState = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
     }
 
     public function testSetCookiePathNonDefault()
@@ -63,7 +62,6 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\Backend\AdminConfig',
             [
                 'request' => $this->requestMock,
-                'appState' => $this->appState,
                 'frontNameResolver' => $mockFrontNameResolver,
             ]
         );
