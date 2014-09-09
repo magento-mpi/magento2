@@ -32,6 +32,7 @@ class Observer
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\DesignEditor\Helper\Data $helper
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
