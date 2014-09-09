@@ -11,10 +11,10 @@ namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option;
 use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option;
 
 /**
- * Class DropDown
+ * Class Dropdown
  * Bundle option drop-down type
  */
-class DropDown extends Option
+class Dropdown extends Option
 {
     // Parent behavior
 }
