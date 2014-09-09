@@ -10,6 +10,7 @@ namespace Magento\Module\Setup;
 
 use Magento\Filesystem\Directory\Write;
 use Magento\Filesystem\Filesystem;
+use Magento\Framework\Math\Random;
 
 /**
  * Config installer
@@ -47,15 +48,24 @@ class Config
     protected $configDirectory;
 
     /**
+     * Random Generator
+     *
+     * @var Random
+     */
+    protected $random;
+
+    /**
      * Default Constructor
      *
      * @param Filesystem $filesystem
      */
     public function __construct(
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        Random $random
     ) {
         $this->filesystem = $filesystem;
         $this->configDirectory = $filesystem->getDirectoryWrite('etc');
+        $this->random = $random;
     }
 
     /**
@@ -97,12 +107,12 @@ class Config
     /**
      * Generate installation data and record them into local.xml using local.xml.template
      *
-     * @return void
+     * @return string Installation Key
      */
     public function install()
     {
-        $this->configData['date'] = self::TMP_INSTALL_DATE_VALUE;
-        $this->configData['key'] = self::TMP_ENCRYPT_KEY_VALUE;
+        //Enforcing the install date to be current. Cannot be modified by configuration parameters.
+        $this->configData['date'] = date('r');
 
         $this->checkData();
         $contents = $this->configDirectory->readFile('local.xml.template');
@@ -112,6 +122,7 @@ class Config
 
         $this->configDirectory->writeFile($this->localConfigFile, $contents, LOCK_EX);
         $this->configDirectory->changePermissions($this->localConfigFile, 0777);
+        return $this->configData['key'];
     }
 
     /**
@@ -174,36 +185,6 @@ class Config
     }
 
     /**
-     * Replace Install Date
-     *
-     * @param string $date
-     * @return $this
-     */
-    public function replaceTmpInstallDate($date = 'now')
-    {
-        $stamp = strtotime((string)$date);
-        $localXml = $this->configDirectory->readFile($this->localConfigFile);
-        $localXml = str_replace(self::TMP_INSTALL_DATE_VALUE, date('r', $stamp), $localXml);
-        $this->configDirectory->writeFile($this->localConfigFile, $localXml, LOCK_EX);
-
-        return $this;
-    }
-
-    /**
-     * Replace Encryption Key
-     *
-     * @param string $key
-     * @return $this
-     */
-    public function replaceTmpEncryptKey($key)
-    {
-        $localXml = $this->configDirectory->readFile($this->localConfigFile);
-        $localXml = str_replace(self::TMP_ENCRYPT_KEY_VALUE, $key, $localXml);
-        $this->configDirectory->writeFile($this->localConfigFile, $localXml, LOCK_EX);
-        return $this;
-    }
-
-    /**
      * Transforms Configuration Data to Deployment Configuration
      *
      * @param array $source
@@ -227,6 +208,8 @@ class Config
         $result['admin_username'] = isset($source['admin']['username']) ? $source['admin']['username'] : '';
         $result['admin_password'] = isset($source['admin']['password']) ? $source['admin']['password'] : '';
         $result['admin_email'] = isset($source['admin']['email']) ? $source['admin']['email'] : '';
+        $result['key'] = isset($source['config']['encrypt']['key']) ? $source['config']['encrypt']['key']
+            : md5($this->random->getRandomString(10));
         return $result;
     }
 

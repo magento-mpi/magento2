@@ -11,7 +11,6 @@ namespace Magento\Setup\Controller;
 use Magento\Config\ConfigFactory;
 use Magento\Module\ModuleListInterface;
 use Magento\Framework\DB\Adapter\Pdo\Mysql;
-use Magento\Framework\Math\Random;
 use Magento\Module\SetupFactory;
 use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;
@@ -56,7 +55,6 @@ class ConsoleController extends AbstractInstallActionController
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
-     * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfig
      * @param UserConfigurationDataFactory $userConfigurationDataFactory
@@ -69,15 +67,21 @@ class ConsoleController extends AbstractInstallActionController
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
         AdminAccountFactory $adminAccountFactory,
-        Random $random,
         Config $config,
         ConfigFactory $systemConfig,
         UserConfigurationDataFactory $userConfigurationDataFactory,
         ConsoleLogger $consoleLogger,
         PhpExecutableFinder $phpExecutableFinder
     ) {
-        parent::__construct($moduleList, $setupFactory, $adminAccountFactory, $random,
-            $config, $systemConfig, $userConfigurationDataFactory, $consoleLogger, $phpExecutableFinder);
+        parent::__construct($moduleList,
+            $setupFactory,
+            $adminAccountFactory,
+            $config,
+            $systemConfig,
+            $userConfigurationDataFactory,
+            $consoleLogger,
+            $phpExecutableFinder
+        );
         $this->filePermission = $filePermission;
         $this->list = $list;
         $this->phpExecutableFinder = $phpExecutableFinder;
@@ -159,7 +163,7 @@ class ConsoleController extends AbstractInstallActionController
         $dbPass   = $request->getParam('db_pass', '');
         $dbPrefix = $request->getParam('db_table_prefix', '');
         $adminUrl = $request->getParam('admin_url');
-        $encryptionKey = $request->getParam('encryption_key', $this->getRandomEncryptionKey());
+        $encryptionKey = $request->getParam('encryption_key', null);
 
         //Checks Database Connectivity
         Helper::checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass);

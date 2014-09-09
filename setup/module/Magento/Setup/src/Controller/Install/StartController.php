@@ -7,7 +7,6 @@
  */
 namespace Magento\Setup\Controller\Install;
 
-use Magento\Framework\Math\Random;
 use Magento\Module\ModuleListInterface;
 use Magento\Module\Setup\Config;
 use Magento\Module\SetupFactory;
@@ -40,7 +39,6 @@ class StartController extends AbstractInstallActionController
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
-     * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfig
      * @param UserConfigurationDataFactory $userConfigurationDataFactory
@@ -52,7 +50,6 @@ class StartController extends AbstractInstallActionController
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
         AdminAccountFactory $adminAccountFactory,
-        Random $random,
         Config $config,
         ConfigFactory $systemConfig,
         UserConfigurationDataFactory $userConfigurationDataFactory,
@@ -60,8 +57,16 @@ class StartController extends AbstractInstallActionController
         WebLogger $logger,
         PhpExecutableFinder $phpExecutableFinder
     ) {
-        parent::__construct($moduleList, $setupFactory, $adminAccountFactory, $random,
-            $config, $systemConfig, $userConfigurationDataFactory, $logger, $phpExecutableFinder);
+        parent::__construct(
+            $moduleList,
+            $setupFactory,
+            $adminAccountFactory,
+            $config,
+            $systemConfig,
+            $userConfigurationDataFactory,
+            $logger,
+            $phpExecutableFinder
+        );
         $this->json = $view;
     }
 

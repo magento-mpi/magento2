@@ -8,7 +8,6 @@
 
 namespace Magento\Setup\Controller;
 
-use Magento\Framework\Math\Random;
 use Magento\Config\ConfigFactory;
 use Magento\Module\ModuleListInterface;
 use Magento\Framework\DB\Adapter\Pdo\Mysql;
@@ -46,13 +45,6 @@ class AbstractInstallActionController extends AbstractActionController
     protected $systemConfig;
 
     /**
-     * Random Generator
-     *
-     * @var Random
-     */
-    protected $random;
-
-    /**
      * Admin Account Factory
      *
      * @var AdminAccountFactory
@@ -86,7 +78,6 @@ class AbstractInstallActionController extends AbstractActionController
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
-     * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfigFactory
      * @param UserConfigurationDataFactory $userConfigurationDataFactory
@@ -97,7 +88,6 @@ class AbstractInstallActionController extends AbstractActionController
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
         AdminAccountFactory $adminAccountFactory,
-        Random $random,
         Config $config,
         ConfigFactory $systemConfigFactory,
         UserConfigurationDataFactory $userConfigurationDataFactory,
@@ -109,7 +99,6 @@ class AbstractInstallActionController extends AbstractActionController
         $this->config = $config;
         $this->systemConfig = $systemConfigFactory->create();
         $this->adminAccountFactory = $adminAccountFactory;
-        $this->random = $random;
         $this->userConfigurationDataFactory = $userConfigurationDataFactory;
         $this->logger = $loggerInterface;
         $this->phpExecutableFinder = $phpExecutableFinder;
@@ -119,20 +108,13 @@ class AbstractInstallActionController extends AbstractActionController
      * Installs Deployment Configuration
      *
      * @param array $data
-     * @return string
+     * @return string Installation Key
      */
     public function installDeploymentConfiguration($data)
     {
         $this->config->setConfigData($this->config->convertFromDataObject($data));
-
         //Creates Deployment Configuration
-        $this->config->install();
-
-        $key = $data['config']['encrypt']['key'];
-        $this->config->replaceTmpEncryptKey($key);
-        $this->config->replaceTmpInstallDate(date('r'));
-
-        return $key;
+        return $this->config->install();
     }
 
     /**
@@ -227,17 +209,6 @@ class AbstractInstallActionController extends AbstractActionController
             $this->systemConfig->setMagentoBasePath();
         }
     }
-
-    /**
-     * Creates Random Encryption Key
-     *
-     * @return string
-     */
-    protected final function getRandomEncryptionKey()
-    {
-        return md5($this->random->getRandomString(10));
-    }
-
 
     /**
      * Parses User Configuration Data from Request Parameters
