@@ -6,7 +6,7 @@ define([
 
     return function(el, data) {
         var listing = new Listing( data ),
-            namespace = data.config.namespace;
+            namespace = data.config.name;
 
         registry
             .set(namespace + ':storage', listing.storage)
