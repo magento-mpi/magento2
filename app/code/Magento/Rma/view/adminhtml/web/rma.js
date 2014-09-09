@@ -163,7 +163,7 @@ AdminRma.prototype = {
             'marginTop': -$(divId).getDimensions().height / 2 + 'px'
         });
         $('popup-window-mask').setStyle({
-            height: $('html-body').getHeight() + 'px'
+            height: $(document.body).getHeight() + 'px'
         }).show();
     },
 
@@ -174,7 +174,9 @@ AdminRma.prototype = {
         $$('.rma-popup [name=items_selector]').each(function(input) {
             input.checked = false;
         });
-        $('details_container').childElements().each(Element.hide);
+        if ($('details_container')) {
+            $('details_container').childElements().each(Element.hide);
+        }
         $$('.rma-popup').each(Element.hide);
         $('popup-window-mask').hide();
     },
@@ -716,12 +718,18 @@ AdminRma.prototype = {
                         after: new Element('div', {id: divId}).update(response).addClassName('rma-popup')
                     });
                     this.showPopup(divId);
-                    Event.observe($('get-shipping-method-cancel-button'), 'click', this.shippingMethodsCancelButton.bind(this));
-                    Event.observe($('get-shipping-method-ok-button'), 'click', this.shippingMethodsCancelButton.bind(this));
-
-                    var this_rma = this;
-                    $$('input[id^="s_method_"]').each(function(element){
-                        Event.observe(element, 'click', this_rma.showLabelPopup.bind(this_rma, element.value));
+                    $('get-shipping-method-cancel-button').on('click', this.shippingMethodsCancelButton.bind(this));
+                    var thisRma = this;
+                    $$("input[id^='s_method_']").each(function(element) {
+                        $(element).on("click", function () {
+                            $('get-shipping-method-ok-button').enable();
+                            $('get-shipping-method-ok-button').on(
+                                "click",
+                                function() {
+                                    thisRma.showLabelPopup(element.value)
+                                }
+                            );
+                        });
                     });
                 }.bind(this)
             });
