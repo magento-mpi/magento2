@@ -87,7 +87,6 @@ class ValidationAttributeCodeCustomerCustomAttributesEntityTest extends Injectab
                 ['attribute_code' => $initialCustomerAttribute->getAttributeCode()]
             )]
         );
-
         //Steps
         $this->customerAttributeIndex->open();
         $this->customerAttributeIndex->getGridPageActions()->addNew();
