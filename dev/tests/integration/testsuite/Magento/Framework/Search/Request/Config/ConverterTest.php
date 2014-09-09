@@ -24,8 +24,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $document->load(__DIR__ . '../../../_files/search_request.xml');
         $result = $this->object->convert($document);
         $expected = include __DIR__ . '/../../_files/search_request_config.php';
-        sort($expected);
-        sort($result);
         $this->assertEquals($expected, $result);
     }
 }
