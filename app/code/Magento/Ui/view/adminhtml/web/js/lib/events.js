@@ -1,53 +1,74 @@
-define(['_'], function(_) {
+define([
+], function() {
 
-    var events = {};
+   function addHandler( name, callback ){
+        var events = this._events,
+            event;
+
+        event = events[name] = events[name] || [];
+
+        event.push(callback);
+    }
+
+    function trigger( args, name ){
+        var handlers;
+
+        handlers = this._events[ name ];
+
+        if( typeof handlers === 'undefined' ){
+            return;
+        }
+        
+        handlers.forEach( function( callback ){
+            callback.apply( this, args );
+        });
+    }
 
     return {
-        on: function(type, fn, context, once) {
-            events[type] = events[type] || [];
+        on: function( name, callback ){
+            var key;
 
-            events[type].push({
-                fn: fn,
-                context: context,
-                once: once
-            });
-        },
+            this._events = this._events || {};
 
-        off: function(type, fn) {
-            var position;
-            var fns = events[type];
-
-            if (fn) {
-                position = fns.indexOf(fn);
-                fns.splice(position, 1);
-            } else {
-                delete events[type];
-            }
-        },
-
-        once: function(type, fn, context) {
-            this.on.call(this, type, fn, context, true);
-        },
-
-        trigger: function(type) {
-
-            var
-                args = Array.prototype.slice.call(arguments, 1),
-                handlers = events[type],
-                handler,
-                oncePosition;
-
-            if (!handlers) return;
-
-            for (var i = 0; i < handlers.length; i++) {
-                handler = handlers[i];
-                handler.fn.apply(handler.context, args);
-
-                if (handler.once) {
-                    oncePosition = handlers.indexOf(handler);
-                    handlers.splice(oncePosition, 1);
+            if( typeof name === 'object' ){
+                
+                for(key in name){
+                    addHandler.call( this, key, name[key] );
                 }
             }
+            else if( typeof callback === 'function' ){
+                addHandler.call( this, name, callback );
+            }
+
+            return this;
+        },
+
+        off: function( name ){
+            var handlers = this._events[name];
+
+            if( Array.isArray(handlers) ){
+                delete this._events[name];
+            }
+
+            return this;
+        },
+
+        trigger: function( events ){
+            var args;
+
+            args = Array.prototype.slice.call( arguments, 1 )
+
+            if( typeof events === 'string' ){
+                events = events.split(' ');
+            }
+
+            if( !Array.isArray(events) ){
+                return this;
+            }
+
+            events.forEach( trigger.bind(this, args) );
+
+            return this;
         }
     }
 });

@@ -5,7 +5,7 @@ define([
 
     function init( config, el, data ){
         var settings    = data.config,
-            namespace   = settings.namespace;
+            namespace   = settings.name;
 
         registry.get(namespace + ':storage', function(storage){
             var component,

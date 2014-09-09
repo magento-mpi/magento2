@@ -4,78 +4,99 @@ define([
     'use strict';
 
     var id = 0,
-        wait = {},
+        requests = {},
         map = {};
 
-    function clear(resolved) {
+    /**
+     * Clears all of the entries of a specified request.
+     * @param {Number} id - Id of request.
+     */
+    function clear( id ){
         var ei,
             elems,
             index,
-            pending;
+            handlers;
 
-        resolved.forEach(function(cid) {
-            elems = wait[cid].deps;
+        elems = requests[id].deps;
 
-            for (ei = elems.length; ei--;) {
-                pending = map[elems[ei]];
+        for (ei = elems.length; ei--;) {
+            handlers = map[elems[ei]];
 
-                index = pending.indexOf(cid);
+            index = handlers.indexOf(id);
 
-                if (~index) {
-                    pending.splice(index, 1);
-                }
+            if (~index) {
+                handlers.splice(index, 1);
             }
+        }
 
-            delete wait[cid];
-        });
+        delete requests[id];
+    }
+
+
+    /**
+     * Tries to resolve pending request.
+     * @param {Number} id - Id of request.
+     * @returns {Boolean} Whether specified request was successfully resolved.
+     */
+    function resolve(id){
+        var request     = requests[id],
+            elems       = request.deps,
+            callback    = request.callback,
+            isResolved;
+
+        isResolved = storage.has(elems);
+
+        if (isResolved) {
+            callback.apply( window, storage.get(elems) );
+        }
+
+        return isResolved;
     }
 
     return {
+        /**
+         * Tries to resolve dependencies affected by the scpecified element.
+         * @param {String} elem - Elements' name.
+         * @returns {events} Chainable.
+         */
         resolve: function(elem) {
-            var pending,
-                handler,
-                elems,
-                resolved;
+            var pending = map[elem];
 
-            pending = map[elem];
-
-            if (typeof pending === 'undefined') {
-                return;
+            if (typeof pending !== 'undefined') {
+                pending
+                    .filter( resolve )
+                    .forEach( clear );
             }
 
-            resolved = [];
-
-            pending.forEach(function(cid) {
-                handler = wait[cid];
-                elems = handler.deps;
-
-                if (storage.has(elems)) {
-                    handler.callback.apply(window, storage.get(elems));
-                    resolved.push(cid);
-                }
-            });
-
-            clear(resolved);
+            return this;
         },
 
-        wait: function(elems, callback) {
 
+        /**
+         * Creates a new request for the specified set
+                of elements in case some of them wasn't registered yeat.
+                Otherwise triggers callback immediately.
+         * @param {Array} elems - Requested elements.
+         * @param {Function} callback -
+                Callback that will be triggered as soon as
+                all of the elements will be registered. 
+         * @returns {events} Chainable.
+         */
+        wait: function(elems, callback) {
             if (storage.has(elems)) {
                 return callback.apply(window, storage.get(elems));
             }
 
-            wait[id] = {
+            elems.forEach(function(elem) {
+                (map[elem] = map[elem] || []).push(id);
+            });
+
+            requests[id++] = {
                 callback: callback,
                 deps: elems
             };
 
-            elems.forEach(function(elem) {
-                elem = map[elem] = map[elem] || [];
-
-                elem.push(id);
-            });
-
-            id++;
+            return this;
         }
     };
 });

@@ -1,18 +1,16 @@
 define([
     'ko',
-    'Magento_Ui/js/lib/registry/registry'
-], function(ko, registry) {
+    'Magento_Ui/js/lib/registry/registry',
+    'jquery',
+    'mage/translate'
+], function(ko, registry, $) {
+
+    var i18n = $.mage.__;
 
     function getMultiple(bindings, viewModel, callback) {
         var key,
-            components,
-            ctx;
-
-        components = [];
-
-        ctx = {
-            parent: viewModel
-        };
+            components = [],
+            ctx = {};
 
         for (key in bindings) {
             components.push(bindings[key]);
@@ -21,7 +19,7 @@ define([
         registry.get(components, function() {
 
             for (key in bindings) {
-                ctx[key] = registry.get(bindings[key])[0];
+                ctx[key] = registry.get(bindings[key]);
             }
 
             callback(ctx);
@@ -30,6 +28,9 @@ define([
 
     function applyComponents(el, bindingContext, component) {
         component = bindingContext.createChildContext(component);
+        
+        ko.utils.extend(component, { $t: i18n });
+
         ko.applyBindingsToDescendants(component, el);
     }
 

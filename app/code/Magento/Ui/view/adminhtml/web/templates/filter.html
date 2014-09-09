@@ -1,8 +1,8 @@
-<button data-bind="click: toggle">Filter</button>
+<button data-bind="click: toggle, text: $t('Filter')"></button>
 <div data-part="filter-form" data-bind="visible: isVisible">
     <div class="title">
-        <h1 class="filter-title"><span>Advanced filter</span></h1>
-        <span class="action close" data-bind="click: close">Close</span>
+        <h1 class="filter-title"><span data-bind="text: $t('Advanced filter')"></span></h1>
+        <span class="action close" data-bind="click: close, text: $t('Close')"></span>
     </div>
     <div class="fields">
         <fieldset class="fieldset user-defined" data-bind="foreach: { data: filters, as: 'item' }">
@@ -10,7 +10,7 @@
         </fieldset>
     </div>
     <div class="actions">
-        <button class="scalable"><span>Reset</span></button>
-        <button class="scalable"><span>Apply</span></button>
+        <button class="scalable"><span data-bind="click: reset, text: $t('Reset')"></span></button>
+        <button class="scalable" data-bind="click: apply"><span data-bind="text: $t('Apply')"></span></button>
     </div>
 </div>

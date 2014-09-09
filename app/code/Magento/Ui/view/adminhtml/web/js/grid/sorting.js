@@ -5,29 +5,36 @@ define([
 ], function(_, Scope, Component) {
     'use strict';
     
+    var defaults = {
+        dirs: {
+            asc: 'sort-arrow-asc',
+            desc: 'sort-arrow-desc'
+        },
+        initialDir: 'asc',
+        noSort: 'not-sort'
+    };
+
     var Sorting = Scope.extend({
         initialize: function(config) {
-            this.dirs = {
-                asc: 'sort-arrow-asc',
-                desc: 'sort-arrow-desc'
-            };
+            _.extend(this, defaults, config);
 
-            this.defaultDir = 'asc';
+            this.initObservable()
+                .updateParams();
+        },
 
-            this.storage = config.storage;
-
+        initObservable: function(){
             this.observe({
-                field:      config.params.field,
-                direction:  config.params.direction
+                field:      this.params.field,
+                direction:  this.params.direction
             });
 
-            this.updateParams();
+            return this;
         },
 
         setClass: function(id) {
             return this.isSorted(id) ?
                 this.dirs[this.direction()] :
-                'not-sort';
+                this.noSort;
         },
 
         toggleDirection: function() {
@@ -38,7 +45,7 @@ define([
 
         setSort: function(id) {
             this.field(id);
-            this.direction(this.defaultDir);
+            this.direction(this.initialDir);
         },
 
         handleClick: function(id) {

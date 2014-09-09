@@ -3,29 +3,39 @@ define([
     'jquery',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/request_builder'
-], function( _, $, Class, requestBuilder ){
+], function(_, $, Class, requestBuilder) {
     'use strict';
 
-    return Class.extend({
-        initialize: function( config ){
-            this.config = {
-                ajax: {
-                    dataType: 'json'
-                }
-            };
+    var defaults = {
+        ajax: {
+            dataType: 'json'
+        }
+    };
 
-            $.extend( true, this.config, config );
+    return Class.extend({
+        initialize: function(config) {
+            $.extend(true, this.config = {}, defaults, config);
         },
 
-        read: function(params, config){
-            config = _.extend(
-                {},
-                this.config.ajax,
-                config || {},
-                requestBuilder.getFor(this.config.root, params)
-            );
+        read: function(params, config) {
+            config = this.getConfig(params, config);
 
-            $.ajax(config).done(this.config.onRead);
+            $.ajax(config)
+                .done(this.config.onRead);
+        },
+
+        getConfig: function(params, config) {
+            var baseConf;
+
+            config = config || {};
+            params = params || {};
+
+            baseConf = {
+                url: requestBuilder(this.config.root, params),
+                data: params
+            };
+
+            return $.extend(true, baseConf, this.config.ajax, config);
         }
     });
 
