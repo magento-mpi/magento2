@@ -65,13 +65,10 @@ class Rewrite extends Action
         if (!$this->_category) {
             $this->_category = $this->_objectManager->create('Magento\Catalog\Model\Category');
             $categoryId = (int)$this->getRequest()->getParam('category', 0);
-
-            if (!$categoryId && $this->_getUrlRewrite()->getId()
-                && $this->_getUrlRewrite()->getEntityType() === self::ENTITY_TYPE_CATEGORY
-            ) {
+            $urlRewrite = $this->_getUrlRewrite();
+            if (!$categoryId && $urlRewrite->getId() && $urlRewrite->getEntityType() === self::ENTITY_TYPE_CATEGORY) {
                 $categoryId = $this->_getUrlRewrite()->getEntityId();
             }
-
             if ($categoryId) {
                 $this->_category->load($categoryId);
             }
@@ -89,13 +86,10 @@ class Rewrite extends Action
         if (!$this->_product) {
             $this->_product = $this->_objectManager->create('Magento\Catalog\Model\Product');
             $productId = (int)$this->getRequest()->getParam('product', 0);
-
-            if (!$productId && $this->_getUrlRewrite()->getId()
-                && $this->_getUrlRewrite()->getEntityType() === self::ENTITY_TYPE_PRODUCT
-            ) {
+            $urlRewrite = $this->_getUrlRewrite();
+            if (!$productId && $urlRewrite->getId() && $urlRewrite->getEntityType() === self::ENTITY_TYPE_PRODUCT) {
                 $productId = $this->_getUrlRewrite()->getEntityId();
             }
-
             if ($productId) {
                 $this->_product->load($productId);
             }
@@ -113,13 +107,10 @@ class Rewrite extends Action
         if (!$this->_cmsPage) {
             $this->_cmsPage = $this->_objectManager->create('Magento\Cms\Model\Page');
             $cmsPageId = (int)$this->getRequest()->getParam('cms_page', 0);
-
-            if (!$cmsPageId && $this->_getUrlRewrite()->getId()
-                && $this->_getUrlRewrite()->getEntityType() === self::ENTITY_TYPE_CMS_PAGE
-            ) {
+            $urlRewrite = $this->_getUrlRewrite();
+            if (!$cmsPageId && $urlRewrite->getId() && $urlRewrite->getEntityType() === self::ENTITY_TYPE_CMS_PAGE) {
                 $cmsPageId = $this->_getUrlRewrite()->getEntityId();
             }
-
             if ($cmsPageId) {
                 $this->_cmsPage->load($cmsPageId);
             }
@@ -136,10 +127,9 @@ class Rewrite extends Action
     {
         if (!$this->_urlRewrite) {
             $this->_urlRewrite = $this->_objectManager->create('Magento\UrlRewrite\Model\UrlRewrite');
-
             $urlRewriteId = (int)$this->getRequest()->getParam('id', 0);
             if ($urlRewriteId) {
-                $this->_urlRewrite->load((int)$this->getRequest()->getParam('id', 0));
+                $this->_urlRewrite->load($urlRewriteId);
             }
         }
         return $this->_urlRewrite;

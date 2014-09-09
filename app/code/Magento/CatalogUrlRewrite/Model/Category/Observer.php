@@ -54,7 +54,7 @@ class Observer
         ProductUrlRewriteGenerator $productUrlRewriteGenerator,
         UrlPersistInterface $urlPersist,
         ScopeConfigInterface $scopeConfig,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory  $productCollectionFactory
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
     ) {
         $this->childrenCategoriesProvider = $childrenCategoriesProvider;
         $this->categoryUrlRewriteGenerator = $categoryUrlRewriteGenerator;
@@ -118,11 +118,12 @@ class Observer
      */
     protected function generateProductUrlRewrites(Category $category)
     {
-        $this->isSkippedProduct = $category->getAffectedProductIds();
+        $this->isSkippedProduct = [];
         $saveRewriteHistory = $category->getData('save_rewrites_history');
         $storeId = $category->getStoreId();
-        $productUrls =[];
+        $productUrls = [];
         if ($category->getAffectedProductIds()) {
+            $this->isSkippedProduct = $category->getAffectedProductIds();
             $collection = $this->productCollectionFactory->create()
                 ->setStoreId($storeId)
                 ->addIdFilter($category->getAffectedProductIds())
@@ -134,6 +135,11 @@ class Observer
                 $product->setData('save_rewrites_history', $saveRewriteHistory);
                 $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));
             }
+        } else {
+            $productUrls = array_merge(
+                $productUrls,
+                $this->getCategoryProductsUrlRewrites($category, $storeId, $saveRewriteHistory)
+            );
         }
         foreach ($this->childrenCategoriesProvider->getChildren($category, true) as $childCategory) {
             $productUrls = array_merge(
@@ -180,10 +186,12 @@ class Observer
         if ($categoryIds) {
             $categoryIds = explode(',', $categoryIds);
             foreach ($categoryIds as $categoryId) {
-                $this->urlPersist->deleteByData([
-                    UrlRewrite::ENTITY_ID => $categoryId,
-                    UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                ]);
+                $this->urlPersist->deleteByData(
+                    [
+                        UrlRewrite::ENTITY_ID => $categoryId,
+                        UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
+                    ]
+                );
             }
         }
     }

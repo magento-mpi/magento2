@@ -50,18 +50,6 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     }
 
     /**
-     * Call before save urlrewrite handlers
-     *
-     * @param \Magento\UrlRewrite\Model\UrlRewrite $model
-     * @return void
-     */
-    protected function _onUrlRewriteSaveBefore($model)
-    {
-        $this->_handleCatalogUrlRewrite($model);
-        $this->_handleCmsPageUrlRewrite($model);
-    }
-
-    /**
      * Override urlrewrite data, basing on current category and product
      *
      * @param \Magento\UrlRewrite\Model\UrlRewrite $model
@@ -70,84 +58,45 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
      */
     protected function _handleCatalogUrlRewrite($model)
     {
-        $product = $this->_getInitializedProduct($model);
-        $category = $this->_getInitializedCategory();
-        if ($product || $category) {
-            $model->setEntityType($this->getEntityType($product));
-            $model->setEntityId($this->getEntityId($product, $category));
-            if ($model->isObjectNew()) {
-                if ($model->getRedirectType()) {
-                    $rewrite = $this->urlFinder->findOneByData([
-                        UrlRewrite::ENTITY_ID => $model->getEntityId(),
-                        UrlRewrite::ENTITY_TYPE => $model->getEntityType(),
-                        UrlRewrite::STORE_ID => $model->getStoreId(),
-                    ]);
-                    if (!$rewrite) {
-                        if ($product) {
-                            throw new Exception(
-                                __('Chosen product does not associated with the chosen store or category.')
-                            );
-                        } else {
-                            throw new Exception(__('Chosen category does not associated with the chosen store.'));
-                        }
-                    } else {
-                        $model->setTargetPath($rewrite->getRequestPath());
-                    }
-                } else {
-                    $model->setTargetPath($this->getTargetPath($product, $category));
-                }
+        $productId = $this->_getProduct()->getId();
+        $categoryId = $this->_getCategory()->getId();
+        if ($model->isObjectNew() && ($productId || $categoryId)) {
+            $model->setEntityType($productId ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY)
+                ->setEntityId($productId ? : $categoryId);
+            if ($productId && $categoryId) {
+                $model->setMetadata(serialize(['category_id' => $categoryId]));
             }
+            $targetPath = $this->getCanonicalTargetPath();
+            if ($model->getRedirectType()) {
+                $data = [
+                    UrlRewrite::ENTITY_ID => $model->getEntityId(),
+                    UrlRewrite::TARGET_PATH => $targetPath,
+                    UrlRewrite::ENTITY_TYPE => $model->getEntityType(),
+                    UrlRewrite::STORE_ID => $model->getStoreId(),
+                ];
+                $rewrite = $this->urlFinder->findOneByData($data);
+                if (!$rewrite) {
+                    $message = $productId
+                        ? __('Chosen product does not associated with the chosen store or category.')
+                        : __('Chosen category does not associated with the chosen store.');
+                    throw new Exception($message);
+                }
+                $targetPath = $rewrite->getRequestPath();
+            }
+            $model->setTargetPath($targetPath);
         }
     }
 
     /**
-     * @param \Magento\Catalog\Model\Product|null $product
      * @return string
      */
-    protected function getEntityType($product = null)
+    protected function getCanonicalTargetPath()
     {
-        return $product && $product->getId() ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY;
-    }
-
-    /**
-     * @param \Magento\Catalog\Model\Product|null $product
-     * @param \Magento\Catalog\Model\Category|null $category
-     * @return int
-     */
-    protected function getEntityId($product = null, $category = null)
-    {
-        return $product && $product->getId() ? $product->getId() : $category->getId();
-    }
-
-    /**
-     * @param \Magento\Catalog\Model\Product|null $product
-     * @param \Magento\Catalog\Model\Category|null $category
-     * @return string
-     */
-    protected function getTargetPath($product = null, $category = null)
-    {
-        return $product && $product->getId()
+        $product = $this->_getProduct()->getId() ? $this->_getProduct() : null;
+        $category = $this->_getCategory()->getId() ? $this->_getCategory() : null;
+        return $product
             ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
             : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category);
-    }
-
-    /**
-     * Get product instance
-     *
-     * @param \Magento\UrlRewrite\Model\UrlRewrite $model
-     * @return Product|null
-     */
-    protected function _getInitializedProduct($model)
-    {
-        /** @var $product Product */
-        $product = $this->_getProduct();
-        if ($product->getId()) {
-            $model->setProductId($product->getId());
-        } else {
-            $product = null;
-        }
-
-        return $product;
     }
 
     /**
@@ -155,41 +104,19 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
      *
      * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return void
-     * @throws \Magento\Framework\Model\Exception
      */
     private function _handleCmsPageUrlRewrite($model)
     {
-        /** @var $cmsPage \Magento\Cms\Model\Page */
         $cmsPage = $this->_getCmsPage();
-        if (!$cmsPage->getId()) {
-            return;
-        }
-
-        $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE);
-        $model->setEntityId($cmsPage->getId());
-        if ($model->isObjectNew()) {
+        if ($model->isObjectNew() && $cmsPage->getId()) {
+            $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE);
+            $model->setEntityId($cmsPage->getId());
             $model->setTargetPath(
                 $model->getRedirectType()
-                ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
-                : $this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage)
+                    ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
+                    : $this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage)
             );
         }
-    }
-
-    /**
-     * Get category instance
-     *
-     * @param \Magento\UrlRewrite\Model\UrlRewrite $model
-     * @return Category|null
-     */
-    protected function _getInitializedCategory()
-    {
-        /** @var $category Category */
-        $category = $this->_getCategory();
-        if (!$category->getId()) {
-            $category = null;
-        }
-        return $category;
     }
 
     /**
@@ -197,26 +124,25 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
      */
     public function execute()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             /** @var $session \Magento\Backend\Model\Session */
             $session = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
-                /** @var $model \Magento\UrlRewrite\Model\UrlRewrite */
                 $model = $this->_getUrlRewrite();
 
                 $requestPath = $this->getRequest()->getParam('request_path');
                 $this->_objectManager->get('Magento\UrlRewrite\Helper\UrlRewrite')->validateRequestPath($requestPath);
 
                 $model->setEntityType($this->getRequest()->getParam('entity_type', self::ENTITY_TYPE_CUSTOM))
-                    ->setStoreId($this->getRequest()->getParam('store_id', 0))
+                    ->setRequestPath($requestPath)
                     ->setTargetPath($this->getRequest()->getParam('target_path', $model->getTargetPath()))
                     ->setRedirectType($this->getRequest()->getParam('redirect_type'))
-                    ->setDescription($this->getRequest()->getParam('description'))
-                    ->setRequestPath($requestPath)
-                    ->setMetadata(serialize(['is_user_generated' => true]));
+                    ->setStoreId($this->getRequest()->getParam('store_id', 0))
+                    ->setDescription($this->getRequest()->getParam('description'));
 
-                $this->_onUrlRewriteSaveBefore($model);
-
+                $this->_handleCatalogUrlRewrite($model);
+                $this->_handleCmsPageUrlRewrite($model);
                 $model->save();
 
                 $this->messageManager->addSuccess(__('The URL Rewrite has been saved.'));

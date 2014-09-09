@@ -61,7 +61,8 @@ class CategoryUrlRewriteGenerator
 
         $storeId = $this->category->getStoreId();
         $urls = $this->isGlobalScope($storeId)
-            ? $this->generateForGlobalScope() : $this->generateForSpecificStoreView($storeId);
+            ? $this->generateForGlobalScope()
+            : $this->generateForSpecificStoreView($storeId);
 
         $this->category = null;
         return $urls;

@@ -12,6 +12,12 @@ namespace Magento\UrlRewrite\Model;
  * @method UrlRewrite setEntityType(string $value)
  * @method int getEntityId()
  * @method UrlRewrite setEntityId(int $value)
+ * @method UrlRewrite setMetadata($value)
+ * @method UrlRewrite setRequestPath($value)
+ * @method UrlRewrite setTargetPath($value)
+ * @method UrlRewrite setRedirectType($value)
+ * @method UrlRewrite setStoreId($value)
+ * @method UrlRewrite setDescription($value)
  */
 class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 {

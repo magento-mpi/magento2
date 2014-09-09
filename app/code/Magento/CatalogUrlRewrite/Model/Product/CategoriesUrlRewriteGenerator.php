@@ -43,6 +43,7 @@ class CategoriesUrlRewriteGenerator
         $this->urlRewriteBuilder = $urlRewriteBuilder;
         $this->storeManager = $storeManager;
     }
+
     /**
      * Generate list based on categories
      *
