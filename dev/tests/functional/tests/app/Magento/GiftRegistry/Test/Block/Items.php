@@ -22,16 +22,26 @@ class Items extends Block
      *
      * @var string
      */
-    protected $productName = '//a[contains(text(), "%s")]';
+    protected $productName = '//tr[//a[contains(text(), "%s")]]';
 
     /**
-     * Is visible product in gift registry items grid
+     * Product quantity selector in registry items grid
+     *
+     * @var string
+     */
+    protected $productQty = '[//input[@value="%s"]]';
+
+    /**
+     * Is visible product with appropriate quantity in gift registry items grid
      *
      * @param string $name
+     * @param string|null $qty
      * @return bool
      */
-    public function isProductInGrid($name)
+    public function isProductInGrid($name, $qty = null)
     {
-        return $this->_rootElement->find(sprintf($this->productName, $name), Locator::SELECTOR_XPATH)->isVisible();
+        $productNameSelector = sprintf($this->productName, $name);
+        $selector = $qty === null ? $productNameSelector : $productNameSelector . sprintf($this->productQty, $qty);
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }

@@ -24,5 +24,10 @@
             <locator>#messages</locator>
             <strategy>css selector</strategy>
         </messagesBlock>
+        <itemsGrid>
+            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Items</class>
+            <locator>#update_form</locator>
+            <strategy>css selector</strategy>
+        </itemsGrid>
     </blocks>
 </page>
