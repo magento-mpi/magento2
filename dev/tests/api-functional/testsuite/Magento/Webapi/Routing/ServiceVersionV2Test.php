@@ -121,9 +121,9 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
             ),
             'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Update')
         );
-        $requestData = array('item' => array('id' => $itemId, 'name' => 'testName', 'price' => '4'));
+        $requestData = array('entityItem' => array('id' => $itemId, 'name' => 'testName', 'price' => '4'));
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
+        $this->assertEquals('Updated' . $requestData['entityItem']['name'], $item['name'], 'Item update failed');
     }
 
     /**

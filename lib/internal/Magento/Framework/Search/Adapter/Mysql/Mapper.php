@@ -43,23 +43,30 @@ class Mapper
      * @var Filter\Builder
      */
     private $filterBuilder;
+    /**
+     * @var Dimensions
+     */
+    private $dimensionsBuilder;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param ScoreBuilderFactory $scoreBuilderFactory
      * @param MatchQueryBuilder $matchQueryBuilder
      * @param Builder $filterBuilder
+     * @param Dimensions $dimensionsBuilder
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         ScoreBuilderFactory $scoreBuilderFactory,
         MatchQueryBuilder $matchQueryBuilder,
-        Builder $filterBuilder
+        Builder $filterBuilder,
+        Dimensions $dimensionsBuilder
     ) {
         $this->resource = $resource;
         $this->scoreBuilderFactory = $scoreBuilderFactory;
         $this->matchQueryBuilder = $matchQueryBuilder;
         $this->filterBuilder = $filterBuilder;
+        $this->dimensionsBuilder = $dimensionsBuilder;
     }
 
     /**
@@ -73,6 +80,7 @@ class Mapper
         /** @var ScoreBuilder $scoreBuilder */
         $scoreBuilder = $this->scoreBuilderFactory->create();
         $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), self::BOOL_MUST);
+        $select = $this->processDimensions($request, $select);
         $tableName = $this->resource->getTableName($request->getIndex());
         $select->from($tableName)
             ->columns($scoreBuilder->build())
@@ -218,5 +226,30 @@ class Mapper
     private function getSelect()
     {
         return $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE)->select();
+    }
+
+    /**
+     * Add filtering by dimensions
+     *
+     * @param RequestInterface $request
+     * @param Select $select
+     * @return \Magento\Framework\DB\Select
+     */
+    private function processDimensions(RequestInterface $request, Select $select)
+    {
+        $dimensions = [];
+        foreach ($request->getDimensions() as $dimension) {
+            $dimensions[] = $this->dimensionsBuilder->build($dimension);
+        }
+
+        if (!empty($dimensions)) {
+            $query = sprintf(
+                '(%s)',
+                implode(' ' . Select::SQL_OR . ' ', $dimensions)
+            );
+            $select->where($query);
+        }
+
+        return $select;
     }
 }
