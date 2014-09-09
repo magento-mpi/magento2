@@ -13,9 +13,23 @@ namespace Magento\Framework\Search;
 class RequestBuilder
 {
     /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    private $objectManager;
+
+    /**
+     * @var Request\Config
+     */
+    private $config;
+
+    /**
      * @var array
      */
-    private $data = [];
+    private $data = [
+        'dimensions' => [],
+        'queries' => [],
+        'filters' => []
+    ];
 
     /**
      * Request Builder constructor
@@ -108,11 +122,10 @@ class RequestBuilder
         if (is_null($data)) {
             throw new \InvalidArgumentException("Request name '{$requestName}' doesn't exist.");
         }
-
         $replacedData = $this->replaceBinds($data, $this->data);
-
         $this->clear();
-        return $replacedData;
+
+        return $this->convert($replacedData);
     }
 
     /**
@@ -158,20 +171,18 @@ class RequestBuilder
     {
         foreach ($queries as $queryName => $queryValue) {
             if (isset($bindData[$queryName])) {
-                foreach ($queryValue['match'] as $matchKey => $matchValue) {
-                    $queries[$queryName]['match'][$matchKey]['value'] = $bindData[$queryName];
-                }
+                $queries[$queryName]['value'] = $bindData[$queryName];
             }
         }
         return $queries;
     }
 
-    private function replaceBindFilters($filters, $bindData)
+    private function replaceBindFilters($filters, $bindDataList)
     {
-        foreach ($filters as $filterName => $filterValue) {
-            foreach ($filterValue as $fieldName => $fieldValue) {
-                if (isset($bindData[$filterName][$fieldName])) {
-                    $filters[$filterName][$fieldName] = $bindData[$filterName][$fieldName];
+        foreach ($bindDataList as $bindFilterName => $bindFilterValue) {
+            foreach ($bindFilterValue as $bindFieldName => $bindFieldValue) {
+                if (isset($filters[$bindFilterName])) {
+                    $filters[$bindFilterName][$bindFieldName] = $bindFieldValue;
                 }
             }
         }
@@ -181,5 +192,46 @@ class RequestBuilder
     private function clear()
     {
         $this->data = [];
+    }
+
+    /**
+     * Convert array to Request instance
+     *
+     * @param array $data
+     * @return RequestInterface
+     */
+    private function convert($data)
+    {
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->objectManager->create(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'rootQueryName' => $data['query'],
+                'queries' => $data['queries'],
+                'aggregations' => $data['aggregations'],
+                'filters' => $data['filters']
+            ]
+        );
+        return $this->objectManager->create(
+            'Magento\Framework\Search\Request',
+            [
+                'name' => $data['query'],
+                'indexName' => $data['index'],
+                'from' => $data['from'],
+                'size' => $data['size'],
+                'query' => $mapper->getRootQuery(),
+                'dimensions' => array_map(
+                    function ($data) {
+                        return $this->objectManager->create(
+                            'Magento\Framework\Search\Request\Dimension',
+                            $data
+                        );
+                    },
+                    isset($data['dimensions']) ? $data['dimensions'] : []
+                ),
+                'buckets' => $mapper->getBuckets()
+            ]
+        );
     }
 }
