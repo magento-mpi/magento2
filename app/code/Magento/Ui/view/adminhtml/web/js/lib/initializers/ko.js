@@ -1,13 +1,9 @@
-<!--
 /**
  * {license_notice}
  *
- * @category    storage
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
--->
 /** Loads all available knockout bindings, sets custom template engine, initializes knockout on page */
 define([
 	'ko',

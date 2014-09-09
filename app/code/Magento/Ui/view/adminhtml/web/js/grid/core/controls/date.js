@@ -1,13 +1,9 @@
-<!--
 /**
  * {license_notice}
  *
- * @category    storage
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
--->
 define([
     './abstract',
     '_'
@@ -26,11 +22,14 @@ define([
 
             this.observe({
                 from: '',
-                to: ''
+                to:   ''
             });
         },
 
-        /** Returns object which represents current state of instance */
+        /**
+         * Returns dump of instance's current state
+         * @returns {Object} - object which represents current state of instance
+         */
         dump: function () {
             return {
                 field: this.index,
@@ -41,7 +40,10 @@ define([
             }
         },
 
-        /** Resets state properties of instance and then returns call of dump method */
+        /**
+         * Resets state properties of instance and calls dump method.
+         * @returns {Object} - object which represents current state of instance
+         */
         reset: function () {
             this.to(null);
             this.from(null);

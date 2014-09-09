@@ -1,13 +1,9 @@
-<!--
 /**
  * {license_notice}
  *
- * @category    storage
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
--->
 define([
     'Magento_Ui/js/lib/ko/scope',
     '_'

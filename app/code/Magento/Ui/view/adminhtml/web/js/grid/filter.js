@@ -1,13 +1,9 @@
-<!--
 /**
  * {license_notice}
  *
- * @category    storage
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
--->
 define([
     '_',
     'Magento_Ui/js/lib/ko/scope',
@@ -69,45 +65,54 @@ define([
             return this;
         },
 
-        apply: function () {
-            this.updateParams(this._dump()).storage.load();
+        /**
+         * Created handler for reset and apply actions.
+         * @param {String} action - 'reset' or 'apply'
+         * @returns {Function} - function, which maps all filters with corresponding action of those and reloads storage
+         */
+        apply: function (action) {
+            return function () {
+                var params = this.filters.map(function (filter) {
+                    return filter[action].call(filter);
+                });
+
+                this.updateParams(params).storage.load();    
+            }
         },
 
-        reset: function () {
-            this.updateParams(this._reset()).storage.load();
-        },
-
-        _dump: function () {
-            return this.filters.map(function (filter) {
-                return filter.dump();
-            });
-        },
-
-        _reset: function () {
-            return this.filters.map(function (filter) {
-                return filter.reset();
-            });
-        },
-
+        /**
+         * Sets set of params to storage.
+         * @param {*} action - data to set to storage params
+         * @returns {Object} - reference to instance
+         */
         updateParams: function (filters) {
             this.storage.setParams({ filter: filters });
 
             return this;
         },
 
+        /**
+         * @description Toggles isVisible observable property
+         */
         toggle: function () {
             this.isVisible(!this.isVisible());
         },
 
+        /**
+         * @description Sets isVisible observable property to false
+         */
         close: function () {
             this.isVisible(false);
         },
 
+        /**
+         * Returns path to filter's template splited by dots.
+         * @param {Object} - instance of one of controls classes
+         * @returns {String} - path to template based on type of filter
+         */
         getTemplateFor: function (filter) {
             return 'Magento_Ui.templates.controls.' + filter.type;
-        },
-
-        onLoad: function () {}
+        }
     });
 
     return Component({
