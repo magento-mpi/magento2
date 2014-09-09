@@ -21,9 +21,9 @@ use Mtf\TestCase\Injectable;
  *
  * Steps:
  * 1. Open Backend
- * 2. Go to Reports> Products> Ordered
+ * 2. Go to Reports > Products > Ordered
  * 3. Select time range and report period
- * 4. click "Refresh button"
+ * 4. Click "Refresh button"
  * 5. Perform all assertions
  *
  * @group Reports_(MX)

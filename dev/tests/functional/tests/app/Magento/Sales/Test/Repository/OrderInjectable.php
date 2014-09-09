@@ -37,7 +37,7 @@ class OrderInjectable extends AbstractRepository
             'entity_id' => ['products' => 'catalogProductSimple::default']
         ];
 
-        $this->_data['virtual-product'] = [
+        $this->_data['virtual_product'] = [
             'customer_id' => ['dataSet' => 'default'],
             'base_currency_code' => false,
             'store_id' => ['dataSet' => 'default_store_view'],
@@ -46,7 +46,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'catalogProductVirtual::order']
+            'entity_id' => ['products' => 'catalogProductVirtual::default']
         ];
     }
 }

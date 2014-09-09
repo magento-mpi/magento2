@@ -35,6 +35,7 @@ class AssertOrderedProductResult extends AbstractConstraint
     public function processAssert(OrderedProductsReport $orderedProducts, OrderInjectable $order)
     {
         $totalQuantity = $orderedProducts->getGridBlock()->getOrdersResults($order);
+        $productQty = [];
         foreach ($totalQuantity as $key => $value) {
             $productQty[$key] = $order->getEntityId()['products'][$key]->getCheckoutData()['qty'];
         }
