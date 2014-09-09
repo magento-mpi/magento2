@@ -17,24 +17,19 @@ use Magento\User\Model\User as UserModel;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 
 /**
- * api-functional test for \Magento\Integration\Service\V1\TokenService.
+ * api-functional test for \Magento\Integration\Service\V1\AdminTokenService.
  */
-class TokenServiceTest extends WebapiAbstract
+class AdminTokenServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "integrationTokenServiceV1";
+    const SERVICE_NAME = "integrationAdminTokenServiceV1";
     const SERVICE_VERSION = "V1";
-    const RESOURCE_PATH_CUSTOMER_TOKEN = "/V1/integration/customer/token";
     const RESOURCE_PATH_ADMIN_TOKEN = "/V1/integration/admin/token";
+    const RESOURCE_PATH_CUSTOMER_TOKEN = "/V1/integration/customer/token";
 
     /**
-     * @var TokenServiceInterface
+     * @var AdminTokenServiceInterface
      */
     private $tokenService;
-
-    /**
-     * @var CustomerAccountService
-     */
-    private $customerAccountService;
 
     /**
      * @var TokenModel
@@ -47,80 +42,14 @@ class TokenServiceTest extends WebapiAbstract
     private $userModel;
 
     /**
-     * Setup TokenService
+     * Setup AdminTokenService
      */
     public function setUp()
     {
         $this->_markTestAsRestOnly();
-        $this->tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\TokenService');
-        $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountService'
-        );
+        $this->tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\AdminTokenService');
         $this->tokenModel = Bootstrap::getObjectManager()->get('Magento\Integration\Model\Oauth\Token');
         $this->userModel = Bootstrap::getObjectManager()->get('Magento\User\Model\User');
-    }
-
-    /**
-     * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     */
-    public function testCreateCustomerAccessToken()
-    {
-        $customerUserName = 'customer@example.com';
-        $password = 'password';
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
-        ];
-        $requestData = ['username' => $customerUserName, 'password' => $password];
-        $accessToken = $this->_webApiCall($serviceInfo, $requestData);
-
-        $customerData = $this->customerAccountService->authenticate($customerUserName, $password);
-        /** @var $token TokenModel */
-        $token = $this->tokenModel->loadByCustomerId($customerData->getId())->getToken();
-        $this->assertEquals($accessToken, $token);
-    }
-
-    /**
-     * @dataProvider validationDataProvider
-     */
-    public function testCreateCustomerAccessTokenEmptyOrNullCredentials($username, $password)
-    {
-        try {
-            $serviceInfo = [
-                'rest' => [
-                    'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
-            ];
-            $requestData = ['username' => '', 'password' => ''];
-            $this->_webApiCall($serviceInfo, $requestData);
-        } catch (\Exception $e) {
-            $this->assertInputExceptionMessages($e);
-        }
-    }
-
-    public function testCreateCustomerAccessTokenInvalidCustomer()
-    {
-        $customerUserName = 'invalid';
-        $password = 'invalid';
-        try {
-            $serviceInfo = [
-                'rest' => [
-                    'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
-            ];
-            $requestData = ['username' => $customerUserName, 'password' => $password];
-            $this->_webApiCall($serviceInfo, $requestData);
-        } catch (\Exception $e) {
-            $this->assertEquals(HTTPExceptionCodes::HTTP_UNAUTHORIZED, $e->getCode());
-            $exceptionData = $this->processRestExceptionResult($e);
-            $expectedExceptionData = ['message' => 'Invalid login or password.'];
-        }
-        $this->assertEquals($expectedExceptionData, $exceptionData);
     }
 
     /**
@@ -232,4 +161,3 @@ class TokenServiceTest extends WebapiAbstract
         $this->assertEquals($expectedExceptionData, $exceptionData);
     }
 }
- 

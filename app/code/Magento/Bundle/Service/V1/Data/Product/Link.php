@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Data\Product\Link;
+namespace Magento\Bundle\Service\V1\Data\Product;
 
 use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * @codeCoverageIgnore
  */
-class Metadata extends AbstractExtensibleObject
+class Link extends AbstractExtensibleObject
 {
     const SKU = 'sku';
 
     const OPTION_ID = 'option_id';
 
     const QTY = 'qty';
+
+    const CAN_CHANGE_QUANTITY = 'can_change_qty';
 
     const POSITION = 'position';
 
@@ -63,7 +65,7 @@ class Metadata extends AbstractExtensibleObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isDefined()
     {
@@ -92,5 +94,15 @@ class Metadata extends AbstractExtensibleObject
     public function getPriceType()
     {
         return $this->_get(self::PRICE_TYPE);
+    }
+
+    /**
+     * Get whether quantity could be changed
+     *
+     * @return int|null
+     */
+    public function getCanChangeQuantity()
+    {
+        return $this->_get(self::CAN_CHANGE_QUANTITY);
     }
 }
