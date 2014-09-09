@@ -37,7 +37,10 @@ class AssertCustomerCustomAttributeNotInGrid extends AbstractConstraint
         CustomerAttributeIndex $customerAttributeIndex
     ) {
         $data = $customerAttribute->getData();
-        $filter = ['attribute_code' => $data['attribute_code']];
+        $filter = [
+            'attribute_code' => $data['attribute_code'],
+            'frontend_label' => $data['frontend_label']
+        ];
         $customerAttributeIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(
             $customerAttributeIndex->getCustomerCustomAttributesGrid()->isRowVisible($filter, true, false),

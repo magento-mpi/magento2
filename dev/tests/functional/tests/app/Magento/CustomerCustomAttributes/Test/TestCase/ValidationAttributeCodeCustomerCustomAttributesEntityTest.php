@@ -10,6 +10,7 @@ namespace Magento\CustomerCustomAttributes\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
+use Mtf\Fixture\FixtureFactory;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
 
@@ -66,19 +67,31 @@ class ValidationAttributeCodeCustomerCustomAttributesEntityTest extends Injectab
     /**
      * Validation AttributeCode of CustomerCustomAttributesEntity
      *
+     * @param FixtureFactory $fixtureFactory
      * @param CustomerCustomAttribute $customerAttribute
-     * @return void
+     * @param CustomerCustomAttribute $initialCustomerAttribute
+     * @return array
      */
-    public function test(CustomerCustomAttribute $customerAttribute)
-    {
-        $this->markTestIncomplete('MAGETWO-28194');
+    public function test(
+        FixtureFactory $fixtureFactory,
+        CustomerCustomAttribute $customerAttribute,
+        CustomerCustomAttribute $initialCustomerAttribute
+    ) {
+//        $this->markTestIncomplete('MAGETWO-28194');
         //Preconditions
-        $customerAttribute->persist();
+        $initialCustomerAttribute->persist();
+        $customerAttribute = $fixtureFactory->createByCode(
+            'customerCustomAttribute',
+            ['data' => array_replace(
+                $customerAttribute->getData(),
+                ['attribute_code' => $initialCustomerAttribute->getAttributeCode()]
+            )]
+        );
 
         //Steps
         $this->customerAttributeIndex->open();
         $this->customerAttributeIndex->getGridPageActions()->addNew();
         $this->customerAttributeNew->getCustomerCustomAttributesForm()->fill($customerAttribute);
-        $this->customerAttributeNew->getFormPageActions()->save();
+//        $this->customerAttributeNew->getFormPageActions()->save();
     }
 }
