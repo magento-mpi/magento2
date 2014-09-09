@@ -18,90 +18,189 @@ class PageTest extends \PHPUnit_Framework_TestCase
     protected $page;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $context;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $layoutFactory;
+    protected $request;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $translateInline;
+    protected $layout;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Layout\Merge|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $layoutMerge;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $pageConfig;
 
     protected function setUp()
     {
-        $this->context = $this->getMockBuilder('Magento\Framework\View\Element\Template\Context')
-            ->disableOriginalConstructor()->getMock();
+        $layout = $this->getMockBuilder('Magento\Framework\View\Layout')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $layoutMock = $this->getMockBuilder('Magento\Framework\View\Layout')
-            ->disableOriginalConstructor()->getMock();
+        $this->layoutMerge = $this->getMockBuilder('Magento\Core\Model\Layout\Merge')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $processor = $this->getMockBuilder('Magento\Core\Model\Layout\Merge')
-            ->disableOriginalConstructor()->getMock();
-
-        $processor->expects($this->any())
-            ->method('addPageHandles')
-            ->will($this->returnArgument(0));
-
-        $layoutMock->expects($this->any())
+        $layout->expects($this->any())
             ->method('getUpdate')
-            ->will($this->returnValue($processor));
+            ->will($this->returnValue($this->layoutMerge));
+
+        $this->request = $this->getMockBuilder('Magento\Framework\App\Request\Http')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->pageConfig = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->context = $this->getMockBuilder('Magento\Framework\View\Element\Template\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->context->expects($this->any())
             ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
-
-        $request = $this->getMockBuilder('Magento\Framework\App\Request\Http')
-            ->disableOriginalConstructor()->getMock();
-
-        $request->expects($this->any())
-            ->method('getFullActionName')
-            ->will($this->returnValue('Full_Action_Name'));
+            ->will($this->returnValue($layout));
 
         $this->context->expects($this->any())
             ->method('getRequest')
-            ->will($this->returnValue($request));
+            ->will($this->returnValue($this->request));
 
-        $this->layoutFactory = $this->getMockBuilder('Magento\Framework\View\LayoutFactory')
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()->getMock();
-
-        $this->translateInline = $this->getMockBuilder('Magento\Framework\Translate\InlineInterface')
-            ->disableOriginalConstructor()->getMockForAbstractClass();
-
-        $this->pageConfig = $this->getMockBuilder('Magento\Framework\View\Page\Config')
-            ->disableOriginalConstructor()->getMockForAbstractClass();
+        $this->context->expects($this->any())
+            ->method('getPageConfig')
+            ->will($this->returnValue($this->pageConfig));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->page = $objectManagerHelper->getObject(
             'Magento\Framework\View\Result\Page',
             [
                 'context' => $this->context,
-                'layoutFactory' => $this->layoutFactory,
-                'translateInline' => $this->translateInline,
-                'pageConfig' => $this->pageConfig,
             ]
         );
     }
 
+    public function testInitLayout()
+    {
+        $handleDefault = 'default';
+        $fullActionName = 'full_action_name';
+        $this->request->expects($this->any())
+            ->method('getFullActionName')
+            ->will($this->returnValue($fullActionName));
+
+        $this->layoutMerge->expects($this->at(0))
+            ->method('addHandle')
+            ->with($handleDefault)
+            ->willReturnSelf();
+        $this->layoutMerge->expects($this->at(1))
+            ->method('addHandle')
+            ->with($fullActionName)
+            ->willReturnSelf();
+        $this->layoutMerge->expects($this->at(2))
+            ->method('isLayoutDefined')
+            ->willReturn(false);
+
+        $this->assertEquals($this->page, $this->page->initLayout());
+    }
+
+    public function testInitLayoutLayoutDefined()
+    {
+        $handleDefault = 'default';
+        $fullActionName = 'full_action_name';
+        $this->request->expects($this->any())
+            ->method('getFullActionName')
+            ->will($this->returnValue($fullActionName));
+
+        $this->layoutMerge->expects($this->at(0))
+            ->method('addHandle')
+            ->with($handleDefault)
+            ->willReturnSelf();
+        $this->layoutMerge->expects($this->at(1))
+            ->method('addHandle')
+            ->with($fullActionName)
+            ->willReturnSelf();
+        $this->layoutMerge->expects($this->at(2))
+            ->method('isLayoutDefined')
+            ->willReturn(true);
+        $this->layoutMerge->expects($this->at(3))
+            ->method('removeHandle')
+            ->with($handleDefault)
+            ->willReturnSelf();
+
+        $this->assertEquals($this->page, $this->page->initLayout());
+    }
+
+    public function testGetConfig()
+    {
+        $this->assertEquals($this->pageConfig, $this->page->getConfig());
+    }
+
     public function testGetDefaultLayoutHandle()
     {
-        $this->assertEquals('full_action_name', $this->page->getDefaultLayoutHandle());
+        $fullActionName = 'Full_Action_Name';
+        $expectedFullActionName = 'full_action_name';
+
+        $this->request->expects($this->any())
+            ->method('getFullActionName')
+            ->will($this->returnValue($fullActionName));
+
+        $this->assertEquals($expectedFullActionName, $this->page->getDefaultLayoutHandle());
     }
 
     public function testAddPageLayoutHandles()
     {
-        $parameters = ['key_one' => 'val_one', 'key_two' => 'val_two'];
-        $expected = ['full_action_name', 'full_action_name_key_one_val_one', 'full_action_name_key_two_val_two'];
-        $this->assertEquals($expected, $this->page->addPageLayoutHandles($parameters));
+        $fullActionName = 'Full_Action_Name';
+        $defaultHandle = null;
+        $parameters = [
+            'key_one' => 'val_one',
+            'key_two' => 'val_two'
+        ];
+        $expected = [
+            'full_action_name',
+            'full_action_name_key_one_val_one',
+            'full_action_name_key_two_val_two'
+        ];
+        $this->request->expects($this->any())
+            ->method('getFullActionName')
+            ->will($this->returnValue($fullActionName));
+
+        $this->layoutMerge->expects($this->any())
+            ->method('addPageHandles')
+            ->with($expected)
+            ->willReturn(true);
+
+        $this->assertTrue($this->page->addPageLayoutHandles($parameters, $defaultHandle));
+    }
+
+    public function testAddPageLayoutHandlesWithDefaultHandle()
+    {
+        $defaultHandle = 'default_handle';
+        $parameters = [
+            'key_one' => 'val_one',
+            'key_two' => 'val_two'
+        ];
+        $expected = [
+            'default_handle',
+            'default_handle_key_one_val_one',
+            'default_handle_key_two_val_two'
+        ];
+        $this->request->expects($this->never())
+            ->method('getFullActionName');
+
+        $this->layoutMerge->expects($this->any())
+            ->method('addPageHandles')
+            ->with($expected)
+            ->willReturn(true);
+
+        $this->assertTrue($this->page->addPageLayoutHandles($parameters, $defaultHandle));
     }
 }

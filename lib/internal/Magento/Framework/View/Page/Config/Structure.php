@@ -84,6 +84,9 @@ class Structure
             foreach ($attributes as $attributeName) {
                 unset($this->elementAttributes[$element][$attributeName]);
             }
+            if (empty($this->elementAttributes[$element])) {
+                unset($this->elementAttributes[$element]);
+            }
         }
         $this->removeElementAttributes = [];
         return $this;

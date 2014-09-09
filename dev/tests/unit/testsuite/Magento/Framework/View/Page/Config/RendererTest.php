@@ -9,6 +9,7 @@
 namespace Magento\Framework\View\Page\Config;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\Framework\View\Asset\GroupedCollection;
 
 /**
  * Test for page config renderer model
@@ -83,26 +84,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
-            ->setMethods(
-                [
-                    'getMetadata',
-                    'renderTitle',
-                    'prepareFavicon',
-                    'renderAssets',
-                    'getTitle',
-                    'getDefaultTitle',
-                    'getFaviconFile',
-                    'addPageAsset',
-                    'getAssetCollection',
-                    'processMerge',
-                    'getMetadataTemplate',
-                    'processMetadataContent',
-                    'addRemotePageAsset',
-                    'setTitle',
-                    'getIncludes',
-                    'getTranslatorScript'
-                ]
-            )->disableOriginalConstructor()
+            ->disableOriginalConstructor()
             ->getMock();
 
         $this->assetMinifyServiceMock = $this->getMockBuilder('Magento\Framework\View\Asset\MinifyService')
@@ -119,6 +101,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->escaperMock = $this->getMockBuilder('Magento\Framework\Escaper')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->escaperMock->expects($this->any())
+            ->method('escapeHtml')
+            ->willReturnArgument(0);
 
         $this->stringMock = $this->getMockBuilder('Magento\Framework\Stdlib\String')
             ->disableOriginalConstructor()
@@ -160,256 +145,226 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRenderHeadContent()
+    public function testRenderElementAttributes()
     {
-        $title = 'some_title';
-        $someUrl = 'some_url';
-        $expected = '<meta name="name" content="value"/>' . "\n"
-            . "<title>some_title</title>" . "\n" . '<link  href="' . $someUrl . '" />' . "\n";
-        $this->pageConfigMock
-            ->expects($this->once())
-            ->method('getMetadata')
-            ->will($this->returnValue(['name' => 'value']));
-        $this->pageConfigMock
-            ->expects($this->once())
-            ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection));
-        $this->pageConfigMock
-            ->expects($this->exactly(2))
-            ->method('getTitle')
-            ->will($this->returnValue($title));
-        $this->titlesMock
-            ->expects($this->once())
-            ->method('add')
-            ->will($this->returnSelf());
-        $this->titlesMock
-            ->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue([$title]));
-        $this->pageConfigMock
-            ->expects($this->once())
-            ->method('setTitle')
-            ->will($this->returnSelf());
-        $this->assetsCollection
-            ->expects($this->once())
-            ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock]));
-        $this->assetInterfaceMock
-            ->expects($this->once())
-            ->method('getUrl')
-            ->will($this->returnValue($someUrl));
-        $this->assetMinifyServiceMock
-            ->expects($this->once())
-            ->method('getAssets')
-            ->will($this->returnValue([$this->assetInterfaceMock]));
-        $this->assertEquals($expected, $this->renderer->renderHeadContent());
+        $elementType = 'elementType';
+        $attributes = ['attr1' => 'value1', 'attr2' => 'value2'];
+        $expected = 'attr1="value1" attr2="value2"';
+
+        $this->pageConfigMock->expects($this->once())
+            ->method('getElementAttributes')
+            ->with($elementType)
+            ->willReturn($attributes);
+
+        $this->assertEquals($expected, $this->renderer->renderElementAttributes($elementType));
     }
 
-    /**
-     * @param string $metadataTemplate
-     * @param string $expected
-     *
-     * @dataProvider renderMetadataDataProvider
-     */
-    public function testRenderMetadata($metadataTemplate, $expected)
+    public function testRenderMetadata()
     {
-        $this->pageConfigMock
-            ->expects($this->once())
-            ->method('getMetadata')
-            ->will($this->returnValue([$metadataTemplate => '%content']));
-        $this->assertEquals($expected, $this->renderer->renderMetadata());
-    }
-
-    public function renderMetadataDataProvider()
-    {
-        return [
-            ['charset', '<meta charset="%content"/>' . "\n"],
-            ['content_type', '<meta http-equiv="Content-Type" content="%content"/>' . "\n"],
-            ['x_ua_compatible', '<meta http-equiv="X-UA-Compatible" content="%content"/>' . "\n"],
-            ['media_type', false],
-            ['name', '<meta name="name" content="%content"/>' . "\n"]
+        $metadata = [
+            'charset' => 'charsetValue',
+            'metadataName' => 'metadataValue',
+            'content_type' => 'content_type_value',
+            'x_ua_compatible' => 'x_ua_compatible_value',
+            'media_type' => 'media_type_value'
         ];
+        $metadataValueCharset = 'newCharsetValue';
+
+        $expected = '<meta charset="newCharsetValue"/>' . "\n"
+            . '<meta name="metadataName" content="metadataValue"/>' . "\n"
+            . '<meta http-equiv="Content-Type" content="content_type_value"/>' . "\n"
+            . '<meta http-equiv="X-UA-Compatible" content="x_ua_compatible_value"/>' . "\n";
+
+        $this->stringMock->expects($this->at(0))
+            ->method('upperCaseWords')
+            ->with('charset', '_', '')
+            ->willReturn('Charset');
+
+        $this->pageConfigMock->expects($this->once())
+            ->method('getCharset')
+            ->willReturn($metadataValueCharset);
+
+        $this->pageConfigMock
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($metadata));
+
+        $this->assertEquals($expected, $this->renderer->renderMetadata());
     }
 
     public function testRenderTitle()
     {
         $title = 'some_title';
         $expected = "<title>some_title</title>" . "\n";
-        $this->pageConfigMock
-            ->expects($this->exactly(2))
+
+        $this->pageConfigMock->expects($this->any())
             ->method('getTitle')
             ->will($this->returnValue($title));
-        $this->titlesMock
-            ->expects($this->once())
+
+        $this->titlesMock->expects($this->once())
             ->method('add')
+            ->with($title, true)
             ->will($this->returnSelf());
-        $this->titlesMock
-            ->expects($this->once())
+
+        $this->titlesMock->expects($this->once())
             ->method('get')
             ->will($this->returnValue([$title]));
-        $this->pageConfigMock
-            ->expects($this->once())
+
+        $this->pageConfigMock->expects($this->once())
             ->method('setTitle')
+            ->with([$title])
             ->will($this->returnSelf());
 
         $this->assertEquals($expected, $this->renderer->renderTitle());
     }
 
-    public function testRenderAsset()
-    {
-        $expectedResult = '<link  href="" />' . "\n" . '<link  href="" />' . "\n";
-        $this->pageConfigMock->expects($this->once())
-            ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection));
-        $this->assetsCollection->expects($this->once())
-            ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock]));
-        $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
-        $this->assetMinifyServiceMock
-            ->expects($this->once())
-            ->method('getAssets')
-            ->will($this->returnValue($groupAssets));
-        $this->propertyGroupMock->expects($this->at(0))
-            ->method('getProperty')
-            ->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(0))
-            ->method('getProperty')
-            ->will($this->returnValue(['ie_condition']));
-        $this->assertEquals($expectedResult, $this->renderer->renderAssets());
-    }
-
-    public function testRenderAssetsException()
-    {
-
-        $exception = new \Magento\Framework\Exception('my message');
-        $this->pageConfigMock->expects($this->once())
-            ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection));
-        $this->assetsCollection->expects($this->once())
-            ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock]));
-        $this->assetMinifyServiceMock
-            ->expects($this->once())
-            ->method('getAssets')
-            ->will($this->returnValue([$this->assetInterfaceMock]));
-        $this->assetInterfaceMock->expects($this->once())->method('getUrl')->will($this->throwException($exception));
-        $this->loggerMock->expects($this->once())->method('logException')->with($exception);
-        $this->renderer->renderAssets();
-    }
-
-    public function testProcessMerge()
-    {
-        $contentType = 'css';
-        $expectedResult = '<link  rel="stylesheet" type="text/css"  media="all" href="" />' . "\n"
-            . '<link  rel="stylesheet" type="text/css"  media="all" href="" />' . "\n";
-
-        $this->pageConfigMock->expects($this->once())
-            ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection));
-        $this->assetsCollection->expects($this->once())
-            ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock]));
-        $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
-        $this->assetMinifyServiceMock
-            ->expects($this->once())
-            ->method('getAssets')
-            ->will($this->returnValue($groupAssets));
-        $this->propertyGroupMock->expects($this->any())->method('getProperty')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['can_merge', true],
-                        ['content_type', $contentType]
-                    ]
-                )
-            );
-        $this->assetMergeServiceMock
-            ->expects($this->once())
-            ->method('getMergedAssets')
-            ->with($groupAssets, $contentType)
-            ->will($this->returnValue($groupAssets));
-        $this->assertEquals($expectedResult, $this->renderer->renderAssets());
-    }
-
-    public function testGetGroupAttributes()
-    {
-        $contentType = 'js';
-        $expectedResult = '<script  type="text/javascript"  src=""></script>' . "\n"
-            . '<script  type="text/javascript"  src=""></script>' . "\n";
-        $this->pageConfigMock->expects($this->once())
-            ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection));
-        $this->assetsCollection->expects($this->once())
-            ->method('getGroups')
-            ->will($this->returnValue([$this->propertyGroupMock]));
-        $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
-        $this->assetMinifyServiceMock
-            ->expects($this->once())
-            ->method('getAssets')
-            ->will($this->returnValue($groupAssets));
-        $this->propertyGroupMock->expects($this->any())->method('getProperty')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['can_merge', true],
-                        ['content_type', $contentType]
-                    ]
-                )
-            );
-        $this->assetMergeServiceMock
-            ->expects($this->once())
-            ->method('getMergedAssets')
-            ->with($groupAssets, $contentType)
-            ->will($this->returnValue($groupAssets));
-        $this->assertEquals($expectedResult, $this->renderer->renderAssets());
-    }
-
     public function testPrepareFavicon()
     {
-        $this->pageConfigMock->expects($this->exactly(3))->method('getFaviconFile')->will($this->returnValue('file'));
-        $this->pageConfigMock->expects($this->exactly(2))->method('addRemotePageAsset')->will($this->returnSelf());
-        $this->assertEquals('', $this->renderer->prepareFavicon());
+        $filePath = 'file';
+        $this->pageConfigMock->expects($this->exactly(3))
+            ->method('getFaviconFile')
+            ->willReturn($filePath);
+
+        $this->pageConfigMock->expects($this->exactly(2))
+            ->method('addRemotePageAsset')
+            ->withConsecutive(
+                [
+                    $filePath,
+                    Generator::VIRTUAL_CONTENT_TYPE_LINK,
+                    ['attributes' => ['rel' => 'icon', 'type' => 'image/x-icon']],
+                    'icon'
+                ],
+                [
+                    $filePath,
+                    Generator::VIRTUAL_CONTENT_TYPE_LINK,
+                    ['attributes' => ['rel' => 'shortcut icon', 'type' => 'image/x-icon']],
+                    'shortcut-icon'
+                ]
+            );
+
+        $this->renderer->prepareFavicon();
     }
 
-    public function testGetAttributes()
+    public function testPrepareFaviconDefault()
     {
-        $expectedResult = '<link  0="" href="" />' . "\n" . '<link  0="" href="" />' . "\n";
+        $defaultFilePath = 'default_file';
+        $this->pageConfigMock->expects($this->once())
+            ->method('getFaviconFile')
+            ->willReturn(false);
+        $this->pageConfigMock->expects($this->exactly(2))
+            ->method('getDefaultFavicon')
+            ->willReturn($defaultFilePath);
+
+        $this->pageConfigMock->expects($this->exactly(2))
+            ->method('addPageAsset')
+            ->withConsecutive(
+                [
+                    $defaultFilePath,
+                    ['attributes' => ['rel' => 'icon', 'type' => 'image/x-icon']],
+                    'icon'
+                ],
+                [
+                    $defaultFilePath,
+                    ['attributes' => ['rel' => 'shortcut icon', 'type' => 'image/x-icon']],
+                    'shortcut-icon'
+                ]
+            );
+        $this->renderer->prepareFavicon();
+    }
+
+    /**
+     * @param $contentType
+     * @param $attributes
+     * @param $ieCondition
+     * @param $expectedResult
+     * @dataProvider dataProviderRenderAsset
+     */
+    public function testRenderAsset($contentType, $attributes, $ieCondition, $expectedResult)
+    {
+        $assetUrl = 'url';
+        $assetNoRoutUrl = 'no_route_url';
+
+        $exception = new \Magento\Framework\Exception('my message');
+
+        $assetMock1 = $this->getMock('Magento\Framework\View\Asset\AssetInterface');
+        $assetMock1->expects($this->once())
+            ->method('getUrl')
+            ->willReturn($assetUrl);
+
+        $assetMock2 = $this->getMock('Magento\Framework\View\Asset\AssetInterface');
+        $assetMock2->expects($this->once())
+            ->method('getUrl')
+            ->willThrowException($exception);
+
+        $groupAssets = [$assetMock1, $assetMock2];
+
         $this->pageConfigMock->expects($this->once())
             ->method('getAssetCollection')
-            ->will($this->returnValue($this->assetsCollection));
-        $this->propertyGroupMock->expects($this->at(0))
-            ->method('getProperty')
-            ->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(1))
-            ->method('getProperty')
-            ->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(2))
-            ->method('getProperty')
-            ->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(3))
-            ->method('getProperty')
-            ->will($this->returnValue(['attributes']));
-        $this->propertyGroupMock->expects($this->at(4))->method('getProperty')->will(
-            $this->returnValue('ie_condition')
-        );
+            ->willReturn($this->assetsCollection);
+
         $this->assetsCollection->expects($this->once())
             ->method('getGroups')
-            ->will(
-                $this->returnValue([$this->propertyGroupMock])
-            );
-        $groupAssets = [$this->assetInterfaceMock, $this->assetInterfaceMock];
+            ->willReturn([$this->propertyGroupMock]);
+
+        $this->propertyGroupMock->expects($this->once())
+            ->method('getAll')
+            ->willReturn($groupAssets);
+        $this->propertyGroupMock->expects($this->any())
+            ->method('getProperty')
+            ->willReturnMap([
+                [GroupedCollection::PROPERTY_CAN_MERGE, true],
+                [GroupedCollection::PROPERTY_CONTENT_TYPE, $contentType],
+                ['attributes', $attributes],
+                ['ie_condition', $ieCondition]
+            ]);
+
         $this->assetMinifyServiceMock
             ->expects($this->once())
             ->method('getAssets')
-            ->will(
-                $this->returnValue($groupAssets)
-            );
-        $this->assetMergeServiceMock
-            ->expects($this->once())
+            ->with($groupAssets)
+            ->willReturn($groupAssets);
+
+        $this->assetMergeServiceMock->expects($this->once())
             ->method('getMergedAssets')
-            ->will(
-                $this->returnValue($groupAssets)
-            );
+            ->with($groupAssets, $contentType)
+            ->willReturnArgument(0);
+
+        $this->loggerMock->expects($this->once())
+            ->method('logException')
+            ->with($exception);
+
+        $this->urlBuilderMock->expects($this->once())
+            ->method('getUrl')
+            ->with('', ['_direct' => 'core/index/notFound'])
+            ->willReturn($assetNoRoutUrl);
+
         $this->assertEquals($expectedResult, $this->renderer->renderAssets());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderRenderAsset()
+    {
+        $css = '<link  rel="stylesheet" type="text/css"  media="all" href="url" />' . "\n"
+            . '<link  rel="stylesheet" type="text/css"  media="all" href="no_route_url" />' . "\n";
+
+        $cssWithAttr = '<link  rel="stylesheet" type="text/css"  attr="value" href="url" />' . "\n"
+            . '<link  rel="stylesheet" type="text/css"  attr="value" href="no_route_url" />' . "\n";
+
+        $js = '<script  type="text/javascript"  attr="value" src="url"></script>' . "\n"
+            . '<script  type="text/javascript"  attr="value" src="no_route_url"></script>' . "\n";
+
+        $jsWithIfIe = '<!--[if lt IE 7]>' . "\n"
+            . '<script  type="text/javascript"  attr="value" src="url"></script>' . "\n"
+            . '<script  type="text/javascript"  attr="value" src="no_route_url"></script>' . "\n"
+            . '<![endif]-->' . "\n";
+
+        return [
+            ['css', '', null, $css],
+            ['css', 'attr="value"', null, $cssWithAttr],
+            ['js', ['attr' => 'value'], null, $js],
+            ['js', ['attr' => 'value'], 'lt IE 7', $jsWithIfIe]
+        ];
     }
 }

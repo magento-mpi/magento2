@@ -8,11 +8,7 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../app/code/Magento/Core/etc/page.xsd">
-    <head>
-        <title>test</title>
-        <meta name="x_ua_compatible" content="IE=edge,chrome=1"/>
-        <css src="Magento_Doc::css/doc.css"/>
-        <script src="requirejs/require.js"/>
-        <link src="mage/jquery-no-conflict.js"/>
-    </head>
+    <body>
+        <attribute name="body_attribute_name" value="body_attribute_value" />
+    </body>
 </page>

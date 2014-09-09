@@ -20,15 +20,52 @@ class StructureTest extends \PHPUnit_Framework_TestCase
      */
     protected $structure;
 
-    /** @var ObjectManagerHelper */
-    protected $objectManagerHelper;
-
     protected function setUp()
     {
-        $this->objectManagerHelper = new ObjectManagerHelper($this);
-        $this->structure = $this->objectManagerHelper->getObject(
+        $objectManagerHelper = new ObjectManagerHelper($this);
+        $this->structure = $objectManagerHelper->getObject(
             'Magento\Framework\View\Page\Config\Structure'
         );
+    }
+
+    public function testSetElementAttribute()
+    {
+        $elementName1 = 'elementName1';
+        $attributeName1 = 'attributeName1';
+        $attributeValue1 = 'attributeValue1';
+
+        $elementName2 = 'elementName2';
+        $attributeName2 = 'attributeName2';
+        $attributeValue2 = 'attributeValue2';
+
+        $expected = [
+            'elementName1' => ['attributeName1' => 'attributeValue1'],
+            'elementName2' => ['attributeName2' => 'attributeValue2']
+        ];
+
+        $this->structure->setElementAttribute($elementName1, $attributeName1, $attributeValue1);
+        $this->structure->setElementAttribute($elementName2, $attributeName2, $attributeValue2);
+        $this->assertEquals($expected, $this->structure->getElementAttributes());
+
+        $expectedAfterRemove =[
+            'elementName2' => ['attributeName2' => 'attributeValue2']
+        ];
+        $this->structure->setElementAttribute($elementName1, $attributeName1, false);
+        $this->structure->processRemoveElementAttributes();
+        $this->assertEquals($expectedAfterRemove, $this->structure->getElementAttributes());
+    }
+
+    public function testSetBodyClass()
+    {
+        $class1 = 'class_1';
+        $class2 = 'class_2';
+        $expected = [$class1, $class2];
+        $this->structure->setBodyClass($class1);
+        $this->structure->setBodyClass($class2);
+        $this->assertEquals($expected, $this->structure->getBodyClasses());
+
+        $this->structure->setBodyClass('');
+        $this->assertEmpty($this->structure->getBodyClasses());
     }
 
     public function testTitle()
@@ -40,30 +77,39 @@ class StructureTest extends \PHPUnit_Framework_TestCase
 
     public function testMetadata()
     {
-        $dataName = 'name';
-        $dataContent = 'content';
-        $expected = ['name' => 'content'];
+        $metadataName = 'name';
+        $metadataContent = 'content';
+        $expected = [$metadataName => $metadataContent];
 
-        $this->structure->setMetadata($dataName, $dataContent);
+        $this->structure->setMetadata($metadataName, $metadataContent);
 
         $this->assertEquals($expected, $this->structure->getMetadata());
     }
 
     public function testAssets()
     {
-        $dataName = 'test';
-        $dataAttributes = ['attr1', 'attr2'];
-        $expected = [
-            'test' => [
-                'attr1',
-                'attr2'
-            ]
-        ];
+        $assetName = 'test';
+        $assetAttributes = ['attr1', 'attr2'];
+        $expected = [$assetName => $assetAttributes];
 
-        $this->structure->addAssets($dataName, $dataAttributes);
+        $this->structure->addAssets($assetName, $assetAttributes);
         $this->assertEquals($expected, $this->structure->getAssets());
-        $this->structure->removeAssets($dataName);
+    }
+
+    public function testProcessRemoveAssets()
+    {
+        $assetName1 = 'test1';
+        $assetAttributes1 = ['attr1_1', 'attr1_2'];
+
+        $assetName2 = 'test2';
+        $assetAttributes2 = ['attr2_1', 'attr2_2'];
+
+        $expected = [$assetName1 => $assetAttributes1];
+
+        $this->structure->addAssets($assetName1, $assetAttributes1);
+        $this->structure->addAssets($assetName2, $assetAttributes2);
+        $this->structure->removeAssets($assetName2);
         $this->structure->processRemoveAssets();
-        $this->assertEquals([], $this->structure->getAssets());
+        $this->assertEquals($expected, $this->structure->getAssets());
     }
 }

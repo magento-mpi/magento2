@@ -189,7 +189,7 @@ class Renderer
     }
 
     /**
-     * @return string
+     * @return void
      */
     public function prepareFavicon()
     {
