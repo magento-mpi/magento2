@@ -22,12 +22,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  * Preconditions:
  * 1. Enable payment method "Check/Money Order"
  * 2. Enable shipping method one of "Flat Rate"
- * 3. Create two products
- * 4. Create a customer
- * 5. Create order
+ * 3. Create order
  *
  * Steps:
- * 1. Go to Admin
+ * 1. Login to backend
  * 2. Sales > Orders
  * 3. Open the created order
  * 4. Do cancel Order
@@ -56,11 +54,10 @@ class CancelCreatedOrderTest extends Injectable
      * Enable "Check/Money Order" and "Flat Rate" in configuration
      *
      * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @return void
      */
-    public function __prepare(
-        FixtureFactory $fixtureFactory
-    ) {
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
         $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
         $configPayment->persist();
 
@@ -94,12 +91,10 @@ class CancelCreatedOrderTest extends Injectable
 
         // Steps
         $this->orderIndex->open();
-        $filter = ['id' => $order->getId()];
-        $this->orderIndex->getSalesOrderGrid()->searchAndOpen($filter);
-        $this->orderView->getGridPageActions()->cancel();
+        $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
+        $this->orderView->getPageActions()->cancel();
 
         return [
-            'order' => $order,
             'customer' => $order->getDataFieldConfig('customer_id')['source']->getCustomer(),
         ];
     }

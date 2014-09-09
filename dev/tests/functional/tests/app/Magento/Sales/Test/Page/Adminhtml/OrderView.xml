@@ -9,11 +9,11 @@
 -->
 <page mca="sales/order/view/index" module="Magento_Sales">
     <blocks>
-        <gridPageActions>
+        <pageActions>
             <class>Magento\Sales\Test\Block\Adminhtml\Order\Actions</class>
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
-        </gridPageActions>
+        </pageActions>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>
             <locator>#messages</locator>

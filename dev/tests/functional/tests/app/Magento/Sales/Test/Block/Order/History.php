@@ -13,7 +13,7 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * My Orders block
+ * Customer Orders block on frontend
  */
 class History extends Block
 {
@@ -22,10 +22,10 @@ class History extends Block
      *
      * @var string
      */
-    protected $customerOrders = '//tr[td[contains(.,"%d")]][td[contains(.,"%s")]]';
+    protected $customerOrders = '//tr[td[contains(.,"%d")] and td[contains(.,"%s")]]';
 
     /**
-     * Check if order is available in customer orders on frontend
+     * Check if order is visible in customer orders on frontend
      *
      * @param array $order
      * @return bool

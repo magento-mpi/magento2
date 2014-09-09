@@ -17,7 +17,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Class AssertOrderInOrdersGridOnFrontend
- * Assert that order with fixure data is present in MyAccount -> Orders on frontend
+ * Assert that order is present in Orders on frontend
  */
 class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
 {
@@ -29,6 +29,8 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assert that order with fixture data is present in MyAccount -> Orders on frontend
+     *
      * @param OrderInjectable $order
      * @param CustomerInjectable $customer
      * @param CustomerAccountLogin $customerAccountLogin

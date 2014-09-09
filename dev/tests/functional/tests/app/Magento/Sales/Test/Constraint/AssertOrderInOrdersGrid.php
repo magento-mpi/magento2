@@ -14,7 +14,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
  * Class AssertOrderInOrdersGrid
- * Assert that order with fixure data is present in Sales -> Orders Grid
+ * Assert that order is present in Orders grid
  */
 class AssertOrderInOrdersGrid extends AbstractConstraint
 {
@@ -26,7 +26,7 @@ class AssertOrderInOrdersGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that order with fixure data is present in Sales -> Orders Grid
+     * Assert that order with fixture data is present in Sales -> Orders Grid
      *
      * @param OrderInjectable $order
      * @param OrderIndex $orderIndex
