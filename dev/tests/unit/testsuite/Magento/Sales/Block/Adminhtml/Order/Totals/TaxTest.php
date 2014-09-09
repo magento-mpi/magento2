@@ -18,16 +18,16 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $getCalculatedTax = array(
+        $getCalculatedTax = [
             'tax' => 'tax',
             'shipping_tax' => 'shipping_tax'
-        );
-        $getShippingTax = array(
+        ];
+        $getShippingTax = [
             'shipping_tax' => 'shipping_tax',
             'shipping_and_handing' => 'shipping_and_handing'
-        );
+        ];
         $taxHelperMock = $this->getMockBuilder('Magento\Tax\Helper\Data')
-            ->setMethods(array('getCalculatedTaxes', 'getShippingTax'))
+            ->setMethods(['getCalculatedTaxes', 'getShippingTax'])
             ->disableOriginalConstructor()
             ->getMock();
         $taxHelperMock->expects($this->any())
@@ -39,7 +39,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
         $this->taxMock = $this->getMockBuilder('Magento\Sales\Block\Adminhtml\Order\Totals\Tax')
             ->setConstructorArgs($this->_getConstructArguments($taxHelperMock))
-            ->setMethods(array('getOrder'))
+            ->setMethods(['getOrder'])
             ->getMock();
 
     }
@@ -95,7 +95,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         return $objectManagerHelper->getConstructArguments(
             'Magento\Sales\Block\Adminhtml\Order\Totals\Tax',
-            array('taxHelper' => $taxHelperMock)
+            ['taxHelper' => $taxHelperMock]
         );
     }
 
