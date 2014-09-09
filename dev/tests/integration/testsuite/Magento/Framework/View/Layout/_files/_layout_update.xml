@@ -15,6 +15,9 @@
         <script src="prototype/deprecation.js"/>
     </head>
     <block class="Magento\Backend\Block\Page" name="root" output="1" template="page.phtml">
+        <block class="Magento\Backend\Block\Page" name="nodeForTesting">
+            <action method="setSomething"/>
+        </block>
         <block class="Magento\Backend\Block\Page\Header" name="header" as="header"/>
         <block class="Magento\Backend\Block\Menu" name="menu" as="menu"/>
         <block class="Magento\Framework\View\Element\Messages" name="messages" as="messages"/>
