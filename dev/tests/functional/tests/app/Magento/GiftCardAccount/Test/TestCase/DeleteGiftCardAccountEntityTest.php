@@ -83,7 +83,6 @@ class DeleteGiftCardAccountEntityTest extends Injectable
      */
     public function testDeleteGiftCardAccount(GiftCardAccount $giftCardAccount)
     {
-        $this->markTestIncomplete('MAGETWO-27663');
         $giftCardAccount->persist();
         $this->giftCardAccountIndex->open();
         $code = $giftCardAccount->getCode();

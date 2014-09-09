@@ -14,16 +14,16 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
 use Magento\Customer\Test\Fixture\AddressInjectable;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AssertGiftWrappingNotOnFrontendCheckout
- * Assert that deleted Gift Wrapping can not be found during one page checkout on frontend
+ * Class AssertGiftWrappingOnFrontendCheckout
+ * Assert that Gift Wrapping can be found during one page checkout on frontend
  */
-class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
+class AssertGiftWrappingOnFrontendCheckout extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -33,13 +33,13 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that deleted Gift Wrapping can not be found during one page checkout on frontend
+     * Assert that Gift Wrapping can be found during one page checkout on frontend
      *
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param Browser $browser
      * @param CheckoutOnepage $checkoutOnepage
-     * @param GiftWrapping|GiftWrapping[] $giftWrapping
+     * @param array $giftWrapping
      * @param AddressInjectable $billingAddress
      * @param CatalogProductSimple $product
      * @param CustomerInjectable $customer
@@ -51,7 +51,7 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
         CheckoutCart $checkoutCart,
         Browser $browser,
         CheckoutOnepage $checkoutOnepage,
-        $giftWrapping,
+        array $giftWrapping,
         AddressInjectable $billingAddress,
         CatalogProductSimple $product,
         CustomerInjectable $customer,
@@ -69,16 +69,15 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
         $checkoutOnepage->getBillingBlock()->clickContinue();
         $giftWrappingsAvailable = $checkoutOnepage->getGiftOptionsBlock()->getGiftWrappingsAvailable();
         $matches = [];
-        $giftWrappings = !is_array($giftWrapping) ? [$giftWrapping] : $giftWrapping;
-        foreach ($giftWrappings as $giftWrapping) {
-            if (in_array($giftWrapping->getDesign(), $giftWrappingsAvailable)) {
-                $matches[] = $giftWrapping->getDesign();
+        foreach ($giftWrapping as $item) {
+            if (in_array($item->getDesign(), $giftWrappingsAvailable)) {
+                $matches[] = $item->getDesign();
             }
         }
         $customerAccountLogout->open();
-        \PHPUnit_Framework_Assert::assertEmpty(
+        \PHPUnit_Framework_Assert::assertNotEmpty(
             $matches,
-            'Gift Wrapping is present in one page checkout on frontend.'
+            'Gift Wrapping is not present in one page checkout on frontend.'
             . "\nLog:\n" . implode(";\n", $matches)
         );
     }
@@ -90,6 +89,6 @@ class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift Wrapping can not be found during one page checkout on frontend.';
+        return 'Gift Wrapping can be found during one page checkout on frontend.';
     }
 }

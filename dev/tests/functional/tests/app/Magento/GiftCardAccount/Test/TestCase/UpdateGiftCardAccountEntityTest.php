@@ -103,7 +103,6 @@ class UpdateGiftCardAccountEntityTest extends Injectable
      */
     public function test(GiftCardAccount $giftCardAccountOrigin, GiftCardAccount $giftCardAccount)
     {
-        $this->markTestIncomplete('MAGETWO-27663');
         // Precondition
         $giftCardAccountOrigin->persist();
 

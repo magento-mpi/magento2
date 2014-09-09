@@ -79,16 +79,6 @@ class CreateProductReviewBackendEntityTest extends Injectable
     protected $review;
 
     /**
-     * This method is called before a test is executed
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::markTestIncomplete('MAGETWO-27663');
-    }
-
-    /**
      * Inject pages into test
      *
      * @param ReviewIndex $reviewIndex

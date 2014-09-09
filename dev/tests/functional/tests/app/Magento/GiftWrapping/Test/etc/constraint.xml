@@ -29,4 +29,22 @@
     <assertGiftWrappingNotOnFrontendCheckout module="Magento_GiftWrapping">
         <severeness>low</severeness>
     </assertGiftWrappingNotOnFrontendCheckout>
+    <assertGiftWrappingMassActionSuccessDeleteMessage module="Magento_GiftWrapping">
+        <severeness>high</severeness>
+    </assertGiftWrappingMassActionSuccessDeleteMessage>
+    <assertGiftWrappingMassActionInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingMassActionInGrid>
+    <assertGiftWrappingOnFrontendCheckout module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingOnFrontendCheckout>
+    <assertGiftWrappingSuccessUpdateMessage module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingSuccessUpdateMessage>
+    <assertGiftWrappingMassActionForm module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingMassActionForm>
+    <assertGiftWrappingMassActionNotInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingMassActionNotInGrid>
 </constraint>
