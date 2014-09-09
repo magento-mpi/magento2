@@ -68,7 +68,8 @@ return [
                 'install-configuration' => [
                     'options' => [
                         'route' => 'install configuration --license_agreement_accepted= --db_host= --db_name='
-                            . ' --db_user= --admin_url= [--db_pass=] [--db_table_prefix=] [--magentoDir=]',
+                            . ' --db_user= --admin_url= [--db_pass=] [--db_table_prefix=] [--encryption_key=]'
+                            . '[--magentoDir=]',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installDeploymentConfig',
@@ -86,11 +87,7 @@ return [
                 ],
                 'install-data' => [
                     'options' => [
-                        'route' => 'install data --store_url= '
-                            . ' --locale= --timezone= --currency= --admin_lastname= --admin_firstname= '
-                            . ' --admin_email= --admin_username= --admin_password='
-                            . ' [--secure_admin_url=] [--use_rewrites=]'
-                            . ' [--encryption_key=] [--secure_store_url=] [--magentoDir=]',
+                        'route' => 'install data [--magentoDir=]',
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installData',

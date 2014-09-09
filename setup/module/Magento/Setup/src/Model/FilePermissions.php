@@ -119,15 +119,12 @@ class FilePermissions
     /**
      * Checks if has file permission or not
      *
-     * @return bool
+     * @return array
      */
     public function checkPermission()
     {
         $required = $this->getRequired();
         $current = $this->getCurrent();
-        if (array_diff($required, $current)) {
-            return false;
-        }
-        return true;
+        return array_diff($required, $current);
     }
 }

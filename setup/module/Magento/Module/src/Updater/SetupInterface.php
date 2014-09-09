@@ -32,13 +32,6 @@ interface SetupInterface
     const TYPE_DATA_UPGRADE = 'data-upgrade';
 
     /**
-     * Apply module resource install, upgrade and data scripts
-     *
-     * @return \Magento\Framework\Module\Updater\SetupInterface
-     */
-    public function applyUpdates();
-
-    /**
      * Check call afterApplyAllUpdates method for setup class
      *
      * @return boolean

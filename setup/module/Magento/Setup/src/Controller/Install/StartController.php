@@ -43,7 +43,6 @@ class StartController extends AbstractInstallActionController
      * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfig
-     * @param UserConfigurationDataFactory $userConfigurationDataFactory
      * @param JsonModel $view
      * @param WebLogger $logger
      * @param PhpExecutableFinder $phpExecutableFinder
@@ -55,13 +54,12 @@ class StartController extends AbstractInstallActionController
         Random $random,
         Config $config,
         ConfigFactory $systemConfig,
-        UserConfigurationDataFactory $userConfigurationDataFactory,
         JsonModel $view,
         WebLogger $logger,
         PhpExecutableFinder $phpExecutableFinder
     ) {
         parent::__construct($moduleList, $setupFactory, $adminAccountFactory, $random,
-            $config, $systemConfig, $userConfigurationDataFactory, $logger, $phpExecutableFinder);
+            $config, $systemConfig, $logger, $phpExecutableFinder);
         $this->json = $view;
     }
 
@@ -77,16 +75,7 @@ class StartController extends AbstractInstallActionController
         $data = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
 
         //Installs Deployment Configuration
-        $this->installDeploymentConfiguration($data);
-
-        if ($data['config']['encrypt']['type'] == 'magento') {
-            $key = $this->getRandomEncryptionKey();
-        } else {
-            $key = $data['config']['encrypt']['key'];
-        }
-
-        $this->config->replaceTmpEncryptKey($key);
-        $this->config->replaceTmpInstallDate(date('r'));
+        $key = $this->installDeploymentConfiguration($data);
 
         //Installs Schema
         $this->installSchemaUpdates();
@@ -97,7 +86,13 @@ class StartController extends AbstractInstallActionController
         $this->logger->logSuccess('User Configuration');
 
         //Installs Data
-        $this->installDataUpdates();
+        $exitCode = $this->installDataUpdates();
+
+        if ($exitCode !== 0) {
+            $this->json->setVariable('success', false);
+        } else {
+            $this->json->setVariable('success', true);
+        }
 
         $this->json->setVariable('key', $key);
         return $this->json;

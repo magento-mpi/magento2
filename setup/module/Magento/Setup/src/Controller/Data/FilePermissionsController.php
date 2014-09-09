@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,15 +41,15 @@ class FilePermissionsController extends AbstractActionController
     public function indexAction()
     {
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
-        if (!$this->permissions->checkPermission()) {
+        if ($this->permissions->checkPermission()) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
 
         $data = [
             'responseType' => $responseType,
             'data' => [
-                'required' => $required,
-                'current' => $current,
+                'required' => $this->permissions->getRequired(),
+                'current' => $this->permissions->getCurrent(),
             ],
         ];
 

@@ -59,7 +59,6 @@ class ConsoleController extends AbstractInstallActionController
      * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfig
-     * @param UserConfigurationDataFactory $userConfigurationDataFactory
      * @param ConsoleLogger $consoleLogger
      * @param PhpExecutableFinder $phpExecutableFinder
      */
@@ -72,12 +71,11 @@ class ConsoleController extends AbstractInstallActionController
         Random $random,
         Config $config,
         ConfigFactory $systemConfig,
-        UserConfigurationDataFactory $userConfigurationDataFactory,
         ConsoleLogger $consoleLogger,
         PhpExecutableFinder $phpExecutableFinder
     ) {
         parent::__construct($moduleList, $setupFactory, $adminAccountFactory, $random,
-            $config, $systemConfig, $userConfigurationDataFactory, $consoleLogger, $phpExecutableFinder);
+            $config, $systemConfig, $consoleLogger, $phpExecutableFinder);
         $this->filePermission = $filePermission;
         $this->list = $list;
         $this->phpExecutableFinder = $phpExecutableFinder;
@@ -143,8 +141,13 @@ class ConsoleController extends AbstractInstallActionController
         $this->updateMagentoDirectory($magentoDir);
 
         //Check File permission
-        if (!$this->filePermission->checkPermission()) {
-            throw new \Exception('You do no have appropriate file permissions.');
+        $results = $this->filePermission->checkPermission();
+        if ($results) {
+            $errorMsg = 'You do no have appropriate file permissions for the following: ';
+            foreach ($results as $result) {
+                $errorMsg .= '\'' . $result . '\' ';
+            }
+            throw new \Exception($errorMsg);
         }
 
         //Db Data Configuration
@@ -154,6 +157,7 @@ class ConsoleController extends AbstractInstallActionController
         $dbPass   = $request->getParam('db_pass', '');
         $dbPrefix = $request->getParam('db_table_prefix', '');
         $adminUrl = $request->getParam('admin_url');
+        $encryptionKey = $request->getParam('encryption_key', $this->getRandomEncryptionKey());
 
         //Checks Database Connectivity
         Helper::checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass);
@@ -171,22 +175,14 @@ class ConsoleController extends AbstractInstallActionController
             'config' => array(
                 'address' => array(
                     'admin' => $adminUrl,
-                )
+                ),
+                'encrypt' => array(
+                    'key' => $encryptionKey,
+                ),
             )
         );
 
         $this->installDeploymentConfiguration($data);
-
-        //Finalizes the deployment configuration
-        $encryptionKey = $request->getParam('encryption_key');
-        if (!$encryptionKey) {
-            $key = $this->getRandomEncryptionKey();
-        } else {
-            $key = $encryptionKey;
-        }
-
-        $this->config->replaceTmpEncryptKey($key);
-        $this->config->replaceTmpInstallDate(date('r'));
 
         $this->logger->log("Completed: Deployment Configuration.");
     }

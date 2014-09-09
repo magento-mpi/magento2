@@ -16,7 +16,6 @@ use Magento\Module\SetupFactory;
 use Magento\Module\Setup\Config;
 use Magento\Setup\Helper\Helper;
 use Magento\Config\Config as SystemConfig;
-use Magento\Setup\Model\UserConfigurationDataFactory;
 use Magento\Setup\Model\LoggerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\AdminAccountFactory;
@@ -61,13 +60,6 @@ class AbstractInstallActionController extends AbstractActionController
     protected $adminAccountFactory;
 
     /**
-     * User Configuration Data Factory
-     *
-     * @var UserConfigurationDataFactory
-     */
-    protected $userConfigurationDataFactory;
-
-    /**
      * Module Lists
      *
      * @var ModuleListInterface
@@ -90,7 +82,6 @@ class AbstractInstallActionController extends AbstractActionController
      * @param Random $random
      * @param Config $config
      * @param ConfigFactory $systemConfigFactory
-     * @param UserConfigurationDataFactory $userConfigurationDataFactory
      * @param LoggerInterface $loggerInterface
      * @param PhpExecutableFinder $phpExecutableFinder
      */
@@ -101,7 +92,6 @@ class AbstractInstallActionController extends AbstractActionController
         Random $random,
         Config $config,
         ConfigFactory $systemConfigFactory,
-        UserConfigurationDataFactory $userConfigurationDataFactory,
         LoggerInterface $loggerInterface,
         PhpExecutableFinder $phpExecutableFinder
     ) {
@@ -111,7 +101,6 @@ class AbstractInstallActionController extends AbstractActionController
         $this->systemConfig = $systemConfigFactory->create();
         $this->adminAccountFactory = $adminAccountFactory;
         $this->random = $random;
-        $this->userConfigurationDataFactory = $userConfigurationDataFactory;
         $this->logger = $loggerInterface;
         $this->phpExecutableFinder = $phpExecutableFinder;
     }
@@ -120,7 +109,7 @@ class AbstractInstallActionController extends AbstractActionController
      * Installs Deployment Configuration
      *
      * @param array $data
-     * @return void
+     * @return string
      */
     public function installDeploymentConfiguration($data)
     {
@@ -128,6 +117,12 @@ class AbstractInstallActionController extends AbstractActionController
 
         //Creates Deployment Configuration
         $this->config->install();
+
+        $key = $data['config']['encrypt']['key'];
+        $this->config->replaceTmpEncryptKey($key);
+        $this->config->replaceTmpInstallDate(date('r'));
+
+        return $key;
     }
 
     /**
@@ -138,13 +133,14 @@ class AbstractInstallActionController extends AbstractActionController
      */
     protected function installUserConfigurationData($data)
     {
-        $setup = $this->setupFactory->create();
-
         //Loading Configurations
         $this->config->setConfigData($this->config->convertFromDataObject($data));
         $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
-        $this->userConfigurationDataFactory->setConfig($this->config->getConfigData());
-        $this->userConfigurationDataFactory->create($setup)->install($data);
+        $this->setupFactory->setConfig($this->config->getConfigData());
+        $setup = $this->setupFactory->create();
+
+        //Installing Configuration
+        $setup->installUserConfigurationData($data);
 
         // Create administrator account
         $this->adminAccountFactory->setConfig($this->config->getConfigData());
@@ -195,7 +191,7 @@ class AbstractInstallActionController extends AbstractActionController
         $phpPath = $this->phpExecutableFinder->find();
         exec(
             $phpPath .
-            'php -f ' . $this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
+            ' -f ' . $this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
             $output,
             $exitCode
         );
@@ -246,7 +242,6 @@ class AbstractInstallActionController extends AbstractActionController
         $secureStoreUrl = $request->getParam('secure_store_url', false) == 'yes' ? true : false;
         $secureAdminUrl = $request->getParam('secure_admin_url', false) == 'yes' ? true : false;
         $useRewrites = $request->getParam('use_rewrites', false) == 'yes' ? true : false;
-        $encryptionKey = $request->getParam('encryption_key', $this->getRandomEncryptionKey());
         $locale = $request->getParam('locale');
         $timezone = $request->getParam('timezone');
         $currency = $request->getParam('currency');
@@ -282,10 +277,6 @@ class AbstractInstallActionController extends AbstractActionController
                 'rewrites' => array(
                     'allowed' => $useRewrites,
                 ),
-                'encrypt' => array(
-                    'type' => 'magento',
-                    'key' => $encryptionKey,
-                ),
                 'advanced' => array(
                     'expanded' => true,
                 ),
@@ -293,6 +284,4 @@ class AbstractInstallActionController extends AbstractActionController
         );
         return $data;
     }
-
-
 } 

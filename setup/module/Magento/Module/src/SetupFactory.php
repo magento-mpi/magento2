@@ -86,16 +86,23 @@ class SetupFactory
      */
     public function create($moduleName = null)
     {
-        $setup =  new Setup(
-            $this->adapter,
-            $this->moduleList,
-            $this->fileResolver,
-            $this->logger,
-            $moduleName,
-            $this->configuration
-        );
-        if (isset($this->configuration['db_prefix'])) {
-            $setup->setTablePrefix($this->configuration['db_prefix']);
+        if (!$moduleName) {
+            $setup =  new Setup(
+                $this->adapter,
+                $this->fileResolver,
+                $this->configuration
+            );
+        } else {
+            $setup =  new SetupModule(
+                $this->adapter,
+                $this->moduleList,
+                $this->fileResolver,
+                $moduleName,
+                $this->configuration
+            );
+            if (isset($this->configuration['db_prefix'])) {
+                $setup->setTablePrefix($this->configuration['db_prefix']);
+            }
         }
 
         return $setup;
