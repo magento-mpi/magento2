@@ -23,8 +23,7 @@ class ValidatorFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateWithInstanceName()
     {
         $setName = 'Magento\Framework\Object';
-        $this->model->setInstanceName($setName);
-        $this->assertInstanceOf($setName, $this->model->create());
+        $this->assertInstanceOf($setName, $this->model->create([], $setName));
     }
 
     public function testCreateDefault()

@@ -37,7 +37,6 @@ class ValidatorFactoryTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock->expects($this->once())->method('create')
             ->willReturn($returnMock);
 
-        $this->model->setInstanceName($setName);
         $this->assertSame($returnMock, $this->model->create());
     }
 
@@ -47,8 +46,6 @@ class ValidatorFactoryTest extends \PHPUnit_Framework_TestCase
         $returnMock = $this->getMock($default);
         $this->objectManagerMock->expects($this->once())->method('create')
             ->willReturn($returnMock);
-
-        $this->model->setInstanceName($default);
         $this->assertSame($returnMock, $this->model->create());
     }
 }

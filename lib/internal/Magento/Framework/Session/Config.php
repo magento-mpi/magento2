@@ -310,9 +310,10 @@ class Config implements ConfigInterface
      */
     public function setCookieLifetime($cookieLifetime, $default = null)
     {
-        $validator = $this->_validatorFactory->setInstanceName(
+        $validator = $this->_validatorFactory->create(
+            [],
             'Magento\Framework\Session\Config\Validator\CookieLifetimeValidator'
-        )->create();
+        );
         if ($validator->isValid($cookieLifetime)) {
             $this->setOption('session.cookie_lifetime', (int)$cookieLifetime);
         } elseif (null !== $default && $validator->isValid($default)) {
@@ -342,9 +343,10 @@ class Config implements ConfigInterface
     public function setCookiePath($cookiePath, $default = null)
     {
         $cookiePath = (string)$cookiePath;
-        $validator = $this->_validatorFactory->setInstanceName(
+        $validator = $this->_validatorFactory->create(
+            [],
             'Magento\Framework\Session\Config\Validator\CookiePathValidator'
-        )->create();
+        );
         if ($validator->isValid($cookiePath)) {
             $this->setOption('session.cookie_path', $cookiePath);
         } elseif (null !== $default && $validator->isValid($default)) {
@@ -373,9 +375,10 @@ class Config implements ConfigInterface
      */
     public function setCookieDomain($cookieDomain, $default = null)
     {
-        $validator = $this->_validatorFactory->setInstanceName(
+        $validator = $this->_validatorFactory->create(
+            [],
             'Magento\Framework\Session\Config\Validator\CookieDomainValidator'
-        )->create();
+        );
         if ($validator->isValid($cookieDomain)) {
             $this->setOption('session.cookie_domain', $cookieDomain);
         } elseif (null !== $default && $validator->isValid($default)) {
