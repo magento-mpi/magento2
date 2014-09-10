@@ -46,9 +46,10 @@ class Range implements FilterInterface
 
         if ($hasFromValue and $hasToValue) {
             $condition = sprintf(
-                '%s >= %s AND %s < %s',
+                '%s >= %s %s %s < %s',
                 $field,
                 $adapter->quote($from),
+                \Zend_Db_Select::SQL_AND,
                 $field,
                 $adapter->quote($to)
             );
