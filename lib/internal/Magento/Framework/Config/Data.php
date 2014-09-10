@@ -74,6 +74,7 @@ class Data implements \Magento\Framework\Config\DataInterface
 
     /**
      * Initialise data for configuration
+     * @return void
      */
     protected function initData()
     {
@@ -124,6 +125,7 @@ class Data implements \Magento\Framework\Config\DataInterface
 
     /**
      * Clear cache data
+     * @return void
      */
     public function reset()
     {

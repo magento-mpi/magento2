@@ -137,6 +137,7 @@ class Full
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Framework\Search\Request\Config $searchRequestConfig
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
