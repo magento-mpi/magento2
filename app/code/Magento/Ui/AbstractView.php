@@ -8,9 +8,9 @@
 namespace Magento\Ui;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Class AbstractView
@@ -18,6 +18,15 @@ use Magento\Ui\ContentType\ContentTypeFactory;
 abstract class AbstractView extends Template implements ViewInterface
 {
     /**
+     * Render context
+     *
+     * @var Context
+     */
+    protected $renderContext;
+
+    /**
+     * Content type factory
+     *
      * @var ContentTypeFactory
      */
     protected $factory;
@@ -30,25 +39,32 @@ abstract class AbstractView extends Template implements ViewInterface
     protected $assetRepo;
 
     /**
+     * Data view
+     *
      * @var array
      */
     protected $viewData = [];
 
     /**
+     * View configuration data
+     *
      * @var array
      */
     protected $viewConfiguration = [];
 
     /**
-     * @param Context $context
+     * @param Context $renderContext
+     * @param TemplateContext $context
      * @param ContentTypeFactory $factory
      * @param array $data
      */
     public function __construct(
-        Context $context,
+        Context $renderContext,
+        TemplateContext $context,
         ContentTypeFactory $factory,
-        array $data = array())
-    {
+        array $data = []
+    ) {
+        $this->renderContext = $renderContext;
         $this->factory = $factory;
         $this->assetRepo = $context->getAssetRepository();
         parent::__construct($context, $data);
@@ -57,19 +73,35 @@ abstract class AbstractView extends Template implements ViewInterface
     /**
      * @param array $arguments
      * @param string $acceptType
-     * @param array $requestParams
      * @return mixed|string
      */
-    public function render(array $arguments = [], $acceptType = 'html', array $requestParams = [])
+    public function render(array $arguments = [], $acceptType = 'html')
     {
         $prevArgs = $this->_data;
         $this->_data = array_replace_recursive($this->_data, $arguments);
-        $this->prepare();
         $result = $this->factory->get($acceptType)->render($this, $this->getTemplate());
         $this->_data = $prevArgs;
+
         return $result;
     }
 
+    /**
+     * Prepare layout
+     *
+     * @return $this
+     */
+    protected function _prepareLayout()
+    {
+        $this->prepare();
+
+        return parent::_prepareLayout();
+    }
+
+    /**
+     * Prepare custom data
+     *
+     * @return void
+     */
     protected function prepare()
     {
         //
@@ -83,8 +115,7 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function toHtml()
     {
-        $acceptType = $this->getAcceptType();
-        return $this->render([], $acceptType);
+        return $this->render([], $this->renderContext->getAcceptType());
     }
 
     /**
@@ -104,7 +135,7 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function getViewData()
     {
-        return (array) $this->viewData;
+        return (array)$this->viewData;
     }
 
     /**
@@ -114,7 +145,7 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function getViewConfiguration()
     {
-        return (array) $this->viewConfiguration;
+        return (array)$this->viewConfiguration;
     }
 
     /**
@@ -128,38 +159,43 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
+     * Getting render engine
+     *
      * @return ContentType\ContentTypeInterface
      */
     protected function getRenderEngine()
     {
-        return $this->factory->get($this->getAcceptType());
+        return $this->factory->get($this->renderContext->getAcceptType());
     }
 
     /**
-     * Getting requested accept type
-     *
-     * @return string
-     */
-    protected function getAcceptType()
-    {
-        $rawAcceptType = $this->_request->getHeader('Accept');
-        if (strpos($rawAcceptType, 'json') !== false) {
-            $acceptType = 'json';
-        } else if (strpos($rawAcceptType, 'xml') !== false) {
-            $acceptType = 'xml';
-        } else {
-            $acceptType = 'html';
-        }
-        return $acceptType;
-    }
-
-    /**
-     * Getting name instance
+     * Getting name component instance
      *
      * @return string
      */
     public function getName()
     {
-        return $this->viewConfiguration['config']['name'];
+        return isset($this->viewConfiguration['name']) ? $this->viewConfiguration['name'] : null;
+    }
+
+    /**
+     * Getting parent name component instance
+     *
+     * @return string
+     */
+    public function getParentName()
+    {
+        return isset($this->viewConfiguration['parent_name']) ? $this->viewConfiguration['parent_name'] : null;
+    }
+
+    /**
+     * Add data into configuration element view
+     *
+     * @param AbstractView $view
+     * @param array $data
+     */
+    public function addConfigData(AbstractView $view, array $data)
+    {
+        $this->viewConfiguration['config']['components'][$view->getName()] = $data;
     }
 }

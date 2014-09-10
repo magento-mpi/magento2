@@ -35,6 +35,8 @@ class Ajax extends \Magento\Backend\App\Action
     }
 
     /**
+     * Getting name
+     *
      * @return mixed
      */
     protected function getName()
@@ -43,6 +45,8 @@ class Ajax extends \Magento\Backend\App\Action
     }
 
     /**
+     * Getting component
+     *
      * @return mixed
      */
     protected function getComponent()

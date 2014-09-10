@@ -15,10 +15,9 @@ interface ViewInterface
     /**
      * @param array $arguments
      * @param string $acceptType
-     * @param array $requestParams
      * @return mixed|string
      */
-    public function render(array $arguments = [], $acceptType = 'html', array $requestParams = []);
+    public function render(array $arguments = [], $acceptType = 'html');
 
     /**
      * Getting template
@@ -54,4 +53,19 @@ interface ViewInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Getting parent name component instance
+     *
+     * @return string
+     */
+    public function getParentName();
+
+    /**
+     * Add data into configuration element view
+     *
+     * @param AbstractView $view
+     * @param array $data
+     */
+    public function addConfigData(AbstractView $view, array $data);
 }

@@ -12,18 +12,16 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\AbstractBlock;
 
 /**
- * Base price render
- *
- * @method string getPriceRenderHandle()
+ * Class Render
  */
 class Render extends AbstractBlock
 {
     /**
-     * Default type renderer
+     * Render context
      *
-     * @var string
+     * @var Context
      */
-    protected $defaultTypeRender = 'default';
+    protected $renderContext;
 
     /**
      * Private layout
@@ -35,15 +33,18 @@ class Render extends AbstractBlock
     /**
      * Constructor
      *
+     * @param Context $renderContext
      * @param Template\Context $context
      * @param Layout $privateLayout
      * @param array $data
      */
     public function __construct(
+        Context $renderContext,
         Template\Context $context,
         Layout $privateLayout,
         array $data = []
     ) {
+        $this->renderContext = $renderContext;
         $this->privateLayout = $privateLayout;
         parent::__construct($context, $data);
     }
@@ -58,6 +59,7 @@ class Render extends AbstractBlock
         $this->privateLayout->addHandle('ui_' . $this->getComponent());
         $this->privateLayout->addHandle($this->getName());
         $this->privateLayout->loadLayout();
+
         return parent::_prepareLayout();
     }
 
@@ -68,7 +70,7 @@ class Render extends AbstractBlock
      */
     protected function _toHtml()
     {
-        return $this->render($this->getComponent());
+        return $this->render($this->getComponent(), []);
     }
 
     /**
@@ -80,57 +82,32 @@ class Render extends AbstractBlock
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function render($uiElementName, array $arguments = [])
+    protected function render($uiElementName, array $arguments = [])
     {
+        // Obtain concrete UI Element View
+        $view = $this->getUiElementView($uiElementName);
         $useArguments = array_replace($this->getData(), $arguments);
-        $useArguments['config']['name'] = isset($useArguments['name'])
-            ? $useArguments['name']
-            : $this->getName();
+        $useArguments['name'] = isset($useArguments['name']) ? $useArguments['name'] : $this->getName();
 
-        // obtain concrete UI Element View
-        $view = $this->getUiElementView($uiElementName, $useArguments);
-        return $view->render($useArguments, $this->getAcceptType(), $this->_request->getParams());
+        return $view->render($useArguments, $this->renderContext->getAcceptType());
     }
 
     /**
      * @param string $uiElementName
      * @param array $data
-     * @throws \InvalidArgumentException
      * @return ViewInterface
+     * @throws \InvalidArgumentException
      */
-    protected function getUiElementView(
-        $uiElementName,
-        array $data = []
-    ) {
+    protected function getUiElementView($uiElementName, array $data = [])
+    {
         /** @var \Magento\Ui\ViewInterface $view */
         $view = $this->privateLayout->getBlock($uiElementName);
         if (!$view instanceof ViewInterface) {
             throw new \InvalidArgumentException(
-                'UI Element "' . $uiElementName . '" must implement \Magento\Ui\ViewInterface'
+                sprintf('UI Element "%s" must implement \Magento\Ui\ViewInterface', $uiElementName)
             );
         }
 
         return $view;
-    }
-
-    /**
-     * Getting requested accept type
-     *
-     * @return string
-     */
-    protected function getAcceptType()
-    {
-        $rawAcceptType = $this->_request->getHeader('Accept');
-        if (strpos($rawAcceptType, 'json') !== false) {
-            $acceptType = 'json';
-        } else {
-            if (strpos($rawAcceptType, 'text/html') !== false) {
-                $acceptType = 'html';
-            } else {
-                $acceptType = 'xml';
-            }
-        }
-
-        return $acceptType;
     }
 }

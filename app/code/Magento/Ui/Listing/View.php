@@ -7,24 +7,21 @@
  */
 namespace Magento\Ui\Listing;
 
+use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
-use \Magento\Framework\ObjectManager;
-use \Magento\Backend\Block\Template\Context;
+use \Magento\Ui\Provider\ProviderFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Class View
  */
 class View extends AbstractView
 {
-    const DEFAULT_GRID_URL = 'mui/listing/ajax';
-
-    const DEFAULT_PAGE_LIMIT = 5;
-
     /**
-     * @var ObjectManager
+     * @var ProviderFactory
      */
-    protected $objectManager;
+    protected $providerFactory;
 
     /**
      * @var \Magento\Ui\Provider\ProviderInterface[]
@@ -32,42 +29,48 @@ class View extends AbstractView
     protected $providerActionPoll = [];
 
     /**
-     * @var array
-     */
-    protected $sortingConfig = [];
-
-    /**
-     * @param Context $context
-     * @param ContentTypeFactory $factory
-     * @param ObjectManager $objectManager
+     * Constructor
+     *
+     * @param ProviderFactory $providerFactory
+     * @param Context $renderContext
+     * @param TemplateContext $context
+     * @param ContentTypeFactory $contentTypeFactory
      * @param array $data
      */
     public function __construct(
-        Context $context,
-        ContentTypeFactory $factory,
-        ObjectManager $objectManager,
+        ProviderFactory $providerFactory,
+        Context $renderContext,
+        TemplateContext $context,
+        ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
-        $this->objectManager = $objectManager;
-        parent::__construct($context, $factory, $data);
-
-        $this->viewConfiguration = [
-            'config' => [
-                'client' => [
-                    'root' => $this->getUrl(static::DEFAULT_GRID_URL)
-                ]
-            ]
-        ];
-    }
-
-    protected function prepare()
-    {
-        parent::prepare();
-        $this->createProviders();
-        $this->initialConfiguration();
+        $this->providerFactory = $providerFactory;
+        parent::__construct($renderContext, $context, $contentTypeFactory, $data);
     }
 
     /**
+     * Prepare custom data
+     *
+     * @return void
+     */
+    protected function prepare()
+    {
+        parent::prepare();
+
+        $this->viewConfiguration = [
+            'name' => $this->getData('name'),
+            'parent_name' => $this->getData('name')
+        ];
+        if ($this->hasData('config')) {
+            $this->addConfigData($this, array_merge_recursive($this->viewConfiguration, $this->getData('config')));
+        }
+
+        $this->renderContext->register($this->getName(), $this->getData('dataSource'));
+    }
+
+    /**
+     * Create providers
+     *
      * @return void
      * @throws \InvalidArgumentException
      */
@@ -80,19 +83,12 @@ class View extends AbstractView
 
         foreach ($this->providerActionPoll as $key => $item) {
             if (empty($cache[$item['class']])) {
-                $cache[$item['class']] = $this->objectManager->create(
+                $cache[$item['class']] = $this->providerFactory->create(
                     $item['class'],
                     empty($item['arguments']) ? [] : $item['arguments']
                 );
-                if (!($cache[$item['class']] instanceof \Magento\Ui\Provider\ProviderInterface)) {
-                    throw new \InvalidArgumentException(
-                        sprintf(
-                            '%s must implement the interface \Magento\Ui\Provider\ProviderInterface',
-                            $item['class']
-                        )
-                    );
-                }
             }
+
             $this->providerActionPoll[$key] = $cache[$item['class']];
         }
     }
@@ -104,7 +100,22 @@ class View extends AbstractView
      */
     public function getCollection()
     {
-        return $this->getData('dataSource');
+        return $this->renderContext->registry($this->getName());
+    }
+
+    /**
+     * Render view
+     *
+     * @param array $arguments
+     * @param string $acceptType
+     * @return mixed|string
+     */
+    public function render(array $arguments = [], $acceptType = 'html')
+    {
+        $this->createProviders();
+        $this->initialConfiguration();
+
+        return parent::render($arguments, $acceptType);
     }
 
     /**
@@ -126,76 +137,38 @@ class View extends AbstractView
     }
 
     /**
+     * Getting collection items
+     *
      * return array
      */
     protected function getCollectionItems()
     {
         $items = [];
-        /** @var \Magento\Framework\Object $row */
-        $collection = $this->getCollection()->setOrder(
-            $this->getRequest()->getParam('sort', $this->getData('config/params/default_sort')),
-            strtoupper($this->getRequest()->getParam('dir', $this->getData('config/params/default_dir')))
-        )->setCurPage(
-            $this->getRequest()->getParam('page')
-        )->setPageSize($this->getRequest()->getParam('limit', static::DEFAULT_PAGE_LIMIT));
-        foreach ($collection->getItems() as $row) {
-            $rowData = [];
+
+        foreach ($this->renderContext->getDataCollection($this->getName())->getItems() as $item) {
+            $itemsData = [];
             foreach (array_keys($this->getData('meta/fields')) as $field) {
-                $rowData[$field] = $row->getData($field);
+                $itemsData[$field] = $item->getData($field);
             }
-            $items[] = $this->applyActionProviders($rowData);
+            $items[] = $this->applyActionProviders($itemsData);
         }
 
         return $items;
     }
 
     /**
+     * Configuration initialization
+     *
      * @return void
      */
     protected function initialConfiguration()
     {
-        $result['config'] = $this->hasData('config') ? $this->getData('config') : [];
-        $result['config']['component'] = $this->getNameInLayout();
-        $result['meta']['fields'] = array_values($this->getData('meta/fields'));
-
-        $result['data']['items'] = $this->getCollectionItems();
+        $this->viewConfiguration['meta']['fields'] = array_values($this->getData('meta/fields'));
+        $this->viewConfiguration['data']['items'] = $this->getCollectionItems();
         $countItems = $this->getCollection()->getSize();
-        $result['data']['pages'] = ceil(
-            $countItems / $this->getRequest()->getParam('limit', static::DEFAULT_PAGE_LIMIT)
+        $this->viewConfiguration['data']['pages'] = ceil(
+            $countItems / $this->renderContext->getRequestParam('limit', 5) // TODO fixme
         );
-        $result['data']['totalCount'] = $countItems;
-
-        $this->viewConfiguration = array_merge_recursive($this->viewConfiguration, $result);
-
-        $this->sortingConfig['config']['name'] = $this->viewConfiguration['config']['name'];
-        $this->sortingConfig['config']['params']['direction'] = $this->getData('config/params/default_dir');
-        $this->sortingConfig['config']['params']['field'] = $this->getData('config/params/default_sort');
-    }
-
-    /**
-     * Produce and return block's html output
-     * This method should not be overridden. You can override _toHtml() method in descendants if needed
-     *
-     * @return string
-     */
-    public function toHtml()
-    {
-        // TODO FIXME PLEASE !!
-        if ($this->getRequest()->getParam('isAjax') === 'true') {
-            $this->viewConfiguration = $this->viewConfiguration['data'];
-            return $this->getConfigurationJson();
-        } else {
-            return parent::toHtml();
-        }
-    }
-
-    /**
-     * Getting JSON configuration sorting data
-     *
-     * @return string
-     */
-    public function getSortingJson()
-    {
-        return json_encode($this->sortingConfig);
+        $this->viewConfiguration['data']['totalCount'] = $countItems;
     }
 }
