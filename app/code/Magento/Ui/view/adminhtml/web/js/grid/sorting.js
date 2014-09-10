@@ -24,8 +24,8 @@ define([
 
         initObservable: function(){
             this.observe({
-                field:      this.params.field,
-                direction:  this.params.direction
+                field:      this.field,
+                direction:  this.direction
             });
 
             return this;
@@ -57,15 +57,16 @@ define([
         },
 
         reload: function() {
-            this.updateParams().storage.load();
+            this.updateParams()
+                .provider.refresh();
         },
 
         updateParams: function() {
-            this.storage.setParams({
-                sorting: {
-                    field: this.field(),
-                    direction: this.direction()
-                }
+            var params = this.provider.params;
+
+            params.set('sorting', {
+                field:      this.field(),
+                direction:  this.direction()
             });
 
             return this;
@@ -83,7 +84,6 @@ define([
     });
 
     return Component({
-        name:   'sorting',
         constr: Sorting
     });
 });

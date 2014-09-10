@@ -13,6 +13,8 @@ define([
     function trigger( args, name ){
         var handlers;
 
+        this._events = this._events || {};
+        
         handlers = this._events[ name ];
 
         if( typeof handlers === 'undefined' ){

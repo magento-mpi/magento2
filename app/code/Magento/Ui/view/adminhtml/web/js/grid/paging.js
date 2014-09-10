@@ -16,17 +16,17 @@ define([
             this.initObservable(config)
                 .updateParams();
 
-            this.storage.on('load', this.onLoad.bind(this) );
+            this.provider.on('refresh', this.onRefresh.bind(this) );
         },
 
         initObservable: function(config) {
-            var data = this.storage.getData();
+            var data = this.provider.data.get();
 
             this.observe({
                 'pages':        data.pages,
                 'totalCount':   data.totalCount,
-                'current':      this.params.current,
-                'pageSize':     this.params.pageSize
+                'current':      this.current,
+                'pageSize':     this.pageSize
             });
 
             return this;
@@ -61,26 +61,25 @@ define([
         },
 
         reload: function() {
-            this.updateParams().storage.load();
+            this.updateParams()
+                .provider.refresh();
 
             return this;
         },
 
         updateParams: function() {
-            _.extend(this.params, {
+            var params = this.provider.params;
+
+            params.set('paging', {
                 pageSize: this.pageSize(),
                 current: this.current()
-            });
-
-            this.storage.setParams({
-                paging: this.params
             });
 
             return this;
         },
 
-        onLoad: function() {
-            var data = this.storage.getData();
+        onRefresh: function() {
+            var data = this.provider.data.get();
 
             this.totalCount(data.totalCount);
             this.pages(data.pages);
@@ -110,7 +109,6 @@ define([
     });
 
     return Component({
-        name:   'paging',
         constr: Paging
     });
 });

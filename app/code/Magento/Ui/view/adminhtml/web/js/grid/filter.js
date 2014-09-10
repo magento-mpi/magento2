@@ -87,7 +87,6 @@ define([
     });
 
     return Component({
-        name: 'filter',
         constr: Filter
     });
 });
