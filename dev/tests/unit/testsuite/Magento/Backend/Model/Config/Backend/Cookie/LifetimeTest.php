@@ -25,8 +25,9 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->validatorMock = $this->getMockBuilder('Magento\Framework\Session\Config\Validator\CookieLifetimeValidator')
-            ->disableOriginalConstructor()
+        $this->validatorMock = $this->getMockBuilder(
+            'Magento\Framework\Session\Config\Validator\CookieLifetimeValidator'
+        )->disableOriginalConstructor()
             ->getMock();
         $this->resourceMock = $this->getMockBuilder('Magento\Install\Model\Resource\Resource')
             ->disableOriginalConstructor()
