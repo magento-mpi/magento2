@@ -1,7 +1,7 @@
 define([
     'ko',
     '../class',
-    '../initializers/ko'
+    './initialize'
 ], function(ko, Class) {
     'use strict';
 

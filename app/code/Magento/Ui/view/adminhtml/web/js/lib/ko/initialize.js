@@ -8,12 +8,12 @@
 define([
 	'ko',
 	'jquery',
-	'Magento_Ui/js/lib/ko/template/engine',
-	'Magento_Ui/js/lib/ko/bind/date',
-	'Magento_Ui/js/lib/ko/bind/autocomplete',
-	'Magento_Ui/js/lib/ko/bind/on',
-	'Magento_Ui/js/lib/ko/bind/scope',
-    'Magento_Ui/js/lib/ko/bind/datepicker'
+	'./template/engine',
+	'./bind/date',
+	'./bind/autocomplete',
+	'./bind/on',
+	'./bind/scope',
+    './bind/datepicker'
 ], function(ko, $, templateEngine) {
 	'use strict';
 
