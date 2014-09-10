@@ -26,7 +26,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                     'queries' => $request['queries'],
                     'rootQueryName' => 'suggested_search_container',
                     'filters' => $request['filters'],
-                    'aggregation' => $request['aggregation'],
+                    'aggregations' => $request['aggregations'],
                 ]
             );
     }
