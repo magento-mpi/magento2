@@ -31,6 +31,11 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
      */
     private $requestMapper;
 
+    /**
+     * @var \Magento\Framework\Search\Request|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $request;
+
     protected function setUp()
     {
         $helper = new ObjectManager($this);
@@ -47,6 +52,10 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->requestMapper = $this->getMockBuilder('Magento\Framework\Search\Request\Mapper')
             ->setMethods(['getRootQuery', 'getBuckets'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->request = $this->getMockBuilder('Magento\Framework\Search\Request')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -162,8 +171,11 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->requestMapper->expects($this->once())->method('getRootQuery')->willReturn([]);
 
         $this->objectManager->expects($this->at(0))->method('create')->willReturn($this->requestMapper);
+        $this->objectManager->expects($this->at(2))->method('create')->willReturn($this->request);
         $this->config->expects($this->once())->method('get')->with($this->equalTo($requestName))->willReturn($data);
 
         $result = $this->requestBuilder->create();
+
+        $this->assertInstanceOf('\Magento\Framework\Search\Request', $result);
     }
 }
