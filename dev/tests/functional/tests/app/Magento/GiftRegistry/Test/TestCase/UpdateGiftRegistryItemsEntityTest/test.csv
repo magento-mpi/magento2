@@ -1,0 +1,3 @@
+"description";"giftRegistry/dataSet";"updateOptions/note";"updateOptions/qty";"updateOptions/delete";"constraint"
+"update note and qty";"birthday";"Note text";"2";"No";"assertGiftRegistryItemsUpdatedFrontendSuccessMessage, assertGiftRegistryItemsForm"
+"delete product from gift registry";"baby_registry";"-";"-";"Yes";"assertGiftRegistryItemsUpdatedFrontendSuccessMessage, assertGiftRegistryIsEmptyMessage"
