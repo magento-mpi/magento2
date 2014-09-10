@@ -1,4 +1,3 @@
-<!--
 /**
  * {license_notice}
  *
@@ -7,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
--->
 /** Creates datepicker binding and registers in to ko.bindingHandlers object */
 define([
     'ko',
