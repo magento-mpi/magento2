@@ -13,7 +13,8 @@
         "ext-curl": "*",
         "ext-iconv": "*",
         "ext-gd": "*",
-        "lib-libxml": "*"
+        "lib-libxml": "*",
+        "magento/magento-composer-installer": "*"
     },
     "suggest": {
         "ext-imagick": "Use Image Magick >=3.0.0 as an optional alternative image processing library"
