@@ -32,6 +32,9 @@
         <css src="extjs/resources/css/ytheme-magento.css"/>
         <link src="Magento_Rule::rules.js"/>
     </head>
+    <body>
+        <attribute name="id" value="html-body" />
+    </body>
     <block name="require.js" class="Magento\Backend\Block\Page\RequireJs" template="Magento_Backend::page/js/require_js.phtml" />
     <referenceContainer name="global.notices">
         <block class="Magento\Backend\Block\Page\Notices" name="global_notices" as="global_notices" template="page/notices.phtml"/>
