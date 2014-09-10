@@ -47,7 +47,7 @@ class Grid implements GridInterface
      */
     public function getGridTableName()
     {
-        return $this->gridTableName;
+        return $this->getConnection()->getTableName($this->gridTableName);
     }
 
     /**
@@ -76,7 +76,7 @@ class Grid implements GridInterface
             ->where(($field ?: 'sfo.entity_id') . ' = ?', $value);
         return $this->getConnection()->query(
             $this->getConnection()
-                ->insertFromSelect($select, $this->gridTableName, [], AdapterInterface::INSERT_ON_DUPLICATE)
+                ->insertFromSelect($select, $this->getGridTableName(), [], AdapterInterface::INSERT_ON_DUPLICATE)
         );
     }
 

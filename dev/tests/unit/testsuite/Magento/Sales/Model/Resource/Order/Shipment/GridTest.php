@@ -62,7 +62,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         );
         $this->adapterMock = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            [],
+            ['getTableName', 'select', 'query', 'insertFromSelect', 'delete'],
             [],
             '',
             false
@@ -96,6 +96,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->appResourceMock->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($this->adapterMock));
+        $this->adapterMock->expects($this->once())
+            ->method('getTableName')
+            ->will($this->returnValue('sales_flat_shipment_grid'));
         $this->adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($this->selectMock));
@@ -134,6 +137,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->appResourceMock->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($this->adapterMock));
+        $this->adapterMock->expects($this->once())
+            ->method('getTableName')
+            ->will($this->returnValue('sales_flat_shipment_grid'));
         $this->adapterMock->expects($this->once())
             ->method('delete')
             ->with('sales_flat_shipment_grid', ['fi.field = ?' => 1])
