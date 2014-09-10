@@ -95,31 +95,15 @@ class RequestBuilder
     }
 
     /**
-     * Bind query data by name
+     * Bind data to placeholder
      *
-     * @param string $name
-     * @param string|int|float $value
+     * @param string $placeholder
+     * @param string $value
      * @return $this
      */
-    public function bindQuery($name, $value)
+    public function bind($placeholder, $value)
     {
-        $this->data['queries'][$name] = $value;
-        return $this;
-    }
-
-    /**
-     * Bind filter data by name
-     *
-     * @param string $name
-     * @param string|int|float $value
-     * @return $this
-     */
-    public function bindFilter($name, $value)
-    {
-        if (!is_array($value)) {
-            $value = ['value' => $value];
-        }
-        $this->data['filters'][$name] = $value;
+        $this->data['placeholder'][$placeholder] = $value;
         return $this;
     }
 
@@ -163,9 +147,8 @@ class RequestBuilder
     {
         $data = $this->replaceBindLimits($data, $bindData);
         $data['dimensions'] = $this->replaceBindDimensions($data['dimensions'], $bindData['dimensions']);
-        $data['queries'] = $this->replaceBindMatchQuery($data['queries'], $bindData['queries']);
-        $data['filters'] = $this->replaceBindFilters($data['filters'], $bindData['filters']);
-
+        $data['queries'] = $this->replaceData($data['queries'], $bindData['placeholder']);
+        $data['filters'] = $this->replaceData($data['filters'], $bindData['placeholder']);
         return $data;
     }
 
@@ -203,39 +186,22 @@ class RequestBuilder
     }
 
     /**
-     * Replace bind match query
+     * Replace data recursive
      *
-     * @param array $queries
+     * @param array $data
      * @param array $bindData
      * @return array
      */
-    private function replaceBindMatchQuery($queries, $bindData)
+    private function replaceData($data, $bindData)
     {
-        foreach ($queries as $queryName => $queryValue) {
-            if (isset($bindData[$queryName])) {
-                $queries[$queryName]['value'] = $bindData[$queryName];
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = $this->replaceData($value, $bindData);
+            } elseif (!empty($bindData[$value])) {
+                $data[$key] = $bindData[$value];
             }
         }
-        return $queries;
-    }
-
-    /**
-     * Replace bind filters
-     *
-     * @param array $filters
-     * @param array $bindDataList
-     * @return array
-     */
-    private function replaceBindFilters($filters, $bindDataList)
-    {
-        foreach ($bindDataList as $bindFilterName => $bindFilterValue) {
-            foreach ($bindFilterValue as $bindFieldName => $bindFieldValue) {
-                if (isset($filters[$bindFilterName])) {
-                    $filters[$bindFilterName][$bindFieldName] = $bindFieldValue;
-                }
-            }
-        }
-        return $filters;
+        return $data;
     }
 
     /**

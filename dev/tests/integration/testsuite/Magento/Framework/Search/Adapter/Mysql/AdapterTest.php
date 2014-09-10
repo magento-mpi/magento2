@@ -60,7 +60,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchQuery()
     {
-        $this->requestBuilder->bindQuery('fulltext_search_query', 'socks');
+        $this->requestBuilder->bind('$fulltext_search_query$', 'socks');
         $this->requestBuilder->setRequestName('one_match');
 
         $queryResponse = $this->executeQuery();
@@ -93,24 +93,6 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Sample test with default value
-     *
-     * @magentoDbIsolation enabled
-     * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
-     * @magentoConfigFixture current_store catalog/search/search_type 2
-     * @magentoDataFixture Magento/Framework/Search/_files/products.php
-     */
-    public function testMatchQueryDefaultValue()
-    {
-        $this->requestBuilder->setRequestName('one_match');
-
-        $queryResponse = $this->executeQuery();
-
-        $this->assertEquals(1, $queryResponse->count());
-    }
-
-    /**
      * Sample test
      *
      * @magentoDbIsolation enabled
@@ -121,9 +103,10 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchQueryFilters()
     {
-        $this->requestBuilder->bindQuery('fulltext_search_query', 'socks');
-        $this->requestBuilder->bindFilter('pidsh', 4);
-        $this->requestBuilder->bindFilter('pidm', ['from' => 1, 'to' => 3]);
+        $this->requestBuilder->bind('$fulltext_search_query$', 'socks');
+        $this->requestBuilder->bind('$pidsh$', 4);
+        $this->requestBuilder->bind('$pidm_from$', 1);
+        $this->requestBuilder->bind('$pidm_to$', 3);
         $this->requestBuilder->setRequestName('one_match_filters');
 
         $queryResponse = $this->executeQuery();
@@ -141,7 +124,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithAllFields()
     {
-        $this->requestBuilder->bindFilter('range_filter', ['from' => 1, 'to' => 3]);
+        $this->requestBuilder->bind('$range_filter_from$', 1);
+        $this->requestBuilder->bind('$range_filter_to$', 3);
         $this->requestBuilder->setRequestName('range_filter');
 
         $queryResponse = $this->executeQuery();
@@ -159,7 +143,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithoutFromField()
     {
-        $this->requestBuilder->bindFilter('range_filter_without_from_field', ['to' => 4]);
+        $this->requestBuilder->bind('$range_filter_to$', 4);
         $this->requestBuilder->setRequestName('range_filter_without_from_field');
 
         $queryResponse = $this->executeQuery();
