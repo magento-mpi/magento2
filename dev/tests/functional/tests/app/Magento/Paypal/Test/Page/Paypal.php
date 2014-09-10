@@ -45,7 +45,7 @@ class Paypal extends Page
      *
      * @var string
      */
-    protected $loginExpressBlock = '#main';
+    protected $expressBlock = '#main';
 
     /**
      * Paypal review block
@@ -53,13 +53,6 @@ class Paypal extends Page
      * @var string
      */
     protected $reviewBlock = '#reviewModule';
-
-    /**
-     * Paypal review block
-     *
-     * @var string
-     */
-    protected $reviewExpressBlock = '#memberReview';
 
     /**
      * Paypal main panel block
@@ -83,9 +76,7 @@ class Paypal extends Page
      */
     public function getLoginBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalLogin(
-            $this->_browser->find($this->loginBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalLogin($this->_browser->find($this->loginBlock));
     }
 
     /**
@@ -95,9 +86,7 @@ class Paypal extends Page
      */
     public function getLoginExpressBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalLoginExpress(
-            $this->_browser->find($this->loginExpressBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalLoginExpress($this->_browser->find($this->expressBlock));
     }
 
     /**
@@ -107,9 +96,7 @@ class Paypal extends Page
      */
     public function getReviewBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalReview(
-            $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalReview($this->_browser->find($this->reviewBlock));
     }
 
     /**
@@ -119,9 +106,7 @@ class Paypal extends Page
      */
     public function getReviewExpressBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalReviewExpress(
-            $this->_browser->find($this->reviewExpressBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalReviewExpress($this->_browser->find($this->expressBlock));
     }
 
     /**
@@ -131,9 +116,7 @@ class Paypal extends Page
      */
     public function getBillingBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalBilling(
-            $this->_browser->find($this->billingModuleBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalBilling($this->_browser->find($this->billingModuleBlock));
     }
 
     /**
@@ -143,8 +126,6 @@ class Paypal extends Page
      */
     public function getMainPanelBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalMainPanel(
-            $this->_browser->find($this->panelMainBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalMainPanel($this->_browser->find($this->panelMainBlock));
     }
 }
