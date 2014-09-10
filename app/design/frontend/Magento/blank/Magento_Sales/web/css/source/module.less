@@ -149,6 +149,17 @@
 }
 
 //
+//    Guest order view page
+//--------------------------------------
+.sales-guest-view {
+    .column.main {
+        .block:not(.widget) {
+            &:extend(.abstract-account-blocks all);
+        }
+    }
+}
+
+//
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
@@ -259,6 +270,23 @@
             .mark,
             .amount {
                 text-align: right;
+            }
+        }
+    }
+
+    //
+    //    Guest order view page
+    //--------------------------------------
+    .sales-guest-view {
+        .column.main {
+            .block:not(.widget) {
+                .block-content {
+                    &:extend(.add-clearfix-desktop all);
+                    .box {
+                        &:extend(.blocks-2columns all);
+                        margin-bottom: @indent-base;
+                    }
+                }
             }
         }
     }
