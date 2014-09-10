@@ -154,6 +154,7 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
                 [UrlRewrite::ENTITY_ID, 'entity_1'],
                 [UrlRewrite::STORE_ID, 'store_id_1']
             ]));
+        $urlFirst->expects($this->any())->method('getEntityType')->willReturn('product');
         $urlSecond->expects($this->any())
             ->method('getByKey')
             ->will($this->returnValueMap([
@@ -161,6 +162,7 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
                 [UrlRewrite::ENTITY_ID, 'entity_2'],
                 [UrlRewrite::STORE_ID, 'store_id_2']
             ]));
+        $urlSecond->expects($this->any())->method('getEntityType')->willReturn('category');
 
         $this->adapter->expects($this->any())
             ->method('quoteIdentifier')
@@ -168,17 +170,35 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
 
         $this->select->expects($this->at(1))
             ->method('where')
-            ->with('entity_type IN (?)', ['product', 'category']);
+            ->with('entity_id IN (?)', ['entity_1',]);
 
         $this->select->expects($this->at(2))
             ->method('where')
-            ->with('entity_id IN (?)', ['entity_1', 'entity_2']);
+            ->with('store_id IN (?)', ['store_id_1']);
 
         $this->select->expects($this->at(3))
             ->method('where')
-            ->with('store_id IN (?)', ['store_id_1', 'store_id_2']);
+            ->with('entity_type IN (?)', 'product');
 
         $this->select->expects($this->at(4))
+            ->method('deleteFromSelect')
+            ->with('table_name')
+            ->will($this->returnValue('sql delete query'));
+
+        $this->select->expects($this->at(6))
+            ->method('where')
+            ->with('entity_id IN (?)', ['entity_2']);
+
+        $this->select->expects($this->at(7))
+            ->method('where')
+            ->with('store_id IN (?)', ['store_id_2']);
+
+        $this->select->expects($this->at(8))
+            ->method('where')
+            ->with('entity_type IN (?)', 'category');
+
+
+        $this->select->expects($this->at(9))
             ->method('deleteFromSelect')
             ->with('table_name')
             ->will($this->returnValue('sql delete query'));
@@ -188,7 +208,7 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
             ->with(DbStorage::TABLE_NAME)
             ->will($this->returnValue('table_name'));
 
-        $this->adapter->expects($this->once())
+        $this->adapter->expects($this->any())
             ->method('query')
             ->with('sql delete query');
 
