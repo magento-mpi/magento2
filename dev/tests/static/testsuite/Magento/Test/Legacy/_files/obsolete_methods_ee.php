@@ -252,4 +252,5 @@ return array(
     ['saveStoreIdsBeforeScopeDelete', 'Magento\Search\Model\Observer'],
     ['clearIndexForStores', 'Magento\Search\Model\Observer'],
     ['runFulltextReindexAfterPriceReindex', 'Magento\Search\Model\Observer'],
+    ['modifyExpiredQuotesCleanup', 'Magento\PersistentHistory\Model\Observer'],
 );

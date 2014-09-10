@@ -69,7 +69,7 @@ class Converter
 
         foreach ($this->metadataService->getCustomAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
-            $method = 'get' . SimpleDataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $method = 'get' . SimpleDataObjectConverter::snakeCaseToUpperCamelCase($attributeCode);
             $data[Address::CUSTOM_ATTRIBUTES_KEY][] =
                 [AttributeValue::ATTRIBUTE_CODE => $attributeCode, AttributeValue::VALUE => $address->$method()];
         }

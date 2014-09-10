@@ -104,7 +104,7 @@ class PaypalStandardTest extends Functional
             'Incorrect grand total value for the order #' . $orderId
         );
 
-        $expectedAuthorizedAmount = 'captured amount of ' . $fixture->getGrandTotal();
+        $expectedAuthorizedAmount = 'captured amount of $' . $fixture->getGrandTotal();
         $this->assertContains(
             $expectedAuthorizedAmount,
             Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCapturedAmount(),

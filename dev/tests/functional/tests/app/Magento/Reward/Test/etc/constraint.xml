@@ -92,4 +92,10 @@
             <reward class="Magento\Reward\Test\Fixture\Reward" />
         </require>
     </assertRewardInHistoryGrid>
+    <assertRewardPointsSuccessRemoveMessage module="Magento_Reward">
+        <severeness>high</severeness>
+        <require>
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertRewardPointsSuccessRemoveMessage>
 </constraint>

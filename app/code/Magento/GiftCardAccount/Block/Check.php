@@ -52,4 +52,19 @@ class Check extends \Magento\Framework\View\Element\Template
     {
         return $this->getRequest()->getParam('giftcard-code', '');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function formatDate(
+        $date = null,
+        $format = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $showTime = false
+    ) {
+        if (is_string($date)) {
+            $date = $this->_localeDate->date(strtotime($date), null, null, false);
+        }
+
+        return parent::formatDate($date, $format, $showTime);
+    }
 }
