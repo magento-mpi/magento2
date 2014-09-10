@@ -70,28 +70,30 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
     /**
      * Get full information about taxes applied to order
      *
-     * @param null|\Magento\Sales\Model\Order\Invoice|\Magento\Sales\Model\Order\Creditmemo $current
      * @return array
      */
-    public function getFullTaxInfo($current = null)
+    public function getFullTaxInfo()
     {
-        /** @var $source \Magento\Sales\Model\Order */
-        $source = $this->getOrder();
-        $taxClassAmount = [];
-        if ($source instanceof \Magento\Sales\Model\Order) {
-            if ($current instanceof \Magento\Sales\Model\Order\Invoice
-                || $current instanceof \Magento\Sales\Model\Order\Creditmemo
-            ) {
-                $source = $current;
-            }
-            $taxClassAmount = $this->_taxHelper->getCalculatedTaxes($source);
-            $shippingTax = $this->_taxHelper->getShippingTax($source);
-            $taxClassAmount = array_merge($taxClassAmount, $shippingTax);
-            if (empty($taxClassAmount)) {
-                $rates = $this->_taxOrderFactory->create()->getCollection()->loadByOrder($source)->toArray();
-                $taxClassAmount = $this->_taxCalculation->reproduceProcess($rates['items']);
-            }
+        $source = $this->getSource();
+        if (!$source instanceof \Magento\Sales\Model\Order\Invoice
+            && !$source instanceof \Magento\Sales\Model\Order\Creditmemo
+        ) {
+            $source = $this->getOrder();
         }
+
+        $taxClassAmount = [];
+        if (empty($source)) {
+            return $taxClassAmount;
+        }
+
+        $taxClassAmount = $this->_taxHelper->getCalculatedTaxes($source);
+        $shippingTax = $this->_taxHelper->getShippingTax($source);
+        $taxClassAmount = array_merge($taxClassAmount, $shippingTax);
+        if (empty($taxClassAmount)) {
+            $rates = $this->_taxOrderFactory->create()->getCollection()->loadByOrder($source)->toArray();
+            $taxClassAmount = $this->_taxCalculation->reproduceProcess($rates['items']);
+        }
+
         return $taxClassAmount;
     }
 
