@@ -68,25 +68,37 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                     $model->setMetadata(serialize(['category_id' => $categoryId]));
                 }
             }
-            $targetPath = $this->getCanonicalTargetPath();
-            if ($model->getRedirectType()) {
-                $data = [
-                    UrlRewrite::ENTITY_ID => $model->getEntityId(),
-                    UrlRewrite::TARGET_PATH => $targetPath,
-                    UrlRewrite::ENTITY_TYPE => $model->getEntityType(),
-                    UrlRewrite::STORE_ID => $model->getStoreId(),
-                ];
-                $rewrite = $this->urlFinder->findOneByData($data);
-                if (!$rewrite) {
-                    $message = $productId
-                        ? __('Chosen product does not associated with the chosen store or category.')
-                        : __('Chosen category does not associated with the chosen store.');
-                    throw new Exception($message);
-                }
-                $targetPath = $rewrite->getRequestPath();
-            }
-            $model->setTargetPath($targetPath);
+            $model->setTargetPath($this->getTargetPath($model));
         }
+    }
+
+    /**
+     * Get Target Path
+     *
+     * @param \Magento\UrlRewrite\Model\UrlRewrite $model
+     * @return string
+     * @throws Exception
+     */
+    protected function getTargetPath($model)
+    {
+        $targetPath = $this->getCanonicalTargetPath();
+        if ($model->getRedirectType()) {
+            $data = [
+                UrlRewrite::ENTITY_ID => $model->getEntityId(),
+                UrlRewrite::TARGET_PATH => $targetPath,
+                UrlRewrite::ENTITY_TYPE => $model->getEntityType(),
+                UrlRewrite::STORE_ID => $model->getStoreId(),
+            ];
+            $rewrite = $this->urlFinder->findOneByData($data);
+            if (!$rewrite) {
+                $message = $model->getEntityType() === self::ENTITY_TYPE_PRODUCT
+                    ? __('Chosen product does not associated with the chosen store or category.')
+                    : __('Chosen category does not associated with the chosen store.');
+                throw new Exception($message);
+            }
+            $targetPath = $rewrite->getRequestPath();
+        }
+        return $targetPath;
     }
 
     /**
@@ -115,8 +127,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                 $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE)->setEntityId($cmsPage->getId());
             }
             $model->setTargetPath(
-                $model->getRedirectType()
-                    ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
+                $model->getRedirectType() ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
                     : $this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage)
             );
         }
