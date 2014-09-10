@@ -21,6 +21,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\RequestInterface as Request;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Magento\Setup\Model\UserConfigurationDataFactory;
+use Magento\Setup\Model\Installer;
 
 /**
  * Abstract Controller for installation
@@ -133,7 +134,7 @@ class AbstractInstallActionController extends AbstractActionController
         //Loading Configurations
         $this->config->setConfigData($this->config->convertFromDataObject($data));
         $this->config->addConfigData($this->config->getConfigurationFromDeploymentFile());
-        $setup = $this->setupFactory->setConfig($this->config->getConfigData())->create();
+        $setup = $this->setupFactory->setConfig($this->config->getConfigData())->createSetup();
         $this->userConfigurationDataFactory->setConfig($this->config->getConfigData());
         $this->userConfigurationDataFactory->create($setup)->install($data);
 
@@ -160,7 +161,7 @@ class AbstractInstallActionController extends AbstractActionController
         // Do schema updates for each module
         $this->logger->log("Starting: Schema Updates.");
         foreach ($moduleNames as $moduleName) {
-            $setup = $this->setupFactory->create($moduleName);
+            $setup = $this->setupFactory->createSetupModule($moduleName);
             $setup->applyUpdates();
             $this->logger->logInstalled($moduleName);
         }
@@ -170,7 +171,7 @@ class AbstractInstallActionController extends AbstractActionController
         // Do post-schema updates for each module
         $this->logger->log("Starting: Post-Schema Updates.");
         foreach ($moduleNames as $moduleName) {
-            $setup = $this->setupFactory->create($moduleName);
+            $setup = $this->setupFactory->createSetupModule($moduleName);
             $setup->applyRecurringUpdates();
             $this->logger->logInstalled($moduleName);
         }
@@ -189,10 +190,10 @@ class AbstractInstallActionController extends AbstractActionController
         $this->logger->log("Starting: DB Data Updates");
         $exitCode = null;
         $output = null;
-        $phpPath = $this->phpExecutableFinder->find();
+        $phpPath = Installer::phpExecutablePath();
         exec(
             $phpPath .
-            ' -f ' . $this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
+            'php -f ' . $this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
             $output,
             $exitCode
         );

@@ -73,30 +73,37 @@ class SetupFactory
     /**
      * Creates Setup
      *
+     * @return Setup
+     */
+    public function createSetup()
+    {
+        return new Setup(
+            $this->adapter,
+            $this->fileResolver,
+            $this->configuration
+        );
+    }
+
+    /**
+     * Creates SetupModule
+     *
      * @param string $moduleName
      * @return SetupModule
      */
-    public function create($moduleName = null)
+    public function createSetupModule($moduleName)
     {
-        if (!$moduleName) {
-            $setup =  new Setup(
-                $this->adapter,
-                $this->fileResolver,
-                $this->configuration
-            );
-        } else {
-            $setup =  new SetupModule(
-                $this->adapter,
-                $this->moduleList,
-                $this->fileResolver,
-                $moduleName,
-                $this->configuration
-            );
-            if (isset($this->configuration['db_prefix'])) {
-                $setup->setTablePrefix($this->configuration['db_prefix']);
-            }
+        $setupModule =  new SetupModule(
+            $this->adapter,
+            $this->moduleList,
+            $this->fileResolver,
+            $moduleName,
+            $this->configuration
+        );
+
+        if (isset($this->configuration['db_prefix'])) {
+            $setupModule->setTablePrefix($this->configuration['db_prefix']);
         }
 
-        return $setup;
+        return $setupModule;
     }
 }
