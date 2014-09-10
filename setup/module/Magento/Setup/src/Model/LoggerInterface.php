@@ -24,14 +24,6 @@ interface LoggerInterface
     public function logSuccess($message);
 
     /**
-     * Logs installed message
-     *
-     * @param string $moduleName
-     * @return void
-     */
-    public function logInstalled($moduleName);
-
-    /**
      * Logs error message
      *
      * @param \Exception $e
@@ -47,5 +39,4 @@ interface LoggerInterface
      * @return void
      */
     public function log($message);
-
 }

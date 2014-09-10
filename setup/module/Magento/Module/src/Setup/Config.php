@@ -13,7 +13,7 @@ use Magento\Filesystem\Filesystem;
 use Magento\Framework\Math\Random;
 
 /**
- * Config installer
+ * Deployment configuration model
  */
 class Config
 {
@@ -21,17 +21,43 @@ class Config
 
     const TMP_ENCRYPT_KEY_VALUE = 'k-k-k-k-k';
 
-    /**
-     * Path to local configuration file
-     *
-     * @var string
+    /**#@+
+     * Possible variables of the deployment configuration
      */
-    protected $localConfigFile = 'local.xml';
+    const KEY_DATE    = 'date';
+    const KEY_DB_HOST = 'db_host';
+    const KEY_DB_NAME = 'db_name';
+    const KEY_DB_USER = 'db_user';
+    const KEY_DB_PASS = 'db_pass';
+    const KEY_DB_PREFIX = 'db_prefix';
+    const KEY_DB_MODEL = 'db_model';
+    const KEY_DB_INIT_STATEMENTS = 'db_init_statements';
+    const KEY_SESSION_SAVE = 'session_save';
+    const KEY_BACKEND_FRONTNAME = 'backend_frontname';
+    const KEY_ENCRYPTION_KEY = 'key';
+    /**#@- */
+
+    /**
+     * Path to deployment config file
+     */
+    const DEPLOYMENT_CONFIG_FILE = 'local.xml';
 
     /**
      * @var array
      */
-    protected $configData = array();
+    private $data = [
+        self::KEY_DATE => '',
+        self::KEY_DB_HOST => '',
+        self::KEY_DB_NAME => '',
+        self::KEY_DB_USER => '',
+        self::KEY_DB_PASS => '',
+        self::KEY_DB_PREFIX => '',
+        self::KEY_DB_MODEL => 'mysql4',
+        self::KEY_DB_INIT_STATEMENTS => 'SET NAMES utf8;',
+        self::KEY_SESSION_SAVE => 'files',
+        self::KEY_BACKEND_FRONTNAME => 'backend',
+        self::KEY_ENCRYPTION_KEY => '',
+    ];
 
     /**
      * Filesystem
@@ -59,40 +85,19 @@ class Config
      *
      * @param Filesystem $filesystem
      * @param Random $random
+     * @param array $data
      */
     public function __construct(
         Filesystem $filesystem,
-        Random $random
+        Random $random,
+        $data = []
     ) {
         $this->filesystem = $filesystem;
         $this->configDirectory = $filesystem->getDirectoryWrite('etc');
         $this->random = $random;
-    }
-
-    /**
-     * Sets Configuration Data
-     *
-     * @param array $data
-     * @return $this
-     */
-    public function setConfigData(array $data)
-    {
-        if (is_array($data)) {
-            $this->configData = $data;
+        if ($data) {
+            $this->update($data);
         }
-        return $this;
-    }
-
-    /**
-     * Add Configuration Data
-     *
-     * @param array $data
-     * @return $this
-     */
-    public function addConfigData(array $data)
-    {
-        $this->setConfigData(array_merge($this->configData, $data));
-        return $this;
     }
 
     /**
@@ -102,7 +107,33 @@ class Config
      */
     public function getConfigData()
     {
-        return $this->configData;
+        return $this->data;
+    }
+
+    /**
+     * Get a value from config data by key
+     *
+     * @param string $key
+     * @return null|mixed
+     */
+    public function get($key)
+    {
+        return isset($this->data[$key]) ? $this->data[$key] : null;
+    }
+
+    /**
+     * Update data
+     *
+     * @param array $data
+     * @return void
+     */
+    public function update($data)
+    {
+        foreach (array_keys($this->data) as $key) {
+            if (isset($data[$key])) {
+                $this->data[$key] = $data[$key];
+            }
+        }
     }
 
     /**
@@ -112,32 +143,37 @@ class Config
      */
     public function install()
     {
-        //Enforcing the install date to be current. Cannot be modified by configuration parameters.
-        $this->configData['date'] = date('r');
-
-        $this->checkData();
+        $data = $this->data;
+        $data[self::KEY_DATE] = date('r');
+        if (empty($data[self::KEY_ENCRYPTION_KEY])) {
+            $data[self::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
+        }
+        $this->checkData($data);
         $contents = $this->configDirectory->readFile('local.xml.template');
-        foreach ($this->configData as $index => $value) {
+        foreach ($data as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
         }
+        if (preg_match('(\{\{[\w\d\_\-]\}\})', $contents, $matches)) {
+            throw new \Exception("Some of the keys have not been replaced in the template: {$matches[1]}");
+        }
 
-        $this->configDirectory->writeFile($this->localConfigFile, $contents, LOCK_EX);
-        $this->configDirectory->changePermissions($this->localConfigFile, 0777);
-        return $this->configData['key'];
+        $this->configDirectory->writeFile(self::DEPLOYMENT_CONFIG_FILE, $contents, LOCK_EX);
+        $this->configDirectory->changePermissions(self::DEPLOYMENT_CONFIG_FILE, 0777);
+        return $data[self::KEY_ENCRYPTION_KEY];
     }
 
     /**
-     * Loads Configuration from Local Config File
+     * Loads configuration the deployment configuration file
      *
-     * @return array
+     * @return void
      */
-    public function getConfigurationFromDeploymentFile()
+    public function loadFromFile()
     {
-        $xmlData = $this->configDirectory->readFile($this->localConfigFile);
+        $xmlData = $this->configDirectory->readFile(self::DEPLOYMENT_CONFIG_FILE);
         $xmlObj = @simplexml_load_string($xmlData, NULL, LIBXML_NOCDATA);
         $xmlConfig = json_decode(json_encode((array)$xmlObj), true);
-        $config = $this->convertFromConfigData((array)$xmlConfig);
-        return $config;
+        $data = $this->convertFromConfigData((array)$xmlConfig);
+        $this->update($data);
     }
 
     /**
@@ -146,92 +182,52 @@ class Config
      * @param array $source
      * @return array
      */
-    protected function convertFromConfigData(array $source = [])
+    private function convertFromConfigData(array $source)
     {
         $result = array();
         if (isset($source['connection']['host']) && !is_array($source['connection']['host'])) {
-            $result['db_host'] = $source['connection']['host'];
+            $result[self::KEY_DB_HOST] = $source['connection']['host'];
         }
         if (isset($source['connection']['dbName']) && !is_array($source['connection']['dbName'])) {
-            $result['db_name'] = $source['connection']['dbName'];
+            $result[self::KEY_DB_NAME] = $source['connection']['dbName'];
         }
         if (isset($source['connection']['username']) && !is_array($source['connection']['username'])) {
-            $result['db_user'] = $source['connection']['username'];
+            $result[self::KEY_DB_USER] = $source['connection']['username'];
         }
         if (isset($source['connection']['password']) && !is_array($source['connection']['password'])) {
-            $result['db_pass'] = $source['connection']['password'];
+            $result[self::KEY_DB_PASS] = $source['connection']['password'];
         }
         if (isset($source['db']['table_prefix']) && !is_array($source['db']['table_prefix'])) {
-            $result['db_prefix'] = $source['db']['table_prefix'];
+            $result[self::KEY_DB_PREFIX] = $source['db']['table_prefix'];
         }
         if (isset($source['session_save']) && !is_array($source['session_save'])) {
-            $result['session_save'] = $source['session_save'];
+            $result[self::KEY_SESSION_SAVE] = $source['session_save'];
         }
         if (isset($source['config']['address']['admin']) && !is_array($source['config']['address']['admin'])) {
-            $result['backend_frontname'] = $source['config']['address']['admin'];
+            $result[self::KEY_BACKEND_FRONTNAME] = $source['config']['address']['admin'];
         }
         if (isset($source['connection']['initStatements']) && !is_array($source['connection']['initStatements']) ) {
-            $result['db_init_statements'] = $source['connection']['initStatements'];
+            $result[self::KEY_DB_INIT_STATEMENTS] = $source['connection']['initStatements'];
         }
-        if (isset($source['admin']['username']) && !is_array($source['admin']['username'])) {
-            $result['admin_username'] = $source['admin']['username'];
-        }
-        if (isset($source['admin']['password']) && !is_array($source['admin']['password']) ) {
-            $result['admin_password'] = $source['admin']['password'];
-        }
-        if (isset($source['admin']['email']) && !is_array($source['admin']['email']) ) {
-            $result['admin_email'] = $source['admin']['email'];
-        }
-        return $result;
-    }
-
-    /**
-     * Transforms Configuration Data to Deployment Configuration
-     *
-     * @param array $source
-     * @return array
-     */
-    public function convertFromDataObject(array $source = array())
-    {
-        $result = array();
-        $result['db_host'] = isset($source['db']['host']) ? $source['db']['host'] : '';
-        $result['db_name'] = isset($source['db']['name']) ? $source['db']['name'] : '';
-        $result['db_user'] = isset($source['db']['user']) ? $source['db']['user'] :'';
-        $result['db_pass'] = isset($source['db']['password']) ? $source['db']['password'] : '';
-        $result['db_prefix'] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
-        $result['session_save'] = 'files';
-        $result['backend_frontname'] = isset($source['config']['address']['admin'])
-            ? $source['config']['address']['admin']
-            : '';
-        $result['db_model'] = '';
-        $result['db_init_statements'] = '';
-
-        $result['admin_username'] = isset($source['admin']['username']) ? $source['admin']['username'] : '';
-        $result['admin_password'] = isset($source['admin']['password']) ? $source['admin']['password'] : '';
-        $result['admin_email'] = isset($source['admin']['email']) ? $source['admin']['email'] : '';
-        $result['key'] = isset($source['config']['encrypt']['key']) ? $source['config']['encrypt']['key']
-            : md5($this->random->getRandomString(10));
         return $result;
     }
 
     /**
      * Check database connection data
      *
+     * @param array $data
      * @return void
      * @throws \Exception
      */
-    protected function checkData()
+    private function checkData(array $data)
     {
-        if (!isset($this->configData['db_name']) || empty($this->configData['db_name'])) {
+        if (!isset($data[self::KEY_DB_NAME]) || empty($data[self::KEY_DB_NAME])) {
             throw new \Exception('The Database Name field cannot be empty.');
         }
-        //make all table prefix to lower letter
-        if ($this->configData['db_prefix'] != '') {
-            $this->configData['db_prefix'] = strtolower($this->configData['db_prefix']);
-        }
-        //check table prefix
-        if ($this->configData['db_prefix'] != '') {
-            if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $this->configData['db_prefix'])) {
+        $prefix = $data[self::KEY_DB_PREFIX];
+        if ($prefix != '') {
+            $prefix = strtolower($prefix);
+            if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $prefix)) {
                 throw new \Exception(
                     'The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); '
                     . 'the first character should be a letter.'

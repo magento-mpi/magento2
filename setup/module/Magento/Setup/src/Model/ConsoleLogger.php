@@ -40,18 +40,7 @@ class ConsoleLogger implements LoggerInterface
      */
     public function logSuccess($message)
     {
-        $this->console->writeLine("[SUCCESS]: " . $message, 11);
-    }
-
-    /**
-     * Logs Success installation message
-     *
-     * @param string $moduleName
-     * @return void
-     */
-    public function logInstalled($moduleName)
-    {
-        $this->console->writeLine("[SUCCESS]: $moduleName is installed", 3);
+        $this->console->writeLine("[SUCCESS]" . ($message ? ": $message" : ''), 11);
     }
 
     /**

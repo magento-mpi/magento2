@@ -2,16 +2,15 @@
 /**
  * {license_notice}
  *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
-namespace Magento\Setup\Model;
+namespace Magento\Module\Setup;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Magento\Module\Setup;
 
-class AdminAccountFactory
+class ConfigFactory
 {
     /**
      * @var ServiceLocatorInterface
@@ -27,14 +26,13 @@ class AdminAccountFactory
     }
 
     /**
-     * @param Setup $setup
      * @param array $data
-     * @return AdminAccount
+     * @return Config
      */
-    public function create(Setup $setup, $data)
+    public function create($data = [])
     {
-        return new AdminAccount(
-            $setup,
+        return new Config(
+            $this->serviceLocator->get('Magento\Filesystem\Filesystem'),
             $this->serviceLocator->get('Magento\Framework\Math\Random'),
             $data
         );

@@ -10,7 +10,7 @@ namespace Magento\Module\Setup;
 
 use Zend\Stdlib\Glob;
 use Magento\Config\FileIteratorFactory;
-use Magento\Config\ConfigFactory;
+use Magento\Config\ConfigFactory as SystemConfigFactory;
 
 class FileResolver
 {
@@ -24,7 +24,7 @@ class FileResolver
     /**
      * Configuration Factory
      *
-     * @var ConfigFactory
+     * @var SystemConfigFactory
      */
     protected $configFactory;
 
@@ -39,11 +39,11 @@ class FileResolver
      * Default Constructor
      *
      * @param FileIteratorFactory $iteratorFactory
-     * @param ConfigFactory $configFactory
+     * @param SystemConfigFactory $configFactory
      */
     public function __construct(
         FileIteratorFactory $iteratorFactory,
-        ConfigFactory $configFactory
+        SystemConfigFactory $configFactory
     ) {
         $this->iteratorFactory = $iteratorFactory;
         $this->configFactory = $configFactory;

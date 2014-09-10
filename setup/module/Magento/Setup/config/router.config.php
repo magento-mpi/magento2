@@ -6,6 +6,8 @@
  * @license   {license_link}
  */
 
+use Magento\Setup\Controller\ConsoleController;
+
 return [
     'route_manager' => [
         'invokables' => [
@@ -45,7 +47,7 @@ return [
             'routes' => [
                 'show' => [
                     'options' => [
-                        'route' => 'show (locales|currencies|timezones|options):type',
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_INFO),
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'info',
@@ -54,11 +56,7 @@ return [
                 ],
                 'install' => [
                     'options' => [
-                        'route' => 'install --license_agreement_accepted= --db_host= --db_name= --db_user='
-                            . ' --store_url= --admin_url= --locale= --timezone= --currency= --admin_lastname='
-                            . ' --admin_firstname= --admin_email= --admin_username= --admin_password= '
-                            . ' [--use_rewrites=] [--encryption_key=] [--secure_store_url=] [--secure_admin_url=]'
-                            . ' [--db_pass=] [--db_table_prefix=] [--magentoDir=]',
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_INSTALL),
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'install',
@@ -67,9 +65,7 @@ return [
                 ],
                 'install-configuration' => [
                     'options' => [
-                        'route' => 'install configuration --license_agreement_accepted= --db_host= --db_name='
-                            . ' --db_user= --admin_url= [--db_pass=] [--db_table_prefix=] [--encryption_key=]'
-                            . '[--magentoDir=]',
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_INSTALL_CONFIG),
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installDeploymentConfig',
@@ -78,7 +74,7 @@ return [
                 ],
                 'install-schema' => [
                     'options' => [
-                        'route' => 'install schema [--magentoDir=]',
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_INSTALL_SCHEMA),
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installSchema',
@@ -87,10 +83,28 @@ return [
                 ],
                 'install-data' => [
                     'options' => [
-                        'route' => 'install data [--magentoDir=]',
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_INSTALL_DATA),
                         'defaults' => [
                             'controller' => 'Magento\Setup\Controller\ConsoleController',
                             'action' => 'installData',
+                        ]
+                    ],
+                ],
+                'install-user-configuration' => [
+                    'options' => [
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_INSTALL_USER_CONFIG),
+                        'defaults' => [
+                            'controller' => 'Magento\Setup\Controller\ConsoleController',
+                            'action' => 'installUserConfig',
+                        ]
+                    ],
+                ],
+                'install-admin-user' => [
+                    'options' => [
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_INSTALL_ADMIN_USER),
+                        'defaults' => [
+                            'controller' => 'Magento\Setup\Controller\ConsoleController',
+                            'action' => 'installAdminUser',
                         ]
                     ],
                 ],

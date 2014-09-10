@@ -10,6 +10,7 @@ namespace Magento\Module;
 use Magento\Module\Setup\Connection\AdapterInterface;
 use Magento\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Module\Resource\Resource;
+use Magento\Setup\Model\LoggerInterface;
 
 class SetupModule extends Setup
 {
@@ -34,23 +35,24 @@ class SetupModule extends Setup
     protected $resource;
 
     /**
-     * Default Constructor
+     * Constructor
      *
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
      * @param SetupFileResolver $setupFileResolver
+     * @param LoggerInterface $log
      * @param string $moduleName
      * @param array $connectionConfig
-     * @return void
      */
     public function __construct(
         AdapterInterface $connection,
         ModuleListInterface $moduleList,
         SetupFileResolver $setupFileResolver,
+        LoggerInterface $log,
         $moduleName,
         array $connectionConfig = array()
     ) {
-        parent::__construct($connection, $setupFileResolver, $connectionConfig);
+        parent::__construct($connection, $setupFileResolver, $log, $connectionConfig);
         $this->moduleConfig = $moduleList->getModule($moduleName);
         $this->resource = new Resource($this->connection);
         $this->resourceName = $this->setupFileResolver->getResourceCode($moduleName);

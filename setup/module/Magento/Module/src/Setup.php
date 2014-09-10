@@ -10,6 +10,7 @@ namespace Magento\Module;
 use Magento\Module\Setup\Connection\AdapterInterface;
 use Magento\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Module\Updater\SetupInterface;
+use Magento\Setup\Model\LoggerInterface;
 
 class Setup implements SetupInterface
 {
@@ -56,6 +57,13 @@ class Setup implements SetupInterface
     protected $setupFileResolver;
 
     /**
+     * Logger
+     *
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Table Prefix
      *
      * @var string
@@ -63,18 +71,20 @@ class Setup implements SetupInterface
     protected $tablePrefix;
 
     /**
-     * Default Constructor
+     * Constructor
      *
      * @param AdapterInterface $connection
      * @param SetupFileResolver $setupFileResolver
+     * @param LoggerInterface $logger
      * @param array $connectionConfig
-     * @return void
      */
     public function __construct(
         AdapterInterface $connection,
         SetupFileResolver $setupFileResolver,
+        LoggerInterface $logger,
         array $connectionConfig = array()
     ) {
+        $this->logger = $logger;
         $this->connection = $connection->getConnection($connectionConfig);
         $this->setupFileResolver = $setupFileResolver;
     }
@@ -147,6 +157,7 @@ class Setup implements SetupInterface
      */
     protected function includeFile($fileName)
     {
+        $this->logger->log("Include {$fileName}");
         return include $fileName;
     }
 

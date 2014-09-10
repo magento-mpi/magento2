@@ -8,89 +8,215 @@
 
 namespace Magento\Setup\Controller;
 
-use Magento\Config\ConfigFactory;
-use Magento\Module\ModuleListInterface;
 use Magento\Framework\DB\Adapter\Pdo\Mysql;
-use Magento\Module\SetupFactory;
 use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;
-use Magento\Setup\Helper\Helper;
+use Magento\Setup\Model\InstallerFactory;
+use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\ConsoleLogger;
-use Magento\Setup\Model\FilePermissions;
-use Magento\Setup\Model\UserConfigurationDataFactory;
-use Magento\Setup\Model\AdminAccountFactory;
+use Magento\Webapi\Exception;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\RequestInterface as Request;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Zend\Mvc\Controller\AbstractController;
+use Zend\Mvc\Controller\AbstractActionController;
+use \Magento\Setup\Model\UserConfigurationData as UserConfig;
+use Magento\Setup\Model\AdminAccount;
 
 /**
- * Class ConsoleController
  * Controller that handles all setup commands via command line interface.
  *
  * @package Magento\Setup\Controller
  */
-class ConsoleController extends AbstractInstallActionController
+class ConsoleController extends AbstractActionController
 {
-    /**
-     * File Permissions
-     *
-     * @var FilePermissions
+    /**#@+
+     * Supported command types
      */
-    protected $filePermission;
+    const CMD_INFO = 'info';
+    const CMD_INSTALL = 'install';
+    const CMD_INSTALL_CONFIG = 'install-configuration';
+    const CMD_INSTALL_SCHEMA = 'install-schema';
+    const CMD_INSTALL_DATA = 'install-data';
+    const CMD_INSTALL_USER_CONFIG = 'install-user-configuration';
+    const CMD_INSTALL_ADMIN_USER = 'install-admin-user';
+    /**#@- */
+
+    /**#@+
+     * Additional keys for "info" command
+     */
+    const INFO_LOCALES = 'locales';
+    const INFO_CURRENCIES = 'currencies';
+    const INFO_TIMEZONES = 'timezones';
+    /**#@- */
+
+    private static $infoOptions = [
+        self::CMD_INSTALL,
+        self::CMD_INSTALL_CONFIG,
+        self::CMD_INSTALL_SCHEMA,
+        self::CMD_INSTALL_DATA,
+        self::CMD_INSTALL_USER_CONFIG,
+        self::CMD_INSTALL_ADMIN_USER,
+        self::INFO_LOCALES,
+        self::INFO_CURRENCIES,
+        self::INFO_TIMEZONES,
+    ];
+
+    /**
+     * @var ConsoleLogger
+     */
+    private $log;
 
     /**
      * Options Lists
      *
      * @var Lists
      */
-    protected $options;
+    private $options;
 
     /**
-     * Default Constructor
+     * @var Installer
+     */
+    private $installer;
+
+    /**
+     * CLI routes for supported command types
      *
-     * @param FilePermissions $filePermission
-     * @param Lists $options
-     * @param ModuleListInterface $moduleList
-     * @param SetupFactory $setupFactory
-     * @param AdminAccountFactory $adminAccountFactory
-     * @param Config $config
-     * @param ConfigFactory $systemConfig
-     * @param UserConfigurationDataFactory $userConfigurationDataFactory
+     * @param string $type
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public static function getCliRoute($type)
+    {
+        switch ($type) {
+            case self::CMD_INFO:
+                $result = '(' . implode('|', self::$infoOptions) . '):type';
+                break;
+            case self::CMD_INSTALL:
+                $result = self::getDeployConfigCliRoute() . ' ' . self::getUserConfigCliRoute()
+                    . ' ' . self::getAdminUserCliRoute();
+                break;
+            case self::CMD_INSTALL_CONFIG:
+                $result = self::getDeployConfigCliRoute();
+                break;
+            case self::CMD_INSTALL_SCHEMA: // break is intentionally omitted
+            case self::CMD_INSTALL_DATA:
+                $result = '';
+                break;
+            case self::CMD_INSTALL_USER_CONFIG:
+                $result = self::getUserConfigCliRoute();
+                break;
+            case self::CMD_INSTALL_ADMIN_USER:
+                $result = self::getAdminUserCliRoute();
+                break;
+            default:
+                throw new \InvalidArgumentException("Unknown type: {$type}");
+        }
+        return $result ? $type . ' ' . $result : $type;
+    }
+
+    /**
+     * Route for "install configuration" command
+     *
+     * @return string
+     */
+    private static function getDeployConfigCliRoute()
+    {
+        return '--' . Config::KEY_DB_HOST . '='
+            . ' --' . Config::KEY_DB_NAME . '='
+            . ' --' . Config::KEY_DB_USER . '='
+            . ' --' . Config::KEY_BACKEND_FRONTNAME . '='
+            . ' [--' . Config::KEY_DB_PASS . '=]'
+            . ' [--' . Config::KEY_DB_PREFIX . '=]'
+            . ' [--' . Config::KEY_DB_MODEL . '=]'
+            . ' [--' . Config::KEY_DB_INIT_STATEMENTS . '=]'
+            . ' [--' . Config::KEY_SESSION_SAVE . '=]'
+            . ' [--' . Config::KEY_ENCRYPTION_KEY . '=]';
+    }
+
+    /**
+     * Route for "install user configuration" command
+     *
+     * @return string
+     */
+    private static function getUserConfigCliRoute()
+    {
+        return '--' . UserConfig::KEY_BASE_URL . '='
+            . ' --' . UserConfig::KEY_LANGUAGE . '='
+            . ' --' . UserConfig::KEY_TIMEZONE . '='
+            . ' --' . UserConfig::KEY_CURRENCY . '='
+            . ' [--' . UserConfig::KEY_USE_SEF_URL . '=]'
+            . ' [--' . UserConfig::KEY_IS_SECURE . '=]'
+            . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
+            . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]';
+    }
+
+    /**
+     * Route for "install admin user" command
+     *
+     * @return string
+     */
+    private static function getAdminUserCliRoute()
+    {
+        return '--' . AdminAccount::KEY_USERNAME . '='
+            . ' --' . AdminAccount::KEY_PASSWORD . '='
+            . ' --' . AdminAccount::KEY_EMAIL . '='
+            . ' --' . AdminAccount::KEY_FIRST_NAME . '='
+            . ' --' . AdminAccount::KEY_LAST_NAME . '=';
+    }
+
+    /**
+     * CLI Usage hints for supported command types
+     *
+     * @param string $type
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public static function getCliUsage($type)
+    {
+        $paramsTxt = "Available parameters:\n";
+        switch ($type) {
+            case self::CMD_INFO:
+                return $paramsTxt . '<' . implode('|', self::$infoOptions) . '>';
+            case self::CMD_INSTALL:
+                return $paramsTxt
+                    . self::getDeployConfigCliRoute() . "\n"
+                    . self::getUserConfigCliRoute() . "\n"
+                    . self::getAdminUserCliRoute();
+            case self::CMD_INSTALL_CONFIG:
+                return $paramsTxt . self::getDeployConfigCliRoute();
+            case self::CMD_INSTALL_SCHEMA: // break is intentionally omitted
+            case self::CMD_INSTALL_DATA:
+                return 'This command has no parameters.';
+            case self::CMD_INSTALL_USER_CONFIG:
+                return $paramsTxt . self::getUserConfigCliRoute();
+            case self::CMD_INSTALL_ADMIN_USER:
+                return $paramsTxt . self::getAdminUserCliRoute();
+            default:
+                throw new \InvalidArgumentException("Unknown type: {$type}");
+        }
+    }
+
+    /**
+     * Constructor
+     *
      * @param ConsoleLogger $consoleLogger
-     * @param PhpExecutableFinder $phpExecutableFinder
+     * @param Lists $options
+     * @param InstallerFactory $installerFactory
      */
     public function __construct(
-        FilePermissions $filePermission,
-        Lists $options,
-        ModuleListInterface $moduleList,
-        SetupFactory $setupFactory,
-        AdminAccountFactory $adminAccountFactory,
-        Config $config,
-        ConfigFactory $systemConfig,
-        UserConfigurationDataFactory $userConfigurationDataFactory,
         ConsoleLogger $consoleLogger,
-        PhpExecutableFinder $phpExecutableFinder
+        Lists $options,
+        InstallerFactory $installerFactory
     ) {
-        parent::__construct($moduleList,
-            $setupFactory,
-            $adminAccountFactory,
-            $config,
-            $systemConfig,
-            $userConfigurationDataFactory,
-            $consoleLogger,
-            $phpExecutableFinder
-        );
-        $this->filePermission = $filePermission;
+        $this->log = $consoleLogger;
         $this->options = $options;
+        $this->installer = $installerFactory->create($consoleLogger);
     }
 
     /**
      * Adding Check for Allowing only console application to come through
      *
-     * @param  EventManagerInterface $events
-     * @return AbstractController
+     * {@inheritdoc}
      */
     public function setEventManager(EventManagerInterface $events)
     {
@@ -115,11 +241,14 @@ class ConsoleController extends AbstractInstallActionController
      */
     public function installAction()
     {
-        $this->logger->log("Beginning Magento Installation...");
-        $this->installDeploymentConfigAction();
-        $this->installSchemaAction();
-        $this->installDataAction();
-        $this->logger->log("Completed Magento Installation Successfully.");
+        try {
+            /** @var \Zend\Console\Request $request */
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            $this->installer->install($params, $params, $params);
+        } catch (Exception $e) {
+            $this->log->logError($e);
+        }
     }
 
     /**
@@ -132,60 +261,7 @@ class ConsoleController extends AbstractInstallActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-
-        //Checking license agreement
-        $license   = $request->getParam('license_agreement_accepted');
-        if ($license !== 'yes') {
-            throw new \Exception('You have to agree on license requirements to proceed.');
-        }
-
-        //Setting the basePath of Magento application
-        $magentoDir = $request->getParam('magentoDir');
-        $this->setMagentoBasePath($magentoDir);
-
-        //Check File permission
-        $results = $this->filePermission->checkPermission();
-        if ($results) {
-            $errorMsg = 'You do no have appropriate file permissions for the following: ';
-            foreach ($results as $result) {
-                $errorMsg .= '\'' . $result . '\' ';
-            }
-            throw new \Exception($errorMsg);
-        }
-
-        //Db Data Configuration
-        $dbHost   = $request->getParam('db_host', '');
-        $dbName   = $request->getParam('db_name', '');
-        $dbUser   = $request->getParam('db_user', '');
-        $dbPass   = $request->getParam('db_pass', '');
-        $dbPrefix = $request->getParam('db_table_prefix', '');
-        $adminUrl = $request->getParam('admin_url');
-        $encryptionKey = $request->getParam('encryption_key', null);
-
-        //Checks Database Connectivity
-        Helper::checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass);
-
-        $data = array(
-            'db' => array(
-                'useExistingDB' => 1,
-                'useAccess' => 1,
-                'user' => $dbUser,
-                'password' => $dbPass,
-                'host' => $dbHost,
-                'name' => $dbName,
-                'tablePrefix' => $dbPrefix,
-            ),
-            'config' => array(
-                'address' => array(
-                    'admin' => $adminUrl,
-                ),
-                'encrypt' => array(
-                    'key' => $encryptionKey,
-                ),
-            )
-        );
-
-        $this->installDeploymentConfiguration($data);
+        $this->installer->installDeploymentConfig($request->getParams());
     }
 
     /**
@@ -196,32 +272,39 @@ class ConsoleController extends AbstractInstallActionController
      */
     public function installSchemaAction()
     {
-        //Setting the basePath of Magento application
-        $magentoDir = $this->getRequest()->getParam('magentoDir');
-        $this->setMagentoBasePath($magentoDir);
-
-        $this->config->setConfigData($this->config->getConfigurationFromDeploymentFile());
-        $this->installSchemaUpdates();
+        $this->installer->installSchema($this->log);
     }
 
     /**
-     * Installs and updates data
+     * Installs and updates data fixtures
      *
      * @return void
      * @throws \Exception
      */
     public function installDataAction()
     {
-        /** @var \Zend\Console\Request $request */
-        $request = $this->getRequest();
-
-        //Setting the basePath of Magento application
-        $magentoDir = $request->getParam('magentoDir');
-        $this->setMagentoBasePath($magentoDir);
-
-        $this->installDataUpdates();
+        $this->installer->installDataFixtures($this->log);
     }
 
+    /**
+     * Installs user configuration
+     */
+    public function installUserConfigAction()
+    {
+        /** @var \Zend\Console\Request $request */
+        $request = $this->getRequest();
+        $this->installer->installUserConfig($request->getParams());
+    }
+
+    /**
+     * Installs admin user
+     */
+    public function installAdminUserAction()
+    {
+        /** @var \Zend\Console\Request $request */
+        $request = $this->getRequest();
+        $this->installer->installAdminUser($request->getParams());
+    }
 
     /**
      * Shows necessary information for installing Magento
@@ -231,20 +314,23 @@ class ConsoleController extends AbstractInstallActionController
      */
     public function infoAction()
     {
-        switch($this->getRequest()->getParam('type')){
-            case 'locales':
-                return  $this->arrayToString($this->options->getLocaleList());
-                break;
-            case 'currencies':
-                return  $this->arrayToString($this->options->getCurrencyList());
-                break;
-            case 'timezones':
-                return  $this->arrayToString($this->options->getTimezoneList());
-                break;
-            case 'options':
+        $type = $this->getRequest()->getParam('type');
+        switch($type) {
+            case self::CMD_INSTALL:
+            case self::CMD_INSTALL_CONFIG:
+            case self::CMD_INSTALL_SCHEMA:
+            case self::CMD_INSTALL_DATA:
+            case self::CMD_INSTALL_USER_CONFIG:
+            case self::CMD_INSTALL_ADMIN_USER:
+                return self::getCliUsage($type);
+            case self::INFO_LOCALES:
+                return $this->arrayToString($this->options->getLocaleList());
+            case self::INFO_CURRENCIES:
+                return $this->arrayToString($this->options->getCurrencyList());
+            case self::INFO_TIMEZONES:
+                return $this->arrayToString($this->options->getTimezoneList());
             default:
-                return  $this->showInstallationOptions();
-                break;
+                throw new \InvalidArgumentException("Unknown type: {$type}");
         }
     }
 
@@ -254,61 +340,12 @@ class ConsoleController extends AbstractInstallActionController
      * @param array $input
      * @return string
      */
-    protected function arrayToString($input)
+    private function arrayToString($input)
     {
         $result = '';
         foreach ($input as $key => $value) {
             $result .= "$key => $value\n";
         }
-
         return $result;
     }
-    
-    /**
-     * Show installation options
-     *
-     * @return string
-     */
-    protected function showInstallationOptions()
-    {
-        return "\n" . 'Required parameters:' ."\n\n" .
-        'license_agreement_accepted => Accept licence. See LICENSE*.txt. Flag value.' ."\n"
-        . 'locale => Locale to use. Run with "show locales" for full list' ."\n"
-        . 'timezone => Time zone to use. Run with "show timezones" for full list' ."\n"
-        . 'currency => Default currency. Run with "show currencies" for full list' ."\n"
-        . 'db_host => IP or name of your DB host' ."\n"
-        . 'db_name => Database name' ."\n"
-        . 'db_user => Database user name' ."\n"
-        . 'store_url => Store URL. For example, "http://myinstance.com"' ."\n"
-        . 'admin_url => Admin Front Name. For example, "admin"' ."\n"
-        . 'admin_lastname => Admin user last name' ."\n"
-        . 'admin_firstname => Admin user first name' ."\n"
-        . 'admin_email => Admin email' ."\n"
-        . 'admin_username => Admin login' ."\n"
-        . 'admin_password => Admin password' ."\n\n"
-        . 'Optional parameters:' ."\n\n"
-        . 'magentoDir => The Magento application directory.' ."\n"
-        . 'use_rewrites => Use web server rewrites. Value "yes"/"no".' ."\n"
-        . 'db_pass => DB password. Empty by default' ."\n"
-        . 'db_table_prefix => Use prefix for tables of this installation. Empty by default' ."\n"
-        . 'secure_store_url => Full secure URL for store. For example "https://myinstance.com"' ."\n"
-        . 'secure_admin_url => Full secure URL for admin . For example "https://myinstance.com/admin"' ."\n"
-        . 'encryption_key => Key to encrypt sensitive data. Auto-generated if not provided' ."\n";
-    }
-
-    /**
-     * Updates Magento Directory
-     *
-     * @param string $magentoDir
-     * @return void
-     */
-    protected function setMagentoBasePath($magentoDir)
-    {
-        if ($magentoDir) {
-            $this->systemConfig->setMagentoBasePath(rtrim(str_replace('\\', '/', realpath($magentoDir))), '/');
-        } else {
-            $this->systemConfig->setMagentoBasePath();
-        }
-    }
-
 }

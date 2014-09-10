@@ -8,6 +8,7 @@
 namespace Magento\Module\Setup\Connection;
 
 use Magento\Framework\DB\Adapter\Pdo\Mysql;
+use Magento\Module\Setup\Config;
 
 class Adapter implements AdapterInterface
 {
@@ -21,10 +22,10 @@ class Adapter implements AdapterInterface
     {
         return new Mysql(
             [
-                'driver'         => "Pdo",
-                'dsn'            => "mysql:dbname=" . $config['db_name'] . ";host=" . $config['db_host'],
-                'username'       => $config['db_user'],
-                'password'       => isset($config['db_pass']) ? $config['db_pass'] : null,
+                'driver' => 'Pdo',
+                'dsn' => "mysql:dbname=" . $config[Config::KEY_DB_NAME] . ";host=" . $config[Config::KEY_DB_HOST],
+                'username' => $config[Config::KEY_DB_USER],
+                'password' => isset($config[Config::KEY_DB_PASS]) ? $config[Config::KEY_DB_PASS] : null,
                 'driver_options' => [
                     \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"]
             ]

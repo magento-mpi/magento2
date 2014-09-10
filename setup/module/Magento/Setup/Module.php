@@ -18,6 +18,7 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventInterface;
 use Magento\Setup\Mvc\View\Http\InjectTemplateListener;
+use Magento\Setup\Controller\ConsoleController;
 
 class Module implements
     BootstrapListenerInterface,
@@ -27,8 +28,7 @@ class Module implements
     ConsoleUsageProviderInterface
 {
     /**
-     * @param EventInterface $e
-     * @return void
+     * {@inheritdoc}
      */
     public function onBootstrap(EventInterface $e)
     {
@@ -66,7 +66,7 @@ class Module implements
     }
 
     /**
-     * @return array|mixed|\Traversable
+     * {@inheritdoc}
      */
     public function getConfig()
     {
@@ -80,7 +80,7 @@ class Module implements
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getAutoloaderConfig()
     {
@@ -98,11 +98,9 @@ class Module implements
      */
     public function getConsoleBanner(AdapterInterface $console)
     {
-        return
-            "==------------------------------------------------------==\n" .
-            "        Welcome to Magento 2.x Installation Wizard        \n" .
-            "==------------------------------------------------------==\n"
-            ;
+        return "==-------------------==\n"
+            . "   Magento Setup CLI   \n"
+            . "==-------------------==\n";
     }
 
 
@@ -112,33 +110,14 @@ class Module implements
     public function getConsoleUsage(AdapterInterface $console)
     {
         return [
-            'List of Options',
-            'show locales' => 'Show possible locales',
-            'show currencies' => 'Show all acceptable currencies',
-            'show timezones' => 'Show all timezones',
-            'show options' => 'Show all install options',
-            'Installation Commands',
-            'install configuration [--<install_option_name> "<option_value>" ...]'
-                => 'Installing deployment configuration file',
-            ['license_agreement_accepted', 'yes'],
-            ['db_host', 'localhost'],
-            ['db_name', 'magento'],
-            ['db_user', 'root'],
-            ['admin_url', 'admin'],
-            'Sample Deployment Configuration tool command: ',
-            'php -f index.php install configuration --license_agreement_accepted yes --db_host localhost'
-            . ' --db_name magentosetup --db_user root --admin_url "admin"',
-            '***************************************************' . "\n",
-            'install schema [--<install_option_name> "<option_value>" ...]' => 'Installing database schema',
-            [   'magentoDir' , 'C:\wamp\www\magento2'],
-            'Sample Schema Installer and Updater tool command: ',
-            'php -f index.php install schema  --magentoDir "C:\wamp\www\magento2"',
-            '***************************************************' . "\n",
-            'install data [--<install_option_name> "<option_value>" ...]' => 'Installing data files',
-            [   'magentoDir' , 'C:\wamp\www\magento2'],
-            'Sample Data Installer and Updater tool command: ',
-            'php -f index.php install data  --magentoDir "C:\wamp\www\magento2"',
-            '***************************************************' . "\n",
+            "Usage:\n",
+            ConsoleController::CMD_INFO . ' <command>' => 'Show possible comand options',
+            ConsoleController::CMD_INSTALL . ' <options>' => 'Install Magento application',
+            ConsoleController::CMD_INSTALL_CONFIG . ' <options>' => 'Install deployment configuration',
+            ConsoleController::CMD_INSTALL_SCHEMA . ' <options>' => 'Install DB schema',
+            ConsoleController::CMD_INSTALL_DATA . ' <options>' => 'Install data fixtures',
+            ConsoleController::CMD_INSTALL_USER_CONFIG . ' <options>' => 'Install user configuration',
+            ConsoleController::CMD_INSTALL_ADMIN_USER . ' <options>' => 'Install admin user account',
         ];
     }
 }

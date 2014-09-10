@@ -17,6 +17,53 @@ use Magento\Module\Setup;
  */
 class UserConfigurationData
 {
+    /**#@+
+     * Model data keys
+     */
+    const KEY_USE_SEF_URL = 'use_rewrites';
+    const KEY_BASE_URL = 'base_url';
+    const KEY_BASE_URL_SECURE = 'base_url_secure';
+    const KEY_IS_SECURE = 'use_secure';
+    const KEY_IS_SECURE_ADMIN = 'use_secure_admin';
+    const KEY_LANGUAGE = 'language';
+    const KEY_TIMEZONE = 'timezone';
+    const KEY_CURRENCY = 'currency';
+    /**#@- */
+
+    /**
+     * Map of configuration paths to data keys
+     *
+     * @var array
+     */
+    private static $pathDataMap = [
+        'web/seo/use_rewrites' => self::KEY_USE_SEF_URL,
+        'web/unsecure/base_url' => self::KEY_BASE_URL,
+        'web/secure/use_in_frontend' => self::KEY_IS_SECURE,
+        'web/secure/base_url' => self::KEY_BASE_URL_SECURE,
+        'web/secure/use_in_adminhtml' => self::KEY_IS_SECURE_ADMIN,
+        'general/locale/code' => self::KEY_LANGUAGE,
+        'general/locale/timezone' => self::KEY_TIMEZONE,
+        'currency/options/base' => self::KEY_CURRENCY,
+        'currency/options/default' => self::KEY_CURRENCY,
+        'currency/options/allow' => self::KEY_CURRENCY,
+    ];
+
+    /**
+     * Default data values
+     *
+     * @var array
+     */
+    private static $defaults = [
+        self::KEY_USE_SEF_URL => 0,
+        self::KEY_BASE_URL => '{{unsecure_base_url}}',
+        self::KEY_IS_SECURE => 0,
+        self::KEY_BASE_URL_SECURE => '{{unsecure_base_url}}',
+        self::KEY_IS_SECURE_ADMIN => 0,
+        self::KEY_LANGUAGE => 'en_US',
+        self::KEY_TIMEZONE => 'America/Los_Angeles',
+        self::KEY_CURRENCY => 'USD',
+    ];
+
     /**
      * Setup Instance
      *
@@ -42,16 +89,14 @@ class UserConfigurationData
      */
     public function install($data)
     {
-        $this->installData('web/seo/use_rewrites', $data['config']['rewrites']['allowed'], 0);
-        $this->installData('web/unsecure/base_url', $data['config']['address']['web'], '{{unsecure_base_url}}');
-        $this->installData('web/secure/use_in_frontend', $data['config']['https']['front'], 0);
-        $this->installData('web/secure/base_url', $data['config']['address']['web'], '{{secure_base_url}}');
-        $this->installData('web/secure/use_in_adminhtml', $data['config']['https']['admin'], 0);
-        $this->installData('general/locale/code', $data['store']['language'], 'en_US');
-        $this->installData('general/locale/timezone', $data['store']['timezone'], 'America/Los_Angeles');
-        $this->installData('currency/options/base', $data['store']['currency'], 'USD');
-        $this->installData('currency/options/default', $data['store']['currency'], 'USD');
-        $this->installData('currency/options/allow', $data['store']['currency'], 'USD');
+        foreach (self::$defaults as $key => $value) {
+            if (isset($data[$key])) {
+                $value = $data[$key];
+            }
+            foreach (array_keys(self::$pathDataMap, $key) as $path) {
+                $this->installData($path, $value);
+            }
+        }
     }
 
     /**
@@ -59,13 +104,11 @@ class UserConfigurationData
      *
      * @param string $key
      * @param mixed $value
-     * @param mixed $default
      * @return void
      * @throws \Exception
      */
-    public function installData($key, $value, $default)
+    public function installData($key, $value)
     {
-        $this->setup->addConfigData($key, isset($value) ? $value : $default);
+        $this->setup->addConfigData($key, $value);
     }
-
 }

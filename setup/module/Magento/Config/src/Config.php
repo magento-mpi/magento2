@@ -19,11 +19,6 @@ class Config extends ZendConfig
     private $inflector;
 
     /**
-     * @var string
-     */
-    private $path;
-
-    /**
      * @param Inflector $inflector
      * @param array $array
      */
@@ -41,7 +36,6 @@ class Config extends ZendConfig
             }
             $this->count++;
         }
-        $this->path = '';
     }
 
     /**
@@ -69,26 +63,7 @@ class Config extends ZendConfig
      */
     public function getMagentoBasePath()
     {
-        if ($this->path !== '') {
-            return $this->path;
-        } else {
-            return $this->magento->basePath;
-        }
-    }
-
-    /**
-     * Set Magento base path
-     *
-     * @param  string $path
-     * @return void
-     */
-    public function setMagentoBasePath($path = null)
-    {
-        if ($path) {
-            $this->path = $path;
-        } else {
-            $this->path = $this->magento->basePath;
-        }
+        return $this->magento->basePath;
     }
 
     /**

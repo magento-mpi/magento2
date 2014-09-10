@@ -37,9 +37,9 @@ class WebLogger implements LoggerInterface
         $this->logFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $this->logFile;
     }
 
-    public function open()
+    public function open($mode)
     {
-        $this->resource = @fopen($this->logFile, 'a+');
+        $this->resource = @fopen($this->logFile, $mode);
     }
 
     public function close()
@@ -48,52 +48,39 @@ class WebLogger implements LoggerInterface
     }
 
     /**
-     * Writes Success message to the log file
-     *
-     * @param string $message
+     * {@inheritdoc}
      */
     public function logSuccess($message)
     {
-        $this->open();
-        fwrite($this->resource, '<span class="text-success">[SUCCESS] ' . $message . '</span>' . PHP_EOL);
-        $this->close();
+        $this->writeToFile('<span class="text-success">[SUCCESS] ' . $message . '</span>');
     }
 
     /**
-     * Writes Success installation message to the log file
-     *
-     * @param string $moduleName
-     */
-    public function logInstalled($moduleName)
-    {
-        $this->open();
-        fwrite(
-            $this->resource,
-            '<span class="text-success">[SUCCESS] ' . $moduleName . ' ... installed</span>' . PHP_EOL
-        );
-        $this->close();
-    }
-
-    /**
-     * @param \Exception $e
+     * {@inheritdoc}
      */
     public function logError(\Exception $e)
     {
-        $this->open();
-        fwrite($this->resource, '<span class="text-danger">[ERROR] ' . $e . '<span>' . PHP_EOL);
-        $this->close();
+        $this->writeToFile('<span class="text-danger">[ERROR] ' . $e . '<span>');
     }
 
     /**
-     * Writes information message to the log file
+     * {@inheritdoc}
+     */
+    public function log($message)
+    {
+        $this->writeToFile('<span class="text-info">' . $message . '</span>');
+    }
+
+    /**
+     * Write the message to file
      *
      * @param string $message
      * @return void
      */
-    public function log($message)
+    private function writeToFile($message)
     {
-        $this->open();
-        fwrite($this->resource, '<span class="text-info">' . $message . '</span>' . PHP_EOL);
+        $this->open('a+');
+        fwrite($this->resource, $message . PHP_EOL);
         $this->close();
     }
 
@@ -110,7 +97,7 @@ class WebLogger implements LoggerInterface
      */
     public function get()
     {
-        $this->open();
+        $this->open('r+');
         fseek($this->resource, 0);
         $messages = [];
         while (($string = fgets($this->resource)) !== false) {
