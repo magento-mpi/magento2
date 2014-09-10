@@ -827,48 +827,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Get calculated Shipping & Handling Tax
-     *
-     * This method returns array with format:
-     * array(
-     *  $index => array(
-     *      'tax_amount'        => $taxAmount,
-     *      'base_tax_amount'   => $baseTaxAmount,
-     *      'hidden_tax_amount' => $hiddenTaxAmount
-     *      'title'             => $title
-     *      'percent'           => $percent
-     *  )
-     * )
-     *
-     * @param \Magento\Sales\Model\Order $source
-     * @return array
-     */
-    public function getShippingTax($source)
-    {
-        if ($this->_coreRegistry->registry('current_invoice')) {
-            $current = $this->_coreRegistry->registry('current_invoice');
-        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
-            $current = $this->_coreRegistry->registry('current_creditmemo');
-        } else {
-            $current = $source;
-        }
-
-        $taxClassAmount = array();
-        if ($current && $source) {
-            if ($current->getShippingTaxAmount() != 0 && $current->getBaseShippingTaxAmount() != 0) {
-                $taxClassAmount[0]['tax_amount'] = $current->getShippingTaxAmount();
-                $taxClassAmount[0]['base_tax_amount'] = $current->getBaseShippingTaxAmount();
-                if ($current->getShippingHiddenTaxAmount() > 0) {
-                    $taxClassAmount[0]['hidden_tax_amount'] = $current->getShippingHiddenTaxAmount();
-                }
-                $taxClassAmount[0]['title'] = __('Shipping & Handling Tax');
-                $taxClassAmount[0]['percent'] = null;
-            }
-        }
-        return $taxClassAmount;
-    }
-
-    /**
      * Retrieve default customer tax class from config
      *
      * @return string|null
