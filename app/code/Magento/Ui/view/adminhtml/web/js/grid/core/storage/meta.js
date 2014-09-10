@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     '_',
     './storage'
@@ -16,12 +22,14 @@ define([
                 fields      = this.data.fields,
                 key;
 
-            if( !defaults ){
+            if (!defaults) {
                 return this;
             }
 
             fields.forEach(function(field) {
+
                 for (key in defaults) {
+
                     if (!field.hasOwnProperty(key)) {
                         field[key] = defaults[key];
                     }

@@ -1,16 +1,19 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'jquery',
     './core/data_provider',
     '../lib/registry/registry'
-], function($, DataProvider, registry){
+], function($, DataProvider, registry) {
     'use strict';
 
-    function getConfig(settings){
-        var config,
-            client;
-
-        config = settings.config;
-        client = config.client = config.client || {};
+    function getConfig(settings) {
+        var config = settings.config,
+            client = config.client = config.client || {};
 
         $.extend(true, client, {
             ajax: {
@@ -25,12 +28,9 @@ define([
         return settings;
     }
 
-    function init( el, settings ){
-        var name,
-            config;
-
-        name = settings.name;
-        config = getConfig( settings );
+    function init(el, settings) {
+        var name    = settings.name,
+            config  = getConfig(settings);
 
         registry.set(name, new DataProvider(config));
     }

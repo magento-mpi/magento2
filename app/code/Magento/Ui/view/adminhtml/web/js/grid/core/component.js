@@ -1,14 +1,17 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'Magento_Ui/js/lib/registry/registry'
 ], function(registry) {
     'use strict';
 
     function getConfig(provider, baseConfig) {
-        var configs,
-            storeConfig;
-
-        configs = provider.config.get('components');
-        storeConfig = configs[baseConfig.name];
+        var configs     = provider.config.get('components'),
+            storeConfig = configs[baseConfig.name] || {};
 
         return _.extend({
             provider: provider

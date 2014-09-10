@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     '_',
     'Magento_Ui/js/lib/class',
@@ -11,30 +17,66 @@ define([
         },
 
         get: function(path) {
-            return !path ?
-                this.data :
-                (this.data[path] = this.data[path] || {});
+            return !path ? this.data : this.data[path];
         },
 
-        set: function(path, value) {
-            var prop,
-                specify;
+        _update: function(path, value) {
+            var prop;
 
-            if (typeof path === 'obj') {
-                value = path;
-                path = '';
+            if (arguments.length > 1) {
+                prop = this.data[path] = this.data[path] || {};
             } else {
-                specify = true;
-            }
+                value = path;
+                path = false;
 
-            prop = this.get(path);
+                prop = this.data;
+            }
 
             _.extend(prop, value);
 
-            this.trigger('update', prop);
+            return {
+                path: path,
+                value: value
+            };
+        },
 
-            if (specify) {
-                this.trigger(path + 'Update', prop);
+        _override: function(path, value) {
+            if (arguments.length > 1) {
+                this.data[path] = value;
+            } else {
+                value = path;
+                path = false;
+
+                this.data = value;
+            }
+
+            return {
+                path: path,
+                value: value
+            };
+        },
+
+        set: function(extend, path, value){
+            var args    = Array.prototype.slice.call(arguments),
+                method  = '_override',
+                result;
+
+            if (typeof extend === 'boolean') {
+                args.splice(1);
+
+                if (extend) {
+                    method = '_update';
+                }
+            }
+
+            result  = this[method].apply(this, args);
+            value   = result.value;
+            path    = result.path;
+
+            this.trigger('update', value);
+
+            if (path) {
+                this.trigger(path + 'Update', value);
             }
 
             return this;

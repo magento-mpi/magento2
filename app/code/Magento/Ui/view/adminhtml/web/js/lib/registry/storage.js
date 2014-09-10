@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([], function(){
     'use strict';
     
@@ -9,14 +15,14 @@ define([], function(){
          * @param {Array} elems - An array of elements.
          * @returns {Array} Array of values. 
          */
-        get: function( elems ){
-            var result = [],    
+        get: function(elems) {
+            var result = [],
                 record;
 
-            elems.forEach(function( elem ){
-                record = data[ elem ];
+            elems.forEach(function(elem) {
+                record = data[elem];
 
-                result.push( record ? record.value : undefined );
+                result.push(record ? record.value : undefined);
             });
 
             return result;
@@ -29,8 +35,8 @@ define([], function(){
          * @param {*} value - Value of the element.
          * returns {storage} Chainable.
          */
-        set: function( elem, value ){
-            var record = data[ elem ] = data[elem] || {};
+        set: function(elem, value) {
+            var record = data[elem] = data[elem] || {};
 
             record.value = value;
 
@@ -43,8 +49,8 @@ define([], function(){
          * @param {Array} elems - An array of elements to be removed.
          * returns {storage} Chainable.
          */
-        remove: function( elems ){
-            elems.forEach(function( elem ){
+        remove: function(elems) {
+            elems.forEach(function(elem) {
                 delete data[elem];
             });
 
@@ -57,8 +63,8 @@ define([], function(){
          * @param {Array} elems - An array of elements.
          * @returns {Boolean}
          */
-        has: function( elems ){
-            return elems.every(function( elem ){
+        has: function(elems) {
+            return elems.every(function(elem) {
                 return typeof data[elem] !== 'undefined';
             });
         }

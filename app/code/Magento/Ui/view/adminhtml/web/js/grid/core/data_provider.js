@@ -1,12 +1,18 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     '_',
     './rest',
     './storage/index',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/events'
-], function(_, Rest, Storages, Class, EventsBus) {
+], function(_, Rest, storages, Class, EventsBus) {
     'use strict';
-
+    
     return Class.extend({
         initialize: function(settings) {
             this.initStorages(settings)
@@ -14,12 +20,15 @@ define([
         },
 
         initStorages: function(settings) {
-            var stores;
+            var stores,
+                storage;
 
-            stores = ['config', 'meta', 'data', 'params'];
+            stores = ['config', 'meta', 'data', 'params', 'dump'];
 
             stores.forEach(function(store) {
-                this[store] = new Storages[store](settings[store]);
+                storage = storages[store];
+
+                this[store] = new storage(settings[store]);
             }, this);
 
             this.stores = stores;
@@ -57,7 +66,7 @@ define([
 
         updateStorages: function(data) {
             this.stores.forEach(function(store) {
-                this[store].set(data[store]);
+                this[store].set(true, data[store]);
             }, this);
         },
 

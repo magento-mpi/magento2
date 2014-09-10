@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     './storage'
 ], function(storage) {
@@ -11,7 +17,7 @@ define([
      * Clears all of the entries of a specified request.
      * @param {Number} id - Id of request.
      */
-    function clear( id ){
+    function clear(id) {
         var ei,
             elems,
             index,
@@ -38,16 +44,16 @@ define([
      * @param {Number} id - Id of request.
      * @returns {Boolean} Whether specified request was successfully resolved.
      */
-    function resolve(id){
-        var request     = requests[id],
-            elems       = request.deps,
-            callback    = request.callback,
+    function resolve(id) {
+        var request = requests[id],
+            elems = request.deps,
+            callback = request.callback,
             isResolved;
 
         isResolved = storage.has(elems);
 
         if (isResolved) {
-            callback.apply( window, storage.get(elems) );
+            callback.apply(window, storage.get(elems));
         }
 
         return isResolved;
@@ -64,8 +70,8 @@ define([
 
             if (typeof pending !== 'undefined') {
                 pending
-                    .filter( resolve )
-                    .forEach( clear );
+                    .filter(resolve)
+                    .forEach(clear);
             }
 
             return this;

@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     './storage',
     './meta'
@@ -8,6 +14,7 @@ define([
         meta:   MetaStorage,
         params: Storage,
         config: Storage,
-        data:   Storage
+        data:   Storage,
+        dump:   Storage
     }
 });

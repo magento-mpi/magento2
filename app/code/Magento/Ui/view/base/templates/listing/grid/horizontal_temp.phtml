@@ -202,8 +202,24 @@
         }
     </script> 
 </div>
+<div data-m2-init='{"Magento_Ui/js/grid/filter": ""}'>
+    <script type="mage/config">
+        {   
+            "name": "filter",
+            "parent_name": "cms.pages",
+            "types": {
+                "date": {
+                    "dateFormat": "mm/dd/yyyy"
+                }
+            }
+        }
+    </script>
+</div>
 
 <div class="grid">
+    <div data-bind="scope: 'cms.pages:filter'">
+        <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
+    </div>
     <div data-bind="scope: 'cms.pages:paging'" class="pager">
         <!-- ko template: 'Magento_Ui.templates.pagination.toolbar' --><!-- /ko -->
     </div>
