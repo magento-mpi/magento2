@@ -12,10 +12,10 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertItemsAddedToGiftRegistrySuccessMessage
+ * Class AssertGiftRegistrySuccessAddedItemsMessage
  * Assert that success message is displayed after adding products to gift registry on backend
  */
-class AssertItemsAddedToGiftRegistrySuccessMessage extends AbstractConstraint
+class AssertGiftRegistrySuccessAddedItemsMessage extends AbstractConstraint
 {
     /**
      * Success added to gift registry message
@@ -51,6 +51,6 @@ class AssertItemsAddedToGiftRegistrySuccessMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry success message is present.';
+        return 'Gift registry success message is displayed after adding products to gift registry on backend.';
     }
 }

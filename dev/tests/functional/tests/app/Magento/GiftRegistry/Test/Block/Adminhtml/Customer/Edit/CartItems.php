@@ -50,19 +50,4 @@ class CartItems extends Grid
             throw new \Exception('Searched item was not found.');
         }
     }
-
-    /**
-     * Perform selected massaction over checked items
-     *
-     * @param array $items
-     * @param array|string $action [array -> key = value from first select; value => value from subselect]
-     * @param bool $acceptAlert [optional]
-     * @param string $massActionSelection [optional]
-     * @return void
-     */
-    public function massaction(array $items, $action, $acceptAlert = false, $massActionSelection = '')
-    {
-        parent::massaction($items, $action, $acceptAlert, $massActionSelection);
-        $this->_rootElement->acceptAlert();
-    }
 }

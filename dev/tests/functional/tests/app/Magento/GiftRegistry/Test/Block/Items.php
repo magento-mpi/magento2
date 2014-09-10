@@ -10,6 +10,7 @@ namespace Magento\GiftRegistry\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items
@@ -32,14 +33,15 @@ class Items extends Block
     protected $productQty = '[//input[@value="%s"]]';
 
     /**
-     * Is visible product with appropriate quantity in gift registry items grid
+     * Is product with appropriate quantity visible in gift registry items grid
      *
-     * @param string $name
-     * @param string|null $qty
+     * @param FixtureInterface $product
      * @return bool
      */
-    public function isProductInGrid($name, $qty = null)
+    public function isProductInGrid(FixtureInterface $product)
     {
+        $name = $product->getName();
+        $qty = $product->getCheckoutData()['qty'];
         $productNameSelector = sprintf($this->productName, $name);
         $selector = $qty === null ? $productNameSelector : $productNameSelector . sprintf($this->productQty, $qty);
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();

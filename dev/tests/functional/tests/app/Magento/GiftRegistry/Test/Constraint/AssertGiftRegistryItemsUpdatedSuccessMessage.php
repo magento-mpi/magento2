@@ -51,6 +51,6 @@ class AssertGiftRegistryItemsUpdatedSuccessMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry success update message is present.';
+        return 'Gift registry success update message is displayed after gift registry items updating on backend.';
     }
 }

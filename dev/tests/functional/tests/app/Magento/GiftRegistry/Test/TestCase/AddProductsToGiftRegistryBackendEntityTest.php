@@ -23,7 +23,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for UpdateGiftRegistryEntity from Customer Account(Backend)
+ * Test Creation for AddProductsToGiftRegistryEntity from Customer Account(Backend)
  *
  * Test Flow:
  *
@@ -31,6 +31,7 @@ use Mtf\TestCase\Injectable;
  * 1. Register Customer
  * 2. Gift Registry is created
  * 3. Products are created
+ * 4. Created product add to Cart
  *
  * Steps:
  * 1. Go to backend
@@ -43,7 +44,7 @@ use Mtf\TestCase\Injectable;
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-28215
  */
-class UpdateGiftRegistryBackendEntityTest extends Injectable
+class AddProductsToGiftRegistryBackendEntityTest extends Injectable
 {
     /**
      * Customer Index page
@@ -102,13 +103,22 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
     protected $cmsIndex;
 
     /**
-     * Prepare customer for test
+     * FixtureFactory object
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
+     * Prepare data for test
      *
      * @param CustomerInjectable $customer
+     * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(CustomerInjectable $customer)
+    public function __prepare(CustomerInjectable $customer, FixtureFactory $fixtureFactory)
     {
+        $this->fixtureFactory = $fixtureFactory;
         $customer->persist();
         return ['customer' => $customer];
     }
@@ -152,7 +162,6 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
      * @param CustomerInjectable $customer
      * @param GiftRegistry $giftRegistry
      * @param Browser $browser
-     * @param FixtureFactory $fixtureFactory
      * @param string $product
      * @param string $qty
      * @return array
@@ -161,28 +170,12 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
         CustomerInjectable $customer,
         GiftRegistry $giftRegistry,
         Browser $browser,
-        FixtureFactory $fixtureFactory,
         $product,
         $qty
     ) {
         // Preconditions:
         // Creating product
-        list($fixture, $dataSet) = explode("::", $product);
-        $product = $fixtureFactory->createByCode(
-            $fixture,
-            [
-                'dataSet' => $dataSet,
-                'data' => [
-                    'checkout_data' => [
-                        'preset' => 'default',
-                        'value' => [
-                            'qty' => $qty
-                        ]
-                    ]
-                ]
-            ]
-        );
-        $product->persist();
+        $product = $this->createProduct($product, ['qty' => $qty]);
         // Creating gift registry
         $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
         $this->customerAccountLogin->getLoginBlock()->login($customer);
@@ -204,7 +197,7 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
                 'productName' => $product->getName()
             ]
         ];
-        $cartItemsGrid->massaction($filter, 'Add to Gift Registry');
+        $cartItemsGrid->massaction($filter, 'Add to Gift Registry', true);
 
         return ['product' => $product];
     }
@@ -217,5 +210,33 @@ class UpdateGiftRegistryBackendEntityTest extends Injectable
     public function tearDown()
     {
         $this->customerAccountLogout->open();
+    }
+
+    /**
+     * Create product
+     *
+     * @param string $product
+     * @param array $arguments
+     * @return \Mtf\Fixture\FixtureInterface
+     */
+    protected function createProduct($product, array $arguments)
+    {
+        list($fixture, $dataSet) = explode("::", $product);
+        $product = $this->fixtureFactory->createByCode(
+            $fixture,
+            [
+                'dataSet' => $dataSet,
+                'data' => [
+                    'checkout_data' => [
+                        'preset' => 'default',
+                        'value' => [
+                            'qty' => $arguments['qty']
+                        ]
+                    ]
+                ]
+            ]
+        );
+        $product->persist();
+        return $product;
     }
 }
