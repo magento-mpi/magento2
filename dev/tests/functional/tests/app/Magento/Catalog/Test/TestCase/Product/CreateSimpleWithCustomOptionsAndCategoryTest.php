@@ -102,9 +102,9 @@ class CreateSimpleWithCustomOptionsAndCategoryTest extends Functional
 
         $productOptionsBlock = $productPage->getViewBlock()->getCustomOptionsBlock();
         $fixture = $product->getData('fields/custom_options/value');
-        $actualOptions = $productOptionsBlock->getOptions();
+        $actualOptions = $productOptionsBlock->getOptions($product);
         $this->assertCount(count($fixture), $actualOptions);
-        $this->assertTrue(isset($actualOptions[$fixture[0]['title']]['title']));
-        $this->assertEquals($fixture[0]['title'], $actualOptions[$fixture[0]['title']]['title']);
+        $this->assertTrue(isset($actualOptions['custom_options'][$fixture[0]['title']]['options'][0]['title']));
+        $this->assertEquals($fixture[0]['title'], $actualOptions['custom_options'][$fixture[0]['title']]['title']);
     }
 }

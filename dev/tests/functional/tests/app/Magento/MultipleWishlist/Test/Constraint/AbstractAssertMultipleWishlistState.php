@@ -75,6 +75,8 @@ abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
      * @param MultipleWishlistIndex $multipleWishlistIndex
      * @param CustomerAccountLogin $customerAccountLogin
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function processAssert(
         MultipleWishlist $multipleWishlist,

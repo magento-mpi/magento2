@@ -54,7 +54,8 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
                     'sortItemsByPriority',
                     'setSkipActionsValidation',
                     'process',
-                    'processShippingAmount'
+                    'processShippingAmount',
+                    'canApplyDiscount'
                 ]
             )
             ->getMock();
@@ -132,6 +133,10 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->willReturn(true);
 
         $this->validatorMock->expects($this->any())
+            ->method('canApplyDiscount')
+            ->willReturn(true);
+
+        $this->validatorMock->expects($this->any())
             ->method('sortItemsByPriority')
             ->willReturnArgument(0);
 
@@ -202,6 +207,10 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->willReturn([$child]);
 
         $this->validatorMock->expects($this->any())
+            ->method('canApplyDiscount')
+            ->willReturn(true);
+
+        $this->validatorMock->expects($this->any())
             ->method('sortItemsByPriority')
             ->willReturnArgument(0);
         $this->validatorMock->expects($this->any())
@@ -254,6 +263,10 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
         $itemWithChildren->expects($this->once())
             ->method('getHasChildren')
             ->willReturn(false);
+
+        $this->validatorMock->expects($this->any())
+            ->method('canApplyDiscount')
+            ->willReturn(true);
 
         $this->validatorMock->expects($this->any())
             ->method('sortItemsByPriority')
