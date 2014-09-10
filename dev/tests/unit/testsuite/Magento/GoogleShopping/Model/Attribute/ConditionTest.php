@@ -26,9 +26,7 @@ class ConditionTest extends \PHPUnit_Framework_TestCase
         $googleShoppingAttribute = $this->getMock(
             'Magento\Framework\Gdata\Gshopping\Extension\Attribute',
             null,
-            [$conditionName],
-            '',
-            true
+            [$conditionName]
         );
         $googleShoppingEntry = $this->getMock(
             'Magento\Framework\Gdata\Gshopping\Entry',
@@ -84,7 +82,6 @@ class ConditionTest extends \PHPUnit_Framework_TestCase
             ->method('getProductAttribute')
             ->with($product, $googleAttributeId)
             ->will($this->returnValue($catalogEntityAttribute));
-        $this->getMock('Magento\Framework\Gdata\Gshopping\Entry', ['__wakeup'], [], '', false);
 
         $model = (new ObjectManagerHelper($this))->getObject(
             'Magento\GoogleShopping\Model\Attribute\Condition',
