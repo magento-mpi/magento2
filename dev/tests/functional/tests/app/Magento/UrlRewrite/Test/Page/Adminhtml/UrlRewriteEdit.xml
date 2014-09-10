@@ -36,7 +36,7 @@
         </productGridBlock>
         <urlRewriteTypeSelectorBlock>
             <class>Magento\UrlRewrite\Test\Block\Adminhtml\Selector</class>
-            <locator>[data-ui-id="urlrewrite-type-selector"]</locator>
+            <locator>[data-container-for="entity-type-selector"]</locator>
             <strategy>css selector</strategy>
         </urlRewriteTypeSelectorBlock>
         <cmsGridBlock>
