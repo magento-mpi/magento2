@@ -11,10 +11,10 @@ namespace Magento\GiftCardAccount\Test\Block\Checkout\Cart;
 use Mtf\Block\Form;
 
 /**
- * Class GiftCardAccount
+ * Class Giftcardaccount
  * Gift card account block in cart
  */
-class GiftCardAccount extends Form
+class Giftcardaccount extends Form
 {
     /**
      * Add gift cards button

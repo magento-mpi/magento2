@@ -109,7 +109,7 @@ class ProductAdvancedPricingTest extends Functional
     {
         $productName = $product->getName();
         $specialPrice = $product->getProductSpecialPrice();
-        $cartItem = Factory::getPageFactory()->getCheckoutCart()->getCartBlock()->getCartItem($product);
+        $cartItem = Factory::getPageFactory()->getCheckoutCartIndex()->getCartBlock()->getCartItem($product);
         $unitPrice = $cartItem->getPrice();
         $subTotal = $cartItem->getSubtotalPrice();
 

@@ -14,7 +14,6 @@ use Mtf\TestCase\Functional;
 /**
  * Class AdvancedSearchTest
  * Searching product in the Frontend via advanced search
- *
  */
 class AdvancedSearchTest extends Functional
 {
@@ -25,6 +24,7 @@ class AdvancedSearchTest extends Functional
      */
     public function testProductSearch()
     {
+        $this->markTestIncomplete('MAGETWO-27664');
         //Data
         $productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $productFixture->switchData('simple');

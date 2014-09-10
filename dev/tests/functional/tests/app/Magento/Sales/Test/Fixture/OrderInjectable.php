@@ -16,6 +16,7 @@ use Mtf\Fixture\InjectableFixture;
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class OrderInjectable extends InjectableFixture
 {
