@@ -47,8 +47,8 @@ class OrderInjectable extends AbstractRepository
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
             'entity_id' => ['products' => 'catalogProductSimple::default'],
-            'coupon_code' => ['dataSet' => 'active_sales_rule_with_coupon_for_all_groups'],
-            'checkout_data' => ['preset' => 'default_with_discount']
+            'coupon_code' => ['dataSet' => 'active_sales_rule_for_all_groups'],
+            'price' => ['preset' => 'default_with_discount']
         ];
     }
 }

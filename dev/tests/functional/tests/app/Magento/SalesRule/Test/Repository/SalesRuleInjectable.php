@@ -93,7 +93,7 @@ class SalesRuleInjectable extends AbstractRepository
             'discount_amount' => '50'
         ];
 
-        $this->_data['active_sales_rule_with_coupon_for_all_groups'] = [
+        $this->_data['active_sales_rule_for_all_groups'] = [
             'name' => 'Shopping Cart Price Rule with Specific Coupon %isolation%',
             'description' => 'Description for Cart Price Rule',
             'is_active' => 'Active',
@@ -103,6 +103,10 @@ class SalesRuleInjectable extends AbstractRepository
             'coupon_code' => '123-abc-ABC-987-%isolation%',
             'simple_action' => 'Percent of product price discount',
             'discount_amount' => '50',
+            'store_labels' => [
+                0 => 'Shopping Cart price Rule with Specific Coupon',
+                1 => 'Shopping Cart price Rule with Specific Coupon'
+            ],
         ];
     }
 }

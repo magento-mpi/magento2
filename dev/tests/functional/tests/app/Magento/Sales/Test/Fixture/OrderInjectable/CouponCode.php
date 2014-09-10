@@ -10,6 +10,7 @@ namespace Magento\Sales\Test\Fixture\OrderInjectable;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
 /**
  * Class CouponCode
@@ -49,7 +50,7 @@ class CouponCode implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
         $this->params = $params;
-        if (isset($data['value'])) {
+        if (isset($data['value']) && $data['value'] instanceof SalesRuleInjectable) {
             $this->data = $data['value'];
             return;
         }

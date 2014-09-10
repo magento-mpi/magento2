@@ -36,14 +36,14 @@ class AssertCouponReportResult extends AbstractConstraint
     public function processAssert(SalesCouponReportView $salesCouponReportView, OrderInjectable $order, $currency = '$')
     {
         $data = $order->getData();
-        $discount = $data['checkout_data']['discount'] != 0
-            ? '-' . $currency . number_format($data['checkout_data']['discount'], 2)
+        $discount = $data['price']['discount'] != 0
+            ? '-' . $currency . number_format($data['price']['discount'], 2)
             : $currency . '0.00';
         $roleName = $data['coupon_code']->getName();
         $filter = [
             'coupon_code' => $data['coupon_code']->getCouponCode(),
             'rule_name' => $roleName,
-            'subtotal' => $currency . number_format($data['checkout_data']['subtotal'], 2),
+            'subtotal' => $currency . number_format($data['price']['subtotal'], 2),
             'discount' => $discount
         ];
         \PHPUnit_Framework_Assert::assertTrue(

@@ -43,4 +43,14 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\ShopCartProductReport</class>
     </shopCartProductReport>
+    <statistics>
+        <mca>reports/report_statistics</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\Statistics</class>
+    </statistics>
+    <salesCouponReportView>
+        <mca>reports/report_sales/coupons</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\SalesCouponReportView</class>
+    </salesCouponReportView>
 </page>

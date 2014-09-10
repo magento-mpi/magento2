@@ -13,7 +13,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
-use Magento\Reports\Test\Page\Adminhtml\ReportStatistic;
+use Magento\Reports\Test\Page\Adminhtml\Statistics;
 use Magento\Reports\Test\Page\Adminhtml\SalesCouponReportView;
 
 /**
@@ -69,7 +69,7 @@ class SalesCouponReportEntityTest extends Injectable
     /**
      * Report statistic page
      *
-     * @var ReportStatistic
+     * @var Statistics
      */
     protected $reportStatistic;
 
@@ -80,7 +80,7 @@ class SalesCouponReportEntityTest extends Injectable
      * @param OrderInvoiceNew $orderInvoiceNew
      * @param SalesCouponReportView $salesCouponReportView
      * @param OrderView $orderView
-     * @param ReportStatistic $reportStatistic
+     * @param Statistics $reportStatistic
      * @return void
      */
     public function __inject(
@@ -88,7 +88,7 @@ class SalesCouponReportEntityTest extends Injectable
         OrderInvoiceNew $orderInvoiceNew,
         SalesCouponReportView $salesCouponReportView,
         OrderView $orderView,
-        ReportStatistic $reportStatistic
+        Statistics $reportStatistic
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderInvoiceNew = $orderInvoiceNew;

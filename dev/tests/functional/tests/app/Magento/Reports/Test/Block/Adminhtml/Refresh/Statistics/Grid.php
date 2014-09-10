@@ -29,6 +29,7 @@ class Grid extends AbstractGrid
      *
      * @param array $filter
      * @throws \Exception
+     * @return void
      */
     public function searchAndSelect(array $filter)
     {

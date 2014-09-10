@@ -1664,12 +1664,12 @@ class OrderInjectable extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $checkout_data = [
-        'attribute_code' => 'checkout_data',
+    protected $price = [
+        'attribute_code' => 'price',
         'backend_type' => 'virtual',
         'is_required' => '1',
         'group' => null,
-        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\CheckoutData',
+        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\Price',
     ];
 
     public function getEntityId()
@@ -2682,8 +2682,8 @@ class OrderInjectable extends InjectableFixture
         return $this->getData('id');
     }
 
-    public function getCheckoutData()
+    public function getPrice()
     {
-        return $this->getData('checkout_data');
+        return $this->getData('price');
     }
 }
