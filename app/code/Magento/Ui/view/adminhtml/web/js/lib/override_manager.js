@@ -53,8 +53,24 @@ define(['jquery'], function($) {
             actionNode.remove();
         },
 
+        wrap: function(part, into, by) {
+            var actionNode = $(_.last(by));
+            var toBeWrapped = $(into).find('[data-part="' + part + '"]');
+
+            toBeWrapped.each(function(){
+                var localToBeWrapped = $(this);
+                var localActionNode = actionNode.clone();
+                var placeholder = localActionNode.find('[data-part-placeholder]');
+
+                placeholder.replaceWith(localToBeWrapped.clone());
+                localToBeWrapped.replaceWith(localActionNode);
+            });
+
+            actionNode.remove();
+        },
+
         getActions: function() {
-            return 'replace remove update append prepend'.split(' ');
+            return 'replace remove update append prepend wrap'.split(' ');
         }
     };
 });

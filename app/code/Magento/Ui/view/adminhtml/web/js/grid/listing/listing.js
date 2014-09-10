@@ -48,7 +48,11 @@ define([
         },
 
         getCellTemplateFor: function (field) {
-            return this.getRootTemplatePath() +  '.cell.' + field.data_type;
+            if(field.template) {
+                return field.template;
+            } else {
+                return this.getRootTemplatePath() +  '.cell.' + field.data_type;
+            }
         },
 
         getTemplate: function () {
