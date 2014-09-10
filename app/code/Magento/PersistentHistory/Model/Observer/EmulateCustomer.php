@@ -73,7 +73,7 @@ class EmulateCustomer
     public function execute($observer)
     {
         if ($this->mPersistentData->canProcess($observer)
-            && !$this->ePersistentData->isCustomerAndSegmentsPersist()
+            && $this->ePersistentData->isCustomerAndSegmentsPersist()
             && $this->persistentSession->isPersistent()
             && !$this->customerSession->isLoggedIn()
         ) {
