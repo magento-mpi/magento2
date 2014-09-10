@@ -198,6 +198,7 @@
                     </arguments>
                 </block>
             </block>
+            <block class="Magento\Sales\Block\Adminhtml\Order\Grid\Rss\Link" name="grid.rss.link" />
         </block>
     </referenceBlock>
 </page>

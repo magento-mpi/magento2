@@ -6,7 +6,6 @@
         "magento/module-store": "0.1.0-alpha93",
         "magento/module-catalog": "0.1.0-alpha93",
         "magento/module-catalog-inventory": "0.1.0-alpha93",
-        "magento/module-sales": "0.1.0-alpha93",
         "magento/module-sales-rule": "0.1.0-alpha93",
         "magento/module-review": "0.1.0-alpha93",
         "magento/module-customer": "0.1.0-alpha93",

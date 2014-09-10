@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rss\Model\Resource;
+namespace Magento\Sales\Model\Resource\Order\Rss;
 
 /**
  * Order Rss Resource Model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Order
+class OrderStatus
 {
     /**
      * @var \Magento\Framework\App\Resource
@@ -35,15 +35,15 @@ class Order
      */
     public function getAllCommentCollection($orderId)
     {
-        /** @var $res \Magento\Framework\App\Resource */
-        $res = $this->_resource;
-        $read = $res->getConnection('core_read');
+        /** @var $resource \Magento\Framework\App\Resource */
+        $resource = $this->_resource;
+        $read = $resource->getConnection('core_read');
 
         $fields = array('notified' => 'is_customer_notified', 'comment', 'created_at');
         $commentSelects = array();
         foreach (array('invoice', 'shipment', 'creditmemo') as $entityTypeCode) {
-            $mainTable = $res->getTableName('sales_flat_' . $entityTypeCode);
-            $slaveTable = $res->getTableName('sales_flat_' . $entityTypeCode . '_comment');
+            $mainTable = $resource->getTableName('sales_flat_' . $entityTypeCode);
+            $slaveTable = $resource->getTableName('sales_flat_' . $entityTypeCode . '_comment');
             $select = $read->select()->from(
                 array('main' => $mainTable),
                 array('entity_id' => 'order_id', 'entity_type_code' => new \Zend_Db_Expr("'{$entityTypeCode}'"))
@@ -58,7 +58,7 @@ class Order
             $commentSelects[] = '(' . $select . ')';
         }
         $select = $read->select()->from(
-            $res->getTableName('sales_flat_order_status_history'),
+            $resource->getTableName('sales_flat_order_status_history'),
             array('entity_id' => 'parent_id', 'entity_type_code' => new \Zend_Db_Expr("'order'")) + $fields
         )->where(
             'parent_id = ?',
@@ -71,7 +71,7 @@ class Order
         $commentSelect = $read->select()->union($commentSelects, \Zend_Db_Select::SQL_UNION_ALL);
 
         $select = $read->select()->from(
-            array('orders' => $res->getTableName('sales_flat_order')),
+            array('orders' => $resource->getTableName('sales_flat_order')),
             array('increment_id')
         )->join(
             array('t' => $commentSelect),

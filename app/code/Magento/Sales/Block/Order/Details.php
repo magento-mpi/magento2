@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rss\Block\Order;
+namespace Magento\Sales\Block\Order;
 
 class Details extends \Magento\Framework\View\Element\Template
 {

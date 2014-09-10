@@ -2754,5 +2754,13 @@ return array(
     [
         '\Magento\Framework\Service\Data\AbstractObjectBuilder',
         'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
-    ]
+    ],
+    ['Magento\Rss\Block\Order\Info\Buttons\Rss'],
+    ['Magento\Rss\Block\Order\NewOrder'],
+    ['Magento\Rss\Block\Order\Status'],
+    ['Magento\Rss\Controller\Adminhtml\Order\NewAction'],
+    ['Magento\Rss\Controller\Order\Status'],
+    ['Magento\Rss\Helper\Order'],
+    ['Magento\Sales\Block\Order\Details', 'Magento\Rss\Block\Order\Details'],
+    ['Magento\Sales\Model\Resource\Order\Rss\OrderStatus', 'Magento\Rss\Model\Resource\Order']
 );

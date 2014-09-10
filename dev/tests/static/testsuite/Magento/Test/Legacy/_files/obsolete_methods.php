@@ -1900,5 +1900,8 @@ return array(
     ['removeTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],
-    ['getMethodFormBlock', 'Magento\Centinel\Helper\Data']
+    ['getMethodFormBlock', 'Magento\Centinel\Helper\Data'],
+    ['_addHeader', 'Magento\Rss\Model\Rss'],
+    ['_addEntries', 'Magento\Rss\Model\Rss'],
+    ['_addEntry', 'Magento\Rss\Model\Rss']
 );
