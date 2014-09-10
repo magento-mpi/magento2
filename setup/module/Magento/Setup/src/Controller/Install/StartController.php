@@ -77,32 +77,27 @@ class StartController extends AbstractInstallActionController
      */
     public function indexAction()
     {
-        $this->logger->clear();
-
-        $data = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
-
-        //Installs Deployment Configuration
-        $key = $this->installDeploymentConfiguration($data);
-        $this->logger->logSuccess('Deployment Configuration');
-
-        //Installs Schema
-        $this->installSchemaUpdates();
-        $this->logger->logSuccess('Schema Updates');
-
-        // Installs User Configuration Data
-        $this->installUserConfigurationData($data);
-        $this->logger->logSuccess('User Configuration');
-
+        $key = '';
         try {
+            $data = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
+
+            //Installs Deployment Configuration
+            $key = $this->installDeploymentConfiguration($data);
+
+            //Installs Schema
+            $this->installSchemaUpdates();
+
+            // Installs User Configuration Data
+            $this->installUserConfigurationData($data);
+
             //Installs Data
             $this->installDataUpdates();
-            $this->logger->logSuccess('Data Updates');
             $this->json->setVariable('success', true);
         } catch(\Exception $ex) {
             $this->logger->logError($ex);
             $this->json->setVariable('success', false);
         }
-        
+
         $this->json->setVariable('key', $key);
         return $this->json;
     }

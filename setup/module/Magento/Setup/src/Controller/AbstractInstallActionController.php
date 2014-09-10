@@ -112,9 +112,13 @@ class AbstractInstallActionController extends AbstractActionController
      */
     public function installDeploymentConfiguration($data)
     {
+        $this->logger->log("Starting: Deployment Configuration.");
         $this->config->setConfigData($this->config->convertFromDataObject($data));
         //Creates Deployment Configuration
-        return $this->config->install();
+        $configDataKey = $this->config->install();
+        $this->logger->logSuccess("Deployment Configuration.");
+        $this->logger->log("Completed: Deployment Configuration.");
+        return $configDataKey;
     }
 
     /**
@@ -137,6 +141,7 @@ class AbstractInstallActionController extends AbstractActionController
         $this->adminAccountFactory->setConfig($this->config->getConfigData());
         $adminAccount = $this->adminAccountFactory->create($setup);
         $adminAccount->save();
+        $this->logger->logSuccess("User Configuration.");
         $this->logger->log("Completed: User Configuration.");
 
     }
@@ -148,25 +153,28 @@ class AbstractInstallActionController extends AbstractActionController
      */
     protected function installSchemaUpdates()
     {
-        $this->logger->log("Starting: Schema Updates.");
         $this->setupFactory->setConfig($this->config->getConfigData());
         //List of All Module Names
         $moduleNames = array_keys($this->moduleList->getModules());
 
         // Do schema updates for each module
+        $this->logger->log("Starting: Schema Updates.");
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
             $setup->applyUpdates();
-            $this->logger->logSuccess($moduleName);
+            $this->logger->logInstalled($moduleName);
         }
+        $this->logger->logSuccess("Schema Updates.");
         $this->logger->log("Completed: Schema Updates.");
-        $this->logger->log("Starting: Post-Schema Updates.");
 
         // Do post-schema updates for each module
+        $this->logger->log("Starting: Post-Schema Updates.");
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
             $setup->applyRecurringUpdates();
+            $this->logger->logInstalled($moduleName);
         }
+        $this->logger->logSuccess("Post-Schema Updates.");
         $this->logger->log("Completed: Post-Schema Updates.");
     }
 
@@ -192,8 +200,9 @@ class AbstractInstallActionController extends AbstractActionController
             $outputMsg = implode(PHP_EOL, $output);
             throw new \Exception('DB Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg);
         } else {
-            $this->logger->log("Completed: DB Data Updates");
+            $this->logger->logSuccess("DB Data Updates");
         }
+        $this->logger->log("Completed: DB Data Updates");
         return $exitCode;
     }
 

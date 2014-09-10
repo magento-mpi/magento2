@@ -48,12 +48,29 @@ class WebLogger implements LoggerInterface
     }
 
     /**
-     * @param string $moduleName
+     * Writes Success message to the log file
+     *
+     * @param string $message
      */
-    public function logSuccess($moduleName)
+    public function logSuccess($message)
     {
         $this->open();
-        fwrite($this->resource, '<span class="text-success">[SUCCESS] ' . $moduleName . ' ... installed</span>' . PHP_EOL);
+        fwrite($this->resource, '<span class="text-success">[SUCCESS] ' . $message . '</span>' . PHP_EOL);
+        $this->close();
+    }
+
+    /**
+     * Writes Success installation message to the log file
+     *
+     * @param string $moduleName
+     */
+    public function logInstalled($moduleName)
+    {
+        $this->open();
+        fwrite(
+            $this->resource,
+            '<span class="text-success">[SUCCESS] ' . $moduleName . ' ... installed</span>' . PHP_EOL
+        );
         $this->close();
     }
 
@@ -68,14 +85,16 @@ class WebLogger implements LoggerInterface
     }
 
     /**
-     * Currently, this is not supported
+     * Writes information message to the log file
      *
      * @param string $message
      * @return void
      */
     public function log($message)
     {
-        // Do Nothing
+        $this->open();
+        fwrite($this->resource, '<span class="text-info">' . $message . '</span>' . PHP_EOL);
+        $this->close();
     }
 
     /**
@@ -109,4 +128,3 @@ class WebLogger implements LoggerInterface
         @unlink($this->logFile);
     }
 }
- 

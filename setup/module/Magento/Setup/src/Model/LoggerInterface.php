@@ -18,10 +18,18 @@ interface LoggerInterface
     /**
      * Logs success message
      *
+     * @param string $message
+     * @return void
+     */
+    public function logSuccess($message);
+
+    /**
+     * Logs installed message
+     *
      * @param string $moduleName
      * @return void
      */
-    public function logSuccess($moduleName);
+    public function logInstalled($moduleName);
 
     /**
      * Logs error message

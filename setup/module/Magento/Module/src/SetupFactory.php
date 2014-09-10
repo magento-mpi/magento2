@@ -74,7 +74,7 @@ class SetupFactory
      * Creates Setup
      *
      * @param string $moduleName
-     * @return Setup
+     * @return SetupModule
      */
     public function create($moduleName = null)
     {

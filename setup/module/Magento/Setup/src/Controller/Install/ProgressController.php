@@ -15,6 +15,16 @@ use Zend\View\Model\JsonModel;
 class ProgressController extends AbstractActionController
 {
     /**
+     * How many times installer will loop through the list of modules
+     */
+    const MODULE_LOOPS_COUNT = 2;
+
+    /**
+     * The number of additional log messages in the code
+     */
+    const ADDITIONAL_LOG_MESSAGE_COUNT = 15;
+
+    /**
      * @var \Zend\View\Model\JsonModel
      */
     protected $json;
@@ -46,14 +56,14 @@ class ProgressController extends AbstractActionController
      */
     public function indexAction()
     {
-        //@todo I fix it
         $moduleCount = count($this->moduleList->getModules());
         $log = $this->logger->get();
         $progress = 0;
         if (!empty($log)) {
-            $progress = round(count($log)/$moduleCount*90);
+            $progress = round(
+                (count($log) * 100)/($moduleCount * self::MODULE_LOOPS_COUNT + self::ADDITIONAL_LOG_MESSAGE_COUNT)
+            );
         }
-        $progress += 5;
 
         return $this->json->setVariables(
             array(
