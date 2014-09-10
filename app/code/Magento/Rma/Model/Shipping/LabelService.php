@@ -38,7 +38,7 @@ class LabelService
      * @param \Magento\Rma\Model\Resource\ShippingFactory $shippingResourceFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
-    public function __constructor(
+    public function __construct(
         \Magento\Rma\Helper\Data $rmaHelper,
         \Magento\Rma\Model\ShippingFactory $shippingFactory,
         \Magento\Rma\Model\Resource\ShippingFactory $shippingResourceFactory,
@@ -119,19 +119,13 @@ class LabelService
             $shippingResource = $this->shippingResourceFactory->create();
             $shippingResource->deleteTrackingNumbers($rmaModel);
             foreach ($trackingNumbers as $trackingNumber) {
-                /** @var $shippingModel \Magento\Rma\Model\Shipping */
-                $shippingModel = $this->shippingFactory->create();
-                $shippingModel->setTrackNumber(
-                    $trackingNumber
-                )->setCarrierCode(
-                    $carrier->getCarrierCode()
-                )->setCarrierTitle(
-                    $carrier->getConfigData('title')
-                )->setRmaEntityId(
-                    $rmaModel->getId()
-                )->setIsAdmin(
+                $this->addTrack(
+                    $rmaModel->getId(),
+                    $trackingNumber,
+                    $carrier->getCarrierCode(),
+                    $carrier->getConfigData('title'),
                     \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER
-                )->save();
+                );
             }
         }
         return true;
@@ -217,13 +211,17 @@ class LabelService
      * @param string|mixed $number
      * @param string|mixed $carrier
      * @param string|mixed $title
+     * @param int|null $isAdmin
      *
      * @return bool
      * @throws \Exception
      */
-    public function addTrack($id, $number, $carrier, $title = '')
+    public function addTrack($id, $number, $carrier, $title = '', $isAdmin = null)
     {
         try {
+            if (is_null($isAdmin)) {
+                $isAdmin = \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER;
+            }
             /** @var $shippingModel \Magento\Rma\Model\Shipping */
             $shippingModel = $this->shippingFactory->create();
             $shippingModel->setTrackNumber(
@@ -235,7 +233,7 @@ class LabelService
             )->setRmaEntityId(
                 $id
             )->setIsAdmin(
-                \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER
+                $isAdmin
             )->save();
         } catch (\Exception $e) {
             throw new \Exception(__('We cannot add track.'));
