@@ -1,15 +1,16 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Ui\ContentType;
 
 use Magento\Framework\ObjectManager;
 
 /**
  * Class ContentTypeFactory
- * @package Magento\Ui\ContentType
  */
 class ContentTypeFactory
 {

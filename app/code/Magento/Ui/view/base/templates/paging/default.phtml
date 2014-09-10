@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \Magento\Ui\ListingContainer\Paging\View $this
+ * @var \Magento\Ui\Paging\View $this
  */
 
 ?>
@@ -9,6 +9,6 @@
        <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
-<div data-bind="scope: 'cms_page_listing:paging'" class="pager">
+<div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'" class="pager">
     <!-- ko template: 'Magento_Ui.templates.pagination.toolbar' --><!-- /ko -->
 </div>

@@ -10,6 +10,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <referenceBlock name="listing">
         <arguments>
+            <argument name="name" xsi:type="string">cms_page_listing</argument>
             <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Collection</argument>
             <argument name="config" xsi:type="array">
                 <item name="save_parameters_in_session" xsi:type="string">1</item>
