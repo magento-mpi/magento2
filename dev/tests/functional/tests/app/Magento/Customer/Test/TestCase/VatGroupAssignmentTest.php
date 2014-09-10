@@ -106,7 +106,9 @@ class VatGroupAssignmentTest extends Functional
      */
     protected function tearDown()
     {
-        Factory::getApp()->magentoCustomerRemoveCustomerGroup($this->vatFixture);
+        if ($this->vatFixture instanceof VatGroup) {
+            Factory::getApp()->magentoCustomerRemoveCustomerGroup($this->vatFixture);
+        }
 
         $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $config->switchData('customer_disable_group_assign');
