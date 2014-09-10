@@ -39,7 +39,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
         $this->taxMock = $this->getMockBuilder('Magento\Sales\Block\Adminhtml\Order\Totals\Tax')
             ->setConstructorArgs($this->_getConstructArguments($taxHelperMock))
-            ->setMethods(['getOrder'])
+            ->setMethods(['getOrder', 'getSource'])
             ->getMock();
 
     }
@@ -59,29 +59,27 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($source));
 
         $actualResult = $this->taxMock->getFullTaxInfo();
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertSame($expectedResult, $actualResult);
     }
 
     /**
-     * Test method for getFullTaxInfo with argument
+     * Test method for getFullTaxInfo with invoice or creditmemo
      *
-     * @param \Magento\Sales\Model\Order\Invoice $source
-     * @param \Magento\Sales\Model\Order\Invoice $current
+     * @param \Magento\Sales\Model\Order\Invoice|\Magento\Sales\Model\Order\Creditmemo $source
      * @param array $expectedResult
      *
      * @dataProvider getCreditAndInvoiceFullTaxInfoDataProvider
      */
-    public function testGetFullTaxInfoWithCreditMemo(
+    public function testGetFullTaxInfoWithCreditAndInvoice(
         $source,
-        $current,
         $expectedResult
     ) {
         $this->taxMock->expects($this->once())
-            ->method('getOrder')
+            ->method('getSource')
             ->will($this->returnValue($source));
 
-        $actualResult = $this->taxMock->getFullTaxInfo($current);
-        $this->assertEquals($expectedResult, $actualResult);
+        $actualResult = $this->taxMock->getFullTaxInfo();
+        $this->assertSame($expectedResult, $actualResult);
     }
 
     /**
@@ -108,14 +106,12 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function getFullTaxInfoDataProvider()
     {
-        $notAnInstanceOfASalesModelOrder = $this->getMock('stdClass');
-
         $salesModelOrderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->getMock();
         return [
             'source is not an instance of \Magento\Sales\Model\Order' =>
-                [$notAnInstanceOfASalesModelOrder, []],
+                [null, []],
             'source is an instance of \Magento\Sales\Model\Order and has reasonable data' =>
                 [
                     $salesModelOrderMock,
@@ -130,17 +126,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Data provider.
-     * 1st Case : $current is not an instance of \Magento\Sales\Model\Invoice
-     * 2nd Case : $current is not an instance of \Magento\Sales\Model\Creditmemo
+     * 1st Case : $current an instance of \Magento\Sales\Model\Invoice
+     * 2nd Case : $current an instance of \Magento\Sales\Model\Creditmemo
      *
      * @return array
      */
     public function getCreditAndInvoiceFullTaxInfoDataProvider()
     {
-        $salesModelOrderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup'])
@@ -157,9 +149,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         ];
         return [
             'invoice' =>
-                [$salesModelOrderMock, $invoiceMock, $expected],
+                [$invoiceMock, $expected],
             'creditMemo' =>
-                [$salesModelOrderMock, $creditMemoMock, $expected]
+                [$creditMemoMock, $expected]
         ];
     }
 }
