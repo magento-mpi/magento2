@@ -11,6 +11,12 @@ namespace Magento\TargetRule\Model;
 use Magento\Catalog\Model\Product;
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Class RuleTest
+ * @package Magento\TargetRule\Model
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,23 +34,54 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     protected $_productFactory;
 
+    /**
+     * @var \Magento\TargetRule\Model\Rule\Condition\CombineFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_ruleFactory;
+
+    /**
+     * @var \Magento\TargetRule\Model\Actions\Condition\CombineFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_actionFactory;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_localeDate;
+
     public function setUp()
     {
-        $this->_sqlBuilderMock = $this->getMock('\Magento\Rule\Model\Condition\Sql\Builder', [], [], '', false);
+        $this->_sqlBuilderMock = $this->_getCleanMock('\Magento\Rule\Model\Condition\Sql\Builder');
 
         $this->_productFactory = $this->getMock('\Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
+
+        $this->_ruleFactory = $this->getMock('\Magento\TargetRule\Model\Rule\Condition\CombineFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+
+        $this->_actionFactory = $this->getMock('\Magento\TargetRule\Model\Actions\Condition\CombineFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+
+        $this->_localeDate = $this->getMockForAbstractClass('\Magento\Framework\Stdlib\DateTime\TimezoneInterface',
+            ['isScopeDateInInterval'],
+            '',
+            false
+        );
+
         $this->_rule = (new ObjectManager($this))->getObject('\Magento\TargetRule\Model\Rule', [
             'context' => $this->_getCleanMock('\Magento\Framework\Model\Context'),
             'registry' => $this->_getCleanMock('\Magento\Framework\Registry'),
             'formFactory' => $this->_getCleanMock('\Magento\Framework\Data\FormFactory'),
-            'localeDate' => $this->getMockForAbstractClass(
-                    '\Magento\Framework\Stdlib\DateTime\TimezoneInterface',
-                    [],
-                    '',
-                    false
-                ),
-            'ruleFactory' => $this->_getCleanMock('\Magento\TargetRule\Model\Rule\Condition\CombineFactory'),
-            'actionFactory' => $this->_getCleanMock('\Magento\TargetRule\Model\Actions\Condition\CombineFactory'),
+            'localeDate' => $this->_localeDate,
+            'ruleFactory' => $this->_ruleFactory,
+            'actionFactory' => $this->_actionFactory,
             'productFactory' => $this->_productFactory,
             'ruleProductIndexerProcessor' => $this->_getCleanMock(
                     '\Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor'
@@ -62,6 +99,48 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected function _getCleanMock($className)
     {
         return $this->getMock($className, [], [], '', false);
+    }
+
+    public function testDataHasChangedForAny()
+    {
+        $fields = array('first', 'second');
+        $this->assertEquals(false, $this->_rule->dataHasChangedForAny($fields));
+
+        $fields = array('first', 'second');
+        $this->_rule->setData('first', 'test data');
+        $this->_rule->setOrigData('first', 'origin test data');
+        $this->assertEquals(true, $this->_rule->dataHasChangedForAny($fields));
+    }
+
+    public function testGetConditionsInstance()
+    {
+        $this->_ruleFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue(true));
+
+        $this->assertEquals(true, $this->_rule->getConditionsInstance());
+    }
+
+    public function testGetActionsInstance()
+    {
+        $this->_actionFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue(true));
+
+        $this->assertEquals(true, $this->_rule->getActionsInstance());
+    }
+
+    public function testGetAppliesToOptions()
+    {
+        $result[\Magento\TargetRule\Model\Rule::RELATED_PRODUCTS] = __('Related Products');
+        $result[\Magento\TargetRule\Model\Rule::UP_SELLS] = __('Up-sells');
+        $result[\Magento\TargetRule\Model\Rule::CROSS_SELLS] = __('Cross-sells');
+
+        $this->assertEquals($result, $this->_rule->getAppliesToOptions());
+
+        $result[''] = __('-- Please Select --');
+
+        $this->assertEquals($result, $this->_rule->getAppliesToOptions('test'));
     }
 
     public function testPrepareMatchingProducts()
@@ -112,5 +191,102 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->_rule->setConditions($conditions);
         $this->_rule->prepareMatchingProducts();
         $this->assertEquals([1, 2, 3], $this->_rule->getMatchingProductIds());
+    }
+
+    public function testCheckDateForStore()
+    {
+        $storeId = 1;
+        $this->_localeDate->expects($this->once())
+            ->method('isScopeDateInInterval')
+            ->will($this->returnValue(true));
+        $this->assertEquals(true, $this->_rule->checkDateForStore($storeId));
+    }
+
+    public function testGetPositionsLimit()
+    {
+        $this->assertEquals(20, $this->_rule->getPositionsLimit());
+
+        $this->_rule->setData('positions_limit', 10);
+        $this->assertEquals(10, $this->_rule->getPositionsLimit());
+    }
+
+    public function testGetActionSelectBind()
+    {
+        $this->assertEquals(null, $this->_rule->getActionSelectBind());
+
+        $result = array(1 => 'test');
+        $this->_rule->setData('action_select_bind', serialize($result));
+        $this->assertEquals($result, $this->_rule->getActionSelectBind());
+
+        $this->_rule->setActionSelectBind($result);
+        $this->assertEquals($result, $this->_rule->getActionSelectBind());
+    }
+
+    public function testValidateData()
+    {
+        $object = $this->_getCleanMock('\Magento\Framework\Object');
+        $this->assertEquals(true, $this->_rule->validateData($object));
+
+        $object = $this->getMock('\Magento\Framework\Object', ['getData'], [], '', false);
+        $array['actions'] = array(1 => 'test');
+
+        $object->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($array));
+
+        $this->assertEquals(true, $this->_rule->validateData($object));
+
+        $object = $this->getMock('\Magento\Framework\Object', ['getData'], [], '', false);
+        $array['actions'] = array(2 => array('type' => '\Magento\Framework\Object', 'attribute' => 'test attribute'));
+
+        $object->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($array));
+
+        $result = array( 0 => __(
+            'This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_),'
+            . ' and be sure the code begins with a letter.'
+        ));
+        $this->assertEquals($result, $this->_rule->validateData($object));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Model class name for attribute is invalid
+     */
+    public function testValidateDataWithException()
+    {
+        $object = $this->getMock('\Magento\Framework\Object', ['getData'], [], '', false);
+        $array['actions'] = array(2 => array('type' => 'test type', 'attribute' => 'test attribute'));
+
+        $object->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($array));
+
+        $this->_rule->validateData($object);
+    }
+
+    public function testValidateByEntityId()
+    {
+        $combine = $this->getMock('\Magento\Rule\Model\Condition\Combine',
+            ['setRule', 'setId', 'setPrefix'],
+            [],
+            '',
+            false
+        );
+
+        $combine->expects($this->any())
+            ->method('setRule')
+            ->will($this->returnSelf());
+
+        $combine->expects($this->any())
+            ->method('setId')
+            ->will($this->returnSelf());
+
+        $this->_ruleFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($combine));
+
+        $this->assertEquals(true, $this->_rule->validateByEntityId(1));
     }
 }

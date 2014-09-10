@@ -163,6 +163,7 @@ class Observer
      */
     public function appendGridCollection(EventObserver $observer)
     {
+        /** @var \Magento\SalesArchive\Model\Resource\Order\Collection $collection */
         $collection = $observer->getEvent()->getOrderGridCollection();
         if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection ||
             !$collection->getIsCustomerMode()
@@ -175,10 +176,25 @@ class Observer
 
         $union = $this->_collectionFactory->create()->getOrderGridArchiveSelect($cloneSelect);
 
-        $unionParts = array($cloneSelect, $union);
+        /** @var \Magento\Framework\DB\Select $countCloneSelect */
+        $countCloneSelect = clone $cloneSelect;
+        /** @var \Magento\Framework\DB\Select $countUnionSelect */
+        $countUnionSelect = clone $union;
+        $countCloneSelect->reset(\Zend_Db_Select::COLUMNS)->columns(['part_total' => 'COUNT(*)']);
+        $countUnionSelect->reset(\Zend_Db_Select::COLUMNS)->columns(['part_total' => 'COUNT(*)']);
 
         $collectionSelect->reset();
-        $collectionSelect->union($unionParts, \Zend_Db_Select::SQL_UNION_ALL);
+        $collectionSelect->union([$countCloneSelect, $countUnionSelect], \Zend_Db_Select::SQL_UNION_ALL);
+
+        $collectionCountSubSelect = clone $collection->getSelect();
+        $collectionCountSelect = clone $collectionCountSubSelect;
+        $collectionCountSelect->reset();
+        // Since UNION ALL leaves duplicates count select can be a sum of counts for 2 parts
+        $collectionCountSelect->from(array('u' => $collectionCountSubSelect), 'SUM(part_total)');
+        $collection->setSelectCountSql($collectionCountSelect);
+
+        $collectionSelect->reset();
+        $collectionSelect->union([$cloneSelect, $union], \Zend_Db_Select::SQL_UNION_ALL);
 
         return $this;
     }
