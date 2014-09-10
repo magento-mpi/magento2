@@ -42,7 +42,6 @@ class Favicon implements \Magento\Framework\View\Page\FaviconInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
-
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -109,5 +108,4 @@ class Favicon implements \Magento\Framework\View\Page\FaviconInterface
         }
         return $this->mediaDirectory->isFile($filename);
     }
-
 }
