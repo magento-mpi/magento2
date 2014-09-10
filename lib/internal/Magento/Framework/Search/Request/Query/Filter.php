@@ -1,7 +1,5 @@
 <?php
 /**
- * Term Query
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +9,9 @@ namespace Magento\Framework\Search\Request\Query;
 
 use Magento\Framework\Search\Request\QueryInterface;
 
+/**
+ * Term Query
+ */
 class Filter implements QueryInterface
 {
     /**
