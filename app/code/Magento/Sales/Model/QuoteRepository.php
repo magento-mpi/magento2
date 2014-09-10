@@ -49,7 +49,7 @@ class QuoteRepository
     /**
      * Get quote by customer Id
      *
-     * @param int $cartId
+     * @param int $customerId
      * @return Quote
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */

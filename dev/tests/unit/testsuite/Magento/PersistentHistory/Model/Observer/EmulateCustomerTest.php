@@ -101,7 +101,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->ePersistentDataMock->expects($this->once())
             ->method('isCustomerAndSegmentsPersist')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue(false));
         $this->subject->execute($observerMock);
     }
 
@@ -114,7 +114,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->ePersistentDataMock->expects($this->once())
             ->method('isCustomerAndSegmentsPersist')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue(true));
         $this->persistentSessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(false));
         $this->subject->execute($observerMock);
     }
@@ -128,7 +128,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->ePersistentDataMock->expects($this->once())
             ->method('isCustomerAndSegmentsPersist')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue(true));
         $this->persistentSessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
         $this->customerSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(true));
         $this->subject->execute($observerMock);
@@ -142,7 +142,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->ePersistentDataMock->expects($this->once())
             ->method('isCustomerAndSegmentsPersist')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue(true));
         $this->persistentSessionMock->expects($this->once())->method('isPersistent')->will($this->returnValue(true));
         $this->customerSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
         $this->emulatorMock->expects($this->once())->method('emulate');
@@ -150,4 +150,3 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
     }
 
 }
- 

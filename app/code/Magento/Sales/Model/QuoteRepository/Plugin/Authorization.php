@@ -40,7 +40,7 @@ class Authorization
         \Magento\Sales\Model\Quote $quote
     ) {
         if (!$this->isAllowed($quote)) {
-            throw NoSuchEntityException::singleField('customerId', $quote->getCustomerId());
+            throw NoSuchEntityException::singleField('cartId', $quote->getId());
         }
         return $quote;
     }
@@ -58,7 +58,7 @@ class Authorization
         \Magento\Sales\Model\Quote $quote
     ) {
         if (!$this->isAllowed($quote)) {
-            throw NoSuchEntityException::singleField('customerId', $quote->getCustomerId());
+            throw NoSuchEntityException::singleField('cartId', $quote->getId());
         }
         return $quote;
     }
