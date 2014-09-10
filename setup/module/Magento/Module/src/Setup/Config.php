@@ -58,6 +58,7 @@ class Config
      * Default Constructor
      *
      * @param Filesystem $filesystem
+     * @param Random $random
      */
     public function __construct(
         Filesystem $filesystem,
