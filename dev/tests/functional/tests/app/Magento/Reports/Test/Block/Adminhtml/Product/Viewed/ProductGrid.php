@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
+namespace Magento\Reports\Test\Block\Adminhtml\Product\Viewed;
 
-use Magento\Backend\Test\Block\Widget\Grid;
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class ProductGrid
