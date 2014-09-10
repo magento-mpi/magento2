@@ -1,3 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** Creates scope binding and registers in to ko.bindingHandlers object */
 define([
     'ko',
     'Magento_Ui/js/lib/registry/registry',
@@ -7,25 +16,37 @@ define([
 
     var i18n = $.mage.__;
 
-    function getMultiple(bindings, viewModel, callback) {
+    /**
+     * Fetches components from registry and stores them to context object, then passes it to callback function.
+     * @param {Object} components - map, representing components to be attached to the new context.
+     * @param {Function} callback - Function to be called when components are fetched.
+     */
+    function getMultiple(components, callback) {
         var key,
-            components = [],
-            ctx = {};
+            paths = [],
+            context = {};
 
-        for (key in bindings) {
-            components.push(bindings[key]);
+        for (key in components) {
+            paths.push(components[key]);
         }
 
-        registry.get(components, function() {
+        registry.get(paths, function() {
 
-            for (key in bindings) {
-                ctx[key] = registry.get(bindings[key]);
+            for (key in components) {
+                context[key] = registry.get(components[key]);
             }
 
-            callback(ctx);
+            callback(context);
         });
     }
 
+    /**
+     * Creates child context with passed component param as $data. Extends context with $t helper.
+     * Applies bindings to descendant nodes.
+     * @param {HTMLElement} el - element to apply bindings to.
+     * @param {ko.bindingContext} bindingContext - instance of ko.bindingContext, passed to binding initially.
+     * @param {Object} component - component instance to attach to new context
+     */
     function applyComponents(el, bindingContext, component) {
         component = bindingContext.createChildContext(component);
         
@@ -35,12 +56,23 @@ define([
     }
 
     ko.bindingHandlers.scope = {
+
+        /**
+         * Reads params passed to binding, parses component declarations.
+         * Fetches for those found and attaches them to the new context.
+         * @param {HTMLElement} el - Element to apply bindings to.
+         * @param {Function} valueAccessor - Function that returns value, passed to binding.
+         * @param {Object} allBindings - Object, which represents all bindings applied to element.
+         * @param {Object} viewModel - Object, which represents view model binded to el.
+         * @param {ko.bindingContext} bindingContext - Instance of ko.bindingContext, passed to binding initially.
+         * @returns {Object} - Knockout declaration for it to let binding control descendants.
+         */
         init: function(el, valueAccessor, allBindings, viewModel, bindingContext) {
             var component = valueAccessor(),
                 apply = applyComponents.bind(this, el, bindingContext);
 
             typeof component === 'object' ?
-                getMultiple(component, viewModel, apply) :
+                getMultiple(component, apply) :
                 registry.get(component, apply);
 
             return {

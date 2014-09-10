@@ -1,3 +1,13 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <button data-bind="click: toggle, text: $t('Filter')"></button>
 <div data-part="filter-form" data-bind="visible: isVisible">
     <div class="title">
@@ -10,7 +20,7 @@
         </fieldset>
     </div>
     <div class="actions">
-        <button class="scalable"><span data-bind="click: reset, text: $t('Reset')"></span></button>
-        <button class="scalable" data-bind="click: apply"><span data-bind="text: $t('Apply')"></span></button>
+        <button class="scalable"><span data-bind="click: apply('reset'), text: $t('Reset')"></span></button>
+        <button class="scalable" data-bind="click: apply('dump')"><span data-bind="text: $t('Apply')"></span></button>
     </div>
 </div>

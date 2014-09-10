@@ -1,32 +1,53 @@
-define([], function () {
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @returns {Function} Request builder function.
+ */
+define([], function() {
     'use strict';
 
-    function parseObject( name, value ){
+    /**
+     * @param {String} - name of params set
+     * @param {Object} - params to convert
+     * @returns {String} - concatenated name/params pairs by custom logic and separator
+     * @private
+     */
+    function parseObject(name, value) {
         var key,
             result = [];
 
-        for( key in value ){
-            result.push( name +'['+ key +']' + '=' + value[key] )
+        for (key in value) {
+            result.push(name + '[' + key + ']' + '=' + value[key])
         }
 
         return result.join('&');
     }
 
-    function parseValue(name, value){
+    /**
+     * @param {String} - name of property
+     * @param {String} - corresponding value
+     * @returns {String} - concatenated params by separator "="
+     * @private
+     */
+    function parseValue(name, value) {
         return name + '=' + value;
     }
 
     /**
      * Extracts sorting parameters from object and returns string representation of it.
      * @param {Object} param - Sorting parameters object, e.g. { field: 'field_to_sort', dir: 'asc' }.
-     * @returns {String} Formatted string of type .
+     * @returns {String} - Chunk of url string that represents sorting params
      * @private
      */
     function extractSortParams(params) {
-        var result, 
+        var result,
             sorting = params.sorting;
 
-        if( typeof sorting === 'undefined'){
+        if (typeof sorting === 'undefined') {
             return '';
         }
 
@@ -39,15 +60,15 @@ define([], function () {
 
     /**
      * Extracts pager parameters from an object and returns it's string representation.
-     * @param {Object} param - .
-     * @returns {String} Formatted string of type .
+     * @param {Object} params which contains "paging" params object.
+     * @returns {String} - Chunk of url string that represents pager params
      * @private
      */
     function extractPagerParams(params) {
-        var result, 
+        var result,
             paging = params.paging;
 
-        if( typeof paging === 'undefined'){
+        if (typeof paging === 'undefined') {
             return '';
         }
 
@@ -58,44 +79,56 @@ define([], function () {
         return result;
     }
 
-    function formatFilter( filter ){
-        var name    = filter.field,
-            value   = filter.value;
+    /**
+     * Formats filter data according to the type of it's value.
+     * @param {Object} filter - filter object to format.
+     * @returns {String} - Chunk of url string that represents filter's params
+     * @private
+     */
+    function formatFilter(filter) {
+        var name = filter.field,
+            value = filter.value;
 
         return typeof value !== 'object' ?
-            parseValue(name, value):
+            parseValue(name, value) :
             parseObject(name, value);
     }
 
-    function extractFilterParams(params){
+    /**
+     * Formats and assembles filter data.
+     * @param {Object} params - object containing "filter" array.
+     * @returns {String} - Chunk of url string that represents filters
+     * @private
+     */
+    function extractFilterParams(params) {
         var filters,
             result;
 
         filters = params.filter;
 
-        if( typeof filters === 'undefined' || !filters.length ){
+        if (typeof filters === 'undefined' || !filters.length) {
             return '';
         }
 
-        result = filters.map( formatFilter ).join('&');
+        result = filters.map(formatFilter).join('&');
 
-        result = '/filter/' + btoa( encodeURI(result) );
+        result = '/filter/' + btoa(encodeURI(result));
 
         delete params.filter;
 
         return result;
     }
 
-    return function (root, params) {
+    return function(root, params) {
         var url,
             lastChar;
 
-        lastChar = root.charAt(root.length-1);
-        
-        if( lastChar === '/' ){
-            root = root.substr(0, root.length-1);
+        lastChar = root.charAt(root.length - 1);
+
+        if (lastChar === '/') {
+            root = root.substr(0, root.length - 1);
         }
-        
+
         url =
             root +
             extractSortParams(params) +

@@ -1,6 +1,6 @@
 define([
-    './loader',
-    './override_manager',
+    '../loader',
+    './overrides',
     'jquery',
     '_'
 ], function(loader, overrides, $, _) {

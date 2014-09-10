@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'Magento_Ui/js/lib/ko/scope',
     '_'
@@ -5,8 +11,15 @@ define([
     'use strict';
     
     return Scope.extend({
-        initialize: function (data) {
+
+        /**
+         * Extends instance with data passed.
+         * @param {Object} data - Item of "fields" array from grid configuration
+         * @param {Object} config - Filter configuration
+         */
+        initialize: function (data, config) {
             _.extend(this, data);
+            this.config = config;
         }
     });
 });

@@ -1,7 +1,7 @@
 define([
     'ko',
     './observable_source',
-    'Magento_Ui/js/lib/renderer',
+    'Magento_Ui/js/lib/renderer/renderer',
     'm2/m2'
 ], function (ko, Source, Renderer, M2) {
     'use strict';
