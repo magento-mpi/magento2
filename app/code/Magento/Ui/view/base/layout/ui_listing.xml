@@ -10,15 +10,18 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <block class="Magento\Ui\Listing\View" name="listing">
         <arguments>
+            <!--
             <argument name="template" xsi:type="string">Magento_Ui::listing/grid/horizontal.phtml</argument>
+            -->
+            <argument name="template" xsi:type="string">Magento_Ui::listing/grid/horizontal_temp.phtml</argument>
             <argument name="default_dir" xsi:type="string">desc</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
         </arguments>
         <container name="listing_before" label="" htmlTag="div">
             <block class="Magento\Ui\ListingContainer\Paging\View">
-                <arguments>
+                <!--<arguments>
                     <argument name="template" xsi:type="string">Magento_Ui::listingcontainer/paging/default.phtml</argument>
-                </arguments>
+                </arguments>-->
             </block>
         </container>
         <container name="listing_after" label="" htmlTag="div"/>

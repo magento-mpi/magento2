@@ -1,26 +1,42 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'Magento_Ui/js/lib/registry/registry'
-], function(registry){
+], function(registry) {
     'use strict';
 
-    function init( config, el, data ){
-        var settings    = data.config,
-            namespace   = settings.name;
+    function getConfig(provider, baseConfig) {
+        var configs     = provider.config.get('components'),
+            storeConfig = configs[baseConfig.name] || {};
 
-        registry.get(namespace + ':storage', function(storage){
-            var component,
-                name;
+        return _.extend({
+            provider: provider
+        }, storeConfig, baseConfig);
+    }
 
-            settings.storage = storage;
+    function getName(data) {
+        return data.parent_name + ':' + data.name;
+    }
 
-            component   = new config.constr( settings );
-            name        = namespace + ':' + config.name;
+    function init(data, el, base) {
+        var name = getName(base);
 
-            registry.set( name, component );
+        if (registry.has(name)) {
+            return;
+        }
+
+        registry.get(base.parent_name, function(provider) {
+            var config = getConfig(provider, base);
+
+            registry.set(name, new data.constr(config));
         });
     }
 
-    return function( config ){
-        return init.bind( this, config );
-    }
+    return function(data) {
+        return init.bind(this, data);
+    };
 });

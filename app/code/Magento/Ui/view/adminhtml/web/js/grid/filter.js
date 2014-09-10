@@ -19,7 +19,7 @@ define([
          */
         initialize: function(config) {
             this.config  = config;
-            this.storage = this.config.storage;
+            this.provider = this.config.provider;
 
             this.observe('isVisible', false);
 
@@ -32,7 +32,7 @@ define([
          * @param {Object} this - Reference to instance
          */
         extractFilterable: function (fields) {
-            var fields = this.storage.getMeta().fields,
+            var fields = this.provider.meta.get('fields'),
                 filterable;
 
             this.fields = fields.filter(function (field) {
@@ -76,7 +76,7 @@ define([
                     return filter[action].call(filter);
                 });
 
-                this.updateParams(params).storage.load();    
+                this.updateParams(params).provider.refresh();    
             }
         },
 
@@ -86,7 +86,7 @@ define([
          * @returns {Object} - reference to instance
          */
         updateParams: function (filters) {
-            this.storage.setParams({ filter: filters });
+            this.provider.params.set('filter', filters);
 
             return this;
         },
@@ -116,7 +116,6 @@ define([
     });
 
     return Component({
-        name: 'filter',
         constr: Filter
     });
 });

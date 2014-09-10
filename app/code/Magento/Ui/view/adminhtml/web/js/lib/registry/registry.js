@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     './storage',
     './events'
@@ -10,9 +16,9 @@ define([
      * @param {String} elem - Elements' name.
      * @param {*} value - Elements' value.
      */
-    function set( elem, value ){
-        storage.set( elem, value );
-        events.resolve( elem );
+    function set(elem, value) {
+        storage.set(elem, value);
+        events.resolve(elem);
     }
 
 
@@ -23,10 +29,10 @@ define([
             The resulting array or the unmodified
             incoming value if first parameter wasn't a string.
      */
-    function stringToArray( st ){
+    function stringToArray(st) {
         return typeof st === 'string' ?
             st.split(' ') :
-            st; 
+            st;
     }
 
     return {
@@ -42,16 +48,15 @@ define([
                 or an element itself if only is requested.
                 If callback function is specified then returns 'undefined'.
          */
-        get: function( elems, callback ){
+        get: function(elems, callback) {
             var records;
 
-            elems = stringToArray( elems );
+            elems = stringToArray(elems);
 
-            if( typeof callback !== 'undefined' ){
-                events.wait( elems, callback );
-            }
-            else{
-                records = storage.get( elems );
+            if (typeof callback !== 'undefined') {
+                events.wait(elems, callback);
+            } else {
+                records = storage.get(elems);
 
                 return elems.length === 1 ?
                     records[0] :
@@ -71,27 +76,25 @@ define([
                 represents an object of element -> value pairs.
          * @returns {registry} Chainable.  
          */
-        set: function( elems, value ){
+        set: function(elems, value) {
             var i;
 
-            elems = stringToArray( elems );
+            elems = stringToArray(elems);
 
-            if( !Array.isArray( elems ) ){
+            if (!Array.isArray(elems)) {
 
-                for( i in elems ){
-                    set( i, elems[i] );
+                for (i in elems) {
+                    set(i, elems[i]);
                 }
-            }
-            else{
-                
-                for( i = elems.length; i--; ){
-                    set( elems[i], value )
+            } else {
+
+                for (i = elems.length; i--;) {
+                    set(elems[i], value)
                 }
             }
 
             return this;
         },
-
 
         /**
          * Removes specified elements from a storage.
@@ -99,8 +102,8 @@ define([
                 An array of elements' names or a string of names divided by spaces.
          * @returns {registry} Chainable.
          */
-        remove: function( elems ){
-            storage.remove( stringToArray( elems ) );
+        remove: function(elems) {
+            storage.remove(stringToArray(elems));
 
             return this;
         },
@@ -111,8 +114,8 @@ define([
                 An array of elements' names or a string of names divided by spaces.
          * @returns {Boolean}
          */
-        has: function( elems ){
-            return storage.has( stringToArray(elems) );
+        has: function(elems) {
+            return storage.has(stringToArray(elems));
         }
 
     };
