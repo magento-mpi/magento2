@@ -156,7 +156,6 @@ class CurrentUrlRewritesRegeneratorTest extends \PHPUnit_Framework_TestCase
         $this->productUrlPathGenerator->expects($this->once())->method('getUrlPathWithSuffix')
             ->will($this->returnValue($targetPath));
         $this->objectRegistry->expects($this->once())->method('get')->will($this->returnValue($this->category));
-        $this->category->expects($this->once())->method('getId')->will($this->returnValue($categoryId));
         $this->prepareUrlRewriteMock(
             $storeId,
             $productId,

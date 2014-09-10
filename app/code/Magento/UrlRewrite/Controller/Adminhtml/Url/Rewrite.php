@@ -66,8 +66,13 @@ class Rewrite extends Action
             $this->_category = $this->_objectManager->create('Magento\Catalog\Model\Category');
             $categoryId = (int)$this->getRequest()->getParam('category', 0);
             $urlRewrite = $this->_getUrlRewrite();
-            if (!$categoryId && $urlRewrite->getId() && $urlRewrite->getEntityType() === self::ENTITY_TYPE_CATEGORY) {
-                $categoryId = $this->_getUrlRewrite()->getEntityId();
+            if (!$categoryId && $urlRewrite->getId()) {
+                $metaData = $urlRewrite->getMetadata();
+                if ($urlRewrite->getEntityType() === self::ENTITY_TYPE_CATEGORY) {
+                    $categoryId = $urlRewrite->getEntityId();
+                } elseif (!empty($metaData['category_id'])) {
+                    $categoryId = $metaData['category_id'];
+                }
             }
             if ($categoryId) {
                 $this->_category->load($categoryId);

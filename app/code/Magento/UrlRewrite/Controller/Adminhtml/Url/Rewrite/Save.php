@@ -60,11 +60,13 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     {
         $productId = $this->_getProduct()->getId();
         $categoryId = $this->_getCategory()->getId();
-        if ($model->isObjectNew() && ($productId || $categoryId)) {
-            $model->setEntityType($productId ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY)
-                ->setEntityId($productId ? : $categoryId);
-            if ($productId && $categoryId) {
-                $model->setMetadata(serialize(['category_id' => $categoryId]));
+        if ($productId || $categoryId) {
+            if ($model->isObjectNew()) {
+                $model->setEntityType($productId ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY)
+                    ->setEntityId($productId ? : $categoryId);
+                if ($productId && $categoryId) {
+                    $model->setMetadata(serialize(['category_id' => $categoryId]));
+                }
             }
             $targetPath = $this->getCanonicalTargetPath();
             if ($model->getRedirectType()) {
@@ -108,9 +110,10 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     private function _handleCmsPageUrlRewrite($model)
     {
         $cmsPage = $this->_getCmsPage();
-        if ($model->isObjectNew() && $cmsPage->getId()) {
-            $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE);
-            $model->setEntityId($cmsPage->getId());
+        if ($cmsPage->getId()) {
+            if ($model->isObjectNew()) {
+                $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE)->setEntityId($cmsPage->getId());
+            }
             $model->setTargetPath(
                 $model->getRedirectType()
                     ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
