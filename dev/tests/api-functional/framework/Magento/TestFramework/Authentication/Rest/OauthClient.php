@@ -219,6 +219,13 @@ class OauthClient extends AbstractService
         );
     }
 
+    public function buildBearerHeaderForApiRequest($token)
+    {
+        return array(
+            'Authorization: Bearer ' . $token
+        );
+    }
+
     /**
      * Validates a Test REST api call access using oauth access token
      *

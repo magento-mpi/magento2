@@ -21,7 +21,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerCustomerGroupServiceV1";
     const SERVICE_VERSION = "V1";
-    const RESOURCE_PATH = "/V1/customerGroup";
+    const RESOURCE_PATH = "/V1/customerGroups";
 
     /**
      * @var CustomerGroupServiceInterface
@@ -260,7 +260,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/canDelete/$groupId",
+                'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -304,7 +304,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/canDelete/$groupId",
+                'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [

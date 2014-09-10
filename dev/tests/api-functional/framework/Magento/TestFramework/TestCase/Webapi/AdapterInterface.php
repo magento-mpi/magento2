@@ -18,7 +18,8 @@ interface AdapterInterface
      * array(
      *     'rest' => array(
      *         'resourcePath' => $resourcePath, // e.g. /products/:id
-     *         'httpMethod' => $httpMethod      // e.g. GET
+     *         'httpMethod' => $httpMethod,     // e.g. GET
+     *         'token' =>                       // optional, used to authorize 'me' URLs
      *     ),
      *     'soap' => array(
      *         'service' => $soapService,    // soap service name with Version suffix e.g. catalogProductV1, customerV2
