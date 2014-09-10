@@ -70,7 +70,7 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
     /**
      * Get full information about taxes applied to order
      *
-     * @param null|\Magento\Sales\Model\Order|\Magento\Sales\Model\Order\Invoice|\Magento\Sales\Model\Order\Creditmemo $current
+     * @param null|\Magento\Sales\Model\Order\Invoice|\Magento\Sales\Model\Order\Creditmemo $current
      * @return array
      */
     public function getFullTaxInfo($current = null)
