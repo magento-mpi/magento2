@@ -49,7 +49,7 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => 'sku_simple_product_%isolation%',
             'weight' => 1,
             'quantity_and_stock_status' => [
-                'qty' => 25.0000,
+                'qty' => 1000.0000,
                 'is_in_stock' => 'In Stock',
             ],
             'price' => ['value' => 560.00, 'preset' => '-'],

@@ -55,7 +55,7 @@ class CatalogProductVirtual extends AbstractRepository
             'name' => 'Virtual product %isolation%',
             'sku' => 'sku_virtual_product_%isolation%',
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
+                'qty' => 1000.0000,
                 'is_in_stock' => 'In Stock',
             ],
             'price' => ['value' => 10.00, 'preset' => '-'],

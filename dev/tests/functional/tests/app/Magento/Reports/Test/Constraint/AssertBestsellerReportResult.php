@@ -30,19 +30,20 @@ class AssertBestsellerReportResult extends AbstractConstraint
      *
      * @param Bestsellers $bestsellers
      * @param OrderInjectable $order
+     * @param string $date
      * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function processAssert(Bestsellers $bestsellers, OrderInjectable $order)
+    public function processAssert(Bestsellers $bestsellers, OrderInjectable $order, $date)
     {
         $products = $order->getEntityId()['products'];
-        $totalQuantity = $bestsellers->getGridBlock()->getViewsResults($products);
+        $totalQuantity = $bestsellers->getGridBlock()->getViewsResults($products, $date);
         $productQty = [];
-        foreach ($totalQuantity as $key => $value) {
+        foreach ($products as $key => $value) {
             $productQty[$key] = $products[$key]->getCheckoutData()['qty'];
         }
-        \PHPUnit_Framework_Assert::assertEquals($totalQuantity, $productQty);
+        \PHPUnit_Framework_Assert::assertEquals($productQty, $totalQuantity);
     }
 
     /**

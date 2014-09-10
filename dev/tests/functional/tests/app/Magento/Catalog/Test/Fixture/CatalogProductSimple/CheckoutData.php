@@ -130,7 +130,7 @@ class CheckoutData implements FixtureInterface
                 'qty' => 2
             ],
             'order_big_qty' => [
-                'qty' => 10
+                'qty' => 900
             ]
         ];
         return isset($presets[$name]) ? $presets[$name] : null;
