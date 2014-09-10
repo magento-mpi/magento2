@@ -126,7 +126,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         );
 
         $result = $this->cart->updateItems($data);
-        $this->assertInstanceOf('Magento\Checkout\Model\Cart', $result);
+        $this->assertSame($this->cart, $result);
     }
 
     /**

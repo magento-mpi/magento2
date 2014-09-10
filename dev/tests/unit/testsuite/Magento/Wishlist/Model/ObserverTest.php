@@ -126,6 +126,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testProcessCartUpdateBefore()
     {
         $customerId = 1;
@@ -224,8 +228,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('calculate');
 
         /** @var $eventObserver \Magento\Framework\Event\Observer */
-        $this->assertInstanceOf(
-            'Magento\Wishlist\Model\Observer',
+        $this->assertSame(
+            $this->observer,
             $this->observer->processCartUpdateBefore($eventObserver)
         );
     }
