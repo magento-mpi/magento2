@@ -24,10 +24,11 @@ class WriteServiceTest extends WebapiAbstract
     {
         $productSku = 'bundle-product';
         $request = [
-            'required' => '1',
-            'position' => '0',
+            'required' => true,
+            'position' => 0,
             'type' => 'select',
-            'title' => 'test product'
+            'title' => 'test product',
+            'product_links' => []
         ];
 
         $optionId = $this->add($productSku, $request);
@@ -58,7 +59,7 @@ class WriteServiceTest extends WebapiAbstract
 
         $result = $this->get($productSku, $optionId);
 
-        $this->assertCount(6, $result);
+        $this->assertCount(7, $result);
         $this->assertArrayHasKey('title', $result);
         $this->assertEquals($request['title'], $result['title']);
     }

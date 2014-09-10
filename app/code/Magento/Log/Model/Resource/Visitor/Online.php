@@ -8,7 +8,7 @@
 namespace Magento\Log\Model\Resource\Visitor;
 
 /**
- * Log Prepare Online visitors resource 
+ * Log Prepare Online visitors resource
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -79,7 +79,7 @@ class Online extends \Magento\Framework\Model\Resource\Db\AbstractDb
             while ($row = $query->fetch()) {
                 $visitors[$row['visitor_id']] = $row;
                 $lastUrls[$row['last_url_id']] = $row['visitor_id'];
-                $visitors[$row['visitor_id']]['visitor_type'] = \Magento\Log\Model\Visitor::VISITOR_TYPE_VISITOR;
+                $visitors[$row['visitor_id']]['visitor_type'] = \Magento\Customer\Model\Visitor::VISITOR_TYPE_VISITOR;
                 $visitors[$row['visitor_id']]['customer_id'] = null;
             }
 
@@ -128,7 +128,7 @@ class Online extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             $query = $readAdapter->query($select);
             while ($row = $query->fetch()) {
-                $visitors[$row['visitor_id']]['visitor_type'] = \Magento\Log\Model\Visitor::VISITOR_TYPE_CUSTOMER;
+                $visitors[$row['visitor_id']]['visitor_type'] = \Magento\Customer\Model\Visitor::VISITOR_TYPE_CUSTOMER;
                 $visitors[$row['visitor_id']]['customer_id'] = $row['customer_id'];
             }
 
