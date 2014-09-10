@@ -316,12 +316,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $item1 = $this->getMock(
-            'Magento\Sales\Model\Quote\Item',
-            ['__clone', 'getDiscountCalculationPrice', 'getBaseDiscountCalculationPrice', 'getCalculationPrice'],
+        $item1 = $this->getMockForAbstractClass(
+            'Magento\Sales\Model\Quote\Item\AbstractItem',
             [],
             '',
-            false
+            false,
+            true,
+            true,
+            ['__clone', 'getDiscountCalculationPrice', 'getBaseDiscountCalculationPrice', 'getCalculationPrice']
         );
         $item2 = clone $item1;
         $items = [$item1, $item2];
