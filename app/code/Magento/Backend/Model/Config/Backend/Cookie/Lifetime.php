@@ -18,19 +18,19 @@ class Lifetime extends \Magento\Framework\App\Config\Value
     protected $configValidator;
 
     /**
-     * @param \Magento\Framework\Session\Config\Validator\CookieLifetimeValidator $configValidator
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\Session\Config\Validator\CookieLifetimeValidator $configValidator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\Session\Config\Validator\CookieLifetimeValidator $configValidator,
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\Session\Config\Validator\CookieLifetimeValidator $configValidator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
