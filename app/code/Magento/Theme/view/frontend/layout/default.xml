@@ -11,7 +11,9 @@
     <!-- Temporary solution -->
     <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Theme::js/require_js.phtml" />
     <referenceContainer name="after.body.start">
+        <block class="Magento\Translation\Block\Js" name="translate" template="Magento_Translation::translate.phtml"/>
         <block class="Magento\Framework\View\Element\Js\Cookie" name="js_cookies" template="Magento_Theme::js/cookie.phtml"/>
+        <block class="Magento\Theme\Block\Html\Notices" name="global_notices" template="html/notices.phtml"/>
     </referenceContainer>
 
     <referenceBlock name="top.links">
@@ -21,10 +23,6 @@
             </arguments>
         </block>
     </referenceBlock>
-
-    <referenceContainer name="after.body.start">
-        <block class="Magento\Theme\Block\Html\Notices" name="global_notices" template="html/notices.phtml"/>
-    </referenceContainer>
 
     <referenceContainer name="header.container">
         <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">

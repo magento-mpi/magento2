@@ -110,7 +110,6 @@ class Renderer
         $this->prepareFavicon();
         $result .= $this->renderAssets();
         $result .= $this->pageConfig->getIncludes();
-        $result .= $this->pageConfig->getTranslatorScript();
         return $result;
     }
 
