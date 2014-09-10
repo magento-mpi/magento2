@@ -24,7 +24,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -39,11 +39,11 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      * Construct
      *
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_storeManager = $storeManager;

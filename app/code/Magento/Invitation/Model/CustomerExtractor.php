@@ -32,7 +32,7 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
     /**
      * @param Metadata\FormFactory $formFactory
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param CustomerGroupServiceInterface $groupService
      * @param \Magento\Framework\Registry $registry
      * @param InvitationProvider $invitationProvider
@@ -40,7 +40,7 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
     public function __construct(
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         CustomerGroupServiceInterface $groupService,
         \Magento\Framework\Registry $registry,
         InvitationProvider $invitationProvider
