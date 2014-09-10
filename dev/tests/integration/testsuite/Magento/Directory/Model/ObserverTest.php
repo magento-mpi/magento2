@@ -68,6 +68,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             0
         );
         $this->observer->scheduledUpdateCurrencyRates(null);
+        /** @var Currency $currencyResource */
         $currencyResource = $this->objectManager
             ->create('Magento\Directory\Model\CurrencyFactory')
             ->create()
@@ -77,7 +78,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Required parameter 'area' was not passed
      */
     public function testScheduledUpdateCurrencyRates_invalidCurrency()
     {
