@@ -43,6 +43,11 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\ShopCartProductReport</class>
     </shopCartProductReport>
+    <orderedProductsReport>
+        <mca>reports/report_product/sold/</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\OrderedProductsReport</class>
+    </orderedProductsReport>
     <statistics>
         <mca>reports/report_statistics</mca>
         <area>adminhtml</area>

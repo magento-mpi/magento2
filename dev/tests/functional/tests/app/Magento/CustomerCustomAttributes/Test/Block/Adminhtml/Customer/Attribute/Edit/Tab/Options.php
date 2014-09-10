@@ -63,7 +63,7 @@ class Options extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $fixtureOptions = $fields['option']['value'];
+        $fixtureOptions = isset($fields['option']['value']) ? $fields['option']['value'] : [];
         foreach ($fixtureOptions as $key => $option) {
             $row = $this->_rootElement->find(sprintf($this->optionRowSelector, $key + 1), Locator::SELECTOR_XPATH);
             if (!$row->isVisible()) {

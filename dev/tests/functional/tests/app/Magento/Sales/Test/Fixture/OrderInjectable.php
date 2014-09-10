@@ -31,7 +31,7 @@ class OrderInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\Sales\Test\Handler\OrderInjectable\OrderInjectableInterface';
 
     protected $defaultDataSet = [
-        'customer_id' => ['preset' => 'default'],
+        'customer_id' => ['dataSet' => 'default'],
         'base_currency_code' => false,
         'store_id' => ['dataSet' => 'default_store_view'],
         'order_currency_code' => 'USD',

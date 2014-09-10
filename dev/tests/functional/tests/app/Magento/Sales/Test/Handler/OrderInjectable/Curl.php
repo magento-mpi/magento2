@@ -152,8 +152,11 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
             if (!$value->hasData('checkout_data')) {
                 continue;
             }
-            $methodName = ucfirst($value->getDataConfig()['type_id']);
-            $result['item'][$value->getId()] = $this->{'prepare' . $methodName . 'Data'}($value);
+            $methodName = 'prepare' . ucfirst($value->getDataConfig()['type_id']) . 'Data';
+            if (!method_exists($this, $methodName)) {
+                $methodName = 'prepareSimpleData';
+            }
+            $result['item'][$value->getId()] = $this->$methodName($value);
         }
         return $result;
     }
