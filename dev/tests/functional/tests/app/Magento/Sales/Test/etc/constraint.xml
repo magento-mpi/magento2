@@ -39,4 +39,13 @@
     <assertProductInItemsOrderedGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertProductInItemsOrderedGrid>
+    <assertOrderCancelSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderCancelSuccessMessage>
+    <assertOrderInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGrid>
+    <assertOrderInOrdersGridOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGridOnFrontend>
 </constraint>
