@@ -1,15 +1,15 @@
-<table data-template-extend="Magento_Ui.templates.listing.grid">
+<table>
     <thead>
         <tr data-part-prepend="head.row">
             <th class="col-select col-massaction">
                 <div class="mass-select">
                     <div class="field choice mass-select-field">
-                        <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isAllVisibleSelected()"> <label for="mass-checkbox" class="label"><span data-bind="text: $t('Select')"></span></label>
+                        <input type="checkbox" id="mass-select-checkbox" <label for="mass-checkbox" class="label"><span data-bind="text: $t('Select')"></span></label>
                     </div>
                     <button class="mass-select-toggle" data-toggle="dropdown">
                         <span data-bind="text: $t('Options')"></span>
                     </button>
-                    <ul class="mass-select-menu" data-bind="foreach: { data: massActions, as: 'action' }, on: { 'click li': 'applyMassAction', data: 'action' }"></ul>
+                    <!-- <ul class="mass-select-menu" data-bind="foreach: { data: massActions, as: 'action' }, on: { 'click li': 'applyMassAction', data: 'action' }"></ul> -->
                 </div>
             </th>
         </tr>
@@ -17,7 +17,7 @@
     <tbody>
         <tr data-part-prepend="body.row">
             <td class="col-select col-massaction">
-                <input data-bind="checkedValue: row.id, checked: $parent.checkedIds" type="checkbox" class="massaction-checkbox">
+                <input type="checkbox" class="massaction-checkbox">
             </td>
         </tr>
     </tbody>

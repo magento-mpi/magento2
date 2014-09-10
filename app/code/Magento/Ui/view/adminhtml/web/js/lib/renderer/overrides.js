@@ -1,24 +1,37 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 define(['jquery'], function($) {
+    'use strict';
 
     return {
-        remove: function(part, into, by) {
-            var toRemove = $(into).find('[data-part="' + part + '"]');
-            toRemove.remove();
-            $(by).remove();
+        remove: function(oldPart) {
+            $(oldPart).remove();
         },
 
-        replace: function(part, into, by) {
-            var toReplace = _.last(by);
-            var toBeReplaced = $(into).find('[data-part="' + part + '"]');
+        replace: function(oldPart, newParts) {
+            var newPart = _.last(newParts);
 
-            toBeReplaced.replaceWith(toReplace);
+            $(oldPart).replaceWith(newPart);
         },
 
-        update: function(part, into, by) {
-            var toBeUpdated = $(into).find('[data-part="' + part + '"]').get(0);
-            var toUpdate = _.last(by);
+        body: function(oldPart, newParts) {
+            var newPart = _.last(newParts);
 
-            var attributes = toUpdate.attributes;
+            $(oldPart).replaceWith(newPart.children);
+        },
+
+        update: function(oldPart, newParts) {
+            var newPart = _.last(newParts);
+
+            var attributes = newPart.attributes;
             var value, name;
 
             _.each(attributes, function(attr) {
@@ -29,32 +42,22 @@ define(['jquery'], function($) {
                     return;
                 }
 
-                $(toBeUpdated).attr(name, value);
+                $(oldPart).attr(name, value);
             });
-
-            $(toUpdate).remove();
         },
 
-        prepend: function(part, into, by) {
-            var actionNode = $(_.last(by));
-            var toPrepend = actionNode.children();
-            var toBePrepended = $(into).find('[data-part="' + part + '"]');
-
-            toBePrepended.prepend(toPrepend);
-            actionNode.remove();
+        prepend: function(oldPart, newParts) {
+            newParts.forEach(function (node) {
+                $(oldPart).prepend(node.children);
+            });
         },
 
-        append: function(part, into, by) {
-            var actionNode = $(_.last(by));
-            var toAppend = actionNode.children();
-            var toBeAppended = $(into).find('[data-part="' + part + '"]');
-
-            toBeAppended.append(toAppend);
-            actionNode.remove();
+        append: function(oldPart, newParts) {
+            $(oldPart).append(newParts.children);
         },
 
         getActions: function() {
-            return 'replace remove update append prepend'.split(' ');
+            return 'replace remove body update append prepend'.split(' ');
         }
     };
 });

@@ -1,109 +1,159 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 define([
     '../loader',
     './overrides',
     'jquery',
     '_'
 ], function(loader, overrides, $, _) {
+    'use strict';
 
     return {
 
-        render: function(template) {
-            var isRendered = $.Deferred();
+        render: function (template) {
+            var isRendered = $.Deferred(),
+                extendersToLoad = [],
+                parent,
+                extenders,
+                extendersHtml = '',
+                resolve = isRendered.resolve.bind(isRendered);
 
-            this._bind();
+            template  = template.split(' ');
+            extenders = template.slice(1);
+            parent    = template[0];
 
-            loader
-                .loadTemplate(template)
-                .then(this._parse)
-                .done(isRendered.resolve.bind(isRendered));
+            if (extenders.length) {
+                extendersToLoad = extenders.map(loadTemplate);
+
+                waitFor(extendersToLoad).done(function () {
+
+                    toArray(arguments).forEach(function (chunk) {
+                        extendersHtml += chunk;
+                    });
+
+                    extendersHtml = '<div data-template-extend="' + parent+ '">' + extendersHtml + '</div>';
+
+                    this._parse(extendersHtml).done(resolve);
+
+                }.bind(this)); 
+            } else {
+
+                this._render(parent).done(resolve);
+
+            }
 
             return isRendered.promise();
         },
 
-        _bind: function() {
-            _.bindAll(this, '_parse');
+        _render: function(template) {
+            var isLoaded = loader.loadTemplate(template);
+
+            return isLoaded.then(this._parse.bind(this));
         },
 
-        _parse: function(html) {
-            var
-                templatePath,
-                template,
-                renderedExtendPoints = [];
+        _parse: function(rawHtml) {
+            var templatePath,
+                templateContainer,
+                extendNodes,
+                templatesToRender = [],
+                extendPointsToRender = [];
 
-            template = wrap($(html));
+            templateContainer = document.createDocumentFragment();
 
-            var extendNodes = $(template).find('[data-template-extend]');
+            wrap($.parseHTML(rawHtml), templateContainer);
 
-            _.each(extendNodes, function(node) {
+            extendNodes          = getExtendNodesFrom(templateContainer);
+            templatesToRender    = extendNodes.map(extractTemplatePath, this)
+            extendPointsToRender = templatesToRender.map(this.render, this);
 
-                templatePath = $(node).attr('data-template-extend');
-                renderedExtendPoints.push(this.render(templatePath));
+            return waitFor(extendPointsToRender).then(function() {
+                var correspondingExtendNode,
+                    container,
+                    newParts = [],
+                    args = toArray(arguments);
 
-            }, this);
+                args.forEach(function(renderedNodes, idx) {
+                    container = document.createDocumentFragment();
+                    wrap(renderedNodes, container);
 
-            return waitFor(renderedExtendPoints).then(function() {
-                var container, wrappedNodes, newParts = [];
+                    correspondingExtendNode = extendNodes[idx];
+                    newParts = this._buildPartsMapFrom(correspondingExtendNode);
 
-                _.each(arguments, function(nodes, i) {
+                    $(correspondingExtendNode).empty();
 
-                    wrappedNodes = wrap(nodes);
-                    container = extendNodes[i];
-                    newParts = this._extractPartsFrom(container);
-
-                    if (!_.isEmpty(newParts)) {
-                        container.empty();
-                    }
-
-                    this._overridePartsOf(wrappedNodes).by(newParts).appendTo(container);
+                    this._overridePartsOf(container)
+                        .by(newParts)
+                        .appendTo(correspondingExtendNode);
 
                 }, this);
 
-                return toArray($(template).children());
+                return toArray(templateContainer.children);
             }.bind(this));
         },
 
-        _extractPartsFrom: function(node) {
-            var parts = {},
-                actionNodes, partSelector, target, action;
+        _buildPartsMapFrom: function(container) {
+            var partsMap = {},
+                actionNodes,
+                partSelector,
+                targetPart,
+                actions = overrides.getActions();
 
-            _.each(overrides.getActions(), function(partAction) {
-                partSelector = '[data-part-' + partAction + ']';
-                actionNodes = $(node).find(partSelector);
+            actions.forEach(function(action) {
+                partSelector = createActionSelectorFor(action);
+                actionNodes  = toArray(container.querySelectorAll(partSelector));
 
-                _.each(actionNodes, function(node) {
-                    target = $(node).attr('data-part-' + partAction);
+                actionNodes.forEach(function(node) {
+                    targetPart = node.dataset['part' + capitalizeFirstLetter(action)];
 
-                    if (!parts[target]) {
-                        parts[target] = {};
+                    if (!partsMap[targetPart]) {
+                        partsMap[targetPart] = {};
                     }
 
-                    target = parts[target];
+                    targetPart = partsMap[targetPart];
 
-                    if (!target[partAction]) {
-                        target[partAction] = [];
+                    if (!targetPart[action]) {
+                        targetPart[action] = [];
                     }
 
-                    target[partAction].push(node);
+                    targetPart[action].push(node);
                 });
             });
 
-            return parts;
+            return partsMap;
         },
 
-        _overridePartsOf: function(targetNode) {
+        _overridePartsOf: function(template) {
             return {
                 by: function(newParts) {
-                    _.each(newParts, function(actions, part) {
-                        _.each(actions, function(nodes, action) {
+                    var oldElement;
 
-                            overrides[action](part, targetNode, nodes);
+                    _.each(newParts, function(actions, partName) {
+                        _.each(actions, function(newElements, action) {
+
+                            oldElement = template.querySelector(createPartSelectorFor(partName));
+                            overrides[action](
+                                oldElement,
+                                newElements
+                            );
 
                         });
                     });
 
                     return {
-                        appendTo: function(container) {
-                            $(container).append($(targetNode).children());
+                        appendTo: function(extendNode) {
+                            if (template.hasChildNodes()) {
+                                toArray(template.children).forEach(function (child) {
+                                    extendNode.appendChild(child);
+                                });
+                            }
                         }
                     }
                 }
@@ -111,12 +161,42 @@ define([
         }
     };
 
-    function wrap(collection) {
-        return $('<div />').append(collection);
+    function loadTemplate(template) {
+        return loader.loadTemplate(template);
+    }
+
+    function extractTemplatePath(node) {
+        return node.dataset.templateExtend;
+    }
+
+    function getExtendNodesFrom(container) {
+        return toArray(container.querySelectorAll('[data-template-extend]'))
+    }
+
+    function isEmpty(object) {
+        return !Object.keys(object).length;
+    }
+
+    function wrap(nodes, container) {
+        nodes.forEach(function (node) {
+            container.appendChild(node);
+        });
+    }
+
+    function capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function createActionSelectorFor(action) {
+        return '[data-part-' + action + ']';
+    }
+
+    function createPartSelectorFor(part) {
+        return '[data-part="' + part + '"]';
     }
 
     function toArray(arrayLikeObject) {
-        return Array.prototype.slice.call(arrayLikeObject, 0);
+        return Array.prototype.slice.call(arrayLikeObject);
     }
 
     function waitFor(promises) {

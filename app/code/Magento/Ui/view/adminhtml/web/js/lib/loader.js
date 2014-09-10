@@ -1,15 +1,25 @@
 define(['jquery'], function($) {
 
+    function toArray(arrayLikeObject) {
+        return Array.prototype.slice.call(arrayLikeObject);
+    }
+
+    function formatTemplatePath(path) {
+        return 'text!' + path.replace(/(\.)/g, '/') + '.html';
+    }
+
     return {
-        loadTemplate: function(path) {
-            var isLoaded = $.Deferred();
+        loadTemplate: function() {
+            var isLoaded = $.Deferred(),
+                templates;
 
-            path = 'text!' + path.replace(/(\.)/g, '/') + '.html';
+            templates = toArray(arguments);
+            templates = templates.map(formatTemplatePath);
 
-            require([path], function(html) {
-                isLoaded.resolve(html);
+            require(templates, function() {
+                templates = toArray(arguments);
+                isLoaded.resolve.apply(isLoaded, templates);
             });
-
 
             return isLoaded.promise();
         }
