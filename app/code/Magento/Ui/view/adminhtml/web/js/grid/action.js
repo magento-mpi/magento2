@@ -47,8 +47,7 @@ define([
                 selected:      this.selected     || [],
                 excluded:      this.excluded     || [],
                 isAllSelected: this.all_selected || false,
-                isVisible:     false,
-                items:         this.provider.data.get('items')
+                isVisible:     false
             });
 
             return this;
@@ -145,12 +144,16 @@ define([
         selectPage: function () {
             var items = this.provider.data.get('items'),
                 ids   = _.pluck(items, this.indexField);
-                
+
             this.selected(ids);
         },
 
         deselectPage: function () {
             this.selected([]);
+        },
+
+        isSelectedIndicatorChecked: function () {
+            return this.isAllSelected();
         }
     });
 
