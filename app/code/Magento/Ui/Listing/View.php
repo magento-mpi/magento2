@@ -59,8 +59,7 @@ class View extends AbstractView
 
         $this->viewConfiguration = [
             'name' => $this->getData('name'),
-            'parent_name' => $this->getData('name'),
-            'component' => $this->getNameInLayout()
+            'parent_name' => $this->getData('name')
         ];
         $this->globalConfig = $this->viewConfiguration; // TODO fix this
 
@@ -158,6 +157,8 @@ class View extends AbstractView
     protected function initialConfiguration()
     {
         $this->globalConfig['config']['client']['root'] = $this->getUrl($this->getData('client_root'));
+        $this->globalConfig['config']['client']['ajax']['data']['component'] = $this->getNameInLayout();
+        $this->globalConfig['dump']['extenders'] = [];
         $this->globalConfig['meta']['fields'] = array_values($this->getData('meta/fields'));
         $this->globalConfig['data']['items'] = $this->getCollectionItems();
         $countItems = $this->renderContext->registry($this->getName())->getSize();
