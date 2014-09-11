@@ -73,7 +73,7 @@ class Compare extends \Magento\Framework\App\Action\Action
     protected $_compareItemFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,7 +91,7 @@ class Compare extends \Magento\Framework\App\Action\Action
      * @param \Magento\Customer\Model\Visitor $customerVisitor
      * @param \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param FormKeyValidator $formKeyValidator
      */
     public function __construct(
@@ -103,7 +103,7 @@ class Compare extends \Magento\Framework\App\Action\Action
         \Magento\Customer\Model\Visitor $customerVisitor,
         \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         FormKeyValidator $formKeyValidator
     ) {
         $this->_storeManager = $storeManager;

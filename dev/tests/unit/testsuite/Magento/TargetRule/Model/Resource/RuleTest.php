@@ -71,6 +71,44 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
+    public function testSaveCustomerSegments()
+    {
+        $ruleId = 1;
+        $segmentIds = array(1, 2);
+
+        $this->adapter->expects($this->at(2))
+            ->method('insertOnDuplicate')
+            ->will($this->returnSelf());
+
+        $this->adapter->expects($this->once())
+            ->method('delete')
+            ->with($this->resourceRule->getTable('magento_targetrule_customersegment'))
+            ->will($this->returnSelf());
+
+        $this->resourceRule->saveCustomerSegments($ruleId, $segmentIds);
+    }
+
+    public function testCleanCachedDataByProductIds()
+    {
+        $productIds = array (1, 2, 3);
+        $this->moduleManager->expects($this->once())
+            ->method('isEnabled')
+            ->with('Magento_PageCache')
+            ->will($this->returnValue(true));
+
+        $this->context->expects($this->once())
+            ->method('registerEntities')
+            ->with(Product::CACHE_TAG, $productIds)
+            ->will($this->returnSelf());
+
+        $this->eventManager->expects($this->once())
+            ->method('dispatch')
+            ->with('clean_cache_by_tags', array('object' => $this->context))
+            ->will($this->returnSelf());
+
+        $this->resourceRule->cleanCachedDataByProductIds($productIds);
+    }
+
     public function testBindRuleToEntity()
     {
         $this->appResource->expects($this->any())

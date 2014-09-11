@@ -126,7 +126,7 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -135,7 +135,7 @@ class Observer
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
@@ -144,7 +144,7 @@ class Observer
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {

@@ -1672,9 +1672,9 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
-    ['getCurrentStore', 'Magento\Store\Model\StoreManagerInterface'],
-    ['getAnyStoreView', 'Magento\Store\Model\StoreManagerInterface'],
-    ['throwStoreException', 'Magento\Store\Model\StoreManagerInterface'],
+    ['getCurrentStore', 'Magento\Framework\StoreManagerInterface'],
+    ['getAnyStoreView', 'Magento\Framework\StoreManagerInterface'],
+    ['throwStoreException', 'Magento\Framework\StoreManagerInterface'],
     ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
@@ -1900,5 +1900,6 @@ return array(
     ['removeTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],
-    ['getMethodFormBlock', 'Magento\Centinel\Helper\Data']
+    ['getMethodFormBlock', 'Magento\Centinel\Helper\Data'],
+    ['login', 'Magento\Customer\Model\Session'],
 );

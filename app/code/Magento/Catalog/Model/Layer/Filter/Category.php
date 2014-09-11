@@ -54,7 +54,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Construct
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Escaper $escaper
@@ -63,7 +63,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\Escaper $escaper,

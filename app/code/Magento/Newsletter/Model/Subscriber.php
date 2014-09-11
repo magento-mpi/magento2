@@ -97,7 +97,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -124,7 +124,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Newsletter\Helper\Data $newsletterData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
@@ -138,7 +138,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
         \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,

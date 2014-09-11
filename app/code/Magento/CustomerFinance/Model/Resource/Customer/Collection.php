@@ -22,7 +22,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     protected $_usedFiltersNotNull = array();
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -49,7 +49,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Reward\Model\Resource\Reward $resourceReward
      * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param mixed $connection
      * @param string $modelName
      * 
@@ -68,7 +68,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         \Magento\Reward\Model\Resource\Reward $resourceReward,
         \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
     ) {
