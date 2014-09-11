@@ -48,17 +48,19 @@ class Items extends Grid
     /**
      * Search and update giftregistry item
      *
-     * @param array $productProperties
+     * @param array $productsProperties
      * @return void
      */
-    public function searchAndUpdate(array $productProperties)
+    public function searchAndUpdate(array $productsProperties)
     {
-        $row = $this->_rootElement->find(
-            sprintf($this->rowSelector, $productProperties['name']),
-            Locator::SELECTOR_XPATH
-        );
-        $row->find($this->qtySelector)->setValue($productProperties['qty']);
-        $row->find($this->actionSelector, Locator::SELECTOR_CSS, 'select')->setValue($productProperties['action']);
+        foreach ($productsProperties as $productProperties) {
+            $row = $this->_rootElement->find(
+                sprintf($this->rowSelector, $productProperties['name']),
+                Locator::SELECTOR_XPATH
+            );
+            $row->find($this->qtySelector)->setValue($productProperties['qty']);
+            $row->find($this->actionSelector, Locator::SELECTOR_CSS, 'select')->setValue($productProperties['action']);
+        }
         $this->_rootElement->find($this->submit)->click();
     }
 }

@@ -1,0 +1,2 @@
+"description";"giftRegistry/dataSet";"products";"qty";"actions";"constraint"
+"update few  products in giftRegistry Items grid";"baby_registry";"configurableProductInjectable::default,catalogProductSimple::default";"3,2";"Update Quantity,Remove Item";"assertGiftRegistryItemsUpdatedSuccessMessage, assertGiftRegistryManageItemsTab"

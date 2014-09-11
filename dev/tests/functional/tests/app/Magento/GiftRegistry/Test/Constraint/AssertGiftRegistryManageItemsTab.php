@@ -36,7 +36,8 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryItems $giftRegistryItems
      * @param GiftRegistry $giftRegistry
-     * @param FixtureInterface $product
+     * @param array $products
+     * @param string $qty
      * @return void
      */
     public function processAssert(
@@ -44,16 +45,18 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryItems $giftRegistryItems,
         GiftRegistry $giftRegistry,
-        FixtureInterface $product
+        array $products,
+        $qty
     ) {
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
-        $productName = $product->getName();
-        $qty = $product->getCheckoutData()['qty'];
-        \PHPUnit_Framework_Assert::assertTrue(
-            $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product),
-            'Product with name ' . $productName . ' and ' . $qty . ' quantity is absent in grid.'
-        );
+        foreach ($products as $product) {
+            $productName = $product->getName();
+            \PHPUnit_Framework_Assert::assertTrue(
+                $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product),
+                'Product with name ' . $productName . ' and ' . $qty . ' quantity is absent in grid.'
+            );
+        }
     }
 
     /**

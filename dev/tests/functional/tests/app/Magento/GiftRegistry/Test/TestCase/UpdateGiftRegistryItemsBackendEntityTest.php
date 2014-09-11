@@ -21,18 +21,17 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\InjectableFixture;
 
 /**
- * Test Creation for AddProductsToGiftRegistryEntity from Customer Account(Backend)
+ * Test Creation for Updating Items of GiftRegistryEntity from Customer Account(Backend)
  *
  * Test Flow:
  *
  * Preconditions:
  * 1. Register Customer
  * 2. Gift Registry is created
- * 3. Product is created
- * 4. Created product is added to Shopping Cart
+ * 3. Products are created
+ * 4. Created product is added to GiftRegistry
  *
  * Steps:
  * 1. Go to backend
@@ -43,9 +42,9 @@ use Mtf\Fixture\InjectableFixture;
  * 6. Perform Asserts
  *
  * @group Gift_Registry_(CS)
- * @ZephyrId MAGETWO-28215
+ * @ZephyrId
  */
-class AddProductsToGiftRegistryBackendEntityTest extends Injectable
+class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
 {
     /**
      * Customer Index page
@@ -163,27 +162,34 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
      * @param CustomerInjectable $customer
      * @param GiftRegistry $giftRegistry
      * @param Browser $browser
-     * @param string $product
+     * @param string $products
      * @param string $qty
+     * @param string $actions
      * @return array
      */
     public function test(
         CustomerInjectable $customer,
         GiftRegistry $giftRegistry,
         Browser $browser,
-        $product,
-        $qty
+        $products,
+        $qty,
+        $actions
     ) {
         // Preconditions:
-        // Creating product
-        $product = $this->createProduct($product, $qty);
+        $qty = explode(",", $qty);
+        $actions = explode(',', $actions);
+        // Creating products
+        $products = $this->createProducts($products);
         // Creating gift registry
         $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
         $this->customerAccountLogin->getLoginBlock()->login($customer);
         $giftRegistry->persist();
-        // Adding product to cart
-        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->addToCart($product);
+        // Adding products to gift registry
+        foreach ($products as $product) {
+            $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+            $this->catalogProductView->getViewBlock()->addToCart($product);
+            $this->checkoutCart->getGiftRegistryCart()->addToGiftRegistry($giftRegistry->getTitle());
+        }
 
         // Steps:
         $this->customerIndex->open();
@@ -192,14 +198,18 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
         $customerForm->openTab('gift_registry');
         $filter = ['title' => $giftRegistry->getTitle()];
         $customerForm->getTabElement('gift_registry')->getSearchGridBlock()->searchAndOpen($filter);
-        $cartItemsGrid = $this->giftRegistryCustomerEdit->getCartItemsGrid();
-        $filter = [
-            'products' => [
-                'productName' => $product->getName()
-            ]
-        ];
-        $cartItemsGrid->massaction($filter, 'Add to Gift Registry', true);
-        return ['products' => [$product]];
+        $itemsGrid = $this->giftRegistryCustomerEdit->getItemsGrid();
+        $productsProperties = [];
+        foreach ($products as $key => $product) {
+            $productsProperties[] = [
+                'name' => $product->getName(),
+                'qty' => $qty[$key],
+                'action' => $actions[$key]
+            ];
+        }
+        $itemsGrid->searchAndUpdate($productsProperties);
+        $products = $this->prepareProducts($products, $actions);
+        return ['products' => $products];
     }
 
     /**
@@ -213,30 +223,39 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
     }
 
     /**
-     * Create product
+     * Create products
      *
-     * @param string $product
-     * @param string $qty
-     * @return InjectableFixture
+     * @param string $products
+     * @return array
      */
-    protected function createProduct($product, $qty)
+    protected function createProducts($products)
     {
-        list($fixture, $dataSet) = explode("::", $product);
-        $product = $this->fixtureFactory->createByCode(
-            $fixture,
-            [
-                'dataSet' => $dataSet,
-                'data' => [
-                    'checkout_data' => [
-                        'preset' => 'default',
-                        'value' => [
-                            'qty' => $qty
-                        ]
-                    ]
-                ]
-            ]
-        );
-        $product->persist();
-        return $product;
+        $products = explode(",", $products);
+        $createdProducts = [];
+        foreach ($products as $product) {
+            list($fixture, $dataSet) = explode("::", $product);
+            $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $product->persist();
+            $createdProducts[] = $product;
+        }
+        return $createdProducts;
+    }
+
+    /**
+     * Prepare products for constraints
+     *
+     * @param array $products
+     * @param array $actions
+     * @return array
+     */
+    protected function prepareProducts(array $products, array $actions)
+    {
+        $deletedProducts = array_keys($actions, 'Remove Item');
+        if (sizeof($deletedProducts) !== 0) {
+            foreach ($deletedProducts as $index) {
+                unset($products[$index]);
+            }
+        }
+        return $products;
     }
 }
