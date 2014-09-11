@@ -17,7 +17,8 @@ define([
             desc: 'sort-arrow-desc'
         },
         initialDir: 'asc',
-        noSort: 'not-sort'
+        noSort: 'not-sort',
+        templateExtender: 'sortable'
     };
 
     var Sorting = Scope.extend({
@@ -29,8 +30,9 @@ define([
          */
         initialize: function(config) {
             _.extend(this, defaults, config);
-
+            
             this.initObservable()
+                .attachTemplateExtender()
                 .updateParams();
         },
 
@@ -43,6 +45,24 @@ define([
                 field:      this.field,
                 direction:  this.direction
             });
+
+            return this;
+        },
+
+        /**
+         * Attaches it's template to provider.dump's extenders
+         * @return {Object} - reference to instance
+         */
+        attachTemplateExtender: function () {
+            var provider = this.provider.dump,
+                extenders = this.provider.dump.get('extenders');
+
+            extenders.push({
+                path: this.templateExtender,
+                name: this.name
+            });
+
+            provider.trigger('update:extenders', extenders);
 
             return this;
         },
