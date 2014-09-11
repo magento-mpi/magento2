@@ -35,8 +35,7 @@ define([
             $(el).calendar(options);
 
             ko.utils.registerEventHandler(el, 'change', function (e) {
-                var value = $(this).val();
-                observable(value);
+                observable(this.value);
             });
         },
 

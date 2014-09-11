@@ -51,6 +51,12 @@ define([
             return toArrayIgnoringKeys(options);
         },
 
+        display: function(){
+            var selected = this.selected();
+
+            return selected && selected.label;
+        },
+
         /**
          * Returns dump of instance's current state
          * @returns {Object} - object which represents current state of instance
@@ -70,8 +76,6 @@ define([
          */
         reset: function () {
             this.selected(null);
-
-            return this.dump();
         }
     });
 });
