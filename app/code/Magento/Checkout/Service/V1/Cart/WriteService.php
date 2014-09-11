@@ -52,7 +52,6 @@ class WriteService implements WriteServiceInterface
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         UserContextInterface $userContext
-
     ) {
         $this->quoteFactory = $quoteFactory;
         $this->quoteRepository = $quoteRepository;
