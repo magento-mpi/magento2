@@ -127,7 +127,11 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         $customAttributes = [];
         if (!$this->customerDataObjectMethods) {
-            $this->customerDataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
+            $dataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
+            $baseClassDataObjectMethods = array_flip(
+                get_class_methods('Magento\Framework\Service\Data\AbstractExtensibleObject')
+            );
+            $this->customerDataObjectMethods = array_diff_key($dataObjectMethods, $baseClassDataObjectMethods);
         }
         foreach ($this->getAllAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
