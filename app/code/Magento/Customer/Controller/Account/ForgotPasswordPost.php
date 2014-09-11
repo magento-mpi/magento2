@@ -14,7 +14,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Helper\Address;
 use Magento\Framework\UrlFactory;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 
 class ForgotPasswordPost extends \Magento\Customer\Controller\Account
 {

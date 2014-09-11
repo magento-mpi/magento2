@@ -1,7 +1,5 @@
 <?php
 /**
- * Search Request
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Search Request
+ */
 interface ResponseInterface
 {
 }

@@ -252,7 +252,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
                 'wizard' => $this->_wizardMock,
                 'session' => $this->_sessionMock,
                 'dbUpdater' => $this->_getClearMock('Magento\Framework\Module\UpdaterInterface'),
-                'storeManager' => $this->_getClearMock('Magento\Store\Model\StoreManagerInterface'),
+                'storeManager' => $this->_getClearMock('Magento\Framework\StoreManagerInterface'),
                 'appState' => $this->_getClearMock('Magento\Framework\App\State')
             )
         );
