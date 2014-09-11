@@ -9,6 +9,7 @@
 /** @var $config \Magento\TestFramework\Performance\Config */
 $config = require_once __DIR__ . '/framework/bootstrap.php';
 
+try {
 $shell = new Zend_Console_Getopt(
     array(
         'files-s' => 'List of files divided by comma(,)',
@@ -83,3 +84,10 @@ foreach ($files as $fixture) {
 }
 
 $testsuite->getApplication()->reindex();
+} catch (\Zend_Console_Getopt_Exception $e) {
+    fwrite(STDERR, $e->getMessage() . "\n\n" . $e->getUsageMessage() . "\n");
+    exit(1);
+} catch (\Exception $e) {
+    fwrite(STDERR, $e->getMessage() . "\n");
+    exit(1);
+}

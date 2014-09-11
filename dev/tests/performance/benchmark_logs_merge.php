@@ -9,6 +9,7 @@
 $magentoBaseDir = realpath(__DIR__ . '/../../../');
 require_once $magentoBaseDir . '/lib/internal/Zend/Console/Getopt.php';
 
+try {
 $shell = new Zend_Console_Getopt(array('xml=s' => 'xml', 'csv=s' => 'csv', 'logs=s' => 'logs'));
 
 $args = $shell->getOptions();
@@ -63,4 +64,11 @@ function readCsv($csvFile)
     }
     fclose($fileHandle);
     return $lineOfText;
+}
+} catch (\Zend_Console_Getopt_Exception $e) {
+    fwrite(STDERR, $e->getMessage() . "\n\n" . $e->getUsageMessage() . "\n");
+    exit(1);
+} catch (\Exception $e) {
+    fwrite(STDERR, $e->getMessage() . "\n");
+    exit(1);
 }

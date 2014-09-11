@@ -7,6 +7,8 @@
  */
 
 $applicationBaseDir = require_once __DIR__ . '/framework/bootstrap.php';
+
+try {
 $totalStartTime = microtime(true);
 
 $shell = new Zend_Console_Getopt(
@@ -59,3 +61,10 @@ $totalEndTime = microtime(true);
 $totalResultTime = $totalEndTime - $totalStartTime;
 
 echo 'Total execution time: ' . gmdate('H:i:s', $totalResultTime) . PHP_EOL;
+} catch (\Zend_Console_Getopt_Exception $e) {
+    fwrite(STDERR, $e->getMessage() . "\n\n" . $e->getUsageMessage() . "\n");
+    exit(1);
+} catch (\Exception $e) {
+    fwrite(STDERR, $e->getMessage() . "\n");
+    exit(1);
+}
