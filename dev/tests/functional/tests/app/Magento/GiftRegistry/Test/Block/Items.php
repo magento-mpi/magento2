@@ -10,7 +10,7 @@ namespace Magento\GiftRegistry\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Items
@@ -35,10 +35,10 @@ class Items extends Block
     /**
      * Is product with appropriate quantity visible in gift registry items grid
      *
-     * @param FixtureInterface $product
+     * @param InjectableFixture $product
      * @return bool
      */
-    public function isProductInGrid(FixtureInterface $product)
+    public function isProductInGrid(InjectableFixture $product)
     {
         $name = $product->getName();
         $qty = $product->getCheckoutData()['qty'];

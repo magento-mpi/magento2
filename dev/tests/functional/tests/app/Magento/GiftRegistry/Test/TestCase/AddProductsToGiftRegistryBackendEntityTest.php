@@ -21,6 +21,7 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Test Creation for AddProductsToGiftRegistryEntity from Customer Account(Backend)
@@ -30,8 +31,8 @@ use Mtf\TestCase\Injectable;
  * Preconditions:
  * 1. Register Customer
  * 2. Gift Registry is created
- * 3. Products are created
- * 4. Created product add to Cart
+ * 3. Product is created
+ * 4. Created product is added to Shopping Cart
  *
  * Steps:
  * 1. Go to backend
@@ -175,7 +176,7 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
     ) {
         // Preconditions:
         // Creating product
-        $product = $this->createProduct($product, ['qty' => $qty]);
+        $product = $this->createProduct($product, $qty);
         // Creating gift registry
         $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
         $this->customerAccountLogin->getLoginBlock()->login($customer);
@@ -216,10 +217,10 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
      * Create product
      *
      * @param string $product
-     * @param array $arguments
-     * @return \Mtf\Fixture\FixtureInterface
+     * @param string $qty
+     * @return InjectableFixture
      */
-    protected function createProduct($product, array $arguments)
+    protected function createProduct($product, $qty)
     {
         list($fixture, $dataSet) = explode("::", $product);
         $product = $this->fixtureFactory->createByCode(
@@ -230,7 +231,7 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
                     'checkout_data' => [
                         'preset' => 'default',
                         'value' => [
-                            'qty' => $arguments['qty']
+                            'qty' => $qty
                         ]
                     ]
                 ]
