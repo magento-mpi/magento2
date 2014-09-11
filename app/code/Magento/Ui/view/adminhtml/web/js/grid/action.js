@@ -45,7 +45,6 @@ define([
         initObservable: function(){
             this.observe({
                 selected:      this.selected     || [],
-                excluded:      this.excluded     || [],
                 isAllSelected: this.all_selected || false,
                 isVisible:     false
             });
@@ -105,18 +104,30 @@ define([
 
         buildParams: function () {
             var isAllSelected = this.isAllSelected(),
-                excluded      = this.excluded(),
                 selected      = this.selected(),
                 result        = {};
 
             if (isAllSelected) {
                 result['all_selected'] = true;
-                result['excluded']     = excluded;
+                result['excluded']     = this.getExcludedItems();
             } else {
                 result['selected'] = selected;
             }
-
+            console.log(result)
             return result;
+        },
+
+        getExcludedItems: function () {
+            var provider = this.provider.data,
+                haveToBeSelected,
+                actuallySelected,
+                difference;        
+            
+            haveToBeSelected = _.pluck(provider.get('items'), this.indexField),
+            actuallySelected = this.selected(),
+            difference       = _.difference(haveToBeSelected, actuallySelected);
+
+            return difference;
         },
 
         toggle: function () {
