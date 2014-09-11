@@ -448,6 +448,9 @@
         <tax_class_id></tax_class_id>
     </data_set>
     <data_config>
+        <type_id>
+            <type>virtual</type>
+        </type_id>
         <create_url_params>
             <type>virtual</type>
             <set>4</set>

@@ -76,6 +76,8 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * @param array $review
      * @param string $gridStatus [optional]
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function prepareFilter(FixtureInterface $product, array $review, $gridStatus = '')
     {

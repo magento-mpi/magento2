@@ -11,6 +11,7 @@ namespace Magento\Paypal\Test\Block;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 use Magento\Paypal\Test\Fixture\Customer;
+use Mtf\ObjectManager;
 
 /**
  * Class Login
@@ -33,6 +34,13 @@ class LoginExpress extends Form
     protected $loginForm = '#login';
 
     /**
+     * Login form locator
+     *
+     * @var string
+     */
+    protected $oldRootLocator = '//*[*[@id="login"] or *[@id="loginBox"]]';
+
+    /**
      * Login to Paypal account
      *
      * @param Customer $fixture
@@ -42,7 +50,18 @@ class LoginExpress extends Form
     public function login(Customer $fixture)
     {
         // Wait for page to load in order to check logged customer
-        $this->_rootElement->click();
+        $this->_rootElement->find($this->oldRootLocator, Locator::SELECTOR_XPATH)->click();
+        // PayPal returns different login pages due to buyer country
+        if (!$this->_rootElement->find($this->loginForm)->isVisible()) {
+            $payPalLogin = ObjectManager::getInstance()->create(
+                '\Magento\Paypal\Test\Block\Login',
+                [
+                    'element' => $this->browser->find($this->oldRootLocator)
+                ]
+            );
+            $payPalLogin->login($fixture);
+            return;
+        }
         $loginForm = $this->_rootElement->find($this->loginForm);
         if (!$loginForm->isVisible()) {
             return;

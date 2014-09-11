@@ -515,6 +515,8 @@ class ConfigurableAttributesData implements FixtureInterface
      *
      * @param array $data
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function prepareVariationsMatrix(array $data)
     {
@@ -549,6 +551,8 @@ class ConfigurableAttributesData implements FixtureInterface
      * @param array $attribute
      * @param string $attributeKey
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function addVariationMatrix(array $variationsMatrix, array $attribute, $attributeKey)
     {

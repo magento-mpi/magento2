@@ -116,7 +116,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
         ];
         $requestData = $item->__toArray();
-        $item = $this->_webApiCall($serviceInfo, ['item' => $requestData]);
+        $item = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
         $this->assertSame(
             $attributeValue1->getValue(),
@@ -204,9 +204,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update']
         ];
-        $requestData = ['item' => ['itemId' => $itemId, 'name' => 'testName']];
+        $requestData = ['entityItem' => ['itemId' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
+        $this->assertEquals('Updated' . $requestData['entityItem']['name'], $item['name'], 'Item update failed');
     }
 
     /**

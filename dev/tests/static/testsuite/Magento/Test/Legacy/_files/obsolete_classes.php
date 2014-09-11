@@ -2719,6 +2719,30 @@ return array(
     ['Magento\Catalog\Model\Observer\Reindex'],
     ['Magento\CatalogSearch\Model\Fulltext\Observer'],
     ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer\Country',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\Grid\Renderer\Country'
+    ],
+    ['Magento\Tax\Block\Adminhtml\Rate\ImportExport', 'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExport'],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExportHeader'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportCsv', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportCsv'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ExportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportPost'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportXml', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportXml'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportExport',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportExport'
+    ],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportPost'
+    ],
+    ['Magento\Tax\Model\Rate\CsvImportHandler', 'Magento\TaxImportExport\Model\Rate\CsvImportHandler'],
     ['\Magento\Theme\Helper\Layout'],
     ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
     ['\Magento\Framework\Service\Data\Eav\AbstractObject', 'Magento\Framework\Service\Data\AbstractExtensibleObject'],
@@ -2731,4 +2755,5 @@ return array(
         '\Magento\Framework\Service\Data\AbstractObjectBuilder',
         'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
     ],
+    ['\Magento\Sales\Model\Observer'],
 );
