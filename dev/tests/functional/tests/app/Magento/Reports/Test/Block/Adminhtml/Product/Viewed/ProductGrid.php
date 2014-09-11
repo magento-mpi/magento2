@@ -10,7 +10,6 @@ namespace Magento\Reports\Test\Block\Adminhtml\Product\Viewed;
 
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid;
-use Mtf\ObjectManager;
 
 /**
  * Class ProductGrid
@@ -24,13 +23,6 @@ class ProductGrid extends Grid
      * @var string
      */
     protected $product = './/*[contains(.,"%s") and *[contains(@class,"price") and contains(.,"%d")]]';
-
-    /**
-     * Product in grid locator
-     *
-     * @var string
-     */
-    protected $data = './/*[contains(.,"%s") and *[contains(@class,"price") and contains(.,"%d")]]';
 
     /**
      * Count product views
