@@ -8,11 +8,11 @@
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
-class IndexTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
+class GetShippingItemsGridTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
 {
     protected $name = 'GetShippingItemsGrid';
 
-    public function testIndexAction()
+    public function testAction()
     {
         $response = 'testResponse';
 
