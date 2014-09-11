@@ -43,5 +43,6 @@ class View extends \Magento\Catalog\Test\Block\Product\View
     public function fillOptions(FixtureInterface $product)
     {
         $this->getGiftCardBlock()->fill($product);
+        parent::fillOptions($product);
     }
 }

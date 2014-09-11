@@ -89,6 +89,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
         }
 
         $this->getDownloadableLinksBlock()->fill($data['links']);
+        parent::fillOptions($product);
     }
 
     /**
