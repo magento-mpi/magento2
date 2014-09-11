@@ -43,7 +43,7 @@ interface CustomerGroupServiceInterface
     /**
      * Get a customer group by group ID.
      *
-     * @param int $groupId
+     * @param string $groupId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $groupId is not found
      * @return \Magento\Customer\Service\V1\Data\CustomerGroup
      */
@@ -61,7 +61,7 @@ interface CustomerGroupServiceInterface
     /**
      * Check if the group can be deleted
      *
-     * @param int $groupId
+     * @param string $groupId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If group is not found
      * @return bool True, if this group can be deleted
      */
@@ -83,7 +83,7 @@ interface CustomerGroupServiceInterface
     /**
      * Delete group
      *
-     * @param int $groupId
+     * @param string $groupId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $groupId is not found
      * @throws \Magento\Framework\Exception\StateException Thrown if cannot delete group
      * @throws \Exception If something goes wrong during delete
