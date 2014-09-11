@@ -29,7 +29,7 @@ define([
                 view:       'grid',
                 isLocked:   false,
                 templateExtenders: [],
-                extenders: []
+                extenders: null
             });
 
             return this;
@@ -65,8 +65,10 @@ define([
             return this;
         },
 
-        getExtenderName: function(){
+        getExtender: function(name) {
+            var extenders = this.extenders();
 
+            return extenders ? (this.parent_name + ':' + extenders[name]) : null;
         },
 
         getCellTemplateFor: function(field) {

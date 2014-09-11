@@ -58,6 +58,14 @@ define([
     ko.bindingHandlers.scope = {
 
         /**
+         * Scope binding's init method.
+         * @returns {Object} - Knockout declaration for it to let binding control descendants.
+         */
+        init: function () {
+            return { controlsDescendantBindings: true };
+        },
+
+        /**
          * Reads params passed to binding, parses component declarations.
          * Fetches for those found and attaches them to the new context.
          * @param {HTMLElement} el - Element to apply bindings to.
@@ -65,19 +73,14 @@ define([
          * @param {Object} allBindings - Object, which represents all bindings applied to element.
          * @param {Object} viewModel - Object, which represents view model binded to el.
          * @param {ko.bindingContext} bindingContext - Instance of ko.bindingContext, passed to binding initially.
-         * @returns {Object} - Knockout declaration for it to let binding control descendants.
          */
-        init: function(el, valueAccessor, allBindings, viewModel, bindingContext) {
+        update: function(el, valueAccessor, allBindings, viewModel, bindingContext) {
             var component = valueAccessor(),
                 apply = applyComponents.bind(this, el, bindingContext);
 
             typeof component === 'object' ?
                 getMultiple(component, apply) :
                 registry.get(component, apply);
-
-            return {
-                controlsDescendantBindings: true
-            };
         }
     };
 });
