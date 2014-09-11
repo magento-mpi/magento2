@@ -18,7 +18,7 @@ class Favicon implements \Magento\Framework\View\Page\FaviconInterface
     protected $faviconFile;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -38,13 +38,13 @@ class Favicon implements \Magento\Framework\View\Page\FaviconInterface
     protected $mediaDirectory;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Framework\App\Filesystem $filesystem
