@@ -27,4 +27,15 @@ interface WriteServiceInterface
      * @return boolean
      */
     public function assignCustomer($cartId, $customerId);
+
+
+    /**
+     * Place order for cart
+     *
+     * Access level: admin or guest
+     *
+     * @param int $cartId
+     * @return int
+     */
+    public function order($cartId);
 }

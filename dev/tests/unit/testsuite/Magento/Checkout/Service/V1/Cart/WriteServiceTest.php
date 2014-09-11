@@ -59,6 +59,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $userContextMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $quoteServiceFactory;
+
     public function setUp()
     {
         $this->objectManager = new ObjectManager($this);
@@ -87,6 +92,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->customerRegistryMock =
             $this->getMock('\Magento\Customer\Model\CustomerRegistry', [], [], '', false);
+        $this->quoteServiceFactory = $this->getMock(
+            'Magento\Sales\Model\Service\QuoteFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
         $this->service = $this->objectManager->getObject(
             '\Magento\Checkout\Service\V1\Cart\WriteService',
             [
@@ -94,7 +106,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->storeManagerMock,
                 'customerRegistry' => $this->customerRegistryMock,
                 'quoteRepository' => $this->quoteRepositoryMock,
-                'userContext' => $this->userContextMock
+                'userContext' => $this->userContextMock,
+                'quoteServiceFactory' => $this->quoteServiceFactory
             ]
         );
     }
@@ -326,5 +339,21 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->service->assignCustomer($cartId, $customerId));
     }
+
+    public function testOrder()
+    {
+        $cartId = 123;
+        $quoteService = $this->getMock('Magento\Sales\Model\Service\Quote', [], [], '', false);
+        $this->quoteRepositoryMock->expects($this->once())->method('get')->with($cartId)
+            ->will($this->returnValue($this->quoteMock));
+        $this->quoteServiceFactory->expects($this->once())->method('create')->with(['quote' => $this->quoteMock])
+            ->will($this->returnValue($quoteService));
+        $orderMock = $this->getMock('Magento\Sales\Model\Order', [], [], '', false);
+        $orderMock->expects($this->any())->method('getId')->will($this->returnValue(5));
+        $quoteService->expects($this->once())->method('submitOrderWithDataObject')
+            ->will($this->returnValue($orderMock));
+        $this->assertEquals(5, $this->service->order($cartId));
+    }
+
 
 }
