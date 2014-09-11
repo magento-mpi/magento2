@@ -13,6 +13,11 @@ use Magento\Store\Model\ScopeInterface;
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    private $priceCurrency;
+
+    /**
      * @var Data
      */
     private $_helper;
@@ -142,6 +147,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
+
         $this->_helper = new Data(
             $this->_context,
             $this->_scopeConfig,
@@ -149,7 +156,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->_checkoutSession,
             $localeDate,
             $this->_transportBuilder,
-            $this->_translator
+            $this->_translator,
+            $this->priceCurrency
         );
     }
 
@@ -293,24 +301,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-        $storeMock->expects($this->once())->method('formatPrice')->will($this->returnValue('5.5'));
+        $this->priceCurrency->expects($this->once())->method('format')->will($this->returnValue('5.5'));
         $this->assertEquals('5.5', $this->_helper->formatPrice($price));
     }
 
     public function testConvertPrice()
     {
         $price = 5.5;
-        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
-        $storeMock = $this->getMock(
-            'Magento\Store\Model\Store',
-            array('convertPrice', '__wakeup'),
-            array(),
-            '',
-            false
-        );
-        $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
-        $quoteMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-        $storeMock->expects($this->once())->method('convertPrice')->will($this->returnValue('5.5'));
+        $this->priceCurrency->expects($this->once())->method('convertAndFormat')->willReturn($price);
         $this->assertEquals(5.5, $this->_helper->convertPrice($price));
     }
 

@@ -23,6 +23,11 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
     protected $_addressMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * Test for collect method
      *
      * @param bool $withProduct
@@ -41,7 +46,11 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         );
         $factoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_wrappingMock));
 
-        $model = new \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping($helperMock, $factoryMock);
+        $model = new \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping(
+            $helperMock,
+            $factoryMock,
+            $this->priceCurrency
+        );
         $model->collect($addressMock);
     }
 
@@ -61,7 +70,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMockBuilder(
             'Magento\Store\Model\Store'
         )->disableOriginalConstructor()->setMethods(
-            array('convertPrice', 'getId', '__wakeup')
+            array('getId', '__wakeup')
         )->getMock();
         $this->_wrappingMock = $this->getMock(
             'Magento\GiftWrapping\Model\Wrapping',
@@ -85,7 +94,8 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $storeMock->expects($this->any())->method('convertPrice')->will($this->returnValue(10));
+        $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
+        $this->priceCurrency->expects($this->any())->method('convert')->will($this->returnValue(10));
         $product->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
         $quote = new \Magento\Framework\Object(array('isMultishipping' => false, 'store' => $storeMock));
 

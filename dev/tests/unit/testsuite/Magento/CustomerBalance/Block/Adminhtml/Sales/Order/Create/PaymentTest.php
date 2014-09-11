@@ -56,10 +56,16 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     protected $_storeMock;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrency;
+
+    /**
      * initialize arguments for construct
      */
     public function setUp()
     {
+        $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $this->_balanceInstance = $this->getMock(
             'Magento\CustomerBalance\Model\Balance',
             array('setCustomerId', 'setWebsiteId', 'getAmount', 'loadByCustomer', '__wakeup'),
@@ -140,6 +146,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->_storeManagerMock,
                 'sessionQuote' => $this->_sessionQuoteMock,
                 'orderCreate' => $this->_orderCreateMock,
+                'priceCurrency' => $this->priceCurrency,
                 'balanceFactory' => $this->_balanceFactoryMock,
                 'customerBalanceHelper' => $this->_helperMock
             )
@@ -169,15 +176,10 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $convertedAmount = $amount * 2;
 
         $this->_balanceInstance->expects($this->once())->method('getAmount')->will($this->returnValue($amount));
-        $this->_storeMock->expects(
-            $this->once()
-        )->method(
-            'convertPrice'
-        )->with(
-            $this->equalTo($amount)
-        )->will(
-            $this->returnValue($convertedAmount)
-        );
+        $this->priceCurrency->expects($this->once())
+            ->method('convert')
+            ->with($this->equalTo($amount))
+            ->willReturn($convertedAmount);
         $result = $this->_className->getBalance(true);
         $this->assertEquals($convertedAmount, $result);
     }

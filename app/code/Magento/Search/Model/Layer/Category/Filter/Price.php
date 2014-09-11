@@ -58,6 +58,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Search\Model\Resource\Solr\Engine $resourceEngine
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags
@@ -72,6 +73,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Search\Model\Resource\Solr\Engine $resourceEngine,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags,
@@ -89,6 +91,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $priceAlgorithm,
             $coreRegistry,
             $scopeConfig,
+            $priceCurrency,
             $data
         );
     }
