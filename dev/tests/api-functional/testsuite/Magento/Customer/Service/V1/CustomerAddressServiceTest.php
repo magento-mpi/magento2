@@ -247,6 +247,50 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     }
 
     /**
+     * @magentoApiDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testGetSavedAddress()
+    {
+        $customerFixtureId = 1;
+
+        // Save address data
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customer/{$customerFixtureId}/address",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SOAP_SERVICE_NAME,
+                'serviceVersion' => self::SOAP_SERVICE_VERSION,
+                'operation' => self::SOAP_SERVICE_NAME . 'SaveAddresses'
+            ]
+        ];
+        $addressData = $this->getThirdFixtureAddressData();
+        $requestData = ['customerId' => $customerFixtureId,'addresses' => [$addressData]];
+        $this->_webApiCall($serviceInfo, $requestData);
+
+        // Retrieve saved address data
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customer/$customerFixtureId/address",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SOAP_SERVICE_NAME,
+                'serviceVersion' => self::SOAP_SERVICE_VERSION,
+                'operation' => self::SOAP_SERVICE_NAME . 'GetAddresses'
+            ]
+        ];
+        $requestData = ['customerId' => $customerFixtureId];
+        $addressDataResult = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(
+            [$addressData],
+            $addressDataResult,
+            "The address retrieved does not match the saved address."
+        );
+    }
+
+    /**
      * Retrieve data of the first fixture address.
      *
      * @return array
@@ -286,6 +330,29 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'telephone' => '3234676',
             'street' => ['Black str, 48',],
             'id' => 2,
+            'default_billing' => false,
+            'default_shipping' => false,
+            'customer_id' => '1',
+            'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
+        ];
+    }
+
+    /**
+     * Retrieve data of the third fixture address.
+     *
+     * @return array
+     */
+    protected function getThirdFixtureAddressData()
+    {
+        return [
+            'firstname' => 'John',
+            'lastname' => 'Smith',
+            'city' => 'CityY',
+            'country_id' => 'US',
+            'postcode' => '47676',
+            'telephone' => '3234676',
+            'street' => ['White str, 48', 'Dummy Data'],
+            'id' => 3,
             'default_billing' => false,
             'default_shipping' => false,
             'customer_id' => '1',
