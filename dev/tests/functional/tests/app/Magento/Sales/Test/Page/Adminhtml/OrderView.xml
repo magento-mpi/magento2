@@ -11,7 +11,7 @@
     <blocks>
         <pageActions>
             <class>Magento\Sales\Test\Block\Adminhtml\Order\Actions</class>
-            <locator>.page-main-actions</locator>
+            <locator>.page-actions</locator>
             <strategy>css selector</strategy>
         </pageActions>
         <messagesBlock>

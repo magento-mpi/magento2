@@ -32,4 +32,9 @@
         <mca>sales/order/history</mca>
         <class>Magento\Sales\Test\Page\OrderHistory</class>
     </orderHistory>
+    <orderInvoiceNew>
+        <mca>sales/order_invoice/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew</class>
+    </orderInvoiceNew>
 </page>
