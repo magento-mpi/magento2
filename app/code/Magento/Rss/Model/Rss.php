@@ -7,6 +7,8 @@
  */
 namespace Magento\Rss\Model;
 
+use Magento\Framework\App\Rss\DataProviderInterface;
+
 /**
  * Auth session model
  *
@@ -15,9 +17,27 @@ namespace Magento\Rss\Model;
 class Rss
 {
     /**
+     * @var DataProviderInterface
+     */
+    protected $dataProvider;
+
+    /**
      * @var array
      */
     protected $_feedArray = array();
+
+    /**
+     * @var \Magento\Framework\App\CacheInterface
+     */
+    protected $cache;
+
+    /**
+     * @param \Magento\Framework\App\CacheInterface $cache
+     */
+    public function __construct(\Magento\Framework\App\CacheInterface $cache)
+    {
+        $this->cache = $cache;
+    }
 
     /**
      * @param array $data
@@ -54,11 +74,43 @@ class Rss
 
     /**
      * @return array
-     * @codeCoverageIgnore
      */
-    public function getFeedArray()
+    public function getFeeds()
     {
-        return $this->_feedArray;
+        if (is_null($this->dataProvider)) {
+            return array();
+        }
+        $cache = false;
+        if ($this->dataProvider->getCacheKey()) {
+            $cache = $this->cache->load($this->dataProvider->getCacheKey());
+        }
+
+        if ($cache) {
+            return unserialize($cache);
+        }
+
+        $data = $this->dataProvider->getData();
+
+        if ($this->dataProvider->getCacheKey() && $this->dataProvider->getCacheLifetime()) {
+            $this->cache->save(
+                serialize($data),
+                $this->dataProvider->getCacheKey(),
+                array('rss'),
+                $this->dataProvider->getCacheLifetime()
+            );
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param DataProviderInterface $dataProvider
+     * @return $this
+     */
+    public function setDataProvider(DataProviderInterface $dataProvider)
+    {
+        $this->dataProvider = $dataProvider;
+        return $this;
     }
 
     /**
@@ -66,11 +118,7 @@ class Rss
      */
     public function createRssXml()
     {
-        try {
-            $rssFeedFromArray = \Zend_Feed::importArray($this->getFeedArray(), 'rss');
-            return $rssFeedFromArray->saveXML();
-        } catch (\Exception $e) {
-            return __('Error in processing xml. %1', $e->getMessage());
-        }
+        $rssFeedFromArray = \Zend_Feed::importArray($this->getFeeds(), 'rss');
+        return $rssFeedFromArray->saveXML();
     }
 }
