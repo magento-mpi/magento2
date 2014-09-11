@@ -185,7 +185,8 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
      * @param string $countryValue
      * @return array
      */
-    private function generateCountry($countryLabel, $countryValue) {
+    private function generateCountry($countryLabel, $countryValue)
+    {
         return [
             'label' => $countryLabel,
             'value' => $countryValue
@@ -200,7 +201,8 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
      * @param string $defaultName
      * @return \Magento\Directory\Model\Region
      */
-    private function generateRegion($countryId, $id, $defaultName) {
+    private function generateRegion($countryId, $id, $defaultName)
+    {
         $region = $this->getMockBuilder('Magento\Directory\Model\Region')
             ->disableOriginalConstructor()
             ->setMethods(['getCountryId', 'getId', 'getDefaultName'])
