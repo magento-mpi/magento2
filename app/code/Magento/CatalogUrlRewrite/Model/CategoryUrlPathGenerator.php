@@ -31,14 +31,14 @@ class CategoryUrlPathGenerator
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $scopeConfig;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface */
+    /** @var \Magento\Framework\StoreManagerInterface */
     protected $storeManager;
 
     /** @var \Magento\Catalog\Model\CategoryFactory */
     protected $categoryFactory;
 
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {

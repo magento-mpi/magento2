@@ -13,7 +13,7 @@ use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 use Magento\CatalogUrlRewrite\Model\ObjectRegistry;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 
 class CategoriesUrlRewriteGenerator
 {
@@ -23,7 +23,7 @@ class CategoriesUrlRewriteGenerator
     /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistry */
     protected $productCategories;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface */
+    /** @var \Magento\Framework\StoreManagerInterface */
     protected $storeManager;
 
     /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder */

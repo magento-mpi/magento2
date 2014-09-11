@@ -1661,9 +1661,9 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
-    ['getCurrentStore', 'Magento\Store\Model\StoreManagerInterface'],
-    ['getAnyStoreView', 'Magento\Store\Model\StoreManagerInterface'],
-    ['throwStoreException', 'Magento\Store\Model\StoreManagerInterface'],
+    ['getCurrentStore', 'Magento\Framework\StoreManagerInterface'],
+    ['getAnyStoreView', 'Magento\Framework\StoreManagerInterface'],
+    ['throwStoreException', 'Magento\Framework\StoreManagerInterface'],
     ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
@@ -1892,4 +1892,5 @@ return array(
     ['canApplyMsrp', 'Magento\Checkout\Block\Cart\AbstractCart', 'Magento\Msrp\Block\Total'],
     ['createController', 'Magento\Framework\App\ActionFactory', 'Magento\Framework\App\ActionFactory::create'],
     ['getMethodFormBlock', 'Magento\Centinel\Helper\Data'],
+    ['login', 'Magento\Customer\Model\Session'],
 );

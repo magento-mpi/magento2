@@ -38,7 +38,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $config;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -85,7 +85,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Authorization\Model\Resource\Role\Collection $userRoles
      * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
      * @param ConfigInterface $config
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Stdlib\String $string
      * @param CallbackInvoker $callbackInvoker
@@ -100,7 +100,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Authorization\Model\Resource\Role\Collection $userRoles,
         \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Stdlib\String $string,
         \Magento\AdminGws\Model\CallbackInvoker $callbackInvoker

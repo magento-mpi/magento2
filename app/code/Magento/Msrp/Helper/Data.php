@@ -10,8 +10,7 @@ namespace Magento\Msrp\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Msrp\Model\Product\Attribute\Source\Type;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\Product;
 
@@ -31,7 +30,7 @@ class Data extends AbstractHelper
     protected $storeManager;
 
     /**
-     * @var ProductOptions
+     * @var \Magento\Msrp\Model\Product\Options
      */
     protected $productOptions;
 

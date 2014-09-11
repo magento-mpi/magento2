@@ -9,7 +9,7 @@ namespace Magento\Search\Model\Resource;
 
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
 use Magento\CatalogSearch\Model\Resource\Helper;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Enterprise search index resource model
@@ -24,7 +24,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     protected $engineProvider;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -33,7 +33,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param Helper $resourceHelper
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      */
     public function __construct(

@@ -7,7 +7,7 @@
  */
 namespace Magento\CmsUrlRewrite\Model;
 
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 
 class CmsPageUrlRewriteGenerator
@@ -38,7 +38,7 @@ class CmsPageUrlRewriteGenerator
     /**
      * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder $urlRewriteBuilder
      * @param \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         UrlRewriteBuilder $urlRewriteBuilder,

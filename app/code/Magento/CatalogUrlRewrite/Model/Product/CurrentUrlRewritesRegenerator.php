@@ -116,13 +116,13 @@ class CurrentUrlRewritesRegenerator
     protected function generateForCustom($url, $storeId)
     {
         $urls = [];
-        $targetPath = !$url->getRedirectType()
-            ? $url->getTargetPath()
-            : $this->productUrlPathGenerator->getUrlPathWithSuffix(
-                $this->product,
-                $storeId,
-                $this->retrieveCategoryFromMetadata($url)
-            );
+        $category = $this->retrieveCategoryFromMetadata($url);
+        if ($category === false) {
+            return $urls;
+        }
+        $targetPath = $url->getRedirectType()
+            ? $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category)
+            : $url->getTargetPath();
         if ($url->getRequestPath() !== $targetPath) {
             $urls[] = $this->urlRewriteBuilder
                 ->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE)
@@ -141,13 +141,14 @@ class CurrentUrlRewritesRegenerator
 
     /**
      * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
-     * @return \Magento\Catalog\Model\Category|null
+     * @return \Magento\Catalog\Model\Category|null|bool
      */
     protected function retrieveCategoryFromMetadata($url)
     {
         $metadata = $url->getMetadata();
         if (isset($metadata['category_id'])) {
-            return $this->productCategories->get($metadata['category_id']);
+            $category = $this->productCategories->get($metadata['category_id']);
+            return $category === null ? false : $category;
         }
         return null;
     }

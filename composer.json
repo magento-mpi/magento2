@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha93",
+    "version": "0.1.0-alpha94",
     "require": {
         "php": "~5.4.11|~5.5.0"
     },
@@ -68,7 +68,6 @@
         "magento/module-grouped-import-export": "self.version",
         "magento/module-grouped-product": "self.version",
         "magento/module-import-export": "self.version",
-        "magento/module-index": "self.version",
         "magento/module-indexer": "self.version",
         "magento/module-install": "self.version",
         "magento/module-integration": "self.version",
