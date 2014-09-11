@@ -7,6 +7,7 @@
  */
 namespace Magento\Tax\Helper;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Config;
@@ -150,6 +151,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Tax\Service\V1\OrderTaxServiceInterface
      */
     protected $orderTaxService;
+
+    /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
@@ -170,6 +177,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
      * @param OrderTaxServiceInterface $orderTaxService
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -190,9 +198,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
-        OrderTaxServiceInterface $orderTaxService
+        OrderTaxServiceInterface $orderTaxService,
+        PriceCurrencyInterface $priceCurrency
     ) {
         parent::__construct($context);
+        $this->priceCurrency = $priceCurrency;
         $this->_scopeConfig = $scopeConfig;
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
@@ -249,7 +259,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         try {
             $value = $product->getPrice();
-            $value = $this->_storeManager->getStore()->convertPrice($value, $format);
+            $value = $format ? $this->priceCurrency->convertAndFormat($value) : $this->priceCurrency->convert($value);
         } catch (\Exception $e) {
             $value = $e->getMessage();
         }

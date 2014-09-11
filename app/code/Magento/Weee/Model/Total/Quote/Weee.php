@@ -7,6 +7,7 @@
  */
 namespace Magento\Weee\Model\Total\Quote;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Tax\Model\Calculation;
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
@@ -62,11 +63,19 @@ class Weee extends AbstractTotal
     protected $weeeBaseTotalExclTax;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Weee\Helper\Data $weeeData
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
-        \Magento\Weee\Helper\Data $weeeData
+        \Magento\Weee\Helper\Data $weeeData,
+        PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->weeeData = $weeeData;
         $this->setCode('weee');
         $this->weeeCodeToItemMap = [];
@@ -150,7 +159,9 @@ class Weee extends AbstractTotal
             $title          = $attribute->getName();
 
             $baseValueExclTax = $baseValueInclTax = $attribute->getAmount();
-            $valueExclTax = $valueInclTax = $this->_store->roundPrice($this->_store->convertPrice($baseValueExclTax));
+            $valueExclTax = $valueInclTax = $this->_store->roundPrice(
+                $this->priceCurrency->convert($baseValueExclTax, $this->_store)
+            );
 
             $rowValueInclTax = $rowValueExclTax = $this->_store->roundPrice($valueInclTax * $item->getTotalQty());
             $baseRowValueInclTax = $this->_store->roundPrice($baseValueInclTax * $item->getTotalQty());

@@ -948,28 +948,6 @@ class Store extends AbstractModel implements
     }
 
     /**
-     * Convert price from default currency to current currency
-     *
-     * @param   float $price
-     * @param   bool $format Format price to currency format
-     * @param   bool $includeContainer Enclose into <span class="price"><span>
-     * @return  float
-     */
-    public function convertPrice($price, $format = false, $includeContainer = true)
-    {
-        if ($this->getCurrentCurrency() && $this->getBaseCurrency()) {
-            $value = $this->getBaseCurrency()->convert($price, $this->getCurrentCurrency());
-        } else {
-            $value = $price;
-        }
-
-        if ($this->getCurrentCurrency() && $format) {
-            $value = $this->formatPrice($value, $includeContainer);
-        }
-        return $value;
-    }
-
-    /**
      * Round price
      *
      * @param float $price
@@ -978,21 +956,6 @@ class Store extends AbstractModel implements
     public function roundPrice($price)
     {
         return round($price, 2);
-    }
-
-    /**
-     * Format price with currency filter (taking rate into consideration)
-     *
-     * @param   float $price
-     * @param   bool $includeContainer
-     * @return  string
-     */
-    public function formatPrice($price, $includeContainer = true)
-    {
-        if ($this->getCurrentCurrency()) {
-            return $this->getCurrentCurrency()->format($price, array(), $includeContainer);
-        }
-        return $price;
     }
 
     /**

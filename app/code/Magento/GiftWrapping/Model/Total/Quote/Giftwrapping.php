@@ -13,6 +13,8 @@
  */
 namespace Magento\GiftWrapping\Model\Total\Quote;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -43,13 +45,21 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     protected $_wrappingFactory;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
+        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
+        PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingFactory = $wrappingFactory;
         $this->setCode('giftwrapping');
@@ -133,7 +143,7 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
                 $wrapping = $this->_getWrapping($item->getGwId(), $this->_store);
                 $wrappingBasePrice = $wrapping->getBasePrice();
             }
-            $wrappingPrice = $this->_store->convertPrice($wrappingBasePrice);
+            $wrappingPrice = $this->priceCurrency->convert($wrappingBasePrice, $this->_store);
             $item->setGwBasePrice($wrappingBasePrice);
             $item->setGwPrice($wrappingPrice);
             $wrappingForItemsBaseTotal += $wrappingBasePrice * $item->getQty();
@@ -158,7 +168,7 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
         if ($this->_quoteEntity->getGwId()) {
             $wrapping = $this->_getWrapping($this->_quoteEntity->getGwId(), $this->_store);
             $wrappingBasePrice = $wrapping->getBasePrice();
-            $wrappingPrice = $this->_store->convertPrice($wrappingBasePrice);
+            $wrappingPrice = $this->priceCurrency->convert($wrappingBasePrice, $this->_store);
         }
         $address->setGwBasePrice($wrappingBasePrice);
         $address->setGwPrice($wrappingPrice);
@@ -177,7 +187,7 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
         $printedCardPrice = false;
         if ($this->_quoteEntity->getGwAddCard()) {
             $printedCardBasePrice = $this->_giftWrappingData->getPrintedCardPrice($this->_store);
-            $printedCardPrice = $this->_store->convertPrice($printedCardBasePrice);
+            $printedCardPrice = $this->priceCurrency->convert($printedCardBasePrice, $this->_store);
         }
         $address->setGwCardBasePrice($printedCardBasePrice);
         $address->setGwCardPrice($printedCardPrice);

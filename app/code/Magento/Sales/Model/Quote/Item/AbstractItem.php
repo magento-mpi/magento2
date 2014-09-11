@@ -76,9 +76,15 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     protected $_productFactory;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -87,12 +93,14 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_productFactory = $productFactory;
+        $this->priceCurrency = $priceCurrency;
     }
 
     /**
@@ -445,7 +453,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
             if ($this->hasCustomPrice()) {
                 $price = (double)$this->getCustomPrice();
                 if ($price) {
-                    $rate = $this->getStore()->convertPrice($price) / $price;
+                    $rate = $this->priceCurrency->convert($price, $this->getStore()) / $price;
                     $price = $price / $rate;
                 }
             } else {
@@ -467,7 +475,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
             if ($this->hasOriginalCustomPrice()) {
                 $price = (double)$this->getOriginalCustomPrice();
                 if ($price) {
-                    $rate = $this->getStore()->convertPrice($price) / $price;
+                    $rate = $this->priceCurrency->convert($price, $this->getStore()) / $price;
                     $price = $price / $rate;
                 }
             } else {
@@ -513,7 +521,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     {
         $price = $this->_getData('original_price');
         if (is_null($price)) {
-            $price = $this->getStore()->convertPrice($this->getBaseOriginalPrice());
+            $price = $this->priceCurrency->convert($this->getBaseOriginalPrice(), $this->getStore());
             $this->setData('original_price', $price);
         }
         return $price;
@@ -584,7 +592,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     {
         $price = $this->_getData('converted_price');
         if (is_null($price)) {
-            $price = $this->getStore()->convertPrice($this->getPrice());
+            $price = $this->priceCurrency->convert($this->getPrice(), $this->getStore());
             $this->setData('converted_price', $price);
         }
         return $price;

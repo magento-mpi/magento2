@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Default Total Row Renderer
@@ -20,6 +21,34 @@ class DefaultTotals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals
      * @var string
      */
     protected $_template = 'Magento_Sales::order/create/totals/default.phtml';
+
+    /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
+     * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param PriceCurrencyInterface $priceCurrency
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Sales\Model\Config $salesConfig,
+        PriceCurrencyInterface $priceCurrency,
+        array $data = array()
+    ) {
+        $this->priceCurrency = $priceCurrency;
+        parent::__construct($context, $sessionQuote, $orderCreate, $salesData, $salesConfig, $data);
+    }
+
 
     /**
      * Retrieve quote session object
@@ -49,6 +78,11 @@ class DefaultTotals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals
      */
     public function formatPrice($value)
     {
-        return $this->getStore()->formatPrice($value);
+        return $this->priceCurrency->format(
+            $value,
+            true,
+            PriceCurrencyInterface::DEFAULT_PRECISION,
+            $this->getStore()
+        );
     }
 }
