@@ -23,15 +23,13 @@ define([
             var stores,
                 storage;
 
-            stores = ['config', 'meta', 'data', 'params', 'dump'];
+            this.stores = ['config', 'meta', 'data', 'params', 'dump'];
 
-            stores.forEach(function(store) {
+            this.stores.forEach(function(store) {
                 storage = storages[store];
 
                 this[store] = new storage(settings[store]);
             }, this);
-
-            this.stores = stores;
 
             return this;
         },
@@ -68,9 +66,19 @@ define([
             this.stores.forEach(function(store) {
                 this[store].set(true, data[store]);
             }, this);
+
+            return this;
         },
 
         onRead: function(result) {
+            result = typeof result === 'string' ?
+                JSON.parse(result) :
+                result;
+
+            result = {
+                data: result.data
+            };
+
             this.updateStorages(result)
                 .trigger('refresh', result);
         }

@@ -62,7 +62,7 @@ define([
                 result;
 
             if (typeof extend === 'boolean') {
-                args.splice(1);
+                args.splice(0, 1);
 
                 if (extend) {
                     method = '_update';
@@ -76,7 +76,7 @@ define([
             this.trigger('update', value);
 
             if (path) {
-                this.trigger(path + 'Update', value);
+                this.trigger('update:' + path, value);
             }
 
             return this;

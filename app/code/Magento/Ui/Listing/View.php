@@ -59,11 +59,15 @@ class View extends AbstractView
 
         $this->viewConfiguration = [
             'name' => $this->getData('name'),
-            'parent_name' => $this->getData('name')
+            'parent_name' => $this->getData('name'),
+            'component' => $this->getNameInLayout()
         ];
+        $this->globalConfig = $this->viewConfiguration; // TODO fix this
+
         if ($this->hasData('config')) {
-            $this->addConfigData($this, array_merge_recursive($this->viewConfiguration, $this->getData('config')));
+            $this->viewConfiguration = array_merge_recursive($this->viewConfiguration, $this->getData('config'));
         }
+        $this->addConfigData($this, $this->viewConfiguration);
 
         $this->renderContext->register($this->getName(), $this->getData('dataSource'));
     }
@@ -91,16 +95,6 @@ class View extends AbstractView
 
             $this->providerActionPoll[$key] = $cache[$item['class']];
         }
-    }
-
-    /**
-     * Get collection object
-     *
-     * @return \Magento\Framework\Data\Collection
-     */
-    public function getCollection()
-    {
-        return $this->renderContext->registry($this->getName());
     }
 
     /**
@@ -163,12 +157,13 @@ class View extends AbstractView
      */
     protected function initialConfiguration()
     {
-        $this->viewConfiguration['meta']['fields'] = array_values($this->getData('meta/fields'));
-        $this->viewConfiguration['data']['items'] = $this->getCollectionItems();
-        $countItems = $this->getCollection()->getSize();
-        $this->viewConfiguration['data']['pages'] = ceil(
+        $this->globalConfig['config']['client']['root'] = $this->getUrl($this->getData('client_root'));
+        $this->globalConfig['meta']['fields'] = array_values($this->getData('meta/fields'));
+        $this->globalConfig['data']['items'] = $this->getCollectionItems();
+        $countItems = $this->renderContext->registry($this->getName())->getSize();
+        $this->globalConfig['data']['pages'] = ceil(
             $countItems / $this->renderContext->getRequestParam('limit', 5) // TODO fixme
         );
-        $this->viewConfiguration['data']['totalCount'] = $countItems;
+        $this->globalConfig['data']['totalCount'] = $countItems;
     }
 }

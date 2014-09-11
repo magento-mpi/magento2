@@ -7,10 +7,10 @@
  */
 namespace Magento\Ui\ContentType;
 
+use Magento\Framework\Object;
 use Magento\Ui\ViewInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;
-use Magento\Framework\Object;
 
 /**
  * Class Json
@@ -69,7 +69,7 @@ class Json implements ContentTypeInterface
 //            }
 //        }
 
-        return $view->getViewConfiguration();
+        return $view->getGlobalConfigJson();
     }
 
 //    /**

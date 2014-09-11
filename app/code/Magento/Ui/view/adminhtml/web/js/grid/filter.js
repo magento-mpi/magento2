@@ -67,8 +67,8 @@ define([
 
         /**
          * Created handler for reset and apply actions.
-         * @param {String} action - 'reset' or 'apply'
-         * @returns {Function} - function, which maps all filters with corresponding action of those and reloads storage
+         * @param {String} action - 'reset' or 'apply'.
+         * @returns {Function} Function, which maps all filters with corresponding action of those and reloads storage
          */
         apply: function (action) {
             return function () {
