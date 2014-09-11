@@ -21,11 +21,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     protected $controller;
 
     /**
-     * @var \Magento\Framework\App\Action\Context|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $context;
-
-    /**
      * @var \Magento\Rss\Model\RssManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rssManager;
