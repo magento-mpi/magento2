@@ -19,7 +19,7 @@ class Config extends ZendConfig
     private $inflector;
 
     /**
-     * @var path
+     * @var string
      */
     private $path;
 
