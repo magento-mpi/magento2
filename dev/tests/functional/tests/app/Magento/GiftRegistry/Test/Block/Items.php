@@ -131,11 +131,8 @@ class Items extends Block
         $productRowSelector = sprintf($this->productRow, $product->getName());
         $productRow = $this->_rootElement->find($productRowSelector, Locator::SELECTOR_XPATH);
         foreach ($this->updateFields as $field => $locator) {
-            $data[$field] = $productRow->find(
-                $locator['selector'],
-                Locator::SELECTOR_CSS,
-                $locator['input']
-            )->getValue();
+            $data[$field] = $productRow->find($locator['selector'], Locator::SELECTOR_CSS, $locator['input'])
+                ->getValue();
         }
 
         return $data;
