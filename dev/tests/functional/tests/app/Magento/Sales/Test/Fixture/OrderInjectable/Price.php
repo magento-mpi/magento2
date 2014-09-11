@@ -41,7 +41,15 @@ class Price extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price
         $presets = [
             'default_with_discount' => [
                 'subtotal' => 1120,
-                'discount' => 560
+                'discount' => 560,
+            ],
+            'full_invoice' => [
+                'grand_order_total' => 1130,
+                'grand_invoice_total' => 1130,
+            ],
+            'partial_invoice' => [
+                'grand_order_total' => 1130,
+                'grand_invoice_total' => 570
             ],
         ];
         if (!isset($presets[$this->currentPreset])) {
