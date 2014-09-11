@@ -1,0 +1,26 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    storage
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<button data-bind="click: toggle, text: $t('Filter')"></button>
+<div data-part="filter-form" data-bind="visible: isVisible">
+    <div class="title">
+        <h1 class="filter-title"><span data-bind="text: $t('Advanced filter')"></span></h1>
+        <span class="action close" data-bind="click: close, text: $t('Close')"></span>
+    </div>
+    <div class="fields">
+        <fieldset class="fieldset user-defined" data-bind="foreach: { data: filters, as: 'item' }">
+            <!-- ko template: $parent.getTemplateFor(item) --><!-- /ko -->
+        </fieldset>
+    </div>
+    <div class="actions">
+        <button class="scalable"><span data-bind="click: apply('reset'), text: $t('Reset')"></span></button>
+        <button class="scalable" data-bind="click: apply('dump')"><span data-bind="text: $t('Apply')"></span></button>
+    </div>
+</div>

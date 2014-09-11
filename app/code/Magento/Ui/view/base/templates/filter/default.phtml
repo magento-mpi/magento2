@@ -1,0 +1,13 @@
+<?php
+/**
+ * @var \Magento\Ui\Filter\View $this
+ */
+?>
+<div data-m2-init='{"Magento_Ui/js/grid/filter": ""}'>
+    <script type="mage/config">
+        <?php echo $this->getConfigurationJson(); ?>
+    </script>
+</div>
+<div data-bind="scope: '<?php echo $this->getParentName(); ?>:filter'">
+    <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
+</div>

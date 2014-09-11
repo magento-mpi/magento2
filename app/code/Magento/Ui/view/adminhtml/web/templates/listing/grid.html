@@ -1,0 +1,22 @@
+<div class="hor-scroll">
+    <table class="data">
+        <thead data-part="head">
+            <tr class="headings" data-part="head.row">
+                <!-- ko foreach: { data: fields, as: 'field' } -->
+                <th>
+                    <span data-bind="text: field.title"></span>
+                </th>
+                <!-- /ko -->
+            </tr>
+        </thead>
+        <tbody data-part="body" data-bind="foreach: { data: rows, as: 'row' }">
+            <tr data-part="body.row" class="even pointer">
+                <!-- ko foreach: { data: $parent.fields, as: 'field' }  -->
+                    <td data-part="body.row.cell">
+                        <!-- ko template: $parents[1].getCellTemplateFor(field) --><!-- /ko -->    
+                    </td>
+                <!-- /ko -->
+            </tr>
+        </tbody>
+    </table>
+</div>

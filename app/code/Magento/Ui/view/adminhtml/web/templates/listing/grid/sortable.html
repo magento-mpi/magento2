@@ -1,0 +1,19 @@
+<table>
+    <thead data-part-replace="head" data-bind="scope: 'cms_page_listing:sorting'">
+        <tr class="headings" data-part="head.row">
+            <!-- ko foreach: { data: $parent.fields, as: 'field' } -->
+            <th>
+                <!-- ko if: field.sortable -->
+                <span>
+                    <a href="#" data-bind="text: field.title, css: $parent.setClass(field.index), click: $parent.onClick(field)"></a>
+                </span>
+                <!-- /ko -->
+                
+                <!-- ko ifnot: field.sortable -->
+                <span data-bind="text: field.title"></span>
+                <!-- /ko -->
+            </th>
+            <!-- /ko -->
+        </tr>
+    </thead>
+</table>

@@ -8,7 +8,13 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <update handle="ui_listing_page" />
     <referenceContainer name="content">
-        <block class="Magento\Cms\Block\Adminhtml\Page" name="cms_page"/>
+        <block class="Magento\Ui\Render" name="cms_page_listing">
+            <arguments>
+                <argument name="component" xsi:type="string">listing</argument>
+                <argument name="name" xsi:type="string">cms_page_listing</argument>
+            </arguments>
+        </block>
     </referenceContainer>
 </page>

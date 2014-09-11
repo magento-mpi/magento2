@@ -10,7 +10,7 @@ namespace Magento\Cms\Block\Adminhtml\Page;
 /**
  * Adminhtml cms pages grid
  */
-class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid extends \Magento\Ui\Listing\Block\Extended
 {
     /**
      * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
@@ -63,7 +63,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection
      *
-     * @return \Magento\Backend\Block\Widget\Grid
+     * @return \Magento\Ui\Listing\View
      */
     protected function _prepareCollection()
     {
@@ -78,7 +78,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return \Magento\Ui\Listing\Block\Extended
      */
     protected function _prepareColumns()
     {
