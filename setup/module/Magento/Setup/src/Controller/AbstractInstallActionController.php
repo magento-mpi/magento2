@@ -21,7 +21,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\RequestInterface as Request;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Magento\Setup\Model\UserConfigurationDataFactory;
-use Magento\Setup\Model\Installer;
+use Magento\Setup\Helper\Helper;
 
 /**
  * Abstract Controller for installation
@@ -190,7 +190,7 @@ class AbstractInstallActionController extends AbstractActionController
         $this->logger->log("Starting: DB Data Updates");
         $exitCode = null;
         $output = null;
-        $phpPath = Installer::phpExecutablePath();
+        $phpPath = Helper::phpExecutablePath();
         exec(
             $phpPath .
             'php -f ' . $this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php',
