@@ -14,6 +14,11 @@ use Magento\Framework\ObjectManager;
  */
 class FilterPool
 {
+    /**
+     * Filter types
+     *
+     * @var array
+     */
     protected $filterTypes = [
         'input' => 'Magento\Ui\Filter\Type\Input',
         'select' => 'Magento\Ui\Filter\Type\Select',
@@ -21,6 +26,8 @@ class FilterPool
     ];
 
     /**
+     * Filters poll
+     *
      * @var FilterInterface[]
      */
     protected $filters = [];
