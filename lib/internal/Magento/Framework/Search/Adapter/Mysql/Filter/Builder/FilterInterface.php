@@ -14,7 +14,7 @@ interface FilterInterface
     /**
      * @param RequestFilterInterface $filter
      * @param bool $isNegation
-     * @return \Magento\Framework\DB\Select
+     * @return string
      */
     public function buildFilter(
         RequestFilterInterface $filter,

@@ -68,7 +68,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param $conditionType
+     * @param string $conditionType
      * @return bool
      */
     private function isNegation($conditionType)
@@ -78,7 +78,7 @@ class Builder implements BuilderInterface
 
     /**
      * @param RequestFilterInterface|\Magento\Framework\Search\Request\Filter\Bool $filter
-     * @param $isNegation
+     * @param bool $isNegation
      * @return string
      */
     private function processBoolFilter(RequestFilterInterface $filter, $isNegation)
@@ -108,8 +108,8 @@ class Builder implements BuilderInterface
 
     /**
      * @param RequestFilterInterface|\Magento\Framework\Search\Request\Filter\Term $filter
-     * @param $isNegation
-     * @return Select|string
+     * @param bool $isNegation
+     * @return string
      */
     private function processTermFilter(RequestFilterInterface $filter, $isNegation)
     {
@@ -118,8 +118,8 @@ class Builder implements BuilderInterface
 
     /**
      * @param RequestFilterInterface|\Magento\Framework\Search\Request\Filter\Range $filter
-     * @param $isNegation
-     * @return Select|string
+     * @param bool $isNegation
+     * @return string
      */
     private function processRangeFilter(RequestFilterInterface $filter, $isNegation)
     {
