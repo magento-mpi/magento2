@@ -23,8 +23,7 @@ class WritePlugin
      */
     protected $allowedUserTypes = [
         UserContextInterface::USER_TYPE_ADMIN,
-        UserContextInterface::USER_TYPE_INTEGRATION,
-        UserContextInterface::USER_TYPE_GUEST,
+        UserContextInterface::USER_TYPE_INTEGRATION
     ];
 
     /**
@@ -39,13 +38,18 @@ class WritePlugin
      * Check whether access is allowed for create cart resource
      *
      * @param \Magento\Checkout\Service\V1\Cart\WriteServiceInterface $subject
+     * @param int $cartId
+     * @param int $customerId
      *
      * @return void
      * @throws AuthorizationException if access denied
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeCreate(\Magento\Checkout\Service\V1\Cart\WriteServiceInterface $subject)
-    {
+    public function beforeAssignCustomer(
+        \Magento\Checkout\Service\V1\Cart\WriteServiceInterface $subject,
+        $cartId,
+        $customerId
+    ) {
         if (!in_array($this->userContext->getUserType(), $this->allowedUserTypes)) {
             throw new AuthorizationException('Access denied');
         }

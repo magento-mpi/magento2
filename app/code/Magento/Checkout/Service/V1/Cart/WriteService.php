@@ -9,8 +9,8 @@
 namespace Magento\Checkout\Service\V1\Cart;
 
 use Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
+use Magento\Authorization\Model\UserContextInterface;
 
 class WriteService implements WriteServiceInterface
 {
@@ -35,21 +35,30 @@ class WriteService implements WriteServiceInterface
     protected $customerRegistry;
 
     /**
+     * @var UserContextInterface
+     */
+    protected $userContext;
+
+    /**
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
+     * @param UserContextInterface $userContext
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\CustomerRegistry $customerRegistry
+        \Magento\Customer\Model\CustomerRegistry $customerRegistry,
+        UserContextInterface $userContext
+
     ) {
         $this->quoteFactory = $quoteFactory;
         $this->quoteRepository = $quoteRepository;
         $this->storeManager = $storeManager;
         $this->customerRegistry = $customerRegistry;
+        $this->userContext = $userContext;
     }
 
     /**
@@ -57,17 +66,54 @@ class WriteService implements WriteServiceInterface
      */
     public function create()
     {
-        $storeId = $this->storeManager->getStore()->getId();
+        $quote = $this->userContext->getUserType() == UserContextInterface::USER_TYPE_CUSTOMER
+            ? $this->createCustomerCart()
+            : $this->createAnonymousCart();
 
-        /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteFactory->create();
-        $quote->setStoreId($storeId);
         try {
             $quote->save();
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Cannot create quote');
         }
         return $quote->getId();
+    }
+
+    /**
+     * Create anonymous cart
+     *
+     * @return \Magento\Sales\Model\Quote
+     */
+    protected function createAnonymousCart()
+    {
+        $storeId = $this->storeManager->getStore()->getId();
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->quoteFactory->create();
+        $quote->setStoreId($storeId);
+        return $quote;
+    }
+
+    /**
+     * Create cart for current logged in customer
+     *
+     * @return \Magento\Sales\Model\Quote
+     * @throws CouldNotSaveException
+     */
+    protected function createCustomerCart()
+    {
+        $storeId = $this->storeManager->getStore()->getId();
+        $customer = $this->customerRegistry->retrieve($this->userContext->getUserId());
+
+        $currentCustomerQuote = $this->quoteFactory->create()->loadByCustomer($customer);
+        if ($currentCustomerQuote->getId() && $currentCustomerQuote->getIsActive()) {
+            throw new CouldNotSaveException('Cannot create quote');
+        }
+
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->quoteFactory->create();
+        $quote->setStoreId($storeId);
+        $quote->setCustomer($customer);
+        $quote->setCustomerIsGuest(0);
+        return $quote;
     }
 
     /**

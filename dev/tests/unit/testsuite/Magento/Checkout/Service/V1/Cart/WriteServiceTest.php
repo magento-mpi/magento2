@@ -54,6 +54,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $quoteRepositoryMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $userContextMock;
+
     public function setUp()
     {
         $this->objectManager = new ObjectManager($this);
@@ -62,6 +67,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface', [], [], '', false);
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
+        $this->userContextMock = $this->getMock('\Magento\Authorization\Model\UserContextInterface');
 
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->quoteMock =
@@ -87,23 +93,111 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'quoteFactory' => $this->quoteFactoryMock,
                 'storeManager' => $this->storeManagerMock,
                 'customerRegistry' => $this->customerRegistryMock,
-                'quoteRepository' => $this->quoteRepositoryMock
+                'quoteRepository' => $this->quoteRepositoryMock,
+                'userContext' => $this->userContextMock
             ]
         );
     }
 
-    public function testCreate()
+    public function testCreateAnonymousCart()
     {
         $storeId = 345;
 
+        $this->userContextMock->expects($this->once())->method('getUserType')
+            ->willReturn(\Magento\Authorization\Model\UserContextInterface::USER_TYPE_ADMIN);
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
 
         $this->quoteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('setStoreId')->with($storeId);
         $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteMock->expects($this->once())->method('getId')->willReturn(100);
+        $this->assertEquals(100, $this->service->create());
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedExceptionMessage Cannot create quote
+     */
+    public function testCreateCustomerCartWhenCustomerHasActiveCart()
+    {
+        $storeId = 345;
+        $userId = 50;
+
+        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $this->customerRegistryMock->expects($this->once())
+            ->method('retrieve')->with($userId)->will($this->returnValue($customerMock));
+
+        $this->userContextMock->expects($this->once())->method('getUserType')
+            ->willReturn(\Magento\Authorization\Model\UserContextInterface::USER_TYPE_CUSTOMER);
+        $this->userContextMock->expects($this->once())->method('getUserId')->willReturn($userId);
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+
+        $customerQuoteMock = $this->getMock('\Magento\Sales\Model\Quote',
+            [
+                'loadByCustomer',
+                'getIsActive',
+                'getId',
+                '__wakeup'
+            ],
+            [],
+            '',
+            false
+        );
+        $customerQuoteMock->expects($this->once())
+            ->method('loadByCustomer')
+            ->with($customerMock)
+            ->will($this->returnSelf());
+        $this->quoteFactoryMock->expects($this->once())->method('create')->willReturn($customerQuoteMock);
+        $customerQuoteMock->expects($this->once())->method('getId')->willReturn(1);
+        $customerQuoteMock->expects($this->once())->method('getIsActive')->willReturn(true);
+        $this->quoteMock->expects($this->never())->method('save');
 
         $this->service->create();
+    }
+
+    public function testCreateCustomerCart()
+    {
+        $storeId = 345;
+        $userId = 50;
+
+        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $this->customerRegistryMock->expects($this->once())
+            ->method('retrieve')->with($userId)->will($this->returnValue($customerMock));
+
+        $this->userContextMock->expects($this->once())->method('getUserType')
+            ->willReturn(\Magento\Authorization\Model\UserContextInterface::USER_TYPE_CUSTOMER);
+        $this->userContextMock->expects($this->once())->method('getUserId')->willReturn($userId);
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+
+        $customerQuoteMock = $this->getMock('\Magento\Sales\Model\Quote',
+            [
+                'loadByCustomer',
+                'getIsActive',
+                'getId',
+                '__wakeup'
+            ],
+            [],
+            '',
+            false
+        );
+        $customerQuoteMock->expects($this->once())
+            ->method('loadByCustomer')
+            ->with($customerMock)
+            ->will($this->returnSelf());
+        $this->quoteFactoryMock->expects($this->at(0))->method('create')->willReturn($customerQuoteMock);
+        $this->quoteFactoryMock->expects($this->at(1))->method('create')->willReturn($this->quoteMock);
+        $customerQuoteMock->expects($this->once())->method('getId')->willReturn(1);
+        $customerQuoteMock->expects($this->once())->method('getIsActive')->willReturn(false);
+
+        $this->quoteMock->expects($this->once())->method('setStoreId')->with($storeId);
+        $this->quoteMock->expects($this->once())->method('setCustomer')->with($customerMock);
+        $this->quoteMock->expects($this->once())->method('setCustomerIsGuest')->with(0);
+        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteMock->expects($this->once())->method('getId')->willReturn(100);
+        $this->assertEquals(100, $this->service->create());
     }
 
     /**

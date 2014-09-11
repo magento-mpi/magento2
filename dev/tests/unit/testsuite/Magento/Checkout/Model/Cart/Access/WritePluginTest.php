@@ -29,7 +29,6 @@ class WritePluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->userContextMock = $this->getMock('Magento\Authorization\Model\UserContextInterface');
         $this->subjectMock = $this->getMock('\Magento\Checkout\Service\V1\Cart\WriteServiceInterface');
-
         $this->model = new WritePlugin($this->userContextMock);
     }
 
@@ -40,14 +39,13 @@ class WritePluginTest extends \PHPUnit_Framework_TestCase
     public function testBeforeCreateSuccess($userType)
     {
         $this->userContextMock->expects($this->once())->method('getUserType')->will($this->returnValue($userType));
-        $this->model->beforeCreate($this->subjectMock);
+        $this->model->beforeAssignCustomer($this->subjectMock, 1, 1);
     }
 
     public function successTypeDataProvider()
     {
         return [
             'admin' => [\Magento\Authorization\Model\UserContextInterface::USER_TYPE_ADMIN],
-            'guest' => [\Magento\Authorization\Model\UserContextInterface::USER_TYPE_GUEST],
             'integration' => [\Magento\Authorization\Model\UserContextInterface::USER_TYPE_INTEGRATION],
         ];
     }
@@ -60,6 +58,6 @@ class WritePluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->userContextMock->expects($this->once())->method('getUserType')
             ->will($this->returnValue(\Magento\Authorization\Model\UserContextInterface::USER_TYPE_CUSTOMER));
-        $this->model->beforeCreate($this->subjectMock);
+        $this->model->beforeAssignCustomer($this->subjectMock, 1, 1);
     }
 }
