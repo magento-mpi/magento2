@@ -38,6 +38,17 @@ define([
                 var value = $(this).val();
                 observable(value);
             });
+        },
+
+        update: function(el, valueAccessor){
+            var config = valueAccessor(),
+                observable;
+
+            observable = typeof config === 'object' ?
+                config.storage :
+                config;
+
+            el.value = observable();
         }
     }
 });
