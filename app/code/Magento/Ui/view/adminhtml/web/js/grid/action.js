@@ -143,7 +143,9 @@ define([
         },
 
         selectPage: function () {
-            var ids = this.items().pluck(this.indexField);
+            var items = this.provider.data.get('items'),
+                ids   = _.pluck(items, this.indexField);
+                
             this.selected(ids);
         },
 
