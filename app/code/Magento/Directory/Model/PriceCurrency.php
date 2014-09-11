@@ -7,7 +7,7 @@
  */
 namespace Magento\Directory\Model;
 
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Logger;
 
 /**
@@ -16,7 +16,7 @@ use Magento\Framework\Logger;
 class PriceCurrency implements \Magento\Framework\Pricing\PriceCurrencyInterface
 {
     /**
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 

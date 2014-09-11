@@ -41,7 +41,7 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects(
             $this->any()

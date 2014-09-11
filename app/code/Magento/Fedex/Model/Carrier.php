@@ -105,7 +105,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_customizableContainerTypes = array('YOUR_PACKAGING');
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -135,7 +135,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Module\Dir\Reader $configReader
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param array $data
@@ -158,7 +158,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Framework\Logger $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Module\Dir\Reader $configReader,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         array $data = array()

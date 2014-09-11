@@ -46,7 +46,7 @@ class FilterProductListTest extends Functional
         $simpleName = $simple->getName();
 
         //Create configurable product
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct([
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct([
             'categories' => ['category' => $category],
         ]);
         $configurable->switchData('configurable');

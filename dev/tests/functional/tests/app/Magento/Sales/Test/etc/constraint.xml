@@ -36,4 +36,7 @@
     <assertOrderStatusIsCorrect module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderStatusIsCorrect>
+    <assertProductInItemsOrderedGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertProductInItemsOrderedGrid>
 </constraint>

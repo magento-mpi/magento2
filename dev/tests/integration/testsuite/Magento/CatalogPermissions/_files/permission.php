@@ -12,7 +12,7 @@ $permission = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->creat
 );
 $permission->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getWebsite()->getId()
 )->setCategoryId(
     6

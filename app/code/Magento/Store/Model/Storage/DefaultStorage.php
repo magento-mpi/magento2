@@ -9,7 +9,7 @@
  */
 namespace Magento\Store\Model\Storage;
 
-class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
+class DefaultStorage implements \Magento\Framework\StoreManagerInterface
 {
     /**
      * Application store object

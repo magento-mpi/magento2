@@ -16,7 +16,7 @@
     <preference for="Magento\Framework\App\CacheInterface" type="Magento\Framework\App\Cache\Proxy" />
     <preference for="Magento\Framework\App\Cache\StateInterface" type="Magento\Framework\App\Cache\State" />
     <preference for="Magento\Framework\App\Cache\TypeListInterface" type="Magento\Framework\App\Cache\TypeList" />
-    <preference for="Magento\Store\Model\StoreManagerInterface" type="Magento\Store\Model\StoreManager" />
+    <preference for="Magento\Framework\StoreManagerInterface" type="Magento\Store\Model\StoreManager" />
     <preference for="Magento\Framework\View\DesignInterface" type="Magento\Core\Model\View\Design\Proxy" />
     <preference for="Magento\Framework\View\Design\ThemeInterface" type="Magento\Core\Model\Theme" />
     <preference for="Magento\Framework\View\Design\Theme\ResolverInterface" type="Magento\Core\Model\Theme\Resolver" />
@@ -62,6 +62,7 @@
     <preference for="Magento\Framework\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\Framework\Session\Config\ConfigInterface" type="Magento\Framework\Session\Config" />
     <preference for="Magento\Framework\Session\SidResolverInterface" type="Magento\Framework\Session\SidResolver\Proxy" />
+    <preference for="Magento\Framework\Stdlib\Cookie\CookieScopeInterface" type="\Magento\Framework\Stdlib\Cookie\CookieScope" />
     <preference for="Magento\Framework\Stdlib\CookieManager" type="Magento\Framework\Stdlib\Cookie\PhpCookieManager" />
     <preference for="Magento\Framework\TranslateInterface" type="Magento\Framework\Translate" />
     <preference for="Magento\Framework\Config\ScopeListInterface" type="interceptionConfigScope" />

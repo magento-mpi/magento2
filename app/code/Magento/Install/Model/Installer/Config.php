@@ -46,7 +46,7 @@ class Config
     /**
      * Store Manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -58,13 +58,13 @@ class Config
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_request = $request;

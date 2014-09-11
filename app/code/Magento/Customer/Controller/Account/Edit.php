@@ -24,7 +24,7 @@ class Edit extends \Magento\Customer\Controller\Account
      * @param Session $customerSession
      * @param CustomerHelper $addressHelper
      * @param UrlFactory $urlFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
@@ -34,7 +34,7 @@ class Edit extends \Magento\Customer\Controller\Account
         Session $customerSession,
         CustomerHelper $addressHelper,
         UrlFactory $urlFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder

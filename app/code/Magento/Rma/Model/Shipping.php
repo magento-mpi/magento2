@@ -76,7 +76,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -121,7 +121,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
@@ -137,7 +137,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,

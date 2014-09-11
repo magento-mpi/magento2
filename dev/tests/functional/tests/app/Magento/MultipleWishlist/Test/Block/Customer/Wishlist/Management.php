@@ -37,7 +37,7 @@ class Management extends Block
      *
      * @var string
      */
-    protected $wishlistOptions = '.items.dropdown';
+    protected $wishlistOptions = '.wishlist-select-items';
 
     /**
      * Item wish list
@@ -47,11 +47,11 @@ class Management extends Block
     protected $wishlistItem = './/a[.="%s"]';
 
     /**
-     * Notice message selector
+     * Notice type selector
      *
      * @var string
      */
-    protected $noticeMessage = '.message.notice';
+    protected $noticeType = '.wishlist-notice';
 
     /**
      * Button 'Delete Wishlist' css selector
@@ -68,22 +68,6 @@ class Management extends Block
     protected $editButton = '.action.edit';
 
     /**
-     * Button 'Update Wish List' css selector
-     *
-     * @var string
-     */
-    protected $updateButton = 'button[name="do"]';
-
-    // @codingStandardsIgnoreStart
-    /**
-     * CSS locator for description textarea
-     *
-     * @var string
-     */
-    protected $descriptionField = '//strong[a[@title = "%s"]]/following-sibling::textarea[contains(@name,"description")]';
-    // @codingStandardsIgnoreEnd
-
-    /**
      * Create new wish list
      *
      * @return void
@@ -94,32 +78,6 @@ class Management extends Block
     }
 
     /**
-     * Get wish lists
-     *
-     * @return array
-     */
-    public function getWishlists()
-    {
-        $this->clickMultipleWishlistSelect();
-        $options = trim($this->_rootElement->find($this->wishlistOptions)->getText());
-        $options = explode("\n", $options);
-        if (in_array('Create New Wish List', $options)) {
-            array_pop($options);
-        }
-        return $options;
-    }
-
-    /**
-     * Click wish list select
-     *
-     * @return void
-     */
-    protected function clickMultipleWishlistSelect()
-    {
-        $this->_rootElement->find($this->wishlistSelect)->click();
-    }
-
-    /**
      * Selected item wish list by name
      *
      * @param string $wishlistName
@@ -127,7 +85,6 @@ class Management extends Block
      */
     public function selectedWishlistByName($wishlistName)
     {
-        $this->clickMultipleWishlistSelect();
         $this->_rootElement->find(sprintf($this->wishlistItem, $wishlistName), Locator::SELECTOR_XPATH)->click();
     }
 
@@ -139,17 +96,19 @@ class Management extends Block
      */
     public function isWishlistVisible($wishlistName)
     {
-        return in_array($wishlistName, $this->getWishlists());
+        return $this->_rootElement->find(sprintf($this->wishlistItem, $wishlistName), Locator::SELECTOR_XPATH)
+            ->isVisible();
     }
 
     /**
-     * Get notice message
+     * Notice type visibility
      *
-     * @return string
+     * @param string $type
+     * @return bool
      */
-    public function getNoticeMessage()
+    public function isNoticeTypeVisible($type)
     {
-        return trim($this->_rootElement->find($this->noticeMessage)->getText());
+        return $this->_rootElement->find($this->noticeType . '.' . $type)->isVisible();
     }
 
     /**
@@ -181,32 +140,5 @@ class Management extends Block
     public function editWishlist()
     {
         $this->_rootElement->find($this->editButton)->click();
-    }
-
-    /**
-     * Fill Wishlist description
-     *
-     * @param CatalogProductSimple $product
-     * @param string $description
-     * @return void
-     */
-    public function fillDescription(CatalogProductSimple $product, $description)
-    {
-        $this->_rootElement->find(
-            sprintf($this->descriptionField, $product->getName()),
-            Locator::SELECTOR_XPATH
-        )->setValue(
-            $description
-        );
-    }
-
-    /**
-     * Update wish list
-     *
-     * @return void
-     */
-    public function updateWishlist()
-    {
-        $this->_rootElement->find($this->updateButton)->click();
     }
 }

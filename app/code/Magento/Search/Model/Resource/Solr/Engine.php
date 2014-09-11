@@ -87,7 +87,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -98,7 +98,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      */
     public function __construct(
@@ -108,7 +108,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
         $this->_searchCollectionFactory = $searchCollectionFactory;
