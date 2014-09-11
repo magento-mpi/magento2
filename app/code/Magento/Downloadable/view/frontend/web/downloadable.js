@@ -23,12 +23,12 @@ define([
                     $('label[for="' + this.id + '"] > span').text($(this).attr('data-checked'));
                     self.element.find(self.options.linkElement + ':not(:checked)').each(function(){
                         $(this).trigger('click');
-                    })
+                    });
                 } else {
                     $('[for="' + this.id + '"] > span').text($(this).attr('data-notchecked'));
                     self.element.find(self.options.linkElement + ':checked').each(function(){
                         $(this).trigger('click');
-                    })
+                    });
                 }
             });
         },
