@@ -11,6 +11,9 @@ namespace Magento\Sales\Test\TestCase;
 use Mtf\Factory\Factory;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 
+/**
+ * Class OnlineRefundTest
+ */
 class OnlineRefundTest extends RefundTest
 {
     /**
@@ -33,7 +36,7 @@ class OnlineRefundTest extends RefundTest
         // Step 1: Order View Page
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $tabsWidget = $orderPage->getFormTabsBlock();
 
@@ -83,12 +86,12 @@ class OnlineRefundTest extends RefundTest
      */
     public function dataProviderOrder()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder()]
+        ];
     }
 }

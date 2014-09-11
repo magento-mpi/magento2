@@ -7,9 +7,12 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class Attribute extends AbstractObject
+/**
+ * @codeCoverageIgnore
+ */
+class Attribute extends AbstractExtensibleObject
 {
     const ID = 'id';
     const CODE = 'code';

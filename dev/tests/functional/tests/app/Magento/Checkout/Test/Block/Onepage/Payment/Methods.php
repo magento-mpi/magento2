@@ -9,8 +9,6 @@
 namespace Magento\Checkout\Test\Block\Onepage\Payment;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Methods
@@ -41,38 +39,43 @@ class Methods extends Form
     protected $waitElement = '.loading-mask';
 
     /**
+     * Purchase order number selector
+     *
+     * @var string
+     */
+    protected $purchaseOrderNumber = '#po_number';
+
+    /**
      * Select payment method
      *
-     * @param Checkout $fixture
+     * @param array $payment
+     * @return void
      */
-    public function selectPaymentMethod(Checkout $fixture)
+    public function selectPaymentMethod(array $payment)
     {
-        $payment = $fixture->getPaymentMethod();
-        $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find(sprintf($this->paymentMethod, $paymentCode), Locator::SELECTOR_CSS)->click();
-
-        $dataConfig = $payment->getDataConfig();
-        if (isset($dataConfig['payment_form_class'])) {
-            $paymentFormClass = $dataConfig['payment_form_class'];
-            /** @var $formBlock \Magento\Payment\Test\Block\Form\Cc */
-            $formBlock = new $paymentFormClass(
-                $this->_rootElement->find('#payment_form_' . $paymentCode),
-                $this->blockFactory,
-                $this->mapper
-            );
-            $formBlock->fill($fixture);
+        $this->_rootElement->find(sprintf($this->paymentMethod, $payment['method']))->click();
+        if ($payment['method'] == "purchaseorder") {
+            $this->_rootElement->find($this->purchaseOrderNumber)->setValue($payment['po_number']);
         }
-
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible($this->waitElement);
+        if (isset($payment['dataConfig']['payment_form_class'])) {
+            $paymentFormClass = $payment['dataConfig']['payment_form_class'];
+            /** @var \Magento\Payment\Test\Block\Form\Cc $formBlock */
+            $formBlock = $this->blockFactory->create(
+                $paymentFormClass,
+                ['element' => $this->_rootElement->find('#payment_form_' . $payment['method'])]
+            );
+            $formBlock->fill($payment['credit_card']);
+        }
     }
 
     /**
      * Press "Continue" button
+     *
+     * @return void
      */
-    public function pressContinue()
+    public function clickContinue()
     {
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->continue)->click();
         $this->waitForElementNotVisible($this->waitElement);
     }
 }

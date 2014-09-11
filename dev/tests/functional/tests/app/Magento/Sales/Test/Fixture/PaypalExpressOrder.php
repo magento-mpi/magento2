@@ -25,11 +25,11 @@ class PaypalExpressOrder extends OrderCheckout
     {
         $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutPaypalExpress();
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$10.83'
-            )
-        );
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '10.83'
+            ]
+        ];
     }
 
     /**

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route url="/V1/archived-orders/:id" method="GET">
+        <service class="Magento\SalesArchive\Service\V1\ReadServiceInterface" method="getOrderInfo"/>
+        <resources>
+            <resource ref="Magento_SalesArchive::archive" />
+        </resources>
+    </route>
+    <route url="/V1/archived-orders/:id" method="DELETE">
+        <service class="Magento\SalesArchive\Service\V1\WriteServiceInterface" method="removeOrderFromArchiveById"/>
+        <resources>
+            <resource ref="Magento_SalesArchive::archive" />
+        </resources>
+    </route>
+    <route url="/V1/archived-orders/" method="PUT">
+        <service class="Magento\SalesArchive\Service\V1\WriteServiceInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_SalesArchive::archive" />
+        </resources>
+    </route>
+    <route url="/V1/archived-orders/" method="POST">
+        <service class="Magento\SalesArchive\Service\V1\WriteServiceInterface" method="moveOrdersToArchive"/>
+        <resources>
+            <resource ref="Magento_SalesArchive::archive" />
+        </resources>
+    </route>
+</routes>
