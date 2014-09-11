@@ -84,6 +84,7 @@ class Adjustment extends AbstractAdjustment
     /**
      * Obtain display amount excluding tax
      *
+     * @param bool $includeContainer
      * @return string
      */
     public function getDisplayAmountExclTax($includeContainer = false)
