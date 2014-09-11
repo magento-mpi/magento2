@@ -19,7 +19,6 @@ define([
             ajax: {
                 data: {
                     name: settings.name,
-                    component: settings.component,
                     form_key: FORM_KEY
                 }
             }
