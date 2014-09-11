@@ -30,6 +30,7 @@ AdminRma.prototype = {
         this.gridProducts           = $H({});
         this.grid                   = false;
         this.itemDivPrefix          = 'itemDiv_';
+        this.formKey                = false;
         this.loadProductsCallback = function () {};
     },
 
@@ -162,8 +163,18 @@ AdminRma.prototype = {
         $(divId).show().setStyle({
             'marginTop': -$(divId).getDimensions().height / 2 + 'px'
         });
+        var body = document.body,
+            html = document.documentElement;
+
+        var height = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight
+        );
         $('popup-window-mask').setStyle({
-            height: $(document.body).getHeight() + 'px'
+            height: height + 'px'
         }).show();
     },
 
@@ -703,16 +714,22 @@ AdminRma.prototype = {
         this.loadPslUrl  = url;
     },
 
+    setFormKey: function(formKey) {
+        this.formKey = formKey;
+    },
+
     showShippingMethods: function() {
-        var url         = this.loadShippingMethodsUrl;
         var parentDiv   = $('get-psl');
         var divId       = 'get-shipping-method';
 
         if ($(divId)) {
             this.showPopup(divId);
         } else {
-            new Ajax.Request(url, {
-                onSuccess: function(transport) {
+            var ajaxSettings = {
+                url: this.loadShippingMethodsUrl,
+                showLoader: true,
+                data: {form_key: this.formKey},
+                success: function(data, textStatus, transport) {
                     var response = transport.responseText;
                     parentDiv.insert({
                         after: new Element('div', {id: divId}).update(response).addClassName('rma-popup')
@@ -722,8 +739,7 @@ AdminRma.prototype = {
                     var thisRma = this;
                     $$("input[id^='s_method_']").each(function(element) {
                         $(element).on("click", function () {
-                            $('get-shipping-method-ok-button').enable();
-                            $('get-shipping-method-ok-button').on(
+                            $('get-shipping-method-ok-button').enable().on(
                                 "click",
                                 function() {
                                     thisRma.showLabelPopup(element.value)
@@ -732,7 +748,8 @@ AdminRma.prototype = {
                         });
                     });
                 }.bind(this)
-            });
+            };
+            jQuery.ajax(ajaxSettings);
         }
     },
 
@@ -743,13 +760,17 @@ AdminRma.prototype = {
     showLabelPopup: function(method) {
         this.hidePopups();
         var url = this.loadPslUrl + 'method/' + method + '?isAjax=true';
-        new Ajax.Request(url, {
-            onSuccess: function(transport) {
+        var ajaxSettings = {
+            url: url,
+            showLoader:true,
+            data: {form_key: this.formKey},
+            success: function(data, textStatus, transport) {
                 var response = transport.responseText;
                 $('get-psl').update(response);
                 this.showWindow(method);
             }.bind(this)
-        });
+        };
+        jQuery.ajax(ajaxSettings);
     },
 
     cancelPack: function() {

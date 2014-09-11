@@ -151,7 +151,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
      */
     public function getPackages()
     {
-        return $this->getShipment()->getPackages() ?: [];
+        return unserialize($this->getShipment()->getPackages()) ?: [];
     }
 
     /**

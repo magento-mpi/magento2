@@ -25,6 +25,7 @@ require(['prototype', 'Magento_Rma/rma'], function() {
         $$('a.item_reason_other').each(function (obj) {
             obj.observe('click', rma.itemReasonOtherRowClick.bind(rma))
         });
+        rma.setFormKey('<?php echo $this->getFormKey(); ?>');
         rma.setLoadShippingMethodsUrl('<?php echo $this->getLoadShippingMethodsUrl() ?>');
         rma.setLoadPslUrl('<?php echo $this->getLoadPslUrl() ?>');
         if ($('get-shipping-method-and-rates')) {
