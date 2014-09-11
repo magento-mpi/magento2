@@ -45,7 +45,9 @@ class View extends AbstractView
         $this->rootComponent = $this->getParentBlock()->getParentBlock();
         $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
         $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
+
         $this->rootComponent->addConfigData($this, $this->viewConfiguration);
+
         $this->updateDataCollection();
     }
 

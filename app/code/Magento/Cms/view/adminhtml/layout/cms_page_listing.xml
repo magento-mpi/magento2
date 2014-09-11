@@ -53,24 +53,20 @@
                         <item name="filter_type" xsi:type="string">select</item>
                         <item name="options" xsi:type="array">
                             <item name="1 column" xsi:type="array">
-                                <item name="value" xsi:type="string">0</item>
+                                <item name="value" xsi:type="string">1column</item>
                                 <item name="label" xsi:type="string" translate="true">1 column</item>
                             </item>
                             <item name="2 columns with left bar" xsi:type="array">
-                                <item name="value" xsi:type="string">1</item>
+                                <item name="value" xsi:type="string">2columns-left</item>
                                 <item name="label" xsi:type="string" translate="true">2 columns with left bar</item>
                             </item>
                             <item name="2 columns with right bar" xsi:type="array">
-                                <item name="value" xsi:type="string">2</item>
+                                <item name="value" xsi:type="string">2columns-right</item>
                                 <item name="label" xsi:type="string" translate="true">2 columns with right bar</item>
                             </item>
                             <item name="3 columns" xsi:type="array">
-                                <item name="value" xsi:type="string">3</item>
+                                <item name="value" xsi:type="string">3columns</item>
                                 <item name="label" xsi:type="string" translate="true">3 columns</item>
-                            </item>
-                            <item name="Empty" xsi:type="array">
-                                <item name="value" xsi:type="string">4</item>
-                                <item name="label" xsi:type="string" translate="true">Empty</item>
                             </item>
                         </item>
                     </item>
@@ -78,7 +74,7 @@
                         <item name="title" xsi:type="string" translate="true">Status</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="index" xsi:type="string">is_active</item>
-                        <item name="data_type" xsi:type="string">text</item>
+                        <item name="data_type" xsi:type="string">bool</item>
                         <item name="filter_type" xsi:type="string">select</item>
                         <item name="options" xsi:type="array">
                             <item name="disable" xsi:type="array">
