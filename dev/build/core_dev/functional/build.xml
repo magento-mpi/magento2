@@ -204,10 +204,6 @@
             }
         ]]></script>
 
-        <antcall target="_installation_requirements" inheritAll="true">
-            <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}"/>
-        </antcall>
-
         <!-- Adds the parallelized instances to the phpunit.xml -->
         <script language="javascript"><![CDATA[
             importClass(java.io.File);
