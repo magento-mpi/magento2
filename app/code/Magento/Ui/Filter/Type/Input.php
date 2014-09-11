@@ -24,7 +24,7 @@ class Input implements FilterInterface
     {
         $condition = null;
         if (!empty($value) || $value === '0') {
-            $condition = ['like' => $value];
+            $condition = ['like' => sprintf('%%%s%%', $value)];
         }
 
         return $condition;
