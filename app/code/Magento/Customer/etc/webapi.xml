@@ -34,7 +34,13 @@
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
-    <route url="/V1/customerGroup/search" method="PUT">
+    <route url="/V1/customerGroup/search" method="POST">
+        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="searchGroups"/>
+        <resources>
+            <resource ref="Magento_Customer::group"/>
+        </resources>
+    </route>
+    <route url="/V1/customerGroup/search" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="searchGroups"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
@@ -161,7 +167,13 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customerAccounts/search" method="PUT">
+    <route url="/V1/customerAccounts/search" method="POST">
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="searchCustomers"/>
+        <resources>
+            <resource ref="Magento_Customer::customer"/>
+        </resources>
+    </route>
+    <route url="/V1/customerAccounts/search" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="searchCustomers"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
