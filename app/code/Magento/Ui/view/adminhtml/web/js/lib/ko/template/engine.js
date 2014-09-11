@@ -15,8 +15,8 @@ define([
 
     CustomTemplateEngine.prototype.makeTemplateSource = function(template, templateDocument, options) {
         var source,
-            templatePull = [];
-
+            extenders = options.extenders || [];
+            
         if (typeof template === 'string') {
             source = sources[template];
 
@@ -24,12 +24,7 @@ define([
                 source = new Source(template);
                 sources[template] = source;
 
-                templatePull.push(template);
-                if (options && options['extenders']) {
-                    templatePull = templatePull.concat(options['extenders']);
-                }
-
-                Renderer.render(templatePull).done(function(rendered) {
+                Renderer.render(template, extenders).done(function(rendered) {
                     source.nodes(rendered);
                     M2.init(rendered);
                 });

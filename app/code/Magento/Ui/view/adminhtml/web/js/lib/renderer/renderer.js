@@ -18,25 +18,21 @@ define([
          * Renders template and it's extenders using this._parse function.
          * Loads all extenders then merges them and wraps into div[data-template-extend="parent"] where parent is target template.
          * If no extenders provider, simply loads target template and passes execution to _parse.
-         * @param  {String} template - string, representing path to core template and it's extenders.
+         * @param {String} template - string, representing path to core template and it's extenders.
+         * @param {Array} extenders - array of strings
          * @return {Deferred} - Promise of template to be rendered. Is being resolved with array of HTML elements.
          */
-        render: function (template) {
+        render: function (template, extenders) {
             var isRendered = $.Deferred(),
-                extendersToLoad = [],
-                parent,
-                extenders,
-                extendersHtml = '',
-                resolve = isRendered.resolve.bind(isRendered),
-                loadTemplate = this._load.bind(this),
-                parseTemplate = this._parse.bind(this);
+                parent = template,
 
-            if (typeof template === 'string') {
-                parent = template    
-            } else {
-                extenders = template.extenders;
-                parent    = template.name;    
-            }
+                extenders = extenders || [],
+                extendersToLoad = [],
+                extendersHtml = '',
+
+                resolve       = isRendered.resolve.bind(isRendered),
+                loadTemplate  = this._load.bind(this),
+                parseTemplate = this._parse.bind(this);
 
             if (extenders.length) {
                 extendersToLoad = extenders.map(function (extender) {
