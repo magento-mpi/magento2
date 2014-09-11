@@ -216,7 +216,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @return $this
      */
-    public function _afterDeleteCommit()
+    protected function _afterDeleteCommit()
     {
         $this->_ruleProductIndexerProcessor->reindexRow($this->getId());
         return parent::_afterDeleteCommit();
@@ -406,29 +406,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         }
 
         return !empty($result) ? $result : true;
-    }
-
-    /**
-     * Retrieve Customer Segment Relations
-     *
-     * @return array
-     * @deprecated after 1.11.2.0
-     */
-    public function getCustomerSegmentRelations()
-    {
-        return array();
-    }
-
-    /**
-     * Set customer segment relations
-     *
-     * @param array|string $relations
-     * @return $this
-     * @deprecated after 1.11.2.0
-     */
-    public function setCustomerSegmentRelations($relations)
-    {
-        return $this;
     }
 
     /**

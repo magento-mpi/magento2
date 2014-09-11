@@ -41,6 +41,13 @@ class LoginExpress extends Form
     protected $oldRootLocator = '//*[*[@id="login"] or *[@id="loginBox"]]';
 
     /**
+     * Login form locator
+     *
+     * @var string
+     */
+    protected $oldLoginForm = '#loginBox';
+
+    /**
      * Login to Paypal account
      *
      * @param Customer $fixture
@@ -50,13 +57,19 @@ class LoginExpress extends Form
     public function login(Customer $fixture)
     {
         // Wait for page to load in order to check logged customer
-        $this->_rootElement->find($this->oldRootLocator, Locator::SELECTOR_XPATH)->click();
+        $element = $this->_rootElement;
+        $selector = $this->oldRootLocator;
+        $element->waitUntil(
+            function () use ($element, $selector) {
+                return $element->find($selector, Locator::SELECTOR_XPATH)->isVisible() ? true : null;
+            }
+        );
         // PayPal returns different login pages due to buyer country
         if (!$this->_rootElement->find($this->loginForm)->isVisible()) {
             $payPalLogin = ObjectManager::getInstance()->create(
                 '\Magento\Paypal\Test\Block\Login',
                 [
-                    'element' => $this->browser->find($this->oldRootLocator)
+                    'element' => $this->browser->find($this->oldLoginForm)
                 ]
             );
             $payPalLogin->login($fixture);
