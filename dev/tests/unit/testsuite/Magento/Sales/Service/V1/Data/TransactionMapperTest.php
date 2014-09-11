@@ -182,7 +182,7 @@ class TransactionMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testExtractDto($lazy)
     {
-        list($id, $data) = [1, []];
+        $id = 1;
         $transactionModelMock = $this->getMockBuilder('Magento\Sales\Model\Order\Payment\Transaction')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         $transactionDtoMock = $this->getMockBuilder('Magento\Sales\Service\V1\Data\Transaction')

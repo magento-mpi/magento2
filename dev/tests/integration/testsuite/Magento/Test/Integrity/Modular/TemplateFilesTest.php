@@ -49,7 +49,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
         try {
             /** @var $website \Magento\Store\Model\Website */
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Store\Model\StoreManagerInterface'
+                'Magento\Framework\StoreManagerInterface'
             )->getStore()->setWebsiteId(
                 0
             );

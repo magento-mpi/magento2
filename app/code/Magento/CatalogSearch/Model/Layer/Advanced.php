@@ -21,7 +21,7 @@ class Advanced extends \Magento\Catalog\Model\Layer
      * @param CategoryFactory $categoryFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
@@ -31,7 +31,7 @@ class Advanced extends \Magento\Catalog\Model\Layer
         CategoryFactory $categoryFactory,
         Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         Resource\Product $catalogProduct,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
