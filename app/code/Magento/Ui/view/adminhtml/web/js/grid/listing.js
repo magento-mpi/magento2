@@ -14,8 +14,10 @@ define([
 
     var Listing =  Scope.extend({
         initialize: function(settings) {
+            _.extend(this, settings);
+
             this.initObservable()
-                .initProvider(settings)
+                .initProvider()
                 .updateItems();
             
             this.fields = this.provider.meta.get('fields');
@@ -26,27 +28,33 @@ define([
                 rows:       [],
                 view:       'grid',
                 isLocked:   false,
-                templateExtenders: []
+                templateExtenders: [],
+                extenders: null
             });
 
             return this;
         },
 
-        initProvider: function(settings) {
-            this.provider = settings.provider;
+        initProvider: function() {
+            var provider    = this.provider,
+                dump        = provider.dump;
 
-            this.provider.on({
+            provider.on({
                 'beforeRefresh':    this.lock.bind(this),
                 'refresh':          this.onRefresh.bind(this)
             });
 
-            this.provider.dump.on('update:extenders', this.updateExtenders);
+            dump.on('update:extenders', this.updateExtenders.bind(this));
 
             return this;
         },
 
         updateExtenders: function (extenders) {
-            this.templateExtenders(extenders);
+            var adjusted = extenders.reduce(this.adjustExtender, {});
+            
+            this.extenders(adjusted);
+
+            this.templateExtenders(extenders.map(this.adjustTemplateExtender, this));
         },
 
         updateItems: function() {
@@ -57,16 +65,20 @@ define([
             return this;
         },
 
+        getExtender: function(name) {
+            var extenders = this.extenders();
+
+            return extenders ? (this.parent_name + ':' + extenders[name]) : null;
+        },
+
         getCellTemplateFor: function(field) {
             return this.getRootTemplatePath() + '.cell.' + field.data_type;
         },
 
         getTemplate: function() {
-            var templateExtenders = this.templateExtenders();
-
             return {
                 name:      'Magento_Ui.templates.listing.' + this.view(),
-                extenders: templateExtenders.map(this.adjustTemplateExtender.bind(this))
+                extenders: this.templateExtenders()
             };
         },
 
@@ -76,6 +88,12 @@ define([
 
         getRootTemplatePath: function() {
             return 'Magento_Ui.templates.listing.' + this.view();
+        },
+
+        adjustExtender: function (adjusted, extender) {
+            adjusted[extender.as] = extender.name;
+
+            return adjusted;
         },
 
         onRefresh: function() {

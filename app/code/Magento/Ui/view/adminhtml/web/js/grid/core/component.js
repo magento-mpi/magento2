@@ -18,18 +18,21 @@ define([
         }, storeConfig, baseConfig);
     }
 
-    function getName(data) {
-        return data.parent_name + ':' + data.name;
-    }
-
     function init(data, el, base) {
-        var name = getName(base);
+        var parent  = base.parent_name,
+            name    = parent + ':' + base.name,
+            main    = parent + ':' + parent,
+            deps    = [parent];
 
         if (registry.has(name)) {
             return;
         }
 
-        registry.get(base.parent_name, function(provider) {
+        if (name !== main) {
+            deps.push(main);
+        }
+
+        registry.get(deps, function(provider) {
             var config = getConfig(provider, base);
 
             registry.set(name, new data.constr(config));

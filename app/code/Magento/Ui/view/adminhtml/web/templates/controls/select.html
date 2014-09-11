@@ -7,10 +7,10 @@
  */
 -->
 <div class="field">
-    <label class="label">
+    <label class="label" data-bind="attr: {for: index}">
         <span data-bind="text: title"></span>
     </label>
     <div class="control">
-        <select data-bind="options: options, value: selected, optionsText: 'label'" class="select"></select>
+        <select data-bind="attr: {id: index} ,options: options, value: selected, optionsText: 'label'" class="select"></select>
     </div>
 </div>

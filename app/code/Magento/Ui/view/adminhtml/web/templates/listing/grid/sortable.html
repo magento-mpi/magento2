@@ -1,5 +1,5 @@
 <table>
-    <thead data-part-replace="head" data-bind="scope: 'cms_page_listing:sorting'">
+    <thead data-part-replace="head" data-bind="scope: getExtender('sorting')">
         <tr class="headings" data-part="head.row">
             <!-- ko foreach: { data: $parent.fields, as: 'field' } -->
             <th>

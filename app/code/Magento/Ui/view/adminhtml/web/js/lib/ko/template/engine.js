@@ -8,21 +8,30 @@ define([
 
     var sources = {};
 
+    function createTemplateIdentifier(templateName, templateOptions) {
+        var extenders = templateOptions.extenders || [];
+
+        return templateName + '|' + extenders.join(' ');
+    }
+
     var CustomTemplateEngine = function() {};
     var NativeTemplateEngine = ko.nativeTemplateEngine;
+    
     CustomTemplateEngine.prototype = new NativeTemplateEngine;
     CustomTemplateEngine.prototype.constructor = CustomTemplateEngine;
 
     CustomTemplateEngine.prototype.makeTemplateSource = function(template, templateDocument, options) {
         var source,
-            extenders = options.extenders || [];
-            
+            extenders = options.extenders || [],
+            templateId;
+
         if (typeof template === 'string') {
-            source = sources[template];
+            templateId = createTemplateIdentifier(template, options);
+            source = sources[templateId];
 
             if (!source) {
                 source = new Source(template);
-                sources[template] = source;
+                sources[templateId] = source;
 
                 Renderer.render(template, extenders).done(function(rendered) {
                     source.nodes(rendered);
