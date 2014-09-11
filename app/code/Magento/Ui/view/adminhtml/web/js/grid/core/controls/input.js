@@ -23,6 +23,10 @@ define([
             this.observe('value', '');
         },
 
+        isEmpty: function(){
+            return !this.value();
+        },
+
         /**
          * Returns dump of instance's current state
          * @returns {Object} - object which represents current state of instance
@@ -31,7 +35,7 @@ define([
             return {
                 field: this.index,
                 value: this.value()
-            }
+            };
         },
 
         /**

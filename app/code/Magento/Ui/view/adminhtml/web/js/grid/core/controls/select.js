@@ -29,9 +29,17 @@ define([
         initialize: function (data) {
             this.constructor.__super__.initialize.apply(this, arguments);
 
+            this.caption = 'Select...';
+
             this.observe('selected', '');
 
             this.options = this.options ? this.formatOptions(this.options) : [];
+        },
+
+        isEmpty: function(){
+            var selected = this.selected();
+
+            return !(selected && selected.value);
         },
 
         /**

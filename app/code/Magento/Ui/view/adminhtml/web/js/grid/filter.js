@@ -71,13 +71,25 @@ define([
          * @returns {Function} Function, which maps all filters with corresponding action of those and reloads storage
          */
         apply: function (action) {
-            return function () {
-                var params = this.filters.map(function (filter) {
-                    return filter[action].call(filter);
-                });
+            var params = [];
 
-                this.updateParams(params).provider.refresh();    
-            }
+            this.filters.forEach(function (filter) {
+                if( !filter.isEmpty() ){
+                    params.push( filter.dump() );
+                } 
+            });
+
+            console.log(params);
+
+            this.updateParams(params).provider.refresh();    
+        },
+
+        reset: function(){
+            this.filters.forEach(function (filter) {
+                filter.reset();
+            });
+
+            this.updateParams([]).provider.refresh();   
         },
 
         /**
