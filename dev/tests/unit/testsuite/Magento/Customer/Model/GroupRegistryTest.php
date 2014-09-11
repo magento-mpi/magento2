@@ -47,7 +47,7 @@ class GroupRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with($groupId)
             ->will($this->returnValue($group));
-        $group->expects($this->once())
+        $group->expects($this->exactly(2))
             ->method('getId')
             ->will($this->returnValue($groupId));
         $this->groupFactory->expects($this->once())
@@ -101,7 +101,7 @@ class GroupRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with($groupId)
             ->will($this->returnValue($group));
-        $group->expects($this->exactly(2))
+        $group->expects($this->exactly(4))
             ->method('getId')
             ->will($this->returnValue($groupId));
         $this->groupFactory->expects($this->exactly(2))
