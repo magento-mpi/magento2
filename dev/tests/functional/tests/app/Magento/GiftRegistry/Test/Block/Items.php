@@ -11,6 +11,7 @@ namespace Magento\GiftRegistry\Test\Block;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class Items
@@ -33,31 +34,11 @@ class Items extends Block
     protected $updateGiftRegistry = '.action.update';
 
     /**
-     * Product row selector
+     * Item row selector
      *
      * @var string
      */
-    protected $productRow = '//tr[td[contains(@class,"product") and a[contains(.,"%s")]]]';
-
-    /**
-     * Update giftRegistry fields selectors
-     *
-     * @var array
-     */
-    protected $updateFields = [
-        'note' => [
-            'selector' => '[name$="[note]"]',
-            'input' => null
-        ],
-        'qty' => [
-            'selector' => '[name$="[qty]"]',
-            'input' => null
-        ],
-        'delete' => [
-            'selector' => '[name$="[delete]"]',
-            'input' => 'checkbox'
-        ]
-    ];
+    protected $itemRow = '//tr[td[contains(@class,"product") and a[contains(.,"%s")]]]';
 
     /**
      * Info message selector
@@ -88,28 +69,6 @@ class Items extends Block
     }
 
     /**
-     * Fill update giftRegistry item form
-     *
-     * @param CatalogProductSimple $product
-     * @param array $options
-     * @return void
-     */
-    public function fillUpdateForm(CatalogProductSimple $product, array $options)
-    {
-        $productRowSelector = sprintf($this->productRow, $product->getName());
-        $productRow = $this->_rootElement->find($productRowSelector, Locator::SELECTOR_XPATH);
-        foreach ($options as $field => $value) {
-            if ($value !== '-') {
-                $productRow->find(
-                    $this->updateFields[$field]['selector'],
-                    Locator::SELECTOR_CSS,
-                    $this->updateFields[$field]['input']
-                )->setValue($value);
-            }
-        }
-    }
-
-    /**
      * Get info message
      *
      * @return string
@@ -120,21 +79,39 @@ class Items extends Block
     }
 
     /**
-     * Get item data from form
+     * Get Gift Registry item form block
      *
-     * @param CatalogProductSimple $product
+     * @param CatalogProductSimple $item
+     * @return \Magento\GiftRegistry\Test\Block\Items\ItemForm
+     */
+    protected function getItemForm(CatalogProductSimple $item)
+    {
+        return $this->blockFactory->create(
+            'Magento\GiftRegistry\Test\Block\Items\ItemForm',
+            ['element' => $this->_rootElement->find(sprintf($this->itemRow, $item->getName()), Locator::SELECTOR_XPATH)]
+        );
+    }
+
+    /**
+     * Fill Gift Registry item form
+     *
+     * @param CatalogProductSimple $item
+     * @param array $updateOptions
+     * @return void
+     */
+    public function fillItemForm(CatalogProductSimple $item, $updateOptions)
+    {
+        $this->getItemForm($item)->fillForm($updateOptions);
+    }
+
+    /**
+     * Get Gift Registry item form data
+     *
+     * @param CatalogProductSimple $item
      * @return array
      */
-    public function getItemFormData(CatalogProductSimple $product)
+    public function getItemData(CatalogProductSimple $item)
     {
-        $data = [];
-        $productRowSelector = sprintf($this->productRow, $product->getName());
-        $productRow = $this->_rootElement->find($productRowSelector, Locator::SELECTOR_XPATH);
-        foreach ($this->updateFields as $field => $locator) {
-            $data[$field] = $productRow->find($locator['selector'], Locator::SELECTOR_CSS, $locator['input'])
-                ->getValue();
-        }
-
-        return $data;
+        return $this->getItemForm($item)->getData();
     }
 }

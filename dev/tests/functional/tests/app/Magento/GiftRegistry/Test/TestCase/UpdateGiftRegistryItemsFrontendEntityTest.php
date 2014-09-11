@@ -23,7 +23,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
 /**
- * Test Creation for Manage/UpdateItemsGiftRegistryEntity on the Front
+ * Test Creation for Manage/UpdateItemsGiftRegistryEntity on the Frontend
  *
  * Test Flow:
  *
@@ -31,21 +31,18 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
  * 1. Register Customer
  * 2. Gift Registry is created
  * 3. Product is created
- * 4. Product is added to Gift Registry
+ * 4. Login as a Customer
+ * 5. Product is added to Gift Registry
  *
  * Steps:
- * 1. Go to frontend
- * 2. Login as a Customer
- * 3. Go to My Account -> Gift Registry
- * 4. Press on appropriate Gift Registry "Manage Items" button
- * 5. Edit data according to DataSet
- * 6. Click Update button
- * 7. Perform Asserts
+ * 1. Edit data according to DataSet
+ * 2. Click Update button
+ * 3. Perform Asserts
  *
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-28196
  */
-class UpdateGiftRegistryItemsEntityTest extends Injectable
+class UpdateGiftRegistryItemsFrontendEntityTest extends Injectable
 {
     /**
      * Cms index page
@@ -167,7 +164,7 @@ class UpdateGiftRegistryItemsEntityTest extends Injectable
     }
 
     /**
-     * Update GiftRegistry Items Entity
+     * Update GiftRegistry Items Entity on the Frontend
      *
      * @param GiftRegistry $giftRegistry
      * @param CustomerInjectable $customer
@@ -190,7 +187,7 @@ class UpdateGiftRegistryItemsEntityTest extends Injectable
         $this->catalogProductView->getViewBlock()->clickAddToCart();
         $this->checkoutCart->getGiftRegistryCart()->addToGiftRegistry($giftRegistry->getTitle());
         // Steps
-        $this->giftRegistryItems->getGiftRegistryItemsBlock()->fillUpdateForm($product, $updateOptions);
+        $this->giftRegistryItems->getGiftRegistryItemsBlock()->fillItemForm($product, $updateOptions);
         $this->giftRegistryItems->getGiftRegistryItemsBlock()->updateGiftRegistry();
     }
 

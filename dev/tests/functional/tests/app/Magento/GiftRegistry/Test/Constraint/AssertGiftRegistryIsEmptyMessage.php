@@ -13,7 +13,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
 /**
  * Class AssertGiftRegistryIsEmptyMessage
- * Assert that after update a Gift Registry items info message appears
+ * Assert that after update a Gift Registry items Gift Registry has no items message appears
  */
 class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
 {
@@ -30,7 +30,7 @@ class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that info message is displayed after gift registry items has been updated
+     * Assert that Gift Registry has no items message is displayed after gift registry items has been updated
      *
      * @param GiftRegistryItems $giftRegistryItems
      * @return void
@@ -52,6 +52,6 @@ class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry items info message is present.';
+        return 'Gift registry has no items message is present.';
     }
 }

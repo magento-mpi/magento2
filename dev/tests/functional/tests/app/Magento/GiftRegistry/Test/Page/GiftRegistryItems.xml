@@ -16,7 +16,7 @@
         </giftRegistryItemsBlock>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>
-            <locator>.messages</locator>
+            <locator>.page.messages .messages</locator>
             <strategy>css selector</strategy>
         </messagesBlock>
     </blocks>
