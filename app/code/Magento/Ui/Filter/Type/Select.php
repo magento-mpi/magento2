@@ -23,7 +23,7 @@ class Select implements FilterInterface
     public function getCondition($value)
     {
         $condition = null;
-        if (!empty($value)) {
+        if (!empty($value) || is_numeric($value)) {
             $condition = ['eq' => $value];
         }
 
