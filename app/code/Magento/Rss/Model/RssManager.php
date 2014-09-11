@@ -35,6 +35,7 @@ class RssManager implements RssManagerInterface
     /**
      * Return Rss Data Provider by Rss Feed Id.
      *
+     * @param string $type
      * @return DataProviderInterface
      * @throws \InvalidArgumentException
      */
