@@ -39,10 +39,11 @@ use Mtf\TestCase\Injectable;
  * 3. Open GiftRegistry tab
  * 4. Press on appropriate Gift Registry "Edit" button
  * 5. Edit data according to DataSet
- * 6. Perform Asserts
+ * 6. Click "Update Items and Qty's" button
+ * 7. Perform Asserts
  *
  * @group Gift_Registry_(CS)
- * @ZephyrId
+ * @ZephyrId MAGETWO-28331
  */
 class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
 {
