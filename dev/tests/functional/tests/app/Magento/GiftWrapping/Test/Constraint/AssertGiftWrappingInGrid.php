@@ -29,12 +29,14 @@ class AssertGiftWrappingInGrid extends AbstractConstraint
      *
      * @param GiftWrappingIndex $giftWrappingIndexPage
      * @param GiftWrapping $giftWrapping
+     * @param string $status
      * @param GiftWrapping $initialGiftWrapping
      * @return void
      */
     public function processAssert(
         GiftWrappingIndex $giftWrappingIndexPage,
         GiftWrapping $giftWrapping,
+        $status = '-',
         GiftWrapping $initialGiftWrapping = null
     ) {
         $data = ($initialGiftWrapping !== null)
@@ -43,7 +45,7 @@ class AssertGiftWrappingInGrid extends AbstractConstraint
         reset($data['website_ids']);
         $filter = [
             'design' => $data['design'],
-            'status' => $data['status'],
+            'status' => $status === '-' ? $data['status'] : $status,
             'website_ids' => current($data['website_ids']),
             'base_price' => $data['base_price'],
         ];

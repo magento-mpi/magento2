@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
+namespace Magento\Reports\Test\Block\Adminhtml\Sales\Coupons;
 
 use Magento\Backend\Test\Block\GridPageActions;
 
 /**
  * Class Action
- * Action block for Product Views Report
+ * Action block for Coupons Views Report
  */
 class Action extends GridPageActions
 {

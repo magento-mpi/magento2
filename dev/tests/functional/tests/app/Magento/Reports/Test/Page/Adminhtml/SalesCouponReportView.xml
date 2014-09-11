@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="reports/report_sales/coupons" module="Magento_Reports">
+    <blocks>
+        <filterBlock>
+            <class>Magento\Reports\Test\Block\Adminhtml\Sales\Coupons\Filter</class>
+            <locator>#filter_form</locator>
+            <strategy>css selector</strategy>
+        </filterBlock>
+        <actionBlock>
+            <class>Magento\Reports\Test\Block\Adminhtml\Sales\Coupons\Action</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </actionBlock>
+        <gridBlock>
+            <class>Magento\Reports\Test\Block\Adminhtml\Sales\Coupons\Grid</class>
+            <locator>//*[@class="grid"]/..</locator>
+            <strategy>xpath</strategy>
+        </gridBlock>
+    </blocks>
+</page>

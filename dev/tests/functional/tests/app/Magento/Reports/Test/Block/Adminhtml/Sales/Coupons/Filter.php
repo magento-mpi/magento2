@@ -6,19 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
+namespace Magento\Reports\Test\Block\Adminhtml\Sales\Coupons;
 
 use Mtf\Block\Form;
 use Mtf\ObjectManager;
 
 /**
  * Class Filter
- * Filter for Product Views Report
+ * Filter for Coupons Views Report
  */
 class Filter extends Form
 {
     /**
-     * Search products in report grid
+     * Search coupons in report grid
      *
      * @var array $productsReport
      * @return void
@@ -39,14 +39,16 @@ class Filter extends Form
     protected function prepareData(array $viewsReport)
     {
         foreach ($viewsReport as $name => $reportFilter) {
-            if ($name === 'period_type' || $name === 'show_empty_rows') {
-                continue;
+            if ($reportFilter == '-') {
+                unset($viewsReport[$name]);
             }
-            $date = ObjectManager::getInstance()->create(
-                '\Magento\Backend\Test\Fixture\Date',
-                ['params' => [], 'data' => ['pattern' => $reportFilter]]
-            );
-            $viewsReport[$name] = $date->getData();
+            if ($name === 'from' || $name === 'to') {
+                $date = ObjectManager::getInstance()->create(
+                    '\Magento\Backend\Test\Fixture\Date',
+                    ['params' => [], 'data' => ['pattern' => $reportFilter]]
+                );
+                $viewsReport[$name] = $date->getData();
+            }
         }
         return $viewsReport;
     }
