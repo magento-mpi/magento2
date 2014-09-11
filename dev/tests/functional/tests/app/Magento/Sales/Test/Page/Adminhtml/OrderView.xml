@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order/view/index" module="Magento_Sales">
+    <blocks>
+        <pageActions>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Actions</class>
+            <locator>.page-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
+</page>
