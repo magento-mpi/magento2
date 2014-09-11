@@ -39,7 +39,7 @@
 
 .form-new-agreement {
     .actions-toolbar {
-        &:extend(.reset-left-margin all);
+        &:extend(.abstract-reset-left-margin all);
     }
 }
 
@@ -64,7 +64,7 @@
     }
 
     .items-qty {
-        &:extend(.reset-list all);
+        &:extend(.abstract-reset-list all);
         .item {
             white-space: nowrap;
         }
@@ -122,7 +122,7 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .paypal-review .table-paypal-review-items {
-        &:extend(.table-vertical-mobile all);
+        &:extend(.abstract-table-vertical-mobile all);
     }
 }
 
@@ -132,7 +132,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .paypal-review {
         .block-content {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .box-order-shipping-address,
             .box-order-shipping-method,
             .box-order-shipping-method + .box-order-billing-address {
@@ -147,7 +147,7 @@
         }
         .column.main & {
             .actions-toolbar {
-                &:extend(.reset-left-margin-desktop all);
+                &:extend(.abstract-reset-left-margin-desktop all);
             }
         }
         .table-paypal-review-items {
@@ -172,7 +172,7 @@
     .form-new-agreement {
         .fieldset .legend,
         .actions-toolbar {
-            &:extend(.reset-left-margin-desktop all);
+            &:extend(.abstract-reset-left-margin-desktop all);
         }
     }
 }

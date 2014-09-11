@@ -32,7 +32,7 @@
         }
     }
     .items-qty {
-        &:extend(.reset-list all);
+        &:extend(.abstract-reset-list all);
         .item {
             white-space: nowrap;
         }
@@ -236,7 +236,7 @@
             }
         }
         .toolbar {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .pages {
                 float: right;
             }
@@ -281,9 +281,9 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.add-clearfix-desktop all);
+                    &:extend(.abstract-add-clearfix-desktop all);
                     .box {
-                        &:extend(.blocks-2columns all);
+                        &:extend(.abstract-blocks-2columns all);
                         margin-bottom: @indent-base;
                     }
                 }
