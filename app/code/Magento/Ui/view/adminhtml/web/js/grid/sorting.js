@@ -54,12 +54,13 @@ define([
          * @return {Object} - reference to instance
          */
         attachTemplateExtender: function () {
-            var provider = this.provider.dump,
-                extenders = this.provider.dump.get('extenders');
-
+            var provider    = this.provider.dump,
+                extenders   = provider.get('extenders');
+                
             extenders.push({
                 path: this.templateExtender,
-                name: this.name
+                name: this.name,
+                as:   'sorting'
             });
 
             provider.trigger('update:extenders', extenders);

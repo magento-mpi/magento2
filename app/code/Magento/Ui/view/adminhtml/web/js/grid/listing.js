@@ -14,8 +14,10 @@ define([
 
     var Listing =  Scope.extend({
         initialize: function(settings) {
+            _.extend(this, settings);
+
             this.initObservable()
-                .initProvider(settings)
+                .initProvider()
                 .updateItems();
             
             this.fields = this.provider.meta.get('fields');
@@ -26,27 +28,29 @@ define([
                 rows:       [],
                 view:       'grid',
                 isLocked:   false,
-                templateExtenders: []
+                templateExtenders: [],
+                extenders: []
             });
 
             return this;
         },
 
-        initProvider: function(settings) {
-            this.provider = settings.provider;
-
+        initProvider: function() {
             this.provider.on({
                 'beforeRefresh':    this.lock.bind(this),
                 'refresh':          this.onRefresh.bind(this)
             });
 
-            this.provider.dump.on('update:extenders', this.updateExtenders);
+            this.provider.dump.wait('update:extenders', this.updateExtenders.bind(this));
 
             return this;
         },
 
         updateExtenders: function (extenders) {
-            this.templateExtenders(extenders);
+            var adjusted = extenders.reduce(this.adjustExtender, {});
+            this.extenders(adjusted);
+
+            this.templateExtenders(extenders.map(this.adjustTemplateExtender, this));
         },
 
         updateItems: function() {
@@ -57,16 +61,18 @@ define([
             return this;
         },
 
+        getExtenderName: function(){
+
+        },
+
         getCellTemplateFor: function(field) {
             return this.getRootTemplatePath() + '.cell.' + field.data_type;
         },
 
         getTemplate: function() {
-            var templateExtenders = this.templateExtenders();
-
             return {
                 name:      'Magento_Ui.templates.listing.' + this.view(),
-                extenders: templateExtenders.map(this.adjustTemplateExtender.bind(this))
+                extenders: this.templateExtenders()
             };
         },
 
@@ -76,6 +82,12 @@ define([
 
         getRootTemplatePath: function() {
             return 'Magento_Ui.templates.listing.' + this.view();
+        },
+
+        adjustExtender: function (adjusted, extender) {
+            adjusted[extender.as] = extender.name;
+
+            return adjusted;
         },
 
         onRefresh: function() {
