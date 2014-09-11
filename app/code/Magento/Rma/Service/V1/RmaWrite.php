@@ -35,17 +35,21 @@ class RmaWrite implements RmaWriteInterface
     }
 
     /**
-     * @param $rmaId
-     * @param $number
-     * @param $carrier
-     * @param string $title
+     * @param int $rmaId
+     * @param string $trackNumber
+     * @param string $carrierCode
+     * @param string $carrierTitle
      *
+     * @throws \Exception
      * @return bool
      */
-    public function addTrack($rmaId, $number, $carrier, $title = '')
+    public function addTrack($rmaId, $trackNumber, $carrierCode = '', $carrierTitle = '')
     {
         $rmaModel = $this->rmaRepository->get($rmaId);
-        return (bool)$this->labelService->addTrack($rmaModel->getId(), $number, $carrier, $title);
+        if ($rmaModel->getId()) {
+            return (bool)$this->labelService->addTrack($rmaModel->getId(), $trackNumber, $carrierCode, $carrierTitle);
+        }
+        return false;
     }
 
     /**

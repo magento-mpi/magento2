@@ -11,13 +11,14 @@ interface RmaWriteInterface
 {
     /**
      * @param int $rmaId
-     * @param string|mixed $number
-     * @param string|mixed $carrier
-     * @param string $title
+     * @param string $trackNumber
+     * @param string $carrierCode
+     * @param string $carrierTitle
      *
+     * @throws \Exception
      * @return bool
      */
-    public function addTrack($rmaId, $number, $carrier, $title = '');
+    public function addTrack($rmaId, $trackNumber, $carrierCode = '', $carrierTitle = '');
 
     /**
      * @param int $rmaId

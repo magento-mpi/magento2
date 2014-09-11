@@ -208,15 +208,15 @@ class LabelService
 
     /**
      * @param int $id
-     * @param string|mixed $number
-     * @param string|mixed $carrier
-     * @param string|mixed $title
+     * @param string $number
+     * @param string $carrier
+     * @param string $title
      * @param int|null $isAdmin
      *
      * @return bool
      * @throws \Exception
      */
-    public function addTrack($id, $number, $carrier, $title = '', $isAdmin = null)
+    public function addTrack($id, $number, $carrier = '', $title = '', $isAdmin = null)
     {
         try {
             if (is_null($isAdmin)) {
@@ -224,19 +224,15 @@ class LabelService
             }
             /** @var $shippingModel \Magento\Rma\Model\Shipping */
             $shippingModel = $this->shippingFactory->create();
-            $shippingModel->setTrackNumber(
-                $number
-            )->setCarrierCode(
-                $carrier
-            )->setCarrierTitle(
-                $title
-            )->setRmaEntityId(
-                $id
-            )->setIsAdmin(
-                $isAdmin
-            )->save();
+            $shippingModel->setTrackNumber($number)
+                ->setCarrierCode(
+                    ($carrier) ?: 'custom'
+                )->setCarrierTitle($title)
+                ->setRmaEntityId($id)
+                ->setIsAdmin($isAdmin)
+                ->save();
         } catch (\Exception $e) {
-            throw new \Exception(__('We cannot add track.'));
+            throw new \Exception(__($e->getMessage()));
         }
         return true;
     }
