@@ -128,7 +128,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
                 'from' => '0',
                 'to' => '10',
                 'isNegation' => true,
-                'expectedResult' => 'testField < \'0\' AND testField >= \'10\'',
+                'expectedResult' => 'testField < \'0\' OR testField >= \'10\'',
             ],
             'rangeWithoutFromValue' => [
                 'field' => 'testField',
