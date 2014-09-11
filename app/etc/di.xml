@@ -13,7 +13,6 @@
     <preference for="Magento\Framework\App\ResponseInterface" type="Magento\Framework\App\Response\Http" />
     <preference for="Magento\Framework\App\RouterListInterface" type="Magento\Framework\App\RouterList" />
     <preference for="Magento\Framework\App\FrontControllerInterface" type="Magento\Framework\App\FrontController" />
-    <preference for="Magento\Framework\Module\UpdaterInterface" type="Magento\Framework\Module\Updater" />
     <preference for="Magento\Framework\App\CacheInterface" type="Magento\Framework\App\Cache\Proxy" />
     <preference for="Magento\Framework\App\Cache\StateInterface" type="Magento\Framework\App\Cache\State" />
     <preference for="Magento\Framework\App\Cache\TypeListInterface" type="Magento\Framework\App\Cache\TypeList" />
@@ -96,7 +95,6 @@
             <argument name="pathInfoProcessor" xsi:type="object">Magento\Store\App\Request\PathInfoProcessor\Proxy</argument>
         </arguments>
     </type>
-    <preference for="Magento\Framework\Error\HandlerInterface" type="Magento\Framework\App\Error\Handler" />
     <preference for="Magento\Framework\Session\SaveHandlerInterface" type="Magento\Framework\Session\SaveHandler" />
     <type name="Magento\Framework\Session\SaveHandler">
         <arguments>
@@ -121,7 +119,7 @@
             <argument name="mode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\Module\FrontController\Plugin\Install">
+    <type name="Magento\Framework\Module\Plugin\DbStatusValidator">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
         </arguments>
