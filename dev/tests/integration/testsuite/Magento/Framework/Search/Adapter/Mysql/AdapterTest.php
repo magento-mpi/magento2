@@ -251,7 +251,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testBoolFilterWithNestedRangeInNegativeBoolFilter()
     {
-        $expectedIds = [5, 4, 1];
+        $expectedIds = [1, 4, 5];
         $bindValues = [
             '%request.nested_must_range_filter.from%' => 2,
             '%request.nested_must_range_filter.to%' => 4,
@@ -265,6 +265,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             /** @var \Magento\Framework\Search\Document $document */
             $actualIds[] = $document->getId();
         }
+        sort($actualIds);
         $this->assertEquals($expectedIds, $actualIds);
     }
 
