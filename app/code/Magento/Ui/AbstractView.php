@@ -53,6 +53,13 @@ abstract class AbstractView extends Template implements ViewInterface
     protected $viewConfiguration = [];
 
     /**
+     * Global config storage
+     *
+     * @var array
+     */
+    protected $globalConfig = [];
+
+    /**
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ContentTypeFactory $factory
@@ -196,6 +203,16 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function addConfigData(AbstractView $view, array $data)
     {
-        $this->viewConfiguration['config']['components'][$view->getName()] = $data;
+        $this->globalConfig['config']['components'][$view->getName()] = $data;
+    }
+
+    /**
+     * Getting JSON global configuration data
+     *
+     * @return string
+     */
+    public function getGlobalConfigJson()
+    {
+        return json_encode($this->globalConfig);
     }
 }
