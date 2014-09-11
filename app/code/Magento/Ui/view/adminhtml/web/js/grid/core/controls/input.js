@@ -27,6 +27,10 @@ define([
             return !this.value();
         },
 
+        display: function(){
+            return this.value();
+        },
+
         /**
          * Returns dump of instance's current state
          * @returns {Object} - object which represents current state of instance

@@ -25,7 +25,7 @@ define([
                 to:   ''
             });
         },
-
+        
         getValues: function(){
             var value = {},
                 from = this.from(),
@@ -40,6 +40,18 @@ define([
             }
 
             return value;
+        },
+
+        display: function(){
+            var key,
+                values = this.getValues(),
+                result = [];
+
+            for(key in values){
+                result.push(key + ': ' + values[key]);
+            }
+
+            return result.join(' ');
         },
 
         isEmpty: function(){
