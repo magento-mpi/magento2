@@ -106,27 +106,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         }
         $result[$root] = [$root, 'project'];
 
-        return $this->applyBlackList($result);
-    }
-
-    /**
-     * @param array $directories
-     * @return array mixed
-     */
-    protected function applyBlackList($directories)
-    {
-        $blackList = file(__DIR__ . '/_files/blacklist/composer.txt', FILE_IGNORE_NEW_LINES);
-        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
-
-        foreach ($blackList as $excludedModule) {
-            foreach ($directories as $key => $module) {
-                $modulePath = str_replace($root, '', $module[0]);
-                if ($modulePath === $excludedModule) {
-                    unset($directories[$key]);
-                }
-            }
-        }
-        return $directories;
+        return $result;
     }
 
     /**
@@ -311,6 +291,9 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertModuleDependenciesInSync(\SimpleXMLElement $xml, \StdClass $json)
     {
         $packages = [];
+        if (empty($xml->module->depends)) {
+            return;
+        }
         /** @var \SimpleXMLElement $node */
         foreach ($xml->module->depends->children() as $node) {
             if ('module' === $node->getName()) {
