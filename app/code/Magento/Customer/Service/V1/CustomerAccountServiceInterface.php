@@ -86,7 +86,7 @@ interface CustomerAccountServiceInterface
     /**
      * Retrieve Customer
      *
-     * @param int $customerId
+     * @param string $customerId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return \Magento\Customer\Service\V1\Data\Customer
      */
@@ -95,7 +95,7 @@ interface CustomerAccountServiceInterface
     /**
      * Used to activate a customer account using a key that was sent in a confirmation e-mail.
      *
-     * @param int $customerId
+     * @param string $customerId
      * @param string $confirmationKey Sent to customer in an confirmation e-mail.
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer doesn't exist
@@ -128,7 +128,7 @@ interface CustomerAccountServiceInterface
     /**
      * Change customer password.
      *
-     * @param int $customerId
+     * @param string $customerId
      * @param string $currentPassword
      * @param string $newPassword
      * @return bool True if password changed
@@ -150,7 +150,7 @@ interface CustomerAccountServiceInterface
     /**
      * Check if password reset token is valid
      *
-     * @param int $customerId
+     * @param string $customerId
      * @param string $resetPasswordLinkToken
      * @return void
      * @throws \Magento\Framework\Exception\State\InputMismatchException If token is mismatched
@@ -165,7 +165,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email
      * @param string $template Type of email to send.  Must be one of the email constants.
-     * @param int $websiteId Optional id.  If the website id is not provided
+     * @param string $websiteId Optional id.  If the website id is not provided
      *                       it will be retrieved from the store manager
      * @return void
      */
@@ -174,7 +174,7 @@ interface CustomerAccountServiceInterface
     /**
      * Reset customer password.
      *
-     * @param int $customerId
+     * @param string $customerId
      * @param string $resetToken Token sent to customer via e-mail
      * @param string $newPassword
      * @return void
@@ -188,7 +188,7 @@ interface CustomerAccountServiceInterface
     /**
      * Gets the account confirmation status
      *
-     * @param int $customerId
+     * @param string $customerId
      * @return string returns one of the account confirmation statuses
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
@@ -224,7 +224,7 @@ interface CustomerAccountServiceInterface
      * Indicates if the Customer for the provided customerId is restricted to being read only
      * for the currently logged in user, or if modifications can be made.
      *
-     * @param int $customerId
+     * @param string $customerId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool true if modifications can be made; false if read only.
      */
@@ -234,7 +234,7 @@ interface CustomerAccountServiceInterface
      * Indicates if the Customer for the currently logged in user as specified by the provided
      * customerId can be deleted.
      *
-     * @param int $customerId
+     * @param string $customerId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool true if the customer can be deleted
      */
@@ -243,7 +243,7 @@ interface CustomerAccountServiceInterface
     /**
      * Retrieve customer details
      *
-     * @param int $customerId
+     * @param string $customerId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return \Magento\Customer\Service\V1\Data\CustomerDetails
      */
@@ -252,7 +252,7 @@ interface CustomerAccountServiceInterface
     /**
      * Delete Customer
      *
-     * @param int $customerId
+     * @param string $customerId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool True if the customer was deleted
@@ -271,8 +271,8 @@ interface CustomerAccountServiceInterface
     /**
      * Check store availability for customer given the customerId
      *
-     * @param int $customerWebsiteId
-     * @param int $storeId
+     * @param string $customerWebsiteId
+     * @param string $storeId
      * @return bool
      */
     public function isCustomerInStore($customerWebsiteId, $storeId);
@@ -281,7 +281,7 @@ interface CustomerAccountServiceInterface
      * Retrieve customer
      *
      * @param string $customerEmail
-     * @param int $websiteId If not set, will use the current websiteId
+     * @param string $websiteId If not set, will use the current websiteId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerEmail is not found.
      * @return \Magento\Customer\Service\V1\Data\Customer
      */
@@ -291,7 +291,7 @@ interface CustomerAccountServiceInterface
      * Retrieve customer details
      *
      * @param string $customerEmail
-     * @param int $websiteId If not set, will use the current websiteId
+     * @param string $websiteId If not set, will use the current websiteId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerEmail is not found.
      * @return \Magento\Customer\Service\V1\Data\CustomerDetails
      */
@@ -304,7 +304,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerEmail
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
-     * @param int $websiteId If not set, will use the current websiteId
+     * @param string $websiteId If not set, will use the current websiteId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerDetails is not found.
      * @return bool True if this customer was updated
      */
@@ -318,7 +318,7 @@ interface CustomerAccountServiceInterface
      * Delete Customer by email
      *
      * @param string $customerEmail
-     * @param int $websiteId If not set, will use the current websiteId
+     * @param string $websiteId If not set, will use the current websiteId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool True if the customer was deleted

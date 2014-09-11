@@ -52,7 +52,7 @@ interface CustomerGroupServiceInterface
     /**
      * Get default group
      *
-     * @param int $storeId Defaults the current store
+     * @param string $storeId Defaults the current store
      * @throws \Magento\Framework\Exception\NoSuchEntityException If default group for $storeId is not found
      * @return \Magento\Customer\Service\V1\Data\CustomerGroup
      */
