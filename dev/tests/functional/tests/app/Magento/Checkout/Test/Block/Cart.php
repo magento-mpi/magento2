@@ -42,21 +42,21 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $itemSubTotalSelector = '//td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
+    protected $itemSubTotal = '//td[@class="col subtotal"]//*[@class="price-excluding-tax"]//span[@class="price"]';
 
     /**
      * Cart item unit price xpath selector
      *
      * @var string
      */
-    protected $itemUnitPriceSelector = '//td[@class="col price"]//*[@class="excl tax"]//span[@class="price"]';
+    protected $itemUnitPrice = '//td[@class="col price"]//*[@class="price-excluding-tax"]//span[@class="price"]';
 
     /**
      * Unit Price value
      *
      * @var string
      */
-    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price"]/*[@class="excl tax"]/span';
+    protected $cartProductPrice = '//tr[contains(.,"%s")]/td[@class="col price"]/*[@class="price-excluding-tax"]/span';
 
     /**
      * 'Update Shopping Cart' button
@@ -94,7 +94,7 @@ class Cart extends Block
      */
     public function getCartItemSubTotal($product)
     {
-        $selector = sprintf($this->cartItem, $this->getProductName($product)) . $this->itemSubTotalSelector;
+        $selector = sprintf($this->cartItem, $this->getProductName($product)) . $this->itemSubTotal;
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }
 
@@ -106,7 +106,7 @@ class Cart extends Block
      */
     public function getCartItemSubTotalByProductName($productName)
     {
-        $selector = sprintf($this->cartItem, $productName) . $this->itemSubTotalSelector;
+        $selector = sprintf($this->cartItem, $productName) . $this->itemSubTotal;
         $itemSubtotal = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
         return $this->escapeCurrency($itemSubtotal);
     }
@@ -120,7 +120,7 @@ class Cart extends Block
      */
     public function getCartItemUnitPrice($product, $currency = '$')
     {
-        $selector = sprintf($this->cartItem, $this->getProductName($product)) . $this->itemUnitPriceSelector;
+        $selector = sprintf($this->cartItem, $this->getProductName($product)) . $this->itemUnitPrice;
         $prices = explode("\n", trim($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText()));
         return floatval(trim($prices[0], $currency));
     }
