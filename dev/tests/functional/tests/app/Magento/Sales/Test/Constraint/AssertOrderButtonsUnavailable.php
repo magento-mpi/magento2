@@ -14,10 +14,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
- * Class AssertNoButtons
+ * Class AssertOrderButtonsUnavailable
  * Assert that buttons from dataSet are not present on page
  */
-class AssertNoButtons extends AbstractConstraint
+class AssertOrderButtonsUnavailable extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -32,14 +32,18 @@ class AssertNoButtons extends AbstractConstraint
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderInjectable $order
-     * @param string $buttons
+     * @param string $orderButtonsUnavailable
      * @return void
      */
-    public function processAssert(OrderIndex $orderIndex, OrderView $orderView, OrderInjectable $order, $buttons)
-    {
+    public function processAssert(
+        OrderIndex $orderIndex,
+        OrderView $orderView,
+        OrderInjectable $order,
+        $orderButtonsUnavailable
+    ) {
         $orderIndex->open();
         $orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        $buttons = explode(',', $buttons);
+        $buttons = explode(',', $orderButtonsUnavailable);
         $matches = [];
         foreach ($buttons as $button) {
             if ($orderView->getPageActions()->isActionButtonVisible(trim($button))) {

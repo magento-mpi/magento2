@@ -54,7 +54,7 @@
     <assertUnholdButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertUnholdButton>
-    <assertNoButtons module="Magento_Sales">
+    <assertOrderButtonsUnavailable module="Magento_Sales">
         <severeness>low</severeness>
-    </assertNoButtons>
+    </assertOrderButtonsUnavailable>
 </constraint>
