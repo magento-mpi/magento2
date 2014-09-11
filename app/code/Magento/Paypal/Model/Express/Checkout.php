@@ -186,7 +186,7 @@ class Checkout
     protected $_paypalInfo;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -281,7 +281,7 @@ class Checkout
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Paypal\Model\Info $paypalInfo
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $coreUrl
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Framework\Logger\AdapterFactory $logFactory
@@ -292,7 +292,7 @@ class Checkout
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilderFactory
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
@@ -310,7 +310,7 @@ class Checkout
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Paypal\Model\Info $paypalInfo,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $coreUrl,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Framework\Logger\AdapterFactory $logFactory,
@@ -321,7 +321,7 @@ class Checkout
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilderFactory,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
@@ -347,7 +347,7 @@ class Checkout
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerAccountService = $customerAccountService;
-        $this->_addressBuilderFactory = $addressBuilder;
+        $this->_addressBuilderFactory = $addressBuilderFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_encryptor = $encryptor;
@@ -533,7 +533,9 @@ class Checkout
 
         // suppress or export shipping address
         if ($this->_quote->getIsVirtual()) {
-            if ($this->_config->getConfigValue('requireBillingAddress') == PaypalConfig::REQUIRE_BILLING_ADDRESS_VIRTUAL) {
+            if ($this->_config->getConfigValue('requireBillingAddress')
+                == PaypalConfig::REQUIRE_BILLING_ADDRESS_VIRTUAL
+            ) {
                 $this->_api->setRequireBillingAddress(1);
             }
             $this->_api->setSuppressShipping(true);
@@ -1265,6 +1267,7 @@ class Checkout
             // @codingStandardsIgnoreEnd
             );
         } else {
+            $this->getCustomerSession()->regenerateId();
             $this->getCustomerSession()->loginById($customer->getId());
         }
         return $this;

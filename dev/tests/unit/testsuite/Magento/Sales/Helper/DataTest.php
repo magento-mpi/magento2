@@ -39,7 +39,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
