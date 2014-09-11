@@ -69,6 +69,7 @@ class View extends AbstractView
         $this->addConfigData($this, $this->viewConfiguration);
 
         $this->renderContext->register($this->getName(), $this->getData('dataSource'));
+        $this->renderContext->register($this->getName() . 'meta/fields', $this->getData('meta/fields'));
     }
 
     /**
@@ -158,13 +159,20 @@ class View extends AbstractView
     {
         $this->globalConfig['config']['client']['root'] = $this->getUrl($this->getData('client_root'));
         $this->globalConfig['config']['client']['ajax']['data']['component'] = $this->getNameInLayout();
+
         $this->globalConfig['dump']['extenders'] = [];
-        $this->globalConfig['meta']['fields'] = array_values($this->getData('meta/fields'));
+
+        $this->globalConfig['meta']['fields'] = array_values(
+            $this->renderContext->getMetaFields($this->getName() . 'meta/fields')
+        );
         $this->globalConfig['data']['items'] = $this->getCollectionItems();
+
         $countItems = $this->renderContext->registry($this->getName())->getSize();
+
         $this->globalConfig['data']['pages'] = ceil(
             $countItems / $this->renderContext->getRequestParam('limit', 5) // TODO fixme
         );
+
         $this->globalConfig['data']['totalCount'] = $countItems;
     }
 }

@@ -7,13 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <block class="Magento\Ui\Listing\View" name="listing">
         <arguments>
             <argument name="template" xsi:type="string">Magento_Ui::listing/grid/horizontal.phtml</argument>
-            <argument name="default_dir" xsi:type="string">desc</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
             <argument name="client_root" xsi:type="string">mui/listing/ajax</argument>
+            <argument name="config" xsi:type="array">
+                <item name="params" xsi:type="array">
+                    <item name="direction" xsi:type="string">asc</item>
+                </item>
+            </argument>
         </arguments>
         <block class="Magento\Framework\View\Element\Text\ListText" name="listing_before">
             <block class="Magento\Ui\Paging\View" name="paging_small">
@@ -24,6 +29,11 @@
             <block class="Magento\Ui\Filter\View" name="filter_base">
                 <arguments>
                     <argument name="template" xsi:type="string">Magento_Ui::filter/default.phtml</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Ui\Sorting\View" name="sorting_base">
+                <arguments>
+                    <argument name="template" xsi:type="string">Magento_Ui::sorting/default.phtml</argument>
                 </arguments>
             </block>
         </block>

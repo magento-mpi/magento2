@@ -13,16 +13,6 @@
         <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
-<div data-m2-init='{ "Magento_Ui/js/grid/sorting": "" }'>
-    <script type="mage/config">
-        {
-            "parent_name": "cms_page_listing",
-            "name": "sorting_a",
-            "field": "page_id",
-            "direction": "asc"
-        }
-    </script>
-</div>
 <div class="grid">
     <?php echo $this->getChildHtml('listing_before'); ?>
     <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
