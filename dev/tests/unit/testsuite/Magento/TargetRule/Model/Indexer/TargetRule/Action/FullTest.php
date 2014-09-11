@@ -41,7 +41,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
             ->method('saveProductIndex')
             ->will($this->returnValue(1));
 
-        $storeManagerMock = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
+        $storeManagerMock = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
         $timezoneMock = $this->getMockForAbstractClass('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
 
         $model = new \Magento\TargetRule\Model\Indexer\TargetRule\Action\Full(

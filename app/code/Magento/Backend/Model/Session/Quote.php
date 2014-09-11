@@ -63,7 +63,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $_quoteFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -84,7 +84,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -99,7 +99,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_quoteFactory = $quoteFactory;
