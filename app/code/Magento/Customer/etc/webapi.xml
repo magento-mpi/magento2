@@ -28,6 +28,12 @@
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
+    <route url="/V1/customerGroups/default" method="GET">
+        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="getDefaultGroup"/>
+        <resources>
+            <resource ref="Magento_Customer::group"/>
+        </resources>
+    </route>
     <route url="/V1/customerGroups/:groupId/permissions" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="canDelete"/>
         <resources>
