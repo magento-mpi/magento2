@@ -1,28 +1,61 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'ko',
     './observable_source',
-    'Magento_Ui/js/lib/renderer/renderer',
+    '../../renderer/renderer',
     'm2/m2'
 ], function (ko, Source, Renderer, M2) {
     'use strict';
 
     var sources = {};
 
-    var CustomTemplateEngine = function() {};
-    var NativeTemplateEngine = ko.nativeTemplateEngine;
-    CustomTemplateEngine.prototype = new NativeTemplateEngine;
-    CustomTemplateEngine.prototype.constructor = CustomTemplateEngine;
+    /**
+     * Creates unique template identifier based on template name and it's extenders (optional)
+     * @param  {String} templateName
+     * @param  {Object} templateOptions
+     * @return {String} - unique template identifier
+     */
+    function createTemplateIdentifier(templateName, templateOptions) {
+        var extenders = templateOptions.extenders || [];
 
-    CustomTemplateEngine.prototype.makeTemplateSource = function(template, templateDocument, options) {
+        return templateName + '|' + extenders.join(' ');
+    }
+
+    /**
+     * Remote template engine class. Is used to be able to load remote templates via knockout template binding.
+     */
+    var RemoteTemplateEngine = function() {};
+    var NativeTemplateEngine = ko.nativeTemplateEngine;
+
+    RemoteTemplateEngine.prototype = new NativeTemplateEngine;
+    RemoteTemplateEngine.prototype.constructor = RemoteTemplateEngine;
+
+    /**
+     * Overrided method of native knockout template engine.
+     * Caches template after it's unique name and renders in once.
+     * If template name is not typeof string, delegates work to knockout.templateSources.anonymousTemplate.
+     * @param  {*} template
+     * @param  {HTMLElement} templateDocument - document
+     * @param  {Object} options - options, passed to template binding
+     * @return {TemplateSource} - object with methods 'nodes' and 'data'.
+     */
+    RemoteTemplateEngine.prototype.makeTemplateSource = function(template, templateDocument, options) {
         var source,
-            extenders = options.extenders || [];
-            
+            extenders = options.extenders || [],
+            templateId;
+
         if (typeof template === 'string') {
-            source = sources[template];
+            templateId = createTemplateIdentifier(template, options);
+            source = sources[templateId];
 
             if (!source) {
                 source = new Source(template);
-                sources[template] = source;
+                sources[templateId] = source;
 
                 Renderer.render(template, extenders).done(function(rendered) {
                     source.nodes(rendered);
@@ -39,17 +72,33 @@ define([
         }
     };
 
-    CustomTemplateEngine.prototype.renderTemplateSource = function (templateSource, bindingContext, options) {
+    /**
+     * Overrided method of native knockout template engine.
+     * Should return array of html elements.
+     * @param  {TemplateSource} templateSource - object with methods 'nodes' and 'data'.
+     * @param  {ko.bindingContext} bindingContext
+     * @param  {Object} options - options, passed to template binding
+     * @return {Array} - array of html elements
+     */
+    RemoteTemplateEngine.prototype.renderTemplateSource = function (templateSource, bindingContext, options) {
         var nodes = templateSource.nodes();
 
         return ko.utils.cloneNodes(nodes);
     };
 
-    CustomTemplateEngine.prototype.renderTemplate = function (template, bindingContext, options, templateDocument) {
+    /**
+     * Overrided method of native knockout template engine.
+     * Created in order to invoke makeTemplateSource method with custom set of params.
+     * @param  {*} template - template identifier
+     * @param  {ko.bindingContext} bindingContext
+     * @param  {Object} options - options, passed to template binding
+     * @param  {HTMLElement} templateDocument - document
+     * @return {Array} - array of html elements
+     */
+    RemoteTemplateEngine.prototype.renderTemplate = function (template, bindingContext, options, templateDocument) {
         var templateSource = this['makeTemplateSource'](template, templateDocument, options);
         return this['renderTemplateSource'](templateSource, bindingContext, options);
     };
-    CustomTemplateEngine.prototype.constructor = CustomTemplateEngine;
 
-    return new CustomTemplateEngine;
+    return new RemoteTemplateEngine;
 });
