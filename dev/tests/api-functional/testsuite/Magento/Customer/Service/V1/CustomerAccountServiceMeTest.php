@@ -55,6 +55,8 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
      */
     public function setUp()
     {
+        $this->_markTestAsRestOnly();
+
         $this->customerRegistry = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Model\CustomerRegistry'
         );

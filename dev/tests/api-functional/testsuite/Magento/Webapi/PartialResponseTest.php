@@ -88,7 +88,7 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     public function testFilterForCustomerApiWithSimpleResponse()
     {
         try {
-            $result = $this->_getCustomerWithFilter('customer', $this->customerData['id'], '/canDelete');
+            $result = $this->_getCustomerWithFilter('customers', $this->customerData['id'], '/permissions/delete');
             //assert if filter is ignored and a normal response is returned
             $this->assertTrue($result);
         } catch (\Exception $e) {
@@ -96,7 +96,7 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         }
     }
 
-    protected function _getCustomerWithFilter($filter, $customerId, $path = '')
+    protected function _getCustomerWithFilter($filter, $customerId, $path = '/details')
     {
         $resourcePath = sprintf(
             '%s/%d%s?fields=%s',

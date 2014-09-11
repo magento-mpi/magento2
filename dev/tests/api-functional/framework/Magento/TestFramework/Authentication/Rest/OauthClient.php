@@ -207,6 +207,16 @@ class OauthClient extends AbstractService
         return $authorizationHeader;
     }
 
+    /**
+     * Builds the oAuth authorization header for an authenticated API request
+     *
+     * @param UriInterface $uri the uri the request is headed
+     * @param \OAuth\OAuth1\Token\TokenInterface $token
+     * @param string $tokenSecret used to verify the passed token
+     * @param array $bodyParams
+     * @param string $method HTTP method to use
+     * @return array
+     */
     public function buildOauthHeaderForApiRequest($uri, $token, $tokenSecret, $bodyParams, $method = 'GET')
     {
         $uri = new Uri($uri);
@@ -219,7 +229,13 @@ class OauthClient extends AbstractService
         );
     }
 
-    public function buildBearerHeaderForApiRequest($token)
+    /**
+     * Builds the bearer token authorization header
+     *
+     * @param string $token
+     * @return array
+     */
+    public function buildBearerTokenHeaderForApiRequest($token)
     {
         return array(
             'Authorization: Bearer ' . $token

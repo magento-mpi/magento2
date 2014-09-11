@@ -18,6 +18,8 @@ class CustomerAddressServiceMeTest extends \Magento\TestFramework\TestCase\Webap
 
     protected function setUp()
     {
+        $this->_markTestAsRestOnly();
+
         // get token
         $serviceInfo = [
             'rest' => [
