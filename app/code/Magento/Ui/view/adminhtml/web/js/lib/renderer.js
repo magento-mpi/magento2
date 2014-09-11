@@ -13,7 +13,7 @@ define([
             this._bind();
 
             loader
-                .loadTemplate(template)
+                .loadTemplate(template[0])
                 .then(this._parse)
                 .done(isRendered.resolve.bind(isRendered));
 

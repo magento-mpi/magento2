@@ -10,12 +10,12 @@ define([
 
     var CustomTemplateEngine = function() {};
     var NativeTemplateEngine = ko.nativeTemplateEngine;
-
     CustomTemplateEngine.prototype = new NativeTemplateEngine;
     CustomTemplateEngine.prototype.constructor = CustomTemplateEngine;
 
-    CustomTemplateEngine.prototype.makeTemplateSource = function(template) {
-        var source;
+    CustomTemplateEngine.prototype.makeTemplateSource = function(template, templateDocument, options) {
+        var source,
+            templatePull = [];
 
         if (typeof template === 'string') {
             source = sources[template];
@@ -24,7 +24,12 @@ define([
                 source = new Source(template);
                 sources[template] = source;
 
-                Renderer.render(template).done(function (rendered) {
+                templatePull.push(template);
+                if (options && options['extenders']) {
+                    templatePull = templatePull.concat(options['extenders']);
+                }
+
+                Renderer.render(templatePull).done(function(rendered) {
                     source.nodes(rendered);
                     M2.init(rendered);
                 });
@@ -37,14 +42,19 @@ define([
         } else {
             throw new Error("Unknown template type: " + template);
         }
-    }
+    };
 
-    CustomTemplateEngine.prototype.renderTemplateSource = function(templateSource, bindingContext, options) {
+    CustomTemplateEngine.prototype.renderTemplateSource = function (templateSource, bindingContext, options) {
         var nodes = templateSource.nodes();
 
         return ko.utils.cloneNodes(nodes);
-    }
+    };
+
+    CustomTemplateEngine.prototype.renderTemplate = function (template, bindingContext, options, templateDocument) {
+        var templateSource = this['makeTemplateSource'](template, templateDocument, options);
+        return this['renderTemplateSource'](templateSource, bindingContext, options);
+    };
+    CustomTemplateEngine.prototype.constructor = CustomTemplateEngine;
 
     return new CustomTemplateEngine;
-
 });
