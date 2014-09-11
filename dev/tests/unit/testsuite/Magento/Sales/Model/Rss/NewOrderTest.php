@@ -149,7 +149,7 @@ class NewOrderTest extends \PHPUnit_Framework_TestCase
 
         $this->eventManager->expects($this->once())->method('dispatch')->will($this->returnSelf());
 
-        $block = $this->getMock('Magento\Sales\Block\Order\Details', ['setOrder', 'toHtml'], [], '', false);
+        $block = $this->getMock('Magento\Sales\Block\Adminhtml\Order\Details', ['setOrder', 'toHtml'], [], '', false);
         $block->expects($this->once())->method('setOrder')->with($order)->will($this->returnSelf());
         $block->expects($this->once())->method('toHtml')->will($this->returnValue('Order Description'));
 
