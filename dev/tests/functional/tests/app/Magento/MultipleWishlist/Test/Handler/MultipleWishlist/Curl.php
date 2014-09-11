@@ -48,7 +48,7 @@ class Curl extends AbstractCurl implements MultipleWishlistInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $this->customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomerId();
+        $this->customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
         $data = $this->replaceMappingData($this->prepareData($fixture));
         return ['id' => $this->createWishlist($data)];
     }

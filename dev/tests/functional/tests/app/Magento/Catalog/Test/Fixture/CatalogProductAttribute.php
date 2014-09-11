@@ -544,4 +544,9 @@ class CatalogProductAttribute extends InjectableFixture
     {
         return $this->getData('search_weight');
     }
+
+    public function getOptions()
+    {
+        return $this->getData('options');
+    }
 }

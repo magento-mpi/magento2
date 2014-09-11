@@ -26,7 +26,7 @@ class ReadService implements ReadServiceInterface
     protected $giftCardBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -38,13 +38,13 @@ class ReadService implements ReadServiceInterface
     /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param GiftCardAccountBuilder $giftCardBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardHelper
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         GiftCardAccountBuilder $giftCardBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\GiftCardAccount\Helper\Data $giftCardHelper
     ) {
         $this->quoteLoader = $quoteLoader;

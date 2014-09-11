@@ -18,7 +18,7 @@ use Magento\Framework\Translate\Inline\ConfigInterface;
 class Emulation extends \Magento\Framework\Object
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -55,7 +55,7 @@ class Emulation extends \Magento\Framework\Object
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $viewDesign
      * @param \Magento\Framework\App\DesignInterface $design
      * @param \Magento\Framework\TranslateInterface $translate
@@ -66,7 +66,7 @@ class Emulation extends \Magento\Framework\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $viewDesign,
         \Magento\Framework\App\DesignInterface $design,
         \Magento\Framework\TranslateInterface $translate,

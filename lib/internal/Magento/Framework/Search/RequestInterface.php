@@ -1,7 +1,5 @@
 <?php
 /**
- * Search Request
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,6 +11,9 @@ use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Framework\Search\Request\QueryInterface;
 use Magento\Framework\Search\Request\Dimension;
 
+/**
+ * Search Request
+ */
 interface RequestInterface
 {
     /**

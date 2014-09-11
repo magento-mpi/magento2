@@ -20,6 +20,11 @@ use Magento\Framework\Session\Config;
 class AdminConfig extends Config
 {
     /**
+     * Configuration for admin session name
+     */
+    const SESSION_NAME_ADMIN = 'admin';
+
+    /**
      * @var FrontNameResolver $frontNameResolver
      */
     protected $frontNameResolver;
@@ -36,6 +41,7 @@ class AdminConfig extends Config
      * @param null|string $savePath
      * @param null|string $cacheLimiter
      * @param string $lifetimePath
+     * @param string $sessionName
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -49,7 +55,8 @@ class AdminConfig extends Config
         $saveMethod = \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
         $cacheLimiter = null,
-        $lifetimePath = self::XML_PATH_COOKIE_LIFETIME
+        $lifetimePath = self::XML_PATH_COOKIE_LIFETIME,
+        $sessionName = self::SESSION_NAME_ADMIN
     ) {
         parent::__construct(
             $scopeConfig,
@@ -69,6 +76,7 @@ class AdminConfig extends Config
         $baseUrl = $this->_httpRequest->getBaseUrl();
         $adminPath = $this->extractAdminPath($baseUrl);
         $this->setCookiePath($adminPath);
+        $this->setName($sessionName);
     }
 
     /**

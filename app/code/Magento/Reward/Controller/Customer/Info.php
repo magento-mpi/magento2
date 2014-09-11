@@ -22,7 +22,7 @@ class Info extends \Magento\Reward\Controller\Customer
         )->setCustomer(
             $this->_getCustomer()
         )->setWebsiteId(
-            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+            $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getWebsiteId()
         )->loadByCustomer();
         return $reward;
     }

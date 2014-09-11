@@ -132,7 +132,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()->setParam(
             'cid',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Store\Model\StoreManagerInterface'
+                'Magento\Framework\StoreManagerInterface'
             )->getStore()->getRootCategoryId()
         );
         $this->dispatch('rss/catalog/category');
