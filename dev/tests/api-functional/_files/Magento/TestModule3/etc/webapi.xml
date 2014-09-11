@@ -36,6 +36,7 @@
         <service class="Magento\TestModule3\Service\V1\ErrorInterface" method="authorizationException" />
         <resources>
             <resource ref="Magento_TestModule3::resource1" />
+            <resource ref="Magento_TestModule3::resource2" />
         </resources>
     </route>
     <route method="GET" url="/V1/errortest/otherException">
