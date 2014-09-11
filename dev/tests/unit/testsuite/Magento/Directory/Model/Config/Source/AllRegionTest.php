@@ -30,10 +30,10 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
 
         $countryCollectionFactory = $this->getMockBuilder(
             'Magento\Directory\Model\Resource\Country\CollectionFactory'
-        )->setMethods(['create'])->disableOriginalConstructor()->getMock();
+        )->setMethods(['create', '__wakeup', '__sleep'])->disableOriginalConstructor()->getMock();
 
         $this->countryCollection = $this->getMockBuilder('Magento\Directory\Model\Resource\Country\Collection')
-            ->setMethods(['load', 'toOptionArray'])
+            ->setMethods(['load', 'toOptionArray', '__wakeup', '__sleep'])
             ->disableOriginalConstructor()
             ->getMock();
         $countryCollectionFactory->expects($this->once())
@@ -45,10 +45,10 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
 
         $regionCollectionFactory = $this->getMockBuilder(
             'Magento\Directory\Model\Resource\Region\CollectionFactory'
-        )->disableOriginalConstructor()->setMethods(['create'])->getMock();
+        )->disableOriginalConstructor()->setMethods(['create', '__wakeup', '__sleep'])->getMock();
         $this->regionCollection = $this->getMockBuilder('Magento\Directory\Model\Resource\Region\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['load', 'getIterator'])
+            ->setMethods(['load', 'getIterator', '__wakeup', '__sleep'])
             ->getMock();
         $regionCollectionFactory->expects($this->once())
             ->method('create')
@@ -205,7 +205,7 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
     {
         $region = $this->getMockBuilder('Magento\Directory\Model\Region')
             ->disableOriginalConstructor()
-            ->setMethods(['getCountryId', 'getId', 'getDefaultName'])
+            ->setMethods(['getCountryId', 'getId', 'getDefaultName', '__wakeup', '__sleep'])
             ->getMock();
         $region->expects($this->once())
             ->method('getCountryId')
