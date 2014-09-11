@@ -174,7 +174,7 @@ AdminRma.prototype = {
             html.offsetHeight
         );
         $('popup-window-mask').setStyle({
-            height: $(document.body).getHeight() + 'px'
+            height: height + 'px'
         }).show();
     },
 
@@ -739,8 +739,7 @@ AdminRma.prototype = {
                     var thisRma = this;
                     $$("input[id^='s_method_']").each(function(element) {
                         $(element).on("click", function () {
-                            $('get-shipping-method-ok-button').enable();
-                            $('get-shipping-method-ok-button').on(
+                            $('get-shipping-method-ok-button').enable().on(
                                 "click",
                                 function() {
                                     thisRma.showLabelPopup(element.value)
