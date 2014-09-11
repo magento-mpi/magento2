@@ -14,7 +14,7 @@
             }
         }
         .title {
-            &:extend(.login-block-title all);
+            &:extend(.abstract-login-block-title all);
         }
     }
     .fieldset {
@@ -104,7 +104,7 @@
 //    Blocks & Widgets
 //--------------------------------------
 .block {
-    &:extend(.margin-for-blocks-and-widgets all);
+    &:extend(.abstract-margin-for-blocks-and-widgets all);
     &:last-child {
         margin-bottom: 0;
     }
@@ -147,12 +147,12 @@
             margin-bottom: 40px;
         }
         .data.table {
-            &:extend(.table-vertical-mobile all);
+            &:extend(.abstract-table-vertical-mobile all);
             .col.actions {
                 padding-top: 9px;
                 padding-bottom: 15px;
                 &:before {
-                    &:extend(.visually-hidden-mobile all);
+                    &:extend(.abstract-visually-hidden-mobile all);
                 }
             }
         }
@@ -177,9 +177,9 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .login.container {
-        &:extend(.add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop all);
         .block {
-            &:extend(.blocks-2columns all);
+            &:extend(.abstract-blocks-2columns all);
             &.login {
                 .actions-toolbar {
                     > .primary {
@@ -194,7 +194,7 @@
         }
         .fieldset {
             &:after {
-                &:extend(.margin-for-forms-desktop all);
+                &:extend(.abstract-margin-for-forms-desktop all);
                 text-align: left;
             }
             > .field {
@@ -228,9 +228,9 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.add-clearfix-desktop all);
+                    &:extend(.abstract-add-clearfix-desktop all);
                     .box {
-                        &:extend(.blocks-2columns all);
+                        &:extend(.abstract-blocks-2columns all);
                     }
                 }
             }
@@ -245,7 +245,7 @@
         .toolbar {
             position: relative;
             margin-bottom: @indent-base;
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .limiter {
                 float: right;
                 position: relative;
@@ -268,9 +268,9 @@
 
     .block-addresses-list {
         .items.addresses {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             > .item {
-                &:extend(.blocks-2columns all);
+                &:extend(.abstract-blocks-2columns all);
                 margin-bottom: @indent-base;
                 &:nth-last-child(1),
                 &:nth-last-child(2) {
