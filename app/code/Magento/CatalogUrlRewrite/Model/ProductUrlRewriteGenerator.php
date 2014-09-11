@@ -42,25 +42,31 @@ class ProductUrlRewriteGenerator
     /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistry */
     protected $productCategories;
 
+    /** @var \Magento\Framework\StoreManagerInterface */
+    protected $storeManager;
+
     /**
      * @param \Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator
      * @param \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator
      * @param \Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator
      * @param \Magento\CatalogUrlRewrite\Model\ObjectRegistryFactory $objectRegistryFactory
      * @param \Magento\CatalogUrlRewrite\Service\V1\StoreViewService $storeViewService
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator,
         CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator,
         CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator,
         ObjectRegistryFactory $objectRegistryFactory,
-        StoreViewService $storeViewService
+        StoreViewService $storeViewService,
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->canonicalUrlRewriteGenerator = $canonicalUrlRewriteGenerator;
         $this->currentUrlRewritesRegenerator = $currentUrlRewritesRegenerator;
         $this->categoriesUrlRewriteGenerator = $categoriesUrlRewriteGenerator;
         $this->objectRegistryFactory = $objectRegistryFactory;
         $this->storeViewService = $storeViewService;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -72,16 +78,15 @@ class ProductUrlRewriteGenerator
     public function generate(Product $product)
     {
         $this->product = $product;
+        $storeId = $this->product->getStoreId();
 
         $productCategories = $product->getCategoryCollection()
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('url_path');
 
-        $this->productCategories = $this->objectRegistryFactory->create(['entities' => $productCategories]);
-        $storeId = $this->product->getStoreId();
-
         $urls = $this->isGlobalScope($storeId)
-            ? $this->generateForGlobalScope() : $this->generateForSpecificStoreView($storeId);
+            ? $this->generateForGlobalScope($productCategories)
+            : $this->generateForSpecificStoreView($storeId, $productCategories);
 
         $this->product = null;
         return $urls;
@@ -101,18 +106,18 @@ class ProductUrlRewriteGenerator
     /**
      * Generate list of urls for global scope
      *
+     * @param \Magento\Framework\Data\Collection $productCategories
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
-    protected function generateForGlobalScope()
+    protected function generateForGlobalScope($productCategories)
     {
         $urls = [];
-        foreach ($this->product->getStoreIds() as $storeId) {
-            if (!$this->storeViewService->doesEntityHaveOverriddenUrlKeyForStore(
-                $storeId,
-                $this->product->getId(),
-                Product::ENTITY
-            )) {
-                $urls = array_merge($urls, $this->generateForSpecificStoreView($storeId));
+        $productId = $this->product->getId();
+        foreach ($this->product->getStoreIds() as $id) {
+            if (!$this->isGlobalScope($id)
+                && !$this->storeViewService->doesEntityHaveOverriddenUrlKeyForStore($id, $productId, Product::ENTITY)
+            ) {
+                $urls = array_merge($urls, $this->generateForSpecificStoreView($id, $productCategories));
             }
         }
         return $urls;
@@ -122,14 +127,38 @@ class ProductUrlRewriteGenerator
      * Generate list of urls for specific store view
      *
      * @param int $storeId
+     * @param \Magento\Framework\Data\Collection $productCategories
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
-    protected function generateForSpecificStoreView($storeId)
+    protected function generateForSpecificStoreView($storeId, $productCategories)
     {
-        return array_merge(
+        $categories = [];
+        foreach ($productCategories as $category) {
+            if ($this->isCategoryProperForGenerating($category, $storeId)) {
+                $categories[] = $category;
+            }
+        }
+        $this->productCategories = $this->objectRegistryFactory->create(['entities' => $categories]);
+        $urls = array_merge(
             $this->canonicalUrlRewriteGenerator->generate($storeId, $this->product),
             $this->categoriesUrlRewriteGenerator->generate($storeId, $this->product, $this->productCategories),
             $this->currentUrlRewritesRegenerator->generate($storeId, $this->product, $this->productCategories)
         );
+        $this->productCategories = null;
+        return $urls;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Category $category
+     * @param int $storeId
+     * @return bool
+     */
+    protected function isCategoryProperForGenerating($category, $storeId)
+    {
+        if ($category->getParentId() != \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
+            list(, $rootCategoryId) = $category->getParentIds();
+            return $rootCategoryId == $this->storeManager->getStore($storeId)->getRootCategoryId();
+        }
+        return false;
     }
 }

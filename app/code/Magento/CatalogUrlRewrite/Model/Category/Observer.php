@@ -182,17 +182,21 @@ class Observer
      */
     protected function deleteCategoryRewritesForChildren(Category $category)
     {
-        $categoryIds = $category->getAllChildren();
-        if ($categoryIds) {
-            $categoryIds = explode(',', $categoryIds);
-            foreach ($categoryIds as $categoryId) {
-                $this->urlPersist->deleteByData(
-                    [
-                        UrlRewrite::ENTITY_ID => $categoryId,
-                        UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                    ]
-                );
-            }
+        $categoryIds = $this->childrenCategoriesProvider->getChildrenIds($category, true);
+        $categoryIds[] = $category->getId();
+        foreach ($categoryIds as $categoryId) {
+            $this->urlPersist->deleteByData(
+                [
+                    UrlRewrite::ENTITY_ID => $categoryId,
+                    UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
+                ]
+            );
+            $this->urlPersist->deleteByData(
+                [
+                    UrlRewrite::METADATA => serialize(['category_id' => $categoryId]),
+                    UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
+                ]
+            );
         }
     }
 }

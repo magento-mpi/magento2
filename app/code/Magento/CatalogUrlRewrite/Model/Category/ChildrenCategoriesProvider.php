@@ -30,7 +30,7 @@ class ChildrenCategoriesProvider
      * @param boolean $recursive
      * @return int[]
      */
-    protected function getChildrenIds(Category $category, $recursive = false)
+    public function getChildrenIds(Category $category, $recursive = false)
     {
         $connection = $category->getResource()->getReadConnection();
         $select = $connection->select()

@@ -76,14 +76,13 @@ class CategoryUrlRewriteGenerator
     protected function generateForGlobalScope()
     {
         $urls = [];
-        foreach ($this->category->getStoreIds() as $storeId) {
-            if ($this->isGlobalScope($storeId)
-                || $this->storeViewService
-                    ->doesEntityHaveOverriddenUrlKeyForStore($storeId, $this->category->getId(), Category::ENTITY)
+        $categoryId = $this->category->getId();
+        foreach ($this->category->getStoreIds() as $id) {
+            if (!$this->isGlobalScope($id)
+                && !$this->storeViewService->doesEntityHaveOverriddenUrlKeyForStore($id, $categoryId, Category::ENTITY)
             ) {
-                continue;
+                $urls = array_merge($urls, $this->generateForSpecificStoreView($id));
             }
-            $urls = array_merge($urls, $this->generateForSpecificStoreView($storeId));
         }
         return $urls;
     }

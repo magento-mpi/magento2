@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,6 +15,7 @@ use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Store\Model\Store;
+use Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider;
 
 class Remove
 {
@@ -27,19 +28,25 @@ class Remove
     /** @var ProductUrlRewriteGenerator */
     protected $productUrlRewriteGenerator;
 
+    /** @var ChildrenCategoriesProvider */
+    protected $childrenCategoriesProvider;
+
     /**
      * @param UrlPersistInterface $urlPersist
      * @param CategoryFactory $categoryFactory
      * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
+     * @param ChildrenCategoriesProvider $childrenCategoriesProvider
      */
     public function __construct(
         UrlPersistInterface $urlPersist,
         CategoryFactory $categoryFactory,
-        ProductUrlRewriteGenerator $productUrlRewriteGenerator
+        ProductUrlRewriteGenerator $productUrlRewriteGenerator,
+        ChildrenCategoriesProvider $childrenCategoriesProvider
     ) {
         $this->urlPersist = $urlPersist;
         $this->categoryFactory = $categoryFactory;
         $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
+        $this->childrenCategoriesProvider = $childrenCategoriesProvider;
     }
 
     /**
@@ -51,7 +58,8 @@ class Remove
      */
     public function aroundDelete(Category $category, \Closure $proceed)
     {
-        $categoryIds = explode(',', $category->getAllChildren());
+        $categoryIds = $this->childrenCategoriesProvider->getChildrenIds($category, true);
+        $categoryIds[] = $category->getId();
         $result = $proceed();
         foreach ($categoryIds as $categoryId) {
             $this->deleteRewritesForCategory($categoryId);
@@ -67,19 +75,17 @@ class Remove
      */
     protected function deleteRewritesForCategory($categoryId)
     {
-        $this->urlPersist->deleteByData([
-            UrlRewrite::ENTITY_ID => $categoryId,
-            UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-        ]);
-        $collection = $this->categoryFactory->create()
-            ->load($categoryId)
-            ->getProductCollection()
-            ->addAttributeToSelect(['url_key', 'url_path', 'name']);
-        $productUrls = [];
-        foreach ($collection as $product) {
-            $product->setStoreId(Store::DEFAULT_STORE_ID);
-            $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));
-        }
-        $this->urlPersist->replace($productUrls);
+        $this->urlPersist->deleteByData(
+            [
+                UrlRewrite::ENTITY_ID => $categoryId,
+                UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
+            ]
+        );
+        $this->urlPersist->deleteByData(
+            [
+                UrlRewrite::METADATA => serialize(['category_id' => $categoryId]),
+                UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
+            ]
+        );
     }
 }

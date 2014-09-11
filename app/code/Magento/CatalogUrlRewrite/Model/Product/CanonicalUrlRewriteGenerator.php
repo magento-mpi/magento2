@@ -10,24 +10,23 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 
 class CanonicalUrlRewriteGenerator
 {
-    /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator */
+    /** @var ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
-    /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder */
+    /** @var UrlRewriteBuilder */
     protected $urlRewriteBuilder;
 
     /**
-     * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
-     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder $urlRewriteBuilder
+     * @param ProductUrlPathGenerator $productUrlPathGenerator
+     * @param UrlRewriteBuilder $urlRewriteBuilder
      */
-    public function __construct(
-        ProductUrlPathGenerator $productUrlPathGenerator,
-        UrlRewriteBuilder $urlRewriteBuilder
-    ) {
+    public function __construct(ProductUrlPathGenerator $productUrlPathGenerator, UrlRewriteBuilder $urlRewriteBuilder)
+    {
         $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->urlRewriteBuilder = $urlRewriteBuilder;
     }
@@ -36,17 +35,18 @@ class CanonicalUrlRewriteGenerator
      * Generate list based on store view
      *
      * @param int $storeId
-     * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
+     * @param Product $product
+     * @return UrlRewrite[]
      */
     public function generate($storeId, Product $product)
     {
         return [
-            $this->urlRewriteBuilder->setStoreId($storeId)
+            $this->urlRewriteBuilder
                 ->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE)
                 ->setEntityId($product->getId())
                 ->setRequestPath($this->productUrlPathGenerator->getUrlPathWithSuffix($product, $storeId))
                 ->setTargetPath($this->productUrlPathGenerator->getCanonicalUrlPath($product))
+                ->setStoreId($storeId)
                 ->create()
         ];
     }
