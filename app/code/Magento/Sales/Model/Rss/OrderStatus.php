@@ -23,7 +23,7 @@ class OrderStatus implements DataProviderInterface
     protected $urlBuilder;
 
     /**
-     * @var \Magento\Rss\Helper\Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $order;
 
