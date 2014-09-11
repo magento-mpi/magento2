@@ -8,6 +8,6 @@
         <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
-<div data-bind="scope: '<?php echo $this->getParentName(); ?>:filter'">
+<div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
     <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
 </div>
