@@ -8,19 +8,36 @@
  * @license     {license_link}
  */
 -->
-<button data-bind="click: toggle, text: $t('Filter')"></button>
-<div data-part="filter-form" data-bind="visible: isVisible">
-    <div class="title">
-        <h1 class="filter-title"><span data-bind="text: $t('Advanced filter')"></span></h1>
-        <span class="action close" data-bind="click: close, text: $t('Close')"></span>
-    </div>
-    <div class="fields">
-        <fieldset class="fieldset user-defined" data-bind="foreach: { data: filters, as: 'item' }">
+<div class="filters">
+    <button class="action filters-toggle" data-bind="click: toggle"><span data-bind="text: $t('Filter')"></span></button>
+    <div class="form filters-form" data-bind="visible: isVisible" data-part="filter-form">
+        <fieldset class="filters-fieldset fieldset">
+            <legend class="legend filters-legend">
+                <span data-bind="text: $t('Advanced filter')"></span>
+            </legend><br />
+            <!-- ko foreach: { data: filters, as: 'item' } -->
             <!-- ko template: $parent.getTemplateFor(item) --><!-- /ko -->
+            <!-- /ko -->
         </fieldset>
+        <div class="actions filters-actions">
+            <button class="action primary action-apply" data-bind="click: apply('dump')" type="button"><span data-bind="text: $t('Apply')"></span></button>
+            <button class="action secondary action-reset" data-bind="click: apply('reset')" type="button"><span data-bind="text: $t('Reset')"></span></button>
+            <button class="action secondary action-close" data-bind="click: close" type="button"><span data-bind="text: $t('Close')"></span></button>
+        </div>
     </div>
-    <div class="actions">
-        <button class="scalable"><span data-bind="click: apply('reset'), text: $t('Reset')"></span></button>
-        <button class="scalable" data-bind="click: apply('dump')"><span data-bind="text: $t('Apply')"></span></button>
+    <div class="filters-current">
+        <ul class="filters-items items">
+            <li class="filters-item item">
+                <strong class="item-label" data-bind="text: $t('Label')"></strong>
+                <span class="item-value" data-bind="text: $t('value')"></span>
+                <button type="button" class="action action-remove"><span data-bind="text: $t('Remove')"></span></button>
+            </li>
+            <li class="filters-item item">
+                <strong class="item-label" data-bind="text: $t('Created')"></strong>
+                <span class="item-value" data-bind="text: $t('23.03.2000 - 25.03.2000')"></span>
+                <button type="button" class="action action-remove"><span data-bind="text: $t('Remove')"></span></button>
+            </li>
+        </ul>
+        <button class="action action-clear"><span data-bind="text: $t('Clear all')"></span></button>
     </div>
 </div>

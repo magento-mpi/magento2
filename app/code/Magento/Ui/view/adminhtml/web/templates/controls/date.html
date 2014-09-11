@@ -6,16 +6,24 @@
  * @license     {license_link}
  */
 -->
-<div class="range">
-    <label class="label">
+<fieldset class="field field-range field-date">
+    <legend class="label">
         <span data-bind="text: title"></span>
-    </label>
-    <div class="range-line date">
-        <label data-bind="text: $t('From')"></label><br>
-        <input type="text" class="input-text no-changes" data-bind="datepicker: { storage: from, options: config }">
+    </legend><br />
+    <div class="control">
+        <div class="fields group group-2">
+            <div class="field field-range-from">
+                <label class="label"><span data-bind="text: $t('From')"></span></label>
+                <div class="control">
+                    <input type="text" class="input-text no-changes" data-bind="datepicker: { storage: from, options: config }, attr: {placeholder: $t('From')}">
+                </div>
+            </div>
+            <div class="field field-range-to">
+                <label class="label"><span data-bind="text: $t('To')"></span></label>
+                <div class="control">
+                    <input type="text" class="input-text no-changes" data-bind="datepicker: { storage: to, options: config }, attr: {placeholder: $t('To')}">
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="range-line date">
-        <label data-bind="text: $t('To')"></label><br>
-        <input type="text" class="input-text no-changes" data-bind="datepicker: { storage: to, options: config }">
-    </div>
-</div>
+</fieldset>

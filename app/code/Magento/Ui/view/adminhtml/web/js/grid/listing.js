@@ -36,18 +36,22 @@ define([
         },
 
         initProvider: function() {
-            this.provider.on({
+            var provider    = this.provider,
+                dump        = provider.dump;
+
+            provider.on({
                 'beforeRefresh':    this.lock.bind(this),
                 'refresh':          this.onRefresh.bind(this)
             });
 
-            this.provider.dump.wait('update:extenders', this.updateExtenders.bind(this));
+            dump.on('update:extenders', this.updateExtenders.bind(this));
 
             return this;
         },
 
         updateExtenders: function (extenders) {
             var adjusted = extenders.reduce(this.adjustExtender, {});
+            
             this.extenders(adjusted);
 
             this.templateExtenders(extenders.map(this.adjustTemplateExtender, this));
