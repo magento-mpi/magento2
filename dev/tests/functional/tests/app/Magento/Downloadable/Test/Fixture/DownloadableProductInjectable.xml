@@ -444,8 +444,17 @@
             <group>websites</group>
         </website_ids>
         <downloadable_links>
-
+            <attribute_code>downloadable_links</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>downloadable_information</group>
+            <source>Magento\Downloadable\Test\Fixture\DownloadableProductInjectable\Links</source>
         </downloadable_links>
+        <downloadable_sample>
+            <attribute_code>downloadable_sample</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>downloadable_information</group>
+            <source>Magento\Downloadable\Test\Fixture\DownloadableProductInjectable\Samples</source>
+        </downloadable_sample>
         <checkout_data>
             <attribute_code>checkout_data</attribute_code>
             <backend_type>virtual</backend_type>

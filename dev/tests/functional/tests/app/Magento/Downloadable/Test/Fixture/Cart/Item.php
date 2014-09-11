@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Fixture\CatalogProductVirtual\Cart;
+namespace Magento\Downloadable\Test\Fixture\Cart;
+
+use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
 
 /**
  * Class Item
@@ -15,7 +17,7 @@ namespace Magento\Catalog\Test\Fixture\CatalogProductVirtual\Cart;
  * Data keys:
  *  - product (fixture data for verify)
  */
-class Item extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart\Item
+class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
 {
     //
 }

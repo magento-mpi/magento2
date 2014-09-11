@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
  
-namespace Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart;
+namespace Magento\Catalog\Test\Fixture\Cart;
 
 use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;

@@ -83,7 +83,7 @@ class ApplyMapConfigurableTest extends Functional
         $mapBlock = $categoryPage->getMapBlock();
         $this->assertContains(
             $product->getProductMapPrice(),
-            $mapBlock->getOldPrice(),
+            $mapBlock->getMapOldPrice(),
             'Displayed on Category page MAP is incorrect'
         );
         $this->assertEquals(
@@ -111,7 +111,7 @@ class ApplyMapConfigurableTest extends Functional
         $mapBlock = $productPage->getMapBlock();
         $this->assertContains(
             $product->getProductMapPrice(),
-            $mapBlock->getOldPrice(),
+            $mapBlock->getMapOldPrice(),
             'Displayed on Product page MAP is incorrect'
         );
         $this->assertEquals(

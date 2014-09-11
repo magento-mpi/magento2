@@ -51,7 +51,7 @@ class CreateGroupedTest extends Functional
         $createProductPage->getFormPageActions()->save();
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        // Flush cache
+        //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
@@ -111,6 +111,12 @@ class CreateGroupedTest extends Functional
             $productViewBlock->getProductName(),
             'Product name does not correspond to specified.'
         );
-        $this->assertTrue($productViewBlock->verifyGroupedProducts($product), 'Added Grouped options are absent');
+
+        $optionsOnPage = $productViewBlock->getOptions($product);
+        $pageAssociatedProductNames = [];
+        foreach ($optionsOnPage['grouped_options'] as $optionOnPage) {
+            $pageAssociatedProductNames[] = $optionOnPage['name'];
+        }
+        $this->assertEquals($product->getAssociatedProductNames(), $pageAssociatedProductNames);
     }
 }

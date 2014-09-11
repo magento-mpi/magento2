@@ -939,4 +939,14 @@ class DownloadableProductInjectable extends InjectableFixture
     {
         return $this->getData('checkout_data');
     }
+
+    public function getDownloadableLinks()
+    {
+        return $this->getData('downloadable_links');
+    }
+
+    public function getDownloadableSample()
+    {
+        return $this->getData('downloadable_sample');
+    }
 }

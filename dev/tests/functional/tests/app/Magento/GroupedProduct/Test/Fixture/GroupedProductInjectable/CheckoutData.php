@@ -29,15 +29,15 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
             'three_simple_products' => [
                 'options' => [
                     [
-                        'product_name' => 'product_key_0',
+                        'name' => 'product_key_0',
                         'qty' => 3
                     ],
                     [
-                        'product_name' => 'product_key_1',
+                        'name' => 'product_key_1',
                         'qty' => 1
                     ],
                     [
-                        'product_name' => 'product_key_2',
+                        'name' => 'product_key_2',
                         'qty' => 2
                     ]
                 ],

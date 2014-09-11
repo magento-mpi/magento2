@@ -601,6 +601,7 @@ class ConfigurableAttributesData implements FixtureInterface
             'options',
         ];
         $optionFields = [
+            'admin',
             'label',
             'pricing_value',
             'is_percent',

@@ -400,7 +400,7 @@ class CustomOptions implements FixtureInterface
                     'type' => 'Radio Buttons',
                     'options' => [
                         [
-                            'title' => '20 percent',
+                            'title' => '20 fixed',
                             'price' => 20,
                             'price_type' => 'Fixed',
                             'sku' => 'sku_radio_buttons_row%isolation%'
@@ -413,7 +413,7 @@ class CustomOptions implements FixtureInterface
                     'type' => 'Checkbox',
                     'options' => [
                         [
-                            'title' => '20 percent',
+                            'title' => '20 fixed',
                             'price' => 20,
                             'price_type' => 'Fixed',
                             'sku' => 'sku_checkbox_row%isolation%'
@@ -426,7 +426,7 @@ class CustomOptions implements FixtureInterface
                     'type' => 'Multiple Select',
                     'options' => [
                         [
-                            'title' => '20 percent',
+                            'title' => '20 fixed',
                             'price' => 20,
                             'price_type' => 'Fixed',
                             'sku' => 'sku_multiple_select_row%isolation%'

@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
 
 /**
  * Class View
@@ -60,13 +59,6 @@ class View extends Block
     protected $paypalCheckout = '[data-action=checkout-form-submit]';
 
     /**
-     * This member holds the class name for the price block found inside the product details.
-     *
-     * @var string
-     */
-    protected $priceBlockClass = 'price-box';
-
-    /**
      * Product name element
      *
      * @var string
@@ -93,13 +85,6 @@ class View extends Block
      * @var string
      */
     protected $productShortDescription = '.product.attibute.overview';
-
-    /**
-     * Product price element
-     *
-     * @var string
-     */
-    protected $productPrice = '.price-box .price';
 
     /**
      * Click for Price link on Product page
@@ -251,16 +236,6 @@ class View extends Block
     }
 
     /**
-     * Return product price displayed on page
-     *
-     * @return array|string Returns arrays with keys corresponding to fixture keys
-     */
-    public function getProductPrice()
-    {
-        return $this->getPriceBlock()->getPrice();
-    }
-
-    /**
      * Return product short description on page
      *
      * @return string|null
@@ -289,10 +264,10 @@ class View extends Block
     /**
      * Return product options
      *
-     * @param FixtureInterface $product [optional]
+     * @param FixtureInterface $product
      * @return array
      */
-    public function getOptions(FixtureInterface $product = null)
+    public function getOptions(FixtureInterface $product)
     {
         /** @var CatalogProductSimple $product */
         $dataConfig = $product->getDataConfig();
@@ -301,33 +276,6 @@ class View extends Block
         return $this->hasRender($typeId)
             ? $this->callRender($typeId, 'getOptions', ['product' => $product])
             : $this->getCustomOptionsBlock()->getOptions($product);
-    }
-
-    /**
-     * Verify product options
-     *
-     * @param FixtureInterface $product
-     * @return bool
-     */
-    public function verifyProductOptions(FixtureInterface $product)
-    {
-        $attributes = $product->getConfigurableOptions();
-        foreach ($attributes as $attributeName => $attribute) {
-            foreach ($attribute as $optionName) {
-                $option = $this->_rootElement->find(
-                    '//*[*[@class="field configurable required"]//span[text()="' .
-                    $attributeName .
-                    '"]]//select/option[contains(text(), "' .
-                    $optionName .
-                    '")]',
-                    Locator::SELECTOR_XPATH
-                );
-                if (!$option->isVisible()) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**
@@ -350,12 +298,12 @@ class View extends Block
 
             if ($product instanceof InjectableFixture) {
                 /** @var CatalogProductSimple $product */
-                $customOptions = $product->hasData('custom_options')
-                    ? $product->getCustomOptions()
-                    : [];
                 $checkoutData = $product->getCheckoutData();
                 $checkoutCustomOptions = isset($checkoutData['options']['custom_options'])
                     ? $checkoutData['options']['custom_options']
+                    : [];
+                $customOptions = $product->hasData('custom_options')
+                    ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
                     : [];
 
                 $checkoutCustomOptions = $this->prepareCheckoutData($customOptions, $checkoutCustomOptions);
@@ -422,26 +370,6 @@ class View extends Block
     public function clickAddToCartButton()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
-     * Verification of group products
-     *
-     * @param GroupedProduct $product
-     * @return bool
-     */
-    public function verifyGroupedProducts(GroupedProduct $product)
-    {
-        foreach ($product->getAssociatedProductNames() as $name) {
-            $option = $this->_rootElement->find(
-                "//*[@id='super-product-table']//tr[td/strong='{$name}']",
-                Locator::SELECTOR_XPATH
-            );
-            if (!$option->isVisible()) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

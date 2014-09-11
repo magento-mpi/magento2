@@ -22,14 +22,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $titleForLink = '//div[contains(@class,"field downloads")]/label[@class="label"]/span';
-
-    /**
-     * Format for downloadable links list selector
-     *
-     * @var string
-     */
-    protected $linksListSelector = '//*[@id="downloadable-links-list"]/div[%d]/';
+    protected $title = '//div[contains(@class,"field downloads")]/label[@class="label"]/span';
 
     /**
      * Selector for link by label
@@ -39,81 +32,55 @@ class Links extends Block
     protected $linkByLabel = './/input[@type="checkbox" and (./../label/span[contains(text(),"%s")])]';
 
     /**
-     * Title selector item links
+     * Choice link selector
      *
      * @var string
      */
-    protected $titleForList = "label[@class='label']/span[1]";
-
-    /**
-     * Price selector item links
-     *
-     * @var string
-     */
-    protected $priceForList = 'label/span[contains(@class,"price-container")]//span[@class="price"]';
+    protected $choiceLink = './/*[contains(@class,"choice")][%d]';
 
     /**
      * Checkbox selector item links
      *
      * @var string
      */
-    protected $separatelyForList = "input[@type='checkbox']";
+    protected $separatelyForChoice = 'input[type="checkbox"]';
 
     /**
-     * Change format downloadable links list
+     * Checkbox selector item links
      *
-     * @param int $index
-     * @return string
+     * @var string
      */
-    protected function formatIndex($index)
-    {
-        return sprintf($this->linksListSelector, $index);
-    }
+    protected $linkForChoice = './/label/span[1]';
+
+    /**
+     * Checkbox selector item links
+     *
+     * @var string
+     */
+    protected $sampleLinkForChoice = '.sample.link';
+
+    /**
+     * Checkbox selector item links
+     *
+     * @var string
+     */
+    protected $priceForChoice = '.price-wrapper .price';
+
+    /**
+     * Checkbox selector item links
+     *
+     * @var string
+     */
+    protected $priceAdjustmentsForChoice = '.price-adjustments .price';
 
     /**
      * Get title for links block
      *
      * @return string
      */
-    public function getTitleForLinkBlock()
+    public function getTitle()
     {
-        return $this->_rootElement->find($this->titleForLink, Locator::SELECTOR_XPATH)->getText();
-    }
-
-    /**
-     * Get title for item link on data list
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getItemTitle($index)
-    {
-        return $this->_rootElement->find($this->formatIndex($index) . $this->titleForList, Locator::SELECTOR_XPATH)
-            ->getText();
-    }
-
-    /**
-     * Visible checkbox for item link on data list
-     *
-     * @param int $index
-     * @return bool
-     */
-    public function isVisibleItemCheckbox($index)
-    {
-        return $this->_rootElement->find($this->formatIndex($index) . $this->separatelyForList, Locator::SELECTOR_XPATH)
-            ->isVisible();
-    }
-
-    /**
-     * Get price for item link on data list
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getItemPrice($index)
-    {
-        return $this->_rootElement->find($this->formatIndex($index) . $this->priceForList, Locator::SELECTOR_XPATH)
-            ->getText();
+        return $this->_rootElement->find($this->title, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
@@ -132,5 +99,54 @@ class Links extends Block
             );
             $link->setValue($linkData['value']);
         }
+    }
+
+    /**
+     * Return links data on product page view
+     *
+     * @return array
+     */
+    public function getLinks()
+    {
+        $linksData = [];
+
+        $count = 1;
+        $choiceLink = $this->_rootElement->find(sprintf($this->choiceLink, $count), Locator::SELECTOR_XPATH);
+        while ($choiceLink->isVisible()) {
+            $link = $choiceLink->find($this->linkForChoice, Locator::SELECTOR_XPATH);
+            $sample = $choiceLink->find($this->sampleLinkForChoice);
+            $price = $choiceLink->find($this->priceForChoice);
+            $priceAdjustments = $choiceLink->find($this->priceAdjustmentsForChoice);
+
+            $linkData = [
+                'links_purchased_separately' => $choiceLink->find($this->separatelyForChoice)->isVisible()
+                    ? 'Yes'
+                    : 'No',
+                'title' => $link->isVisible() ? $link->getText() : null,
+                'sample' => $sample->isVisible() ? $sample->getText() : null,
+                'price' => $price->isVisible() ? $this->escapePrice($price->getText()) : null,
+                'price_adjustments' => $priceAdjustments->isVisible()
+                        ? $this->escapePrice($priceAdjustments->getText())
+                        : null,
+            ];
+
+            $linksData[] = array_filter($linkData);
+
+            ++$count;
+            $choiceLink = $this->_rootElement->find(sprintf($this->choiceLink, $count), Locator::SELECTOR_XPATH);
+        }
+
+        return $linksData;
+    }
+
+    /**
+     * Escape currency for price
+     *
+     * @param string $price
+     * @return string
+     */
+    protected function escapePrice($price)
+    {
+        return preg_replace('/[^0-9\.,]/', '', $price);
     }
 }

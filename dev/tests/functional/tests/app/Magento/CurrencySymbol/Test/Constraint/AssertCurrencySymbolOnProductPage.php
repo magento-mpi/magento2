@@ -50,8 +50,8 @@ class AssertCurrencySymbolOnProductPage extends AbstractConstraint
         $cmsIndex->getCurrencyBlock()->switchCurrency($currencySymbol);
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
-        $price = $catalogProductView->getViewBlock()->getProductPrice();
-        preg_match('`(.*?)\d`', $price['price_regular_price'], $matches);
+        $price = $catalogProductView->getViewBlock()->getPriceBlock()->getPrice();
+        preg_match('`(.*?)\d`', $price, $matches);
 
         $symbolOnPage = isset($matches[1]) ? $matches[1] : null;
         \PHPUnit_Framework_Assert::assertEquals(

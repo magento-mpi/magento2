@@ -43,7 +43,6 @@ class AssertGrandTotalInShoppingCart extends AbstractConstraint
             $fixtureGrandTotal,
             $pageGrandTotal,
             'Grand total price in the shopping cart not equals to grand total price from fixture.'
-            . "Expect: {$fixtureGrandTotal}, actual: {$pageGrandTotal}"
         );
     }
 

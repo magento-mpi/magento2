@@ -26,17 +26,7 @@ class Cart extends InjectableFixture
      */
     protected $handlerInterface = 'Magento\Checkout\Test\Handler\Cart\CartInterface';
 
-    protected $defaultDataSet = [
-        'created_at' => null,
-        'updated_at' => null,
-        'is_active' => null,
-        'items_qty' => null,
-        'store_to_base_rate' => null,
-        'store_to_quote_rate' => null,
-        'grand_total' => null,
-        'base_grand_total' => null,
-        'customer_note_notify' => null,
-    ];
+    protected $defaultDataSet = [];
 
     protected $entity_id = [
         'attribute_code' => 'entity_id',

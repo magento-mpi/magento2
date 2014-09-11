@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable\Cart;
+namespace Magento\GroupedProduct\Test\Fixture\Cart;
 
 use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Mtf\Fixture\FixtureInterface;
@@ -19,7 +19,7 @@ use Magento\Bundle\Test\Fixture\BundleProduct;
  * Data keys:
  *  - product (fixture data for verify)
  */
-class Item extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart\Item
+class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
 {
     /**
      * @constructor
@@ -30,10 +30,8 @@ class Item extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart\Item
         parent::__construct($product);
 
         /** @var GroupedProductInjectable $product */
-        $checkoutData = $product->getCheckoutData();
         $associatedProducts = [];
         $cartItem = [];
-        $checkoutOptions = [];
 
         foreach ($product->getAssociated()['products'] as $key => $product) {
             $key = 'product_key_' . $key;
@@ -42,13 +40,13 @@ class Item extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart\Item
 
         // Replace key in checkout data
         foreach ($this->data as $fieldName => $fieldValues) {
-            foreach ($fieldValues as $key => $value)  {
+            foreach ($fieldValues as $key => $value) {
                 $product = $associatedProducts[$key];
                 $cartItem[$fieldName][$product->getSku()] = $value;
             }
         }
 
-        // TODO: refactoring
+        // Add empty "options" field
         foreach ($associatedProducts as $product) {
             $cartItem['options'][$product->getSku()] = [];
         }

@@ -64,7 +64,7 @@ class Cart extends Block
         $cartItem = null;
 
         if ($this->hasRender($typeId)) {
-            $cartItem = $this->callRender($typeId, 'getCartItem',  ['product' => $product]);
+            $cartItem = $this->callRender($typeId, 'getCartItem', ['product' => $product]);
         } else {
             $cartItemBlock = $this->_rootElement->find(
                 sprintf($this->cartItemByProductName, $product->getName()),

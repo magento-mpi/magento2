@@ -73,12 +73,16 @@ class AssertCartItemsOptions extends AbstractAssertForm
      *
      * @param array $fixtureData
      * @param array $formData
-     * @param bool $isStrict
-     * @param bool $isPrepareError
+     * @param bool $isStrict [optional]
+     * @param bool $isPrepareError [optional]
      * @return array|string
      */
-    protected function verifyContainsData(array $fixtureData, array $formData, $isStrict = false, $isPrepareError = true)
-    {
+    protected function verifyContainsData(
+        array $fixtureData,
+        array $formData,
+        $isStrict = false,
+        $isPrepareError = true
+    ) {
         $errors = [];
 
         foreach ($fixtureData as $key => $value) {

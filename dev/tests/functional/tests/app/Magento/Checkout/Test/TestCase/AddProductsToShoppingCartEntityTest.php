@@ -29,7 +29,7 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
  * Steps:
  * 1. Navigate to frontend
  * 2. Open test product page
- * 3. Add to cart test product(this flow unic for some products)
+ * 3. Add to cart test product
  * 4. Perform all asserts
  *
  * @group Shopping_Cart_(CS)
@@ -128,7 +128,7 @@ class AddProductsToShoppingCartEntityTest extends Injectable
     }
 
     /**
-     * Returns a string representation of the object
+     * Clear shopping cart after test
      *
      * @return void
      */

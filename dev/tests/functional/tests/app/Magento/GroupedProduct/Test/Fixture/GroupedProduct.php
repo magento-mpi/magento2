@@ -47,6 +47,16 @@ class GroupedProduct extends Product
     }
 
     /**
+     * Get Associated Products
+     *
+     * @return array
+     */
+    public function getAssociatedProducts()
+    {
+        return $this->products;
+    }
+
+    /**
      * Get Associated Product Names
      *
      * @return array
@@ -66,6 +76,7 @@ class GroupedProduct extends Product
     protected function _initData()
     {
         $this->_dataConfig = array(
+            'type_id' => 'grouped',
             'constraint' => 'Success',
             'create_url_params' => array(
                 'type' => 'grouped',
@@ -130,6 +141,6 @@ class GroupedProduct extends Product
         );
 
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCatalogGroupedProduct($this->_dataConfig, $this->_data);
+            ->getMagentoGroupedProductGroupedProduct($this->_dataConfig, $this->_data);
     }
 }

@@ -8,6 +8,7 @@
 
 namespace Magento\Checkout\Test\Fixture\Cart;
 
+use Mtf\ObjectManager;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -51,11 +52,23 @@ class Items implements FixtureInterface
         $this->products = isset($data['products']) ? $data['products'] : [];
 
         foreach ($this->products as $product) {
-            $classItem = get_class($product) . '\Cart\Item';
-            $item = new $classItem($product);
+            $classItem = 'Magento\\' . $this->getModuleName($product) . '\Test\Fixture\Cart\Item';
+            $item = ObjectManager::getInstance()->create($classItem, ['product' => $product]);
 
             $this->data[] = $item;
         }
+    }
+
+    /**
+     * Get module name from fixture
+     *
+     * @param FixtureInterface $product
+     * @return string
+     */
+    protected function getModuleName(FixtureInterface $product)
+    {
+        preg_match('/^Magento\\\\([^\\\\]+)\\\\Test/', get_class($product), $match);
+        return isset($match[1]) ? $match[1] : '';
     }
 
     /**

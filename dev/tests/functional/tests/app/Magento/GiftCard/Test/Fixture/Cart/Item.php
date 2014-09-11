@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftCard\Test\Fixture\GiftCardProduct\Cart;
+namespace Magento\GiftCard\Test\Fixture\Cart;
 
 use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Mtf\Fixture\FixtureInterface;
@@ -19,7 +19,7 @@ use Magento\Bundle\Test\Fixture\BundleProduct;
  * Data keys:
  *  - product (fixture data for verify)
  */
-class Item extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart\Item
+class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
 {
     /**
      * @constructor

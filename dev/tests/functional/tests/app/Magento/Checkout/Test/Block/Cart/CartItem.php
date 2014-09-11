@@ -91,9 +91,10 @@ class CartItem extends AbstractCartItem
             $values = $optionsBlock->find('./dd', Locator::SELECTOR_XPATH)->getElements();
 
             foreach ($titles as $key => $title) {
+                $value = $values[$key]->getText();
                 $options[] = [
                     'title' => $title->getText(),
-                    'value' => $values[$key]->getText()
+                    'value' => $this->escapeCurrencyForOption($value)
                 ];
             }
         }
@@ -141,5 +142,16 @@ class CartItem extends AbstractCartItem
     {
         $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
         return trim($this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText(), $currency);
+    }
+
+    /**
+     * Escape currency in option label
+     *
+     * @param string $label
+     * @return string
+     */
+    protected function escapeCurrencyForOption($label)
+    {
+        return preg_replace('/^(\d+) x (\w+) \W([\d\.,]+)$/', '$1 x $2 $3', $label);
     }
 }

@@ -196,7 +196,7 @@ class Bundle extends Block
         $optionLabels = $option->find($this->optionLabel, Locator::SELECTOR_XPATH)->getElements();
 
         foreach ($optionLabels as $optionLabel) {
-            if($optionLabel->isVisible()) {
+            if ($optionLabel->isVisible()) {
                 $listOptions[] = $this->parseOptionText($optionLabel->getText());
             }
         }

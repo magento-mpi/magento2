@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Test\Fixture\BundleProduct\Cart;
+namespace Magento\Bundle\Test\Fixture\Cart;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Bundle\Test\Fixture\BundleProduct;
@@ -18,7 +18,7 @@ use Magento\Bundle\Test\Fixture\BundleProduct;
  * Data keys:
  *  - product (fixture data for verify)
  */
-class Item extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart\Item
+class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
 {
     /**
      * @constructor
@@ -52,12 +52,14 @@ class Item extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Cart\Item
             }
 
             // Prepare option data
-            $value = $bundleSelection['products'][$attributeKey][$optionKey]->getName();
-            $qty = $bundleSelection['bundle_options'][$attributeKey]['assigned_products'][$optionKey]['data']['selection_qty'];
-            $price = number_format($bundleSelection['products'][$attributeKey][$optionKey]->getPrice(), 2);
+            $bundleSelectionAttribute = $bundleSelection['products'][$attributeKey];
+            $bundleOptions = $bundleSelection['bundle_options'][$attributeKey];
+            $value = $bundleSelectionAttribute[$optionKey]->getName();
+            $qty = $bundleOptions['assigned_products'][$optionKey]['data']['selection_qty'];
+            $price = number_format($bundleSelectionAttribute[$optionKey]->getPrice(), 2);
             $optionData = [
                 'title' => $checkoutOption['title'],
-                'value' => "{$qty} x {$value} \${$price}"
+                'value' => "{$qty} x {$value} {$price}"
             ];
 
             $checkoutBundleOptions[$checkoutOptionKey] = $optionData;
