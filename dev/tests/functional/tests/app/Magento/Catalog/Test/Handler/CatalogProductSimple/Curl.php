@@ -145,6 +145,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
         $fields = $this->replaceMappingData($fixture->getData());
+
         // Getting Tax class id
         if ($fixture->hasData('tax_class_id')) {
             $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClassId();
@@ -183,6 +184,12 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
                 ->getAttributeSet()
                 ->getAttributeSetId();
             $fields['attribute_set_id'] = $attributeSetId;
+        }
+
+        // Prepare assigned attribute
+        if (isset($fields['attributes'])) {
+            $fields += $fields['attributes'];
+            unset($fields['attributes']);
         }
 
         $fields = $this->prepareStockData($fields);

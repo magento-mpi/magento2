@@ -46,6 +46,8 @@ class CreateGiftCardAccountEntityTest extends Injectable
     protected $newIndex;
 
     /**
+     * Prepare data
+     *
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
@@ -69,6 +71,7 @@ class CreateGiftCardAccountEntityTest extends Injectable
      *
      * @param Index $index
      * @param NewIndex $newIndex
+     * @return void
      */
     public function __inject(Index $index, NewIndex $newIndex)
     {
@@ -80,9 +83,9 @@ class CreateGiftCardAccountEntityTest extends Injectable
      * Create gift card account entity
      *
      * @param GiftCardAccount $giftCardAccount
-     * @return void
+     * @return array
      */
-    public function testCreateGiftCardAccount(GiftCardAccount $giftCardAccount)
+    public function test(GiftCardAccount $giftCardAccount)
     {
         // Steps
         $this->giftCardAccountIndex->open();
@@ -90,5 +93,9 @@ class CreateGiftCardAccountEntityTest extends Injectable
         $this->giftCardAccountIndex->getGridPageActions()->addNew();
         $this->newIndex->getPageMainForm()->fill($giftCardAccount);
         $this->newIndex->getPageMainActions()->save();
+
+        $code = $this->giftCardAccountIndex->getGiftCardAccount()
+            ->getCode(['balance' => $giftCardAccount->getBalance()], false);
+        return ['code' => $code];
     }
 }

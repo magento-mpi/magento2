@@ -17,6 +17,9 @@ use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
  */
 class AssertGiftCardAccountSuccessDeleteMessage extends AbstractConstraint
 {
+    /**
+     * Text value to be checked
+     */
     const SUCCESS_DELETE_MESSAGE = 'This gift card account has been deleted.';
 
     /**
@@ -39,8 +42,6 @@ class AssertGiftCardAccountSuccessDeleteMessage extends AbstractConstraint
             self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success delete message is displayed.'
-            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 

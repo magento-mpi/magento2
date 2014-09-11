@@ -2,7 +2,7 @@
 "catalogProductSimple::default";"simple";"assertCatalogSearchResult"
 "catalogProductVirtual::default";"virtual";"assertCatalogSearchResult"
 "giftCardProduct::default";"giftcard";"assertCatalogSearchResult"
-"catalogProductConfigurable::default";"configurable";"assertCatalogSearchResult"
+"configurableProductInjectable::default";"configurable";"assertCatalogSearchResult"
 "catalogProductDownloadable::default";"downloadable";"assertCatalogSearchResult"
 "catalogProductGrouped::default";"grouped";"assertCatalogSearchResult"
 "catalogProductBundle::bundle_dynamic_product";"bundle_dynamic";"assertCatalogSearchResult"

@@ -77,11 +77,18 @@ class Create extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Order details block
+     *
+     * @var string
+     */
+    protected $orderDetails = '.order-details';
+
+    /**
      * Getter for order selected products grid
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
      */
-    protected function getItemsBlock()
+    public function getItemsBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateItems(
             $this->_rootElement->find($this->itemsBlock, Locator::SELECTOR_CSS)
@@ -170,6 +177,16 @@ class Create extends Block
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateSearchGrid(
             $this->_rootElement->find($this->gridBlock, Locator::SELECTOR_CSS)
         );
+    }
+
+    /**
+     * Wait display order details
+     *
+     * return void
+     */
+    public function waitOrderDetails()
+    {
+        $this->waitForElementVisible($this->orderDetails);
     }
 
     /**
