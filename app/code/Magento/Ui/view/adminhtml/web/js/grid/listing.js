@@ -17,7 +17,7 @@ define([
             this.initObservable()
                 .initProvider(settings)
                 .updateItems();
-
+            
             this.fields = this.provider.meta.get('fields');
         },
 
@@ -25,7 +25,8 @@ define([
             this.observe({
                 rows:       [],
                 view:       'grid',
-                isLocked:   false
+                isLocked:   false,
+                templateExtenders: []
             });
 
             return this;
@@ -39,7 +40,13 @@ define([
                 'refresh':          this.onRefresh.bind(this)
             });
 
+            this.provider.dump.on('update:extenders', this.updateExtenders);
+
             return this;
+        },
+
+        updateExtenders: function (extenders) {
+            this.templateExtenders(extenders);
         },
 
         updateItems: function() {
@@ -55,7 +62,16 @@ define([
         },
 
         getTemplate: function() {
-            return this.getRootTemplatePath();
+            var templateExtenders = this.templateExtenders();
+
+            return {
+                name:      'Magento_Ui.templates.listing.' + this.view(),
+                extenders: templateExtenders.map(this.adjustTemplateExtender.bind(this))
+            };
+        },
+
+        adjustTemplateExtender: function (extender) {
+            return this.getRootTemplatePath() + '.' + extender.path;
         },
 
         getRootTemplatePath: function() {
