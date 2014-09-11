@@ -155,7 +155,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo($this->scoreBuilder),
                 $this->equalTo($this->select),
                 $this->equalTo($query),
-                $this->equalTo(Mapper::BOOL_MUST)
+                $this->equalTo(\Magento\Framework\Search\Request\Query\Bool::QUERY_CONDITION_MUST)
             )
             ->will($this->returnValue($this->select));
 

@@ -64,10 +64,11 @@ class TermTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $field
      * @param string $value
+     * @param bool $isNegation
      * @param string $expectedResult
      * @dataProvider buildQueryDataProvider
      */
-    public function testBuildQuery($field, $value, $expectedResult)
+    public function testBuildQuery($field, $value, $isNegation, $expectedResult)
     {
         $this->requestFilter->expects($this->once())
             ->method('getField')
@@ -79,26 +80,29 @@ class TermTest extends \PHPUnit_Framework_TestCase
             ->method('quote')
             ->will($this->returnArgument(0));
 
-        $actualResult = $this->filter->buildFilter($this->requestFilter);
+        $actualResult = $this->filter->buildFilter($this->requestFilter, $isNegation);
         $this->assertEquals($expectedResult, $actualResult);
     }
 
     /**
      * Data provider for BuildQuery
+     *
      * @return array
      */
     public function buildQueryDataProvider()
     {
         return [
-            [
+            'positive' => [
                 'field' => 'testField',
                 'value' => 'testValue',
+                'isNegation' => false,
                 'expectedResult' => 'testField = testValue',
             ],
-            [
+            'negative' => [
                 'field' => 'testField2',
                 'value' => 'testValue2',
-                'expectedResult' => 'testField2 = testValue2',
+                'isNegation' => true,
+                'expectedResult' => 'testField2 != testValue2',
             ],
         ];
     }

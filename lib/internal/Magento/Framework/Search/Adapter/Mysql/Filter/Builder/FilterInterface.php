@@ -7,13 +7,17 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
+use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
+
 interface FilterInterface
 {
     /**
-     * @param \Magento\Framework\Search\Request\FilterInterface $filter
+     * @param RequestFilterInterface $filter
+     * @param bool $isNegation
      * @return \Magento\Framework\DB\Select
      */
     public function buildFilter(
-        \Magento\Framework\Search\Request\FilterInterface $filter
+        RequestFilterInterface $filter,
+        $isNegation
     );
 }

@@ -65,18 +65,19 @@ class RangeTest extends \PHPUnit_Framework_TestCase
      * @param string $field
      * @param string $from
      * @param string $to
+     * @param bool $isNegation
      * @param string $expectedResult
      * @dataProvider buildQueryDataProvider
      */
-    public function testBuildQuery($field, $from, $to, $expectedResult)
+    public function testBuildQuery($field, $from, $to, $isNegation, $expectedResult)
     {
-        $this->requestFilter->expects($this->once())
+        $this->requestFilter->expects($this->any())
             ->method('getField')
             ->will($this->returnValue($field));
-        $this->requestFilter->expects($this->once())
+        $this->requestFilter->expects($this->atLeastOnce())
             ->method('getFrom')
             ->will($this->returnValue($from));
-        $this->requestFilter->expects($this->once())
+        $this->requestFilter->expects($this->atLeastOnce())
             ->method('getTo')
             ->will($this->returnValue($to));
         $this->adapter->expects($this->any())
@@ -89,12 +90,13 @@ class RangeTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $actualResult = $this->filter->buildFilter($this->requestFilter);
+        $actualResult = $this->filter->buildFilter($this->requestFilter, $isNegation);
         $this->assertEquals($expectedResult, $actualResult);
     }
 
     /**
      * Data provider for BuildQuery
+     *
      * @return array
      */
     public function buildQueryDataProvider()
@@ -104,36 +106,70 @@ class RangeTest extends \PHPUnit_Framework_TestCase
                 'field' => 'testField',
                 'from' => '0',
                 'to' => '10',
+                'isNegation' => false,
                 'expectedResult' => 'testField >= \'0\' AND testField < \'10\'',
             ],
             'rangeWithIntegers' => [
                 'field' => 'testField',
                 'from' => 50,
                 'to' => 50,
+                'isNegation' => false,
                 'expectedResult' => 'testField >= \'50\' AND testField < \'50\'',
             ],
             'rangeWithFloats' => [
                 'field' => 'testField',
                 'from' => 50.5,
                 'to' => 55.5,
+                'isNegation' => false,
                 'expectedResult' => 'testField >= \'50.5\' AND testField < \'55.5\'',
+            ],
+            'rangeWithStringsNegative' => [
+                'field' => 'testField',
+                'from' => '0',
+                'to' => '10',
+                'isNegation' => true,
+                'expectedResult' => 'testField < \'0\' AND testField >= \'10\'',
             ],
             'rangeWithoutFromValue' => [
                 'field' => 'testField',
                 'from' => null,
                 'to' => 50,
+                'isNegation' => false,
                 'expectedResult' => 'testField < \'50\'',
+            ],
+            'rangeWithoutFromValueNegative' => [
+                'field' => 'testField',
+                'from' => null,
+                'to' => 50,
+                'isNegation' => true,
+                'expectedResult' => 'testField >= \'50\'',
             ],
             'rangeWithoutToValue' => [
                 'field' => 'testField',
                 'from' => 50,
                 'to' => null,
+                'isNegation' => false,
                 'expectedResult' => 'testField >= \'50\'',
+            ],
+            'rangeWithoutToValueNegative' => [
+                'field' => 'testField',
+                'from' => 50,
+                'to' => null,
+                'isNegation' => true,
+                'expectedResult' => 'testField < \'50\'',
             ],
             'rangeWithEmptyValues' => [
                 'field' => 'testField',
                 'from' => null,
                 'to' => null,
+                'isNegation' => false,
+                'expectedResult' => '',
+            ],
+            'rangeWithEmptyValuesNegative' => [
+                'field' => 'testField',
+                'from' => null,
+                'to' => null,
+                'isNegation' => true,
                 'expectedResult' => '',
             ],
         ];

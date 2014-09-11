@@ -188,14 +188,10 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testBoolFilter()
     {
-        /*
-         * TODO: Remove test skipping after fixing issue
-         */
-        $this->markTestSkipped('Bool filter doesn\'t work correctly and we have issue in bug tracker');
         $expectedIds = [2, 3];
         $bindValues = [
             '%request.must.range_filter1.from%' => 1,
-            '%request.must.range_filter1.to%' => 5,
+            '%request.must.range_filter1.to%' => 6,
             '%request.should.term_filter1%' => 1,
             '%request.should.term_filter2%' => 2,
             '%request.should.term_filter3%' => 3,
@@ -204,6 +200,63 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             '%request.not.term_filter2%' => 4,
         ];
         $requestName = 'bool_filter';
+
+        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $this->assertEquals(count($expectedIds), $queryResponse->count());
+        $actualIds = [];
+        foreach ($queryResponse as $document) {
+            /** @var \Magento\Framework\Search\Document $document */
+            $actualIds[] = $document->getId();
+        }
+        $this->assertEquals($expectedIds, $actualIds);
+    }
+
+    /**
+     * Test bool filter with nested negative bool filter
+     *
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testBoolFilterWithNestedNegativeBoolFilter()
+    {
+        $expectedIds = [1];
+        $bindValues = [
+            '%request.not_range_filter.from%' => 2,
+            '%request.not_range_filter.to%' => 5,
+            '%request.nested_not_term_filter%' => 1,
+        ];
+        $requestName = 'bool_filter_with_nested_bool_filter';
+
+        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $this->assertEquals(count($expectedIds), $queryResponse->count());
+        $actualIds = [];
+        foreach ($queryResponse as $document) {
+            /** @var \Magento\Framework\Search\Document $document */
+            $actualIds[] = $document->getId();
+        }
+        $this->assertEquals($expectedIds, $actualIds);
+    }
+
+    /**
+     * Test range inside nested negative bool filter
+     *
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testBoolFilterWithNestedRangeInNegativeBoolFilter()
+    {
+        $expectedIds = [5, 4, 1];
+        $bindValues = [
+            '%request.nested_must_range_filter.from%' => 2,
+            '%request.nested_must_range_filter.to%' => 4,
+        ];
+        $requestName = 'bool_filter_with_range_in_nested_negative_filter';
 
         $queryResponse = $this->executeQuery($requestName, $bindValues);
         $this->assertEquals(count($expectedIds), $queryResponse->count());

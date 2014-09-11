@@ -8,9 +8,12 @@
 namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
 use Magento\Framework\App\Resource;
+use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 
 class Term implements FilterInterface
 {
+    const CONDITION_PART_EQUALS = '=';
+    const CONDITION_PART_NOT_EQUALS = '!=';
     /**
      * @var \Magento\Framework\App\Resource
      */
@@ -28,14 +31,16 @@ class Term implements FilterInterface
      * {@inheritdoc}
      */
     public function buildFilter(
-        \Magento\Framework\Search\Request\FilterInterface $filter
+        RequestFilterInterface $filter,
+        $isNegation
     ) {
         $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
 
         /** @var \Magento\Framework\Search\Request\Filter\Term $filter */
         $condition = sprintf(
-            '%s = %s',
+            '%s %s %s',
             $filter->getField(),
+            ($isNegation ? self::CONDITION_PART_NOT_EQUALS : self::CONDITION_PART_EQUALS),
             $adapter->quote($filter->getValue())
         );
         return $condition;

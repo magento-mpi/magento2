@@ -9,9 +9,13 @@ namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
 use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\Search\Request\Filter\Range as RangeFilterRequest;
+use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 
 class Range implements FilterInterface
 {
+    const CONDITION_PART_GREATER_THAN = '>=';
+    const CONDITION_PART_LOWER_THAN = '<';
     /**
      * @var \Magento\Framework\App\Resource
      */
@@ -26,45 +30,87 @@ class Range implements FilterInterface
     }
 
     /**
-     * @param \Magento\Framework\Search\Request\FilterInterface $filter
-     * @return \Magento\Framework\DB\Select
+     * {@inheritdoc}
      */
     public function buildFilter(
-        \Magento\Framework\Search\Request\FilterInterface $filter
+        RequestFilterInterface $filter,
+        $isNegation
     ) {
         $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
-        /** @var \Magento\Framework\Search\Request\Filter\Range $filter */
-        return $this->generateCondition($filter->getField(), $filter->getFrom(), $filter->getTo(), $adapter);
+        /** @var RangeFilterRequest $filter */
+        return $this->generateCondition(
+            $filter,
+            $isNegation,
+            $adapter
+        );
     }
 
-    private function generateCondition($field, $from, $to, AdapterInterface $adapter)
+    /**
+     * @param RequestFilterInterface|RangeFilterRequest $filter
+     * @param bool $isNegation
+     * @param AdapterInterface $adapter
+     * @return string
+     */
+    private function generateCondition(RequestFilterInterface $filter, $isNegation, AdapterInterface $adapter)
     {
-        $hasFromValue = !is_null($from);
-        $hasToValue = !is_null($to);
+        $leftPart = $this->generateConditionLeftPart($filter, $isNegation, $adapter);
+        $rightPart = $this->generateConditionRightPart($filter, $isNegation, $adapter);
+        $unionOperator = $this->generateConditionUnionOperator($leftPart, $rightPart, $isNegation);
 
+        return $leftPart . $unionOperator . $rightPart;
+    }
+
+    /**
+     * @param RequestFilterInterface|RangeFilterRequest $filter
+     * @param bool $isNegation
+     * @param AdapterInterface $adapter
+     * @return string
+     */
+    private function generateConditionLeftPart(RequestFilterInterface $filter, $isNegation, AdapterInterface $adapter)
+    {
         $condition = '';
+        if (!is_null($filter->getFrom())) {
+            $condition = sprintf(
+                '%s %s %s',
+                $filter->getField(),
+                ($isNegation ? self::CONDITION_PART_LOWER_THAN : self::CONDITION_PART_GREATER_THAN),
+                $adapter->quote($filter->getFrom())
+            );
+        }
+        return $condition;
+    }
 
-        if ($hasFromValue and $hasToValue) {
+    /**
+     * @param RequestFilterInterface|RangeFilterRequest $filter
+     * @param bool $isNegation
+     * @param AdapterInterface $adapter
+     * @return string
+     */
+    private function generateConditionRightPart(RequestFilterInterface $filter, $isNegation, AdapterInterface $adapter)
+    {
+        $condition = '';
+        if (!is_null($filter->getTo())) {
             $condition = sprintf(
-                '%s >= %s %s %s < %s',
-                $field,
-                $adapter->quote($from),
-                \Zend_Db_Select::SQL_AND,
-                $field,
-                $adapter->quote($to)
+                '%s %s %s',
+                $filter->getField(),
+                ($isNegation ? self::CONDITION_PART_GREATER_THAN : self::CONDITION_PART_LOWER_THAN),
+                $adapter->quote($filter->getTo())
             );
-        } elseif ($hasFromValue and !$hasToValue) {
-            $condition = sprintf(
-                '%s >= %s',
-                $field,
-                $adapter->quote($from)
-            );
-        } elseif (!$hasFromValue and $hasToValue) {
-            $condition = sprintf(
-                '%s < %s',
-                $field,
-                $adapter->quote($to)
-            );
+        }
+        return $condition;
+    }
+
+    /**
+     * @param string $leftPart
+     * @param string $rightPart
+     * @param bool $isNegation
+     * @return string
+     */
+    private function generateConditionUnionOperator($leftPart, $rightPart, $isNegation)
+    {
+        $condition = '';
+        if (!empty($leftPart) and !empty($rightPart)) {
+            $condition = ' ' . ($isNegation ? \Zend_Db_Select::SQL_OR : \Zend_Db_Select::SQL_AND) . ' ';
         }
         return $condition;
     }
