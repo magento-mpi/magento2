@@ -25,7 +25,7 @@ HTML;
     exit(1);
 }
 
-include $autoload;
+require $autoload;
 
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
