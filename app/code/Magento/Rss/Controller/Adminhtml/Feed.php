@@ -29,13 +29,13 @@ class Feed extends Authenticate
     protected $scopeConfig;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Rss\Model\RssManager $rssManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Rss\Model\RssManager $rssManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Rss\Model\RssFactory $rssFactory
