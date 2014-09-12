@@ -11,8 +11,13 @@
     <blocks>
         <giftRegistryItemsBlock>
             <class>Magento\GiftRegistry\Test\Block\Items</class>
-            <locator>#shopping-cart-table</locator>
+            <locator>.column.main</locator>
             <strategy>css selector</strategy>
         </giftRegistryItemsBlock>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.page.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
     </blocks>
 </page>
