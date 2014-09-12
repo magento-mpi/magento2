@@ -10,6 +10,7 @@ namespace Magento\GiftRegistry\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Items
@@ -22,16 +23,27 @@ class Items extends Block
      *
      * @var string
      */
-    protected $productName = '//a[contains(text(), "%s")]';
+    protected $productName = '//tr[//a[contains(text(), "%s")]]';
 
     /**
-     * Is visible product in gift registry items grid
+     * Product quantity selector in registry items grid
      *
-     * @param string $name
+     * @var string
+     */
+    protected $productQty = '[//input[@value="%s"]]';
+
+    /**
+     * Is product with appropriate quantity visible in gift registry items grid
+     *
+     * @param InjectableFixture $product
      * @return bool
      */
-    public function isProductInGrid($name)
+    public function isProductInGrid(InjectableFixture $product)
     {
-        return $this->_rootElement->find(sprintf($this->productName, $name), Locator::SELECTOR_XPATH)->isVisible();
+        $name = $product->getName();
+        $qty = $product->getCheckoutData()['qty'];
+        $productNameSelector = sprintf($this->productName, $name);
+        $selector = $qty === null ? $productNameSelector : $productNameSelector . sprintf($this->productQty, $qty);
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }

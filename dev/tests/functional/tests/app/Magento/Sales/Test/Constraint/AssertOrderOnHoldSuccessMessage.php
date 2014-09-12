@@ -12,15 +12,15 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 
 /**
- * Class AssertOrderCancelSuccessMessage
- * Assert that after cancel sales order successful message appears
+ * Class AssertOrderOnHoldSuccessMessage
+ * Assert that after putting order on hold success message appears
  */
-class AssertOrderCancelSuccessMessage extends AbstractConstraint
+class AssertOrderOnHoldSuccessMessage extends AbstractConstraint
 {
     /**
-     * Message displayed after cancel sales order
+     * Message displayed after put order on hold
      */
-    const SUCCESS_CANCEL_MESSAGE = 'You canceled the order.';
+    const SUCCESS_MESSAGE = 'You put the order on hold.';
 
     /**
      * Constraint severeness
@@ -30,7 +30,7 @@ class AssertOrderCancelSuccessMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after cancel sales order successful message appears
+     * Assert that after putting order on hold success message appears
      *
      * @param OrderView $orderView
      * @return void
@@ -38,7 +38,7 @@ class AssertOrderCancelSuccessMessage extends AbstractConstraint
     public function processAssert(OrderView $orderView)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_CANCEL_MESSAGE,
+            self::SUCCESS_MESSAGE,
             $orderView->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
@@ -51,6 +51,6 @@ class AssertOrderCancelSuccessMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Sales order success cancel message is present.';
+        return 'Order success put on hold message is present.';
     }
 }
