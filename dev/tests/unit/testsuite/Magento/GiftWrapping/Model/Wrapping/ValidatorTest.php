@@ -31,10 +31,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             'base_price' => 'Price'
         ];
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');
-        // prepare data
-        foreach ($presentFields as $key => $val) {
-            $wrapping->setData($key, $val);
-        }
+        $wrapping->setData($presentFields);
 
         $this->assertFalse($this->validator->isValid($wrapping));
     }
@@ -44,14 +41,11 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $presentFields = [
             'status' => 'Status',
             'base_price' => 'Price',
-            'design' => __('Field is required: Gift Wrapping Design')
+            'design' => 'Design'
         ];
 
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');
-        // prepare data
-        foreach ($presentFields as $key => $val) {
-            $wrapping->setData($key, $val);
-        }
+        $wrapping->setData($presentFields);
 
         $this->assertTrue($this->validator->isValid($wrapping));
     }
