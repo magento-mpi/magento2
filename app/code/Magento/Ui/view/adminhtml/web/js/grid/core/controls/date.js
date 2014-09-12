@@ -25,6 +25,38 @@ define([
                 to:   ''
             });
         },
+        
+        getValues: function(){
+            var value = {},
+                from = this.from(),
+                to = this.to();
+
+            if (from) {
+                value.from = from;
+            }
+
+            if (to) {
+                value.to = to;
+            }
+
+            return value;
+        },
+
+        display: function(){
+            var key,
+                values = this.getValues(),
+                result = [];
+
+            for(key in values){
+                result.push(key + ': ' + values[key]);
+            }
+
+            return result.join(' ');
+        },
+
+        isEmpty: function(){
+            return ( !this.to() && !this.from() );
+        },
 
         /**
          * Returns dump of instance's current state
@@ -33,11 +65,8 @@ define([
         dump: function () {
             return {
                 field: this.index,
-                value: {
-                    from: this.from(),
-                    to:   this.to()
-                }
-            }
+                value: this.getValues()
+            };
         },
 
         /**
@@ -45,10 +74,8 @@ define([
          * @returns {Object} - object which represents current state of instance
          */
         reset: function () {
-            this.to(null);
-            this.from(null);
-
-            return this.dump();
+            this.to('');
+            this.from('');
         }
     });
 });

@@ -20,6 +20,8 @@ define([
         initialize: function (data, config) {
             _.extend(this, data);
             this.config = config;
-        }
+        },
+
+        isEmpty: function(){}
     });
 });

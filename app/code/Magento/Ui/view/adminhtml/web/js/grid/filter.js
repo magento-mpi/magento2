@@ -21,7 +21,10 @@ define([
             this.config  = config;
             this.provider = this.config.provider;
 
-            this.observe('isVisible', false);
+            this.observe({
+                isVisible: false,
+                active: []
+            });
 
             this.extractFilterable()
                 .initFilters();
@@ -65,19 +68,36 @@ define([
             return this;
         },
 
+        findActive: function(){
+            var active;
+
+            active = this.filters.filter(function(filter){
+                return !filter.isEmpty();
+            });
+            
+            this.active(active);
+
+            return this;
+        },
+
         /**
          * Created handler for reset and apply actions.
          * @param {String} action - 'reset' or 'apply'.
          * @returns {Function} Function, which maps all filters with corresponding action of those and reloads storage
          */
         apply: function (action) {
-            return function () {
-                var params = this.filters.map(function (filter) {
-                    return filter[action].call(filter);
-                });
+            this.findActive()
+                .refresh(); 
+        },
 
-                this.updateParams(params).provider.refresh();    
-            }
+        reset: function(){
+            this.active().forEach(function (filter) {
+                filter.reset();
+            });
+
+            this.active([]);
+
+            this.refresh();
         },
 
         /**
@@ -86,7 +106,14 @@ define([
          * @returns {Object} - reference to instance
          */
         updateParams: function (filters) {
-            this.provider.params.set('filter', filters);
+            var filters = [],
+                params  = this.provider.params;
+
+            this.active().forEach(function(filter){
+                filters.push(filter.dump());
+            });
+
+            params.set('filter', filters);
 
             return this;
         },
@@ -103,6 +130,21 @@ define([
          */
         close: function () {
             this.isVisible(false);
+        },
+
+        onClear: function( filter ){
+            return function(){
+                filter.reset();
+
+                this.apply();
+            }.bind(this);
+        },
+
+        refresh: function(){
+            this.updateParams()
+                .provider.refresh();
+            
+            return this;
         },
 
         /**

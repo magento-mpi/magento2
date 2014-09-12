@@ -17,6 +17,13 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 class Context extends Registry
 {
     /**
+     * Data helper
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $dataHelper;
+
+    /**
      * Application request
      *
      * @var RequestInterface
@@ -34,10 +41,12 @@ class Context extends Registry
      * Constructor
      *
      * @param TemplateContext $context
+     * @param \Magento\Backend\Helper\Data $dataHelper
      * @param array $data
      */
-    public function __construct(TemplateContext $context, array $data = [])
+    public function __construct(TemplateContext $context, \Magento\Backend\Helper\Data $dataHelper, array $data = [])
     {
+        $this->dataHelper = $dataHelper;
         $this->request = $context->getRequest();
         $this->setAcceptType();
     }
@@ -112,5 +121,44 @@ class Context extends Registry
     public function setDataCollection($key, \Magento\Framework\Data\Collection $dataCollection)
     {
         $this->register($key, $dataCollection);
+    }
+
+    /**
+     * Get filter data
+     *
+     * @param string $filterVar
+     * @return array
+     */
+    public function getFilterData($filterVar)
+    {
+        $result = [];
+        $filterString = $this->request->getParam($filterVar);
+        if (!empty($filterString)) {
+            $result = $this->dataHelper->prepareFilterString($this->request->getParam($filterVar));
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set meta fields
+     *
+     * @param string $key
+     * @param array $data
+     */
+    public function setMetaFields($key, array $data)
+    {
+        $this->register($key, $data);
+    }
+
+    /**
+     * Get meta fields data
+     *
+     * @param $key
+     * @return array
+     */
+    public function getMetaFields($key)
+    {
+        return $this->registry($key);
     }
 }

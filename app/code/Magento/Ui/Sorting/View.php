@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\Paging;
+namespace Magento\Ui\Sorting;
 
 use Magento\Ui\AbstractView;
-use Magento\Ui\Listing\View as ListingView;
+use Magento\Ui\ViewInterface;
 
 /**
  * Class View
@@ -18,7 +18,7 @@ class View extends AbstractView
     /**
      * Root view component
      *
-     * @var ListingView
+     * @var ViewInterface
      */
     protected $rootComponent;
 
@@ -28,9 +28,7 @@ class View extends AbstractView
      * @var array
      */
     protected $viewConfiguration = [
-        'sizes' => [5, 10, 20, 30, 50, 100, 200],
-        'pageSize' => 5,
-        'current' => 1
+        'direction' => 'asc'
     ];
 
     /**
@@ -45,6 +43,8 @@ class View extends AbstractView
         $this->rootComponent = $this->getParentBlock()->getParentBlock();
         $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
         $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
+        $this->viewConfiguration['direction'] = $this->rootComponent->getData('config/params/direction');
+        $this->viewConfiguration['field'] = $this->rootComponent->getData('config/params/field');
 
         $this->rootComponent->addConfigData($this, $this->viewConfiguration);
 
@@ -58,8 +58,11 @@ class View extends AbstractView
      */
     protected function updateDataCollection()
     {
-        $this->renderContext->getDataCollection($this->getParentName())
-            ->setCurPage($this->renderContext->getRequestParam('page', $this->viewConfiguration['current']))
-            ->setPageSize($this->renderContext->getRequestParam('limit', $this->viewConfiguration['pageSize']));
+        if (!empty($this->viewConfiguration['field']) && !empty($this->viewConfiguration['direction'])) {
+            $this->renderContext->getDataCollection($this->getParentName())->setOrder(
+                $this->renderContext->getRequestParam('field', $this->viewConfiguration['field']),
+                strtoupper($this->renderContext->getRequestParam('dir', $this->viewConfiguration['direction']))
+            );
+        }
     }
 }

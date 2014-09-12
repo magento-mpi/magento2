@@ -15,17 +15,10 @@ use Magento\Ui\DataType\DataTypeInterface;
 interface FilterInterface
 {
     /**
-     * @return DataTypeInterface
+     * Get condition by data type
+     *
+     * @param string|array $value
+     * @return array|null
      */
-    public function getDataType();
-
-    /**
-     * @return array
-     */
-    public function getCondition();
-
-    /**
-     * @return string
-     */
-    public function render();
+    public function getCondition($value);
 }

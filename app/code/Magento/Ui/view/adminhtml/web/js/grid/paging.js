@@ -20,9 +20,8 @@ define([
             _.extend(this, defaults, config);
 
             this.initObservable(config)
+                .initProvider()
                 .updateParams();
-
-            this.provider.on('refresh', this.onRefresh.bind(this) );
         },
 
         initObservable: function(config) {
@@ -33,6 +32,21 @@ define([
                 'totalCount':   data.totalCount,
                 'current':      this.current,
                 'pageSize':     this.pageSize
+            });
+
+            return this;
+        },
+
+        initProvider: function(){
+            var provider = this.provider,
+                params = provider.params;
+
+            _.bindAll(this, 'drop', 'onRefresh');
+
+            provider.on('refresh', this.onRefresh);
+            params.on({
+                'update:filter': this.drop,
+                'update:sorting': this.drop
             });
 
             return this;
@@ -84,11 +98,17 @@ define([
             return this;
         },
 
+        drop: function(){
+            this.current(1);
+
+            this.updateParams();
+        },
+
         onRefresh: function() {
             var data = this.provider.data.get();
 
             this.totalCount(data.totalCount);
-            this.pages(data.pages);
+            this.pages(data.pages || 1);
         },
 
         onSizeChange: function(){
