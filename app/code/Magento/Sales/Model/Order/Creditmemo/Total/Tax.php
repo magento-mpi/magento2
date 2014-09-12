@@ -30,7 +30,7 @@ class Tax extends AbstractTotal
         /** @var $item \Magento\Sales\Model\Order\Creditmemo\Item */
         foreach ($creditmemo->getAllItems() as $item) {
             $orderItem = $item->getOrderItem();
-            if ($orderItem->isDummy()) {
+            if ($orderItem->isDummy() || $item->getQty() <= 0) {
                 continue;
             }
             $orderItemTax = (double)$orderItem->getTaxInvoiced();
@@ -123,16 +123,20 @@ class Tax extends AbstractTotal
             $baseTotalHiddenTax += $baseShippingHiddenTaxAmount;
         }
 
-        $allowedTax = $order->getTaxAmount() - $order->getTaxRefunded();
-        $allowedBaseTax = $order->getBaseTaxAmount() - $order->getBaseTaxRefunded();
-        $allowedHiddenTax = $order->getHiddenTaxAmount() +
+        $allowedTax = $order->getTaxInvoiced() - $order->getTaxRefunded() - $creditmemo->getTaxAmount();
+        $allowedBaseTax = $order->getBaseTaxInvoiced() - $order->getBaseTaxRefunded() - $creditmemo->getBaseTaxAmount();
+        $allowedHiddenTax = $order->getHiddenTaxInvoiced() +
             $order->getShippingHiddenTaxAmount() -
             $order->getHiddenTaxRefunded() -
-            $order->getShippingHiddenTaxRefunded();
-        $allowedBaseHiddenTax = $order->getBaseHiddenTaxAmount() +
+            $order->getShippingHiddenTaxRefunded() -
+            $creditmemo->getHiddenTaxAmount() -
+            $creditmemo->getShippingHiddenTaxAmount();
+        $allowedBaseHiddenTax = $order->getBaseHiddenTaxInvoiced() +
             $order->getBaseShippingHiddenTaxAmnt() -
             $order->getBaseHiddenTaxRefunded() -
-            $order->getBaseShippingHiddenTaxRefunded();
+            $order->getBaseShippingHiddenTaxRefunded() -
+            $creditmemo->getBaseShippingHiddenTaxAmnt() -
+            $creditmemo->getBaseHiddenTaxAmount();
 
 
         $totalTax = min($allowedTax, $totalTax);

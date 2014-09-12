@@ -266,7 +266,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         $rowTotalInclTax = $orderItem->getRowTotalInclTax();
         $baseRowTotalInclTax = $orderItem->getBaseRowTotalInclTax();
 
-        if (!$this->isLast() && $orderItemQtyInvoiced > 0) {
+        if (!$this->isLast() && $orderItemQtyInvoiced > 0 && $this->getQty() > 0) {
             $availableQty = $orderItemQtyInvoiced - $orderItem->getQtyRefunded();
             $rowTotal = $creditmemo->roundPrice($rowTotal / $availableQty * $this->getQty());
             $baseRowTotal = $creditmemo->roundPrice($baseRowTotal / $availableQty * $this->getQty(), 'base');
