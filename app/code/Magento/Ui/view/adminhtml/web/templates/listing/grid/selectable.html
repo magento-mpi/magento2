@@ -9,19 +9,21 @@
 <table>
     <thead>
         <tr data-part-prepend="head.row">
-            <th class="col-select col-massaction" data-bind="scope: $parent.getExtender('actions')">
-                <div class="mass-select" data-bind="css: { 'active': isVisible }, click: toggle">
-                    <div class="field choice mass-select-field">
+            <th class="col-select col-massaction" data-bind="scope: $parent.getExtender('selectable')">
+                <div class="mass-select">
+                    <label class="field choice mass-select-field">
                         <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isAllSelected">
-                    </div>
-                    <button class="mass-select-toggle" data-toggle="dropdown">
+                    </label>
+                    <button class="mass-select-toggle"
+                            data-toggle="dropdown"
+                            data-bind="css: { 'active': isVisibleSelects }, click: toggleSelects">
                         <span data-bind="text: $t('Options')"></span>
                     </button>
                     <ul class="mass-select-menu" data-bind="
-                        foreach: { data: actions, as: 'action' },
-                        css: { 'active': isVisible } 
+                        foreach: { data: selects , as: 'action' },
+                        css: { 'active': isVisibleSelects }
                     ">
-                        <li data-bind="click: $parent.apply(action.value)">
+                        <li data-bind="click: $parent.applySelectAction(action.value)">
                             <span data-bind="text: $t(action.label)"></span>
                         </li>
                     </ul>
