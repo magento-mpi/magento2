@@ -33,12 +33,20 @@ class History extends Block
     protected $capturedAmount = '//div[@class="note-list-comment"][contains(text(), "captured amount of")]';
 
     /**
+     * Note list locator
+     *
+     * @var string
+     */
+    protected $noteList = '.note-list';
+
+    /**
      * Get comments history
      *
      * @return string
      */
     public function getCommentsHistory()
     {
+        $this->waitCommentsHistory();
         return $this->_rootElement->find($this->commentHistory, Locator::SELECTOR_CSS)->getText();
     }
 
@@ -49,14 +57,23 @@ class History extends Block
      */
     public function getCapturedAmount()
     {
+        $this->waitCommentsHistory();
+        return $this->_rootElement->find($this->capturedAmount, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Wait for comments history is visible
+     *
+     * @return void
+     */
+    protected function waitCommentsHistory()
+    {
         $element = $this->_rootElement;
-        $selector = $this->capturedAmount;
-        $this->_rootElement->waitUntil(
+        $selector = $this->noteList;
+        $element->waitUntil(
             function () use ($element, $selector) {
-                $addProductsButton = $element->find($selector, Locator::SELECTOR_XPATH);
-                return $addProductsButton->isVisible() ? true : null;
+                return $element->find($selector)->isVisible() ? true : null;
             }
         );
-        return $this->_rootElement->find($this->capturedAmount, Locator::SELECTOR_XPATH)->getText();
     }
 }
