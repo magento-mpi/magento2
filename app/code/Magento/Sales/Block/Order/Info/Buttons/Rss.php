@@ -28,27 +28,19 @@ class Rss extends \Magento\Framework\View\Element\Template
     protected $rssUrlBuilder;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $config;
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->orderFactory = $orderFactory;
         $this->rssUrlBuilder = $rssUrlBuilder;
-        $this->config = $scopeConfig;
         parent::__construct($context, $data);
     }
 
@@ -75,7 +67,7 @@ class Rss extends \Magento\Framework\View\Element\Template
      */
     public function isRssAllowed()
     {
-        return (bool) $this->config->getValue('rss/order/status', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool) $this->_scopeConfig->getValue('rss/order/status', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

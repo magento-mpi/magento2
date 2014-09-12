@@ -32,6 +32,7 @@ class Feed extends Authenticate
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Rss\Model\RssManager $rssManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,

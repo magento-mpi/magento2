@@ -2761,6 +2761,6 @@ return array(
     ['Magento\Rss\Controller\Adminhtml\Order\NewAction'],
     ['Magento\Rss\Controller\Order\Status'],
     ['Magento\Rss\Helper\Order'],
-    ['Magento\Sales\Block\Order\Details', 'Magento\Rss\Block\Order\Details'],
-    ['Magento\Sales\Model\Resource\Order\Rss\OrderStatus', 'Magento\Rss\Model\Resource\Order']
+    ['Magento\Rss\Block\Order\Details', 'Magento\Sales\Block\Order\Details'],
+    ['Magento\Rss\Model\Resource\Order', 'Magento\Sales\Model\Resource\Order\Rss\OrderStatus']
 );

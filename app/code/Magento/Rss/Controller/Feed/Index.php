@@ -43,11 +43,7 @@ class Index extends \Magento\Rss\Controller\Feed
         $rss = $this->rssFactory->create();
         $rss->setDataProvider($provider);
 
-        try {
-            $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
-            $this->getResponse()->setBody($rss->createRssXml());
-        } catch (\Exception $e) {
-            throw new NotFoundException($e->getMessage());
-        }
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+        $this->getResponse()->setBody($rss->createRssXml());
     }
 }
