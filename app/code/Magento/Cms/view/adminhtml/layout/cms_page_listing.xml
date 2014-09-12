@@ -22,6 +22,8 @@
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>
+                    <item name="filterable" xsi:type="boolean">true</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
                 </item>
                 <item name="fields" xsi:type="array">
                     <item name="page_id" xsi:type="array">
@@ -30,21 +32,18 @@
                         <item name="visible" xsi:type="boolean">false</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="index" xsi:type="string">page_id</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
                     <item name="title" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Title</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
                     <item name="identifier" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">URL Key</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
@@ -77,6 +76,7 @@
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">bool</item>
                         <item name="filter_type" xsi:type="string">select</item>
+                        <item name="sortable" xsi:type="boolean">false</item>
                         <item name="options" xsi:type="array">
                             <item name="disable" xsi:type="array">
                                 <item name="value" xsi:type="string">0</item>
@@ -91,14 +91,12 @@
                     <item name="creation_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Created</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">date</item>
                     </item>
                     <item name="update_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Modified</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">date</item>
                     </item>
@@ -107,6 +105,7 @@
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">actions</item>
                         <item name="filterable" xsi:type="boolean">false</item>
+                        <item name="sortable" xsi:type="boolean">false</item>
                     </item>
                 </item>
             </argument>
