@@ -948,37 +948,6 @@ class Store extends AbstractModel implements
     }
 
     /**
-     * Round price
-     *
-     * @param float $price
-     * @return float
-     */
-    public function roundPrice($price)
-    {
-        return round($price, 2);
-    }
-
-    /**
-     * Get store price filter
-     *
-     * @return Filter|\Magento\Framework\Filter\Sprintf
-     */
-    public function getPriceFilter()
-    {
-        if (!$this->_priceFilter) {
-            if ($this->getBaseCurrency() && $this->getCurrentCurrency()) {
-                $this->_priceFilter = $this->getCurrentCurrency()->getFilter();
-                $this->_priceFilter->setRate($this->getBaseCurrency()->getRate($this->getCurrentCurrency()));
-            } elseif ($this->getDefaultCurrency()) {
-                $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
-            } else {
-                $this->_priceFilter = new \Magento\Framework\Filter\Sprintf('%s', 2);
-            }
-        }
-        return $this->_priceFilter;
-    }
-
-    /**
      * Retrieve root category identifier
      *
      * @return int
