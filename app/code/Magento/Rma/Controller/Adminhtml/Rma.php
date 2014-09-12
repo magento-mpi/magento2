@@ -53,12 +53,18 @@ class Rma extends \Magento\Backend\App\Action
     protected $labelService;
 
     /**
+     * @var \Magento\Rma\Model\Rma\RmaDataMapper
+     */
+    protected $rmaDataMapper;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Rma\Model\Shipping\LabelService $labelService
+     * @param RmaModel\RmaDataMapper $rmaDataMapper
      */
     public function __construct(
         Action\Context $context,
@@ -66,13 +72,15 @@ class Rma extends \Magento\Backend\App\Action
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Shipping\Helper\Carrier $carrierHelper,
-        \Magento\Rma\Model\Shipping\LabelService $labelService
+        \Magento\Rma\Model\Shipping\LabelService $labelService,
+        \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
         $this->carrierHelper = $carrierHelper;
         $this->labelService = $labelService;
+        $this->rmaDataMapper = $rmaDataMapper;
         parent::__construct($context);
     }
 
@@ -146,50 +154,6 @@ class Rma extends \Magento\Backend\App\Action
         }
         $this->_coreRegistry->register('rma_create_model', $model);
         return $model;
-    }
-
-    /**
-     * Filter RMA save request
-     *
-     * @param array $saveRequest
-     * @return array
-     * @throws \Magento\Framework\Model\Exception
-     */
-    protected function _filterRmaSaveRequest(array $saveRequest)
-    {
-        if (!isset($saveRequest['items'])) {
-            throw new \Magento\Framework\Model\Exception(__('We failed to save this RMA. No items have been specified.'));
-        }
-        $saveRequest['items'] = $this->_filterRmaItems($saveRequest['items']);
-        return $saveRequest;
-    }
-
-    /**
-     * Filter user provided RMA items
-     *
-     * @param array $rawItems
-     * @return array
-     */
-    protected function _filterRmaItems(array $rawItems)
-    {
-        $items = array();
-        foreach ($rawItems as $key => $itemData) {
-            if (!isset(
-                $itemData['qty_authorized']
-            ) && !isset(
-                $itemData['qty_returned']
-            ) && !isset(
-                $itemData['qty_approved']
-            ) && !isset(
-                $itemData['qty_requested']
-            )
-            ) {
-                continue;
-            }
-            $itemData['entity_id'] = strpos($key, '_') === false ? $key : false;
-            $items[$key] = $itemData;
-        }
-        return $items;
     }
 
     /**

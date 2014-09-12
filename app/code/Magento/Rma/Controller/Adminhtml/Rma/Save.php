@@ -60,8 +60,8 @@ class Save extends SaveNew
             return;
         }
         try {
-            $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
-            $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
+            $saveRequest = $this->rmaDataMapper->filterRmaSaveRequest($this->getRequest()->getPost());
+            $itemStatuses = $this->rmaDataMapper->combineItemStatuses($saveRequest['items'], $rmaId);
             $model = $this->_initModel('rma_id');
             /** @var $sourceStatus \Magento\Rma\Model\Rma\Source\Status */
             $sourceStatus = $this->_objectManager->create('Magento\Rma\Model\Rma\Source\Status');

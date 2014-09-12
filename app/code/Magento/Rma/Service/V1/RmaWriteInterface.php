@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rma\Service\V1;
 
 interface RmaWriteInterface
@@ -26,4 +27,23 @@ interface RmaWriteInterface
      * @return bool
      */
     public function removeTrackById($rmaId, $trackId);
+
+    /**
+     * Create rma
+     *
+     * @param \Magento\Rma\Service\V1\Data\Rma $rmaDataObject
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(\Magento\Rma\Service\V1\Data\Rma $rmaDataObject);
+
+    /**
+     * Update rma
+     *
+     * @param int $rmaId
+     * @param \Magento\Rma\Service\V1\Data\Rma $rmaDataObject
+     * @return bool
+     * @throws \Exception
+     */
+    public function update($rmaId, \Magento\Rma\Service\V1\Data\Rma $rmaDataObject);
 }
