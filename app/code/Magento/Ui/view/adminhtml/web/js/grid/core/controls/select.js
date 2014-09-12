@@ -10,15 +10,6 @@ define([
 ], function (AbstractControl, _) {
     'use strict';
 
-    /**
-     * Convertes object to array, ignoring it's keys.
-     * @param {Object} object - Object to convert
-     * @returns {Array} - Converted result
-     */
-    function toArrayIgnoringKeys(object) {
-        return _.map(object, function (value) { return value; });
-    };
-
     return AbstractControl.extend({
 
         /**
@@ -36,6 +27,7 @@ define([
             this.options = this.options ? this.formatOptions(this.options) : [];
         },
 
+
         isEmpty: function(){
             var selected = this.selected();
 
@@ -43,12 +35,14 @@ define([
         },
 
         /**
-         * Formats options property of instance using toArrayIgnoringKeys function.
+         * Formats options property of instance.
          * @param {Object} options - object representing options
          * @returns {Array} - Options, converted to array
          */
         formatOptions: function (options) {
-            return toArrayIgnoringKeys(options);
+            return _.map(options, function (value, key) {
+                return { value: key, label: value  };
+            });
         },
 
         display: function(){

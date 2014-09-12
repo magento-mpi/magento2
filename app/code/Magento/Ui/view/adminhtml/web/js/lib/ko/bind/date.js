@@ -1,23 +1,23 @@
-define(['ko', 'moment', 'jquery'], function(ko, moment, $) {
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+define([
+    'ko',
+    'moment',
+    'jquery'
+], function(ko, moment, $) {
+    'use strict';
+
     ko.bindingHandlers.date = {
-        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-            var value = valueAccessor();
-            var allBindings = allBindingsAccessor();
-            var valueUnwrapped = ko.utils.unwrapObservable(value);
+        init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+            var config = valueAccessor(),
+                format = config.format,
+                date   = moment(config.value).format(format);
 
-            // Date formats: http://momentjs.com/docs/#/displaying/format/
-            var pattern = allBindings.format || 'MMM d, YYYY hh:mm A';
-
-            var output = "-";
-            if (valueUnwrapped !== null && valueUnwrapped !== undefined) {
-                output = moment(valueUnwrapped).format(pattern);
-            }
-
-            if ($(element).is("input") === true) {
-                $(element).val(output);
-            } else {
-                $(element).text(output);
-            }
+            $(element).text(date);
         }
     };
 });

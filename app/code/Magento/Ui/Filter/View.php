@@ -45,7 +45,7 @@ class View extends AbstractView
      */
     protected $viewConfiguration = [
         'types' => [
-            'date_range' => [
+            'date' => [
                 'dateFormat' => 'mm/dd/yyyy'
             ]
         ]

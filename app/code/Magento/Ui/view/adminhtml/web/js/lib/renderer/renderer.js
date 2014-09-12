@@ -135,7 +135,7 @@ define([
                 actionNodes  = toArray(container.querySelectorAll(partSelector));
 
                 actionNodes.forEach(function(node) {
-                    targetPart = node.dataset['part' + capitalizeFirstLetter(action)];
+                    targetPart = node.getAttribute('data-part-' + action);
 
                     if (!partsMap[targetPart]) {
                         partsMap[targetPart] = {};
@@ -207,7 +207,7 @@ define([
      * @return {String} - value of [data-part-extend] attribute
      */
     function extractTemplatePath(node) {
-        return node.dataset.templateExtend;
+        return node.getAttribute('data-template-extend');
     }
 
     /**
@@ -237,15 +237,6 @@ define([
         nodes.forEach(function (node) {
             container.appendChild(node);
         });
-    }
-
-    /**
-     * Capitalizes first letter of passed string and returns new string.
-     * @param  {String} str - string to format
-     * @return {String} - result string
-     */
-    function capitalizeFirstLetter(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
     /**
