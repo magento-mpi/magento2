@@ -33,7 +33,7 @@ class Observer
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -83,7 +83,7 @@ class Observer
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param RewardFactory $rewardFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
@@ -97,7 +97,7 @@ class Observer
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Framework\Logger $logger,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,

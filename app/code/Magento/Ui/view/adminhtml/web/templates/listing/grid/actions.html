@@ -1,10 +1,18 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <table>
     <thead>
         <tr data-part-prepend="head.row">
             <th class="col-select col-massaction" data-bind="scope: $parent.getExtender('actions')">
                 <div class="mass-select" data-bind="css: { 'active': isVisible }, click: toggle">
                     <div class="field choice mass-select-field">
-                        <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isSelectedIndicatorChecked()">
+                        <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isAllSelected">
                     </div>
                     <button class="mass-select-toggle" data-toggle="dropdown">
                         <span data-bind="text: $t('Options')"></span>
@@ -14,7 +22,7 @@
                         css: { 'active': isVisible } 
                     ">
                         <li data-bind="click: $parent.apply(action.value)">
-                            <span data-bind="text: action.label"></span>
+                            <span data-bind="text: $t(action.label)"></span>
                         </li>
                     </ul>
                 </div>

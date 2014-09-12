@@ -49,7 +49,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
                     ),
                 'resource' => $this->getMock('\Magento\TargetRule\Model\Resource\Index', [], [], '', false),
                 'storeManager' => $this->getMockForAbstractClass(
-                        '\Magento\Store\Model\StoreManagerInterface',
+                        '\Magento\Framework\StoreManagerInterface',
                         [],
                         '',
                         false

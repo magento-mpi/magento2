@@ -42,12 +42,12 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
@@ -55,7 +55,7 @@ class Observer
      * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
