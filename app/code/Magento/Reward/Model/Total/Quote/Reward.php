@@ -86,9 +86,9 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             }
             $pointsLeft = $reward->getPointsBalance() - $quote->getRewardPointsBalance();
             $rewardCurrencyAmountLeft = $this->priceCurrency->convert(
-                    $reward->getCurrencyAmount(),
-                    $quote->getStore()
-                ) - $quote->getRewardCurrencyAmount();
+                $reward->getCurrencyAmount(),
+                $quote->getStore()
+            ) - $quote->getRewardCurrencyAmount();
             $baseRewardCurrencyAmountLeft = $reward->getCurrencyAmount() - $quote->getBaseRewardCurrencyAmount();
             if ($baseRewardCurrencyAmountLeft >= $address->getBaseGrandTotal()) {
                 $pointsBalanceUsed = $reward->getPointsEquivalent($address->getBaseGrandTotal());

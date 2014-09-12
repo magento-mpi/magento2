@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

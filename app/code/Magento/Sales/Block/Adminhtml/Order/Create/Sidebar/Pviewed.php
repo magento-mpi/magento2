@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

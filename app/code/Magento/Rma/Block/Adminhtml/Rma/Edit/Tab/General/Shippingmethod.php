@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

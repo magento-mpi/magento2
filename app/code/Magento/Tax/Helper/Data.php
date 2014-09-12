@@ -13,7 +13,6 @@ use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
 use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;

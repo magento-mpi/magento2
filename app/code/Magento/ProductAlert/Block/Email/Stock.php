@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\ProductAlert\Block\Email;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Shipping\Method;
-use Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

@@ -7,6 +7,7 @@
  */
 
 namespace Magento\SalesRule\Model;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

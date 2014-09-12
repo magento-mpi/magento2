@@ -17,7 +17,6 @@ namespace Magento\CatalogRule\Model\Resource;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogRule\Model\Rule as ModelRule;
 use Magento\Framework\Model\AbstractModel;
-use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource

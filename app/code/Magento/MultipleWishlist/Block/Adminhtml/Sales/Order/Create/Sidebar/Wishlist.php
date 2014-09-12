@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

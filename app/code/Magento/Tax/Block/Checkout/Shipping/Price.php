@@ -8,8 +8,6 @@
 namespace Magento\Tax\Block\Checkout\Shipping;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Sales\Model\Quote\Address\Rate;
-use Magento\Checkout\Block\Cart\AbstractCart;
 
 class Price extends \Magento\Checkout\Block\Shipping\Price
 {

@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Paypal\Block\Express;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

@@ -215,7 +215,13 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         $this->_compareHelper = $compareHelper;
         $this->stockItemService = $stockItemService;
         parent::__construct(
-            $context, $registry, $productFactory, $priceCurrency, $resource, $resourceCollection, $data
+            $context,
+            $registry,
+            $productFactory,
+            $priceCurrency,
+            $resource,
+            $resourceCollection,
+            $data
         );
     }
 

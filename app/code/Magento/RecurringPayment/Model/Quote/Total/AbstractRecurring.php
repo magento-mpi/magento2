@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\RecurringPayment\Model\Quote\Total;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

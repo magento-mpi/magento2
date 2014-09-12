@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Customer balance block for order creation page

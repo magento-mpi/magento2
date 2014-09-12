@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

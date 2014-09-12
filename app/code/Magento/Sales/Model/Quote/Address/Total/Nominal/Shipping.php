@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Nominal shipping total

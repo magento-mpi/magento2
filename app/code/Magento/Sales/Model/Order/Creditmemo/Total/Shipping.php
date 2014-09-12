@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Model\Order\Creditmemo\Total;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

@@ -92,8 +92,8 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->priceCurrency = $priceCurrency;

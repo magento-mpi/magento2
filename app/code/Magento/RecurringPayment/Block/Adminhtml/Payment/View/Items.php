@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\RecurringPayment\Block\Adminhtml\Payment\View;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**

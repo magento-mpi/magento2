@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Payment\Model\Method;
+
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
