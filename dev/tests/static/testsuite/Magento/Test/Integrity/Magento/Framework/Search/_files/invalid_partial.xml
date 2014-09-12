@@ -20,7 +20,7 @@
                 <queryReference clause="not" ref="fulltext_search_query" />
             </query>
 
-            <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
+            <query xsi:type="matchQuery" value="$fulltext_search_query$" name="fulltext_search_query" boost="5">
                 <match field="title" boost="2" />
                 <match field="description" />
             </query>
@@ -34,7 +34,7 @@
             </query>
         </queries>
         <filters>
-            <filter xsi:type="termFilter" name="promoted_documents_boost"  />
+            <filter xsi:type="termFilter" name="promoted_documents_boost" value="$promoted_documents_boost$" />
             <filter xsi:type="rangeFilter" field="promoted" name="price_name" from="10" to="100" />
             <filter xsi:type="boolFilter" name="price_name1">
                 <filterReference clause="must" ref="price_name" />
