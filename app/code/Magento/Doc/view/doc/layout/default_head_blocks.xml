@@ -9,6 +9,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <head>
+        <css src="css/styles.css"/>
         <css src="mage/calendar.css"/>
         <css src="Magento_Doc::css/doc.css"/>
         <css src="Magento_Doc::jumly/css/jumly.min.css"/>
@@ -16,5 +17,12 @@
         <link src="jquery/jquery.js"/>
         <link src="mage/jquery-no-conflict.js"/>
         <link src="app-config.js"/>
+        <link src="Magento_Doc::jumly/coffee-script.js"/>
+        <link src="Magento_Doc::jumly/jumly.min.js"/>
     </head>
+    <referenceContainer name="after.body.start">
+        <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml">
+            <block class="Magento\Framework\View\Element\Template" name="theme_page_head_components" template="Magento_Theme::js/components.phtml"/>
+        </block>
+    </referenceContainer>
 </page>
