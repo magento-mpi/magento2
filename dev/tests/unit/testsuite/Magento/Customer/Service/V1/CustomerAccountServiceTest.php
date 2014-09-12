@@ -31,7 +31,7 @@ use Magento\Framework\Service\ExtensibleDataObjectConverter;
 class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** Sample values for testing */
-    const ID = 1;
+    const ID = '1';
     const FIRSTNAME = 'Jane';
     const LASTNAME = 'Doe';
     const NAME = 'J';
@@ -651,7 +651,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->validateResetPasswordLinkToken(1, $resetToken);
+            $customerService->validateResetPasswordLinkToken('1', $resetToken);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
             $this->assertSame('No such entity with customerId = 1', $nsee->getMessage());
@@ -665,7 +665,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_mockReturnValue(
             $this->_customerModelMock,
             array(
-                'getId' => 0,
+                'getId' => '0',
                 'load' => $this->_customerModelMock,
                 'getRpToken' => $resetToken,
                 'isResetPasswordLinkTokenExpired' => false
@@ -682,7 +682,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->validateResetPasswordLinkToken(14, null);
+            $customerService->validateResetPasswordLinkToken('14', null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
             $this->assertEquals(InputException::REQUIRED_FIELD, $e->getRawMessage());
@@ -1016,7 +1016,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
-        $invalidCustomerId = 4200;
+        $invalidCustomerId = '4200';
 
         $this->_customerRegistry
             ->expects($this->any())
