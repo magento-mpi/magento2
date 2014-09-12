@@ -19,15 +19,10 @@ define([
         },
 
         preprocess: function() {
-            var fields,
-                fieldsMap,
-                result;
+            var data    = this.data,
+                fields  = data.fields;
 
-            fields      = this.data.fields;
-            fieldsMap   = this._sortedFieldsMap(fields);
-            result      = this._fieldsToArray(fields, fieldsMap);
-
-            this.data.fields = result;
+            data.fields = this._fieldsToArray(fields);
 
             return this;
         },
@@ -73,35 +68,18 @@ define([
             return this;
         },
 
-        _sortedFieldsMap: function(fields){
-            var fieldsMap;
-
-            fieldsMap = _.map(fields, function(field, index) {
-                return {
-                    pos: field.position,
-                    index: index
-                };
+        getVisible: function(){
+            var fields  = this.data.fields;
+            
+            return fields.filter(function(field){
+                return field.visible;
             });
-
-            fieldsMap.sort(function(a, b) {
-                return a.pos - b.pos;
-            });
-
-            return fieldsMap;
         },
 
-        _fieldsToArray: function(fields, fieldsMap){
-            var field,
-                index;
-
-            return fieldsMap.map(function(item) {
-                index = item.index;
-                field = fields[index];
-
-                delete field.position;
-
-                field.index = index;
-
+        _fieldsToArray: function(fields){
+            return _.map(fields, function(field, id){
+                field.index = id;
+                
                 return field;
             });
         }

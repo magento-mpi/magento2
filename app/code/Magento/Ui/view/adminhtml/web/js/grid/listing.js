@@ -26,7 +26,7 @@ define([
                 .initProvider()
                 .updateItems();
             
-            this.fields = this.provider.meta.get('fields');
+            this.fields = this.provider.meta.getVisible();
         },
 
         /**
