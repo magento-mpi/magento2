@@ -6,4 +6,9 @@
  * @license     {license_link}
  */
 -->
-<span data-bind="text: row[field.index]"></span>
+<div data-bind="'if': 'options' in $data">
+    <span data-bind="text: options[$parent[index]]"></span>
+</div>
+<div data-bind="ifnot: 'options' in $data">
+    <span data-bind="text: row[field.index]"></span>
+</div>
