@@ -1672,9 +1672,9 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
-    ['getCurrentStore', 'Magento\Store\Model\StoreManagerInterface'],
-    ['getAnyStoreView', 'Magento\Store\Model\StoreManagerInterface'],
-    ['throwStoreException', 'Magento\Store\Model\StoreManagerInterface'],
+    ['getCurrentStore', 'Magento\Framework\StoreManagerInterface'],
+    ['getAnyStoreView', 'Magento\Framework\StoreManagerInterface'],
+    ['throwStoreException', 'Magento\Framework\StoreManagerInterface'],
     ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
@@ -1788,6 +1788,7 @@ return array(
     ['getCalculator', '\Magento\Tax\Helper\Data'],
     ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
     ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['getMaxRecipients', 'Magento\Catalog\Block\Product\Send'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
@@ -1900,4 +1901,5 @@ return array(
     ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['getMethodFormBlock', 'Magento\Centinel\Helper\Data'],
+    ['login', 'Magento\Customer\Model\Session'],
 );

@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
 use Magento\CatalogPermissions\Helper\Data as Helper;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Eav\Model\Entity\Attribute;
 
 class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -27,7 +27,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $helper;
 
     /**
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 

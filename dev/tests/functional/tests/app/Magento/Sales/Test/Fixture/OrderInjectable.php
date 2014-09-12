@@ -16,6 +16,7 @@ use Mtf\Fixture\InjectableFixture;
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class OrderInjectable extends InjectableFixture
 {
@@ -30,7 +31,7 @@ class OrderInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\Sales\Test\Handler\OrderInjectable\OrderInjectableInterface';
 
     protected $defaultDataSet = [
-        'customer_id' => ['preset' => 'default'],
+        'customer_id' => ['dataSet' => 'default'],
         'base_currency_code' => false,
         'store_id' => ['dataSet' => 'default_store_view'],
         'order_currency_code' => 'USD',
@@ -73,6 +74,8 @@ class OrderInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\CouponCode',
+        'group' => null
     ];
 
     protected $protect_code = [
@@ -1661,6 +1664,14 @@ class OrderInjectable extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $price = [
+        'attribute_code' => 'price',
+        'backend_type' => 'virtual',
+        'is_required' => '1',
+        'group' => null,
+        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\Price',
+    ];
+
     public function getEntityId()
     {
         return $this->getData('entity_id');
@@ -2669,5 +2680,10 @@ class OrderInjectable extends InjectableFixture
     public function getId()
     {
         return $this->getData('id');
+    }
+
+    public function getPrice()
+    {
+        return $this->getData('price');
     }
 }

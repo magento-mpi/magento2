@@ -60,11 +60,11 @@ class Compare extends \Magento\Core\Helper\Url
     protected $_customerSession;
 
     /**
-     * Log visitor
+     * Customer visitor
      *
-     * @var \Magento\Log\Model\Visitor
+     * @var \Magento\Customer\Model\Visitor
      */
-    protected $_logVisitor;
+    protected $_customerVisitor;
 
     /**
      * Catalog product visibility
@@ -97,10 +97,10 @@ class Compare extends \Magento\Core\Helper\Url
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
-     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Visitor $customerVisitor
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Data\Form\FormKey $formKey
@@ -109,10 +109,10 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Visitor $customerVisitor,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Data\Form\FormKey $formKey,
@@ -121,7 +121,7 @@ class Compare extends \Magento\Core\Helper\Url
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
-        $this->_logVisitor = $logVisitor;
+        $this->_customerVisitor = $customerVisitor;
         $this->_customerSession = $customerSession;
         $this->_catalogSession = $catalogSession;
         $this->_formKey = $formKey;
@@ -273,7 +273,7 @@ class Compare extends \Magento\Core\Helper\Url
             } elseif ($this->_customerId) {
                 $this->_itemCollection->setCustomerId($this->_customerId);
             } else {
-                $this->_itemCollection->setVisitorId($this->_logVisitor->getId());
+                $this->_itemCollection->setVisitorId($this->_customerVisitor->getId());
             }
 
             $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
@@ -306,7 +306,7 @@ class Compare extends \Magento\Core\Helper\Url
         } elseif ($this->_customerId) {
             $collection->setCustomerId($this->_customerId);
         } else {
-            $collection->setVisitorId($this->_logVisitor->getId());
+            $collection->setVisitorId($this->_customerVisitor->getId());
         }
 
         /* Price data is added to consider item stock status using price index */

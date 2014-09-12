@@ -48,7 +48,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     protected $_customerWebsiteSegments = array();
 
     /**
-     * @var \Magento\Log\Model\Visitor
+     * @var \Magento\Customer\Model\Visitor
      */
     protected $_visitor;
 
@@ -70,7 +70,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * Store list manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -85,8 +85,8 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * @param Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\Log\Model\Visitor $visitor
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Visitor $visitor
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -99,8 +99,8 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\Log\Model\Visitor $visitor,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Visitor $visitor,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

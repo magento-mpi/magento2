@@ -154,7 +154,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $dateFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -182,7 +182,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
@@ -208,7 +208,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,

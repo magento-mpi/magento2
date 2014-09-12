@@ -20,6 +20,8 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
      *
      * @param string $name
      * @return array|null
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {

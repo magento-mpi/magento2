@@ -15,7 +15,7 @@ use Magento\Framework\App\Filesystem;
 class DispatchExceptionHandler
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 

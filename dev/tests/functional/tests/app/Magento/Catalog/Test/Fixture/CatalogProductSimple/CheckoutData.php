@@ -128,6 +128,9 @@ class CheckoutData implements FixtureInterface
             ],
             'order_default' => [
                 'qty' => 1
+            ],
+            'order_big_qty' => [
+                'qty' => 900
             ]
         ];
         return isset($presets[$name]) ? $presets[$name] : [];
