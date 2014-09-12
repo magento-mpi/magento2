@@ -10,6 +10,7 @@ namespace Magento\Ui\Listing;
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
 use \Magento\Ui\Provider\ProviderFactory;
+use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
@@ -31,6 +32,7 @@ class View extends AbstractView
     /**
      * Constructor
      *
+     * @param OptionsFactory $optionsFactory
      * @param ProviderFactory $providerFactory
      * @param Context $renderContext
      * @param TemplateContext $context
@@ -38,12 +40,14 @@ class View extends AbstractView
      * @param array $data
      */
     public function __construct(
+        OptionsFactory $optionsFactory,
         ProviderFactory $providerFactory,
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
+        $this->optionsFactory = $optionsFactory;
         $this->providerFactory = $providerFactory;
         parent::__construct($renderContext, $context, $contentTypeFactory, $data);
     }
@@ -69,7 +73,7 @@ class View extends AbstractView
         $this->addConfigData($this, $this->viewConfiguration);
 
         $this->renderContext->register($this->getName(), $this->getData('dataSource'));
-        $this->renderContext->register($this->getName() . 'meta/fields', $this->getData('meta/fields'));
+        $this->renderContext->setMeta($this->getName(), $this->getMeta());
     }
 
     /**
@@ -131,6 +135,33 @@ class View extends AbstractView
     }
 
     /**
+     * Get meta data
+     *
+     * @return array
+     */
+    protected function getMeta()
+    {
+        $meta = $this->getData('meta');
+        foreach ($meta['fields'] as $key => $field) {
+
+            // TODO fixme
+            if ($field['data_type'] === 'date_time') {
+                $field['date_format'] = $this->_localeDate->getDateTimeFormat(
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                );
+            }
+
+            if (isset($field['options_provider'])) {
+                $field['options'] = $this->optionsFactory->create($field['options_provider'])
+                    ->getOptions(empty($field['options']) ? [] : $field['options']);
+            }
+            $meta['fields'][$key] = $field;
+        }
+
+        return $meta;
+    }
+
+    /**
      * Getting collection items
      *
      * return array
@@ -138,8 +169,8 @@ class View extends AbstractView
     protected function getCollectionItems()
     {
         $items = [];
-
-        foreach ($this->renderContext->getDataCollection($this->getName())->getItems() as $item) {
+        $collection = $this->renderContext->getDataCollection($this->getName());
+        foreach ($collection->getItems() as $item) {
             $itemsData = [];
             foreach (array_keys($this->getData('meta/fields')) as $field) {
                 $itemsData[$field] = $item->getData($field);
@@ -162,13 +193,11 @@ class View extends AbstractView
 
         $this->globalConfig['dump']['extenders'] = [];
 
-        $this->globalConfig['meta']['fields'] = array_values(
-            $this->renderContext->getMetaFields($this->getName() . 'meta/fields')
-        );
+        $this->globalConfig['meta'] = $this->renderContext->getMeta($this->getName());
+        $this->globalConfig['meta']['fields'] = array_values($this->globalConfig['meta']['fields']);
         $this->globalConfig['data']['items'] = $this->getCollectionItems();
 
         $countItems = $this->renderContext->registry($this->getName())->getSize();
-
         $this->globalConfig['data']['pages'] = ceil(
             $countItems / $this->renderContext->getRequestParam('limit', 5) // TODO fixme
         );
