@@ -48,6 +48,7 @@ class Payment extends \Magento\Framework\View\Element\Template
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceHelper
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(

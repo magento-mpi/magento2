@@ -208,6 +208,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_taxCalculationService;
 
     /**
+     * Price currency
+     *
      * @var PriceCurrencyInterface
      */
     protected $priceCurrency;

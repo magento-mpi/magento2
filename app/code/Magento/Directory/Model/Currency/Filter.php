@@ -45,6 +45,8 @@ class Filter implements \Zend_Filter_Interface
     protected $_localeCurrency;
 
     /**
+     * Price currency
+     *
      * @var PriceCurrencyInterface
      */
     protected $priceCurrency;
