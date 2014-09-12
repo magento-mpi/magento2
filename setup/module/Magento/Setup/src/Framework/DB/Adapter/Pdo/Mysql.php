@@ -10,7 +10,7 @@ namespace Magento\Setup\Framework\DB\Adapter\Pdo;
 use Magento\Filesystem\Filesystem;
 use Magento\Setup\Framework\DB\Adapter\AdapterInterface;
 use Magento\Setup\Framework\DB\Ddl\Table;
-use Magento\Setup\Framework\DB\ExpressionConverter;
+use \Magento\Framework\DB\ExpressionConverter;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Driver;
