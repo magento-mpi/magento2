@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<outline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../outline.xsd">
+    <content>
+        <item name="Help_Dictionary_MageDoc" type="article" module="Magento_Doc">
+            <label>MageDoc</label>
+            <description>MageDoc - is an Magento extension, which enables functionality for storing and maintaining documentation to all extensions.</description>
+        </item>
+    </content>
+</outline>

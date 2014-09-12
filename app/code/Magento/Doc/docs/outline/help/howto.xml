@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<outline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../outline.xsd">
+    <content>
+        <item type="article" name="Howto_TW">
+            <label>For Technical Writers</label>
+            <content>
+                <item name="Howto_CreateMenu" type="article" module="Magento_Doc">
+                    <label>How-to add new document link to the Top Navigation Menu</label>
+                    <content>
+                        <item name="Howto_CreateMenu_MenuDefinition" type="reference-code" reference="Magento\Doc\Ui\Widget\Navigation\Top::renderMenuHtml">
+                            <label>Menu definition method content</label>
+                        </item>
+                    </content>
+                </item>
+                <item name="Howto_EnableDocumentPage" type="article" module="Magento_Doc">
+                    <label>How-to enable new document page</label>
+                    <content>
+                        <item name="Howto_EnableDocumentPage_Example" type="reference-file" reference="code::Magento/Doc/view/doc/layout/api_framework.xml">
+                            <label>Framework API page declaration file</label>
+                        </item>
+                    </content>
+                </item>
+                <item name="Howto_DefineDocumentOutline" type="article" module="Magento_Doc">
+                    <label>How-to define document outline</label>
+                    <content>
+                        <item name="Howto_DefineDocumentOutline_Example" type="reference-file" reference="code::Magento/Doc/docs/outline/help/howto.xml">
+                            <label>How-to document outline file</label>
+                        </item>
+                    </content>
+                </item>
+                <item name="Howto_DefineNewItemType" type="article" module="Magento_Doc">
+                    <label>How-to define new document item type</label>
+                    <content>
+                        <item name="Howto_DefineNewItemType_XSD" type="reference-file" reference="code::Magento/Doc/docs/outline.xsd">
+                            <label>Outline XML Schema Definition</label>
+                        </item>
+                    </content>
+                </item>
+            </content>
+        </item>
+        <item type="article" name="Howto_Dev">
+            <label>For Developers</label>
+            <content>
+                <item name="Howto_ExtendOutline" type="article" module="Magento_Doc">
+                    <label>How-to extend existing document outline structure</label>
+                </item>
+                <item name="Howto_AddContent" type="article" module="Magento_Doc">
+                    <label>How-to add content to documentation item</label>
+                </item>
+                <item name="Howto_ExtendContent" type="article" module="Magento_Doc">
+                    <label>How-to extend existing document item content from another module</label>
+                </item>
+                <item name="Howto_UseReference" type="article" module="Magento_Doc">
+                    <label>How-to reference to another outline section</label>
+                </item>
+                <item name="Howto_UseCodeReference" type="article" module="Magento_Doc">
+                    <label>How-to embed real class method code content to the document</label>
+                </item>
+                <item name="Howto_UseDictionary" type="article" module="Magento_Doc">
+                    <label>How-to use dictionary</label>
+                </item>
+                <item name="Howto_FormatContent" type="article" module="Magento_Doc">
+                    <label>What the format of the document content should look like?</label>
+                </item>
+            </content>
+        </item>
+    </content>
+</outline>

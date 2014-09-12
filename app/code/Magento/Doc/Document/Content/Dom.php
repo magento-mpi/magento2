@@ -98,12 +98,13 @@ class Dom
      * Merge $xml into DOM document
      *
      * @param string $xml
+     * @param string $parentPath
      * @return void
      */
-    public function merge($xml)
+    public function merge($xml, $parentPath = '')
     {
         $dom = $this->_initDom($xml);
-        $this->_mergeNode($dom->documentElement, '');
+        $this->_mergeNode($dom->documentElement, $parentPath);
     }
 
     /**
@@ -158,6 +159,9 @@ class Dom
                 foreach ($node->childNodes as $childNode) {
                     if ($childNode instanceof \DOMElement) {
                         $this->_mergeNode($childNode, $path);
+                    } else if ($childNode instanceof \DOMText) {
+                        $newNode = $this->_dom->importNode($childNode);
+                        $matchedNode->appendChild($newNode);
                     }
                 }
             }
@@ -173,7 +177,7 @@ class Dom
                 /* recursive merge for all child nodes */
                 foreach ($node->childNodes as $childNode) {
                     if ($childNode instanceof \DOMElement) {
-                        $this->_mergeNode($childNode, $parentPath . '/' . $newNode->tagName);
+                        $this->_mergeNode($childNode, $parentPath . '/' . $this->_getNodePath($newNode));
                     }
                 }
             }
@@ -218,7 +222,31 @@ class Dom
         $path = $prefix . $node->tagName;
         $idAttribute = $this->_nodeMergingConfig->getIdAttribute($path);
         if ($idAttribute) {
-            $path = '//' . $path;
+            if (is_array($idAttribute)) {
+                $path = '//' . $path;
+                $constraints = [];
+                foreach ($idAttribute as $attribute) {
+                    $value = $node->getAttribute($attribute);
+                    $constraints[] = "@{$attribute}='{$value}'";
+                }
+                $path .= '[' . join(' and ', $constraints) . ']';
+            } elseif ($idAttribute && ($value = $node->getAttribute($idAttribute))) {
+                $path = '//' . $path;
+                $path .= "[@{$idAttribute}='{$value}']";
+            }
+        } else {
+            $path = $parentPath . $path;
+        }
+
+        return $path;
+    }
+
+    protected function _getNodePath(\DOMElement $node)
+    {
+        $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
+        $path = $prefix . $node->tagName;
+        $idAttribute = $this->_nodeMergingConfig->getIdAttribute($path);
+        if ($idAttribute) {
             if (is_array($idAttribute)) {
                 $constraints = [];
                 foreach ($idAttribute as $attribute) {
@@ -229,8 +257,6 @@ class Dom
             } elseif ($idAttribute && ($value = $node->getAttribute($idAttribute))) {
                 $path .= "[@{$idAttribute}='{$value}']";
             }
-        } else {
-            $path = $parentPath . $path;
         }
 
         return $path;
