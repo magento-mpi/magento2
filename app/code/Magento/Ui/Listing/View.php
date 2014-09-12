@@ -162,9 +162,9 @@ class View extends AbstractView
 
         $this->globalConfig['dump']['extenders'] = [];
 
-        $this->globalConfig['meta']['fields'] = array_values(
-            $this->renderContext->getMetaFields($this->getName() . 'meta/fields')
-        );
+        $this->globalConfig['meta'] = $this->getData('meta');
+
+        $this->globalConfig['meta']['fields'] = $this->renderContext->getMetaFields($this->getName() . 'meta/fields');
         $this->globalConfig['data']['items'] = $this->getCollectionItems();
 
         $countItems = $this->renderContext->registry($this->getName())->getSize();
