@@ -45,7 +45,7 @@ class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
 
         $giftcardAmounts = $product->hasData('giftcard_amounts') ? $product->getGiftcardAmounts() : [];
         $amountForm = (1 == count($giftcardAmounts))
-            ? [$catalogProductView->getViewBlock()->getPriceBlock()->getPrice()]
+            ? [$catalogProductView->getViewBlock()->getPriceBlock()->getFinalPrice()]
             : $catalogProductView->getGiftCardBlock()->getAmountValues();
         $amountFixture = [];
 

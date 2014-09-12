@@ -24,7 +24,7 @@ class Price extends Block
      */
     protected $mapTypePrices = [
         'price' => [
-            'selector' => '.price'
+            'selector' => '.price .price'
         ],
         'old_price' => [
             'selector' => '.old-price'
@@ -39,7 +39,7 @@ class Price extends Block
             'selector' => '.special-price'
         ],
         'final_price' => [
-            'selector' => '.price-final_price'
+            'selector' => '.price-final_price .price'
         ],
         'price_from' => [
             'selector' => 'p.price-from span.price'
@@ -102,6 +102,17 @@ class Price extends Block
     public function getOldPrice($currency = '$')
     {
         return $this->getTypePrice('old_price', $currency);
+    }
+
+    /**
+     * This method returns the final price represented by the block
+     *
+     * @param string $currency
+     * @return string
+     */
+    public function getFinalPrice($currency = '$')
+    {
+        return $this->getTypePrice('final_price', $currency);
     }
 
     /**

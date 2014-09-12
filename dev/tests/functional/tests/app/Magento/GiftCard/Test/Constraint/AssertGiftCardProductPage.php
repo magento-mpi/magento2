@@ -24,7 +24,7 @@ class AssertGiftCardProductPage extends AssertProductPage
     protected function verifyPrice()
     {
         $productData = $this->product->getData();
-        $priceOnPage = $this->productView->getPriceBlock()->getPrice();
+        $priceOnPage = $this->productView->getPriceBlock()->getFinalPrice();
         $price = null;
 
         if (isset($productData['giftcard_amounts']) && 1 == count($productData['giftcard_amounts'])) {

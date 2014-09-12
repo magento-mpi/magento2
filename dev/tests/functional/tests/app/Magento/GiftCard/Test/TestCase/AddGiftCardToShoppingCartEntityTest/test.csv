@@ -1,2 +1,2 @@
-"productsData";"cart/data/grand_total";"constraint";"issue"
-"giftCardProduct::default";"150";"assertPriceInShoppingCart, assertProductQtyInShoppingCart, assertSubtotalInShoppingCart, assertCartItemsOptions, assertGrandTotalInShoppingCart";""
+"productsData";"cart/data/grand_total";"constraint"
+"giftCardProduct::default";"150";"assertPriceInShoppingCart, assertProductQtyInShoppingCart, assertSubtotalInShoppingCart, assertCartItemsOptions, assertGrandTotalInShoppingCart"

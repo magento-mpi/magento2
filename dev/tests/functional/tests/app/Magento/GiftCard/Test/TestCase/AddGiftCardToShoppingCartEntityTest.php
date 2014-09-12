@@ -16,7 +16,7 @@ use Magento\Checkout\Test\TestCase\AddProductsToShoppingCartEntityTest;
  * Test Flow:
  *
  * Preconditions:
- * 1. All type products is created
+ * 1. Gift Card product is created
  *
  * Steps:
  * 1. Navigate to frontend
