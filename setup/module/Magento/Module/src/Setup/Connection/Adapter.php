@@ -7,7 +7,7 @@
  */
 namespace Magento\Module\Setup\Connection;
 
-use Magento\Framework\DB\Adapter\Pdo\Mysql;
+use Magento\Setup\Framework\DB\Adapter\Pdo\Mysql;
 
 class Adapter implements AdapterInterface
 {
@@ -15,7 +15,7 @@ class Adapter implements AdapterInterface
      * Get connection
      *
      * @param array $config
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface|null
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface|null
      */
     public function getConnection(array $config = array())
     {

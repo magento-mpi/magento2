@@ -10,7 +10,7 @@ namespace Magento\Setup\Controller;
 
 use Magento\Config\ConfigFactory;
 use Magento\Module\ModuleListInterface;
-use Magento\Framework\DB\Adapter\Pdo\Mysql;
+use Magento\Setup\Framework\DB\Adapter\Pdo\Mysql;
 use Magento\Module\SetupFactory;
 use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;

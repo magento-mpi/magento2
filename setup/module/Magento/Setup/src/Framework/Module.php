@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Framework;
+namespace Magento\Setup\Framework;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 

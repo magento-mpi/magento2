@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\DB\Adapter\Pdo;
+namespace Magento\Setup\Framework\DB\Adapter\Pdo;
 
 use Magento\Filesystem\Filesystem;
-use Magento\Framework\DB\Adapter\AdapterInterface;
-use Magento\Framework\DB\Ddl\Table;
-use Magento\Framework\DB\ExpressionConverter;
+use Magento\Setup\Framework\DB\Adapter\AdapterInterface;
+use Magento\Setup\Framework\DB\Ddl\Table;
+use Magento\Setup\Framework\DB\ExpressionConverter;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Driver;
@@ -1195,7 +1195,7 @@ class Mysql extends Adapter implements AdapterInterface
     }
 
     /**
-     * Create \Magento\Framework\DB\Ddl\Table object by data from describe table
+     * Create \Magento\Setup\Framework\DB\Ddl\Table object by data from describe table
      *
      * @param string $tableName
      * @param string $newTableName
@@ -2613,11 +2613,11 @@ class Mysql extends Adapter implements AdapterInterface
     /**
      * Create trigger
      *
-     * @param \Magento\Framework\DB\Ddl\Trigger $trigger
+     * @param \Magento\Setup\Framework\DB\Ddl\Trigger $trigger
      * @throws ErrorException
      * @return StatementInterface
      */
-    public function createTrigger(\Magento\Framework\DB\Ddl\Trigger $trigger)
+    public function createTrigger(\Magento\Setup\Framework\DB\Ddl\Trigger $trigger)
     {
         if (!$trigger->getStatements()) {
             throw new ErrorException(sprintf(__('Trigger %s has not statements available'), $trigger->getName()));

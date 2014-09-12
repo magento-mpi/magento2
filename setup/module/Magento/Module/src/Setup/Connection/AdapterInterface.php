@@ -13,7 +13,7 @@ interface AdapterInterface
      * Get connection
      *
      * @param array $config
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface|null
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface|null
      */
     public function getConnection(array $config = array());
 }

@@ -23,7 +23,7 @@ class Setup implements SetupInterface
     /**
      * Setup Connection
      *
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface
+     * @var \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     protected $connection = null;
 
@@ -82,7 +82,7 @@ class Setup implements SetupInterface
     /**
      * Get connection object
      *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function getConnection()
     {

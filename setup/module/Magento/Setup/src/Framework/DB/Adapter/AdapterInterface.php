@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\DB\Adapter;
+namespace Magento\Setup\Framework\DB\Adapter;
 
-use Magento\Framework\DB\Ddl\Table;
+use Magento\Setup\Framework\DB\Ddl\Table;
 
 /**
  * Magento Database Adapter Interface
@@ -77,21 +77,21 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
     /**
      * Begin new DB transaction for connection
      *
-     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
+     * @return \Magento\Setup\Framework\DB\Adapter\Pdo\Mysql
      */
     public function beginTransaction();
 
     /**
      * Commit DB transaction
      *
-     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
+     * @return \Magento\Setup\Framework\DB\Adapter\Pdo\Mysql
      */
     public function commit();
 
     /**
      * Roll-back DB transaction
      *
-     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
+     * @return \Magento\Setup\Framework\DB\Adapter\Pdo\Mysql
      */
     public function rollBack();
 
@@ -137,7 +137,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function truncateTable($tableName, $schemaName = null);
 
@@ -190,7 +190,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
     public function describeTable($tableName, $schemaName = null);
 
     /**
-     * Create \Magento\Framework\DB\Ddl\Table object by data from describe table
+     * Create \Magento\Setup\Framework\DB\Ddl\Table object by data from describe table
      *
      * @param string $tableName
      * @param string $newTableName
@@ -206,7 +206,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      * @param array|string $definition
      * @param boolean $flushData
      * @param string $schemaName
-     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
+     * @return \Magento\Setup\Framework\DB\Adapter\Pdo\Mysql
      */
     public function modifyColumnByDdl($tableName, $columnName, $definition, $flushData = false, $schemaName = null);
 
@@ -230,7 +230,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      * @param string $columnName
      * @param array|string $definition  string specific or universal array DB Server definition
      * @param string $schemaName
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function addColumn($tableName, $columnName, $definition, $schemaName = null);
 
@@ -245,7 +245,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      * @param array|string $definition
      * @param boolean $flushData        flush table statistic
      * @param string $schemaName
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function changeColumn(
         $tableName,
@@ -264,7 +264,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      * @param array|string $definition
      * @param boolean $flushData
      * @param string $schemaName
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null);
 
@@ -348,7 +348,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      * @param boolean $purge trying remove invalid data
      * @param string $schemaName
      * @param string $refSchemaName
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -371,7 +371,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      * @param string $tableName
      * @param string $fkName
      * @param string $schemaName
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null);
 
@@ -401,7 +401,7 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
     public function getForeignKeys($tableName, $schemaName = null);
 
     /**
-     * Creates and returns a new \Magento\Framework\DB\Select object for this adapter.
+     * Creates and returns a new \Magento\Setup\Framework\DB\Select object for this adapter.
      *
      * @return \Zend\Db\Sql\Select
      */
@@ -514,14 +514,14 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
     /**
      * Run additional environment before setup
      *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function startSetup();
 
     /**
      * Run additional environment after setup
      *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function endSetup();
 
