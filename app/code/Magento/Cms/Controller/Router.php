@@ -29,7 +29,7 @@ class Router implements \Magento\Framework\App\RouterInterface
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -65,24 +65,21 @@ class Router implements \Magento\Framework\App\RouterInterface
      * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\App\State $appState,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response
     ) {
         $this->actionFactory = $actionFactory;
         $this->_eventManager = $eventManager;
         $this->_url = $url;
-        $this->_appState = $appState;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
         $this->_response = $response;
@@ -93,16 +90,9 @@ class Router implements \Magento\Framework\App\RouterInterface
      *
      * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
-        if (!$this->_appState->isInstalled()) {
-            $this->_response->setRedirect($this->_url->getUrl('install'))->sendResponse();
-            exit;
-        }
-
         $identifier = trim($request->getPathInfo(), '/');
 
         $condition = new \Magento\Framework\Object(array('identifier' => $identifier, 'continue' => true));

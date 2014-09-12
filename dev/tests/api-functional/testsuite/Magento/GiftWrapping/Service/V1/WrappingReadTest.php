@@ -100,7 +100,7 @@ class WrappingReadTest extends WebapiAbstract
      */
     private function callSearch(array $filters)
     {
-        $storeId = $this->objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
+        $storeId = $this->objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getId();
         $filters[] = $this->filterBuilder->setField('store_id')->setValue($storeId)->create();
         $this->searchCriteriaBuilder->addFilter($filters);
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();

@@ -5,64 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Resource\Order\Creditmemo;
 
-use Magento\Sales\Model\Resource\GridInterface;
-use Magento\Framework\App\Resource;
+use Magento\Sales\Model\Resource\AbstractGrid;
 use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\App\Resource as AppResource;
 
 /**
  * Class Grid
  */
-class Grid implements GridInterface
+class Grid extends AbstractGrid
 {
-    /**
-     * @var \Magento\Framework\App\Resource
-     */
-    protected $resource;
-
-    /**
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface
-     */
-    protected $connection;
-
     /**
      * @var string
      */
     protected $gridTableName = 'sales_flat_creditmemo_grid';
 
     /**
-     * @param Resource $resource
+     * @var string
      */
-    public function __construct(
-        Resource $resource
-    ) {
-        $this->resource = $resource;
-    }
-
-    /**
-     * Returns grid table name
-     *
-     * @return string
-     */
-    public function getGridTableName()
-    {
-        return $this->gridTableName;
-    }
-
-    /**
-     * Returns connection
-     *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
-     */
-    protected function getConnection()
-    {
-        if (!$this->connection) {
-            $this->connection = $this->resource->getConnection('write');
-        }
-        return $this->connection;
-    }
+    protected $creditmemoTableName = 'sales_flat_creditmemo';
 
     /**
      * Refresh grid row
@@ -77,22 +39,12 @@ class Grid implements GridInterface
             ->where(($field ?: 'sfc.entity_id') . ' = ?', $value);
         return $this->getConnection()->query(
             $this->getConnection()
-                ->insertFromSelect($select, $this->gridTableName, [], AdapterInterface::INSERT_ON_DUPLICATE)
-        );
-    }
-
-    /**
-     * Purge grid row
-     *
-     * @param int|string $value
-     * @param null|string $field
-     * @return int
-     */
-    public function purge($value, $field = null)
-    {
-        return $this->getConnection()->delete(
-            $this->getGridTableName(),
-            [($field ?: 'sfc.entity_id') . ' = ?' => $value]
+                ->insertFromSelect(
+                    $select,
+                    $this->getTable($this->gridTableName),
+                    [],
+                    AdapterInterface::INSERT_ON_DUPLICATE
+                )
         );
     }
 
@@ -104,9 +56,13 @@ class Grid implements GridInterface
     protected function getGridOriginSelect()
     {
         return $this->getConnection()->select()
-            ->from(['sfc' => 'sales_flat_creditmemo'], [])
-            ->join(['sfo' => 'sales_flat_order'], 'sfc.order_id = sfo.entity_id', [])
-            ->joinLeft(['sba' => 'sales_flat_order_address'], 'sfo.billing_address_id = sba.entity_id', [])
+            ->from(['sfc' => $this->getTable($this->creditmemoTableName)], [])
+            ->join(['sfo' => $this->getTable($this->orderTableName)], 'sfc.order_id = sfo.entity_id', [])
+            ->joinLeft(
+                ['sba' => $this->getTable($this->addressTableName)],
+                'sfo.billing_address_id = sba.entity_id',
+                []
+            )
             ->columns(
                 [
                     'entity_id' => 'sfc.entity_id',

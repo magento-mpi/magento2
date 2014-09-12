@@ -46,7 +46,7 @@ class Observer
     protected $_session;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -56,7 +56,7 @@ class Observer
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Authorizenet\Model\Directpost $payment
      * @param \Magento\Authorizenet\Model\Directpost\Session $session
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Authorizenet\Helper\Data $authorizenetData,
@@ -64,7 +64,7 @@ class Observer
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Authorizenet\Model\Directpost $payment,
         \Magento\Authorizenet\Model\Directpost\Session $session,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_authorizenetData = $authorizenetData;

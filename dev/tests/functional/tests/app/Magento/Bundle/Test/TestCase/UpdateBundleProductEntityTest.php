@@ -78,7 +78,7 @@ class UpdateBundleProductEntityTest extends Injectable
         $this->catalogProductIndex->open();
         $filter = ['sku' => $originalProduct->getSku()];
         $this->catalogProductIndex->getProductGrid()->searchAndOpen($filter);
-        $this->catalogProductEdit->getForm()->fill($product);
-        $this->catalogProductEdit->getFormAction()->save();
+        $this->catalogProductEdit->getProductForm()->fill($product);
+        $this->catalogProductEdit->getFormPageActions()->save();
     }
 }

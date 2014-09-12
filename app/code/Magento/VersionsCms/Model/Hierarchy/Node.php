@@ -116,7 +116,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
     protected $_cmsHierarchy;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -137,7 +137,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -150,7 +150,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

@@ -21,6 +21,9 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testGetChildren()
     {
+        $this->markTestSkipped(
+            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
+        );
         $productSku = 'configurable';
 
         /** @var array $result */

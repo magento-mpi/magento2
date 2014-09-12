@@ -8,12 +8,10 @@
  * @license     {license_link}
  */
 
-$testsBaseDir = realpath(__DIR__ . '/..');
-$magentoBaseDir = realpath($testsBaseDir . '/../../../');
-
-require_once "{$magentoBaseDir}/app/bootstrap.php";
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath("{$testsBaseDir}/framework");
-
-$bootstrap = new \Magento\TestFramework\Performance\Bootstrap($testsBaseDir, $magentoBaseDir);
+$testsBaseDir = dirname(__DIR__);
+require __DIR__ . '/../../../../app/bootstrap.php';
+$appBootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath($testsBaseDir . '/framework');
+$bootstrap = new \Magento\TestFramework\Performance\Bootstrap($appBootstrap, $testsBaseDir);
 $bootstrap->cleanupReports();
-return $bootstrap->getConfig();
+return $bootstrap;

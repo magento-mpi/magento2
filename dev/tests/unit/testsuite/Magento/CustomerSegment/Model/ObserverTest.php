@@ -30,7 +30,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->_model = new \Magento\CustomerSegment\Model\Observer(
-            $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false),
             $this->getMock('Magento\CustomerSegment\Model\Customer', array(), array(), '', false),
             $this->getMock('Magento\Backend\Model\Config\Source\Yesno', array(), array(), '', false),

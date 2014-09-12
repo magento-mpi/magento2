@@ -18,7 +18,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $store \Magento\Store\Model\Store */
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Store\Model\StoreManagerInterface'
+            'Magento\Framework\StoreManagerInterface'
         )->getStore();
         $storeId = $store->getId();
 
