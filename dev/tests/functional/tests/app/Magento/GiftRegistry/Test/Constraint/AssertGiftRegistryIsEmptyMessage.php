@@ -13,7 +13,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
 /**
  * Class AssertGiftRegistryIsEmptyMessage
- * Assert that after delete a Gift Registry all items Gift Registry has no items message appears
+ * Assert that notice message appears if Gift Registry doesn't have any items
  */
 class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
 {
@@ -30,7 +30,7 @@ class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that Gift Registry has no items message is displayed after gift registry all items have been deleted
+     * Assert that notice message appears if Gift Registry doesn't have any items after delete
      *
      * @param GiftRegistryItems $giftRegistryItems
      * @return void
@@ -41,7 +41,7 @@ class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             self::INFO_MESSAGE,
             $giftRegistryItems->getGiftRegistryItemsBlock()->getInfoMessage(),
-            'Wrong info message is displayed.'
+            'Wrong notice message is displayed.'
         );
     }
 

@@ -34,11 +34,11 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
  *
  * Steps:
  * 1. Go to frontend
- * 3. Go to My Account -> Gift Registry
- * 4. Press on appropriate Gift Registry "Manage Items" button
- * 5. Edit data according to DataSet
- * 6. Click Update button
- * 7. Perform Asserts
+ * 2. Go to My Account -> Gift Registry
+ * 3. Press on appropriate Gift Registry "Manage Items" button
+ * 4. Edit data according to DataSet
+ * 5. Click Update button
+ * 6. Perform Asserts
  *
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-28196
