@@ -146,8 +146,8 @@ define([
                 actuallySelected,
                 excluded;        
             
-            haveToBeSelected = _.pluck(provider.get('items'), this.indexField),
-            actuallySelected = this.selected(),
+            haveToBeSelected = _.pluck(provider.get('items'), this.indexField);
+            actuallySelected = this.selected();
             excluded         = _.difference(haveToBeSelected, actuallySelected);
 
             return excluded;

@@ -100,7 +100,7 @@ define([
             return function() {
                 this.action(actionId);
                 this.reload();
-                this.toggle(true);
+                this.toggle();
             }.bind(this);
         }
 
