@@ -444,15 +444,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateCustomer(Data\CustomerDetails $customerDetails)
+    public function updateCustomer($customerId, Data\CustomerDetails $customerDetails)
     {
         $customer = $customerDetails->getCustomer();
         // Making this call first will ensure the customer already exists.
-        $this->customerRegistry->retrieve($customer->getId());
+        $this->customerRegistry->retrieve($customerId);
 
         $this->saveCustomer(
             $customer,
-            $this->converter->getCustomerModel($customer->getId())->getPasswordHash()
+            $this->converter->getCustomerModel($customerId)->getPasswordHash()
         );
 
         $addresses = $customerDetails->getAddresses();
@@ -870,7 +870,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->setCustomer($customerData)
             ->create();
 
-        return $this->updateCustomer($customerDetails);
+        return $this->updateCustomer($customerId, $customerDetails);
     }
 
     /**

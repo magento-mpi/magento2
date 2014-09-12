@@ -105,7 +105,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/customers/login',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ]
         ];
         $requestData = ['username' => $this->customerData[Customer::EMAIL], 'password' => '123@test'];

@@ -678,7 +678,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/{$customerData[Customer::ID]}",
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -688,7 +688,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $requestData = ['customerId' => $customerData[Customer::ID], 'customerDetails' => $customerDetailsAsArray];
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($response);
 
@@ -717,7 +717,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/{$customerData[Customer::ID]}",
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -728,7 +728,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
         unset($customerDetailsAsArray['customer']['website_id']);
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $requestData = ['customerId' => $customerData[Customer::ID], 'customerDetails' => $customerDetailsAsArray];
 
         $expectedMessage = '"Associate to Website" is a required value.';
         try {
@@ -765,7 +765,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/-1",
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -775,7 +775,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $requestData = ['customerId' => -1, 'customerDetails' => $customerDetailsAsArray];
 
         $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 

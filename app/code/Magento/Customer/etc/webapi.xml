@@ -305,7 +305,7 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    
+
     <!-- Customer Address Service-->
     <route url="/V1/customers/me/addresses" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="getAddresses"/>

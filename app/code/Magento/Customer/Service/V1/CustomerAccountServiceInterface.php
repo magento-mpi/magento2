@@ -77,11 +77,12 @@ interface CustomerAccountServiceInterface
      * CustomerDetails contains an array of Address Data. In the event that no change was made to addresses
      * the array must be null.
      *
+     * @param string $customerId
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerDetails is not found.
      * @return bool True if this customer was updated
      */
-    public function updateCustomer(\Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
+    public function updateCustomer($customerId, \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
 
     /**
      * Retrieve Customer
