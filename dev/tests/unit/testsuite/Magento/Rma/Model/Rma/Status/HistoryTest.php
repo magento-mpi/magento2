@@ -63,7 +63,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     protected $eventManager;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -92,7 +92,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->eventManager = $this->getMock('Magento\Framework\Event\Manager', [], [], '', false);
-        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
+        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
 
         $context = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
         $context->expects($this->once())->method('getEventDispatcher')->will($this->returnValue($this->eventManager));

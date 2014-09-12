@@ -186,6 +186,9 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testGetCartList()
     {
+        $this->markTestSkipped(
+            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-28264'
+        );
         $cart = $this->getCart('test01');
 
         $serviceInfo = array(

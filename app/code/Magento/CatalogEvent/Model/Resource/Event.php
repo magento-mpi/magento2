@@ -17,7 +17,7 @@ use Magento\Catalog\Model\Resource\Category\CollectionFactory;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 
 class Event extends AbstractDb
 {

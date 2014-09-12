@@ -9,6 +9,7 @@
 namespace Mtf\Util\Generate;
 
 use Magento\Framework\ObjectManager;
+use Magento\Framework\App;
 
 /**
  * Class Factory

@@ -25,7 +25,7 @@ class WriteService implements WriteServiceInterface
     protected $quoteRepository;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -42,14 +42,14 @@ class WriteService implements WriteServiceInterface
     /**
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param UserContextInterface $userContext
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         UserContextInterface $userContext
     ) {

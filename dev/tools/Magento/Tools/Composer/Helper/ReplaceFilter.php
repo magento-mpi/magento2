@@ -84,6 +84,17 @@ class ReplaceFilter
     }
 
     /**
+     * Whether the specified component name is a component of Magento system
+     *
+     * @param string $name
+     * @return bool
+     */
+    public static function isMagentoComponent($name)
+    {
+        return (bool)self::matchMagentoComponent($name);
+    }
+
+    /**
      * Obtains a set of possible component locations for a component
      *
      * Normally a component is supposed to reside in a directory - that's how Composer is designed
@@ -129,7 +140,7 @@ class ReplaceFilter
      * @param array &$matches
      * @return bool|string
      */
-    private function matchMagentoComponent($key, &$matches = [])
+    private static function matchMagentoComponent($key, &$matches = [])
     {
         $regex = '/^magento\/(module|theme|language|framework)(?:-(frontend|adminhtml))?([a-z_-]+)?$/';
         if (!preg_match($regex, $key, $pregMatch)) {
