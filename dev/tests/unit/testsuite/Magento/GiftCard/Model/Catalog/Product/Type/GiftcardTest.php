@@ -93,6 +93,10 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
+        $priceCurrency->expects($this->any())
+            ->method('round')
+            ->willReturnCallback(function ($price) {round($price, 2);});
         $this->_model = $this->getMock(
             'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
@@ -110,7 +114,8 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $catalogData,
                 $this->_storeManagerMock,
                 $locale,
-                $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface')
+                $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
+                $priceCurrency
             )
         );
     }

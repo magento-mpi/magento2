@@ -131,8 +131,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->any())->method('roundPrice')->willReturnArgument(0);
         $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
+        $this->priceCurrency->expects($this->any())->method('round')->willReturnArgument(0);
         $this->priceCurrency->expects($this->any())->method('convert')->willReturnArgument(0);
         $quoteMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
