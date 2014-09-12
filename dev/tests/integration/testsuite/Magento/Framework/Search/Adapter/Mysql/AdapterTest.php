@@ -190,6 +190,42 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Term filter test
+     *
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testTermFilterArray()
+    {
+        $this->requestBuilder->bind('request.product_id', [3, 4]);
+        $this->requestBuilder->setRequestName('term_filter');
+
+        $queryResponse = $this->executeQuery();
+        $this->assertEquals(2, $queryResponse->count());
+    }
+
+    /**
+     * Term filter test
+     *
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testWildcardFilter()
+    {
+        $this->requestBuilder->bind('wildcard_filter', 're');
+        $this->requestBuilder->setRequestName('one_wildcard');
+
+        $queryResponse = $this->executeQuery();
+        $this->assertEquals(4, $queryResponse->count());
+    }
+
+    /**
      * Bool filter test
      *
      * @magentoDbIsolation enabled

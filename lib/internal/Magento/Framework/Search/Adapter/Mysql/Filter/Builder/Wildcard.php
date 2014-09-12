@@ -9,7 +9,7 @@ namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
 use Magento\Framework\App\Resource;
 
-class Term implements FilterInterface
+class Wildcard implements FilterInterface
 {
     /**
      * @var \Magento\Framework\App\Resource
@@ -32,21 +32,13 @@ class Term implements FilterInterface
     ) {
         $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
 
-        /** @var \Magento\Framework\Search\Request\Filter\Term $filter */
-        $value = $filter->getValue();
-        if (is_array($value)) {
-            $condition = sprintf(
-                '%s IN (%s)',
-                $filter->getField(),
-                $adapter->quote($value)
-            );
-        } else {
-            $condition = sprintf(
-                '%s = %s',
-                $filter->getField(),
-                $adapter->quote($value)
-            );
-        }
+        /** @var \Magento\Framework\Search\Request\Filter\Wildcard $filter */
+        $searchValue = '%' . $filter->getValue() . '%';
+        $condition = sprintf(
+            '%s LIKE %s',
+            $filter->getField(),
+            $adapter->quote($searchValue)
+        );
         return $condition;
     }
 }

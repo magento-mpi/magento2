@@ -114,8 +114,9 @@ class Cleaner
         $this->mappedFilters[] = $filterName;
         $filter = $this->requestData['filters'][$filterName];
         switch ($filter['type']) {
+            case FilterInterface::TYPE_WILDCARD:
             case FilterInterface::TYPE_TERM:
-                if (preg_match('/\$(.+)\$/si', $filter['value'], $matches)) {
+                if (is_string($filter['value']) && preg_match('/\$(.+)\$/si', $filter['value'], $matches)) {
                     unset($this->requestData['filters'][$filterName]);
                 }
                 break;
