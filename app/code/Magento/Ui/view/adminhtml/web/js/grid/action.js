@@ -26,7 +26,9 @@ define([
 
         /**
          * Extends instance with defaults and config, initializes observable properties.
-         * Updates storage with current state of instance. 
+         * Updates storage params with current state of instance. 
+         * Attaches it's template extender to storage.dump.
+         * Initialises this.indexField.
          * @param  {Object} config
          */
         initialize: function(config) {
@@ -35,6 +37,7 @@ define([
             this.initObservable()
                 .initIndexField()
                 .attachTemplateExtender()
+                .initProvider()
                 .updateParams();
         },
 
@@ -52,6 +55,10 @@ define([
             return this;
         },
 
+        /**
+         * Looks up for field with 'id_attribute' set to true and set's it's 'index' prop to this.indexField
+         * @return {Object} - reference to instance
+         */
         initIndexField: function () {
             var fields = this.provider.meta.get('fields'),
                 fieldsWithId;
@@ -84,12 +91,21 @@ define([
             return this;
         },
 
+        initProvider: function(){
+            this.provider.on('refresh', this.onRefresh.bind(this));
+
+            return this;
+        },
+
         /**
-         * Updates storage's params and reloads it.
+         * Updates state according to changes of provider.
          */
-        reload: function() {
-            this.updateParams()
-                .provider.refresh();
+        onRefresh: function () {
+            var isAllSelected = this.isAllSelected();
+
+            if (isAllSelected) {
+                this.selectPage();
+            }
         },
 
         /**
@@ -98,10 +114,12 @@ define([
          */
         updateParams: function() {
             this.provider.params.set('actions', this.buildParams());
-
-            return this;
         },
 
+        /**
+         * Prepares params object, which represents the current state of instance.
+         * @return {Object} - params object
+         */
         buildParams: function () {
             var isAllSelected = this.isAllSelected(),
                 selected      = this.selected(),
@@ -113,27 +131,39 @@ define([
             } else {
                 result['selected'] = selected;
             }
-            console.log(result)
+
             return result;
         },
 
+        /**
+         * Compares all items to those selected and returnes the difference. 
+         * @return {Array} - array of excluded ids.
+         */
         getExcludedItems: function () {
             var provider = this.provider.data,
                 haveToBeSelected,
                 actuallySelected,
-                difference;        
+                excluded;        
             
             haveToBeSelected = _.pluck(provider.get('items'), this.indexField),
             actuallySelected = this.selected(),
-            difference       = _.difference(haveToBeSelected, actuallySelected);
+            excluded         = _.difference(haveToBeSelected, actuallySelected);
 
-            return difference;
+            return excluded;
         },
 
+        /**
+         * Toggles isVisible observable property
+         */
         toggle: function () {
             this.isVisible(!this.isVisible());
         },
 
+        /**
+         * Creates handler for applying action (e.g. selectAll)
+         * @param  {String} action
+         * @return {Function} - click handler
+         */
         apply: function (action) {
             var self = this;
 
@@ -142,16 +172,25 @@ define([
             }
         },
 
+        /**
+         * Sets isAllSelected observable to true and selects all items on current page.
+         */
         selectAll: function () {
             this.isAllSelected(true);
             this.selectPage();
         },
 
+        /**
+         * Sets isAllSelected observable to false and deselects all items on current page.
+         */
         deselectAll: function () {
             this.isAllSelected(false);
             this.deselectPage();
         },
 
+        /**
+         * Selects all items on current page, adding their ids to selected observable array
+         */
         selectPage: function () {
             var items = this.provider.data.get('items'),
                 ids   = _.pluck(items, this.indexField);
@@ -159,12 +198,11 @@ define([
             this.selected(ids);
         },
 
+        /**
+         * Deselects all items on current page, emptying selected observable array 
+         */
         deselectPage: function () {
             this.selected([]);
-        },
-
-        isSelectedIndicatorChecked: function () {
-            return this.isAllSelected();
         }
     });
 
