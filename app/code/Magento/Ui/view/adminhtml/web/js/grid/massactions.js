@@ -8,12 +8,12 @@ define([
     '_',
     'Magento_Ui/js/lib/ko/scope',
     './core/component'
-], function(_, Scope, Component) {
+], function (_, Scope, Component) {
     'use strict';
 
     var defaults = {
-        collectionActions: [],
-        templateExtender: 'Magento_Ui.listing.grid.massactions'
+        actions: [],
+        templateExtender: 'massactions'
     };
 
     var MassActions = Scope.extend({
@@ -23,7 +23,7 @@ define([
          * Updates storage with current state of instance.
          * @param  {Object} config
          */
-        initialize: function(config) {
+        initialize: function (config) {
             _.extend(this, defaults, config);
 
             this.initObservable()
@@ -35,9 +35,9 @@ define([
          * Initializes observable properties of instance.
          * @return {Object} - reference to instance
          */
-        initObservable: function(){
+        initObservable: function () {
             this.observe({
-                isActionListVisible: this.isActionListVisible || false,
+                isVisible: this.isVisible || false,
                 action: this.action
             });
 
@@ -66,7 +66,7 @@ define([
         /**
          * Updates storage's params and reloads it.
          */
-        reload: function() {
+        reload: function () {
             this.updateParams()
                 .provider.refresh();
         },
@@ -75,10 +75,10 @@ define([
          * Updates storage's params by the current state of instance
          * @return {Object} - reference to instance
          */
-        updateParams: function() {
+        updateParams: function () {
             var params = this.provider.params;
 
-            params.set('actions', {
+            params.set(true, 'actions', {
                 action: this.action()
             });
 
@@ -88,16 +88,20 @@ define([
         /**
          * Toggle visibility of dropdown actions list
          */
-        toggleActionListVisible: function() {
-            this.isActionListVisible(!this.isActionListVisible());
+        toggle: function () {
+            this.isVisible(!this.isVisible());
         },
 
         /**
          * Updates storage's params by the current state of instance
+         * and hides dropdown.
          */
-        setAction: function(actionId) {
-            this.action(actionId);
-            this.updateParams();
+        setAction: function (actionId, event) {
+            return function() {
+                this.action(actionId);
+                this.reload();
+                this.toggle(true);
+            }.bind(this);
         }
 
     });

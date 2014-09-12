@@ -113,7 +113,8 @@ define([
          * @return {Object} - reference to instance
          */
         updateParams: function() {
-            this.provider.params.set('actions', this.buildParams());
+            this.provider.params.set(true, 'actions', this.buildParams());
+            return this;
         },
 
         /**
