@@ -421,7 +421,6 @@
     <type name="Magento\Framework\Module\FrontController\Plugin\Install">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
-            <argument name="dbUpdater" xsi:type="object">Magento\Framework\Module\UpdaterInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Action\Action">
