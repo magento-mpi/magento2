@@ -12,17 +12,7 @@ define([
     'use strict';
 
     var defaults = {
-        selectActions: [
-            'selectAll',
-            'selectAllVisible',
-            'deselectAll',
-            'deselectAllVisible'
-        ],
-        collectionActions: [
-            'delete',
-            'enable',
-            'disable'
-        ],
+        collectionActions: [],
         templateExtender: 'Magento_Ui.listing.grid.massactions'
     };
 
@@ -43,14 +33,12 @@ define([
 
         /**
          * Initializes observable properties of instance.
-         *
          * @return {Object} - reference to instance
          */
         initObservable: function(){
             this.observe({
-                itemsSelected:      this.itemsSelected,
-                isSelectedAll:      this.isSelectedAll,
-                action:       this.action
+                isActionListVisible: this.isActionListVisible || false,
+                action: this.action
             });
 
             return this;
@@ -66,7 +54,8 @@ define([
 
             extenders.push({
                 path: this.templateExtender,
-                name: this.name
+                name: this.name,
+                as: 'massactions'
             });
 
             provider.trigger('update:extenders', extenders);
@@ -89,13 +78,26 @@ define([
         updateParams: function() {
             var params = this.provider.params;
 
-            params.set('sorting', {
-                itemsSelected: this.itemsSelected(),
-                isSelectedAll: this.isSelectedAll(),
+            params.set('actions', {
                 action: this.action()
             });
 
             return this;
+        },
+
+        /**
+         * Toggle visibility of dropdown actions list
+         */
+        toggleActionListVisible: function() {
+            this.isActionListVisible(!this.isActionListVisible());
+        },
+
+        /**
+         * Updates storage's params by the current state of instance
+         */
+        setAction: function(actionId) {
+            this.action(actionId);
+            this.updateParams();
         }
 
     });
