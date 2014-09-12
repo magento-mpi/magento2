@@ -8,6 +8,8 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -23,18 +25,36 @@ class AssertWidgetOnFrontendAllPages extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assert that created widget displayed on frontent on Home page and on Advanced Search
+     *
+     * @param CmsIndex $cmsIndex
+     * @param Widget $widget
      * @return void
      */
-    public function processAssert()
-    {
-        //
+    public function processAssert(
+        CmsIndex $cmsIndex,
+        Widget $widget
+    ) {
+        $cmsIndex->open();
+        $widgetCode = $widget->getCode();
+        \PHPUnit_Framework_Assert::assertTrue(
+            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode),
+            'Widget is absent on Home page.'
+        );
+        $cmsIndex->getSearchBlock()->clickAdvancedSearchButton();
+        \PHPUnit_Framework_Assert::assertTrue(
+            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode),
+            'Widget is absent on Home page.'
+        );
     }
 
     /**
+     * Returns a string representation of the object
+     *
      * @return string
      */
     public function toString()
     {
-        //
+        return "Widget is present on Home page and on Advanced Search.";
     }
 }

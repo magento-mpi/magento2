@@ -37,7 +37,7 @@ class Categories extends LayoutForm
             if ($name == 'entities') {
                 $this->_rootElement->find($this->chooser)->click();
                 $this->getTemplateBlock()->waitLoader();
-                $field['value'] = 'Default Category/' . $field['value'];
+                $field['value'] = 'Default Category/' . $field['value']['name'];
             }
             if (!isset($field['value'])) {
                 $this->_fill($field, $context);

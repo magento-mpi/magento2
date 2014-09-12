@@ -8,6 +8,7 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -29,9 +30,10 @@ class AssertWidgetSuccessSaveMessage extends AbstractConstraint
      * Assert that success message is displayed after widget saved
      *
      * @param WidgetInstanceIndex $widgetInstanceIndex
+     * @param AdminCache $adminCache
      * @return void
      */
-    public function processAssert(WidgetInstanceIndex $widgetInstanceIndex)
+    public function processAssert(WidgetInstanceIndex $widgetInstanceIndex, AdminCache $adminCache)
     {
         $actualMessage = $widgetInstanceIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
@@ -41,6 +43,11 @@ class AssertWidgetSuccessSaveMessage extends AbstractConstraint
             . "\nExpected: " . self::SUCCESS_MESSAGE
             . "\nActual: " . $actualMessage
         );
+
+        // Flush cache
+        $adminCache->open();
+        $adminCache->getActionsBlock()->flushMagentoCache();
+        $adminCache->getMessagesBlock()->assertSuccessMessage();
     }
 
     /**

@@ -54,7 +54,7 @@ class Product extends LayoutForm
                             ->find($this->productGrid, Locator::SELECTOR_CSS)
                     ]
                 );
-                $productGrid->searchAndSelect(['name' => $field['value']]);
+                $productGrid->searchAndSelect(['name' => $field['value']['name']]);
             } elseif (!isset($field['value'])) {
                 $this->_fill($field, $context);
             } else {

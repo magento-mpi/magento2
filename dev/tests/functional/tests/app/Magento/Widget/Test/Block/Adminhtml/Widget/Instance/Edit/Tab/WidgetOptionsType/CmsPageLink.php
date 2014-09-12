@@ -10,7 +10,7 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpt
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\Product\Grid;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid;
 
 /**
  * Class CmsPageLink
@@ -48,7 +48,7 @@ class CmsPageLink extends WidgetOptionsForm
                             ->find($this->cmsPageLinkGrid, Locator::SELECTOR_XPATH)
                     ]
                 );
-                $cmsPageLinkGrid->searchAndSelect(['title' => $field['value']]);
+                $cmsPageLinkGrid->searchAndSelect(['title' => $field['value']['title']]);
             } elseif (!isset($field['value'])) {
                 $this->_fill($field, $context);
             } else {

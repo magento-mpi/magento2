@@ -49,7 +49,7 @@ class LayoutUpdates implements FixtureInterface
                     $fixture = $fixtureFactory
                         ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
                     $fixture->persist();
-                    $this->data[0]['entities'] = $fixture->getName();
+                    $this->data[0]['entities'] = $fixture->getData();
                 }
             }
         } else {
@@ -102,8 +102,9 @@ class LayoutUpdates implements FixtureInterface
             'all_pages' => [
                 [
                     'page_group' => 'All Pages',
-                    'block' => 'Page Header',
-                    'template' => 'Banner Block Template'
+                    'block' => 'Main Content Area',
+                    'template' => 'Banner Block Template',
+                    'entities' => 'catalogCategory::default',
                 ]
             ],
             'on_category' => [
@@ -111,7 +112,7 @@ class LayoutUpdates implements FixtureInterface
                     'page_group' => 'Non-Anchor Categories',
                     'for' => 'Specific Categories',
                     'entities' => 'catalogCategory::default',
-                    'block' => 'Page Header',
+                    'block' => 'Main Content Area',
                     'template' => 'Banner Block Template'
                 ]
             ],
@@ -120,22 +121,20 @@ class LayoutUpdates implements FixtureInterface
                     'page_group' => 'Virtual Product',
                     'for' => 'Specific Products',
                     'entities' => 'catalogProductVirtual::default',
-                    'block' => 'Page Header',
+                    'block' => 'Main Content Area',
                     'template' => 'Banner Block Template'
                 ]
             ],
             'for_event_carousel' => [
                 [
-                    'page_group' => 'Non-Anchor Categories',
-                    'for' => 'Specific Categories',
-                    'entities' => 'catalogCategory::default',
+                    'page_group' => 'All Pages',
                     'block' => 'Main Content Area',
                 ]
             ],
             'for_category_link' => [
                 [
                     'page_group' => 'All Pages',
-                    'block' => 'Page Header',
+                    'block' => 'Main Content Area',
                     'template' => 'Category Link Block Template'
                 ]
             ],
@@ -144,7 +143,7 @@ class LayoutUpdates implements FixtureInterface
                     'page_group' => 'Non-Anchor Categories',
                     'for' => 'Specific Categories',
                     'entities' => 'catalogCategory::default',
-                    'block' => 'Page Header',
+                    'block' => 'Main Content Area',
                     'template' => 'Product Link Block Template'
                 ]
             ],
@@ -158,6 +157,14 @@ class LayoutUpdates implements FixtureInterface
                 [
                     'page_group' => 'All Pages',
                     'block' => 'Main Content Area',
+                ]
+            ],
+            'for_cms_page_link' => [
+                [
+                    'page_group' => 'All Pages',
+                    'block' => 'Main Content Area',
+                    'template' => 'CMS Page Link Block Template',
+                    'entities' => 'catalogCategory::default',
                 ]
             ],
         ];

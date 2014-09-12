@@ -60,11 +60,19 @@ class CreationForNewInstanceOfWidgetEntityTest extends Injectable
     protected $widgetInstanceEdit;
 
     /**
+     * Widget fixture
+     *
+     * @var Widget
+     */
+    protected $widgetEdit;
+
+    /**
      * Injection data
      *
      * @param WidgetInstanceIndex $widgetInstanceIndex
      * @param WidgetInstanceNew $widgetInstanceNew
      * @param WidgetInstanceEdit $widgetInstanceEdit
+     * @return void
      */
     public function __inject(
         WidgetInstanceIndex $widgetInstanceIndex,
@@ -85,6 +93,7 @@ class CreationForNewInstanceOfWidgetEntityTest extends Injectable
      */
     public function test(Widget $widget, Widget $widgetEdit)
     {
+        $this->widgetEdit = $widgetEdit;
         $this->widgetInstanceIndex->open();
         $this->widgetInstanceIndex->getPageActionsBlock()->addNew();
         $this->widgetInstanceNew->getWidgetForm()->fill($widget);
@@ -92,5 +101,18 @@ class CreationForNewInstanceOfWidgetEntityTest extends Injectable
 
         $this->widgetInstanceEdit->getWidgetForm()->fill($widgetEdit);
         $this->widgetInstanceEdit->getPageActionsBlock()->save();
+    }
+
+    /**
+     * Customer logout from account
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $filter = ['title' => $this->widgetEdit->getTitle()];
+        $this->widgetInstanceIndex->open();
+        $this->widgetInstanceIndex->getWidgetGrid()->searchAndOpen($filter);
+        $this->widgetInstanceEdit->getPageActionsBlock()->delete();
     }
 }

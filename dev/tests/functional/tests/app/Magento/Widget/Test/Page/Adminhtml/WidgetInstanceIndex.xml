@@ -15,7 +15,7 @@
             <strategy>css selector</strategy>
         </pageActionsBlock>
         <widgetGrid>
-            <class>Magento\Backend\Test\Block\Widget\Grid</class>
+            <class>Magento\Widget\Test\Block\Adminhtml\Widget\WidgetGrid</class>
             <locator>#widgetInstanceGrid</locator>
             <strategy>css selector</strategy>
         </widgetGrid>

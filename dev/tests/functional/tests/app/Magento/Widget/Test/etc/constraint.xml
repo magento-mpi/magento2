@@ -38,9 +38,6 @@
     <assertWidgetProductLink module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetProductLink>
-    <assertWidgetOrderBySku module="Magento_Widget">
-        <severeness>low</severeness>
-    </assertWidgetOrderBySku>
     <assertProductInRecentlyViewedBlock module="Magento_Widget">
         <severeness>low</severeness>
     </assertProductInRecentlyViewedBlock>

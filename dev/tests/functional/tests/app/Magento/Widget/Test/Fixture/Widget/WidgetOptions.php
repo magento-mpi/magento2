@@ -9,7 +9,9 @@
 namespace Magento\Widget\Test\Fixture\Widget;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\CatalogRule\Test\Fixture\CatalogPriceRule;
 use Magento\Cms\Test\Fixture\CmsBlock;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 
@@ -49,14 +51,18 @@ class WidgetOptions implements FixtureInterface
             foreach ($this->data[0] as $key => $value) {
                 if ($key == 'entities') {
                     $explodeValue = explode('::', $value);
-                    $fixture = $fixtureFactory
-                        ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
-                    $fixture->persist();
-                    if ($fixture instanceof CmsBlock) {
-                        $this->data[0]['chooser_title'] = $fixture->getTitle();
-                        $this->data[0]['chooser_identifier'] = $fixture->getIdentifier();
+                    if (!empty($explodeValue[2])) {
+                        for ($i = 1; $i <= $explodeValue[2]; $i++) {
+                            $fixture = $fixtureFactory
+                                ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
+                            $fixture->persist();
+                            $this->data[0]['entities'] = $fixture->getData();
+                        }
                     } else {
-                        $this->data[0]['entities'] = $fixture->getName();
+                        $fixture = $fixtureFactory
+                            ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
+                        $fixture->persist();
+                        $this->data[0]['entities'] = $fixture->getData();
                     }
                 }
             }
@@ -110,22 +116,22 @@ class WidgetOptions implements FixtureInterface
             'bannerRotator' => [
                 [
                     'display_mode' => 'Specified Banners',
-                    'types' => 'Header',
-                    'rotate' => 'Display all instead of rotating.'
+                    'rotate' => 'Display all instead of rotating.',
+                    'entities' => 'bannerInjectable::default',
                 ]
             ],
             'bannerRotatorShoppingCartRules' => [
                 [
                     'display_mode' => 'Specified Banners',
-                    'types' => 'Content Area',
                     'rotate' => 'Display all instead of rotating.',
+                    'entities' => 'bannerInjectable::banner_rotator_shopping_cart_rules',
                 ]
             ],
             'bannerRotatorCatalogRules' => [
                 [
                     'display_mode' => 'Specified Banners',
-                    'types' => 'Footer',
                     'rotate' => 'Display all instead of rotating.',
+                    'entities' => 'bannerInjectable::banner_rotator_catalog_rules',
                 ]
             ],
             'hierarchyNodeLink' => [
@@ -160,7 +166,8 @@ class WidgetOptions implements FixtureInterface
                 [
                     'limit' => '6',
                     'scroll' => '3',
-                    'width' => '4'
+                    'width' => '4',
+                    'entities' => 'catalogEventEntity::default_event::2',
                 ]
             ],
             'catalogNewProductList' => [

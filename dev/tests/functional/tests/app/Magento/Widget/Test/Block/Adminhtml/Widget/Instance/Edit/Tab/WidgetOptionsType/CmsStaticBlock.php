@@ -57,8 +57,8 @@ class CmsStaticBlock extends WidgetOptionsForm
                 );
                 $cmsPageLinkGrid->searchAndSelect(
                     [
-                        'title' => $fields['chooser_title']['value'],
-                        'identifier' => $fields['chooser_identifier']['value']
+                        'title' => $fields['entities']['value']['title'],
+                        'identifier' => $fields['entities']['value']['identifier']
                     ]
                 );
             } elseif (!isset($field['value'])) {
