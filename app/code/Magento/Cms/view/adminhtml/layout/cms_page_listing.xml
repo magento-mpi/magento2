@@ -11,7 +11,7 @@
     <referenceBlock name="listing">
         <arguments>
             <argument name="name" xsi:type="string">cms_page_listing</argument>
-            <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Collection</argument>
+            <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Grid\Collection</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
             <argument name="config" xsi:type="array">
                 <item name="params" xsi:type="array">
@@ -22,6 +22,8 @@
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>
+                    <item name="filterable" xsi:type="boolean">true</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
                 </item>
                 <item name="fields" xsi:type="array">
                     <item name="page_id" xsi:type="array">
@@ -30,21 +32,18 @@
                         <item name="visible" xsi:type="boolean">false</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="index" xsi:type="string">page_id</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
                     <item name="title" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Title</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
                     <item name="identifier" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">URL Key</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
@@ -53,53 +52,25 @@
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">select</item>
-                        <item name="options" xsi:type="array">
-                            <item name="1 column" xsi:type="array">
-                                <item name="value" xsi:type="string">1column</item>
-                                <item name="label" xsi:type="string" translate="true">1 column</item>
-                            </item>
-                            <item name="2 columns with left bar" xsi:type="array">
-                                <item name="value" xsi:type="string">2columns-left</item>
-                                <item name="label" xsi:type="string" translate="true">2 columns with left bar</item>
-                            </item>
-                            <item name="2 columns with right bar" xsi:type="array">
-                                <item name="value" xsi:type="string">2columns-right</item>
-                                <item name="label" xsi:type="string" translate="true">2 columns with right bar</item>
-                            </item>
-                            <item name="3 columns" xsi:type="array">
-                                <item name="value" xsi:type="string">3columns</item>
-                                <item name="label" xsi:type="string" translate="true">3 columns</item>
-                            </item>
-                        </item>
+                        <item name="options_provider" xsi:type="string">Magento\Cms\Ui\DataProvider\Options\PageLayout</item>
                     </item>
                     <item name="is_active" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Status</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">bool</item>
                         <item name="filter_type" xsi:type="string">select</item>
-                        <item name="options" xsi:type="array">
-                            <item name="disable" xsi:type="array">
-                                <item name="value" xsi:type="string">0</item>
-                                <item name="label" xsi:type="string" translate="true">Disabled</item>
-                            </item>
-                            <item name="enable" xsi:type="array">
-                                <item name="value" xsi:type="string">1</item>
-                                <item name="label" xsi:type="string" translate="true">Enabled</item>
-                            </item>
-                        </item>
+                        <item name="options_provider" xsi:type="string">Magento\Cms\Ui\DataProvider\Options\IsActive</item>
                     </item>
                     <item name="creation_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Created</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
-                        <item name="data_type" xsi:type="string">text</item>
+                        <item name="data_type" xsi:type="string">date_time</item>
                         <item name="filter_type" xsi:type="string">date</item>
                     </item>
                     <item name="update_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Modified</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="sortable" xsi:type="string">true</item>
-                        <item name="data_type" xsi:type="string">text</item>
+                        <item name="data_type" xsi:type="string">date_time</item>
                         <item name="filter_type" xsi:type="string">date</item>
                     </item>
                     <item name="actions" xsi:type="array">
@@ -107,12 +78,21 @@
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">actions</item>
                         <item name="filterable" xsi:type="boolean">false</item>
+                        <item name="sortable" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="row_url" xsi:type="array">
+                        <item name="data_type" xsi:type="string">row_url</item>
+                        <item name="filterable" xsi:type="boolean">false</item>
+                        <item name="visible" xsi:type="boolean">false</item>
                     </item>
                 </item>
             </argument>
-            <argument name="provider_action_poll" xsi:type="array">
+            <argument name="row_data_provider" xsi:type="array">
                 <item name="actions" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Cms\Ui\Provider\Action\Row</item>
+                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Row\Actions</item>
+                </item>
+                <item name="row_url" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Row\Url</item>
                 </item>
             </argument>
         </arguments>

@@ -95,13 +95,15 @@ class View extends AbstractView
     protected function updateDataCollection()
     {
         $collection = $this->renderContext->getDataCollection($this->getParentName());
-        $metaData = $this->renderContext->getMetaFields($this->getParentName() . 'meta/fields');
+
+        $metaData = $this->renderContext->getMeta($this->getParentName());
+        $metaData = $metaData['fields'];
         $filterData = $this->renderContext->getFilterData(static::FILTER_VAR);
         foreach ($filterData as $field => $value) {
             if (!isset($metaData[$field]['filter_type'])) {
                 continue;
             }
-            $condition = null;
+
             $condition = $this->filterPool->getFilter($metaData[$field]['filter_type'])->getCondition($value);
             if ($condition !== null) {
                 $collection->addFieldToFilter($field, $condition);

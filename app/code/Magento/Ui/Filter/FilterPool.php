@@ -58,7 +58,7 @@ class FilterPool
     {
         if (!isset($this->filters[$dataType])) {
             if (!isset($this->filterTypes[$dataType])) {
-                throw new \InvalidArgumentException('Unknown filter type');
+                throw new \InvalidArgumentException(sprintf('Unknown filter type "%s"', $dataType));
             }
             $this->filters[$dataType] = $this->objectManager->create($this->filterTypes[$dataType]);
         }

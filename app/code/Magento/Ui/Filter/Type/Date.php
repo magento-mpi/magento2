@@ -9,6 +9,7 @@ namespace Magento\Ui\Filter\Type;
 
 use Magento\Backend\Block\Context;
 use Magento\Ui\Filter\FilterInterface;
+use \Magento\Framework\LocaleInterface;
 
 /**
  * Class Date
@@ -16,16 +17,22 @@ use Magento\Ui\Filter\FilterInterface;
 class Date implements FilterInterface
 {
     /**
+     * Timezone library
+     *
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $localeDate;
 
     /**
+     * Scope config
+     *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $scopeConfig;
 
     /**
+     * Locale resolver
+     *
      * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $localeResolver;
@@ -62,15 +69,17 @@ class Date implements FilterInterface
     protected function convertValue($value)
     {
         if (!empty($value['from']) || !empty($value['to'])) {
-
+            $locale = $this->localeResolver->getLocale();
             if (!empty($value['from'])) {
-                $value['from'] = (int)$this->convertDate(strtotime($value['from']), $this->localeResolver->getLocale());
-                $value['from'] = date('Y-m-d', $value['from']);
+                $value['orig_from'] = $value['from'];
+                $value['from'] = $this->convertDate(strtotime($value['from']), $locale);
             }
             if (!empty($value['to'])) {
-                $value['to'] = (int)$this->convertDate(strtotime($value['to']), $this->localeResolver->getLocale());
-                $value['to'] = date('Y-m-d', $value['to']);
+                $value['orig_to'] = $value['to'];
+                $value['to'] = $this->convertDate(strtotime($value['to']), $locale);
             }
+            $value['datetime'] = true;
+            $value['locale'] = $locale->toString();
         } else {
             $value = null;
         }
@@ -81,11 +90,11 @@ class Date implements FilterInterface
     /**
      * Convert given date to default (UTC) timezone
      *
-     * @param string $date
-     * @param string $locale
+     * @param int $date
+     * @param LocaleInterface $locale
      * @return \Magento\Framework\Stdlib\DateTime\Date|null
      */
-    protected function convertDate($date, $locale)
+    protected function convertDate($date, LocaleInterface $locale)
     {
         try {
             $dateObj = $this->localeDate->date(null, null, $locale, false);
@@ -109,7 +118,7 @@ class Date implements FilterInterface
             //convert store date to default date in UTC timezone without DST
             $dateObj->setTimezone(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
 
-            return $dateObj->getTimestamp();
+            return $dateObj;
         } catch (\Exception $e) {
             return null;
         }

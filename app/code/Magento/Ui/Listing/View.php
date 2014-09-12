@@ -9,7 +9,8 @@ namespace Magento\Ui\Listing;
 
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
-use \Magento\Ui\Provider\ProviderFactory;
+use \Magento\Ui\DataProvider\RowPool;
+use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
@@ -19,32 +20,35 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 class View extends AbstractView
 {
     /**
-     * @var ProviderFactory
+     * @var RowPool
      */
-    protected $providerFactory;
+    protected $rowPool;
 
     /**
-     * @var \Magento\Ui\Provider\ProviderInterface[]
+     * @var \Magento\Ui\DataProvider\RowInterface[]
      */
-    protected $providerActionPoll = [];
+    protected $dataProviderRowPoll = [];
 
     /**
      * Constructor
      *
-     * @param ProviderFactory $providerFactory
+     * @param OptionsFactory $optionsFactory
+     * @param RowPool $rowPool
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
      * @param array $data
      */
     public function __construct(
-        ProviderFactory $providerFactory,
+        OptionsFactory $optionsFactory,
+        RowPool $rowPool,
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
-        $this->providerFactory = $providerFactory;
+        $this->optionsFactory = $optionsFactory;
+        $this->rowPool = $rowPool;
         parent::__construct($renderContext, $context, $contentTypeFactory, $data);
     }
 
@@ -69,32 +73,7 @@ class View extends AbstractView
         $this->addConfigData($this, $this->viewConfiguration);
 
         $this->renderContext->register($this->getName(), $this->getData('dataSource'));
-        $this->renderContext->register($this->getName() . 'meta/fields', $this->getData('meta/fields'));
-    }
-
-    /**
-     * Create providers
-     *
-     * @return void
-     * @throws \InvalidArgumentException
-     */
-    protected function createProviders()
-    {
-        $cache = [];
-        if ($this->hasData('provider_action_poll')) {
-            $this->providerActionPoll = $this->getData('provider_action_poll');
-        }
-
-        foreach ($this->providerActionPoll as $key => $item) {
-            if (empty($cache[$item['class']])) {
-                $cache[$item['class']] = $this->providerFactory->create(
-                    $item['class'],
-                    empty($item['arguments']) ? [] : $item['arguments']
-                );
-            }
-
-            $this->providerActionPoll[$key] = $cache[$item['class']];
-        }
+        $this->renderContext->setMeta($this->getName(), $this->getMeta());
     }
 
     /**
@@ -106,28 +85,55 @@ class View extends AbstractView
      */
     public function render(array $arguments = [], $acceptType = 'html')
     {
-        $this->createProviders();
         $this->initialConfiguration();
 
         return parent::render($arguments, $acceptType);
     }
 
     /**
-     * @param array $item
+     * Get meta data
+     *
      * @return array
      */
-    protected function applyActionProviders(array $item)
+    protected function getMeta()
     {
-        foreach ($this->providerActionPoll as $name => $provider) {
-            if (!empty($item[$name])) {
-                $value = $item[$name];
-                $item[$name] = [];
-                $item[$name] = $value;
+        $meta = $this->getData('meta');
+        foreach ($meta['fields'] as $key => $field) {
+
+            // TODO fixme
+            if ($field['data_type'] === 'date_time') {
+                $field['date_format'] = $this->_localeDate->getDateTimeFormat(
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                );
             }
-            $item[$name][] = $provider->provide($item);
+
+            if (isset($field['options_provider'])) {
+                $field['options'] = $this->optionsFactory->create($field['options_provider'])
+                    ->getOptions(empty($field['options']) ? [] : $field['options']);
+            }
+            unset($field['options_provider']);
+            $meta['fields'][$key] = $field;
         }
 
-        return $item;
+        return $meta;
+    }
+
+    /**
+     * Apply data provider to row data
+     *
+     * @param array $dataRow
+     * @return array
+     */
+    protected function getDataFromDataProvider(array $dataRow)
+    {
+        if ($this->hasData('row_data_provider')) {
+            $this->dataProviderRowPoll = $this->getData('row_data_provider');
+        }
+        foreach ($this->dataProviderRowPoll as $field => $data) {
+            $dataRow[$field] = $this->rowPool->get($data['class'])->getData($dataRow);
+        }
+
+        return $dataRow;
     }
 
     /**
@@ -138,13 +144,13 @@ class View extends AbstractView
     protected function getCollectionItems()
     {
         $items = [];
-
-        foreach ($this->renderContext->getDataCollection($this->getName())->getItems() as $item) {
+        $collection = $this->renderContext->getDataCollection($this->getName());
+        foreach ($collection->getItems() as $item) {
             $itemsData = [];
             foreach (array_keys($this->getData('meta/fields')) as $field) {
                 $itemsData[$field] = $item->getData($field);
             }
-            $items[] = $this->applyActionProviders($itemsData);
+            $items[] = $this->getDataFromDataProvider($itemsData);
         }
 
         return $items;
@@ -162,13 +168,10 @@ class View extends AbstractView
 
         $this->globalConfig['dump']['extenders'] = [];
 
-        $this->globalConfig['meta'] = $this->getData('meta');
-
-        $this->globalConfig['meta']['fields'] = $this->renderContext->getMetaFields($this->getName() . 'meta/fields');
+        $this->globalConfig['meta'] = $this->renderContext->getMeta($this->getName());
         $this->globalConfig['data']['items'] = $this->getCollectionItems();
 
         $countItems = $this->renderContext->registry($this->getName())->getSize();
-
         $this->globalConfig['data']['pages'] = ceil(
             $countItems / $this->renderContext->getRequestParam('limit', 5) // TODO fixme
         );

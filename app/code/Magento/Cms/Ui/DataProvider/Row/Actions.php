@@ -5,14 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Cms\Ui\Provider\Action;
+namespace Magento\Cms\Ui\DataProvider\Row;
 
+use Magento\Ui\DataProvider\RowInterface;
 use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;
 
 /**
- * Class Row
+ * Class Actions
  */
-class Row implements \Magento\Ui\Provider\ProviderInterface
+class Actions implements RowInterface
 {
     /**
      * @var UrlBuilder
@@ -28,10 +29,12 @@ class Row implements \Magento\Ui\Provider\ProviderInterface
     }
 
     /**
+     * Get data
+     *
      * @param array $dataRow
-     * @return array
+     * @return mixed
      */
-    public function provide(array $dataRow)
+    public function getData(array $dataRow)
     {
         return [
             'href' => $this->actionUrlBuilder->getUrl(

@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\Provider;
+namespace Magento\Ui\DataProvider;
 
 use Magento\Framework\ObjectManager;
 
 /**
- * Class ProviderFactory
+ * Class OptionsFactory
  */
-class ProviderFactory
+class OptionsFactory
 {
     /**
      * @var ObjectManager
@@ -34,15 +34,15 @@ class ProviderFactory
      *
      * @param string $class
      * @param array $arguments
-     * @return ProviderInterface
+     * @return OptionsInterface
      * @throws \InvalidArgumentException
      */
     public function create($class, array $arguments = [])
     {
         $object = $this->objectManager->create($class, $arguments);
-        if (!($object instanceof ProviderInterface)) {
+        if (!($object instanceof OptionsInterface)) {
             throw new \InvalidArgumentException(
-                sprintf('"%s" must implement the interface \Magento\Ui\Provider\ProviderInterface', $class)
+                sprintf('"%s" must implement the interface \Magento\Ui\DataProvider\OptionsInterface', $class)
             );
         }
 

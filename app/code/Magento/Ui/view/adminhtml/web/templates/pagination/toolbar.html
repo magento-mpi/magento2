@@ -2,7 +2,7 @@
     <span class="pages-total-found">Total <strong data-bind="text: totalCount"></strong> records</span>
     <label class="view-pages">
         View
-        <select data-bind="options: sizes, value: pageSize, on: { change: 'onSizeChange'}"></select>
+        <select data-bind="options: sizes, value: pageSize, event: { change: onSizeChange}"></select>
         per page.
     </label>
 </span>
@@ -10,7 +10,7 @@
     <span data-bind="css: { disabled: isFirst() }, click: prev" class="action-previous">
         <span>Previous page</span>
     </span>
-    <input data-bind="value: current, on: {change: 'onPageChange'}" type="text" class="input-text page" />
+    <input data-bind="value: current, event: {change: onPageChange}" type="text" class="input-text page" />
     <span class="pages-total">
         of
         <span data-bind="text: pages" style="vertical-align: top;"></span>

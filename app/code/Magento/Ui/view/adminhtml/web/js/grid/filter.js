@@ -39,9 +39,7 @@ define([
                 filterable;
 
             this.fields = fields.filter(function (field) {
-                filterable = field.filterable;
-
-                return typeof filterable === 'undefined' || filterable;
+                return field.filterable;
             });
 
             return this;

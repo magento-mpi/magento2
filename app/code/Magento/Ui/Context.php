@@ -8,6 +8,7 @@
 namespace Magento\Ui;
 
 use Magento\Framework\Registry;
+use Magento\Backend\Helper\Data;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
@@ -41,10 +42,9 @@ class Context extends Registry
      * Constructor
      *
      * @param TemplateContext $context
-     * @param \Magento\Backend\Helper\Data $dataHelper
-     * @param array $data
+     * @param Data $dataHelper
      */
-    public function __construct(TemplateContext $context, \Magento\Backend\Helper\Data $dataHelper, array $data = [])
+    public function __construct(TemplateContext $context, Data $dataHelper)
     {
         $this->dataHelper = $dataHelper;
         $this->request = $context->getRequest();
@@ -146,19 +146,19 @@ class Context extends Registry
      * @param string $key
      * @param array $data
      */
-    public function setMetaFields($key, array $data)
+    public function setMeta($key, array $data)
     {
-        $this->register($key, $data);
+        $this->register($key . '_meta', $data);
     }
 
     /**
      * Get meta fields data
      *
-     * @param $key
+     * @param string $key
      * @return array
      */
-    public function getMetaFields($key)
+    public function getMeta($key)
     {
-        return $this->registry($key);
+        return $this->registry($key . '_meta');
     }
 }

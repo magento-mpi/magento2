@@ -23,7 +23,7 @@ class Input implements FilterInterface
     public function getCondition($value)
     {
         $condition = null;
-        if (!empty($value) || $value === '0') {
+        if (!empty($value) || is_numeric($value)) {
             $condition = ['like' => sprintf('%%%s%%', $value)];
         }
 
