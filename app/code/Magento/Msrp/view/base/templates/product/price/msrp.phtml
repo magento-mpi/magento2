@@ -29,13 +29,22 @@ $msrpPrice = $this->renderAmount(
     ]
 );
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
+
 $addToCartUrl = '';
 if ($product->isSaleable()) {
-    $addToCartUrl = $this->helper('\Magento\Checkout\Helper\Cart')
-        ->getAddUrl($product);
+    /** @var Magento\Catalog\Block\Product\AbstractProduct $addToCartUrlGenerator */
+    $addToCartUrlGenerator = $this->getLayout()->getBlockSingleton('Magento\Catalog\Block\Product\AbstractProduct');
+    $addToCartUrl = $addToCartUrlGenerator->getAddToCartUrl(
+        $product,
+        ['_query' => [
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED
+                => $this->helper('Magento\Core\Helper\PostData')->getEncodedUrl(
+                    $addToCartUrlGenerator->getAddToCartUrl($product)
+                )
+        ]]
+    );
 }
 ?>
-
 <?php if ($product->getMsrp()): ?>
     <span class="old-price"><?php echo $msrpPrice ?></span>
 <?php endif; ?>
@@ -46,7 +55,12 @@ if ($product->isSaleable()) {
     <?php $popupId = 'msrp-popup-' . $productId . $this->getRandomString(20); ?>
     <a href="#"
        id="<?php echo($popupId);?>"
-       data-mage-init='{"addToCart":{"cartForm": "#product_addtocart_form",
+       data-mage-init='{"addToCart":{
+            <?php if ($this->getRequest()->getFullActionName() === 'catalog_product_view'): ?>
+                "addToCartButton": "#product_addtocart_form [type=submit]",
+            <?php else: ?>
+                "cartForm": "#product_addtocart_form_from_popup",
+            <?php endif; ?>
                                      "popupId": "#<?php echo $popupId; ?>",
                                      "productName": "<?php echo $product->getName() ?>",
                                      "realPrice": <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,
@@ -54,7 +68,9 @@ if ($product->isSaleable()) {
                                      "priceElementId":"<?php echo $priceElementId ?>",
                                      "closeButtonId": "#map-popup-close",
                                      "popupCartButtonId": "#map-popup-button",
-                                     "addToCartUrl": "<?php echo $addToCartUrl; ?>"}}'><?php echo __('Click for price'); ?>
+                                     "addToCartUrl": "<?php echo $addToCartUrl; ?>"}}'
+    >
+        <?php echo __('Click for price'); ?>
     </a>
 <?php else: ?>
     <span class="msrp message">

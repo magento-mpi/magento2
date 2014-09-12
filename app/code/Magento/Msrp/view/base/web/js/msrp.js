@@ -28,7 +28,7 @@ define(["jquery", "jquery/ui", "mage/dropdown"], function($) {
                     $('#map-popup-heading-price').text(this.options.productName);
                     $('#map-popup-price').html($(this.options.realPrice));
                     $('#map-popup-msrp > span.price').html(this.options.msrpPrice);
-                    $(this.options.cartForm).trigger('reloadPrice');
+                    this.element.trigger('reloadPrice');
                     var dialog = $("#map-popup-click-for-price");
                     this._popupDialog(dialog, this.options.popupId);
                     if (!this.options.showAddToCart) {
@@ -65,13 +65,13 @@ define(["jquery", "jquery/ui", "mage/dropdown"], function($) {
 
         _addToCartSubmit: function() {
             this.element.trigger('addToCart', this.element);
+            if (this.options.addToCartButton) {
+                $(this.options.addToCartButton).click();
+                return;
+            }
             if (this.options.addToCartUrl) {
                 $('.mage-dropdown-dialog > .ui-dialog-content').dropdownDialog("close");
                 $(this.options.cartForm).attr('action', this.options.addToCartUrl);
-                if (!$(this.options.cartForm).length) {
-                    location.href = this.options.addToCartUrl;
-                    return false;
-                }
             }
             $(this.options.cartForm).submit();
         }

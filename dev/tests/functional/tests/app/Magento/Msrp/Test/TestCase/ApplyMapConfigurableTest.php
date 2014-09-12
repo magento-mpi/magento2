@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\ConfigurableProduct\Test\TestCase;
+namespace Magento\Msrp\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;

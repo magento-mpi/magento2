@@ -7,10 +7,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-/**
- * Catalog Product Abstract Block
- */
-abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
+class AbstractProduct extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var array
