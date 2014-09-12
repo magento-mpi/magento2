@@ -41,7 +41,7 @@ define([
          */
         formatOptions: function (options) {
             return _.map(options, function (value, key) {
-                return { value: value, label: key  };
+                return { value: key, label: value  };
             });
         },
 

@@ -15,7 +15,7 @@ define([
     return {
         input:      InputControl,
         select:     SelectControl,
-        date_range: RangeControl,
+        date:       RangeControl,
         range:      RangeControl
     }
 });

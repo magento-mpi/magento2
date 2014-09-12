@@ -14,7 +14,22 @@ define([
         initialize: function(data) {
             this.data = data || {};
 
-            this.format();
+            this.preprocess()
+                .format();
+        },
+
+        preprocess: function() {
+            var fields,
+                fieldsMap,
+                result;
+
+            fields      = this.data.fields;
+            fieldsMap   = this._sortedFieldsMap(fields);
+            result      = this._fieldsToArray(fields, fieldsMap);
+
+            this.data.fields = result;
+
+            return this;
         },
 
         format: function(){
@@ -25,6 +40,8 @@ define([
                 this.applyDefaults(field)
                     .formatOptions(field);
             }, this);
+
+            return this;
         },
 
         applyDefaults: function(field) {
@@ -54,6 +71,39 @@ define([
             }
 
             return this;
+        },
+
+        _sortedFieldsMap: function(fields){
+            var fieldsMap;
+
+            fieldsMap = _.map(fields, function(field, index) {
+                return {
+                    pos: field.position,
+                    index: index
+                };
+            });
+
+            fieldsMap.sort(function(a, b) {
+                return a.pos - b.pos;
+            });
+
+            return fieldsMap;
+        },
+
+        _fieldsToArray: function(fields, fieldsMap){
+            var field,
+                index;
+
+            return fieldsMap.map(function(item) {
+                index = item.index;
+                field = fields[index];
+
+                delete field.position;
+
+                field.index = index;
+
+                return field;
+            });
         }
     });
 });
