@@ -13,6 +13,12 @@ define([
     'use strict';
 
     var Listing =  Scope.extend({
+
+        /**
+         * Extends instance with defaults and config, initializes observable properties.
+         * Updates provider with current state of instance. 
+         * @param  {Object} settings
+         */
         initialize: function(settings) {
             _.extend(this, settings);
 
@@ -23,6 +29,10 @@ define([
             this.fields = this.provider.meta.get('fields');
         },
 
+        /**
+         * Initializes observable properties of instance.
+         * @return {Object} - reference to instance
+         */
         initObservable: function() {
             this.observe({
                 rows:       [],
@@ -35,6 +45,10 @@ define([
             return this;
         },
 
+        /**
+         * Subscribes on provider's events.
+         * @return {Object} - reference to instance
+         */
         initProvider: function() {
             var provider    = this.provider,
                 dump        = provider.dump;
@@ -49,14 +63,29 @@ define([
             return this;
         },
 
+        /**
+         * Is being called when some component pushed it's extender to global storage.
+         * Preprocesses incoming array of extenders and sets the results into extenders
+         * and templateExtenders observable arrays
+         * @param  {Array} extenders
+         */
         updateExtenders: function (extenders) {
-            var adjusted = extenders.reduce(this.adjustExtender, {});
+            var adjusted = extenders.reduce(function (adjusted, extender) {
+
+                adjusted[extender.as] = extender.name;
+                return adjusted;
+
+            }, {});
             
             this.extenders(adjusted);
 
             this.templateExtenders(extenders.map(this.adjustTemplateExtender, this));
         },
 
+        /**
+         * Fetches items from storage and stores it into rows observable array
+         * @return {Object} - reference to instance
+         */
         updateItems: function() {
             var items = this.provider.data.get('items');
 
@@ -65,16 +94,30 @@ define([
             return this;
         },
 
+        /**
+         * Returns extender by name of component which set it.
+         * @param  {String} name
+         * @return {String} - Namespace string by which target component is registered in storage.
+         */
         getExtender: function(name) {
             var extenders = this.extenders();
 
             return extenders ? (this.parent_name + ':' + extenders[name]) : null;
         },
 
+        /**
+         * Returns path to template for arbitrary field
+         * @param  {String} field
+         * @return {String} - path to template
+         */
         getCellTemplateFor: function(field) {
             return this.getRootTemplatePath() + '.cell.' + field.data_type;
         },
 
+        /**
+         * Returns object which represents template bindings params
+         * @return {Object} - template binding params
+         */
         getTemplate: function() {
             return {
                 name:      'Magento_Ui.templates.listing.' + this.view(),
@@ -82,20 +125,27 @@ define([
             };
         },
 
+        /**
+         * Generates template path for extender.
+         * @param  {Object} extender
+         * @return {String} - extender's template path
+         */
         adjustTemplateExtender: function (extender) {
             return this.getRootTemplatePath() + '.' + extender.path;
         },
 
+        /**
+         * Returns root template path for grid, based on view observable
+         * @return {String} - root template path
+         */
         getRootTemplatePath: function() {
             return 'Magento_Ui.templates.listing.' + this.view();
         },
 
-        adjustExtender: function (adjusted, extender) {
-            adjusted[extender.as] = extender.name;
-
-            return adjusted;
-        },
-
+        /**
+         * Provider's refresh event's handler.
+         * Locks grid and updates items.
+         */
         onRefresh: function() {
             this.unlock()
                 .updateItems();
