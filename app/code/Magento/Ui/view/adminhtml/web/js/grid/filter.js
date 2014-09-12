@@ -35,7 +35,7 @@ define([
          * @param {Object} this - Reference to instance
          */
         extractFilterable: function (fields) {
-            var fields = this.provider.meta.get('fields'),
+            var fields = this.provider.meta.getVisible(),
                 filterable;
 
             this.fields = fields.filter(function (field) {
