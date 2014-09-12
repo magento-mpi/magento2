@@ -32,6 +32,8 @@
             <query xsi:type="boolQuery" name="one_match_filters" boost="2">
                 <queryReference clause="must" ref="fulltext_search_query"/>
                 <queryReference clause="must" ref="filtered_query"/>
+                <queryReference clause="must" ref="filtered_query_rm"/>
+                <queryReference clause="must" ref="filtered_query_filter_rm"/>
             </query>
             <query xsi:type="matchQuery" name="fulltext_search_query" value="$fulltext_search_query$" boost="5">
                 <match field="data_index" boost="2"/>
@@ -39,8 +41,23 @@
             <query xsi:type="filteredQuery" name="filtered_query">
                 <filterReference ref="pid"/>
             </query>
+            <query xsi:type="filteredQuery" name="filtered_query_rm">
+                <queryReference ref="fulltext_search_query_rm"/>
+            </query>
+            <query xsi:type="filteredQuery" name="filtered_query_filter_rm">
+                <filterReference ref="bool_filter_rm"/>
+            </query>
+            <query xsi:type="matchQuery" value="$not_bind$" name="fulltext_search_query_rm">
+                <match field="some"/>
+            </query>
         </queries>
         <filters>
+            <filter xsi:type="boolFilter" name="bool_filter_rm">
+                <filterReference clause="must" ref="term_rm"/>
+                <filterReference clause="must" ref="range_rm"/>
+            </filter>
+            <filter name="range_rm" xsi:type="rangeFilter" field="product_id" from="$not_bind$" to="$not_bind$"/>
+            <filter name="term_rm" xsi:type="termFilter" field="product_id" value="$not_bind$"/>
             <filter xsi:type="boolFilter" name="pid">
                 <filterReference clause="should" ref="pidm"/>
                 <filterReference clause="should" ref="pidsh"/>
