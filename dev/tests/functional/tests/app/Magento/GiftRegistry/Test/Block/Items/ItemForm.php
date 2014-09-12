@@ -24,25 +24,7 @@ class ItemForm extends Form
      */
     public function fillForm(array $updateOptions)
     {
-        $mapping = $this->dataMapping($this->skippedEmptyFields($updateOptions));
+        $mapping = $this->dataMapping(array_diff($updateOptions, ['-']));
         $this->_fill($mapping);
-    }
-
-    /**
-     * Skipped empty fields
-     *
-     * @param array $updateOptions
-     * @return array
-     */
-    protected function skippedEmptyFields(array $updateOptions)
-    {
-        $fields = [];
-        foreach ($updateOptions as $field => $value) {
-            if ($value !== "-") {
-                $fields[$field] = $value;
-            }
-        }
-
-        return $fields;
     }
 }

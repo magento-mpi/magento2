@@ -28,16 +28,17 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
  * Test Flow:
  *
  * Preconditions:
- * 1. Register Customer
+ * 1. Customer is created
  * 2. Gift Registry is created
- * 3. Product is created
- * 4. Login as a Customer
- * 5. Product is added to Gift Registry
+ * 3. Product is created and added to gift registry
  *
  * Steps:
- * 1. Edit data according to DataSet
- * 2. Click Update button
- * 3. Perform Asserts
+ * 1. Go to frontend
+ * 3. Go to My Account -> Gift Registry
+ * 4. Press on appropriate Gift Registry "Manage Items" button
+ * 5. Edit data according to DataSet
+ * 6. Click Update button
+ * 7. Perform Asserts
  *
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-28196
@@ -187,6 +188,10 @@ class UpdateGiftRegistryItemsFrontendEntityTest extends Injectable
         $this->catalogProductView->getViewBlock()->clickAddToCart();
         $this->checkoutCart->getGiftRegistryCart()->addToGiftRegistry($giftRegistry->getTitle());
         // Steps
+        $this->cmsIndex->open();
+        $this->cmsIndex->getLinksBlock()->openLink("My Account");
+        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
+        $this->giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
         $this->giftRegistryItems->getGiftRegistryItemsBlock()->fillItemForm($product, $updateOptions);
         $this->giftRegistryItems->getGiftRegistryItemsBlock()->updateGiftRegistry();
     }

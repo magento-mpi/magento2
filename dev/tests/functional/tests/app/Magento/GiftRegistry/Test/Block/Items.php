@@ -11,7 +11,6 @@ namespace Magento\GiftRegistry\Test\Block;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class Items
