@@ -142,7 +142,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      *
@@ -167,7 +167,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Model\Config $config,
         \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Bundle\Model\OptionFactory $bundleOption,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {

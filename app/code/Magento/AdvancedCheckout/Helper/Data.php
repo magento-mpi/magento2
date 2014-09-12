@@ -210,7 +210,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
