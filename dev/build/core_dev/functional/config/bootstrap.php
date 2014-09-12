@@ -22,4 +22,3 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 require_once realpath(SELENIUM_TESTS_BASEDIR . '/../../../app/autoload.php');
-unset($installCmd, $installConfigFile, $installConfig, $installExitCode);
