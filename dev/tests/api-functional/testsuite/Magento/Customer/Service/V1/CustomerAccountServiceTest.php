@@ -942,6 +942,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersMultipleFiltersWithSort()
     {
+        $this->markTestSkipped(
+            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-28264'
+        );
         $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->_createCustomer();
         $customerData2 = $this->_createCustomer();

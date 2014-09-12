@@ -170,7 +170,7 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
 
         $this->select->expects($this->at(1))
             ->method('where')
-            ->with('entity_id IN (?)', ['entity_1',]);
+            ->with('entity_id IN (?)', ['entity_1']);
 
         $this->select->expects($this->at(2))
             ->method('where')

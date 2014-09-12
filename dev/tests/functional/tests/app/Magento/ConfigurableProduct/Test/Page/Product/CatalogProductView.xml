@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/product/view">
+    <blocks>
+        <viewBlock>
+            <renders>
+                <configurable>
+                    <class>Magento\ConfigurableProduct\Test\Block\Product\View</class>
+                </configurable>
+            </renders>
+        </viewBlock>
+    </blocks>
+</page>

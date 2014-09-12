@@ -67,7 +67,7 @@ class UpdateGiftWrappingEntityTest extends Injectable
      * @param GiftWrapping $giftWrapping
      * @return void
      */
-    public function testUpdateGiftWrapping(GiftWrapping $initialGiftWrapping, GiftWrapping $giftWrapping)
+    public function test(GiftWrapping $initialGiftWrapping, GiftWrapping $giftWrapping)
     {
         // Precondition
         $initialGiftWrapping->persist();
