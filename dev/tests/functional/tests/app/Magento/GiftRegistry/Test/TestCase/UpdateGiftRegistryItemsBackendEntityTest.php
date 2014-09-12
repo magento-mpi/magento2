@@ -252,10 +252,8 @@ class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
     protected function prepareProducts(array $products, array $actions)
     {
         $deletedProducts = array_keys($actions, 'Remove Item');
-        if (!empty($deletedProducts)) {
-            foreach ($deletedProducts as $index) {
-                unset($products[$index]);
-            }
+        foreach ($deletedProducts as $index) {
+            unset($products[$index]);
         }
         return $products;
     }
