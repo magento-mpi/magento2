@@ -42,7 +42,7 @@
 <script type="text/javascript">
 require(['jquery', 'jquery/ui', "mage/mage"], function($){
     var mageDialog = (function($) {
-        var self = {dialogOpened: false, callback: [], needShow: false};
+        var self = {dialogOpened: false, callback: []};
 
         self.callback = {ok: [], cancel: []};
         self.createDialog = function () {
@@ -65,9 +65,6 @@ require(['jquery', 'jquery/ui', "mage/mage"], function($){
                 ],
                 open: function () {
                     self.dialogOpened = true;
-                    self.callback.ok.push(function() {
-                        self.needShow = false;
-                    });
                 },
                 close: function(event, ui) {
                     $(this).dialog('destroy');
@@ -79,12 +76,8 @@ require(['jquery', 'jquery/ui', "mage/mage"], function($){
         };
 
         return {
-            needToShow: function() {
-                self.needShow = true;
-                return this;
-            },
             isNeedShow: function() {
-                return self.needShow;
+                return $('[data-ui-id="tabs-tab-general-information-fieldset-element-hidden-general-id"]').length;
             },
             onOk: function(call) {
                 self.callback.ok.push(call);
