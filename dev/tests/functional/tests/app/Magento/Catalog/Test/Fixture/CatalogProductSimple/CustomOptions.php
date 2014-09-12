@@ -145,7 +145,7 @@ class CustomOptions implements FixtureInterface
     protected function getPreset($name)
     {
         $presets = [
-            'MAGETWO-23062' => [
+            'drop_down_with_one_option_fixed_price' => [
                 [
                     'title' => 'custom option drop down %isolation%',
                     'is_require' => 'Yes',
@@ -160,7 +160,7 @@ class CustomOptions implements FixtureInterface
                     ]
                 ]
             ],
-            'MAGETWO-23063' => [
+            'drop_down_with_one_option_percent_price' => [
                 [
                     'title' => 'custom option drop down %isolation%',
                     'is_require' => 'Yes',
@@ -169,36 +169,6 @@ class CustomOptions implements FixtureInterface
                         [
                             'title' => '40 bucks',
                             'price' => 40,
-                            'price_type' => 'Percent',
-                            'sku' => 'sku_drop_down_row_1'
-                        ]
-                    ]
-                ]
-            ],
-            'MAGETWO-23066' => [
-                [
-                    'title' => 'custom option drop down %isolation%',
-                    'is_require' => 'Yes',
-                    'type' => 'Drop-down',
-                    'options' => [
-                        [
-                            'title' => '30 bucks',
-                            'price' => 30,
-                            'price_type' => 'Fixed',
-                            'sku' => 'sku_drop_down_row_1'
-                        ]
-                    ]
-                ]
-            ],
-            'MAGETWO-23069' => [
-                [
-                    'title' => 'custom option drop down %isolation%',
-                    'is_require' => 'Yes',
-                    'type' => 'Drop-down',
-                    'options' => [
-                        [
-                            'title' => '10 percent',
-                            'price' => 10,
                             'price_type' => 'Percent',
                             'sku' => 'sku_drop_down_row_1'
                         ]

@@ -36,7 +36,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $choiceLink = './/*[contains(@class,"choice")][%d]';
+    protected $choiceLink = './/*[contains(@class,"choice")]';
 
     /**
      * Checkbox selector item links
@@ -110,9 +110,8 @@ class Links extends Block
     {
         $linksData = [];
 
-        $count = 1;
-        $choiceLink = $this->_rootElement->find(sprintf($this->choiceLink, $count), Locator::SELECTOR_XPATH);
-        while ($choiceLink->isVisible()) {
+        $choiceLinks = $this->_rootElement->find($this->choiceLink, Locator::SELECTOR_XPATH)->getElements();
+        foreach ($choiceLinks as $choiceLink) {
             $link = $choiceLink->find($this->linkForChoice, Locator::SELECTOR_XPATH);
             $sample = $choiceLink->find($this->sampleLinkForChoice);
             $price = $choiceLink->find($this->priceForChoice);
@@ -120,20 +119,17 @@ class Links extends Block
 
             $linkData = [
                 'links_purchased_separately' => $choiceLink->find($this->separatelyForChoice)->isVisible()
-                    ? 'Yes'
-                    : 'No',
+                        ? 'Yes'
+                        : 'No',
                 'title' => $link->isVisible() ? $link->getText() : null,
                 'sample' => $sample->isVisible() ? $sample->getText() : null,
                 'price' => $price->isVisible() ? $this->escapePrice($price->getText()) : null,
                 'price_adjustments' => $priceAdjustments->isVisible()
-                        ? $this->escapePrice($priceAdjustments->getText())
-                        : null,
+                    ? $this->escapePrice($priceAdjustments->getText())
+                    : null,
             ];
 
             $linksData[] = array_filter($linkData);
-
-            ++$count;
-            $choiceLink = $this->_rootElement->find(sprintf($this->choiceLink, $count), Locator::SELECTOR_XPATH);
         }
 
         return $linksData;

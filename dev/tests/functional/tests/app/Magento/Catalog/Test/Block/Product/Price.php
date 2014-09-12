@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -16,6 +17,11 @@ use Mtf\Client\Element\Locator;
  */
 class Price extends Block
 {
+    /**
+     * Mapping for different type of price
+     *
+     * @var array
+     */
     protected $mapTypePrices = [
         'price' => [
             'selector' => '.price'
@@ -238,7 +244,7 @@ class Price extends Block
      * Get specify type price element
      *
      * @param string $type
-     * @return \Mtf\Client\Element
+     * @return Element
      */
     protected function getTypePriceElement($type)
     {

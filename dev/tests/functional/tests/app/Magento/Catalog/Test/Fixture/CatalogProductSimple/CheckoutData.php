@@ -131,7 +131,7 @@ class CheckoutData implements FixtureInterface
                     ]
                 ]
             ],
-            'MAGETWO-23062' => [
+            'drop_down_with_one_option_fixed_price' => [
                 'options' => [
                     'custom_options' => [
                         [
@@ -141,7 +141,7 @@ class CheckoutData implements FixtureInterface
                     ]
                 ]
             ],
-            'MAGETWO-23063' => [
+            'drop_down_with_one_option_percent_price' => [
                 'options' => [
                     'custom_options' => [
                         [
