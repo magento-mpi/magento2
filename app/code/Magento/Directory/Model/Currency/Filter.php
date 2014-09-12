@@ -56,7 +56,7 @@ class Filter implements \Zend_Filter_Interface
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param PriceCurrencyInterface $priceCurrency
-     * @param $code
+     * @param string $code
      * @param int $rate
      */
     public function __construct(

@@ -228,7 +228,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param \Magento\Framework\Escaper $escaper
-     * @param $templateFilterModel
+     * @param string $templateFilterModel
      * @param TaxClassKeyBuilder $taxClassKeyBuilder
      * @param Config $taxConfig
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
