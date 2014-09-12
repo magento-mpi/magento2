@@ -11,7 +11,7 @@
           xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Search/etc/search_request_merged.xsd">
     <request query="quick_search_container" index="product">
         <dimensions>
-            <dimension name="scope" value="%scope_placeholder%"/>
+            <dimension name="scope" value="default"/>
         </dimensions>
         <queries>
             <query xsi:type="matchQuery" value="$quick_search$" name="quick_search_container">
@@ -28,7 +28,7 @@
     </request>
     <request query="advanced_search_container" index="product">
         <dimensions>
-            <dimension name="scope" value="%scope_placeholder%"/>
+            <dimension name="scope" value="default"/>
         </dimensions>
         <queries>
             <query xsi:type="boolQuery" name="advanced_search_container" boost="1">
@@ -59,9 +59,9 @@
             </query>
         </queries>
         <filters>
-            <filter xsi:type="termFilter" name="sku_query_filter" field="sku" value="$sku"/>
-            <filter xsi:type="rangeFilter" name="price_query_filter" field="price" from="$price_from" to="$price_to"/>
-            <filter xsi:type="termFilter" name="tax_class_query_filter" field="tax_class" value="$tax_class"/>
+            <filter xsi:type="termFilter" name="sku_query_filter" field="sku" value="$sku$"/>
+            <filter xsi:type="rangeFilter" name="price_query_filter" field="price" from="$price_from$" to="$price_to$"/>
+            <filter xsi:type="termFilter" name="tax_class_query_filter" field="tax_class" value="$tax_class$"/>
         </filters>
         <from>10</from>
         <size>10</size>
