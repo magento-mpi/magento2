@@ -427,7 +427,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel implements EntityInt
      * @param bool $negative Indicates if we perform addition (true) or subtraction (false) of rounded value
      * @return float
      */
-    public function round($price, $type = 'regular', $negative = false)
+    public function roundPrice($price, $type = 'regular', $negative = false)
     {
         if ($price) {
             if (!isset($this->_calculators[$type])) {
