@@ -79,7 +79,7 @@ class View
             );
 
             $this->urlPersist->replace(
-                $this->generateProductUrls($store->getWebsiteId(), $store->getOrigData('website_id'))
+                $this->generateProductUrls($store->getWebsiteId(), $store->getOrigData('website_id'), $store->getId())
             );
         }
 
@@ -91,9 +91,10 @@ class View
      *
      * @param int $websiteId
      * @param int $originWebsiteId
+     * @param int $storeId
      * @return array
      */
-    protected function generateProductUrls($websiteId, $originWebsiteId)
+    protected function generateProductUrls($websiteId, $originWebsiteId, $storeId)
     {
         $urls = [];
         $websiteIds = $websiteId != $originWebsiteId && !is_null($originWebsiteId)
@@ -105,6 +106,7 @@ class View
             ->addAttributeToSelect(array('name', 'url_path', 'url_key'))
             ->addWebsiteFilter($websiteIds);
         foreach ($collection as $product) {
+            $product->setStoreId($storeId);
             /** @var \Magento\Catalog\Model\Product $product */
             $urls = array_merge(
                 $urls,
