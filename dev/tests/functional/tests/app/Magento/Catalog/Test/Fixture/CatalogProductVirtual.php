@@ -572,7 +572,7 @@ class CatalogProductVirtual extends InjectableFixture
         'attribute_code' => 'checkout_data',
         'backend_type' => 'virtual',
         'group' => null,
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductVirtual\CheckoutData',
     ];
 
     public function getCategoryIds()

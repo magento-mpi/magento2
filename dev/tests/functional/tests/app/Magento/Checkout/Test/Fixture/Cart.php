@@ -12,9 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Cart
- *
- * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * Fixture for cart
  */
 class Cart extends InjectableFixture
 {
@@ -30,17 +28,17 @@ class Cart extends InjectableFixture
 
     protected $defaultDataSet = [];
 
-    protected $item_id = [
-        'attribute_code' => 'item_id',
+    protected $entity_id = [
+        'attribute_code' => 'entity_id',
         'backend_type' => 'int',
         'is_required' => '1',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $quote_id = [
-        'attribute_code' => 'quote_id',
-        'backend_type' => 'int',
+    protected $store_id = [
+        'attribute_code' => 'store_id',
+        'backend_type' => 'smallint',
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
@@ -62,27 +60,19 @@ class Cart extends InjectableFixture
         'input' => '',
     ];
 
-    protected $product_id = [
-        'attribute_code' => 'product_id',
-        'backend_type' => 'int',
+    protected $converted_at = [
+        'attribute_code' => 'converted_at',
+        'backend_type' => 'timestamp',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $store_id = [
-        'attribute_code' => 'store_id',
+    protected $is_active = [
+        'attribute_code' => 'is_active',
         'backend_type' => 'smallint',
         'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $parent_item_id = [
-        'attribute_code' => 'parent_item_id',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '',
+        'default_value' => '1',
         'input' => '',
     ];
 
@@ -90,29 +80,219 @@ class Cart extends InjectableFixture
         'attribute_code' => 'is_virtual',
         'backend_type' => 'smallint',
         'is_required' => '',
-        'default_value' => '',
+        'default_value' => '0',
         'input' => '',
     ];
 
-    protected $sku = [
-        'attribute_code' => 'sku',
+    protected $is_multi_shipping = [
+        'attribute_code' => 'is_multi_shipping',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $items = [
+        'attribute_code' => 'items',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Checkout\Test\Fixture\Cart\Items',
+    ];
+
+    protected $items_count = [
+        'attribute_code' => 'items_count',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $items_qty = [
+        'attribute_code' => 'items_qty',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '0.0000',
+        'input' => '',
+    ];
+
+    protected $orig_order_id = [
+        'attribute_code' => 'orig_order_id',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $store_to_base_rate = [
+        'attribute_code' => 'store_to_base_rate',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '0.0000',
+        'input' => '',
+    ];
+
+    protected $store_to_quote_rate = [
+        'attribute_code' => 'store_to_quote_rate',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '0.0000',
+        'input' => '',
+    ];
+
+    protected $base_currency_code = [
+        'attribute_code' => 'base_currency_code',
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $name = [
-        'attribute_code' => 'name',
+    protected $store_currency_code = [
+        'attribute_code' => 'store_currency_code',
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $description = [
-        'attribute_code' => 'description',
-        'backend_type' => 'text',
+    protected $quote_currency_code = [
+        'attribute_code' => 'quote_currency_code',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $grand_total = [
+        'attribute_code' => 'grand_total',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '0.0000',
+        'input' => '',
+    ];
+
+    protected $base_grand_total = [
+        'attribute_code' => 'base_grand_total',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '0.0000',
+        'input' => '',
+    ];
+
+    protected $checkout_method = [
+        'attribute_code' => 'checkout_method',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_id = [
+        'attribute_code' => 'customer_id',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $customer_tax_class_id = [
+        'attribute_code' => 'customer_tax_class_id',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $customer_group_id = [
+        'attribute_code' => 'customer_group_id',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $customer_email = [
+        'attribute_code' => 'customer_email',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_prefix = [
+        'attribute_code' => 'customer_prefix',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_firstname = [
+        'attribute_code' => 'customer_firstname',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_middlename = [
+        'attribute_code' => 'customer_middlename',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_lastname = [
+        'attribute_code' => 'customer_lastname',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_suffix = [
+        'attribute_code' => 'customer_suffix',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_dob = [
+        'attribute_code' => 'customer_dob',
+        'backend_type' => 'datetime',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_note = [
+        'attribute_code' => 'customer_note',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_note_notify = [
+        'attribute_code' => 'customer_note_notify',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '1',
+        'input' => '',
+    ];
+
+    protected $customer_is_guest = [
+        'attribute_code' => 'customer_is_guest',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $remote_ip = [
+        'attribute_code' => 'remote_ip',
+        'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
@@ -120,249 +300,137 @@ class Cart extends InjectableFixture
 
     protected $applied_rule_ids = [
         'attribute_code' => 'applied_rule_ids',
-        'backend_type' => 'text',
+        'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $additional_data = [
-        'attribute_code' => 'additional_data',
-        'backend_type' => 'text',
+    protected $reserved_order_id = [
+        'attribute_code' => 'reserved_order_id',
+        'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $is_qty_decimal = [
-        'attribute_code' => 'is_qty_decimal',
-        'backend_type' => 'smallint',
+    protected $password_hash = [
+        'attribute_code' => 'password_hash',
+        'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $no_discount = [
-        'attribute_code' => 'no_discount',
+    protected $coupon_code = [
+        'attribute_code' => 'coupon_code',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $global_currency_code = [
+        'attribute_code' => 'global_currency_code',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $base_to_global_rate = [
+        'attribute_code' => 'base_to_global_rate',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $base_to_quote_rate = [
+        'attribute_code' => 'base_to_quote_rate',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_taxvat = [
+        'attribute_code' => 'customer_taxvat',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $customer_gender = [
+        'attribute_code' => 'customer_gender',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $subtotal = [
+        'attribute_code' => 'subtotal',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $base_subtotal = [
+        'attribute_code' => 'base_subtotal',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $subtotal_with_discount = [
+        'attribute_code' => 'subtotal_with_discount',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $base_subtotal_with_discount = [
+        'attribute_code' => 'base_subtotal_with_discount',
+        'backend_type' => 'decimal',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $is_changed = [
+        'attribute_code' => 'is_changed',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $trigger_recollect = [
+        'attribute_code' => 'trigger_recollect',
         'backend_type' => 'smallint',
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
     ];
 
-    protected $weight = [
-        'attribute_code' => 'weight',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $price = [
-        'attribute_code' => 'price',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $base_price = [
-        'attribute_code' => 'base_price',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $custom_price = [
-        'attribute_code' => 'custom_price',
-        'backend_type' => 'decimal',
+    protected $ext_shipping_info = [
+        'attribute_code' => 'ext_shipping_info',
+        'backend_type' => 'text',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $discount_percent = [
-        'attribute_code' => 'discount_percent',
-        'backend_type' => 'decimal',
+    protected $is_persistent = [
+        'attribute_code' => 'is_persistent',
+        'backend_type' => 'smallint',
         'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $discount_amount = [
-        'attribute_code' => 'discount_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $base_discount_amount = [
-        'attribute_code' => 'base_discount_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $tax_percent = [
-        'attribute_code' => 'tax_percent',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $tax_amount = [
-        'attribute_code' => 'tax_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $base_tax_amount = [
-        'attribute_code' => 'base_tax_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $row_total = [
-        'attribute_code' => 'row_total',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $base_row_total = [
-        'attribute_code' => 'base_row_total',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $row_total_with_discount = [
-        'attribute_code' => 'row_total_with_discount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $row_weight = [
-        'attribute_code' => 'row_weight',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '0.0000',
-        'input' => '',
-    ];
-
-    protected $product_type = [
-        'attribute_code' => 'product_type',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_tax_before_discount = [
-        'attribute_code' => 'base_tax_before_discount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $tax_before_discount = [
-        'attribute_code' => 'tax_before_discount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $original_custom_price = [
-        'attribute_code' => 'original_custom_price',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $redirect_url = [
-        'attribute_code' => 'redirect_url',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_cost = [
-        'attribute_code' => 'base_cost',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $price_incl_tax = [
-        'attribute_code' => 'price_incl_tax',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_price_incl_tax = [
-        'attribute_code' => 'base_price_incl_tax',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $row_total_incl_tax = [
-        'attribute_code' => 'row_total_incl_tax',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_row_total_incl_tax = [
-        'attribute_code' => 'base_row_total_incl_tax',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $hidden_tax_amount = [
-        'attribute_code' => 'hidden_tax_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_hidden_tax_amount = [
-        'attribute_code' => 'base_hidden_tax_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
+        'default_value' => '0',
         'input' => '',
     ];
 
@@ -374,150 +442,21 @@ class Cart extends InjectableFixture
         'input' => '',
     ];
 
-    protected $giftregistry_item_id = [
-        'attribute_code' => 'giftregistry_item_id',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'group' => '',
+        'source' => 'Magento\Checkout\Test\Fixture\Cart\CheckoutData',
     ];
 
-    protected $gw_id = [
-        'attribute_code' => 'gw_id',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $gw_base_price = [
-        'attribute_code' => 'gw_base_price',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $gw_price = [
-        'attribute_code' => 'gw_price',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $gw_base_tax_amount = [
-        'attribute_code' => 'gw_base_tax_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $gw_tax_amount = [
-        'attribute_code' => 'gw_tax_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $free_shipping = [
-        'attribute_code' => 'free_shipping',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $event_id = [
-        'attribute_code' => 'event_id',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $weee_tax_disposition = [
-        'attribute_code' => 'weee_tax_disposition',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $weee_tax_row_disposition = [
-        'attribute_code' => 'weee_tax_row_disposition',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_weee_tax_disposition = [
-        'attribute_code' => 'base_weee_tax_disposition',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_weee_tax_row_disposition = [
-        'attribute_code' => 'base_weee_tax_row_disposition',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $weee_tax_applied = [
-        'attribute_code' => 'weee_tax_applied',
-        'backend_type' => 'text',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $weee_tax_applied_amount = [
-        'attribute_code' => 'weee_tax_applied_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $weee_tax_applied_row_amount = [
-        'attribute_code' => 'weee_tax_applied_row_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_weee_tax_applied_amount = [
-        'attribute_code' => 'base_weee_tax_applied_amount',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $base_weee_tax_applied_row_amnt = [
-        'attribute_code' => 'base_weee_tax_applied_row_amnt',
-        'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    public function getItemId()
+    public function getEntityId()
     {
-        return $this->getData('item_id');
+        return $this->getData('entity_id');
     }
 
-    public function getQuoteId()
+    public function getStoreId()
     {
-        return $this->getData('quote_id');
+        return $this->getData('store_id');
     }
 
     public function getCreatedAt()
@@ -530,19 +469,14 @@ class Cart extends InjectableFixture
         return $this->getData('updated_at');
     }
 
-    public function getProductId()
+    public function getConvertedAt()
     {
-        return $this->getData('product_id');
+        return $this->getData('converted_at');
     }
 
-    public function getStoreId()
+    public function getIsActive()
     {
-        return $this->getData('store_id');
-    }
-
-    public function getParentItemId()
-    {
-        return $this->getData('parent_item_id');
+        return $this->getData('is_active');
     }
 
     public function getIsVirtual()
@@ -550,19 +484,139 @@ class Cart extends InjectableFixture
         return $this->getData('is_virtual');
     }
 
-    public function getSku()
+    public function getIsMultiShipping()
     {
-        return $this->getData('sku');
+        return $this->getData('is_multi_shipping');
     }
 
-    public function getName()
+    public function getItems()
     {
-        return $this->getData('name');
+        return $this->getData('items');
     }
 
-    public function getDescription()
+    public function getItemsCount()
     {
-        return $this->getData('description');
+        return $this->getData('items_count');
+    }
+
+    public function getItemsQty()
+    {
+        return $this->getData('items_qty');
+    }
+
+    public function getOrigOrderId()
+    {
+        return $this->getData('orig_order_id');
+    }
+
+    public function getStoreToBaseRate()
+    {
+        return $this->getData('store_to_base_rate');
+    }
+
+    public function getStoreToQuoteRate()
+    {
+        return $this->getData('store_to_quote_rate');
+    }
+
+    public function getBaseCurrencyCode()
+    {
+        return $this->getData('base_currency_code');
+    }
+
+    public function getStoreCurrencyCode()
+    {
+        return $this->getData('store_currency_code');
+    }
+
+    public function getQuoteCurrencyCode()
+    {
+        return $this->getData('quote_currency_code');
+    }
+
+    public function getGrandTotal()
+    {
+        return $this->getData('grand_total');
+    }
+
+    public function getBaseGrandTotal()
+    {
+        return $this->getData('base_grand_total');
+    }
+
+    public function getCheckoutMethod()
+    {
+        return $this->getData('checkout_method');
+    }
+
+    public function getCustomerId()
+    {
+        return $this->getData('customer_id');
+    }
+
+    public function getCustomerTaxClassId()
+    {
+        return $this->getData('customer_tax_class_id');
+    }
+
+    public function getCustomerGroupId()
+    {
+        return $this->getData('customer_group_id');
+    }
+
+    public function getCustomerEmail()
+    {
+        return $this->getData('customer_email');
+    }
+
+    public function getCustomerPrefix()
+    {
+        return $this->getData('customer_prefix');
+    }
+
+    public function getCustomerFirstname()
+    {
+        return $this->getData('customer_firstname');
+    }
+
+    public function getCustomerMiddlename()
+    {
+        return $this->getData('customer_middlename');
+    }
+
+    public function getCustomerLastname()
+    {
+        return $this->getData('customer_lastname');
+    }
+
+    public function getCustomerSuffix()
+    {
+        return $this->getData('customer_suffix');
+    }
+
+    public function getCustomerDob()
+    {
+        return $this->getData('customer_dob');
+    }
+
+    public function getCustomerNote()
+    {
+        return $this->getData('customer_note');
+    }
+
+    public function getCustomerNoteNotify()
+    {
+        return $this->getData('customer_note_notify');
+    }
+
+    public function getCustomerIsGuest()
+    {
+        return $this->getData('customer_is_guest');
+    }
+
+    public function getRemoteIp()
+    {
+        return $this->getData('remote_ip');
     }
 
     public function getAppliedRuleIds()
@@ -570,154 +624,84 @@ class Cart extends InjectableFixture
         return $this->getData('applied_rule_ids');
     }
 
-    public function getAdditionalData()
+    public function getReservedOrderId()
     {
-        return $this->getData('additional_data');
+        return $this->getData('reserved_order_id');
     }
 
-    public function getIsQtyDecimal()
+    public function getPasswordHash()
     {
-        return $this->getData('is_qty_decimal');
+        return $this->getData('password_hash');
     }
 
-    public function getNoDiscount()
+    public function getCouponCode()
     {
-        return $this->getData('no_discount');
+        return $this->getData('coupon_code');
     }
 
-    public function getWeight()
+    public function getGlobalCurrencyCode()
     {
-        return $this->getData('weight');
+        return $this->getData('global_currency_code');
     }
 
-    public function getQty()
+    public function getBaseToGlobalRate()
     {
-        return $this->getData('qty');
+        return $this->getData('base_to_global_rate');
     }
 
-    public function getPrice()
+    public function getBaseToQuoteRate()
     {
-        return $this->getData('price');
+        return $this->getData('base_to_quote_rate');
     }
 
-    public function getBasePrice()
+    public function getCustomerTaxvat()
     {
-        return $this->getData('base_price');
+        return $this->getData('customer_taxvat');
     }
 
-    public function getCustomPrice()
+    public function getCustomerGender()
     {
-        return $this->getData('custom_price');
+        return $this->getData('customer_gender');
     }
 
-    public function getDiscountPercent()
+    public function getSubtotal()
     {
-        return $this->getData('discount_percent');
+        return $this->getData('subtotal');
     }
 
-    public function getDiscountAmount()
+    public function getBaseSubtotal()
     {
-        return $this->getData('discount_amount');
+        return $this->getData('base_subtotal');
     }
 
-    public function getBaseDiscountAmount()
+    public function getSubtotalWithDiscount()
     {
-        return $this->getData('base_discount_amount');
+        return $this->getData('subtotal_with_discount');
     }
 
-    public function getTaxPercent()
+    public function getBaseSubtotalWithDiscount()
     {
-        return $this->getData('tax_percent');
+        return $this->getData('base_subtotal_with_discount');
     }
 
-    public function getTaxAmount()
+    public function getIsChanged()
     {
-        return $this->getData('tax_amount');
+        return $this->getData('is_changed');
     }
 
-    public function getBaseTaxAmount()
+    public function getTriggerRecollect()
     {
-        return $this->getData('base_tax_amount');
+        return $this->getData('trigger_recollect');
     }
 
-    public function getRowTotal()
+    public function getExtShippingInfo()
     {
-        return $this->getData('row_total');
+        return $this->getData('ext_shipping_info');
     }
 
-    public function getBaseRowTotal()
+    public function getIsPersistent()
     {
-        return $this->getData('base_row_total');
-    }
-
-    public function getRowTotalWithDiscount()
-    {
-        return $this->getData('row_total_with_discount');
-    }
-
-    public function getRowWeight()
-    {
-        return $this->getData('row_weight');
-    }
-
-    public function getProductType()
-    {
-        return $this->getData('product_type');
-    }
-
-    public function getBaseTaxBeforeDiscount()
-    {
-        return $this->getData('base_tax_before_discount');
-    }
-
-    public function getTaxBeforeDiscount()
-    {
-        return $this->getData('tax_before_discount');
-    }
-
-    public function getOriginalCustomPrice()
-    {
-        return $this->getData('original_custom_price');
-    }
-
-    public function getRedirectUrl()
-    {
-        return $this->getData('redirect_url');
-    }
-
-    public function getBaseCost()
-    {
-        return $this->getData('base_cost');
-    }
-
-    public function getPriceInclTax()
-    {
-        return $this->getData('price_incl_tax');
-    }
-
-    public function getBasePriceInclTax()
-    {
-        return $this->getData('base_price_incl_tax');
-    }
-
-    public function getRowTotalInclTax()
-    {
-        return $this->getData('row_total_incl_tax');
-    }
-
-    public function getBaseRowTotalInclTax()
-    {
-        return $this->getData('base_row_total_incl_tax');
-    }
-
-    public function getHiddenTaxAmount()
-    {
-        return $this->getData('hidden_tax_amount');
-    }
-
-    public function getBaseHiddenTaxAmount()
-    {
-        return $this->getData('base_hidden_tax_amount');
+        return $this->getData('is_persistent');
     }
 
     public function getGiftMessageId()
@@ -725,88 +709,8 @@ class Cart extends InjectableFixture
         return $this->getData('gift_message_id');
     }
 
-    public function getGiftregistryItemId()
+    public function getCheckoutData()
     {
-        return $this->getData('giftregistry_item_id');
-    }
-
-    public function getGwId()
-    {
-        return $this->getData('gw_id');
-    }
-
-    public function getGwBasePrice()
-    {
-        return $this->getData('gw_base_price');
-    }
-
-    public function getGwPrice()
-    {
-        return $this->getData('gw_price');
-    }
-
-    public function getGwBaseTaxAmount()
-    {
-        return $this->getData('gw_base_tax_amount');
-    }
-
-    public function getGwTaxAmount()
-    {
-        return $this->getData('gw_tax_amount');
-    }
-
-    public function getFreeShipping()
-    {
-        return $this->getData('free_shipping');
-    }
-
-    public function getEventId()
-    {
-        return $this->getData('event_id');
-    }
-
-    public function getWeeeTaxDisposition()
-    {
-        return $this->getData('weee_tax_disposition');
-    }
-
-    public function getWeeeTaxRowDisposition()
-    {
-        return $this->getData('weee_tax_row_disposition');
-    }
-
-    public function getBaseWeeeTaxDisposition()
-    {
-        return $this->getData('base_weee_tax_disposition');
-    }
-
-    public function getBaseWeeeTaxRowDisposition()
-    {
-        return $this->getData('base_weee_tax_row_disposition');
-    }
-
-    public function getWeeeTaxApplied()
-    {
-        return $this->getData('weee_tax_applied');
-    }
-
-    public function getWeeeTaxAppliedAmount()
-    {
-        return $this->getData('weee_tax_applied_amount');
-    }
-
-    public function getWeeeTaxAppliedRowAmount()
-    {
-        return $this->getData('weee_tax_applied_row_amount');
-    }
-
-    public function getBaseWeeeTaxAppliedAmount()
-    {
-        return $this->getData('base_weee_tax_applied_amount');
-    }
-
-    public function getBaseWeeeTaxAppliedRowAmnt()
-    {
-        return $this->getData('base_weee_tax_applied_row_amnt');
+        return $this->getData('checkout_data');
     }
 }
