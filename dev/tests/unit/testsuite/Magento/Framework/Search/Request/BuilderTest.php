@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Framework\Search\Request;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Search\RequestBuilder
+     * @var \Magento\Framework\Search\Request\Builder
      */
     private $requestBuilder;
 
@@ -35,6 +35,11 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\Search\Request|\PHPUnit_Framework_MockObject_MockObject
      */
     private $request;
+
+    /**
+     * @var \Magento\Framework\Search\Request\Binder|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $binder;
 
     protected function setUp()
     {
@@ -59,9 +64,18 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->binder = $this->getMockBuilder('Magento\Framework\Search\Request\Binder')
+            ->setMethods(['bind'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->requestBuilder = $helper->getObject(
-            'Magento\Framework\Search\RequestBuilder',
-            ['config' => $this->config, 'objectManager' => $this->objectManager]
+            'Magento\Framework\Search\Request\Builder',
+            [
+                'config' => $this->config,
+                'objectManager' => $this->objectManager,
+                'binder' => $this->binder
+            ]
         );
     }
 
@@ -107,6 +121,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'fulltext_search_query' => [
                     'name' => 'fulltext_search_query',
                     'boost' => '5',
+                    'value' => '$fulltext_search_query$',
                     'match' => [
                         [
                             'field' => 'data_index',
@@ -144,11 +159,14 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                     'name' => 'pidm',
                     'field' => 'product_id',
                     'type' => 'rangeFilter',
+                    'from' => '$pidm_from$',
+                    'to' => '$pidm_to$'
                 ],
                 'pidsh' => [
                     'name' => 'pidsh',
                     'field' => 'product_id',
                     'type' => 'termFilter',
+                    'value' => '$pidsh$'
                 ],
             ],
             'from' => '10',
@@ -160,13 +178,16 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
         $requestName = 'rn';
 
-        $this->requestBuilder->bindQuery('fulltext_search_query', 'socks');
-        $this->requestBuilder->bindFilter('pidsh', 4);
-        $this->requestBuilder->bindFilter('pidm', ['from' => 1, 'to' => 3]);
+        $this->requestBuilder->bind('fulltext_search_query', 'socks');
+        $this->requestBuilder->bind('pidsh', 4);
+        $this->requestBuilder->bind('pidm_from', 1);
+        $this->requestBuilder->bind('pidm_to', 3);
         $this->requestBuilder->setRequestName($requestName);
         $this->requestBuilder->setSize(10);
         $this->requestBuilder->setFrom(10);
         $this->requestBuilder->bindDimension('scope', 'default');
+
+        $this->binder->expects($this->once())->method('bind')->willReturn($data);
 
         $this->requestMapper->expects($this->once())->method('getRootQuery')->willReturn([]);
 

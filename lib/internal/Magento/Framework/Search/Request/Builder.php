@@ -5,44 +5,50 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
 
-/**
- * Search Request Builder
- */
-class RequestBuilder
+namespace Magento\Framework\Search\Request;
+
+
+use Magento\Framework\ObjectManager;
+use Magento\Framework\Search\RequestInterface;
+
+class Builder
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var ObjectManager
      */
     private $objectManager;
 
     /**
-     * @var Request\Config
+     * @var Config
      */
     private $config;
+
+    /**
+     * @var Binder
+     */
+    private $binder;
 
     /**
      * @var array
      */
     private $data = [
         'dimensions' => [],
-        'queries' => [],
-        'filters' => []
+        'placeholder' => []
     ];
 
     /**
      * Request Builder constructor
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\Search\Request\Config $config
+     * @param ObjectManager $objectManager
+     * @param Config $config
+     * @param Binder $binder
      */
-    public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\Search\Request\Config $config
-    ) {
+    public function __construct(ObjectManager $objectManager, Config $config, Binder $binder)
+    {
         $this->objectManager = $objectManager;
         $this->config = $config;
+        $this->binder = $binder;
     }
 
     /**
@@ -103,7 +109,7 @@ class RequestBuilder
      */
     public function bind($placeholder, $value)
     {
-        $this->data['placeholder'][$placeholder] = $value;
+        $this->data['placeholder']['$' . $placeholder . '$'] = $value;
         return $this;
     }
 
@@ -114,94 +120,18 @@ class RequestBuilder
      */
     public function create()
     {
-        $requestName = $this->getRequestName();
+        $requestName = $this->data['requestName'];
         /** @var array $data */
         $data = $this->config->get($requestName);
         if (is_null($data)) {
             throw new \InvalidArgumentException("Request name '{$requestName}' doesn't exist.");
         }
-        $replacedData = $this->replaceBinds($data, $this->data);
+
+        $data = $this->binder->bind($data, $this->data);
+
         $this->clear();
 
-        return $this->convert($replacedData);
-    }
-
-    /**
-     * Get request name
-     *
-     * @return string
-     */
-    public function getRequestName()
-    {
-        return $this->data['requestName'];
-    }
-
-    /**
-     * Replace binds
-     *
-     * @param array $data
-     * @param array $bindData
-     * @return array
-     */
-    private function replaceBinds($data, $bindData)
-    {
-        $data = $this->replaceBindLimits($data, $bindData);
-        $data['dimensions'] = $this->replaceBindDimensions($data['dimensions'], $bindData['dimensions']);
-        $data['queries'] = $this->replaceData($data['queries'], $bindData['placeholder']);
-        $data['filters'] = $this->replaceData($data['filters'], $bindData['placeholder']);
-        return $data;
-    }
-
-    /**
-     * Replace bind limits
-     *
-     * @param array $data
-     * @param array $bindData
-     * @return array
-     */
-    private function replaceBindLimits($data, $bindData)
-    {
-        $limitList = ['from', 'size'];
-        foreach ($limitList as $limit) {
-            if (isset($bindData[$limit])) {
-                $data[$limit] = $bindData[$limit];
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * @param array $data
-     * @param array $bindData
-     * @return array
-     */
-    private function replaceBindDimensions($data, $bindData)
-    {
-        foreach ($data as $name => $value) {
-            if (isset($bindData[$name])) {
-                $data[$name]['value'] = $bindData[$name];
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * Replace data recursive
-     *
-     * @param array $data
-     * @param array $bindData
-     * @return array
-     */
-    private function replaceData($data, $bindData)
-    {
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $data[$key] = $this->replaceData($value, $bindData);
-            } elseif (!empty($bindData[$value])) {
-                $data[$key] = $bindData[$value];
-            }
-        }
-        return $data;
+        return $this->convert($data);
     }
 
     /**
@@ -222,7 +152,7 @@ class RequestBuilder
      */
     private function convert($data)
     {
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        /** @var Mapper $mapper */
         $mapper = $this->objectManager->create(
             'Magento\Framework\Search\Request\Mapper',
             [

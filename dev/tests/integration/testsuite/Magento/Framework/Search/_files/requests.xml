@@ -33,11 +33,9 @@
                 <queryReference clause="must" ref="fulltext_search_query"/>
                 <queryReference clause="must" ref="filtered_query"/>
             </query>
-
             <query xsi:type="matchQuery" name="fulltext_search_query" value="$fulltext_search_query$" boost="5">
                 <match field="data_index" boost="2"/>
             </query>
-
             <query xsi:type="filteredQuery" name="filtered_query">
                 <filterReference ref="pid"/>
             </query>
@@ -95,9 +93,7 @@
             </query>
         </queries>
         <filters>
-            <filter name="range_filter_without_to_field"
-                    xsi:type="rangeFilter"
-                    field="product_id"/>
+            <filter name="range_filter_without_to_field" xsi:type="rangeFilter" field="product_id" from="$from$"/>
         </filters>
         <from>10</from>
         <size>10</size>
@@ -112,7 +108,7 @@
             </query>
         </queries>
         <filters>
-            <filter name="term_filter" xsi:type="termFilter" field="product_id" value="%request.product_id%"/>
+            <filter name="term_filter" xsi:type="termFilter" field="product_id" value="$request.product_id$"/>
         </filters>
         <from>10</from>
         <size>10</size>
@@ -134,27 +130,13 @@
                 <filterReference clause="not" ref="not_term_filter1"/>
                 <filterReference clause="not" ref="not_term_filter2"/>
             </filter>
-            <filter name="must_range_filter1"
-                    xsi:type="rangeFilter"
-                    field="product_id"/>
-            <filter name="should_term_filter1"
-                    xsi:type="termFilter"
-                    field="product_id"/>
-            <filter name="should_term_filter2"
-                    xsi:type="termFilter"
-                    field="product_id"/>
-            <filter name="should_term_filter3"
-                    xsi:type="termFilter"
-                    field="product_id"/>
-            <filter name="should_term_filter4"
-                    xsi:type="termFilter"
-                    field="product_id"/>
-            <filter name="not_term_filter1"
-                    xsi:type="termFilter"
-                    field="product_id"/>
-            <filter name="not_term_filter2"
-                    xsi:type="termFilter"
-                    field="product_id"/>
+            <filter name="must_range_filter1" xsi:type="rangeFilter" field="product_id" value="$must_range_filter1$"/>
+            <filter name="should_term_filter1" xsi:type="termFilter" field="product_id" value="should_term_filter1"/>
+            <filter name="should_term_filter2" xsi:type="termFilter" field="product_id" value="should_term_filter2"/>
+            <filter name="should_term_filter3" xsi:type="termFilter" field="product_id" value="should_term_filter3"/>
+            <filter name="should_term_filter4" xsi:type="termFilter" field="product_id" value="should_term_filter4"/>
+            <filter name="not_term_filter1" xsi:type="termFilter" field="product_id" value="not_term_filter1"/>
+            <filter name="not_term_filter2" xsi:type="termFilter" field="product_id" value="not_term_filter2"/>
         </filters>
         <from>10</from>
         <size>10</size>
@@ -169,10 +151,10 @@
                 <queryReference clause="should" ref="description_query"/>
                 <queryReference clause="should" ref="query_filter"/>
             </query>
-            <query xsi:type="matchQuery" name="name_query">
+            <query xsi:type="matchQuery" name="name_query" value="$name_query$">
                 <match field="data_index" boost="1"/>
             </query>
-            <query xsi:type="matchQuery" name="description_query">
+            <query xsi:type="matchQuery" name="description_query" value="$description_query$">
                 <match field="data_index" boost="1"/>
             </query>
             <query xsi:type="filteredQuery" name="query_filter">
@@ -184,9 +166,9 @@
                 <filterReference clause="must" ref="store_filter"/>
                 <filterReference clause="must" ref="product_id_filter"/>
             </filter>
-            <filter name="store_filter" xsi:type="termFilter" field="store_id"/>
-            <filter name="product_id_filter" xsi:type="rangeFilter" field="product_id" from="%request.from_product_id%"
-                    to="%request.to_product_id%"/>
+            <filter name="store_filter" xsi:type="termFilter" field="store_id" value="$store_filter$"/>
+            <filter name="product_id_filter" xsi:type="rangeFilter" field="product_id" from="$request.from_product_id$"
+                    to="$request.to_product_id$"/>
         </filters>
         <from>10</from>
         <size>10</size>
