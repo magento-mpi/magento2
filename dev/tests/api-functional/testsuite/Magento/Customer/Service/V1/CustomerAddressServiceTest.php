@@ -265,7 +265,11 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
                 'operation' => self::SOAP_SERVICE_NAME . 'SaveAddresses'
             ]
         ];
-        $addressData = $this->getThirdFixtureAddressData();
+
+        $addressData = $this->getSecondFixtureAddressData();
+        // Use an array of simple PHP types (string) as 'street'
+        $addressData['street'] = ['White str, 48', 'Dummy Data'];
+
         $requestData = ['customerId' => $customerFixtureId,'addresses' => [$addressData]];
         $this->_webApiCall($serviceInfo, $requestData);
 
@@ -330,29 +334,6 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'telephone' => '3234676',
             'street' => ['Black str, 48',],
             'id' => 2,
-            'default_billing' => false,
-            'default_shipping' => false,
-            'customer_id' => '1',
-            'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
-        ];
-    }
-
-    /**
-     * Retrieve data of the third fixture address.
-     *
-     * @return array
-     */
-    protected function getThirdFixtureAddressData()
-    {
-        return [
-            'firstname' => 'John',
-            'lastname' => 'Smith',
-            'city' => 'CityY',
-            'country_id' => 'US',
-            'postcode' => '47676',
-            'telephone' => '3234676',
-            'street' => ['White str, 48', 'Dummy Data'],
-            'id' => 3,
             'default_billing' => false,
             'default_shipping' => false,
             'customer_id' => '1',
