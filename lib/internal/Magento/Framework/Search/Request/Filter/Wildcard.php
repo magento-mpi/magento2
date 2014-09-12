@@ -22,10 +22,10 @@ class Wildcard extends AbstractKeyValuePair implements FilterInterface
 
     /**
      * @param string $name
-     * @param string $field
      * @param string|array $value
+     * @param string $field
      */
-    public function __construct($name, $field, $value)
+    public function __construct($name, $value, $field)
     {
         parent::__construct($name, $value);
         $this->field = $field;
