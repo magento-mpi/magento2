@@ -14,27 +14,44 @@ define([
         initialize: function(data) {
             this.data = data || {};
 
-            this.applyDefaults();
+            this.format();
         },
 
-        applyDefaults: function() {
-            var defaults    = this.data.defaults,
-                fields      = this.data.fields,
-                key;
+        format: function(){
+            var fields = this.data.fields,
+                options;
 
-            if (!defaults) {
-                return this;
+            fields.forEach(function(field){
+                this.applyDefaults(field)
+                    .formatOptions(field);
+            }, this);
+        },
+
+        applyDefaults: function(field) {
+            var defaults = this.data.defaults;
+
+            if (defaults) {
+                _.defaults(field, defaults);
             }
 
-            fields.forEach(function(field) {
+            return this;
+        },
 
-                for (key in defaults) {
+        formatOptions: function(field) {
+            var result,
+                options;
 
-                    if (!field.hasOwnProperty(key)) {
-                        field[key] = defaults[key];
-                    }
-                }
-            });
+            options = field.options;
+
+            if (options) {
+                result = {};
+
+                _.each(options, function(option){
+                    result[option.value] = option.label;
+                });
+
+                field.options = result;
+            }
 
             return this;
         }
