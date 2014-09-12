@@ -11,8 +11,11 @@
  */
 namespace Magento\Webapi\Routing;
 
+use Magento\Framework\Service\Data\AttributeValue;
 use Magento\TestFramework\Authentication\OauthHelper;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
 
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
@@ -29,11 +32,25 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     protected $_soapService = 'testModule1AllSoapAndRest';
 
+    /** @var \Magento\Framework\Service\Data\AttributeValueBuilder */
+    protected $valueBuilder;
+
+    /** @var ItemBuilder */
+    protected $itemBuilder;
+
     protected function setUp()
     {
         $this->_version = 'V1';
         $this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
+
+        $this->valueBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\Data\AttributeValueBuilder'
+        );
+
+        $this->itemBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\TestModule1\Service\V1\Entity\ItemBuilder'
+        );
     }
 
     /**
@@ -52,6 +69,72 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('testProduct1', $item['name'], 'Item was retrieved unsuccessfully');
+    }
+
+    /**
+     *  Test get item with any type
+     */
+    public function testItemAnyType()
+    {
+        $this->_markTestAsRestOnly('Test will fail for SOAP because attribute values get converted to strings.');
+        $customerAttributes = [
+            ItemBuilder::CUSTOM_ATTRIBUTE_1 => [
+                AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_1,
+                AttributeValue::VALUE => '12345'
+            ],
+            ItemBuilder::CUSTOM_ATTRIBUTE_2 => [
+                AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_2,
+                AttributeValue::VALUE => 12345
+            ],
+            ItemBuilder::CUSTOM_ATTRIBUTE_3 => [
+                AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_3,
+                AttributeValue::VALUE => true
+            ]
+        ];
+
+        $attributeValue1 = $this->valueBuilder
+            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_1])
+            ->create();
+        $attributeValue2 = $this->valueBuilder
+            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_2])
+            ->create();
+        $attributeValue3 = $this->valueBuilder
+            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_3])
+            ->create();
+
+        $item = $this->itemBuilder
+            ->setItemId(1)
+            ->setName('testProductAnyType')
+            ->setCustomAttributes([$attributeValue1, $attributeValue2, $attributeValue3])
+            ->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => $this->_restResourcePath . 'itemAnyType',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
+        ];
+        $requestData = $item->__toArray();
+        $item = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
+
+        $this->assertSame(
+            $attributeValue1->getValue(),
+            $item['custom_attributes'][0]['value'],
+            'Serialized attribute value type does\'t match pre-defined type.'
+        ); // string '12345' is expected
+
+        $this->assertSame(
+            $attributeValue2->getValue(),
+            $item['custom_attributes'][1]['value'],
+            'Serialized attribute value type does\'t match pre-defined type.'
+        ); // integer 12345 is expected
+
+        $this->assertSame(
+            $attributeValue3->getValue(),
+            $item['custom_attributes'][2]['value'],
+            'Serialized attribute value type does\'t match pre-defined type.'
+        ); // boolean true is expected
     }
 
     /**
@@ -121,9 +204,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update']
         ];
-        $requestData = ['item' => ['itemId' => $itemId, 'name' => 'testName']];
+        $requestData = ['entityItem' => ['itemId' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
+        $this->assertEquals('Updated' . $requestData['entityItem']['name'], $item['name'], 'Item update failed');
     }
 
     /**

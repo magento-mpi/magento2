@@ -8,8 +8,8 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 
 /**
  * Class AssertGiftCardAccountSaveMessage
@@ -17,6 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftCardAccountSaveMessage extends AbstractConstraint
 {
+    /**
+     * Text value to be checked
+     */
     const SUCCESS_MESSAGE = 'You saved the gift card account.';
 
     /**
@@ -39,8 +42,6 @@ class AssertGiftCardAccountSaveMessage extends AbstractConstraint
             self::SUCCESS_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 

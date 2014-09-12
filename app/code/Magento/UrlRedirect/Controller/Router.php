@@ -12,7 +12,7 @@ namespace Magento\UrlRedirect\Controller;
  */
 class Router implements \Magento\Framework\App\RouterInterface
 {
-    /** @var \Magento\Store\Model\StoreManagerInterface */
+    /** @var \Magento\Framework\StoreManagerInterface */
     protected $storeManager;
 
     /** @var \Magento\Framework\App\ResponseInterface */
@@ -28,13 +28,13 @@ class Router implements \Magento\Framework\App\RouterInterface
 
     /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
     ) {

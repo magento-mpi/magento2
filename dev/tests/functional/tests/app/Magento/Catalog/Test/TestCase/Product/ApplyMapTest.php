@@ -135,13 +135,13 @@ class ApplyMapTest extends Functional
     {
         //Pages
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         //Steps
         $mapBlock = $productPage->getMapBlock();
         $mapBlock->addToCartFromMap();
         $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         //Verification in Shopping Cart
-        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
         $this->assertEquals(
             $product->getProductPrice(),
             $unitPrice,

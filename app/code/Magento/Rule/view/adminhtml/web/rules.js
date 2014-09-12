@@ -192,7 +192,6 @@ VarienRulesForm.prototype = {
             elem.focus();
             if (elem && elem.id && elem.id.match(/__value$/)) {
                 this.updateElement = elem;
-                //this.showChooser(container, event);
             }
 
         }
@@ -200,18 +199,6 @@ VarienRulesForm.prototype = {
         var elem = Element.down(elemContainer, '.element-value-changer');
         if (elem) {
            elem.focus();
-           // trying to emulate enter to open dropdown
-//         if (document.createEventObject) {
-//             var event = document.createEventObject();
-//             event.altKey = true;
-//             event.keyCode = 40;
-//             elem.fireEvent("onkeydown", evt);
-//         } else {
-//             var event = document.createEvent("Events");
-//             event.altKey = true;
-//             event.keyCode = 40;
-//             elem.dispatchEvent(event);
-//         }
         }
 
         this.shownElement = container;
@@ -233,10 +220,6 @@ VarienRulesForm.prototype = {
 
                 var str = selectedOptions.join(', ');
                 label.innerHTML = str!='' ? str : '...';
-//              if (elem && elem.selectedIndex>=0) {
-//                  var str = elem.options[elem.selectedIndex].text;
-//                  label.innerHTML = str!='' ? str : '...';
-//              }
             }
 
             elem = Element.down(container, 'input.input-text');

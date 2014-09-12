@@ -8,8 +8,8 @@
 
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-/** @var Magento\Store\Model\StoreManagerInterface $storeManager */
-$storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+/** @var \Magento\Framework\StoreManagerInterface $storeManager */
+$storeManager = $objectManager->get('Magento\Framework\StoreManagerInterface');
 
 /** @var Magento\CatalogSearch\Model\Query $model */
 $model = $objectManager->create('Magento\CatalogSearch\Model\Query');

@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model;
 
-class StoreManager implements \Magento\Store\Model\StoreManagerInterface
+class StoreManager implements \Magento\Framework\StoreManagerInterface
 {
     /**
      * Application run code
@@ -104,7 +104,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Get storage instance
      *
-     * @return \Magento\Store\Model\StoreManagerInterface
+     * @return \Magento\Framework\StoreManagerInterface
      */
     protected function _getStorage()
     {

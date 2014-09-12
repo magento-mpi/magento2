@@ -13,7 +13,7 @@ namespace Magento\Tax\Service\V1\Data;
  *
  * @method TaxClass create()
  */
-class TaxClassBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class TaxClassBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set tax class ID.

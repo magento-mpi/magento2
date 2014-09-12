@@ -7,6 +7,7 @@
  */
 namespace Magento\Search\Model;
 
+use Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory;
 use Magento\Framework\Event\Observer as EventObserver;
 
 /**
@@ -14,13 +15,6 @@ use Magento\Framework\Event\Observer as EventObserver;
  */
 class Observer
 {
-    /**
-     * Index indexer
-     *
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
     /**
      * Search recommendations factory
      *
@@ -31,7 +25,7 @@ class Observer
     /**
      * Eav entity attribute option coll factory
      *
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_eavEntityAttributeOptionCollectionFactory = null;
 
@@ -43,20 +37,6 @@ class Observer
     protected $_searchData = null;
 
     /**
-     * Core registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * Engine provider
-     *
-     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
-     */
-    protected $_engineProvider = null;
-
-    /**
      * Source weight
      *
      * @var \Magento\Search\Model\Source\Weight
@@ -64,40 +44,23 @@ class Observer
     protected $_sourceWeight;
 
     /**
-     * Request
-     *
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $_request;
-
-    /**
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory
+     * @param CollectionFactory $eavEntityAttributeOptionCollectionFactory
      * @param Resource\RecommendationsFactory $searchRecommendationsFactory
-     * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param \Magento\Search\Helper\Data $searchData
-     * @param \Magento\Framework\Registry $coreRegistry
      * @param Source\Weight $sourceWeight
-     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
+        CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
-        \Magento\Index\Model\Indexer $indexer,
-        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
         \Magento\Search\Helper\Data $searchData,
-        \Magento\Framework\Registry $coreRegistry,
-        \Magento\Search\Model\Source\Weight $sourceWeight,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Search\Model\Source\Weight $sourceWeight
     ) {
         $this->_eavEntityAttributeOptionCollectionFactory = $eavEntityAttributeOptionCollectionFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
-        $this->_indexer = $indexer;
-        $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
-        $this->_coreRegistry = $coreRegistry;
         $this->_sourceWeight = $sourceWeight;
-        $this->_request = $request;
     }
 
     /**
@@ -159,30 +122,6 @@ class Observer
     }
 
     /**
-     * Invalidate catalog search index after creating of new customer group or changing tax class of existing,
-     * because there are all combinations of customer groups and websites per price stored at search engine index
-     * and there will be no document's price field for customers that belong to new group or data will be not actual.
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function customerGroupSaveAfter(EventObserver $observer)
-    {
-        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
-            return;
-        }
-
-        $object = $observer->getEvent()->getDataObject();
-        if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            $this->_indexer->getProcessByCode(
-                'catalogsearch_fulltext'
-            )->changeStatus(
-                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
-            );
-        }
-    }
-
-    /**
      * Store searchable attributes at adapter to avoid new collection load there
      *
      * @param EventObserver $observer
@@ -190,7 +129,9 @@ class Observer
      */
     public function storeSearchableAttributes(EventObserver $observer)
     {
+        /** @var \Magento\CatalogSearch\Model\Resource\EngineInterface $engine */
         $engine = $observer->getEvent()->getEngine();
+        /** @var \Magento\Eav\Model\Entity\Attribute[] $attributes */
         $attributes = $observer->getEvent()->getAttributes();
         if (!$engine || !$attributes || !$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -210,6 +151,7 @@ class Observer
 
             $optionsOrder = array();
             foreach ($optionCollection as $option) {
+                /** @var \Magento\Eav\Model\Entity\Attribute\Option $option */
                 $optionsOrder[] = $option->getOptionId();
             }
             $optionsOrder = array_flip($optionsOrder);
@@ -218,69 +160,5 @@ class Observer
         }
 
         $engine->storeSearchableAttributes($attributes);
-    }
-
-    /**
-     * Save store ids for website or store group before deleting
-     * because lazy load for this property is used and this info is unavailable after deletion
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function saveStoreIdsBeforeScopeDelete(EventObserver $observer)
-    {
-        $object = $observer->getEvent()->getDataObject();
-        $object->getStoreIds();
-    }
-
-    /**
-     * Clear index data for deleted stores
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function clearIndexForStores(EventObserver $observer)
-    {
-        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
-            return;
-        }
-
-        $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof \Magento\Store\Model\Website || $object instanceof \Magento\Store\Model\Group) {
-            $storeIds = $object->getStoreIds();
-        } elseif ($object instanceof \Magento\Store\Model\Store) {
-            $storeIds = $object->getId();
-        } else {
-            $storeIds = array();
-        }
-
-        if (!empty($storeIds)) {
-            $this->_engineProvider->get()->cleanIndex($storeIds);
-        }
-    }
-
-    /**
-     * Reindex data after price reindex
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function runFulltextReindexAfterPriceReindex(EventObserver $observer)
-    {
-        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
-            return;
-        }
-
-        /* @var \Magento\Search\Model\Indexer\Indexer $indexer */
-        $indexer = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
-        if (empty($indexer)) {
-            return;
-        }
-
-        if ('process' == strtolower($this->_request->getControllerName())) {
-            $indexer->reindexAll();
-        } else {
-            $indexer->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
-        }
     }
 }

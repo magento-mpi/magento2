@@ -96,6 +96,13 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
         }
         unset($data['store_contents']);
 
+        if (isset($data['customer_segment_ids'])) {
+            foreach ($data['customer_segment_ids'] as $key => $customerSegment) {
+                $data["customer_segment_ids[{$key}]"] = $customerSegment;
+            }
+            unset($data['customer_segment_ids']);
+        }
+
         return parent::replaceMappingData($data);
     }
 }

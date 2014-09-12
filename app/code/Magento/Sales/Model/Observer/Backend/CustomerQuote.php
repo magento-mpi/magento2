@@ -17,7 +17,7 @@ class CustomerQuote
     protected $_config;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -27,12 +27,12 @@ class CustomerQuote
     protected $_quoteFactory;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $config
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $config,
         \Magento\Sales\Model\QuoteFactory $quoteFactory
     ) {

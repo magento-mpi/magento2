@@ -14,14 +14,6 @@ namespace Magento\Framework\Stdlib\Cookie;
  */
 class PublicCookieMetadata extends CookieMetadata
 {
-    /**#@+
-     * Constant for metadata value key.
-     */
-    const KEY_SECURE = 'secure';
-    const KEY_HTTP_ONLY = 'http_only';
-    const KEY_DURATION = 'duration';
-    /**#@-*/
-
     /**
      * Set the number of seconds until the cookie expires
      *
@@ -33,6 +25,16 @@ class PublicCookieMetadata extends CookieMetadata
     public function setDuration($duration)
     {
         return $this->set(self::KEY_DURATION, $duration);
+    }
+
+    /**
+     * Set the cookie duration to one year
+     *
+     * @return $this
+     */
+    public function setDurationOneYear()
+    {
+        return $this->setDuration(3600 * 24 * 365);
     }
 
     /**
@@ -59,16 +61,6 @@ class PublicCookieMetadata extends CookieMetadata
     }
 
     /**
-     * Get HTTPOnly flag
-     *
-     * @return bool|null
-     */
-    public function getHttpOnly()
-    {
-        return $this->get(self::KEY_HTTP_ONLY);
-    }
-
-    /**
      * Set whether the cookie is only available under HTTPS
      *
      * @param bool $secure
@@ -77,15 +69,5 @@ class PublicCookieMetadata extends CookieMetadata
     public function setSecure($secure)
     {
         return $this->set(self::KEY_SECURE, $secure);
-    }
-
-    /**
-     * Get whether the cookie is only available under HTTPS
-     *
-     * @return bool|null
-     */
-    public function getSecure()
-    {
-        return $this->get(self::KEY_SECURE);
     }
 }

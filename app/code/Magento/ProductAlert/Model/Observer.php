@@ -56,11 +56,11 @@ class Observer
     protected $_errors = array();
 
     /**
-     * Tax data
+     * Catalog data
      *
-     * @var \Magento\Tax\Helper\Data
+     * @var \Magento\Catalog\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_catalogData = null;
 
     /**
      * Core store config
@@ -70,7 +70,7 @@ class Observer
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -115,9 +115,9 @@ class Observer
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -128,9 +128,9 @@ class Observer
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -140,7 +140,7 @@ class Observer
         \Magento\ProductAlert\Model\EmailFactory $emailFactory,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
-        $this->_taxData = $taxData;
+        $this->_catalogData = $catalogData;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_priceColFactory = $priceColFactory;
@@ -233,8 +233,8 @@ class Observer
                     $product->setCustomerGroupId($customer->getGroupId());
                     if ($alert->getPrice() > $product->getFinalPrice()) {
                         $productPrice = $product->getFinalPrice();
-                        $product->setFinalPrice($this->_taxData->getPrice($product, $productPrice));
-                        $product->setPrice($this->_taxData->getPrice($product, $product->getPrice()));
+                        $product->setFinalPrice($this->_catalogData->getTaxPrice($product, $productPrice));
+                        $product->setPrice($this->_catalogData->getTaxPrice($product, $product->getPrice()));
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);

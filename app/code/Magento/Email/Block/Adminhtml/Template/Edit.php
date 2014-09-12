@@ -151,7 +151,9 @@ class Edit extends \Magento\Backend\Block\Widget implements \Magento\Backend\Blo
                 'delete',
                 array(
                     'label' => __('Delete Template'),
-                    'onclick' => 'templateControl.deleteTemplate();',
+                    'data_attribute' => array(
+                        'role' => 'template-delete'
+                    ),
                     'class' => 'delete'
                 )
             );
@@ -161,7 +163,9 @@ class Edit extends \Magento\Backend\Block\Widget implements \Magento\Backend\Blo
                 'to_plain',
                 array(
                     'label' => __('Convert to Plain Text'),
-                    'onclick' => 'templateControl.stripTags();',
+                    'data_attribute' => array(
+                        'role' => 'template-strip'
+                    ),
                     'id' => 'convert_button'
                 )
             );
@@ -169,7 +173,9 @@ class Edit extends \Magento\Backend\Block\Widget implements \Magento\Backend\Blo
                 'to_html',
                 array(
                     'label' => __('Return Html Version'),
-                    'onclick' => 'templateControl.unStripTags();',
+                    'data_attribute' => array(
+                        'role' => 'template-unstrip'
+                    ),
                     'id' => 'convert_button_back',
                     'style' => 'display:none'
                 )
@@ -177,13 +183,20 @@ class Edit extends \Magento\Backend\Block\Widget implements \Magento\Backend\Blo
         }
         $this->buttonList->add(
             'preview',
-            array('label' => __('Preview Template'), 'onclick' => 'templateControl.preview();')
+            array(
+                'label' => __('Preview Template'),
+                'data_attribute' => array(
+                    'role' => 'template-preview'
+                )
+            )
         );
         $this->buttonList->add(
             'save',
             array(
                 'label' => __('Save Template'),
-                'onclick' => 'templateControl.save();',
+                'data_attribute' => array(
+                    'role' => 'template-save'
+                ),
                 'class' => 'save primary save-template'
             )
         );
@@ -191,7 +204,9 @@ class Edit extends \Magento\Backend\Block\Widget implements \Magento\Backend\Blo
             'load',
             array(
                 'label' => __('Load Template'),
-                'onclick' => 'templateControl.load();',
+                'data_attribute' => array(
+                    'role' => 'template-load'
+                ),
                 'type' => 'button',
                 'class' => 'save'
             ),

@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this \Magento\Checkout\Block\Item\Price\Renderer */
+?>
+<?php $_item = $this->getItem() ?>
+<div class="pricing details">
+    <div class="rate">
+        <span class="label display"><?php echo __('Price'); ?></span>
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()) ?>
+    </div>
+</div>

@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml" output="1"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <container name="root">
+        <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml"/>
+    </container>
 </layout>

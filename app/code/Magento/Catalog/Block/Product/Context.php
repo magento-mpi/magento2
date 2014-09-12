@@ -18,11 +18,6 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     protected $imageHelper;
 
     /**
-     * @var \Magento\Theme\Helper\Layout
-     */
-    protected $layoutHelper;
-
-    /**
      * @var \Magento\Catalog\Helper\Product\Compare
      */
     protected $compareProduct;
@@ -95,7 +90,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\View\TemplateEnginePool $enginePool
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxHelper
@@ -104,7 +99,6 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\Wishlist\Helper\Data $wishlistHelper
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param ReviewRendererInterface $reviewRenderer
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
@@ -134,7 +128,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\View\TemplateEnginePool $enginePool,
         \Magento\Framework\App\State $appState,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Framework\Registry $registry,
         \Magento\Tax\Helper\Data $taxHelper,
@@ -143,13 +137,11 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         ReviewRendererInterface $reviewRenderer,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
     ) {
         $this->imageHelper = $imageHelper;
-        $this->layoutHelper = $layoutHelper;
         $this->compareProduct = $compareProduct;
         $this->wishlistHelper = $wishlistHelper;
         $this->cartHelper = $cartHelper;
@@ -233,14 +225,6 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     public function getImageHelper()
     {
         return $this->imageHelper;
-    }
-
-    /**
-     * @return \Magento\Theme\Helper\Layout
-     */
-    public function getLayoutHelper()
-    {
-        return $this->layoutHelper;
     }
 
     /**

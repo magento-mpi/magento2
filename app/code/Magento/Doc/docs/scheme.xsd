@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * This schema must be used to validate document scheme XML files
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="scheme" type="schemeType" />
+    <xs:complexType name="schemeType" mixed="true">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="content"  type="contentType" />
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="contentType">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="item" type="itemType" />
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="itemType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="label" type="textType" />
+            <xs:element name="description" type="textType" />
+            <xs:element name="content" type="contentType" />
+            <xs:element name="resources" type="contentType" />
+        </xs:choice>
+        <xs:attribute name="type" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="module" type="xs:string" use="optional"/>
+        <xs:attribute name="scheme" type="xs:string" use="optional"/>
+        <xs:attribute name="reference" type="xs:string" use="optional"/>
+        <xs:attribute name="signed-off-architect" type="xs:boolean" use="optional"/>
+        <xs:attribute name="signed-off-po" type="xs:boolean" use="optional"/>
+        <xs:attribute name="signed-off-tw" type="xs:boolean" use="optional"/>
+    </xs:complexType>
+    <xs:simpleType name="textType">
+        <xs:restriction base="xs:string">
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

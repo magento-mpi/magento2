@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="Email Order Items List" design_abstraction="custom">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd" label="Email Order Items List" design_abstraction="custom">
     <block name="sales.email.order.renderers">
         <block class="Magento\GroupedProduct\Block\Order\Email\Items\Order\Grouped" as="grouped" template="Magento_Sales::email/items/order/default.phtml"/>
     </block>
-</layout>
+</page>

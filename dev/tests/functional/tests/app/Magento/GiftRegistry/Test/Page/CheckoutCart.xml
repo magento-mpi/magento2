@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/checkout/cart" >
-    <block>
-        <name>giftRegistryCart</name>
-        <class>Magento\GiftRegistry\Test\Block\Cart\Link</class>
-        <locator>#add-cart-items-to-gift-registry</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="checkout/cart">
+    <blocks>
+        <giftRegistryCart>
+            <class>Magento\GiftRegistry\Test\Block\Cart\Link</class>
+            <locator>#add-cart-items-to-gift-registry</locator>
+            <strategy>css selector</strategy>
+        </giftRegistryCart>
+    </blocks>
 </page>

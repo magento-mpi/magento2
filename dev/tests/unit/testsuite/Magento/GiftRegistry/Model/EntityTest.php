@@ -44,7 +44,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMockForAbstractClass();
@@ -124,14 +124,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $addressFactory = $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false);
         $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $dateFactory = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTimeFactory', array(), array(), '', false);
-        $loggingEventFactory = $this->getMock(
-            'Magento\Logging\Model\Event\ChangesFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $request = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
         $escaper = $this->getMock('Magento\Framework\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Framework\Math\Random', array(), array(), '', false, false);
@@ -163,8 +155,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $addressFactory,
             $productFactory,
             $dateFactory,
-            $loggingEventFactory,
-            $request,
             $escaper,
             $mathRandom,
             $scopeConfig,

@@ -1,0 +1,28 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.load.indicator {
+    .loader();
+    position: absolute;
+    > span {
+        display: none;
+    }
+}
+
+.loading-mask {
+    .loading-mask();
+    background: rgba(255, 255, 255, 0.5);
+    .loader {
+        > img {
+            .loading-mask();
+        }
+        > p {
+            display: none;
+        }
+    }
+}

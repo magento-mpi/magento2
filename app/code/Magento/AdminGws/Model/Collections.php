@@ -13,7 +13,7 @@ namespace Magento\AdminGws\Model;
 class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver implements CallbackProcessorInterface
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -31,13 +31,13 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_collectionsFactory = $collectionsFactory;
         $this->_backendAuthSession = $backendAuthSession;

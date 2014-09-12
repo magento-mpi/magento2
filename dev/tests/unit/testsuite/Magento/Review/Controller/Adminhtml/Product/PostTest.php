@@ -123,7 +123,8 @@ class PostTest extends \PHPUnit_Framework_TestCase
             'setModuleName',
             'getActionName',
             'setActionName',
-            'getParam'
+            'getParam',
+            'getCookie'
         );
         $this->_registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->_requestMock = $this->getMock(
@@ -136,7 +137,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
             '\Magento\Framework\ObjectManager', array('get', 'create', 'configure'), array(), '', false
         );
         $this->_messageManagerMock = $this->getMock('\Magento\Framework\Message\Manager', array(), array(), '', false);
-        $this->_storeManagerInterfaceMock = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
+        $this->_storeManagerInterfaceMock = $this->getMockForAbstractClass('Magento\Framework\StoreManagerInterface');
         $this->_storeModelMock = $this->getMock(
             'Magento\Store\Model\Store', array('__wakeup', 'getId'), array(), '', false
         );
@@ -186,7 +187,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->once())->method('getPost')
             ->will($this->returnValue(array('status_id' => 1)));
         $this->_objectManagerMock->expects($this->at(0))->method('get')
-            ->with('Magento\Store\Model\StoreManagerInterface')
+            ->with('Magento\Framework\StoreManagerInterface')
             ->will($this->returnValue($this->_storeManagerInterfaceMock));
         $this->_reviewFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->_reviewModelMock));

@@ -14,7 +14,8 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderUnHoldTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderUnHoldV1';
+
+    const SERVICE_NAME = 'salesOrderWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -29,13 +30,13 @@ class OrderUnHoldTest extends WebapiAbstract
         }
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/'. $order->getId() . '/unhold',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/unhold',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'unHold'
             ]
         ];
         $requestData = ['id' => $order->getId()];

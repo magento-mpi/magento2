@@ -22,7 +22,7 @@ class Create extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\UrlFactory $urlFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Invitation\Model\InvitationProvider $invitationProvider
@@ -32,7 +32,7 @@ class Create extends \Magento\Customer\Controller\Account
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Invitation\Model\InvitationProvider $invitationProvider
@@ -57,7 +57,7 @@ class Create extends \Magento\Customer\Controller\Account
     public function execute()
     {
         try {
-            $this->invitationProvider->get();
+            $this->invitationProvider->get($this->getRequest());
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();

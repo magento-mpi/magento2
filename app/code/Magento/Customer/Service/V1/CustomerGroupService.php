@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
@@ -22,6 +22,7 @@ use Magento\Framework\Exception\State\InvalidTransitionException;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\TaxClassServiceInterface;
+use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**
  * Customer service is responsible for customer business workflow encapsulation
@@ -41,7 +42,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_scopeConfig;
 
     /**
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     private $_storeManager;
 
@@ -73,7 +74,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * @param GroupFactory $groupFactory
      * @param ScopeConfigInterface $scopeConfig
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassServiceInterface $taxClassService
@@ -137,10 +138,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         }
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
+        /** @var SortOrder $sortOrder */
         if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            foreach ($searchCriteria->getSortOrders() as $sortOrder) {
+                $field = $this->translateField($sortOrder->getField());
+                $collection->addOrder(
+                    $field,
+                    ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
+                );
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());

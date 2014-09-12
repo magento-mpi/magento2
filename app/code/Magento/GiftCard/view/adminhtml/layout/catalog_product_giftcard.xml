@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="product_tabs">
         <action method="addTab">
             <argument name="name" xsi:type="string">giftcard_info</argument>
             <argument name="block" xsi:type="string">Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard</argument>
         </action>
     </referenceBlock>
-</layout>
+</page>

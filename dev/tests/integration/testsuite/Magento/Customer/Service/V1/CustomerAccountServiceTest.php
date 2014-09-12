@@ -12,7 +12,6 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -655,8 +654,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
         $passwordFromFixture = 'password';
         $this->_customerAccountService->authenticate($customerAfter->getEmail(), $passwordFromFixture);
-        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -715,8 +714,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -781,8 +780,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -868,8 +867,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($existingCustomer);
-        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($existingCustomer);
+        $attributesAfter = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -935,7 +934,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->_customerAccountService->getCustomer($customerData->getId());
-        $dataInService = \Magento\Framework\Service\DataObjectConverter::toFlatArray($savedCustomer);
+        $dataInService = \Magento\Framework\Service\SimpleDataObjectConverter::toFlatArray($savedCustomer);
         $expectedDifferences = [
             'created_at',
             'updated_at',
@@ -1258,9 +1257,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setValue('First%')
             ->create();
         $searchBuilder->addFilter([$firstnameFilter]);
-
         // Search ascending order
-        $searchBuilder->addSortOrder('lastname', SearchCriteria::SORT_ASC);
+        $sortOrderBuilder = $this->_objectManager->create('\Magento\Framework\Service\V1\Data\SortOrderBuilder');
+        $sortOrder = $sortOrderBuilder
+            ->setField('lastname')
+            ->setDirection(SearchCriteria::SORT_ASC)
+            ->create();
+        $searchBuilder->addSortOrder($sortOrder);
         $searchResults = $this->_customerAccountService->searchCustomers($searchBuilder->create());
         $this->assertEquals(3, $searchResults->getTotalCount());
         $this->assertEquals('Lastname', $searchResults->getItems()[0]->getCustomer()->getLastname());
@@ -1268,7 +1271,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lastname3', $searchResults->getItems()[2]->getCustomer()->getLastname());
 
         // Search descending order
-        $searchBuilder->addSortOrder('lastname', SearchCriteria::SORT_DESC);
+        $sortOrder = $sortOrderBuilder
+            ->setField('lastname')
+            ->setDirection(SearchCriteria::SORT_DESC)
+            ->create();
+        $searchBuilder->addSortOrder($sortOrder);
         $searchResults = $this->_customerAccountService->searchCustomers($searchBuilder->create());
         $this->assertEquals('Lastname3', $searchResults->getItems()[0]->getCustomer()->getLastname());
         $this->assertEquals('Lastname2', $searchResults->getItems()[1]->getCustomer()->getLastname());
@@ -1479,8 +1486,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function getValidEmailDataProvider()
     {
-        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
+        /** @var \Magento\Framework\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface');
         $defaultWebsiteId = $storeManager->getStore()->getWebsiteId();
         return [
             'valid email' => ['customer@example.com', null],

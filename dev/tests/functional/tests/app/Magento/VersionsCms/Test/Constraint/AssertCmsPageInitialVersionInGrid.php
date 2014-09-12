@@ -11,7 +11,7 @@ namespace Magento\VersionsCms\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
 /**
  * Class AssertCmsPageInitialVersionInGrid
@@ -49,15 +49,20 @@ class AssertCmsPageInitialVersionInGrid extends AbstractConstraint
      */
     protected function searchVersion(CmsPage $cms, array $results)
     {
-        preg_match('/\d+/', $results['revision'], $matches);
+        if (!isset($results['quantity'])) {
+            preg_match('/\d+/', $results['revision'], $matches);
+            $quantity = $matches[0];
+        } else {
+            $quantity = $results['quantity'];
+        }
         $filter = [
-            'label' => $cms->getTitle(),
+            'label' => isset($results['label']) ? $results['label'] : $cms->getTitle(),
             'owner' => $results['owner'],
             'access_level' => $results['access_level'],
-            'quantity' => $matches[0],
+            'quantity' => $quantity,
         ];
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter),
+            $this->cmsNew->getPageVersionsForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter),
             'CMS Page Version with '
             . 'label \'' . $filter['label'] . '\', '
             . 'owner \'' . $filter['owner'] . '\', '
@@ -90,7 +95,7 @@ class AssertCmsPageInitialVersionInGrid extends AbstractConstraint
         $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
-        $this->cmsNew->getPageForm()->openTab('versions');
+        $this->cmsNew->getPageVersionsForm()->openTab('versions');
         $this->searchVersion($cmsInitial, $results);
     }
 

@@ -26,6 +26,11 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_taxData = null;
 
     /**
+     * @var \Magento\Catalog\Helper\Data|null
+     */
+    protected $_catalogData = null;
+
+    /**
      * Config
      *
      * @var \Magento\GoogleShopping\Model\Config
@@ -35,7 +40,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -57,10 +62,11 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
@@ -74,10 +80,11 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -86,6 +93,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_taxData = $taxData;
         $this->_customerGroupService = $customerGroupService;
         $this->catalogPrice = $catalogPrice;
+        $this->_catalogData = $catalogData;
         parent::__construct(
             $context,
             $registry,
@@ -220,7 +228,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             }
         }
         if ($product->getTypeId() != Product\Type::TYPE_BUNDLE) {
-            $price = $this->_taxData->getPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());
+            $price = $this->_catalogData->getTaxPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());
         }
         return $price;
     }
@@ -251,7 +259,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             }
         }
         if ($product->getTypeId() != Product\Type::TYPE_BUNDLE) {
-            $finalPrice = $this->_taxData->getPrice(
+            $finalPrice = $this->_catalogData->getTaxPrice(
                 $product,
                 $finalPrice,
                 $inclTax,

@@ -24,7 +24,7 @@
                 <event controller_action="adminhtml_giftregistry_edit" action_alias="edit" />
                 <event controller_action="adminhtml_giftregistry_save"
                        action_alias="save"
-                       post_dispatch="Magento\GiftRegistry\Model\Type::postDispatchTypeSave" />
+                       post_dispatch="Magento\GiftRegistry\Model\Logging::postDispatchTypeSave" />
                 <event controller_action="adminhtml_giftregistry_delete" action_alias="delete" />
             </events>
         </group>
@@ -41,7 +41,7 @@
                        action_alias="edit" />
                 <event controller_action="adminhtml_giftregistry_customer_share"
                        action_alias="share"
-                       post_dispatch="Magento\GiftRegistry\Model\Entity::postDispatchShare" />
+                       post_dispatch="Magento\GiftRegistry\Model\Logging::postDispatchShare" />
                 <event controller_action="adminhtml_giftregistry_customer_delete"
                        action_alias="delete" />
             </events>

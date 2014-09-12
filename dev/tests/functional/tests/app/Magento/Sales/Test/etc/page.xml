@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Sales">
+    <orderStatusIndex>
+        <mca>sales/order_status/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex</class>
+    </orderStatusIndex>
+    <orderStatusNew>
+        <mca>sales/order_status/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusNew</class>
+    </orderStatusNew>
+    <orderIndex>
+        <mca>sales/order/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OderIndex</class>
+    </orderIndex>
+</page>

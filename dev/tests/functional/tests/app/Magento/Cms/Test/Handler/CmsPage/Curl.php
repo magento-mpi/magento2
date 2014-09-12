@@ -34,11 +34,11 @@ class Curl extends Conditions implements CmsPageInterface
         'store_id' => [
             'All Store Views' => 0,
         ],
-        'root_template' => [
-            '1 column' => 'one_column',
-            '2 columns with left bar' => 'two_columns_left',
-            '2 columns with right bar' => 'two_columns_right',
-            '3 columns' => 'three_columns'
+        'page_layout' => [
+            '1 column' => '1column',
+            '2 columns with left bar' => '2columns-left',
+            '2 columns with right bar' => '2columns-right',
+            '3 columns' => '3columns'
         ],
         'under_version_control' => [
             'Yes' => 1,
@@ -51,7 +51,7 @@ class Curl extends Conditions implements CmsPageInterface
      *
      * @var string
      */
-    protected $url = 'admin/cms_page/save/back/edit/active_tab/content_section/';
+    protected $url = 'cms/page/save/back/edit/active_tab/content_section/';
 
     /**
      * Post request for creating a cms page

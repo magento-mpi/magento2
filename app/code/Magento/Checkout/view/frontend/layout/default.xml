@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="checkout_cart_sidebar_item_renderers" />
+    <update handle="checkout_cart_sidebar_item_price_renderers" />
+    <update handle="checkout_cart_sidebar_total_renderers" />
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
     </referenceBlock>
@@ -21,4 +23,4 @@
             </container>
         </block>
     </referenceContainer>
-</layout>
+</page>

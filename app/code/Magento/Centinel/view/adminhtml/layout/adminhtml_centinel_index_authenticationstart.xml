@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\Centinel\Block\Authentication\Start" name="root" output="1" template="authentication/start.phtml"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <container name="root">
+        <block class="Magento\Centinel\Block\Authentication\Start" name="page.block" template="authentication/start.phtml"/>
+    </container>
 </layout>

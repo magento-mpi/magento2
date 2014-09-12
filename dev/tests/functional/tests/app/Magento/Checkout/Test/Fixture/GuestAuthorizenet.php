@@ -25,11 +25,11 @@ class GuestAuthorizenet extends Checkout
     protected function _initData()
     {
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$156.81'
-            )
-        );
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '156.81'
+            ]
+        ];
     }
 
     /**
@@ -38,13 +38,13 @@ class GuestAuthorizenet extends Checkout
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array(
+        $this->_persistConfiguration([
             'flat_rate',
             'authorizenet',
             'display_price',
             'display_shopping_cart',
             'default_tax_config'
-        ));
+        ]);
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
@@ -56,22 +56,24 @@ class GuestAuthorizenet extends Checkout
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
         $bundle->switchData('bundle_required');
         $bundle->persist();
 
-        $this->products = array(
+        $this->products = [
             $simple,
             $configurable,
             $bundle
-        );
+        ];
 
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress = $objectManager->create(
+            '\Magento\Customer\Test\Fixture\AddressInjectable',
+            ['dataSet' => 'customer_US']
+        );
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');

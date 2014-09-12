@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractSimpleObject;
 
 /**
  * Some Data Object short description.
@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\AbstractObject;
  * Data Object long
  * multi line description.
  */
-class AllSoapAndRest extends AbstractObject
+class AllSoapAndRest extends AbstractSimpleObject
 {
     const ID = 'id';
     const NAME = 'name';

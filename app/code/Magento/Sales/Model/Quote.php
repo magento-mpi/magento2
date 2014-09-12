@@ -199,7 +199,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -304,7 +304,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -333,7 +333,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -693,7 +693,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
-        $customer->setData(\Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerData));
+        $customer->setData(\Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerData));
         $customer->setId($customerData->getId());
         $this->setCustomer($customer);
         return $this;
@@ -877,11 +877,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @return array
+     * Get all quote addresses
+     *
+     * @return \Magento\Sales\Model\Quote\Address[]
      */
     public function getAllAddresses()
     {
-        $addresses = array();
+        $addresses = [];
         foreach ($this->getAddressesCollection() as $address) {
             if (!$address->isDeleted()) {
                 $addresses[] = $address;
@@ -2019,6 +2021,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
+        if (!$minOrderActive) {
+            return true;
+        }
         $minOrderMulti = $this->_scopeConfig->isSetFlag(
             'sales/minimum_order/multi_address',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -2029,30 +2034,43 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
-
-        if (!$minOrderActive) {
-            return true;
-        }
+        $taxInclude = $this->_scopeConfig->getValue(
+            'sales/minimum_order/tax_including',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
 
         $addresses = $this->getAllAddresses();
 
-        if ($multishipping) {
-            if (!$minOrderMulti) {
-                $baseTotal = 0;
-                foreach ($addresses as $address) {
-                    /* @var $address Address */
-                    $baseTotal += $address->getBaseSubtotalWithDiscount();
-                }
-                if ($baseTotal < $minAmount) {
-                    return false;
-                }
-            }
-        } else {
+        if (!$multishipping) {
             foreach ($addresses as $address) {
                 /* @var $address Address */
                 if (!$address->validateMinimumAmount()) {
                     return false;
                 }
+            }
+            return true;
+        }
+
+        if (!$minOrderMulti) {
+            foreach ($addresses as $address) {
+                $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
+                foreach ($address->getQuote()->getItemsCollection() as $item) {
+                    /** @var \Magento\Sales\Model\Quote\Item $item */
+                    $amount = $item->getBaseRowTotal() - $item->getBaseDiscountAmount() + $taxes;
+                    if ($amount < $minAmount) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            $baseTotal = 0;
+            foreach ($addresses as $address) {
+                $taxes = ($taxInclude) ? $address->getBaseTaxAmount() : 0;
+                $baseTotal += $address->getBaseSubtotalWithDiscount() + $taxes;
+            }
+            if ($baseTotal < $minAmount) {
+                return false;
             }
         }
         return true;

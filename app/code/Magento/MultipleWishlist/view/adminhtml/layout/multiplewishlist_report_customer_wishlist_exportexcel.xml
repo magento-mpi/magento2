@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="formkey"/>
     <update handle="multiplewishlist_report_customer_wishlist_block"/>
     <block class="Magento\Backend\Block\Widget\Grid\Container" name="adminhtml.block.report.customer.wishlist.container" template="Magento_Backend::widget/grid/container/empty.phtml"/>
-</layout>
+</page>

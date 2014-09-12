@@ -8,23 +8,22 @@
 
 namespace Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData as AbstractCheckoutData;
-
 /**
  * Class CheckoutData
  * Data keys:
  *  - preset (Checkout data verification preset name)
- *
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
-class CheckoutData extends AbstractCheckoutData
+class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData
 {
     /**
      * Get preset array
      *
+     * @param string $name
      * @return array|null
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function getPreset()
+    protected function getPreset($name)
     {
         $presets = [
             'default' => [
@@ -68,9 +67,52 @@ class CheckoutData extends AbstractCheckoutData
                 ],
                 'custom_options' => [
                     [
-                        'type' => 'Drop-down',
-                        'title' => 'custom option drop down',
-                        'value' => ['30 bucks'],
+                        'title' => 0,
+                        'value' => 0,
+                    ],
+                    [
+                        'title' => 1,
+                        'value' => 0,
+                    ],
+                    [
+                        'title' => 2,
+                        'value' => 'Field',
+                    ],
+                    [
+                        'title' => 3,
+                        'value' => 'Field',
+                    ],
+                    [
+                        'title' => 4,
+                        'value' => 'Area',
+                    ],
+                    [
+                        'title' => 6,
+                        'value' => 0,
+                    ],
+                    [
+                        'title' => 7,
+                        'value' => 0,
+                    ],
+                    [
+                        'title' => 8,
+                        'value' => 0,
+                    ],
+                    [
+                        'title' => 9,
+                        'value' => 0,
+                    ],
+                    [
+                        'title' => 10,
+                        'value' => '12/12/2014',
+                    ],
+                    [
+                        'title' => 11,
+                        'value' => '12/12/2014/12/30/AM',
+                    ],
+                    [
+                        'title' => 12,
+                        'value' => '12/12/AM',
                     ],
                 ]
             ],
@@ -86,9 +128,8 @@ class CheckoutData extends AbstractCheckoutData
                 ],
                 'custom_options' => [
                     [
-                        'type' => 'Drop-down',
-                        'title' => 'custom option drop down',
-                        'value' => ['10 percent'],
+                        'title' => 0,
+                        'value' => 0,
                     ],
                 ]
             ],
@@ -125,49 +166,40 @@ class CheckoutData extends AbstractCheckoutData
                 ],
                 'custom_options' => [
                     [
-                        'type' => 'Field',
-                        'title' => 'custom option field',
-                        'value' => ['Field'],
+                        'title' => 0,
+                        'value' => 'Field',
                     ],
                     [
-                        'type' => 'Area',
-                        'title' => 'custom option Area',
-                        'value' => ['Area'],
+                        'title' => 1,
+                        'value' => 'Area',
                     ],
                     [
-                        'type' => 'Radio Buttons',
-                        'title' => 'custom option Radio Buttons',
-                        'value' => ['20 percent'],
+                        'title' => 3,
+                        'value' => 0,
                     ],
                     [
-                        'type' => 'Drop-down',
-                        'title' => 'custom option drop down',
-                        'value' => ['20 percent'],
+                        'title' => 4,
+                        'value' => 0,
                     ],
                     [
-                        'type' => 'Checkbox',
-                        'title' => 'custom option Checkbox',
-                        'value' => ['20 percent'],
+                        'title' => 5,
+                        'value' => 0,
                     ],
                     [
-                        'type' => 'Multiple Select',
-                        'title' => 'custom option Multiple Select',
-                        'value' => ['20 percent'],
+                        'title' => 6,
+                        'value' => 0,
                     ],
                     [
-                        'type' => 'Date',
-                        'title' => 'custom option Date',
-                        'value' => ['12/12/2014'],
+                        'title' => 7,
+                        'value' => '12/12/2014',
                     ],
                     [
-                        'type' => 'Date & Time',
-                        'title' => 'custom option Date & Time',
-                        'value' => ['12/12/2014/12/30/AM'],
+                        'title' => 8,
+                        'value' => '12/12/2014/12/30/AM',
                     ],
                     [
-                        'type' => 'Time',
-                        'title' => 'custom option Time',
-                        'value' => ['12/12/2014/12/30/AM'],
+                        'title' => 9,
+                        'value' => '12/12/AM',
                     ],
                 ]
             ],
@@ -204,9 +236,6 @@ class CheckoutData extends AbstractCheckoutData
                 ],
             ],
         ];
-        if (!isset($presets[$this->currentPreset])) {
-            return null;
-        }
-        return $presets[$this->currentPreset];
+        return isset($presets[$name]) ? $presets[$name] : null;
     }
 }

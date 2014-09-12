@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="promo_quote_edit_tabs">
         <block class="Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners" name="salesrule.related.banners">
             <block class="Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners\Grid" name="related_salesrule_banners_grid"/>
@@ -26,4 +26,4 @@
         </action>
         <block class="Magento\Banner\Block\Adminhtml\Permission\Monitor" name="bannner.permission.monitor"/>
     </referenceBlock>
-</layout>
+</page>

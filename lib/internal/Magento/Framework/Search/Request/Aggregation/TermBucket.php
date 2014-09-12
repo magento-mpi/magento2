@@ -1,7 +1,5 @@
 <?php
 /**
- * Term Buckets
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +9,9 @@ namespace Magento\Framework\Search\Request\Aggregation;
 
 use Magento\Framework\Search\Request\BucketInterface;
 
+/**
+ * Term Buckets
+ */
 class TermBucket implements BucketInterface
 {
     /**

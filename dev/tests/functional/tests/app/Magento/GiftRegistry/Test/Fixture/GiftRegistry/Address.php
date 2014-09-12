@@ -35,7 +35,7 @@ class Address implements FixtureInterface
      * Constructor
      *
      * @param FixtureFactory $fixtureFactory
-     * @param array $params [optional]
+     * @param array $params
      * @param array $data [optional]
      */
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route url="/V1/carts/:cartId/giftCards" method="GET">
+        <service class="Magento\GiftCardAccount\Service\V1\ReadServiceInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_GiftCardAccount::customer_giftcardaccount" />
+        </resources>
+    </route>
+    <route url="/V1/carts/:cartId/giftCards" method="PUT">
+        <service class="Magento\GiftCardAccount\Service\V1\WriteServiceInterface" method="set"/>
+        <resources>
+            <resource ref="Magento_GiftCardAccount::customer_giftcardaccount" />
+        </resources>
+    </route>
+    <route url="/V1/carts/:cartId/giftCards/:giftCardCode" method="DELETE">
+        <service class="Magento\GiftCardAccount\Service\V1\WriteServiceInterface" method="delete"/>
+        <resources>
+            <resource ref="Magento_GiftCardAccount::customer_giftcardaccount" />
+        </resources>
+    </route>
+</routes>

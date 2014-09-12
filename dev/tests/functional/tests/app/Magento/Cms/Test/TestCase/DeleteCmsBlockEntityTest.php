@@ -70,6 +70,7 @@ class DeleteCmsBlockEntityTest extends Injectable
      */
     public function test(CmsBlock $cmsBlock)
     {
+        $this->markTestIncomplete('MAGETWO-27635');
         // Precondition
         $cmsBlock->persist();
 

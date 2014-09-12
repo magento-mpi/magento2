@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/widget_instance/new/" >
-    <block>
-        <name>widgetForm</name>
-        <class>Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/widget_instance/new/" module="Magento_Widget">
+    <blocks>
+        <widgetForm>
+            <class>Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </widgetForm>
+    </blocks>
 </page>

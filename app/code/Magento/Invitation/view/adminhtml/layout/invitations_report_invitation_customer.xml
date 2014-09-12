@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="invitations_report_invitation_customer_grid"/>
     <referenceContainer name="content">
         <block class="Magento\Invitation\Block\Adminhtml\Report\Invitation\Customer" name="adminhtml.report.grid.container"/>
     </referenceContainer>
-</layout>
+</page>

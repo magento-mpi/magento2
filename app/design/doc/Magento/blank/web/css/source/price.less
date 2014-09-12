@@ -1,0 +1,47 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+
+// Prices
+.price-style-1() {
+    .price {
+        &-container {}
+        &-wrapper[data-label]:before {
+            content: attr(data-label)":";
+        }
+        &-tier_price .price-excluding-tax,
+        &-tier_price .price-including-tax {
+            display: inline;
+        }
+        &-tier_price .price-adjustments {
+            font-size: .9em;
+            &:before {
+                content: "(";
+            }
+            &:after {
+                content: ")";
+            }
+        }
+    }
+}
+.price-style-2() {
+    .price {
+        &-including-tax,
+        &-excluding-tax {
+            display: inline !important;
+        }
+        &-including-tax:before {
+            content:" / "
+        }
+        &-including-tax:after {
+            content: "("attr(data-label)")";
+        }
+    }
+}
+
+.price-style-1();

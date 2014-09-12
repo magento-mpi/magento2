@@ -11,8 +11,10 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 
 /**
  * Class Option
+ *
+ * @codeCoverageIgnore
  */
-class Option extends \Magento\Framework\Service\Data\AbstractObject
+class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**
      * Constants used as keys into $_data

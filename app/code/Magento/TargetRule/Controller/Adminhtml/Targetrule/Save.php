@@ -77,7 +77,7 @@ class Save extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
                 $this->messageManager->addException($e, __('An error occurred while saving Product Rule.'));
 
                 $this->messageManager->addError($e->getMessage());
-                $this->messageManager->setPageData($data);
+                $this->_getSession()->setPageData($data);
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }

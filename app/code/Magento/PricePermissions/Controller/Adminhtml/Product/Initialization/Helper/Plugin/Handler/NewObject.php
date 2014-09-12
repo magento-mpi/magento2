@@ -7,7 +7,7 @@
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
@@ -23,7 +23,7 @@ class NewObject implements HandlerInterface
     /**
      * Store manager interface
      *
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -35,7 +35,7 @@ class NewObject implements HandlerInterface
     protected $defaultProductPriceString;
 
     /**
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      */

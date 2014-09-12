@@ -46,11 +46,14 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\CatalogInventory\Helper\Minsaleqty|\PHPUnit_Framework_MockObject_MockObject */
     protected $catalogInventoryMinsaleqty;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
     /** @var \Magento\CatalogInventory\Model\Stock\ItemRegistry|\PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemRegistry;
+
+    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
+    protected $stockItemService;
 
     protected function setUp()
     {
@@ -94,11 +97,19 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config', [], [], '', false);
-        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
+        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
 
         $this->stockItemRegistry = $this->getMock(
             '\Magento\CatalogInventory\Model\Stock\ItemRegistry',
             ['retrieve', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $this->stockItemService = $this->getMock(
+            '\Magento\CatalogInventory\Service\V1\StockItemService',
+            [],
             [],
             '',
             false
@@ -115,7 +126,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->storeManager,
                 'productFactory' => $productFactory,
                 'resource' => $this->resource,
-                'stockItemRegistry' => $this->stockItemRegistry
+                'stockItemRegistry' => $this->stockItemRegistry,
+                'stockItemService' => $this->stockItemService
             ]
         );
     }
@@ -139,6 +151,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->resource->expects($this->once())
             ->method('addCommitCallback')
             ->will($this->returnValue($this->resource));
+        $this->stockItemService->expects($this->any())
+            ->method('isQty')
+            ->will($this->returnValue(true));
 
         $this->assertEquals($this->item, $this->item->save());
     }

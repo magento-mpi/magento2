@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Review">
+    <ratingIndex>
+        <mca>review/rating</mca>
+        <area>adminhtml</area>
+        <class>Magento\Review\Test\Page\Adminhtml\RatingIndex</class>
+    </ratingIndex>
+    <ratingNew>
+        <mca>review/rating/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Review\Test\Page\Adminhtml\RatingNew</class>
+    </ratingNew>
+    <ratingEdit>
+        <mca>review/rating/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Review\Test\Page\Adminhtml\RatingEdit</class>
+    </ratingEdit>
+    <reviewIndex>
+        <mca>review/product/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Review\Test\Page\Adminhtml\ReviewIndex</class>
+    </reviewIndex>
+    <reviewEdit>
+        <mca>review/product/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Review\Test\Page\Adminhtml\ReviewEdit</class>
+    </reviewEdit>
+</page>

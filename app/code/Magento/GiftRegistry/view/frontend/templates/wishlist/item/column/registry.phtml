@@ -7,7 +7,7 @@
  */
 ?>
 <?php if ($this->checkProductType($this->getItem()->getProduct())): ?>
-    <div class="actions dropdown giftregisty add">
+    <div class="giftregisty-dropdown add">
         <span class="action toggle" data-toggle="dropdown" title=""><span><?php echo __('Add to Gift Registry');?></span></span>
         <ul class="dropdown items">
             <?php foreach ($this->getGiftRegistryList() as $_entity):?>

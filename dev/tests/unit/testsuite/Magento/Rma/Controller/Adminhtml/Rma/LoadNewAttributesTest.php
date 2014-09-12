@@ -229,7 +229,6 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
 
         $layoutMock = $this->getMockBuilder('Magento\Framework\View\Layout')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
         $layoutMock->expects($this->once())
             ->method('getBlock')

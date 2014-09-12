@@ -7,17 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog_event/catalog/category/index">
-    <block>
-        <name>treeCategories</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Category\Tree</class>
-        <locator>[id="page:left"]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>pageActionsEvent</name>
-        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions</class>
-        <locator>.page-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="catalog/category/index">
+    <blocks>
+        <pageActionsEvent>
+            <class>Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions</class>
+            <locator>.page-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActionsEvent>
+    </blocks>
 </page>

@@ -9,9 +9,12 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media\Data;
 
-use \Magento\Framework\Service\Data\AbstractObject;
+use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class GalleryEntryContent extends AbstractObject
+/**
+ * @codeCoverageIgnore
+ */
+class GalleryEntryContent extends AbstractExtensibleObject
 {
     const DATA = 'data';
     const MIME_TYPE = 'mime_type';

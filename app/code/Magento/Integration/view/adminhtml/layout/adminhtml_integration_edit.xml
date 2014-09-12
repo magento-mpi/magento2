@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="editor"/>
     <referenceContainer name="left">
         <block class="Magento\Integration\Block\Adminhtml\Integration\Edit\Tabs" name="integration_edit_tabs">
@@ -23,4 +23,4 @@
     <referenceContainer name="content">
         <block class="Magento\Integration\Block\Adminhtml\Integration\Edit" name="integration_edit_content"/>
     </referenceContainer>
-</layout>
+</page>

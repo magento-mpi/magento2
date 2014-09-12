@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/wishlist/index" >
-    <block>
-        <name>wishlistBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Wishlist</class>
-        <locator>#wishlist-view-form</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="giftregistry/wishlist/index" module="Magento_GiftRegistry">
+    <blocks>
+        <wishlistBlock>
+            <class>Magento\GiftRegistry\Test\Block\Customer\Wishlist</class>
+            <locator>#wishlist-view-form</locator>
+            <strategy>css selector</strategy>
+        </wishlistBlock>
+    </blocks>
 </page>

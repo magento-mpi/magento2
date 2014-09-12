@@ -12,8 +12,9 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
  * Builder for the LinkAttribute Service Data Object
  *
  * @method LinkAttribute create()
+ * @codeCoverageIgnore
  */
-class LinkAttributeBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class LinkAttributeBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set attribute code

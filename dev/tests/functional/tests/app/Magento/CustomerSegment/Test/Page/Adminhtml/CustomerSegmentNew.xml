@@ -7,29 +7,27 @@
  * @license     {license_link}
  */
 -->
-<page mca="customersegment/index/new" >
-    <block>
-        <name>customerSegmentForm</name>
-        <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\CustomerSegmentForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>pageMainActions</name>
-        <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages .messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>customerSegmentGrid</name>
-        <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\CustomerGrid</class>
-        <locator>#segmentGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="customersegment/index/new" module="Magento_CustomerSegment">
+    <blocks>
+        <customerSegmentForm>
+            <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\CustomerSegmentForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </customerSegmentForm>
+        <pageMainActions>
+            <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageMainActions>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <customerSegmentGrid>
+            <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\CustomerGrid</class>
+            <locator>#segmentGrid</locator>
+            <strategy>css selector</strategy>
+        </customerSegmentGrid>
+    </blocks>
 </page>

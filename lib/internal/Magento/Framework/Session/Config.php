@@ -141,7 +141,7 @@ class Config implements ConfigInterface
             $this->setOption('session.cache_limiter', $cacheLimiter);
         }
 
-        $lifetime = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, $this->_scopeType);
+        $lifetime = $this->_scopeConfig->getValue($lifetimePath, $this->_scopeType);
         $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
         $this->setCookieLifetime($lifetime);
 
@@ -207,10 +207,7 @@ class Config implements ConfigInterface
     public function setOption($option, $value)
     {
         $option = $this->getFixedOptionName($option);
-        if (!array_key_exists($option, $this->options) || $this->options[$option] != $value) {
-            $this->setStorageOption($option, $value);
-            $this->options[$option] = $value;
-        }
+        $this->options[$option] = $value;
 
         return $this;
     }
@@ -224,7 +221,7 @@ class Config implements ConfigInterface
     public function getOption($option)
     {
         $option = $this->getFixedOptionName($option);
-        if ($this->hasOption($option)) {
+        if (array_key_exists($option, $this->options)) {
             return $this->options[$option];
         }
 
@@ -235,18 +232,6 @@ class Config implements ConfigInterface
         }
 
         return null;
-    }
-
-    /**
-     * Check to see if an internal option has been set for the key provided.
-     *
-     * @param string $option
-     * @return bool
-     */
-    public function hasOption($option)
-    {
-        $option = $this->getFixedOptionName($option);
-        return array_key_exists($option, $this->options);
     }
 
     /**
@@ -366,13 +351,6 @@ class Config implements ConfigInterface
      */
     public function getCookiePath()
     {
-        if (!$this->hasOption('session.cookie_path')) {
-            $path = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
-            if (empty($path)) {
-                $path = $this->_httpRequest->getBasePath();
-            }
-            $this->setCookiePath($path);
-        }
         return (string)$this->getOption('session.cookie_path');
     }
 
@@ -473,24 +451,6 @@ class Config implements ConfigInterface
     public function getUseCookies()
     {
         return (bool)$this->getOption('session.use_cookies');
-    }
-
-    /**
-     * Set storage option in backend configuration store
-     *
-     * @param string $option
-     * @param string $value
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    protected function setStorageOption($option, $value)
-    {
-        $result = ini_set($option, $value);
-        if ($result === false) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid sessions-related ini setting.', $option));
-        }
-
-        return $this;
     }
 
     /**

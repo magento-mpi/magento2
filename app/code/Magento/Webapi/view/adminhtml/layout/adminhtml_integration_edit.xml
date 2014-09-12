@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="editor"/>
     <referenceBlock name="integration_edit_tabs">
         <block class="Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab\Webapi" name="integration_edit_tab_webapi" template="Magento_Webapi::resourcetree.phtml"/>
@@ -26,4 +26,4 @@
     <referenceContainer name="js">
         <block class="Magento\Backend\Block\Template" name="adminhtml.integration.webapi.tree.js" template="Magento_User::user/roles_grid_js.phtml"/>
     </referenceContainer>
-</layout>
+</page>

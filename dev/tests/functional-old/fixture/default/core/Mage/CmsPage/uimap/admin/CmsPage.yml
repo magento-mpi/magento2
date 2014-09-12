@@ -24,7 +24,7 @@ manage_cms_pages:
                             search: //button[span='Search']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-                            filter_layout: //select[@name='root_template']
+                            filter_layout: //select[@name='page_layout']
                             filter_store_view: //select[@name='store_id']
                             filter_status: //select[@name='is_active']
                         fields:
@@ -126,7 +126,7 @@ create_cms_page:
                                         filter_url_key: //input[@name='chooser_identifier']
                                     dropdowns:
                                         view_per_page: //select[@name='limit']
-                                        filter_layout: //select[@name='chooser_root_template']
+                                        filter_layout: //select[@name='chooser_page_layout']
                                         filter_status: //select[@name='chooser_is_active']
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
@@ -217,7 +217,7 @@ create_cms_page:
                                     fields:
                                         layout_update_xml: //textarea[@name='layout_update_xml']
                                     dropdowns:
-                                        layout: //select[@name='root_template']
+                                        layout: //select[@name='page_layout']
                             -
                                 custom_design:
                                     xpath: //fieldset[@id='page_design_fieldset']
@@ -227,7 +227,7 @@ create_cms_page:
                                         custom_layout_update_xml: //textarea[@name='custom_layout_update_xml']
                                     dropdowns:
                                         custom_theme: //select[@name='custom_theme']
-                                        custom_layout: //select[@name='custom_root_template']
+                                        custom_layout: //select[@name='custom_page_layout']
                 -
                     meta_data:
                         xpath: //a[@title='Meta Data']

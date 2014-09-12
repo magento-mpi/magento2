@@ -42,10 +42,10 @@ class UnassignCategoryTest extends Functional
         $simple->persist();
         //Steps
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $editProductPage->open(array('id' => $simple->getProductId()));
+        $editProductPage->open(['id' => $simple->getProductId()]);
         $productForm = $editProductPage->getProductForm();
         $productForm->clearCategorySelect();
-        $editProductPage->getFormAction()->save();
+        $editProductPage->getFormPageActions()->save();
         //Verifying
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache

@@ -12,9 +12,9 @@ use Magento\Webapi\Model\Rest\Config;
 
 class OrderGetTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/orders';
+    const RESOURCE_PATH = '/V1/order';
 
-    const SERVICE_READ_NAME = 'salesOrderGetV1';
+    const SERVICE_READ_NAME = 'salesOrderReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -68,7 +68,7 @@ class OrderGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'get'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $order->getId()]);
