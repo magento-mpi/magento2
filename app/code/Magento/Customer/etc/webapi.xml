@@ -290,6 +290,15 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
+    <route url="/V1/customers" method="DELETE">
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="deleteCustomerByEmail"/>
+        <resources>
+            <resource ref="Magento_Customer::manage"/>
+        </resources>
+        <data>
+            <parameter name="customerEmail"></parameter>
+        </data>
+    </route>
     <route url="/V1/customers/isEmailAvailable" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="isEmailAvailable"/>
         <resources>

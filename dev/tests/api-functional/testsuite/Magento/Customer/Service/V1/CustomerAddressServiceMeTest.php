@@ -80,7 +80,7 @@ class CustomerAddressServiceMeTest extends \Magento\TestFramework\TestCase\Webap
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customers/me/addresses/billing",
+                'resourcePath' => "/V1/customers/me/billingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
                 'token' => $this->token
             ]
@@ -103,7 +103,7 @@ class CustomerAddressServiceMeTest extends \Magento\TestFramework\TestCase\Webap
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customers/me/addresses/shipping",
+                'resourcePath' => "/V1/customers/me/shippingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
                 'token' => $this->token
             ]

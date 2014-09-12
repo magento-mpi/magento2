@@ -794,7 +794,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     private function validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
-        if (!is_int($customerId) || empty($customerId) || $customerId < 0) {
+        if (!is_string($customerId) || empty($customerId) || $customerId < 0) {
             $params = ['value' => $customerId, 'fieldName' => 'customerId'];
             throw new InputException(InputException::INVALID_FIELD_VALUE, $params);
         }

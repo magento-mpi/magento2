@@ -128,7 +128,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customers/$fixtureCustomerId/addresses/billing",
+                'resourcePath' => "/V1/customers/$fixtureCustomerId/billingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -155,7 +155,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customers/$fixtureCustomerId/addresses/shipping",
+                'resourcePath' => "/V1/customers/$fixtureCustomerId/shippingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -182,7 +182,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureAddressId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customers/addresses/{$fixtureAddressId}",
+                'resourcePath' => "/V1/addresses/{$fixtureAddressId}",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -208,7 +208,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => "/V1/customers/{$customerFixtureId}/addresses",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
