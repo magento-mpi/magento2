@@ -29,7 +29,7 @@ class SaveRewardPoints
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -42,13 +42,13 @@ class SaveRewardPoints
 
     /**
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param Converter $customerConverter
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         Converter $customerConverter
     ) {

@@ -41,7 +41,7 @@ class CustomerRegisterTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->rewardDataMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->rewardFactoryMock = $this->getMock('\Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
         $this->loggerMock = $this->getMock('\Magento\Framework\Logger', [], [], '', false);
 
@@ -211,4 +211,3 @@ class CustomerRegisterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

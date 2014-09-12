@@ -51,7 +51,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $context = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->quoteDetailsBuilderMock = $this->getMock(
             '\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder',
             [],
@@ -596,4 +596,3 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->subject->displaySalesCardBothPrices($storeMock));
     }
 }
- 

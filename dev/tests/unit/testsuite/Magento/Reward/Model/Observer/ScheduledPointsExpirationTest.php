@@ -35,7 +35,7 @@ class ScheduledPointsExpirationTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->rewardDataMock = $this->getMock(
             '\Magento\Reward\Helper\Data',
             ['isEnabled', 'isEnabledOnFront', 'getGeneralConfig'],
@@ -123,4 +123,3 @@ class ScheduledPointsExpirationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute());
     }
 }
- 

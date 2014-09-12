@@ -30,7 +30,7 @@ class ReturnRewardPointsTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->rewardFactoryMock = $this->getMock('\Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
         $this->subject = $objectManager->getObject('\Magento\Reward\Model\Observer\ReturnRewardPoints',
             ['storeManager' => $this->storeManagerMock, 'rewardFactory' => $this->rewardFactoryMock]
@@ -118,4 +118,3 @@ class ReturnRewardPointsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

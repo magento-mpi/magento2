@@ -31,7 +31,7 @@ class ReverterTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->rewardFactoryMock = $this->getMock('\Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->reverter = $objectManager->getObject(
             '\Magento\Reward\Model\Reward\Reverter',
             [
@@ -102,4 +102,3 @@ class ReverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->reverter, $this->reverter->revertRewardPointsForOrder($orderMock));
     }
 }
- 
