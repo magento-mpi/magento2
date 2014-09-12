@@ -7,14 +7,19 @@
  */
 namespace Magento\Cms\Ui\DataProvider\Row;
 
-use Magento\Ui\DataProvider\RowInterface;
 use Magento\Framework\UrlInterface;
+use Magento\Ui\DataProvider\RowInterface;
 
 /**
  * Class Url
  */
 class Url implements RowInterface
 {
+    /**
+     * Url path
+     */
+    const URL_PATH = 'cms/page/edit';
+
     /**
      * @var UrlInterface
      */
@@ -36,6 +41,6 @@ class Url implements RowInterface
      */
     public function getData(array $dataRow)
     {
-        return $this->urlBuilder->getUrl('*/*/edit', ['page_id' => $dataRow['page_id']]);
+        return $this->urlBuilder->getUrl(static::URL_PATH, ['page_id' => $dataRow['page_id']]);
     }
 }
