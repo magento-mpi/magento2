@@ -76,7 +76,11 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $priceCurrency->expects($this->once())
             ->method('round')
-            ->willReturnCallback(function ($price) {round($price, 2);});
+            ->willReturnCallback(
+                function ($price) {
+                    round($price, 2);
+                }
+            );
         $rateMethod = $this->getMock(
             'Magento\Sales\Model\Quote\Address\RateResult\Method',
             null,
