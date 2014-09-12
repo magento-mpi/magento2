@@ -43,8 +43,8 @@ class FeedTest extends \PHPUnit_Framework_TestCase
     {
         $this->inboxFactory = $this->getMock('Magento\AdminNotification\Model\InboxFactory',['create']);
         $this->curlFactory = $this->getMock('\Magento\Framework\HTTP\Adapter\CurlFactory', ['create']);
-        $this->curl = $this->getMock('\Magento\Framework\HTTP\Adapter\Curl',['read']);
-        $this->appState = $this->getMock('\Magento\Framework\App\State',['getInstallDate'], [], '', false);
+        $this->curl = $this->getMock('\Magento\Framework\HTTP\Adapter\Curl', ['read']);
+        $this->appState = $this->getMock('\Magento\Framework\App\State', ['getInstallDate'], [], '', false);
         $this->inboxModel = $this->getMock(
             '\Magento\AdminNotification\Model\Inbox',
             [
@@ -99,11 +99,13 @@ class FeedTest extends \PHPUnit_Framework_TestCase
         $this->curl->expects($this->any())->method('read')->will($this->returnValue($curlRequest));
         $this->backendConfig->expects($this->at(0))->method('getValue')->will($this->returnValue('1'));
         $this->backendConfig->expects($this->once())->method('isSetFlag')->will($this->returnValue(false));
-        $this->backendConfig->expects($this->at(1))->method('getValue')->will($this->returnValue('http://feed.magento.com'));
+        $this->backendConfig->expects($this->at(1))->method('getValue')
+            ->will($this->returnValue('http://feed.magento.com'));
         $this->cacheManager->expects($this->once())->method('load')->will(($this->returnValue($lastUpdate)));
         $this->appState->expects($this->once())->method('getInstallDate')->will(($this->returnValue($lastUpdate)));
         if ($callInbox) {
-            $this->inboxFactory->expects($this->once())->method('create')->will(($this->returnValue($this->inboxModel)));
+            $this->inboxFactory->expects($this->once())->method('create')
+                ->will(($this->returnValue($this->inboxModel)));
             $this->inboxModel->expects($this->once())->method('parse')->will($this->returnSelf());
         } else {
             $this->inboxFactory->expects($this->never())->method('create');

@@ -165,7 +165,7 @@ class State
      */
     public function getInstallDate()
     {
-       return $this->_installDate;
+        return $this->_installDate;
     }
 
     /**
