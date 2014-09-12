@@ -9,7 +9,7 @@ namespace Magento\Ui\Listing;
 
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
-use \Magento\Ui\Provider\ProviderFactory;
+use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
@@ -20,20 +20,20 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 class View extends AbstractView
 {
     /**
-     * @var ProviderFactory
+     * @var RowPool
      */
-    protected $providerFactory;
+    protected $rowPool;
 
     /**
-     * @var \Magento\Ui\Provider\ProviderInterface[]
+     * @var \Magento\Ui\DataProvider\RowInterface[]
      */
-    protected $providerActionPoll = [];
+    protected $dataProviderRowPoll = [];
 
     /**
      * Constructor
      *
      * @param OptionsFactory $optionsFactory
-     * @param ProviderFactory $providerFactory
+     * @param RowPool $rowPool
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
@@ -41,14 +41,14 @@ class View extends AbstractView
      */
     public function __construct(
         OptionsFactory $optionsFactory,
-        ProviderFactory $providerFactory,
+        RowPool $rowPool,
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
         $this->optionsFactory = $optionsFactory;
-        $this->providerFactory = $providerFactory;
+        $this->rowPool = $rowPool;
         parent::__construct($renderContext, $context, $contentTypeFactory, $data);
     }
 
@@ -77,31 +77,6 @@ class View extends AbstractView
     }
 
     /**
-     * Create providers
-     *
-     * @return void
-     * @throws \InvalidArgumentException
-     */
-    protected function createProviders()
-    {
-        $cache = [];
-        if ($this->hasData('provider_action_poll')) {
-            $this->providerActionPoll = $this->getData('provider_action_poll');
-        }
-
-        foreach ($this->providerActionPoll as $key => $item) {
-            if (empty($cache[$item['class']])) {
-                $cache[$item['class']] = $this->providerFactory->create(
-                    $item['class'],
-                    empty($item['arguments']) ? [] : $item['arguments']
-                );
-            }
-
-            $this->providerActionPoll[$key] = $cache[$item['class']];
-        }
-    }
-
-    /**
      * Render view
      *
      * @param array $arguments
@@ -110,28 +85,9 @@ class View extends AbstractView
      */
     public function render(array $arguments = [], $acceptType = 'html')
     {
-        $this->createProviders();
         $this->initialConfiguration();
 
         return parent::render($arguments, $acceptType);
-    }
-
-    /**
-     * @param array $item
-     * @return array
-     */
-    protected function applyActionProviders(array $item)
-    {
-        foreach ($this->providerActionPoll as $name => $provider) {
-            if (!empty($item[$name])) {
-                $value = $item[$name];
-                $item[$name] = [];
-                $item[$name] = $value;
-            }
-            $item[$name][] = $provider->provide($item);
-        }
-
-        return $item;
     }
 
     /**
@@ -163,6 +119,24 @@ class View extends AbstractView
     }
 
     /**
+     * Apply data provider to row data
+     *
+     * @param array $dataRow
+     * @return array
+     */
+    protected function getDataFromDataProvider(array $dataRow)
+    {
+        if ($this->hasData('row_data_provider')) {
+            $this->dataProviderRowPoll = $this->getData('row_data_provider');
+        }
+        foreach ($this->dataProviderRowPoll as $field => $data) {
+            $dataRow[$field] = $this->rowPool->get($data['class'])->getData($dataRow);
+        }
+
+        return $dataRow;
+    }
+
+    /**
      * Getting collection items
      *
      * return array
@@ -176,7 +150,7 @@ class View extends AbstractView
             foreach (array_keys($this->getData('meta/fields')) as $field) {
                 $itemsData[$field] = $item->getData($field);
             }
-            $items[] = $this->applyActionProviders($itemsData);
+            $items[] = $this->getDataFromDataProvider($itemsData);
         }
 
         return $items;

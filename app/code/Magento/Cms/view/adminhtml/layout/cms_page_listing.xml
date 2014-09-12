@@ -87,11 +87,19 @@
                         <item name="position" xsi:type="string">7</item>
                         <item name="filterable" xsi:type="boolean">false</item>
                     </item>
+                    <item name="row_url" xsi:type="array">
+                        <item name="data_type" xsi:type="string">row_url</item>
+                        <item name="filterable" xsi:type="boolean">false</item>
+                        <item name="visible" xsi:type="boolean">false</item>
+                    </item>
                 </item>
             </argument>
-            <argument name="provider_action_poll" xsi:type="array">
+            <argument name="row_data_provider" xsi:type="array">
                 <item name="actions" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Cms\Ui\Provider\Action\Row</item>
+                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Row\Actions</item>
+                </item>
+                <item name="row_url" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Row\Url</item>
                 </item>
             </argument>
         </arguments>
