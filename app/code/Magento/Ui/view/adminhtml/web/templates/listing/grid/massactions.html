@@ -7,15 +7,15 @@
  */
 -->
 <div data-part="actions" data-bind="scope: getExtender('massactions')">
-    <div title="Select Items" class="actions-split" data-bind="css: {'active':isVisible}">
-        <button title="Actions" class="action-default scalable add" data-bind="click: toggle">
+    <div title="Select Items" class="actions-split" data-bind="css: {'active':isVisibleActions}">
+        <button title="Actions" class="action-default scalable add" data-bind="click: toggleActions">
             <span data-bind="text: $t('Actions')"></span>
         </button>
-        <button title="" class="action-toggle scalable  add" data-toggle="dropdown" data-bind="click: toggle">
+        <button title="" class="action-toggle scalable  add" data-toggle="dropdown" data-bind="click: toggleActions">
             <span>|</span>
         </button>
 
-        <ul class="dropdown-menu" data-bind="css: {'active':isVisible}, foreach: {data: actions, as: 'action'}">
+        <ul class="dropdown-menu" data-bind="css: {'active':isVisibleActions}, foreach: {data: actions, as: 'action'}">
             <li data-bind="click: $parent.setAction(value)"><span class="item" data-bind="text: label"></span></li>
         </ul>
     </div>

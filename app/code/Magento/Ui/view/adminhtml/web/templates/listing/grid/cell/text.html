@@ -7,7 +7,7 @@
  */
 -->
 <div data-bind="'if': 'options' in $data">
-    <span data-bind="text: options[$parent[index]]"></span>
+    <span data-bind="text: options[row[index]]"></span>
 </div>
 <div data-bind="ifnot: 'options' in $data">
     <span data-bind="text: row[field.index]"></span>

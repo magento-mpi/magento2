@@ -26,7 +26,7 @@ define([
                 .initProvider()
                 .updateItems();
             
-            this.fields = this.provider.meta.get('fields');
+            this.fields = this.provider.meta.getVisible();
         },
 
         /**
@@ -149,6 +149,21 @@ define([
         onRefresh: function() {
             this.unlock()
                 .updateItems();
+        },
+
+        /**
+         * Returns handler for row click
+         * @param  {String} url
+         * @return {Function} click handler
+         */
+        redirectTo: function (url) {
+
+            /**
+             * Sets location href to target url
+             */
+            return function () {
+                location.href = url;
+            }
         }
     }, Loader);
 
