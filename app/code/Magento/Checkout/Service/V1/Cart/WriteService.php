@@ -40,24 +40,32 @@ class WriteService implements WriteServiceInterface
     protected $userContext;
 
     /**
+     * @var \Magento\Sales\Model\Service\QuoteFactory
+     */
+    protected $quoteServiceFactory;
+
+    /**
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param UserContextInterface $userContext
+     * @param \Magento\Sales\Model\Service\QuoteFactory $quoteServiceFactory
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
-        UserContextInterface $userContext
+        UserContextInterface $userContext,
+        \Magento\Sales\Model\Service\QuoteFactory $quoteServiceFactory
     ) {
         $this->quoteFactory = $quoteFactory;
         $this->quoteRepository = $quoteRepository;
         $this->storeManager = $storeManager;
         $this->customerRegistry = $customerRegistry;
         $this->userContext = $userContext;
+        $this->quoteServiceFactory = $quoteServiceFactory;
     }
 
     /**
@@ -138,5 +146,17 @@ class WriteService implements WriteServiceInterface
         $quote->setCustomerIsGuest(0);
         $quote->save();
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function order($cartId)
+    {
+        $quote = $this->quoteRepository->get($cartId);
+        /** @var \Magento\Sales\Model\Service\Quote $quoteService */
+        $quoteService = $this->quoteServiceFactory->create(['quote' => $quote]);
+        $order = $quoteService->submitOrderWithDataObject();
+        return $order->getId();
     }
 }

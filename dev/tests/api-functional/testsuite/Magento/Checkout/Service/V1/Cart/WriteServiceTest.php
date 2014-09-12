@@ -263,4 +263,39 @@ class WriteServiceTest extends WebapiAbstract
         );
         $this->_webApiCall($serviceInfo, $requestData);
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Sales/_files/quote.php
+     */
+    public function testOrderPlacesOrder()
+    {
+        $this->markTestIncomplete();
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+
+        $cartId = $quote->getId();
+
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => 'checkoutCartWriteServiceV1',
+                'operation' => 'checkoutCartWriteServiceV1Order',
+                'serviceVersion' => 'V1',
+            ),
+            'rest' => array(
+                'resourcePath' => '/V1/carts/' . $cartId . '/order',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+        );
+
+        $requestData = array(
+            'cartId' => $cartId,
+        );
+        $this->assertEquals(1, $this->_webApiCall($serviceInfo, $requestData));
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $this->objectManager->create('\Magento\Sales\Model\Order')->load(1);
+        $items = $order->getAllItems();
+        $this->assertCount(1, $items);
+        $this->assertEquals('Simple Product', $items[0]->getName());
+        $order->delete();
+    }
 }
