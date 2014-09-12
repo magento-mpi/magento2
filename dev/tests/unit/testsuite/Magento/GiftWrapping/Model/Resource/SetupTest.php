@@ -22,25 +22,25 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productTypeFactoryMock;
+    protected $typeFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $catalogSetupFactoryMock;
+    protected $setupFactoryMock;
 
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->typeConfigMock = $this->getMock('\Magento\Catalog\Model\ProductTypes\ConfigInterface');
-        $this->productTypeFactoryMock = $this->getMock(
+        $this->typeFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\Product\TypeFactory',
             ['create'],
             [],
             '',
             false
         );
-        $this->catalogSetupFactoryMock = $this->getMock(
+        $this->setupFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\SetupFactory',
             ['create'],
             [],
@@ -51,8 +51,8 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             'Magento\GiftWrapping\Model\Resource\Setup',
             array(
                 'productTypeConfig' => $this->typeConfigMock,
-                'productTypeFactory' => $this->productTypeFactoryMock,
-                'catalogSetupFactory' => $this->catalogSetupFactoryMock,
+                'productTypeFactory' => $this->typeFactoryMock,
+                'catalogSetupFactory' => $this->setupFactoryMock,
             )
         );
     }
@@ -75,14 +75,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     public function testGetProductTypes()
     {
         $typeMock = $this->getMock('\Magento\Catalog\Model\Product\Type', [], [], '', false);
-        $this->productTypeFactoryMock->expects($this->once())->method('create')->will($this->returnValue($typeMock));
+        $this->typeFactoryMock->expects($this->once())->method('create')->will($this->returnValue($typeMock));
         $this->assertEquals($typeMock, $this->giftRegistrySetup->getProductType());
     }
 
     public function testGetCatalogSetup()
     {
         $setupMock = $this->getMock('\Magento\Catalog\Model\Resource\Setup', [], [], '', false);
-        $this->catalogSetupFactoryMock->expects($this->once())
+        $this->setupFactoryMock->expects($this->once())
             ->method('create')
             ->with(['resourceName' => 'catalog_setup'])
             ->will($this->returnValue($setupMock));

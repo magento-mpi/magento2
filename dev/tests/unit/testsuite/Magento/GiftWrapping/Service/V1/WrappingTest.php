@@ -170,7 +170,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Magento\Framework\Exception\InputException
      */
-    public function testUpdateThrowInputException()
+    public function testUpdateThrowsInputExceptionIfWrappingIdExists()
     {
         $id = 1;
         /** @var Data\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingDto */
