@@ -40,7 +40,7 @@ class IsActive implements OptionsInterface
         $newOptions = $this->cmsPage->getAvailableStatuses();
         foreach ($newOptions as $key => $value) {
             $newOptions[$key] = [
-                'title' => $value,
+                'label' => $value,
                 'value' => $key
             ];
         }

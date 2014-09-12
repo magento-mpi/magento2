@@ -41,7 +41,7 @@ class PageLayout implements OptionsInterface
         $newOptions = $this->pageLayoutBuilder->getPageLayoutsConfig()->getOptions();
         foreach ($newOptions as $key => $value) {
             $newOptions[$key] = [
-                'title' => $value,
+                'label' => $value,
                 'value' => $key
             ];
         }

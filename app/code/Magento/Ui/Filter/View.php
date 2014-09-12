@@ -96,7 +96,7 @@ class View extends AbstractView
     {
         $collection = $this->renderContext->getDataCollection($this->getParentName());
 
-        $metaData = $this->renderContext->getMeta($this->getParentName() . '_meta'); // todo fixme
+        $metaData = $this->renderContext->getMeta($this->getParentName());
         $metaData = $metaData['fields'];
         $filterData = $this->renderContext->getFilterData(static::FILTER_VAR);
         foreach ($filterData as $field => $value) {

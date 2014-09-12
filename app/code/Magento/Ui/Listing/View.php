@@ -155,6 +155,7 @@ class View extends AbstractView
                 $field['options'] = $this->optionsFactory->create($field['options_provider'])
                     ->getOptions(empty($field['options']) ? [] : $field['options']);
             }
+            unset($field['options_provider']);
             $meta['fields'][$key] = $field;
         }
 
@@ -194,7 +195,6 @@ class View extends AbstractView
         $this->globalConfig['dump']['extenders'] = [];
 
         $this->globalConfig['meta'] = $this->renderContext->getMeta($this->getName());
-        $this->globalConfig['meta']['fields'] = array_values($this->globalConfig['meta']['fields']);
         $this->globalConfig['data']['items'] = $this->getCollectionItems();
 
         $countItems = $this->renderContext->registry($this->getName())->getSize();
