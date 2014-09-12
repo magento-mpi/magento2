@@ -21,6 +21,7 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Test Creation for Updating Items of GiftRegistryEntity from Customer Account(Backend)
@@ -199,16 +200,8 @@ class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
         $customerForm->openTab('gift_registry');
         $filter = ['title' => $giftRegistry->getTitle()];
         $customerForm->getTabElement('gift_registry')->getSearchGridBlock()->searchAndOpen($filter);
-        $itemsGrid = $this->giftRegistryCustomerEdit->getItemsGrid();
-        $productsProperties = [];
-        foreach ($products as $key => $product) {
-            $productsProperties[] = [
-                'name' => $product->getName(),
-                'qty' => $qty[$key],
-                'action' => $actions[$key]
-            ];
-        }
-        $itemsGrid->searchAndUpdate($productsProperties);
+        $this->updateGiftRegistryItems($products, $qty, $actions);
+
         $products = $this->prepareProducts($products, $actions);
         return ['products' => $products];
     }
@@ -268,5 +261,26 @@ class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
     {
         $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
         $this->customerAccountLogin->getLoginBlock()->login($customer);
+    }
+
+    /**
+     * Update gift registry items
+     *
+     * @param InjectableFixture[] $products
+     * @param array $qty
+     * @param array $actions
+     * @return void
+     */
+    protected function updateGiftRegistryItems(array $products, array $qty, array $actions)
+    {
+        $productsProperties = [];
+        foreach ($products as $key => $product) {
+            $productsProperties[] = [
+                'name' => $product->getName(),
+                'qty' => $qty[$key],
+                'action' => $actions[$key]
+            ];
+        }
+        $this->giftRegistryCustomerEdit->getItemsGrid()->searchAndUpdate($productsProperties);
     }
 }

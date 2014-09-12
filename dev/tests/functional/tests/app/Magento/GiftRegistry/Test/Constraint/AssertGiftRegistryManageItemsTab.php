@@ -36,7 +36,7 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryItems $giftRegistryItems
      * @param GiftRegistry $giftRegistry
-     * @param InjectableFixture|InjectableFixture[] $products
+     * @param InjectableFixture[] $products
      * @param string $qty
      * @return void
      */
@@ -48,14 +48,14 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
         $products,
         $qty
     ) {
+        $qty = explode(',', $qty);
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
-        $products = is_array($products) ? $products : [$products];
-        foreach ($products as $product) {
+        foreach ($products as $key => $product) {
             $productName = $product->getName();
             \PHPUnit_Framework_Assert::assertTrue(
-                $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product),
-                'Product with name ' . $productName . ' and ' . $qty . ' quantity is absent in grid.'
+                $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product, $qty[$key]),
+                'Product with name ' . $productName . ' and ' . $qty[$key] . ' quantity is absent in grid.'
             );
         }
     }

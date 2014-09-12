@@ -46,7 +46,7 @@ class Items extends Grid
     protected $submit = '[data-ui-id="giftregistry-customer-edit-form-update-button"]';
 
     /**
-     * Search and update giftregistry item
+     * Search and update giftregistry items
      *
      * @param array $productsProperties
      * @return void
