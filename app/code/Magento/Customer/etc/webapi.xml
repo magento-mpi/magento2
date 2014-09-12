@@ -86,25 +86,25 @@
     </route>
 
     <!-- Customer Address Metadata Service-->
-    <route url="/V1/attributeMetadata/address/attribute/:attributeCode" method="GET">
+    <route url="/V1/attributeMetadata/customerAddress/attribute/:attributeCode" method="GET">
         <service class="Magento\Customer\Service\V1\AddressMetadataServiceInterface" method="getAttributeMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/attributeMetadata/address/form/:formCode" method="GET">
+    <route url="/V1/attributeMetadata/customerAddress/form/:formCode" method="GET">
         <service class="Magento\Customer\Service\V1\AddressMetadataServiceInterface" method="getAttributes"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/attributeMetadata/address" method="GET">
+    <route url="/V1/attributeMetadata/customerAddress" method="GET">
         <service class="Magento\Customer\Service\V1\AddressMetadataServiceInterface" method="getAllAttributesMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/attributeMetadata/address/custom" method="GET">
+    <route url="/V1/attributeMetadata/customerAddress/custom" method="GET">
         <service class="Magento\Customer\Service\V1\AddressMetadataServiceInterface" method="getCustomAttributesMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
@@ -137,7 +137,7 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
-    <route url="/V1/customers" method="PUT">
+    <route url="/V1/customers/:customerId" method="PUT">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="updateCustomer"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
@@ -212,7 +212,7 @@
             <parameter name="online" force="true">TRUE</parameter>
         </data>
     </route>
-    <route url="/V1/customers/login" method="PUT">
+    <route url="/V1/customers/login" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="authenticate"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
@@ -251,7 +251,7 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers/confirm" method="PUT">
+    <route url="/V1/customers/confirm" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="resendConfirmation"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
@@ -290,16 +290,7 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers" method="DELETE">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="deleteCustomerByEmail"/>
-        <resources>
-            <resource ref="Magento_Customer::manage"/>
-        </resources>
-        <data>
-            <parameter name="customerEmail"></parameter>
-        </data>
-    </route>
-    <route url="/V1/customers/isEmailAvailable" method="PUT">
+    <route url="/V1/customers/isEmailAvailable" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="isEmailAvailable"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
@@ -328,7 +319,7 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers/me/addresses/billing" method="GET">
+    <route url="/V1/customers/me/billingAddress" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="getDefaultBillingAddress"/>
         <resources>
             <resource ref="self"/>
@@ -337,13 +328,13 @@
             <parameter name="customerId" force="true">%customer_id%</parameter>
         </data>
     </route>
-    <route url="/V1/customers/:customerId/addresses/billing" method="GET">
+    <route url="/V1/customers/:customerId/billingAddress" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="getDefaultBillingAddress"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers/me/addresses/shipping" method="GET">
+    <route url="/V1/customers/me/shippingAddress" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="getDefaultShippingAddress"/>
         <resources>
             <resource ref="self"/>
@@ -352,25 +343,25 @@
             <parameter name="customerId" force="true">%customer_id%</parameter>
         </data>
     </route>
-    <route url="/V1/customers/:customerId/addresses/shipping" method="GET">
+    <route url="/V1/customers/:customerId/shippingAddress" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="getDefaultShippingAddress"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers/addresses/:addressId" method="DELETE">
+    <route url="/V1/addresses/:addressId" method="DELETE">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="deleteAddress"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers/:customerId/addresses" method="POST">
+    <route url="/V1/customers/:customerId/addresses" method="PUT">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="saveAddresses"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers/me/addresses" method="POST">
+    <route url="/V1/customers/me/addresses" method="PUT">
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="saveAddresses"/>
         <resources>
             <resource ref="self"/>
