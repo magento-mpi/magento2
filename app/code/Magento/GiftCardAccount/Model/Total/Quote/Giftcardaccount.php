@@ -150,7 +150,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
                 } else if ($model->getBalance() != $card['ba']) {
                     $card['ba'] = $model->getBalance();
                 } else {
-                    $card['a'] = $quote->getStore()->roundPrice(
+                    $card['a'] = $this->priceCurrency->round(
                         $this->priceCurrency->convert($card['ba'], $quote->getStore())
                     );
                     $baseAmount += $card['ba'];

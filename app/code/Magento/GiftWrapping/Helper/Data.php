@@ -7,6 +7,7 @@
  */
 namespace Magento\GiftWrapping\Helper;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\GiftWrapping\Model\System\Config\Source\Display\Type as DisplayType;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
@@ -97,6 +98,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $addressConverter;
 
+    /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -106,6 +111,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationServiceInterface $taxCalculationService
      * @param AddressConverter $addressConverter
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -114,7 +120,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         TaxCalculationServiceInterface $taxCalculationService,
-        AddressConverter $addressConverter
+        AddressConverter $addressConverter,
+        PriceCurrencyInterface $priceCurrency
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -122,6 +129,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxCalculationService = $taxCalculationService;
         $this->addressConverter = $addressConverter;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context);
     }
 
@@ -605,6 +613,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $taxDetailsItem = array_pop($taxDetailsItems);
             return $taxDetailsItem->getPriceInclTax();
         }
-        return $store->roundPrice($price);
+        return $this->priceCurrency->round($price);
     }
 }

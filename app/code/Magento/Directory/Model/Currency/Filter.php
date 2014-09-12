@@ -11,6 +11,8 @@
  */
 namespace Magento\Directory\Model\Currency;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Filter implements \Zend_Filter_Interface
 {
     /**
@@ -43,22 +45,30 @@ class Filter implements \Zend_Filter_Interface
     protected $_localeCurrency;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
-     * @param string $code
+     * @param PriceCurrencyInterface $priceCurrency
+     * @param $code
      * @param int $rate
      */
     public function __construct(
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        PriceCurrencyInterface $priceCurrency,
         $code,
         $rate = 1
     ) {
         $this->_localeFormat = $localeFormat;
         $this->_storeManager = $storeManager;
         $this->_currency = $localeCurrency->getCurrency($code);
+        $this->priceCurrency = $priceCurrency;
         $this->_rate = $rate;
     }
 
@@ -82,7 +92,7 @@ class Filter implements \Zend_Filter_Interface
     public function filter($value)
     {
         $value = $this->_localeFormat->getNumber($value);
-        $value = $this->_storeManager->getStore()->roundPrice($this->_rate * $value);
+        $value = $this->priceCurrency->round($this->_rate * $value);
         $value = sprintf("%f", $value);
         return $this->_currency->toCurrency($value);
     }

@@ -221,7 +221,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
         $price = $this->priceCurrency->convert($price);
         if ($round) {
-            $price = $this->getCurrentStore()->roundPrice($price);
+            $price = $this->priceCurrency->round($price);
         }
 
         return $price;

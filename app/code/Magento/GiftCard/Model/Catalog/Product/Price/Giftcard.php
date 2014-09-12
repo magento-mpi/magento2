@@ -134,7 +134,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
             $giftcardAmounts = $this->getAmounts($product);
             if (is_array($giftcardAmounts)) {
                 foreach ($giftcardAmounts as $amount) {
-                    $result[] = $this->_storeManager->getStore()->roundPrice($amount['website_value']);
+                    $result[] = $this->priceCurrency->round($amount['website_value']);
                 }
             }
             sort($result);

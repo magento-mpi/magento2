@@ -67,14 +67,14 @@ class CartFixed extends AbstractDiscount
                 $this->validator->decrementRuleItemTotalsCount($rule->getId());
             }
 
-            $baseDiscountAmount = $store->roundPrice($baseDiscountAmount);
+            $baseDiscountAmount = $this->priceCurrency->round($baseDiscountAmount);
 
             $cartRules[$rule->getId()] -= $baseDiscountAmount;
 
-            $discountData->setAmount($store->roundPrice(min($itemPrice * $qty, $quoteAmount)));
+            $discountData->setAmount($this->priceCurrency->round(min($itemPrice * $qty, $quoteAmount)));
             $discountData->setBaseAmount($baseDiscountAmount);
             $discountData->setOriginalAmount(min($itemOriginalPrice * $qty, $quoteAmount));
-            $discountData->setBaseOriginalAmount($store->roundPrice($baseItemOriginalPrice));
+            $discountData->setBaseOriginalAmount($this->priceCurrency->round($baseItemOriginalPrice));
         }
         $address->setCartFixedRules($cartRules);
 

@@ -389,8 +389,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getDiscountTaxCompensation')->will($this->returnValue($discountTaxCompensation));
         $itemMock->expects($this->once())->method('getRowTotal')->will($this->returnValue($rowTotal));
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-        $storeMock->expects($this->once())
-            ->method('roundPrice')->with($roundPrice)->will($this->returnValue($roundPrice));
+        $this->priceCurrency->expects($this->once())
+            ->method('round')->with($roundPrice)->will($this->returnValue($roundPrice));
         $this->assertEquals($expected, $helper->getPriceInclTax($itemMock));
     }
 

@@ -260,7 +260,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
 
         $price = $this->priceCurrency->convert($price);
         if ($round) {
-            $price = $this->storeManager->getStore()->roundPrice($price);
+            $price = $this->priceCurrency->round($price);
         }
 
         return $price;

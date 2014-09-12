@@ -781,8 +781,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 if ($tax['tax_amount'] == 0 && $tax['base_tax_amount'] == 0) {
                     unset($taxClassAmount[$key]);
                 } else {
-                    $taxClassAmount[$key]['tax_amount'] = $source->getStore()->roundPrice($tax['tax_amount']);
-                    $taxClassAmount[$key]['base_tax_amount'] = $source->getStore()->roundPrice($tax['base_tax_amount']);
+                    $taxClassAmount[$key]['tax_amount'] = $this->priceCurrency->round($tax['tax_amount']);
+                    $taxClassAmount[$key]['base_tax_amount'] = $this->priceCurrency->round($tax['base_tax_amount']);
                 }
             }
 

@@ -184,7 +184,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             $entry,
             $name,
             self::ATTRIBUTE_TYPE_FLOAT,
-            sprintf('%.2f', $store->roundPrice($price)),
+            sprintf('%.2f', $this->priceCurrency->round($price)),
             $store->getDefaultCurrencyCode()
         );
     }
