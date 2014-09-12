@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody data-part="body" data-bind="foreach: { data: rows, as: 'row' }">
-            <tr data-part="body.row" class="even pointer">
+            <tr data-part="body.row" class="even pointer" data-bind="click: $parent.redirectTo(row.row_url)">
                 <!-- ko foreach: { data: $parent.fields, as: 'field' }  -->
                     <td data-part="body.row.cell">
                         <!-- ko template: $parents[1].getCellTemplateFor(field) --><!-- /ko -->    
