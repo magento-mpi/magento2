@@ -91,6 +91,10 @@ define([
             return this;
         },
 
+        /**
+         * Subscribes on provider's refresh event to call onRefresh callback
+         * @return {Object} - reference to instance
+         */
         initProvider: function(){
             this.provider.on('refresh', this.onRefresh.bind(this));
 
