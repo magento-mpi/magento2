@@ -14,7 +14,9 @@
         "psr-4": {
             "Magento\\Setup\\": "module/Magento/Setup/src/",
             "Magento\\Config\\": "module/Magento/Config/src/",
-            "Magento\\Install\\": "module/Magento/Install/src/"
+            "Magento\\Install\\": "module/Magento/Install/src/",
+            "Magento\\Framework\\": "../lib/internal/Magento/Framework",
+            "Magento\\": "../app/code/Magento"
         }
     },
     "autoload-dev": {
