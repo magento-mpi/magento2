@@ -36,6 +36,8 @@ define([
          * @returns {Object} - object which represents current state of instance
          */
         dump: function () {
+            this.output( this.display() );
+            
             return {
                 field: this.index,
                 value: this.value()

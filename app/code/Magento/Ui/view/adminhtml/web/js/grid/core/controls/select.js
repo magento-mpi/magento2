@@ -64,6 +64,8 @@ define([
         dump: function () {
             var selected = this.selected();
 
+            this.output( this.display() );
+
             return {
                 field: this.index,
                 value: selected && selected.value

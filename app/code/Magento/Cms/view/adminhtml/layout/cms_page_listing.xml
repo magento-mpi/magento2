@@ -94,7 +94,7 @@
                         <item name="index" xsi:type="string">creation_time</item>
                         <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
-                        <item name="filter_type" xsi:type="string">date</item>
+                        <item name="filter_type" xsi:type="string">date_range</item>
                     </item>
                     <item name="update_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Modified</item>
@@ -102,7 +102,7 @@
                         <item name="index" xsi:type="string">update_time</item>
                         <item name="sortable" xsi:type="string">true</item>
                         <item name="data_type" xsi:type="string">text</item>
-                        <item name="filter_type" xsi:type="string">date</item>
+                        <item name="filter_type" xsi:type="string">date_range</item>
                     </item>
                     <item name="actions" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Action</item>

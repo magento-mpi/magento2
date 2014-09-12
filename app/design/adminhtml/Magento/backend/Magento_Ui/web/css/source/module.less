@@ -205,18 +205,7 @@
         }
     }
     .field-date .group {
-        .field {
-            margin-bottom: 0;
-        }
-        .label {
-            &:extend(.visually-hidden all);
-        }
         .control {
-            width: 100%;
-            .box-sizing();
-            padding-right: 20px;
-            position: relative;
-            z-index: 1;
             .icon-font(
                 @_icon-font-content: @icon-calendar,
                 @_icon-font-position: after,
@@ -241,6 +230,21 @@
                 cursor: pointer;
                 opacity: 0;
             }
+        }
+    }
+    .field-range .group{
+        .field {
+            margin-bottom: 0;
+        }
+        .label {
+            &:extend(.visually-hidden all);
+        }
+        .control {
+            width: 100%;
+            .box-sizing();
+            padding-right: 20px;
+            position: relative;
+            z-index: 1;
         }
     }
 

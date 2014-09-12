@@ -1,0 +1,29 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fieldset class="field field-range">
+    <legend class="label">
+        <span data-bind="text: title"></span>
+    </legend><br />
+    <div class="control">
+        <div class="fields group group-2">
+            <div class="field field-range-from">
+                <label class="label"><span data-bind="text: $t('From')"></span></label>
+                <div class="control hide-picker">
+                    <input type="text" class="input-text no-changes" data-bind="value: from, attr: {placeholder: $t('From')}">
+                </div>
+            </div>
+            <div class="field field-range-to">
+                <label class="label"><span data-bind="text: $t('To')"></span></label>
+                <div class="control hide-picker">
+                    <input type="text" class="input-text no-changes" data-bind="value: to, attr: {placeholder: $t('To')}">
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

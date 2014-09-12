@@ -68,14 +68,24 @@ define([
             return this;
         },
 
-        findActive: function(){
-            var active;
-
-            active = this.filters.filter(function(filter){
+        getNotEmpty: function(){
+            return this.filters.filter(function(filter){
                 return !filter.isEmpty();
             });
-            
-            this.active(active);
+        },
+
+        findActive: function(){
+            this.active( this.getNotEmpty() );
+
+            return this;
+        },
+
+        clearActive: function(){
+            this.active().forEach(function (filter) {
+                filter.reset();
+            });
+
+            this.active([]);
 
             return this;
         },
@@ -85,19 +95,18 @@ define([
          * @param {String} action - 'reset' or 'apply'.
          * @returns {Function} Function, which maps all filters with corresponding action of those and reloads storage
          */
-        apply: function (action) {
+        apply: function () {
             this.findActive()
-                .refresh(); 
+                .refresh();
+
+            return this;
         },
 
         reset: function(){
-            this.active().forEach(function (filter) {
-                filter.reset();
-            });
+            this.clearActive()           
+                .refresh();
 
-            this.active([]);
-
-            this.refresh();
+            return this;
         },
 
         /**

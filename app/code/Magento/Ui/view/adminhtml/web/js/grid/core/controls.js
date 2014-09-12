@@ -8,13 +8,14 @@
 define([
     './controls/input',
     './controls/select',
-    './controls/date'
-], function (InputControl, SelectControl, DateControl) {
+    './controls/range'
+], function (InputControl, SelectControl, RangeControl) {
     'use strict';
 
     return {
-        input:  InputControl,
-        select: SelectControl,
-        date:   DateControl
+        input:      InputControl,
+        select:     SelectControl,
+        date_range: RangeControl,
+        range:      RangeControl
     }
 });
