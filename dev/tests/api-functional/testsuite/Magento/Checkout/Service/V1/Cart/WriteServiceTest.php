@@ -269,7 +269,6 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testOrderPlacesOrder()
     {
-        $this->markTestIncomplete();
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
 
