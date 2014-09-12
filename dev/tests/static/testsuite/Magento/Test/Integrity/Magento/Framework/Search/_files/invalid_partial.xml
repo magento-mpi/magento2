@@ -38,7 +38,6 @@
             <filter xsi:type="rangeFilter" field="promoted" name="price_name" from="10" to="100" />
             <filter xsi:type="boolFilter" name="price_name1">
                 <filterReference clause="must" ref="price_name" />
-                <filterReference />
                 <filterReference clause="must" ref="price_name" />
             </filter>
             <filter xsi:type="termFilter" name="promoted_boost" field="promoted" value="1" />
