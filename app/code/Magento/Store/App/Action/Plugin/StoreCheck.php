@@ -16,20 +16,12 @@ class StoreCheck
     protected $_storeManager;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
-
-    /**
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\State $appState
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
-        $this->_appState = $appState;
     }
 
     /**
@@ -39,19 +31,17 @@ class StoreCheck
      *
      * @return \Magento\Framework\App\ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Framework\App\InitException
      */
     public function aroundDispatch(
         \Magento\Framework\App\Action\Action $subject,
         \Closure $proceed,
         \Magento\Framework\App\RequestInterface $request
     ) {
-        if ($this->_appState->isInstalled()) {
-            if (!$this->_storeManager->getStore()->getIsActive()) {
-                throw new \Magento\Store\Model\Exception(
-                    'Current store is not active.'
-                );
-            }
+        if (!$this->_storeManager->getStore()->getIsActive()) {
+            throw new \Magento\Framework\App\InitException(
+                'Current store is not active.'
+            );
         }
         return $proceed($request);
     }

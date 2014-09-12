@@ -25,8 +25,11 @@ class GuestTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()->setParam('entity_id', $rma->getEntityId());
         $this->getRequest()->setPost('oar_type', 'email');
         $this->getRequest()->setPost('oar_order_id', $rma->getOrder()->getIncrementId());
-        $this->getRequest()->setPost('oar_billing_lastname', $rma->getOrder()->getBillingAddress()->getLastname());
-        $this->getRequest()->setPost('oar_email', $rma->getOrder()->getBillingAddress()->getEmail());
+        $billingAddress = $rma->getOrder()->getBillingAddress();
+        if ($billingAddress !== false) {
+            $this->getRequest()->setPost('oar_billing_lastname', $billingAddress->getLastname());
+            $this->getRequest()->setPost('oar_email', $billingAddress->getEmail());
+        }
         $this->getRequest()->setPost('oar_zip', '');
 
         $this->dispatch($uri);

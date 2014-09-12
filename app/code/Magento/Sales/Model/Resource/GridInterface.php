@@ -14,11 +14,6 @@ namespace Magento\Sales\Model\Resource;
 interface GridInterface
 {
     /**
-     * @return string
-     */
-    public function getGridTableName();
-
-    /**
      * @param int|string $value
      * @param null|string $field
      * @return \Zend_Db_Statement_Interface
