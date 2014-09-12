@@ -354,6 +354,4 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($orderMock));
         $this->assertEquals(5, $this->service->order($cartId));
     }
-
-
 }
