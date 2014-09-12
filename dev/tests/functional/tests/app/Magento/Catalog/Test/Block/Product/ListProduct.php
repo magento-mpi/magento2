@@ -59,7 +59,7 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $oldPrice = ".old-price .price";
+    protected $oldPrice = ".old-price .price-container";
 
     /**
      * 'Add to Card' button

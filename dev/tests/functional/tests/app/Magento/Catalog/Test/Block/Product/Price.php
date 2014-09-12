@@ -49,14 +49,14 @@ class Price extends Block
      *
      * @var string
      */
-    protected $priceMap = '.old.price .price .price';
+    protected $priceMap = '.old-price .price .price-container';
 
     /**
      * Actual Price
      *
      * @var string
      */
-    protected $actualPrice = '.actual.price .price';
+    protected $actualPrice = '.actual-price .price';
 
     /**
      * 'Add to Cart' button
