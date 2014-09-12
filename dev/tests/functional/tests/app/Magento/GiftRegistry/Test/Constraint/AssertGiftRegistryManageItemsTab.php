@@ -14,7 +14,7 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AssertGiftRegistryManageItemsTab
@@ -36,7 +36,7 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryItems $giftRegistryItems
      * @param GiftRegistry $giftRegistry
-     * @param array $products
+     * @param InjectableFixture|InjectableFixture[] $products
      * @param string $qty
      * @return void
      */
@@ -45,11 +45,12 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryItems $giftRegistryItems,
         GiftRegistry $giftRegistry,
-        array $products,
+        $products,
         $qty
     ) {
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
+        $products = is_array($products) ? $products : [$products];
         foreach ($products as $product) {
             $productName = $product->getName();
             \PHPUnit_Framework_Assert::assertTrue(

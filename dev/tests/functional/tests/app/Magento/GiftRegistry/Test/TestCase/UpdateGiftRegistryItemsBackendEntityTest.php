@@ -181,9 +181,9 @@ class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
         $actions = explode(',', $actions);
         // Creating products
         $products = $this->createProducts($products);
+        // Login as customer
+        $this->loginAsCustomer($customer);
         // Creating gift registry
-        $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
-        $this->customerAccountLogin->getLoginBlock()->login($customer);
         $giftRegistry->persist();
         // Adding products to gift registry
         foreach ($products as $product) {
@@ -252,11 +252,23 @@ class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
     protected function prepareProducts(array $products, array $actions)
     {
         $deletedProducts = array_keys($actions, 'Remove Item');
-        if (sizeof($deletedProducts) !== 0) {
+        if (!empty($deletedProducts)) {
             foreach ($deletedProducts as $index) {
                 unset($products[$index]);
             }
         }
         return $products;
+    }
+
+    /**
+     * Login as customer
+     *
+     * @param CustomerInjectable $customer
+     * @return void
+     */
+    protected function loginAsCustomer(CustomerInjectable $customer)
+    {
+        $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
+        $this->customerAccountLogin->getLoginBlock()->login($customer);
     }
 }

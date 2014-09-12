@@ -199,7 +199,7 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
             ]
         ];
         $cartItemsGrid->massaction($filter, 'Add to Gift Registry', true);
-        return ['products' => [$product]];
+        return ['products' => $product];
     }
 
     /**
