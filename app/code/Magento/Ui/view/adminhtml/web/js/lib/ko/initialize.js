@@ -10,10 +10,9 @@ define([
     'jquery',
     './template/engine',
     './bind/date',
-    './bind/autocomplete',
-    './bind/on',
     './bind/scope',
-    './bind/datepicker'
+    './bind/datepicker',
+    './bind/stop_propagation'
 ], function(ko, $, templateEngine) {
     'use strict';
 
