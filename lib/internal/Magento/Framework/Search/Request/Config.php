@@ -13,12 +13,12 @@ class Config extends \Magento\Framework\Config\Data
     const CACHE_ID = 'request_declaration';
 
     /**
-     * @param \Magento\Framework\Config\ReaderInterface $reader
+     * @param \Magento\Framework\Search\Request\Config\FilesystemReader $reader
      * @param \Magento\Framework\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Framework\Config\ReaderInterface $reader,
+        \Magento\Framework\Search\Request\Config\FilesystemReader $reader,
         \Magento\Framework\Config\CacheInterface $cache,
         $cacheId = self::CACHE_ID
     ) {
