@@ -26,11 +26,22 @@ class Items extends Block
     /**
      * Get grand total price
      *
-     * @param string $currency [optional]
      * @return string
      */
-    public function getGrandTotal($currency = '$')
+    public function getGrandTotal()
     {
-        return trim($this->_rootElement->find($this->grandTotal)->getText(), ' ' . $currency);
+        return $this->escapeCurrency($this->_rootElement->find($this->grandTotal)->getText());
+    }
+
+    /**
+     * Method that escapes currency symbols
+     *
+     * @param string $price
+     * @return string|null
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }

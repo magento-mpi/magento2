@@ -62,19 +62,18 @@ class History extends Block
     /**
      * Get order total
      *
-     * @param int $id
-     * @param string $currency [optional]
+     * @param string $id
      * @return string
      */
-    public function getOrderTotalById($id, $currency = '$')
+    public function getOrderTotalById($id)
     {
-        return trim($this->searchOrderById($id)->find($this->total)->getText(), ' '. $currency);
+        return $this->escapeCurrency($this->searchOrderById($id)->find($this->total)->getText());
     }
 
     /**
      * Get item order block
      *
-     * @param int $id
+     * @param string $id
      * @return \Mtf\Client\Element
      */
     protected function searchOrderById($id)
@@ -85,11 +84,23 @@ class History extends Block
     /**
      * Open item order
      *
-     * @param int $id
+     * @param string $id
      * @return void
      */
     public function openOrderById($id)
     {
         $this->searchOrderById($id)->find($this->viewButton)->click();
+    }
+
+    /**
+     * Method that escapes currency symbols
+     *
+     * @param string $price
+     * @return string|null
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }

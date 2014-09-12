@@ -12,24 +12,24 @@ use Mtf\Block\Block;
 
 /**
  * Class Product
- * Item product to invoice block
+ * Item product block on invoice items block
  */
 class Product extends Block
 {
     /**
-     * Input qty css selector
+     * Qty input css selector
      *
      * @var string
      */
     protected $qtyInput = '[name^="invoice[items]"]';
 
     /**
-     * Set Qty to Invoice
+     * Set product quantity to invoice
      *
      * @param int $value
      * @return void
      */
-    public function setProductInvoiceQty($value)
+    public function setQty($value)
     {
         $this->_rootElement->find($this->qtyInput)->setValue($value);
     }

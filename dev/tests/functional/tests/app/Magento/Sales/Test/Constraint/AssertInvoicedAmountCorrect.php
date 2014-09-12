@@ -33,7 +33,7 @@ class AssertInvoicedAmountCorrect extends AbstractAssertOnFrontend
      * @param OrderInjectable $order
      * @param OrderView $orderView
      * @param InvoicesView $invoicesView
-     * @param int $invoiceId
+     * @param string $invoiceId
      * @return void
      */
     public function processAssert(

@@ -26,7 +26,7 @@ class Title extends Block
     /**
      * Get entity id
      *
-     * @return int
+     * @return string
      */
     public function getId()
     {

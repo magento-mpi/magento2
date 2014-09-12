@@ -27,11 +27,10 @@ class Form extends Block
     /**
      * Ship order
      *
-     * @param string $value
      * @return void
      */
-    public function createShipment($value)
+    public function createShipment()
     {
-        $this->_rootElement->find($this->createShipmentCheckbox, Locator::SELECTOR_CSS, 'checkbox')->setValue($value);
+        $this->_rootElement->find($this->createShipmentCheckbox, Locator::SELECTOR_CSS, 'checkbox')->click();
     }
 }

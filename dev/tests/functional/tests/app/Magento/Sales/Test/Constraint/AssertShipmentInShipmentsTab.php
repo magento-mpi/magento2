@@ -32,7 +32,7 @@ class AssertShipmentInShipmentsTab extends AbstractConstraint
      * @param OrderView $orderView
      * @param OrderIndex $orderIndex
      * @param OrderInjectable $order
-     * @param int $shipmentId
+     * @param string $shipmentId
      * @return void
      */
     public function processAssert(OrderView $orderView, OrderIndex $orderIndex, OrderInjectable $order, $shipmentId)

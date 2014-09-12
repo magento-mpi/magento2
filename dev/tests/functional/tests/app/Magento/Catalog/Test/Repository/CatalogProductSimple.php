@@ -55,6 +55,7 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
+            'checkout_data' => ['preset' => 'two_products']
         ];
 
         $this->_data['40_dollar_product'] = [

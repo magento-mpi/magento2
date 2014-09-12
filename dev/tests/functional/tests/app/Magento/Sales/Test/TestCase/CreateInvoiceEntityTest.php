@@ -140,7 +140,7 @@ class CreateInvoiceEntityTest extends Injectable
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->invoice();
-        $this->fillInvoiceData($invoice);
+        $this->fillInvoiceData($invoice, $order->getEntityId()['products']);
         $this->orderInvoiceNew->getTotalsBlock()->submit();
 
         // Prepare data for asserts
@@ -178,19 +178,23 @@ class CreateInvoiceEntityTest extends Injectable
      * Fill invoice data
      *
      * @param array $data
+     * @param array $products
      * @return void
      */
-    protected function fillInvoiceData(array $data)
+    protected function fillInvoiceData(array $data, array $products)
     {
         if (isset($data['comment'])) {
             $this->orderInvoiceNew->getItemsBlock()->setHistory($data['comment']);
         }
         if (isset($data['qty']) && $data['qty'] !== '-') {
-            $this->orderInvoiceNew->getItemsBlock()->getItemProductBlock()->setProductInvoiceQty($data['qty']);
+            foreach ($products as $product) {
+                $this->orderInvoiceNew->getItemsBlock()->getItemProductBlockBySku($product->getSku())
+                    ->setQty($data['qty']);
+            }
             $this->orderInvoiceNew->getItemsBlock()->clickUpdateQty();
         }
-        if (isset($data['do_shipment'])) {
-            $this->orderInvoiceNew->getFormBlock()->createShipment($data['do_shipment']);
+        if (isset($data['do_shipment']) && $data['do_shipment'] !== '-') {
+            $this->orderInvoiceNew->getFormBlock()->createShipment();
         }
     }
 

@@ -30,7 +30,7 @@ class Items extends Block
      *
      * @var string
      */
-    protected $productItems = '//tbody[@class="even"][%d]';
+    protected $productItems = '//tr[contains(.,"%s")]';
 
     /**
      * 'Update Qty's' button css selector
@@ -53,14 +53,14 @@ class Items extends Block
     /**
      * Get item product block
      *
-     * @param int $index [optional]
+     * @param string $sku
      * @return Product
      */
-    public function getItemProductBlock($index = 1)
+    public function getItemProductBlockBySku($sku)
     {
         return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Items\Product',
-            ['element' => $this->_rootElement->find(sprintf($this->productItems, $index), Locator::SELECTOR_XPATH)]
+            ['element' => $this->_rootElement->find(sprintf($this->productItems, $sku), Locator::SELECTOR_XPATH)]
         );
     }
 

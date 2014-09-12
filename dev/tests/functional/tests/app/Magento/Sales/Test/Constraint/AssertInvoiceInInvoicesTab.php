@@ -33,16 +33,14 @@ class AssertInvoiceInInvoicesTab extends AbstractConstraint
      * @param OrderView $orderView
      * @param OrderIndex $orderIndex
      * @param OrderInjectable $order
-     * @param int $invoiceId
-     * @param string $currency [optional]
+     * @param string $invoiceId
      * @return void
      */
     public function processAssert(
         OrderView $orderView,
         OrderIndex $orderIndex,
         OrderInjectable $order,
-        $invoiceId,
-        $currency = '$'
+        $invoiceId
     ) {
         $orderIndex->open();
         $orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
@@ -56,10 +54,9 @@ class AssertInvoiceInInvoicesTab extends AbstractConstraint
         /** @var Grid $grid */
         $grid = $orderView->getOrderForm()->getTabElement('invoices')->getGridBlock();
         $grid->search($filter);
-        $amount = $currency . number_format($amount, 2);
-        $filter['amount_from'] = $filter['amount_to'] = $amount;
+        $filter['amount_from'] = $filter['amount_to'] = number_format($amount, 2);
         \PHPUnit_Framework_Assert::assertTrue(
-            $grid->isRowVisible($filter, false),
+            $grid->isRowVisible($filter, false, false),
             'Invoice is not present on invoices tab.'
         );
     }
