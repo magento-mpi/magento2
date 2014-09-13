@@ -28,7 +28,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         foreach (array('title', 'identifier', 'is_active') as $key) {
             $this->assertInstanceOf(
-                'Magento\Ui\Listing\Block\Column',
+                'Magento\Backend\Block\Widget\Grid\Column',
                 $gridBlock->getColumn($key),
                 'Column with key "' . $key . '" is invalid'
             );
@@ -62,7 +62,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         );
         $gridBlock->toHtml();
         $this->assertInstanceOf(
-            'Magento\Ui\Listing\Block\Column',
+            'Magento\Backend\Block\Widget\Grid\Column',
             $gridBlock->getColumn('store_id'),
             'When there is more than one store column with key "store_id" should be present'
         );
