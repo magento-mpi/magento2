@@ -203,7 +203,7 @@ define([
         /**
          * Updates storage's params by the current state of instance
          * and hides dropdowns.
-         * @param {String} actionId
+         * @param {String} action
          */
         setAction: function (action) {
             return this.submit.bind(this, action);
@@ -275,6 +275,21 @@ define([
          */
         deselectPage: function () {
             this.selected([]);
+        },
+
+        /**
+         * Returns handler for row click
+         * @param  {String} url
+         * @return {Function} click handler
+         */
+        redirectTo: function (url) {
+
+            /**
+             * Sets location.href to target url
+             */
+            return function () {
+                window.location.href = url;
+            }
         }
 
     });

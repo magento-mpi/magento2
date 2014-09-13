@@ -13,7 +13,7 @@
         <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
-<!-- ko template: 'Magento_Ui.templates.pageactions' --><!-- /ko -->
+<?php echo $this->getChildHtml('listing_head'); ?>
 <div class="grid">
 
     <?php echo $this->getChildHtml('listing_before'); ?>
