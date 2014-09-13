@@ -13,23 +13,9 @@
         <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
-<div data-m2-init='{ "Magento_Ui/js/listing/massactions": "" }'>
-    <script type="mage/config">
-        {
-            "parent_name": "cms_page_listing",
-            "name": "massactions",
-            "actions": [
-                {"value": "delete",  "label": "Delete"},
-                {"value": "enable",  "label": "Enable"},
-                {"value": "disable", "label": "Disable"}
-            ]
-        }
-    </script>
-</div>
 <div class="grid">
     <?php echo $this->getChildHtml('listing_before'); ?>
     <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
-        <!-- ko template: 'Magento_Ui.templates.listing.massactions' --><!-- /ko -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- ko template: 'Magento_Ui.templates.spinner' --><!-- /ko -->
     </div>
