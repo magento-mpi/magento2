@@ -80,16 +80,20 @@ define([
          * @return {Object} - reference to instance
          */
         attachTemplateExtender: function () {
-            var provider = this.provider.dump,
-                extenders = this.provider.dump.get('extenders');
+            var provider    = this.provider,
+                dump        = provider.dump,
+                meta        = provider.meta,
+                colspan     = meta.get('colspan'),
+                extenders   = dump.get('extenders');
 
             extenders.push({
-                path: this.selectableTemplate,
-                name: this.name,
-                as: 'massactions'
+                path:   this.selectableTemplate,
+                name:   this.name,
+                as:     'massaction'
             });
 
-            provider.trigger('update:extenders', extenders);
+            dump.trigger('update:extenders', extenders);
+            meta.set('colspan', colspan + 1);
 
             return this;
         },

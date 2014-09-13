@@ -9,7 +9,7 @@
 <table>
     <thead>
         <tr data-part-prepend="head.row">
-            <th class="col-select col-massaction" data-bind="scope: $parent.getExtender('selectable')">
+            <th class="col-select col-massaction" data-bind="scope: $parent.getExtender('massaction')">
                 <div class="mass-select">
                     <label class="field choice mass-select-field">
                         <input type="checkbox" id="mass-select-checkbox" data-bind="checked: isAllSelected">
@@ -33,10 +33,10 @@
     </thead>
     <tbody>
         <tr data-part-prepend="body.row">
-            <td class="col-select col-massaction" data-bind="scope: $parent.getExtender('selectable')">
+            <td class="col-select col-massaction" data-bind="scope: $parent.getExtender('massaction')">
                 <input type="checkbox" 
                        class="massaction-checkbox" 
-                       data-bind="checked: selected, value: $parent[indexField], stopPropagation: true">
+                       data-bind="checked: selected, value: row[indexField], stopPropagation: true">
             </td>
         </tr>
     </tbody>
