@@ -6,11 +6,13 @@
  * @license     {license_link}
  */
 -->
-<div data-bind="if: window.Array.isArray(row[field.index])">
-    <div data-bind="foreach: { data: row[field.index], as: 'action' }">
-        <a target="_blank" data-bind="attr: { href: action.href }, text: action.title, stopPropagation: true"></a>
+<td data-part="body.row.cell" data-bind="stopPropagation: true">
+    <div data-bind="if: window.Array.isArray(row[field.index])">
+        <div data-bind="foreach: { data: row[field.index], as: 'action' }">
+            <a target="_blank" data-bind="attr: { href: action.href }, text: action.title"></a>
+        </div>
     </div>
-</div>
-<div data-bind="ifnot: window.Array.isArray(row[field.index])">
-    <a target="_blank" data-bind="attr: { href: row[field.index].href }, text: row[field.index].title, stopPropagation: true"></a>
-</div>
+    <div data-bind="ifnot: window.Array.isArray(row[field.index])">
+        <a target="_blank" data-bind="attr: { href: row[field.index].href }, text: row[field.index].title"></a>
+    </div>
+</td>
