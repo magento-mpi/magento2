@@ -1,4 +1,4 @@
-<div data-m2-init='{ "Magento_Ui/js/grid/provider": "" }'>
+<div data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }'>
     <script type="mage/config">
         {
             "name": "cms.pages",
@@ -185,7 +185,7 @@
     </script> 
 </div>
 
-<div data-m2-init='{ "Magento_Ui/js/grid/listing": "" }'>
+<div data-m2-init='{ "Magento_Ui/js/listing/grid": "" }'>
     <script type="mage/config">
         {
             "name": "listing",
@@ -194,7 +194,7 @@
     </script>
 </div>
 
-<div data-m2-init='{ "Magento_Ui/js/grid/paging": "" }'>
+<div data-m2-init='{ "Magento_Ui/js/listing/paging": "" }'>
     <script type="mage/config">
         {
             "name": "paging",
@@ -202,7 +202,7 @@
         }
     </script> 
 </div>
-<div data-m2-init='{"Magento_Ui/js/grid/filter": ""}'>
+<div data-m2-init='{"Magento_Ui/js/listing/filter": ""}'>
     <script type="mage/config">
         {   
             "name": "filter",
@@ -218,13 +218,13 @@
 
 <div class="grid">
     <div data-bind="scope: 'cms.pages:filter'">
-        <!-- ko template: 'Magento_Ui.templates.filter' --><!-- /ko -->
+        <!-- ko template: 'Magento_Ui.templates.filter.filter' --><!-- /ko -->
     </div>
     <div data-bind="scope: 'cms.pages:paging'" class="pager">
-        <!-- ko template: 'Magento_Ui.templates.pagination.toolbar' --><!-- /ko -->
+        <!-- ko template: 'Magento_Ui.templates.pagination' --><!-- /ko -->
     </div>
     <div data-bind="scope: 'cms.pages:listing'">
         <!-- ko template: getTemplate() --><!-- /ko -->
-        <!-- ko template: 'Magento_Ui.templates.loader' --><!-- /ko -->
+        <!-- ko template: 'Magento_Ui.templates.spinner' --><!-- /ko -->
     </div>
 </div>

@@ -6,8 +6,8 @@
  */
 define([
     'jquery',
-    './core/data_provider',
-    '../lib/registry/registry'
+    './data_provider',
+    'Magento_Ui/js/lib/registry/registry'
 ], function($, DataProvider, registry) {
     'use strict';
 

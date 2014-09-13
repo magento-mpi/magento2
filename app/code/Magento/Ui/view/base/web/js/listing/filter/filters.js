@@ -4,11 +4,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** Assembles available input controls and returns it's mapping. */
+/** Assembles available filter controls and returns it's mapping. */
 define([
-    './controls/input',
-    './controls/select',
-    './controls/range'
+    './item/input',
+    './item/select',
+    './item/range'
 ], function (InputControl, SelectControl, RangeControl) {
     'use strict';
 

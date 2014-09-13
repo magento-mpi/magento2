@@ -7,9 +7,9 @@
 define([
     '_',
     'Magento_Ui/js/lib/ko/scope',
-    './core/component',
-    './core/controls'
-], function(_, Scope, Component, controls) {
+    'Magento_Ui/js/lib/component',
+    './filter/filters'
+], function(_, Scope, Component, filterControls) {
     'use strict';
 
     var Filter = Scope.extend({
@@ -46,7 +46,7 @@ define([
         },
 
         /**
-         * Initializes filters by creating instances of corresponding classes found in controls by filter type
+         * Initializes filters by creating instances of corresponding classes found in filterControls by filter type
          * @param {Object} this - Reference to instance
          */
         initFilters: function () {
@@ -58,7 +58,7 @@ define([
             this.filters = this.fields.map(function (field) {
                 type    = field.type = (field.filter_type || field.input_type);
                 config  = typeConfigs && typeConfigs[type];
-                Control = controls[type];
+                Control = filterControls[type];
 
                 return new Control(field, config);
             }, this);
@@ -160,7 +160,7 @@ define([
          * @returns {String} - path to template based on type of filter
          */
         getTemplateFor: function (filter) {
-            return 'Magento_Ui.templates.controls.' + filter.type;
+            return 'Magento_Ui.templates.filter.item.' + filter.type;
         }
     });
 

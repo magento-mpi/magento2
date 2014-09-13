@@ -8,7 +8,7 @@ define([
     '_',
     'jquery',
     'Magento_Ui/js/lib/class',
-    'Magento_Ui/js/lib/request_builder'
+    './request_builder'
 ], function(_, $, Class, requestBuilder) {
     'use strict';
 

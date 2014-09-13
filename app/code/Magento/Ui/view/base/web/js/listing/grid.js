@@ -6,7 +6,7 @@
  */
 define([
     '_',
-    './core/component',
+    'Magento_Ui/js/lib/component',
     'Magento_Ui/js/lib/ko/scope',
     'Magento_Ui/js/lib/mixin/loader',
 ], function(_, Component, Scope, Loader) {
@@ -36,7 +36,6 @@ define([
         initObservable: function() {
             this.observe({
                 rows:       [],
-                view:       'grid',
                 isLocked:   false,
                 templateExtenders: [],
                 extenders: null
@@ -120,7 +119,7 @@ define([
          */
         getTemplate: function() {
             return {
-                name:      'Magento_Ui.templates.listing.' + this.view(),
+                name:      this.getRootTemplatePath(),
                 extenders: this.templateExtenders()
             };
         },
@@ -131,15 +130,15 @@ define([
          * @return {String} - extender's template path
          */
         adjustTemplateExtender: function (extender) {
-            return this.getRootTemplatePath() + '.' + extender.path;
+            return this.getRootTemplatePath() + '.extender.' + extender.path;
         },
 
         /**
-         * Returns root template path for grid, based on view observable
+         * Returns root template path for grid
          * @return {String} - root template path
          */
         getRootTemplatePath: function() {
-            return 'Magento_Ui.templates.listing.' + this.view();
+            return 'Magento_Ui.templates.listing.grid';
         },
 
         /**
@@ -159,10 +158,10 @@ define([
         redirectTo: function (url) {
 
             /**
-             * Sets location href to target url
+             * Sets location.href to target url
              */
             return function () {
-                location.href = url;
+                window.location.href = url;
             }
         }
     }, Loader);
