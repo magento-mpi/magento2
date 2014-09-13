@@ -9,11 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <update handle="formkey"/>
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Css" name="autocomplete-css-styles-css">
-            <arguments>
-                <argument name="file" xsi:type="string">jquery/autocomplete/autocomplete.css</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+    <referenceBlock name="head"/>
 </layout>

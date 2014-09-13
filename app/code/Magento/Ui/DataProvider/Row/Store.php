@@ -54,11 +54,11 @@ class Store implements RowInterface
         $data = $this->systemStore->getStoresStructure(false, $origStores);
 
         foreach ($data as $website) {
-            $content .= $website['label'] . "\n";
+            $content .= $website['label'] . "<br/>";
             foreach ($website['children'] as $group) {
-                $content .= str_repeat(' ', 3) . $group['label'] . "\n";
+                $content .= str_repeat('&nbsp;', 3) . $group['label'] . "<br/>";
                 foreach ($group['children'] as $store) {
-                    $content .= str_repeat(' ', 6) . $store['label'] . "\n";
+                    $content .= str_repeat('&nbsp;', 6) . $store['label'] . "<br/>";
                 }
             }
         }
