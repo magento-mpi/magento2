@@ -47,6 +47,22 @@ class View extends AbstractView
         if (!empty($config)) {
             $this->viewConfiguration = array_merge_recursive($this->viewConfiguration, $config);
         }
+        $this->prepareActionUrl();
+
         $this->rootComponent->addConfigData($this, $this->viewConfiguration);
+    }
+
+    /**
+     * Prepare action url
+     *
+     * @return void
+     */
+    protected function prepareActionUrl()
+    {
+        foreach (array_keys($this->viewConfiguration['actions']) as $actionKey) {
+            $this->viewConfiguration['actions'][$actionKey]['url'] = $this->getUrl(
+                $this->viewConfiguration['actions'][$actionKey]['url']
+            );
+        }
     }
 }
