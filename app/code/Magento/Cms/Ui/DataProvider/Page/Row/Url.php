@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Cms\Ui\DataProvider\Row;
+namespace Magento\Cms\Ui\DataProvider\Page\Row;
 
 use Magento\Framework\UrlInterface;
 use Magento\Ui\DataProvider\RowInterface;
