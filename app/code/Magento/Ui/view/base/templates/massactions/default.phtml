@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var \Magento\Ui\Massactions\View $this
+ */
+
+?>
+<div data-m2-init='{"Magento_Ui/js/listing/paging" : ""}'>
+    <script type="mage/config">
+       <?php echo $this->getConfigurationJson(); ?>
+    </script>
+</div>
+<div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'" class="grid-actions">
+    <!-- ko template: 'Magento_Ui.templates.massactions' --><!-- /ko -->
+</div>
