@@ -8,14 +8,16 @@
 define([
     './item/input',
     './item/select',
-    './item/range'
-], function (InputControl, SelectControl, RangeControl) {
+    './item/range',
+    './item/store'
+], function (InputControl, SelectControl, RangeControl, StoreControl) {
     'use strict';
 
     return {
         input:      InputControl,
         select:     SelectControl,
         date:       RangeControl,
-        range:      RangeControl
+        range:      RangeControl,
+        store:      StoreControl
     }
 });
