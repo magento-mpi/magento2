@@ -3,17 +3,17 @@
  * @var \Magento\Ui\Listing\View $this
  */
 ?>
-<div data-m2-init='{ "Magento_Ui/js/grid/provider": "" }'>
+<div data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }'>
     <script type="mage/config">
         <?php echo $this->getGlobalConfigJson(); ?>
     </script>
 </div>
-<div data-m2-init='{ "Magento_Ui/js/grid/listing": "" }'>
+<div data-m2-init='{ "Magento_Ui/js/listing/grid": "" }'>
     <script type="mage/config">
         <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
-<div data-m2-init='{ "Magento_Ui/js/grid/massactions": "" }'>
+<div data-m2-init='{ "Magento_Ui/js/listing/massactions": "" }'>
     <script type="mage/config">
         {
             "parent_name": "cms_page_listing",
@@ -29,9 +29,9 @@
 <div class="grid">
     <?php echo $this->getChildHtml('listing_before'); ?>
     <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
-        <!-- ko template: 'Magento_Ui.templates.listing.grid.massactions' --><!-- /ko -->
+        <!-- ko template: 'Magento_Ui.templates.listing.massactions' --><!-- /ko -->
         <!-- ko template: getTemplate() --><!-- /ko -->
-        <!-- ko template: 'Magento_Ui.templates.loader' --><!-- /ko -->
+        <!-- ko template: 'Magento_Ui.templates.spinner' --><!-- /ko -->
     </div>
     <?php echo $this->getChildHtml('listing_after'); ?>
 </div>

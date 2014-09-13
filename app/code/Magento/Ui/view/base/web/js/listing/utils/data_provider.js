@@ -7,7 +7,7 @@
 define([
     '_',
     './rest',
-    './storage/index',
+    'Magento_Ui/js/lib/storage/index',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/events'
 ], function(_, Rest, storages, Class, EventsBus) {
