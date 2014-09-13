@@ -28,12 +28,7 @@ class View extends AbstractView
      * @var array
      */
     protected $viewConfiguration = [
-        'actions' => [
-            [
-                'value' => 'delete',
-                'label' => 'Delete'
-            ]
-        ]
+        'actions' => []
     ];
 
     /**
@@ -48,7 +43,10 @@ class View extends AbstractView
         $this->rootComponent = $this->getParentBlock()->getParentBlock();
         $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
         $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
-
+        $config = $this->getData('config');
+        if (!empty($config)) {
+            $this->viewConfiguration = array_merge_recursive($this->viewConfiguration, $config);
+        }
         $this->rootComponent->addConfigData($this, $this->viewConfiguration);
     }
 }

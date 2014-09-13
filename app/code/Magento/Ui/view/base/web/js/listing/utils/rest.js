@@ -29,7 +29,7 @@ define([
          * @param {Object} config - config to build url from
          */
         read: function(params, config) {
-            config = this.getConfig(params, config);
+            config = this.createConfig(params, config);
 
             $.ajax(config)
                 .done(this.config.onRead);
@@ -41,7 +41,7 @@ define([
          * @param {Object} config - config to build url from
          * @returns {Object} - merged config for ajax call
          */
-        getConfig: function(params, config) {
+        createConfig: function(params, config) {
             var baseConf;
 
             config = config || {};
@@ -53,6 +53,38 @@ define([
             };
 
             return $.extend(true, baseConf, this.config.ajax, config);
+        },
+
+        submit: function(config, params){
+            var ajax = this.config.ajax,
+                data = ajax.data || {},
+                form,
+                field;
+
+            data = _.extend({}, data, params);
+
+            form = document.createElement('form');
+
+            $(form).attr({
+                method: config.method,
+                action: config.url
+            });
+
+            _.each(data, function(value, name){
+                field = document.createElement('input');
+
+                $(field).attr({
+                    name: name,
+                    type: 'hidden',
+                    value: JSON.stringify(value)
+                });
+
+                form.appendChild(field);
+            });
+
+            document.body.appendChild(form);
+
+            form.submit();
         }
     });
 

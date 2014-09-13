@@ -15,6 +15,6 @@
     </button>
 
     <ul class="dropdown-menu" data-bind="css: {'active':isVisibleActions}, foreach: {data: actions, as: 'action'}">
-        <li data-bind="click: $parent.setAction(value)"><span class="item" data-bind="text: label"></span></li>
+        <li data-bind="click: $parent.setAction(action)"><span class="item" data-bind="text: label"></span></li>
     </ul>
 </div>
