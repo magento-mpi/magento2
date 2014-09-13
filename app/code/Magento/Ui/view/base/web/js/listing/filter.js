@@ -79,11 +79,13 @@ define([
         },
 
         clearActive: function(){
-            this.active().forEach(function (filter) {
+            var active = this.active;
+
+            active().forEach(function (filter) {
                 filter.reset();
             });
 
-            this.active([]);
+            active([]);
 
             return this;
         },
@@ -112,12 +114,13 @@ define([
          * @param {*} action - data to set to storage params
          * @returns {Object} - reference to instance
          */
-        updateParams: function (filters) {
-            var filters = [],
+        updateParams: function(filters) {
+            var active  = this.active(),
+                filters = [],
                 params  = this.provider.params;
 
-            this.active().forEach(function(filter){
-                filters.push(filter.dump());
+            filters = active.map(function(filter) {
+                return filter.dump();
             });
 
             params.set('filter', filters);
@@ -139,8 +142,8 @@ define([
             this.isVisible(false);
         },
 
-        onClear: function( filter ){
-            return function(){
+        onClear: function(filter) {
+            return function() {
                 filter.reset();
 
                 this.apply();

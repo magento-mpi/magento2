@@ -14,27 +14,27 @@ define([
         initialize: function(data) {
             this.data = data || {};
 
-            this.preprocess()
-                .format();
+            this.initFields()
+                .initColspan();
         },
 
-        preprocess: function() {
+        initFields: function(){
             var data    = this.data,
                 fields  = data.fields;
 
-            data.fields = this._fieldsToArray(fields);
+            fields = this._fieldsToArray(fields);
+
+            fields.forEach(this._processField, this);
+
+            data.fields = fields;
 
             return this;
         },
 
-        format: function(){
-            var fields = this.data.fields,
-                options;
+        initColspan: function(){
+            var visible = this.getVisible();
 
-            fields.forEach(function(field){
-                this.applyDefaults(field)
-                    .formatOptions(field);
-            }, this);
+            this.data.colspan = visible.length;
 
             return this;
         },
@@ -82,6 +82,11 @@ define([
                 
                 return field;
             });
+        },
+
+        _processField: function(field){
+            this.applyDefaults(field)
+                .formatOptions(field);
         }
     });
 });

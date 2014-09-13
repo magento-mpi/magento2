@@ -24,9 +24,8 @@ define([
 
             this.initObservable()
                 .initProvider()
+                .initFields()
                 .updateItems();
-            
-            this.fields = this.provider.meta.getVisible();
         },
 
         /**
@@ -37,8 +36,9 @@ define([
             this.observe({
                 rows:       [],
                 isLocked:   false,
-                templateExtenders: [],
-                extenders: null
+                colspan:    '',
+                extenders: null,
+                templateExtenders: []
             });
 
             return this;
@@ -50,14 +50,27 @@ define([
          */
         initProvider: function() {
             var provider    = this.provider,
+                meta        = provider.meta,
                 dump        = provider.dump;
 
+            _.bindAll(this, 'lock', 'onRefresh', 'updateExtenders', 'updateColspan');
+
             provider.on({
-                'beforeRefresh':    this.lock.bind(this),
-                'refresh':          this.onRefresh.bind(this)
+                'beforeRefresh':    this.lock,
+                'refresh':          this.onRefresh
             });
 
-            dump.on('update:extenders', this.updateExtenders.bind(this));
+            dump.on('update:extenders', this.updateExtenders);
+            meta.on('update:colspan', this.updateColspan);
+
+            return this;
+        },
+
+        initFields: function(){
+            var meta = this.provider.meta;
+
+            this.fields = meta.getVisible();
+            this.colspan(meta.get('colspan'));
 
             return this;
         },
@@ -148,6 +161,10 @@ define([
         onRefresh: function() {
             this.unlock()
                 .updateItems();
+        },
+
+        updateColspan: function(colspan){
+            this.colspan(colspan);
         },
 
         /**
