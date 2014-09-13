@@ -34,9 +34,9 @@
     <tbody>
         <tr data-part-prepend="body.row">
             <td class="col-select col-massaction" data-bind="scope: $parent.getExtender('massaction'), stopPropagation: true">
-                <input type="checkbox"
+                <label class="select-box"><input type="checkbox"
                        class="massaction-checkbox" 
-                       data-bind="checked: selected, value: row[indexField], stopPropagation: true">
+                       data-bind="checked: selected, value: row[indexField]"></label>
             </td>
         </tr>
     </tbody>
