@@ -80,7 +80,7 @@ define([
             var actions = this.actions;
 
             if(Array.isArray(actions)){
-                return;
+                return this;
             }
 
             this.actions = _.map(actions, function(action, name){
