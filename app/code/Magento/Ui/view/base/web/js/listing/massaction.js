@@ -36,6 +36,7 @@ define([
 
             this.initObservable()
                 .initIndexField()
+                .formatActions()
                 .attachTemplateExtender()
                 .initProvider()
                 .updateParams();
@@ -71,6 +72,22 @@ define([
             }, this);
 
             this.indexField = _.last(fieldsWithId).index;
+
+            return this;
+        },
+
+        formatActions: function(){
+            var actions = this.actions;
+
+            if(Array.isArray(actions)){
+                return;
+            }
+
+            this.actions = _.map(actions, function(action, name){
+                action.value = name;
+
+                return action;
+            });
 
             return this;
         },
@@ -112,9 +129,9 @@ define([
          * Updates state according to changes of provider.
          */
         onRefresh: function () {
-            var isAllSelected = this.isAllSelected();
+            var allSelected = this.isAllSelected();
 
-            if (isAllSelected) {
+            if (allSelected) {
                 this.selectPage();
             }
 
@@ -137,21 +154,18 @@ define([
          * @return {Object} - params object
          */
         buildParams: function () {
-            var isAllSelected = this.isAllSelected(),
-                selected      = this.selected(),
-                action        = this.action(),
-                result        = {};
-
-            if (isAllSelected) {
-                result['all_selected'] = true;
-                result['excluded']     = this.getExcludedItems();
-                result['action'] = action;
-            } else if(selected.length) {
-                result['selected'] = selected;
-                result['action'] = action;
+            var allSelected = this.isAllSelected();
+            
+            if (allSelected) {
+                return {
+                    all_selected: true,
+                    excluded: this.getExcludedItems()
+                };
             }
 
-            return result;
+            return {
+                selected: this.selected()
+            };
         },
 
         /**
@@ -191,25 +205,30 @@ define([
          * and hides dropdowns.
          * @param {String} actionId
          */
-        setAction: function (actionId) {
-            var self = this;
-
-            return function() {
-                self.action(actionId);
-                self.reload();
-
-                self.isVisibleSelects(false);
-                self.isVisibleActions(false);
-                self.deselectAll();
-            };
+        setAction: function (action) {
+            return this.submit.bind(this, action);
         },
 
         /**
          * Updates storage's params and reloads it.
          */
-        reload: function () {
-            this.updateParams()
-                .provider.refresh();
+        submit: function (action) {
+            var client = this.provider.client,
+                config,
+                data;
+
+            config = {
+                method: 'post',
+                action: action.url
+            };
+
+            data = {
+                massaction: this.buildParams()
+            };
+
+            client.submit(config, data);
+            
+            return this;
         },
 
         /**

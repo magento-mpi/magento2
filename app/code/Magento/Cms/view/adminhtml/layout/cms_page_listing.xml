@@ -56,7 +56,7 @@
                     <item name="store_id" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Store View</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">text</item>
+                        <item name="data_type" xsi:type="string">store</item>
                         <item name="filter_type" xsi:type="string">select</item>
                         <item name="sortable" xsi:type="boolean">false</item>
                     </item>
@@ -109,6 +109,15 @@
             <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
                 <arguments>
                     <argument name="template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
+                    <argument name="config" xsi:type="array">
+                        <item name="actions" xsi:type="array">
+                            <item name="delete" xsi:type="array">
+                                <item name="value" xsi:type="string">delete</item>
+                                <item name="label" xsi:type="string" translate="true">Delete</item>
+                                <item name="url" xsi:type="string">cms/page/delete</item>
+                            </item>
+                        </item>
+                    </argument>
                 </arguments>
             </block>
         </referenceBlock>
