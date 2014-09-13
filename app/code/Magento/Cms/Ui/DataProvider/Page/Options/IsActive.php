@@ -5,29 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Cms\Ui\DataProvider\Options;
+namespace Magento\Cms\Ui\DataProvider\Page\Options;
 
 use Magento\Ui\DataProvider\OptionsInterface;
-use Magento\Core\Model\PageLayout\Config\Builder;
 
 /**
- * Class PageLayout
+ * Class IsActive
  */
-class PageLayout implements OptionsInterface
+class IsActive implements OptionsInterface
 {
     /**
-     * @var \Magento\Core\Model\PageLayout\Config\Builder
+     * @var \Magento\Cms\Model\Page
      */
-    protected $pageLayoutBuilder;
+    protected $cmsPage;
 
     /**
      * Constructor
      *
-     * @param Builder $pageLayoutBuilder
+     * @param \Magento\Cms\Model\Page $cmsPage
      */
-    public function __construct(Builder $pageLayoutBuilder)
+    public function __construct(\Magento\Cms\Model\Page $cmsPage)
     {
-        $this->pageLayoutBuilder = $pageLayoutBuilder;
+        $this->cmsPage = $cmsPage;
     }
 
     /**
@@ -38,7 +37,7 @@ class PageLayout implements OptionsInterface
      */
     public function getOptions(array $options = [])
     {
-        $newOptions = $this->pageLayoutBuilder->getPageLayoutsConfig()->getOptions();
+        $newOptions = $this->cmsPage->getAvailableStatuses();
         foreach ($newOptions as $key => $value) {
             $newOptions[$key] = [
                 'label' => $value,

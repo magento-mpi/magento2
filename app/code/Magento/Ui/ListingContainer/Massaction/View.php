@@ -8,6 +8,7 @@
 namespace Magento\Ui\ListingContainer\Massaction;
 
 use Magento\Ui\AbstractView;
+use Magento\Ui\ViewInterface;
 
 /**
  * Class View
@@ -15,18 +16,39 @@ use Magento\Ui\AbstractView;
 class View extends AbstractView
 {
     /**
+     * Root view component
+     *
+     * @var ViewInterface
+     */
+    protected $rootComponent;
+
+    /**
+     * View configuration
+     *
      * @var array
      */
-    protected $configuration = [
+    protected $viewConfiguration = [
         'actions' => [
             [
-                'type' => 'removes',
-                'title' => 'Delete'
-            ],
-            [
-                'type' => 'updateAttributes',
-                'title' => 'Update Attributes'
+                'value' => 'delete',
+                'label' => 'Delete'
             ]
         ]
     ];
+
+    /**
+     * Prepare custom data
+     *
+     * @return void
+     */
+    protected function prepare()
+    {
+        parent::prepare();
+
+        $this->rootComponent = $this->getParentBlock()->getParentBlock();
+        $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
+        $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
+
+        $this->rootComponent->addConfigData($this, $this->viewConfiguration);
+    }
 }

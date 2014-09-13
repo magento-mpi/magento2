@@ -53,31 +53,7 @@ class Json implements ContentTypeInterface
      */
     protected function getDataJson(ViewInterface $view)
     {
-//        $result = [
-//            'configuration' => $view->getViewConfiguration(),
-//            'data' => []
-//        ];
-//        foreach ($view->getViewData() as $key => $value) {
-//            if (is_object($value)) {
-//                if (method_exists($value, 'toJson')) {
-//                    $result['data'][$key] = $value->toJson();
-//                } else {
-//                    $result['data'][$key] = $this->objectToJson($value);
-//                }
-//            } else {
-//                $result['data'][$key] = $value;
-//            }
-//        }
-
         return $view->getGlobalConfigJson();
     }
 
-//    /**
-//     * @param Object $object
-//     * @return string
-//     */
-//    protected function objectToJson(Object $object)
-//    {
-//        return '[object]';
-//    }
 }

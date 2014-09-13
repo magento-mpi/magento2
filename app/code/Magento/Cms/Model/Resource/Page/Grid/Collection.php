@@ -15,13 +15,9 @@ use Magento\Cms\Model\Resource\Page\Collection as PageCollection;
 class Collection extends PageCollection
 {
     /**
-     * Define resource model
+     * Load data for preview flag
      *
-     * @return void
+     * @var bool
      */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_previewFlag = true;
-    }
+    protected $_previewFlag = true;
 }

@@ -86,7 +86,7 @@ define([
             extenders.push({
                 path: this.selectableTemplate,
                 name: this.name,
-                as: 'selectable'
+                as: 'massactions'
             });
 
             provider.trigger('update:extenders', extenders);

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Cms\Ui\DataProvider\Row;
+namespace Magento\Cms\Ui\DataProvider\Page\Row;
 
 use Magento\Ui\DataProvider\RowInterface;
 use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;

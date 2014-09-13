@@ -7,8 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <block class="Magento\Ui\Listing\View" name="listing">
         <arguments>
             <argument name="template" xsi:type="string">Magento_Ui::listing/grid/horizontal.phtml</argument>
@@ -21,7 +20,7 @@
             </argument>
         </arguments>
         <block class="Magento\Framework\View\Element\Text\ListText" name="listing_before">
-            <block class="Magento\Ui\Paging\View" name="paging_small">
+            <block class="Magento\Ui\Paging\View" name="paging_small_top">
                 <arguments>
                     <argument name="template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
                 </arguments>
@@ -37,6 +36,12 @@
                 </arguments>
             </block>
         </block>
-        <block class="Magento\Framework\View\Element\Text\ListText" name="listing_after"/>
+        <block class="Magento\Framework\View\Element\Text\ListText" name="listing_after">
+            <block class="Magento\Ui\Paging\View" name="paging_small_bottom">
+                <arguments>
+                    <argument name="template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
+                </arguments>
+            </block>
+        </block>
     </block>
 </layout>
