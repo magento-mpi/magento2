@@ -22,9 +22,7 @@
                 <!-- ko foreach: { data: rows, as: 'row' } -->
                     <tr data-part="body.row" class="even pointer" data-bind="click: $parent.redirectTo(row.row_url)">
                         <!-- ko foreach: { data: $parent.fields, as: 'field' }  -->
-                            <td data-part="body.row.cell">
-                                <!-- ko template: $parents[1].getCellTemplateFor(field) --><!-- /ko -->    
-                            </td>
+                            <!-- ko template: $parents[1].getCellTemplateFor(field) --><!-- /ko -->
                         <!-- /ko -->
                     </tr>
                 <!-- /ko -->
@@ -32,7 +30,7 @@
 
              <!-- ko ifnot: hasData() -->
                 <tr class="even">
-                    <td class="empty-text" data-bind="attr: { colspan: colspan }">We couldn't find any records.</td>
+                    <td class="empty-text" data-bind="attr: { colspan: colspan }, text: $t('We couldn't find any records.')"></td>
                 </tr>
              <!-- /ko -->
         </tbody>

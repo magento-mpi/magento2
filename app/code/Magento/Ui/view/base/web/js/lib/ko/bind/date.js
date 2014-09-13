@@ -7,14 +7,15 @@
 define([
     'ko',
     'moment',
-    'jquery'
-], function(ko, moment, $) {
+    'jquery',
+    'date-format-normalizer'
+], function(ko, moment, $, convert) {
     'use strict';
 
     ko.bindingHandlers.date = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
             var config = valueAccessor(),
-                format = config.format,
+                format = convert(config.format),
                 date   = moment(config.value).format(format);
 
             $(element).text(date);

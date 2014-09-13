@@ -6,4 +6,6 @@
  * @license     {license_link}
  */
 -->
-<div data-bind="date: { value: row[field.index], format: field.date_format }"></div>
+<td data-part="body.row.cell">
+    <span data-bind="date: { value: row[field.index], format: field.date_format }"></span>
+</td>
