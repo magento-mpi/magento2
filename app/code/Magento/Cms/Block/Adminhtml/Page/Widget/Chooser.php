@@ -12,7 +12,7 @@ namespace Magento\Cms\Block\Adminhtml\Page\Widget;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Chooser extends \Magento\Ui\Listing\Block\Extended
+class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Cms\Model\Page
@@ -139,7 +139,7 @@ class Chooser extends \Magento\Ui\Listing\Block\Extended
     /**
      * Prepare pages collection
      *
-     * @return \Magento\Ui\Listing\Block\Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
