@@ -21,8 +21,7 @@ define([
         ],
         indexField: '',
         idAttribute: 'id_attribute',
-        selectableTemplate: 'selectable',
-        massActionsTemplate: 'massactions'
+        selectableTemplate: 'selectable'
     };
 
     var MassActions = Scope.extend({
@@ -83,12 +82,6 @@ define([
         attachTemplateExtender: function () {
             var provider = this.provider.dump,
                 extenders = this.provider.dump.get('extenders');
-
-            extenders.push({
-                path: this.massActionsTemplate,
-                name: this.name,
-                as: 'massactions'
-            });
 
             extenders.push({
                 path: this.selectableTemplate,
