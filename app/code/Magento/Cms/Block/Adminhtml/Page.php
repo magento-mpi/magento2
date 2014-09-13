@@ -10,7 +10,7 @@ namespace Magento\Cms\Block\Adminhtml;
 /**
  * Adminhtml cms pages content block
  */
-class Page extends \Magento\Ui\Listing\Block\Container
+class Page extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor

@@ -7,7 +7,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Page\Grid\Renderer;
 
-class Action extends \Magento\Ui\Listing\Block\Column\Renderer\AbstractRenderer
+class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var Action\UrlBuilder

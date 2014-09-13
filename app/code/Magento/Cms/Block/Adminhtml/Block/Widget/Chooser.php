@@ -122,7 +122,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare Cms static blocks collection
      *
-     * @return \Magento\Ui\Listing\Block\Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
@@ -133,7 +133,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for Cms blocks grid
      *
-     * @return \Magento\Ui\Listing\Block\Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
