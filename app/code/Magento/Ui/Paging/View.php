@@ -8,7 +8,7 @@
 namespace Magento\Ui\Paging;
 
 use Magento\Ui\AbstractView;
-use Magento\Ui\Listing\View as ListingView;
+use Magento\Ui\ViewInterface;
 
 /**
  * Class View
@@ -18,7 +18,7 @@ class View extends AbstractView
     /**
      * Root view component
      *
-     * @var ListingView
+     * @var ViewInterface
      */
     protected $rootComponent;
 
