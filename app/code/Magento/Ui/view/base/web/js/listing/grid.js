@@ -163,6 +163,10 @@ define([
             return function () {
                 window.location.href = url;
             }
+        },
+
+        hasData: function(){
+            return this.rows().length;
         }
     }, Loader);
 

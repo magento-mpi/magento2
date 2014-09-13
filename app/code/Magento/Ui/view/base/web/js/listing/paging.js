@@ -6,8 +6,8 @@
  */
 define([
     '_',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/component'
+    '../lib/ko/scope',
+    '../lib/component'
 ], function(_, Scope, Component) {
     'use strict';
 
@@ -38,15 +38,17 @@ define([
         },
 
         initProvider: function(){
-            var provider = this.provider,
-                params = provider.params;
+            var provider    = this.provider,
+                params      = provider.params;
 
-            _.bindAll(this, 'drop', 'onRefresh');
+            _.bindAll(this, 'drop', 'onRefresh', 'syncWithParams');
 
             provider.on('refresh', this.onRefresh);
+
             params.on({
-                'update:filter': this.drop,
-                'update:sorting': this.drop
+                'update:filter':    this.drop,
+                'update:sorting':   this.drop,
+                'update:paging':    this.syncWithParams
             });
 
             return this;
@@ -76,7 +78,7 @@ define([
             return this.current() === 1;
         },
 
-        getInRange: function( page ){
+        getInRange: function(page) {
             return Math.min(Math.max(1, page), this.pages());
         },
 
@@ -98,7 +100,15 @@ define([
             return this;
         },
 
-        drop: function(){
+        syncWithParams: function() {
+            var params = this.provider.params,
+                paging = params.get('paging');
+
+            this.pageSize(paging.pageSize);
+            this.current(paging.current);
+        },
+
+        drop: function() {
             this.current(1);
 
             this.updateParams();
@@ -111,22 +121,22 @@ define([
             this.pages(data.pages || 1);
         },
 
-        onSizeChange: function(){
+        onSizeChange: function() {
             var size = this.pageSize();
 
-            if( size * this.current() > this.totalCount() ){
+            if (size * this.current() > this.totalCount()) {
                 this.current(1);
             }
 
             this.reload();
         },
 
-        onPageChange: function(){
+        onPageChange: function() {
             var current,
                 valid;
 
             current = +this.current();
-            valid   = !isNaN(current) ? this.getInRange(current) : 1;
+            valid = !isNaN(current) ? this.getInRange(current) : 1;
 
             this.current(valid);
 
