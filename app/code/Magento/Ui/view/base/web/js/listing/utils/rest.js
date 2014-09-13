@@ -67,16 +67,20 @@ define([
 
             $(form).attr({
                 method: config.method,
-                action: config.url
+                action: config.action
             });
 
             _.each(data, function(value, name){
                 field = document.createElement('input');
 
+                if(typeof value === 'object'){
+                    value = JSON.stringify(value);
+                }
+
                 $(field).attr({
                     name: name,
                     type: 'hidden',
-                    value: JSON.stringify(value)
+                    value: value
                 });
 
                 form.appendChild(field);
