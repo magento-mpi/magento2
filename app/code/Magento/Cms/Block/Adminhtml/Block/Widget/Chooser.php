@@ -10,7 +10,7 @@ namespace Magento\Cms\Block\Adminhtml\Block\Widget;
 /**
  * CMS block chooser for Wysiwyg CMS widget
  */
-class Chooser extends \Magento\Ui\Listing\Block\Extended
+class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Cms\Model\BlockFactory

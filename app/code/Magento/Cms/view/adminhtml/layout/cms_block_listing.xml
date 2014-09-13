@@ -10,12 +10,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <referenceBlock name="listing">
         <arguments>
-            <argument name="name" xsi:type="string">cms_page_listing</argument>
-            <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Grid\Collection</argument>
+            <argument name="name" xsi:type="string">cms_block_listing</argument>
+            <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Block\Grid\Collection</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
             <argument name="config" xsi:type="array">
                 <item name="params" xsi:type="array">
-                    <item name="field" xsi:type="string">page_id</item>
+                    <item name="field" xsi:type="string">block_id</item>
                     <item name="direction" xsi:type="string">asc</item>
                 </item>
             </argument>
@@ -26,7 +26,7 @@
                     <item name="sortable" xsi:type="boolean">true</item>
                 </item>
                 <item name="fields" xsi:type="array">
-                    <item name="page_id" xsi:type="array">
+                    <item name="block_id" xsi:type="array">
                         <item name="id_attribute" xsi:type="string">true</item>
                         <item name="title" xsi:type="string" translate="true">ID</item>
                         <item name="visible" xsi:type="boolean">false</item>
@@ -40,19 +40,6 @@
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
-                    <item name="identifier" xsi:type="array">
-                        <item name="title" xsi:type="string" translate="true">URL Key</item>
-                        <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">text</item>
-                        <item name="filter_type" xsi:type="string">input</item>
-                    </item>
-                    <item name="page_layout" xsi:type="array">
-                        <item name="title" xsi:type="string" translate="true">Layout</item>
-                        <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">text</item>
-                        <item name="filter_type" xsi:type="string">select</item>
-                        <item name="options_provider" xsi:type="string">Magento\Cms\Ui\DataProvider\Page\Options\PageLayout</item>
-                    </item>
                     <item name="store_id" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Store View</item>
                         <item name="align" xsi:type="string">left</item>
@@ -60,12 +47,27 @@
                         <item name="filter_type" xsi:type="string">select</item>
                         <item name="sortable" xsi:type="boolean">false</item>
                     </item>
+                    <item name="identifier" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Identifier</item>
+                        <item name="align" xsi:type="string">left</item>
+                        <item name="data_type" xsi:type="string">text</item>
+                        <item name="filter_type" xsi:type="string">input</item>
+                    </item>
                     <item name="is_active" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Status</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">select</item>
-                        <item name="options_provider" xsi:type="string">Magento\Cms\Ui\DataProvider\Page\Options\IsActive</item>
+                        <item name="options" xsi:type="array">
+                            <item name="disable" xsi:type="array">
+                                <item name="value" xsi:type="string">0</item>
+                                <item name="label" xsi:type="string" translate="true">Disabled</item>
+                            </item>
+                            <item name="enable" xsi:type="array">
+                                <item name="value" xsi:type="string">1</item>
+                                <item name="label" xsi:type="string" translate="true">Enabled</item>
+                            </item>
+                        </item>
                     </item>
                     <item name="creation_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Created</item>
@@ -79,13 +81,6 @@
                         <item name="data_type" xsi:type="string">date_time</item>
                         <item name="filter_type" xsi:type="string">date</item>
                     </item>
-                    <item name="actions" xsi:type="array">
-                        <item name="title" xsi:type="string" translate="true">Action</item>
-                        <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">actions</item>
-                        <item name="filterable" xsi:type="boolean">false</item>
-                        <item name="sortable" xsi:type="boolean">false</item>
-                    </item>
                     <item name="row_url" xsi:type="array">
                         <item name="data_type" xsi:type="string">row_url</item>
                         <item name="filterable" xsi:type="boolean">false</item>
@@ -94,11 +89,8 @@
                 </item>
             </argument>
             <argument name="row_data_provider" xsi:type="array">
-                <item name="actions" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Page\Row\Actions</item>
-                </item>
                 <item name="row_url" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Page\Row\Url</item>
+                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Block\Row\Url</item>
                 </item>
                 <item name="store_id" xsi:type="array">
                     <item name="class" xsi:type="string">Magento\Ui\DataProvider\Row\Store</item>

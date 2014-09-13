@@ -146,11 +146,12 @@ class View extends AbstractView
         $items = [];
         $collection = $this->renderContext->getDataCollection($this->getName());
         foreach ($collection->getItems() as $item) {
-            $itemsData = [];
+            $actualFields = [];
+            $itemsData = $this->getDataFromDataProvider($item->getData());
             foreach (array_keys($this->getData('meta/fields')) as $field) {
-                $itemsData[$field] = $item->getData($field);
+                $actualFields[$field] = $itemsData[$field];
             }
-            $items[] = $this->getDataFromDataProvider($itemsData);
+            $items[] = $actualFields;
         }
 
         return $items;
