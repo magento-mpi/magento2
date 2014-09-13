@@ -19,6 +19,7 @@
                 </item>
             </argument>
         </arguments>
+        <block class="Magento\Framework\View\Element\Text\ListText" name="listing_head"/>
         <block class="Magento\Framework\View\Element\Text\ListText" name="listing_before">
             <block class="Magento\Ui\Paging\View" name="paging_small_top">
                 <arguments>

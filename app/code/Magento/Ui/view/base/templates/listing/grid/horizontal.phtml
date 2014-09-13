@@ -13,7 +13,9 @@
         <?php echo $this->getConfigurationJson(); ?>
     </script>
 </div>
+<?php echo $this->getChildHtml('listing_head'); ?>
 <div class="grid">
+
     <?php echo $this->getChildHtml('listing_before'); ?>
     <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
         <!-- ko template: getTemplate() --><!-- /ko -->
