@@ -104,9 +104,8 @@
                     <argument name="config" xsi:type="array">
                         <item name="actions" xsi:type="array">
                             <item name="delete" xsi:type="array">
-                                <item name="value" xsi:type="string">delete</item>
                                 <item name="label" xsi:type="string" translate="true">Delete</item>
-                                <item name="url" xsi:type="string">cms/block/massaction/delete</item>
+                                <item name="url" xsi:type="string">cms/block/massDelete</item>
                             </item>
                         </item>
                     </argument>
