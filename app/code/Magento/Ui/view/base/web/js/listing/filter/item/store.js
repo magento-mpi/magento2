@@ -11,32 +11,6 @@ define([
     'use strict';
 
     /**
-     * Recursively loops over object's properties and converts it to array ignoring keys.
-     * If type of 'value' properties is 'object', replaces it with 'items' property and
-     *     invokes nestedObjectToArray on 'value'.
-     * If type of 'value' keys is not 'object', is simply writes an object itself to result array. 
-     * @param  {Object} obj
-     * @return {Array} result array
-     */
-    function nestedObjectToArray(obj) {
-        var target,
-            items = [];
-
-        for (var prop in obj) {
-
-            target = obj[prop];
-            if (typeof target.value === 'object') {
-
-                target.items = nestedObjectToArray(target.value);
-                delete target.value;
-            }
-            items.push(target);
-        }
-
-        return items;
-    }
-
-    /**
      * Recursively loops through array of objects ({label: '...', value: '...'}
      *     or {label: '...', items: [...]}), looking for label, corresponding to value.
      * @param  {Array} arr
@@ -79,21 +53,12 @@ define([
 
             this.observe('selected', '');
 
-            this.options = this.options_tree ? this.formatOptions(this.options_tree) : [];
+            this.options = this.options || [];
         },
 
 
         isEmpty: function(){
             return !this.selected();
-        },
-
-        /**
-         * Formats options property of instance.
-         * @param {Object} options - object representing options
-         * @returns {Array} - Options, converted to array
-         */
-        formatOptions: function (options) {
-            return nestedObjectToArray(options);
         },
 
         /**
