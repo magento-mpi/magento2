@@ -11,9 +11,27 @@ use Magento\Cms\Model\Resource\Page\Collection as PageCollection;
 
 /**
  * CMS page collection
+ *
+ * Class Collection
  */
 class Collection extends PageCollection
 {
+    /**
+     * Add field filter to collection
+     *
+     * @param string|array $field
+     * @param string|int|array|null $condition
+     * @return \Magento\Cms\Model\Resource\Block\Grid\Collection
+     */
+    public function addFieldToFilter($field, $condition = null)
+    {
+        if ($field === 'store_id') {
+            return $this->addStoreFilter($condition, false);
+        }
+
+        return parent::addFieldToFilter($field, $condition);
+    }
+
     /**
      * Perform operations after collection load
      *

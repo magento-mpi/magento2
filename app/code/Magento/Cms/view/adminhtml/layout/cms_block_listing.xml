@@ -43,7 +43,7 @@
                         <item name="title" xsi:type="string" translate="true">Store View</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">store</item>
-                        <item name="filter_type" xsi:type="string">select</item>
+                        <item name="filter_type" xsi:type="string">store</item>
                         <item name="sortable" xsi:type="boolean">false</item>
                         <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
                     </item>

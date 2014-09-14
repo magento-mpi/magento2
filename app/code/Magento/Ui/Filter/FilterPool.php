@@ -23,7 +23,8 @@ class FilterPool
         'input' => 'Magento\Ui\Filter\Type\Input',
         'select' => 'Magento\Ui\Filter\Type\Select',
         'date' => 'Magento\Ui\Filter\Type\Date',
-        'range' => 'Magento\Ui\Filter\Type\Range'
+        'range' => 'Magento\Ui\Filter\Type\Range',
+        'store' => 'Magento\Ui\Filter\Type\Store'
     ];
 
     /**
