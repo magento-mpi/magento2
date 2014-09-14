@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Cms\Controller\Adminhtml\Page;
+namespace Magento\Cms\Controller\Adminhtml\Block;
 
 /**
  * Class MassDelete
@@ -16,21 +16,21 @@ class MassDelete extends \Magento\Backend\App\Action
     /**
      * Field id
      */
-    const ID_FIELD = 'page_id';
+    const ID_FIELD = 'block_id';
 
     /**
      * Resource collection
      *
      * @var string
      */
-    protected $collection = 'Magento\Cms\Model\Resource\Page\Collection';
+    protected $collection = 'Magento\Cms\Model\Resource\Block\Collection';
 
     /**
-     * Page model
+     * Block model
      *
      * @var string
      */
-    protected $model = 'Magento\Cms\Model\Page';
+    protected $model = 'Magento\Cms\Model\Block';
 
     /**
      * Execute action
@@ -70,11 +70,11 @@ class MassDelete extends \Magento\Backend\App\Action
      */
     protected function deleteAll()
     {
-        /** @var \Magento\Cms\Model\Resource\Page\Collection $collection */
+        /** @var \Magento\Cms\Model\Resource\Block\Collection $collection */
         $collection = $this->_objectManager->get($this->collection);
         $count = 0;
         foreach ($collection->getAllIds() as $id) {
-            /** @var \Magento\Cms\Model\Page $model */
+            /** @var \Magento\Cms\Model\Block $model */
             $model = $this->_objectManager->get($this->model);
             $model->load($id);
             $model->delete();
@@ -91,12 +91,12 @@ class MassDelete extends \Magento\Backend\App\Action
      */
     protected function excludedDelete(array $excluded)
     {
-        /** @var \Magento\Cms\Model\Resource\Page\Collection $collection */
+        /** @var \Magento\Cms\Model\Resource\Block\Collection $collection */
         $collection = $this->_objectManager->get($this->collection);
         $collection->addFieldToFilter(static::ID_FIELD, ['nin' => $excluded]);
         $count = 0;
         foreach ($collection->getAllIds() as $id) {
-            /** @var \Magento\Cms\Model\Page $model */
+            /** @var \Magento\Cms\Model\Block $model */
             $model = $this->_objectManager->get($this->model);
             $model->load($id);
             $model->delete();
@@ -113,12 +113,12 @@ class MassDelete extends \Magento\Backend\App\Action
      */
     protected function selectedDelete(array $selected)
     {
-        /** @var \Magento\Cms\Model\Resource\Page\Collection $collection */
+        /** @var \Magento\Cms\Model\Resource\Block\Collection $collection */
         $collection = $this->_objectManager->get($this->collection);
         $collection->addFieldToFilter(static::ID_FIELD, ['in' => $selected]);
         $count = 0;
         foreach ($collection->getAllIds() as $id) {
-            /** @var \Magento\Cms\Model\Page $model */
+            /** @var \Magento\Cms\Model\Block $model */
             $model = $this->_objectManager->get($this->model);
             $model->load($id);
             $model->delete();
