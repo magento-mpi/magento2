@@ -103,6 +103,10 @@ define([
                 colspan     = meta.get('colspan'),
                 extenders   = dump.get('extenders');
 
+            if(!this.selectableTemplate) {
+                return this;
+            }
+
             extenders.push({
                 path:   this.selectableTemplate,
                 name:   this.name,
