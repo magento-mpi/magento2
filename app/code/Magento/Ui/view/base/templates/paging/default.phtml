@@ -4,11 +4,9 @@
  */
 
 ?>
-<div data-m2-init='{"Magento_Ui/js/listing/paging" : ""}'>
-    <script type="mage/config">
-       <?php echo $this->getConfigurationJson(); ?>
-    </script>
-</div>
+<script data-m2-init='{"Magento_Ui/js/listing/paging" : ""}' type="application/json">
+    <?php echo $this->getConfigurationJson(); ?>
+</script>
 <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'" class="pager">
     <!-- ko template: 'Magento_Ui.templates.pagination' --><!-- /ko -->
 </div>

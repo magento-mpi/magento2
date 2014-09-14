@@ -3,16 +3,12 @@
  * @var \Magento\Ui\Listing\View $this
  */
 ?>
-<div data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }'>
-    <script type="mage/config">
-        <?php echo $this->getGlobalConfigJson(); ?>
-    </script>
-</div>
-<div data-m2-init='{ "Magento_Ui/js/listing/grid": "" }'>
-    <script type="mage/config">
-        <?php echo $this->getConfigurationJson(); ?>
-    </script>
-</div>
+<script data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }' type="application/json">
+    <?php echo $this->getGlobalConfigJson(); ?>
+</script>
+<script data-m2-init='{ "Magento_Ui/js/listing/grid": "" }' type="application/json">
+    <?php echo $this->getConfigurationJson(); ?>
+</script>
 <?php echo $this->getChildHtml('listing_head'); ?>
 <div class="grid">
 
