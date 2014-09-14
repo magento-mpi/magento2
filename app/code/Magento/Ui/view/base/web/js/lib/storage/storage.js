@@ -6,8 +6,8 @@
  */
 define([
     '_',
-    'Magento_Ui/js/lib/class',
-    'Magento_Ui/js/lib/events'
+    '../class',
+    '../events'
 ], function(_, Class, EventsBus) {
     'use strict';
 
@@ -18,22 +18,6 @@ define([
 
         get: function(path) {
             return !path ? this.data : this.data[path];
-        },
-
-        _override: function(path, value) {
-            if (arguments.length > 1) {
-                this.data[path] = value;
-            } else {
-                value = path;
-                path = false;
-
-                this.data = value;
-            }
-
-            return {
-                path: path,
-                value: value
-            };
         },
 
         set: function(path, value){
@@ -49,6 +33,22 @@ define([
             }
 
             return this;
+        },
+        
+        _override: function(path, value) {
+            if (arguments.length > 1) {
+                this.data[path] = value;
+            } else {
+                value = path;
+                path = false;
+
+                this.data = value;
+            }
+
+            return {
+                path: path,
+                value: value
+            };
         }
 
     }, EventsBus);
