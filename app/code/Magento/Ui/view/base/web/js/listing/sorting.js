@@ -16,6 +16,10 @@ define([
             asc: 'sort-arrow-asc',
             desc: 'sort-arrow-desc'
         },
+        params: {
+            dir: 'sorting',
+            items: ['field', 'direction']
+        },
         initialDir: 'asc',
         noSort: 'not-sort',
         templateExtender: 'sortable'
@@ -33,7 +37,7 @@ define([
             
             this.initObservable()
                 .attachTemplateExtender()
-                .updateParams();
+                .pushParams();
         },
 
         /**
@@ -110,29 +114,6 @@ define([
         },
 
         /**
-         * Updates storage's params and reloads it.
-         */
-        reload: function() {
-            this.updateParams()
-                .provider.refresh();
-        },
-
-        /**
-         * Updates storage's params by the current state of instance
-         * @return {Object} - reference to instance
-         */
-        updateParams: function() {
-            var params = this.provider.params;
-
-            params.set('sorting', {
-                field:      this.field(),
-                direction:  this.direction()
-            });
-
-            return this;
-        },
-
-        /**
          * Checks if the field is currently sorted.
          * @param  {String} id - identifier of field to be sorted
          * @return {Boolean} true, if target field is sorted already, false otherwise
@@ -147,9 +128,7 @@ define([
          * @return {Function} - click handler
          */
         onClick: function(field) {
-            return function(){
-                this.sortBy(field.index)
-            }.bind(this);
+            return this.sortBy.bind(this, field.index);
         }
     });
 

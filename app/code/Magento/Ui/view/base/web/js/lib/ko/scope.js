@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'ko',
     '../class',
@@ -22,6 +28,37 @@ define([
                     observe(this, key, path[key]);
                 }
             }
+        },
+
+        pushParams: function(){
+            var params      = this.params,
+                provider    = this.provider.params,
+                data        = {};
+
+            params.items.forEach(function(name) {
+                data[name] = this[name]();
+            }, this);
+
+            provider.set(params.dir, data);
+
+            return this;
+        },
+
+        pullParams: function(){
+            var params      = this.params,
+                provider    = this.provider.params,
+                data        = provider.get(params.dir);
+
+            params.items.forEach(function(name) {
+                this[name](data[name]);
+            }, this);
+
+            return this;
+        },
+
+        reload: function() {
+            this.pushParams()
+                .provider.refresh();
         }
     });
 });

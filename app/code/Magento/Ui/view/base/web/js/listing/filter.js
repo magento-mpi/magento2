@@ -21,13 +21,18 @@ define([
             this.config  = config;
             this.provider = this.config.provider;
 
+            this.initObservable()
+                .extractFilterable()
+                .initFilters();
+        },
+
+        initObservable: function(){
             this.observe({
                 isVisible: false,
                 active: []
             });
 
-            this.extractFilterable()
-                .initFilters();
+            return this; 
         },
 
         /**
@@ -97,14 +102,14 @@ define([
          */
         apply: function () {
             this.findActive()
-                .refresh();
+                .reload();
 
             return this;
         },
 
         reset: function(){
             this.clearActive()           
-                .refresh();
+                .reload();
 
             return this;
         },
@@ -114,10 +119,10 @@ define([
          * @param {*} action - data to set to storage params
          * @returns {Object} - reference to instance
          */
-        updateParams: function(filters) {
+        pushParams: function() {
             var active  = this.active(),
-                filters = [],
-                params  = this.provider.params;
+                params  = this.provider.params,
+                filters;
 
             filters = active.map(function(filter) {
                 return filter.dump();
@@ -148,13 +153,6 @@ define([
 
                 this.apply();
             }.bind(this);
-        },
-
-        refresh: function(){
-            this.updateParams()
-                .provider.refresh();
-            
-            return this;
         },
 
         /**

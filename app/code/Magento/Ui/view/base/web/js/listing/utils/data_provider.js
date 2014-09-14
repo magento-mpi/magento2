@@ -13,8 +13,14 @@ define([
 ], function(_, Rest, storages, Class, EventsBus) {
     'use strict';
     
+    var defaults = {
+        stores: ['config', 'meta', 'data', 'params', 'dump']
+    };
+
     return Class.extend({
         initialize: function(settings) {
+            _.extend(this, defaults, settings);
+
             this.initStorages(settings)
                 .initClient();
         },
@@ -22,8 +28,6 @@ define([
         initStorages: function(settings) {
             var stores,
                 storage;
-
-            this.stores = ['config', 'meta', 'data', 'params', 'dump'];
 
             this.stores.forEach(function(store) {
                 storage = storages[store];
@@ -35,13 +39,12 @@ define([
         },
 
         initClient: function() {
-            var config;
+            var config = this.config.get('client'),
+                client;
 
-            config = _.extend({
-                onRead: this.onRead.bind(this),
-            }, this.config.get('client'));
+            client = this.client = new Rest(config);
 
-            this.client = new Rest(config);
+            client.on('read', this.onRead.bind(this));
 
             return this;
         },
@@ -71,10 +74,6 @@ define([
         },
 
         onRead: function(result) {
-            result = typeof result === 'string' ?
-                JSON.parse(result) :
-                result;
-
             result = {
                 data: result.data
             };
