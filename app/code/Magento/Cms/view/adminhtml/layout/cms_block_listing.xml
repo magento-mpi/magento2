@@ -97,7 +97,23 @@
                 </item>
             </argument>
         </arguments>
-        <referenceBlock name="listing_before">
+        <referenceBlock name="listing_head">
+            <block class="Magento\Ui\ListingContainer\Massaction\View" name="page_action_top">
+                <arguments>
+                    <argument name="template" xsi:type="string">Magento_Ui::listingcontainer/massaction/page_actions.phtml</argument>
+                    <argument name="config" xsi:type="array">
+                        <item name="selectableTemplate" xsi:type="string"/>
+                        <item name="actions" xsi:type="array">
+                            <item name="add_new" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Add New Block</item>
+                                <item name="url" xsi:type="string">cms/block/new</item>
+                                <item name="type" xsi:type="string">primary</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>        <referenceBlock name="listing_before">
             <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
                 <arguments>
                     <argument name="template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>

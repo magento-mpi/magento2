@@ -110,7 +110,7 @@
                 <arguments>
                     <argument name="template" xsi:type="string">Magento_Ui::listingcontainer/massaction/page_actions.phtml</argument>
                     <argument name="config" xsi:type="array">
-                        <item name="selectableTemplate" xsi:type="string"></item>
+                        <item name="selectableTemplate" xsi:type="string"/>
                         <item name="actions" xsi:type="array">
                             <item name="add_new" xsi:type="array">
                                 <item name="label" xsi:type="string" translate="true">Add New Page</item>
