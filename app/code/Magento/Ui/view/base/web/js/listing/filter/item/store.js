@@ -10,6 +10,14 @@ define([
 ], function (AbstractControl, _) {
     'use strict';
 
+    /**
+     * Recursively loops over object's properties and converts it to array ignoring keys.
+     * If type of 'value' properties is 'object', replaces it with 'items' property and
+     *     invokes nestedObjectToArray on 'value'.
+     * If type of 'value' keys is not 'object', is simply writes an object itself to result array. 
+     * @param  {Object} obj
+     * @return {Array} result array
+     */
     function nestedObjectToArray(obj) {
         var target,
             items = [];
@@ -26,6 +34,35 @@ define([
         }
 
         return items;
+    }
+
+    /**
+     * Recursively loops through array of objects ({label: '...', value: '...'}
+     *     or {label: '...', items: [...]}), looking for label, corresponding to value.
+     * @param  {Array} arr
+     * @param  {String} selected
+     * @return {String} found label
+     */
+    function findIn(arr, selected) {
+        var found,
+            obj,
+            i;
+
+        for (i = 0; i < arr.length; i++) {
+            obj = arr[i];
+
+            if ('value' in obj) {
+                found = obj.value === selected && obj.label;
+            } else {
+                found = findIn(obj.items, selected);
+            }
+
+            if (found) {
+                break;
+            }
+        }
+
+        return found;
     }
 
     return AbstractControl.extend({
@@ -47,9 +84,7 @@ define([
 
 
         isEmpty: function(){
-            var selected = this.selected();
-
-            return !(selected && selected.value);
+            return !this.selected();
         },
 
         /**
@@ -61,10 +96,15 @@ define([
             return nestedObjectToArray(options);
         },
 
-        display: function(){
-            var selected = this.selected();
+        /**
+         * Looks up through the options for label, corresponding to passed value
+         * @param  {String} selected
+         * @return {String} label
+         */
+        getLabelFor: function (selected) {
+            var label = findIn(this.options, selected);
 
-            return selected && selected.label;
+            return label;
         },
 
         /**
@@ -73,12 +113,11 @@ define([
          */
         dump: function () {
             var selected = this.selected();
-
-            this.output( this.display() );
+            this.output(this.getLabelFor(selected));
 
             return {
                 field: this.index,
-                value: selected && selected.value
+                value: selected
             }
         },
 

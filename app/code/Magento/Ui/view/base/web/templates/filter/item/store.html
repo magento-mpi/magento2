@@ -11,7 +11,7 @@
         <span data-bind="text: title"></span>
     </label>
     <div class="control">
-        <select data-bind="foreach: { data: options, as: 'option' }">
+        <select data-bind="foreach: { data: options, as: 'option' }, value: selected">
             <!-- ko template: 'Magento_Ui.templates.filter.item.store.item' --><!-- /ko -->
         </select>
     </div>
