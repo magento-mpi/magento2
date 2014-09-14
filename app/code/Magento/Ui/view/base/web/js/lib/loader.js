@@ -7,13 +7,10 @@
 define(['jquery'], function($) {
     'use strict';
 
-    /**
-     * Converts arrayLikeObject to array
-     * @param  {Object|Array} arrayLikeObject - target
-     * @return {Array} - result array
-     */
-    function toArray(arrayLikeObject) {
-        return Array.prototype.slice.call(arrayLikeObject);
+    var storage = window.localStorage;
+
+    function generateStorageNameFor(path) {
+        return '__templateCache__' + path;
     }
 
     /**
@@ -25,24 +22,46 @@ define(['jquery'], function($) {
         return 'text!' + path.replace(/(\.)/g, '/') + '.html';
     }
 
+    /**
+     * Waits for all items in passed array of promises to resolve.
+     * @param  {Array} promises - array of promises
+     * @return {Deferred} - promise of promises to resolve
+     */
+    function waitFor(promises) {
+        return $.when.apply(this, promises);
+    }
+
     return {
         /**
-         * Loops over arguments and loads template for each.
-         * @return {Deferred} - promise of templates to be loaded
+         * Loads template by path.
+         * @return {Deferred} - promise of template to be loaded
          */
-        loadTemplate: function() {
-            var isLoaded = $.Deferred(),
-                templates;
+        loadTemplate: function(path) {
+            var isLoaded       = $.Deferred(),
+                storagePath    = generateStorageNameFor(path),
+                cachedTemplate = storage.getItem(storagePath);
 
-            templates = toArray(arguments);
-            templates = templates.map(formatTemplatePath);
+            if (cachedTemplate) {
+                isLoaded.resolve(cachedTemplate);
+            } else {
+                path = formatTemplatePath(path);
 
-            require(templates, function() {
-                templates = toArray(arguments);
-                isLoaded.resolve.apply(isLoaded, templates);
-            });
+                require([path], function(html) {
+                    storage.setItem(storagePath, html);
+                    isLoaded.resolve(html);
+                });
+            }
 
             return isLoaded.promise();
+        },
+
+        loadTemplates: function (templates) {
+            var isAllLoaded  = $.Deferred(),
+                resolve      = isAllLoaded.resolve.bind(isAllLoaded);
+
+            waitFor(templates.map(this.loadTemplate)).done(resolve);
+
+            return isAllLoaded;
         }
     }
 });

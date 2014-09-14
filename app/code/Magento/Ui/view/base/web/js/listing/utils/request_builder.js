@@ -7,7 +7,9 @@
 /**
  * @returns {Function} Request builder function.
  */
-define([], function() {
+define([
+    'Magento_Ui/js/lib/utils'
+], function(utils) {
     'use strict';
 
     /**
@@ -112,7 +114,7 @@ define([], function() {
 
         result = filters.map(formatFilter).join('&');
 
-        result = '/filter/' + btoa(encodeURI(result));
+        result = '/filter/' + utils.btoa(encodeURI(result));
 
         delete params.filter;
 

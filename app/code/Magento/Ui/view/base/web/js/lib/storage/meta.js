@@ -10,6 +10,50 @@ define([
 ], function(_, Storage) {
     'use strict';
 
+    function hasComplexValue(target, valueKey) {
+        var result = false,
+            key,
+            object;
+
+
+        for (key in target) {
+            object = target[key];
+
+            if (typeof object[valueKey] === 'object') {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Recursively loops over object's properties and converts it to array ignoring keys.
+     * If typeof 'value' properties is 'object', creates 'items' property and assigns
+     * execution of nestedObjectToArray on 'value' to it.
+     * If typeof 'value' key is not an 'object', is simply writes an object itself to result array. 
+     * @param  {Object} obj
+     * @return {Array} result array
+     */
+    function nestedObjectToArray(obj, valueKey) {
+        var target,
+            items = [];
+
+        for (var prop in obj) {
+
+            target = obj[prop];
+            if (typeof target[valueKey] === 'object') {
+
+                target.items = nestedObjectToArray(target[valueKey], valueKey);
+                delete target[valueKey];
+            }
+            items.push(target);
+        }
+
+        return items;
+    }
+
     return Storage.extend({
         initialize: function(data) {
             this.data = data || {};
@@ -51,17 +95,21 @@ define([
 
         formatOptions: function(field) {
             var result,
-                options;
+                options,
+                isNested;
 
             options = field.options;
+            isNested = hasComplexValue(options, 'value');
 
             if (options) {
-                result = {};
+                result = isNested ? nestedObjectToArray(options, 'value') : {};
 
-                _.each(options, function(option){
-                    result[option.value] = option.label;
-                });
-
+                if (!isNested) {
+                    _.each(options, function(option){
+                        result[option.value] = option.label;
+                    });    
+                }
+                
                 field.options = result;
             }
 

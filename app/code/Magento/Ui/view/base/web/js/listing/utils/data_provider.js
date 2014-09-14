@@ -13,48 +13,45 @@ define([
 ], function(_, Rest, storages, Class, EventsBus) {
     'use strict';
     
+    var defaults = {
+        stores: ['config', 'meta', 'data', 'params', 'dump']
+    };
+
     return Class.extend({
         initialize: function(settings) {
-            this.initStorages(settings)
+            _.extend(this, defaults, settings);
+
+            this.initStorages()
                 .initClient();
         },
 
         initStorages: function(settings) {
-            var stores,
-                storage;
-
-            this.stores = ['config', 'meta', 'data', 'params', 'dump'];
+            var storage,
+                config;
 
             this.stores.forEach(function(store) {
                 storage = storages[store];
+                config  = this[store];
 
-                this[store] = new storage(settings[store]);
+                this[store] = new storage(config);
             }, this);
 
             return this;
         },
 
         initClient: function() {
-            var config;
-
-            config = _.extend({
-                onRead: this.onRead.bind(this),
-            }, this.config.get('client'));
+            var config = this.config.get('client');
 
             this.client = new Rest(config);
+
+            this.client.on('read', this.onRead.bind(this));
 
             return this;
         },
 
-        refresh: function(options, callback) {
-            var params;
-
-            if (typeof options === 'function') {
-                callback = options;
-                options = {};
-            }
-
-            params = _.extend({}, this.params.get(), options);
+        refresh: function(options) {
+            var stored = this.params.get(),
+                params = _.extend({}, stored, options || {});
 
             this.trigger('beforeRefresh')
                 .client.read(params);
@@ -63,18 +60,20 @@ define([
         },
 
         updateStorages: function(data) {
+            var value;
+
             this.stores.forEach(function(store) {
-                this[store].set(true, data[store]);
+                value = data[store];
+
+                if(value){
+                    this[store].set(value);
+                }
             }, this);
 
             return this;
         },
 
         onRead: function(result) {
-            result = typeof result === 'string' ?
-                JSON.parse(result) :
-                result;
-
             result = {
                 data: result.data
             };
