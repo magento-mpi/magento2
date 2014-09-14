@@ -57,8 +57,28 @@
                         <item name="title" xsi:type="string" translate="true">Store View</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">store</item>
-                        <item name="filter_type" xsi:type="string">select</item>
+                        <item name="filter_type" xsi:type="string">store</item>
                         <item name="sortable" xsi:type="boolean">false</item>
+                        <item name="options_tree" xsi:type="array">
+                            <item name="All Store Views" xsi:type="array">
+                                <item name="value" xsi:type="string">0</item>
+                                <item name="label" xsi:type="string" translate="true">All Store Views</item>
+                            </item>
+                            <item name="Main Website" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Main Website</item>
+                                <item name="value" xsi:type="array">
+                                    <item name="Main Website Store" xsi:type="array">
+                                        <item name="label" xsi:type="string" translate="true">Main Website Store</item>
+                                        <item name="value" xsi:type="array">
+                                            <item name="Default Store View" xsi:type="array">
+                                                <item name="value" xsi:type="string">1</item>
+                                                <item name="label" xsi:type="string" translate="true">Default Store View</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
                     </item>
                     <item name="is_active" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Status</item>
