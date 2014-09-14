@@ -21,43 +21,37 @@ define([
         initialize: function(settings) {
             _.extend(this, defaults, settings);
 
-            this.initStorages(settings)
+            this.initStorages()
                 .initClient();
         },
 
         initStorages: function(settings) {
-            var stores,
-                storage;
+            var storage,
+                config;
 
             this.stores.forEach(function(store) {
                 storage = storages[store];
+                config  = this[store];
 
-                this[store] = new storage(settings[store]);
+                this[store] = new storage(config);
             }, this);
 
             return this;
         },
 
         initClient: function() {
-            var config = this.config.get('client'),
-                client;
+            var config = this.config.get('client');
 
-            client = this.client = new Rest(config);
+            this.client = new Rest(config);
 
-            client.on('read', this.onRead.bind(this));
+            this.client.on('read', this.onRead.bind(this));
 
             return this;
         },
 
-        refresh: function(options, callback) {
-            var params;
-
-            if (typeof options === 'function') {
-                callback = options;
-                options = {};
-            }
-
-            params = _.extend({}, this.params.get(), options);
+        refresh: function(options) {
+            var stored = this.params.get(),
+                params = _.extend({}, stored, options || {});
 
             this.trigger('beforeRefresh')
                 .client.read(params);
@@ -66,8 +60,14 @@ define([
         },
 
         updateStorages: function(data) {
+            var value;
+
             this.stores.forEach(function(store) {
-                this[store].set(true, data[store]);
+                value = data[store];
+
+                if(value){
+                    this[store].set(value);
+                }
             }, this);
 
             return this;
