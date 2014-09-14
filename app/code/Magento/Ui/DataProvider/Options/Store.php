@@ -54,7 +54,12 @@ class Store implements OptionsInterface
         $groupCollection = $this->systemStore->getGroupCollection();
         $storeCollection = $this->systemStore->getStoreCollection();
 
-        $currentOptions = [];
+        $currentOptions = [
+            __('All Store Views') => [
+                'label' => __('All Store Views'),
+                'value' => 0
+            ]
+        ];
         /** @var \Magento\Store\Model\Website $website */
         foreach ($websiteCollection as $website) {
             $groups = [];
