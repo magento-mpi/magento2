@@ -12,7 +12,11 @@ define([
     'use strict';
 
     var defaults = {
-        sizes: [5, 10, 20, 30, 50, 100, 200]
+        sizes: [5, 10, 20, 30, 50, 100, 200],
+        params: {
+            dir: 'paging',
+            items: ['pageSize', 'current']
+        }
     };
 
     var Paging = Scope.extend({
@@ -21,14 +25,14 @@ define([
 
             this.initObservable(config)
                 .initProvider()
-                .updateParams();
+                .pushParams();
         },
 
         initObservable: function(config) {
             var data = this.provider.data.get();
 
             this.observe({
-                'pages':        data.pages,
+                'pages':        data.pages || 1,
                 'totalCount':   data.totalCount,
                 'current':      this.current,
                 'pageSize':     this.pageSize
@@ -41,14 +45,14 @@ define([
             var provider    = this.provider,
                 params      = provider.params;
 
-            _.bindAll(this, 'drop', 'onRefresh', 'syncWithParams');
+            _.bindAll(this, 'drop', 'onRefresh', 'pullParams');
 
             provider.on('refresh', this.onRefresh);
 
             params.on({
                 'update:filter':    this.drop,
                 'update:sorting':   this.drop,
-                'update:paging':    this.syncWithParams
+                'update:paging':    this.pullParams
             });
 
             return this;
@@ -81,37 +85,11 @@ define([
         getInRange: function(page) {
             return Math.min(Math.max(1, page), this.pages());
         },
-
-        reload: function() {
-            this.updateParams()
-                .provider.refresh();
-
-            return this;
-        },
-
-        updateParams: function() {
-            var params = this.provider.params;
-
-            params.set('paging', {
-                pageSize: this.pageSize(),
-                current: this.current()
-            });
-
-            return this;
-        },
-
-        syncWithParams: function() {
-            var params = this.provider.params,
-                paging = params.get('paging');
-
-            this.pageSize(paging.pageSize);
-            this.current(paging.current);
-        },
-
+        
         drop: function() {
             this.current(1);
 
-            this.updateParams();
+            this.pushParams();
         },
 
         onRefresh: function() {

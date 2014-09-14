@@ -8,8 +8,9 @@ define([
     '_',
     'jquery',
     'Magento_Ui/js/lib/class',
+    'Magento_Ui/js/lib/events',
     './request_builder'
-], function(_, $, Class, requestBuilder) {
+], function(_, $, Class, EventsBus, requestBuilder) {
     'use strict';
 
     var defaults = {
@@ -32,7 +33,7 @@ define([
             config = this.createConfig(params, config);
 
             $.ajax(config)
-                .done(this.config.onRead);
+                .done(this.onRead.bind(this));
         },
 
         /**
@@ -55,41 +56,22 @@ define([
             return $.extend(true, baseConf, this.config.ajax, config);
         },
 
+        onRead: function(result){
+            result = typeof result === 'string' ?
+                JSON.parse(result) :
+                result;
+
+            this.trigger('read', result);
+        },
+
         submit: function(config, params){
             var ajax = this.config.ajax,
-                data = ajax.data || {},
-                form,
-                field;
+                data = ajax.data || {};
 
             data = _.extend({}, data, params);
 
-            form = document.createElement('form');
-
-            $(form).attr({
-                method: config.method,
-                action: config.action
-            });
-
-            _.each(data, function(value, name){
-                field = document.createElement('input');
-
-                if(typeof value === 'object'){
-                    value = JSON.stringify(value);
-                }
-
-                $(field).attr({
-                    name: name,
-                    type: 'hidden',
-                    value: value
-                });
-
-                form.appendChild(field);
-            });
-
-            document.body.appendChild(form);
-
-            form.submit();
+            utils.submitAsForm(config, data);
         }
-    });
+    }, EventsBus);
 
 });
