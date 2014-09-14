@@ -22,7 +22,8 @@ class FilterPool
     protected $filterTypes = [
         'input' => 'Magento\Ui\Filter\Type\Input',
         'select' => 'Magento\Ui\Filter\Type\Select',
-        'date' => 'Magento\Ui\Filter\Type\Date'
+        'date' => 'Magento\Ui\Filter\Type\Date',
+        'range' => 'Magento\Ui\Filter\Type\Range'
     ];
 
     /**

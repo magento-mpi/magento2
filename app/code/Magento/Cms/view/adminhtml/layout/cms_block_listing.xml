@@ -29,10 +29,9 @@
                     <item name="block_id" xsi:type="array">
                         <item name="id_attribute" xsi:type="string">true</item>
                         <item name="title" xsi:type="string" translate="true">ID</item>
-                        <item name="visible" xsi:type="boolean">false</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">text</item>
-                        <item name="filter_type" xsi:type="string">input</item>
+                        <item name="filter_type" xsi:type="string">range</item>
                     </item>
                     <item name="title" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Title</item>
@@ -46,6 +45,7 @@
                         <item name="data_type" xsi:type="string">store</item>
                         <item name="filter_type" xsi:type="string">select</item>
                         <item name="sortable" xsi:type="boolean">false</item>
+                        <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
                     </item>
                     <item name="identifier" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Identifier</item>
