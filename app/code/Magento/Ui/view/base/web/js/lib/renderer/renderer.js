@@ -87,7 +87,7 @@ define([
 
             templateContainer = document.createDocumentFragment();
 
-            wrap($.parseHTML(rawHtml), templateContainer);
+            wrap(toArray($(rawHtml)), templateContainer);
 
             extendNodes          = getExtendNodesFrom(templateContainer);
             templatesToRender    = extendNodes.map(extractTemplatePath, this)
@@ -114,7 +114,7 @@ define([
 
                 }, this);
 
-                return toArray(templateContainer.children);
+                return toArray(templateContainer.childNodes);
             }.bind(this));
         },
 
