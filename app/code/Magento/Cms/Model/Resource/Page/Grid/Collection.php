@@ -49,7 +49,8 @@ class Collection extends PageCollection
                 }
             }
         }
-        $this->_previewFlag = true;
+
+        $this->_previewFlag = false;
         return parent::_afterLoad();
     }
 }
