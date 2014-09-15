@@ -87,7 +87,7 @@ class SetupFactory
     public function createSetupModule(LoggerInterface $log, $moduleName)
     {
         $configData = $this->loadConfigData();
-        $result =  new SetupModule(
+        $result = new SetupModule(
             $this->adapter,
             $this->moduleList,
             $this->fileResolver,

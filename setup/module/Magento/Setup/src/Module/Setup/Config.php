@@ -10,17 +10,12 @@ namespace Magento\Setup\Module\Setup;
 
 use Magento\Filesystem\Directory\Write;
 use Magento\Filesystem\Filesystem;
-use Magento\Framework\Math\Random;
 
 /**
  * Deployment configuration model
  */
 class Config
 {
-    const TMP_INSTALL_DATE_VALUE = 'd-d-d-d-d';
-
-    const TMP_ENCRYPT_KEY_VALUE = 'k-k-k-k-k';
-
     /**#@+
      * Possible variables of the deployment configuration
      */
@@ -37,13 +32,17 @@ class Config
     const KEY_ENCRYPTION_KEY = 'key';
     /**#@- */
 
-    /**
-     * Path to deployment config file
+    /**#@+
+     * Paths to deployment config file and template
      */
     const DEPLOYMENT_CONFIG_FILE = 'local.xml';
+    const DEPLOYMENT_CONFIG_FILE_TEMPLATE = 'local.xml.template';
+    /**#@- */
 
     /**
-     * @var array
+     * The data values + default values
+     *
+     * @var string[]
      */
     private $data = [
         self::KEY_DATE => '',
@@ -74,27 +73,18 @@ class Config
     protected $configDirectory;
 
     /**
-     * Random Generator
-     *
-     * @var Random
-     */
-    protected $random;
-
-    /**
      * Default Constructor
      *
      * @param Filesystem $filesystem
-     * @param Random $random
-     * @param array $data
+     * @param string[] $data
      */
     public function __construct(
         Filesystem $filesystem,
-        Random $random,
         $data = []
     ) {
         $this->filesystem = $filesystem;
         $this->configDirectory = $filesystem->getDirectoryWrite('etc');
-        $this->random = $random;
+
         if ($data) {
             $this->update($data);
         }
@@ -103,7 +93,7 @@ class Config
     /**
      * Retrieve config data
      *
-     * @return array
+     * @return string[]
      */
     public function getConfigData()
     {
@@ -114,7 +104,7 @@ class Config
      * Get a value from config data by key
      *
      * @param string $key
-     * @return null|mixed
+     * @return null|string
      */
     public function get($key)
     {
@@ -124,42 +114,17 @@ class Config
     /**
      * Update data
      *
-     * @param array $data
+     * @param string[] $data
      * @return void
      */
     public function update($data)
     {
+        $new = [];
         foreach (array_keys($this->data) as $key) {
-            if (isset($data[$key])) {
-                $this->data[$key] = $data[$key];
-            }
+            $new[$key] = isset($data[$key]) ? $data[$key] : $this->data[$key];
         }
-    }
-
-    /**
-     * Generate installation data and record them into local.xml using local.xml.template
-     *
-     * @return string Installation Key
-     */
-    public function install()
-    {
-        $data = $this->data;
-        $data[self::KEY_DATE] = date('r');
-        if (empty($data[self::KEY_ENCRYPTION_KEY])) {
-            $data[self::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
-        }
-        $this->checkData($data);
-        $contents = $this->configDirectory->readFile('local.xml.template');
-        foreach ($data as $index => $value) {
-            $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
-        }
-        if (preg_match('(\{\{[\w\d\_\-]\}\})', $contents, $matches)) {
-            throw new \Exception("Some of the keys have not been replaced in the template: {$matches[1]}");
-        }
-
-        $this->configDirectory->writeFile(self::DEPLOYMENT_CONFIG_FILE, $contents, LOCK_EX);
-        $this->configDirectory->changePermissions(self::DEPLOYMENT_CONFIG_FILE, 0777);
-        return $data[self::KEY_ENCRYPTION_KEY];
+        $this->checkData($new);
+        $this->data = $new;
     }
 
     /**
@@ -174,6 +139,26 @@ class Config
         $xmlConfig = json_decode(json_encode((array)$xmlObj), true);
         $data = $this->convertFromConfigData((array)$xmlConfig);
         $this->update($data);
+    }
+
+    /**
+     * Exports data to a deployment configuration file
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function saveToFile()
+    {
+        $contents = $this->configDirectory->readFile(self::DEPLOYMENT_CONFIG_FILE_TEMPLATE);
+        foreach ($this->data as $index => $value) {
+            $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
+        }
+        if (preg_match('(\{\{.+?\}\})', $contents, $matches)) {
+            throw new \Exception("Some of the keys have not been replaced in the template: {$matches[1]}");
+        }
+
+        $this->configDirectory->writeFile(self::DEPLOYMENT_CONFIG_FILE, $contents, LOCK_EX);
+        $this->configDirectory->changePermissions(self::DEPLOYMENT_CONFIG_FILE, 0777);
     }
 
     /**
@@ -209,6 +194,12 @@ class Config
         if (isset($source['connection']['initStatements']) && !is_array($source['connection']['initStatements']) ) {
             $result[self::KEY_DB_INIT_STATEMENTS] = $source['connection']['initStatements'];
         }
+        if (isset($source['crypt']['key'])) {
+            $result[self::KEY_ENCRYPTION_KEY] = $source['crypt']['key'];
+        }
+        if (isset($source['install']['date'])) {
+            $result[self::KEY_DATE] = $source['install']['date'];
+        }
         return $result;
     }
 
@@ -221,7 +212,13 @@ class Config
      */
     private function checkData(array $data)
     {
-        if (!isset($data[self::KEY_DB_NAME]) || empty($data[self::KEY_DB_NAME])) {
+        if (empty($data[self::KEY_ENCRYPTION_KEY])) {
+            throw new \Exception('Encryption key must not be empty.');
+        }
+        if (empty($data[self::KEY_DATE])) {
+            throw new \Exception('Installation date must not be empty.');
+        }
+        if (empty($data[self::KEY_DB_NAME])) {
             throw new \Exception('The Database Name field cannot be empty.');
         }
         $prefix = $data[self::KEY_DB_PREFIX];

@@ -9,7 +9,7 @@
 namespace Magento\Setup\Model;
 
 /**
- * UI Logger
+ * Web UI Logger
  *
  * @package Magento\Setup\Model
  */
@@ -23,11 +23,15 @@ class WebLogger implements LoggerInterface
     protected $logFile = 'install.log';
 
     /**
+     * Currently open file resource
+     *
      * @var resource
      */
     protected $resource;
 
     /**
+     * Whether the log contains an error message
+     *
      * @var bool
      */
     protected $hasError = false;
@@ -37,12 +41,23 @@ class WebLogger implements LoggerInterface
         $this->logFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $this->logFile;
     }
 
-    public function open($mode)
+    /**
+     * Opens log file in the specified mode
+     *
+     * @param string $mode
+     * @return void
+     */
+    private function open($mode)
     {
         $this->resource = @fopen($this->logFile, $mode);
     }
 
-    public function close()
+    /**
+     * Closes the log file
+     *
+     * @return void
+     */
+    private function close()
     {
         fclose($this->resource);
     }
@@ -85,6 +100,8 @@ class WebLogger implements LoggerInterface
     }
 
     /**
+     * Whether there is an error in the log
+     *
      * @return bool
      */
     public function hasError()
@@ -93,6 +110,8 @@ class WebLogger implements LoggerInterface
     }
 
     /**
+     * Gets contents of the log
+     *
      * @return array
      */
     public function get()
@@ -110,6 +129,11 @@ class WebLogger implements LoggerInterface
         return $messages;
     }
 
+    /**
+     * Clears contents of the log
+     *
+     * @return void
+     */
     public function clear()
     {
         @unlink($this->logFile);

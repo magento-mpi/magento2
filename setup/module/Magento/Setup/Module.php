@@ -92,16 +92,6 @@ class Module implements
      */
     public function getConsoleUsage(AdapterInterface $console)
     {
-        return [
-            "Usage:\n",
-            ConsoleController::CMD_INFO . ' <command>' => 'Show possible comand options',
-            ConsoleController::CMD_INSTALL . ' <options>' => 'Install Magento application',
-            ConsoleController::CMD_INSTALL_CONFIG . ' <options>' => 'Install deployment configuration',
-            ConsoleController::CMD_INSTALL_SCHEMA . ' <options>' => 'Install DB schema',
-            ConsoleController::CMD_INSTALL_DATA . ' <options>' => 'Install data fixtures',
-            ConsoleController::CMD_INSTALL_USER_CONFIG . ' <options>' => 'Install user configuration',
-            ConsoleController::CMD_INSTALL_ADMIN_USER . ' <options>' => 'Install admin user account',
-            ConsoleController::CMD_UPDATE . ' <options>' => 'Update database schema and data',
-        ];
+        return ConsoleController::getConsoleUsage();
     }
 }

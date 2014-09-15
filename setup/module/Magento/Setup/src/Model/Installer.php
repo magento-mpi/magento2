@@ -14,6 +14,7 @@ use Magento\Config\ConfigFactory as SystemConfigFactory;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Setup\Module\ModuleListInterface;
+use Magento\Framework\Math\Random;
 
 class Installer
 {
@@ -67,6 +68,13 @@ class Installer
     private $log;
 
     /**
+     * Random Generator
+     *
+     * @var Random
+     */
+    protected $random;
+
+    /**
      * @param FilePermissions $filePermissions
      * @param DeploymentConfigFactory $deploymentConfigFactory
      * @param SetupFactory $setupFactory
@@ -74,6 +82,7 @@ class Installer
      * @param SystemConfigFactory $systemConfigFactory
      * @param AdminAccountFactory $adminAccountFactory
      * @param LoggerInterface $log
+     * @param Random $random
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -82,7 +91,8 @@ class Installer
         ModuleListInterface $moduleList,
         SystemConfigFactory $systemConfigFactory,
         AdminAccountFactory $adminAccountFactory,
-        LoggerInterface $log
+        LoggerInterface $log,
+        Random $random
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -91,17 +101,16 @@ class Installer
         $this->systemConfigFactory = $systemConfigFactory;
         $this->adminAccountFactory = $adminAccountFactory;
         $this->log = $log;
+        $this->random = $random;
     }
 
     /**
      * Install Magento application
      *
-     * @param \ArrayObject|array $deploymentConfigData
-     * @param \ArrayObject|array $userConfigData
-     * @param \ArrayObject|array $adminUserData
+     * @param \ArrayObject|array $request
      * @return Config
      */
-    public function install($deploymentConfigData, $userConfigData, $adminUserData)
+    public function install($request)
     {
         $this->log->log('Starting Magento installation:');
 
@@ -109,19 +118,19 @@ class Installer
         $this->checkFilePermissions();
 
         $this->log->log('Installing deployment configuration...');
-        $deploymentConfig = $this->installDeploymentConfig($deploymentConfigData);
+        $deploymentConfig = $this->installDeploymentConfig($request);
 
         $this->log->log('Installing database schema:');
         $this->installSchema();
 
         $this->log->log('Installing user configuration...');
-        $this->installUserConfig($userConfigData);
+        $this->installUserConfig($request);
 
         $this->log->log('Installing data fixtures:');
         $this->installDataFixtures();
 
         $this->log->log('Installing admin user...');
-        $this->installAdminUser($adminUserData);
+        $this->installAdminUser($request);
 
         $this->log->logSuccess('Magento installation complete.');
 
@@ -154,13 +163,19 @@ class Installer
      */
     public function installDeploymentConfig($data)
     {
-        $config = $this->deploymentConfigFactory->create($data);
-        $config->install();
+        $data[Config::KEY_DATE] = date('r');
+        if (empty($data[config::KEY_ENCRYPTION_KEY])) {
+            $data[config::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
+        }
+        $config = $this->deploymentConfigFactory->create((array)$data);
+        $config->saveToFile();
         return $config;
     }
 
     /**
      * Installs DB schema
+     *
+     * @return void
      */
     public function installSchema()
     {
@@ -184,6 +199,7 @@ class Installer
     /**
      * Installs data fixtures
      *
+     * @return void
      * @throws \Exception
      */
     public function installDataFixtures()
@@ -237,6 +253,7 @@ class Installer
      * Installs user configuration
      *
      * @param \ArrayObject|array $data
+     * @return void
      */
     public function installUserConfig($data)
     {
@@ -249,6 +266,7 @@ class Installer
      * Creates admin account
      *
      * @param \ArrayObject|array $data
+     * @return void
      */
     public function installAdminUser($data)
     {

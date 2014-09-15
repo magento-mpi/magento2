@@ -26,14 +26,13 @@ class ConfigFactory
     }
 
     /**
-     * @param array $data
+     * @param string[] $data
      * @return Config
      */
-    public function create($data = [])
+    public function create(array $data = [])
     {
         return new Config(
             $this->serviceLocator->get('Magento\Filesystem\Filesystem'),
-            $this->serviceLocator->get('Magento\Framework\Math\Random'),
             $data
         );
     }

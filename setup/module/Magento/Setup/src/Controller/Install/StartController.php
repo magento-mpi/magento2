@@ -69,11 +69,12 @@ class StartController extends AbstractActionController
     {
         $this->log->clear();
         try {
-            $config = $this->installer->install(
+            $data = array_merge(
                 $this->importDeploymentConfigForm(),
                 $this->importUserConfigForm(),
                 $this->importAdminUserForm()
             );
+            $config = $this->installer->install($data);
             $this->json->setVariable('key', $config->get(Config::KEY_ENCRYPTION_KEY));
             $this->json->setVariable('success', true);
         } catch(\Exception $e) {

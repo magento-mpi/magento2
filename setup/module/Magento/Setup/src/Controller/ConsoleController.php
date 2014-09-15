@@ -31,7 +31,7 @@ class ConsoleController extends AbstractActionController
     /**#@+
      * Supported command types
      */
-    const CMD_INFO = 'info';
+    const CMD_HELP = 'help';
     const CMD_INSTALL = 'install';
     const CMD_INSTALL_CONFIG = 'install-configuration';
     const CMD_INSTALL_SCHEMA = 'install-schema';
@@ -49,7 +49,28 @@ class ConsoleController extends AbstractActionController
     const INFO_TIMEZONES = 'timezones';
     /**#@- */
 
-    private static $infoOptions = [
+    /**
+     * Map of controller actions exposed in CLI
+     *
+     * @var string[]
+     */
+    private static $actions = [
+        self::CMD_HELP => 'help',
+        self::CMD_INSTALL => 'install',
+        self::CMD_INSTALL_CONFIG => 'installDeploymentConfig',
+        self::CMD_INSTALL_SCHEMA => 'installSchema',
+        self::CMD_INSTALL_DATA => 'installData',
+        self::CMD_INSTALL_USER_CONFIG => 'installUserConfig',
+        self::CMD_INSTALL_ADMIN_USER => 'installAdminUser',
+        self::CMD_UPDATE => 'updateAction',
+    ];
+
+    /**
+     * Options for "help" command
+     *
+     * @var string[]
+     */
+    private static $helpOptions = [
         self::CMD_INSTALL,
         self::CMD_INSTALL_CONFIG,
         self::CMD_INSTALL_SCHEMA,
@@ -63,6 +84,8 @@ class ConsoleController extends AbstractActionController
     ];
 
     /**
+     * Logger
+     *
      * @var ConsoleLogger
      */
     private $log;
@@ -75,55 +98,55 @@ class ConsoleController extends AbstractActionController
     private $options;
 
     /**
+     * Installer service
+     *
      * @var Installer
      */
     private $installer;
 
     /**
-     * CLI routes for supported command types
+     * Gets router configuration to be used in module definition
      *
-     * @param string $type
-     * @return string
-     * @throws \InvalidArgumentException
+     * @return array
      */
-    public static function getCliRoute($type)
+    public static function getRouterConfig()
     {
-        switch ($type) {
-            case self::CMD_INFO:
-                $result = '(' . implode('|', self::$infoOptions) . '):type';
-                break;
-            case self::CMD_INSTALL:
-                $result = self::getDeployConfigCliRoute() . ' ' . self::getUserConfigCliRoute()
-                    . ' ' . self::getAdminUserCliRoute();
-                break;
-            case self::CMD_INSTALL_CONFIG:
-                $result = self::getDeployConfigCliRoute();
-                break;
-            case self::CMD_INSTALL_SCHEMA: // break is intentionally omitted
-            case self::CMD_INSTALL_DATA:
-            case self::CMD_UPDATE:
-                $result = '';
-                break;
-            case self::CMD_INSTALL_USER_CONFIG:
-                $result = self::getUserConfigCliRoute();
-                break;
-            case self::CMD_INSTALL_ADMIN_USER:
-                $result = self::getAdminUserCliRoute();
-                break;
-            default:
-                throw new \InvalidArgumentException("Unknown type: {$type}");
+        $result = [];
+        $config = self::getCliConfig();
+        foreach (self::$actions as $type => $action) {
+            $result[$type] = ['options' => [
+                'route' => $config[$type]['route'],
+                'defaults' => ['controller' => __CLASS__, 'action' => $action],
+            ]];
         }
-        return $result ? $type . ' ' . $result : $type;
+        return $result;
     }
 
     /**
-     * Route for "install configuration" command
+     * Gets console usage to be used in module definition
      *
-     * @return string
+     * @return array
      */
-    private static function getDeployConfigCliRoute()
+    public static function getConsoleUsage()
     {
-        return '--' . Config::KEY_DB_HOST . '='
+        $result = ["Usage:\n"];
+        foreach (self::getCliConfig() as $cmd) {
+            $result[$cmd['usage_short']] = $cmd['usage_desc'];
+        }
+        foreach (self::$helpOptions as $type) {
+            $result[] = '    ' . ConsoleController::CMD_HELP . ' ' . $type;
+        }
+        return $result;
+    }
+
+    /**
+     * The CLI that this controller implements
+     *
+     * @return array
+     */
+    private static function getCliConfig()
+    {
+        $deployConfig = '--' . Config::KEY_DB_HOST . '='
             . ' --' . Config::KEY_DB_NAME . '='
             . ' --' . Config::KEY_DB_USER . '='
             . ' --' . Config::KEY_BACKEND_FRONTNAME . '='
@@ -133,16 +156,7 @@ class ConsoleController extends AbstractActionController
             . ' [--' . Config::KEY_DB_INIT_STATEMENTS . '=]'
             . ' [--' . Config::KEY_SESSION_SAVE . '=]'
             . ' [--' . Config::KEY_ENCRYPTION_KEY . '=]';
-    }
-
-    /**
-     * Route for "install user configuration" command
-     *
-     * @return string
-     */
-    private static function getUserConfigCliRoute()
-    {
-        return '--' . UserConfig::KEY_BASE_URL . '='
+        $userConfig = '--' . UserConfig::KEY_BASE_URL . '='
             . ' --' . UserConfig::KEY_LANGUAGE . '='
             . ' --' . UserConfig::KEY_TIMEZONE . '='
             . ' --' . UserConfig::KEY_CURRENCY . '='
@@ -150,53 +164,64 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_IS_SECURE . '=]'
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]';
-    }
-
-    /**
-     * Route for "install admin user" command
-     *
-     * @return string
-     */
-    private static function getAdminUserCliRoute()
-    {
-        return '--' . AdminAccount::KEY_USERNAME . '='
+        $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
             . ' --' . AdminAccount::KEY_EMAIL . '='
             . ' --' . AdminAccount::KEY_FIRST_NAME . '='
             . ' --' . AdminAccount::KEY_LAST_NAME . '=';
-    }
-
-    /**
-     * CLI Usage hints for supported command types
-     *
-     * @param string $type
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public static function getCliUsage($type)
-    {
-        $paramsTxt = "Available parameters:\n";
-        switch ($type) {
-            case self::CMD_INFO:
-                return $paramsTxt . '<' . implode('|', self::$infoOptions) . '>';
-            case self::CMD_INSTALL:
-                return $paramsTxt
-                    . self::getDeployConfigCliRoute() . "\n"
-                    . self::getUserConfigCliRoute() . "\n"
-                    . self::getAdminUserCliRoute();
-            case self::CMD_INSTALL_CONFIG:
-                return $paramsTxt . self::getDeployConfigCliRoute();
-            case self::CMD_INSTALL_SCHEMA: // break is intentionally omitted
-            case self::CMD_INSTALL_DATA:
-            case self::CMD_UPDATE:
-                return 'This command has no parameters.';
-            case self::CMD_INSTALL_USER_CONFIG:
-                return $paramsTxt . self::getUserConfigCliRoute();
-            case self::CMD_INSTALL_ADMIN_USER:
-                return $paramsTxt . self::getAdminUserCliRoute();
-            default:
-                throw new \InvalidArgumentException("Unknown type: {$type}");
-        }
+        return [
+            self::CMD_INSTALL => [
+                'route' => self::CMD_INSTALL . ' ' . $deployConfig . ' ' . $userConfig
+                    . ' ' . $adminUser,
+                'usage' => $deployConfig . "\n"
+                    . $userConfig . "\n"
+                    . $adminUser,
+                'usage_short' => self::CMD_INSTALL . ' <options>',
+                'usage_desc' => 'Install Magento application',
+            ],
+            self::CMD_UPDATE => [
+                'route' => self::CMD_UPDATE,
+                'usage' => '',
+                'usage_short' => self::CMD_UPDATE,
+                'usage_desc' => 'Update database schema and data',
+            ],
+            self::CMD_INSTALL_CONFIG => [
+                'route' => self::CMD_INSTALL_CONFIG . ' ' . $deployConfig,
+                'usage' => $deployConfig,
+                'usage_short' => self::CMD_INSTALL_CONFIG . ' <options>',
+                'usage_desc' => 'Install deployment configuration',
+            ],
+            self::CMD_INSTALL_SCHEMA => [
+                'route' => self::CMD_INSTALL_SCHEMA,
+                'usage' => '',
+                'usage_short' => self::CMD_INSTALL_SCHEMA,
+                'usage_desc' => 'Install DB schema',
+            ],
+            self::CMD_INSTALL_DATA => [
+                'route' => self::CMD_INSTALL_DATA,
+                'usage' => '',
+                'usage_short' => self::CMD_INSTALL_DATA,
+                'usage_desc' => 'Install data fixtures',
+            ],
+            self::CMD_INSTALL_USER_CONFIG => [
+                'route' => self::CMD_INSTALL_USER_CONFIG . ' ' . $userConfig,
+                'usage' => $userConfig,
+                'usage_short' => self::CMD_INSTALL_USER_CONFIG . ' <options>',
+                'usage_desc' => 'Install user configuration',
+            ],
+            self::CMD_INSTALL_ADMIN_USER => [
+                'route' => self::CMD_INSTALL_ADMIN_USER . ' ' . $adminUser,
+                'usage' => $adminUser,
+                'usage_short' => self::CMD_INSTALL_ADMIN_USER . ' <options>',
+                'usage_desc' => 'Install admin user account',
+            ],
+            self::CMD_HELP => [
+                'route' => self::CMD_HELP . ' (' . implode('|', self::$helpOptions) . '):type',
+                'usage' => '<' . implode('|', self::$helpOptions) . '>',
+                'usage_short' => self::CMD_HELP . ' <topic>',
+                'usage_desc' => 'Help about particular command or topic:',
+            ],
+        ];
     }
 
     /**
@@ -247,8 +272,7 @@ class ConsoleController extends AbstractActionController
         try {
             /** @var \Zend\Console\Request $request */
             $request = $this->getRequest();
-            $params = $request->getParams();
-            $this->installer->install($params, $params, $params);
+            $this->installer->install($request->getParams());
         } catch (Exception $e) {
             $this->log->logError($e);
         }
@@ -275,7 +299,7 @@ class ConsoleController extends AbstractActionController
      */
     public function installSchemaAction()
     {
-        $this->installer->installSchema($this->log);
+        $this->installer->installSchema();
     }
 
     /**
@@ -286,7 +310,7 @@ class ConsoleController extends AbstractActionController
      */
     public function installDataAction()
     {
-        $this->installer->installDataFixtures($this->log);
+        $this->installer->installDataFixtures();
     }
 
     /**
@@ -297,8 +321,8 @@ class ConsoleController extends AbstractActionController
      */
     public function updateAction()
     {
-        $this->installer->installSchema($this->log);
-        $this->installer->installDataFixtures($this->log);
+        $this->installer->installSchema();
+        $this->installer->installDataFixtures();
     }
 
     /**
@@ -327,18 +351,11 @@ class ConsoleController extends AbstractActionController
      * @return string
      * @throws \Exception
      */
-    public function infoAction()
+    public function helpAction()
     {
         $type = $this->getRequest()->getParam('type');
+        $details = self::getCliConfig();
         switch($type) {
-            case self::CMD_INSTALL:
-            case self::CMD_INSTALL_CONFIG:
-            case self::CMD_INSTALL_SCHEMA:
-            case self::CMD_INSTALL_DATA:
-            case self::CMD_INSTALL_USER_CONFIG:
-            case self::CMD_INSTALL_ADMIN_USER:
-            case self::CMD_UPDATE:
-                return self::getCliUsage($type);
             case self::INFO_LOCALES:
                 return $this->arrayToString($this->options->getLocaleList());
             case self::INFO_CURRENCIES:
@@ -346,6 +363,12 @@ class ConsoleController extends AbstractActionController
             case self::INFO_TIMEZONES:
                 return $this->arrayToString($this->options->getTimezoneList());
             default:
+                if (isset($details[$type])) {
+                    if ($details[$type]['usage']) {
+                        return "\nAvailable parameters:\n{$details[$type]['usage']}\n";
+                    }
+                    return "\nThis command has no parameters.\n";
+                }
                 throw new \InvalidArgumentException("Unknown type: {$type}");
         }
     }
