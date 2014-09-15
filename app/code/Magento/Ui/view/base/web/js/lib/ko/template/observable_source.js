@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define(['ko', 'Magento_Ui/js/lib/class'], function(ko, Class) {
 
     return Class.extend({

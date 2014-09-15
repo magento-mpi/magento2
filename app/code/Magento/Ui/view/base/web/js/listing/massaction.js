@@ -11,12 +11,16 @@ define([
 ], function (_, Scope, Component) {
     'use strict';
 
+    function capitaliseFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     var defaults = {
         actions: [],
         selects: [
             { value: 'selectAll',    label: 'Select all'                },
-            { value: 'selectPage',   label: 'Select all on this page'   },
             { value: 'deselectAll',  label: 'Deselect all'              },
+            { value: 'selectPage',   label: 'Select all on this page'   },
             { value: 'deselectPage', label: 'Deselect all on this page' }
         ],
         indexField: '',
@@ -51,7 +55,8 @@ define([
                 excluded:           [],
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
-                menuVisible:        false
+                menuVisible:        false,
+                hasMoreThanOnePage: this.getPagesCount() > 1
             });
 
             this.selected.subscribe(this.exclude.bind(this));
@@ -140,6 +145,10 @@ define([
             return {
                 selected: this.selected()
             };
+        },
+
+        getPagesCount: function () {
+            return this.provider.data.get('pages');
         },
 
         toggle: function(area){
@@ -272,6 +281,29 @@ define([
             if( this.allSelected() ){
                 this.selected( _.difference(this.getIds(), this.excluded()) );
             }
+            this.hasMoreThanOnePage(this.getPagesCount() > 1);
+        },
+
+        toggleSelectAll: function () {
+            var isAllSelected = this.allSelected();
+
+            isAllSelected ? this.deselectAll() : this.selectAll();
+        },
+
+        shouldBeVisible: function (action) {
+            var checker = this['should' + capitaliseFirstLetter(action) + 'BeVisible'];
+
+            return checker ? checker.call(this) : true;
+        },
+
+        shouldSelectAllBeVisible: function () {
+            return !this.allSelected() && this.hasMoreThanOnePage();
+        },
+
+        shouldDeselectAllBeVisible: function () {
+            var selected = this.selected();
+
+            return selected.length && this.hasMoreThanOnePage();
         }
     });
 
