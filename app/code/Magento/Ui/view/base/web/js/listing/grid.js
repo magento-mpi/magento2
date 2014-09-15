@@ -21,9 +21,9 @@ define([
         initialize: function(settings) {
             _.extend(this, settings);
 
-            this.initObservable()
+            this.initFields()
+                .initObservable()
                 .initProvider()
-                .initFields()
                 .updateItems();
         },
 
@@ -35,7 +35,7 @@ define([
             this.observe({
                 rows:       [],
                 isLocked:   false,
-                colspan:    '',
+                colspan:    this.meta.get('colspan'),
                 extenders: null,
                 templateExtenders: []
             });
@@ -65,11 +65,13 @@ define([
             return this;
         },
 
+        /**
+         * Initializes raw properties
+         * @return {Object} reference to instance
+         */
         initFields: function(){
-            var meta = this.provider.meta;
-
-            this.fields = meta.getVisible();
-            this.colspan(meta.get('colspan'));
+            this.meta = this.provider.meta;
+            this.fields = this.meta.getVisible();
 
             return this;
         },
@@ -162,6 +164,10 @@ define([
                 .updateItems();
         },
 
+        /**
+         * Updates colspan observable property
+         * @param  {String} colspan
+         */
         updateColspan: function(colspan){
             this.colspan(colspan);
         },
@@ -181,16 +187,28 @@ define([
             }
         },
 
+        /**
+         * Indicates if rows observable array is empty
+         * @return {Boolean} [description]
+         */
         hasData: function(){
             return this.rows().length;
         },
 
+        /**
+         * Sets isLocked observable to true
+         * @return {Object} reference to instance
+         */
         lock: function() {
             this.isLocked(true);
 
             return this;
         },
 
+        /**
+         * Sets isLocked observable to false
+         * @return {Object} reference to instance
+         */
         unlock: function() {
             this.isLocked(false);
 

@@ -13,7 +13,14 @@ define([
     'use strict';
 
     ko.bindingHandlers.date = {
-        init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+
+        /**
+         * Reads passed date and format from valueAccessor, uses convert function to format it.
+         * Writes date to el.innerText using jQuery
+         * @param {HTMLElement} el - Element, that binding is applied to
+         * @param {Function} valueAccessor - Function that returns value, passed to binding
+         */
+        init: function(element, valueAccessor) {
             var config = valueAccessor(),
                 format = convert(config.format),
                 date   = moment(config.value).format(format);

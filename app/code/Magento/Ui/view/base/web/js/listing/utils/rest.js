@@ -56,6 +56,10 @@ define([
             return $.extend(true, baseConf, this.config.ajax, config);
         },
 
+        /**
+         * Is being called after ajax call. Parses results and triggers read event;
+         * @param  {Object|*} result - result of ajax call
+         */
         onRead: function(result){
             result = typeof result === 'string' ?
                 JSON.parse(result) :
@@ -64,6 +68,11 @@ define([
             this.trigger('read', result);
         },
 
+        /**
+         * Submits data using utils.submitAsForm
+         * @param  {Object} config - object containing ajax options
+         * @param  {Object} params
+         */
         submit: function(config, params){
             var ajax = this.config.ajax,
                 data = ajax.data || {};

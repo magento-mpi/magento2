@@ -8,6 +8,12 @@ define([
     '_'
 ], function(_) {
 
+    /**
+     * Analogue of Backbone.extend function.
+     * @param  {Object} protoProps - object, that describes the prototype of
+     * created constructor.
+     * @return {Function} - new constructor
+     */
     function extend( protoProps ){
         var parent = this,
             child,
@@ -38,6 +44,9 @@ define([
         return child;
     }
 
+    /**
+     * Constructor, which calls initialize with passed arguments.
+     */
     function Class() {
         this.initialize.apply(this, arguments);
     }

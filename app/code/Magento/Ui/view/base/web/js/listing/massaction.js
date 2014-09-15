@@ -79,6 +79,10 @@ define([
             return this;
         },
 
+        /**
+         * Convertes incoming optins to compatible format
+         * @return {Object} reference to instance
+         */
         formatActions: function(){
             var actions = this.actions;
 
@@ -161,10 +165,18 @@ define([
             return _.difference(all, selected);
         },
 
+        /**
+         * Reads and returns pages count
+         * @return {Number|String} pages count
+         */
         getPagesCount: function () {
             return this.provider.data.get('pages');
         },
 
+        /**
+         * Toggles observable property based on area argument
+         * @param  {area} area
+         */
         toggle: function(area){
             var visible = this[area];
 
@@ -275,22 +287,39 @@ define([
             this.deselectAll();
         },
 
+        /**
+         * If isAllSelected is true, deselects all, else selects all
+         */
         toggleSelectAll: function () {
             var isAllSelected = this.allSelected();
 
             isAllSelected ? this.deselectAll() : this.selectAll();
         },
 
+        /**
+         * Looks up for corresponding to passed action checker method,
+         * and returnes it's result. If method not found, returnes true;
+         * @param  {String} action - e.g. selectAll, deselectAll
+         * @return {Boolean} should action be visible
+         */
         shouldBeVisible: function (action) {
             var checker = this['should' + capitaliseFirstLetter(action) + 'BeVisible'];
 
             return checker ? checker.call(this) : true;
         },
 
+        /**
+         * Checkes if selectAll action supposed to be visible
+         * @return {Boolean}
+         */
         shouldSelectAllBeVisible: function () {
             return !this.allSelected() && this.hasMoreThanOnePage();
         },
 
+        /**
+         * Checkes if deselectAll action supposed to be visible
+         * @return {Boolean}
+         */
         shouldDeselectAllBeVisible: function () {
             var selected = this.selected();
 
