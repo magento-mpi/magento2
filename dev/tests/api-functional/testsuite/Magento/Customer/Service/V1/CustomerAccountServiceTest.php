@@ -974,7 +974,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
     }
 
-    public function testUpdateCustomerDetailsByEmail()
+    public function testUpdateCustomerByEmail()
     {
         $customerData = $this->customerHelper->createSampleCustomer();
         $customerId = $customerData[Customer::ID];
@@ -1007,7 +1007,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/details',
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [

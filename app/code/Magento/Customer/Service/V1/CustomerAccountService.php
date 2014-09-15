@@ -852,7 +852,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateCustomerDetailsByEmail(
+    public function updateCustomerByEmail(
         $customerEmail,
         CustomerDetails $customerDetails,
         $websiteId = null

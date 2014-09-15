@@ -127,8 +127,8 @@
             <parameter name="customerEmail"></parameter>
         </data>
     </route>
-    <route url="/V1/customers/details" method="PUT">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="updateCustomerDetailsByEmail"/>
+    <route url="/V1/customers" method="PUT">
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="updateCustomerByEmail"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>

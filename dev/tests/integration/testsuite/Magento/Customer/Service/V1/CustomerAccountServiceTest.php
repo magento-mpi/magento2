@@ -1540,7 +1540,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))
             ->setAddresses([$this->_addressBuilder->create(), $addresses[1]]);
 
-        $this->_customerAccountService->updateCustomerDetailsByEmail(
+        $this->_customerAccountService->updateCustomerByEmail(
             $email,
             $this->_customerDetailsBuilder->create(),
             $websiteId
@@ -1579,7 +1579,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))->setAddresses([]);
-        $this->_customerAccountService->updateCustomerDetailsByEmail($email, $this->_customerDetailsBuilder->create());
+        $this->_customerAccountService->updateCustomerByEmail($email, $this->_customerDetailsBuilder->create());
 
     }
 

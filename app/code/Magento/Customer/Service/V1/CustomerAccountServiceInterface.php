@@ -309,7 +309,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerDetails is not found.
      * @return bool True if this customer was updated
      */
-    public function updateCustomerDetailsByEmail(
+    public function updateCustomerByEmail(
         $customerEmail,
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $websiteId = null
