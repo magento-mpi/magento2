@@ -71,9 +71,9 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $authHeader = array();
         $restServiceInfo = $serviceInfo['rest'];
         if (array_key_exists('token', $restServiceInfo)) {
-            $authHeader = $oAuthClient->buildBearerTokenHeaderForApiRequest($restServiceInfo['token']);
+            $authHeader = $oAuthClient->buildBearerTokenAuthorizationHeader($restServiceInfo['token']);
         } else {
-            $authHeader = $oAuthClient->buildOauthHeaderForApiRequest(
+            $authHeader = $oAuthClient->buildOauthAuthorizationHeader(
                 $this->curlClient->constructResourceUrl($resourcePath),
                 $accessCredentials['key'],
                 $accessCredentials['secret'],

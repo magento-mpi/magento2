@@ -172,7 +172,7 @@ class OauthClient extends AbstractService
     }
 
     /**
-     * @override to fix since parent implementation from lib not sending the oauth_verifier when requeting access token
+     * @override to fix since parent implementation from lib not sending the oauth_verifier when requesting access token
      * Builds the authorization header for an authenticated API request
      * @param string $method
      * @param UriInterface $uri the uri the request is headed
@@ -217,7 +217,7 @@ class OauthClient extends AbstractService
      * @param string $method HTTP method to use
      * @return array
      */
-    public function buildOauthHeaderForApiRequest($uri, $token, $tokenSecret, $bodyParams, $method = 'GET')
+    public function buildOauthAuthorizationHeader($uri, $token, $tokenSecret, $bodyParams, $method = 'GET')
     {
         $uri = new Uri($uri);
         $tokenObj = new StdOAuth1Token();
@@ -235,7 +235,7 @@ class OauthClient extends AbstractService
      * @param string $token
      * @return array
      */
-    public function buildBearerTokenHeaderForApiRequest($token)
+    public function buildBearerTokenAuthorizationHeader($token)
     {
         return array(
             'Authorization: Bearer ' . $token
