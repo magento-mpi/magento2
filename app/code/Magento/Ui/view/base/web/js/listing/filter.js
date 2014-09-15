@@ -26,6 +26,10 @@ define([
                 .initFilters();
         },
 
+        /**
+         * Initializes observable properties of instance.
+         * @return {Object} - reference to instance
+         */
         initObservable: function(){
             this.observe({
                 isVisible:  false,
@@ -73,48 +77,63 @@ define([
             return this;
         },
 
+        /**
+         * Filters filters by isEmpty method of ones.
+         * @return {Array} Array of non-empty filters
+         */
         getNotEmpty: function(){
             return this.filters.filter(function(filter){
                 return !filter.isEmpty();
             });
         },
 
+        /**
+         * Writes the result of getNotEmpty to active observable.
+         * @return {Object} reference to instance
+         */
         findActive: function(){
-            this.active( this.getNotEmpty() );
+            this.active(this.getNotEmpty());
 
             return this;
         },
 
+        /**
+         * Returns array of dumped filters based on all flag.
+         * If all is false, dumps only active filters.
+         * @param  {Boolean} all
+         * @return {Array} array of dumped filters
+         */
         getData: function(all){
             var filters;
 
-            filters = all ? this.filters() : this.active();
+            filters = all ? this.filters : this.active();
 
             return filters.map(function(filter){
                 return filter.dump();
             });
         },
 
+        /**
+         * Clears data of on or some filters. If filter is not specified,
+         * calls reset on all filtes and sets active observable array to empty.
+         * @param  {Object} filter - if specified, is being removed from active array.
+         * @return {Object} - reference to instance
+         */
         clearData: function(filter){
-            var active = this.active(),
-                index;
+            var active = this.active;
 
             if(filter){
-                
-                index = active.indexOf(filter);
+                filter.reset();
 
-                active.splice(index, 1);
+                active.remove(filter);
             }
             else{
-
-                active.forEach(function (filter) {
+                active().forEach(function (filter) {
                     filter.reset();
                 });
 
-                active = [];
+                active.removeAll();
             }
-
-            this.active(active);
 
             return this;
         },
@@ -131,6 +150,11 @@ define([
             return this;
         },
 
+        /**
+         * Calls crearData on filter and call reload then.
+         * @param  {Object} filter
+         * @return {Object} reference to instance
+         */
         reset: function(filter){
             this.clearData(filter)           
                 .reload();
@@ -165,8 +189,12 @@ define([
             this.isVisible(false);
         },
 
+        /**
+         * Resets specified filter using reset method
+         * @param  {Object} filter - filter to reset
+         */
         onClear: function(filter) {
-            this.reset.bind(this, filter);
+            return this.reset.bind(this, filter);
         },
 
         /**

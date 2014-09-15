@@ -26,6 +26,10 @@ define([
             });
         },
         
+        /**
+         * Creates dump copy of current state.
+         * @return {Object} dumped value object
+         */
         getValues: function(){
             var value = {},
                 from = this.from(),
@@ -42,6 +46,10 @@ define([
             return value;
         },
 
+        /**
+         * Returns string value of current state for UI
+         * @return {String}
+         */
         display: function(){
             var key,
                 values = this.getValues(),
@@ -54,6 +62,10 @@ define([
             return result.join(' ');
         },
 
+        /**
+         * Checkes if current state is empty.
+         * @return {Boolean}
+         */
         isEmpty: function(){
             return ( !this.to() && !this.from() );
         },

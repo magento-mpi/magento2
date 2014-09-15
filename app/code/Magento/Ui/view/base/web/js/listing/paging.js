@@ -20,6 +20,12 @@ define([
     };
 
     var Paging = Scope.extend({
+
+        /**
+         * Extends instance with defaults and config, initializes observable properties.
+         * Updates storage with current state of instance. 
+         * @param  {Object} config
+         */
         initialize: function(config) {
             _.extend(this, defaults, config);
 
@@ -28,6 +34,10 @@ define([
                 .pushParams();
         },
 
+        /**
+         * Initializes observable properties of instance.
+         * @return {Object} - reference to instance
+         */
         initObservable: function(config) {
             var data = this.provider.data.get();
 
@@ -41,6 +51,10 @@ define([
             return this;
         },
 
+        /**
+         * Subscribes on provider's events
+         * @return {Object} - reference to instance
+         */
         initProvider: function(){
             var provider    = this.provider,
                 params      = provider.params;
@@ -58,6 +72,10 @@ define([
             return this;
         },
 
+        /**
+         * Increments current observable prop by val and call reload method 
+         * @param  {String} val
+         */
         go: function(val) {
             var current = this.current;
 
@@ -66,32 +84,58 @@ define([
             this.reload();
         },
 
+        /**
+         * Calls go method with 1 as agrument
+         */
         next: function() {
             this.go(1);
         },
 
+        /**
+         * Calls go method with -1 as agrument
+         */
         prev: function() {
             this.go(-1);
         },
 
+        /**
+         * Compares current and pages observables and returns boolean result
+         * @return {Boolean} is current equal to pages property
+         */
         isLast: function() {
             return this.current() === this.pages();
         },
 
+        /**
+         * Compares current observable to 1
+         * @return {Boolean} is current page first
+         */
         isFirst: function() {
             return this.current() === 1;
         },
 
+        /**
+         * Returns closest existing page number to page argument
+         * @param  {Number} page
+         * @return {Number} closest existing page number
+         */
         getInRange: function(page) {
             return Math.min(Math.max(1, page), this.pages());
         },
         
+        /**
+         * Sets current observable to 1 and calls pushParams method
+         */
         drop: function() {
             this.current(1);
 
             this.pushParams();
         },
 
+        /**
+         * Is being called on provider's refresh event.
+         * Updates totalCount and pages observables
+         */
         onRefresh: function() {
             var data = this.provider.data.get();
 
@@ -99,6 +143,10 @@ define([
             this.pages(data.pages || 1);
         },
 
+        /**
+         * Is being triggered on user interaction with page size select.
+         * Resets current page to first if needed.
+         */
         onSizeChange: function() {
             var size = this.pageSize();
 
@@ -109,6 +157,11 @@ define([
             this.reload();
         },
 
+        /**
+         * Validates page change according to user's input.
+         * Sets current observable to result of validation.
+         * Calls reload method then.
+         */
         onPageChange: function() {
             var current,
                 valid;

@@ -7,9 +7,8 @@
 define([
     '_',
     'Magento_Ui/js/lib/component',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/mixin/loader',
-], function(_, Component, Scope, Loader) {
+    'Magento_Ui/js/lib/ko/scope'
+], function(_, Component, Scope) {
     'use strict';
 
     var Listing =  Scope.extend({
@@ -22,10 +21,21 @@ define([
         initialize: function(settings) {
             _.extend(this, settings);
 
-            this.initObservable()
+            this.initFields()
+                .initObservable()
                 .initProvider()
-                .initFields()
                 .updateItems();
+        },
+
+        /**
+         * Initializes raw properties
+         * @return {Object} reference to instance
+         */
+        initFields: function(){
+            this.meta = this.provider.meta;
+            this.fields = this.meta.getVisible();
+
+            return this;
         },
 
         /**
@@ -34,11 +44,11 @@ define([
          */
         initObservable: function() {
             this.observe({
-                rows:       [],
-                isLocked:   false,
-                colspan:    '',
-                extenders: null,
-                templateExtenders: []
+                rows:               [],
+                isLocked:           false,
+                colspan:            this.meta.get('colspan'),
+                extenders:          null,
+                templateExtenders:  []
             });
 
             return this;
@@ -62,15 +72,6 @@ define([
 
             dump.on('update:extenders', this.updateExtenders);
             meta.on('update:colspan', this.updateColspan);
-
-            return this;
-        },
-
-        initFields: function(){
-            var meta = this.provider.meta;
-
-            this.fields = meta.getVisible();
-            this.colspan(meta.get('colspan'));
 
             return this;
         },
@@ -163,6 +164,10 @@ define([
                 .updateItems();
         },
 
+        /**
+         * Updates colspan observable property
+         * @param  {String} colspan
+         */
         updateColspan: function(colspan){
             this.colspan(colspan);
         },
@@ -182,10 +187,34 @@ define([
             }
         },
 
+        /**
+         * Indicates if rows observable array is empty
+         * @return {Boolean} [description]
+         */
         hasData: function(){
             return this.rows().length;
+        },
+
+        /**
+         * Sets isLocked observable to true
+         * @return {Object} reference to instance
+         */
+        lock: function() {
+            this.isLocked(true);
+
+            return this;
+        },
+
+        /**
+         * Sets isLocked observable to false
+         * @return {Object} reference to instance
+         */
+        unlock: function() {
+            this.isLocked(false);
+
+            return this;
         }
-    }, Loader);
+    });
 
     return Component({
         constr: Listing

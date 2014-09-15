@@ -187,7 +187,7 @@ define([
                          */
                         appendTo: function(extendNode) {
                             if (template.hasChildNodes()) {
-                                toArray(template.children).forEach(function (child) {
+                                toArray(template.childNodes).forEach(function (child) {
                                     extendNode.appendChild(child);
                                 });
                             }

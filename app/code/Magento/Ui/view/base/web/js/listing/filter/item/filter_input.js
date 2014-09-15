@@ -23,10 +23,18 @@ define([
             this.observe('value', '');
         },
 
+        /**
+         * Returnes true if this.value is falsy
+         * @return {Boolean} true if this.value is falsy, false otherwise
+         */
         isEmpty: function(){
             return !this.value();
         },
 
+        /**
+         * Returns this.value(). Is used for displaying on UI.
+         * @return {[type]} [description]
+         */
         display: function(){
             return this.value();
         },
