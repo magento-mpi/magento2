@@ -26,6 +26,10 @@ define([
                 .initFilters();
         },
 
+        /**
+         * Initializes observable properties of instance.
+         * @return {Object} - reference to instance
+         */
         initObservable: function(){
             this.observe({
                 isVisible:  false,
@@ -73,18 +77,32 @@ define([
             return this;
         },
 
+        /**
+         * Filters filters by isEmpty method of ones.
+         * @return {Array} Array of non-empty filters
+         */
         getNotEmpty: function(){
             return this.filters.filter(function(filter){
                 return !filter.isEmpty();
             });
         },
 
+        /**
+         * Writes the result of getNotEmpty to active observable.
+         * @return {Object} reference to instance
+         */
         findActive: function(){
-            this.active( this.getNotEmpty() );
+            this.active(this.getNotEmpty());
 
             return this;
         },
 
+        /**
+         * Returns array of dumped filters based on all flag.
+         * If all is false, dumps only active filters.
+         * @param  {Boolean} all
+         * @return {Array} array of dumped filters
+         */
         getData: function(all){
             var filters;
 
@@ -95,6 +113,12 @@ define([
             });
         },
 
+        /**
+         * Clears data of on or some filters. If filter is not specified,
+         * calls reset on all filtes and sets active observable array to empty.
+         * @param  {Object} filter - if specified, is being removed from active array.
+         * @return {Object} - reference to instance
+         */
         clearData: function(filter){
             var active = this.active;
 
@@ -126,6 +150,11 @@ define([
             return this;
         },
 
+        /**
+         * Calls crearData on filter and call reload then.
+         * @param  {Object} filter
+         * @return {Object} reference to instance
+         */
         reset: function(filter){
             this.clearData(filter)           
                 .reload();
@@ -160,6 +189,10 @@ define([
             this.isVisible(false);
         },
 
+        /**
+         * Resets specified filter using reset method
+         * @param  {Object} filter - filter to reset
+         */
         onClear: function(filter) {
             return this.reset.bind(this, filter);
         },

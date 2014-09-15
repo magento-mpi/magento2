@@ -11,6 +11,13 @@ define([
 ], function(ko, Class) {
     'use strict';
 
+    /**
+     * Wrapper for ko.observable and ko.observableArray.
+     * Assignes one or another ko property to obj[key]
+     * @param  {Object} obj   - object to store property to
+     * @param  {String} key   - key
+     * @param  {*} value      - initial value of observable
+     */
     function observe(obj, key, value){
         var method = Array.isArray(value) ? 'observableArray' : 'observable';
 
@@ -18,6 +25,14 @@ define([
     }
 
     return Class.extend({
+
+        /**
+         * If 2 params passed, path is considered as key.
+         * Else, path is considered as object.
+         * Assignes props to this based on incoming params
+         * @param  {Object|String} path
+         * @param  {*} value
+         */
         observe: function(path, value) {
             var key;
 
@@ -30,6 +45,10 @@ define([
             }
         },
 
+        /**
+         * Reads it's params from provider and stores it into its params object
+         * @return {Object} reference to instance
+         */
         pushParams: function(){
             var params      = this.params,
                 provider    = this.provider.params,
@@ -44,6 +63,11 @@ define([
             return this;
         },
 
+        /**
+         * Loops over params.items and writes it's corresponding {key: value} 
+         * pairs to this as observables.
+         * @return {Object} reference to instance
+         */
         pullParams: function(){
             var params      = this.params,
                 provider    = this.provider.params,
@@ -56,6 +80,9 @@ define([
             return this;
         },
 
+        /**
+         * Calls pushParams and calls refresh on this.provider
+         */
         reload: function() {
             this.pushParams()
                 .provider.refresh();

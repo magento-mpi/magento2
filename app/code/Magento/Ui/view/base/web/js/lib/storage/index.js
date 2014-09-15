@@ -4,6 +4,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**
+ * Assembles storages returning storage mapping
+ */
 define([
     './storage',
     './meta'

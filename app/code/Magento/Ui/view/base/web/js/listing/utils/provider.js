@@ -11,6 +11,11 @@ define([
 ], function($, DataProvider, registry) {
     'use strict';
 
+    /**
+     * Merges passed settings with preset ajax properties
+     * @param  {Object} settings
+     * @return {Object} - mutated settings
+     */
     function getConfig(settings) {
         var config = settings.config,
             client = config.client = config.client || {};
@@ -27,6 +32,11 @@ define([
         return settings;
     }
 
+    /**
+     * Creates new data provider and register it by settings.name 
+     * @param  {HTMLElement} el
+     * @param  {Object} settings
+     */
     function init(el, settings) {
         var name    = settings.name,
             config  = getConfig(settings);
