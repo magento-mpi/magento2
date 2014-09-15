@@ -26,6 +26,11 @@ class Api implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterf
      */
     protected $userContext;
 
+    /**
+     * Backend user types
+     *
+     * @var int[]
+     */
     protected $backendUsers = [
         UserContextInterface::USER_TYPE_ADMIN,
         UserContextInterface::USER_TYPE_INTEGRATION

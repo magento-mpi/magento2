@@ -265,12 +265,12 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Sales/_files/quote.php
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_check_payment.php
      */
     public function testOrderPlacesOrder()
     {
         /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test_order_1', 'reserved_order_id');
 
         $cartId = $quote->getId();
 
@@ -289,12 +289,12 @@ class WriteServiceTest extends WebapiAbstract
         $requestData = array(
             'cartId' => $cartId,
         );
-        $this->assertEquals(1, $this->_webApiCall($serviceInfo, $requestData));
+        $this->_webApiCall($serviceInfo, $requestData);
         /** @var \Magento\Sales\Model\Order $order */
         $order = $this->objectManager->create('\Magento\Sales\Model\Order')->load(1);
         $items = $order->getAllItems();
         $this->assertCount(1, $items);
         $this->assertEquals('Simple Product', $items[0]->getName());
-        $order->delete();
+        $quote->delete();
     }
 }
