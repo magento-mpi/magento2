@@ -71,13 +71,13 @@ class Store implements OptionsInterface
                     foreach ($storeCollection as $store) {
                         if ($store->getGroupId() == $group->getId()) {
                             $name = $this->escaper->escapeHtml($store->getName());
-                            $stores[$name]['label'] = str_repeat('&nbsp;', 8) . $name;
+                            $stores[$name]['label'] = str_repeat(' ', 8) . $name;
                             $stores[$name]['value'] = $store->getId();
                         }
                     }
                     if (!empty($stores)) {
                         $name = $this->escaper->escapeHtml($group->getName());
-                        $groups[$name]['label'] = str_repeat('&nbsp;', 4) . $name;
+                        $groups[$name]['label'] = str_repeat(' ', 4) . $name;
                         $groups[$name]['value'] = $stores;
                     }
                 }
