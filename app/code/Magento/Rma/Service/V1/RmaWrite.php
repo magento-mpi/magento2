@@ -116,7 +116,7 @@ class RmaWrite implements RmaWriteInterface
      * Create shipping label for rma
      *
      * @param int $rmaId
-     * @param array $packages
+     * @param \Magento\Rma\Service\V1\Data\Packages[] $packages
      * @param string $carrierCode
      * @param string $carrierTitle
      * @param string $methodTitle
