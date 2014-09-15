@@ -18,18 +18,15 @@
             "Magento\\Composer\\": "module/Magento/Composer/src/",
             "Magento\\Filesystem\\": "module/Magento/Filesystem/src/",
             "Magento\\Locale\\": "module/Magento/Locale/src/",
-            "Magento\\Module\\": "module/Magento/Module/src/",
             "Magento\\Setup\\": "module/Magento/Setup/src/",
             "Magento\\Config\\": "module/Magento/Config/src/",
-            "Magento\\Install\\": "module/Magento/Install/src/",
             "Magento\\": ["../app/code/Magento/", "../lib/internal/Magento/"]
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Magento\\Setup\\Tests\\": "module/Magento/Setup/tests/",
-            "Magento\\Config\\Tests\\": "module/Magento/Config/tests/",
-            "Magento\\Install\\Tests\\": "module/Magento/Install/tests/"
+            "Magento\\Config\\Tests\\": "module/Magento/Config/tests/"
         }
     }
 }
