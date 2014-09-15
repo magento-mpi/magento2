@@ -41,7 +41,7 @@ define([
                 .formatActions()
                 .attachTemplateExtender()
                 .initProvider()
-                .updatePages();
+                .countPages();
         },
 
         /**
@@ -58,7 +58,7 @@ define([
                 multiplePages:      ''
             });
 
-            this.selected.subscribe(this.updateExcluded.bind(this));
+            this.selected.subscribe(this.onSelectionsChange.bind(this));
 
             return this;
         },
@@ -173,18 +173,15 @@ define([
          * Updates storage's params and reloads it.
          */
         submit: function (action) {
-            var client = this.provider.client,
-                params;
+            var client = this.provider.client;
 
-            params = {
+            client.submit({
                 method: 'post',
                 action: action.url,
                 data: {
                     massaction: this.buildParams()
                 }
-            };
-
-            client.submit(params);
+            });
             
             return this;
         },
@@ -193,7 +190,9 @@ define([
             var items   = this.provider.data.get('items'),
                 ids     = _.pluck(items, this.indexField);
 
-            return exclude ? _.difference(ids, this.excluded()) : ids;    
+            return exclude ?
+                _.difference(ids, this.excluded()) :
+                ids;    
         },
 
         /**
@@ -260,7 +259,7 @@ define([
             }
         },
 
-        updatePages: function(){
+        countPages: function() {
             var provider = this.provider.data;
 
             this.pages = provider.get('pages');
@@ -270,31 +269,22 @@ define([
             return this;
         },
 
-        onToggle: function(area){
-            return this.toggle.bind(this, area);
-        },
+        countSelect: function() {
+            var provider = this.provider,
+                total,
+                count;
 
-        /**
-         * Creates handler for applying action (e.g. selectAll)
-         * @param  {String} action
-         * @return {Function} - click handler
-         */
-        onApplySelect: function (action) {
-            return function(){
-                this.menuVisible(false);
-                this[action]();
-            }.bind(this);
-        },
+            if (this.allSelected()) {
+                total = provider.data.get('totalCount');
 
-        /**
-         * Updates state according to changes of provider.
-         */
-        onRefresh: function () {
-            if( this.allSelected() ){
-                this.selected(this.getIds(true));
+                count = total - this.excluded().length;
+            } else {
+                count = this.selected().length;
             }
 
-            this.updatePages();
+            provider.meta.set('selected', count);
+
+            return this;
         },
 
         /**
@@ -332,6 +322,38 @@ define([
          */
         shouldDeselectAllBeVisible: function () {
             return this.allSelected() && this.multiplePages();
+        },
+
+        onToggle: function(area){
+            return this.toggle.bind(this, area);
+        },
+
+        /**
+         * Creates handler for applying action (e.g. selectAll)
+         * @param  {String} action
+         * @return {Function} - click handler
+         */
+        onApplySelect: function (action) {
+            return function(){
+                this.menuVisible(false);
+                this[action]();
+            }.bind(this);
+        },
+
+        /**
+         * Updates state according to changes of provider.
+         */
+        onRefresh: function () {
+            if( this.allSelected() ){
+                this.selected(this.getIds(true));
+            }
+
+            this.countPages();
+        },
+
+        onSelectionsChange: function(selected){
+            this.updateExcluded(selected)
+                .countSelect();
         }
     });
 

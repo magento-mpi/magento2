@@ -128,7 +128,7 @@ define([
                 active.remove(filter);
             }
             else{
-                active().forEach(function (filter) {
+                this.filters.forEach(function (filter) {
                     filter.reset();
                 });
 

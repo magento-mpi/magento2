@@ -10,7 +10,7 @@
     <button title="Actions" class="action-default scalable add" data-bind="click: onToggle('actionsVisible')">
         <span data-bind="text: $t('Actions')"></span>
     </button>
-    <button title="" class="action-toggle scalable  add" data-toggle="dropdown" data-bind="click: onToggle('actionsVisible')">
+    <button title="" class="action-toggle scalable add" data-toggle="dropdown" data-bind="click: onToggle('actionsVisible'), css: {active: actionsVisible}">
         <span>|</span>
     </button>
 
