@@ -50,7 +50,8 @@ class Synchronizer
      *
      * @param \Magento\Framework\Module\Setup|\Magento\Setup\Module\Updater\SetupInterface $installer
      */
-    public function __construct($installer) {
+    public function __construct($installer)
+    {
         $this->_installer = $installer;
     }
 
