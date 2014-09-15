@@ -12,7 +12,7 @@ namespace Magento\Core\Model\App;
 class EmulationTest extends \Magento\Test\BaseTestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\StoreManagerInterface
      */
     private $storeManagerMock;
 
@@ -61,7 +61,7 @@ class EmulationTest extends \Magento\Test\BaseTestCase
         parent::setUp();
         // Mocks
         $this->designMock = $this->basicMock('Magento\Core\Model\Design');
-        $this->storeManagerMock = $this->basicMock('Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->basicMock('Magento\Framework\StoreManagerInterface');
         $this->translateMock = $this->basicMock('Magento\Framework\TranslateInterface');
         $this->scopeConfigMock = $this->basicMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->localeResolverMock = $this->basicMock('Magento\Framework\Locale\ResolverInterface');
