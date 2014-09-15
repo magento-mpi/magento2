@@ -50,7 +50,7 @@ class Mysql extends Adapter implements AdapterInterface
      *
      * @var int
      */
-    protected $_transactionLevel    = 0;
+    protected $_transactionLevel = 0;
 
     /**
      * Whether transaction was rolled back or not
@@ -73,49 +73,49 @@ class Mysql extends Adapter implements AdapterInterface
      *
      * @var array
      */
-    protected $_bindParams          = array();
+    protected $_bindParams = [];
 
     /**
      * Autoincrement for bind value. Used by regexp callback.
      *
      * @var int
      */
-    protected $_bindIncrement       = 0;
+    protected $_bindIncrement = 0;
 
     /**
      * Write SQL debug data to file
      *
      * @var bool
      */
-    protected $_debug               = false;
+    protected $_debug = false;
 
     /**
      * Minimum query duration time to be logged
      *
      * @var float
      */
-    protected $_logQueryTime        = 0.05;
+    protected $_logQueryTime = 0.05;
 
     /**
      * Log all queries (ignored minimum query duration time)
      *
      * @var bool
      */
-    protected $_logAllQueries       = false;
+    protected $_logAllQueries = false;
 
     /**
      * Add to log call stack data (backtrace)
      *
      * @var bool
      */
-    protected $_logCallStack        = false;
+    protected $_logCallStack = false;
 
     /**
      * Path to SQL debug data log
      *
      * @var string
      */
-    protected $_debugFile           = '/debug/pdo_mysql.log';
+    protected $_debugFile = '/debug/pdo_mysql.log';
 
     /**
      * Filesystem class
@@ -129,7 +129,7 @@ class Mysql extends Adapter implements AdapterInterface
      *
      * @var float
      */
-    protected $_debugTimer          = 0;
+    protected $_debugTimer = 0;
 
     /**
      * MySQL column - Table DDL type pairs
@@ -161,10 +161,14 @@ class Mysql extends Adapter implements AdapterInterface
     protected $_ddlRoutines = array('alt', 'cre', 'ren', 'dro', 'tru');
 
     /**
-     * @var String
+     * Contructor to create
+     *
+     * @param array|Driver\DriverInterface $driver
+     * @param Platform\PlatformInterface $platform
+     * @param ResultSet\ResultSetInterface $queryResultPrototype
+     * @param Profiler\ProfilerInterface $profiler
+     * @param Filesystem $filesystem
      */
-    protected $string;
-
     public function __construct(
         $driver,
         Platform\PlatformInterface $platform = null,
@@ -289,6 +293,14 @@ class Mysql extends Adapter implements AdapterInterface
         return $result;
     }
 
+    /**
+     * Fetch all queries
+     *
+     * @param \Zend\Db\Sql\Select $sql
+     * @param array $bind
+     * @param null $fetchMode
+     * @return StatementInterface|ResultSet\ResultSetInterface
+     */
     public function fetchAll($sql, $bind = array(), $fetchMode = null)
     {
         if ($sql instanceof \Zend\Db\Sql\Select) {
@@ -342,13 +354,7 @@ class Mysql extends Adapter implements AdapterInterface
     }
 
     /**
-     * query() is a convenience function
-     *
-     * @param string $sql
-     * @param string|array|ParameterContainer $parametersOrQueryMode
-     * @param ResultSet\ResultSetInterface $resultPrototype
-     * @throws InvalidArgumentException
-     * @return StatementInterface|ResultSet\ResultSetInterface
+     * {@inheritdoc}
      */
     public function query(
         $sql,
@@ -2239,12 +2245,12 @@ class Mysql extends Adapter implements AdapterInterface
     /**
      * Add time values (intervals) to a date value
      *
-     * @see INTERVAL_* constants for $unit
-     *
-     * @param \Zend_Db_Expr|string $date   quoted field name or SQL statement
+     * @param \Zend_Db_Expr|string $date quoted field name or SQL statement
      * @param int $interval
      * @param string $unit
      * @return \Zend_Db_Expr
+     *
+     * @see INTERVAL_* constants for $unit
      */
     public function getDateAddSql($date, $interval, $unit)
     {
@@ -2255,12 +2261,11 @@ class Mysql extends Adapter implements AdapterInterface
     /**
      * Subtract time values (intervals) to a date value
      *
-     * @see INTERVAL_* constants for $expr
-     *
-     * @param \Zend_Db_Expr|string $date   quoted field name or SQL statement
+     * @param \Zend_Db_Expr|string $date quoted field name or SQL statement
      * @param int|string $interval
      * @param string $unit
      * @return \Zend_Db_Expr
+     * @see INTERVAL_* constants for $expr
      */
     public function getDateSubSql($date, $interval, $unit)
     {
@@ -2467,7 +2472,7 @@ class Mysql extends Adapter implements AdapterInterface
      * Prepare insert data
      *
      * @param mixed $row
-     * @param array $bind
+     * @param array &$bind
      * @return string
      */
     protected function _prepareInsertData($row, &$bind)
@@ -2674,6 +2679,9 @@ class Mysql extends Adapter implements AdapterInterface
     /**
      * Quotes an identifier.
      *
+     * @param array|string|\Zend_Db_Expr $ident
+     * @param bool $auto
+     * @return string
      */
     public function quoteIdentifier($ident, $auto = false)
     {

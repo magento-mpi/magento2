@@ -110,7 +110,7 @@ class Resource implements ResourceInterface
 
     /**
      * Load schema/db version
-     * 
+     *
      * @return string
      */
     protected function getMainTable()

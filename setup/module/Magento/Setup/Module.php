@@ -87,7 +87,6 @@ class Module implements
             . "==-------------------==\n";
     }
 
-
     /**
      * {@inheritdoc}
      */
