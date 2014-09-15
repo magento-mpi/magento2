@@ -14,8 +14,6 @@ use Magento\Filesystem\Filesystem;
 
 class Dir
 {
-    const MODULES_DIR = 'code';
-
     /**
      * Modules root directory
      *
@@ -28,7 +26,7 @@ class Dir
      */
     public function __construct(Filesystem $filesystem)
     {
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(self::MODULES_DIR);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
     }
 
     /**

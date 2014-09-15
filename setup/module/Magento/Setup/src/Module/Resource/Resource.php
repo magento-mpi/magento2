@@ -51,6 +51,11 @@ class Resource implements ResourceInterface
         $this->tablePrefix = $tablePrefix;
     }
 
+    /**
+     * Load schema/db version
+     *
+     * @return $this
+     */
     protected function loadVersionDb()
     {
         self::$versions = array();
@@ -103,6 +108,11 @@ class Resource implements ResourceInterface
         }
     }
 
+    /**
+     * Load schema/db version
+     * 
+     * @return string
+     */
     protected function getMainTable()
     {
         return $this->adapter->getTableName($this->tablePrefix . self::MAIN_TABLE);
