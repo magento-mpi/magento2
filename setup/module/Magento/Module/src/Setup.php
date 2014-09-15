@@ -346,7 +346,7 @@ class Setup implements SetupInterface
 
     /**
      * Run each time after applying of all updates,
-     * if setup model setted $_callAfterApplyAllUpdates flag to true
+     * if setup model's $_callAfterApplyAllUpdates flag is set to true
      *
      * @return $this
      */
