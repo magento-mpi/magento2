@@ -46,8 +46,7 @@ class CleanMergedJsCssTest extends \Magento\Test\BaseTestCase
 
     public function testAroundCleanMergedJsCss()
     {
-        $callable = function ()
-        {
+        $callable = function () {
             $this->hasBeenCalled = true;
         };
         $readDir = 'read directory';
