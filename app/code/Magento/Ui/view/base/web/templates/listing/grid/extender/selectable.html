@@ -19,7 +19,7 @@
                     </button>
                     <ul class="mass-select-menu" data-bind="css: { 'active': menuVisible } ">
                         <!-- ko foreach: { data: selects , as: 'action' } -->
-                        <li data-bind="click: $parent.onApplySelect(action.value)">
+                        <li data-bind="click: $parent.onApplySelect(action.value), visible: $parent.shouldBeVisible(action.value)">
                             <span data-bind="text: $t(action.label)"></span>
                         </li>
                         <!-- /ko -->

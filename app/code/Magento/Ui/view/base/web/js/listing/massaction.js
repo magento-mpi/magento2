@@ -11,6 +11,10 @@ define([
 ], function (_, Scope, Component) {
     'use strict';
 
+    function capitaliseFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     var defaults = {
         actions: [],
         selects: [
@@ -268,6 +272,22 @@ define([
             var isAllSelected = this.allSelected();
 
             isAllSelected ? this.deselectAll() : this.selectAll();
+        },
+
+        shouldBeVisible: function (action) {
+            var checker = this['should' + capitaliseFirstLetter(action) + 'BeVisible'];
+
+            return checker ? checker.call(this) : true;
+        },
+
+        shouldSelectAllBeVisible: function () {
+            return !this.allSelected();
+        },
+
+        shouldDeselectAllBeVisible: function () {
+            var selected = this.selected();
+
+            return selected.length;
         }
     });
 
