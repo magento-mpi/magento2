@@ -39,6 +39,7 @@ class ConsoleController extends AbstractActionController
     const CMD_INSTALL_DATA = 'install-data';
     const CMD_INSTALL_USER_CONFIG = 'install-user-configuration';
     const CMD_INSTALL_ADMIN_USER = 'install-admin-user';
+    const CMD_UPDATE = 'update';
     /**#@- */
 
     /**#@+
@@ -56,6 +57,7 @@ class ConsoleController extends AbstractActionController
         self::CMD_INSTALL_DATA,
         self::CMD_INSTALL_USER_CONFIG,
         self::CMD_INSTALL_ADMIN_USER,
+        self::CMD_UPDATE,
         self::INFO_LOCALES,
         self::INFO_CURRENCIES,
         self::INFO_TIMEZONES,
@@ -107,6 +109,9 @@ class ConsoleController extends AbstractActionController
                 break;
             case self::CMD_INSTALL_ADMIN_USER:
                 $result = self::getAdminUserCliRoute();
+                break;
+            case self::CMD_UPDATE:
+                $result = '';
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown type: {$type}");
@@ -191,6 +196,8 @@ class ConsoleController extends AbstractActionController
                 return $paramsTxt . self::getUserConfigCliRoute();
             case self::CMD_INSTALL_ADMIN_USER:
                 return $paramsTxt . self::getAdminUserCliRoute();
+            case self::CMD_UPDATE:
+                return 'This command has no parameters.';
             default:
                 throw new \InvalidArgumentException("Unknown type: {$type}");
         }
@@ -287,6 +294,18 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
+     * Updates database schema and data
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function updateAction()
+    {
+        $this->installer->installSchema($this->log);
+        $this->installer->installDataFixtures($this->log);
+    }
+
+    /**
      * Installs user configuration
      */
     public function installUserConfigAction()
@@ -322,6 +341,7 @@ class ConsoleController extends AbstractActionController
             case self::CMD_INSTALL_DATA:
             case self::CMD_INSTALL_USER_CONFIG:
             case self::CMD_INSTALL_ADMIN_USER:
+            case self::CMD_UPDATE:
                 return self::getCliUsage($type);
             case self::INFO_LOCALES:
                 return $this->arrayToString($this->options->getLocaleList());

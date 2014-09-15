@@ -118,6 +118,7 @@ class Module implements
             ConsoleController::CMD_INSTALL_DATA . ' <options>' => 'Install data fixtures',
             ConsoleController::CMD_INSTALL_USER_CONFIG . ' <options>' => 'Install user configuration',
             ConsoleController::CMD_INSTALL_ADMIN_USER . ' <options>' => 'Install admin user account',
+            ConsoleController::CMD_UPDATE . ' <options>' => 'Update database schema and da',
         ];
     }
 }

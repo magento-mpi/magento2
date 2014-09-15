@@ -108,6 +108,15 @@ return [
                         ]
                     ],
                 ],
+                'update' => [
+                    'options' => [
+                        'route' => ConsoleController::getCliRoute(ConsoleController::CMD_UPDATE),
+                        'defaults' => [
+                            'controller' => 'Magento\Setup\Controller\ConsoleController',
+                            'action' => 'update',
+                        ]
+                    ],
+                ],
             ],
         ],
     ],
