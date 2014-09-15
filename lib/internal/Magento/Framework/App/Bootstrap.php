@@ -316,14 +316,12 @@ class Bootstrap
     private function init()
     {
         if (!$this->objectManager) {
-            $this->initErrorHandler();
             $this->objectManager = $this->factory->create($this->rootDir, $this->server);
             $this->dirList = $this->objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
             $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
             /** @var $fileSystem \Magento\Framework\App\Filesystem */
             $fileSystem = $this->objectManager->get('Magento\Framework\App\Filesystem');
             $this->configDir = $fileSystem->getDirectoryRead(Filesystem::CONFIG_DIR);
-
         }
     }
 
