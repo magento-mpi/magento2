@@ -8,6 +8,7 @@
 
 namespace Magento\Webapi\Routing;
 
+use Magento\Framework\Exception\AuthorizationException;
 use Magento\Webapi\Model\Soap\Fault;
 
 /**
@@ -131,6 +132,34 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $expectedException->getParameters(), // expected error parameters
                 false,
                 $expectedErrors                      // expected wrapped errors
+            );
+        }
+    }
+
+    public function testUnauthorized()
+    {
+        $serviceInfo = [
+            'soap' => [
+                'service' => 'testModule3ErrorV1',
+                'operation' => 'testModule3ErrorV1AuthorizationException',
+                'token' => 'invalidToken'
+            ]
+        ];
+
+        $expectedException = new AuthorizationException(
+            AuthorizationException::NOT_AUTHORIZED,
+            ['resources' => 'Magento_TestModule3::resource1, Magento_TestModule3::resource2']
+        );
+
+        try {
+            $this->_webApiCall($serviceInfo);
+            $this->fail("SoapFault was not raised as expected.");
+        } catch (\SoapFault $e) {
+            $this->_checkSoapFault(
+                $e,
+                $expectedException->getRawMessage(),
+                'env:Sender',
+                $expectedException->getParameters() // expected error parameters
             );
         }
     }
