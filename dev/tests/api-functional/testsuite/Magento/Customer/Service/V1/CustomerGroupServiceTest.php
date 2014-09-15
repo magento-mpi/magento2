@@ -1137,7 +1137,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/search",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -1150,6 +1150,47 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $requestData = ['searchCriteria' => $searchData];
 
         $searchResult = $this->_webApiCall($serviceInfo, $requestData);
+
+        if (is_null($expectedResult)) {
+            $this->assertEquals(0, $searchResult['total_count']);
+        } elseif(is_array($expectedResult))  {
+            $this->assertGreaterThan(0, $searchResult['total_count']);
+            if(!empty($expectedResult)) {
+                $this->assertEquals($expectedResult, $searchResult['items'][0]);
+            }
+        }
+    }
+
+    /**
+     * Test search customer group using GET
+     *
+     * @param string $filterField Customer Group field to filter by
+     * @param string $filterValue Value of the field to be filtered by
+     * @param array $expectedResult Expected search result
+     *
+     * @dataProvider testSearchGroupsDataProvider
+     */
+    public function testSearchGroupsWithGET($filterField, $filterValue, $expectedResult)
+    {
+        $this->_markTestAsRestOnly('SOAP is covered in ');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $searchCriteriaBuilder =  Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+        $filter = $filterBuilder
+            ->setField($filterField)
+            ->setValue($filterValue)
+            ->create();
+        $searchCriteriaBuilder->addFilter([$filter]);
+        $searchData = $searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ]
+        ];
+        $searchResult = $this->_webApiCall($serviceInfo);
 
         if (is_null($expectedResult)) {
             $this->assertEquals(0, $searchResult['total_count']);

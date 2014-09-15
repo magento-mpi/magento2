@@ -922,7 +922,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -933,6 +933,34 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+    }
+
+    /**
+     * Test with a single filter using GET
+     */
+    public function testSearchCustomersUsingGET()
+    {
+        $this->_markTestAsRestOnly('SOAP test is covered in testSearchCustomers');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $customerData = $this->_createCustomer();
+        $filter = $builder
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData[Customer::EMAIL])
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter]);
+
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $searchResults = $this->_webApiCall($serviceInfo);
         $this->assertEquals(1, $searchResults['total_count']);
         $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
     }
@@ -964,7 +992,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -975,6 +1003,43 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $searchData = $searchCriteria->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(2, $searchResults['total_count']);
+        $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+        $this->assertEquals($customerData2[Customer::ID], $searchResults['items'][1]['customer'][Customer::ID]);
+    }
+
+    /**
+     * Test using multiple filters using GET
+     */
+    public function testSearchCustomersMultipleFiltersWithSortUsingGET()
+    {
+        $this->_markTestAsRestOnly('SOAP test is covered in testSearchCustomers');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $customerData1 = $this->_createCustomer();
+        $customerData2 = $this->_createCustomer();
+        $filter1 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = $builder->setField(Customer::LASTNAME)
+            ->setValue($customerData1[Customer::LASTNAME])
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
+        $this->searchCriteriaBuilder->setSortOrders([Customer::EMAIL => SearchCriteria::SORT_ASC]);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $searchResults = $this->_webApiCall($serviceInfo);
         $this->assertEquals(2, $searchResults['total_count']);
         $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
         $this->assertEquals($customerData2[Customer::ID], $searchResults['items'][1]['customer'][Customer::ID]);
@@ -1003,7 +1068,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -1013,6 +1078,40 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $searchData = $searchCriteria->__toArray();
         $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
+    }
+
+    /**
+     * Test and verify multiple filters using And-ed non-existent filter value using GET
+     */
+    public function testSearchCustomersNonExistentMultipleFiltersGET()
+    {
+        $this->_markTestAsRestOnly('SOAP test is covered in testSearchCustomers');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $customerData1 = $this->_createCustomer();
+        $customerData2 = $this->_createCustomer();
+        $filter1 = $filter1 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = $builder->setField(Customer::LASTNAME)
+            ->setValue('INVALID')
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
     }
