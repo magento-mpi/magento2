@@ -7,9 +7,8 @@
 define([
     '_',
     'Magento_Ui/js/lib/component',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/mixin/loader',
-], function(_, Component, Scope, Loader) {
+    'Magento_Ui/js/lib/ko/scope'
+], function(_, Component, Scope) {
     'use strict';
 
     var Listing =  Scope.extend({
@@ -184,8 +183,20 @@ define([
 
         hasData: function(){
             return this.rows().length;
+        },
+
+        lock: function() {
+            this.isLocked(true);
+
+            return this;
+        },
+
+        unlock: function() {
+            this.isLocked(false);
+
+            return this;
         }
-    }, Loader);
+    });
 
     return Component({
         constr: Listing
