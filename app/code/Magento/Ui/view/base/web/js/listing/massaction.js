@@ -19,8 +19,8 @@ define([
         actions: [],
         selects: [
             { value: 'selectAll',    label: 'Select all'                },
-            { value: 'selectPage',   label: 'Select all on this page'   },
             { value: 'deselectAll',  label: 'Deselect all'              },
+            { value: 'selectPage',   label: 'Select all on this page'   },
             { value: 'deselectPage', label: 'Deselect all on this page' }
         ],
         indexField: '',
@@ -54,7 +54,8 @@ define([
                 selected:           this.selected || [],
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
-                menuVisible:        false
+                menuVisible:        false,
+                hasMoreThanOnePage: this.getPagesCount() > 1
             });
 
             return this;
@@ -158,6 +159,10 @@ define([
                 all         = _.pluck(provider.get('items'), this.indexField);
 
             return _.difference(all, selected);
+        },
+
+        getPagesCount: function () {
+            return this.provider.data.get('pages');
         },
 
         toggle: function(area){
@@ -265,6 +270,8 @@ define([
          * Updates state according to changes of provider.
          */
         onRefresh: function () {
+            this.hasMoreThanOnePage(this.getPagesCount > 1);
+
             this.deselectAll();
         },
 
@@ -281,13 +288,13 @@ define([
         },
 
         shouldSelectAllBeVisible: function () {
-            return !this.allSelected();
+            return !this.allSelected() && this.hasMoreThanOnePage();
         },
 
         shouldDeselectAllBeVisible: function () {
             var selected = this.selected();
 
-            return selected.length;
+            return selected.length && this.hasMoreThanOnePage();
         }
     });
 
