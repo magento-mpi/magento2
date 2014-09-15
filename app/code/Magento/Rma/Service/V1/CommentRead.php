@@ -11,6 +11,7 @@ namespace Magento\Rma\Service\V1;
 use Magento\Rma\Model\Rma\Status\HistoryRepository;
 use Magento\Rma\Service\V1\Data\RmaStatusHistoryMapper;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResultsBuilder;
 
 class CommentRead implements CommentReadInterface
@@ -31,6 +32,11 @@ class CommentRead implements CommentReadInterface
     protected $criteriaBuilder;
 
     /**
+     * @var FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * @var RmaStatusHistorySearchResultsBuilder
      */
     protected $searchResultsBuilder;
@@ -39,17 +45,20 @@ class CommentRead implements CommentReadInterface
      * @param HistoryRepository $historyRepository
      * @param RmaStatusHistoryMapper $historyMapper
      * @param SearchCriteriaBuilder $criteriaBuilder
+     * @param FilterBuilder $filterBuilder
      * @param RmaStatusHistorySearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
         HistoryRepository $historyRepository,
         RmaStatusHistoryMapper $historyMapper,
         SearchCriteriaBuilder $criteriaBuilder,
+        FilterBuilder $filterBuilder,
         RmaStatusHistorySearchResultsBuilder $searchResultsBuilder
     ) {
         $this->historyRepository = $historyRepository;
         $this->historyMapper = $historyMapper;
         $this->criteriaBuilder = $criteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
         $this->searchResultsBuilder = $searchResultsBuilder;
     }
 
@@ -61,6 +70,9 @@ class CommentRead implements CommentReadInterface
      */
     public function commentsList($id)
     {
+        $this->criteriaBuilder->addFilter(
+            ['eq' => $this->filterBuilder->setField('rma_entity_id')->setValue($id)->create()]
+        );
         $criteria = $this->criteriaBuilder->create();
         $comments = [];
         foreach ($this->historyRepository->find($criteria) as $comment) {
