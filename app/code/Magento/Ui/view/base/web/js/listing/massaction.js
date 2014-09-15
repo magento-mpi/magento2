@@ -161,6 +161,20 @@ define([
         },
 
         /**
+         * Sets actionsVisible to false
+         */
+        hideActions: function () {
+            this.actionsVisible(false);
+        },
+
+        /**
+         * Sets menuVisible to false
+         */
+        hideMenu: function () {
+            this.menuVisible(false);
+        },
+
+        /**
          * Updates storage's params by the current state of instance
          * and hides dropdowns.
          * @param {String} action

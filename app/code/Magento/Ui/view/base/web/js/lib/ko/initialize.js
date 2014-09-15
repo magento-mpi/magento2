@@ -12,7 +12,8 @@ define([
     './bind/date',
     './bind/scope',
     './bind/datepicker',
-    './bind/stop_propagation'
+    './bind/stop_propagation',
+    './bind/outer_click'
 ], function(ko, $, templateEngine) {
     'use strict';
 

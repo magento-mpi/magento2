@@ -39,6 +39,11 @@ define([
             });
         },
 
+        /**
+         * Reads target observable from valueAccessor and writes its' value to el.value
+         * @param {HTMLElement} el - Element, that binding is applied to
+         * @param {Function} valueAccessor - Function that returns value, passed to binding
+         */
         update: function(el, valueAccessor){
             var config = valueAccessor(),
                 observable;
