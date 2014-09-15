@@ -10,7 +10,7 @@
     <thead>
         <tr data-part-prepend="head.row">
             <th class="col-select col-massaction" data-bind="scope: $parent.getExtender('massaction')">
-                <div class="mass-select">
+                <div class="mass-select" data-bind="outerClick: hideMenu, stopPropagation: true">
                     <label class="field choice mass-select-field">
                         <input type="checkbox" id="mass-select-checkbox" data-bind="checked: allSelected, event: { 'change': toggleSelectAll }">
                     </label>

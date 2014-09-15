@@ -161,10 +161,17 @@ define([
         },
 
         /**
-         * Sets menuVisible to false
+         * Sets actionsVisible to false
          */
         hideActions: function () {
             this.actionsVisible(false);
+        },
+
+        /**
+         * Sets menuVisible to false
+         */
+        hideMenu: function () {
+            this.menuVisible(false);
         },
 
         /**
