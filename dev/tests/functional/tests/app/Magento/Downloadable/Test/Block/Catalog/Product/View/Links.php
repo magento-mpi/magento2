@@ -14,6 +14,8 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Links
  * Downloadable links blocks on frontend
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 class Links extends Block
 {

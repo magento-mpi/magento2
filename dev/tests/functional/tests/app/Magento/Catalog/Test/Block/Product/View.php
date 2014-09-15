@@ -20,6 +20,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 class View extends Block
 {

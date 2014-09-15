@@ -18,6 +18,8 @@ use Mtf\Fixture\FixtureInterface;
  *
  * Data keys:
  *  - product (fixture data for verify)
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 class Item implements FixtureInterface
 {

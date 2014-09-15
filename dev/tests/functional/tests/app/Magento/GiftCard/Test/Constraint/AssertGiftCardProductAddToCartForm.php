@@ -15,6 +15,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertGiftCardProductAddToCartForm
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
 {

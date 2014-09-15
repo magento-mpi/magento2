@@ -18,6 +18,8 @@ use Magento\Bundle\Test\Fixture\BundleProduct;
  *
  * Data keys:
  *  - product (fixture data for verify)
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
 {

@@ -18,6 +18,9 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 /**
  * Class AssertCartItemsOptions
  * Assert that cart item options for product(s) display with correct information block
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class AssertCartItemsOptions extends AbstractAssertForm
 {

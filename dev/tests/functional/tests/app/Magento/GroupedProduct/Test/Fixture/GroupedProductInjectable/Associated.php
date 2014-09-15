@@ -15,6 +15,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class Associated
  * Grouped selections preset
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 class Associated implements FixtureInterface
 {

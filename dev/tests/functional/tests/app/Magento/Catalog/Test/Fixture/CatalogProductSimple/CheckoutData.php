@@ -152,10 +152,11 @@ class CheckoutData implements FixtureInterface
                 ]
             ],
             'order_default' => [
-                'qty' => 1
+                'options' => [
+                    'qty' => 1
+                ]
             ],
             'order_big_qty' => [
-                'qty' => 900
                 'options' => [
                     'qty' => 2
                 ],

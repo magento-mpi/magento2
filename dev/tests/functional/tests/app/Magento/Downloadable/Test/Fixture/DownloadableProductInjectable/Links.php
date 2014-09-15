@@ -14,6 +14,8 @@ use Mtf\Fixture\FixtureInterface;
  * Class Links
  *
  * Preset for link block
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 class Links implements FixtureInterface
 {

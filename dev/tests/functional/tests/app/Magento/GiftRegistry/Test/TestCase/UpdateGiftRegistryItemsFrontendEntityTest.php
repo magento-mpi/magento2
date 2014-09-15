@@ -42,6 +42,8 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
  *
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-28196
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class UpdateGiftRegistryItemsFrontendEntityTest extends Injectable
 {

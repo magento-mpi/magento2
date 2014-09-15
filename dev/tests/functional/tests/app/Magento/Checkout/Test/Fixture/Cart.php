@@ -13,6 +13,9 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class Cart
  * Fixture for cart
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Cart extends InjectableFixture
 {

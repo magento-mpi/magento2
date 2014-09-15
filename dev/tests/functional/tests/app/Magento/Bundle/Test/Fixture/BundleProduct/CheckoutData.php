@@ -14,6 +14,8 @@ namespace Magento\Bundle\Test\Fixture\BundleProduct;
  *
  * Data keys:
  *  - preset (Checkout data verification preset name)
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData
 {
