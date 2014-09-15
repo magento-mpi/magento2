@@ -136,7 +136,7 @@ define([
          * Prepares params object, which represents the current state of instance.
          * @return {Object} - params object
          */
-        buildParams: function () {            
+        buildParams: function () {           
             if (this.allSelected()) {
 
                 return {
@@ -180,23 +180,32 @@ define([
          * @param {String} action
          */
         setAction: function (action) {
-            return this.submit.bind(this, action);
+            return function(){
+                this.submit(action)
+                    .hideActions();
+            }.bind(this);
         },
 
         /**
          * Updates storage's params and reloads it.
          */
-        submit: function (action) {
+        submit: function(action) {
             var client = this.provider.client;
 
-            client.submit({
-                method: 'post',
-                action: action.url,
-                data: {
-                    massaction: this.buildParams()
-                }
-            });
-            
+            if (this.count) {
+
+                client.submit({
+                    method: 'post',
+                    action: action.url,
+                    data: {
+                        massaction: this.buildParams()
+                    }
+                });
+            } else {
+                
+                alert("You haven't selected any items!");
+            }
+
             return this;
         },
 
@@ -284,19 +293,18 @@ define([
         },
 
         countSelect: function() {
-            var provider = this.provider,
-                total,
-                count;
+            var provider    = this.provider,
+                total       = provider.data.get('totalCount'),
+                excluded    = this.excluded().length,
+                count       = this.selected().length;
 
             if (this.allSelected()) {
-                total = provider.data.get('totalCount');
-
-                count = total - this.excluded().length;
-            } else {
-                count = this.selected().length;
+                count = total - excluded;
             }
 
             provider.meta.set('selected', count);
+
+            this.count = count;
 
             return this;
         },

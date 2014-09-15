@@ -174,7 +174,7 @@ class View extends AbstractView
 
         $countItems = $this->renderContext->registry($this->getName())->getSize();
         $this->globalConfig['data']['pages'] = ceil(
-            $countItems / $this->renderContext->getRequestParam('limit', 5) // TODO fixme
+            $countItems / $this->renderContext->getRequestParam('limit', 20) // TODO fixme
         );
 
         $this->globalConfig['data']['totalCount'] = $countItems;
