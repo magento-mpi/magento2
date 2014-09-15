@@ -48,10 +48,13 @@ define([
         initObservable: function () {
             this.observe({
                 selected:           this.selected || [],
+                excluded:           [],
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
                 menuVisible:        false
             });
+
+            this.selected.subscribe(this.exclude.bind(this));
 
             return this;
         },
@@ -62,14 +65,9 @@ define([
          * @return {Object} - reference to instance
          */
         initIndexField: function () {
-            var fields = this.provider.meta.get('fields'),
-                fieldsWithId;
+            var provider = this.provider.meta;
 
-            fieldsWithId = fields.filter(function (field) {
-                return this.idAttribute in field;
-            }, this);
-
-            this.indexField = _.last(fieldsWithId).index;
+            this.indexField = provider.get('indexField');
 
             return this;
         },
@@ -135,25 +133,13 @@ define([
 
                 return {
                     all_selected: true,
-                    excluded: this.getExcluded()
+                    excluded: this.excluded()
                 };
             }
 
             return {
                 selected: this.selected()
             };
-        },
-
-        /**
-         * Compares all items to those selected and returnes the difference.
-         * @return {Array} - array of excluded ids.
-         */
-        getExcluded: function () {
-            var provider    = this.provider.data,
-                selected    = this.selected();
-                all         = _.pluck(provider.get('items'), this.indexField);
-
-            return _.difference(all, selected);
         },
 
         toggle: function(area){
@@ -198,7 +184,9 @@ define([
          */
         selectAll: function () {
             this.allSelected(true);
-            this.selectPage();
+            
+            this.clearExcluded()
+                .selectPage();
         },
 
         /**
@@ -213,10 +201,7 @@ define([
          * Selects all items on current page, adding their ids to selected observable array
          */
         selectPage: function () {
-            var items = this.provider.data.get('items'),
-                ids   = _.pluck(items, this.indexField);
-
-            this.selected(ids);
+            this.selected(this.getIds());
         },
 
         /**
@@ -224,6 +209,23 @@ define([
          */
         deselectPage: function () {
             this.selected([]);
+        },
+
+        exclude: function(selected){
+            var all         = this.getIds(),
+                excluded    = this.excluded();
+
+            excluded = _.union( excluded, _.difference(all, selected) ) );
+
+            this.excluded(excluded);
+
+            return this;
+        },
+
+        clearExcluded: function(){
+            this.excluded.removeAll();
+
+            return this;
         },
 
         /**
@@ -239,6 +241,12 @@ define([
             return function () {
                 window.location.href = url;
             }
+        },
+
+        getIds: function(){
+            var items = this.provider.data.get('items');
+
+            return _.pluck(items, this.indexField);
         },
 
         onToggle: function(area){
@@ -261,7 +269,9 @@ define([
          * Updates state according to changes of provider.
          */
         onRefresh: function () {
-            this.deselectAll();
+            if( this.allSelected() ){
+                this.selected( _.difference(this.getIds(), this.excluded()) );
+            }
         }
     });
 
