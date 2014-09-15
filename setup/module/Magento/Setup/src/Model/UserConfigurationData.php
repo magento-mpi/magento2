@@ -8,7 +8,7 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Module\Setup;
+use Magento\Setup\Module\Setup;
 use Magento\Store\Model\Store;
 use Magento\Core\Helper\Data;
 use Magento\Directory\Model\Currency;

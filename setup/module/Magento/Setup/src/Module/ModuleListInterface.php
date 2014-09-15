@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Module;
+namespace Magento\Setup\Module;
 
 interface ModuleListInterface
 {

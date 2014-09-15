@@ -8,11 +8,8 @@
 
 return [
     'modules' => [
-        'Magento\Composer',
         'Magento\Config',
         'Magento\Filesystem',
-        'Magento\Locale',
-        'Magento\Module',
         'Magento\Setup',
     ],
     'module_listener_options' => [

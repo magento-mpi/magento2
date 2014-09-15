@@ -8,7 +8,7 @@
 
 namespace Magento\Setup\Controller\Install;
 
-use Magento\Module\Setup\Config;
+use Magento\Setup\Module\Setup\Config;
 use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\WebLogger;
 use Zend\Json\Json;

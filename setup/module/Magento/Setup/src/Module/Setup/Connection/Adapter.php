@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Setup\Connection;
+namespace Magento\Setup\Module\Setup\Connection;
 
 use Magento\Setup\Framework\DB\Adapter\Pdo\Mysql;
-use Magento\Module\Setup\Config;
+use Magento\Setup\Module\Setup\Config;
 
 class Adapter implements AdapterInterface
 {

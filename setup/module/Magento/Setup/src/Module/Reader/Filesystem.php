@@ -8,18 +8,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Module\Reader;
+namespace Magento\Setup\Module\Reader;
 
 use Magento\Config\Reader\Filesystem as ConfigFilesystem;
-use Magento\Module\FileResolver;
-use Magento\Module\Converter\Dom;
-use Magento\Module\SchemaLocator;
-use Magento\Module\Dependency\ManagerInterface;
+use Magento\Setup\Module\FileResolver;
+use Magento\Setup\Module\Converter\Dom;
+use Magento\Setup\Module\SchemaLocator;
+use Magento\Setup\Module\Dependency\ManagerInterface;
 
 class Filesystem extends ConfigFilesystem
 {
     /**
-     * @var \Magento\Module\Dependency\ManagerInterface
+     * @var \Magento\Setup\Module\Dependency\ManagerInterface
      */
     protected $dependencyManager;
 

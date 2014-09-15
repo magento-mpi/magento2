@@ -6,11 +6,11 @@
  * @license   {license_link}
  */
 
-namespace Magento\Module;
+namespace Magento\Setup\Module;
 
-use Magento\Module\Setup\ConfigFactory as DeploymentConfigFactory;
-use Magento\Module\Setup\Connection\AdapterInterface;
-use Magento\Module\Setup\Config;
+use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
+use Magento\Setup\Module\Setup\Connection\AdapterInterface;
+use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Model\LoggerInterface;
 
 class SetupFactory

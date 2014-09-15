@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Module\Setup;
+namespace Magento\Setup\Module\Setup;
 
 use Magento\Filesystem\Directory\Write;
 use Magento\Filesystem\Filesystem;

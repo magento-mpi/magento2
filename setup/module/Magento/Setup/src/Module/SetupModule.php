@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module;
+namespace Magento\Setup\Module;
 
-use Magento\Module\Setup\Connection\AdapterInterface;
-use Magento\Module\Setup\FileResolver as SetupFileResolver;
-use Magento\Module\Resource\Resource;
+use Magento\Setup\Module\Setup\Connection\AdapterInterface;
+use Magento\Setup\Module\Setup\FileResolver as SetupFileResolver;
+use Magento\Setup\Module\Resource\Resource;
 use Magento\Setup\Model\LoggerInterface;
 
 class SetupModule extends Setup

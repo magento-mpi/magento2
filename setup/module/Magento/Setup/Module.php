@@ -11,7 +11,6 @@ namespace Magento\Setup;
 use Zend\Console\Adapter\AdapterInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
@@ -23,7 +22,6 @@ use Magento\Setup\Controller\ConsoleController;
 class Module implements
     BootstrapListenerInterface,
     ConfigProviderInterface,
-    AutoloaderProviderInterface,
     ConsoleBannerProviderInterface,
     ConsoleUsageProviderInterface
 {
@@ -76,20 +74,6 @@ class Module implements
             include __DIR__ . '/config/di.config.php',
             include __DIR__ . '/config/states.config.php',
             include __DIR__ . '/config/languages.config.php'
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/',
-                ),
-            ),
         );
     }
 

@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Module\Setup;
+namespace Magento\Setup\Module\Setup;
 
 use Zend\Stdlib\Glob;
 use Magento\Config\FileIteratorFactory;

@@ -9,7 +9,7 @@
 namespace Magento\Setup\Model;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Magento\Module\Setup;
+use Magento\Setup\Module\Setup;
 
 class AdminAccountFactory
 {

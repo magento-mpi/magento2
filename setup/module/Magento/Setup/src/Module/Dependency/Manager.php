@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Module\Dependency;
+namespace Magento\Setup\Module\Dependency;
 
 class Manager implements ManagerInterface
 {

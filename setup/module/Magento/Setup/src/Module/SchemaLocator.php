@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Module;
+namespace Magento\Setup\Module;
 
 use Magento\Config\SchemaLocatorInterface;
 use Magento\Config\ConfigFactory;

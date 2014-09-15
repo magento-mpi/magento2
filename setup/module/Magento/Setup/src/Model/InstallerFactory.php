@@ -33,9 +33,9 @@ class InstallerFactory
     {
         return new Installer(
             $this->serviceLocator->get('Magento\Setup\Model\FilePermissions'),
-            $this->serviceLocator->get('Magento\Module\Setup\ConfigFactory'),
-            $this->serviceLocator->get('Magento\Module\SetupFactory'),
-            $this->serviceLocator->get('Magento\Module\ModuleList'),
+            $this->serviceLocator->get('Magento\Setup\Module\Setup\ConfigFactory'),
+            $this->serviceLocator->get('Magento\Setup\Module\SetupFactory'),
+            $this->serviceLocator->get('Magento\Setup\Module\ModuleList'),
             $this->serviceLocator->get('Magento\Config\ConfigFactory'),
             $this->serviceLocator->get('Magento\Setup\Model\AdminAccountFactory'),
             $log

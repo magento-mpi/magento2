@@ -9,11 +9,11 @@
 namespace Magento\Setup\Model;
 
 use Zend\Stdlib\Parameters;
-use Magento\Module\Setup\ConfigFactory as DeploymentConfigFactory;
+use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
 use Magento\Config\ConfigFactory as SystemConfigFactory;
-use Magento\Module\Setup\Config;
-use Magento\Module\SetupFactory;
-use Magento\Module\ModuleListInterface;
+use Magento\Setup\Module\Setup\Config;
+use Magento\Setup\Module\SetupFactory;
+use Magento\Setup\Module\ModuleListInterface;
 
 class Installer
 {

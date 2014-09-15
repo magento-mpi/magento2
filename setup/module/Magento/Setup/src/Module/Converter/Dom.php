@@ -8,7 +8,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Module\Converter;
+namespace Magento\Setup\Module\Converter;
 
 use Magento\Config\Converter\ConverterInterface;
 

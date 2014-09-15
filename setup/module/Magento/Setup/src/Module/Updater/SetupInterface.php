@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Updater;
+namespace Magento\Setup\Module\Updater;
 
 interface SetupInterface
 {
@@ -38,7 +38,7 @@ interface SetupInterface
     /**
      * Run each time after applying of all updates,
      *
-     * @return \Magento\Module\Updater\SetupInterface
+     * @return \Magento\Setup\Module\Updater\SetupInterface
      */
     public function afterApplyAllUpdates();
 

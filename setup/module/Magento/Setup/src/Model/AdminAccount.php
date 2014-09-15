@@ -9,7 +9,7 @@
 namespace Magento\Setup\Model;
 
 use Magento\Framework\Math\Random;
-use Magento\Module\Setup;
+use Magento\Setup\Module\Setup;
 
 class AdminAccount
 {

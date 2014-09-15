@@ -6,9 +6,9 @@
  * @license   {license_link}
  */
 
-namespace Magento\Module;
+namespace Magento\Setup\Module;
 
-use Magento\Module\Reader\Filesystem;
+use Magento\Setup\Module\Reader\Filesystem;
 
 class ModuleList implements ModuleListInterface
 {

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Setup\Connection;
+namespace Magento\Setup\Module\Setup\Connection;
 
 interface AdapterInterface
 {

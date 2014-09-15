@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Resource;
+namespace Magento\Setup\Module\Resource;
 
 use Zend\Db\Sql\Sql;
 use Zend\Db\ResultSet;
 use Magento\Setup\Framework\DB\Adapter\AdapterInterface;
-use Magento\Module\ResourceInterface;
+use Magento\Setup\Module\ResourceInterface;
 
 /**
  * Resource Resource Model

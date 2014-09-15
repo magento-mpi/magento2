@@ -9,7 +9,7 @@
 namespace Magento\Setup\Controller;
 
 use Magento\Locale\Lists;
-use Magento\Module\Setup\Config;
+use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\ConsoleLogger;
