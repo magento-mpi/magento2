@@ -46,7 +46,14 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->assertSame(-28800, $this->dateTime->calculateOffset());
         }
-        $this->assertSame(10800, $this->dateTime->calculateOffset('Europe/Kiev'));
+        $curZone = @date_default_timezone_get();
+        date_default_timezone_set('Europe/Kiev');
+        if (date('I')) {
+            $this->assertSame(10800, $this->dateTime->calculateOffset('Europe/Kiev'));
+        } else {
+            $this->assertSame(7200, $this->dateTime->calculateOffset('Europe/Kiev'));
+        }
+        date_default_timezone_set($curZone);
     }
 
     public function testGmtDate()
