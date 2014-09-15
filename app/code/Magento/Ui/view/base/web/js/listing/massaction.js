@@ -270,7 +270,7 @@ define([
          * Updates state according to changes of provider.
          */
         onRefresh: function () {
-            this.hasMoreThanOnePage(this.getPagesCount > 1);
+            this.hasMoreThanOnePage(this.getPagesCount() > 1);
 
             this.deselectAll();
         },
