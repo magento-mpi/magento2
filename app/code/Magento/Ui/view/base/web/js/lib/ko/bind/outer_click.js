@@ -4,10 +4,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+ /** Creates outerClick binding and registers in to ko.bindingHandlers object */
 define([
     'ko',
     'jquery'
 ], function (ko, $) {
+    'use strict';
 
     ko.bindingHandlers.outerClick = {
 
@@ -15,13 +17,19 @@ define([
          * Attaches click handler to document
          * @param {HTMLElement} el - Element, that binding is applied to
          * @param {Function} valueAccessor - Function that returns value, passed to binding
-         * @param  {[type]} allBindings - all bindings object
-         * @param  {[type]} viewModel - reference to viewmodel
+         * @param  {Object} allBindings - all bindings object
+         * @param  {Object} viewModel - reference to viewmodel
          */
         init: function (element, valueAccessor, allBindings, viewModel) {
             var callback = valueAccessor();
-            $(document).on('click', callback.bind(viewModel));
+
+            callback = callback.bind(viewModel);
+
+            $(document).on('click', callback);
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(document).off('click', callback);
+            });
         }
     }
-
 });
