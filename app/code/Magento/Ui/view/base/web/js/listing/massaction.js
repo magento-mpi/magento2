@@ -40,7 +40,8 @@ define([
                 .initIndexField()
                 .formatActions()
                 .attachTemplateExtender()
-                .initProvider();
+                .initProvider()
+                .updatePages();
         },
 
         /**
@@ -54,7 +55,7 @@ define([
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
                 menuVisible:        false,
-                multiplePages:      this.pages() > 1
+                multiplePages:      ''
             });
 
             this.selected.subscribe(this.updateExcluded.bind(this));
@@ -143,10 +144,6 @@ define([
             return {
                 selected: this.selected()
             };
-        },
-
-        pages: function () {
-            return this.provider.data.get('pages');
         },
 
         toggle: function(area){
@@ -255,6 +252,16 @@ define([
             }
         },
 
+        updatePages: function(){
+            var provider = this.provider.data;
+
+            this.pages = provider.get('pages');
+
+            this.multiplePages(this.pages > 1);
+
+            return this;
+        },
+
         onToggle: function(area){
             return this.toggle.bind(this, area);
         },
@@ -279,7 +286,7 @@ define([
                 this.selected(this.getIds(true));
             }
 
-            this.multiplePages(this.pages() > 1);
+            this.updatePages();
         },
 
         toggleSelectAll: function () {
