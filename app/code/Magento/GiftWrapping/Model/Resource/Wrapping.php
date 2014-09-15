@@ -156,6 +156,7 @@ class Wrapping extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param int $status new status can be 1 or 0
      * @param array $wrappingIds target wrapping IDs
+     * @return void
      */
     public function updateStatus($status, array $wrappingIds)
     {

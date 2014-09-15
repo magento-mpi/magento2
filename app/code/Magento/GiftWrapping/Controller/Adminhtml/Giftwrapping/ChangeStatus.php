@@ -16,7 +16,9 @@ class ChangeStatus extends \Magento\GiftWrapping\Controller\Adminhtml\Giftwrappi
     protected $wrappingResource;
 
     /**
-     * @param $wrappingResource $wrappingModelResource
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping $wrappingModelResource
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
