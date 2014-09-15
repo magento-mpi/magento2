@@ -39,6 +39,12 @@
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">input</item>
                     </item>
+                    <item name="identifier" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Identifier</item>
+                        <item name="align" xsi:type="string">left</item>
+                        <item name="data_type" xsi:type="string">text</item>
+                        <item name="filter_type" xsi:type="string">input</item>
+                    </item>
                     <item name="store_id" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Store View</item>
                         <item name="align" xsi:type="string">left</item>
@@ -46,12 +52,6 @@
                         <item name="filter_type" xsi:type="string">store</item>
                         <item name="sortable" xsi:type="boolean">false</item>
                         <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
-                    </item>
-                    <item name="identifier" xsi:type="array">
-                        <item name="title" xsi:type="string" translate="true">Identifier</item>
-                        <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">text</item>
-                        <item name="filter_type" xsi:type="string">input</item>
                     </item>
                     <item name="is_active" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Status</item>
