@@ -26,7 +26,7 @@ define([
             obj = arr[i];
 
             if ('value' in obj) {
-                found = obj.value === selected && obj.label;
+                found = obj.value == selected && obj.label;
             } else {
                 found = findIn(obj.items, selected);
             }
@@ -68,7 +68,7 @@ define([
          */
         getLabelFor: function (selected) {
             var label = findIn(this.options, selected);
-
+            
             return label;
         },
 
