@@ -1,4 +1,0 @@
-# A list similar to "common.txt", but distinguishes items that belong only to Magento EE
-# These items and this file are published in Magento EE only
-#
-app/code/Magento/CustomerSegment/Model/Logging.php

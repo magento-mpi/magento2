@@ -28,6 +28,45 @@
         <replace file="${product_root_dir}/dev/tests/static/pdepend.xml">
             <replacefilter token="{{pdepend_cache_path}}" value="${product_root_dir}/var/pdepend"/>
         </replace>
+        <condition property="env.bamboo_file_formats" value="php,phtml">
+            <not><isset property="env.bamboo_file_formats"/></not>
+        </condition>
+        <script language="javascript"><![CDATA[
+            var currentBranch = project.getProperty('env.bamboo_repository_git_branch');
+            var currentRepoUrl = project.getProperty('env.bamboo_repository_git_repositoryUrl');
+            var additionalOptions = project.getProperty('env.bamboo_additional_options');
+            var fileFormats = project.getProperty('env.bamboo_file_formats');
+            var mainlineRepo = project.getProperty('env.bamboo_mainline_repo');
+
+            var parts = currentRepoUrl.split("/");
+            var teamRepo = parts[parts.length - 2];
+
+            if (teamRepo != mainlineRepo) {
+                //get changelist from github
+                var get_github_changes = project.createTask('exec');
+                get_github_changes.setExecutable('php');
+                get_github_changes.setResultProperty('script_exit_code');
+                var arg = get_github_changes.createArg();
+                var command = "-f " + project.getProperty('basedir')
+                        + "/dev/build/core_dev/static/get_github_changes.php -- --team-repo="
+                        + teamRepo + " --feature-branch=" + currentBranch + " --file-formats=" + fileFormats
+                        + " " + additionalOptions;
+                arg.setLine(command);
+                get_github_changes.execute();
+
+                if (project.getProperty('script_exit_code') == 0) {
+                    importClass(java.io.File);
+
+                    //copy a file with list of changed files
+                    var copyTask = project.createTask('copy');
+                    copyTask.setFile(new File(project.getProperty('basedir') + '/changed_files.txt'));
+                    copyTask.setTofile(new File(project.getProperty('product_root_dir') + '/dev/tests/static/testsuite/Magento/Test/Php/_files/changed_files.txt'));
+                    copyTask.setOverwrite(true);
+                    copyTask.execute();
+                }
+            }
+        ]]></script>
+
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_no_js.xml"/>
         </exec>

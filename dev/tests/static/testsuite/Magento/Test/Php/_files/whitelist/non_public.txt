@@ -1,4 +1,0 @@
-# A list similar to "common.txt", but these items are not to be published for any reason
-# These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/common.txt
-# This file will not be published, too
-#

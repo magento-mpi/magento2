@@ -7,7 +7,6 @@ dev/tests/api-functional
 
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php
-dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/non_public.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/non_public.txt
 
 dev/tests/performance/testsuite/benchmark

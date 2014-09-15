@@ -83,10 +83,7 @@ dev/tests/static/testsuite/Magento/Test/Integrity/Enterprise
 dev/tests/static/testsuite/Magento/Test/Js/_files/{whitelist,blacklist}/ee.txt
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_*_ee.php
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_ee.xml
-dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/ee.txt
-dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/ee_additional.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/ee.txt
-dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/blacklist/ee.txt
 
 lib/internal/Apache
 pub/errors/enterprise

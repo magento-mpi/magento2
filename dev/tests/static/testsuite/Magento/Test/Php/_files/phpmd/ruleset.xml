@@ -34,7 +34,6 @@
 
     <!-- Naming Rules -->
     <rule ref="rulesets/naming.xml/ShortMethodName" />
-    <rule ref="rulesets/naming.xml/ConstructorWithNameAsEnclosingClass" />
     <rule ref="rulesets/naming.xml/ConstantNamingConventions" />
     <rule ref="rulesets/naming.xml/BooleanGetMethodName" />
 </ruleset>
