@@ -31,11 +31,12 @@ define([
                 extendersHtml = '',
 
                 resolve       = isRendered.resolve.bind(isRendered),
+                loadTemplate  = this._load.bind(this),
                 parseTemplate = this._parse.bind(this);
 
             if (extenders.length) {
 
-                waitFor(loader.loadTemplates(extenders)).done(function () {
+                loadTemplate.apply(this, extenders).done(function () {
 
                     toArray(arguments).forEach(function (chunk) {
                         extendersHtml += chunk;
@@ -48,12 +49,20 @@ define([
                 }); 
             } else {
 
-                loader.loadTemplate(parent)
+                loadTemplate(parent)
                     .then(parseTemplate)
                     .done(resolve);
             }
 
             return isRendered.promise();
+        },
+
+        /**
+         * Loads templates via loader module.
+         * @return {Deferred} - Promise of templates to be loaded
+         */
+        _load: function () {
+            return loader.loadTemplate.apply(loader, arguments);
         },
 
         /**

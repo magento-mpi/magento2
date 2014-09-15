@@ -14,9 +14,9 @@ define([
     var defaults = {
         actions: [],
         selects: [
-            { value: 'selectAll',    label: 'Select all' },
-            { value: 'selectPage',   label: 'Select all on this page' },
-            { value: 'deselectAll',  label: 'Deselect all' },
+            { value: 'selectAll',    label: 'Select all'                },
+            { value: 'selectPage',   label: 'Select all on this page'   },
+            { value: 'deselectAll',  label: 'Deselect all'              },
             { value: 'deselectPage', label: 'Deselect all on this page' }
         ],
         indexField: '',
@@ -38,8 +38,7 @@ define([
                 .initIndexField()
                 .formatActions()
                 .attachTemplateExtender()
-                .initProvider()
-                .updateParams();
+                .initProvider();
         },
 
         /**
@@ -48,11 +47,10 @@ define([
          */
         initObservable: function () {
             this.observe({
-                selected: this.selected || [],
-                isAllSelected: this.isAllSelected || false,
-                isVisibleActions: false,
-                isVisibleSelects: false,
-                action: this.action
+                selected:           this.selected || [],
+                allSelected:        this.allSelected || false,
+                actionsVisible:     false,
+                menuVisible:        false
             });
 
             return this;
@@ -79,15 +77,14 @@ define([
         formatActions: function(){
             var actions = this.actions;
 
-            if(Array.isArray(actions)){
-                return this;
+            if(!Array.isArray(actions)){
+
+                this.actions = _.map(actions, function(action, name){
+                    action.value = name;
+
+                    return action;
+                });
             }
-
-            this.actions = _.map(actions, function(action, name){
-                action.value = name;
-
-                return action;
-            });
 
             return this;
         },
@@ -130,40 +127,15 @@ define([
         },
 
         /**
-         * Updates state according to changes of provider.
-         */
-        onRefresh: function () {
-            var allSelected = this.isAllSelected();
-
-            if (allSelected) {
-                this.selectPage();
-            }
-
-            this.isVisibleSelects(false);
-            this.isVisibleActions(false);
-
-        },
-
-        /**
-         * Updates storage's params by the current state of instance
-         * @return {Object} - reference to instance
-         */
-        updateParams: function () {
-            this.provider.params.set('actions', this.buildParams());
-            return this;
-        },
-
-        /**
          * Prepares params object, which represents the current state of instance.
          * @return {Object} - params object
          */
-        buildParams: function () {
-            var allSelected = this.isAllSelected();
-            
-            if (allSelected) {
+        buildParams: function () {            
+            if (this.allSelected()) {
+
                 return {
                     all_selected: true,
-                    excluded: this.getExcludedItems()
+                    excluded: this.getExcluded()
                 };
             }
 
@@ -176,32 +148,18 @@ define([
          * Compares all items to those selected and returnes the difference.
          * @return {Array} - array of excluded ids.
          */
-        getExcludedItems: function () {
-            var provider = this.provider.data,
-                haveToBeSelected,
-                actuallySelected,
-                excluded;
+        getExcluded: function () {
+            var provider    = this.provider.data,
+                selected    = this.selected();
+                all         = _.pluck(provider.get('items'), this.indexField);
 
-            haveToBeSelected = _.pluck(provider.get('items'), this.indexField);
-            actuallySelected = this.selected();
-            excluded         = _.difference(haveToBeSelected, actuallySelected);
-
-            return excluded;
+            return _.difference(all, selected);
         },
 
+        toggle: function(area){
+            var visible = this[area];
 
-        /**
-         * Toggle visibility of dropdown selects actions list
-         */
-        toggleSelects: function () {
-            this.isVisibleSelects(!this.isVisibleSelects());
-        },
-
-        /**
-         * Toggle visibility of dropdown massactions list
-         */
-        toggleActions: function () {
-            this.isVisibleActions(!this.isVisibleActions());
+            visible(!visible());
         },
 
         /**
@@ -236,23 +194,10 @@ define([
         },
 
         /**
-         * Creates handler for applying action (e.g. selectAll)
-         * @param  {String} action
-         * @return {Function} - click handler
-         */
-        applySelectAction: function (action) {
-            var self = this;
-
-            return function () {
-                self[action]();
-            }
-        },
-
-        /**
          * Sets isAllSelected observable to true and selects all items on current page.
          */
         selectAll: function () {
-            this.isAllSelected(true);
+            this.allSelected(true);
             this.selectPage();
         },
 
@@ -260,7 +205,7 @@ define([
          * Sets isAllSelected observable to false and deselects all items on current page.
          */
         deselectAll: function () {
-            this.isAllSelected(false);
+            this.allSelected(false);
             this.deselectPage();
         },
 
@@ -294,8 +239,30 @@ define([
             return function () {
                 window.location.href = url;
             }
-        }
+        },
 
+        onToggle: function(area){
+            return this.toggle.bind(this, area);
+        },
+
+        /**
+         * Creates handler for applying action (e.g. selectAll)
+         * @param  {String} action
+         * @return {Function} - click handler
+         */
+        onApplySelect: function (action) {
+            return function(){
+                this.menuVisible(false);
+                this[action]();
+            }.bind(this);
+        },
+
+        /**
+         * Updates state according to changes of provider.
+         */
+        onRefresh: function () {
+            this.deselectAll();
+        }
     });
 
     return Component({

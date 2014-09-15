@@ -6,11 +6,20 @@
  */
 define(['jquery'], function($) {
     'use strict';
+    
+    var storage = window.localStorage
 
-    var storage = window.localStorage;
+    function getStoragePathFor(name, entity) {
+        return '__' + entity + 'Cache__' + name;
+    }
 
-    function generateStorageNameFor(path) {
-        return '__templateCache__' + path;
+    /**
+     * Converts arrayLikeObject to array
+     * @param  {Object|Array} arrayLikeObject - target
+     * @return {Array} - result array
+     */
+    function toArray(arrayLikeObject) {
+        return Array.prototype.slice.call(arrayLikeObject);
     }
 
     /**
@@ -33,35 +42,40 @@ define(['jquery'], function($) {
 
     return {
         /**
-         * Loads template by path.
-         * @return {Deferred} - promise of template to be loaded
+         * Loops over arguments and loads template for each.
+         * @return {Deferred} - promise of templates to be loaded
          */
-        loadTemplate: function(path) {
-            var isLoaded       = $.Deferred(),
-                storagePath    = generateStorageNameFor(path),
-                cachedTemplate = storage.getItem(storagePath);
+        loadTemplate: function() {
+            var isLoaded  = $.Deferred(),
+                templates = toArray(arguments);
 
-            if (cachedTemplate) {
-                isLoaded.resolve(cachedTemplate);
-            } else {
-                path = formatTemplatePath(path);
-
-                require([path], function(html) {
-                    storage.setItem(storagePath, html);
-                    isLoaded.resolve(html);
-                });
-            }
+            waitFor(templates.map(this._loadTemplate)).done(function () {
+                templates = toArray(arguments);
+                isLoaded.resolve.apply(isLoaded, templates);
+            });
 
             return isLoaded.promise();
         },
 
-        loadTemplates: function (templates) {
-            var isAllLoaded  = $.Deferred(),
-                resolve      = isAllLoaded.resolve.bind(isAllLoaded);
+        _loadTemplate: function (name) {
+            var isLoaded    = $.Deferred(),
+                storagePath = getStoragePathFor(name, 'template'),
+                cached      = storage.getItem(storagePath),
+                path        = formatTemplatePath(name);
 
-            waitFor(templates.map(this.loadTemplate)).done(resolve);
+            if (cached) {
+                setTimeout(function () {
+                    isLoaded.resolve(cached);    
+                }, 0)
+            } else {
+                require([path], function (template) {
+                    storage.setItem(storagePath, template);
+                    isLoaded.resolve(template);
+                });
+            }
 
-            return isAllLoaded;
+            return isLoaded.promise();
+
         }
     }
 });

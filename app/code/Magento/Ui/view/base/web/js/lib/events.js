@@ -5,76 +5,52 @@
  * @license     {license_link}
  */
 define([
-], function() {
+    '_'
+], function(_) {
 
-   function addHandler( name, callback ){
-        var events = this._events,
-            event;
-
-        event = events[name] = events[name] || [];
-
-        event.push(callback);
+    function addHandler(events, callback, name) {
+        (events[name] = events[name] || []).push(callback);
     }
 
-    function trigger( args, name ){
-        var handlers;
+    function getEvents(obj, name) {
+        var events = obj._events = obj._events || {};
 
-        this._events = this._events || {};
-        
-        handlers = this._events[ name ];
-
-        if( typeof handlers === 'undefined' ){
-            return;
-        }
-        
-        handlers.forEach( function( callback ){
-            callback.apply( this, args );
-        });
+        return name ? events[name] : events;
     }
 
     return {
-        on: function( name, callback ){
-            var key;
+        on: function(name, callback) {
+            var events = getEvents(this);
 
-            this._events = this._events || {};
+            typeof name === 'object' ?
+                _.each(name, addHandler.bind(window, events)) :
+                addHandler(events, callback, name);
 
-            if( typeof name === 'object' ){
-                
-                for(key in name){
-                    addHandler.call( this, key, name[key] );
-                }
-            }
-            else if( typeof callback === 'function' ){
-                addHandler.call( this, name, callback );
+            return this;
+        },
+
+        off: function(name) {
+            var events      = getEvents(this),
+                handlers    = events[name];
+
+            if (Array.isArray(handlers)) {
+                delete events[name];
             }
 
             return this;
         },
 
-        off: function( name ){
-            var handlers = this._events[name];
+        trigger: function(name) {
+            var handlers = getEvents(this, name),
+                args;
 
-            if( Array.isArray(handlers) ){
-                delete this._events[name];
+            if (typeof handlers !== 'undefined') {
+                args = Array.prototype.slice.call(arguments, 1);
+
+                handlers.forEach(function(callback) {
+                    callback.apply(this, args);
+                });
             }
-
-            return this;
-        },
-
-        trigger: function( events ){
-            var args;
-
-            args = Array.prototype.slice.call( arguments, 1 )
-
-            if( typeof events === 'string' ){
-                events = events.split(' ');
-            }
-
-            if( !Array.isArray(events) ){
-                return this;
-            }
-
-            events.forEach( trigger.bind(this, args) );
 
             return this;
         }

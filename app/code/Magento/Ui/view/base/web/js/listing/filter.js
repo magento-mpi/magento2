@@ -9,7 +9,7 @@ define([
     'Magento_Ui/js/lib/ko/scope',
     'Magento_Ui/js/lib/component',
     './filter/filters'
-], function(_, Scope, Component, filterControls) {
+], function(_, Scope, Component, controls) {
     'use strict';
 
     var Filter = Scope.extend({
@@ -22,14 +22,14 @@ define([
             this.provider = this.config.provider;
 
             this.initObservable()
-                .extractFilterable()
+                .extractFields()
                 .initFilters();
         },
 
         initObservable: function(){
             this.observe({
-                isVisible: false,
-                active: []
+                isVisible:  false,
+                active:     []
             });
 
             return this; 
@@ -39,9 +39,9 @@ define([
          * Filters filterable fields and stores them to this.fields 
          * @param {Object} this - Reference to instance
          */
-        extractFilterable: function (fields) {
-            var fields = this.provider.meta.getVisible(),
-                filterable;
+        extractFields: function () {
+            var provider    = this.provider.meta,
+                fields      = provider.getVisible();
 
             this.fields = fields.filter(function (field) {
                 return field.filterable;
@@ -51,21 +51,23 @@ define([
         },
 
         /**
-         * Initializes filters by creating instances of corresponding classes found in filterControls by filter type
+         * Initializes filters by creating instances of corresponding classes found in controls by filter type
          * @param {Object} this - Reference to instance
          */
         initFilters: function () {
-            var type,
-                Control,
-                config       = this.config,
-                typeConfigs  = config.types;
+            var configs = this.config.types,
+                config,
+                type,
+                control;
 
             this.filters = this.fields.map(function (field) {
-                type    = field.type = (field.filter_type || field.input_type);
-                config  = typeConfigs && typeConfigs[type];
-                Control = filterControls[type];
+                type    = (field.filter_type || field.input_type);
+                config  = configs && configs[type];
+                control = controls[type];
 
-                return new Control(field, config);
+                field.type = type;
+
+                return new control(field, config);
             }, this);
 
             return this;
@@ -83,14 +85,36 @@ define([
             return this;
         },
 
-        clearActive: function(){
-            var active = this.active;
+        getData: function(all){
+            var filters;
 
-            active().forEach(function (filter) {
-                filter.reset();
+            filters = all ? this.filters() : this.active();
+
+            return filters.map(function(filter){
+                return filter.dump();
             });
+        },
 
-            active([]);
+        clearData: function(filter){
+            var active = this.active(),
+                index;
+
+            if(filter){
+                
+                index = active.indexOf(filter);
+
+                active.splice(index, 1);
+            }
+            else{
+
+                active.forEach(function (filter) {
+                    filter.reset();
+                });
+
+                active = [];
+            }
+
+            this.active(active);
 
             return this;
         },
@@ -107,8 +131,8 @@ define([
             return this;
         },
 
-        reset: function(){
-            this.clearActive()           
+        reset: function(filter){
+            this.clearData(filter)           
                 .reload();
 
             return this;
@@ -120,15 +144,9 @@ define([
          * @returns {Object} - reference to instance
          */
         pushParams: function() {
-            var active  = this.active(),
-                params  = this.provider.params,
-                filters;
+            var params = this.provider.params;
 
-            filters = active.map(function(filter) {
-                return filter.dump();
-            });
-
-            params.set('filter', filters);
+            params.set('filter', this.getData());
 
             return this;
         },
@@ -148,11 +166,7 @@ define([
         },
 
         onClear: function(filter) {
-            return function() {
-                filter.reset();
-
-                this.apply();
-            }.bind(this);
+            this.reset.bind(this, filter);
         },
 
         /**
