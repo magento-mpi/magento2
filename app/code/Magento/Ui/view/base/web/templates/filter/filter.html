@@ -25,8 +25,7 @@
             <button class="action secondary action-close" data-bind="click: close" type="button"><span data-bind="text: $t('Close')"></span></button>
         </div>
     </div>
-    <!-- ko if: active().length -->
-    <div class="filters-current">
+    <div class="filters-current" data-bind="css: {active: active().length}">
         <ul class="filters-items items">
             <!-- ko foreach: { data: active, as: 'filter' } -->
 
@@ -42,5 +41,4 @@
             <span data-bind="text: $t('Clear all')"></span>
         </button>
     </div>
-    <!-- /ko -->
 </div>
