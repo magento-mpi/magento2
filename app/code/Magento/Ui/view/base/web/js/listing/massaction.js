@@ -54,10 +54,10 @@ define([
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
                 menuVisible:        false,
-                hasMoreThanOnePage: this.getPagesCount() > 1
+                multiplePages:      this.pages() > 1
             });
 
-            this.selected.subscribe(this.exclude.bind(this));
+            this.selected.subscribe(this.updateExcluded.bind(this));
 
             return this;
         },
@@ -145,7 +145,7 @@ define([
             };
         },
 
-        getPagesCount: function () {
+        pages: function () {
             return this.provider.data.get('pages');
         },
 
@@ -169,21 +169,26 @@ define([
          */
         submit: function (action) {
             var client = this.provider.client,
-                config,
-                data;
+                params;
 
-            config = {
+            params = {
                 method: 'post',
-                action: action.url
+                action: action.url,
+                data: {
+                    massaction: this.buildParams()
+                }
             };
 
-            data = {
-                massaction: this.buildParams()
-            };
-
-            client.submit(config, data);
+            client.submit(params);
             
             return this;
+        },
+
+        getIds: function(exclude){
+            var items   = this.provider.data.get('items'),
+                ids     = _.pluck(items, this.indexField);
+
+            return exclude ? _.difference(ids, this.excluded()) : ids;    
         },
 
         /**
@@ -215,10 +220,10 @@ define([
          * Deselects all items on current page, emptying selected observable array
          */
         deselectPage: function () {
-            this.selected([]);
+            this.selected.removeAll();
         },
-
-        exclude: function(selected) {
+        
+        updateExcluded: function(selected) {
             var all         = this.getIds(),
                 excluded    = this.excluded();
 
@@ -250,12 +255,6 @@ define([
             }
         },
 
-        getIds: function(){
-            var items = this.provider.data.get('items');
-
-            return _.pluck(items, this.indexField);
-        },
-
         onToggle: function(area){
             return this.toggle.bind(this, area);
         },
@@ -277,9 +276,10 @@ define([
          */
         onRefresh: function () {
             if( this.allSelected() ){
-                this.selected( _.difference(this.getIds(), this.excluded()) );
+                this.selected(this.getIds(true));
             }
-            this.hasMoreThanOnePage(this.getPagesCount() > 1);
+
+            this.multiplePages(this.pages() > 1);
         },
 
         toggleSelectAll: function () {
@@ -295,13 +295,11 @@ define([
         },
 
         shouldSelectAllBeVisible: function () {
-            return !this.allSelected() && this.hasMoreThanOnePage();
+            return !this.allSelected() && this.multiplePages();
         },
 
         shouldDeselectAllBeVisible: function () {
-            var allSelected = this.allSelected();
-
-            return allSelected && this.hasMoreThanOnePage();
+            return this.allSelected() && this.multiplePages();
         }
     });
 

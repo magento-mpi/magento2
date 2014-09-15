@@ -158,16 +158,16 @@ define([
     }    
 
 
-    utils.submitAsForm = function(config, data){  
+    utils.submitAsForm = function(params){  
         var form,
             field;
 
         form = document.createElement('form');
 
-        form.setAttribute('method', config.method);
-        form.setAttribute('action', config.action);
+        form.setAttribute('method', params.method);
+        form.setAttribute('action', params.action);
 
-        _.each(data, function(value, name){
+        _.each(params.data, function(value, name){
             field = document.createElement('input');
 
             if(typeof value === 'object'){

@@ -60,7 +60,7 @@ class View extends AbstractView
     {
         if (!empty($this->viewConfiguration['field']) && !empty($this->viewConfiguration['direction'])) {
             $this->renderContext->getDataCollection($this->getParentName())->setOrder(
-                $this->renderContext->getRequestParam('field', $this->viewConfiguration['field']),
+                $this->renderContext->getRequestParam('sort', $this->viewConfiguration['field']),
                 strtoupper($this->renderContext->getRequestParam('dir', $this->viewConfiguration['direction']))
             );
         }
