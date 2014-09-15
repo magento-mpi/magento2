@@ -80,6 +80,8 @@ class WriteService implements WriteServiceInterface
         }
         $address = $this->addressConverter->convertDataObjectToModel($addressData, $address);
         $address->setSameAsBilling(0);
+        $address->setCollectShippingRates(true);
+
         $quote->setShippingAddress($address);
         $quote->setDataChanges(true);
         try {
