@@ -16,17 +16,6 @@ use Magento\Ui\Configuration;
 class View extends AbstractView
 {
     /**
-     * View configuration
-     *
-     * @var array
-     */
-    protected $viewConfiguration = [
-        'sizes' => [5, 10, 20, 30, 50, 100, 200],
-        'pageSize' => 5,
-        'current' => 1
-    ];
-
-    /**
      * Prepare custom data
      *
      * @return void
