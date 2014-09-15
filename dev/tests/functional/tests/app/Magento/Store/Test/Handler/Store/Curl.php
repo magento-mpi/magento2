@@ -55,7 +55,7 @@ class Curl extends AbstractCurl implements StoreInterface
         $data = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . $this->saveUrl;
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
@@ -68,14 +68,15 @@ class Curl extends AbstractCurl implements StoreInterface
     /**
      * Prepare data from text to values
      *
-     * @param $fixture
+     * @param FixtureInterface $fixture
      * @return array
      */
-    protected function prepareData($fixture)
+    protected function prepareData(FixtureInterface $fixture)
     {
         $data['store'] = $this->replaceMappingData($fixture->getData());
         $data['store_action'] = isset($data['store_action']) ? $data['store_action'] : 'add';
         $data['store_type'] = isset($data['store_type']) ? $data['store_type'] : 'store';
+        $data['store']['group_id'] = $fixture->getDataFieldConfig('group_id')['source']->getStoreGroup()->getGroupId();
 
         return $data;
     }

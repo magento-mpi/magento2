@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="backup/index" module="Magento_Backup">
+    <blocks>
+        <backupGrid>
+            <class>Magento\Backup\Test\Block\Adminhtml\BackupGrid</class>
+            <locator>[data-grid-id="backupsGrid"]</locator>
+            <strategy>css selector</strategy>
+        </backupGrid>
+    </blocks>
+</page>

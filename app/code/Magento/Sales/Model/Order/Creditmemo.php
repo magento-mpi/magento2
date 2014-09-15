@@ -8,6 +8,7 @@
 namespace Magento\Sales\Model\Order;
 
 use Magento\Framework\Model\Exception;
+use Magento\Sales\Model\EntityInterface;
 
 /**
  * Order creditmemo model
@@ -85,7 +86,6 @@ use Magento\Framework\Model\Exception;
  * @method \Magento\Sales\Model\Order\Creditmemo setGlobalCurrencyCode(string $value)
  * @method string getTransactionId()
  * @method \Magento\Sales\Model\Order\Creditmemo setTransactionId(string $value)
- * @method string getIncrementId()
  * @method \Magento\Sales\Model\Order\Creditmemo setIncrementId(string $value)
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Creditmemo setCreatedAt(string $value)
@@ -104,7 +104,7 @@ use Magento\Framework\Model\Exception;
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order\Creditmemo setBaseShippingInclTax(float $value)
  */
-class Creditmemo extends \Magento\Sales\Model\AbstractModel
+class Creditmemo extends \Magento\Sales\Model\AbstractModel implements EntityInterface
 {
     const STATE_OPEN = 1;
 
@@ -118,8 +118,10 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
 
     /*
      * Identifier for order history item
+     *
+     * @var string
      */
-    const HISTORY_ENTITY_NAME = 'creditmemo';
+    protected $entityType = 'creditmemo';
 
     /**
      * @var array
@@ -179,7 +181,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_calculatorFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -202,7 +204,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory
      * @param \Magento\Framework\Math\CalculatorFactory $calculatorFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -218,7 +220,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory,
         \Magento\Framework\Math\CalculatorFactory $calculatorFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -288,7 +290,17 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         if (!$this->_order instanceof \Magento\Sales\Model\Order) {
             $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
-        return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
+        return $this->_order->setHistoryEntityName($this->entityType);
+    }
+
+    /**
+     * Return order entity type
+     *
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return $this->entityType;
     }
 
     /**
@@ -835,5 +847,23 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     public function getFilteredCollectionItems($filter = null)
     {
         return $this->getResourceCollection()->getFiltered($filter);
+    }
+
+    /**
+     * Returns increment id
+     *
+     * @return string
+     */
+    public function getIncrementId()
+    {
+        return $this->getData('increment_id');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidGrandTotal()
+    {
+        return !($this->getGrandTotal() <= 0 && !$this->getAllowZeroGrandTotal());
     }
 }

@@ -22,9 +22,13 @@
     </fieldset>
 </div>
 <script type="text/javascript">
-require(["jquery","prototype","Magento_Rule/rules"], function(jQuery){
+require([
+    "jquery",
+    "prototype",
+    "Magento_Rule/rules"
+], function(jQuery){
 
-var TargetRuleForm = Class.create(VarienRulesForm, {
+window.TargetRuleForm = Class.create(VarienRulesForm, {
     initParam: function ($super, container) {
         $super(container);
         var valueType = container.down('.value-type-chooser');

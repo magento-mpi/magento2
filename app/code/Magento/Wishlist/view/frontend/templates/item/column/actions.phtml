@@ -1,0 +1,19 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* @var \Magento\Wishlist\Model\Item $item */
+?>
+
+<?php $children = $this->getChildNames(); ?>
+<?php if ($children): ?>
+    <div class="product-item-actions">
+        <?php foreach($children as $childName):?>
+            <?php echo $this->getLayout()->renderElement($childName, false);?>
+        <?php endforeach;?>
+    </div>
+<?php endif; ?>

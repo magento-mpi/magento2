@@ -123,24 +123,15 @@
             }
         }
     }
-    .sidebar {
-        .block-account-nav {
-            margin-bottom: 40px;
-        }
+    .sidebar-additional {
+        margin-top: 40px;
     }
     .block-account-nav {
         .title {
             &:extend(.abstract-toggling-title all);
-            border-bottom: @border-width-base solid @border-color-base;
             strong {
-                .font-size(14);
+                .font-size(16);
                 font-weight: @font-weight-base;
-            }
-            &.active {
-                .icon-font-symbol(
-                    @_icon-font-content: @icon-up,
-                    @_icon-font-position: after
-                );
             }
         }
         .content {
@@ -284,7 +275,7 @@
     }
 
     // My account
-    .account.layout-2-left {
+    .account.page-layout-2columns-left {
         .sidebar-main,
         .sidebar-additional {
             width: 22.3%;
@@ -319,7 +310,7 @@
             margin-bottom: 0;
         }
         .block-account-nav {
-             .title {
+            .title {
                 &:extend(.visually-hidden-desktop all);
             }
         }
@@ -415,6 +406,9 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .account {
+        .page.messages {
+            margin-bottom: 40px;
+        }
         .data.table {
             &:extend(.table-vertical-mobile-m all);
             td {

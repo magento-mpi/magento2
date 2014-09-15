@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/banner/new" >
-    <block>
-        <name>bannerForm</name>
-        <class>Magento\Banner\Test\Block\Adminhtml\FormTabs</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>pageMainActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/banner/new" module="Magento_Banner">
+    <blocks>
+        <bannerForm>
+            <class>Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </bannerForm>
+        <pageMainActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageMainActions>
+    </blocks>
 </page>

@@ -18,8 +18,10 @@ use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
  */
 class OrderStatusHistoryAddTest extends WebapiAbstract
 {
-    const SERVICE_READ_NAME = 'salesOrderStatusHistoryAddV1';
+    const SERVICE_READ_NAME = 'salesOrderWriteV1';
+
     const SERVICE_VERSION = 'V1';
+
     const ORDER_INCREMENT_ID = '100000001';
 
     /**
@@ -56,13 +58,13 @@ class OrderStatusHistoryAddTest extends WebapiAbstract
         $requestData = ['id'=> $order->getId(), 'statusHistory' => $commentData];
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/' . $order->getId() .'/comment',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/comment',
                 'httpMethod' => Config::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'statusHistoryAdd'
             ]
         ];
 

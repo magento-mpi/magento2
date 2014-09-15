@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Outline navigation tree
+ *
+ * @var $this \Magento\Doc\Ui\Widget\Document\Outline
+ */
+?>
+
+<?php $outline = $this->renderOutlineHtml() ?>
+<?php if ($outline): ?>
+<nav class="outline" role="navigation">
+    <ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+        <li class="level0">
+            <a href="<?php echo $this->getUrl('*/*') ?>">
+                <span>Move to top..</span>
+            </a>
+        </li>
+        <?php echo $outline ?>
+    </ul>
+</nav>
+<?php endif ?>

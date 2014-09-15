@@ -8,12 +8,12 @@
 
 namespace Magento\Framework\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Data Object for SearchCriteria
  */
-class SearchCriteria extends AbstractObject
+class SearchCriteria extends AbstractExtensibleObject
 {
     const SORT_ASC = 1;
     const SORT_DESC = -1;
@@ -39,7 +39,7 @@ class SearchCriteria extends AbstractObject
     /**
      * Get sort order
      *
-     * @return string[]|null
+     * @return \Magento\Framework\Service\V1\Data\SortOrder[]|null
      */
     public function getSortOrders()
     {

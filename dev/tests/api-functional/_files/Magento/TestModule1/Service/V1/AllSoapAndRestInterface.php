@@ -24,10 +24,10 @@ interface AllSoapAndRestInterface
     public function create($name);
 
     /**
-     * @param \Magento\TestModule1\Service\V1\Entity\Item $item
+     * @param \Magento\TestModule1\Service\V1\Entity\Item $entityItem
      * @return \Magento\TestModule1\Service\V1\Entity\Item
      */
-    public function update(Item $item);
+    public function update(Item $entityItem);
 
     /**
      * @return \Magento\TestModule1\Service\V1\Entity\Item[]
@@ -39,4 +39,15 @@ interface AllSoapAndRestInterface
      * @return \Magento\TestModule1\Service\V1\Entity\Item
      */
     public function testOptionalParam($name = null);
+
+    /**
+     * @param \Magento\TestModule1\Service\V1\Entity\Item $entityItem
+     * @return \Magento\TestModule1\Service\V1\Entity\Item
+     */
+    public function itemAnyType(Item $entityItem);
+
+    /**
+     * @return \Magento\TestModule1\Service\V1\Entity\Item
+     */
+    public function getPreconfiguredItem();
 }

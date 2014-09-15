@@ -38,7 +38,7 @@ class ReviewTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $backendReviewIndex = Factory::getPageFactory()->getReviewProductIndex();
         $backendReviewEdit = Factory::getPageFactory()->getReviewProductEdit();
-        $reviewsSummaryBlock = $productPage->getReviewSummaryBlock();
+        $reviewsSummaryBlock = $productPage->getReviewSummary();
         $reviewsBlock = $productPage->getCustomerReviewBlock();
         $reviewForm = $productPage->getReviewFormBlock();
         $reviewGrid = $backendReviewIndex->getReviewGrid();
@@ -47,8 +47,7 @@ class ReviewTest extends Functional
         //Steps & verifying
         $homePage->open();
 
-        $productPage->init($productFixture);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $productFixture->getUrlKey() . '.html');
         $this->verifyNoReviewOnPage($reviewsSummaryBlock);
         $reviewsSummaryBlock->getAddReviewLink()->click();
         $this->assertFalse($reviewsBlock->isVisibleReviewItem(), 'No reviews below the form required');
@@ -61,7 +60,7 @@ class ReviewTest extends Functional
             $productPage->getMessagesBlock()->getSuccessMessages(),
             sprintf('Message "%s" is not appear', $submitReviewMessage)
         );
-        $this->verifyNoReviewOnPage($productPage->getReviewSummaryBlock());
+        $this->verifyNoReviewOnPage($productPage->getReviewSummary());
 
         Factory::getApp()->magentoBackendLoginUser();
         $backendReviewIndex->open();
@@ -83,8 +82,8 @@ class ReviewTest extends Functional
 
         $this->flushCacheStorageWithAssert();
 
-        $productPage->open();
-        $reviewsSummaryBlock = $productPage->getReviewSummaryBlock();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $productFixture->getUrlKey() . '.html');
+        $reviewsSummaryBlock = $productPage->getReviewSummary();
         $this->assertTrue($reviewsSummaryBlock->getAddReviewLink()->isVisible(), 'Add review link is not visible');
         $this->assertTrue($reviewsSummaryBlock->getViewReviewLink()->isVisible(), 'View review link is not visible');
         $this->assertContains(

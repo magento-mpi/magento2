@@ -70,7 +70,6 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
             explode(
                 "\n",
                 "
-Element 'from': This element is not expected. Expected is ( filters ).
 No match found for key-sequence ['sugegsted_search_container'] of keyref 'requestQueryReference'.
 Element 'queryReference': No match found for key-sequence ['fulltext_search_query4'] of keyref 'queryReference'.
 "
@@ -88,6 +87,7 @@ Element 'queryReference': No match found for key-sequence ['fulltext_search_quer
             explode(
                 "\n",
                 "
+Element 'dimensions': Missing child element(s). Expected is ( dimension )
 Element 'queryReference': The attribute 'ref' is required but missing.
 Element 'filterReference': The attribute 'ref' is required but missing.
 Element 'filter': The attribute 'field' is required but missing.

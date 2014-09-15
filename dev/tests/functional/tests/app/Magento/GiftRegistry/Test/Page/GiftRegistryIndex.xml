@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/index" >
-    <block>
-        <name>actionsToolbar</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\ActionsToolbar</class>
-        <locator>.actions-toolbar</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>giftRegistryGrid</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Grid</class>
-        <locator>#giftregistry-table</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="giftregistry/index" module="Magento_GiftRegistry">
+    <blocks>
+        <actionsToolbar>
+            <class>Magento\GiftRegistry\Test\Block\Customer\ActionsToolbar</class>
+            <locator>.actions-toolbar</locator>
+            <strategy>css selector</strategy>
+        </actionsToolbar>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <giftRegistryGrid>
+            <class>Magento\GiftRegistry\Test\Block\Customer\Grid</class>
+            <locator>#giftregistry-table</locator>
+            <strategy>css selector</strategy>
+        </giftRegistryGrid>
+    </blocks>
 </page>

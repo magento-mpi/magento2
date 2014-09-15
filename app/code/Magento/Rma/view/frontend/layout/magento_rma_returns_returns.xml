@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <referenceContainer name="page.main.title">
         <block class="Magento\Sales\Block\Order\Info" name="order.status" template="order/order_status.phtml" />
@@ -23,4 +23,4 @@
         <block class="Magento\Sales\Block\Order\Info" as="info" name="sales.order.info" />
     </referenceContainer>
     <update handle="sales_order_info_rma_links"/>
-</layout>
+</page>

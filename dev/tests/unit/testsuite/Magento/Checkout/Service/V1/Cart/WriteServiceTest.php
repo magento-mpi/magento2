@@ -55,7 +55,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteFactoryMock = $this->getMock(
             '\Magento\Sales\Model\QuoteFactory', ['create', '__wakeup'], [], '', false
         );
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface', [], [], '', false);
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface', [], [], '', false);
 
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->quoteMock =

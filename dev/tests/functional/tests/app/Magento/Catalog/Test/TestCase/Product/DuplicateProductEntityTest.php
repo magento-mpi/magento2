@@ -92,13 +92,14 @@ class DuplicateProductEntityTest extends Injectable
      */
     public function test($productType)
     {
+        $this->markTestIncomplete("MAGETWO-28138");
         // Precondition
         $product = $this->createProduct($productType);
 
         // Steps
         $filter = ['sku' => $product->getSku()];
         $this->productGrid->open()->getProductGrid()->searchAndOpen($filter);
-        $this->editProductPage->getFormAction()->saveAndDuplicate();
+        $this->editProductPage->getFormPageActions()->saveAndDuplicate();
 
         return ['product' => $product];
     }

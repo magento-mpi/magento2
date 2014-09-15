@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\Framework\View\Element\Template" name="pbridge.checkout.review.onepagesuccess" template="Magento_Pbridge::checkout/review/onepage.success.phtm" output="1"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <container name="root">
+        <block class="Magento\Framework\View\Element\Template" name="pbridge.checkout.review.onepagesuccess" template="Magento_Pbridge::checkout/review/onepage.success.phtm"/>
+    </container>
 </layout>

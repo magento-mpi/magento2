@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="wishlist/search/results" module="Magento_MultipleWishlist">
+    <blocks>
+        <wishlistSearchResultBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Widget\Search\Result</class>
+            <locator>.block.wishlist.find.results</locator>
+            <strategy>css selector</strategy>
+        </wishlistSearchResultBlock>
+    </blocks>
+</page>

@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/giftwrapping/new/index" >
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>giftWrappingForm</name>
-        <class>Magento\GiftWrapping\Test\Block\Adminhtml\Edit\Form</class>
-        <locator>#edit_form</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/giftwrapping/new/index" module="Magento_GiftWrapping">
+    <blocks>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <giftWrappingForm>
+            <class>Magento\GiftWrapping\Test\Block\Adminhtml\Edit\Form</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </giftWrappingForm>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

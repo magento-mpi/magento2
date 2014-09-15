@@ -20,8 +20,8 @@ class Validate extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
         $response = new \Magento\Framework\Object(array('error' => false));
         $post = $this->getRequest()->getParam('rate');
         $message = null;
-        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        /** @var \Magento\Framework\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Framework\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {
             $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }

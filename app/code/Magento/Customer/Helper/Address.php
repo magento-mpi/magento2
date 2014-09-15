@@ -66,7 +66,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     /** @var \Magento\Framework\View\Element\BlockFactory */
     protected $_blockFactory;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface */
+    /** @var \Magento\Framework\StoreManagerInterface */
     protected $_storeManager;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
@@ -75,29 +75,35 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
     protected $_customerMetadataService;
 
+    /** @var \Magento\Customer\Service\V1\AddressMetadataServiceInterface */
+    protected $_addressMetadataService;
+
     /** @var \Magento\Customer\Model\Address\Config*/
     protected $_addressConfig;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
+     * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
+        \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
         \Magento\Customer\Model\Address\Config $addressConfig
     ) {
         $this->_blockFactory = $blockFactory;
         $this->_storeManager = $storeManager;
         $this->_scopeConfig = $scopeConfig;
         $this->_customerMetadataService = $customerMetadataService;
+        $this->_addressMetadataService = $addressMetadataService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context);
     }
@@ -176,7 +182,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $websiteId = $this->_storeManager->getStore($store)->getWebsiteId();
         if (!isset($this->_streetLines[$websiteId])) {
-            $attribute = $this->_customerMetadataService->getAttributeMetadata('customer_address', 'street');
+            $attribute = $this->_addressMetadataService->getAttributeMetadata('street');
 
             $lines = $attribute->getMultilineCount();
             if ($lines <= 0) {
@@ -235,12 +241,9 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     public function getAttributeValidationClass($attributeCode)
     {
         /** @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
-        $attribute = isset(
-            $this->_attributes[$attributeCode]
-        ) ? $this->_attributes[$attributeCode] : $this->_customerMetadataService->getAttributeMetadata(
-            'customer_address',
-            $attributeCode
-        );
+        $attribute = isset($this->_attributes[$attributeCode])
+            ? $this->_attributes[$attributeCode]
+            : $this->_addressMetadataService->getAttributeMetadata($attributeCode);
         $class = $attribute ? $attribute->getFrontendClass() : '';
         if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
             if ($class && !$attribute->isVisible()) {
@@ -249,7 +252,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             /** @var $customerAttribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
-            $customerAttribute = $this->_customerMetadataService->getAttributeMetadata('customer', $attributeCode);
+            $customerAttribute = $this->_customerMetadataService->getAttributeMetadata($attributeCode);
             $class .= $customerAttribute &&
                 $customerAttribute->isVisible() ? $customerAttribute->getFrontendClass() : '';
             $class = implode(' ', array_unique(array_filter(explode(' ', $class))));

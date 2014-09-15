@@ -44,11 +44,11 @@ class AssertCustomerCustomAttributeNotInCustomerSegment extends AbstractConstrai
     ) {
         $customerSegmentIndex->open();
         $customerSegmentIndex->getPageActionsBlock()->addNew();
-        $customerSegmentNew->getFormTabs()->fill($customerSegment);
+        $customerSegmentNew->getCustomerSegmentForm()->fill($customerSegment);
         $customerSegmentNew->getPageMainActions()->saveAndContinue();
-        $customerSegmentNew->getFormTabs()->openTab('conditions');
+        $customerSegmentNew->getCustomerSegmentForm()->openTab('conditions');
         \PHPUnit_Framework_Assert::assertFalse(
-            $customerSegmentNew->getFormTabs()->isAttributeInConditions($customerAttribute),
+            $customerSegmentNew->getCustomerSegmentForm()->isAttributeInConditions($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is present during creation of customer segments.'
         );

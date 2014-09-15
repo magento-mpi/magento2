@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Model\Order;
 
+use Magento\Sales\Model\EntityInterface;
+
 /**
  * Sales order shipment model
  *
@@ -30,14 +32,13 @@ namespace Magento\Sales\Model\Order;
  * @method \Magento\Sales\Model\Order\Shipment setBillingAddressId(int $value)
  * @method int getShipmentStatus()
  * @method \Magento\Sales\Model\Order\Shipment setShipmentStatus(int $value)
- * @method string getIncrementId()
  * @method \Magento\Sales\Model\Order\Shipment setIncrementId(string $value)
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Shipment setCreatedAt(string $value)
  * @method string getUpdatedAt()
  * @method \Magento\Sales\Model\Order\Shipment setUpdatedAt(string $value)
  */
-class Shipment extends \Magento\Sales\Model\AbstractModel
+class Shipment extends \Magento\Sales\Model\AbstractModel implements EntityInterface
 {
     const STATUS_NEW = 1;
 
@@ -46,9 +47,11 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     const REPORT_DATE_TYPE_SHIPMENT_CREATED = 'shipment_created';
 
     /**
-     * Identifier for order history item
+     * Order entity type
+     *
+     * @var string
      */
-    const HISTORY_ENTITY_NAME = 'shipment';
+    protected $entityType = 'shipment';
 
     /**
      * Store address
@@ -216,7 +219,17 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         if (!$this->_order instanceof \Magento\Sales\Model\Order) {
             $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
-        return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
+        return $this->_order->setHistoryEntityName($this->entityType);
+    }
+
+    /**
+     * Return order history item identifier
+     *
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return $this->entityType;
     }
 
     /**
@@ -548,5 +561,15 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
             return $this->getResource()->getReadConnection()->decodeVarbinary($label);
         }
         return $label;
+    }
+
+    /**
+     * Returns increment id
+     *
+     * @return string
+     */
+    public function getIncrementId()
+    {
+        return $this->getData('increment_id');
     }
 }

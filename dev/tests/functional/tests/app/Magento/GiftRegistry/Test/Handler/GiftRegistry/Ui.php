@@ -11,11 +11,11 @@ namespace Magento\GiftRegistry\Test\Handler\GiftRegistry;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui as AbstractUi;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Class Ui
@@ -29,13 +29,6 @@ class Ui extends AbstractUi implements GiftRegistryInterface
      * @var CmsIndex
      */
     protected $cmsIndex;
-
-    /**
-     * Customer account login page
-     *
-     * @var CustomerAccountLogin
-     */
-    protected $customerAccountLogin;
 
     /**
      * Customer account index page
@@ -68,7 +61,6 @@ class Ui extends AbstractUi implements GiftRegistryInterface
     /**
      * @constructor
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogout
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryAddSelect $giftRegistryAddSelect
@@ -76,14 +68,12 @@ class Ui extends AbstractUi implements GiftRegistryInterface
      */
     public function __construct(
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryAddSelect $giftRegistryAddSelect,
         GiftRegistryEdit $giftRegistryEdit
     ) {
         $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogout;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->giftRegistryIndex = $giftRegistryIndex;
         $this->giftRegistryAddSelect = $giftRegistryAddSelect;
@@ -93,12 +83,11 @@ class Ui extends AbstractUi implements GiftRegistryInterface
     /**
      * Create gift registry
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|void
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $this->giftRegistryIndex->getActionsToolbar()->addNew();

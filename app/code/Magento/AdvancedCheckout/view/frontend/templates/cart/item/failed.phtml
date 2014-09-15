@@ -52,11 +52,11 @@ $qtyDisabled = !$this->hasProductUrl() ||
             </div>
         </td>
         <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
-            <?php $priceExcludingTax = $helper->getPrice($_item->getProduct(), $_item->getBasePrice(), false);?>
+            <?php $priceExcludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), false);?>
             <td class="col price"><?php echo $this->convertPrice($priceExcludingTax, true);?></td>
         <?php endif;?>
         <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
-            <?php $priceIncludingTax = $helper->getPrice($_item->getProduct(), $_item->getBasePrice(), true);?>
+            <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true);?>
             <td class="col price"><?php echo $this->convertPrice($priceIncludingTax, true);?></td>
         <?php endif;?>
         <td class="col qty">
@@ -89,10 +89,9 @@ $qtyDisabled = !$this->hasProductUrl() ||
                 <?php if ($isVisibleProduct): ?>
                 <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item parameters') ?>"><span><?php echo __('Edit') ?></span></a>
                 <?php endif ?>
-
                 <button title="<?php echo __('Remove item') ?>"
                         class="action delete"
-                        data-post='<?php echo $this->helper('Magento\Checkout\Helper\Cart')->getDeletePostJson($_item); ?>'>
+                        data-post='<?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode(array('action' => $this->getDeleteUrl(), 'data' => [$_item->getSku()])) ?>'>
                     <span><?php echo __('Remove item')?></span>
                 </button>
             </div>

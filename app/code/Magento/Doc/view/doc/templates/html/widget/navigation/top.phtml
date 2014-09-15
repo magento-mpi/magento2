@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Top menu template
+ *
+ * @var $this \Magento\Doc\Ui\Widget\Navigation\Top
+ */
+?>
+
+<?php $menu = $this->renderMenuHtml() ?>
+<?php if ($menu): ?>
+    <div class="nav-sections">
+        <div class="section-items nav-sections-items section-item-content nav-sections-item-content">
+            <nav class="navigation" role="navigation">
+                <ul class="docmenu ui-menu" role="menu" data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+                    <?php echo $menu ?>
+                </ul>
+            </nav>
+        </div>
+    </div>
+<?php endif ?>

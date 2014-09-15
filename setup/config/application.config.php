@@ -14,7 +14,6 @@ return [
         'Magento\Locale',
         'Magento\Module',
         'Magento\Setup',
-        'Magento\Framework',
     ],
     'module_listener_options' => [
         'module_paths' => [

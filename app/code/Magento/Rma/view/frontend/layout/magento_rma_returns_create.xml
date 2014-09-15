@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="magento_rma_returns_create_head_components" template="Magento_Rma::js/components.phtml"/>
@@ -28,4 +28,4 @@
         </block>
     </referenceContainer>
     <update handle="magento_rma_returns_create_handle"/>
-</layout>
+</page>

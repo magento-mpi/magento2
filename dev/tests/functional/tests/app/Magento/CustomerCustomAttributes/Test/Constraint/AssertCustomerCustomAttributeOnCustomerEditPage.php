@@ -9,7 +9,7 @@
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CustomerCustomAttributes\Test\Page\CustomerAccountEdit;
+use Magento\Customer\Test\Page\CustomerAccountEdit;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;

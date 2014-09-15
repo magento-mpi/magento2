@@ -1,7 +1,5 @@
 <?php
 /**
- * Search Request
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,10 +7,13 @@
  */
 namespace Magento\Framework\Search;
 
-use Magento\Framework\Search\Request\FilterInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Framework\Search\Request\QueryInterface;
+use Magento\Framework\Search\Request\Dimension;
 
+/**
+ * Search Request
+ */
 interface RequestInterface
 {
     /**
@@ -28,6 +29,11 @@ interface RequestInterface
      * @return string
      */
     public function getIndex();
+
+    /**
+     * @return Dimension[]
+     */
+    public function getDimensions();
 
     /**
      * Get Aggregation Buckets

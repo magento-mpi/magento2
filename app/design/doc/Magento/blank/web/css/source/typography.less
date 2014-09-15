@@ -1,0 +1,51 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//  When you are not using .magento_reset() mixin you can include typography mixins by calling directly
+//  .typography-all();
+
+.font-face(
+    @family-name: 'Open Sans',
+    @font-path: '@{baseDir}fonts/opensans/light/opensans-300',
+    @font-weight: 300,
+    @font-style: normal
+);
+
+.font-face(
+    @family-name: 'Open Sans',
+    @font-path: '@{baseDir}fonts/opensans/regular/opensans-400',
+    @font-weight: 400,
+    @font-style: normal
+);
+
+.font-face(
+    @family-name: 'Open Sans',
+    @font-path: '@{baseDir}fonts/opensans/semibold/opensans-600',
+    @font-weight: 600,
+    @font-style: normal
+);
+
+.font-face(
+    @family-name: 'Open Sans',
+    @font-path: '@{baseDir}fonts/opensans/bold/opensans-700',
+    @font-weight: 700,
+    @font-style: normal
+);
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    h1 {
+        font-size: @h1-font-size-desktop;
+    }
+}
+
+.items {
+    .list-reset-styles();
+}

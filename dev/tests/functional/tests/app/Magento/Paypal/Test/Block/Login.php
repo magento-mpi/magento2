@@ -15,7 +15,6 @@ use Magento\Paypal\Test\Fixture\Customer;
 /**
  * Class Login
  * Login to paypal account
- *
  */
 class Login extends Form
 {
@@ -37,7 +36,6 @@ class Login extends Form
      * Login to Paypal account
      *
      * @param Customer $fixture
-     *
      * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function login(Customer $fixture)

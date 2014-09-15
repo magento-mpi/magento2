@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceBlock name="minicart">
+        <block class="Magento\Checkout\Block\Item\Price\Renderer" name="checkout.cart.item.price.sidebar" template="cart/item/price/sidebar.phtml"/>
+    </referenceBlock>
+</page>

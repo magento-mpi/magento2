@@ -64,7 +64,7 @@ interface ProcessorInterface
      * Return whether any page handles have been added or not.
      *
      * @param array $handlesToTry
-     * @return ProcessorInterface
+     * @return bool
      */
     public function addPageHandles(array $handlesToTry);
 

@@ -7,29 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog_event/catalog/category/view">
-    <block>
-        <name>listProductBlock</name>
-        <class>Magento\Catalog\Test\Block\Product\ListProduct</class>
-        <locator>.products wrapper grid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>mapBlock</name>
-        <class>Magento\Catalog\Test\Block\Product\Price</class>
-        <locator>#map-popup-content</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>layeredNavigationBlock</name>
-        <class>Magento\LayeredNavigation\Test\Block\Navigation</class>
-        <locator>.block.filter</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>eventBlock</name>
-        <class>Magento\CatalogEvent\Test\Block\Catalog\Event</class>
-        <locator>.top-container</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="catalog/category/view">
+    <blocks>
+        <eventBlock>
+            <class>Magento\CatalogEvent\Test\Block\Catalog\Event</class>
+            <locator>.top-container</locator>
+            <strategy>css selector</strategy>
+        </eventBlock>
+    </blocks>
 </page>

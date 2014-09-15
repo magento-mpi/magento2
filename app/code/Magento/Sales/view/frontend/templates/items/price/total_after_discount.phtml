@@ -1,0 +1,13 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer $this */
+$_item = $this->getItem();
+?>
+<?php $_order = $this->getItem()->getOrderItem()->getOrder() ?>
+<?php echo $_order->formatPrice($this->getTotalAmount($_item))?>

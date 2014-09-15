@@ -8,10 +8,10 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
 use Mtf\Constraint\AbstractAssertForm;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Class AssertGiftCardAccountForm

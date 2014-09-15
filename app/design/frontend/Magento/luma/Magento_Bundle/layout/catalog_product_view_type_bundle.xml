@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
     <move element="customize.button" destination="product.info.main" after="product.info.price" />
     <move element="bundle.back.button" destination="product.info.bundle.options.top" before="-"/>
     <move element="bundle.summary" destination="product.info.form.options" after="product.info.options.wrapper"/>
-</layout>
+</page>

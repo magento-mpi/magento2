@@ -77,11 +77,18 @@ class Create extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Order details block
+     *
+     * @var string
+     */
+    protected $orderDetails = '.order-details';
+
+    /**
      * Getter for order selected products grid
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
      */
-    protected function getItemsBlock()
+    public function getItemsBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateItems(
             $this->_rootElement->find($this->itemsBlock, Locator::SELECTOR_CSS)
@@ -173,12 +180,24 @@ class Create extends Block
     }
 
     /**
+     * Wait display order details
+     *
+     * return void
+     */
+    public function waitOrderDetails()
+    {
+        $this->waitForElementVisible($this->orderDetails);
+    }
+
+    /**
      * Add products to order
      *
      * @param Order $fixture
+     * @return void
      */
     public function addProducts(Order $fixture)
     {
+        $this->waitForElementVisible($this->itemsBlock);
         $this->getItemsBlock()->clickAddProducts();
         $this->getGridBlock()->selectProducts($fixture);
         //Loader appears twice

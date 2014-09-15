@@ -25,7 +25,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -37,21 +37,28 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
     protected $_pageFactory;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Framework\View\Page\Config $pageConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -60,6 +67,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
         $this->_filterProvider = $filterProvider;
         $this->_storeManager = $storeManager;
         $this->_pageFactory = $pageFactory;
+        $this->pageConfig = $pageConfig;
     }
 
     /**
@@ -116,10 +124,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
             $breadcrumbs->addCrumb('cms_page', array('label' => $page->getTitle(), 'title' => $page->getTitle()));
         }
 
-        $root = $this->getLayout()->getBlock('root');
-        if ($root) {
-            $root->addBodyClass('cms-' . $page->getIdentifier());
-        }
+        $this->pageConfig->addBodyClass('cms-' . $page->getIdentifier());
 
         $head = $this->getLayout()->getBlock('head');
         if ($head) {

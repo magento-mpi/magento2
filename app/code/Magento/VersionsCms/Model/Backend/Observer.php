@@ -108,11 +108,6 @@ class Observer
     protected $_cmsIncrement;
 
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $_httpRequest;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Framework\Registry $coreRegistry
@@ -130,7 +125,6 @@ class Observer
      * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
-     * @param \Magento\Framework\App\RequestInterface $httpRequest
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -151,8 +145,7 @@ class Observer
         \Magento\Framework\Model\Resource\Iterator $resourceIterator,
         \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
-        \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
-        \Magento\Framework\App\RequestInterface $httpRequest
+        \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -171,7 +164,6 @@ class Observer
         $this->_widgetCollectionFactory = $widgetCollectionFactory;
         $this->_hierarchyNodeResource = $hierarchyNodeResource;
         $this->_cmsIncrement = $cmsIncrement;
-        $this->_httpRequest = $httpRequest;
     }
 
     /**
@@ -532,41 +524,5 @@ class Observer
         );
 
         return $this;
-    }
-
-    /**
-     * Handler for cms hierarchy view
-     *
-     * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event|false
-     */
-    public function postDispatchCmsHierachyView($config, $eventModel)
-    {
-        return $eventModel->setInfo(__('Tree Viewed'));
-    }
-
-    /**
-     * Handler for cms revision preview
-     *
-     * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event|false
-     */
-    public function postDispatchCmsRevisionPreview($config, $eventModel)
-    {
-        return $eventModel->setInfo($this->_httpRequest->getParam('revision_id'));
-    }
-
-    /**
-     * Handler for cms revision publish
-     *
-     * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event|false
-     */
-    public function postDispatchCmsRevisionPublish($config, $eventModel)
-    {
-        return $eventModel->setInfo($this->_httpRequest->getParam('revision_id'));
     }
 }

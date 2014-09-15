@@ -1,7 +1,7 @@
 "products";"isRequired";"constraint"
 "catalogProductSimple::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
 "catalogProductVirtual::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
-"catalogProductConfigurable::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
+"configurableProductInjectable::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
 "catalogProductBundle::bundle_dynamic_product";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
 "catalogProductBundle::bundle_fixed_product";"No";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
 "giftCardProduct::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"

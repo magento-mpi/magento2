@@ -16,7 +16,7 @@
     <preference for="Magento\Framework\App\CacheInterface" type="Magento\Framework\App\Cache\Proxy" />
     <preference for="Magento\Framework\App\Cache\StateInterface" type="Magento\Framework\App\Cache\State" />
     <preference for="Magento\Framework\App\Cache\TypeListInterface" type="Magento\Framework\App\Cache\TypeList" />
-    <preference for="Magento\Store\Model\StoreManagerInterface" type="Magento\Store\Model\StoreManager" />
+    <preference for="Magento\Framework\StoreManagerInterface" type="Magento\Store\Model\StoreManager" />
     <preference for="Magento\Framework\View\DesignInterface" type="Magento\Core\Model\View\Design\Proxy" />
     <preference for="Magento\Framework\View\Design\ThemeInterface" type="Magento\Core\Model\Theme" />
     <preference for="Magento\Framework\View\Design\Theme\ResolverInterface" type="Magento\Core\Model\Theme\Resolver" />
@@ -62,6 +62,8 @@
     <preference for="Magento\Framework\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\Framework\Session\Config\ConfigInterface" type="Magento\Framework\Session\Config" />
     <preference for="Magento\Framework\Session\SidResolverInterface" type="Magento\Framework\Session\SidResolver\Proxy" />
+    <preference for="Magento\Framework\Stdlib\Cookie\CookieScopeInterface" type="\Magento\Framework\Stdlib\Cookie\CookieScope" />
+    <preference for="Magento\Framework\Stdlib\CookieManager" type="Magento\Framework\Stdlib\Cookie\PhpCookieManager" />
     <preference for="Magento\Framework\TranslateInterface" type="Magento\Framework\Translate" />
     <preference for="Magento\Framework\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\Framework\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
@@ -72,6 +74,8 @@
     <preference for="Magento\Framework\Mview\View\SubscriptionInterface" type="Magento\Framework\Mview\View\Subscription" />
     <preference for="Magento\Framework\Mview\View\ChangelogInterface" type="Magento\Framework\Mview\View\Changelog" />
     <preference for="Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface" type="Magento\Framework\View\Design\FileResolution\Fallback\CacheData\Flat"/>
+    <preference for="Magento\Framework\Service\Data\AttributeMetadataBuilderInterface" type="Magento\Framework\Service\Data\AttributeMetadataBuilder"/>
+    <preference for="Magento\Framework\Service\Data\MetadataServiceInterface" type="Magento\Framework\Service\Config\MetadataConfig"/>
     <type name="Magento\Framework\Model\Context">
         <arguments>
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>
@@ -79,7 +83,7 @@
     </type>
     <type name="Magento\Framework\Service\V1\Data\FilterBuilder" shared="false" />
     <type name="Magento\Framework\Service\V1\Data\SearchCriteriaBuilder" shared="false" />
-    <type name="Magento\Framework\Service\Data\Eav\AttributeValueBuilder" shared="false" />
+    <type name="Magento\Framework\Service\Data\AttributeValueBuilder" shared="false" />
     <type name="Magento\Framework\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Framework\Message\Session\Proxy</argument>

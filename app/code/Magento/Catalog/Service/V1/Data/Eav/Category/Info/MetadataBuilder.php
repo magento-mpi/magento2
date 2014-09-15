@@ -5,44 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
-use Magento\Catalog\Service\V1\Category\MetadataServiceInterface;
-use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
-use Magento\Framework\Service\Data\ObjectFactory;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 
 /**
  * Class MetadataBuilder
+ *
  * @codeCoverageIgnore
  */
-class MetadataBuilder extends AbstractObjectBuilder
+class MetadataBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
-     * @param ObjectFactory $objectFactory
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
-     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
      */
     public function __construct(
-        ObjectFactory $objectFactory,
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
-        MetadataServiceInterface $metadataService
+        \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
     ) {
-        parent::__construct($objectFactory, $valueBuilder);
-        $this->metadataService = $metadataService;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getCustomAttributesCodes()
-    {
-        $attributeCodes = array();
-        foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {
-            /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata @attribute */
-            $attributeCodes[] = $attribute->getAttributeCode();
-        }
-        return $attributeCodes;
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
     }
 
     /**

@@ -8,9 +8,9 @@
 
 namespace Magento\Review\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Fixture\Rating;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -31,20 +31,18 @@ class AssertProductRatingNotInProductPage extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductSimple $product
-     * @param ReviewInjectable $review
      * @param Rating $productRating
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogProductSimple $product,
         Rating $productRating,
-        ReviewInjectable $review = null
+        Browser $browser
     ) {
-        $product = $review === null ? $product : $review->getDataFieldConfig('entity_id')['source']->getEntity();
-        $catalogProductView->init($product);
-        $catalogProductView->open();
-        $catalogProductView->getReviewSummaryBlock()->getAddReviewLink()->click();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $catalogProductView->getReviewSummary()->getAddReviewLink()->click();
 
         $reviewForm = $catalogProductView->getReviewFormBlock();
         \PHPUnit_Framework_Assert::assertFalse(

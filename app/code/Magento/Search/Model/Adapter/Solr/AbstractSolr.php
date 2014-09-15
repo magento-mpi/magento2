@@ -99,10 +99,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
@@ -119,10 +118,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Search\Model\Resource\Index $resourceIndex,
-        \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Framework\Logger $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
@@ -145,7 +143,6 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         parent::__construct(
             $customerSession,
             $resourceIndex,
-            $resourceFulltext,
             $attributeCollection,
             $logger,
             $storeManager,

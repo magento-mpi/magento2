@@ -38,9 +38,6 @@
     <event name="sales_order_creditmemo_refund">
         <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="creditmemoRefund" />
     </event>
-    <event name="sales_order_creditmemo_save_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="creditmemoSaveAfter" />
-    </event>
     <event name="sales_model_service_quote_submit_before">
         <observer name="magento_reward" instance="Magento\Reward\Model\Observer\PlaceOrder" method="dispatch" />
     </event>

@@ -13,22 +13,18 @@
 <?php if (!$this->isSingleStoreMode()): ?>
 <script type="text/javascript">
 require(['prototype'], function(){
-
-//<![CDATA[
-    Event.observe(window, 'load', updateCurrency);
-    Event.observe($('_infowebsite_id'), 'change', updateCurrency);
-
     var currencies = <?php echo $this->getCurrencyJson(); ?>;
 
-    updateCurrency = function()
+    var updateCurrency = function()
     {
-        val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
+        var val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
         if (currencies[val]) {
             $('balance_currency').innerHTML = '<b>[' + currencies[val] + ']</b>';
         }
-    }
-//]]>
+    };
 
+    Event.observe(window, 'load', updateCurrency);
+    Event.observe($('_infowebsite_id'), 'change', updateCurrency);
 });
 </script>
 <?php endif; ?>

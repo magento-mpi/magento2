@@ -17,7 +17,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\EventFactory;
 use Magento\Framework\Stdlib\DateTime\Filter\DateTime;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Registry;
 
 class Event extends Action
@@ -51,7 +51,7 @@ class Event extends Action
      * @param Registry $coreRegistry
      * @param EventFactory $eventFactory
      * @param DateTime $dateTimeFilter
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         Context $context,

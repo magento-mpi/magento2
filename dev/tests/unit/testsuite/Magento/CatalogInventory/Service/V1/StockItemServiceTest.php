@@ -7,8 +7,9 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
-use Magento\CatalogInventory\Model\Stock\ItemRegistry;
 use Magento\Catalog\Model\ProductTypes\ConfigInterface;
+use Magento\CatalogInventory\Model\Stock\ItemRegistry;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class StockItemTest
@@ -58,7 +59,7 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManagerHelper = new ObjectManager($this);
         $this->model = $objectManagerHelper->getObject(
             'Magento\CatalogInventory\Service\V1\StockItemService',
             [
@@ -357,13 +358,11 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
         $stockItem->expects($this->any())->method('getData')->will($this->returnValue($stockItemData));
 
-        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
-            [$productSku, $product]
-        ]));
+        $this->productLoader->expects($this->any())->method('load')
+            ->will($this->returnValueMap([[$productSku, $product]]));
 
-        $this->stockItemRegistry->expects($this->any())->method('retrieve')->will($this->returnValueMap([
-            [$productId, $stockItem]
-        ]));
+        $this->stockItemRegistry->expects($this->any())->method('retrieve')
+            ->will($this->returnValueMap([[$productId, $stockItem]]));
 
         $this->stockItemBuilder->expects($this->any())
             ->method('create')
@@ -405,9 +404,8 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         // 2. Set fixtures
-        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
-            [$productSku, $product]
-        ]));
+        $this->productLoader->expects($this->any())->method('load')
+            ->will($this->returnValueMap([[$productSku, $product]]));
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
         // 3. Run tested method
@@ -476,13 +474,11 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $stockItem->expects($this->any())->method('save')->will($this->returnSelf());
         $stockItem->expects($this->any())->method('getId')->will($this->returnValue($savedStockItemId));
 
-        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
-            [$productSku, $product]
-        ]));
+        $this->productLoader->expects($this->any())->method('load')
+            ->will($this->returnValueMap([[$productSku, $product]]));
 
-        $this->stockItemRegistry->expects($this->any())->method('retrieve')->will($this->returnValueMap([
-            [$productId, $stockItem]
-        ]));
+        $this->stockItemRegistry->expects($this->any())->method('retrieve')
+            ->will($this->returnValueMap([[$productId, $stockItem]]));
 
         $this->stockItemBuilder->expects($this->any())
             ->method('create')
@@ -545,13 +541,31 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         // 2. Set fixtures
-        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
-            [$productSku, $product]
-        ]));
+        $this->productLoader->expects($this->any())->method('load')
+            ->will($this->returnValueMap([[$productSku, $product]]));
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
         // 3. Run tested method
         $this->model->saveStockItemBySku($productSku, $stockItemDetailsDo);
+    }
+
+    public function testProcessIsInStock()
+    {
+        $stockData = ['product_id' => 333];
+
+        $stockItemModel = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->setMethods(['getData', 'setData', 'processIsInStock', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->stockItemRegistry->expects($this->once())->method('retrieve')
+            ->with($this->equalTo($stockData['product_id']))
+            ->will($this->returnValue($stockItemModel));
+
+        $stockItemModel->expects($this->once())->method('setData')->with($this->equalTo($stockData));
+        $stockItemModel->expects($this->once())->method('processIsInStock');
+        $stockItemModel->expects($this->once())->method('getData')->will($this->returnValue($stockData));
+
+        $this->assertEquals($stockData, $this->model->processIsInStock($stockData));
     }
 
     /**

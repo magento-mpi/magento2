@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 require([
-    "jquery/file-uploader",
+    "jquery/fileUploader/jquery.fileupload-ui",
     "mage/adminhtml/browser",
     "Magento_Theme/js/form",
     "Magento_Theme/js/sortable"

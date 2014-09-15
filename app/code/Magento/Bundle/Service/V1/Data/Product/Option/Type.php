@@ -7,12 +7,12 @@
  */
 namespace Magento\Bundle\Service\V1\Data\Product\Option;
 
-use \Magento\Framework\Service\Data\AbstractObject;
+use \Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * @codeCoverageIgnore
  */
-class Type extends AbstractObject
+class Type extends AbstractExtensibleObject
 {
     const LABEL = 'label';
 

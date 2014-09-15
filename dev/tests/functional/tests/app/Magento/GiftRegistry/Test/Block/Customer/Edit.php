@@ -42,4 +42,17 @@ class Edit extends Form
         $this->_rootElement->find($this->giftRegistryType, Locator::SELECTOR_CSS, 'select')->setValue($value);
         $this->_rootElement->find($this->next)->click();
     }
+
+    /**
+     * Check if GiftRegistry type is visible
+     *
+     * @param string $value
+     * @return bool
+     */
+    public function isGiftRegistryVisible($value)
+    {
+        $presentOptions = $this->_rootElement->find($this->giftRegistryType)->getText();
+        $presentOptions = explode("\n", $presentOptions);
+        return in_array($value, $presentOptions);
+    }
 }

@@ -11,7 +11,7 @@
 /* @var $item \Magento\Wishlist\Model\Item  */
 $item = $this->getItem();
 ?>
-<div class="actions dropdown wishlist">
+<div class="wishlist-dropdown move">
     <span class="action toggle" data-toggle="dropdown" <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move to Wish List');?></span></span>
     <ul class="items dropdown" data-target="dropdown">
         <?php foreach ($this->getWishlists() as $wishlist): ?>
@@ -24,7 +24,7 @@ $item = $this->getItem();
         <?php endif;?>
     </ul>
 </div>
-<div class="actions dropdown wishlist">
+<div class="wishlist-dropdown copy">
     <span class="action toggle" data-toggle="dropdown" <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Copy to Wish List');?></span></span>
     <ul class="items dropdown" data-target="dropdown">
         <?php foreach ($this->getWishlists() as $wishlist): ?>

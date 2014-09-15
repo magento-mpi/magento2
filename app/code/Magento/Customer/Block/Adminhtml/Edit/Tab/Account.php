@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use \Magento\Framework\Service\DataObjectConverter;
+use \Magento\Framework\Service\SimpleDataObjectConverter;
 
 /**
  * Customer account form block
@@ -164,7 +164,7 @@ class Account extends GenericMetadata
         );
         $form->getElement('website_id')->setRenderer($renderer);
 
-        $accountData = DataObjectConverter::toFlatArray($this->_getCustomerDataObject());
+        $accountData = SimpleDataObjectConverter::toFlatArray($this->_getCustomerDataObject());
         if ($this->_getCustomerDataObject()->getId()) {
             $customerFormFields = $this->_addEditCustomerFormFields($fieldset);
         } else {
@@ -269,7 +269,7 @@ class Account extends GenericMetadata
             $this->_customerForm = $this->_customerFormFactory->create(
                 'customer',
                 'adminhtml_customer',
-                DataObjectConverter::toFlatArray($this->_getCustomerDataObject())
+                SimpleDataObjectConverter::toFlatArray($this->_getCustomerDataObject())
             );
         }
         return $this->_customerForm;
@@ -354,7 +354,7 @@ class Account extends GenericMetadata
         $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customerData->getId());
         $confirmationKey = $customerData->getConfirmation();
         if ($confirmationStatus != CustomerAccountServiceInterface::ACCOUNT_CONFIRMED) {
-            $confirmationAttr = $this->_customerMetadataService->getCustomerAttributeMetadata('confirmation');
+            $confirmationAttr = $this->_customerMetadataService->getAttributeMetadata('confirmation');
             if (!$confirmationKey) {
                 $confirmationKey = $this->_getRandomConfirmationKey();
             }

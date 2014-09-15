@@ -9,16 +9,15 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Catalog\Model\ProductRepository;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class WriteServiceTest
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
@@ -132,7 +131,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
+        $storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
         $storeManagerMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue(new \Magento\Framework\Object()));
@@ -196,6 +195,144 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('save');
 
         $this->optionConverterMock->expects($this->once())->method('convertArrayFromData')->with($option);
+
+        $this->writeService->add($productSku, $option);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testAddLoadNewOptionCouldNotSaveException()
+    {
+        $productSku = 'test_sku';
+        $option = $this->getOption();
+
+        $productMock = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            ['save', 'setConfigurableAttributesData', 'setStoreId', 'getTypeId', 'setTypeId', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $productMock->expects($this->any())
+            ->method('getTypeId')
+            ->will($this->returnValue(ProductType::TYPE_SIMPLE));
+        $this->productRepositoryMock->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($productMock));
+
+        $confAttributeMock = $this->getMock(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->confAttributeFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($confAttributeMock));
+
+        $confAttributeMock->expects($this->exactly(2))->method('loadByProductAndAttribute');
+        $confAttributeMock->expects($this->at(1))->method('getId')->will($this->returnValue(null));
+        $confAttributeMock->expects($this->at(2))->method('getId')->will($this->returnValue(1));
+        $confAttributeMock->expects($this->at(3))->method('getId')->will($this->returnValue(null));
+
+        $productMock->expects($this->once())->method('setTypeId')->with(ConfigurableType::TYPE_CODE);
+        $productMock->expects($this->once())->method('setConfigurableAttributesData');
+        $productMock->expects($this->once())->method('setStoreId')->with(0);
+        $productMock->expects($this->once())->method('save');
+
+        $this->optionConverterMock->expects($this->once())->method('convertArrayFromData')->with($option);
+
+        $this->writeService->add($productSku, $option);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testAddHasOptionCouldNotSaveException()
+    {
+        $productSku = 'test_sku';
+        $option = $this->getOption();
+
+        $productMock = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            ['save', 'setConfigurableAttributesData', 'setStoreId', 'getTypeId', 'setTypeId', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $productMock->expects($this->any())
+            ->method('getTypeId')
+            ->will($this->returnValue(ProductType::TYPE_SIMPLE));
+        $this->productRepositoryMock->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($productMock));
+
+        $confAttributeMock = $this->getMock(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->confAttributeFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($confAttributeMock));
+
+        $confAttributeMock->expects($this->once())->method('loadByProductAndAttribute');
+        $confAttributeMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+
+        $this->writeService->add($productSku, $option);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testAddSAveExceptionCouldNotSaveException()
+    {
+        $productSku = 'test_sku';
+        $option = $this->getOption();
+
+        $productMock = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            ['save', 'setConfigurableAttributesData', 'setStoreId', 'getTypeId', 'setTypeId', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $productMock->expects($this->any())
+            ->method('getTypeId')
+            ->will($this->returnValue(ProductType::TYPE_SIMPLE));
+        $this->productRepositoryMock->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($productMock));
+
+        $confAttributeMock = $this->getMock(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->confAttributeFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($confAttributeMock));
+
+        $confAttributeMock->expects($this->once())->method('loadByProductAndAttribute');
+        $confAttributeMock->expects($this->once())->method('getId')->will($this->returnValue(null));
+
+        $productMock->expects($this->once())->method('setTypeId')->with(ConfigurableType::TYPE_CODE);
+        $productMock->expects($this->once())->method('setConfigurableAttributesData');
+        $productMock->expects($this->once())->method('setStoreId')->with(0);
+        $productMock->expects($this->once())->method('save')
+            ->will(
+                $this->returnCallback(
+                    function () {
+                        throw new \Exception();
+                    }
+                )
+            );
 
         $this->writeService->add($productSku, $option);
     }
@@ -386,7 +523,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Return instance of option for configurable product
      *
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     private function getOption()
     {

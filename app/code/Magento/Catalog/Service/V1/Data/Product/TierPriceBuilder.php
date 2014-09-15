@@ -8,9 +8,12 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Product;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class TierPriceBuilder extends AbstractObjectBuilder
+/**
+ * @codeCoverageIgnore
+ */
+class TierPriceBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Set Quantity
@@ -20,8 +23,7 @@ class TierPriceBuilder extends AbstractObjectBuilder
      */
     public function setQty($qty)
     {
-        $this->_set(TierPrice::QTY, $qty);
-        return $this;
+        return $this->_set(TierPrice::QTY, $qty);
     }
 
     /**
@@ -32,7 +34,6 @@ class TierPriceBuilder extends AbstractObjectBuilder
      */
     public function setValue($value)
     {
-        $this->_set(TierPrice::VALUE, $value);
-        return $this;
+        return $this->_set(TierPrice::VALUE, $value);
     }
 }

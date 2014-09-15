@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <remove name="root"/>
-    <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions" output="1" name="cms_page_edit_version_edit_revisions"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <container name="root">
+        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions" name="cms_page_edit_version_edit_revisions"/>
+    </container>
 </layout>

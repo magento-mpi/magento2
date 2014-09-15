@@ -14,7 +14,8 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderCancelTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderCancelV1';
+
+    const SERVICE_NAME = 'salesOrderWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -25,13 +26,13 @@ class OrderCancelTest extends WebapiAbstract
         $order = $objectManager->get('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/'. $order->getId() . '/cancellation',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/cancel',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'cancel'
             ]
         ];
         $requestData = ['id' => $order->getId()];
