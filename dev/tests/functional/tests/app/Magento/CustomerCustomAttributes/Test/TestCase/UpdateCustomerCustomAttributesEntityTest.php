@@ -42,6 +42,7 @@ class UpdateCustomerCustomAttributesEntityTest extends AbstractCustomerCustomAtt
         CustomerCustomAttribute $customerAttribute,
         CustomerCustomAttribute $initialCustomerAttribute
     ) {
+        $this->markTestIncomplete('MAGETWO-18664');
         // Preconditions
         $initialCustomerAttribute->persist();
 

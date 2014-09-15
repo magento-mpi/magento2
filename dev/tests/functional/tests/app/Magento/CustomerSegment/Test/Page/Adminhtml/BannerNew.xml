@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/banner/new/index" >
-    <block>
-        <name>bannerForm</name>
-        <class>Magento\CustomerSegment\Test\Block\Adminhtml\Banner\BannerForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/banner/new/index">
+    <blocks>
+        <segmentBannerForm>
+            <class>Magento\CustomerSegment\Test\Block\Adminhtml\Banner\BannerForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </segmentBannerForm>
+    </blocks>
 </page>

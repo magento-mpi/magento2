@@ -28,7 +28,7 @@ class WriteService implements WriteServiceInterface
     protected $giftCardBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -45,14 +45,14 @@ class WriteService implements WriteServiceInterface
     /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param GiftCardAccountBuilder $giftCardBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardHelper
      * @param \Magento\GiftCardAccount\Service\V1\GiftCardAccountLoader $loader
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         GiftCardAccountBuilder $giftCardBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\GiftCardAccount\Helper\Data $giftCardHelper,
         \Magento\GiftCardAccount\Service\V1\GiftCardAccountLoader $loader
     ) {

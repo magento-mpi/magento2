@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>payment</wrapper>
+    <fields>
+        <use_reward_points>
+            <input>checkbox</input>
+        </use_reward_points>
+    </fields>
+</mapping>

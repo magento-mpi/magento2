@@ -28,7 +28,7 @@ class MultipleWishlist extends InjectableFixture
 
     protected $defaultDataSet = [
         'name' => 'New multiple wish list',
-        'visibility' => 'public'
+        'visibility' => 'Yes'
     ];
 
     protected $name = [
@@ -47,6 +47,16 @@ class MultipleWishlist extends InjectableFixture
         'input' => '',
     ];
 
+    protected $customer_id = [
+        'attribute_code' => 'customer_id',
+        'backend_type' => 'virtual',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+        'source' => 'Magento\MultipleWishlist\Test\Fixture\MultipleWishlist\CustomerId',
+        'group' => null
+    ];
+
     public function getName()
     {
         return $this->getData('name');
@@ -55,5 +65,10 @@ class MultipleWishlist extends InjectableFixture
     public function getVisibility()
     {
         return $this->getData('visibility');
+    }
+
+    public function getCustomerId()
+    {
+        return $this->getData('customer_id');
     }
 }

@@ -118,11 +118,10 @@ class Adjustment implements AdjustmentInterface
      */
     public function applyAdjustment($amount, SaleableInterface $saleableItem)
     {
-        $includingTax = !$this->taxHelper->priceIncludesTax();
         return $this->catalogHelper->getTaxPrice(
             $saleableItem,
             $amount,
-            $includingTax,
+            true,
             null,
             null,
             null,

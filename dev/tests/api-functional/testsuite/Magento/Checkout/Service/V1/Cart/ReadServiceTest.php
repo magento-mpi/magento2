@@ -140,6 +140,9 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testGetCartList()
     {
+        $this->markTestSkipped(
+            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-28264'
+        );
         $cart = $this->getCart('test01');
 
         $serviceInfo = array(
@@ -328,11 +331,7 @@ class ReadServiceTest extends WebapiAbstract
             }
         }
 
-        unset($data[Totals::SHIPPING_TAX_AMOUNT]);
-        unset($data[Totals::BASE_SHIPPING_TAX_AMOUNT]);
         unset($data[Totals::BASE_SUBTOTAL_INCL_TAX]);
-        unset($data[Totals::SHIPPING_INCL_TAX]);
-        unset($data[Totals::BASE_SHIPPING_INCL_TAX]);
 
         return $data;
     }

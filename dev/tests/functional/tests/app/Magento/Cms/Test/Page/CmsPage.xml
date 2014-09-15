@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="cms/page" >
-    <block>
-        <name>cmsPageBlock</name>
-        <class>Magento\Cms\Test\Block\Page</class>
-        <locator>.page.main</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="cms/page" module="Magento_Cms">
+    <blocks>
+        <cmsPageBlock>
+            <class>Magento\Cms\Test\Block\Page</class>
+            <locator>.page.main</locator>
+            <strategy>css selector</strategy>
+        </cmsPageBlock>
+    </blocks>
 </page>

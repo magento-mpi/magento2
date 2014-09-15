@@ -7,17 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="customer_account_create/customer/account/create" >
-    <block>
-        <name>registerForm</name>
-        <class>Magento\CustomerCustomAttributes\Test\Block\Form\Register</class>
-        <locator>#form-validate</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.page.messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="customer/account/create">
+    <blocks>
+        <customerAttributesRegisterForm>
+            <class>Magento\CustomerCustomAttributes\Test\Block\Form\Register</class>
+            <locator>#form-validate</locator>
+            <strategy>css selector</strategy>
+        </customerAttributesRegisterForm>
+    </blocks>
 </page>

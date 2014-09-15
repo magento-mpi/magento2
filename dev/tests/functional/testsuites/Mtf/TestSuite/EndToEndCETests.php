@@ -27,7 +27,7 @@ class EndToEndCETests
         // Virtual
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
         // Configurable
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\EditConfigurableTest');
+        $suite->addTestSuite('Magento\ConfigurableProduct\Test\TestCase\EditConfigurableTest');
         // Downloadable
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
         // Bundle
@@ -35,7 +35,7 @@ class EndToEndCETests
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\EditBundleTest');
         // Product configuration
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\ApplyMapTest');
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\ApplyMapConfigurableTest');
+        $suite->addTestSuite('Magento\ConfigurableProduct\Test\TestCase\ApplyMapConfigurableTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\OutOfStockTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UpsellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
@@ -45,8 +45,8 @@ class EndToEndCETests
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
 
         // Url rewrites
-        $suite->addTestSuite('Magento\Backend\Test\TestCase\Urlrewrite\ProductTest');
-        $suite->addTestSuite('Magento\Backend\Test\TestCase\Urlrewrite\CategoryTest');
+        $suite->addTestSuite('Magento\Urlrewrite\Test\TestCase\ProductTest');
+        $suite->addTestSuite('Magento\Urlrewrite\Test\TestCase\CategoryTest');
 
         // Admin user
         $suite->addTest(new \Magento\User\Test\TestCase\UserWithRestrictedRoleTest('testAclRoleWithFullGwsScope'));

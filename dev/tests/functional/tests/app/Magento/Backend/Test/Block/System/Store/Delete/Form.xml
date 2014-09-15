@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <create_backup>
+            <selector>[name="create_backup"]</selector>
+            <input>select</input>
+        </create_backup>
+    </fields>
+</mapping>

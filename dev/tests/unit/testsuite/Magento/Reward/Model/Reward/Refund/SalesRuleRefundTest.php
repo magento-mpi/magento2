@@ -45,7 +45,7 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->rewardHelperMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
         $this->subject = $this->objectManager->getObject(
             '\Magento\Reward\Model\Reward\Refund\SalesRuleRefund',

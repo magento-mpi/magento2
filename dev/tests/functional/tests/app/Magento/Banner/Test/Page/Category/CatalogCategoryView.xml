@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="banner/catalog/category/view" >
-    <block>
-        <name>viewBlock</name>
-        <class>Magento\Banner\Test\Block\Category\Vie</class>
-        <locator>.column.main</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="catalog/category/view">
+    <blocks>
+        <bannerViewBlock>
+            <class>Magento\Banner\Test\Block\Category\View</class>
+            <locator>.column.main</locator>
+            <strategy>css selector</strategy>
+        </bannerViewBlock>
+    </blocks>
 </page>

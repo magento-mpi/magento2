@@ -50,7 +50,7 @@ class PaypalExpress extends Checkout
      */
     public function getTelephoneNumber()
     {
-        return array('telephone' => $this->telephoneNumber);
+        return ['telephone' => $this->telephoneNumber];
     }
 
     /**
@@ -59,11 +59,11 @@ class PaypalExpress extends Checkout
     protected function _initData()
     {
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$10.83'
-            )
-        );
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '10.83'
+            ]
+        ];
     }
 
     /**
@@ -72,14 +72,14 @@ class PaypalExpress extends Checkout
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array(
+        $this->_persistConfiguration([
             'free_shipping',
             'paypal_disabled_all_methods',
             'paypal_express',
             'default_tax_config',
             'display_price',
             'display_shopping_cart'
-        ));
+        ]);
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
@@ -93,16 +93,20 @@ class PaypalExpress extends Checkout
         $simple->switchData('simple_required');
         $simple->persist();
 
-        $this->products = array(
+        $this->products = [
             $simple
-        );
+        ];
 
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress = $objectManager->create(
+            '\Magento\Customer\Test\Fixture\AddressInjectable',
+            ['dataSet' => 'customer_US']
+        );
 
-        $this->shippingAddresses = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
-        $this->shippingAddresses->switchData('address_US_1');
+        $this->shippingAddresses = $objectManager->create(
+            '\Magento\Customer\Test\Fixture\AddressInjectable',
+            ['dataSet' => 'customer_US']
+        );
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('free_shipping');

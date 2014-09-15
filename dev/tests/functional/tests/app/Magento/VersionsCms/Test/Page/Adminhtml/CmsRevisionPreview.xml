@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/cms_page_revision/preview/" module = "Magento_VersionsCms">
+    <blocks>
+        <previewBlock>
+            <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\Preview</class>
+            <locator>#cms-revision-preview</locator>
+            <strategy>css selector</strategy>
+        </previewBlock>
+    </blocks>
+</page>

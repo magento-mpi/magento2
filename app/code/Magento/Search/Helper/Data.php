@@ -101,7 +101,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -137,7 +137,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      * @param TaxCalculationServiceInterface $taxCalculationService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
@@ -151,7 +151,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         TaxCalculationServiceInterface $taxCalculationService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         CurrentCustomer $currentCustomer,

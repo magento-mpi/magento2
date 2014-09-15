@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Review
  * Paypal sandbox review block
- *
  */
 class Review extends Block
 {
@@ -23,7 +22,7 @@ class Review extends Block
      *
      * @var string
      */
-    protected $continue = '#continue';
+    protected $continue = 'input[type="submit"]';
 
     /**
      * Press 'Continue' button

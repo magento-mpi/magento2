@@ -101,7 +101,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
@@ -120,7 +120,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Framework\Logger $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,

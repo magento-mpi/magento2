@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="checkout/onepage" >
+    <blocks>
+        <storeCreditBlock>
+            <class>Magento\CustomerBalance\Test\Block\Checkout\Onepage\Payment\Additional</class>
+            <locator>#customerbalance-placer</locator>
+            <strategy>css selector</strategy>
+        </storeCreditBlock>
+        <balanceReviewBlock>
+            <class>Magento\CustomerBalance\Test\Block\Onepage\Review</class>
+            <locator>#checkout-step-review</locator>
+            <strategy>css selector</strategy>
+        </balanceReviewBlock>
+    </blocks>
+</page>

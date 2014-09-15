@@ -8,12 +8,27 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
+use \Magento\VersionsCms\Model\PageLoader;
+use \Magento\Backend\App\Action\Context;
+
 class Versions extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\VersionsCms\Model\PageLoader
      */
     protected $pageLoader;
+
+    /**
+     * @param Context $context
+     * @param PageLoader $pageLoader
+     */
+    public function __construct(
+        Context $context,
+        PageLoader $pageLoader
+    ) {
+        parent::__construct($context);
+        $this->pageLoader = $pageLoader;
+    }
 
     /**
      * {@inheritdoc}

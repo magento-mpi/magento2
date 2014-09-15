@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_VersionsCms">
+    <cmsNew>
+        <mca>admin/cms_page/new/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsNew</class>
+    </cmsNew>
+    <cmsVersionEdit>
+        <mca>admin/cms_page_version/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit</class>
+    </cmsVersionEdit>
+    <cmsRevisionEdit>
+        <mca>admin/cms_page_revision/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit</class>
+    </cmsRevisionEdit>
+    <cmsRevisionPreview>
+        <mca>admin/cms_page_revision/preview/</mca>
+        <area>adminhtml</area>
+        <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionPreview</class>
+    </cmsRevisionPreview>
+</page>

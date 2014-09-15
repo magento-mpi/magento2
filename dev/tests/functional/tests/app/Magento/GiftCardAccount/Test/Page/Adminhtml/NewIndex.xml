@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/giftcardaccount/new/index">
-    <block>
-        <name>pageMainForm</name>
-        <class>Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\GiftCardAccountForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>pageMainActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/giftcardaccount/new/index" module="Magento_GiftCardAccount">
+    <blocks>
+        <pageMainForm>
+            <class>Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit\GiftCardAccountForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </pageMainForm>
+        <pageMainActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageMainActions>
+    </blocks>
 </page>
