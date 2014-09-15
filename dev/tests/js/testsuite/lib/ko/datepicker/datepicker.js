@@ -13,7 +13,8 @@ test('DatepickerBinding', function () {
         openBtn,
         todayBtn,
         todayDate,
-        dateFormat;
+        dateFormat,
+        result;
 
     ko.applyBindingsToNode(element, {
         datepicker: observable
@@ -28,5 +29,7 @@ test('DatepickerBinding', function () {
     btn.click();
     todayBtn.click();
 
-    equal(todayDate, moment(observable()).format(dateFormat));
+    result = moment(observable()).format(dateFormat);
+
+    equal(todayDate, result);
 });
