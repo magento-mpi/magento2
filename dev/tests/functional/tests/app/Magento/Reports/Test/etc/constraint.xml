@@ -50,4 +50,7 @@
     <assertCouponReportResult  module="Magento_Reports">
         <severeness>low</severeness>
     </assertCouponReportResult>
+    <assertOrderTotalReportInGrid  module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertOrderTotalReportInGrid>
 </constraint>
