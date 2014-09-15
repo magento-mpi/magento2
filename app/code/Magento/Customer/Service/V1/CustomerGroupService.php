@@ -252,28 +252,17 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveGroup(Data\CustomerGroup $group)
+    public function createGroup(Data\CustomerGroup $group)
     {
         if (!$group->getCode()) {
             throw InputException::invalidFieldValue('code', $group->getCode());
         }
 
-        $customerGroup = null;
-
-        if ($group->getId()) {
-            try {
-                $customerGroup = $this->_groupRegistry->retrieve($group->getId());
-            } catch (NoSuchEntityException $e) {
-                throw NoSuchEntityException::singleField('id', $group->getId());
-            }
-        }
-
-        if (!$customerGroup) {
-            $customerGroup = $this->_groupFactory->create();
-        }
-
+        /** @var /Magento/Customer/Model/Group $customerGroup */
+        $customerGroup = $this->_groupFactory->create();
         $customerGroup->setCode($group->getCode());
 
+        /** @var int $taxClassId */
         $taxClassId = $group->getTaxClassId();
         if (!$taxClassId) {
             $taxClassId = self::DEFAULT_TAX_CLASS_ID;
@@ -295,6 +284,45 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         }
 
         return $customerGroup->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateGroup($groupId, Data\CustomerGroup $group)
+    {
+        /** @var /Magento/Customer/Model/Group $customerGroup */
+        $customerGroup = null;
+        try {
+            $customerGroup = $this->_groupRegistry->retrieve($groupId);
+        } catch (NoSuchEntityException $e) {
+            throw NoSuchEntityException::singleField('id', $groupId);
+        }
+
+        $customerGroup->setCode($group->getCode());
+
+        /** @var int $taxClassId */
+        $taxClassId = $group->getTaxClassId();
+        if (!$taxClassId) {
+            $taxClassId = self::DEFAULT_TAX_CLASS_ID;
+        }
+        $this->_verifyTaxClassModel($taxClassId, $group);
+
+        $customerGroup->setTaxClassId($taxClassId);
+        try {
+            $customerGroup->save();
+        } catch (\Magento\Framework\Model\Exception $e) {
+            /**
+             * Would like a better way to determine this error condition but
+             *  difficult to do without imposing more database calls
+             */
+            if ($e->getMessage() === __('Customer Group already exists.')) {
+                throw new InvalidTransitionException('Customer Group already exists.');
+            }
+            throw $e;
+        }
+
+        return true;
     }
 
     /**

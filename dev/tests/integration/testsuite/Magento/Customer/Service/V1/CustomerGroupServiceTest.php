@@ -129,7 +129,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $group = $builder->setId(null)->setCode('Test Group')->setTaxClassId(3)->create();
-        $groupId = $this->_groupService->saveGroup($group);
+        $groupId = $this->_groupService->createGroup($group);
         $this->assertNotNull($groupId);
 
         $newGroup = $this->_groupService->getGroup($groupId);
@@ -142,7 +142,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $group = $builder->setId(null)->setCode('New Group')->setTaxClassId(3)->create();
-        $groupId = $this->_groupService->saveGroup($group);
+        $groupId = $this->_groupService->createGroup($group);
         $this->assertNotNull($groupId);
 
         $newGroup = $this->_groupService->getGroup($groupId);
@@ -152,8 +152,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
         $updates = $builder->setId($groupId)->setCode('Updated Group')->setTaxClassId(3)
             ->create();
-        $newId = $this->_groupService->saveGroup($updates);
-        $this->assertEquals($newId, $groupId);
+        $this->assertTrue($this->_groupService->updateGroup($groupId, $updates));
         $updatedGroup = $this->_groupService->getGroup($groupId);
         $this->assertEquals($updates->getCode(), $updatedGroup->getCode());
         $this->assertEquals($updates->getTaxClassId(), $updatedGroup->getTaxClassId());

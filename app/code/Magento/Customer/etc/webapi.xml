@@ -47,7 +47,13 @@
         </resources>
     </route>
     <route url="/V1/customerGroups" method="POST">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="saveGroup"/>
+        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="createGroup"/>
+        <resources>
+            <resource ref="Magento_Customer::group"/>
+        </resources>
+    </route>
+    <route url="/V1/customerGroups/:groupId" method="PUT">
+        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="updateGroup"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>

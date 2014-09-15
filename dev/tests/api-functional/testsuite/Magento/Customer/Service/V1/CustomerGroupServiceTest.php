@@ -540,8 +540,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'resourcePath' => self::RESOURCE_PATH . "/$groupId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ]
         ];
 
@@ -552,10 +552,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $newGroupId = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
-        $group = $this->groupService->getGroup($newGroupId);
+        $group = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData[CustomerGroup::TAX_CLASS_ID],
@@ -571,12 +570,12 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $this->_markTestAsRestOnly();
 
-        $nonExistentGroupId = 9999;
+        $nonExistentGroupId = '9999';
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'resourcePath' => self::RESOURCE_PATH . "/$nonExistentGroupId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ]
         ];
 
@@ -592,7 +591,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
-             . '"parameters":{"fieldName":"id","fieldValue":9999}';
+             . '"parameters":{"fieldName":"id","fieldValue":"9999"}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
@@ -612,7 +611,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -657,7 +656,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -693,7 +692,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -728,7 +727,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -766,7 +765,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -810,7 +809,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -834,19 +833,19 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
-     * Verify that updating a non-existing group throws an exception  via SOAP.
+     * Verify that updating a non-existing group throws an exception via SOAP.
      */
     public function testUpdateGroupNotExistingGroupSoap()
     {
         $this->_markTestAsSoapOnly();
 
-        $nonExistentGroupId = 9999;
+        $nonExistentGroupId = '9999';
 
         $serviceInfo = [
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -997,7 +996,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     private function createGroup($group)
     {
-        $groupId = $this->groupService->saveGroup($group);
+        $groupId = $this->groupService->createGroup($group);
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupService->getGroup($groupId);
