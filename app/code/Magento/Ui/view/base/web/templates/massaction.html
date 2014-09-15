@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 -->
-<div title="Select Items" class="actions-split" data-bind="css: {'active': actionsVisible}">
+<div title="Select Items" class="actions-split" data-bind="css: {'active': actionsVisible}, stopPropagation: true">
     <button title="Actions" class="action-default scalable add" data-bind="click: onToggle('actionsVisible')">
         <span data-bind="text: $t('Actions')"></span>
     </button>
-    <button title="" class="action-toggle scalable  add" data-toggle="dropdown" data-bind="click: onToggle('actionsVisible')">
+    <button title="" class="action-toggle scalable  add" data-toggle="dropdown" data-bind="click: onToggle('actionsVisible'), outerClick: hideActions">
         <span>|</span>
     </button>
 
