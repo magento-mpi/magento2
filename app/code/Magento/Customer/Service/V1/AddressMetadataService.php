@@ -126,7 +126,11 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     {
         $customAttributes = [];
         if (!$this->addressDataObjectMethods) {
-            $this->addressDataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
+            $dataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
+            $baseClassDataObjectMethods = array_flip(
+                get_class_methods('Magento\Framework\Service\Data\AbstractExtensibleObject')
+            );
+            $this->addressDataObjectMethods = array_diff_key($dataObjectMethods, $baseClassDataObjectMethods);
         }
         foreach ($this->getAllAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
