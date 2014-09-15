@@ -7,15 +7,17 @@
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
-use \Magento\Framework\Service\V1\Data\FilterBuilder;
-use \Magento\TestFramework\ObjectManager;
-use \Magento\Checkout\Service\V1\Data\Cart;
-use \Magento\Framework\Service\V1\Data\SearchCriteria;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
+use Magento\Checkout\Service\V1\Data\Cart;
+use Magento\Checkout\Service\V1\Data\Cart\Totals;
+use Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SortOrder;
+use Magento\Framework\Service\V1\Data\SortOrderBuilder;
+use Magento\TestFramework\ObjectManager;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -30,6 +32,11 @@ class ReadServiceTest extends WebapiAbstract
     private $searchBuilder;
 
     /**
+     * @var SortOrderBuilder
+     */
+    private $sortOrderBuilder;
+
+    /**
      * @var FilterBuilder
      */
     private $filterBuilder;
@@ -37,12 +44,26 @@ class ReadServiceTest extends WebapiAbstract
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->searchBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
-        );
         $this->filterBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'
         );
+        $this->sortOrderBuilder = $this->objectManager->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
+        $this->searchBuilder = $this->objectManager->create(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+        );
+    }
+
+    protected function tearDown()
+    {
+        try {
+            $cart = $this->getCart('test01');
+            $cart->delete();
+        } catch (\InvalidArgumentException $e) {
+            // Do nothing if cart fixture was not used
+        }
+        parent::tearDown();
     }
 
     /**
@@ -178,7 +199,9 @@ class ReadServiceTest extends WebapiAbstract
         $this->searchBuilder->addFilter(array($grandTotalFilter, $subtotalFilter));
         $this->searchBuilder->addFilter(array($minCreatedAtFilter));
         $this->searchBuilder->addFilter(array($maxCreatedAtFilter));
-        $this->searchBuilder->setSortOrders(array('subtotal' => SearchCriteria::SORT_ASC));
+        /** @var SortOrder $sortOrder */
+        $sortOrder = $this->sortOrderBuilder->setField('subtotal')->setDirection(SearchCriteria::SORT_ASC)->create();
+        $this->searchBuilder->setSortOrders([$sortOrder]);
         $searchCriteria = $this->searchBuilder->create()->__toArray();
 
         $requestData = array('searchCriteria' => $searchCriteria);
