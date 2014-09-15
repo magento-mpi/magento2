@@ -68,17 +68,30 @@ interface CustomerGroupServiceInterface
     public function canDelete($groupId);
 
     /**
-     * Save group
+     * Create group
      *
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group
+     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException
+     *      If saving customer group with customer group code that is used by an existing customer group
+     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
+     * @return int customer group ID
+     */
+    public function createGroup(\Magento\Customer\Service\V1\Data\CustomerGroup $group);
+
+    /**
+     * Update group
+     *
+     * @param string $groupId
      * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a group ID is sent but the group does not exist
      * @throws \Magento\Framework\Exception\State\InvalidTransitionException
      *      If saving customer group with customer group code that is used by an existing customer group
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int customer group ID
+     * @return bool True if this group was updated
      */
-    public function saveGroup(\Magento\Customer\Service\V1\Data\CustomerGroup $group);
+    public function updateGroup($groupId, \Magento\Customer\Service\V1\Data\CustomerGroup $group);
 
     /**
      * Delete group
