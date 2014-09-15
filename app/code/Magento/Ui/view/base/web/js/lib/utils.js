@@ -33,6 +33,7 @@ define([
         _.extend(utils, {
             atob: function(input){
                 return Base64.decode(input)
+            },
 
             btoa: function(input){
                 return Base64.encode(input);

@@ -28,16 +28,27 @@ define([
         },
 
         /**
+         * Initializes raw properties
+         * @return {Object} reference to instance
+         */
+        initFields: function(){
+            this.meta = this.provider.meta;
+            this.fields = this.meta.getVisible();
+
+            return this;
+        },
+
+        /**
          * Initializes observable properties of instance.
          * @return {Object} - reference to instance
          */
         initObservable: function() {
             this.observe({
-                rows:       [],
-                isLocked:   false,
-                colspan:    this.meta.get('colspan'),
-                extenders: null,
-                templateExtenders: []
+                rows:               [],
+                isLocked:           false,
+                colspan:            this.meta.get('colspan'),
+                extenders:          null,
+                templateExtenders:  []
             });
 
             return this;
@@ -61,17 +72,6 @@ define([
 
             dump.on('update:extenders', this.updateExtenders);
             meta.on('update:colspan', this.updateColspan);
-
-            return this;
-        },
-
-        /**
-         * Initializes raw properties
-         * @return {Object} reference to instance
-         */
-        initFields: function(){
-            this.meta = this.provider.meta;
-            this.fields = this.meta.getVisible();
 
             return this;
         },

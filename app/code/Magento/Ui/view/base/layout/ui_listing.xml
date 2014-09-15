@@ -37,12 +37,5 @@
                 </arguments>
             </block>
         </block>
-        <block class="Magento\Framework\View\Element\Text\ListText" name="listing_after">
-            <block class="Magento\Ui\Paging\View" name="paging_small_bottom">
-                <arguments>
-                    <argument name="template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
-                </arguments>
-            </block>
-        </block>
     </block>
 </layout>

@@ -131,17 +131,20 @@ define([
                 isNested;
 
             options = field.options;
-            isNested = hasComplexValue(options, 'value');
 
             if (options) {
-                result = isNested ? nestedObjectToArray(options, 'value') : {};
+                result      = {};
+                isNested    = hasComplexValue(options, 'value');
 
-                if (!isNested) {
+                if(isNested){
+                    result = nestedObjectToArray(options, 'value');
+                }
+                else{
                     _.each(options, function(option){
                         result[option.value] = option.label;
-                    });    
-                }
-                
+                    }); 
+                }   
+                                
                 field.options = result;
             }
 
