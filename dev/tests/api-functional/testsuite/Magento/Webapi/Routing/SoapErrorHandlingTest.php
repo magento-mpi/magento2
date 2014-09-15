@@ -159,8 +159,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $e,
                 $expectedException->getRawMessage(),
                 'env:Sender',
-                $expectedException->getParameters(), // expected error parameters
-                false
+                $expectedException->getParameters() // expected error parameters
             );
         }
     }

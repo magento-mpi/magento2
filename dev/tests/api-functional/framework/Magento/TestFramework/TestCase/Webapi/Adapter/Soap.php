@@ -83,10 +83,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         );
         /** Check if there is SOAP client initialized with requested WSDL available */
         if (!isset($this->_soapClients[$wsdlUrl])) {
-            $token = null;
-            if (isset($serviceInfo['soap']['token'])) {
-                $token = $serviceInfo['soap']['token'];
-            }
+            $token = isset($serviceInfo['soap']['token']) ? $serviceInfo['soap']['token'] : null;
             $this->_soapClients[$wsdlUrl] = $this->instantiateSoapClient($wsdlUrl, $token);
         }
         return $this->_soapClients[$wsdlUrl];
