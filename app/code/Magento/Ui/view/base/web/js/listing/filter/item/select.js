@@ -27,7 +27,10 @@ define([
             this.options = this.options ? this.formatOptions(this.options) : [];
         },
 
-
+        /**
+         * Checkes if current state is empty.
+         * @return {Boolean}
+         */
         isEmpty: function(){
             var selected = this.selected();
 
@@ -45,6 +48,10 @@ define([
             });
         },
 
+        /**
+         * Returns string value of current state for UI
+         * @return {String}
+         */
         display: function(){
             var selected = this.selected();
 
