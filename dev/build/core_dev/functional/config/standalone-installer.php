@@ -53,7 +53,7 @@ if ($installOptions) {
 
     /* Dump Database */
     $dumpCommand = "mysqldump -u{$installOptions['db_user']} -p{$installOptions['db_pass']} "
-        . "{$installOptions['db_name']} > {$installOptions['db_name']}.sql";
+        . "{$installOptions['db_name']} -h{$installOptions['db_host']} > {$installOptions['db_name']}.sql";
     passthru($dumpCommand, $exitCode);
     if ($exitCode) {
         exit($exitCode);
