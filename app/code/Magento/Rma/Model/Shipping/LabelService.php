@@ -78,7 +78,7 @@ class LabelService
 
         list($carrierCode, $methodCode) = explode('_', $data['code'], 2);
         $shipment->setCarrierCode($carrierCode);
-        $shipment->setMethodCode($data['code']);
+        $shipment->setMethodCode($methodCode);
 
         $shipment->setCarrierTitle($data['carrier_title']);
         $shipment->setMethodTitle($data['method_title']);

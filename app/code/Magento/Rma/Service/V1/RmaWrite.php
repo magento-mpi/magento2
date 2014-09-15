@@ -111,4 +111,33 @@ class RmaWrite implements RmaWriteInterface
     public function getRmaList()
     {
     }
+
+    /**
+     * Create shipping label for rma
+     *
+     * @param int $rmaId
+     * @param array $packages
+     * @param string $carrierCode
+     * @param string $carrierTitle
+     * @param string $methodTitle
+     * @param null|float $price
+     *
+     * @throws \Exception
+     * @return bool
+     */
+    public function createLabel($rmaId, $packages, $carrierCode = '', $carrierTitle = '', $methodTitle = '', $price = null)
+    {
+        $data = [
+            'packages' => $packages,
+            'code' => $carrierCode,
+            'carrier_title' => $carrierTitle,
+            'method_title' => $methodTitle,
+            'price' => $price
+        ];
+        $rmaModel = $this->rmaRepository->get($rmaId);
+        if ($rmaModel->getId()) {
+            return (bool)$this->labelService->createShippingLabel($rmaModel, $data);
+        }
+        return false;
+    }
 }
