@@ -14,7 +14,7 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AssertGiftRegistryManageItemsTab
@@ -36,7 +36,8 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryItems $giftRegistryItems
      * @param GiftRegistry $giftRegistry
-     * @param FixtureInterface $product
+     * @param InjectableFixture[] $products
+     * @param string $qty
      * @return void
      */
     public function processAssert(
@@ -44,16 +45,19 @@ class AssertGiftRegistryManageItemsTab extends AbstractConstraint
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryItems $giftRegistryItems,
         GiftRegistry $giftRegistry,
-        FixtureInterface $product
+        $products,
+        $qty
     ) {
+        $qty = explode(',', $qty);
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
-        $productName = $product->getName();
-        $qty = $product->getCheckoutData()['qty'];
-        \PHPUnit_Framework_Assert::assertTrue(
-            $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product),
-            'Product with name ' . $productName . ' and ' . $qty . ' quantity is absent in grid.'
-        );
+        foreach ($products as $key => $product) {
+            $productName = $product->getName();
+            \PHPUnit_Framework_Assert::assertTrue(
+                $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product, $qty[$key]),
+                'Product with name ' . $productName . ' and ' . $qty[$key] . ' quantity is absent in grid.'
+            );
+        }
     }
 
     /**

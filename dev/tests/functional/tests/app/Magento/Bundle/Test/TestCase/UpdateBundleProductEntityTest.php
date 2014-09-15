@@ -9,7 +9,7 @@
 namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
+use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
@@ -68,11 +68,11 @@ class UpdateBundleProductEntityTest extends Injectable
     /**
      * Test update bundle product
      *
-     * @param CatalogProductBundle $product
-     * @param CatalogProductBundle $originalProduct
+     * @param BundleProduct $product
+     * @param BundleProduct $originalProduct
      * @return void
      */
-    public function test(CatalogProductBundle $product, CatalogProductBundle $originalProduct)
+    public function test(BundleProduct $product, BundleProduct $originalProduct)
     {
         $originalProduct->persist();
         $this->catalogProductIndex->open();

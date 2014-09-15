@@ -11,6 +11,7 @@ namespace Magento\Reports\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Reports\Test\Page\Adminhtml\Bestsellers;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertBestsellerReportResult
@@ -40,8 +41,9 @@ class AssertBestsellerReportResult extends AbstractConstraint
         $products = $order->getEntityId()['products'];
         $totalQuantity = $bestsellers->getGridBlock()->getViewsResults($products, $date);
         $productQty = [];
-        foreach ($products as $key => $value) {
-            $productQty[$key] = $products[$key]->getCheckoutData()['qty'];
+        foreach ($products as $key => $product) {
+            /** @var CatalogProductSimple $product*/
+            $productQty[$key] = $product->getCheckoutData()['qty'];
         }
         \PHPUnit_Framework_Assert::assertEquals($productQty, $totalQuantity);
     }

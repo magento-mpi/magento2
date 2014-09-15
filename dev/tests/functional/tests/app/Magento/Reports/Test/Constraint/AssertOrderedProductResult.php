@@ -11,6 +11,7 @@ namespace Magento\Reports\Test\Constraint;
 use Magento\Reports\Test\Page\Adminhtml\OrderedProductsReport;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertOrderedProductResult
@@ -34,10 +35,14 @@ class AssertOrderedProductResult extends AbstractConstraint
      */
     public function processAssert(OrderedProductsReport $orderedProducts, OrderInjectable $order)
     {
+        $products = $order->getEntityId()['products'];
         $totalQuantity = $orderedProducts->getGridBlock()->getOrdersResults($order);
         $productQty = [];
+
         foreach ($totalQuantity as $key => $value) {
-            $productQty[$key] = $order->getEntityId()['products'][$key]->getCheckoutData()['qty'];
+            /** @var CatalogProductSimple $product */
+            $product = $products[$key];
+            $productQty[$key] = $product->getCheckoutData()['qty'];
         }
         \PHPUnit_Framework_Assert::assertEquals($totalQuantity, $productQty);
     }
