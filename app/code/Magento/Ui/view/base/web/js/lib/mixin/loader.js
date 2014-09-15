@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define(function() {
     return {
         lock: function() {
