@@ -35,11 +35,8 @@ define([
                 parseTemplate = this._parse.bind(this);
 
             if (extenders.length) {
-                extendersToLoad = extenders.map(function (extender) {
-                    return loadTemplate(extender);
-                });
 
-                waitFor(extendersToLoad).done(function () {
+                loadTemplate.apply(this, extenders).done(function () {
 
                     toArray(arguments).forEach(function (chunk) {
                         extendersHtml += chunk;

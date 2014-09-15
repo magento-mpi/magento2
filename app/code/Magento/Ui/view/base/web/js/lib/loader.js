@@ -6,6 +6,12 @@
  */
 define(['jquery'], function($) {
     'use strict';
+    
+    var storage = window.localStorage
+
+    function getStoragePathFor(name, entity) {
+        return '__' + entity + 'Cache__' + name;
+    }
 
     /**
      * Converts arrayLikeObject to array
@@ -25,24 +31,51 @@ define(['jquery'], function($) {
         return 'text!' + path.replace(/(\.)/g, '/') + '.html';
     }
 
+    /**
+     * Waits for all items in passed array of promises to resolve.
+     * @param  {Array} promises - array of promises
+     * @return {Deferred} - promise of promises to resolve
+     */
+    function waitFor(promises) {
+        return $.when.apply(this, promises);
+    }
+
     return {
         /**
          * Loops over arguments and loads template for each.
          * @return {Deferred} - promise of templates to be loaded
          */
         loadTemplate: function() {
-            var isLoaded = $.Deferred(),
-                templates;
+            var isLoaded  = $.Deferred(),
+                templates = toArray(arguments);
 
-            templates = toArray(arguments);
-            templates = templates.map(formatTemplatePath);
-
-            require(templates, function() {
+            waitFor(templates.map(this._loadTemplate)).done(function () {
                 templates = toArray(arguments);
                 isLoaded.resolve.apply(isLoaded, templates);
             });
 
             return isLoaded.promise();
+        },
+
+        _loadTemplate: function (name) {
+            var isLoaded    = $.Deferred(),
+                storagePath = getStoragePathFor(name, 'template'),
+                cached      = storage.getItem(storagePath),
+                path        = formatTemplatePath(name);
+
+            if (cached) {
+                setTimeout(function () {
+                    isLoaded.resolve(cached);    
+                }, 0)
+            } else {
+                require([path], function (template) {
+                    storage.setItem(storagePath, template);
+                    isLoaded.resolve(template);
+                });
+            }
+
+            return isLoaded.promise();
+
         }
     }
 });
