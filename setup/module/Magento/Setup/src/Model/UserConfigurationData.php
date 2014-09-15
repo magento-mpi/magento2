@@ -9,6 +9,9 @@
 namespace Magento\Setup\Model;
 
 use Magento\Module\Setup;
+use Magento\Store\Model\Store;
+use Magento\Core\Helper\Data;
+use Magento\Directory\Model\Currency;
 
 /**
  * Model Class to Install User Configuration Data
@@ -36,16 +39,16 @@ class UserConfigurationData
      * @var array
      */
     private static $pathDataMap = [
-        'web/seo/use_rewrites' => self::KEY_USE_SEF_URL,
-        'web/unsecure/base_url' => self::KEY_BASE_URL,
-        'web/secure/use_in_frontend' => self::KEY_IS_SECURE,
-        'web/secure/base_url' => self::KEY_BASE_URL_SECURE,
-        'web/secure/use_in_adminhtml' => self::KEY_IS_SECURE_ADMIN,
-        'general/locale/code' => self::KEY_LANGUAGE,
-        'general/locale/timezone' => self::KEY_TIMEZONE,
-        'currency/options/base' => self::KEY_CURRENCY,
-        'currency/options/default' => self::KEY_CURRENCY,
-        'currency/options/allow' => self::KEY_CURRENCY,
+        Store::XML_PATH_USE_REWRITES => self::KEY_USE_SEF_URL,
+        Store::XML_PATH_UNSECURE_BASE_URL => self::KEY_BASE_URL,
+        Store::XML_PATH_SECURE_IN_FRONTEND => self::KEY_IS_SECURE,
+        Store::XML_PATH_SECURE_BASE_URL => self::KEY_BASE_URL_SECURE,
+        Store::XML_PATH_SECURE_IN_ADMINHTML => self::KEY_IS_SECURE_ADMIN,
+        Data::XML_PATH_DEFAULT_LOCALE => self::KEY_LANGUAGE,
+        Data::XML_PATH_DEFAULT_TIMEZONE => self::KEY_TIMEZONE,
+        Currency::XML_PATH_CURRENCY_BASE => self::KEY_CURRENCY,
+        Currency::XML_PATH_CURRENCY_DEFAULT => self::KEY_CURRENCY,
+        Currency::XML_PATH_CURRENCY_ALLOW => self::KEY_CURRENCY,
     ];
 
     /**

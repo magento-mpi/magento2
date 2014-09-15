@@ -77,7 +77,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $newUrl = $this->_urlBuilder->getUrl('rss/catalog/new/store_id/' . $storeId);
         $title = __('New Products from %1', $storeModel->getFrontendName());
         $lang = $this->_scopeConfig->getValue(
-            'general/locale/code',
+            \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeModel
         );

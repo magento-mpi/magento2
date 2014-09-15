@@ -54,7 +54,7 @@ class ConfigData extends AbstractRepository
         $this->_data['config_currency_symbols_usd_and_uah'] = [
             'section' => [
                 [
-                    'path' => 'currency/options/allow',
+                    'path' => \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
                     'scope' => 'currency',
                     'scope_id' => '1',
                     'value' => ['USD', 'UAH'],
@@ -65,7 +65,7 @@ class ConfigData extends AbstractRepository
         $this->_data['config_currency_symbols_usd'] = [
             'section' => [
                 [
-                    'path' => 'currency/options/allow',
+                    'path' => \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
                     'scope' => 'currency',
                     'scope_id' => '1',
                     'value' => ['USD'],
@@ -442,7 +442,7 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
-        
+
         //Multiple wishlist
         $this->_data['multiple_wishlist_default'] = [
             'section' => [

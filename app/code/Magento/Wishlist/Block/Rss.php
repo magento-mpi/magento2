@@ -117,7 +117,7 @@ class Rss extends \Magento\Wishlist\Block\AbstractBlock
             );
             $title = $this->_getTitle();
             $lang = $this->_scopeConfig->getValue(
-                'general/locale/code',
+                \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             $rssObj->_addHeader(
