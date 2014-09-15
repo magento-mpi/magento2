@@ -32,6 +32,9 @@ define(["jquery","jquery/ui","mage/dropdown"], function($){
                     this.element.trigger('reloadPrice');
                     var dialog = $( "#map-popup-click-for-price" );
                     this._popupDialog(dialog,this.options.popupId);
+                    if (this.options.addToCartUrl) {
+                        $(this.options.cartForm).attr('action', this.options.addToCartUrl);
+                    }
                     if (!this.options.showAddToCart) {
                         $('#map-popup-content > .map-popup-checkout').hide();
                     }
@@ -70,7 +73,6 @@ define(["jquery","jquery/ui","mage/dropdown"], function($){
             this.element.trigger('addToCart', this.element);
             if (this.options.addToCartUrl) {
                 $('.mage-dropdown-dialog > .ui-dialog-content').dropdownDialog("close");
-                $(this.options.cartForm).attr('action', this.options.addToCartUrl);
             }
             $(this.options.cartForm).submit();
         }
