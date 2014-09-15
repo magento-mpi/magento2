@@ -262,6 +262,12 @@ define([
          */
         onRefresh: function () {
             this.deselectAll();
+        },
+
+        toggleSelectAll: function () {
+            var isAllSelected = this.allSelected();
+
+            isAllSelected ? this.deselectAll() : this.selectAll();
         }
     });
 
