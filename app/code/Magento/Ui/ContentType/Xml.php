@@ -73,10 +73,10 @@ class Xml implements ContentTypeInterface
     protected function getDataXml(ViewInterface $view)
     {
         $result = [
-            'configuration' => $view->getViewConfiguration(),
+            'configuration' => $view->getRenderContext()->getStorage()->getComponentsData($view->getName())->getData(),
             'data' => []
         ];
-        foreach ($view->getViewData() as $key => $value) {
+        foreach ($view->getRenderContext()->getStorage()->getData($view->getName()) as $key => $value) {
             if (is_object($value)) {
                 if (method_exists($value, 'toXml')) {
                     $result['data'][$key] = $value->toXml();

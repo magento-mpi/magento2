@@ -44,16 +44,8 @@ class Json implements ContentTypeInterface
      */
     public function render(ViewInterface $view, $template = '')
     {
-        return json_encode($this->getDataJson($view));
+        return $view->getRenderContext()
+            ->getConfigurationBuilder()
+            ->toJson($view->getRenderContext()->getStorage(), $view->getName());
     }
-
-    /**
-     * @param ViewInterface $view
-     * @return array
-     */
-    protected function getDataJson(ViewInterface $view)
-    {
-        return $view->getGlobalConfigJson();
-    }
-
 }

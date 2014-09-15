@@ -29,10 +29,8 @@ class Layout
      * @param LayoutFactory $layoutFactory
      * @param LayoutInterface $generalLayout
      */
-    public function __construct(
-        LayoutFactory $layoutFactory,
-        \Magento\Framework\View\LayoutInterface $generalLayout
-    ) {
+    public function __construct(LayoutFactory $layoutFactory, \Magento\Framework\View\LayoutInterface $generalLayout)
+    {
         $this->layout = $layoutFactory->create(['cacheable' => $generalLayout->isCacheable()]);
     }
 

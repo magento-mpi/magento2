@@ -7,12 +7,16 @@
  */
 namespace Magento\Ui;
 
+use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
+
 /**
  * Class ViewInterface
  */
 interface ViewInterface
 {
     /**
+     * Render component
+     *
      * @param array $arguments
      * @param string $acceptType
      * @return mixed|string
@@ -25,27 +29,6 @@ interface ViewInterface
      * @return string|false
      */
     public function getTemplate();
-
-    /**
-     * Getting view data array
-     *
-     * @return array
-     */
-    public function getViewData();
-
-    /**
-     * Getting configuration settings array
-     *
-     * @return array
-     */
-    public function getViewConfiguration();
-
-    /**
-     * Getting JSON configuration data
-     *
-     * @return string
-     */
-    public function getConfigurationJson();
 
     /**
      * Getting instance name
@@ -62,10 +45,23 @@ interface ViewInterface
     public function getParentName();
 
     /**
-     * Add data into configuration element view
+     * Get component configuration
      *
-     * @param AbstractView $view
-     * @param array $data
+     * @return ConfigurationInterface
      */
-    public function addConfigData(AbstractView $view, array $data);
+    public function getConfiguration();
+
+    /**
+     * Get render context
+     *
+     * @return Context
+     */
+    public function getRenderContext();
+
+    /**
+     * Get configuration builder
+     *
+     * @return ConfigBuilderInterface
+     */
+    public function getConfigurationBuilder();
 }

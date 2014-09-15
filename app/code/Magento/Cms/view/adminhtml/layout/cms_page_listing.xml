@@ -13,12 +13,6 @@
             <argument name="name" xsi:type="string">cms_page_listing</argument>
             <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Grid\Collection</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
-            <argument name="config" xsi:type="array">
-                <item name="params" xsi:type="array">
-                    <item name="field" xsi:type="string">page_id</item>
-                    <item name="direction" xsi:type="string">asc</item>
-                </item>
-            </argument>
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>
@@ -136,6 +130,13 @@
                     </argument>
                 </arguments>
             </block>
+            <referenceBlock name="sorting_base">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="field" xsi:type="string">page_id</item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
         </referenceBlock>
     </referenceBlock>
 </page>

@@ -8,20 +8,13 @@
 namespace Magento\Ui\Paging;
 
 use Magento\Ui\AbstractView;
-use Magento\Ui\ViewInterface;
+use Magento\Ui\Configuration;
 
 /**
  * Class View
  */
 class View extends AbstractView
 {
-    /**
-     * Root view component
-     *
-     * @var ViewInterface
-     */
-    protected $rootComponent;
-
     /**
      * View configuration
      *
@@ -41,13 +34,23 @@ class View extends AbstractView
     protected function prepare()
     {
         parent::prepare();
+        $this->rootComponent = $this->getParentComponent();
 
-        $this->rootComponent = $this->getParentBlock()->getParentBlock();
-        $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
-        $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
+        $config = [
+            'sizes' => [5, 10, 20, 30, 50, 100, 200],
+            'pageSize' => 5,
+            'current' => 1
+        ];
+        if ($this->hasData('config')) {
+            $config = array_merge($config, $this->getData('config'));
+        }
+        $this->configuration = new Configuration(
+            $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
+            $this->rootComponent->getName(),
+            $config
+        );
 
-        $this->rootComponent->addConfigData($this, $this->viewConfiguration);
-
+        $this->renderContext->getStorage()->addComponentsData($this->configuration);
         $this->updateDataCollection();
     }
 
@@ -58,8 +61,8 @@ class View extends AbstractView
      */
     protected function updateDataCollection()
     {
-        $this->renderContext->getDataCollection($this->getParentName())
-            ->setCurPage($this->renderContext->getRequestParam('page', $this->viewConfiguration['current']))
-            ->setPageSize($this->renderContext->getRequestParam('limit', $this->viewConfiguration['pageSize']));
+        $this->renderContext->getStorage()->getDataCollection($this->getParentName())
+            ->setCurPage($this->renderContext->getRequestParam('page', $this->configuration->getData('current')))
+            ->setPageSize($this->renderContext->getRequestParam('limit', $this->configuration->getData('pageSize')));
     }
 }

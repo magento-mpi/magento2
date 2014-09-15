@@ -9,6 +9,7 @@ namespace Magento\Ui\Listing;
 
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
+use Magento\Ui\Configuration;
 use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
@@ -20,20 +21,27 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 class View extends AbstractView
 {
     /**
-     * @var RowPool
+     * Options provider key in data array
      */
-    protected $rowPool;
+    const OPTIONS_PROVIDER_KEY = 'options_provider';
 
     /**
-     * @var \Magento\Ui\DataProvider\RowInterface[]
+     * Row data provider key in data array
      */
-    protected $dataProviderRowPoll = [];
+    const ROW_DATA_PROVIDER_KEY = 'row_data_provider';
+
+    /**
+     * Data provider row pool
+     *
+     * @var RowPool
+     */
+    protected $dataProviderRowPool;
 
     /**
      * Constructor
      *
      * @param OptionsFactory $optionsFactory
-     * @param RowPool $rowPool
+     * @param RowPool $dataProviderRowPool
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
@@ -41,14 +49,14 @@ class View extends AbstractView
      */
     public function __construct(
         OptionsFactory $optionsFactory,
-        RowPool $rowPool,
+        RowPool $dataProviderRowPool,
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
         $this->optionsFactory = $optionsFactory;
-        $this->rowPool = $rowPool;
+        $this->dataProviderRowPool = $dataProviderRowPool;
         parent::__construct($renderContext, $context, $contentTypeFactory, $data);
     }
 
@@ -61,19 +69,20 @@ class View extends AbstractView
     {
         parent::prepare();
 
-        $this->viewConfiguration = [
-            'name' => $this->getData('name'),
-            'parent_name' => $this->getData('name')
-        ];
-        $this->globalConfig = $this->viewConfiguration; // TODO fix this
-
+        $meta = $this->getMeta();
+        $config = [];
         if ($this->hasData('config')) {
-            $this->viewConfiguration = array_merge_recursive($this->viewConfiguration, $this->getData('config'));
+            $config = array_merge($config, $this->getData('config'));
         }
-        $this->addConfigData($this, $this->viewConfiguration);
 
-        $this->renderContext->register($this->getName(), $this->getData('dataSource'));
-        $this->renderContext->setMeta($this->getName(), $this->getMeta());
+        $this->configuration = new Configuration(
+            $this->getData('name'),
+            $this->getData('name'),
+            $config
+        );
+        $this->renderContext->getStorage()->addComponentsData($this->configuration);
+        $this->renderContext->getStorage()->addMeta($this->getData('name'), $meta);
+        $this->renderContext->getStorage()->addDataCollection($this->getData('name'), $this->getData('dataSource'));
     }
 
     /**
@@ -99,7 +108,6 @@ class View extends AbstractView
     {
         $meta = $this->getData('meta');
         foreach ($meta['fields'] as $key => $field) {
-
             // TODO fixme
             if ($field['data_type'] === 'date_time') {
                 $field['date_format'] = $this->_localeDate->getDateTimeFormat(
@@ -107,11 +115,12 @@ class View extends AbstractView
                 );
             }
 
-            if (isset($field['options_provider'])) {
-                $field['options'] = $this->optionsFactory->create($field['options_provider'])
+            if (isset($field[static::OPTIONS_PROVIDER_KEY])) {
+                $field['options'] = $this->optionsFactory->create($field[static::OPTIONS_PROVIDER_KEY])
                     ->getOptions(empty($field['options']) ? [] : $field['options']);
             }
-            unset($field['options_provider']);
+
+            unset($field[static::OPTIONS_PROVIDER_KEY]);
             $meta['fields'][$key] = $field;
         }
 
@@ -126,25 +135,24 @@ class View extends AbstractView
      */
     protected function getDataFromDataProvider(array $dataRow)
     {
-        if ($this->hasData('row_data_provider')) {
-            $this->dataProviderRowPoll = $this->getData('row_data_provider');
-        }
-        foreach ($this->dataProviderRowPoll as $field => $data) {
-            $dataRow[$field] = $this->rowPool->get($data['class'])->getData($dataRow);
+        if ($this->hasData(static::ROW_DATA_PROVIDER_KEY)) {
+            foreach ($this->getData(static::ROW_DATA_PROVIDER_KEY) as $field => $data) {
+                $dataRow[$field] = $this->dataProviderRowPool->get($data['class'])->getData($dataRow);
+            }
         }
 
         return $dataRow;
     }
 
     /**
-     * Getting collection items
+     * Get collection items
      *
      * return array
      */
     protected function getCollectionItems()
     {
         $items = [];
-        $collection = $this->renderContext->getDataCollection($this->getName());
+        $collection = $this->renderContext->getStorage()->getDataCollection($this->getName());
         foreach ($collection->getItems() as $item) {
             $actualFields = [];
             $itemsData = $this->getDataFromDataProvider($item->getData());
@@ -164,19 +172,29 @@ class View extends AbstractView
      */
     protected function initialConfiguration()
     {
-        $this->globalConfig['config']['client']['root'] = $this->getUrl($this->getData('client_root'));
-        $this->globalConfig['config']['client']['ajax']['data']['component'] = $this->getNameInLayout();
 
-        $this->globalConfig['dump']['extenders'] = [];
-
-        $this->globalConfig['meta'] = $this->renderContext->getMeta($this->getName());
-        $this->globalConfig['data']['items'] = $this->getCollectionItems();
-
-        $countItems = $this->renderContext->registry($this->getName())->getSize();
-        $this->globalConfig['data']['pages'] = ceil(
-            $countItems / $this->renderContext->getRequestParam('limit', 5) // TODO fixme
+        $this->renderContext->getStorage()->addCloudData(
+            'client',
+            [
+                'root' => $this->getUrl($this->getData('client_root')),
+                'ajax' => [
+                    'data' => [
+                        'component' => $this->getNameInLayout()
+                    ]
+                ]
+            ]
         );
+        $this->renderContext->getStorage()->addCloudData('dump', ['extenders' => []]);
 
-        $this->globalConfig['data']['totalCount'] = $countItems;
+        $countItems = $this->renderContext->getStorage()->getDataCollection($this->getName())->getSize();
+        $this->renderContext->getStorage()->addData(
+            $this->getName(),
+            [
+                'meta_reference' => $this->getName(),
+                'items' => $this->getCollectionItems(),
+                'pages' => ceil($countItems / $this->renderContext->getRequestParam('limit', 5)),
+                'totalCount' => $countItems
+            ]
+        );
     }
 }

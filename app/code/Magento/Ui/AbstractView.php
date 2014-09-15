@@ -10,6 +10,8 @@ namespace Magento\Ui;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\ContentType\Builders\ConfigurationBuilder;
+use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -17,6 +19,25 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
  */
 abstract class AbstractView extends Template implements ViewInterface
 {
+    /**
+     * @var ConfigBuilderInterface
+     */
+    protected $configurationBuilder;
+
+    /**
+     * Root view component
+     *
+     * @var ViewInterface
+     */
+    protected $rootComponent;
+
+    /**
+     * View configuration data
+     *
+     * @var ConfigurationInterface
+     */
+    protected $configuration;
+
     /**
      * Render context
      *
@@ -29,7 +50,7 @@ abstract class AbstractView extends Template implements ViewInterface
      *
      * @var ContentTypeFactory
      */
-    protected $factory;
+    protected $contentTypeFactory;
 
     /**
      * Asset service
@@ -39,45 +60,29 @@ abstract class AbstractView extends Template implements ViewInterface
     protected $assetRepo;
 
     /**
-     * Data view
+     * Constructor
      *
-     * @var array
-     */
-    protected $viewData = [];
-
-    /**
-     * View configuration data
-     *
-     * @var array
-     */
-    protected $viewConfiguration = [];
-
-    /**
-     * Global config storage
-     *
-     * @var array
-     */
-    protected $globalConfig = [];
-
-    /**
      * @param Context $renderContext
      * @param TemplateContext $context
-     * @param ContentTypeFactory $factory
+     * @param ContentTypeFactory $contentTypeFactory
      * @param array $data
      */
     public function __construct(
         Context $renderContext,
         TemplateContext $context,
-        ContentTypeFactory $factory,
+        ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
-        $this->factory = $factory;
+        $this->contentTypeFactory = $contentTypeFactory;
         $this->assetRepo = $context->getAssetRepository();
+        $this->configurationBuilder = new ConfigurationBuilder();
         parent::__construct($context, $data);
     }
 
     /**
+     * Render content
+     *
      * @param array $arguments
      * @param string $acceptType
      * @return mixed|string
@@ -86,7 +91,7 @@ abstract class AbstractView extends Template implements ViewInterface
     {
         $prevArgs = $this->_data;
         $this->_data = array_replace_recursive($this->_data, $arguments);
-        $result = $this->factory->get($acceptType)->render($this, $this->getTemplate());
+        $result = $this->contentTypeFactory->get($acceptType)->render($this, $this->getTemplate());
         $this->_data = $prevArgs;
 
         return $result;
@@ -126,7 +131,7 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
-     * Getting template
+     * Get template
      *
      * @return string|false
      */
@@ -136,83 +141,70 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
-     * Getting view data array
-     *
-     * @return array
-     */
-    public function getViewData()
-    {
-        return (array)$this->viewData;
-    }
-
-    /**
-     * Getting configuration settings array
-     *
-     * @return array
-     */
-    public function getViewConfiguration()
-    {
-        return (array)$this->viewConfiguration;
-    }
-
-    /**
-     * Getting JSON configuration data
-     *
-     * @return string
-     */
-    public function getConfigurationJson()
-    {
-        return json_encode($this->getViewConfiguration());
-    }
-
-    /**
-     * Getting render engine
+     * Get render engine
      *
      * @return ContentType\ContentTypeInterface
      */
     protected function getRenderEngine()
     {
-        return $this->factory->get($this->renderContext->getAcceptType());
+        return $this->contentTypeFactory->get($this->renderContext->getAcceptType());
     }
 
     /**
-     * Getting name component instance
+     * @return bool|ViewInterface
+     */
+    protected function getParentComponent()
+    {
+        return $this->getParentBlock()->getParentBlock();
+    }
+
+    /**
+     * Get name component instance
      *
      * @return string
      */
     public function getName()
     {
-        return isset($this->viewConfiguration['name']) ? $this->viewConfiguration['name'] : null;
+        return $this->configuration->getName();
     }
 
     /**
-     * Getting parent name component instance
+     * Get parent name component instance
      *
      * @return string
      */
     public function getParentName()
     {
-        return isset($this->viewConfiguration['parent_name']) ? $this->viewConfiguration['parent_name'] : null;
+        return $this->configuration->getParentName();
     }
 
     /**
-     * Add data into configuration element view
+     * Get configuration builder
      *
-     * @param AbstractView $view
-     * @param array $data
+     * @return ConfigBuilderInterface
      */
-    public function addConfigData(AbstractView $view, array $data)
+    public function getConfigurationBuilder()
     {
-        $this->globalConfig['config']['components'][$view->getName()] = $data;
+        return $this->configurationBuilder;
     }
 
     /**
-     * Getting JSON global configuration data
+     * Get component configuration
      *
-     * @return string
+     * @return ConfigurationInterface
      */
-    public function getGlobalConfigJson()
+    public function getConfiguration()
     {
-        return json_encode($this->globalConfig);
+        return $this->configuration;
+    }
+
+    /**
+     * Get render context
+     *
+     * @return Context
+     */
+    public function getRenderContext()
+    {
+        return $this->renderContext;
     }
 }

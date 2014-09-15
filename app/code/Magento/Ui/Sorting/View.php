@@ -8,29 +8,13 @@
 namespace Magento\Ui\Sorting;
 
 use Magento\Ui\AbstractView;
-use Magento\Ui\ViewInterface;
+use Magento\Ui\Configuration;
 
 /**
  * Class View
  */
 class View extends AbstractView
 {
-    /**
-     * Root view component
-     *
-     * @var ViewInterface
-     */
-    protected $rootComponent;
-
-    /**
-     * View configuration
-     *
-     * @var array
-     */
-    protected $viewConfiguration = [
-        'direction' => 'asc'
-    ];
-
     /**
      * Prepare custom data
      *
@@ -39,14 +23,20 @@ class View extends AbstractView
     protected function prepare()
     {
         parent::prepare();
+        $this->rootComponent = $this->getParentComponent();
 
-        $this->rootComponent = $this->getParentBlock()->getParentBlock();
-        $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
-        $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
-        $this->viewConfiguration['direction'] = $this->rootComponent->getData('config/params/direction');
-        $this->viewConfiguration['field'] = $this->rootComponent->getData('config/params/field');
+        $config = ['direction' => 'asc'];
+        if ($this->hasData('config')) {
+            $config = array_merge($config, $this->getData('config'));
+        }
 
-        $this->rootComponent->addConfigData($this, $this->viewConfiguration);
+        $this->configuration = new Configuration(
+            $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
+            $this->rootComponent->getName(),
+            $config
+        );
+
+        $this->renderContext->getStorage()->addComponentsData($this->configuration);
 
         $this->updateDataCollection();
     }
@@ -58,10 +48,12 @@ class View extends AbstractView
      */
     protected function updateDataCollection()
     {
-        if (!empty($this->viewConfiguration['field']) && !empty($this->viewConfiguration['direction'])) {
-            $this->renderContext->getDataCollection($this->getParentName())->setOrder(
-                $this->renderContext->getRequestParam('sort', $this->viewConfiguration['field']),
-                strtoupper($this->renderContext->getRequestParam('dir', $this->viewConfiguration['direction']))
+        $field = $this->configuration->getData('field');
+        $direction = $this->configuration->getData('direction');
+        if (!empty($field) && !empty($direction)) {
+            $this->renderContext->getStorage()->getDataCollection($this->getParentName())->setOrder(
+                $this->renderContext->getRequestParam('sort', $field),
+                strtoupper($this->renderContext->getRequestParam('dir', $direction))
             );
         }
     }

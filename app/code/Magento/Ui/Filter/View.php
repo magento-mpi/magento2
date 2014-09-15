@@ -9,7 +9,9 @@ namespace Magento\Ui\Filter;
 
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
+use Magento\Ui\Configuration;
 use Magento\Ui\ViewInterface;
+use Magento\Backend\Helper\Data;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
@@ -23,6 +25,13 @@ class View extends AbstractView
      * Filter variable name
      */
     const FILTER_VAR = 'filter';
+
+    /**
+     * Data helper
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $dataHelper;
 
     /**
      * Filters pool
@@ -61,12 +70,14 @@ class View extends AbstractView
      * @param array $data
      */
     public function __construct(
+        Data $dataHelper,
         FilterPool $filterPool,
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $factory,
         array $data = []
     ) {
+        $this->dataHelper = $dataHelper;
         $this->filterPool = $filterPool;
         parent::__construct($renderContext, $context, $factory, $data);
     }
@@ -79,11 +90,22 @@ class View extends AbstractView
     protected function prepare()
     {
         parent::prepare();
+        $this->rootComponent = $this->getParentComponent();
 
-        $this->rootComponent = $this->getParentBlock()->getParentBlock();
-        $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
-        $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
-        $this->rootComponent->addConfigData($this, $this->viewConfiguration);
+        $config = [
+            'sizes' => [5, 10, 20, 30, 50, 100, 200],
+            'pageSize' => 5,
+            'current' => 1
+        ];
+        if ($this->hasData('config')) {
+            $config = array_merge_recursive($config, $this->getData('config'));
+        }
+        $this->configuration = new Configuration(
+            $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
+            $this->rootComponent->getName(),
+            $config
+        );
+
         $this->updateDataCollection();
     }
 
@@ -94,11 +116,11 @@ class View extends AbstractView
      */
     protected function updateDataCollection()
     {
-        $collection = $this->renderContext->getDataCollection($this->getParentName());
+        $collection = $this->renderContext->getStorage()->getDataCollection($this->getParentName());
 
-        $metaData = $this->renderContext->getMeta($this->getParentName());
+        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $metaData = $metaData['fields'];
-        $filterData = $this->renderContext->getFilterData(static::FILTER_VAR);
+        $filterData = $this->dataHelper->prepareFilterString($this->renderContext->getRequestParam(static::FILTER_VAR));
         foreach ($filterData as $field => $value) {
             if (!isset($metaData[$field]['filter_type'])) {
                 continue;

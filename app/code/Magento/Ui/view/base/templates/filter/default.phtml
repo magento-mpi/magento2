@@ -11,8 +11,9 @@
  * @var \Magento\Ui\Filter\View $this
  */
 ?>
+
 <script data-m2-init='{"Magento_Ui/js/listing/filter": ""}' type="application/json">
-    <?php echo $this->getConfigurationJson(); ?>
+    <?php echo $this->getConfigurationBuilder()->toJson($this->getConfiguration()); ?>
 </script>
 <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
     <!-- ko template: 'Magento_Ui.templates.filter.filter' --><!-- /ko -->
