@@ -23,8 +23,6 @@ define([
             { value: 'selectPage',   label: 'Select all on this page'   },
             { value: 'deselectPage', label: 'Deselect all on this page' }
         ],
-        indexField: '',
-        idAttribute: 'id_attribute',
         selectableTemplate: 'selectable'
     };
 
@@ -220,11 +218,11 @@ define([
             this.selected([]);
         },
 
-        exclude: function(selected){
+        exclude: function(selected) {
             var all         = this.getIds(),
                 excluded    = this.excluded();
 
-            excluded = _.union( excluded, _.difference(all, selected) ) );
+            excluded = _.union(excluded, _.difference(all, selected));
 
             this.excluded(excluded);
 
@@ -301,9 +299,9 @@ define([
         },
 
         shouldDeselectAllBeVisible: function () {
-            var selected = this.selected();
+            var allSelected = this.allSelected();
 
-            return selected.length && this.hasMoreThanOnePage();
+            return allSelected && this.hasMoreThanOnePage();
         }
     });
 
