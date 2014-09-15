@@ -24,7 +24,7 @@ class Setup implements SetupInterface
     /**
      * Setup Connection
      *
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface
+     * @var \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     protected $connection = null;
 
@@ -92,7 +92,7 @@ class Setup implements SetupInterface
     /**
      * Get connection object
      *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return \Magento\Setup\Framework\DB\Adapter\AdapterInterface
      */
     public function getConnection()
     {
@@ -346,7 +346,7 @@ class Setup implements SetupInterface
 
     /**
      * Run each time after applying of all updates,
-     * if setup model setted $_callAfterApplyAllUpdates flag to true
+     * if setup model's $_callAfterApplyAllUpdates flag is set to true
      *
      * @return $this
      */

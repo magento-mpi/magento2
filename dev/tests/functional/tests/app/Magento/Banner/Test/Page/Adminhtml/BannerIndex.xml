@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/banner/index" >
-    <block>
-        <name>pageActionsBlock</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>grid</name>
-        <class>Magento\Banner\Test\Block\Adminhtml\Banner\Grid</class>
-        <locator>#bannerGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages .messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/banner/index" module="Magento_Banner">
+    <blocks>
+        <pageActionsBlock>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActionsBlock>
+        <grid>
+            <class>Magento\Banner\Test\Block\Adminhtml\Banner\Grid</class>
+            <locator>#bannerGrid</locator>
+            <strategy>css selector</strategy>
+        </grid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

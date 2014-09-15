@@ -1,0 +1,35 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this \Magento\Tax\Block\Item\Price\Renderer */
+?>
+<?php $_item = $this->getItem() ?>
+<div class="pricing details<?php echo $this->displayBothPrices() ? ' complex' : ''; ?>">
+<?php if ($this->displayPriceExclTax() || $this->displayBothPrices()): ?>
+    <div class="rate">
+    <?php if ($this->displayBothPrices()): ?>
+        <span class="label excl tax"><?php echo __('Excl. Tax'); ?></span>
+    <?php else: ?>
+        <span class="label display"><?php echo __('Price'); ?></span>
+    <?php endif; ?>
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()) ?>
+    <?php endif; ?>
+    </div>
+
+    <?php if ($this->displayPriceInclTax() || $this->displayBothPrices()): ?>
+    <?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getPriceInclTax($_item); ?>
+    <div class="rate">
+        <?php if ($this->displayBothPrices()): ?>
+            <span class="label tax incl"><?php echo __('Incl. Tax'); ?></span>
+        <?php else: ?>
+            <span class="label display"><?php echo __('Price'); ?></span>
+        <?php endif; ?>
+            <span class="value display"><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_incl) ?></span>
+    </div>
+<?php endif; ?>
+</div>

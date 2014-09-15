@@ -48,7 +48,7 @@ class Filesystem extends ConfigFilesystem
         SchemaLocator $schemaLocator,
         ManagerInterface $dependencyManager,
         $fileName = 'module.xml',
-        $domDocumentClass = 'Magento\Config\Dom',
+        $domDocumentClass = '\Magento\Framework\Config\Dom',
         $idAttributes = array()
     ) {
         parent::__construct(

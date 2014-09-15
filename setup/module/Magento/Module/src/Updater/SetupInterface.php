@@ -38,7 +38,7 @@ interface SetupInterface
     /**
      * Run each time after applying of all updates,
      *
-     * @return \Magento\Framework\Module\Updater\SetupInterface
+     * @return \Magento\Module\Updater\SetupInterface
      */
     public function afterApplyAllUpdates();
 

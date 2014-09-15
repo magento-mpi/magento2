@@ -8,11 +8,12 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\GiftRegistry\Test\Page\WishlistIndex;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Class AssertGiftRegistryInactiveNotInWishlist
@@ -34,16 +35,18 @@ class AssertGiftRegistryInactiveNotInWishlist extends AbstractConstraint
      * @param CatalogProductSimple $product
      * @param GiftRegistry $giftRegistry
      * @param WishlistIndex $wishlistIndex
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogProductSimple $product,
         GiftRegistry $giftRegistry,
-        WishlistIndex $wishlistIndex
+        WishlistIndex $wishlistIndex,
+        Browser $browser
     ) {
-        $catalogProductView->init($product);
-        $catalogProductView->open()->getViewBlock()->addToWishlist();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $catalogProductView->getViewBlock()->addToWishlist();
         \PHPUnit_Framework_Assert::assertFalse(
             $wishlistIndex->getWishlistBlock()->isGiftRegistryAvailable($giftRegistry),
             'Product can be added to inactive gift registry \'' . $giftRegistry->getTitle() . '\' from Wishlist.'

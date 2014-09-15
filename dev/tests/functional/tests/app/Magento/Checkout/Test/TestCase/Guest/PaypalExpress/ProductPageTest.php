@@ -30,21 +30,20 @@ class ProductPageTest extends Functional
         $fixture->persist();
 
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         //Open product page
         $products = $fixture->getProducts();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init(end($products));
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . end($products)->getUrlKey() . '.html');
 
         //Proceed Checkout
         $productPage->getViewBlock()->paypalCheckout();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        $paypalPage->getLoginBlock()->login($fixture->getPaypalCustomer());
-        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getLoginExpressBlock()->login($fixture->getPaypalCustomer());
+        $paypalPage->getReviewExpressBlock()->continueCheckout();
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
         $checkoutReviewPage->getReviewBlock()->placeOrder();
@@ -66,7 +65,7 @@ class ProductPageTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $this->assertContains(
             $fixture->getGrandTotal(),
@@ -75,7 +74,7 @@ class ProductPageTest extends Functional
         );
 
         $this->assertContains(
-            'Authorized amount of ' . $fixture->getGrandTotal(),
+            'Authorized amount of $' . $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
             'Incorrect authorized amount value for the order #' . $orderId
         );

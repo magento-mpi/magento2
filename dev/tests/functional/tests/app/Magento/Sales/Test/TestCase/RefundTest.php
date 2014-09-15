@@ -12,6 +12,9 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 
+/**
+ * Class RefundTest
+ */
 class RefundTest extends Functional
 {
     /**

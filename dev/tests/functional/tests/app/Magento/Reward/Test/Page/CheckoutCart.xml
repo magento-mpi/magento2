@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="checkout/cart/index" >
-    <block>
-        <name>checkoutTooltipBlock</name>
-        <class>Magento\Reward\Test\Block\Tooltip\Checkout</class>
-        <locator>.rewards</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="checkout/cart/index">
+    <blocks>
+        <checkoutTooltipBlock>
+            <class>Magento\Reward\Test\Block\Tooltip\Checkout</class>
+            <locator>.rewards</locator>
+            <strategy>css selector</strategy>
+        </checkoutTooltipBlock>
+    </blocks>
 </page>

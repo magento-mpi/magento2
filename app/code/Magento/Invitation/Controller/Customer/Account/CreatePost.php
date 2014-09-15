@@ -23,7 +23,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\UrlFactory $urlFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
@@ -41,7 +41,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
@@ -92,7 +92,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     public function execute()
     {
         try {
-            $invitation = $this->invitationProvider->get();
+            $invitation = $this->invitationProvider->get($this->getRequest());
 
             parent::execute();
 

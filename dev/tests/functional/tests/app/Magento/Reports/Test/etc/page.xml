@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Reports">
+    <searchIndex>
+        <mca>reports/index/search</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\SearchIndex</class>
+    </searchIndex>
+    <productLowStock>
+        <mca>reports/report_product/lowstock</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\ProductLowStock</class>
+    </productLowStock>
+    <productReportReview>
+        <mca>reports/report_review/product</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\ProductReportReview</class>
+    </productReportReview>
+    <customerAccounts>
+        <mca>reports/report_customer/accounts/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\CustomerAccounts</class>
+    </customerAccounts>
+    <customerReportReview>
+        <mca>reports/report_review/customer</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\CustomerReportReview</class>
+    </customerReportReview>
+    <productReportView>
+        <mca>reports/report_product/viewed/</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\ProductReportView</class>
+    </productReportView>
+    <shopCartProductReport>
+        <mca>reports/report_shopcart/product</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\ShopCartProductReport</class>
+    </shopCartProductReport>
+</page>

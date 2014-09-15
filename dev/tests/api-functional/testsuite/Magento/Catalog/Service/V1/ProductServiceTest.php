@@ -169,8 +169,13 @@ class ProductServiceTest extends WebapiAbstract
             }
             $searchCriteriaBuilder->addFilter($group);
         }
-
-        $searchCriteriaBuilder->setSortOrders([$sortField => $sortValue]);
+        /**@var \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder */
+        $sortOrderBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
+        /** @var \Magento\Framework\Service\V1\Data\SortOrder $sortOrder */
+        $sortOrder = $sortOrderBuilder->setField($sortField)->setDirection($sortValue)->create();
+        $searchCriteriaBuilder->setSortOrders([$sortOrder]);
         $searchData = $searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $serviceInfo = [
@@ -184,8 +189,6 @@ class ProductServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'search'
             ]
         ];
-
-
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('items', $searchResults);
         $this->assertEquals(count($expected), count($searchResults['items']));

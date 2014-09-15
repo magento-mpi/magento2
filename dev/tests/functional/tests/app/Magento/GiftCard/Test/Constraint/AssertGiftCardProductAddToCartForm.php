@@ -8,9 +8,10 @@
 
 namespace Magento\GiftCard\Test\Constraint;
 
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
-use Magento\GiftCard\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\GiftCard\Test\Fixture\GiftCardProduct;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertGiftCardProductAddToCartForm
@@ -35,12 +36,12 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param GiftCardProduct $product
+     * @param Browser $browser
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, GiftCardProduct $product)
+    public function processAssert(CatalogProductView $catalogProductView, GiftCardProduct $product, Browser $browser)
     {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         $giftcardAmounts = $product->hasData('giftcard_amounts') ? $product->getGiftcardAmounts() : [];
         $amountForm = $catalogProductView->getGiftCardBlock()->getAmountValues();

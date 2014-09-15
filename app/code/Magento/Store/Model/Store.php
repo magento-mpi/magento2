@@ -9,6 +9,7 @@ namespace Magento\Store\Model;
 
 use Magento\Directory\Model\Currency\Filter;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Store model
@@ -101,11 +102,6 @@ class Store extends AbstractModel implements
      * Cookie name
      */
     const COOKIE_NAME = 'store';
-
-    /**
-     * Cookie currency key
-     */
-    const COOKIE_CURRENCY = 'currency';
 
     /**
      * Script name, which returns all the images
@@ -285,11 +281,14 @@ class Store extends AbstractModel implements
     protected $_currencyInstalled;
 
     /**
-     * Cookie model
-     *
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    protected $_cookie;
+    protected $_cookieMetadataFactory;
+
+    /**
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $_cookieManager;
 
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -314,7 +313,8 @@ class Store extends AbstractModel implements
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
      * @param StoreManagerInterface $storeManager
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager,
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
@@ -334,9 +334,10 @@ class Store extends AbstractModel implements
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
-        \Magento\Framework\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
@@ -355,7 +356,8 @@ class Store extends AbstractModel implements
         $this->filesystem = $filesystem;
         $this->_storeManager = $storeManager;
         $this->_sidResolver = $sidResolver;
-        $this->_cookie = $cookie;
+        $this->_cookieMetadataFactory = $cookieMetadataFactory;
+        $this->_cookieManager = $cookieManager;
         $this->_httpContext = $httpContext;
         $this->_session = $session;
         $this->currencyFactory = $currencyFactory;
@@ -387,7 +389,6 @@ class Store extends AbstractModel implements
         $this->_config = \Magento\Framework\App\ObjectManager::getInstance()->get(
             'Magento\Framework\App\Config\ReinitableConfigInterface'
         );
-        $this->_cookie = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Stdlib\Cookie');
     }
 
     /**
@@ -408,9 +409,8 @@ class Store extends AbstractModel implements
     protected function _getSession()
     {
         if (!$this->_session->isSessionExists()) {
-            $this->_session->start(
-                'store_' . $this->getCode()
-            );
+            $this->_session->setName('store_' . $this->getCode());
+            $this->_session->start();
         }
         return $this->_session;
     }
@@ -823,12 +823,7 @@ class Store extends AbstractModel implements
         $code = strtoupper($code);
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
-            $path = $this->_getSession()->getCookiePath();
-            if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
-                $this->_cookie->set(self::COOKIE_CURRENCY, null, null, $path);
-            } else {
-                $this->_cookie->set(self::COOKIE_CURRENCY, $code, null, $path);
-            }
+
             $this->_httpContext->setValue(
                 \Magento\Core\Helper\Data::CONTEXT_CURRENCY,
                 $code,
@@ -1279,5 +1274,44 @@ class Store extends AbstractModel implements
     public function getIdentities()
     {
         return array(self::CACHE_TAG . '_' . $this->getId());
+    }
+
+    /**
+     * Set store cookie with this store's code for a year.
+     *
+     * @return $this
+     */
+    public function setCookie()
+    {
+        $cookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
+            ->setHttpOnly(true)
+            ->setDurationOneYear();
+        $this->_cookieManager->setPublicCookie(
+            self::COOKIE_NAME,
+            $this->getCode(),
+            $cookieMetadata
+        );
+        return $this;
+    }
+
+    /**
+     * Get store code from store cookie.
+     *
+     * @return null|string
+     */
+    public function getStoreCodeFromCookie()
+    {
+        return $this->_cookieManager->getCookie(self::COOKIE_NAME);
+    }
+
+    /**
+     * Delete store cookie.
+     *
+     * @return $this
+     */
+    public function deleteCookie()
+    {
+        $this->_cookieManager->deleteCookie(self::COOKIE_NAME);
+        return $this;
     }
 }

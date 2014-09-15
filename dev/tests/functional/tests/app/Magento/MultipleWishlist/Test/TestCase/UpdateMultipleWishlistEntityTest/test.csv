@@ -1,0 +1,3 @@
+"multipleWishlistOriginal/dataSet";"multipleWishlist/data/name";"multipleWishlist/data/visibility";"constraint"
+"wishlist_private_without_customer";"Wishlist %isolation%";"Yes";"assertMultipleWishlistSuccessSaveMessage, assertMultipleWishlistPresentInMyAccount, assertMultipleWishlistIsPublic"
+"wishlist_public_without_customer";"Wishlist %isolation%";"No";"assertMultipleWishlistSuccessSaveMessage, assertMultipleWishlistPresentInMyAccount, assertMultipleWishlistIsPrivate"

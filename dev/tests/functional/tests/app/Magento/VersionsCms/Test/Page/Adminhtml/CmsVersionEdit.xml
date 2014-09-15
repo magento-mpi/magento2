@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/cms_page_version/edit" module="Magento_VersionsCms">
+    <blocks>
+        <formPageActions>
+            <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <versionForm>
+            <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\VersionForm</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </versionForm>
+        <revisionsGrid>
+            <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\RevisionsGrid</class>
+            <locator>#revisionsGrid</locator>
+            <strategy>css selector</strategy>
+        </revisionsGrid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
+</page>

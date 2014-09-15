@@ -42,7 +42,7 @@ class ReadServiceTest extends WebapiAbstract
 
         $data = [
             Address::KEY_COUNTRY_ID => $address->getCountryId(),
-            Address::KEY_ID => (int)$address->getId(),
+            Address::KEY_ID => $address->getId(),
             Address::KEY_CUSTOMER_ID => $address->getCustomerId(),
             Address::KEY_REGION => array(
                 Region::KEY_REGION => $address->getRegion(),
@@ -61,7 +61,8 @@ class ReadServiceTest extends WebapiAbstract
             Address::KEY_PREFIX => $address->getPrefix(),
             Address::KEY_SUFFIX => $address->getSuffix(),
             Address::KEY_EMAIL => $address->getEmail(),
-            Address::KEY_VAT_ID => $address->getVatId()
+            Address::KEY_VAT_ID => $address->getVatId(),
+            Address::CUSTOM_ATTRIBUTES_KEY => array(['attribute_code' => 'disable_auto_group_change', 'value' => null])
         ];
 
         $cartId = $quote->getId();

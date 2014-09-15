@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <label />
+        <access_level>
+            <input>select</input>
+        </access_level>
+        <user_id>
+            <input>select</input>
+        </user_id>
+    </fields>
+</mapping>

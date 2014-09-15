@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_MultipleWishlist">
+    <customerWishlistReport>
+        <mca>multiplewishlist/report_customer_wishlist</mca>
+        <area>adminhtml</area>
+        <class>Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport</class>
+    </customerWishlistReport>
+    <searchResult>
+        <mca>wishlist/search/results</mca>
+        <class>Magento\MultipleWishlist\Test\Page\SearchResult</class>
+    </searchResult>
+</page>

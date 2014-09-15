@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/order_status/new" >
-    <block>
-        <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>orderStatusForm</name>
-        <class>Magento\Backend\Test\Block\Widget\Form</class>
-        <locator>#edit_form</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="sales/order_status/new" module="Magento_Sales">
+    <blocks>
+        <formPageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </formPageActions>
+        <orderStatusForm>
+            <class>Magento\Backend\Test\Block\Widget\Form</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </orderStatusForm>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

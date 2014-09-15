@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\MultipleWishlist\Test\Fixture\Widget">
+    <module>Magento_Widget</module>
+    <type>flat</type>
+    <entity_type>widget_instance</entity_type>
+    <collection>Magento\Widget\Model\Resource\Widget\Instance\Collection</collection>
+    <identifier></identifier>
+    <fields>
+        <instance_id>
+            <attribute_code>instance_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </instance_id>
+        <instance_type>
+            <attribute_code>instance_type</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </instance_type>
+        <theme_id>
+            <attribute_code>theme_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </theme_id>
+        <title>
+            <attribute_code>title</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </title>
+        <store_ids>
+            <attribute_code>store_ids</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </store_ids>
+        <widget_parameters>
+            <attribute_code>widget_parameters</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </widget_parameters>
+        <sort_order>
+            <attribute_code>sort_order</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </sort_order>
+    </fields>
+    <data_set></data_set>
+    <data_config></data_config>
+    <repository_class>Magento\MultipleWishlist\Test\Repository\MultipleWishlistWiget</repository_class>
+    <handler_interface>Magento\Widget\Test\Handler\WidgetWishlistSearch\WidgetWishlistSearchInterface</handler_interface>
+</fixture>

@@ -20,12 +20,12 @@ class Cc extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
             'data' => $defaultData
-        );
+        ];
 
         $this->_data['visa_default'] = $this->_getVisaDefault();
         $this->_data['visa_direct'] = $this->_getVisaDirect();
@@ -37,169 +37,169 @@ class Cc extends AbstractRepository
 
     protected function _getVisaDefault()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'constraint' => 'Success',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'credit_card_type' => array(
+            ],
+            'data' => [
+                'fields' => [
+                    'cc_type' => [
                         'value' => 'Visa',
                         'input' => 'select'
-                    ),
-                    'credit_card_number' => array(
+                    ],
+                    'cc_number' => [
                         'value' => '4111111111111111'
-                    ),
-                    'expiration_month' => array(
+                    ],
+                    'cc_exp_month' => [
                         'value' => '01 - January',
                         'input' => 'select'
-                    ),
-                    'expiration_year' => array(
+                    ],
+                    'cc_exp_year' => [
                         'value' => date('Y') + 1,
                         'input' => 'select'
-                    ),
-                    'credit_card_cvv' => array(
+                    ],
+                    'cc_cid' => [
                         'value' => '123'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getVisaPayflow()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'constraint' => 'Success',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'credit_card_number' => array(
+            ],
+            'data' => [
+                'fields' => [
+                    'cc_number' => [
                         'value' => '4111111111111111'
-                    ),
-                    'expiration_month' => array(
+                    ],
+                    'cc_exp_month' => [
                         'value' => '01',
-                    ),
-                    'expiration_year' => array(
+                    ],
+                    'cc_exp_year' => [
                         'value' => date('y') + 1
-                    ),
-                    'credit_card_cvv' => array(
+                    ],
+                    'cc_cid' => [
                         'value' => '123'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getVisaDirect()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'constraint' => 'Success',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'credit_card_type' => array(
+            ],
+            'data' => [
+                'fields' => [
+                    'cc_type' => [
                         'value' => 'Visa',
                         'input' => 'select'
-                    ),
-                    'credit_card_number' => array(
+                    ],
+                    'cc_number' => [
                         'value' => '4617747819866651'
-                    ),
-                    'expiration_month' => array(
+                    ],
+                    'cc_exp_month' => [
                         'value' => '01 - January',
                         'input' => 'select'
-                    ),
-                    'expiration_year' => array(
+                    ],
+                    'cc_exp_year' => [
                         'value' => date('Y') + 1,
                         'input' => 'select'
-                    ),
-                    'credit_card_cvv' => array(
+                    ],
+                    'cc_cid' => [
                         'value' => '123'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getVisaAuthorizeNet()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'constraint' => 'Success',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'credit_card_type' => array(
+            ],
+            'data' => [
+                'fields' => [
+                    'cc_type' => [
                         'value' => 'Visa',
                         'input' => 'select'
-                    ),
-                    'credit_card_number' => array(
+                    ],
+                    'cc_number' => [
                         'value' => '4007000000027'
-                    ),
-                    'expiration_month' => array(
+                    ],
+                    'cc_exp_month' => [
                         'value' => '01 - January',
                         'input' => 'select'
-                    ),
-                    'expiration_year' => array(
+                    ],
+                    'cc_exp_year' => [
                         'value' => date('Y') + 1,
                         'input' => 'select'
-                    ),
-                    'credit_card_cvv' => array(
+                    ],
+                    'cc_cid' => [
                         'value' => '123'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getVisa3dSecureValid()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'constraint' => 'Success',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'credit_card_type' => array(
+            ],
+            'data' => [
+                'fields' => [
+                    'cc_type' => [
                         'value' => 'Visa',
                         'input' => 'select'
-                    ),
-                    'credit_card_number' => array(
+                    ],
+                    'cc_number' => [
                         'value' => '4000000000000002'
-                    ),
-                    'expiration_month' => array(
+                    ],
+                    'cc_exp_month' => [
                         'value' => '01 - January',
                         'input' => 'select'
-                    ),
-                    'expiration_year' => array(
+                    ],
+                    'cc_exp_year' => [
                         'value' => date('Y') + 2,
                         'input' => 'select'
-                    ),
-                    'credit_card_cvv' => array(
+                    ],
+                    'cc_cid' => [
                         'value' => '123'
-                    ),
-                ),
-                'validation' => array(
-                    'password' => array(
+                    ],
+                ],
+                'validation' => [
+                    'password' => [
                         'value' => '1234'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getVisa3dSecureInvalid()
     {
-        $invalidData = array(
-            'data' => array(
-                'fields' => array(
-                    'credit_card_number' => array(
+        $invalidData = [
+            'data' => [
+                'fields' => [
+                    'cc_number' => [
                         'value' => '4000000000000010'
-                    ),
-                ),
-            )
-        );
+                    ],
+                ],
+            ]
+        ];
 
         return array_replace_recursive($this->_getVisa3dSecureValid(), $invalidData);
     }

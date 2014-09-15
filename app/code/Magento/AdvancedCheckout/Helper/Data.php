@@ -106,13 +106,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_catalogData = null;
 
     /**
-     * Tax data
-     *
-     * @var \Magento\Tax\Helper\Data
-     */
-    protected $_taxData = null;
-
-    /**
      * Checkout cart
      *
      * @var \Magento\Checkout\Helper\Cart
@@ -192,7 +185,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_importFactory = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -210,7 +203,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
@@ -218,7 +210,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
@@ -230,7 +222,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Helper\Cart $checkoutCart,
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
@@ -238,7 +229,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_cart = $cart;
@@ -248,7 +239,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCart = $checkoutCart;
-        $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
@@ -473,7 +463,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             $itemProduct->setRealPriceHtml(
                                 $this->_storeManager->getStore()->formatPrice(
                                     $this->_storeManager->getStore()->convertPrice(
-                                        $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                        $this->_catalogData->getTaxPrice(
+                                            $itemProduct,
+                                            $itemProduct->getFinalPrice(),
+                                            true
+                                        )
                                     )
                                 )
                             );

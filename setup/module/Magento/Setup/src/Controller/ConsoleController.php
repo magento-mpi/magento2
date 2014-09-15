@@ -8,7 +8,6 @@
 
 namespace Magento\Setup\Controller;
 
-use Magento\Framework\DB\Adapter\Pdo\Mysql;
 use Magento\Locale\Lists;
 use Magento\Module\Setup\Config;
 use Magento\Setup\Model\InstallerFactory;

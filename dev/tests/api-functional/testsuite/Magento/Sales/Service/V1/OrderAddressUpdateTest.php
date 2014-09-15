@@ -18,7 +18,8 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderAddressUpdateTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderAddressUpdateV1';
+
+    const SERVICE_NAME = 'salesOrderWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -62,13 +63,13 @@ class OrderAddressUpdateTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/' . $order->getId(),
+                'resourcePath' => '/V1/order/' . $order->getId(),
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'addressUpdate'
             ]
         ];
         $this->_webApiCall($serviceInfo, $requestData);

@@ -16,11 +16,6 @@ namespace Magento\Backend\Block;
 class Page extends \Magento\Backend\Block\Template
 {
     /**
-     * @var string
-     */
-    protected $_template = 'admin/page.phtml';
-
-    /**
      * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;

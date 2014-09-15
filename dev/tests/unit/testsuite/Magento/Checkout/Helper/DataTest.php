@@ -125,7 +125,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->_storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
+        $this->_storeManager = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
 
         $this->_checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
 
@@ -363,7 +363,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $rowTotal = 15;
         $roundPrice = 17;
         $expected = 17;
-        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $storeManager = $this->getMock('\Magento\Framework\StoreManagerInterface', array(), array(), '', false);
         $objectManagerHelper = new ObjectManager($this);
         $helper = $objectManagerHelper->getObject(
             '\Magento\Checkout\Helper\Data',
@@ -428,7 +428,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBasePriceInclTaxWithoutQty()
     {
-        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $storeManager = $this->getMock('\Magento\Framework\StoreManagerInterface', array(), array(), '', false);
         $objectManagerHelper = new ObjectManager($this);
         $helper = $objectManagerHelper->getObject(
             '\Magento\Checkout\Helper\Data',
@@ -450,7 +450,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBasePriceInclTax()
     {
-        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $storeManager = $this->getMock('\Magento\Framework\StoreManagerInterface', array(), array(), '', false);
         $objectManagerHelper = new ObjectManager($this);
         $helper = $objectManagerHelper->getObject(
             '\Magento\Checkout\Helper\Data',

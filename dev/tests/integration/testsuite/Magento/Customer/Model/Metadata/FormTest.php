@@ -87,12 +87,18 @@ class FormTest extends \PHPUnit_Framework_TestCase
         unset($this->_expected['suffix']);
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testCompactData()
     {
         $attributeValues = $this->_form->compactData($this->_form->extractData($this->_request));
         $this->assertEquals($this->_expected, $attributeValues);
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetAttributes()
     {
         $expectedAttributes = array(
@@ -115,12 +121,16 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedAttributes, array_keys($this->_form->getAttributes()));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetSystemAttributes()
     {
         $this->assertCount(15, $this->_form->getSystemAttributes());
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_address.php
      */
     public function testGetUserAttributes()
@@ -129,6 +139,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedAttributes, array_keys($this->_form->getUserAttributes()));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testRestoreData()
     {
         $attributeValues = $this->_form->restoreData($this->_form->extractData($this->_request));

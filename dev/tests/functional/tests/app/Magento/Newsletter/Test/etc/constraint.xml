@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertNewsletterSuccessCreateMessage module="Magento_Newsletter">
+        <severeness>low</severeness>
+    </assertNewsletterSuccessCreateMessage>
+    <assertNewsletterInGrid module="Magento_Newsletter">
+        <severeness>low</severeness>
+    </assertNewsletterInGrid>
+    <assertNewsletterPreview module="Magento_Newsletter">
+        <severeness>low</severeness>
+    </assertNewsletterPreview>
+    <assertNewsletterQueue module="Magento_Newsletter">
+        <severeness>low</severeness>
+    </assertNewsletterQueue>
+    <assertCustomerIsSubscribedToNewsletter module="Magento_Newsletter">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <pageSubscriberIndex class="Magento\Newsletter\Test\Page\Adminhtml\SubscriberIndex" />
+        </require>
+    </assertCustomerIsSubscribedToNewsletter>
+</constraint>

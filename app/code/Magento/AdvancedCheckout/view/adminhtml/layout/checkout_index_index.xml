@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="adminhtml_sku_errors_block"/>
     <referenceContainer name="page.main.actions">
         <block class="Magento\Backend\Block\Store\Switcher" name="checkout.store.switcher"/>
@@ -30,4 +30,4 @@
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
         </block>
     </referenceContainer>
-</layout>
+</page>

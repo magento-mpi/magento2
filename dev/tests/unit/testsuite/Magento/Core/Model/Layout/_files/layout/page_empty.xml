@@ -7,4 +7,4 @@
  * @license     {license_link}
  */
 -->
-<layout label="All Empty Layout Pages" design_abstraction="page_layout"/>
+<page label="All Empty Layout Pages" design_abstraction="page_layout"/>

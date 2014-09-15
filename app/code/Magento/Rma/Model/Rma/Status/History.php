@@ -26,7 +26,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -83,7 +83,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
@@ -99,7 +99,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
@@ -237,20 +237,15 @@ class History extends \Magento\Framework\Model\AbstractModel
         }
 
         foreach ($sendTo as $recipient) {
-            $transport = $this->_transportBuilder->setTemplateIdentifier(
-                $template
-            )->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $rma->getStoreId())
-            )->setTemplateVars(
-                array('rma' => $rma, 'order' => $rma->getOrder(), 'comment' => $this->getComment())
-            )->setFrom(
-                $this->_rmaConfig->getIdentity()
-            )->addTo(
-                $recipient['email'],
-                $recipient['name']
-            )->addBcc(
-                $bcc
-            )->getTransport();
+            $transport = $this->_transportBuilder->setTemplateIdentifier($template)
+                ->setTemplateOptions(
+                    ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $rma->getStoreId()]
+                )
+                ->setTemplateVars(['rma' => $rma, 'order' => $rma->getOrder(), 'comment' => $this->getComment()])
+                ->setFrom($this->_rmaConfig->getIdentity())
+                ->addTo($recipient['email'], $recipient['name'])
+                ->addBcc($bcc)
+                ->getTransport();
 
             $transport->sendMessage();
         }

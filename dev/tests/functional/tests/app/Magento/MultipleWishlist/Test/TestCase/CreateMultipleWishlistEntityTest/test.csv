@@ -1,0 +1,3 @@
+"multipleWishlist/data/name";"multipleWishlist/data/visibility";"constraint"
+"Wishlist%isolation%";"Yes";"assertMultipleWishlistSuccessSaveMessage, assertMultipleWishlistPresentInMyAccount, assertMultipleWishlistIsPublic"
+"Wishlist%isolation%";"No";"assertMultipleWishlistSuccessSaveMessage, assertMultipleWishlistPresentInMyAccount, assertMultipleWishlistIsPrivate"

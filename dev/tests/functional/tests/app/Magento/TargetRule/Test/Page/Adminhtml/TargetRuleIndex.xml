@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/targetrule/index" >
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>gridPageActions</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>targetRuleGrid</name>
-        <class>Magento\TargetRule\Test\Block\Adminhtml\Grid</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/targetrule/index" module="Magento_TargetRule">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <gridPageActions>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </gridPageActions>
+        <targetRuleGrid>
+            <class>Magento\TargetRule\Test\Block\Adminhtml\Grid</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </targetRuleGrid>
+    </blocks>
 </page>

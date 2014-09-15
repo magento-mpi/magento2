@@ -86,7 +86,7 @@ class Installer extends \Magento\Framework\Object
     /**
      * Store Manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -175,7 +175,7 @@ class Installer extends \Magento\Framework\Object
      * @param \Magento\Framework\App\Arguments $arguments
      * @param \Magento\Framework\App\AreaList $areaList
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\User\Model\UserFactory $userModelFactory
      * @param Installer\Filesystem $filesystem
      * @param Installer\Pear $installerPear
@@ -202,7 +202,7 @@ class Installer extends \Magento\Framework\Object
         \Magento\Framework\App\Arguments $arguments,
         \Magento\Framework\App\AreaList $areaList,
         \Magento\Framework\App\State $appState,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\User\Model\UserFactory $userModelFactory,
         \Magento\Install\Model\Installer\Filesystem $filesystem,
         \Magento\Install\Model\Installer\Pear $installerPear,

@@ -49,7 +49,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_converterMock = $this->getMock('Magento\Customer\Model\Converter', [], [], '', false);
-        $this->_storageMock = $this->getMock('Magento\Customer\Model\Session\Storage', [], [], '', false);
+        $this->_storageMock = $this->getMock(
+            'Magento\Customer\Model\Session\Storage',
+            ['getIsCustomerEmulated', 'getData', 'unsIsCustomerEmulated', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
         $this->_httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
         $this->urlFactoryMock = $this->getMock('Magento\Framework\UrlFactory', [], [], '', false);
@@ -155,22 +161,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->loginById($customerId));
     }
 
-    public function testLogin()
-    {
-        $customerId = 1;
-        $username = 'TestName';
-        $password = 'TestPassword';
-
-        $customerDataMock = $this->prepareLoginDataMock($customerId);
-
-        $this->customerAccountServiceMock->expects($this->once())
-            ->method('authenticate')
-            ->with($this->equalTo($username), $this->equalTo($password))
-            ->will($this->returnValue($customerDataMock));
-
-        $this->assertTrue($this->_model->login($username, $password));
-    }
-
     /**
      * @param $customerId
      * @return \PHPUnit_Framework_MockObject_MockObject
@@ -201,5 +191,53 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->_httpContextMock->expects($this->exactly(3))
             ->method('setValue');
         return $customerDataMock;
+    }
+
+
+    /**
+     * @param bool $expectedResult
+     * @param bool $isCustomerIdValid
+     * @param bool $isCustomerEmulated
+     * @dataProvider getIsLoggedInDataProvider
+     */
+    public function testIsLoggedIn($expectedResult, $isCustomerIdValid, $isCustomerEmulated)
+    {
+        $customerId = 1;
+        $this->_storageMock->expects($this->any())->method('getData')->with('customer_id')
+            ->will($this->returnValue($customerId));
+
+        if ($isCustomerIdValid) {
+            $this->customerAccountServiceMock->expects($this->once())
+                ->method('getCustomer')
+                ->with($customerId);
+        } else {
+            $this->customerAccountServiceMock->expects($this->once())
+                ->method('getCustomer')
+                ->with($customerId)
+                ->will($this->throwException(new \Exception('Customer ID is invalid.')));
+        }
+        $this->_storageMock->expects($this->any())->method('getIsCustomerEmulated')
+            ->will($this->returnValue($isCustomerEmulated));
+        $this->assertEquals($expectedResult, $this->_model->isLoggedIn());
+    }
+
+    /**
+     * @return array
+     */
+    public function getIsLoggedInDataProvider()
+    {
+        return array(
+            array('expectedResult' => true, 'isCustomerIdValid' => true, 'isCustomerEmulated' => false,),
+            array('expectedResult' => false, 'isCustomerIdValid' => true, 'isCustomerEmulated' => true,),
+            array('expectedResult' => false, 'isCustomerIdValid' => false, 'isCustomerEmulated' => false,),
+            array('expectedResult' => false, 'isCustomerIdValid' => false, 'isCustomerEmulated' => true,),
+        );
+    }
+
+    public function testSetCustomerRemovesFlagThatShowsIfCustomerIsEmulated()
+    {
+        $customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
+        $this->_storageMock->expects($this->once())->method('unsIsCustomerEmulated');
+        $this->_model->setCustomer($customerMock);
     }
 }

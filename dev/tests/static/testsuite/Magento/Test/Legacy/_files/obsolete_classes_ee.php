@@ -138,4 +138,5 @@ return array(
     ['Magento\SalesArchive\Helper\Data'],
     ['Magento\WebsiteRestriction\Helper\Data'],
     array('Magento\CustomerCustomAttributes\Block\Account\RegisterLink'),
+    array('Magento\Invitation\Model\Observer','Magento\Invitation\Model\Logging')
 );

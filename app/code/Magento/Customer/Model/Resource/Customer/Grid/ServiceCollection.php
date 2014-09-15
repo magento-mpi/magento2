@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 
 /**
  * Customer Grid Collection backed by Services
@@ -29,14 +30,16 @@ class ServiceCollection extends AbstractServiceCollection
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param CustomerAccountServiceInterface $accountService
+     * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        SortOrderBuilder $sortOrderBuilder,
         CustomerAccountServiceInterface $accountService
     ) {
-        parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder);
+        parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->accountService = $accountService;
     }
 

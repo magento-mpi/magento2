@@ -7,15 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="head">
         <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
             <argument translate="true" name="title" xsi:type="string">Wish List Info</argument>
-        </action>
-    </referenceBlock>
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
     </referenceBlock>
     <referenceContainer name="content">
@@ -86,4 +81,4 @@
             </block>
         </block>
     </referenceContainer>
-</layout>
+</page>

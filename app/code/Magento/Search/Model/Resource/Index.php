@@ -7,6 +7,10 @@
  */
 namespace Magento\Search\Model\Resource;
 
+use Magento\CatalogSearch\Model\Resource\EngineProvider;
+use Magento\CatalogSearch\Model\Resource\Helper;
+use Magento\Framework\StoreManagerInterface;
+
 /**
  * Enterprise search index resource model
  *
@@ -14,6 +18,37 @@ namespace Magento\Search\Model\Resource;
  */
 class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 {
+    /**
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
+     */
+    protected $engineProvider;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Filter\FilterManager $filter
+     * @param Helper $resourceHelper
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     */
+    public function __construct(
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Filter\FilterManager $filter,
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
+        StoreManagerInterface $storeManager,
+        EngineProvider $engineProvider
+    ) {
+        $this->engineProvider = $engineProvider;
+        $this->storeManager = $storeManager;
+        parent::__construct($resource, $eventManager, $filter, $resourceHelper);
+    }
+
     /**
      * Return array of price data per customer and website by products
      *
@@ -52,7 +87,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     {
         $priceProductsIndexData = $this->_getCatalogProductPriceData($productIds);
 
-        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
+        $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
         if (!isset($priceProductsIndexData[$websiteId])) {
             return array();
         }
@@ -133,7 +168,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     protected function _getCatalogCategoryData($storeId, $productIds = null, $visibility = true)
     {
         $adapter = $this->_getWriteAdapter();
-        $prefix = $this->_engineProvider->get()->getFieldsPrefix();
+        $prefix = $this->engineProvider->get()->getFieldsPrefix();
 
         $columns = array('product_id' => 'product_id');
 
@@ -196,7 +231,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
             }
         }
 
-        $prefix = $this->_engineProvider->get()->getFieldsPrefix();
+        $prefix = $this->engineProvider->get()->getFieldsPrefix();
         $categoryData = $this->_getCatalogCategoryData($storeId, $productIds, true);
         $priceData = $this->_getCatalogProductPriceData($productIds);
 

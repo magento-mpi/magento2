@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-catalogpermissions-js-bootstrap-edit-js">
             <arguments>
@@ -15,4 +15,4 @@
             </arguments>
         </block>
     </referenceBlock>
-</layout>
+</page>

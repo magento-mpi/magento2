@@ -15,28 +15,28 @@ namespace Magento\Search\Model\Layer\Category\Filter;
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
     /**
-     * @var \Magento\Search\Model\Resource\Engine
+     * @var \Magento\Search\Model\Resource\Solr\Engine
      */
     protected $_resourceEngine;
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Filter\StripTags $tagFilter
-     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
+     * @param \Magento\Search\Model\Resource\Solr\Engine $resourceEngine
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
-        \Magento\Search\Model\Resource\Engine $resourceEngine,
+        \Magento\Search\Model\Resource\Solr\Engine $resourceEngine,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;

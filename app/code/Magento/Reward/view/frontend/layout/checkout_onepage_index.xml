@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="checkout.onepage.payment.methods_additional">
         <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-" cacheable="false"/>
     </referenceBlock>
@@ -43,4 +43,4 @@
             </action>
         </block>
     </referenceContainer>
-</layout>
+</page>

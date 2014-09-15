@@ -27,21 +27,23 @@ class Stub extends \Magento\Cms\Block\Page
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $data);
+        parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $pageConfig, $data);
         $this->_coreRegistry = $registry;
     }
 
@@ -68,10 +70,7 @@ class Stub extends \Magento\Cms\Block\Page
     protected function _prepareLayout()
     {
         $page = $this->getPage();
-
-        if ($root = $this->getLayout()->getBlock('root')) {
-            $root->addBodyClass('cms-' . $page->getIdentifier());
-        }
+        $this->pageConfig->addBodyClass('cms-' . $page->getIdentifier());
 
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->setTitle($page->getTitle());

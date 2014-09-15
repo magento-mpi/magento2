@@ -18,6 +18,13 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class VersionsGrid extends Grid
 {
     /**
+     * Locator value for link in version grid
+     *
+     * @var string
+     */
+    protected $editLink = 'td[class*=col-label]';
+
+    /**
      * Filters array mapping
      *
      * @var array

@@ -7,6 +7,11 @@
  */
 namespace Magento\PageCache\Model\App\FrontController;
 
+use Magento\Framework\App\FrontController;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManager;
+
 class MessageBox
 {
     /**
@@ -20,11 +25,18 @@ class MessageBox
     const COOKIE_PERIOD = 315360000;
 
     /**
-     * Cookie
+     * Cookie manager
      *
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\CookieManager
      */
-    protected $cookie;
+    protected $cookieManager;
+
+    /**
+     * Cookie metadata factory
+     *
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactory;
 
     /**
      * Request
@@ -34,28 +46,35 @@ class MessageBox
     protected $request;
 
     /**
+     * Scope config
+     *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $config;
 
     /**
+     * Message manager
+     *
      * @var \Magento\Framework\Message\Manager
      */
     protected $messageManager;
 
     /**
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param CookieManager $cookieManager
+     * @param CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\Framework\Stdlib\Cookie $cookie,
+        CookieManager $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Framework\App\Request\Http $request,
         \Magento\PageCache\Model\Config $config,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
-        $this->cookie = $cookie;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->request = $request;
         $this->config = $config;
         $this->messageManager = $messageManager;
@@ -64,16 +83,20 @@ class MessageBox
     /**
      * Set Cookie for msg box when it displays first
      *
-     * @param \Magento\Framework\App\FrontController $subject
-     * @param \Magento\Framework\App\ResponseInterface $response
+     * @param FrontController $subject
+     * @param ResponseInterface $response
      *
-     * @return \Magento\Framework\App\ResponseInterface
+     * @return ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDispatch(\Magento\Framework\App\FrontController $subject, \Magento\Framework\App\ResponseInterface $response)
+    public function afterDispatch(FrontController $subject, ResponseInterface $response)
     {
         if ($this->request->isPost() && $this->messageManager->hasMessages()) {
-            $this->cookie->set(self::COOKIE_NAME, 1, self::COOKIE_PERIOD, '/');
+            $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                ->setDuration(self::COOKIE_PERIOD)
+                ->setPath('/')
+                ->setHttpOnly(false);
+            $this->cookieManager->setPublicCookie(self::COOKIE_NAME, 1, $publicCookieMetadata);
         }
         return $response;
     }

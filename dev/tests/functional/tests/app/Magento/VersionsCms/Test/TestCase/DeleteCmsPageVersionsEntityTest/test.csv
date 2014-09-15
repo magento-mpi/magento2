@@ -1,0 +1,3 @@
+"cms/dataSet";"version/data/label";"initialVersionToDelete";"results/owner";"results/access_level";"results/quantity";"constraint"
+"cms-page-test";"version0";"No";"admin";"Public";"1";"assertCmsPageVersionSuccessDeleteMessage, assertCmsPageVersionNotInGrid"
+"cms-page-test";"version1";"Yes";"admin";"Public";"1";"assertCmsPageVersionErrorDeleteMessage, assertCmsPageVersionInGrid"

@@ -41,6 +41,13 @@ class Paypal extends Page
     protected $loginBlock = '#loginBox';
 
     /**
+     * Form for customer login
+     *
+     * @var string
+     */
+    protected $expressBlock = '#main';
+
+    /**
      * Paypal review block
      *
      * @var string
@@ -69,9 +76,17 @@ class Paypal extends Page
      */
     public function getLoginBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalLogin(
-            $this->_browser->find($this->loginBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalLogin($this->_browser->find($this->loginBlock));
+    }
+
+    /**
+     * Get login block
+     *
+     * @return \Magento\Paypal\Test\Block\LoginExpress
+     */
+    public function getLoginExpressBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoPaypalLoginExpress($this->_browser->find($this->expressBlock));
     }
 
     /**
@@ -81,9 +96,17 @@ class Paypal extends Page
      */
     public function getReviewBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalReview(
-            $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalReview($this->_browser->find($this->reviewBlock));
+    }
+
+    /**
+     * Get review block
+     *
+     * @return \Magento\Paypal\Test\Block\ReviewExpress
+     */
+    public function getReviewExpressBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoPaypalReviewExpress($this->_browser->find($this->expressBlock));
     }
 
     /**
@@ -93,9 +116,7 @@ class Paypal extends Page
      */
     public function getBillingBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalBilling(
-            $this->_browser->find($this->billingModuleBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalBilling($this->_browser->find($this->billingModuleBlock));
     }
 
     /**
@@ -105,8 +126,6 @@ class Paypal extends Page
      */
     public function getMainPanelBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPaypalMainPanel(
-            $this->_browser->find($this->panelMainBlock, Locator::SELECTOR_CSS)
-        );
+        return Factory::getBlockFactory()->getMagentoPaypalMainPanel($this->_browser->find($this->panelMainBlock));
     }
 }

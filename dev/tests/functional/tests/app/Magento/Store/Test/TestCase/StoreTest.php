@@ -54,9 +54,7 @@ class StoreTest extends Functional
 
         $configPage = Factory::getPageFactory()->getAdminSystemConfig();
         $configPage->open();
-        $configPage->getPageActions()->selectStore(
-            ['Main Website', $storeFixture->getData('fields/group/value'), $storeFixture->getName()]
-        );
+        $configPage->getPageActions()->selectStore($storeFixture->getGroupId() . "/" . $storeFixture->getName());
         $configGroup = $configPage->getForm()->getGroup('Locale Options');
         $configGroup->open();
         $configGroup->setValue('select-groups-locale-fields-code-value', 'German (Germany)');

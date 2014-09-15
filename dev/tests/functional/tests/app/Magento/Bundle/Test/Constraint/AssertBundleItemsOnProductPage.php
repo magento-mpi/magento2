@@ -8,14 +8,16 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Bundle\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertBundleItemsOnProductPage
+ * Assert that displayed product bundle items data on product page equals passed from fixture preset
  */
-class AssertBundleItemsOnProductPage extends AbstractConstraint
+class AssertBundleItemsOnProductPage extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -29,47 +31,65 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $product
+     * @param Browser $browser
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, CatalogProductBundle $product)
-    {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
-        $catalogProductView->getViewBlock()->clickCustomize();
-        $result = $this->displayedBundleBlock($catalogProductView, $product);
-        \PHPUnit_Framework_Assert::assertTrue(empty($result), $result);
+    public function processAssert(
+        CatalogProductView $catalogProductView,
+        CatalogProductBundle $product,
+        Browser $browser
+    ) {
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+
+        $productOptions = $this->prepareBundleOptions($product);
+        $productOptions = $this->sortDataByPath($productOptions, '::title');
+        foreach ($productOptions as $key => $productOption) {
+            $productOptions[$key] = $this->sortDataByPath($productOption, 'options::title');
+        }
+        $formOptions = $catalogProductView->getViewBlock()->getOptions($product)['bundle_options'];
+        $formOptions = $this->sortDataByPath($formOptions, '::title');
+        foreach ($formOptions as $key => $formOption) {
+            $formOptions[$key] = $this->sortDataByPath($formOption, 'options::title');
+        }
+
+        $error = $this->verifyData($productOptions, $formOptions);
+        \PHPUnit_Framework_Assert::assertEmpty($error, $error);
     }
 
     /**
-     * Displayed bundle block on frontend with correct fixture product
+     * Prepare bundle options
      *
-     * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $product
-     * @return string|null
+     * @return array
      */
-    protected function displayedBundleBlock(CatalogProductView $catalogProductView, CatalogProductBundle $product)
+    protected function prepareBundleOptions(CatalogProductBundle $product)
     {
-        $fields = $product->getData();
-        $bundleOptions = $fields['bundle_selections']['bundle_options'];
-        if (!isset($bundleOptions)) {
-            return 'Bundle options data on product page is not equals to fixture preset.';
+        $bundleSelections = $product->getBundleSelections();
+        $bundleOptions = isset($bundleSelections['bundle_options']) ? $bundleSelections['bundle_options'] : [];
+        $result = [];
+
+        foreach ($bundleOptions as $optionKey => $bundleOption) {
+            $optionData = [
+                'title' => $bundleOption['title'],
+                'type' => $bundleOption['type'],
+                'is_require' => $bundleOption['required'],
+            ];
+
+            foreach ($bundleOption['assigned_products'] as $productKey => $assignedProduct) {
+                $price = isset($assignedProduct['data']['selection_price_value'])
+                    ? $assignedProduct['data']['selection_price_value']
+                    : $bundleSelections['products'][$optionKey][$productKey]->getPrice();
+
+                $optionData['options'][$productKey] = [
+                    'title' => $assignedProduct['search_data']['name'],
+                    'price' => number_format($price, 2)
+                ];
+            }
+
+            $result[$optionKey] = $optionData;
         }
 
-        $catalogProductView->getViewBlock()->clickCustomize();
-        foreach ($bundleOptions as $index => $item) {
-            foreach ($item['assigned_products'] as &$selection) {
-                $selection = $selection['search_data'];
-            }
-            $result = $catalogProductView->getBundleViewBlock()->getBundleBlock()->displayedBundleItemOption(
-                $item,
-                ++$index
-            );
-
-            if ($result !== true) {
-                return $result;
-            }
-        }
-        return null;
+        return $result;
     }
 
     /**

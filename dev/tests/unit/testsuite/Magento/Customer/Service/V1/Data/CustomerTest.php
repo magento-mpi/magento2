@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\AttributeValue;
 
 /**
  * Customer
@@ -72,14 +72,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomCustomerAttributeMetadata'
+            'getCustomAttributesMetadata'
         )->will(
             $this->returnValue([
                 new \Magento\Framework\Object(['attribute_code' => 'zip']),
                 new \Magento\Framework\Object(['attribute_code' => 'locale'])
             ])
         );
-        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [

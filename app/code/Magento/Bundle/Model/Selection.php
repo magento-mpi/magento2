@@ -74,7 +74,7 @@ class Selection extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    protected function _afterSave()
     {
         if (!$this->_catalogData->isPriceGlobal() && $this->getWebsiteId()) {
             $this->getResource()->saveSelectionPrice($this);
@@ -84,6 +84,6 @@ class Selection extends \Magento\Framework\Model\AbstractModel
                 $this->unsSelectionPriceType();
             }
         }
-        parent::_beforeSave();
+        parent::_afterSave();
     }
 }

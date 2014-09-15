@@ -187,7 +187,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     /**
      * Store model manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -236,7 +236,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param ItemRegistry $stockItemRegistry
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\Math\Division $mathDivision
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -255,7 +255,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\Math\Division $mathDivision,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -887,6 +887,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
         $isQty = $this->stockItemService->isQty($typeId);
 
         if ($isQty) {
+            if (!$this->getId()) {
+                $this->processIsInStock();
+            }
             if ($this->getManageStock() && !$this->verifyStock()) {
                 $this->setIsInStock(false)->setStockStatusChangedAutomaticallyFlag(true);
             }

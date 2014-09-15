@@ -73,7 +73,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -101,7 +101,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationServiceInterface $taxCalculationService
@@ -110,7 +110,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         TaxCalculationServiceInterface $taxCalculationService,

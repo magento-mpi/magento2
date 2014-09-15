@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Framework\App\DefaultPathInterface" type="Magento\Doc\App\DefaultPath" />
+    <type name="Magento\Framework\View\Layout">
+        <arguments>
+            <argument name="area" xsi:type="string">doc</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Core\Model\View\Design">
+        <arguments>
+            <argument name="themes" xsi:type="array">
+                <item name="doc" xsi:type="string">Magento/blank</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Cms">
+    <cmsBlockIndex>
+        <mca>cms/block</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex</class>
+    </cmsBlockIndex>
+    <cmsBlockNew>
+        <mca>cms/block/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsBlockNew</class>
+    </cmsBlockNew>
+    <cmsIndex>
+        <mca>admin/cms_page/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsIndex</class>
+    </cmsIndex>
+    <cmsNew>
+        <mca>admin/cms_page/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsNew</class>
+    </cmsNew>
+    <cmsBlockIndex>
+        <mca>cms/block/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex</class>
+    </cmsBlockIndex>
+    <cmsBlockEdit>
+        <mca>cms/block/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsBlockEdit</class>
+    </cmsBlockEdit>
+    <cmsPage>
+        <mca>cms/page</mca>
+        <class>Magento\Cms\Test\Page\CmsPage</class>
+    </cmsPage>
+</page>

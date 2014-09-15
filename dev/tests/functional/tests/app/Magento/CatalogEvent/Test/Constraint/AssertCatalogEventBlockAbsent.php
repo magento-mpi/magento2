@@ -11,8 +11,8 @@ namespace Magento\CatalogEvent\Test\Constraint;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\CatalogEvent\Test\Page\Product\CatalogProductView;
-use Magento\CatalogEvent\Test\Page\Category\CatalogCategoryView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertCatalogEventBlockAbsent

@@ -20,7 +20,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     /**
      * Configurable product
      *
-     * @var \Magento\Catalog\Test\Fixture\ConfigurableProduct
+     * @var \Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct
      */
     protected $configurableProduct;
 
@@ -34,7 +34,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     /**
      * Return the configurable product
      *
-     * @return \Magento\Catalog\Test\Fixture\ConfigurableProduct
+     * @return \Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct
      */
     public function getConfigurableProduct()
     {
@@ -57,11 +57,11 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     protected function _initData()
     {
         // Verification data
-        $this->_data = array(
-            'totals' => array(
+        $this->_data = [
+            'totals' => [
                 'grand_total' => '$30.57'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -70,10 +70,10 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     public function persist()
     {
         // Configuration
-        $this->_persistConfiguration(array(
+        $this->_persistConfiguration([
             'flat_rate',
             'enable_mysql_search'
-         ));
+         ]);
 
         // Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
@@ -86,22 +86,24 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         $this->simpleProduct->switchData('simple_advanced_pricing');
         $this->simpleProduct->persist();
 
-        $this->configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $this->configurableProduct = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $this->configurableProduct->switchData('configurable_advanced_pricing');
         $this->configurableProduct->persist();
 
-        $this->products = array(
+        $this->products = [
             $this->simpleProduct,
             $this->configurableProduct
-        );
+        ];
 
         //Checkout data
         $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $this->customer->switchData('customer_US_1');
         $this->customer->persist();
 
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_data_US_1');
+        $this->billingAddress = $objectManager->create(
+            '\Magento\Customer\Test\Fixture\AddressInjectable',
+            ['dataSet' => 'address_data_US_1']
+        );
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');

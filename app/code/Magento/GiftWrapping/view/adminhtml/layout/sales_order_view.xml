@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="gift_options">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Order\View\Info" name="wrapping_order_view_info" template="order/view/info.phtml"/>
     </referenceBlock>
@@ -23,4 +23,4 @@
     <referenceBlock name="order_totals">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Sales\Totals" name="giftwrapping_totals"/>
     </referenceBlock>
-</layout>
+</page>

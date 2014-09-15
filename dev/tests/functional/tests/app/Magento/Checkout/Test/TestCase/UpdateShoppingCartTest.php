@@ -8,12 +8,13 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Fixture\Cart;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Test Creation for Update ShoppingCart
@@ -85,19 +86,21 @@ class UpdateShoppingCartTest extends Injectable
      *
      * @param Cart $cart
      * @param CatalogProductSimple $product
+     * @param Browser $browser
      * @return void
      */
     public function testUpdateShoppingCart(
         Cart $cart,
-        CatalogProductSimple $product
+        CatalogProductSimple $product,
+        Browser $browser
     ) {
         // Preconditions
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
 
         // Steps
-        $this->catalogProductView->init($product);
-        $this->catalogProductView->open()->getViewBlock()->clickAddToCart();
-        $this->checkoutCart->getCartBlock()->setProductQty($product->getName(), $cart->getQty());
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $this->catalogProductView->getViewBlock()->clickAddToCart();
+        $this->checkoutCart->getCartBlock()->getCartItem($product)->setQty($cart->getQty());
         $this->checkoutCart->getCartBlock()->updateShoppingCart();
     }
 }

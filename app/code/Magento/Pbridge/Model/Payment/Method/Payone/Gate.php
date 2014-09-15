@@ -55,7 +55,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $url
      * @param string $formBlock
      * @param array $data
@@ -70,9 +70,9 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $formBlock,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $url,
+        $formBlock = '',
         array $data = array()
     ) {
         $this->_url = $url;

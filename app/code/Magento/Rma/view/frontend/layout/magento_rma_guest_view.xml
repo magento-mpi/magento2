@@ -7,12 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
-        </action>
-    </referenceBlock>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <referenceContainer name="content">
         <block class="Magento\Sales\Block\Order\Info" as="info" name="sales.order.info">
@@ -28,4 +23,4 @@
     <update handle="magento_rma_returns_view_handle"/>
     <update handle="sales_order_info_rma_guest_links"/>
     <block class="Magento\Rma\Block\Returns\Tracking" name="rma.returns.tracking" as="tracking" cacheable="false"/>
-</layout>
+</page>

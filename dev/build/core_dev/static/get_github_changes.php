@@ -11,7 +11,7 @@
  * @license    {license_link}
  */
 
-define('GITHUB_URL_CHANGES', 'https://github.scm.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
+define('GITHUB_URL_CHANGES', 'https://github.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
 define(
     'USAGE',
 <<<USAGE

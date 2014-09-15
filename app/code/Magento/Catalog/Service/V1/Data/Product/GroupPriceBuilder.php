@@ -8,9 +8,12 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Product;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class GroupPriceBuilder extends AbstractObjectBuilder
+/**
+ * @codeCoverageIgnore
+ */
+class GroupPriceBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Set customer group id
@@ -20,8 +23,7 @@ class GroupPriceBuilder extends AbstractObjectBuilder
      */
     public function setCustomerGroupId($customerGroupId)
     {
-        $this->_set(GroupPrice::CUSTOMER_GROUP_ID, $customerGroupId);
-        return $this;
+        return $this->_set(GroupPrice::CUSTOMER_GROUP_ID, $customerGroupId);
     }
 
     /**
@@ -32,7 +34,6 @@ class GroupPriceBuilder extends AbstractObjectBuilder
      */
     public function setValue($value)
     {
-        $this->_set(GroupPrice::VALUE, $value);
-        return $this;
+        return $this->_set(GroupPrice::VALUE, $value);
     }
 }
