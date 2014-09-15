@@ -101,6 +101,7 @@ class ConsoleController extends AbstractActionController
                 break;
             case self::CMD_INSTALL_SCHEMA: // break is intentionally omitted
             case self::CMD_INSTALL_DATA:
+            case self::CMD_UPDATE:
                 $result = '';
                 break;
             case self::CMD_INSTALL_USER_CONFIG:
@@ -108,9 +109,6 @@ class ConsoleController extends AbstractActionController
                 break;
             case self::CMD_INSTALL_ADMIN_USER:
                 $result = self::getAdminUserCliRoute();
-                break;
-            case self::CMD_UPDATE:
-                $result = '';
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown type: {$type}");
@@ -190,13 +188,12 @@ class ConsoleController extends AbstractActionController
                 return $paramsTxt . self::getDeployConfigCliRoute();
             case self::CMD_INSTALL_SCHEMA: // break is intentionally omitted
             case self::CMD_INSTALL_DATA:
+            case self::CMD_UPDATE:
                 return 'This command has no parameters.';
             case self::CMD_INSTALL_USER_CONFIG:
                 return $paramsTxt . self::getUserConfigCliRoute();
             case self::CMD_INSTALL_ADMIN_USER:
                 return $paramsTxt . self::getAdminUserCliRoute();
-            case self::CMD_UPDATE:
-                return 'This command has no parameters.';
             default:
                 throw new \InvalidArgumentException("Unknown type: {$type}");
         }
