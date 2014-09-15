@@ -23,8 +23,6 @@ define([
             { value: 'selectPage',   label: 'Select all on this page'   },
             { value: 'deselectPage', label: 'Deselect all on this page' }
         ],
-        indexField: '',
-        idAttribute: 'id_attribute',
         selectableTemplate: 'selectable'
     };
 
@@ -42,7 +40,8 @@ define([
                 .initIndexField()
                 .formatActions()
                 .attachTemplateExtender()
-                .initProvider();
+                .initProvider()
+                .updatePages();
         },
 
         /**
@@ -52,11 +51,14 @@ define([
         initObservable: function () {
             this.observe({
                 selected:           this.selected || [],
+                excluded:           [],
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
                 menuVisible:        false,
-                hasMoreThanOnePage: this.getPagesCount() > 1
+                multiplePages:      ''
             });
+
+            this.selected.subscribe(this.updateExcluded.bind(this));
 
             return this;
         },
@@ -67,14 +69,9 @@ define([
          * @return {Object} - reference to instance
          */
         initIndexField: function () {
-            var fields = this.provider.meta.get('fields'),
-                fieldsWithId;
+            var provider = this.provider.meta;
 
-            fieldsWithId = fields.filter(function (field) {
-                return this.idAttribute in field;
-            }, this);
-
-            this.indexField = _.last(fieldsWithId).index;
+            this.indexField = provider.get('indexField');
 
             return this;
         },
@@ -144,7 +141,7 @@ define([
 
                 return {
                     all_selected: true,
-                    excluded: this.getExcluded()
+                    excluded: this.excluded()
                 };
             }
 
@@ -152,27 +149,7 @@ define([
                 selected: this.selected()
             };
         },
-
-        /**
-         * Compares all items to those selected and returnes the difference.
-         * @return {Array} - array of excluded ids.
-         */
-        getExcluded: function () {
-            var provider    = this.provider.data,
-                selected    = this.selected();
-                all         = _.pluck(provider.get('items'), this.indexField);
-
-            return _.difference(all, selected);
-        },
-
-        /**
-         * Reads and returns pages count
-         * @return {Number|String} pages count
-         */
-        getPagesCount: function () {
-            return this.provider.data.get('pages');
-        },
-
+        
         /**
          * Toggles observable property based on area argument
          * @param  {area} area
@@ -197,21 +174,26 @@ define([
          */
         submit: function (action) {
             var client = this.provider.client,
-                config,
-                data;
+                params;
 
-            config = {
+            params = {
                 method: 'post',
-                action: action.url
+                action: action.url,
+                data: {
+                    massaction: this.buildParams()
+                }
             };
 
-            data = {
-                massaction: this.buildParams()
-            };
-
-            client.submit(config, data);
+            client.submit(params);
             
             return this;
+        },
+
+        getIds: function(exclude){
+            var items   = this.provider.data.get('items'),
+                ids     = _.pluck(items, this.indexField);
+
+            return exclude ? _.difference(ids, this.excluded()) : ids;    
         },
 
         /**
@@ -219,7 +201,9 @@ define([
          */
         selectAll: function () {
             this.allSelected(true);
-            this.selectPage();
+            
+            this.clearExcluded()
+                .selectPage();
         },
 
         /**
@@ -234,17 +218,31 @@ define([
          * Selects all items on current page, adding their ids to selected observable array
          */
         selectPage: function () {
-            var items = this.provider.data.get('items'),
-                ids   = _.pluck(items, this.indexField);
-
-            this.selected(ids);
+            this.selected(this.getIds());
         },
 
         /**
          * Deselects all items on current page, emptying selected observable array
          */
         deselectPage: function () {
-            this.selected([]);
+            this.selected.removeAll();
+        },
+        
+        updateExcluded: function(selected) {
+            var all         = this.getIds(),
+                excluded    = this.excluded();
+
+            excluded = _.union(excluded, _.difference(all, selected));
+
+            this.excluded(excluded);
+
+            return this;
+        },
+
+        clearExcluded: function(){
+            this.excluded.removeAll();
+
+            return this;
         },
 
         /**
@@ -260,6 +258,16 @@ define([
             return function () {
                 window.location.href = url;
             }
+        },
+
+        updatePages: function(){
+            var provider = this.provider.data;
+
+            this.pages = provider.get('pages');
+
+            this.multiplePages(this.pages > 1);
+
+            return this;
         },
 
         onToggle: function(area){
@@ -282,9 +290,11 @@ define([
          * Updates state according to changes of provider.
          */
         onRefresh: function () {
-            this.hasMoreThanOnePage(this.getPagesCount() > 1);
+            if( this.allSelected() ){
+                this.selected(this.getIds(true));
+            }
 
-            this.deselectAll();
+            this.updatePages();
         },
 
         /**
@@ -313,7 +323,7 @@ define([
          * @return {Boolean}
          */
         shouldSelectAllBeVisible: function () {
-            return !this.allSelected() && this.hasMoreThanOnePage();
+            return !this.allSelected() && this.multiplePages();
         },
 
         /**
@@ -321,9 +331,7 @@ define([
          * @return {Boolean}
          */
         shouldDeselectAllBeVisible: function () {
-            var selected = this.selected();
-
-            return selected.length && this.hasMoreThanOnePage();
+            return this.allSelected() && this.multiplePages();
         }
     });
 

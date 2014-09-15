@@ -77,9 +77,9 @@ define([
             var ajax = this.config.ajax,
                 data = ajax.data || {};
 
-            data = _.extend({}, data, params);
+            _.extend(config.data, data);
 
-            utils.submitAsForm(config, data);
+            utils.submitAsForm(config);
         }
     }, EventsBus);
 

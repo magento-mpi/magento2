@@ -106,7 +106,7 @@ define([
         getData: function(all){
             var filters;
 
-            filters = all ? this.filters() : this.active();
+            filters = all ? this.filters : this.active();
 
             return filters.map(function(filter){
                 return filter.dump();
@@ -120,25 +120,20 @@ define([
          * @return {Object} - reference to instance
          */
         clearData: function(filter){
-            var active = this.active(),
-                index;
+            var active = this.active;
 
             if(filter){
-                
-                index = active.indexOf(filter);
+                filter.reset();
 
-                active.splice(index, 1);
+                active.remove(filter);
             }
             else{
-
-                active.forEach(function (filter) {
+                active().forEach(function (filter) {
                     filter.reset();
                 });
 
-                active = [];
+                active.removeAll();
             }
-
-            this.active(active);
 
             return this;
         },
@@ -199,7 +194,7 @@ define([
          * @param  {Object} filter - filter to reset
          */
         onClear: function(filter) {
-            this.reset.bind(this, filter);
+            return this.reset.bind(this, filter);
         },
 
         /**
