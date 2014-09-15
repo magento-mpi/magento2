@@ -7,6 +7,7 @@
  */
 namespace Magento\Ui;
 
+use Magento\Ui\ConfigInterface;
 use Magento\Framework\Registry;
 use Magento\Backend\Helper\Data;
 use Magento\Framework\App\RequestInterface;
@@ -17,6 +18,11 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
  */
 class Context extends Registry
 {
+    /**
+     * @var ConfigInterface
+     */
+    protected $config;
+
     /**
      * Data helper
      *
@@ -41,11 +47,13 @@ class Context extends Registry
     /**
      * Constructor
      *
+     * @param ConfigInterface $config
      * @param TemplateContext $context
      * @param Data $dataHelper
      */
-    public function __construct(TemplateContext $context, Data $dataHelper)
+    public function __construct(ConfigInterface $config, TemplateContext $context, Data $dataHelper)
     {
+        $this->config = $config;
         $this->dataHelper = $dataHelper;
         $this->request = $context->getRequest();
         $this->setAcceptType();
@@ -160,5 +168,15 @@ class Context extends Registry
     public function getMeta($key)
     {
         return $this->registry($key . '_meta');
+    }
+
+    /**
+     * Get configuration object
+     *
+     * @return ConfigInterface
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }

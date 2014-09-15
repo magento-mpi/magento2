@@ -20,10 +20,10 @@ class FilterPool
      * @var array
      */
     protected $filterTypes = [
-        'input' => 'Magento\Ui\Filter\Type\Input',
-        'select' => 'Magento\Ui\Filter\Type\Select',
-        'date' => 'Magento\Ui\Filter\Type\Date',
-        'range' => 'Magento\Ui\Filter\Type\Range',
+        'filter_input' => 'Magento\Ui\Filter\Type\Input',
+        'filter_select' => 'Magento\Ui\Filter\Type\Select',
+        'filter_range' => 'Magento\Ui\Filter\Type\Range',
+        'filter_date' => 'Magento\Ui\Filter\Type\Date',
         'store' => 'Magento\Ui\Filter\Type\Store'
     ];
 

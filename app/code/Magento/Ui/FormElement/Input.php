@@ -7,19 +7,13 @@
  */
 namespace Magento\Ui\FormElement;
 
-use Magento\Ui\DataType\DataTypeInterface;
-
 /**
  * Class Input
  */
-class Input extends AbstractFormElement implements ElementInterface
+class Input extends AbstractFormElement
 {
-    /**
-     * @param DataTypeInterface $dataType
-     * @return string
-     */
-    public function render(DataTypeInterface $dataType)
+    public function getType()
     {
-        //
+        return $this->getData('input_type') ? $this->getData('input_type') : 'text';
     }
 }

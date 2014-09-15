@@ -24,6 +24,11 @@ class Render extends AbstractBlock
     protected $renderContext;
 
     /**
+     * @var ViewFactory
+     */
+    protected $viewFactory;
+
+    /**
      * Private layout
      *
      * @var Layout
@@ -35,16 +40,19 @@ class Render extends AbstractBlock
      *
      * @param Context $renderContext
      * @param Template\Context $context
+     * @param ViewFactory $viewFactory
      * @param Layout $privateLayout
      * @param array $data
      */
     public function __construct(
         Context $renderContext,
         Template\Context $context,
+        ViewFactory $viewFactory,
         Layout $privateLayout,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
+        $this->viewFactory = $viewFactory;
         $this->privateLayout = $privateLayout;
         parent::__construct($context, $data);
     }

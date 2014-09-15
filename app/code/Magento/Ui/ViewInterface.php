@@ -14,17 +14,29 @@ interface ViewInterface
 {
     /**
      * @param array $arguments
-     * @param string $acceptType
-     * @return mixed|string
+     * @return string
      */
-    public function render(array $arguments = [], $acceptType = 'html');
+    public function render(array $arguments = []);
 
     /**
-     * Getting template
+     * @param array $arguments
+     * @return string
+     */
+    public function renderLabel(array $arguments = []);
+
+    /**
+     * Getting template for rendering content
      *
      * @return string|false
      */
-    public function getTemplate();
+    public function getContentTemplate();
+
+    /**
+     * Getting template for rendering label
+     *
+     * @return string|false
+     */
+    public function getLabelTemplate();
 
     /**
      * Getting view data array

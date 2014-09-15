@@ -7,19 +7,12 @@
  */
 namespace Magento\Ui\Control;
 
-use Magento\Framework\Object;
+use Magento\Ui\AbstractView;
 
 /**
  * Class Button
  */
-class Button implements ControlInterface
+class Button extends AbstractView implements ControlInterface
 {
-    /**
-     * @param Object $dataObject
-     * @return string
-     */
-    public function render(Object $dataObject)
-    {
-        return '';
-    }
+    //
 }

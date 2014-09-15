@@ -13,6 +13,7 @@ use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Ui\ViewFactory;
 
 /**
  * Class View
@@ -36,6 +37,7 @@ class View extends AbstractView
      * @param RowPool $rowPool
      * @param Context $renderContext
      * @param TemplateContext $context
+     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
      * @param array $data
      */
@@ -44,12 +46,13 @@ class View extends AbstractView
         RowPool $rowPool,
         Context $renderContext,
         TemplateContext $context,
+        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
         $this->optionsFactory = $optionsFactory;
         $this->rowPool = $rowPool;
-        parent::__construct($renderContext, $context, $contentTypeFactory, $data);
+        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $data);
     }
 
     /**
@@ -80,14 +83,34 @@ class View extends AbstractView
      * Render view
      *
      * @param array $arguments
-     * @param string $acceptType
      * @return mixed|string
      */
-    public function render(array $arguments = [], $acceptType = 'html')
+    public function render(array $arguments = [])
     {
         $this->initialConfiguration();
 
-        return parent::render($arguments, $acceptType);
+        return parent::render($arguments);
+    }
+
+    /**
+     * Getting collection items
+     *
+     * return array
+     */
+    public function getCollectionItems()
+    {
+        $items = [];
+        $collection = $this->renderContext->getDataCollection($this->getName());
+        foreach ($collection->getItems() as $item) {
+            $actualFields = [];
+            $itemsData = $this->getDataFromDataProvider($item->getData());
+            foreach (array_keys($this->getData('meta/fields')) as $field) {
+                $actualFields[$field] = $itemsData[$field];
+            }
+            $items[] = $actualFields;
+        }
+
+        return $items;
     }
 
     /**
@@ -95,11 +118,14 @@ class View extends AbstractView
      *
      * @return array
      */
-    protected function getMeta()
+    public function getMeta()
     {
         $meta = $this->getData('meta');
         foreach ($meta['fields'] as $key => $field) {
-
+            if (in_array($key, ['row_url'])) {
+                unset($meta['fields'][$key]);
+                continue;
+            }
             // TODO fixme
             if ($field['data_type'] === 'date_time') {
                 $field['date_format'] = $this->_localeDate->getDateTimeFormat(
@@ -134,27 +160,6 @@ class View extends AbstractView
         }
 
         return $dataRow;
-    }
-
-    /**
-     * Getting collection items
-     *
-     * return array
-     */
-    protected function getCollectionItems()
-    {
-        $items = [];
-        $collection = $this->renderContext->getDataCollection($this->getName());
-        foreach ($collection->getItems() as $item) {
-            $actualFields = [];
-            $itemsData = $this->getDataFromDataProvider($item->getData());
-            foreach (array_keys($this->getData('meta/fields')) as $field) {
-                $actualFields[$field] = $itemsData[$field];
-            }
-            $items[] = $actualFields;
-        }
-
-        return $items;
     }
 
     /**

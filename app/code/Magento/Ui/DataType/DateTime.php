@@ -7,19 +7,10 @@
  */
 namespace Magento\Ui\DataType;
 
-use Magento\Framework\Object as DataObject;
-
 /**
  * Class DateTime
  */
-class DateTime extends AbstractDataType implements DataTypeInterface
+class DateTime extends AbstractDataType
 {
-    /**
-     * @param DataObject $dataObject
-     * @return string
-     */
-    public function render(DataObject $dataObject)
-    {
-        //
-    }
+    //
 }

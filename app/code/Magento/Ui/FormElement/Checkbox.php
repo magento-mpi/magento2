@@ -7,19 +7,10 @@
  */
 namespace Magento\Ui\FormElement;
 
-use Magento\Ui\DataType\DataTypeInterface;
-
 /**
  * Class Checkbox
  */
-class Checkbox extends AbstractFormElement implements ElementInterface
+class Checkbox extends AbstractFormElement
 {
-    /**
-     * @param DataTypeInterface $dataType
-     * @return string
-     */
-    public function render(DataTypeInterface $dataType)
-    {
-        //
-    }
+    //
 }

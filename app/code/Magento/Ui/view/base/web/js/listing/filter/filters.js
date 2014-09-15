@@ -6,18 +6,18 @@
  */
 /** Assembles available filter controls and returns it's mapping. */
 define([
-    './item/input',
-    './item/select',
-    './item/range',
+    './item/filter_input',
+    './item/filter_select',
+    './item/filter_range',
     './item/store'
 ], function (InputControl, SelectControl, RangeControl, StoreControl) {
     'use strict';
 
     return {
-        input:      InputControl,
-        select:     SelectControl,
-        date:       RangeControl,
-        range:      RangeControl,
-        store:      StoreControl
+        filter_input: InputControl,
+        filter_select: SelectControl,
+        filter_range: RangeControl,
+        filter_date: RangeControl,
+        store: StoreControl
     }
 });

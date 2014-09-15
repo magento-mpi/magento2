@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <block class="Magento\Ui\Listing\View" name="listing">
         <arguments>
-            <argument name="template" xsi:type="string">Magento_Ui::listing/grid/horizontal.phtml</argument>
+            <argument name="content_template" xsi:type="string">Magento_Ui::listing/grid/horizontal.phtml</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
             <argument name="client_root" xsi:type="string">mui/listing/ajax</argument>
             <argument name="config" xsi:type="array">
@@ -23,24 +23,24 @@
         <block class="Magento\Framework\View\Element\Text\ListText" name="listing_before">
             <block class="Magento\Ui\Paging\View" name="paging_small_top">
                 <arguments>
-                    <argument name="template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
                 </arguments>
             </block>
-            <block class="Magento\Ui\Filter\View" name="filter_base">
+            <block class="Magento\Ui\FilterPool\View" name="filter_base">
                 <arguments>
-                    <argument name="template" xsi:type="string">Magento_Ui::filter/default.phtml</argument>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::filter_pool/content.phtml</argument>
                 </arguments>
             </block>
             <block class="Magento\Ui\Sorting\View" name="sorting_base">
                 <arguments>
-                    <argument name="template" xsi:type="string">Magento_Ui::sorting/default.phtml</argument>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::sorting/default.phtml</argument>
                 </arguments>
             </block>
         </block>
         <block class="Magento\Framework\View\Element\Text\ListText" name="listing_after">
             <block class="Magento\Ui\Paging\View" name="paging_small_bottom">
                 <arguments>
-                    <argument name="template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
                 </arguments>
             </block>
         </block>

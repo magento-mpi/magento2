@@ -3,19 +3,45 @@
  * @var \Magento\Ui\Listing\View $this
  */
 ?>
-<script data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }' type="application/json">
-    <?php echo $this->getGlobalConfigJson(); ?>
-</script>
-<script data-m2-init='{ "Magento_Ui/js/listing/grid": "" }' type="application/json">
-    <?php echo $this->getConfigurationJson(); ?>
-</script>
-<?php echo $this->getChildHtml('listing_head'); ?>
-<div class="grid">
 
-    <?php echo $this->getChildHtml('listing_before'); ?>
-    <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
-        <!-- ko template: getTemplate() --><!-- /ko -->
-        <!-- ko template: 'Magento_Ui.templates.spinner' --><!-- /ko -->
+<?php if (true): ?>
+    <script data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }' type="application/json">
+        <?php echo $this->getGlobalConfigJson(); ?>
+    </script>
+    <script data-m2-init='{ "Magento_Ui/js/listing/grid": "" }' type="application/json">
+        <?php echo $this->getConfigurationJson(); ?>
+    </script>
+    <?php echo $this->getChildHtml('listing_head'); ?>
+    <div class="grid">
+
+        <?php echo $this->getChildHtml('listing_before'); ?>
+        <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- ko template: 'Magento_Ui.templates.spinner' --><!-- /ko -->
+        </div>
+        <?php echo $this->getChildHtml('listing_after'); ?>
     </div>
-    <?php echo $this->getChildHtml('listing_after'); ?>
-</div>
+<?php else: ?>
+    <div class="grid" data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }'>
+        <?php echo $this->getChildHtml('listing_before'); ?>
+        <table>
+            <thead>
+            <tr>
+                <?php foreach ($this->getMeta()['fields'] as $name => $field): $field['name'] = $name; ?>
+                    <td><?php echo $this->renderElementLabel($field['data_type'], $field); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->getCollectionItems() as $item): ?>
+            <tr>
+                <?php foreach ($this->getMeta()['fields'] as $name => $field): $field['name'] = $name; $field['data_object'] = $item; ?>
+                <td><?php echo $this->renderElement($field['data_type'], $field); ?></td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php echo $this->getChildHtml('listing_after'); ?>
+    </div>
+<?php endif; ?>

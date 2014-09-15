@@ -8,73 +8,34 @@
 namespace Magento\Ui\DataType;
 
 use Magento\Framework\Object as DataObject;
+use Magento\Ui\AbstractView;
 
 /**
  * Class AbstractDataType
  */
-abstract class AbstractDataType implements DataTypeInterface
+abstract class AbstractDataType extends AbstractView implements DataTypeInterface
 {
     /**
-     * @var array
-     */
-    protected $configuration = [];
-
-    /**
      * @return string
      */
-    public function getLabel()
+    public function prepare()
     {
-        return $this->configuration['label'];
+        //
     }
 
     /**
-     * @return string
-     */
-    public function getDataObjectValueIndex()
-    {
-        return $this->configuration['index'];
-    }
-
-    /**
-     * return bool
-     */
-    public function getSortable()
-    {
-        return $this->configuration['sortable'];
-    }
-
-    /**
-     * @param DataObject $dataObject
-     * @return string
-     */
-    abstract public function render(DataObject $dataObject);
-
-    /**
-     * @param $value
-     * @param DataObject $dataObject
-     * @return string
-     */
-    public function prepare($value, DataObject $dataObject)
-    {
-        return '';
-    }
-
-    /**
-     * @param $value
-     * @param DataObject $dataObject
      * @return bool
      */
-    public function validate($value, DataObject $dataObject)
+    public function validate()
     {
         return true;
     }
 
     /**
-     * @param DataObject $dataObject
      * @return string
      */
-    public function getDataObjectValue(DataObject $dataObject)
+    public function getDataObjectValue()
     {
-        return $dataObject->getDataUsingMethod($this->getDataObjectValueIndex());
+        return $this->getData('data_object')[$this->getData('name')];
     }
 }
