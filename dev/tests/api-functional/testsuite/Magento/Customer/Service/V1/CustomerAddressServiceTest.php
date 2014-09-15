@@ -247,6 +247,54 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     }
 
     /**
+     * @magentoApiDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testGetSavedAddress()
+    {
+        $customerFixtureId = 1;
+
+        // Save address data
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customer/{$customerFixtureId}/address",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SOAP_SERVICE_NAME,
+                'serviceVersion' => self::SOAP_SERVICE_VERSION,
+                'operation' => self::SOAP_SERVICE_NAME . 'SaveAddresses'
+            ]
+        ];
+
+        $addressData = $this->getSecondFixtureAddressData();
+        // Use an array of simple PHP types (string) as 'street'
+        $addressData['street'] = ['White str, 48', 'Dummy Data'];
+
+        $requestData = ['customerId' => $customerFixtureId,'addresses' => [$addressData]];
+        $this->_webApiCall($serviceInfo, $requestData);
+
+        // Retrieve saved address data
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customer/$customerFixtureId/address",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SOAP_SERVICE_NAME,
+                'serviceVersion' => self::SOAP_SERVICE_VERSION,
+                'operation' => self::SOAP_SERVICE_NAME . 'GetAddresses'
+            ]
+        ];
+        $requestData = ['customerId' => $customerFixtureId];
+        $addressDataResult = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(
+            [$addressData],
+            $addressDataResult,
+            "The address retrieved does not match the saved address."
+        );
+    }
+
+    /**
      * Retrieve data of the first fixture address.
      *
      * @return array
