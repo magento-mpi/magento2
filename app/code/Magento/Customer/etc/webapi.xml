@@ -127,10 +127,6 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <!-- TODO: changePassword is a case of SELF. Need to revisit. For now manage is assigned -->
-    <!-- TODO: createCustomer, authenticate, validateResetPasswordLinkToken, initiatePasswordReset, resetPassword, resendConfirmation apis
-               can be accessed anonymously and need no resources to be assigned. Webapi framework doesn't support support that as yet.
-               Adding Magento_Customer::customer temporarily until handling anonymous users is finalized -->
     <route url="/V1/customers" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="createCustomer"/>
         <resources>
