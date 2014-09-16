@@ -272,6 +272,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken)
     {
         $this->validateResetPasswordToken($customerId, $resetPasswordLinkToken);
+        return true;
     }
 
     /**
