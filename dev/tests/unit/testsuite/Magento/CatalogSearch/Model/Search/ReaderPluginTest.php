@@ -36,10 +36,10 @@ class ReaderPluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['test' => 'a']));
 
         $result = $this->object->aroundRead(
-            $this->getMockBuilder('Magento\Framework\Config\ReaderInterface')
-                ->disableOriginalConstructor()
-                ->getMock(),
-            function() { return ['test' => 'b', 'd' => 'e']; }
+            $this->getMockBuilder('Magento\Framework\Config\ReaderInterface')->disableOriginalConstructor()->getMock(),
+            function () {
+                return ['test' => 'b', 'd' => 'e'];
+            }
         );
 
         $this->assertEquals(['test' => ['b','a'], 'd' => 'e'], $result);

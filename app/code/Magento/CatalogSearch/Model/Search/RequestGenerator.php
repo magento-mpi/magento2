@@ -26,7 +26,7 @@ class RequestGenerator
     /**
      * Generate dynamic fields requests
      *
-     * return array
+     * @return array
      */
     public function generate()
     {
@@ -45,6 +45,7 @@ class RequestGenerator
     {
         $request = [];
         foreach ($this->getSearchableAttributes() as $attribute) {
+            /** @var $attribute \Magento\Catalog\Model\Product\Attribute */
             if (in_array($attribute->getAttributeCode(), ['price', 'sku'])) {
                 //same fields have special semantics
                 continue;
@@ -67,7 +68,7 @@ class RequestGenerator
     {
         $request = [];
         foreach ($this->getSearchableAttributes() as $attribute) {
-            /** @var $attribute \Magento\Catalog\Model\Resource\Product\Attribute */
+            /** @var $attribute \Magento\Catalog\Model\Product\Attribute */
             if (!$attribute->getIsVisibleInAdvancedSearch()) {
                 continue;
             }
@@ -144,4 +145,4 @@ class RequestGenerator
 
         return $productAttributes;
     }
-} 
+}
