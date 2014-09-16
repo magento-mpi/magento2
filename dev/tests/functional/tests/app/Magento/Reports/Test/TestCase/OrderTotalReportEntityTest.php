@@ -60,7 +60,7 @@ class OrderTotalReportEntityTest extends Injectable
      * @param string $orders
      * @param array $report
      * @param FixtureFactory $fixtureFactory
-     * @return void
+     * @return array
      */
     public function test(CustomerInjectable $customer, $orders, array $report, FixtureFactory $fixtureFactory)
     {
@@ -79,5 +79,7 @@ class OrderTotalReportEntityTest extends Injectable
         $this->customerTotalsReport->open();
         $this->customerTotalsReport->getFilterBlock()->viewsReport($report);
         $this->customerTotalsReport->getFilterBlock()->refreshFilter();
+
+        return['customer' => $customer];
     }
 }
