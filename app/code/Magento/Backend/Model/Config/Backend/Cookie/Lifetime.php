@@ -50,9 +50,8 @@ class Lifetime extends \Magento\Framework\App\Config\Value
         $value = $this->getValue();
 
         if (!$this->configValidator->isValid($value)) {
-            throw new \Magento\Framework\Model\Exception(
-                'Invalid cookie lifetime; ' . join('; ', $this->configValidator->getMessages())
-            );
+            $msg = __('Invalid cookie lifetime: ' . join('; ', $this->configValidator->getMessages()));
+            throw new \Magento\Framework\Model\Exception($msg);
         }
     }
 }

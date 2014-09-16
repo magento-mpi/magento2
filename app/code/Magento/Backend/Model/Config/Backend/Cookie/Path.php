@@ -50,7 +50,7 @@ class Path extends \Magento\Framework\App\Config\Value
         $value = $this->getValue();
 
         if (!$this->configValidator->isValid($value)) {
-            throw new \Magento\Framework\Model\Exception('Invalid cookie path');
+            throw new \Magento\Framework\Model\Exception(__('Invalid cookie path'));
         }
     }
 }
