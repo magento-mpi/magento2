@@ -451,7 +451,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // Making this call first will ensure the customer already exists.
         $this->customerRegistry->retrieve($customerId);
 
-        if ($customerId !== $customer->getId()) {
+        if ($customerId != $customer->getId()) {
             throw InputException::invalidFieldValue('id', $customer->getId());
         }
 
