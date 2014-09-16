@@ -963,7 +963,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'UpdateCustomerDetailsByEmail'
+                'operation' => self::SERVICE_NAME . 'UpdateCustomerByEmail'
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
