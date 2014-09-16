@@ -28,12 +28,14 @@
         <?php echo $this->getChildHtml('listing_before'); ?>
         <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
             <!-- ko template: getTemplate() --><!-- /ko -->
-            <!-- ko template: 'Magento_Ui.templates.spinner' --><!-- /ko -->
         </div>
         <?php echo $this->getChildHtml('listing_after'); ?>
     </div>
+    <div data-role="spinner" class="grid-loading-mask">
+        <div class="grid-loader"></div>
+    </div>
 <?php else: ?>
-    <div class="grid" data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }'>
+    <div class="grid" data-m2-init='{"Magento_Ui/js/listing/utils/provider": ""}'>
         <?php echo $this->getChildHtml('listing_before'); ?>
         <table>
             <thead>

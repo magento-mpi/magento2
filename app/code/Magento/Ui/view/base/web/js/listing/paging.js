@@ -45,7 +45,8 @@ define([
                 'pages':        data.pages || 1,
                 'totalCount':   data.totalCount,
                 'current':      this.current,
-                'pageSize':     this.pageSize
+                'pageSize':     this.pageSize,
+                'selected':     0
             });
 
             return this;
@@ -57,11 +58,14 @@ define([
          */
         initProvider: function(){
             var provider    = this.provider,
-                params      = provider.params;
+                params      = provider.params,
+                meta        = provider.meta;
 
-            _.bindAll(this, 'drop', 'onRefresh', 'pullParams');
+            _.bindAll(this, 'drop', 'onRefresh', 'pullParams', 'updateSelected');
 
             provider.on('refresh', this.onRefresh);
+            
+            meta.on('update:selected', this.updateSelected);
 
             params.on({
                 'update:filter':    this.drop,
@@ -130,6 +134,10 @@ define([
             this.current(1);
 
             this.pushParams();
+        },
+
+        updateSelected: function(count){
+            this.selected(count);
         },
 
         /**

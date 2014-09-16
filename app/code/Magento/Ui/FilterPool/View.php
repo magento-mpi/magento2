@@ -70,6 +70,7 @@ class View extends AbstractView
         $this->rootComponent = $this->getParentBlock()->getParentBlock();
         $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
         $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
+        $this->viewConfiguration['types'] = $this->getListOfRequiredFilters();
         $this->rootComponent->addConfigData($this, $this->viewConfiguration);
 
         $this->updateDataCollection();
@@ -96,6 +97,18 @@ class View extends AbstractView
                 $collection->addFieldToFilter($field, $condition);
             }
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getListOfRequiredFilters()
+    {
+        $result = [];
+        foreach ($this->getFields() as $field) {
+            $result[] = isset($field['filter_type']) ? $field['filter_type'] : $field['input_type'];
+        }
+        return $result;
     }
 
     /**

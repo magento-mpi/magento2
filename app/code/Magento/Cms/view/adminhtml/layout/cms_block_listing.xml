@@ -25,9 +25,9 @@
                     <item name="filterable" xsi:type="boolean">true</item>
                     <item name="sortable" xsi:type="boolean">true</item>
                 </item>
+                <item name="indexField" xsi:type="string">block_id</item>
                 <item name="fields" xsi:type="array">
                     <item name="block_id" xsi:type="array">
-                        <item name="id_attribute" xsi:type="string">true</item>
                         <item name="title" xsi:type="string" translate="true">ID</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">text</item>
@@ -39,19 +39,19 @@
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">filter_input</item>
                     </item>
-                    <item name="store_id" xsi:type="array">
-                        <item name="title" xsi:type="string" translate="true">Store View</item>
-                        <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">store</item>
-                        <item name="filter_type" xsi:type="string">filter_select</item>
-                        <item name="sortable" xsi:type="boolean">false</item>
-                        <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
-                    </item>
                     <item name="identifier" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Identifier</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">text</item>
                         <item name="filter_type" xsi:type="string">filter_input</item>
+                    </item>
+                    <item name="store_id" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Store View</item>
+                        <item name="align" xsi:type="string">left</item>
+                        <item name="data_type" xsi:type="string">store</item>
+                        <item name="sortable" xsi:type="boolean">false</item>
+                        <item name="filter_type" xsi:type="string">filter_select</item>
+                        <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
                     </item>
                     <item name="is_active" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Status</item>
@@ -72,14 +72,19 @@
                     <item name="creation_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Created</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">date</item>
-                        <item name="filter_type" xsi:type="string">filter_range</item>
+                        <item name="data_type" xsi:type="string">date_time</item>
+                        <item name="filter_type" xsi:type="string">filter_date</item>
                     </item>
                     <item name="update_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Modified</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">date</item>
-                        <item name="filter_type" xsi:type="string">filter_range</item>
+                        <item name="data_type" xsi:type="string">date_time</item>
+                        <item name="filter_type" xsi:type="string">filter_date</item>
+                    </item>
+                    <item name="row_url" xsi:type="array">
+                        <item name="data_type" xsi:type="string">row_url</item>
+                        <item name="filterable" xsi:type="boolean">false</item>
+                        <item name="visible" xsi:type="boolean">false</item>
                     </item>
                 </item>
             </argument>
@@ -112,7 +117,7 @@
         <referenceBlock name="listing_before">
             <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
                 <arguments>
-                    <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
+                    <argument name="template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
                     <argument name="config" xsi:type="array">
                         <item name="actions" xsi:type="array">
                             <item name="delete" xsi:type="array">

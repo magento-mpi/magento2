@@ -23,7 +23,7 @@
         <block class="Magento\Framework\View\Element\Text\ListText" name="listing_before">
             <block class="Magento\Ui\Paging\View" name="paging_small_top">
                 <arguments>
-                    <argument name="template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
                 </arguments>
             </block>
             <block class="Magento\Ui\FilterPool\View" name="filter_base">

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <referenceContainer name="content">
+        <block class="Magento\Ui\Context\DataProvider" name="ui.global.config">
+            <arguments>
+                <argument name="content_template" xsi:type="string">Magento_Ui::context/content.phtml</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+</layout>
