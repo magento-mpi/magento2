@@ -1,6 +1,5 @@
 <?php
-/** 
- * 
+/**
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -229,10 +228,16 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteCollectionMock->expects($this->once())->method('getSize')->will($this->returnValue(10));
         $this->searchResultsBuilderMock->expects($this->once())->method('setTotalCount')->with(10);
 
+        $sortOrderMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SortOrder')
+            ->setMethods(['getField', 'getDirection'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $sortOrderMock->expects($this->once())->method('getField')->will($this->returnValue('id'));
+        $sortOrderMock->expects($this->once())->method('getDirection')->will($this->returnValue($direction));
         $searchCriteriaMock
             ->expects($this->once())
             ->method('getSortOrders')
-            ->will($this->returnValue(['id' => $direction]));
+            ->will($this->returnValue([$sortOrderMock]));
         $this->quoteCollectionMock->expects($this->once())->method('addOrder')->with('entity_id', $expected);
         $searchCriteriaMock->expects($this->once())->method('getCurrentPage')->will($this->returnValue(1));
         $searchCriteriaMock->expects($this->once())->method('getPageSize')->will($this->returnValue(10));
