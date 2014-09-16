@@ -190,15 +190,6 @@
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/customers/search/online" method="PUT">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="searchCustomers"/>
-        <resources>
-            <resource ref="Magento_Customer::customer"/>
-        </resources>
-        <data>
-            <parameter name="online" force="true">TRUE</parameter>
-        </data>
-    </route>
     <route url="/V1/customers/login" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="authenticate"/>
         <resources>
