@@ -246,6 +246,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 300, 'preset' => '-'],
             'weight' => 1,
             'custom_options' => ['preset' => 'two_options'],
+            'checkout_data' => ['preset' => 'with_two_custom_option']
         ];
 
         $this->_data['with_all_custom_option'] = [
