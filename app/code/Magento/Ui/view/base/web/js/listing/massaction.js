@@ -37,10 +37,10 @@ define([
             _.extend(this, defaults, config);
 
             this.initObservable()
-                .initIndexField()
+                .initProperties()
                 .formatActions()
                 .attachTemplateExtender()
-                .initProvider()
+                .initListeners()
                 .countPages();
         },
 
@@ -64,11 +64,10 @@ define([
         },
 
         /**
-         * Looks up for field with 'id_attribute' set to true and set's
-         * it's 'index' prop to this.indexField
+         * Initializes instance properties
          * @return {Object} - reference to instance
          */
-        initIndexField: function () {
+        initProperties: function () {
             var provider = this.provider.meta;
 
             this.indexField = provider.get('indexField');
@@ -123,10 +122,10 @@ define([
         },
 
         /**
-         * Subscribes on provider's refresh event to call onRefresh callback
+         * Init instance's subscribtions
          * @return {Object} - reference to instance
          */
-        initProvider: function(){
+        initListeners: function(){
             this.provider.on('refresh', this.onRefresh.bind(this));
 
             return this;
@@ -283,6 +282,11 @@ define([
             }
         },
 
+        /**
+         * Gets current pages count and assignes it's being more than one to
+         *     hasMultiplePages observable.
+         * @return {Object} reference to instance
+         */
         countPages: function() {
             var provider = this.provider.data;
 
