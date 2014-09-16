@@ -9,7 +9,8 @@
         "magento/module-backend": "0.1.0-alpha94",
         "magento/module-install": "0.1.0-alpha94",
         "magento/module-store": "0.1.0-alpha94",
-        "magento/framework": "0.1.0-alpha94"
+        "magento/framework": "0.1.0-alpha94",
+        "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
     "version": "0.1.0-alpha94",
