@@ -38,21 +38,8 @@ class Range implements FilterInterface
         $isNegation
     ) {
         /** @var RangeFilterRequest $filter */
-        return $this->generateCondition(
-            $filter,
-            $isNegation
-        );
-    }
-
-    /**
-     * @param RequestFilterInterface|RangeFilterRequest $filter
-     * @param bool $isNegation
-     * @return string
-     */
-    private function generateCondition(RequestFilterInterface $filter, $isNegation)
-    {
-        $leftPart = $this->generateConditionLeftPart($filter, $isNegation);
-        $rightPart = $this->generateConditionRightPart($filter, $isNegation);
+        $leftPart = $this->generateLeftConditionPart($filter, $isNegation);
+        $rightPart = $this->generateRightConditionPart($filter, $isNegation);
         $unionOperator = $this->generateConditionUnionOperator($leftPart, $rightPart, $isNegation);
 
         return $leftPart . $unionOperator . $rightPart;
@@ -63,7 +50,7 @@ class Range implements FilterInterface
      * @param bool $isNegation
      * @return string
      */
-    private function generateConditionLeftPart(RequestFilterInterface $filter, $isNegation)
+    private function generateLeftConditionPart(RequestFilterInterface $filter, $isNegation)
     {
         return $this->generateConditionPart(
             $filter->getField(),
@@ -77,7 +64,7 @@ class Range implements FilterInterface
      * @param bool $isNegation
      * @return string
      */
-    private function generateConditionRightPart(RequestFilterInterface $filter, $isNegation)
+    private function generateRightConditionPart(RequestFilterInterface $filter, $isNegation)
     {
         return $this->generateConditionPart(
             $filter->getField(),
