@@ -123,9 +123,6 @@
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
-        <data>
-            <parameter name="customerEmail"/>
-        </data>
     </route>
     <route url="/V1/customers" method="PUT">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="updateCustomerByEmail"/>
@@ -264,9 +261,6 @@
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
-        <data>
-            <parameter name="customerEmail"/>
-        </data>
     </route>
     <route url="/V1/customers/isEmailAvailable" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="isEmailAvailable"/>
