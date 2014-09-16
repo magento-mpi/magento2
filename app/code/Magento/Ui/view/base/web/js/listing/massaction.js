@@ -251,10 +251,12 @@ define([
         },
         
         updateExcluded: function(selected) {
-            var all         = this.getIds(),
-                excluded    = this.excluded();
+            var excluded    = this.excluded(),
+                fromPage    = _.difference(this.getIds(), selected);
 
-            excluded = _.union(excluded, _.difference(all, selected));
+            excluded = _.union(excluded, fromPage);
+
+            excluded = _.difference(excluded, selected);
 
             this.excluded(excluded);
 

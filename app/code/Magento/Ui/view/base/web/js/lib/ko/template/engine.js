@@ -8,8 +8,8 @@ define([
     'ko',
     './observable_source',
     '../../renderer/renderer',
-    'm2/m2'
-], function (ko, Source, Renderer, M2) {
+    'mage/apply/main'
+], function (ko, Source, Renderer, Mage) {
     'use strict';
 
     var sources = {};
@@ -59,7 +59,7 @@ define([
 
                 Renderer.render(template, extenders).done(function(rendered) {
                     source.nodes(rendered);
-                    M2.init(rendered);
+                    Mage.apply();
                 });
             }
 
