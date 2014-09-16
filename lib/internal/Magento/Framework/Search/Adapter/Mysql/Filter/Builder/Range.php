@@ -16,6 +16,7 @@ class Range implements FilterInterface
 {
     const CONDITION_PART_GREATER_THAN = '>=';
     const CONDITION_PART_LOWER_THAN = '<';
+
     /**
      * @var AdapterInterface
      */
@@ -90,7 +91,7 @@ class Range implements FilterInterface
      *
      * @param string $field
      * @param string|integer|float|null $value
-     * @param $operator
+     * @param string $operator
      * @return string
      */
     private function generateConditionPart($field, $value, $operator)
