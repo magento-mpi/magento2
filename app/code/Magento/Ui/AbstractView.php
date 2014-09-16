@@ -46,6 +46,18 @@ abstract class AbstractView extends Template implements ViewInterface
     protected $renderContext;
 
     /**
+     * View elements factory
+     *
+     * @var ViewFactory
+     */
+    protected $viewFactory;
+
+    /**
+     * @var ConfigurationFactory
+     */
+    protected $configurationFactory;
+
+    /**
      * Content type factory
      *
      * @var ContentTypeFactory
@@ -64,52 +76,83 @@ abstract class AbstractView extends Template implements ViewInterface
      *
      * @param Context $renderContext
      * @param TemplateContext $context
+     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigurationFactory $configurationFactory
      * @param array $data
      */
     public function __construct(
         Context $renderContext,
         TemplateContext $context,
+        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
+        ConfigurationFactory $configurationFactory,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
+        $this->viewFactory = $viewFactory;
         $this->contentTypeFactory = $contentTypeFactory;
         $this->assetRepo = $context->getAssetRepository();
+        $this->configurationFactory = $configurationFactory;
         $this->configurationBuilder = new ConfigurationBuilder();
         parent::__construct($context, $data);
     }
 
     /**
+     * @param array $arguments
+     * @return void
+     */
+    public function prepare(array $arguments = [])
+    {
+        if ($arguments) {
+            $this->_data = array_merge($this->_data, $arguments);
+        }
+    }
+
+    /**
      * Render content
      *
-     * @param array $arguments
-     * @param string $acceptType
      * @return mixed|string
      */
-    public function render(array $arguments = [], $acceptType = 'html')
+    public function render()
+    {
+        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())->render(
+            $this, 
+            $this->getContentTemplate()
+        );
+        return $result;
+    }
+
+    /**
+     * @param array $arguments
+     * @return mixed|string
+     */
+    public function renderLabel(array $arguments = [])
     {
         $prevArgs = $this->_data;
         $this->_data = array_replace_recursive($this->_data, $arguments);
-        $result = $this->contentTypeFactory->get($acceptType)->render($this, $this->getTemplate());
+        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())->render($this, $this->getLabelTemplate());
         $this->_data = $prevArgs;
 
         return $result;
     }
 
     /**
-     * Prepare layout
-     *
-     * @return $this
+     * @param $elementName
+     * @param array $arguments
+     * @return mixed|string
      */
-    protected function _prepareLayout()
+    public function renderElement($elementName, array $arguments)
     {
-        $this->prepare();
-
-        return parent::_prepareLayout();
+        $element = $this->viewFactory->get($elementName);
+        $element->prepare($arguments);
+        return $element->render();
     }
 
     /**
+     * @param $elementName
+     * @param array $arguments
+     * @return mixed|string
      * Get default parameters
      *
      * @return array
@@ -124,9 +167,9 @@ abstract class AbstractView extends Template implements ViewInterface
      *
      * @return void
      */
-    protected function prepare()
+    public function renderElementLabel($elementName, array $arguments)
     {
-        //
+        return $this->viewFactory->get($elementName)->renderLabel($arguments);
     }
 
     /**
@@ -141,13 +184,23 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
-     * Get template
+     * Getting label template
      *
      * @return string|false
      */
-    public function getTemplate()
+    public function getLabelTemplate()
     {
-        return $this->getData('template');
+        return $this->getData('label_template');
+    }
+
+    /**
+     * Getting content template
+     *
+     * @return string|false
+     */
+    public function getContentTemplate()
+    {
+        return $this->getData('content_template');
     }
 
     /**
@@ -165,7 +218,7 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     protected function getParentComponent()
     {
-        return $this->getParentBlock()->getParentBlock();
+        return $this->renderContext->getRootView();
     }
 
     /**

@@ -15,20 +15,39 @@ use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 interface ViewInterface
 {
     /**
-     * Render component
+     * prepare component data
      *
      * @param array $arguments
-     * @param string $acceptType
-     * @return mixed|string
+     * @return string
      */
-    public function render(array $arguments = [], $acceptType = 'html');
+    public function prepare(array $arguments = []);
 
     /**
-     * Getting template
+     * Render component
+     *
+     * @return string
+     */
+    public function render();
+
+    /**
+     * @param array $arguments
+     * @return string
+     */
+    public function renderLabel(array $arguments = []);
+
+    /**
+     * Getting template for rendering content
      *
      * @return string|false
      */
-    public function getTemplate();
+    public function getContentTemplate();
+
+    /**
+     * Getting template for rendering label
+     *
+     * @return string|false
+     */
+    public function getLabelTemplate();
 
     /**
      * Getting instance name

@@ -24,6 +24,11 @@ class Render extends AbstractBlock
     protected $renderContext;
 
     /**
+     * @var ViewFactory
+     */
+    protected $viewFactory;
+
+    /**
      * Private layout
      *
      * @var Layout
@@ -35,30 +40,50 @@ class Render extends AbstractBlock
      *
      * @param Context $renderContext
      * @param Template\Context $context
+     * @param ViewFactory $viewFactory
      * @param Layout $privateLayout
      * @param array $data
      */
     public function __construct(
         Context $renderContext,
         Template\Context $context,
+        ViewFactory $viewFactory,
         Layout $privateLayout,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
+        $this->viewFactory = $viewFactory;
         $this->privateLayout = $privateLayout;
         parent::__construct($context, $data);
     }
 
     /**
-     * Prepare layout
+     * @return string
+     */
+    public function getComponent()
+    {
+        return $this->getData('configuration/component');
+    }
+
+    /**
+     * @return string
+     */
+    public function getLayoutHandle()
+    {
+        return $this->getData('configuration/name');
+    }
+
+    /**
+     * Prepare private layout object
      *
      * @return $this
      */
     protected function _prepareLayout()
     {
-        $this->privateLayout->addHandle('ui_' . $this->getComponent());
-        $this->privateLayout->addHandle($this->getName());
+        $this->privateLayout->addHandle($this->getLayoutHandle());
         $this->privateLayout->loadLayout();
+
+        $this->renderContext->setPageLayout($this->getLayout());
 
         return parent::_prepareLayout();
     }
@@ -86,10 +111,22 @@ class Render extends AbstractBlock
     {
         // Obtain concrete UI Element View
         $view = $this->getUiElementView($uiElementName);
-        $useArguments = array_replace($this->getData(), $arguments);
-        $useArguments['name'] = isset($useArguments['name']) ? $useArguments['name'] : $this->getName();
+        $useArguments = array_replace($this->getData('configuration'), $arguments);
 
-        return $view->render($useArguments, $this->renderContext->getAcceptType());
+        $this->renderContext->setRootView($view);
+
+        $this->prepare($view, $useArguments);
+        return $view->render($this->renderContext->getAcceptType());
+    }
+
+    protected function prepare(\Magento\Framework\View\Element\BlockInterface $view, array $arguments = [])
+    {
+        if ($view instanceof AbstractView) {
+            $view->prepare($arguments);
+        }
+        foreach ($view->getLayout()->getChildNames($view->getNameInLayout()) as $child) {
+            $this->prepare($view->getChildBlock($child));
+        }
     }
 
     /**

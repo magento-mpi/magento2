@@ -7,19 +7,10 @@
  */
 namespace Magento\Ui\DataType;
 
-use Magento\Framework\Object as DataObject;
-
 /**
  * Class Number
  */
-class Number extends AbstractDataType implements DataTypeInterface
+class Number extends AbstractDataType
 {
-    /**
-     * @param DataObject $dataObject
-     * @return string
-     */
-    public function render(DataObject $dataObject)
-    {
-        //
-    }
+    //
 }

@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../etc/ui.xsd">
+    <elements>
+        <element name="listing">
+            <class>Magento\Ui\Listing\View</class>
+            <content_template>Magento_Ui::listing/grid/horizontal.phtml</content_template>
+        </element>
+        <element name="boolean">
+            <class>Magento\Ui\DataType\Boolean</class>
+            <content_template>Magento_Ui::data_type/boolean/content.phtml</content_template>
+            <label_template>Magento_Ui::data_type/boolean/label.phtml</label_template>
+        </element>
+        <element name="date">
+            <class>Magento\Ui\DataType\DateTime</class>
+            <content_template>Magento_Ui::data_type/date_time/content.phtml</content_template>
+            <label_template>Magento_Ui::data_type/date_time/label.phtml</label_template>
+        </element>
+        <element name="media">
+            <class>Magento\Ui\DataType\Media</class>
+            <content_template>Magento_Ui::data_type/media/content.phtml</content_template>
+            <label_template>Magento_Ui::data_type/media/label.phtml</label_template>
+        </element>
+        <element name="number">
+            <class>Magento\Ui\DataType\Number</class>
+            <content_template>Magento_Ui::data_type/number/content.phtml</content_template>
+            <label_template>Magento_Ui::data_type/number/label.phtml</label_template>
+        </element>
+        <element name="password">
+            <class>Magento\Ui\DataType\Password</class>
+            <content_template>Magento_Ui::data_type/password/content.phtml</content_template>
+            <label_template>Magento_Ui::data_type/password/label.phtml</label_template>
+        </element>
+        <element name="text">
+            <class>Magento\Ui\DataType\Text</class>
+            <content_template>Magento_Ui::data_type/text/content.phtml</content_template>
+            <label_template>Magento_Ui::data_type/text/label.phtml</label_template>
+        </element>
+
+        <element name="select">
+            <class>Magento\Ui\FormElement\Select</class>
+            <content_template>Magento_Ui::form_element/select/content.phtml</content_template>
+            <label_template>Magento_Ui::form_element/select/label.phtml</label_template>
+        </element>
+        <element name="checkbox">
+            <class>Magento\Ui\FormElement\Checkbox</class>
+            <content_template>Magento_Ui::form_element/checkbox/content.phtml</content_template>
+            <label_template>Magento_Ui::form_element/checkbox/label.phtml</label_template>
+        </element>
+        <element name="radio">
+            <class>Magento\Ui\FormElement\Radio</class>
+            <content_template>Magento_Ui::form_element/radio/content.phtml</content_template>
+            <label_template>Magento_Ui::form_element/radio/label.phtml</label_template>
+        </element>
+        <element name="input">
+            <class>Magento\Ui\FormElement\Input</class>
+            <content_template>Magento_Ui::form_element/input/content.phtml</content_template>
+            <label_template>Magento_Ui::form_element/input/label.phtml</label_template>
+        </element>
+        <element name="textarea">
+            <class>Magento\Ui\FormElement\Textarea</class>
+            <content_template>Magento_Ui::form_element/textarea/content.phtml</content_template>
+            <label_template>Magento_Ui::form_element/textarea/label.phtml</label_template>
+        </element>
+        <element name="range">
+            <class>Magento\Ui\FormElement\Range</class>
+            <content_template>Magento_Ui::form_element/range/content.phtml</content_template>
+            <label_template>Magento_Ui::form_element/range/label.phtml</label_template>
+        </element>
+
+        <element name="actions">
+            <class>Magento\Ui\Control\Action</class>
+            <content_template>Magento_Ui::control/action/content.phtml</content_template>
+            <label_template>Magento_Ui::control/action/label.phtml</label_template>
+        </element>
+
+        <element name="filter_pool">
+            <class>Magento\Ui\FilterPool\View</class>
+            <content_template>Magento_Ui::filter_pool/content.phtml</content_template>
+        </element>
+        <element name="filter">
+            <class>Magento\Ui\Filter\View</class>
+            <content_template>Magento_Ui::filter/content.phtml</content_template>
+            <label_template>Magento_Ui::filter/label.phtml</label_template>
+        </element>
+        <element name="filter_range">
+            <class>Magento\Ui\Filter\Type\Range</class>
+            <content_template>Magento_Ui::filter/type/range/content.phtml</content_template>
+            <label_template>Magento_Ui::filter/type/range/label.phtml</label_template>
+        </element>
+        <element name="filter_input">
+            <class>Magento\Ui\Filter\Type\Input</class>
+            <content_template>Magento_Ui::filter/type/input/content.phtml</content_template>
+            <label_template>Magento_Ui::filter/type/input/label.phtml</label_template>
+        </element>
+        <element name="filter_select">
+            <class>Magento\Ui\Filter\Type\Select</class>
+            <content_template>Magento_Ui::filter/type/select/content.phtml</content_template>
+            <label_template>Magento_Ui::filter/type/select/label.phtml</label_template>
+        </element>
+    </elements>
+</config>

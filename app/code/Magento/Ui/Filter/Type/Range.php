@@ -7,12 +7,12 @@
  */
 namespace Magento\Ui\Filter\Type;
 
-use Magento\Ui\Filter\FilterInterface;
+use \Magento\Ui\Filter\View;
 
 /**
  * Class Range
  */
-class Range implements FilterInterface
+class Range extends View
 {
     /**
      * Get condition by data type

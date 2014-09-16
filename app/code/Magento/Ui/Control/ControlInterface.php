@@ -7,16 +7,12 @@
  */
 namespace Magento\Ui\Control;
 
-use Magento\Framework\Object;
+use Magento\Ui\ViewInterface;
 
 /**
  * Interface ControlInterface
  */
-interface ControlInterface
+interface ControlInterface extends ViewInterface
 {
-    /**
-     * @param Object $dataObject
-     * @return string
-     */
-    public function render(Object $dataObject);
+    //
 }

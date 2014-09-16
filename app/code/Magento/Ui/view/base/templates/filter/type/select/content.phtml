@@ -1,0 +1,17 @@
+<?php
+/**
+ * @var \Magento\Ui\Filter\Type\Select $this
+ */
+?>
+
+<fieldset class="field field-<?php echo $this->getData('data_type') ?>">
+    <legend class="label"><?php echo $this->renderElementLabel('select', [
+            'title' => $this->getData('title')
+        ]); ?></legend><br />
+    <div class="control">
+        <?php echo $this->renderElement('select', [
+                'data-bind' => "",
+                'options' => $this->getData('options')
+            ]); ?>
+    </div>
+</fieldset>

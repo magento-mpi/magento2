@@ -9,12 +9,8 @@ namespace Magento\Ui\Filter;
 
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
-use Magento\Ui\Configuration;
 use Magento\Ui\ViewInterface;
-use Magento\Backend\Helper\Data;
 use Magento\Framework\View\Element\Template;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Class View
@@ -25,13 +21,6 @@ class View extends AbstractView
      * Filter variable name
      */
     const FILTER_VAR = 'filter';
-
-    /**
-     * Data helper
-     *
-     * @var \Magento\Backend\Helper\Data
-     */
-    protected $dataHelper;
 
     /**
      * Filters pool
@@ -48,72 +37,36 @@ class View extends AbstractView
     protected $rootComponent;
 
     /**
-     * Constructor
-     *
-     * @param Data $dataHelper
-     * @param FilterPool $filterPool
-     * @param Context $renderContext
-     * @param TemplateContext $context
-     * @param ContentTypeFactory $factory
-     * @param array $data
+     * @param array $arguments
      */
-    public function __construct(
-        Data $dataHelper,
-        FilterPool $filterPool,
-        Context $renderContext,
-        TemplateContext $context,
-        ContentTypeFactory $factory,
-        array $data = []
-    ) {
-        $this->dataHelper = $dataHelper;
-        $this->filterPool = $filterPool;
-        parent::__construct($renderContext, $context, $factory, $data);
-    }
-
-    /**
-     * Prepare custom data
-     *
-     * @return void
-     */
-    protected function prepare()
+    public function prepare(array $arguments = [])
     {
-        parent::prepare();
-        $this->rootComponent = $this->getParentComponent();
+        parent::prepare($arguments);
 
         $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
             $config = array_merge($config, $this->getData('config'));
         }
-        $this->configuration = new Configuration(
-            $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
-            $this->rootComponent->getName(),
-            $config
-        );
 
-        $this->updateDataCollection();
+        $this->rootComponent = $this->getParentComponent();
+        $this->configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->rootComponent->getName(),
+                'configuration' => $config
+            ]
+        );
+        $this->renderContext->getStorage()->addComponentsData($this->configuration);
     }
 
     /**
-     * Update data collection
+     * Get condition by data type
      *
-     * @return void
+     * @param string|array $value
+     * @return array|null
      */
-    protected function updateDataCollection()
+    public function getCondition($value)
     {
-        $collection = $this->renderContext->getStorage()->getDataCollection($this->getParentName());
-
-        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
-        $metaData = $metaData['fields'];
-        $filterData = $this->dataHelper->prepareFilterString($this->renderContext->getRequestParam(static::FILTER_VAR));
-        foreach ($filterData as $field => $value) {
-            if (!isset($metaData[$field]['filter_type'])) {
-                continue;
-            }
-
-            $condition = $this->filterPool->getFilter($metaData[$field]['filter_type'])->getCondition($value);
-            if ($condition !== null) {
-                $collection->addFieldToFilter($field, $condition);
-            }
-        }
+        return $this->viewFactory->get($this->getData('data_type'))->prepare($value);
     }
 }

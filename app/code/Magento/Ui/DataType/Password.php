@@ -7,19 +7,10 @@
  */
 namespace Magento\Ui\DataType;
 
-use Magento\Framework\Object as DataObject;
-
 /**
  * Class Password
  */
-class Password extends AbstractDataType implements DataTypeInterface
+class Password extends AbstractDataType
 {
-    /**
-     * @param DataObject $dataObject
-     * @return string
-     */
-    public function render(DataObject $dataObject)
-    {
-        //
-    }
+    //
 }

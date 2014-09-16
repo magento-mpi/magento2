@@ -26,8 +26,10 @@ class Ajax extends \Magento\Backend\App\Action
                 'root',
                 [
                     'data' => [
-                        'component' => $this->getComponent(),
-                        'name' => $this->getName()
+                        'configuration' => [
+                            'component' => $this->getComponent(),
+                            'name' => $this->getName()
+                        ]
                     ]
                 ]
             )->toHtml()

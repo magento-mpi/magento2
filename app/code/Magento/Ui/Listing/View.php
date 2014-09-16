@@ -14,6 +14,8 @@ use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Ui\ViewFactory;
+use Magento\Ui\ConfigurationFactory;
 
 /**
  * Class View
@@ -44,7 +46,9 @@ class View extends AbstractView
      * @param RowPool $dataProviderRowPool
      * @param Context $renderContext
      * @param TemplateContext $context
+     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigurationFactory $configurationFactory
      * @param array $data
      */
     public function __construct(
@@ -52,22 +56,25 @@ class View extends AbstractView
         RowPool $dataProviderRowPool,
         Context $renderContext,
         TemplateContext $context,
+        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
+        ConfigurationFactory $configurationFactory,
         array $data = []
     ) {
         $this->optionsFactory = $optionsFactory;
         $this->dataProviderRowPool = $dataProviderRowPool;
-        parent::__construct($renderContext, $context, $contentTypeFactory, $data);
+        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
     }
 
     /**
-     * Prepare custom data
+     * Prepare component data
      *
-     * @return void
+     * @param array $arguments
+     * @return $this|void
      */
-    protected function prepare()
+    public function prepare(array $arguments = [])
     {
-        parent::prepare();
+        parent::prepare($arguments);
 
         $meta = $this->getMeta();
         $config = $this->getDefaultConfiguration();
@@ -75,11 +82,14 @@ class View extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $this->configuration = new Configuration(
-            $this->getData('name'),
-            $this->getData('name'),
-            $config
+        $this->configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->getData('name'),
+                'parentName' => $this->getData('name'),
+                'configuration' => $config,
+            ]
         );
+
         $this->renderContext->getStorage()->addComponentsData($this->configuration);
         $this->renderContext->getStorage()->addMeta($this->getData('name'), $meta);
         $this->renderContext->getStorage()->addDataCollection($this->getData('name'), $this->getData('dataSource'));
@@ -88,15 +98,13 @@ class View extends AbstractView
     /**
      * Render view
      *
-     * @param array $arguments
-     * @param string $acceptType
      * @return mixed|string
      */
-    public function render(array $arguments = [], $acceptType = 'html')
+    public function render()
     {
         $this->initialConfiguration();
 
-        return parent::render($arguments, $acceptType);
+        return parent::render();
     }
 
     /**
@@ -104,10 +112,11 @@ class View extends AbstractView
      *
      * @return array
      */
-    protected function getMeta()
+    public function getMeta()
     {
         $meta = $this->getData('meta');
         foreach ($meta['fields'] as $key => $field) {
+
             // TODO fixme
             if ($field['data_type'] === 'date_time') {
                 $field['date_format'] = $this->_localeDate->getDateTimeFormat(
@@ -149,7 +158,7 @@ class View extends AbstractView
      *
      * return array
      */
-    protected function getCollectionItems()
+    public function getCollectionItems()
     {
         $items = [];
         $collection = $this->renderContext->getStorage()->getDataCollection($this->getName());

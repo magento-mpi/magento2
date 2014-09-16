@@ -7,14 +7,20 @@
  */
 namespace Magento\Ui\Filter\Type;
 
-use Magento\Backend\Block\Context;
-use Magento\Ui\Filter\FilterInterface;
-use \Magento\Framework\LocaleInterface;
+use Magento\Ui\ConfigurationFactory;
+use\Magento\Ui\Filter\View;
+
+use Magento\Ui\Context;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Ui\ViewFactory;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Framework\LocaleInterface;
+use Magento\Framework\Locale\ResolverInterface;
 
 /**
  * Class Date
  */
-class Date implements FilterInterface
+class Date extends View
 {
     /**
      * Timezone library
@@ -38,15 +44,27 @@ class Date implements FilterInterface
     protected $localeResolver;
 
     /**
-     * Constructor
-     *
-     * @param Context $context
+     * @param Context $renderContext
+     * @param TemplateContext $context
+     * @param ViewFactory $viewFactory
+     * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigurationFactory $configurationFactory
+     * @param ResolverInterface $localeResolver
+     * @param array $data
      */
-    public function __construct(Context $context, \Magento\Framework\Locale\ResolverInterface $localeResolver)
+    public function __construct(
+        Context $renderContext,
+        TemplateContext $context,
+        ViewFactory $viewFactory,
+        ContentTypeFactory $contentTypeFactory,
+        ConfigurationFactory $configurationFactory,
+        ResolverInterface $localeResolver,
+        array $data = [])
     {
         $this->localeDate = $context->getLocaleDate();
         $this->scopeConfig = $context->getScopeConfig();
         $this->localeResolver = $localeResolver;
+        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
     }
 
     /**

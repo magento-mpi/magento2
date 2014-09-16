@@ -7,6 +7,8 @@
  */
 namespace Magento\Ui;
 
+use Magento\Framework\View\LayoutInterface;
+use Magento\Ui\ConfigInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\App\RequestInterface;
 use Magento\Ui\ContentType\Builders\ConfigurationStorageBuilder;
@@ -17,6 +19,11 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
  */
 class Context extends Registry
 {
+    /**
+     * @var ConfigInterface
+     */
+    protected $config;
+
     /**
      * Configuration storage builder
      *
@@ -46,13 +53,25 @@ class Context extends Registry
     protected $acceptType;
 
     /**
+     * @var LayoutInterface
+     */
+    protected $layout;
+
+    /**
+     * @var AbstractView
+     */
+    protected $rootView;
+
+    /**
      * Constructor
      *
+     * @param ConfigInterface $config
      * @param ConfigurationStorage $configurationStorage
      * @param TemplateContext $context
      */
-    public function __construct(ConfigurationStorage $configurationStorage, TemplateContext $context)
+    public function __construct(ConfigInterface $config, ConfigurationStorage $configurationStorage, TemplateContext $context)
     {
+        $this->config = $config;
         $this->configurationStorageBuilder = new ConfigurationStorageBuilder();
         $this->configurationStorage = $configurationStorage;
         $this->request = $context->getRequest();
@@ -84,6 +103,32 @@ class Context extends Registry
     public function getAcceptType()
     {
         return $this->acceptType;
+    }
+
+    public function setPageLayout(LayoutInterface $layout)
+    {
+        $this->layout = $layout;
+    }
+
+    /**
+     * @return LayoutInterface
+     */
+    public function getPageLayout()
+    {
+        return $this->layout;
+    }
+
+    public function setRootView(AbstractView $view)
+    {
+        $this->rootView = $view;
+    }
+
+    /**
+     * @return AbstractView
+     */
+    public function getRootView()
+    {
+        return $this->rootView;
     }
 
     /**
@@ -126,5 +171,15 @@ class Context extends Registry
     public function getConfigurationBuilder()
     {
         return $this->configurationStorageBuilder;
+    }
+
+    /**
+     * Get configuration object
+     *
+     * @return ConfigInterface
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }
