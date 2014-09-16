@@ -96,7 +96,7 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         }
     }
 
-    protected function _getCustomerWithFilter($filter, $customerId, $path = '/details')
+    protected function _getCustomerWithFilter($filter, $customerId, $path = '')
     {
         $resourcePath = sprintf(
             '%s/%d%s?fields=%s',
