@@ -57,4 +57,29 @@
             <resource ref="Magento_Rma::magento_rma" />
         </resources>
     </route>
+
+    <route url="/V1/returnsAttributeMetadata/:attributeCode" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getAttributeMetadata"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
+    <route url="/V1/returnsAttributeMetadata/form/:formCode" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getAttributes"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
+    <route url="/V1/returnsAttributeMetadata" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getAllAttributesMetadata"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
+    <route url="/V1/returnsAttributeMetadata/custom" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getCustomAttributesMetadata"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
 </routes>

@@ -11,7 +11,7 @@ namespace Magento\Rma\Service\V1;
 class RmaRead implements RmaReadInterface
 {
     /**
-     * @var \Magento\Rma\Model\Rma\Repository
+     * @var \Magento\Rma\Model\RmaRepository
      */
     private $repository;
 
@@ -23,15 +23,15 @@ class RmaRead implements RmaReadInterface
     /**
      * @var Data\RmaSearchResultsBuilder
      */
-    private $searchResultsBuilder;
+    private $rmaSearchResultsBuilder;
 
     /**
-     * @param \Magento\Rma\Model\Rma\Repository $repository
+     * @param \Magento\Rma\Model\RmaRepository $repository
      * @param Data\RmaMapper $rmaMapper
      * @param Data\RmaSearchResultsBuilder $rmaSearchResultsBuilder
      */
     public function __construct(
-        \Magento\Rma\Model\Rma\Repository $repository,
+        \Magento\Rma\Model\RmaRepository $repository,
         Data\RmaMapper $rmaMapper,
         Data\RmaSearchResultsBuilder $rmaSearchResultsBuilder
     ) {
