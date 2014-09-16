@@ -10,6 +10,7 @@ namespace Magento\Framework\Search\Adapter\Mysql\Filter;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term;
+use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Wildcard;
 use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 
 class Builder implements BuilderInterface
@@ -18,21 +19,30 @@ class Builder implements BuilderInterface
      * @var Range
      */
     private $range;
+
     /**
      * @var Term
      */
     private $term;
 
     /**
+     * @var Wildcard
+     */
+    private $wildcard;
+
+    /**
      * @param Range $range
      * @param Term $term
+     * @param Wildcard $wildcard
      */
     public function __construct(
         Range $range,
-        Term $term
+        Term $term,
+        Wildcard $wildcard
     ) {
         $this->range = $range;
         $this->term = $term;
+        $this->wildcard = $wildcard;
     }
 
     /**
@@ -65,6 +75,10 @@ class Builder implements BuilderInterface
             case RequestFilterInterface::TYPE_RANGE:
                 /** @var \Magento\Framework\Search\Request\Filter\Range $filter */
                 $query = $this->range->buildFilter($filter);
+                break;
+            case RequestFilterInterface::TYPE_WILDCARD:
+                /** @var \Magento\Framework\Search\Request\Filter\Wildcard $filter */
+                $query = $this->wildcard->buildFilter($filter);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown filter type \'%s\'', $filter->getType()));

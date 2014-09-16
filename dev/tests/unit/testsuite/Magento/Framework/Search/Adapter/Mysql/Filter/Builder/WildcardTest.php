@@ -10,7 +10,7 @@ namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
-class TermTest extends \PHPUnit_Framework_TestCase
+class WildcardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\DB\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -25,7 +25,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
      */
     private $requestFilter;
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term
+     * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Wildcard
      */
     private $filter;
 
@@ -54,7 +54,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->adapter));
 
         $this->filter = $objectManager->getObject(
-            'Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term',
+            'Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Wildcard',
             [
                 'resource' => $this->resource,
             ]
@@ -72,12 +72,8 @@ class TermTest extends \PHPUnit_Framework_TestCase
         $this->requestFilter->expects($this->once())
             ->method('getField')
             ->will($this->returnValue($field));
-        $this->requestFilter->expects($this->once())
-            ->method('getValue')
-            ->willReturn($value);
-        $this->adapter->expects($this->once())
-            ->method('quote')
-            ->willReturn(is_array($value) ? $value[0] : $value);
+        $this->requestFilter->expects($this->once())->method('getValue')->willReturn($value);
+        $this->adapter->expects($this->once())->method('quote')->willReturnArgument(0);
 
         $actualResult = $this->filter->buildFilter($this->requestFilter);
         $this->assertEquals($expectedResult, $actualResult);
@@ -93,12 +89,12 @@ class TermTest extends \PHPUnit_Framework_TestCase
             [
                 'field' => 'testField',
                 'value' => 'testValue',
-                'expectedResult' => 'testField = testValue',
+                'expectedResult' => "testField LIKE %testValue%",
             ],
             [
                 'field' => 'testField2',
-                'value' => ['testValue2'],
-                'expectedResult' => 'testField2 IN (testValue2)',
+                'value' => 'testValue2',
+                'expectedResult' => "testField2 LIKE %testValue2%",
             ],
         ];
     }

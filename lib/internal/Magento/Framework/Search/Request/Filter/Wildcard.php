@@ -11,9 +11,9 @@ use Magento\Framework\Search\AbstractKeyValuePair;
 use Magento\Framework\Search\Request\FilterInterface;
 
 /**
- * Term Filter
+ * Wildcard Filter
  */
-class Term extends AbstractKeyValuePair implements FilterInterface
+class Wildcard extends AbstractKeyValuePair implements FilterInterface
 {
     /**
      * @var string
@@ -36,7 +36,7 @@ class Term extends AbstractKeyValuePair implements FilterInterface
      */
     public function getType()
     {
-        return FilterInterface::TYPE_TERM;
+        return FilterInterface::TYPE_WILDCARD;
     }
 
     /**

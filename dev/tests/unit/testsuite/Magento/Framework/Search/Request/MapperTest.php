@@ -45,6 +45,11 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     private $filterTerm;
 
     /**
+     * @var \Magento\Framework\Search\Request\Filter\Wildcard|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $filterWildcard;
+
+    /**
      * @var \Magento\Framework\Search\Request\Filter\Range|\PHPUnit_Framework_MockObject_MockObject
      */
     private $filterRange;
@@ -84,6 +89,10 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->filterBool = $this->getMockBuilder('Magento\Framework\Search\Request\Filter\Bool')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->filterWildcard = $this->getMockBuilder('Magento\Framework\Search\Request\Filter\Wildcard')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -401,6 +410,71 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $this->objectManager->expects($this->at(0))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Filter\Term'),
+                $this->equalTo(
+                    [
+                        'name' => $filter['name'],
+                        'field' => $filter['field'],
+                        'value' => $filter['value']
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->filterTerm));
+        $query = $queries[self::ROOT_QUERY];
+        $this->objectManager->expects($this->at(1))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
+                $this->equalTo(
+                    [
+                        'name' => $query['name'],
+                        'boost' => 1,
+                        'reference' => $this->filterTerm,
+                        'referenceType' => Filter::REFERENCE_FILTER
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->queryFilter));
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
+                'filters' => $filters
+            ]
+        );
+
+        $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
+    }
+
+    public function testGetFilterWildcard()
+    {
+        $queries = [
+            self::ROOT_QUERY => [
+                'type' => QueryInterface::TYPE_FILTER,
+                'name' => 'someName',
+                'filterReference' => [
+                    [
+                        'ref' => 'someFilter'
+                    ]
+                ]
+            ]
+        ];
+        $filters = [
+            'someFilter' => [
+                'type' => FilterInterface::TYPE_WILDCARD,
+                'name' => 'someName',
+                'field' => 'someField',
+                'value' => 'someValue'
+            ]
+        ];
+
+        $filter = $filters['someFilter'];
+        $this->objectManager->expects($this->at(0))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Filter\Wildcard'),
                 $this->equalTo(
                     [
                         'name' => $filter['name'],
