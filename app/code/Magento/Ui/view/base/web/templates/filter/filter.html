@@ -7,7 +7,9 @@
  */
 -->
 <div class="filters">
-    <button class="action filters-toggle" data-bind="click: toggle"><span data-bind="text: $t('Filter')"></span></button>
+    <button class="action filters-toggle" data-bind="click: toggle, css: { active: isVisible }">
+        <span data-bind="text: $t('Filter')"></span>
+    </button>
     <div class="form filters-form" data-bind="visible: isVisible" data-part="filter-form">
         <fieldset class="filters-fieldset fieldset">
             <legend class="legend filters-legend">
@@ -23,8 +25,7 @@
             <button class="action secondary action-close" data-bind="click: close" type="button"><span data-bind="text: $t('Close')"></span></button>
         </div>
     </div>
-    <!-- ko if: active().length -->
-    <div class="filters-current">
+    <div class="filters-current" data-bind="css: {active: active().length}">
         <ul class="filters-items items">
             <!-- ko foreach: { data: active, as: 'filter' } -->
 
@@ -40,5 +41,4 @@
             <span data-bind="text: $t('Clear all')"></span>
         </button>
     </div>
-    <!-- /ko -->
 </div>

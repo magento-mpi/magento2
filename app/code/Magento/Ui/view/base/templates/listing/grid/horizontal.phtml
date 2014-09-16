@@ -30,7 +30,9 @@
     <?php echo $this->getChildHtml('listing_before'); ?>
     <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
         <!-- ko template: getTemplate() --><!-- /ko -->
-        <!-- ko template: 'Magento_Ui.templates.spinner' --><!-- /ko -->
     </div>
     <?php echo $this->getChildHtml('listing_after'); ?>
+</div>
+<div data-role="spinner" class="grid-loading-mask">
+    <div class="grid-loader"></div>
 </div>

@@ -7,8 +7,9 @@
 define([
     '_',
     'Magento_Ui/js/lib/component',
-    'Magento_Ui/js/lib/ko/scope'
-], function(_, Component, Scope) {
+    'Magento_Ui/js/lib/ko/scope',
+    'Magento_Ui/js/lib/spinner',
+], function(_, Component, Scope, loader) {
     'use strict';
 
     var Listing =  Scope.extend({
@@ -25,6 +26,8 @@ define([
                 .initObservable()
                 .initProvider()
                 .updateItems();
+
+            this.unlock();
         },
 
         /**
@@ -200,6 +203,7 @@ define([
          * @return {Object} reference to instance
          */
         lock: function() {
+            loader.show();
             this.isLocked(true);
 
             return this;
@@ -210,6 +214,7 @@ define([
          * @return {Object} reference to instance
          */
         unlock: function() {
+            loader.hide();
             this.isLocked(false);
 
             return this;

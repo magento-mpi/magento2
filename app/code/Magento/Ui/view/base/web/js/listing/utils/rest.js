@@ -7,10 +7,11 @@
 define([
     '_',
     'jquery',
+    'Magento_Ui/js/lib/utils',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/events',
     './request_builder'
-], function(_, $, Class, EventsBus, requestBuilder) {
+], function(_, $, utils, Class, EventsBus, requestBuilder) {
     'use strict';
 
     var defaults = {
