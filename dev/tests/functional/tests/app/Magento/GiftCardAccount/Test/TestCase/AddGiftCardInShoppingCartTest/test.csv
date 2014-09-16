@@ -1,0 +1,3 @@
+"customer";"product";"discount";"constraint"
+"default";"catalogProductSimple::default";"10.00";"assertGiftCardAccountAppliedSuccessMessage, assertGiftCardDiscount"
+"-";"configurableProductInjectable::default";"10.00";"assertGiftCardAccountAppliedSuccessMessage, assertGiftCardDiscount"

@@ -32,4 +32,7 @@
             <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
         </require>
     </assertGiftCardDuplicateForm>
+    <assertGiftCardDiscount module="Magento_GiftCard">
+        <severeness>low</severeness>
+    </assertGiftCardDiscount>
 </constraint>

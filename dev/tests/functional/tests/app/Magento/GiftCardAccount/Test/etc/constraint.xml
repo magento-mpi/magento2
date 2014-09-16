@@ -41,4 +41,7 @@
     <assertGiftCardAccountStatusInShoppingCart module="Magento_GiftCardAccount">
         <severeness>low</severeness>
     </assertGiftCardAccountStatusInShoppingCart>
+    <assertGiftCardAccountAppliedSuccessMessage module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountAppliedSuccessMessage>
 </constraint>
