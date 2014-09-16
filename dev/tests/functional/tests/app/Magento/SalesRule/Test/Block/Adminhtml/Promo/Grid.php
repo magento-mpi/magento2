@@ -35,6 +35,9 @@ class Grid extends AbstractGrid
      * @var array
      */
     protected $filters = [
+        'rule_id' => [
+            'selector' => '#promo_quote_grid_filter_rule_id'
+        ],
         'name' => [
             'selector' => '#promo_quote_grid_filter_name',
         ]

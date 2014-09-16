@@ -35,13 +35,12 @@ class AssertWidgetCmsPageLink extends AbstractConstraint
      */
     public function processAssert(
         CmsIndex $cmsIndex,
-        Widget $widget,
-        Widget $widgetEdit
+        Widget $widget
     ) {
         $cmsIndex->open();
         $widgetCode = $widget->getCode();
-        $widgetText = $widgetEdit->getWidgetOptions()[0]['anchor_text'];
-        $title = $widgetEdit->getWidgetOptions()[0]['entities']['content_heading'];
+        $widgetText = $widget->getWidgetOptions()[0]['anchor_text'];
+        $title = $widget->getWidgetOptions()[0]['entities']['content_heading'];
         $cmsIndex->getCmsPageBlock()->clickToWidget($widgetCode, $widgetText);
         $pageTitle = $cmsIndex->getCmsPageBlock()->getPageTitle();
         \PHPUnit_Framework_Assert::assertEquals(

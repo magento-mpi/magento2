@@ -39,4 +39,9 @@
         <data_set />
         <data_config />
     </cmsBlock>
+    <cmsHierarchy module="Magento_Cms">
+        <type>flat</type>
+        <entity_type>magento_versionscms_hierarchy_node</entity_type>
+        <collection>Magento\Cms\Model\Resource\Page\Collection</collection>
+    </cmsHierarchy>
 </fixture>

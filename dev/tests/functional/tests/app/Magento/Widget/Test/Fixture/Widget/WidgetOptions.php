@@ -136,9 +136,10 @@ class WidgetOptions implements FixtureInterface
             ],
             'hierarchyNodeLink' => [
                 [
-                    'anchor_text_0' => 'CustomText_%isolation%',
-                    'title_0' => 'CustomTitle_%isolation%',
-                    'node' => '%node_name%'
+                    'anchor_text' => 'CustomText_%isolation%',
+                    'title' => 'CustomTitle_%isolation%',
+                    'node' => '%node_name%',
+                    'entities' => 'cmsHierarchy::cmsHierarchy'
                 ]
             ],
             'cmsPageLink' => [

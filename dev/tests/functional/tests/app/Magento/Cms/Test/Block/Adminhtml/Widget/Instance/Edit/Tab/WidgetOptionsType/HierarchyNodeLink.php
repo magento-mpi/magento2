@@ -6,17 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType;
+namespace Magento\Cms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType;
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogCategoryLink\Form;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
+use Magento\Cms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\HierarchyNodeLinkForm\Form;
 
 /**
- * Class CatalogCategoryLink
- * Filling Widget Options that have catalog category link type
+ * Class HierarchyNodeLink
+ * Filling Widget Options that have hierarchy node link type
  */
-class CatalogCategoryLink extends WidgetOptionsForm
+class HierarchyNodeLink extends WidgetOptionsForm
 {
     /**
      * Backend abstract block
@@ -26,12 +27,12 @@ class CatalogCategoryLink extends WidgetOptionsForm
     protected $templateBlock = './ancestor::body';
 
     /**
-     * Category Link block
+     * Hierarchy Node Link block
      *
      * @var string
      */
     // @codingStandardsIgnoreStart
-    protected $cmsCategoryLink = '//*[@class="page-wrapper"]/ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
+    protected $hierarchyNodeLinkForm = '//*[@class="page-wrapper"]/ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -48,18 +49,18 @@ class CatalogCategoryLink extends WidgetOptionsForm
                 $this->_rootElement->find($this->selectPage)->click();
                 $this->getTemplateBlock()->waitLoader();
 
-                /** @var Form $catalogCategoryLinkForm  */
-                $catalogCategoryLinkForm = $this->blockFactory->create(
-                    __NAMESPACE__ . '\CatalogCategoryLink\Form',
+                /** @var Form $hierarchyNodeLinkForm  */
+                $hierarchyNodeLinkForm = $this->blockFactory->create(
+                    __NAMESPACE__ . '\HierarchyNodeLinkForm\Form',
                     [
                         'element' => $this->_rootElement
-                            ->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH)
+                            ->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH)
                     ]
                 );
-                $elementNew = $this->_rootElement->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH);
-                $field['value'] = 'Default Category/' . $field['value']['name'];
-                $categoryFields['entities'] = $field;
-                $catalogCategoryLinkForm->_fill($categoryFields, $elementNew);
+                $elementNew = $this->_rootElement->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH);
+                $field['value'] = $field['value']['identifier'];
+                $hierarchyFields['entities'] = $field;
+                $hierarchyNodeLinkForm->_fill($hierarchyFields, $elementNew);
                 $this->getTemplateBlock()->waitLoader();
 
             } elseif (!isset($field['value'])) {

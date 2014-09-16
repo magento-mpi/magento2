@@ -27,17 +27,17 @@ class AssertWidgetInGrid extends AbstractConstraint
     /**
      * Assert widget availability in widget grid
      *
-     * @param Widget $widgetEdit
+     * @param Widget $widget
      * @param WidgetInstanceIndex $widgetInstanceIndex
      * @return void
      */
-    public function processAssert(Widget $widgetEdit, WidgetInstanceIndex $widgetInstanceIndex)
+    public function processAssert(Widget $widget, WidgetInstanceIndex $widgetInstanceIndex)
     {
-        $filter = ['title' => $widgetEdit->getTitle()];
+        $filter = ['title' => $widget->getTitle()];
         $widgetInstanceIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $widgetInstanceIndex->getWidgetGrid()->isRowVisible($filter),
-            'Widget with title \'' . $widgetEdit->getTitle() . '\' is absent in Widget grid.'
+            'Widget with title \'' . $widget->getTitle() . '\' is absent in Widget grid.'
         );
     }
 

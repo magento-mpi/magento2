@@ -31,18 +31,16 @@ class AssertWidgetCatalogLink extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $categoryView
      * @param Widget $widget
-     * @param Widget $widgetEdit
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $categoryView,
-        Widget $widget,
-        Widget $widgetEdit
+        Widget $widget
     ) {
         $cmsIndex->open();
         $widgetCode = $widget->getCode();
-        $widgetText = $widgetEdit->getWidgetOptions()[0]['entities'];
+        $widgetText = $widget->getWidgetOptions()[0]['entities']['name'];
         $cmsIndex->getCmsPageBlock()->clickToWidget($widgetCode, $widgetText);
         $title = $categoryView->getTitleBlock()->getTitle();
         \PHPUnit_Framework_Assert::assertEquals(

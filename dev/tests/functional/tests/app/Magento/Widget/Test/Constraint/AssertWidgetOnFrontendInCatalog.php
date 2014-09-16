@@ -31,26 +31,24 @@ class AssertWidgetOnFrontendInCatalog extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
      * @param Widget $widget
-     * @param Widget $widgetEdit
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
-        Widget $widget,
-        Widget $widgetEdit
+        Widget $widget
     ) {
         $cmsIndex->open();
-        if (isset($widgetEdit->getLayout()[0]['entities'])) {
-            $categoryName = $widgetEdit->getLayout()[0]['entities']['name'];
+        if (isset($widget->getLayout()[0]['entities'])) {
+            $categoryName = $widget->getLayout()[0]['entities']['name'];
         } else {
-            $categoryName = $widgetEdit->getWidgetOptions()[0]['entities']['category_id'][1];
+            $categoryName = $widget->getWidgetOptions()[0]['entities']['category_id'][1];
         }
         $widgetCode = $widget->getCode();
-        if ($widgetEdit->getWidgetOptions()[0]['name'] == 'cmsStaticBlock') {
-            $widgetText = $widgetEdit->getWidgetOptions()[0]['entities']['content'];
+        if ($widget->getWidgetOptions()[0]['name'] == 'cmsStaticBlock') {
+            $widgetText = $widget->getWidgetOptions()[0]['entities']['content'];
         } else {
-            $widgetText = $widgetEdit->getWidgetOptions()[0]['entities'];
+            $widgetText = $widget->getWidgetOptions()[0]['entities'];
         }
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(

@@ -167,6 +167,12 @@ class LayoutUpdates implements FixtureInterface
                     'entities' => 'catalogCategory::default',
                 ]
             ],
+            'for_cms_hierarchy' => [
+                [
+                    'page_group' => 'All Pages',
+                    'block' => 'Main Content Area',
+                ]
+            ],
         ];
 
         if (!isset($presets[$name])) {

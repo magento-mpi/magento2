@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Test\Constraint;
+namespace Magento\CatalogEvent\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 

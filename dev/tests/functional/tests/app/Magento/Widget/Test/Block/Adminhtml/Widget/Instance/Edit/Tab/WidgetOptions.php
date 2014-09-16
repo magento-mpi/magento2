@@ -37,9 +37,11 @@ class WidgetOptions extends Tab
     public function fillFormTab(array $fields, Element $element = null)
     {
         foreach ($fields['widgetOptions']['value'] as $key => $field) {
+            $dataBlock = $this->optionNameConvert($field['name']);
+            $path = '\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
             /** @var WidgetOptionsForm $widgetOptionsForm */
             $widgetOptionsForm = $this->blockFactory->create(
-                __NAMESPACE__ . '\WidgetOptionsType\\' . $this->optionNameConvert($field['name']),
+                'Magento\\' . $dataBlock['module'] . $path . $dataBlock['name'],
                 [
                     'element' => $this->_rootElement->find($this->formSelector)
                 ]
@@ -53,7 +55,7 @@ class WidgetOptions extends Tab
      * Prepare class name
      *
      * @param string $widgetOptionsName
-     * @return string
+     * @return array
      */
     protected function optionNameConvert($widgetOptionsName)
     {
@@ -61,10 +63,14 @@ class WidgetOptions extends Tab
             || $widgetOptionsName == 'bannerRotatorShoppingCartRules'
             || $widgetOptionsName == 'bannerRotatorCatalogRules'
         ) {
-            return 'BannerRotator';
+            return ['module' => 'Banner', 'name' => 'BannerRotator'];
         } elseif ($widgetOptionsName == 'recentlyComparedProducts' || $widgetOptionsName == 'recentlyViewedProducts') {
-            return 'RecentlyComparedProducts';
+            return ['module' => 'Widget', 'name' => 'RecentlyComparedProducts'];
+        } elseif ($widgetOptionsName == 'catalogEventCarousel') {
+            return ['module' => 'CatalogEvent', 'name' => ucfirst($widgetOptionsName)];
+        } elseif ($widgetOptionsName == 'hierarchyNodeLink') {
+            return ['module' => 'Cms', 'name' => ucfirst($widgetOptionsName)];
         }
-        return ucfirst($widgetOptionsName);
+        return ['module' => 'Widget', 'name' => ucfirst($widgetOptionsName)];
     }
 }

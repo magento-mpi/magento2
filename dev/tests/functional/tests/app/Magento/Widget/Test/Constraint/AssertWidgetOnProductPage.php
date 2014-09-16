@@ -31,22 +31,20 @@ class AssertWidgetOnProductPage extends AbstractConstraint
      * @param CatalogProductView $productView
      * @param Browser $browser
      * @param Widget $widget
-     * @param Widget $widgetEdit
      * @return void
      */
     public function processAssert(
         CatalogProductView $productView,
         Browser $browser,
-        Widget $widget,
-        Widget $widgetEdit
+        Widget $widget
     ) {
-        $urlKey = $widgetEdit->getLayout()[0]['entities']['url_key'];
+        $urlKey = $widget->getLayout()[0]['entities']['url_key'];
         $browser->open($_ENV['app_frontend_url'] . $urlKey . '.html');
         $widgetCode = $widget->getCode();
-        if ($widgetEdit->getWidgetOptions()[0]['name'] == 'bannerRotatorCatalogRules') {
-            $widgetText = $widgetEdit->getWidgetOptions()[0]['entities']['store_contents']['value_0'];
+        if ($widget->getWidgetOptions()[0]['name'] == 'bannerRotatorCatalogRules') {
+            $widgetText = $widget->getWidgetOptions()[0]['entities']['store_contents']['value_0'];
         } else {
-            $widgetText = $widgetEdit->getWidgetOptions()[0]['link_text'];
+            $widgetText = $widget->getWidgetOptions()[0]['link_text'];
         }
         \PHPUnit_Framework_Assert::assertTrue(
             $productView->getViewBlock()->isWidgetVisible($widgetCode, $widgetText),

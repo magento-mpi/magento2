@@ -32,9 +32,6 @@
     <assertWidgetCatalogLink module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetCatalogLink>
-    <assertWidgetEventLink module="Magento_Widget">
-        <severeness>low</severeness>
-    </assertWidgetEventLink>
     <assertWidgetProductLink module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetProductLink>
