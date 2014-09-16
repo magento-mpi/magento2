@@ -291,6 +291,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function updateGroup($groupId, Data\CustomerGroup $group)
     {
+        if (!$group->getCode()) {
+            throw InputException::invalidFieldValue('code', $group->getCode());
+        }
+
         /** @var /Magento/Customer/Model/Group $customerGroup */
         $customerGroup = null;
         try {

@@ -809,7 +809,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerCustomerGroupServiceV1UpdateGroup'
             ]
         ];
 
@@ -820,10 +820,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $newGroupId = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
-        $group = $this->groupService->getGroup($newGroupId);
+        $group = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData['taxClassId'],
@@ -845,7 +844,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerCustomerGroupServiceV1UpdateGroup'
             ]
         ];
 
