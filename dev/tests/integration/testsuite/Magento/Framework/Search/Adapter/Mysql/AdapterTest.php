@@ -300,6 +300,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             ['white', 'shorts', '1', ['from' => '1', 'to' => '4'], 1],
             ['white', 'shorts', '5', ['from' => '1', 'to' => '4'], 0],
             ['black', 'tshirts', '1', ['from' => '1', 'to' => '5'], 0],
+            ['peoples', 'green', '1', ['from' => '1', 'to' => '6'], 2],
         );
     }
 }
