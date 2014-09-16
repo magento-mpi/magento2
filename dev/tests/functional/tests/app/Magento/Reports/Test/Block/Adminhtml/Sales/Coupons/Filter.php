@@ -8,28 +8,15 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Sales\Coupons;
 
-use Mtf\Block\Form;
 use Mtf\ObjectManager;
+use Magento\Reports\Test\Block\Adminhtml\AbstractFilter;
 
 /**
  * Class Filter
  * Filter for Coupons Views Report
  */
-class Filter extends Form
+class Filter extends AbstractFilter
 {
-    /**
-     * Search coupons in report grid
-     *
-     * @var array $productsReport
-     * @return void
-     */
-    public function viewsReport(array $viewsReport)
-    {
-        $viewsReport = $this->prepareData($viewsReport);
-        $data = $this->dataMapping($viewsReport);
-        $this->_fill($data);
-    }
-
     /**
      * Prepare data
      *
