@@ -13,6 +13,7 @@ define([
     'jquery',
     'mage/translate'
 ], function(ko, registry, $) {
+    'use strict';
 
     var i18n = $.mage.__;
 

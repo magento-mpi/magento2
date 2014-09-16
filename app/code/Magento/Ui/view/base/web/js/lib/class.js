@@ -7,6 +7,7 @@
 define([
     '_'
 ], function(_) {
+    'use strict';
 
     /**
      * Analogue of Backbone.extend function.
