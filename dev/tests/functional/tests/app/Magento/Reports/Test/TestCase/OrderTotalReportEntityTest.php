@@ -8,11 +8,11 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Reports\Test\Page\Adminhtml\OrderTotalReport;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
 
 /**
  * Test Creation for OrderTotalReportEntity
@@ -38,19 +38,19 @@ class OrderTotalReportEntityTest extends Injectable
     /**
      * Order total report page
      *
-     * @var OrderTotalReport
+     * @var CustomerTotalsReport
      */
-    protected $orderTotalReport;
+    protected $customerTotalsReport;
 
     /**
      * Inject page
      *
-     * @param OrderTotalReport $orderTotalReport
+     * @param CustomerTotalsReport $customerTotalsReport
      * @return void
      */
-    public function __inject(OrderTotalReport $orderTotalReport)
+    public function __inject(CustomerTotalsReport $customerTotalsReport)
     {
-        $this->orderTotalReport = $orderTotalReport;
+        $this->customerTotalsReport = $customerTotalsReport;
     }
 
     /**
@@ -76,8 +76,8 @@ class OrderTotalReportEntityTest extends Injectable
         }
 
         // Steps
-        $this->orderTotalReport->open();
-        $this->orderTotalReport->getFilterBlock()->viewsReport($report);
-        $this->orderTotalReport->getFilterBlock()->refreshFilter();
+        $this->customerTotalsReport->open();
+        $this->customerTotalsReport->getFilterBlock()->viewsReport($report);
+        $this->customerTotalsReport->getFilterBlock()->refreshFilter();
     }
 }

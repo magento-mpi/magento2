@@ -10,13 +10,13 @@ namespace Magento\Reports\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Reports\Test\Page\Adminhtml\OrderTotalReport;
+use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
 
 /**
- * Class AssertOrderTotalReportInGrid
+ * Class AssertCustomerOrderTotalReportResult
  * Assert OrderTotalReport grid for all params
  */
-class AssertOrderTotalReportInGrid extends AbstractConstraint
+class AssertCustomerOrderTotalReportResult extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -28,14 +28,14 @@ class AssertOrderTotalReportInGrid extends AbstractConstraint
     /**
      * Assert OrderTotalReport grid for all params
      *
-     * @param OrderTotalReport $orderTotalReport
+     * @param CustomerTotalsReport $customerTotalsReport
      * @param CustomerInjectable $customer
      * @param array $columns
      * @param array $report
      * @return void
      */
     public function processAssert(
-        OrderTotalReport $orderTotalReport,
+        CustomerTotalsReport $customerTotalsReport,
         CustomerInjectable $customer,
         array $columns,
         array $report
@@ -61,7 +61,7 @@ class AssertOrderTotalReportInGrid extends AbstractConstraint
         ];
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $orderTotalReport->getGridBlock()->isRowVisible($filter),
+            $customerTotalsReport->getGridBlock()->isRowVisible($filter),
             'Order does not present in report grid.'
         );
     }

@@ -18,6 +18,34 @@ use Mtf\ObjectManager;
 abstract class AbstractFilter extends Form
 {
     /**
+     * Specified fields
+     *
+     * @var array
+     */
+    protected $names = [];
+
+    /**
+     * Prepare data
+     *
+     * @param array $viewsReport
+     * @return array
+     */
+    protected function prepareData(array $viewsReport)
+    {
+        foreach ($viewsReport as $key => $reportFilter) {
+            if (in_array($key, $this->names)) {
+                continue;
+            }
+            $date = ObjectManager::getInstance()->create(
+                '\Magento\Backend\Test\Fixture\Date',
+                ['params' => [], 'data' => ['pattern' => $reportFilter]]
+            );
+            $viewsReport[$key] = $date->getData();
+        }
+        return $viewsReport;
+    }
+
+    /**
      * Search entity in report grid
      *
      * @var array $report
@@ -28,26 +56,5 @@ abstract class AbstractFilter extends Form
         $report = $this->prepareData($report);
         $data = $this->dataMapping($report);
         $this->_fill($data);
-    }
-
-    /**
-     * Prepare data
-     *
-     * @param array $viewsReport
-     * @return array
-     */
-    protected function prepareData(array $viewsReport)
-    {
-        foreach ($viewsReport as $name => $reportFilter) {
-            if ($name === 'period_type' || $name === 'show_empty_rows') {
-                continue;
-            }
-            $date = ObjectManager::getInstance()->create(
-                '\Magento\Backend\Test\Fixture\Date',
-                ['params' => [], 'data' => ['pattern' => $reportFilter]]
-            );
-            $viewsReport[$name] = $date->getData();
-        }
-        return $viewsReport;
     }
 }

@@ -18,6 +18,13 @@ use Magento\Reports\Test\Block\Adminhtml\AbstractFilter;
 class Filter extends AbstractFilter
 {
     /**
+     * Specified fields
+     *
+     * @var array
+     */
+    protected $names = ['report_period'];
+
+    /**
      * Refresh button css selector
      *
      * @var string
@@ -32,26 +39,5 @@ class Filter extends AbstractFilter
     public function refreshFilter()
     {
         $this->_rootElement->find($this->refresh)->click();
-    }
-
-    /**
-     * Prepare data
-     *
-     * @param array $viewsReport
-     * @return array
-     */
-    protected function prepareData(array $viewsReport)
-    {
-        foreach ($viewsReport as $name => $reportFilter) {
-            if ($name === 'report_period') {
-                continue;
-            }
-            $date = ObjectManager::getInstance()->create(
-                '\Magento\Backend\Test\Fixture\Date',
-                ['params' => [], 'data' => ['pattern' => $reportFilter]]
-            );
-            $viewsReport[$name] = $date->getData();
-        }
-        return $viewsReport;
     }
 }

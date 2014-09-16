@@ -47,10 +47,10 @@
     <assertBestsellerReportResult module="Magento_Reports">
         <severeness>low</severeness>
     </assertBestsellerReportResult>
-    <assertCouponReportResult  module="Magento_Reports">
+    <assertCouponReportResult module="Magento_Reports">
         <severeness>low</severeness>
     </assertCouponReportResult>
-    <assertOrderTotalReportInGrid  module="Magento_Reports">
+    <assertCustomerOrderTotalReportResult module="Magento_Reports">
         <severeness>low</severeness>
-    </assertOrderTotalReportInGrid>
+    </assertCustomerOrderTotalReportResult>
 </constraint>
