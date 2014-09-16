@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\MetadataServiceInterface;
 
 interface RmaMetadataReadInterface extends MetadataServiceInterface
 {
-    const ATTRIBUTE_SET_ID = 0;
+    const ATTRIBUTE_SET_ID = 9;
 
     const ENTITY_TYPE = 'rma_item';
 

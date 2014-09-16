@@ -77,7 +77,7 @@ class RmaMetadataRead implements RmaMetadataReadInterface
     {
         /** @var AbstractAttribute $attribute */
         $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE, $attributeCode);
-        if ($attribute) {
+        if ($attribute && (int)$attribute->getIsVisible()) {
             $attributeMetadata = $this->attributeMetadataConverter->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {

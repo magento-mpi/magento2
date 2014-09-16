@@ -481,7 +481,7 @@ class Config
     public function getEntityAttributeCodes($entityType, $object = null)
     {
         $entityType = $this->getEntityType($entityType);
-        $attributeSetId = -1;
+        $attributeSetId = 0;
         if ($object instanceof \Magento\Framework\Object && $object->getAttributeSetId()) {
             $attributeSetId = $object->getAttributeSetId();
         }
@@ -494,7 +494,7 @@ class Config
             return $this->_attributeCodes[$cacheKey];
         }
 
-        if ($attributeSetId != -1) {
+        if ($attributeSetId) {
             $attributesInfo = $this->_universalFactory->create(
                 $entityType->getEntityAttributeCollection()
             )->setEntityTypeFilter(
