@@ -21,9 +21,10 @@ class ExtensibleDataObjectConverter
      * Convert AbstractExtensibleObject into flat array.
      *
      * @param AbstractExtensibleObject $dataObject
+     * @param string[] $skipCustomAttributes
      * @return array
      */
-    public static function toFlatArray(AbstractExtensibleObject $dataObject)
+    public static function toFlatArray(AbstractExtensibleObject $dataObject, $skipCustomAttributes = array())
     {
         $dataObjectArray = $dataObject->__toArray();
         //process custom attributes if present
@@ -32,8 +33,10 @@ class ExtensibleDataObjectConverter
             $customAttributes = $dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY];
             unset ($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY]);
             foreach ($customAttributes as $attributeValue) {
-                $dataObjectArray[$attributeValue[AttributeValue::ATTRIBUTE_CODE]]
-                    = $attributeValue[AttributeValue::VALUE];
+                if (!in_array($attributeValue[AttributeValue::ATTRIBUTE_CODE], $skipCustomAttributes)) {
+                    $dataObjectArray[$attributeValue[AttributeValue::ATTRIBUTE_CODE]]
+                        = $attributeValue[AttributeValue::VALUE];
+                }
             }
         }
         return ConvertArray::toFlatArray($dataObjectArray);

@@ -122,7 +122,7 @@ class User extends AbstractModel implements StorageInterface
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -138,7 +138,7 @@ class User extends AbstractModel implements StorageInterface
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -153,7 +153,7 @@ class User extends AbstractModel implements StorageInterface
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -215,7 +215,7 @@ class User extends AbstractModel implements StorageInterface
         $this->_roleFactory = $objectManager->get('Magento\Authorization\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
         $this->_transportBuilder = $objectManager->get('Magento\Framework\Mail\Template\TransportBuilder');
-        $this->_storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        $this->_storeManager = $objectManager->get('Magento\Framework\StoreManagerInterface');
     }
 
     /**

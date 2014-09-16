@@ -133,7 +133,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      * Init merge model
      *
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\File\CollectorInterface $fileSource
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\Framework\App\State $appState
@@ -146,7 +146,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      */
     public function __construct(
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\View\File\CollectorInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\Framework\App\State $appState,
@@ -496,9 +496,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected function _merge($handle)
     {
         $this->_fetchPackageLayoutUpdates($handle);
-        if ($this->_appState->isInstalled()) {
-            $this->_fetchDbLayoutUpdates($handle);
-        }
+        $this->_fetchDbLayoutUpdates($handle);
         return $this;
     }
 

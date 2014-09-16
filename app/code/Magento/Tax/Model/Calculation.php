@@ -112,7 +112,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -158,7 +158,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
@@ -176,7 +176,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Config $taxConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
@@ -246,7 +246,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getRates($ruleId)
     {
         if (!isset($this->_rates[$ruleId])) {
-            $this->_rates[$ruleId] = $this->_getResource()->getDistinct('tax_calculation_rate_id', $ruleId);
+            $this->_rates[$ruleId] = $this->_getResource()->getCalculationsById('tax_calculation_rate_id', $ruleId);
         }
         return $this->_rates[$ruleId];
     }
@@ -260,7 +260,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getCustomerTaxClasses($ruleId)
     {
         if (!isset($this->_ctc[$ruleId])) {
-            $this->_ctc[$ruleId] = $this->_getResource()->getDistinct('customer_tax_class_id', $ruleId);
+            $this->_ctc[$ruleId] = $this->_getResource()->getCalculationsById('customer_tax_class_id', $ruleId);
         }
         return $this->_ctc[$ruleId];
     }
@@ -274,7 +274,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getProductTaxClasses($ruleId)
     {
         if (!isset($this->_ptc[$ruleId])) {
-            $this->_ptc[$ruleId] = $this->getResource()->getDistinct('product_tax_class_id', $ruleId);
+            $this->_ptc[$ruleId] = $this->getResource()->getCalculationsById('product_tax_class_id', $ruleId);
         }
         return $this->_ptc[$ruleId];
     }

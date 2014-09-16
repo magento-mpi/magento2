@@ -26,14 +26,14 @@ class GiftWrapping extends AbstractRepository
     {
         $this->_data['enabled'] = [
             'design' => 'GiftWrapping%isolation%',
-            'website_ids' => ['Main Website'],
+            'website_ids' => ['dataSet' => 'main_website'],
             'status' => 'Enabled',
             'base_price' => '10',
         ];
 
         $this->_data['disabled'] = [
             'design' => 'Gift Wrapping%isolation%',
-            'website_ids' => ['Main Website'],
+            'website_ids' => ['dataSet' => 'main_website'],
             'status' => 'Disabled',
             'base_price' => '10',
         ];

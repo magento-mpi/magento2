@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha93",
+    "version": "0.1.0-alpha94",
     "require": {
         "php": "~5.4.11|~5.5.0"
     },
@@ -114,6 +114,7 @@
         "magento/module-store": "self.version",
         "magento/module-target-rule": "self.version",
         "magento/module-tax": "self.version",
+        "magento/module-tax-import-export": "self.version",
         "magento/module-theme": "self.version",
         "magento/module-translation": "self.version",
         "magento/module-ups": "self.version",
@@ -139,6 +140,7 @@
         "magento/language-pt_br": "self.version",
         "magento/language-zh_cn": "self.version",
         "magento/framework": "self.version",
+        "magento/project-setup": "0.1.0",
         "zendframework/zend-eventmanager": "2.0.3",
         "zendframework/zend-stdlib": "2.0.3",
         "zendframework/zend-di": "2.0.3",

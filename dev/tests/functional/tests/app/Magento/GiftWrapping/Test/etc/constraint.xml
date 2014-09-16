@@ -17,4 +17,16 @@
     <assertGiftWrappingInGrid module="Magento_GiftWrapping">
         <severeness>low</severeness>
     </assertGiftWrappingInGrid>
+    <assertGiftWrappingSuccessDeleteMessage module="Magento_GiftWrapping">
+        <severeness>high</severeness>
+    </assertGiftWrappingSuccessDeleteMessage>
+    <assertGiftWrappingNotInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingNotInGrid>
+    <assertGiftWrappingNotOnOrderCreationPage module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingNotOnOrderCreationPage>
+    <assertGiftWrappingNotOnFrontendCheckout module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingNotOnFrontendCheckout>
 </constraint>

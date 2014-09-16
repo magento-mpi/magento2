@@ -31,14 +31,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $store;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
     public function setUp()
     {
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface', [], [], '', false);
-        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
+        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
         $this->store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
 
         $this->rmaConfig = new Config($this->scopeConfig, $this->storeManager);

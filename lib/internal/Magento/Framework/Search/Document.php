@@ -1,7 +1,5 @@
 <?php
 /**
- * Search Document
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Search Document
+ */
 class Document implements \IteratorAggregate
 {
     /**

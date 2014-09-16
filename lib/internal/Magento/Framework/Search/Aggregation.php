@@ -1,7 +1,5 @@
 <?php
 /**
- * Faceted data
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Faceted data
+ */
 class Aggregation implements \IteratorAggregate
 {
     /**

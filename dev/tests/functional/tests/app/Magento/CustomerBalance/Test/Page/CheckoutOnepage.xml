@@ -14,5 +14,10 @@
             <locator>#customerbalance-placer</locator>
             <strategy>css selector</strategy>
         </storeCreditBlock>
+        <balanceReviewBlock>
+            <class>Magento\CustomerBalance\Test\Block\Onepage\Review</class>
+            <locator>#checkout-step-review</locator>
+            <strategy>css selector</strategy>
+        </balanceReviewBlock>
     </blocks>
 </page>
