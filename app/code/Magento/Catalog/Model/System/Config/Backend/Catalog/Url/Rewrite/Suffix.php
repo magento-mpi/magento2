@@ -89,6 +89,8 @@ class Suffix extends \Magento\Framework\App\Config\Value
 
     /**
      * Update suffix for url rewrites
+     *
+     * @return $this
      */
     protected function updateSuffixForUrlRewrites()
     {
@@ -117,6 +119,7 @@ class Suffix extends \Magento\Framework\App\Config\Value
                 $this->connection->quoteIdentifier(UrlRewrite::URL_REWRITE_ID) . ' = ' . $urlRewrite->getUrlRewriteId()
             );
         }
+        return $this;
     }
 
     /**
@@ -138,6 +141,7 @@ class Suffix extends \Magento\Framework\App\Config\Value
     }
 
     /**
+     * @param array $storeIds
      * @return array
      */
     protected function getOverrideStoreIds($storeIds)
