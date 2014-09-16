@@ -8,11 +8,14 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\View\Tab;
 
+use Magento\Backend\Test\Block\Widget\Tab;
+use Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Invoices\Grid;
+
 /**
  * Class Invoices
  * Invoices tab
  */
-class Invoices extends AbstractGridTab
+class Invoices extends Tab
 {
     /**
      * Grid block css selector
@@ -22,9 +25,15 @@ class Invoices extends AbstractGridTab
     protected $grid = '#order_invoices';
 
     /**
-     * Class name
+     * Get grid block
      *
-     * @var string
+     * @return Grid
      */
-    protected $class = 'Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Invoices\Grid';
+    public function getGridBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Invoices\Grid',
+            ['element' => $this->_rootElement->find($this->grid)]
+        );
+    }
 }

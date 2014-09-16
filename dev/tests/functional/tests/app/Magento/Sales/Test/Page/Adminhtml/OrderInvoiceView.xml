@@ -10,7 +10,7 @@
 <page mca="sales/order_invoice/view" module="Magento_Sales">
     <blocks>
         <titleBlock>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\Title</class>
+            <class>Magento\Theme\Test\Block\Html\Title</class>
             <locator>.page-title</locator>
             <strategy>css selector</strategy>
         </titleBlock>

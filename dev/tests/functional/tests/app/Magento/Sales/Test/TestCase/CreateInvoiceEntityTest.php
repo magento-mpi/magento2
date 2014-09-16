@@ -34,6 +34,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
  * 3. Click 'Invoice' button
  * 4. Fill data according to dataSet
  * 5. Click 'Submit Invoice' button
+ * 6. Perform assertions
  *
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-28209
@@ -83,7 +84,7 @@ class CreateInvoiceEntityTest extends Injectable
     protected $orderShipmentView;
 
     /**
-     * Prepare data
+     * Set up configuration
      *
      * @param FixtureFactory $fixtureFactory
      * @return void
@@ -140,11 +141,29 @@ class CreateInvoiceEntityTest extends Injectable
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->invoice();
-        $this->fillInvoiceData($invoice, $order->getEntityId()['products']);
+        $this->orderInvoiceNew->getCreateBlock()->fill($invoice, $order->getEntityId()['products']);
         $this->orderInvoiceNew->getTotalsBlock()->submit();
 
         // Prepare data for asserts
         $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
+        $invoiceId = $this->getInvoiceId($order);
+        $shipmentId = $this->getShipmentId($order);
+
+        return [
+            'shipmentId' => $shipmentId,
+            'invoiceId' => $invoiceId,
+            'successMessage' => $successMessage
+        ];
+    }
+
+    /**
+     * Get invoice id
+     *
+     * @param OrderInjectable $order
+     * @return string
+     */
+    protected function getInvoiceId(OrderInjectable $order)
+    {
         $this->orderView->getOrderForm()->openTab('invoices');
         $amount = $order->getPrice()['grand_invoice_total'];
         $filter = [
@@ -153,7 +172,17 @@ class CreateInvoiceEntityTest extends Injectable
             'amount_to' => $amount
         ];
         $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->searchAndOpen($filter);
-        $invoiceId = $this->orderInvoiceView->getTitleBlock()->getId();
+        return trim($this->orderInvoiceView->getTitleBlock()->getTitle(), ' #');
+    }
+
+    /**
+     * Get shipment id
+     *
+     * @param OrderInjectable $order
+     * @return null|string
+     */
+    protected function getShipmentId(OrderInjectable $order)
+    {
         $qty = $order->getTotalQtyOrdered();
         $shipmentId = null;
         if ($qty !== null) {
@@ -164,38 +193,10 @@ class CreateInvoiceEntityTest extends Injectable
                 'qty_to' => $qty
             ];
             $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->searchAndOpen($filter);
-            $shipmentId = $this->orderShipmentView->getTitleBlock()->getId();
+            $shipmentId = trim($this->orderShipmentView->getTitleBlock()->getTitle(), ' #');
         }
 
-        return [
-            'shipmentId' => $shipmentId,
-            'invoiceId' => $invoiceId,
-            'successMessage' => $successMessage
-        ];
-    }
-
-    /**
-     * Fill invoice data
-     *
-     * @param array $data
-     * @param array $products
-     * @return void
-     */
-    protected function fillInvoiceData(array $data, array $products)
-    {
-        if (isset($data['comment'])) {
-            $this->orderInvoiceNew->getItemsBlock()->setHistory($data['comment']);
-        }
-        if (isset($data['qty']) && $data['qty'] !== '-') {
-            foreach ($products as $product) {
-                $this->orderInvoiceNew->getItemsBlock()->getItemProductBlockBySku($product->getSku())
-                    ->setQty($data['qty']);
-            }
-            $this->orderInvoiceNew->getItemsBlock()->clickUpdateQty();
-        }
-        if (isset($data['do_shipment']) && $data['do_shipment'] !== '-') {
-            $this->orderInvoiceNew->getFormBlock()->createShipment();
-        }
+        return $shipmentId;
     }
 
     /**

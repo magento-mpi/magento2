@@ -8,20 +8,18 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Invoices;
 
-use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
-
 /**
  * Class Grid
  * Invoices grid on order view page
  */
-class Grid extends ParentGrid
+class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * Locator value for link in action column
      *
      * @var string
      */
-    protected $editLink = 'td';
+    protected $editLink = '[data-column="increment_id"]';
 
     /**
      * Filters array mapping

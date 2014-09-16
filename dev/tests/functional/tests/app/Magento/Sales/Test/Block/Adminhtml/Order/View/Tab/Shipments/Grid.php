@@ -8,20 +8,18 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Shipments;
 
-use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
-
 /**
  * Class Grid
  * Shipments grid on order view page
  */
-class Grid extends ParentGrid
+class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * Locator value for link in action column
      *
      * @var string
      */
-    protected $editLink = 'td';
+    protected $editLink = '[data-column="real_shipment_id"]';
 
     /**
      * Filters array mapping

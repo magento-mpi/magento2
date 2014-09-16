@@ -17,10 +17,10 @@ use \Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Abstract Class AbstractAssertOnFrontend
+ * Abstract Class AbstractAssertOrderOnFrontend
  * Abstract class for frontend asserts
  */
-abstract class AbstractAssertOnFrontend extends AbstractConstraint
+abstract class AbstractAssertOrderOnFrontend extends AbstractConstraint
 {
     /**
      * Cms index page
@@ -44,8 +44,6 @@ abstract class AbstractAssertOnFrontend extends AbstractConstraint
     protected $customerAccountIndex;
 
     /**
-     * Constructor
-     *
      * @constructor
      * @param ObjectManager $objectManager
      * @param CmsIndex $cmsIndex

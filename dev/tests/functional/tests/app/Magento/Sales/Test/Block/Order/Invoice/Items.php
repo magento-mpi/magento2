@@ -26,7 +26,7 @@ class Items extends Block
     /**
      * Get grand total price
      *
-     * @return string
+     * @return string|null
      */
     public function getGrandTotal()
     {

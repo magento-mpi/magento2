@@ -12,7 +12,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertInvoiceSuccessCreateMessage
- * Assert success invoice create message is displayed on "Order Status" page
+ * Assert success invoice create message is displayed on order view page
  */
 class AssertInvoiceSuccessCreateMessage extends AbstractConstraint
 {

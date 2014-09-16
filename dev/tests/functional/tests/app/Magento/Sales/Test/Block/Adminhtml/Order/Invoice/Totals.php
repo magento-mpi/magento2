@@ -22,7 +22,7 @@ class Totals extends Block
      *
      * @var string
      */
-    protected $submit = '.submit-button';
+    protected $submit = '[data-ui-id="order-items-submit-button"]';
 
     /**
      * Capture amount select selector
@@ -38,7 +38,15 @@ class Totals extends Block
      */
     public function submit()
     {
-        $this->waitForElementNotVisible($this->submit . '.disabled');
+        $browser = $this->_rootElement;
+        $selector = $this->submit . '.disabled';
+        $strategy = Locator::SELECTOR_CSS;
+        $browser->waitUntil(
+            function () use ($browser, $selector, $strategy) {
+                $element = $browser->find($selector, $strategy);
+                return $element->isVisible() == false ? true : null;
+            }
+        );
         $this->reinitRootElement();
         $this->_rootElement->find($this->submit)->click();
     }

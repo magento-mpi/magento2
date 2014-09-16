@@ -47,10 +47,10 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderShipmentView</class>
     </orderShipmentView>
-    <invoicesView>
+    <invoiceView>
         <mca>sales/order/invoice</mca>
         <class>Magento\Sales\Test\Page\InvoicesView</class>
-    </invoicesView>
+    </invoiceView>
     <orderView>
         <mca>sales/order/view</mca>
         <class>Magento\Sales\Test\Page\OrderView</class>

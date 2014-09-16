@@ -54,12 +54,12 @@
     <assertInvoiceInInvoicesTab module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoiceInInvoicesTab>
-    <assertInvoiceInInvoicesGrid module="Magento_Sales">
+    <assertInvoiceInInvoicesGridOnFrontend module="Magento_Sales">
         <severeness>low</severeness>
-    </assertInvoiceInInvoicesGrid>
-    <assertInvoicedAmountCorrect module="Magento_Sales">
+    </assertInvoiceInInvoicesGridOnFrontend>
+    <assertInvoicedAmountOnFrontend module="Magento_Sales">
         <severeness>low</severeness>
-    </assertInvoicedAmountCorrect>
+    </assertInvoicedAmountOnFrontend>
     <assertNoShipButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertNoShipButton>

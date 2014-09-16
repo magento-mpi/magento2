@@ -9,15 +9,15 @@
 namespace Magento\Sales\Test\Constraint;
 
 use Magento\Sales\Test\Page\OrderView;
-use Magento\Sales\Test\Page\InvoicesView;
+use Magento\Sales\Test\Page\InvoiceView;
 use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
- * Class AssertInvoicedAmountCorrect
+ * Class AssertInvoicedAmountOnFrontend
  * Assert that invoiced Grand Total amount is equal to placed order Grand total amount on invoice page (frontend)
  */
-class AssertInvoicedAmountCorrect extends AbstractAssertOnFrontend
+class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
 {
     /**
      * Constraint severeness
@@ -32,7 +32,7 @@ class AssertInvoicedAmountCorrect extends AbstractAssertOnFrontend
      * @param OrderHistory $orderHistory
      * @param OrderInjectable $order
      * @param OrderView $orderView
-     * @param InvoicesView $invoicesView
+     * @param InvoiceView $invoiceView
      * @param string $invoiceId
      * @return void
      */
@@ -40,7 +40,7 @@ class AssertInvoicedAmountCorrect extends AbstractAssertOnFrontend
         OrderHistory $orderHistory,
         OrderInjectable $order,
         OrderView $orderView,
-        InvoicesView $invoicesView,
+        InvoiceView $invoiceView,
         $invoiceId
     ) {
         $this->loginCustomerAndOpenOrderPage($order->getDataFieldConfig('customer_id')['source']->getCustomer());
@@ -49,7 +49,7 @@ class AssertInvoicedAmountCorrect extends AbstractAssertOnFrontend
 
         \PHPUnit_Framework_Assert::assertEquals(
             number_format($order->getPrice()['grand_invoice_total'], 2),
-            $invoicesView->getInvoiceBlock()->getItemInvoiceBlock($invoiceId)->getGrandTotal()
+            $invoiceView->getInvoiceBlock()->getItemInvoiceBlock($invoiceId)->getGrandTotal()
         );
     }
 

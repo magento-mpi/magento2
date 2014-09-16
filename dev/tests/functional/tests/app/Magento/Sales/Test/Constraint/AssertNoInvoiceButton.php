@@ -51,6 +51,6 @@ class AssertNoInvoiceButton extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Invoice button is not present on order view page.';
+        return 'Invoice button is absent on order view page.';
     }
 }

@@ -48,7 +48,7 @@ class AssertShipmentInShipmentsTab extends AbstractConstraint
         ];
         \PHPUnit_Framework_Assert::assertTrue(
             $orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->isRowVisible($filter),
-            'Shipment is not present on shipments tab.'
+            'Shipment is absent on shipments tab.'
         );
     }
 

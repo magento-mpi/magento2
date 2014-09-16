@@ -51,6 +51,6 @@ class AssertNoShipButton extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Ship button is not present on order view page.';
+        return 'Ship button is absent on order view page.';
     }
 }

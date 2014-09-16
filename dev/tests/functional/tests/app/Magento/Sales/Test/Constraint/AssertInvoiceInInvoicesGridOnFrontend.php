@@ -13,10 +13,10 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Class AssertInvoiceInInvoicesGrid
+ * Class AssertInvoiceInInvoicesGridOnFrontend
  * Assert that invoice with corresponding order ID is present in the invoices grid with corresponding amount (frontend)
  */
-class AssertInvoiceInInvoicesGrid extends AbstractAssertOnFrontend
+class AssertInvoiceInInvoicesGridOnFrontend extends AbstractAssertOrderOnFrontend
 {
     /**
      * Constraint severeness
