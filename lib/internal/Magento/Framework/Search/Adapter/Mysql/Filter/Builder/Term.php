@@ -33,11 +33,20 @@ class Term implements FilterInterface
         $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
 
         /** @var \Magento\Framework\Search\Request\Filter\Term $filter */
-        $condition = sprintf(
-            '%s = %s',
-            $filter->getField(),
-            $adapter->quote($filter->getValue())
-        );
+        $value = $filter->getValue();
+        if (is_array($value)) {
+            $condition = sprintf(
+                '%s IN (%s)',
+                $filter->getField(),
+                $adapter->quote($value)
+            );
+        } else {
+            $condition = sprintf(
+                '%s = %s',
+                $filter->getField(),
+                $adapter->quote($value)
+            );
+        }
         return $condition;
     }
 }

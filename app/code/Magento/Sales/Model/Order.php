@@ -211,7 +211,6 @@ use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryColle
  * @method \Magento\Sales\Model\Order setWeight(float $value)
  * @method string getCustomerDob()
  * @method \Magento\Sales\Model\Order setCustomerDob(string $value)
- * @method string getIncrementId()
  * @method \Magento\Sales\Model\Order setIncrementId(string $value)
  * @method string getAppliedRuleIds()
  * @method \Magento\Sales\Model\Order setAppliedRuleIds(string $value)
@@ -294,8 +293,17 @@ use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryColle
  * @method \Magento\Sales\Model\Order setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order setBaseShippingInclTax(float $value)
+ * @method bool hasBillingAddressId()
+ * @method \Magento\Sales\Model\Order unsBillingAddressId()
+ * @method bool hasShippingAddressId()
+ * @method \Magento\Sales\Model\Order unsShippingAddressId()
+ * @method int getShippigAddressId()
+ * @method bool hasCustomerNoteNotify()
+ * @method bool hasForcedCanCreditmemo()
+ * @method bool getIsInProcess()
+ * @method \Magento\Customer\Model\Customer getCustomer()
  */
-class Order extends \Magento\Sales\Model\AbstractModel
+class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterface
 {
     const ENTITY = 'order';
 
@@ -476,11 +484,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
-
-    /**
-     * @var \Magento\Eav\Model\Config
-     */
-    protected $_eavConfig;
 
     /**
      * @var \Magento\Sales\Model\Order\Status\HistoryFactory
@@ -1160,11 +1163,17 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param string|bool $status
      * @param string $comment
      * @param bool $isCustomerNotified
+     * @param bool $shouldProtectState
      * @return \Magento\Sales\Model\Order
      */
-    public function setState($state, $status = false, $comment = '', $isCustomerNotified = null)
-    {
-        return $this->_setState($state, $status, $comment, $isCustomerNotified, true);
+    public function setState(
+        $state,
+        $status = false,
+        $comment = '',
+        $isCustomerNotified = null,
+        $shouldProtectState = true
+    ) {
+        return $this->_setState($state, $status, $comment, $isCustomerNotified, $shouldProtectState);
     }
 
     /**
@@ -2112,135 +2121,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * Processing object before save data
-     *
-     * @return $this
-     */
-    protected function _beforeSave()
-    {
-        parent::_beforeSave();
-        $this->_checkState();
-        if (!$this->getId()) {
-            $store = $this->getStore();
-            $name = array($store->getWebsite()->getName(), $store->getGroup()->getName(), $store->getName());
-            $this->setStoreName(implode("\n", $name));
-        }
-
-        if (!$this->getIncrementId()) {
-            $incrementId = $this->_eavConfig->getEntityType('order')->fetchNewIncrementId($this->getStoreId());
-            $this->setIncrementId($incrementId);
-        }
-
-        /**
-         * Process items dependency for new order
-         */
-        if (!$this->getId()) {
-            $itemsCount = 0;
-            foreach ($this->getAllItems() as $item) {
-                $parent = $item->getQuoteParentItemId();
-                if ($parent && !$item->getParentItem()) {
-                    $item->setParentItem($this->getItemByQuoteItemId($parent));
-                } elseif (!$parent) {
-                    $itemsCount++;
-                }
-            }
-            // Set items count
-            $this->setTotalItemCount($itemsCount);
-        }
-        /** TODO refactor getCustomer usage after MAGETWO-20182 and MAGETWO-20258 are done */
-        $isNewCustomer = !$this->getCustomerId() || $this->getCustomerId() === true;
-        if ($isNewCustomer && $this->getCustomer()) {
-            $this->setCustomerId($this->getCustomer()->getId());
-        }
-
-        if ($this->hasBillingAddressId() && $this->getBillingAddressId() === null) {
-            $this->unsBillingAddressId();
-        }
-
-        if ($this->hasShippingAddressId() && $this->getShippingAddressId() === null) {
-            $this->unsShippingAddressId();
-        }
-
-        $this->setData('protect_code', substr(md5(uniqid(\Magento\Framework\Math\Random::getRandomNumber(), true) . ':' . microtime(true)), 5, 6));
-        return $this;
-    }
-
-    /**
-     * Check order state before saving
-     *
-     * @return $this
-     */
-    protected function _checkState()
-    {
-        if (!$this->getId()) {
-            return $this;
-        }
-
-        $userNotification = $this->hasCustomerNoteNotify() ? $this->getCustomerNoteNotify() : null;
-
-        if (!$this->isCanceled() && !$this->canUnhold() && !$this->canInvoice() && !$this->canShip()) {
-            if (0 == $this->getBaseGrandTotal() || $this->canCreditmemo()) {
-                if ($this->getState() !== self::STATE_COMPLETE) {
-                    $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
-                }
-            } elseif (floatval(
-                $this->getTotalRefunded()
-            ) || !$this->getTotalRefunded() && $this->hasForcedCanCreditmemo()
-            ) {
-                if ($this->getState() !== self::STATE_CLOSED) {
-                    $this->_setState(self::STATE_CLOSED, true, '', $userNotification);
-                }
-            }
-        }
-
-        if ($this->getState() == self::STATE_NEW && $this->getIsInProcess()) {
-            $this->setState(self::STATE_PROCESSING, true, '', $userNotification);
-        }
-        return $this;
-    }
-
-    /**
-     * Save order related objects
-     *
-     * @return $this
-     */
-    protected function _afterSave()
-    {
-        if (null !== $this->_addresses) {
-            $this->_addresses->save();
-            $billingAddress = $this->getBillingAddress();
-            $attributesForSave = array();
-            if ($billingAddress && $this->getBillingAddressId() != $billingAddress->getId()) {
-                $this->setBillingAddressId($billingAddress->getId());
-                $attributesForSave[] = 'billing_address_id';
-            }
-
-            $shippingAddress = $this->getShippingAddress();
-            if ($shippingAddress && $this->getShippigAddressId() != $shippingAddress->getId()) {
-                $this->setShippingAddressId($shippingAddress->getId());
-                $attributesForSave[] = 'shipping_address_id';
-            }
-
-            if (!empty($attributesForSave)) {
-                $this->_getResource()->saveAttribute($this, $attributesForSave);
-            }
-        }
-        if (null !== $this->_items) {
-            $this->_items->save();
-        }
-        if (null !== $this->_payments) {
-            $this->_payments->save();
-        }
-        if (null !== $this->_statusHistory) {
-            $this->_statusHistory->save();
-        }
-        foreach ($this->getRelatedObjects() as $object) {
-            $object->save();
-        }
-        return parent::_afterSave();
-    }
-
-    /**
      * @return string
      */
     public function getStoreGroupName()
@@ -2326,5 +2206,15 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function isCanceled()
     {
         return $this->getState() === self::STATE_CANCELED;
+    }
+
+    /**
+     * Returns increment id
+     *
+     * @return string
+     */
+    public function getIncrementId()
+    {
+        return $this->getData('increment_id');
     }
 }

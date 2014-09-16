@@ -37,7 +37,7 @@ class Mapper
      * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match
      */
     private $matchQueryBuilder;
-
+    
     /**
      * @var Filter\Builder
      */
@@ -112,14 +112,12 @@ class Mapper
         switch ($query->getType()) {
             case RequestQueryInterface::TYPE_MATCH:
                 /** @var MatchQuery $query */
-                $scoreBuilder->startQuery();
                 $select = $this->matchQueryBuilder->build(
                     $scoreBuilder,
                     $select,
                     $query,
                     $conditionType
                 );
-                $scoreBuilder->endQuery($query->getBoost());
                 break;
             case RequestQueryInterface::TYPE_BOOL:
                 /** @var BoolQuery $query */
