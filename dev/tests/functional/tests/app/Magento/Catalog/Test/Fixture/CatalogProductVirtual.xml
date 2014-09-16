@@ -437,7 +437,7 @@
             <attribute_code>checkout_data</attribute_code>
             <backend_type>virtual</backend_type>
             <group />
-            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData</source>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductVirtual\CheckoutData</source>
         </checkout_data>
     </fields>
     <data_set>

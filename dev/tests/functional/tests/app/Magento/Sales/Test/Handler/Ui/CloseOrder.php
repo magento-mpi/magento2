@@ -24,6 +24,7 @@ class CloseOrder extends Ui
      * Close sales order
      *
      * @param FixtureInterface $fixture [optional]
+     * @return void
      */
     public function persist(FixtureInterface $fixture = null)
     {
@@ -46,6 +47,6 @@ class CloseOrder extends Ui
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
         $orderPage->getOrderActionsBlock()->invoice();
-        $newInvoicePage->getInvoiceTotalsBlock()->submit();
+        $newInvoicePage->getTotalsBlock()->submit();
     }
 }
