@@ -17,16 +17,16 @@ class Range implements FilterInterface
     const CONDITION_PART_GREATER_THAN = '>=';
     const CONDITION_PART_LOWER_THAN = '<';
     /**
-     * @var \Magento\Framework\App\Resource
+     * @var AdapterInterface
      */
-    private $resource;
+    private $adapter;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(\Magento\Framework\App\Resource $resource)
     {
-        $this->resource = $resource;
+        $this->adapter = $resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
     }
 
     /**
@@ -36,25 +36,22 @@ class Range implements FilterInterface
         RequestFilterInterface $filter,
         $isNegation
     ) {
-        $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
         /** @var RangeFilterRequest $filter */
         return $this->generateCondition(
             $filter,
-            $isNegation,
-            $adapter
+            $isNegation
         );
     }
 
     /**
      * @param RequestFilterInterface|RangeFilterRequest $filter
      * @param bool $isNegation
-     * @param AdapterInterface $adapter
      * @return string
      */
-    private function generateCondition(RequestFilterInterface $filter, $isNegation, AdapterInterface $adapter)
+    private function generateCondition(RequestFilterInterface $filter, $isNegation)
     {
-        $leftPart = $this->generateConditionLeftPart($filter, $isNegation, $adapter);
-        $rightPart = $this->generateConditionRightPart($filter, $isNegation, $adapter);
+        $leftPart = $this->generateConditionLeftPart($filter, $isNegation);
+        $rightPart = $this->generateConditionRightPart($filter, $isNegation);
         $unionOperator = $this->generateConditionUnionOperator($leftPart, $rightPart, $isNegation);
 
         return $leftPart . $unionOperator . $rightPart;
@@ -63,41 +60,63 @@ class Range implements FilterInterface
     /**
      * @param RequestFilterInterface|RangeFilterRequest $filter
      * @param bool $isNegation
-     * @param AdapterInterface $adapter
      * @return string
      */
-    private function generateConditionLeftPart(RequestFilterInterface $filter, $isNegation, AdapterInterface $adapter)
+    private function generateConditionLeftPart(RequestFilterInterface $filter, $isNegation)
+    {
+        return $this->generateConditionPart(
+            $filter->getField(),
+            $filter->getFrom(),
+            ($isNegation ? self::CONDITION_PART_LOWER_THAN : self::CONDITION_PART_GREATER_THAN)
+        );
+    }
+
+    /**
+     * @param RequestFilterInterface|RangeFilterRequest $filter
+     * @param bool $isNegation
+     * @return string
+     */
+    private function generateConditionRightPart(RequestFilterInterface $filter, $isNegation)
+    {
+        return $this->generateConditionPart(
+            $filter->getField(),
+            $filter->getTo(),
+            ($isNegation ? self::CONDITION_PART_GREATER_THAN : self::CONDITION_PART_LOWER_THAN)
+        );
+    }
+
+    /**
+     * Generate condition part
+     *
+     * @param string $field
+     * @param string|integer|float|null $value
+     * @param $operator
+     * @return string
+     */
+    private function generateConditionPart($field, $value, $operator)
     {
         $condition = '';
-        if (!is_null($filter->getFrom())) {
+        if (!is_null($value)) {
             $condition = sprintf(
                 '%s %s %s',
-                $filter->getField(),
-                ($isNegation ? self::CONDITION_PART_LOWER_THAN : self::CONDITION_PART_GREATER_THAN),
-                $adapter->quote($filter->getFrom())
+                $field,
+                $operator,
+                $this->quote($value)
             );
         }
         return $condition;
     }
 
     /**
-     * @param RequestFilterInterface|RangeFilterRequest $filter
-     * @param bool $isNegation
-     * @param AdapterInterface $adapter
-     * @return string
+     * Quote sql value
+     *
+     * @param mixed $value The value to quote.
+     * @param mixed $type OPTIONAL the SQL datatype name, or constant, or null.
+     * @return mixed An SQL-safe quoted value (or string of separated values).
      */
-    private function generateConditionRightPart(RequestFilterInterface $filter, $isNegation, AdapterInterface $adapter)
+    private function quote($value, $type = null)
     {
-        $condition = '';
-        if (!is_null($filter->getTo())) {
-            $condition = sprintf(
-                '%s %s %s',
-                $filter->getField(),
-                ($isNegation ? self::CONDITION_PART_GREATER_THAN : self::CONDITION_PART_LOWER_THAN),
-                $adapter->quote($filter->getTo())
-            );
-        }
-        return $condition;
+        return $this->adapter->quote($value, $type);
     }
 
     /**
