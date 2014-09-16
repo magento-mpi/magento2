@@ -22,9 +22,6 @@ class Router implements \Magento\Framework\App\RouterInterface
     /** @var \Magento\Framework\UrlInterface */
     protected $url;
 
-    /** @var \Magento\Framework\App\State */
-    protected $appState;
-
     /** @var \Magento\Framework\StoreManagerInterface */
     protected $storeManager;
 
@@ -37,7 +34,6 @@ class Router implements \Magento\Framework\App\RouterInterface
     /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param UrlFinderInterface $urlFinder
@@ -45,14 +41,12 @@ class Router implements \Magento\Framework\App\RouterInterface
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\App\State $appState,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         UrlFinderInterface $urlFinder
     ) {
         $this->actionFactory = $actionFactory;
         $this->url = $url;
-        $this->appState = $appState;
         $this->storeManager = $storeManager;
         $this->response = $response;
         $this->urlFinder = $urlFinder;
@@ -66,11 +60,6 @@ class Router implements \Magento\Framework\App\RouterInterface
      */
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
-        if (!$this->appState->isInstalled()) {
-            $this->response->setRedirect($this->url->getUrl('install'))->sendResponse();
-            return null;
-        }
-
         if ($fromStore = $request->getParam('___from_store')) {
             $oldStoreId = $this->storeManager->getStore($fromStore)->getId();
             $oldRewrite = $this->getRewrite($request->getPathInfo(), $oldStoreId);

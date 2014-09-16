@@ -23,9 +23,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $url;
 
-    /** @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
-    protected $state;
-
     /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
@@ -45,7 +42,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->actionFactory = $this->getMock('Magento\Framework\App\ActionFactory', [], [], '', false);
         $this->url = $this->getMock('Magento\Framework\UrlInterface');
-        $this->state = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->response = $this->getMock('Magento\Framework\App\ResponseInterface', ['setRedirect', 'sendResponse']);
         $this->request = $this->getMockBuilder('\Magento\Framework\App\Request\Http')
@@ -59,7 +55,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             [
                 'actionFactory' => $this->actionFactory,
                 'url' => $this->url,
-                'appState' => $this->state,
                 'storeManager' => $this->storeManager,
                 'response' => $this->response,
                 'urlFinder' => $this->urlFinder
@@ -67,20 +62,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAppNotInstalled()
-    {
-
-        $this->state->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
-        $this->response->expects($this->once())->method('setRedirect')->with('install-url')->will($this->returnSelf());
-        $this->response->expects($this->once())->method('sendResponse');
-        $this->url->expects($this->once())->method('getUrl')->with('install')->will($this->returnValue('install-url'));
-
-        $this->assertEquals(null, $this->router->match($this->request));
-    }
-
     public function testNoRewriteExist()
     {
-        $this->state->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->urlFinder->expects($this->any())->method('findOneByData')->will($this->returnValue(null));
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
         $this->store->expects($this->any())->method('getId')->will($this->returnValue('current-store-id'));
@@ -90,7 +73,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testRewriteAfterStoreSwitcher()
     {
-        $this->state->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('request-path'));
         $this->request->expects($this->any())->method('getParam')->with('___from_store')
             ->will($this->returnValue('old-store'));
@@ -140,7 +122,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testNoRewriteAfterStoreSwitcher()
     {
-        $this->state->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('request-path'));
         $this->request->expects($this->any())->method('getParam')->with('___from_store')
             ->will($this->returnValue('old-store'));
@@ -163,7 +144,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testMatchWithRedirect()
     {
-        $this->state->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
         $urlRewrite = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewrite')
             ->disableOriginalConstructor()->getMock();
@@ -183,7 +163,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testMatch()
     {
-        $this->state->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
         $urlRewrite = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewrite')
             ->disableOriginalConstructor()->getMock();

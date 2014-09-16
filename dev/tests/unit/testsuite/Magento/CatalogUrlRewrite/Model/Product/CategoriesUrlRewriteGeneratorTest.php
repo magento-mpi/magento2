@@ -25,9 +25,6 @@ class CategoriesUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistry|\PHPUnit_Framework_MockObject_MockObject */
     protected $categoryRegistry;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $storeManager;
-
     /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $urlRewriteBuilder;
 
@@ -40,8 +37,6 @@ class CategoriesUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->urlRewrite = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewrite')
             ->disableOriginalConstructor()->getMock();
-        $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
-            ->disableOriginalConstructor()->getMock();
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()->getMock();
         $this->categoryRegistry = $this->getMockBuilder('\Magento\CatalogUrlRewrite\Model\ObjectRegistry')
@@ -52,7 +47,6 @@ class CategoriesUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->categoriesUrlRewriteGenerator = (new ObjectManager($this))->getObject(
             'Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator',
             [
-                'storeManager' => $this->storeManager,
                 'productUrlPathGenerator' => $this->productUrlPathGenerator,
                 'urlRewriteBuilder' => $this->urlRewriteBuilder
             ]
@@ -66,39 +60,6 @@ class CategoriesUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [],
             $this->categoriesUrlRewriteGenerator->generate(1, $this->product, $this->categoryRegistry)
-        );
-    }
-
-    public function testSkipRootCategory()
-    {
-        $rootCategory = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
-        $rootCategory->expects($this->any())->method('getParentIds')->will($this->returnValue([1, 2]));
-        $rootCategory->expects($this->any())->method('getParentId')->will($this->returnValue(Category::TREE_ROOT_ID));
-        $this->categoryRegistry->expects($this->any())->method('getList')
-            ->will($this->returnValue([$rootCategory]));
-
-        $this->assertEquals(
-            [],
-            $this->categoriesUrlRewriteGenerator->generate(10, $this->product, $this->categoryRegistry)
-        );
-    }
-
-    public function testSkipGenerationForNotStoreRootCategory()
-    {
-        $category = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
-        $category->expects($this->any())->method('getParentIds')
-            ->will($this->returnValue(['root-id', 'root-for-store-id']));
-        $category->expects($this->any())->method('getParentId')->will($this->returnValue('parent_id'));
-        $category->expects($this->any())->method('getId')->will($this->returnValue(123));
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
-        $store->expects($this->any())->method('getRootCategoryId')->will($this->returnValue('not-root-id'));
-        $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
-        $this->categoryRegistry->expects($this->any())->method('getList')
-            ->will($this->returnValue([$category]));
-
-        $this->assertEquals(
-            [],
-            $this->categoriesUrlRewriteGenerator->generate(10, $this->product, $this->categoryRegistry)
         );
     }
 
@@ -116,18 +77,9 @@ class CategoriesUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->productUrlPathGenerator->expects($this->any())->method('getCanonicalUrlPath')
             ->will($this->returnValue($canonicalUrlPathWithCategory));
         $category = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
-        $category->expects($this->any())->method('getParentIds')
-            ->will($this->returnValue(['root-id', 'root-for-store-id']));
-        $category->expects($this->any())->method('getParentId')->will($this->returnValue('parent_id'));
         $category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
-        $store->expects($this->any())->method('getRootCategoryId')->will($this->returnValue('root-for-store-id'));
-        $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
-        $rootCategory = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
-        $rootCategory->expects($this->any())->method('getParentIds')->will($this->returnValue([1, 2]));
-        $rootCategory->expects($this->any())->method('getParentId')->will($this->returnValue(Category::TREE_ROOT_ID));
         $this->categoryRegistry->expects($this->any())->method('getList')
-            ->will($this->returnValue([$category, $rootCategory]));
+            ->will($this->returnValue([$category]));
 
         $this->urlRewriteBuilder->expects($this->any())->method('setStoreId')->with($storeId)
             ->will($this->returnSelf());
