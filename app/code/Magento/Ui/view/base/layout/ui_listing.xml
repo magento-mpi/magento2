@@ -24,6 +24,16 @@
             <block class="Magento\Ui\Filter\View" name="filter_base">
                 <arguments>
                     <argument name="template" xsi:type="string">Magento_Ui::filter/default.phtml</argument>
+                    <argument name="config" xsi:type="array">
+                        <item name="types" xsi:type="array">
+                            <item name="date" xsi:type="array">
+                                <item name="dateFormat" xsi:type="string">mm/dd/yyyy</item>
+                            </item>
+                            <item name="input" xsi:type="array"/>
+                            <item name="select" xsi:type="array"/>
+                            <item name="range" xsi:type="array"/>
+                        </item>
+                    </argument>
                 </arguments>
             </block>
             <block class="Magento\Ui\Sorting\View" name="sorting_base">

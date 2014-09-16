@@ -80,15 +80,9 @@ class View extends AbstractView
         parent::prepare();
         $this->rootComponent = $this->getParentComponent();
 
-        $config = [
-            'types' => [
-                'date' => [
-                    'dateFormat' => 'mm/dd/yyyy'
-                ]
-            ]
-        ];
+        $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
-            $config = array_merge_recursive($config, $this->getData('config'));
+            $config = array_merge($config, $this->getData('config'));
         }
         $this->configuration = new Configuration(
             $this->rootComponent->getName() . '_' . $this->getNameInLayout(),

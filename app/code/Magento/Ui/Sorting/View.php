@@ -25,7 +25,7 @@ class View extends AbstractView
         parent::prepare();
         $this->rootComponent = $this->getParentComponent();
 
-        $config = ['direction' => 'asc'];
+        $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
             $config = array_merge($config, $this->getData('config'));
         }
@@ -56,5 +56,15 @@ class View extends AbstractView
                 strtoupper($this->renderContext->getRequestParam('dir', $direction))
             );
         }
+    }
+
+    /**
+     * Get default parameters
+     *
+     * @return array
+     */
+    protected function getDefaultConfiguration()
+    {
+        return ['direction' => 'asc'];
     }
 }

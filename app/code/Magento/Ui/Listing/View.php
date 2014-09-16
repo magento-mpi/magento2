@@ -70,7 +70,7 @@ class View extends AbstractView
         parent::prepare();
 
         $meta = $this->getMeta();
-        $config = [];
+        $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
             $config = array_merge($config, $this->getData('config'));
         }

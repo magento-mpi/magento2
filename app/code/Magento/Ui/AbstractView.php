@@ -110,6 +110,16 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
+     * Get default parameters
+     *
+     * @return array
+     */
+    protected function getDefaultConfiguration()
+    {
+        return [];
+    }
+
+    /**
      * Prepare custom data
      *
      * @return void

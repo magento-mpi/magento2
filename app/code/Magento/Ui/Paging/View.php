@@ -25,11 +25,7 @@ class View extends AbstractView
         parent::prepare();
         $this->rootComponent = $this->getParentComponent();
 
-        $config = [
-            'sizes' => [20, 30, 50, 100, 200],
-            'pageSize' => 20,
-            'current' => 1
-        ];
+        $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
             $config = array_merge($config, $this->getData('config'));
         }
@@ -53,5 +49,19 @@ class View extends AbstractView
         $this->renderContext->getStorage()->getDataCollection($this->getParentName())
             ->setCurPage($this->renderContext->getRequestParam('page', $this->configuration->getData('current')))
             ->setPageSize($this->renderContext->getRequestParam('limit', $this->configuration->getData('pageSize')));
+    }
+
+    /**
+     * Get default parameters
+     *
+     * @return array
+     */
+    protected function getDefaultConfiguration()
+    {
+        return  [
+            'sizes' => [20, 30, 50, 100, 200],
+            'pageSize' => 20,
+            'current' => 1
+        ];
     }
 }

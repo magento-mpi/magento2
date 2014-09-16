@@ -130,6 +130,18 @@
                     </argument>
                 </arguments>
             </block>
+            <referenceBlock name="filter_base">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="types" xsi:type="array">
+                            <item name="store" xsi:type="array">
+                                <item name="template" xsi:type="string">Magento_Store/templates/filter/store.html</item>
+                                <item name="constructor" xsi:type="string">Magento_Store/listing/filter/store.js</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
             <referenceBlock name="sorting_base">
                 <arguments>
                     <argument name="config" xsi:type="array">
