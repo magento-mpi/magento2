@@ -14,10 +14,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
- * Class AssertUnholdButton
- * Assert that 'Unhold' button present on page
+ * Class AssertNoInvoiceButton
+ * Assert no Invoice button the order grid
  */
-class AssertUnholdButton extends AbstractConstraint
+class AssertNoInvoiceButton extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,20 +27,20 @@ class AssertUnholdButton extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that 'Unhold' button present on order page
+     * Assert no Invoice button the order grid
      *
-     * @param OrderIndex $orderIndex
      * @param OrderView $orderView
+     * @param OrderIndex $orderIndex
      * @param OrderInjectable $order
      * @return void
      */
-    public function processAssert(OrderIndex $orderIndex, OrderView $orderView, OrderInjectable $order)
+    public function processAssert(OrderView $orderView, OrderIndex $orderIndex, OrderInjectable $order)
     {
         $orderIndex->open();
         $orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        \PHPUnit_Framework_Assert::assertTrue(
-            $orderView->getPageActions()->isActionButtonVisible('Unhold'),
-            'Button "Unhold" is absent on order page.'
+        \PHPUnit_Framework_Assert::assertFalse(
+            $orderView->getPageActions()->isActionButtonVisible('Invoice'),
+            'Invoice button is present on order view page.'
         );
     }
 
@@ -51,6 +51,6 @@ class AssertUnholdButton extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Button "Unhold" is present on order page.';
+        return 'Invoice button is absent on order view page.';
     }
 }

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\Block\Adminhtml\Product\Viewed;
+namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
 
 use Mtf\Block\Form;
 use Mtf\ObjectManager;

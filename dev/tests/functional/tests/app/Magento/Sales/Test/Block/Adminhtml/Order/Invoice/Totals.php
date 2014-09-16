@@ -14,13 +14,11 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Totals
  * Invoice totals block
- *
  */
 class Totals extends Block
 {
-
     /**
-     * Submit invoice selector
+     * Submit invoice button selector
      *
      * @var string
      */
@@ -34,10 +32,22 @@ class Totals extends Block
     protected $capture = '[name="invoice[capture_case]"]';
 
     /**
-     * Ship order
+     * Submit invoice
+     *
+     * @return void
      */
     public function submit()
     {
+        $browser = $this->_rootElement;
+        $selector = $this->submit . '.disabled';
+        $strategy = Locator::SELECTOR_CSS;
+        $browser->waitUntil(
+            function () use ($browser, $selector, $strategy) {
+                $element = $browser->find($selector, $strategy);
+                return $element->isVisible() == false ? true : null;
+            }
+        );
+        $this->reinitRootElement();
         $this->_rootElement->find($this->submit)->click();
     }
 
@@ -46,6 +56,7 @@ class Totals extends Block
      * Capture Online|Capture Offline|Not Capture
      *
      * @param string $option
+     * @return void
      */
     public function setCaptureOption($option)
     {
