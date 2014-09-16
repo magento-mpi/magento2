@@ -7,10 +7,11 @@
  */
 namespace Magento\Ui;
 
+use Magento\Framework\View\LayoutInterface;
 use Magento\Ui\ConfigInterface;
 use Magento\Framework\Registry;
-use Magento\Backend\Helper\Data;
 use Magento\Framework\App\RequestInterface;
+use Magento\ui\ContentType\Builders\ConfigurationStorageBuilder;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -24,11 +25,18 @@ class Context extends Registry
     protected $config;
 
     /**
-     * Data helper
+     * Configuration storage builder
      *
-     * @var \Magento\Backend\Helper\Data
+     * @var ConfigurationStorageBuilder
      */
-    protected $dataHelper;
+    protected $configurationStorageBuilder;
+
+    /**
+     * Configuration storage
+     *
+     * @var ConfigurationStorageInterface
+     */
+    protected $configurationStorage;
 
     /**
      * Application request
@@ -45,16 +53,27 @@ class Context extends Registry
     protected $acceptType;
 
     /**
+     * @var LayoutInterface
+     */
+    protected $layout;
+
+    /**
+     * @var AbstractView
+     */
+    protected $rootView;
+
+    /**
      * Constructor
      *
      * @param ConfigInterface $config
+     * @param ConfigurationStorage $configurationStorage
      * @param TemplateContext $context
-     * @param Data $dataHelper
      */
-    public function __construct(ConfigInterface $config, TemplateContext $context, Data $dataHelper)
+    public function __construct(ConfigInterface $config, ConfigurationStorage $configurationStorage, TemplateContext $context)
     {
         $this->config = $config;
-        $this->dataHelper = $dataHelper;
+        $this->configurationStorageBuilder = new ConfigurationStorageBuilder();
+        $this->configurationStorage = $configurationStorage;
         $this->request = $context->getRequest();
         $this->setAcceptType();
     }
@@ -86,6 +105,32 @@ class Context extends Registry
         return $this->acceptType;
     }
 
+    public function setPageLayout(LayoutInterface $layout)
+    {
+        $this->layout = $layout;
+    }
+
+    /**
+     * @return LayoutInterface
+     */
+    public function getPageLayout()
+    {
+        return $this->layout;
+    }
+
+    public function setRootView(AbstractView $view)
+    {
+        $this->rootView = $view;
+    }
+
+    /**
+     * @return AbstractView
+     */
+    public function getRootView()
+    {
+        return $this->rootView;
+    }
+
     /**
      * Getting all request data
      *
@@ -109,65 +154,23 @@ class Context extends Registry
     }
 
     /**
-     * Get data collection object
+     * Get storage configuration
      *
-     * @param string $key
-     * @return \Magento\Framework\Data\Collection
+     * @return ConfigurationStorageInterface
      */
-    public function getDataCollection($key)
+    public function getStorage()
     {
-        return $this->registry($key);
+        return $this->configurationStorage;
     }
 
     /**
-     * Set data collection
+     * Get configuration builder
      *
-     * @param string $key
-     * @param \Magento\Framework\Data\Collection $dataCollection
-     * @return void
+     * @return ConfigurationStorageBuilder
      */
-    public function setDataCollection($key, \Magento\Framework\Data\Collection $dataCollection)
+    public function getConfigurationBuilder()
     {
-        $this->register($key, $dataCollection);
-    }
-
-    /**
-     * Get filter data
-     *
-     * @param string $filterVar
-     * @return array
-     */
-    public function getFilterData($filterVar)
-    {
-        $result = [];
-        $filterString = $this->request->getParam($filterVar);
-        if (!empty($filterString)) {
-            $result = $this->dataHelper->prepareFilterString($this->request->getParam($filterVar));
-        }
-
-        return $result;
-    }
-
-    /**
-     * Set meta fields
-     *
-     * @param string $key
-     * @param array $data
-     */
-    public function setMeta($key, array $data)
-    {
-        $this->register($key . '_meta', $data);
-    }
-
-    /**
-     * Get meta fields data
-     *
-     * @param string $key
-     * @return array
-     */
-    public function getMeta($key)
-    {
-        return $this->registry($key . '_meta');
+        return $this->configurationStorageBuilder;
     }
 
     /**

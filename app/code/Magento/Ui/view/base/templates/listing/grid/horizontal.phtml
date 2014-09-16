@@ -10,21 +10,25 @@
 /**
  * @var \Magento\Ui\Listing\View $this
  */
+
 ?>
 
-<?php if (true): ?>
+<?php if (false): ?>
     <script>
         var allowLocalCache = false;
     </script>
     <script data-m2-init='{ "Magento_Ui/js/listing/utils/provider": "" }' type="application/json">
-        <?php echo $this->getGlobalConfigJson(); ?>
+        <?php
+            echo $this->getRenderContext()
+                ->getConfigurationBuilder()
+                    ->toJson($this->getRenderContext()->getStorage(), $this->getName());
+        ?>
     </script>
     <script data-m2-init='{ "Magento_Ui/js/listing/grid": "" }' type="application/json">
-        <?php echo $this->getConfigurationJson(); ?>
+        <?php echo $this->getConfigurationBuilder()->toJson($this->getConfiguration()); ?>
     </script>
     <?php echo $this->getChildHtml('listing_head'); ?>
     <div class="grid">
-
         <?php echo $this->getChildHtml('listing_before'); ?>
         <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
             <!-- ko template: getTemplate() --><!-- /ko -->

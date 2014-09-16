@@ -19,6 +19,6 @@ class DataProvider extends AbstractView
      */
     public function getAsJson()
     {
-        return $this->renderContext->getBuilder()->toJson($this->renderContext->getStorage());
+        return $this->renderContext->getConfigurationBuilder()->toJson($this->renderContext->getStorage());
     }
 }

@@ -16,14 +16,6 @@ use Magento\Ui\AbstractView;
 abstract class AbstractDataType extends AbstractView implements DataTypeInterface
 {
     /**
-     * @return string
-     */
-    public function prepare()
-    {
-        //
-    }
-
-    /**
      * @return bool
      */
     public function validate()

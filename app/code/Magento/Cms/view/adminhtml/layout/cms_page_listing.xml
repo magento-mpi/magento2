@@ -8,17 +8,12 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <update handle="ui_listing" />
     <referenceBlock name="listing">
         <arguments>
             <argument name="name" xsi:type="string">cms_page_listing</argument>
             <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Grid\Collection</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
-            <argument name="config" xsi:type="array">
-                <item name="params" xsi:type="array">
-                    <item name="field" xsi:type="string">page_id</item>
-                    <item name="direction" xsi:type="string">asc</item>
-                </item>
-            </argument>
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>
@@ -100,37 +95,44 @@
                 </item>
             </argument>
         </arguments>
-        <referenceBlock name="listing_head">
-            <block class="Magento\Ui\ListingContainer\Massaction\View" name="page_action_top">
-                <arguments>
-                    <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/page_actions.phtml</argument>
-                    <argument name="config" xsi:type="array">
-                        <item name="selectableTemplate" xsi:type="string"/>
-                        <item name="actions" xsi:type="array">
-                            <item name="add_new" xsi:type="array">
-                                <item name="label" xsi:type="string" translate="true">Add New Page</item>
-                                <item name="url" xsi:type="string">cms/page/new</item>
-                                <item name="type" xsi:type="string">primary</item>
-                            </item>
+    </referenceBlock>
+    <referenceBlock name="listing_head">
+        <block class="Magento\Ui\ListingContainer\Massaction\View" name="page_action_top">
+            <arguments>
+                <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/page_actions.phtml</argument>
+                <argument name="config" xsi:type="array">
+                    <item name="selectableTemplate" xsi:type="string"/>
+                    <item name="actions" xsi:type="array">
+                        <item name="add_new" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Add New Page</item>
+                            <item name="url" xsi:type="string">cms/page/new</item>
+                            <item name="type" xsi:type="string">primary</item>
                         </item>
-                    </argument>
-                </arguments>
-            </block>
-        </referenceBlock>
-        <referenceBlock name="listing_before">
-            <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
-                <arguments>
-                    <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
-                    <argument name="config" xsi:type="array">
-                        <item name="actions" xsi:type="array">
-                            <item name="delete" xsi:type="array">
-                                <item name="label" xsi:type="string" translate="true">Delete</item>
-                                <item name="url" xsi:type="string">cms/page/massDelete</item>
-                            </item>
+                    </item>
+                </argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+    <referenceBlock name="listing_before">
+        <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
+            <arguments>
+                <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
+                <argument name="config" xsi:type="array">
+                    <item name="actions" xsi:type="array">
+                        <item name="delete" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Delete</item>
+                            <item name="url" xsi:type="string">cms/page/massDelete</item>
                         </item>
-                    </argument>
-                </arguments>
-            </block>
+                    </item>
+                </argument>
+            </arguments>
+        </block>
+        <referenceBlock name="sorting_base">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="field" xsi:type="string">page_id</item>
+                </argument>
+            </arguments>
         </referenceBlock>
     </referenceBlock>
 </page>

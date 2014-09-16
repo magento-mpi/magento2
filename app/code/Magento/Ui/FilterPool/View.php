@@ -7,6 +7,8 @@
  */
 namespace Magento\Ui\FilterPool;
 
+use Magento\Backend\Helper\Data;
+use Magento\Ui\Configuration;
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
 use Magento\Ui\ViewFactory;
@@ -16,12 +18,20 @@ use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 use Magento\Ui\Filter\FilterPool;
 use Magento\Ui\Filter\View as FilterView;
+use Magento\Ui\ConfigurationFactory;
 
 /**
  * Class View
  */
 class View extends AbstractView
 {
+    /**
+     * Data helper
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $dataHelper;
+
     /**
      * Filters pool
      *
@@ -39,39 +49,59 @@ class View extends AbstractView
     /**
      * Constructor
      *
+     * @param Data $dataHelper
      * @param FilterPool $filterPool
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigurationFactory $configurationFactory
      * @param array $data
      */
     public function __construct(
+        Data $dataHelper,
         FilterPool $filterPool,
         Context $renderContext,
         TemplateContext $context,
         ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
+        ConfigurationFactory $configurationFactory,
         array $data = []
     ) {
+        $this->dataHelper = $dataHelper;
         $this->filterPool = $filterPool;
-        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $data);
+        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
     }
 
     /**
-     * Prepare custom data
+     * Prepare component data
      *
+     * @param array $arguments
      * @return void
      */
-    protected function prepare()
+    public function prepare(array $arguments = [])
     {
-        parent::prepare();
+        parent::prepare($arguments);
 
-        $this->rootComponent = $this->getParentBlock()->getParentBlock();
-        $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
-        $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
-        $this->viewConfiguration['types'] = $this->getListOfRequiredFilters();
-        $this->rootComponent->addConfigData($this, $this->viewConfiguration);
+        $config = [
+            'types' => [
+                'date' => [
+                    'dateFormat' => 'mm/dd/yyyy'
+                ]
+            ]
+        ];
+        if ($this->hasData('config')) {
+            $config = array_merge_recursive($config, $this->getData('config'));
+        }
+
+        $this->rootComponent = $this->getParentComponent();
+        $this->configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->rootComponent->getName(),
+                'configuration' => $config
+            ]
+        );
 
         $this->updateDataCollection();
     }
@@ -83,11 +113,11 @@ class View extends AbstractView
      */
     protected function updateDataCollection()
     {
-        $collection = $this->renderContext->getDataCollection($this->getParentName());
+        $collection = $this->renderContext->getStorage()->getDataCollection($this->getParentName());
 
-        $metaData = $this->renderContext->getMeta($this->getParentName());
+        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $metaData = $metaData['fields'];
-        $filterData = $this->renderContext->getFilterData(FilterView::FILTER_VAR);
+        $filterData = $this->dataHelper->prepareFilterString($this->renderContext->getRequestParam(FilterView::FILTER_VAR));
         foreach ($filterData as $field => $value) {
             if (!isset($metaData[$field]['filter_type'])) {
                 continue;
@@ -117,7 +147,7 @@ class View extends AbstractView
     public function getFields()
     {
         $this->rootComponent = $this->getParentBlock()->getParentBlock();
-        $meta = $this->renderContext->getMeta($this->rootComponent->getData('name'));
+        $meta = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $fields = [];
         if (isset($meta['fields'])) {
             foreach ($meta['fields'] as $name => $config) {
@@ -135,10 +165,12 @@ class View extends AbstractView
      */
     public function getActiveFilters()
     {
-        $metaData = $this->renderContext->getMeta($this->getParentName());
+        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $metaData = $metaData['fields'];
         $filters = [];
-        $filterData = $this->renderContext->getFilterData(FilterView::FILTER_VAR);
+        $filterData = $this->dataHelper->prepareFilterString(
+            $this->renderContext->getRequestParam(FilterView::FILTER_VAR)
+        );
         foreach ($filterData as $field => $value) {
             if (!isset($metaData[$field]['filter_type'])) {
                 continue;

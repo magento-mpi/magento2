@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if (true): ?>
+<?php if (false): ?>
     <script data-m2-init='{"Magento_Ui/js/listing/filter": ""}' type="application/json">
         <?php echo $this->getConfigurationJson(); ?>
     </script>
@@ -12,7 +12,7 @@
         <!-- ko template: 'Magento_Ui.templates.filter.filter' --><!-- /ko -->
     </div>
 <?php else: ?>
-    <div class="filters" data-m2-init='{"Magento_Ui/js/listing/filter": ""}'>
+    <div class="filters" data-m2-init='{"Magento_Ui/js/listing/filter": ""}' data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
         <button class="action filters-toggle" data-bind="click: toggle"><span data-bind-="text: $t('Filter')">Filter</span></button>
         <div class="form filters-form" data-bind-="visible: isVisible" data-part-="filter-form">
             <fieldset class="filters-fieldset fieldset">

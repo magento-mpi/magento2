@@ -10,7 +10,9 @@ namespace Magento\Ui\Filter;
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
 use Magento\Ui\ViewFactory;
+use Magento\Ui\Configuration;
 use Magento\Ui\ViewInterface;
+use Magento\Backend\Helper\Data;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
@@ -24,6 +26,13 @@ class View extends AbstractView
      * Filter variable name
      */
     const FILTER_VAR = 'filter';
+
+    /**
+     * Filters pool
+     *
+     * @var FilterPool
+     */
+    protected $filterPool;
 
     /**
      * Root view component
@@ -46,46 +55,28 @@ class View extends AbstractView
     ];
 
     /**
-     * Constructor
+     * Prepare component data
      *
-     * @param Context $renderContext
-     * @param TemplateContext $context
-     * @param ViewFactory $viewFactory
-     * @param ContentTypeFactory $contentTypeFactory
-     * @param array $data
+     * @param array $arguments
+     * @return $this|void
      */
-    public function __construct(
-        Context $renderContext,
-        TemplateContext $context,
-        ViewFactory $viewFactory,
-        ContentTypeFactory $contentTypeFactory,
-        array $data = []
-    ) {
-        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $data);
-    }
-
-    /**
-     * Prepare custom data
-     *
-     * @return void
-     */
-    protected function prepare()
+    public function prepare(array $arguments = [])
     {
-        parent::prepare();
+        parent::prepare($arguments);
 
-        $this->rootComponent = $this->getParentBlock()->getParentBlock();
-        $this->viewConfiguration['parent_name'] = $this->rootComponent->getName();
-        $this->viewConfiguration['name'] = $this->viewConfiguration['parent_name'] . '_' . $this->getNameInLayout();
-        $this->rootComponent->addConfigData($this, $this->viewConfiguration);
-
-        $collection = $this->renderContext->getDataCollection($this->getParentName());
-        $filterData = $this->renderContext->getFilterData(static::FILTER_VAR);
-        $field = $this->getData('name');
-        $value = $filterData[$field];
-        $condition = $this->getCondition($value);
-        if ($condition !== null) {
-            $collection->addFieldToFilter($field, $condition);
+        $config = [];
+        if ($this->hasData('config')) {
+            $config = array_merge_recursive($config, $this->getData('config'));
         }
+
+        $this->rootComponent = $this->getParentComponent();
+        $this->configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->rootComponent->getName(),
+                'configuration' => $config
+            ]
+        );
     }
 
     /**

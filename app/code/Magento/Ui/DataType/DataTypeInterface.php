@@ -15,8 +15,6 @@ use Magento\Ui\ViewInterface;
  */
 interface DataTypeInterface extends ViewInterface
 {
-    public function prepare();
-
     public function validate();
 
     public function getDataObjectValue();
