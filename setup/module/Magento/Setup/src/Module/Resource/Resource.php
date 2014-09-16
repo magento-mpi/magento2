@@ -109,7 +109,7 @@ class Resource implements ResourceInterface
     }
 
     /**
-     * Load schema/db version
+     * Get name of the resources table.
      *
      * @return string
      */
