@@ -25,7 +25,7 @@ class Match implements QueryInterface
     ) {
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         $queryValue = $query->getValue();
-        if ($conditionType == Bool::QUERY_CONDITION_MUST) {
+        if ($conditionType === Bool::QUERY_CONDITION_MUST) {
             $queryValue = '+' . $queryValue;
         } elseif ($conditionType === Bool::QUERY_CONDITION_NOT) {
             $queryValue = '-' . $queryValue;
