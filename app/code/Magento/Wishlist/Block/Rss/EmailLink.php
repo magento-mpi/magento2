@@ -12,12 +12,12 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Block\Share\Email;
+namespace Magento\Wishlist\Block\Rss;
 
-class Rss extends \Magento\Framework\View\Element\Template
+class EmailLink extends Link
 {
     /**
      * @var string
      */
-    protected $_template = 'email/rss.phtml';
+    protected $_template = 'rss/email.phtml';
 }

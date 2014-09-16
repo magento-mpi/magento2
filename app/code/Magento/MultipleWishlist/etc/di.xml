@@ -30,9 +30,10 @@
             <argument name="wishlistHelper" xsi:type="object">Magento\MultipleWishlist\Helper\Rss</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\MultipleWishlist\Block\Rss">
+    <preference for="Magento\Wishlist\Model\Rss\Wishlist" type="Magento\MultipleWishlist\Model\Rss\Wishlist"/>
+    <type name="Magento\MultipleWishlist\Model\Rss\Wishlist">
         <arguments>
-            <argument name="context" xsi:type="object">Magento\MultipleWishlist\Block\Context</argument>
+            <argument name="wishlistHelper" xsi:type="object">Magento\MultipleWishlist\Helper\Rss</argument>
         </arguments>
     </type>
     <type name="Magento\MultipleWishlist\Controller\IndexInterface">

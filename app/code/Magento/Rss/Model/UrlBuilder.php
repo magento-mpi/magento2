@@ -27,6 +27,7 @@ class UrlBuilder implements UrlBuilderInterface
 
     /**
      * @param \Magento\Framework\UrlInterface $urlBuilder
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Framework\UrlInterface $urlBuilder,

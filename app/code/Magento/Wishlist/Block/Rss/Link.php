@@ -5,22 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Block\Order\Info\Buttons;
+
 
 /**
- * Block of links in Order view page
+ * Wishlist block customer items
  */
-class Rss extends \Magento\Framework\View\Element\Template
+namespace Magento\Wishlist\Block\Rss;
+
+class Link extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var string
+     * @var \Magento\Wishlist\Helper\Data
      */
-    protected $_template = 'order/info/buttons/rss.phtml';
-
-    /**
-     * @var \Magento\Sales\Model\OrderFactory
-     */
-    protected $orderFactory;
+    protected $wishlistHelper;
 
     /**
      * @var \Magento\Framework\App\Rss\UrlBuilderInterface
@@ -29,19 +26,19 @@ class Rss extends \Magento\Framework\View\Element\Template
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
         array $data = array()
     ) {
-        $this->orderFactory = $orderFactory;
-        $this->rssUrlBuilder = $rssUrlBuilder;
         parent::__construct($context, $data);
+        $this->wishlistHelper = $wishlistHelper;
+        $this->rssUrlBuilder = $rssUrlBuilder;
     }
 
     /**
@@ -67,8 +64,8 @@ class Rss extends \Magento\Framework\View\Element\Template
      */
     public function isRssAllowed()
     {
-        return (bool) $this->_scopeConfig->getValue(
-            'rss/order/status',
+        return (bool)$this->_scopeConfig->getValue(
+            'rss/wishlist/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
@@ -94,11 +91,20 @@ class Rss extends \Magento\Framework\View\Element\Template
      */
     protected function getLinkParams()
     {
-        $order = $this->orderFactory->create()->load($this->_request->getParam('order_id'));
-        return array(
-            'type' => 'order_status',
-            '_secure' => true,
-            '_query' => array('data' => $this->getUrlKey($order))
-        );
+        $params = array();
+        $wishlistId = $this->wishlistHelper->getWishlist()->getId();
+        $customer = $this->wishlistHelper->getCustomer();
+        if ($customer) {
+            $key = $customer->getId() . ',' . $customer->getEmail();
+            $params = array(
+                'type' => 'wishlist',
+                'data' => $this->wishlistHelper->urlEncode($key),
+                '_secure' => false
+            );
+        }
+        if ($wishlistId) {
+            $params['wishlist_id'] = $wishlistId;
+        }
+        return $params;
     }
 }
