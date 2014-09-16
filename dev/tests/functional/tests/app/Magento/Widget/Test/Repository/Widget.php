@@ -45,5 +45,28 @@ class Widget extends AbstractRepository
             ],
             'theme_id' => '2'
         ];
+
+        $this->_data['cms_page_link'] = [
+            'code' => 'CMS Page Link',
+            'title' => 'Cms Page Link %isolation%',
+            'store_ids' => ['0'],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'all_pages',
+                    'all_pages' => [
+                        'layout_handle' => 'default',
+                        'for' => 'all',
+                        'block' => 'content',
+                        'template' => 'widget/link/link_block.phtml'
+                    ]
+                ]
+            ],
+            'parameters' => [
+                'display_mode' => 'fixed',
+                'anchor_text' => 'text',
+                'title' => 'anchor title',
+            ],
+            'theme_id' => 'Magento Blank'
+        ];
     }
 }
