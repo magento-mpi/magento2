@@ -203,7 +203,7 @@ define([
          * @returns {String} - path to template based on type of filter
          */
         getTemplateFor: function (filter) {
-            return 'Magento_Ui.templates.filter.item.' + filter.type;
+            return 'ui/filter/' + filter.type;
         }
     });
 
