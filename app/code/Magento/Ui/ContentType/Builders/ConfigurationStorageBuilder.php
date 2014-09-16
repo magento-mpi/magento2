@@ -24,13 +24,16 @@ class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
      */
     public function toJson(ConfigurationStorageInterface $storage, $parentName = null)
     {
-        $result = [];
+        $result = [
+            'config' => []
+        ];
         if ($parentName !== null) {
             $rootComponent = $storage->getComponentsData($parentName);
             $result['name'] = $rootComponent->getName();
             $result['parent_name'] = $rootComponent->getParentName();
             $result['meta'] = $storage->getMeta($parentName);
             $result['data'] = $storage->getData($parentName);
+            $result['config']['components'][$rootComponent->getName()] = $rootComponent->getData();
         } else {
             $components = $storage->getComponentsData();
             if (!empty($components)) {
@@ -45,7 +48,6 @@ class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
 
         $result['config'] += $storage->getCloudData();
         $result['dump']['extenders'] = [];
-
         return json_encode($result);
     }
 }
