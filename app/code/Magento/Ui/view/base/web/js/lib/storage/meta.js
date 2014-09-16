@@ -10,6 +10,13 @@ define([
 ], function(_, Storage) {
     'use strict';
 
+    /**
+     * Loops over first level of object looking for valueKey of typeof object values
+     * to be typeof object as well. Breaks loop on first entry on one.
+     * @param  {Object}  target
+     * @param  {String}  valueKey - complex to look for
+     * @return {Boolean}
+     */
     function hasComplexValue(target, valueKey) {
         var result = false,
             key,
@@ -19,7 +26,7 @@ define([
         for (key in target) {
             object = target[key];
 
-            if (typeof object[valueKey] === 'object') {
+            if (typeof object === 'object' && typeof object[valueKey] === 'object') {
                 result = true;
                 break;
             }
@@ -55,6 +62,12 @@ define([
     }
 
     return Storage.extend({
+
+        /**
+         * Initializes data prop based on data argument.
+         * Calls initFields and initColspan methods 
+         * @param  {Object} config
+         */
         initialize: function(data) {
             this.data = data || {};
 
@@ -62,6 +75,11 @@ define([
                 .initColspan();
         },
 
+        /**
+         * Formats fields property to compatible format.
+         * Processes those. Assignes fiedls to data.fields.
+         * @return {Object} - reference to instance
+         */
         initFields: function(){
             var data    = this.data,
                 fields  = data.fields;
@@ -75,6 +93,10 @@ define([
             return this;
         },
 
+        /**
+         * Assigns data.colspan to this.getVisible().length
+         * @return {Object} - reference to instance
+         */
         initColspan: function(){
             var visible = this.getVisible();
 
@@ -83,6 +105,11 @@ define([
             return this;
         },
 
+        /**
+         * Assignes default params to field
+         * @param  {Object} field
+         * @return {Object} reference to instance
+         */
         applyDefaults: function(field) {
             var defaults = this.data.defaults;
 
@@ -93,29 +120,41 @@ define([
             return this;
         },
 
+        /**
+         * Format options based on those being nested
+         * @param  {Object} field
+         * @return {Object} reference to instance
+         */
         formatOptions: function(field) {
             var result,
                 options,
                 isNested;
 
             options = field.options;
-            isNested = hasComplexValue(options, 'value');
 
             if (options) {
-                result = isNested ? nestedObjectToArray(options, 'value') : {};
+                result      = {};
+                isNested    = hasComplexValue(options, 'value');
 
-                if (!isNested) {
+                if(isNested){
+                    result = nestedObjectToArray(options, 'value');
+                }
+                else{
                     _.each(options, function(option){
                         result[option.value] = option.label;
-                    });    
-                }
-                
+                    }); 
+                }   
+                                
                 field.options = result;
             }
 
             return this;
         },
 
+        /**
+         * Returns filted by visible property fields array.
+         * @return {Array} filted by visible property fields array
+         */
         getVisible: function(){
             var fields  = this.data.fields;
             
@@ -124,6 +163,11 @@ define([
             });
         },
 
+        /**
+         * Convertes fields object to array, assigning key to index property.
+         * @param  {Object} fields
+         * @return {Array} array of fields
+         */
         _fieldsToArray: function(fields){
             return _.map(fields, function(field, id){
                 field.index = id;
@@ -132,6 +176,10 @@ define([
             });
         },
 
+        /**
+         * Calls applyDefaults and formatOptions on field
+         * @param  {Object} field
+         */
         _processField: function(field){
             this.applyDefaults(field)
                 .formatOptions(field);

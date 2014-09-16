@@ -56,7 +56,10 @@ define([
             this.options = this.options || [];
         },
 
-
+        /**
+         * Checkes if current state is empty.
+         * @return {Boolean}
+         */
         isEmpty: function(){
             return !this.selected();
         },

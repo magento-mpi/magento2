@@ -23,8 +23,6 @@ define([
             { value: 'selectPage',   label: 'Select all on this page'   },
             { value: 'deselectPage', label: 'Deselect all on this page' }
         ],
-        indexField: '',
-        idAttribute: 'id_attribute',
         selectableTemplate: 'selectable'
     };
 
@@ -42,7 +40,8 @@ define([
                 .initIndexField()
                 .formatActions()
                 .attachTemplateExtender()
-                .initProvider();
+                .initProvider()
+                .countPages();
         },
 
         /**
@@ -52,11 +51,14 @@ define([
         initObservable: function () {
             this.observe({
                 selected:           this.selected || [],
+                excluded:           [],
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
                 menuVisible:        false,
-                hasMoreThanOnePage: this.getPagesCount() > 1
+                multiplePages:      ''
             });
+
+            this.selected.subscribe(this.onSelectionsChange.bind(this));
 
             return this;
         },
@@ -67,18 +69,17 @@ define([
          * @return {Object} - reference to instance
          */
         initIndexField: function () {
-            var fields = this.provider.meta.get('fields'),
-                fieldsWithId;
+            var provider = this.provider.meta;
 
-            fieldsWithId = fields.filter(function (field) {
-                return this.idAttribute in field;
-            }, this);
-
-            this.indexField = _.last(fieldsWithId).index;
+            this.indexField = provider.get('indexField');
 
             return this;
         },
 
+        /**
+         * Convertes incoming optins to compatible format
+         * @return {Object} reference to instance
+         */
         formatActions: function(){
             var actions = this.actions;
 
@@ -135,12 +136,12 @@ define([
          * Prepares params object, which represents the current state of instance.
          * @return {Object} - params object
          */
-        buildParams: function () {            
+        buildParams: function () {           
             if (this.allSelected()) {
 
                 return {
                     all_selected: true,
-                    excluded: this.getExcluded()
+                    excluded: this.excluded()
                 };
             }
 
@@ -148,27 +149,29 @@ define([
                 selected: this.selected()
             };
         },
-
+        
         /**
-         * Compares all items to those selected and returnes the difference.
-         * @return {Array} - array of excluded ids.
+         * Toggles observable property based on area argument
+         * @param  {area} area
          */
-        getExcluded: function () {
-            var provider    = this.provider.data,
-                selected    = this.selected();
-                all         = _.pluck(provider.get('items'), this.indexField);
-
-            return _.difference(all, selected);
-        },
-
-        getPagesCount: function () {
-            return this.provider.data.get('pages');
-        },
-
         toggle: function(area){
             var visible = this[area];
 
             visible(!visible());
+        },
+
+        /**
+         * Sets actionsVisible to false
+         */
+        hideActions: function () {
+            this.actionsVisible(false);
+        },
+
+        /**
+         * Sets menuVisible to false
+         */
+        hideMenu: function () {
+            this.menuVisible(false);
         },
 
         /**
@@ -177,29 +180,42 @@ define([
          * @param {String} action
          */
         setAction: function (action) {
-            return this.submit.bind(this, action);
+            return function(){
+                this.submit(action)
+                    .hideActions();
+            }.bind(this);
         },
 
         /**
          * Updates storage's params and reloads it.
          */
-        submit: function (action) {
-            var client = this.provider.client,
-                config,
-                data;
+        submit: function(action) {
+            var client = this.provider.client;
 
-            config = {
-                method: 'post',
-                action: action.url
-            };
+            if (this.count) {
 
-            data = {
-                massaction: this.buildParams()
-            };
+                client.submit({
+                    method: 'post',
+                    action: action.url,
+                    data: {
+                        massaction: this.buildParams()
+                    }
+                });
+            } else {
+                
+                alert("You haven't selected any items!");
+            }
 
-            client.submit(config, data);
-            
             return this;
+        },
+
+        getIds: function(exclude){
+            var items   = this.provider.data.get('items'),
+                ids     = _.pluck(items, this.indexField);
+
+            return exclude ?
+                _.difference(ids, this.excluded()) :
+                ids;    
         },
 
         /**
@@ -207,7 +223,9 @@ define([
          */
         selectAll: function () {
             this.allSelected(true);
-            this.selectPage();
+            
+            this.clearExcluded()
+                .selectPage();
         },
 
         /**
@@ -222,17 +240,31 @@ define([
          * Selects all items on current page, adding their ids to selected observable array
          */
         selectPage: function () {
-            var items = this.provider.data.get('items'),
-                ids   = _.pluck(items, this.indexField);
-
-            this.selected(ids);
+            this.selected(this.getIds());
         },
 
         /**
          * Deselects all items on current page, emptying selected observable array
          */
         deselectPage: function () {
-            this.selected([]);
+            this.selected.removeAll();
+        },
+        
+        updateExcluded: function(selected) {
+            var all         = this.getIds(),
+                excluded    = this.excluded();
+
+            excluded = _.union(excluded, _.difference(all, selected));
+
+            this.excluded(excluded);
+
+            return this;
+        },
+
+        clearExcluded: function(){
+            this.excluded.removeAll();
+
+            return this;
         },
 
         /**
@@ -248,6 +280,70 @@ define([
             return function () {
                 window.location.href = url;
             }
+        },
+
+        countPages: function() {
+            var provider = this.provider.data;
+
+            this.pages = provider.get('pages');
+
+            this.multiplePages(this.pages > 1);
+
+            return this;
+        },
+
+        countSelect: function() {
+            var provider    = this.provider,
+                total       = provider.data.get('totalCount'),
+                excluded    = this.excluded().length,
+                count       = this.selected().length;
+
+            if (this.allSelected()) {
+                count = total - excluded;
+            }
+
+            provider.meta.set('selected', count);
+
+            this.count = count;
+
+            return this;
+        },
+
+        /**
+         * If isAllSelected is true, deselects all, else selects all
+         */
+        toggleSelectAll: function () {
+            var isAllSelected = this.allSelected();
+
+            isAllSelected ? this.deselectAll() : this.selectAll();
+        },
+
+        /**
+         * Looks up for corresponding to passed action checker method,
+         * and returnes it's result. If method not found, returnes true;
+         * @param  {String} action - e.g. selectAll, deselectAll
+         * @return {Boolean} should action be visible
+         */
+        shouldBeVisible: function (action) {
+            var checker = this['should' + capitaliseFirstLetter(action) + 'BeVisible'];
+
+            return checker ? checker.call(this) : true;
+        },
+
+        /**
+         * Checkes if selectAll action supposed to be visible
+         * @return {Boolean}
+         */
+        shouldSelectAllBeVisible: function () {
+            return !this.allSelected() && this.multiplePages();
+        },
+
+        /**
+         * Checkes if deselectAll action supposed to be visible
+         * @return {Boolean}
+         */
+        shouldDeselectAllBeVisible: function () {
+            return this.allSelected() && this.multiplePages();
         },
 
         onToggle: function(area){
@@ -270,31 +366,16 @@ define([
          * Updates state according to changes of provider.
          */
         onRefresh: function () {
-            this.hasMoreThanOnePage(this.getPagesCount() > 1);
+            if( this.allSelected() ){
+                this.selected(this.getIds(true));
+            }
 
-            this.deselectAll();
+            this.countPages();
         },
 
-        toggleSelectAll: function () {
-            var isAllSelected = this.allSelected();
-
-            isAllSelected ? this.deselectAll() : this.selectAll();
-        },
-
-        shouldBeVisible: function (action) {
-            var checker = this['should' + capitaliseFirstLetter(action) + 'BeVisible'];
-
-            return checker ? checker.call(this) : true;
-        },
-
-        shouldSelectAllBeVisible: function () {
-            return !this.allSelected() && this.hasMoreThanOnePage();
-        },
-
-        shouldDeselectAllBeVisible: function () {
-            var selected = this.selected();
-
-            return selected.length && this.hasMoreThanOnePage();
+        onSelectionsChange: function(selected){
+            this.updateExcluded(selected)
+                .countSelect();
         }
     });
 

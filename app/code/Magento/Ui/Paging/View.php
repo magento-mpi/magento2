@@ -28,8 +28,8 @@ class View extends AbstractView
      * @var array
      */
     protected $viewConfiguration = [
-        'sizes' => [5, 10, 20, 30, 50, 100, 200],
-        'pageSize' => 5,
+        'sizes' => [20, 30, 50, 100, 200],
+        'pageSize' => 20,
         'current' => 1
     ];
 

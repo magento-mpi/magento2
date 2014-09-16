@@ -19,6 +19,12 @@ define([
     }
 
     return {
+        /**
+         * Calls callback when name event is triggered.
+         * @param  {String}   name
+         * @param  {Function} callback
+         * @return {Object} reference to this
+         */
         on: function(name, callback) {
             var events = getEvents(this);
 
@@ -29,6 +35,11 @@ define([
             return this;
         },
 
+        /**
+         * Removed callback from listening to target event 
+         * @param  {String} name
+         * @return {Object} reference to this
+         */
         off: function(name) {
             var events      = getEvents(this),
                 handlers    = events[name];
@@ -40,6 +51,11 @@ define([
             return this;
         },
 
+        /**
+         * Triggers event and executes all attached callbacks
+         * @param  {String} name
+         * @return {Object} reference to this
+         */
         trigger: function(name) {
             var handlers = getEvents(this, name),
                 args;
