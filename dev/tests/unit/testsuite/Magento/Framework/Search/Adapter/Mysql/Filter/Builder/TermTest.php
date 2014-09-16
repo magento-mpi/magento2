@@ -74,10 +74,10 @@ class TermTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($field));
         $this->requestFilter->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue($value));
+            ->willReturn($value);
         $this->adapter->expects($this->once())
             ->method('quote')
-            ->will($this->returnArgument(0));
+            ->willReturn(is_array($value) ? $value[0] : $value);
 
         $actualResult = $this->filter->buildFilter($this->requestFilter);
         $this->assertEquals($expectedResult, $actualResult);
@@ -97,8 +97,8 @@ class TermTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'field' => 'testField2',
-                'value' => 'testValue2',
-                'expectedResult' => 'testField2 = testValue2',
+                'value' => ['testValue2'],
+                'expectedResult' => 'testField2 IN (testValue2)',
             ],
         ];
     }

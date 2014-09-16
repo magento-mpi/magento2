@@ -1013,4 +1013,151 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         return $groupId;
     }
+
+    /**
+     * Test save customer group
+     */
+    public function testSaveGroup()
+    {
+        /** @var \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $builder */
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $groupId = $this->createGroup(
+            $builder->populateWithArray([
+                    CustomerGroup::ID => null,
+                    CustomerGroup::CODE => 'New testSaveGroup Group',
+                    CustomerGroup::TAX_CLASS_ID => 3
+                ])->create()
+        );
+
+        $group = $this->groupService->getGroup($groupId);
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+            ]
+        ];
+
+        $group = $builder->populate($group);
+        $group->setCode('New testSaveGroup Group Change');
+        $group = $group->create();
+
+        $requestData = ['group' => [
+                CustomerGroup::ID => $group->getId(),
+                CustomerGroup::CODE => $group->getCode(),
+                CustomerGroup::TAX_CLASS_ID => $group->getTaxClassId()
+            ]
+        ];
+
+        $changedGroupId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($group->getId(), $changedGroupId);
+
+        $this->groupRegistry->remove($groupId);
+        $changedGroup = $this->groupService->getGroup($groupId);
+        $this->assertEquals($group, $changedGroup);
+    }
+
+    /**
+     * Data provider for testSearchGroups
+     */
+    public function testSearchGroupsDataProvider()
+    {
+        return [
+            ['tax_class_id', '3', []],
+            ['tax_class_id', '0', null],
+            ['code', md5(mt_rand(0,10000000000) . time()), null],
+            [
+                'id',
+                '0',
+                [
+                    'id' => '0',
+                    'code' => 'NOT LOGGED IN',
+                    'tax_class_id' => '3',
+                    'tax_class_name' => 'Retail Customer'
+                ]
+            ],
+            [
+                'code',
+                'General',
+                [
+                    'id' => '1',
+                    'code' => 'General',
+                    'tax_class_id' => '3',
+                    'tax_class_name' => 'Retail Customer'
+                ]
+            ],
+            [
+                'id',
+                '2',
+                [
+                    'id' => '2',
+                    'code' => 'Wholesale',
+                    'tax_class_id' => '3',
+                    'tax_class_name' => 'Retail Customer'
+                ]
+            ],
+            [
+                'code',
+                'Retailer',
+                [
+                    'id' => '3',
+                    'code' => 'Retailer',
+                    'tax_class_id' => '3',
+                    'tax_class_name' => 'Retail Customer'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Test search customer group
+     *
+     * @param string $filterField Customer Group field to filter by
+     * @param string $filterValue Value of the field to be filtered by
+     * @param array $expectedResult Expected search result
+     *
+     * @dataProvider testSearchGroupsDataProvider
+     */
+    public function testSearchGroups($filterField, $filterValue, $expectedResult)
+    {
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $searchCriteriaBuilder =  Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+        $filter = $filterBuilder
+                    ->setField($filterField)
+                    ->setValue($filterValue)
+                    ->create();
+        $searchCriteriaBuilder->addFilter([$filter]);
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/search",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SearchGroups'
+            ]
+        ];
+
+        $searchData = $searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+
+        $searchResult = $this->_webApiCall($serviceInfo, $requestData);
+
+        if (is_null($expectedResult)) {
+            $this->assertEquals(0, $searchResult['total_count']);
+        } elseif(is_array($expectedResult))  {
+            $this->assertGreaterThan(0, $searchResult['total_count']);
+            if(!empty($expectedResult)) {
+                $this->assertEquals($expectedResult, $searchResult['items'][0]);
+            }
+        }
+    }
 }

@@ -331,6 +331,10 @@
         ]]></script>
 
         <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/" failonerror="true">
+            <arg line="utils/generate/page.php"/>
+        </exec>
+
+        <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/" failonerror="true">
             <arg line="utils/generate/factory.php"/>
         </exec>
 

@@ -17,9 +17,9 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     private $adapter;
 
     /**
-     * @var \Magento\Framework\Search\RequestFactory
+     * @var \Magento\Framework\Search\Request\Builder
      */
-    private $requestFactory;
+    private $requestBuilder;
 
     /**
      * @var \Magento\Framework\ObjectManager
@@ -41,9 +41,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $config = $this->objectManager->create('Magento\Framework\Search\Request\Config');
         $config->merge($requestConfig);
 
-        /** @var \Magento\Framework\Search\RequestFactory $requestFactory */
-        $this->requestFactory = $this->objectManager->create(
-            'Magento\Framework\Search\RequestFactory',
+        $this->requestBuilder = $this->objectManager->create(
+            'Magento\Framework\Search\Request\Builder',
             ['config' => $config]
         );
 
@@ -61,13 +60,36 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchQuery()
     {
-        $bindValues = [
-            '%request.title%' => 'socks',
-        ];
-        $requestName = 'one_match';
+        $this->requestBuilder->bind('fulltext_search_query', 'socks');
+        $this->requestBuilder->setRequestName('one_match');
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $queryResponse = $this->executeQuery();
+
         $this->assertEquals(1, $queryResponse->count());
+    }
+
+    private function executeQuery()
+    {
+        $this->reindexAll();
+
+        /** @var \Magento\Framework\Search\Request $queryRequest */
+        $queryRequest = $this->requestBuilder->create();
+
+        $queryResponse = $this->adapter->query($queryRequest);
+
+        return $queryResponse;
+    }
+
+    private function reindexAll()
+    {
+        /** @var \Magento\Indexer\Model\Indexer[] $indexerList */
+        $indexerList = $this->objectManager->get('\Magento\Indexer\Model\Indexer\CollectionFactory')
+            ->create()
+            ->getItems();
+
+        foreach ($indexerList as $indexer) {
+            $indexer->reindexAll();
+        }
     }
 
     /**
@@ -81,15 +103,13 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchQueryFilters()
     {
-        $bindValues = [
-            '%request.title%' => 'socks',
-            '%pidm_from%' => 1,
-            '%pidm_to%' => 3,
-            '%pidsh%' => 4
-        ];
-        $requestName = 'one_match_filters';
+        $this->requestBuilder->bind('fulltext_search_query', 'socks');
+        $this->requestBuilder->bind('pidm_from', 1);
+        $this->requestBuilder->bind('pidm_to', 3);
+        $this->requestBuilder->bind('pidsh', 4);
+        $this->requestBuilder->setRequestName('one_match_filters');
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $queryResponse = $this->executeQuery();
         $this->assertEquals(1, $queryResponse->count());
     }
 
@@ -104,13 +124,11 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithAllFields()
     {
-        $bindValues = [
-            '%request.product_id.from%' => 1,
-            '%request.product_id.to%' => 3,
-        ];
-        $requestName = 'range_filter';
+        $this->requestBuilder->bind('range_filter_from', 1);
+        $this->requestBuilder->bind('range_filter_to', 3);
+        $this->requestBuilder->setRequestName('range_filter');
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $queryResponse = $this->executeQuery();
         $this->assertEquals(2, $queryResponse->count());
     }
 
@@ -125,12 +143,10 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithoutFromField()
     {
-        $bindValues = [
-            '%request.product_id.to%' => 4,
-        ];
-        $requestName = 'range_filter_without_from_field';
+        $this->requestBuilder->bind('range_filter_to', 4);
+        $this->requestBuilder->setRequestName('range_filter_without_from_field');
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $queryResponse = $this->executeQuery();
         $this->assertEquals(3, $queryResponse->count());
     }
 
@@ -145,12 +161,10 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithoutToField()
     {
-        $bindValues = [
-            '%request.product_id.from%' => 2,
-        ];
-        $requestName = 'range_filter_without_to_field';
+        $this->requestBuilder->bind('from', 2);
+        $this->requestBuilder->setRequestName('range_filter_without_to_field');
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $queryResponse = $this->executeQuery();
         $this->assertEquals(4, $queryResponse->count());
     }
 
@@ -167,14 +181,48 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     {
         $id = 4;
 
-        $bindValues = [
-            '%request.product_id%' => $id,
-        ];
-        $requestName = 'term_filter';
+        $this->requestBuilder->bind('request.product_id', $id);
+        $this->requestBuilder->setRequestName('term_filter');
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $queryResponse = $this->executeQuery();
         $this->assertEquals(1, $queryResponse->count());
         $this->assertEquals($id, $queryResponse->getIterator()->offsetGet(0)->getId());
+    }
+
+    /**
+     * Term filter test
+     *
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testTermFilterArray()
+    {
+        $this->requestBuilder->bind('request.product_id', [3, 4]);
+        $this->requestBuilder->setRequestName('term_filter');
+
+        $queryResponse = $this->executeQuery();
+        $this->assertEquals(2, $queryResponse->count());
+    }
+
+    /**
+     * Term filter test
+     *
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/search_type 2
+     * @magentoDataFixture Magento/Framework/Search/_files/products.php
+     */
+    public function testWildcardFilter()
+    {
+        $this->requestBuilder->bind('wildcard_filter', 're');
+        $this->requestBuilder->setRequestName('one_wildcard');
+
+        $queryResponse = $this->executeQuery();
+        $this->assertEquals(4, $queryResponse->count());
     }
 
     /**
@@ -193,19 +241,18 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
          */
         $this->markTestSkipped('Bool filter doesn\'t work correctly and we have issue in bug tracker');
         $expectedIds = [2, 3];
-        $bindValues = [
-            '%request.must.range_filter1.from%' => 1,
-            '%request.must.range_filter1.to%' => 5,
-            '%request.should.term_filter1%' => 1,
-            '%request.should.term_filter2%' => 2,
-            '%request.should.term_filter3%' => 3,
-            '%request.should.term_filter4%' => 4,
-            '%request.not.term_filter1%' => 1,
-            '%request.not.term_filter2%' => 4,
-        ];
-        $requestName = 'bool_filter';
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
+        $this->requestBuilder->bind('must_range_filter1', ['from' => 1, 'to' => 5]);
+        $this->requestBuilder->bind('should_term_filter1', 1);
+        $this->requestBuilder->bind('should_term_filter2', 2);
+        $this->requestBuilder->bind('should_term_filter3', 3);
+        $this->requestBuilder->bind('should_term_filter4', 4);
+        $this->requestBuilder->bind('not_term_filter1', 1);
+        $this->requestBuilder->bind('not_term_filter2', 4);
+        $this->requestBuilder->bind('should_term_filter3', 3);
+        $this->requestBuilder->setRequestName('bool_filter');
+
+        $queryResponse = $this->executeQuery();
         $this->assertEquals(count($expectedIds), $queryResponse->count());
         $actualIds = [];
         foreach ($queryResponse as $document) {
@@ -225,12 +272,22 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store catalog/search/search_type 2
      * @magentoDataFixture Magento/Framework/Search/_files/products.php
      */
-    public function testSimpleAdvancedSearch($bindValues, $expectedRecorsCount)
-    {
-        $requestName = 'advanced_search_test';
+    public function testSimpleAdvancedSearch(
+        $nameQuery,
+        $descriptionQuery,
+        $storeFilter,
+        $rangeFilter,
+        $expectedRecordsCount
+    ) {
+        $this->requestBuilder->bind('name_query', $nameQuery);
+        $this->requestBuilder->bind('description_query', $descriptionQuery);
+        $this->requestBuilder->bind('store_filter', $storeFilter);
+        $this->requestBuilder->bind('request.from_product_id', $rangeFilter['from']);
+        $this->requestBuilder->bind('request.to_product_id', $rangeFilter['to']);
+        $this->requestBuilder->setRequestName('advanced_search_test');
 
-        $queryResponse = $this->executeQuery($requestName, $bindValues);
-        $this->assertEquals($expectedRecorsCount, $queryResponse->count());
+        $queryResponse = $this->executeQuery();
+        $this->assertEquals($expectedRecordsCount, $queryResponse->count());
     }
 
     /**
@@ -239,70 +296,11 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function advancedSearchDataProvider()
     {
         return array(
-            [
-                [
-                    '%request.name%' => 'white',
-                    '%request.description%' => 'shorts',
-                    '%request.store_id%' => '1',
-                    '%request.from_product_id%' => '3',
-                    '%request.to_product_id%' => '4',
-                ],
-                0 // Record is not in filter range
-            ],
-            [
-                [
-                    '%request.name%' => 'white',
-                    '%request.description%' => 'shorts',
-                    '%request.store_id%' => '1',
-                    '%request.from_product_id%' => '1',
-                    '%request.to_product_id%' => '4',
-                ],
-                1 // One record is expected
-            ],
-            [
-                [
-                    '%request.name%' => 'white',
-                    '%request.description%' => 'shorts',
-                    '%request.store_id%' => '5',
-                    '%request.from_product_id%' => '1',
-                    '%request.to_product_id%' => '4',
-                ],
-                0 // store_id filter is invalid
-            ],
-            [
-                [
-                    '%request.name%' => 'black',
-                    '%request.description%' => 'tshirts',
-                    '%request.store_id%' => '1',
-                    '%request.from_product_id%' => '1',
-                    '%request.to_product_id%' => '5',
-                ],
-                0 // Non existing search terms
-            ],
+            ['white', 'shorts', '1', ['from' => '3', 'to' => '4'], 0],
+            ['white', 'shorts', '1', ['from' => '1', 'to' => '4'], 1],
+            ['white', 'shorts', '5', ['from' => '1', 'to' => '4'], 0],
+            ['black', 'tshirts', '1', ['from' => '1', 'to' => '5'], 0],
+            ['peoples', 'green', '1', ['from' => '1', 'to' => '6'], 2],
         );
-    }
-
-    private function executeQuery($requestName, $bindValues)
-    {
-        $this->reindexAll();
-
-        /** @var \Magento\Framework\Search\Request $queryRequest */
-        $queryRequest = $this->requestFactory->create($requestName, $bindValues);
-
-        $queryResponse = $this->adapter->query($queryRequest);
-
-        return $queryResponse;
-    }
-
-    private function reindexAll()
-    {
-        /** @var \Magento\Indexer\Model\Indexer[] $indexerList */
-        $indexerList = $this->objectManager->get('\Magento\Indexer\Model\Indexer\CollectionFactory')
-            ->create()
-            ->getItems();
-
-        foreach ($indexerList as $indexer) {
-            $indexer->reindexAll();
-        }
     }
 }

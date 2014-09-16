@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/catalog_event/index">
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>grid</name>
-        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid</class>
-        <locator>#catalogEventGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>pageActions</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/catalog_event/index" module="Magento_CatalogEvent">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <eventGrid>
+            <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid</class>
+            <locator>#catalogEventGrid</locator>
+            <strategy>css selector</strategy>
+        </eventGrid>
+        <pageActions>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+    </blocks>
 </page>

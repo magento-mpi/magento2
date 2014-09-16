@@ -125,4 +125,10 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $this->creditmemo->setGrandTotal(1);
         $this->assertTrue($this->creditmemo->isValidGrandTotal());
     }
+
+    public function testGetIncrementId()
+    {
+        $this->creditmemo->setIncrementId('test_increment_id');
+        $this->assertEquals('test_increment_id', $this->creditmemo->getIncrementId());
+    }
 }

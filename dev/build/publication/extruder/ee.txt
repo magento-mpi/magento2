@@ -131,15 +131,12 @@ dev/tests/functional/tests/app/Magento/Centinel
 dev/tests/functional/tests/app/Magento/Checkout/Test/Block/Onepage
 dev/tests/functional/tests/app/Magento/Checkout/Test/Fixture
 dev/tests/functional/tests/app/Magento/Checkout/Test/Handler
-dev/tests/functional/tests/app/Magento/Checkout/Test/Page/CheckoutOnepage.php
-dev/tests/functional/tests/app/Magento/Checkout/Test/Page/CheckoutOnepageSuccess.php
 dev/tests/functional/tests/app/Magento/Checkout/Test/TestCase
 dev/tests/functional/tests/app/Magento/Cms/Test/Block
 dev/tests/functional/tests/app/Magento/Cms/Test/Constraint
 dev/tests/functional/tests/app/Magento/Cms/Test/etc
 dev/tests/functional/tests/app/Magento/Cms/Test/Fixture
 dev/tests/functional/tests/app/Magento/Cms/Test/Page/Adminhtml
-dev/tests/functional/tests/app/Magento/Cms/Test/Page/CmsPage.php
 dev/tests/functional/tests/app/Magento/Cms/Test/Repository
 dev/tests/functional/tests/app/Magento/Cms/Test/TestCase
 dev/tests/functional/tests/app/Magento/Core/Test/Fixture

@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
@@ -84,11 +85,12 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
+     * @param Browser $browser
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product, Browser $browser)
     {
-        $this->openProductPage($catalogProductView, $product);
+        $this->openProductPage($product, $browser);
         // Prepare data
         $formCustomOptions = $catalogProductView->getCustomOptionsBlock()->getOptions($product);
         $actualPrice = $this->isPrice ? $this->getProductPrice($catalogProductView) : null;
@@ -117,14 +119,15 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
     /**
      * Open product view page
      *
-     * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
+     * @param Browser $browser
      * @return void
      */
-    protected function openProductPage(CatalogProductView $catalogProductView, FixtureInterface $product)
-    {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+    protected function openProductPage(
+        FixtureInterface $product,
+        Browser $browser
+    ) {
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
     }
 
     /**

@@ -43,13 +43,13 @@ class RelatedProductTest extends Functional
         $simple1->persist();
         $assignToSimple1 = Factory::getFixtureFactory()->getMagentoCatalogRelatedProducts();
         $assignToSimple1->switchData('add_related_products');
-        $verify = array($assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable'));
+        $verify = [$assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable')];
         //Data
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getProductSku()]);
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
@@ -57,7 +57,7 @@ class RelatedProductTest extends Functional
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
-            array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
+            ['sku' => $assignToSimple1->getProduct('configurable')->getProductSku()]
         );
         $assignToSimple1->switchData('add_related_product');
         $productForm = $editProductPage->getProductForm();
@@ -82,8 +82,7 @@ class RelatedProductTest extends Functional
         list($simple2, $configurable) = $assigned;
         //Open up simple1 product page
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->assertEquals($product->getName(), $productPage->getViewBlock()->getProductName());
 
         /** @var \Magento\Catalog\Test\Block\Product\ProductList\Related $relatedBlock */
@@ -104,7 +103,7 @@ class RelatedProductTest extends Functional
         $productPage->getViewBlock()->addToCart($configurable);
 
         //Verify that both configurable product and simple product 2 are added to shopping cart
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
         $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         $this->assertTrue(

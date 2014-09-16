@@ -40,10 +40,9 @@ class CreateVirtualTest extends Functional
         $product->switchData('virtual');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
+        $createProductPage->open(['type' => 'virtual', 'set' => 4]);
         $productForm = $createProductPage->getProductForm();
         //Steps
-        $createProductPage->open();
         $productForm->fill($product);
         $createProductPage->getFormAction()->save();
         //Verifying
@@ -70,7 +69,7 @@ class CreateVirtualTest extends Functional
         $productGridPage->open();
         /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Grid $gridBlock */
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getProductSku()]));
     }
 
     /**

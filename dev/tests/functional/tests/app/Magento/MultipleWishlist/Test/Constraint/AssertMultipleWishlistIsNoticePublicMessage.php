@@ -28,6 +28,6 @@ class AssertMultipleWishlistIsNoticePublicMessage extends AbstractAssertMultiple
      */
     public function toString()
     {
-        return 'Public notice message is accept.';
+        return 'Public notice message is accepted.';
     }
 }

@@ -80,8 +80,7 @@ class UpsellTest extends Functional
         list($simple2, $configurable) = $assigned;
         //Open up simple1 product page
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->assertEquals($product->getName(), $productPage->getViewBlock()->getProductName());
 
         /** @var \Magento\Catalog\Test\Block\Product\ProductList\Upsell $upsellBlock */

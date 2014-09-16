@@ -7,17 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="multiplewishlist/index" >
-    <block>
-        <name>managementBlock</name>
-        <class>Magento\MultipleWishlist\Block\Customer\Wishlist\Management</class>
-        <locator>//*[*[contains(@class,"message notice") or contains(@class,"wishlist management")]]</locator>
-        <strategy>xpath</strategy>
-    </block>
-    <block>
-        <name>behaviour</name>
-        <class>Magento\MultipleWishlist\Test\Block\Behaviour</class>
-        <locator>#create-wishlist-block</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="wishlist/index" module="Magento_MultipleWishlist">
+    <blocks>
+        <managementBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management</class>
+            <locator>//*[*[contains(@class,"message notice") or contains(@class,"wishlist management")]]</locator>
+            <strategy>xpath</strategy>
+        </managementBlock>
+        <behaviourBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Behaviour</class>
+            <locator>[id$="wishlist-block"].popup.active</locator>
+            <strategy>css selector</strategy>
+        </behaviourBlock>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.page.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

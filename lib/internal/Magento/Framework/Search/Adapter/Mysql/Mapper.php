@@ -11,6 +11,7 @@ use Magento\Framework\App\Resource\Config;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 use Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match as MatchQueryBuilder;
+use Magento\Framework\Search\Request\Query\Bool;
 use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
 use Magento\Framework\Search\Request\Query\Filter as FilterQuery;
 use Magento\Framework\Search\Request\Query\Match as MatchQuery;
@@ -22,9 +23,6 @@ use Magento\Framework\Search\RequestInterface;
  */
 class Mapper
 {
-    const BOOL_MUST_NOT = true;
-    const BOOL_MUST = false;
-
     /**
      * @var \Magento\Framework\App\Resource
      */
@@ -39,27 +37,36 @@ class Mapper
      * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match
      */
     private $matchQueryBuilder;
+    
     /**
      * @var Filter\Builder
      */
     private $filterBuilder;
+    
+    /**
+     * @var Dimensions
+     */
+    private $dimensionsBuilder;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param ScoreBuilderFactory $scoreBuilderFactory
      * @param MatchQueryBuilder $matchQueryBuilder
      * @param Builder $filterBuilder
+     * @param Dimensions $dimensionsBuilder
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         ScoreBuilderFactory $scoreBuilderFactory,
         MatchQueryBuilder $matchQueryBuilder,
-        Builder $filterBuilder
+        Builder $filterBuilder,
+        Dimensions $dimensionsBuilder
     ) {
         $this->resource = $resource;
         $this->scoreBuilderFactory = $scoreBuilderFactory;
         $this->matchQueryBuilder = $matchQueryBuilder;
         $this->filterBuilder = $filterBuilder;
+        $this->dimensionsBuilder = $dimensionsBuilder;
     }
 
     /**
@@ -72,7 +79,13 @@ class Mapper
     {
         /** @var ScoreBuilder $scoreBuilder */
         $scoreBuilder = $this->scoreBuilderFactory->create();
-        $select = $this->processQuery($scoreBuilder, $request->getQuery(), $this->getSelect(), self::BOOL_MUST);
+        $select = $this->processQuery(
+            $scoreBuilder,
+            $request->getQuery(),
+            $this->getSelect(),
+            Bool::QUERY_CONDITION_MUST
+        );
+        $select = $this->processDimensions($request, $select);
         $tableName = $this->resource->getTableName($request->getIndex());
         $select->from($tableName)
             ->columns($scoreBuilder->build())
@@ -86,7 +99,7 @@ class Mapper
      * @param ScoreBuilder $scoreBuilder
      * @param RequestQueryInterface $query
      * @param Select $select
-     * @param bool $isNot
+     * @param string $conditionType
      * @return Select
      * @throws \InvalidArgumentException
      */
@@ -94,19 +107,17 @@ class Mapper
         ScoreBuilder $scoreBuilder,
         RequestQueryInterface $query,
         Select $select,
-        $isNot
+        $conditionType
     ) {
         switch ($query->getType()) {
             case RequestQueryInterface::TYPE_MATCH:
                 /** @var MatchQuery $query */
-                $scoreBuilder->startQuery();
                 $select = $this->matchQueryBuilder->build(
                     $scoreBuilder,
                     $select,
                     $query,
-                    $isNot
+                    $conditionType
                 );
-                $scoreBuilder->endQuery($query->getBoost());
                 break;
             case RequestQueryInterface::TYPE_BOOL:
                 /** @var BoolQuery $query */
@@ -114,7 +125,7 @@ class Mapper
                 break;
             case RequestQueryInterface::TYPE_FILTER:
                 /** @var FilterQuery $query */
-                $select = $this->processFilterQuery($scoreBuilder, $query, $select, $isNot);
+                $select = $this->processFilterQuery($scoreBuilder, $query, $select, $conditionType);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown query type \'%s\'', $query->getType()));
@@ -138,21 +149,21 @@ class Mapper
             $scoreBuilder,
             $query->getMust(),
             $select,
-            self::BOOL_MUST
+            Bool::QUERY_CONDITION_MUST
         );
 
         $select = $this->processBoolQueryCondition(
             $scoreBuilder,
             $query->getShould(),
             $select,
-            self::BOOL_MUST
+            Bool::QUERY_CONDITION_SHOULD
         );
 
         $select = $this->processBoolQueryCondition(
             $scoreBuilder,
             $query->getMustNot(),
             $select,
-            self::BOOL_MUST_NOT
+            Bool::QUERY_CONDITION_NOT
         );
 
         $scoreBuilder->endQuery($query->getBoost());
@@ -166,17 +177,17 @@ class Mapper
      * @param ScoreBuilder $scoreBuilder
      * @param RequestQueryInterface[] $subQueryList
      * @param Select $select
-     * @param bool $isNot
+     * @param string $conditionType
      * @return Select
      */
     private function processBoolQueryCondition(
         ScoreBuilder $scoreBuilder,
         array $subQueryList,
         Select $select,
-        $isNot
+        $conditionType
     ) {
         foreach ($subQueryList as $subQuery) {
-            $select = $this->processQuery($scoreBuilder, $subQuery, $select, $isNot);
+            $select = $this->processQuery($scoreBuilder, $subQuery, $select, $conditionType);
         }
         return $select;
     }
@@ -187,20 +198,20 @@ class Mapper
      * @param ScoreBuilder $scoreBuilder
      * @param FilterQuery $query
      * @param Select $select
-     * @param bool $isNot
+     * @param string $conditionType
      * @return Select
      */
-    private function processFilterQuery(ScoreBuilder $scoreBuilder, FilterQuery $query, Select $select, $isNot)
+    private function processFilterQuery(ScoreBuilder $scoreBuilder, FilterQuery $query, Select $select, $conditionType)
     {
         switch ($query->getReferenceType()) {
             case FilterQuery::REFERENCE_QUERY:
                 $scoreBuilder->startQuery();
-                $select = $this->processQuery($scoreBuilder, $query->getReference(), $select, $isNot);
+                $select = $this->processQuery($scoreBuilder, $query->getReference(), $select, $conditionType);
                 $scoreBuilder->endQuery($query->getBoost());
                 break;
             case FilterQuery::REFERENCE_FILTER:
                 $filterCondition = $this->filterBuilder->build($query->getReference());
-                if ($isNot === true) {
+                if ($conditionType === Bool::QUERY_CONDITION_NOT) {
                     $filterCondition = '!' . $filterCondition;
                 }
                 $select->where($filterCondition);
@@ -218,5 +229,30 @@ class Mapper
     private function getSelect()
     {
         return $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE)->select();
+    }
+
+    /**
+     * Add filtering by dimensions
+     *
+     * @param RequestInterface $request
+     * @param Select $select
+     * @return \Magento\Framework\DB\Select
+     */
+    private function processDimensions(RequestInterface $request, Select $select)
+    {
+        $dimensions = [];
+        foreach ($request->getDimensions() as $dimension) {
+            $dimensions[] = $this->dimensionsBuilder->build($dimension);
+        }
+
+        if (!empty($dimensions)) {
+            $query = sprintf(
+                '(%s)',
+                implode(' ' . Select::SQL_OR . ' ', $dimensions)
+            );
+            $select->where($query);
+        }
+
+        return $select;
     }
 }

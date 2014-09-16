@@ -26,5 +26,11 @@
             <input>select</input>
         </country_id>
         <telephone />
+        <password>
+            <selector>[name='billing[customer_password]']</selector>
+        </password>
+        <password_confirmation>
+            <selector>[name='billing[confirm_password]']</selector>
+        </password_confirmation>
     </fields>
 </mapping>

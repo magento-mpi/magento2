@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="banner/checkout/cart" >
-    <block>
-        <name>cartBlock</name>
-        <class>Magento\Banner\Test\Block\Cart</class>
-        <locator>.column.main</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="checkout/cart">
+    <blocks>
+        <bannerCartBlock>
+            <class>Magento\Banner\Test\Block\Cart</class>
+            <locator>.column.main</locator>
+            <strategy>css selector</strategy>
+        </bannerCartBlock>
+    </blocks>
 </page>

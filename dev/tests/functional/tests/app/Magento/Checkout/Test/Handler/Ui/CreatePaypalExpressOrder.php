@@ -29,7 +29,7 @@ class CreatePaypalExpressOrder extends Ui
     public function persist(FixtureInterface $fixture = null)
     {
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
@@ -37,18 +37,17 @@ class CreatePaypalExpressOrder extends Ui
 
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
         }
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->paypalCheckout();
 
         $paypalCustomer = $fixture->getPaypalCustomer();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        $paypalPage->getLoginBlock()->login($paypalCustomer);
-        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getLoginExpressBlock()->login($paypalCustomer);
+        $paypalPage->getReviewExpressBlock()->continueCheckout();
 
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());

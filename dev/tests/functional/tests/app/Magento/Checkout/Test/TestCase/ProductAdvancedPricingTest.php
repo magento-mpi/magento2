@@ -38,7 +38,7 @@ class ProductAdvancedPricingTest extends Functional
 
         // Steps
         // Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
@@ -58,16 +58,26 @@ class ProductAdvancedPricingTest extends Functional
         $this->verifyCartItem($configurableProduct);
 
         // Proceed to one page checkout
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         // Place order
         // Use customer from checkout fixture
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->open();
-        $checkoutOnePage->getBillingBlock()->fillBilling($checkoutFixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($checkoutFixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($checkoutFixture);
+        $billingAddress = $checkoutFixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        $shippingMethod = $checkoutFixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $checkoutFixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $checkoutFixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $checkoutFixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         //Verify order in Backend
@@ -84,11 +94,10 @@ class ProductAdvancedPricingTest extends Functional
     private function addProductToCart(Product $product)
     {
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productPage->getViewBlock()->addToCart($product);
         // Make sure the item is added to the cart before continuing on.
-        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
     }
 
     /**
@@ -101,7 +110,7 @@ class ProductAdvancedPricingTest extends Functional
         $productName = $product->getName();
         $specialPrice = $product->getProductSpecialPrice();
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
 
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $subTotal = $checkoutCartPage->getCartBlock()->getCartItemSubTotal($product);
@@ -128,7 +137,7 @@ class ProductAdvancedPricingTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         // Validate each of the products.
         foreach ($checkoutFixture->getProducts() as $product) {

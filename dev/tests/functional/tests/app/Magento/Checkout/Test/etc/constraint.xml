@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertPriceInShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertPriceInShoppingCart>
+    <assertProductQtyInShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertProductQtyInShoppingCart>
+    <assertProductQtyInMiniShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertProductQtyInMiniShoppingCart>
+    <assertSubtotalInShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertSubtotalInShoppingCart>
+    <assertOrderSuccessPlacedMessage module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertOrderSuccessPlacedMessage>
+    <assertOrderTotalOnReviewPage module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertOrderTotalOnReviewPage>
+</constraint>

@@ -32,7 +32,7 @@ class MultishippingTest extends Functional
         $fixture->persist();
 
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
@@ -40,10 +40,9 @@ class MultishippingTest extends Functional
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout
@@ -69,7 +68,12 @@ class MultishippingTest extends Functional
         //Select shipping and payment methods
         Factory::getPageFactory()->getMultishippingCheckoutShipping()->getShippingBlock()
             ->selectShippingMethod($fixture);
-        Factory::getPageFactory()->getMultishippingCheckoutBilling()->getBillingBlock()->selectPaymentMethod($fixture);
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $fixture->getCreditCard(),
+        ];
+        Factory::getPageFactory()->getMultishippingCheckoutBilling()->getBillingBlock()->selectPaymentMethod($payment);
         Factory::getPageFactory()->getMultishippingCheckoutOverview()->getOverviewBlock()->placeOrder($fixture);
 
         //Verify order in Backend
@@ -83,9 +87,9 @@ class MultishippingTest extends Functional
      */
     public function dataProviderMultishippingCheckout()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoMultishippingGuestPaypalDirect()),
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoMultishippingGuestPaypalDirect()],
+        ];
     }
 
     /**
@@ -101,10 +105,10 @@ class MultishippingTest extends Functional
         foreach ($orderIds as $num => $orderId) {
             $orderPage = Factory::getPageFactory()->getSalesOrder();
             $orderPage->open();
-            $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+            $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
             $this->assertContains(
-                $grandTotals[$num],
                 Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+                $grandTotals[$num],
                 'Incorrect grand total value for the order #' . $orderId
             );
         }

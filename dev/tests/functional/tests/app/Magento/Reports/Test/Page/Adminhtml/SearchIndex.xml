@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="reports/index/search" >
-    <block>
-        <name>searchGrid</name>
-        <class>Magento\Reports\Test\Block\Adminhtml\SearchTermsGrid</class>
-        <locator>#searchReportGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="reports/index/search" module="Magento_Reports">
+    <blocks>
+        <searchGrid>
+            <class>Magento\Reports\Test\Block\Adminhtml\SearchTermsGrid</class>
+            <locator>#searchReportGrid</locator>
+            <strategy>css selector</strategy>
+        </searchGrid>
+    </blocks>
 </page>
