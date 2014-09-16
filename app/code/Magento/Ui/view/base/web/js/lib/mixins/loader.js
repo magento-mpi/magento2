@@ -7,6 +7,8 @@
 define([
     'Magento_Ui/js/lib/spinner'
 ], function (spinner) {
+    'use strict';
+
     return {
         /**
          * Activates spinner
