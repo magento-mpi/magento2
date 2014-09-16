@@ -12,12 +12,6 @@ namespace Magento\UrlRedirect\Controller;
  */
 class Router implements \Magento\Framework\App\RouterInterface
 {
-    /** @var \Magento\Framework\UrlInterface */
-    protected $url;
-
-    /** @var \Magento\Framework\App\State */
-    protected $appState;
-
     /** @var \Magento\Framework\StoreManagerInterface */
     protected $storeManager;
 
@@ -34,23 +28,17 @@ class Router implements \Magento\Framework\App\RouterInterface
 
     /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
-     * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
-        \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\App\State $appState,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
     ) {
         $this->actionFactory = $actionFactory;
-        $this->url = $url;
-        $this->appState = $appState;
         $this->storeManager = $storeManager;
         $this->response = $response;
         $this->urlMatcher = $urlMatcher;
@@ -64,11 +52,6 @@ class Router implements \Magento\Framework\App\RouterInterface
      */
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
-        if (!$this->appState->isInstalled()) {
-            $this->response->setRedirect($this->url->getUrl('install'))->sendResponse();
-            return null;
-        }
-
         $identifier = trim($request->getPathInfo(), '/');
         $urlRewrite = $this->urlMatcher->match($identifier, $this->storeManager->getStore()->getId());
         if ($urlRewrite === null) {

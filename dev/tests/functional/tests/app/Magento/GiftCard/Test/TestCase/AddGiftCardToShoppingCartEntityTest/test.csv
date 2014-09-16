@@ -1,0 +1,2 @@
+"productsData";"cart/data/grand_total";"constraint"
+"giftCardProduct::default";"150";"assertPriceInShoppingCart, assertProductQtyInShoppingCart, assertSubtotalInShoppingCart, assertCartItemsOptions, assertGrandTotalInShoppingCart"

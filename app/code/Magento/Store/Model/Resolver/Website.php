@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -25,12 +25,13 @@ class Website implements \Magento\Framework\App\ScopeResolverInterface
 
     /**
      * {@inheritdoc}
+     * @throws \Magento\Framework\App\InitException
      */
     public function getScope($scopeId = null)
     {
         $scope = $this->_storeManager->getWebsite($scopeId);
         if (!($scope instanceof \Magento\Framework\App\ScopeInterface)) {
-            throw new \Magento\Store\Model\Exception('Invalid scope object');
+            throw new \Magento\Framework\App\InitException('Invalid scope object');
         }
 
         return $scope;

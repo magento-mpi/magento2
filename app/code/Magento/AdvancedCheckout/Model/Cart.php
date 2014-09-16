@@ -1167,7 +1167,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
-                    if ($childProduct->hasStockItem()
+                    if ($this->stockItemService->getStockQty($childProduct->getId()) > 0
                         && $this->stockItemService->getIsInStock($childProduct->getId())
                         && !$childProduct->isDisabled()
                     ) {

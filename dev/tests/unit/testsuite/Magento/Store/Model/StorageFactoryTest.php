@@ -348,7 +348,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Store\Model\Exception
+     * @expectedException \Magento\Framework\App\InitException
      */
     public function testGetWithStoresReinitUnknownScopeType()
     {

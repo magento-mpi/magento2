@@ -22,11 +22,6 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
     private $requestMock;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    private $appState;
-
-    /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     private $objectManager;
@@ -50,15 +45,6 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('init.host')
         );
-        $this->appState = $this->getMock(
-            '\Magento\Framework\App\State',
-            ['isInstalled'],
-            [],
-            '',
-            false,
-            false
-        );
-        $this->appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
         $this->objectManager =  new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
@@ -76,7 +62,6 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\Backend\AdminConfig',
             [
                 'request' => $this->requestMock,
-                'appState' => $this->appState,
                 'frontNameResolver' => $mockFrontNameResolver,
             ]
         );
@@ -95,7 +80,6 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\Backend\AdminConfig',
             [
                 'request' => $this->requestMock,
-                'appState' => $this->appState,
                 'sessionName' => $sessionName
             ]
         );
