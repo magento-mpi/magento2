@@ -14,7 +14,7 @@ define([
     /**
      * Merges passed settings with preset ajax properties
      * @param  {Object} settings
-     * @return {Object} - mutated settings
+     * @returns {Object} - mutated settings
      */
     function getConfig(settings) {
         var config = settings.config,
@@ -34,8 +34,8 @@ define([
 
     /**
      * Creates new data provider and register it by settings.name 
-     * @param  {HTMLElement} el
-     * @param  {Object} settings
+     * @param {HTMLElement} el - Element upon which this module was called.
+     * @param {Object} settings
      */
     function init(el, settings) {
         var name    = settings.name,

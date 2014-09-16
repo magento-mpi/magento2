@@ -28,7 +28,7 @@ define([
 
         /**
          * Initializes observable properties of instance.
-         * @return {Object} - reference to instance
+         * @returns {Filter} Chainbale.
          */
         initObservable: function(){
             this.observe({
@@ -41,7 +41,7 @@ define([
 
         /**
          * Filters filterable fields and stores them to this.fields 
-         * @param {Object} this - Reference to instance
+         * @returns {Filter} Chainbale.
          */
         extractFields: function () {
             var provider    = this.provider.meta,
@@ -55,8 +55,9 @@ define([
         },
 
         /**
-         * Initializes filters by creating instances of corresponding classes found in controls by filter type
-         * @param {Object} this - Reference to instance
+         * Initializes filters by creating instances of
+         * corresponding classes found in controls by filter type.
+         * @returns {Filter} Chainbale.
          */
         initFilters: function () {
             var configs = this.config.types,
@@ -78,8 +79,8 @@ define([
         },
 
         /**
-         * Filters filters by isEmpty method of ones.
-         * @return {Array} Array of non-empty filters
+         * Extracts an array of non-empty filters.
+         * @returns {Array} Array of non-empty filters
          */
         getNotEmpty: function(){
             return this.filters.filter(function(filter){
@@ -89,7 +90,7 @@ define([
 
         /**
          * Writes the result of getNotEmpty to active observable.
-         * @return {Object} reference to instance
+         * @returns {Filter} Chainbale.
          */
         findActive: function(){
             this.active(this.getNotEmpty());
@@ -98,10 +99,11 @@ define([
         },
 
         /**
-         * Returns array of dumped filters based on all flag.
-         * If all is false, dumps only active filters.
-         * @param  {Boolean} all
-         * @return {Array} array of dumped filters
+         * Returns an array filters' data.
+         * @param {Boolean} [all=false] -
+                Whether to extract data from all of the filters
+                or from only the active ones.
+         * @returns {Array} Array of filters' data.
          */
         getData: function(all){
             var filters;
@@ -114,10 +116,9 @@ define([
         },
 
         /**
-         * Clears data of on or some filters. If filter is not specified,
-         * calls reset on all filtes and sets active observable array to empty.
-         * @param  {Object} filter - if specified, is being removed from active array.
-         * @return {Object} - reference to instance
+         * Clears data of all filters or of specified one.
+         * @param {Object} [filter] - If specified, clears data only of this filter.
+         * @returns {Filter} Chainbale.
          */
         clearData: function(filter){
             var active = this.active;
@@ -139,9 +140,9 @@ define([
         },
 
         /**
-         * Created handler for reset and apply actions.
-         * @param {String} action - 'reset' or 'apply'.
-         * @returns {Function} Function, which maps all filters with corresponding action of those and reloads storage
+         * Updates an array of active filters
+         * and reloads data provider with new filtering parameters.
+         * @returns {Filter} Chainbale.
          */
         apply: function () {
             this.findActive()
@@ -151,9 +152,9 @@ define([
         },
 
         /**
-         * Calls crearData on filter and call reload then.
-         * @param  {Object} filter
-         * @return {Object} reference to instance
+         * Clears filters and updates data provider with new filtering parameters.
+         * @param {Object} [filter] - If specified then clears only this filter. 
+         * @returns {Filter} Chainbale.
          */
         reset: function(filter){
             this.clearData(filter)           
@@ -165,7 +166,7 @@ define([
         /**
          * Sets set of params to storage.
          * @param {*} action - data to set to storage params
-         * @returns {Object} - reference to instance
+         * @returns {Filter} Chainbale.
          */
         pushParams: function() {
             var params = this.provider.params;
