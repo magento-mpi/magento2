@@ -31,6 +31,9 @@ use Magento\Framework\Service\V1\Data\SortOrder;
  */
 class CustomerGroupService implements CustomerGroupServiceInterface
 {
+
+    const MESSAGE_CUSTOMER_GROUP_ID_IS_NOT_EXPECTED = 'id is not expected for this request.';
+
     /**
      * @var GroupFactory
      */
@@ -254,6 +257,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function createGroup(Data\CustomerGroup $group)
     {
+        if ($group->getId()) {
+            throw new InputException(self::MESSAGE_CUSTOMER_GROUP_ID_IS_NOT_EXPECTED);
+        }
+
         if (!$group->getCode()) {
             throw InputException::invalidFieldValue('code', $group->getCode());
         }

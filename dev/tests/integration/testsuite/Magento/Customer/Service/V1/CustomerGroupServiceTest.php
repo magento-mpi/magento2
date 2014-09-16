@@ -138,6 +138,19 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($group->getTaxClassId(), $newGroup->getTaxClassId());
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage id is not expected for this request.
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateGroupWithId()
+    {
+        $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $group = $builder->setId(88)->setCode('Test Create Group With Id')->setTaxClassId(3)->create();
+        $this->_groupService->createGroup($group);
+
+    }
+
     public function testUpdateGroup()
     {
         $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');

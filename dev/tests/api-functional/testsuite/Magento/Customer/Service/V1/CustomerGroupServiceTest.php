@@ -524,6 +524,72 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
+     * Verify that an attempt to update via POST is not allowed.
+     */
+    public function testCreateGroupWithIdRest()
+    {
+        $this->_markTestAsRestOnly();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ]
+        ];
+
+        $groupData = [
+            CustomerGroup::ID => 88,
+            CustomerGroup::CODE => 'Create Group With Id REST',
+            CustomerGroup::TAX_CLASS_ID => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Expected exception');
+        } catch (\Exception $e) {
+            $this->assertContains(
+                "id is not expected for this request.",
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
+    }
+
+    /**
+     * Verify that creating a new group fails via SOAP if there is an Id specified.
+     */
+    public function testCreateGroupWithIdSoap()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $serviceInfo = [
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+            ]
+        ];
+
+        $groupData = [
+            CustomerGroup::ID => 88,
+            CustomerGroup::CODE => 'Create Group with Id SOAP',
+            CustomerGroup::TAX_CLASS_ID => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                "id is not expected for this request.",
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        }
+    }
+
+    /**
      * Verify that updating an existing group works via REST.
      */
     public function testUpdateGroupRest()
@@ -853,7 +919,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Non-Existent Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = ['group' => $groupData];
+        $requestData = ['groupId' => $nonExistentGroupId, 'group' => $groupData];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
