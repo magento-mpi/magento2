@@ -19,15 +19,5 @@
             <locator>#invoice_totals</locator>
             <strategy>css selector</strategy>
         </totalsBlock>
-        <formBlock>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Form</class>
-            <locator>#edit_form</locator>
-            <strategy>css selector</strategy>
-        </formBlock>
-        <itemsBlock>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Items</class>
-            <locator>#invoice_item_container</locator>
-            <strategy>css selector</strategy>
-        </itemsBlock>
     </blocks>
 </page>
