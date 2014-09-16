@@ -37,10 +37,10 @@ define([
             _.extend(this, defaults, config);
 
             this.initObservable()
-                .initIndexField()
+                .initProperties()
                 .formatActions()
                 .attachTemplateExtender()
-                .initProvider()
+                .initListeners()
                 .countPages();
         },
 
@@ -55,7 +55,7 @@ define([
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
                 menuVisible:        false,
-                multiplePages:      ''
+                hasMultiplePages:      ''
             });
 
             this.selected.subscribe(this.onSelectionsChange.bind(this));
@@ -64,11 +64,10 @@ define([
         },
 
         /**
-         * Looks up for field with 'id_attribute' set to true and set's
-         * it's 'index' prop to this.indexField
+         * Initializes instance properties
          * @return {Object} - reference to instance
          */
-        initIndexField: function () {
+        initProperties: function () {
             var provider = this.provider.meta;
 
             this.indexField = provider.get('indexField');
@@ -123,10 +122,10 @@ define([
         },
 
         /**
-         * Subscribes on provider's refresh event to call onRefresh callback
+         * Init instance's subscribtions
          * @return {Object} - reference to instance
          */
-        initProvider: function(){
+        initListeners: function(){
             this.provider.on('refresh', this.onRefresh.bind(this));
 
             return this;
@@ -284,12 +283,17 @@ define([
             }
         },
 
+        /**
+         * Gets current pages count and assignes it's being more than one to
+         *     hasMultiplePages observable.
+         * @return {Object} reference to instance
+         */
         countPages: function() {
             var provider = this.provider.data;
 
             this.pages = provider.get('pages');
 
-            this.multiplePages(this.pages > 1);
+            this.hasMultiplePages(this.pages > 1);
 
             return this;
         },
@@ -337,7 +341,7 @@ define([
          * @return {Boolean}
          */
         shouldSelectAllBeVisible: function () {
-            return !this.allSelected() && this.multiplePages();
+            return !this.allSelected() && this.hasMultiplePages();
         },
 
         /**
@@ -345,7 +349,7 @@ define([
          * @return {Boolean}
          */
         shouldDeselectAllBeVisible: function () {
-            return this.allSelected() && this.multiplePages();
+            return this.allSelected() && this.hasMultiplePages();
         },
 
         onToggle: function(area){
