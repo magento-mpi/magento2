@@ -205,9 +205,6 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testGetCartList()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-28264'
-        );
         $cart = $this->getCart('test01');
 
         $serviceInfo = array(
@@ -246,13 +243,6 @@ class ReadServiceTest extends WebapiAbstract
         $this->searchBuilder->addFilter(array($grandTotalFilter, $subtotalFilter));
         $this->searchBuilder->addFilter(array($minCreatedAtFilter));
         $this->searchBuilder->addFilter(array($maxCreatedAtFilter));
-        $this->searchBuilder->setSortOrders([
-                [
-                    \Magento\Framework\Service\V1\Data\SortOrder::FIELD => 'subtotal',
-                    \Magento\Framework\Service\V1\Data\SortOrder::DIRECTION => SearchCriteria::SORT_ASC
-                ]
-            ]
-        );
         /** @var SortOrder $sortOrder */
         $sortOrder = $this->sortOrderBuilder->setField('subtotal')->setDirection(SearchCriteria::SORT_ASC)->create();
         $this->searchBuilder->setSortOrders([$sortOrder]);
