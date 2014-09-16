@@ -134,7 +134,7 @@ class Builder
         }
 
         $data = $this->binder->bind($data, $this->data);
-        $data = $this->cleaner->clean($data, $this->data);
+        $data = $this->cleaner->clean($data);
 
         $this->clear();
 

@@ -203,7 +203,7 @@ class Mapper
                     [
                         'name' => $filter['name'],
                         'field' => $filter['field'],
-                        'value' => isset($filter['value']) ? $filter['value'] : null
+                        'value' => $filter['value']
                     ]
                 );
                 break;
