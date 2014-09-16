@@ -90,26 +90,16 @@ class RmaWrite implements RmaWriteInterface
     /**
      * Update rma
      *
-     * @param int $rmaId
+     * @param int $id
      * @param \Magento\Rma\Service\V1\Data\Rma $rmaDataObject
      * @return bool
      * @throws \Exception
      */
-    public function update($rmaId, \Magento\Rma\Service\V1\Data\Rma $rmaDataObject)
+    public function update($id, \Magento\Rma\Service\V1\Data\Rma $rmaDataObject)
     {
         $preparedRmaData = $this->converter->getPreparedModelData($rmaDataObject);
-        $rmaModel = $this->converter->getModel($rmaDataObject, $rmaId, $preparedRmaData);
+        $rmaModel = $this->converter->getModel($id, $preparedRmaData);
         return (bool)$rmaModel->saveRma($preparedRmaData);
-    }
-
-    /**
-     * Update rma
-     *
-     * @return bool
-     * @throws \Exception
-     */
-    public function getRmaList()
-    {
     }
 
     /**

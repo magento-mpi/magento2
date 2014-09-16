@@ -13,6 +13,8 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**#@+
      * Constants defined for keys of array
      */
+    const ID = 'id';
+
     const ORDER_ITEM_ID = 'order_item_id';
 
     const QTY_REQUESTED = 'qty_requested';
@@ -34,6 +36,16 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**#@-*/
 
     /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_get(self::ID);
+    }
+
+    /**
      * Get order_item_id
      *
      * @return int
@@ -49,9 +61,39 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      *
      * @return int
      */
-    public function getQrtRequested()
+    public function getQtyRequested()
     {
         return $this->_get(self::QTY_REQUESTED);
+    }
+
+    /**
+     * Get qty_authorized
+     *
+     * @return int
+     */
+    public function getQtyAuthorized()
+    {
+        return $this->_get(self::QTY_AUTHORIZED);
+    }
+
+    /**
+     * Get qty_approved
+     *
+     * @return int
+     */
+    public function getQtyApproved()
+    {
+        return $this->_get(self::QTY_APPROVED);
+    }
+
+    /**
+     * Get qty_returned
+     *
+     * @return int
+     */
+    public function getQtyReturned()
+    {
+        return $this->_get(self::QTY_RETURNED);
     }
 
 

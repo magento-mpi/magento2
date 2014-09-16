@@ -19,6 +19,8 @@ class Rma extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 
     const ORDER_INCREMENT_ID = 'order_increment_id';
 
+    const INCREMENT_ID = 'increment_id';
+
     const STORE_ID = 'store_id';
 
     const CUSTOMER_ID = 'customer_id';
@@ -35,6 +37,15 @@ class Rma extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 
     /**#@-*/
 
+    /**
+     * Get entity_id
+     *
+     * @return string
+     */
+    public function getIncrementId()
+    {
+        return $this->_get(self::INCREMENT_ID);
+    }
 
     /**
      * Get entity_id

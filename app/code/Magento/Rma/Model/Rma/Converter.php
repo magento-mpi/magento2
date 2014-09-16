@@ -82,7 +82,7 @@ class Converter
         $rmaData = $rmaDto->__toArray();
         $items = [];
         foreach ($rmaDto->getItems() as $itemDto) {
-            $items[] = ExtensibleDataObjectConverter::toFlatArray($itemDto);
+            $items[$itemDto->getId()] = ExtensibleDataObjectConverter::toFlatArray($itemDto);
         }
         $rmaData['items'] = $items;
 
@@ -93,17 +93,16 @@ class Converter
     /**
      * Initiates and returns rma
      *
-     * @param Rma $rmaDto
      * @param int $rmaId
      * @param array $preparedRmaData
      * @return \Magento\Rma\Model\Rma
      */
-    public function getModel(Rma $rmaDto, $rmaId, array $preparedRmaData)
+    public function getModel($rmaId, array $preparedRmaData)
     {
         $rmaModel = $this->rmaFactory->create();
         $rmaModel->load($rmaId);
 
-        $itemStatuses = $this->rmaDataMapper->combineItemStatuses($preparedRmaData['items'], $rmaDto->getEntityId());
+        $itemStatuses = $this->rmaDataMapper->combineItemStatuses($preparedRmaData['items'], $rmaId);
 
         $sourceStatus = $this->statusFactory->create();
         $rmaModel->setStatus($sourceStatus->getStatusByItems($itemStatuses))->setIsUpdate(1);

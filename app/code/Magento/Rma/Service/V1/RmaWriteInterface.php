@@ -38,16 +38,6 @@ interface RmaWriteInterface
     public function create(\Magento\Rma\Service\V1\Data\Rma $rmaDataObject);
 
     /**
-     * Update rma
-     *
-     * @param int $rmaId
-     * @param \Magento\Rma\Service\V1\Data\Rma $rmaDataObject
-     * @return bool
-     * @throws \Exception
-     */
-    public function update($rmaId, \Magento\Rma\Service\V1\Data\Rma $rmaDataObject);
-
-    /**
      * Create shipping label for rma
      *
      * @param int $rmaId
@@ -61,4 +51,14 @@ interface RmaWriteInterface
      * @return bool
      */
     public function createLabel($rmaId, $packages, $carrierCode = '', $carrierTitle = '', $methodTitle = '', $price = null);
+
+    /**
+     * Update rma
+     *
+     * @param int $id
+     * @param \Magento\Rma\Service\V1\Data\Rma $rmaDataObject
+     * @return bool
+     * @throws \Exception
+     */
+    public function update($id, \Magento\Rma\Service\V1\Data\Rma $rmaDataObject);
 }

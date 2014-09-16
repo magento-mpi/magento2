@@ -27,16 +27,32 @@
             <resource ref="Magento_Rma::magento_rma" />
         </resources>
     </route>
-
-
+    <route url="/V1/returns/:id" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaReadInterface" method="get"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
     <route url="/V1/returns/:id/comment" method="POST">
         <service class="Magento\Rma\Service\V1\CommentWriteInterface" method="addComment"/>
         <resources>
             <resource ref="Magento_Rma::magento_rma" />
         </resources>
     </route>
+    <route url="/V1/returns" method="POST">
+        <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
     <route url="/V1/returns/:id/comments" method="GET">
         <service class="Magento\Rma\Service\V1\CommentReadInterface" method="commentsList"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns" method="PUT">
+        <service class="Magento\Rma\Service\V1\RmaReadInterface" method="search"/>
         <resources>
             <resource ref="Magento_Rma::magento_rma" />
         </resources>

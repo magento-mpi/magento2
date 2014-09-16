@@ -445,7 +445,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     {
         // TODO: move errors adding to controller
         $errors = 0;
-
+        $this->messageManager->getMessages(true);
         if ($this->getCustomerCustomEmail()) {
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
