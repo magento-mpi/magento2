@@ -18,7 +18,20 @@ class CustomerGroup extends AbstractPlugin
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterSaveGroup(CustomerGroupServiceInterface $subject, $result)
+    public function afterCreateGroup(CustomerGroupServiceInterface $subject, $result)
+    {
+        $this->invalidateIndexer();
+        return $result;
+    }
+
+    /**
+     * @param CustomerGroupServiceInterface $subject
+     * @param string                        $result
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function afterUpdateGroup(CustomerGroupServiceInterface $subject, $result)
     {
         $this->invalidateIndexer();
         return $result;
