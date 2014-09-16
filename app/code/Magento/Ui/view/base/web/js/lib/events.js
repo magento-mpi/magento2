@@ -7,6 +7,7 @@
 define([
     '_'
 ], function(_) {
+    'use strict';
 
     function addHandler(events, callback, name) {
         (events[name] = events[name] || []).push(callback);

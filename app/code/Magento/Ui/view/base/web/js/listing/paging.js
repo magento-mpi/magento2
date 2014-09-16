@@ -54,7 +54,7 @@ define([
 
         /**
          * Subscribes on provider's events
-         * @return {Object} - reference to instance
+         * @returns {Paging} Chainable.
          */
         initProvider: function(){
             var provider    = this.provider,
@@ -78,7 +78,7 @@ define([
 
         /**
          * Increments current observable prop by val and call reload method 
-         * @param  {String} val
+         * @param {String} val
          */
         go: function(val) {
             var current = this.current;
@@ -136,6 +136,10 @@ define([
             this.pushParams();
         },
 
+        /**
+         * Updates number of selected items.
+         * @param {Number} count - New number of selected items.
+         */
         updateSelected: function(count){
             this.selected(count);
         },

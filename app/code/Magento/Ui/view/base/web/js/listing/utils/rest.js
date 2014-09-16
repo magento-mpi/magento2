@@ -58,8 +58,9 @@ define([
         },
 
         /**
-         * Is being called after ajax call. Parses results and triggers read event;
-         * @param  {Object|*} result - result of ajax call
+         * Callback of ajax call.
+         * Parses results and triggers read event;
+         * @param  {Object|*} result - Result of ajax call.
          */
         onRead: function(result){
             result = typeof result === 'string' ?
@@ -71,10 +72,9 @@ define([
 
         /**
          * Submits data using utils.submitAsForm
-         * @param  {Object} config - object containing ajax options
-         * @param  {Object} params
+         * @param {Object} config - object containing ajax options
          */
-        submit: function(config, params){
+        submit: function(config){
             var ajax = this.config.ajax,
                 data = ajax.data || {};
 

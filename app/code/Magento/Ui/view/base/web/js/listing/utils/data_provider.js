@@ -17,7 +17,11 @@ define([
         stores: ['config', 'meta', 'data', 'params', 'dump']
     };
 
-    return Class.extend({
+    var DataProvider = Class.extend({
+        /**
+         * Initializes DataProvider instance.
+         * @param {Object} settings - Settings to initialize object with.
+         */
         initialize: function(settings) {
             _.extend(this, defaults, settings);
 
@@ -25,7 +29,11 @@ define([
                 .initClient();
         },
 
-        initStorages: function(settings) {
+        /**
+         * Creates instances of storage objects.
+         * @returns {DataProvider} Chainable.
+         */
+        initStorages: function() {
             var storage,
                 config;
 
@@ -39,6 +47,10 @@ define([
             return this;
         },
 
+        /**
+         * Creates instances of a REST client.
+         * @returns {DataProvider} Chainable.
+         */
         initClient: function() {
             var config = this.config.get('client');
 
@@ -49,6 +61,12 @@ define([
             return this;
         },
 
+        /**
+         * Tries to retrieve data from server using REST client.
+         * Allways attaches cached parameters to request.
+         * @param {Object} [options] - Additional paramters to be attached. 
+         * @returns {DataProvider} Chainable.
+         */
         refresh: function(options) {
             var stored = this.params.get(),
                 params = _.extend({}, stored, options || {});
@@ -59,6 +77,11 @@ define([
             return this;
         },
 
+        /**
+         * Updates list of storages with a specified data.
+         * @param {Object} data - Data to update storages with.
+         * @returns {DataProvider} Chainable.
+         */
         updateStorages: function(data) {
             var value;
 
@@ -73,6 +96,11 @@ define([
             return this;
         },
 
+        /**
+         * Callback method that fires when REST client
+         * will resolve requets to the server.
+         * @param {Object} result - Server response.
+         */
         onRead: function(result) {
             result = {
                 data: result.data
@@ -82,4 +110,6 @@ define([
                 .trigger('refresh', result);
         }
     }, EventsBus);
+    
+    return DataProvider;
 });

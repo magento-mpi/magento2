@@ -9,6 +9,13 @@ define([
 ], function(registry) {
     'use strict';
 
+    /**
+     * Extends configuration that will be retrived from the data provider
+     * with configuration that is stored in a 'baseConfig' object.
+     * @param {Object} provider - DataProvider instance.
+     * @param {Object} baseConfig - Basic configuration.
+     * @returns {Object} Resulting configurational object.
+     */
     function getConfig(provider, baseConfig) {
         var configs     = provider.config.get('components'),
             storeConfig = configs[baseConfig.name] || {};
@@ -18,24 +25,33 @@ define([
         }, storeConfig, baseConfig);
     }
 
+    /**
+     * Creates new instance of a grids' component.
+     * @param {Object} data -
+            Data object that was passed while creating component initializer. 
+     * @param {HTMLElement} el -
+            Element upon which compononet is going to be initialized.
+     * @param {Object} base -
+            Basic configuration.
+     */
     function init(data, el, base) {
-        var parent  = base.parent_name,
-            name    = parent + ':' + base.name,
-            main    = parent + ':' + parent,
-            deps    = [parent];
+        var providerName    = base.parent_name,
+            component       = providerName + ':' + base.name,
+            mainComponent   = providerName + ':' + providerName,
+            deps            = [providerName];
 
-        if (registry.has(name)) {
+        if (registry.has(component)) {
             return;
         }
 
-        if (name !== main) {
-            deps.push(main);
+        if (component !== mainComponent) {
+            deps.push(mainComponent);
         }
 
         registry.get(deps, function(provider) {
             var config = getConfig(provider, base);
 
-            registry.set(name, new data.constr(config));
+            registry.set(component, new data.constr(config));
         });
     }
 

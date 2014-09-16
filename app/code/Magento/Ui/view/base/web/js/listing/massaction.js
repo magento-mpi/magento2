@@ -31,7 +31,7 @@ define([
         /**
          * Extends instance with defaults and config, initializes observable properties.
          * Updates storage with current state of instance.
-         * @param  {Object} config
+         * @param {Object} config
          */
         initialize: function (config) {
             _.extend(this, defaults, config);
@@ -46,7 +46,7 @@ define([
 
         /**
          * Initializes observable properties of instance.
-         * @return {Object} - reference to instance
+         * @returns {MassActions} Chainable.
          */
         initObservable: function () {
             this.observe({
@@ -65,7 +65,7 @@ define([
 
         /**
          * Initializes instance properties
-         * @return {Object} - reference to instance
+         * @returns {MassActions} Chainable.
          */
         initProperties: function () {
             var provider = this.provider.meta;
@@ -77,7 +77,7 @@ define([
 
         /**
          * Convertes incoming optins to compatible format
-         * @return {Object} reference to instance
+         * @returns {MassActions} Chainable.
          */
         formatActions: function(){
             var actions = this.actions;
@@ -96,7 +96,7 @@ define([
 
         /**
          * Attaches it's template to provider.dump's extenders
-         * @return {Object} - reference to instance
+         * @returns {MassActions} Chainable.
          */
         attachTemplateExtender: function () {
             var provider    = this.provider,
@@ -123,7 +123,7 @@ define([
 
         /**
          * Init instance's subscribtions
-         * @return {Object} - reference to instance
+         * @returns {MassActions} Chainable.
          */
         initListeners: function(){
             this.provider.on('refresh', this.onRefresh.bind(this));
@@ -133,7 +133,7 @@ define([
 
         /**
          * Prepares params object, which represents the current state of instance.
-         * @return {Object} - params object
+         * @returns {Object} - params object
          */
         buildParams: function () {           
             if (this.allSelected()) {
@@ -150,8 +150,8 @@ define([
         },
         
         /**
-         * Toggles observable property based on area argument
-         * @param  {area} area
+         * Toggles observable property based on area argument.
+         * @param {String} area - Name of the area to be toggled.
          */
         toggle: function(area){
             var visible = this[area];
@@ -186,7 +186,9 @@ define([
         },
 
         /**
-         * Updates storage's params and reloads it.
+         * Sends actions's data to server.
+         * @param {Object} action - An action object.
+         * @returns {MassActions} Chainable.
          */
         submit: function(action) {
             var client = this.provider.client;
@@ -208,6 +210,11 @@ define([
             return this;
         },
 
+        /**
+         * Retrives all id's from available records.
+         * @param {Boolean} [exclude] - Whether to exclude not selected ids' from result.
+         * @returns {Array} An array of ids'.
+         */
         getIds: function(exclude){
             var items   = this.provider.data.get('items'),
                 ids     = _.pluck(items, this.indexField);
@@ -262,6 +269,10 @@ define([
             return this;
         },
 
+        /**
+         * Clears the array of not selected records.
+         * @returns {MassActions} Chainable.
+         */
         clearExcluded: function(){
             this.excluded.removeAll();
 
@@ -286,7 +297,7 @@ define([
         /**
          * Gets current pages count and assignes it's being more than one to
          *     hasMultiplePages observable.
-         * @return {Object} reference to instance
+         * @returns {MassActions} Chainable.
          */
         countPages: function() {
             var provider = this.provider.data;
@@ -298,6 +309,10 @@ define([
             return this;
         },
 
+        /**
+         * Counts number of 'selected' items. 
+         * @returns {MassActions} Chainable.
+         */
         countSelect: function() {
             var provider    = this.provider,
                 total       = provider.data.get('totalCount'),
@@ -327,8 +342,8 @@ define([
         /**
          * Looks up for corresponding to passed action checker method,
          * and returnes it's result. If method not found, returnes true;
-         * @param  {String} action - e.g. selectAll, deselectAll
-         * @return {Boolean} should action be visible
+         * @param {String} action - e.g. selectAll, deselectAll
+         * @returns {Boolean} should action be visible
          */
         shouldBeVisible: function (action) {
             var checker = this['should' + capitaliseFirstLetter(action) + 'BeVisible'];
@@ -338,7 +353,7 @@ define([
 
         /**
          * Checkes if selectAll action supposed to be visible
-         * @return {Boolean}
+         * @returns {Boolean}
          */
         shouldSelectAllBeVisible: function () {
             return !this.allSelected() && this.hasMultiplePages();
@@ -346,7 +361,7 @@ define([
 
         /**
          * Checkes if deselectAll action supposed to be visible
-         * @return {Boolean}
+         * @returns {Boolean}
          */
         shouldDeselectAllBeVisible: function () {
             return this.allSelected() && this.hasMultiplePages();
@@ -358,8 +373,8 @@ define([
 
         /**
          * Creates handler for applying action (e.g. selectAll)
-         * @param  {String} action
-         * @return {Function} - click handler
+         * @param {String} action
+         * @returns {Function} - click handler
          */
         onApplySelect: function (action) {
             return function(){

@@ -1,6 +1,14 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'Magento_Ui/js/lib/spinner'
 ], function (spinner) {
+    'use strict';
+
     return {
         /**
          * Activates spinner

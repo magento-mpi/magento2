@@ -7,6 +7,8 @@
 define([
     '_'
 ], function(_) {
+    'use strict';
+
     var utils = {},
         atobSupport,
         btoaSupport;
@@ -41,7 +43,10 @@ define([
         });
     }    
 
-
+    /**
+     * Submits specified data as a form object.
+     * @param {Object} params - Parameters of form.
+     */
     utils.submitAsForm = function(params){  
         var form,
             field;
@@ -68,7 +73,7 @@ define([
 
         document.body.appendChild(form);
 
-        return form.submit();
+        form.submit();
     };
 
     return utils;

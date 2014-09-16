@@ -4,7 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- /** Creates outerClick binding and registers in to ko.bindingHandlers object */
+/** Creates outerClick binding and registers in to ko.bindingHandlers object */
 define([
     'ko',
     'jquery'

@@ -42,7 +42,7 @@ define([
 
         /**
          * Initializes observable properties of instance.
-         * @return {Object} - reference to instance
+         * @returns {Sorting} Chainable.
          */
         initObservable: function(){
             this.observe({
@@ -55,7 +55,7 @@ define([
 
         /**
          * Attaches it's template to provider.dump's extenders
-         * @return {Object} - reference to instance
+         * @returns {Sorting} Chainable.
          */
         attachTemplateExtender: function () {
             var provider    = this.provider.dump,
@@ -103,7 +103,7 @@ define([
 
         /**
          * Sorts by field and reloads storage.
-         * @param  {String]} id - identifier of field to be sorted
+         * @param {(String|Number)} id - Identifier of field to be sorted.
          */
         sortBy: function(id) {
             this.isSorted(id) ?
@@ -115,8 +115,8 @@ define([
 
         /**
          * Checks if the field is currently sorted.
-         * @param  {String} id - identifier of field to be sorted
-         * @return {Boolean} true, if target field is sorted already, false otherwise
+         * @param {String} id - identifier of field to be sorted
+         * @returns {Boolean} true, if target field is sorted already, false otherwise
          */
         isSorted: function(id) {
             return id === this.field();
@@ -124,8 +124,8 @@ define([
 
         /**
          * Returns function to handle user's click (workaround for knockout.js).
-         * @param  {Object} field
-         * @return {Function} - click handler
+         * @param {Object} field
+         * @returns {Function} - click handler
          */
         onClick: function(field) {
             return this.sortBy.bind(this, field.index);
