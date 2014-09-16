@@ -177,7 +177,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         //Test GetDetails
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData['id'] . '/details',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData['id'],
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -197,29 +197,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
         unset($customerDetailsResponse['customer']['custom_attributes']); //for REST
 
         $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
-    }
-
-    public function testGetCustomer()
-    {
-        $customerData = $this->customerHelper->createSampleCustomer();
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID],
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetCustomer'
-            ]
-        ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerResponseData = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
-        } else {
-            $customerResponseData = $this->_webApiCall($serviceInfo);
-        }
-        $this->assertEquals($customerData, $customerResponseData);
     }
 
     public function testGetCustomerActivateCustomer()
@@ -911,33 +888,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
     }
 
-    public function testGetCustomerByEmail()
-    {
-        $customerData = $this->customerHelper->createSampleCustomer();
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerData[Customer::EMAIL],
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetCustomerByEmail'
-            ]
-        ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerResponseData = $this->_webApiCall(
-                $serviceInfo,
-                ['customerEmail' => $customerData[Customer::EMAIL]]
-            );
-        } else {
-            $customerResponseData = $this->_webApiCall($serviceInfo);
-        }
-        $this->assertEquals($customerData, $customerResponseData);
-
-    }
-
     public function testGetCustomerDetailsByEmail()
     {
         $customerData = $this->customerHelper->createSampleCustomer();
@@ -949,7 +899,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         //Test GetDetails
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/details?customerEmail=' . $customerData[Customer::EMAIL],
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerData[Customer::EMAIL],
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [

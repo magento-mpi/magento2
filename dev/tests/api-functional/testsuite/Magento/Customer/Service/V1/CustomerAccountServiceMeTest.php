@@ -151,7 +151,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
         $expectedCustomerDetails = $this->_getCustomerDetails($this->customerData[Customer::ID])->__toArray();
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/details',
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
                 'token' => $this->token
             ]
@@ -163,19 +163,6 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
         unset($customerDetailsResponse['customer']['custom_attributes']); //for REST
 
         $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
-    }
-
-    public function testGetCustomer()
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET,
-                'token' => $this->token
-            ]
-        ];
-        $customerResponseData = $this->_webApiCall($serviceInfo);
-        $this->assertEquals($this->customerData, $customerResponseData);
     }
 
     public function testGetCustomerActivateCustomer()
