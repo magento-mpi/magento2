@@ -196,7 +196,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function resendConfirmation($email, $websiteId, $redirectUrl = '')
+    public function resendConfirmation($email, $websiteId = null, $redirectUrl = '')
     {
         $customer = $this->customerRegistry->retrieveByEmail($email, $websiteId);
         if (!$customer->getConfirmation()) {

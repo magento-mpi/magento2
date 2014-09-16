@@ -207,7 +207,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If no customer found for provided email
      * @throws \Magento\Framework\Exception\State\InvalidTransitionException If confirmation is not needed
      */
-    public function resendConfirmation($email, $websiteId, $redirectUrl = '');
+    public function resendConfirmation($email, $websiteId = null, $redirectUrl = '');
 
     /**
      * Validate customer entity
