@@ -26,10 +26,9 @@ class Match implements QueryInterface
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         foreach ($query->getMatches() as $match) {
             $mode = Select::FULLTEXT_MODE_BOOLEAN;
-            if ($conditionType == Bool::QUERY_CONDITION_MUST) {
+            if ($conditionType === Bool::QUERY_CONDITION_MUST) {
                 $match['value'] = '+' . $match['value'];
-            } elseif ($conditionType === Bool::QUERY_CONDITION_NOT
-            ) {
+            } elseif ($conditionType === Bool::QUERY_CONDITION_NOT) {
                 $match['value'] = '-' . $match['value'];
             }
 
