@@ -24,15 +24,5 @@
             <locator>#messages</locator>
             <strategy>css selector</strategy>
         </messagesBlock>
-        <itemsGrid>
-            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Items</class>
-            <locator>#update_form</locator>
-            <strategy>css selector</strategy>
-        </itemsGrid>
-        <cartItemsGrid>
-            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\CartItems</class>
-            <locator>#giftregistry_customer_cart_grid</locator>
-            <strategy>css selector</strategy>
-        </cartItemsGrid>
     </blocks>
 </page>
