@@ -216,10 +216,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_setupStoreMock();
 
-        $this->_mathRandomMock = $this->getMockBuilder(
-            '\Magento\Framework\Math\Random'
-        )->disableOriginalConstructor()->getMock();
-
         $this->_validator = $this->getMockBuilder(
             '\Magento\Customer\Model\Metadata\Validator'
         )->disableOriginalConstructor()->getMock();
@@ -901,7 +897,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordShortPassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = '';
+        $password = '12345';
         $encryptedHash = 'password_encrypted_hash';
 
         $this->_mockReturnValue(
@@ -929,17 +925,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('setRpTokenCreatedAt')
             ->with(null)
             ->will($this->returnSelf());
-        $this->_encryptorMock->expects($this->once())
-            ->method('getHash')
-            ->with($password, true)
-            ->will($this->returnValue($encryptedHash));
-        $this->_customerModelMock->expects($this->once())
-            ->method('setPasswordHash')
-            ->with($encryptedHash)
-            ->will($this->returnSelf());
 
         $customerService = $this->_createService();
 
+        $this->setExpectedException(
+            'Magento\Framework\Exception\InputException',
+            'The password must have at least 6 characters.'
+        );
         $customerService->resetPassword(self::ID, $resetToken, $password);
     }
 
@@ -1508,7 +1500,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getRawMessage());
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getMessage());
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getLogMessage());
-            
+
             $errors = $inputException->getErrors();
             $this->assertCount(6, $errors);
 
@@ -1864,7 +1856,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getEmail')
             ->will($this->returnValue('somebody@example.com'));
 
-        
+
 
         $this->_customerModelMock->expects($this->any())
             ->method('getId')
@@ -2168,6 +2160,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'encryptor' => $this->_encryptorMock,
                 'logger' => $this->_loggerMock,
                 'url' => $this->_urlMock,
+                'stringHelper' => new \Magento\Framework\Stdlib\String(),
+                'mathRandom' => new \Magento\Framework\Math\Random()
             ]
         );
         return $customerService;

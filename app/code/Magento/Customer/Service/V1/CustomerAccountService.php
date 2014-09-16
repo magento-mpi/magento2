@@ -36,6 +36,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SortOrder;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Stdlib\String as StringHelper;
 
 /**
  * Handle various customer account actions
@@ -132,6 +133,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $configShare;
 
     /**
+     * @var StringHelper
+     */
+    private $stringHelper;
+
+    /**
      * @param CustomerFactory $customerFactory
      * @param ManagerInterface $eventManager
      * @param StoreManagerInterface $storeManager
@@ -150,6 +156,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Logger $logger
      * @param Encryptor $encryptor
      * @param ConfigShare $configShare
+     * @param StringHelper $stringHelper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -171,7 +178,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         UrlInterface $url,
         Logger $logger,
         Encryptor $encryptor,
-        ConfigShare $configShare
+        ConfigShare $configShare,
+        StringHelper $stringHelper
     ) {
         $this->customerFactory = $customerFactory;
         $this->eventManager = $eventManager;
@@ -191,6 +199,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->logger = $logger;
         $this->encryptor = $encryptor;
         $this->configShare = $configShare;
+        $this->stringHelper = $stringHelper;
     }
 
     /**
@@ -243,6 +252,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     public function authenticate($username, $password)
     {
+        $this->isPasswordSecure($password);
         $customerModel = $this->customerFactory->create();
         $customerModel->setWebsiteId($this->storeManager->getStore()->getWebsiteId());
         try {
@@ -326,6 +336,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel = $this->validateResetPasswordToken($customerId, $resetToken);
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
+        $this->isPasswordSecure($newPassword);
         $customerModel->setPasswordHash($this->getPasswordHash($newPassword));
         $customerModel->save();
     }
@@ -356,6 +367,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     ) {
         //Generate password hash
         $password = $password ? $password : $this->mathRandom->getRandomString(self::DEFAULT_PASSWORD_LENGTH);
+        $this->isPasswordSecure($password);
         $hash = $this->getPasswordHash($password);
         return $this->createCustomerWithPasswordHash($customerDetails, $hash, $redirectUrl);
     }
@@ -606,12 +618,33 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
+        $this->isPasswordSecure($newPassword);
         $customerModel->setPasswordHash($this->getPasswordHash($newPassword));
         $customerModel->save();
         // FIXME: Are we using the proper template here?
         $customerModel->sendPasswordResetNotificationEmail();
 
         return true;
+    }
+
+    /**
+     * Make sure that password complies with minimum security requirements.
+     *
+     * @param string $password
+     * @throws InputException
+     */
+    protected function isPasswordSecure($password)
+    {
+        $length = $this->stringHelper->strlen($password);
+        if ($length < self::MIN_PASSWORD_LENGTH) {
+            throw new InputException(
+                'The password must have at least %min_length characters.',
+                ['min_length' => self::MIN_PASSWORD_LENGTH]
+            );
+        }
+        if ($this->stringHelper->strlen(trim($password)) != $length) {
+            throw new InputException('The password can not begin or end with a space.');
+        }
     }
 
     /**

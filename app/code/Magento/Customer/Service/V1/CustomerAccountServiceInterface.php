@@ -38,6 +38,8 @@ interface CustomerAccountServiceInterface
 
     const DEFAULT_PASSWORD_LENGTH = 6;
 
+    const MIN_PASSWORD_LENGTH = 6;
+
     /**
      * Create Customer Account
      *
