@@ -295,6 +295,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'ValidateResetPasswordLinkToken'
             ]
         ];
+
+        $expectedMessage = 'Reset password token mismatch.';
+
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
                 $this->_webApiCall(
@@ -304,9 +307,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
             } else {
                 $this->_webApiCall($serviceInfo);
             }
+            $this->fail("Expected exception to be thrown.");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception message does not match"
+            );
         } catch (\Exception $e) {
             $errorObj = $this->processRestExceptionResult($e);
-            $this->assertEquals("Reset password token mismatch.", $errorObj['message']);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
     }
