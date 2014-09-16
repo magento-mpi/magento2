@@ -132,6 +132,9 @@ $numColumns = sizeof($this->getColumns());
                                    class="link-feed"><?php echo $_rss->getLabel() ?></a>
                             <?php endforeach ?>
                         <?php endif; ?>
+                        <?php if ($this->getChildBlock('grid.bottom.links')): ?>
+                            <?php echo $this->getChildHtml('grid.bottom.links') ?>
+                        <?php endif; ?>
                     </div>
                 <?php endif ?>
             </div>
@@ -168,7 +171,6 @@ $numColumns = sizeof($this->getColumns());
             <?php echo $this->getChildBlock('grid.massaction')->getJavaScript() ?>
             <?php endif ?>
             <?php echo $this->getAdditionalJavaScript(); ?>
-    
         });
 </script>
 <?php endif; ?>

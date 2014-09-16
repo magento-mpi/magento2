@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rss\Controller\Feed;
+namespace Magento\Rss\Controller\Adminhtml\Feed;
 
 use \Magento\Framework\App\Action\NotFoundException;
 
@@ -14,7 +14,7 @@ use \Magento\Framework\App\Action\NotFoundException;
  * Class Index
  * @package Magento\Rss\Controller\Feed
  */
-class Index extends \Magento\Rss\Controller\Feed
+class Index extends \Magento\Rss\Controller\Adminhtml\Feed
 {
     /**
      * Index action

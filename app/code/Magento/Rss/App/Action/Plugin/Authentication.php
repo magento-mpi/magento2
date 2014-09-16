@@ -36,7 +36,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     protected $_aclResources = array(
         'authenticate' => 'Magento_Rss::rss',
         'catalog' => array('notifystock' => 'Magento_Catalog::products', 'review' => 'Magento_Review::reviews_all'),
-        'order' => 'Magento_Sales::sales_order'
+        'feed' => 'Magento_Rss::rss'
     );
 
     /**

@@ -22,11 +22,6 @@ class Rss
     protected $dataProvider;
 
     /**
-     * @var array
-     */
-    protected $_feedArray = array();
-
-    /**
      * @var \Magento\Framework\App\CacheInterface
      */
     protected $cache;
@@ -37,39 +32,6 @@ class Rss
     public function __construct(\Magento\Framework\App\CacheInterface $cache)
     {
         $this->cache = $cache;
-    }
-
-    /**
-     * @param array $data
-     * @return $this
-     * @codeCoverageIgnore
-     */
-    public function _addHeader($data = array())
-    {
-        $this->_feedArray = $data;
-        return $this;
-    }
-
-    /**
-     * @param array $entries
-     * @return $this
-     * @codeCoverageIgnore
-     */
-    public function _addEntries($entries)
-    {
-        $this->_feedArray['entries'] = $entries;
-        return $this;
-    }
-
-    /**
-     * @param array $entry
-     * @return $this
-     * @codeCoverageIgnore
-     */
-    public function _addEntry($entry)
-    {
-        $this->_feedArray['entries'][] = $entry;
-        return $this;
     }
 
     /**

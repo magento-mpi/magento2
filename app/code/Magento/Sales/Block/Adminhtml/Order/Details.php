@@ -5,8 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rss\Block\Order;
+namespace Magento\Sales\Block\Adminhtml\Order;
 
+/**
+ * Class Details
+ * @package Magento\Sales\Block\Adminhtml\Order
+ */
 class Details extends \Magento\Framework\View\Element\Template
 {
     /**
