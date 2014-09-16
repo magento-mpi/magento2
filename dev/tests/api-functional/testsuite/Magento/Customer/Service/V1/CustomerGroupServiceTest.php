@@ -884,7 +884,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = ['group' => $groupData];
+        $requestData = ['groupId' => $groupId, 'group' => $groupData];
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
