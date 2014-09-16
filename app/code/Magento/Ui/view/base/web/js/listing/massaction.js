@@ -55,7 +55,7 @@ define([
                 allSelected:        this.allSelected || false,
                 actionsVisible:     false,
                 menuVisible:        false,
-                multiplePages:      ''
+                hasMultiplePages:      ''
             });
 
             this.selected.subscribe(this.onSelectionsChange.bind(this));
@@ -288,7 +288,7 @@ define([
 
             this.pages = provider.get('pages');
 
-            this.multiplePages(this.pages > 1);
+            this.hasMultiplePages(this.pages > 1);
 
             return this;
         },
@@ -336,7 +336,7 @@ define([
          * @return {Boolean}
          */
         shouldSelectAllBeVisible: function () {
-            return !this.allSelected() && this.multiplePages();
+            return !this.allSelected() && this.hasMultiplePages();
         },
 
         /**
@@ -344,7 +344,7 @@ define([
          * @return {Boolean}
          */
         shouldDeselectAllBeVisible: function () {
-            return this.allSelected() && this.multiplePages();
+            return this.allSelected() && this.hasMultiplePages();
         },
 
         onToggle: function(area){
