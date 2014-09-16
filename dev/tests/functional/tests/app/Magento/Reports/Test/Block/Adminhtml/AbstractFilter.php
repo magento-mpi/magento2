@@ -18,11 +18,11 @@ use Mtf\ObjectManager;
 abstract class AbstractFilter extends Form
 {
     /**
-     * Specified fields
+     * Skipped fields
      *
      * @var array
      */
-    protected $names = [];
+    protected $skippedFields = [];
 
     /**
      * Prepare data
@@ -33,7 +33,7 @@ abstract class AbstractFilter extends Form
     protected function prepareData(array $viewsReport)
     {
         foreach ($viewsReport as $key => $reportFilter) {
-            if (in_array($key, $this->names)) {
+            if (in_array($key, $this->skippedFields)) {
                 continue;
             }
             $date = ObjectManager::getInstance()->create(
