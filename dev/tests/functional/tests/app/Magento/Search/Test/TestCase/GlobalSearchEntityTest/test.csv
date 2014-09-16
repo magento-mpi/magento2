@@ -1,0 +1,6 @@
+"description";"query/product";"query/customer";"query/order";"searchByTwoLetters";"constraint";"issue"
+"search existed product and order created with this product";"name";"";"";"";"assertGlobalSearchProductName, assertGlobalSearchOrderID";"Bug: MAGETWO-28448"
+"search with 1 sign return no results";"name";"";"";":)";"assertGlobalSearchNoRecordsFound";""
+"search product by sku";"sku";"";"";"";"assertGlobalSearchProductName, assertGlobalSearchOrderID";"Bug: MAGETWO-28448"
+"search existed customer";"";"firstname";"";"";"assertGlobalSearchCustomerName";""
+"search order (by order id)";"";"";"id";"";"assertGlobalSearchOrderID";""
