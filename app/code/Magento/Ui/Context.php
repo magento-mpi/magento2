@@ -9,7 +9,7 @@ namespace Magento\Ui;
 
 use Magento\Framework\Registry;
 use Magento\Framework\App\RequestInterface;
-use Magento\ui\ContentType\Builders\ConfigurationStorageBuilder;
+use Magento\Ui\ContentType\Builders\ConfigurationStorageBuilder;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**

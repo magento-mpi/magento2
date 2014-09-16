@@ -7,6 +7,8 @@
 define([
     '_'
 ], function(_) {
+    'use strict';
+
     var utils = {},
         atobSupport,
         btoaSupport;
