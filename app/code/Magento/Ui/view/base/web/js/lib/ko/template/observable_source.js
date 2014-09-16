@@ -8,6 +8,7 @@
  * Is being used by knockout template engine to store template to.
  */
 define(['ko', 'Magento_Ui/js/lib/class'], function(ko, Class) {
+    'use strict';
 
     return Class.extend({
 

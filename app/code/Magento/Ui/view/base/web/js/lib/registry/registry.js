@@ -37,7 +37,7 @@ define([
 
     return {
         /**
-         * 
+         * Retrieves data from registry.
          * @params {(String|Array)} elems -
                 An array of elements' names or a string of names divided by spaces.
          * @params {Function} [callback] -
@@ -66,7 +66,7 @@ define([
 
 
         /**
-         *
+         * Sets data to registry.
          * @params {(String|Array|Object)} elems -
                 An array of elements' names or a string of names divided by spaces.
                 Also might be an object with element -> value pairs.

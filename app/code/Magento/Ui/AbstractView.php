@@ -105,7 +105,7 @@ abstract class AbstractView extends Template implements ViewInterface
     public function prepare(array $arguments = [])
     {
         if ($arguments) {
-            $this->_data = array_replace_recursive($this->_data, $arguments);
+            $this->_data = array_merge($this->_data, $arguments);
         }
     }
 

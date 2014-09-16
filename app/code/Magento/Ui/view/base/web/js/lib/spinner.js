@@ -7,6 +7,7 @@
 define([
     'jquery'
 ], function ($) {
+    'use strict';
 
     var spinner = $('[data-role="spinner"]');
 

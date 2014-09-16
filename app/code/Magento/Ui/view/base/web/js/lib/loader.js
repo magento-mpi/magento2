@@ -28,7 +28,7 @@ define(['jquery'], function($) {
      * @return {String} - formatted template path
      */
     function formatTemplatePath(path) {
-        return 'text!' + path.replace(/(\.)/g, '/') + '.html';
+        return 'text!' + path.replace(/^([^\/]+)/g, '$1/template') + '.html';
     }
 
     /**

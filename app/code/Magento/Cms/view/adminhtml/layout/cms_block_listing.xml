@@ -125,7 +125,7 @@
             <referenceBlock name="sorting_base">
                 <arguments>
                     <argument name="config" xsi:type="array">
-                        <item name="field" xsi:type="string">page_id</item>
+                        <item name="field" xsi:type="string">block_id</item>
                     </argument>
                 </arguments>
             </referenceBlock>

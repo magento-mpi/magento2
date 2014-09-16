@@ -108,39 +108,6 @@ class View extends AbstractView
     }
 
     /**
-     * Configuration initialization
-     *
-     * @return void
-     */
-    protected function initialConfiguration()
-    {
-
-        $this->renderContext->getStorage()->addCloudData(
-            'client',
-            [
-                'root' => $this->getUrl($this->getData('client_root')),
-                'ajax' => [
-                    'data' => [
-                        'component' => $this->getNameInLayout()
-                    ]
-                ]
-            ]
-        );
-        $this->renderContext->getStorage()->addCloudData('dump', ['extenders' => []]);
-
-        $countItems = $this->renderContext->getStorage()->getDataCollection($this->getName())->getSize();
-        $this->renderContext->getStorage()->addData(
-            $this->getName(),
-            [
-                'meta_reference' => $this->getName(),
-                'items' => $this->getCollectionItems(),
-                'pages' => ceil($countItems / $this->renderContext->getRequestParam('limit', 5)),
-                'totalCount' => $countItems
-            ]
-        );
-    }
-
-    /**
      * Get meta data
      *
      * @return array
@@ -205,5 +172,38 @@ class View extends AbstractView
         }
 
         return $items;
+    }
+
+    /**
+     * Configuration initialization
+     *
+     * @return void
+     */
+    protected function initialConfiguration()
+    {
+
+        $this->renderContext->getStorage()->addCloudData(
+            'client',
+            [
+                'root' => $this->getUrl($this->getData('client_root')),
+                'ajax' => [
+                    'data' => [
+                        'component' => $this->getNameInLayout()
+                    ]
+                ]
+            ]
+        );
+        $this->renderContext->getStorage()->addCloudData('dump', ['extenders' => []]);
+
+        $countItems = $this->renderContext->getStorage()->getDataCollection($this->getName())->getSize();
+        $this->renderContext->getStorage()->addData(
+            $this->getName(),
+            [
+                'meta_reference' => $this->getName(),
+                'items' => $this->getCollectionItems(),
+                'pages' => ceil($countItems / $this->renderContext->getRequestParam('limit', 20)),
+                'totalCount' => $countItems
+            ]
+        );
     }
 }

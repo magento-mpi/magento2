@@ -55,10 +55,7 @@ class View extends AbstractView
     ];
 
     /**
-     * Prepare component data
-     *
      * @param array $arguments
-     * @return $this|void
      */
     public function prepare(array $arguments = [])
     {
@@ -77,6 +74,7 @@ class View extends AbstractView
                 'configuration' => $config
             ]
         );
+        $this->renderContext->getStorage()->addComponentsData($this->configuration);
     }
 
     /**
