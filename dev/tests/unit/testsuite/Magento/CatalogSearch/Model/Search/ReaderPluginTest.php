@@ -42,6 +42,6 @@ class ReaderPluginTest extends \PHPUnit_Framework_TestCase
             }
         );
 
-        $this->assertEquals(['test' => ['b','a'], 'd' => 'e'], $result);
+        $this->assertEquals(['test' => ['b', 'a'], 'd' => 'e'], $result);
     }
 }

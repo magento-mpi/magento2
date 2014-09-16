@@ -99,8 +99,8 @@ class RequestGenerator
                         ]
                     ];
                     break;
-                case 'decimal';
-                case 'date';
+                case 'decimal':
+                case 'date':
                     $filterName = $attribute->getAttributeCode() . '_filter';
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
