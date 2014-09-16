@@ -10,12 +10,13 @@ namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
- * Class AssertGiftCardAccountAppliedSuccessMessage
+ * Class AssertGiftCardSuccessAddMessage
  * Assert that success message is displayed
  */
-class AssertGiftCardAccountAppliedSuccessMessage extends AbstractConstraint
+class AssertGiftCardSuccessAddMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked
@@ -33,13 +34,13 @@ class AssertGiftCardAccountAppliedSuccessMessage extends AbstractConstraint
      * Assert that success apply message is displayed on "Shopping Cart" frontend page
      *
      * @param CheckoutCart $checkoutCart
-     * @param string $code
+     * @param GiftCardAccount $giftCardAccount
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $code)
+    public function processAssert(CheckoutCart $checkoutCart, GiftCardAccount $giftCardAccount)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::SUCCESS_APPLY_MESSAGE, $code),
+            sprintf(self::SUCCESS_APPLY_MESSAGE, $giftCardAccount->getCode()),
             $checkoutCart->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );

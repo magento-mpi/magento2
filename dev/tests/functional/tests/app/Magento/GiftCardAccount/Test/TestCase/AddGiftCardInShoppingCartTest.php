@@ -36,7 +36,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  * 5. Click Add Gift Card
  * 6. Perform appropriate assertions
  *
- * @group Mini_Shopping_Cart_(CS)
+ * @group Gift_Card_Account_(CS)
  * @ZephyrId MAGETWO-28388
  */
 class AddGiftCardInShoppingCartTest extends Injectable
@@ -162,7 +162,7 @@ class AddGiftCardInShoppingCartTest extends Injectable
         $this->catalogProductView->getViewBlock()->addToCart($product);
         $this->checkoutCart->getGiftCardAccountBlock()->addGiftCard($giftCardAccount->getCode());
 
-        return ['code' => $giftCardAccount->getCode()];
+        return ['giftCardAccount' => $giftCardAccount];
     }
 
     /**

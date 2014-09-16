@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftCard\Test\Constraint;
+namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
@@ -36,7 +36,7 @@ class AssertGiftCardDiscount extends AbstractConstraint
         $discount
     ) {
         $checkoutCart->open();
-        $actualDiscount = substr($checkoutCart->getGiftCardDiscountBlock()->getGiftCardDiscount(), 1);
+        $actualDiscount = $checkoutCart->getGiftCardDiscountBlock()->getGiftCardDiscount();
         \PHPUnit_Framework_Assert::assertEquals(
             $discount,
             $actualDiscount,

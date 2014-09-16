@@ -30,6 +30,18 @@ class Total extends Form
      */
     public function getGiftCardDiscount()
     {
-        return $this->_rootElement->find($this->giftCardDiscount)->getText();
+        return $this->escapeCurrency($this->_rootElement->find($this->giftCardDiscount)->getText());
+    }
+
+    /**
+     * Escape currency in price
+     *
+     * @param string $price
+     * @return string|null
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }
