@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 define([
-    './abstract',
+    'Magento_Ui/js/listing/filter/abstract',
     '_'
 ], function (AbstractControl, _) {
     'use strict';
