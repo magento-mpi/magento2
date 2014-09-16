@@ -132,7 +132,6 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Customer/_files/customer.php
      * @expectedException \Exception
-     * @expectedExceptionMessage There is no cart with provided ID.
      */
     public function testAssignCustomerThrowsExceptionIfThereIsNoCartWithGivenId()
     {
@@ -263,5 +262,39 @@ class WriteServiceTest extends WebapiAbstract
             'customerId' => $customerId,
         );
         $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_check_payment.php
+     */
+    public function testOrderPlacesOrder()
+    {
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test_order_1', 'reserved_order_id');
+
+        $cartId = $quote->getId();
+
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => 'checkoutCartWriteServiceV1',
+                'operation' => 'checkoutCartWriteServiceV1Order',
+                'serviceVersion' => 'V1',
+            ),
+            'rest' => array(
+                'resourcePath' => '/V1/carts/' . $cartId . '/order',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+        );
+
+        $requestData = array(
+            'cartId' => $cartId,
+        );
+        $this->_webApiCall($serviceInfo, $requestData);
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $this->objectManager->create('\Magento\Sales\Model\Order')->load(1);
+        $items = $order->getAllItems();
+        $this->assertCount(1, $items);
+        $this->assertEquals('Simple Product', $items[0]->getName());
+        $quote->delete();
     }
 }

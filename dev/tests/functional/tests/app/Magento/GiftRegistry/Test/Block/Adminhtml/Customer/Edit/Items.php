@@ -46,19 +46,21 @@ class Items extends Grid
     protected $submit = '[data-ui-id="giftregistry-customer-edit-form-update-button"]';
 
     /**
-     * Search and update giftregistry item
+     * Search and update giftregistry items
      *
-     * @param array $productProperties
+     * @param array $productsProperties
      * @return void
      */
-    public function searchAndUpdate(array $productProperties)
+    public function searchAndUpdate(array $productsProperties)
     {
-        $row = $this->_rootElement->find(
-            sprintf($this->rowSelector, $productProperties['name']),
-            Locator::SELECTOR_XPATH
-        );
-        $row->find($this->qtySelector)->setValue($productProperties['qty']);
-        $row->find($this->actionSelector, Locator::SELECTOR_CSS, 'select')->setValue($productProperties['action']);
+        foreach ($productsProperties as $productProperties) {
+            $row = $this->_rootElement->find(
+                sprintf($this->rowSelector, $productProperties['name']),
+                Locator::SELECTOR_XPATH
+            );
+            $row->find($this->qtySelector)->setValue($productProperties['qty']);
+            $row->find($this->actionSelector, Locator::SELECTOR_CSS, 'select')->setValue($productProperties['action']);
+        }
         $this->_rootElement->find($this->submit)->click();
     }
 }

@@ -162,11 +162,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     }
 
     /**
-     * Retrieve application store object
-     *
-     * @param null|string|bool|int|Store $storeId
-     * @return Store
-     * @throws \Magento\Store\Model\Exception
+     * {@inheritdoc}
      */
     public function getStore($storeId = null)
     {
@@ -230,11 +226,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     }
 
     /**
-     * Retrieve application store group object
-     *
-     * @param null|\Magento\Store\Model\Group|string $groupId
-     * @return \Magento\Store\Model\Group
-     * @throws \Magento\Framework\Model\Exception
+     * {@inheritdoc}
      */
     public function getGroup($groupId = null)
     {

@@ -78,11 +78,11 @@ class Create extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
-     * Order details block
+     * Order items grid block
      *
      * @var string
      */
-    protected $orderDetails = '.order-details';
+    protected $orderItemsGrid = '#order-items_grid';
 
     /**
      * Getter for order selected products grid
@@ -181,13 +181,13 @@ class Create extends Block
     }
 
     /**
-     * Wait display order details
+     * Wait display order items grid
      *
      * @return void
      */
-    public function waitOrderDetails()
+    public function waitOrderItemsGrid()
     {
-        $this->waitForElementVisible($this->orderDetails);
+        $this->waitForElementVisible($this->orderItemsGrid);
     }
 
     /**

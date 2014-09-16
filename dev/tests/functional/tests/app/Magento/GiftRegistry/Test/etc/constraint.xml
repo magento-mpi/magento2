@@ -71,4 +71,13 @@
     <assertGiftRegistrySuccessAddedItemsMessage module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistrySuccessAddedItemsMessage>
+    <assertGiftRegistryItemsUpdatedFrontendSuccessMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryItemsUpdatedFrontendSuccessMessage>
+    <assertGiftRegistryItemsForm module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryItemsForm>
+    <assertGiftRegistryIsEmptyMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryIsEmptyMessage>
 </constraint>

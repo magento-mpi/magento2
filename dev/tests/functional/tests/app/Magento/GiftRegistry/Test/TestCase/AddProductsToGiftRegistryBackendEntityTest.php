@@ -44,6 +44,8 @@ use Mtf\Fixture\InjectableFixture;
  *
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-28215
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AddProductsToGiftRegistryBackendEntityTest extends Injectable
 {
@@ -199,8 +201,7 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
             ]
         ];
         $cartItemsGrid->massaction($filter, 'Add to Gift Registry', true);
-
-        return ['product' => $product];
+        return ['products' => [$product]];
     }
 
     /**

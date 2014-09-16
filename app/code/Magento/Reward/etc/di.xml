@@ -32,4 +32,10 @@
     <type name="Magento\Sales\Model\Resource\Order\Creditmemo">
         <plugin name="refundRewardPoints" type="\Magento\Reward\Model\Plugin\RewardPointsRefund"/>
     </type>
+    <type name="Magento\Reward\Model\Observer\PlaceOrder\Restriction\Api">
+        <arguments>
+            <argument name="backend" xsi:type="object">Magento\Reward\Model\Observer\PlaceOrder\Restriction\Backend\Proxy</argument>
+            <argument name="frontend" xsi:type="object">Magento\Reward\Model\Observer\PlaceOrder\Restriction\Frontend\Proxy</argument>
+        </arguments>
+    </type>
 </config>

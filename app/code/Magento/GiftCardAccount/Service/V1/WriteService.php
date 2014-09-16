@@ -18,19 +18,14 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var \Magento\Checkout\Service\V1\QuoteLoader
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $quoteLoader;
+    protected $quoteRepository;
 
     /**
      * @var GiftCardAccountBuilder
      */
     protected $giftCardBuilder;
-
-    /**
-     * @var \Magento\Framework\StoreManagerInterface
-     */
-    protected $storeManager;
 
     /**
      * @var \Magento\GiftCardAccount\Helper\Data
@@ -43,22 +38,19 @@ class WriteService implements WriteServiceInterface
     protected $giftCardLoader;
 
     /**
-     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param GiftCardAccountBuilder $giftCardBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardHelper
-     * @param \Magento\GiftCardAccount\Service\V1\GiftCardAccountLoader $loader
+     * @param GiftCardAccountLoader $loader
      */
     public function __construct(
-        \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         GiftCardAccountBuilder $giftCardBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\GiftCardAccount\Helper\Data $giftCardHelper,
         \Magento\GiftCardAccount\Service\V1\GiftCardAccountLoader $loader
     ) {
-        $this->quoteLoader = $quoteLoader;
+        $this->quoteRepository = $quoteRepository;
         $this->giftCardBuilder = $giftCardBuilder;
-        $this->storeManager = $storeManager;
         $this->giftCardHelper = $giftCardHelper;
         $this->giftCardLoader = $loader;
     }
@@ -68,9 +60,8 @@ class WriteService implements WriteServiceInterface
      */
     public function set($cartId, \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount $giftCardAccountData)
     {
-        $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
         if (!$quote->getItemsCount()) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain products");
         }
@@ -89,9 +80,8 @@ class WriteService implements WriteServiceInterface
      */
     public function delete($cartId, $couponCode)
     {
-        $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
         if (!$quote->getItemsCount()) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain products");
         }

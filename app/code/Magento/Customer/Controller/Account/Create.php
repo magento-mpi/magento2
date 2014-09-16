@@ -23,7 +23,6 @@ class Create extends \Magento\Customer\Controller\Account
      * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\State $appState
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\Data $customerHelper
      */
@@ -34,7 +33,6 @@ class Create extends \Magento\Customer\Controller\Account
         \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\State $appState,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\Data $customerHelper
     ) {
@@ -46,7 +44,6 @@ class Create extends \Magento\Customer\Controller\Account
             $urlFactory,
             $storeManager,
             $scopeConfig,
-            $appState,
             $customerAccountService
         );
     }
