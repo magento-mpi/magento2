@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\AdvancedCheckout\Model\Observer\CollectTotalsFailedItems">
+        <arguments>
+            <argument name="failedItemProcessor" xsi:type="object">Magento\AdvancedCheckout\Model\FailedItemProcessor\Proxy</argument>
+        </arguments>
+    </type>
+</config>

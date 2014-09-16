@@ -67,7 +67,7 @@ class GuestPaypalExpress extends Checkout
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();

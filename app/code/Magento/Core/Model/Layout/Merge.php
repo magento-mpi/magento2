@@ -496,9 +496,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected function _merge($handle)
     {
         $this->_fetchPackageLayoutUpdates($handle);
-        if ($this->_appState->isInstalled()) {
-            $this->_fetchDbLayoutUpdates($handle);
-        }
+        $this->_fetchDbLayoutUpdates($handle);
         return $this;
     }
 

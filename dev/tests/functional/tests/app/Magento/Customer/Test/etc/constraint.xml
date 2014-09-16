@@ -117,4 +117,7 @@
         <severeness>low</severeness>
         <require />
     </assertCustomerMassDeleteInGrid>
+    <assertMassActionSuccessUpdateMessage module="Magento_Customer">
+        <severeness>low</severeness>
+    </assertMassActionSuccessUpdateMessage>
 </constraint>

@@ -476,7 +476,7 @@ class Store extends AbstractModel implements
     protected function _getConfig($path)
     {
         $data = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $this->getCode());
-        if (!$data && !$this->_appState->isInstalled()) {
+        if (!$data) {
             $data = $this->_config->getValue($path, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT);
         }
         return $data === false ? null : $data;
@@ -608,10 +608,7 @@ class Store extends AbstractModel implements
      */
     protected function _updatePathUseRewrites($url)
     {
-        if ($this->getForceDisableRewrites() || !$this->_getConfig(
-            self::XML_PATH_USE_REWRITES
-        ) || !$this->_appState->isInstalled()
-        ) {
+        if ($this->getForceDisableRewrites() || !$this->_getConfig(self::XML_PATH_USE_REWRITES)) {
             if ($this->_isCustomEntryPoint()) {
                 $indexFileName = 'index.php';
             } else {
@@ -678,7 +675,6 @@ class Store extends AbstractModel implements
     {
         return !($this->hasDisableStoreInUrl() &&
             $this->getDisableStoreInUrl()) &&
-            $this->_appState->isInstalled() &&
             $this->_getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
@@ -736,26 +732,21 @@ class Store extends AbstractModel implements
             return true;
         }
 
-        if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = $this->_config->getValue(
-                self::XML_PATH_SECURE_BASE_URL,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
+        $secureBaseUrl = $this->_config->getValue(
+            self::XML_PATH_SECURE_BASE_URL,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
-            if (!$secureBaseUrl) {
-                return false;
-            }
-
-            $uri = \Zend_Uri::factory($secureBaseUrl);
-            $port = $uri->getPort();
-            $isSecure = $uri->getScheme() == 'https' && isset(
-                $_SERVER['SERVER_PORT']
-            ) && $port == $_SERVER['SERVER_PORT'];
-            return $isSecure;
-        } else {
-            $isSecure = isset($_SERVER['SERVER_PORT']) && 443 == $_SERVER['SERVER_PORT'];
-            return $isSecure;
+        if (!$secureBaseUrl) {
+            return false;
         }
+
+        $uri = \Zend_Uri::factory($secureBaseUrl);
+        $port = $uri->getPort();
+        $isSecure = $uri->getScheme() == 'https' && isset(
+            $_SERVER['SERVER_PORT']
+        ) && $port == $_SERVER['SERVER_PORT'];
+        return $isSecure;
     }
 
     /*************************************************************************************

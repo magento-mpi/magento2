@@ -8,7 +8,6 @@
 namespace Magento\SalesRule\Model;
 
 use Magento\Sales\Model\Quote\Item\AbstractItem;
-use Magento\Sales\Model\Quote\Item;
 use Magento\Sales\Model\Quote\Address;
 
 /**
@@ -510,10 +509,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
     /**
      * Check if we can apply discount to current QuoteItem
      *
-     * @param Item $item
+     * @param AbstractItem $item
      * @return bool
      */
-    public function canApplyDiscount(Item $item)
+    public function canApplyDiscount(AbstractItem $item)
     {
         $result = true;
         /** @var \Zend_Validate_Interface $validator */

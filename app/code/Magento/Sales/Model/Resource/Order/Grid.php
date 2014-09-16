@@ -7,61 +7,19 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Sales\Model\Resource\GridInterface;
-use Magento\Framework\App\Resource;
+use Magento\Sales\Model\Resource\AbstractGrid;
 use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\App\Resource as AppResource;
 
 /**
  * Class Grid
  */
-class Grid implements GridInterface
+class Grid extends AbstractGrid
 {
-    /**
-     * @var \Magento\Framework\App\Resource
-     */
-    protected $resource;
-
-    /**
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface
-     */
-    protected $connection;
-
     /**
      * @var string
      */
     protected $gridTableName = 'sales_flat_order_grid';
-
-    /**
-     * @param Resource $resource
-     */
-    public function __construct(
-        Resource $resource
-    ) {
-        $this->resource = $resource;
-    }
-
-    /**
-     * Returns grid table name
-     *
-     * @return string
-     */
-    public function getGridTableName()
-    {
-        return $this->gridTableName;
-    }
-
-    /**
-     * Returns connection
-     *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
-     */
-    protected function getConnection()
-    {
-        if (!$this->connection) {
-            $this->connection = $this->resource->getConnection('write');
-        }
-        return $this->connection;
-    }
 
     /**
      * Refresh grid row
@@ -76,22 +34,12 @@ class Grid implements GridInterface
             ->where(($field ?: 'sfo.entity_id') . ' = ?', $value);
         return $this->getConnection()->query(
             $this->getConnection()
-                ->insertFromSelect($select, $this->gridTableName, [], AdapterInterface::INSERT_ON_DUPLICATE)
-        );
-    }
-
-    /**
-     * Purge grid row
-     *
-     * @param int|string $value
-     * @param null|string $field
-     * @return int
-     */
-    public function purge($value, $field = null)
-    {
-        return $this->getConnection()->delete(
-            $this->getGridTableName(),
-            [($field ?: 'entity_id') . ' = ?' => $value]
+                ->insertFromSelect(
+                    $select,
+                    $this->getTable($this->gridTableName),
+                    [],
+                    AdapterInterface::INSERT_ON_DUPLICATE
+                )
         );
     }
 
@@ -103,9 +51,17 @@ class Grid implements GridInterface
     protected function getGridOriginSelect()
     {
         return $this->getConnection()->select()
-            ->from(['sfo' => 'sales_flat_order'], [])
-            ->joinLeft(['sba' => 'sales_flat_order_address'], 'sfo.billing_address_id = sba.entity_id', [])
-            ->joinLeft(['ssa' => 'sales_flat_order_address'], 'sfo.billing_address_id = ssa.entity_id', [])
+            ->from(['sfo' => $this->getTable($this->orderTableName)], [])
+            ->joinLeft(
+                ['sba' => $this->getTable($this->addressTableName)],
+                'sfo.billing_address_id = sba.entity_id',
+                []
+            )
+            ->joinLeft(
+                ['ssa' => $this->getTable($this->addressTableName)],
+                'sfo.billing_address_id = ssa.entity_id',
+                []
+            )
             ->columns(
                 [
                     'entity_id' => 'sfo.entity_id',

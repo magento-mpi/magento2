@@ -15,6 +15,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\App\Config\ScopePool">
+        <arguments>
+            <argument name="readerPool" xsi:type="object">Magento\Store\Model\Config\Reader\ReaderPool\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Store\Model\Config\Reader\Website">
         <arguments>
             <argument name="scopePool" xsi:type="object">Magento\Framework\App\Config\ScopePool\Proxy</argument>
@@ -52,9 +57,6 @@
     <preference for="Magento\Framework\Stdlib\CookieManager" type="Magento\Framework\Stdlib\Cookie\PhpCookieManager" />
     <type name="Magento\Framework\App\Action\Action">
         <plugin name="storeCheck" type="Magento\Store\App\Action\Plugin\StoreCheck" sortOrder="10"/>
-    </type>
-    <type name="Magento\Framework\App\FrontController">
-        <plugin name="dispatchExceptionHandler" type="Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
     </type>
     <type name="Magento\Store\Model\Resource\Website\Collection">
         <arguments>
