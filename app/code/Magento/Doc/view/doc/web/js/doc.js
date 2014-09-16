@@ -20,7 +20,7 @@ define(['jquery'], function(jQuery){
         var content = source.val(),
             type = source.attr('content-type'),
             module = source.attr('module'),
-            scheme = source.attr('scheme'),
+            outline = source.attr('outline'),
             name = source.attr('doc-name');
         jQuery.ajax({
             url: '/doc/index',
@@ -30,7 +30,7 @@ define(['jquery'], function(jQuery){
                 content: content,
                 type: type,
                 module: module,
-                scheme: scheme,
+                outline: outline,
                 name: name
             },
             success: function (response) {
@@ -65,7 +65,7 @@ define(['jquery'], function(jQuery){
         content.hide();
         srcContent.show();
         srcContent.css('min-height', content.height() + 100);
-        srcContent.css('width', content.width() + 100);
+        //srcContent.css('width', content.width() + 100);
 
         srcContent[0].addEventListener("keyup", function() {
             if (srcContent.data('orig')) {
@@ -146,7 +146,7 @@ define(['jquery'], function(jQuery){
             var item = jQuery(el);
             var word = item.attr('href');
             if (dictionary.content[word]) {
-                item.attr('title', dictionary.content[word].definition)
+                item.attr('title', dictionary.content[word].description)
                 item.attr('href', dictionary.content[word].url)
             }
         });
@@ -182,7 +182,7 @@ define(['jquery'], function(jQuery){
                 event.stopPropagation();
             });
         },
-        'reference-scheme': function(item) {
+        'reference-doc': function(item) {
             init.article(item);
         }
     };
