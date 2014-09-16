@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ui\ContentType\Builders;
+namespace Magento\Ui\ContentType\Builders;
 
 use Magento\Ui\ConfigurationInterface;
 use Magento\Ui\ConfigurationStorageInterface;
