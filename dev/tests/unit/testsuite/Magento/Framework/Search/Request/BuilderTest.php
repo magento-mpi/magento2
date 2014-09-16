@@ -41,6 +41,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     private $binder;
 
+    /**
+     * @var \Magento\Framework\Search\Request\Cleaner|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $cleaner;
+
     protected function setUp()
     {
         $helper = new ObjectManager($this);
@@ -69,12 +74,18 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->cleaner = $this->getMockBuilder('Magento\Framework\Search\Request\Cleaner')
+            ->setMethods(['clean'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->requestBuilder = $helper->getObject(
             'Magento\Framework\Search\Request\Builder',
             [
                 'config' => $this->config,
                 'objectManager' => $this->objectManager,
-                'binder' => $this->binder
+                'binder' => $this->binder,
+                'cleaner' => $this->cleaner
             ]
         );
     }
@@ -188,6 +199,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->requestBuilder->bindDimension('scope', 'default');
 
         $this->binder->expects($this->once())->method('bind')->willReturn($data);
+
+        $this->cleaner->expects($this->once())->method('clean')->willReturn($data);
 
         $this->requestMapper->expects($this->once())->method('getRootQuery')->willReturn([]);
 

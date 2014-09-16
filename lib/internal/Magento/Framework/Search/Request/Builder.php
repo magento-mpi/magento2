@@ -36,6 +36,10 @@ class Builder
         'dimensions' => [],
         'placeholder' => []
     ];
+    /**
+     * @var Cleaner
+     */
+    private $cleaner;
 
     /**
      * Request Builder constructor
@@ -43,12 +47,14 @@ class Builder
      * @param ObjectManager $objectManager
      * @param Config $config
      * @param Binder $binder
+     * @param Cleaner $cleaner
      */
-    public function __construct(ObjectManager $objectManager, Config $config, Binder $binder)
+    public function __construct(ObjectManager $objectManager, Config $config, Binder $binder, Cleaner $cleaner)
     {
         $this->objectManager = $objectManager;
         $this->config = $config;
         $this->binder = $binder;
+        $this->cleaner = $cleaner;
     }
 
     /**
@@ -128,6 +134,7 @@ class Builder
         }
 
         $data = $this->binder->bind($data, $this->data);
+        $data = $this->cleaner->clean($data, $this->data);
 
         $this->clear();
 
