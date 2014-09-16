@@ -10,6 +10,7 @@ namespace Magento\Framework\Search\Adapter\Mysql\Filter;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term;
+use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
 use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 use Magento\Framework\Search\Request\Query\Bool;
 
@@ -23,17 +24,24 @@ class Builder implements BuilderInterface
      * @var Term
      */
     private $term;
+    /**
+     * @var ConditionManager
+     */
+    private $conditionManager;
 
     /**
      * @param Range $range
      * @param Term $term
+     * @param ConditionManager $conditionManager
      */
     public function __construct(
         Range $range,
-        Term $term
+        Term $term,
+        ConditionManager $conditionManager
     ) {
         $this->range = $range;
         $this->term = $term;
+        $this->conditionManager = $conditionManager;
     }
 
     /**
@@ -64,7 +72,7 @@ class Builder implements BuilderInterface
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown filter type \'%s\'', $filter->getType()));
         }
-        return $this->wrapBrackets($query);
+        return $this->conditionManager->wrapBrackets($query);
     }
 
     /**
@@ -83,27 +91,21 @@ class Builder implements BuilderInterface
      */
     private function processBoolFilter(RequestFilterInterface $filter, $isNegation)
     {
-        $queries = [];
-
         $must = $this->buildFilters($filter->getMust(), Select::SQL_AND, $isNegation);
-        if (!empty($must)) {
-            $queries[] = $must;
-        }
-
         $should = $this->buildFilters($filter->getShould(), Select::SQL_OR, $isNegation);
-        if (!empty($should)) {
-            $queries[] = $this->wrapBrackets($should);
-        }
-
         $mustNot = $this->buildFilters(
             $filter->getMustNot(),
             Select::SQL_AND,
             !$isNegation
         );
-        if (!empty($mustNot)) {
-            $queries[] = $this->wrapBrackets($mustNot);
-        }
-        return $this->generateQuery($queries, Select::SQL_AND);
+
+        $queries = [
+            $must,
+            $this->conditionManager->wrapBrackets($should),
+            $this->conditionManager->wrapBrackets($mustNot),
+        ];
+
+        return $this->conditionManager->combineQueries($queries, Select::SQL_AND);
     }
 
     /**
@@ -127,17 +129,6 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param string $query
-     * @return string
-     */
-    private function wrapBrackets($query)
-    {
-        return empty($query)
-            ? $query
-            : '(' . $query . ')';
-    }
-
-    /**
      * @param \Magento\Framework\Search\Request\FilterInterface[] $filters
      * @param string $unionOperator
      * @param bool $isNegation
@@ -149,20 +140,6 @@ class Builder implements BuilderInterface
         foreach ($filters as $filter) {
             $queries[] = $this->processFilter($filter, $isNegation);
         }
-        return $this->generateQuery($queries, $unionOperator);
-    }
-
-    /**
-     * @param string[] $queries
-     * @param string $unionOperator
-     * @return string
-     */
-    private function generateQuery(array $queries, $unionOperator)
-    {
-        $query = implode(
-            ' ' . $unionOperator . ' ',
-            $queries
-        );
-        return $query;
+        return $this->conditionManager->combineQueries($queries, $unionOperator);
     }
 }

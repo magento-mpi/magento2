@@ -13,14 +13,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 class RangeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $adapter;
-    /**
-     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $resource;
-    /**
      * @var \Magento\Framework\Search\Request\Filter\Term|\PHPUnit_Framework_MockObject_MockObject
      */
     private $requestFilter;
@@ -28,6 +20,10 @@ class RangeTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range
      */
     private $filter;
+    /**
+     * @var \Magento\Framework\Search\Adapter\Mysql\ConditionManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $conditionManager;
 
     /**
      * Set Up
@@ -40,23 +36,24 @@ class RangeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->adapter = $this->getMockBuilder('\Magento\Framework\DB\Adapter\AdapterInterface')
-            ->setMethods(['quote'])
-            ->getMockForAbstractClass();
-
-        $this->resource = $this->getMockBuilder('Magento\Framework\App\Resource')
-            ->setMethods(['getConnection'])
+        $this->conditionManager = $this->getMockBuilder('\Magento\Framework\Search\Adapter\Mysql\ConditionManager')
             ->disableOriginalConstructor()
+            ->setMethods(['generateCondition'])
             ->getMock();
-        $this->resource->expects($this->once())
-            ->method('getConnection')
-            ->with(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE)
-            ->will($this->returnValue($this->adapter));
+        $this->conditionManager->expects($this->any())
+            ->method('generateCondition')
+            ->will(
+                $this->returnCallback(
+                    function ($field, $operator, $value) {
+                        return sprintf('%s %s \'%s\'', $field, $operator, $value);
+                    }
+                )
+            );
 
         $this->filter = $objectManager->getObject(
             'Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range',
             [
-                'resource' => $this->resource,
+                'conditionManager' => $this->conditionManager,
             ]
         );
     }
@@ -80,15 +77,6 @@ class RangeTest extends \PHPUnit_Framework_TestCase
         $this->requestFilter->expects($this->atLeastOnce())
             ->method('getTo')
             ->will($this->returnValue($to));
-        $this->adapter->expects($this->any())
-            ->method('quote')
-            ->will(
-                $this->returnCallback(
-                    function ($value) {
-                        return '\'' . $value . '\'';
-                    }
-                )
-            );
 
         $actualResult = $this->filter->buildFilter($this->requestFilter, $isNegation);
         $this->assertEquals($expectedResult, $actualResult);

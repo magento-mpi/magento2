@@ -45,6 +45,10 @@ class Mapper
      * @var Dimensions
      */
     private $dimensionsBuilder;
+    /**
+     * @var ConditionManager
+     */
+    private $conditionManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
@@ -52,19 +56,22 @@ class Mapper
      * @param MatchQueryBuilder $matchQueryBuilder
      * @param Builder $filterBuilder
      * @param Dimensions $dimensionsBuilder
+     * @param ConditionManager $conditionManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         ScoreBuilderFactory $scoreBuilderFactory,
         MatchQueryBuilder $matchQueryBuilder,
         Builder $filterBuilder,
-        Dimensions $dimensionsBuilder
+        Dimensions $dimensionsBuilder,
+        ConditionManager $conditionManager
     ) {
         $this->resource = $resource;
         $this->scoreBuilderFactory = $scoreBuilderFactory;
         $this->matchQueryBuilder = $matchQueryBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->dimensionsBuilder = $dimensionsBuilder;
+        $this->conditionManager = $conditionManager;
     }
 
     /**
@@ -242,12 +249,9 @@ class Mapper
             $dimensions[] = $this->dimensionsBuilder->build($dimension);
         }
 
-        if (!empty($dimensions)) {
-            $query = sprintf(
-                '(%s)',
-                implode(' ' . Select::SQL_OR . ' ', $dimensions)
-            );
-            $select->where($query);
+        $query = $this->conditionManager->combineQueries($dimensions, \Zend_Db_Select::SQL_OR);
+        if (!empty($query)) {
+            $select->where($this->conditionManager->wrapBrackets($query));
         }
 
         return $select;

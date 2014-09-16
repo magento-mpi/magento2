@@ -8,6 +8,7 @@
 namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
 use Magento\Framework\App\Resource;
+use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
 use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 
 class Term implements FilterInterface
@@ -15,16 +16,17 @@ class Term implements FilterInterface
     const CONDITION_PART_EQUALS = '=';
     const CONDITION_PART_NOT_EQUALS = '!=';
     /**
-     * @var \Magento\Framework\App\Resource
+     * @var ConditionManager
      */
-    private $resource;
+    private $conditionManager;
 
     /**
-     * @param \Magento\Framework\App\Resource $resource
+     * @param ConditionManager $conditionManager
      */
-    public function __construct(\Magento\Framework\App\Resource $resource)
-    {
-        $this->resource = $resource;
+    public function __construct(
+        ConditionManager $conditionManager
+    ) {
+        $this->conditionManager = $conditionManager;
     }
 
     /**
@@ -34,15 +36,11 @@ class Term implements FilterInterface
         RequestFilterInterface $filter,
         $isNegation
     ) {
-        $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
-
         /** @var \Magento\Framework\Search\Request\Filter\Term $filter */
-        $condition = sprintf(
-            '%s %s %s',
+        return $this->conditionManager->generateCondition(
             $filter->getField(),
             ($isNegation ? self::CONDITION_PART_NOT_EQUALS : self::CONDITION_PART_EQUALS),
-            $adapter->quote($filter->getValue())
+            $filter->getValue()
         );
-        return $condition;
     }
 }
