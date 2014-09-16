@@ -44,7 +44,7 @@ class ConsoleController extends AbstractActionController
     /**#@+
      * Additional keys for "info" command
      */
-    const INFO_LOCALES = 'locales';
+    const INFO_LOCALES = 'languages';
     const INFO_CURRENCIES = 'currencies';
     const INFO_TIMEZONES = 'timezones';
     /**#@- */
