@@ -92,5 +92,45 @@ class CatalogProductAttribute extends AbstractRepository
                 ],
             ]
         ];
+
+        $this->_data['color'] = [
+            'frontend_label' => 'color_%isolation%',
+            'attribute_code' => 'color_%isolation%',
+            'frontend_input' => 'Dropdown',
+            'is_required' => 'No',
+            'is_configurable' => 'Yes',
+            'options' => [
+                [
+                    'is_default' => 'Yes',
+                    'admin' => 'black',
+                    'view' => 'black_%isolation%',
+                ],
+                [
+                    'is_default' => 'No',
+                    'admin' => 'white',
+                    'view' => 'white_%isolation%',
+                ]
+            ]
+        ];
+
+        $this->_data['size'] = [
+            'frontend_label' => 'size_%isolation%',
+            'attribute_code' => 'size_%isolation%',
+            'frontend_input' => 'Dropdown',
+            'is_required' => 'No',
+            'is_configurable' => 'Yes',
+            'options' => [
+                [
+                    'is_default' => 'Yes',
+                    'admin' => 'xl',
+                    'view' => 'xl_%isolation%',
+                ],
+                [
+                    'is_default' => 'No',
+                    'admin' => 'xxl',
+                    'view' => 'xxl_%isolation%',
+                ]
+            ]
+        ];
     }
 }

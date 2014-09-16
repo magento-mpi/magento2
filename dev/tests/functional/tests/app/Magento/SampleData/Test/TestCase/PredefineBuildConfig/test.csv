@@ -1,0 +1,7 @@
+"products";"category/dataSet";"category/data/name"
+"catalogProductSimple::default, catalogProductSimple::product_with_special_price, catalogProductSimple::product_with_weight_0_1, catalogProductSimple::product_with_weight_150_1, catalogProductSimple::with_custom_option";"default_anchor_subcategory";"Simple Products"
+"configurableProductInjectable::product_with_size, configurableProductInjectable::product_with_color_and_size";"default_anchor_subcategory";"Configurable Products"
+"bundleProduct::bundle_dynamic_product, bundleProduct::bundle_fixed_product";"default_anchor_subcategory";"Bundle Products"
+"groupedProductInjectable::default";"default_anchor_subcategory";"Grouped Products"
+"catalogProductVirtual::default";"default_anchor_subcategory";"Virtual Products"
+"downloadableProductInjectable::default";"default_anchor_subcategory";"Downloadable Products"
