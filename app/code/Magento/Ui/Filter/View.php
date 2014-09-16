@@ -48,21 +48,9 @@ class View extends AbstractView
     protected $rootComponent;
 
     /**
-     * View configuration
-     *
-     * @var array
-     */
-    protected $viewConfiguration = [
-        'types' => [
-            'date' => [
-                'dateFormat' => 'mm/dd/yyyy'
-            ]
-        ]
-    ];
-
-    /**
      * Constructor
      *
+     * @param Data $dataHelper
      * @param FilterPool $filterPool
      * @param Context $renderContext
      * @param TemplateContext $context
@@ -93,9 +81,11 @@ class View extends AbstractView
         $this->rootComponent = $this->getParentComponent();
 
         $config = [
-            'sizes' => [5, 10, 20, 30, 50, 100, 200],
-            'pageSize' => 5,
-            'current' => 1
+            'types' => [
+                'date' => [
+                    'dateFormat' => 'mm/dd/yyyy'
+                ]
+            ]
         ];
         if ($this->hasData('config')) {
             $config = array_merge_recursive($config, $this->getData('config'));

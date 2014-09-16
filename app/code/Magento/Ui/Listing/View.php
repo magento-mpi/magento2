@@ -192,7 +192,7 @@ class View extends AbstractView
             [
                 'meta_reference' => $this->getName(),
                 'items' => $this->getCollectionItems(),
-                'pages' => ceil($countItems / $this->renderContext->getRequestParam('limit', 5)),
+                'pages' => ceil($countItems / $this->renderContext->getRequestParam('limit', 20)),
                 'totalCount' => $countItems
             ]
         );
