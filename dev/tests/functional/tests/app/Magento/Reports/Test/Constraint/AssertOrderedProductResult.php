@@ -16,6 +16,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 /**
  * Class AssertOrderedProductResult
  * Assert product name and qty in Ordered Products report
+ *
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class AssertOrderedProductResult extends AbstractConstraint
 {

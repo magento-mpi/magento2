@@ -182,9 +182,9 @@ class ConfigurableAttributesData implements FixtureInterface
         ],
         'one_variation' => [
             'attributes_data' => [
-                'attribute_0' => [
+                'attribute_key_0' => [
                     'options' => [
-                        'option_0' => [
+                        'option_key_0' => [
                             'pricing_value' => 12.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
@@ -192,19 +192,18 @@ class ConfigurableAttributesData implements FixtureInterface
                     ]
                 ]
             ],
-            'products' => [
-
-            ],
+            'products' => [],
             'attributes' => [
-                'attribute_0' => 'catalogProductAttribute::attribute_type_dropdown_one_option'
+                'attribute_key_0' => 'catalogProductAttribute::attribute_type_dropdown_one_option'
             ],
             'matrix' => [
-                '%attribute_key_0-option_key_0%' => [
-                    'configurable_attribute' => [
-                        '%attribute_0_code%' => '%attribute_0-option_0%',
+                'attribute_key_0:option_key_0' => [
+                    'display' => 'Yes',
+                    'quantity_and_stock_status' => [
+                        'qty' => 10
                     ],
                     'weight' => 1
-                ],
+                ]
             ]
         ],
         'two_options' => [

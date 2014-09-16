@@ -329,6 +329,7 @@ class ConfigurableProduct extends Product
                             'value' => '0'
                         ]
                     ],
+                    'qty' => 1
                 ],
                 'special_price' => '10'
             ]
