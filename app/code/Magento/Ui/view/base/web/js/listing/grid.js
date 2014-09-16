@@ -8,8 +8,8 @@ define([
     '_',
     'Magento_Ui/js/lib/component',
     'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/spinner',
-], function(_, Component, Scope, loader) {
+    'Magento_Ui/js/lib/mixins/loader',
+], function(_, Component, Scope, Loader) {
     'use strict';
 
     var Listing =  Scope.extend({
@@ -24,7 +24,7 @@ define([
 
             this.initFields()
                 .initObservable()
-                .initProvider()
+                .initListeners()
                 .updateItems();
 
             this.unlock();
@@ -58,10 +58,10 @@ define([
         },
 
         /**
-         * Subscribes on provider's events.
+         * Init instance's subscribtions
          * @return {Object} - reference to instance
          */
-        initProvider: function() {
+        initListeners: function() {
             var provider    = this.provider,
                 meta        = provider.meta,
                 dump        = provider.dump;
@@ -196,30 +196,8 @@ define([
          */
         hasData: function(){
             return this.rows().length;
-        },
-
-        /**
-         * Sets isLocked observable to true
-         * @return {Object} reference to instance
-         */
-        lock: function() {
-            loader.show();
-            this.isLocked(true);
-
-            return this;
-        },
-
-        /**
-         * Sets isLocked observable to false
-         * @return {Object} reference to instance
-         */
-        unlock: function() {
-            loader.hide();
-            this.isLocked(false);
-
-            return this;
         }
-    });
+    }, Loader);
 
     return Component({
         constr: Listing
