@@ -46,12 +46,26 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     protected $ignores;
 
     /**
+     * Core store config
+     *
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Framework\HTTP\Header $httpHeader
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $ignoredUserAgents
      * @param array $ignores
      * @param array $data
@@ -61,6 +75,8 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Framework\HTTP\Header $httpHeader,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
@@ -72,6 +88,8 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         $this->ignoredUserAgents = $ignoredUserAgents;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->ignores = $ignores;
+        $this->scopeConfig = $scopeConfig;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -120,6 +138,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         }
         if (!$this->getId()) {
             $this->setSessionId($this->session->getSessionId());
+            $this->setLastVisitAt($this->dateTime->now());
             $this->save();
             $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
             $this->session->setVisitorData($this->getData());
@@ -233,6 +252,31 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         if ($quote) {
             $this->setDoQuoteDestroy(true);
         }
+        return $this;
+    }
+
+
+    /**
+     * Return clean time in seconds for visitor's outdated records
+     *
+     * @return string
+     */
+    public function getCleanTime()
+    {
+        return $this->scopeConfig->getValue(
+            \Magento\Framework\Session\Config::XML_PATH_COOKIE_LIFETIME,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) + 86400;
+    }
+
+    /**
+     * Clean visitor's outdated records
+     *
+     * @return $this
+     */
+    public function clean()
+    {
+        $this->getResource()->clean($this);
         return $this;
     }
 }
