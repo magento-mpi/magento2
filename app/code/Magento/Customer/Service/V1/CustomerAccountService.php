@@ -450,6 +450,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // Making this call first will ensure the customer already exists.
         $this->customerRegistry->retrieve($customerId);
 
+        if ($customerId !== $customer->getId()) {
+            throw InputException::invalidFieldValue('id', $customer->getId());
+        }
+
         $this->saveCustomer(
             $customer,
             $this->converter->getCustomerModel($customerId)->getPasswordHash()
@@ -459,7 +463,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // If $address is null, no changes must made to the list of addresses
         // be careful $addresses != null would be true of $addresses is an empty array
         if ($addresses !== null) {
-            $existingAddresses = $this->customerAddressService->getAddresses($customer->getId());
+            $existingAddresses = $this->customerAddressService->getAddresses($customerId);
             /** @var Data\Address[] $deletedAddresses */
             $deletedAddresses = array_udiff(
                 $existingAddresses,
@@ -474,7 +478,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             foreach ($deletedAddresses as $address) {
                 $this->customerAddressService->deleteAddress($address->getId());
             }
-            $this->customerAddressService->saveAddresses($customer->getId(), $addresses);
+            $this->customerAddressService->saveAddresses($customerId, $addresses);
         }
 
         return true;
