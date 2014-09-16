@@ -18,11 +18,11 @@ use Magento\Reports\Test\Block\Adminhtml\AbstractFilter;
 class Filter extends AbstractFilter
 {
     /**
-     * Skipped fields
+     * Date fields
      *
      * @var array
      */
-    protected $skippedFields = ['report_period'];
+    protected $dateFields = ['report_from', 'report_to'];
 
     /**
      * Refresh button css selector

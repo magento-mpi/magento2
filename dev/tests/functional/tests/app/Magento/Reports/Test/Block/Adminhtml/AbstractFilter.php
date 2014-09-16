@@ -18,11 +18,11 @@ use Mtf\ObjectManager;
 abstract class AbstractFilter extends Form
 {
     /**
-     * Skipped fields
+     * Date fields
      *
      * @var array
      */
-    protected $skippedFields = [];
+    protected $dateFields = ['from', 'to'];
 
     /**
      * Prepare data
@@ -33,14 +33,13 @@ abstract class AbstractFilter extends Form
     protected function prepareData(array $viewsReport)
     {
         foreach ($viewsReport as $key => $reportFilter) {
-            if (in_array($key, $this->skippedFields)) {
-                continue;
+            if (in_array($key, $this->dateFields)) {
+                $date = ObjectManager::getInstance()->create(
+                    '\Magento\Backend\Test\Fixture\Date',
+                    ['params' => [], 'data' => ['pattern' => $reportFilter]]
+                );
+                $viewsReport[$key] = $date->getData();
             }
-            $date = ObjectManager::getInstance()->create(
-                '\Magento\Backend\Test\Fixture\Date',
-                ['params' => [], 'data' => ['pattern' => $reportFilter]]
-            );
-            $viewsReport[$key] = $date->getData();
         }
         return $viewsReport;
     }

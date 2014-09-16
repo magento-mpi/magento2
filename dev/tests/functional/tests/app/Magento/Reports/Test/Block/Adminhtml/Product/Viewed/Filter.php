@@ -16,10 +16,5 @@ use Magento\Reports\Test\Block\Adminhtml\AbstractFilter;
  */
 class Filter extends AbstractFilter
 {
-    /**
-     * Skipped fields
-     *
-     * @var array
-     */
-    protected $skippedFields = ['period_type', 'show_empty_rows'];
+    //
 }

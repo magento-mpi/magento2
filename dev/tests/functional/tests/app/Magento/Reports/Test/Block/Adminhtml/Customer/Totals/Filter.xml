@@ -9,12 +9,12 @@
 -->
 <mapping strict="0">
     <fields>
-        <from>
+        <report_from>
             <input>datepicker</input>
-        </from>
-        <to>
+        </report_from>
+        <report_to>
             <input>datepicker</input>
-        </to>
+        </report_to>
         <report_period>
             <input>select</input>
         </report_period>
