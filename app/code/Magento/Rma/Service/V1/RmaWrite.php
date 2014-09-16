@@ -43,18 +43,21 @@ class RmaWrite implements RmaWriteInterface
 
     /**
      * @param int $rmaId
-     * @param string $trackNumber
-     * @param string $carrierCode
-     * @param string $carrierTitle
+     * @param \Magento\Rma\Service\V1\Data\Track $track
      *
      * @throws \Exception
      * @return bool
      */
-    public function addTrack($rmaId, $trackNumber, $carrierCode = '', $carrierTitle = '')
+    public function addTrack($rmaId, \Magento\Rma\Service\V1\Data\Track $track)
     {
         $rmaModel = $this->rmaRepository->get($rmaId);
         if ($rmaModel->getId()) {
-            return (bool)$this->labelService->addTrack($rmaModel->getId(), $trackNumber, $carrierCode, $carrierTitle);
+            return (bool)$this->labelService->addTrack(
+                $rmaModel->getId(),
+                $track->getTrackNumber(),
+                $track->getCarrierCode(),
+                $track->getCarrierTitle()
+            );
         }
         return false;
     }

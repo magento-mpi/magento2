@@ -82,4 +82,10 @@
             <resource ref="Magento_Rma::magento_rma"/>
         </resources>
     </route>
+    <route url="/V1/returns/:id/tracking-numbers" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaReadInterface" method="getTracks"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
 </routes>
