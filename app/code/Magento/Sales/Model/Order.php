@@ -1574,7 +1574,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
     }
 
     /**
-     * @return array
+     * @return \Magento\Sales\Model\Order\Item[]
      */
     public function getAllItems()
     {

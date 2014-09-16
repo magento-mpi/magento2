@@ -8,7 +8,9 @@
 
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
+use \Magento\Sales\Model\QuoteRepository;
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
+use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter;
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder;
 use \Magento\Framework\Exception\StateException;
 use \Magento\Framework\Exception\InputException;
@@ -16,14 +18,9 @@ use \Magento\Framework\Exception\InputException;
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var \Magento\Checkout\Service\V1\QuoteLoader
+     * @var QuoteRepository
      */
-    protected $quoteLoader;
-
-    /**
-     * @var \Magento\Framework\StoreManagerInterface
-     */
-    protected $storeManager;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder
@@ -31,24 +28,21 @@ class ReadService implements ReadServiceInterface
     protected $methodBuilder;
 
     /**
-     * @var \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter
+     * @var ShippingMethodConverter
      */
     protected $converter;
 
     /**
-     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter $converter
-     * @param ShippingMethodBuilder $methodBuilder
+     * @param QuoteRepository $quoteRepository
+     * @param ShippingMethodConverter $converter
+     * @param \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder $methodBuilder
      */
     public function __construct(
-        \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter $converter,
+        QuoteRepository $quoteRepository,
+        ShippingMethodConverter $converter,
         \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder $methodBuilder
     ) {
-        $this->quoteLoader = $quoteLoader;
-        $this->storeManager = $storeManager;
+        $this->quoteRepository = $quoteRepository;
         $this->converter = $converter;
         $this->methodBuilder = $methodBuilder;
     }
@@ -58,10 +52,8 @@ class ReadService implements ReadServiceInterface
      */
     public function getMethod($cartId)
     {
-        $storeId = $this->storeManager->getStore()->getId();
-
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
 
         /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
         $shippingAddress = $quote->getShippingAddress();
@@ -111,10 +103,8 @@ class ReadService implements ReadServiceInterface
     {
         $output = [];
 
-        $storeId = $this->storeManager->getStore()->getId();
-
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
 
         // no methods applicable for empty carts or carts with virtual products
         if ($quote->isVirtual() || 0 == $quote->getItemsCount()) {

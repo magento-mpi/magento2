@@ -94,6 +94,13 @@ class ObjectManagerFactory
             $appArguments->get()
         );
 
+        if ($appArguments->get('MAGE_PROFILER') == 2) {
+            $this->factory = new \Magento\Framework\ObjectManager\Profiler\FactoryDecorator(
+                $this->factory,
+                \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
+            );
+        }
+
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
             'Magento\Framework\App\Filesystem\DirectoryList' => $directoryList,

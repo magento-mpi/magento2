@@ -9,7 +9,6 @@
         "magento/module-eav": "0.1.0-alpha94",
         "magento/module-cron": "0.1.0-alpha94",
         "magento/module-theme": "0.1.0-alpha94",
-        "magento/module-weee": "0.1.0-alpha94",
         "magento/module-reports": "0.1.0-alpha94",
         "magento/module-catalog-search": "0.1.0-alpha94",
         "magento/module-sales": "0.1.0-alpha94",
@@ -18,8 +17,6 @@
         "magento/module-backup": "0.1.0-alpha94",
         "magento/module-email": "0.1.0-alpha94",
         "magento/module-customer": "0.1.0-alpha94",
-        "magento/module-tax": "0.1.0-alpha94",
-        "magento/module-checkout": "0.1.0-alpha94",
         "magento/module-translation": "0.1.0-alpha94",
         "magento/framework": "0.1.0-alpha94",
         "magento/magento-composer-installer": "*"
