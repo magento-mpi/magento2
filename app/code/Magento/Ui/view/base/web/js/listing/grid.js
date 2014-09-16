@@ -127,7 +127,7 @@ define([
          * @return {String} - path to template
          */
         getCellTemplateFor: function(field) {
-            return this.getRootTemplatePath() + '.cell.' + field.data_type;
+            return this.getRootTemplatePath() + '/cell/' + field.data_type;
         },
 
         /**
@@ -147,7 +147,7 @@ define([
          * @return {String} - extender's template path
          */
         adjustTemplateExtender: function (extender) {
-            return this.getRootTemplatePath() + '.extender.' + extender.path;
+            return this.getRootTemplatePath() + '/extender/' + extender.path;
         },
 
         /**
@@ -155,7 +155,7 @@ define([
          * @return {String} - root template path
          */
         getRootTemplatePath: function() {
-            return 'Magento_Ui.templates.listing.grid';
+            return 'ui/listing/grid';
         },
 
         /**
