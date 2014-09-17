@@ -86,6 +86,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     /**
      * Retrieve Option values array by ids
      *
+     * @param string|array $ids
      * @param bool $withEmpty Add empty option to array
      * @return array
      */

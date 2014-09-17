@@ -56,6 +56,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected $_storeManager;
 
+    /**
+     * Price values cache
+     *
+     * @var array
+     */
     protected static $priceValues;
 
     /**
