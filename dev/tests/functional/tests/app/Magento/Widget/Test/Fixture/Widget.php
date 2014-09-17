@@ -97,7 +97,7 @@ class Widget extends InjectableFixture
     protected $store_ids = [
         'attribute_code' => 'store_ids',
         'backend_type' => 'virtual',
-        'source' => 'Magento\Widget\Test\Fixture\Store\StoreIds',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\StoreIds',
     ];
 
     protected $widget_instance = [
@@ -118,7 +118,7 @@ class Widget extends InjectableFixture
     protected $page_id = [
         'attribute_code' => 'page_id',
         'backend_type' => 'virtual',
-        'source' => 'Magento\Widget\Test\Fixture\CmsPage\PageIds',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\PageIds',
     ];
 
     public function getAnchorText()

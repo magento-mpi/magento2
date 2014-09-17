@@ -51,6 +51,9 @@ class Curl extends AbstractCurl
             $data['parameters']['page_id'] = $data['page_id'][0];
             unset($data['page_id']);
         }
+        if ($fixture->hasData('store_ids')) {
+            $data['store_ids'][0] = $fixture->getDataFieldConfig('store_ids')['source']->getStore()[0]->getStoreId();
+        }
         unset($data['code']);
         unset($data['theme_id']);
         $curl = new BackendDecorator(new CurlTransport(), new Config());

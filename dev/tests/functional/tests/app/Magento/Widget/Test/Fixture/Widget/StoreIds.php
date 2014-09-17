@@ -6,18 +6,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Test\Fixture\CmsPage;
+namespace Magento\Widget\Test\Fixture\Widget;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Cms\Test\Fixture\CmsPage;
+use Magento\Store\Test\Fixture\Store;
 
 /**
- * Class PageIds
- * Prepare Cms page
+ * Class StoreIds
+ * Prepare Store
  */
-class PageIds implements FixtureInterface
+class StoreIds implements FixtureInterface
 {
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params = [];
+
     /**
      * Resource data
      *
@@ -28,9 +35,9 @@ class PageIds implements FixtureInterface
     /**
      * Return Cms page
      *
-     * @var CmsPage
+     * @var Store
      */
-    protected $cmsPage = [];
+    protected $store = [];
 
     /**
      * @param FixtureFactory $fixtureFactory
@@ -40,16 +47,16 @@ class PageIds implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if ($data['dataSet'] && $data['dataSet'] != "-") {
+        if ($data['dataSet']) {
             $dataSet = explode(',', $data['dataSet']);
-            foreach ($dataSet as $cmsPage) {
-                /** @var CmsPage $cmsPage */
-                $cmsPage = $fixtureFactory->createByCode('cmsPage', ['dataSet' => $cmsPage]);
-                if (!$cmsPage->getPageId()) {
-                    $cmsPage->persist();
+            foreach ($dataSet as $store) {
+                /** @var Store $store */
+                $store = $fixtureFactory->createByCode('store', ['dataSet' => $store]);
+                if (!$store->hasData('store_id')) {
+                    $store->persist();
                 }
-                $this->cmsPage[] = $cmsPage;
-                $this->data[] = $cmsPage->getPageId();
+                $this->store[] = $store;
+                $this->data[] = $store->getName();
             }
         } else {
             $this->data[] = null;
@@ -57,7 +64,7 @@ class PageIds implements FixtureInterface
     }
 
     /**
-     * Persist Cms page
+     * Persist Store
      *
      * @return void
      */
@@ -90,12 +97,12 @@ class PageIds implements FixtureInterface
     }
 
     /**
-     * Return Cms page
+     * Return store
      *
-     * @return CmsPage
+     * @return Store
      */
-    public function getCmsPage()
+    public function getStore()
     {
-        return $this->cmsPage;
+        return $this->store;
     }
 }
