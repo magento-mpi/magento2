@@ -159,7 +159,7 @@ class LabelService
                 $pdfContent = $pdf->render();
             }
 
-            return utf8_encode($pdfContent);
+            return $pdfContent;
         } else {
             throw new \Magento\Framework\Exception(__('Shipment does not exists.'));
         }

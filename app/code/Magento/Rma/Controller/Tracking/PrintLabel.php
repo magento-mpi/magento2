@@ -55,10 +55,7 @@ class PrintLabel extends \Magento\Rma\Controller\Tracking
                     $rmaIncrementId = $this->_coreRegistry->registry('current_rma')->getIncrementId();
                 }
             }
-            $pdfContent = utf8_decode(
-                $this->labelService->getShippingLabelByRmaPdf($this->_coreRegistry->registry('current_rma'))
-            );
-
+            $pdfContent = $this->labelService->getShippingLabelByRmaPdf($this->_coreRegistry->registry('current_rma'));
             return $this->_fileResponseFactory->create(
                 'ShippingLabel(' . $rmaIncrementId . ').pdf',
                 $pdfContent,
