@@ -8,16 +8,16 @@
  */
 -->
 <constraint>
-    <assertGlobalSearchProductName module="Magento_Search">
+    <assertGlobalSearchProductName module="Magento_Backend">
         <severeness>low</severeness>
     </assertGlobalSearchProductName>
-    <assertGlobalSearchOrderID module="Magento_Search">
+    <assertGlobalSearchOrderId module="Magento_Backend">
         <severeness>low</severeness>
-    </assertGlobalSearchOrderID>
-    <assertGlobalSearchNoRecordsFound module="Magento_Search">
+    </assertGlobalSearchOrderId>
+    <assertGlobalSearchNoRecordsFound module="Magento_Backend">
         <severeness>low</severeness>
     </assertGlobalSearchNoRecordsFound>
-    <assertGlobalSearchCustomerName module="Magento_Search">
+    <assertGlobalSearchCustomerName module="Magento_Backend">
         <severeness>low</severeness>
     </assertGlobalSearchCustomerName>
 </constraint>

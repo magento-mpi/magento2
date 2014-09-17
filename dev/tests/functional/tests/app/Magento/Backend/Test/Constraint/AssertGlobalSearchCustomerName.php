@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Test\Constraint;
+namespace Magento\Backend\Test\Constraint;
 
+use Magento\Backend\Test\Fixture\GlobalSearch;
 use Magento\Backend\Test\Page\Adminhtml\Dashboard;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -29,13 +29,12 @@ class AssertGlobalSearchCustomerName extends AbstractConstraint
      * Assert that customer name is present in search results
      *
      * @param Dashboard $dashboard
-     * @param OrderInjectable $order
+     * @param GlobalSearch $search
      * @return void
      */
-    public function processAssert(Dashboard $dashboard, OrderInjectable $order)
+    public function processAssert(Dashboard $dashboard, GlobalSearch $search)
     {
-        /** @var \Magento\Customer\Test\Fixture\CustomerInjectable $customer */
-        $customer = $order->getDataFieldConfig('customer_id')['source']->getCustomer();
+        $customer = $search->getDataFieldConfig('query')['source']->getEntity();
         $customerName = $customer->getFirstname() . " " . $customer->getLastname();
         $isVisibleInResult = $dashboard->getAdminPanelHeader()->isSearchResultVisible($customerName);
         \PHPUnit_Framework_Assert::assertTrue(

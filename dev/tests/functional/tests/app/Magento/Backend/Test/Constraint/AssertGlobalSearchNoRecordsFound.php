@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Test\Constraint;
+namespace Magento\Backend\Test\Constraint;
 
 use Magento\Backend\Test\Page\Adminhtml\Dashboard;
 use Mtf\Constraint\AbstractConstraint;
@@ -51,6 +51,6 @@ class AssertGlobalSearchNoRecordsFound extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Expected text is present in search results';
+        return '"No records found." is present in search results';
     }
 }

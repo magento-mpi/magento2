@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Test\Constraint;
+namespace Magento\Backend\Test\Constraint;
 
+use Magento\Backend\Test\Fixture\GlobalSearch;
 use Magento\Backend\Test\Page\Adminhtml\Dashboard;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertGlobalSearchOrderID
- * Assert that order ID is present in search results
+ * Class AssertGlobalSearchOrderId
+ * Assert that order Id is present in search results
  */
-class AssertGlobalSearchOrderID extends AbstractConstraint
+class AssertGlobalSearchOrderId extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,19 +26,20 @@ class AssertGlobalSearchOrderID extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that order ID is present in search results
+     * Assert that order Id is present in search results
      *
      * @param Dashboard $dashboard
-     * @param OrderInjectable $order
+     * @param GlobalSearch $search
      * @return void
      */
-    public function processAssert(Dashboard $dashboard, OrderInjectable $order)
+    public function processAssert(Dashboard $dashboard, GlobalSearch $search)
     {
+        $order = $search->getDataFieldConfig('query')['source']->getEntity();
         $orderId = "Order #" . $order->getId();
         $isVisibleInResult = $dashboard->getAdminPanelHeader()->isSearchResultVisible($orderId);
         \PHPUnit_Framework_Assert::assertTrue(
             $isVisibleInResult,
-            'Order ID ' . $order->getId() . ' is absent in search results'
+            'Order Id ' . $order->getId() . ' is absent in search results'
         );
     }
 
@@ -49,6 +50,6 @@ class AssertGlobalSearchOrderID extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order ID is present in search results';
+        return 'Order Id is present in search results';
     }
 }
