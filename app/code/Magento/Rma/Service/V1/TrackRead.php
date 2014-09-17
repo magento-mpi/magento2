@@ -67,7 +67,7 @@ class TrackRead implements TrackReadInterface
     {
         $rmaModel = $this->repository->get($id);
         if ($rmaModel->getId()) {
-            return utf8_encode($this->labelService->getShippingLabelByRmaPdf($rmaModel));
+            return base64_encode($this->labelService->getShippingLabelByRmaPdf($rmaModel));
         }
         return '';
     }
