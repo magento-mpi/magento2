@@ -55,38 +55,16 @@ class PrintLabel extends \Magento\Rma\Controller\Tracking
                     $rmaIncrementId = $this->_coreRegistry->registry('current_rma')->getIncrementId();
                 }
             }
-            /** @var $shippingInfoModel \Magento\Rma\Model\Shipping\Info */
-            $shippingInfoModel = $this->_objectManager->create('Magento\Rma\Model\Shipping\Info');
-            $model = $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
-            /** @var $shipping \Magento\Rma\Model\Shipping */
-            $shipping = $this->_objectManager->create('Magento\Rma\Model\Shipping');
-            $labelContent = $model->getShippingLabel();
-            if ($labelContent) {
-                $pdfContent = null;
-                if (stripos($labelContent, '%PDF-') !== false) {
-                    $pdfContent = $labelContent;
-                } else {
-                    $pdf = new \Zend_Pdf();
-                    $page = $this->labelService->createPdfPageFromImageString($labelContent);
-                    if (!$page) {
-                        $this->messageManager->addError(
-                            __(
-                                "We don't recognize or support the file extension in shipment %1.",
-                                $shipping->getIncrementId()
-                            )
-                        );
-                    }
-                    $pdf->pages[] = $page;
-                    $pdfContent = $pdf->render();
-                }
+            $pdfContent = utf8_decode(
+                $this->labelService->getShippingLabelByRmaPdf($this->_coreRegistry->registry('current_rma'))
+            );
 
-                return $this->_fileResponseFactory->create(
-                    'ShippingLabel(' . $rmaIncrementId . ').pdf',
-                    $pdfContent,
-                    \Magento\Framework\App\Filesystem::VAR_DIR,
-                    'application/pdf'
-                );
-            }
+            return $this->_fileResponseFactory->create(
+                'ShippingLabel(' . $rmaIncrementId . ').pdf',
+                $pdfContent,
+                \Magento\Framework\App\Filesystem::VAR_DIR,
+                'application/pdf'
+            );
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
