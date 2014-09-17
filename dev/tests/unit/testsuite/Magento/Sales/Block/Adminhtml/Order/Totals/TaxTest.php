@@ -48,7 +48,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider getFullTaxInfoDataProvider
      */
-    public function testGetFullTaxInfo($source, $getCalculatedTax, $getShippingTax, $expectedResult)
+    public function testGetFullTaxInfo($source, $expectedResult)
     {
         $this->taxMock->expects($this->once())
             ->method('getOrder')
@@ -114,7 +114,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     [
                         'tax' => 'tax',
                         'shipping_tax' => 'shipping_tax',
-                        'shipping_and_handing' => 'shipping_and_handing'
                     ]
                 ]
         ];
@@ -141,7 +140,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'tax' => 'tax',
             'shipping_tax' => 'shipping_tax',
-            'shipping_and_handing' => 'shipping_and_handing'
         ];
         return [
             'invoice' =>
