@@ -13,9 +13,6 @@
     <?php $_incl = $this->getPriceInclTax($_item); ?>
     <?php if ($this->displayBothPrices()): ?>
         <div class="price-including-tax" data-label="<?php echo $this->escapeHtml(__('Incl. Tax'));?>">
-            <span class="label">
-                <?php echo $this->escapeHtml(__('Incl. Tax'));?>
-            </span>
     <?php else: ?>
         <div class="price-minicart" data-label="<?php echo $this->escapeHtml(__('Price'));?>">
             <span class="label">
@@ -46,9 +43,6 @@
 <?php if ($this->displayPriceExclTax() || $this->displayBothPrices()): ?>
     <?php if ($this->displayBothPrices()): ?>
         <div class="price-excluding-tax" data-label="<?php echo $this->escapeHtml(__('Excl. Tax'));?>">
-            <span class="label">
-                <?php echo __('Excl. Tax'); ?>
-            </span>
     <?php else: ?>
         <div class="price-minicart" data-label="<?php echo $this->escapeHtml(__('Price'));?>">
             <span class="label">

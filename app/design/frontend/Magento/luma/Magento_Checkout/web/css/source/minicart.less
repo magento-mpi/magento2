@@ -17,14 +17,11 @@
     .subtotal {
         margin: 0 10px;
         text-align: right;
-        .amount {
-            .incl.tax {
-                display: block;
-            }
-            .price {
-                font-size: @font-size-l;
-                font-weight: @font-weight-bold;
-            }
+    }
+    .amount {
+        .price-wrapper:first-child .price {
+            font-size: @font-size-l;
+            font-weight: @font-weight-bold;
         }
     }
     .subtitle {
@@ -185,48 +182,10 @@
             }
         }
     }
-
-    .product-item-pricing {
-        display: table;
-    }
-
-    .price-box {
-        display: table-row;
-        margin: 0;
-    }
-
-    .price-minicart,
-    .price-including-tax,
-    .price-excluding-tax,
-    .details-qty,
-    .details-map {
-        display: table-row;
-    }
-
-    .price-including-tax,
-    .price-excluding-tax {
-        .font-size(14);
-        &:before {
-            display: none;
-        }
-    }
-
-    .price-including-tax + .price-excluding-tax .price {
-        .font-size(14);
-    }
-
-    .label {
-        display: table-cell;
-        padding: 2px 0;
-        &:after {
+    .details-qty {
+        .label:after {
             content: ":";
         }
-    }
-
-    .value,
-    .price {
-        display: table-cell;
-        padding: 2px 0 2px 15px;
     }
 
     .action {
