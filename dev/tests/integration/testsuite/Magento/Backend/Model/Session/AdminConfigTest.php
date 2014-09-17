@@ -17,9 +17,9 @@ use PHPUnit_Framework_TestCase;
 class AdminConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Model\Session\AdminConfig
+     * @var \Magento\Framework\ObjectManager
      */
-    protected $_model;
+    protected $objectManager;
 
     protected function setUp()
     {
@@ -27,12 +27,26 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Session\AdminConfig');
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
     }
 
     public function testConstructor()
     {
-        $this->assertEquals('/backend', $this->_model->getCookiePath());
+        $model = $this->objectManager->create('Magento\Backend\Model\Session\AdminConfig');
+        $this->assertEquals('/backend', $model->getCookiePath());
+    }
+
+    /**
+     * Test for setting session name for admin
+     *
+     */
+    public function testSetSessionNameByConstructor()
+    {
+        $sessionName = 'adminHtmlSession';
+        $adminConfig = $this->objectManager->create(
+            'Magento\Backend\Model\Session\AdminConfig',
+            ['sessionName' => $sessionName]
+        );
+        $this->assertSame($sessionName, $adminConfig->getName());
     }
 }
