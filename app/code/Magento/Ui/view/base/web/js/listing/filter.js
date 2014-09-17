@@ -14,14 +14,13 @@ define([
     var BASE_PATH = 'Magento_Ui/js/listing/filter';
 
     var defaults = {
-        defaultTypes: 'input',
         types: {
             filter_input:  BASE_PATH + '/input',
             filter_select: BASE_PATH + '/select',
             filter_range:  BASE_PATH + '/range',
             filter_date:   BASE_PATH + '/date'
         }
-    }
+    };
 
     var Filter = Scope.extend({
         /**
@@ -31,61 +30,39 @@ define([
         initialize: function(config) {
             _.extend(this, config);
 
-            this.loadControls(this.proceed);
+            this.initObservable()
+                .loadControls();
         },
 
-        proceed: function (controls) {
-            this.types = controls;
-
-            this.initObservable()
-                .extractFields()
+        /**
+         * Callback method that proceeds initialization of filter component.
+         */
+        proceed: function () {
+            this.extractFields()
                 .initFilters();
         },
 
-        loadControls: function (callback) {
-            var pathes,
-                defaultTypes = defaults.types,
-                defaultType  = defaults.type,
+        /**
+         * Initiates loading of filters constructors.
+         */
+        loadControls: function () {
+            var coreTypes = defaults.types,
                 paths,
-                controls,
                 types;
 
             types = _.map(this.types, function (config, type) {
-                config.name = type || defaultType;
+                config.name = type;
 
-                config.control = config.control ||
-                    defaultTypes[type]          ||
-                    defaultTypes[defaults.type];
+                if(!config.control){
+                   config.control = coreTypes[type];
+                }
 
                 return config;
             });
 
-            controls = types.map(function (settings) {
-                return {
-                    path:   settings.control,
-                    name:   settings.name,
-                    config: settings.config
-                }
-            });
+            paths = _.pluck(types, 'control');
 
-            paths = _.pluck(controls, 'path');
-
-            require(paths, this.onControlsLoaded.bind(this, controls, callback));
-        },
-
-        onControlsLoaded: function (controlsMap, callback) {
-            var controls = Array.prototype.slice.call(arguments, 2),
-                control;
-
-            controls = controls.map(function (constr, idx) {
-                control = controlsMap[idx];
-                delete control.path;
-                control.constr = constr;
-
-                return control;
-            });
-
-            callback.call(this, _.indexBy(controls, 'name'));
+            require(paths, this.onControlsLoaded.bind(this, types));
         },
 
         /**
@@ -95,7 +72,8 @@ define([
         initObservable: function(){
             this.observe({
                 isVisible:  false,
-                active:     []
+                active:     [],
+                filters:    []
             });
 
             return this; 
@@ -125,9 +103,10 @@ define([
             var controls = this.types,
                 config,
                 type,
+                filters,
                 control;
 
-            this.filters = this.fields.map(function (field) {
+            filters = this.fields.map(function (field) {
                 type    = (field.filter_type || field.input_type);
                 config  = controls && controls[type];
                 control = config.constr;
@@ -137,6 +116,8 @@ define([
                 return new control(field, config);
             }, this);
 
+            this.filters(filters);
+
             return this;
         },
 
@@ -145,7 +126,7 @@ define([
          * @returns {Array} Array of non-empty filters
          */
         getNotEmpty: function(){
-            return this.filters.filter(function(filter){
+            return this.filters().filter(function(filter){
                 return !filter.isEmpty();
             });
         },
@@ -170,7 +151,7 @@ define([
         getData: function(all){
             var filters;
 
-            filters = all ? this.filters : this.active();
+            filters = all ? this.filters() : this.active();
 
             return filters.map(function(filter){
                 return filter.dump();
@@ -191,7 +172,7 @@ define([
                 active.remove(filter);
             }
             else{
-                this.filters.forEach(function (filter) {
+                this.filters().forEach(function (filter) {
                     filter.reset();
                 });
 
@@ -253,6 +234,15 @@ define([
         },
 
         /**
+         * Returns path to filter's template splited by dots.
+         * @param {Object} - instance of one of controls classes
+         * @returns {String} - path to template based on type of filter
+         */
+        getTemplateFor: function (filter) {
+            return 'ui/filter/' + filter.type;
+        },
+
+        /**
          * Resets specified filter using reset method
          * @param  {Object} filter - filter to reset
          */
@@ -261,12 +251,27 @@ define([
         },
 
         /**
-         * Returns path to filter's template splited by dots.
-         * @param {Object} - instance of one of controls classes
-         * @returns {String} - path to template based on type of filter
+         * Callback that fires when all of the filters constructors has been loaded.
+         * @param {Array} controlsMap - An array of availbale filter types and theirs configuration.       
          */
-        getTemplateFor: function (filter) {
-            return 'ui/filter/' + filter.type;
+        onControlsLoaded: function (controlsMap) {
+            var controls = Array.prototype.slice.call(arguments, 1),
+                types = {},
+                control;
+
+            controls.forEach(function (constr, idx) {
+                control = controlsMap[idx];
+
+                delete control.control;
+                
+                control.constr = constr;
+
+                types[control.name] = control;
+            });
+
+            this.types = types;
+
+            this.proceed();
         }
     });
 

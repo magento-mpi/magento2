@@ -24,7 +24,7 @@ class FilterPool
         'filter_select' => 'Magento\Ui\Filter\Type\Select',
         'filter_range' => 'Magento\Ui\Filter\Type\Range',
         'filter_date' => 'Magento\Ui\Filter\Type\Date',
-        'store' => 'Magento\Ui\Filter\Type\Store'
+        'filter_store' => 'Magento\Ui\Filter\Type\Store'
     ];
 
     /**

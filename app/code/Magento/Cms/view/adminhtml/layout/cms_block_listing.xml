@@ -52,7 +52,7 @@
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">store</item>
                         <item name="sortable" xsi:type="boolean">false</item>
-                        <item name="filter_type" xsi:type="string">filter_select</item>
+                        <item name="filter_type" xsi:type="string">filter_store</item>
                         <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
                     </item>
                     <item name="is_active" xsi:type="array">
@@ -75,13 +75,13 @@
                         <item name="title" xsi:type="string" translate="true">Created</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">date</item>
-                        <item name="filter_type" xsi:type="string">filter_range</item>
+                        <item name="filter_type" xsi:type="string">filter_date</item>
                     </item>
                     <item name="update_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Modified</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">date</item>
-                        <item name="filter_type" xsi:type="string">filter_range</item>
+                        <item name="filter_type" xsi:type="string">filter_date</item>
                     </item>
                 </item>
             </argument>

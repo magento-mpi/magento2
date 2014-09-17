@@ -39,6 +39,8 @@ define([
          * @param {Object} config - Filter configuration
          */
         initialize: function (data) {
+            console.log('store');
+
             this.constructor.__super__.initialize.apply(this, arguments);
 
             this.caption = 'Select...';
@@ -57,11 +59,10 @@ define([
         },
 
         /**
-         * Looks up through the options for label, corresponding to passed value
-         * @param  {String} selected
-         * @return {String} label
+         * Returns string value of current state for UI
+         * @return {String}
          */
-        getLabelFor: function (selected) {
+        display: function (selected) {
             var label = findIn(this.options, selected);
             
             return label;
@@ -74,9 +75,7 @@ define([
         dump: function () {
             var selected = this.selected();
 
-            console.log( selected );
-
-            this.output(this.getLabelFor(selected));
+            this.output(this.display(selected));
 
             return {
                 field: this.index,
