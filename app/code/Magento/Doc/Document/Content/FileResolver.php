@@ -40,16 +40,12 @@ class FileResolver
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $filename
+     * @return \Magento\Framework\View\File[]
      */
     public function get($filename)
     {
-        $files = $this->collector->getFiles($this->theme, $filename);
-        $result = [];
-        foreach ($files as $file) {
-            /** @var \Magento\Framework\View\File $file */
-            $result[] = file_get_contents($file->getFilename());
-        }
+        $result = $this->collector->getFiles($this->theme, $filename);
         return $result;
     }
 }
