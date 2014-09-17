@@ -16,7 +16,7 @@
                         <item name="title" xsi:type="string" translate="true">Version Control</item>
                         <item name="align" xsi:type="string">left</item>
                         <item name="data_type" xsi:type="string">text</item>
-                        <item name="filter_type" xsi:type="string">select</item>
+                        <item name="filter_type" xsi:type="string">filter_select</item>
                         <item name="options" xsi:type="array">
                             <item name="no" xsi:type="array">
                                 <item name="value" xsi:type="string">0</item>

@@ -7,6 +7,9 @@
  */
 namespace Magento\Ui\Control;
 
+use Magento\Ui\ViewInterface;
+use Magento\Framework\View\LayoutInterface;
+
 /**
  * Interface ActionPoolInterface
  */
@@ -15,16 +18,27 @@ interface ActionPoolInterface
     /**
      * Add button
      *
-     * @param array $button
+     * @param string $key
+     * @param array $data
+     * @param ViewInterface $context
      * @return void
      */
-    public function addButton(array $button);
+    public function addButton($key, array $data, ViewInterface $context);
 
     /**
-     * Add buttons
+     * Remove button
      *
-     * @param array $buttons
+     * @param string $key
      * @return void
      */
-    public function addButtons(array $buttons);
+    public function remove($key);
+
+    /**
+     * Update button
+     *
+     * @param $key
+     * @param array $data
+     * @return mixed
+     */
+    public function update($key, array $data);
 }

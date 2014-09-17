@@ -10,12 +10,20 @@ namespace Magento\Ui;
 use Magento\Ui\Render\Layout;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Class Render
  */
 class Render extends AbstractBlock
 {
+    /**
+     * Ui element view
+     *
+     * @var ViewInterface
+     */
+    protected $view;
+
     /**
      * Render context
      *
@@ -24,6 +32,8 @@ class Render extends AbstractBlock
     protected $renderContext;
 
     /**
+     * Ui element view factory
+     *
      * @var ViewFactory
      */
     protected $viewFactory;
@@ -58,6 +68,8 @@ class Render extends AbstractBlock
     }
 
     /**
+     * Get component name
+     *
      * @return string
      */
     public function getComponent()
@@ -66,6 +78,8 @@ class Render extends AbstractBlock
     }
 
     /**
+     * Get layout handle
+     *
      * @return string
      */
     public function getLayoutHandle()
@@ -85,6 +99,11 @@ class Render extends AbstractBlock
 
         $this->renderContext->setPageLayout($this->getLayout());
 
+        $this->view = $this->getUiElementView($this->getComponent());
+        $this->renderContext->setRootView($this->view);
+        $this->prepare($this->view, $this->getData('configuration'));
+
+
         return parent::_prepareLayout();
     }
 
@@ -99,27 +118,23 @@ class Render extends AbstractBlock
     }
 
     /**
-     * Render UI Element content
+     * Render Ui Element content
      *
-     * @param string $uiElementName
-     * @param array $arguments
-     * @return string
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    protected function render($uiElementName, array $arguments = [])
+    protected function render()
     {
-        // Obtain concrete UI Element View
-        $view = $this->getUiElementView($uiElementName);
-        $useArguments = array_replace($this->getData('configuration'), $arguments);
-
-        $this->renderContext->setRootView($view);
-
-        $this->prepare($view, $useArguments);
-        return $view->render($this->renderContext->getAcceptType());
+        return $this->view->render($this->renderContext->getAcceptType());
     }
 
-    protected function prepare(\Magento\Framework\View\Element\BlockInterface $view, array $arguments = [])
+    /**
+     * Prepare UI Element View
+     *
+     * @param BlockInterface $view
+     * @param array $arguments
+     */
+    protected function prepare(BlockInterface $view, array $arguments = [])
     {
         if ($view instanceof AbstractView) {
             $view->prepare($arguments);
@@ -130,12 +145,13 @@ class Render extends AbstractBlock
     }
 
     /**
+     * Get UI Element View
+     *
      * @param string $uiElementName
-     * @param array $data
      * @return ViewInterface
      * @throws \InvalidArgumentException
      */
-    protected function getUiElementView($uiElementName, array $data = [])
+    protected function getUiElementView($uiElementName)
     {
         /** @var \Magento\Ui\ViewInterface $view */
         $view = $this->privateLayout->getBlock($uiElementName);

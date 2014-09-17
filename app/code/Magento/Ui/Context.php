@@ -7,9 +7,8 @@
  */
 namespace Magento\Ui;
 
-use Magento\Framework\View\LayoutInterface;
-use Magento\Ui\ConfigInterface;
 use Magento\Framework\Registry;
+use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Ui\ContentType\Builders\ConfigurationStorageBuilder;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
@@ -58,6 +57,8 @@ class Context extends Registry
     protected $layout;
 
     /**
+     * Root view element
+     *
      * @var AbstractView
      */
     protected $rootView;
@@ -67,12 +68,17 @@ class Context extends Registry
      *
      * @param ConfigInterface $config
      * @param ConfigurationStorage $configurationStorage
+     * @param ConfigurationStorageBuilder $configurationStorageBuilder
      * @param TemplateContext $context
      */
-    public function __construct(ConfigInterface $config, ConfigurationStorage $configurationStorage, TemplateContext $context)
-    {
+    public function __construct(
+        ConfigInterface $config,
+        ConfigurationStorage $configurationStorage,
+        ConfigurationStorageBuilder $configurationStorageBuilder,
+        TemplateContext $context
+    ) {
         $this->config = $config;
-        $this->configurationStorageBuilder = new ConfigurationStorageBuilder();
+        $this->configurationStorageBuilder = $configurationStorageBuilder;
         $this->configurationStorage = $configurationStorage;
         $this->request = $context->getRequest();
         $this->setAcceptType();
@@ -105,12 +111,19 @@ class Context extends Registry
         return $this->acceptType;
     }
 
+    /**
+     * Set root layout
+     *
+     * @param LayoutInterface $layout
+     */
     public function setPageLayout(LayoutInterface $layout)
     {
         $this->layout = $layout;
     }
 
     /**
+     * Get root layout
+     *
      * @return LayoutInterface
      */
     public function getPageLayout()
@@ -118,12 +131,19 @@ class Context extends Registry
         return $this->layout;
     }
 
+    /**
+     * Set root view
+     *
+     * @param AbstractView $view
+     */
     public function setRootView(AbstractView $view)
     {
         $this->rootView = $view;
     }
 
     /**
+     * Get root view
+     *
      * @return AbstractView
      */
     public function getRootView()

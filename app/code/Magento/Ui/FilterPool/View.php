@@ -7,18 +7,17 @@
  */
 namespace Magento\Ui\FilterPool;
 
-use Magento\Backend\Helper\Data;
-use Magento\Ui\Configuration;
 use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
 use Magento\Ui\ViewFactory;
 use Magento\Ui\ViewInterface;
+use Magento\Backend\Helper\Data;
+use Magento\Ui\Filter\FilterPool;
+use Magento\Ui\ConfigurationFactory;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
-use Magento\Ui\Filter\FilterPool;
 use Magento\Ui\Filter\View as FilterView;
-use Magento\Ui\ConfigurationFactory;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Class View
@@ -83,15 +82,9 @@ class View extends AbstractView
     {
         parent::prepare($arguments);
 
-        $config = [
-            'types' => [
-                'date' => [
-                    'dateFormat' => 'mm/dd/yyyy'
-                ]
-            ]
-        ];
+        $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
-            $config = array_merge_recursive($config, $this->getData('config'));
+            $config = array_merge($config, $this->getData('config'));
         }
 
         $this->rootComponent = $this->getParentComponent();
@@ -117,7 +110,9 @@ class View extends AbstractView
 
         $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $metaData = $metaData['fields'];
-        $filterData = $this->dataHelper->prepareFilterString($this->renderContext->getRequestParam(FilterView::FILTER_VAR));
+        $filterData = $this->dataHelper->prepareFilterString(
+            $this->renderContext->getRequestParam(FilterView::FILTER_VAR)
+        );
         foreach ($filterData as $field => $value) {
             if (!isset($metaData[$field]['filter_type'])) {
                 continue;
@@ -172,14 +167,14 @@ class View extends AbstractView
             $this->renderContext->getRequestParam(FilterView::FILTER_VAR)
         );
         foreach ($filterData as $field => $value) {
-            if (!isset($metaData[$field]['filter_type'])) {
-                continue;
+            if (isset($metaData[$field]['filter_type'])) {
+                $filters[$field] = [
+                    'title' => $metaData[$field]['title'],
+                    'current_display_value' => $value
+                ];
             }
-            $filters[$field] = [
-                'title' => $metaData[$field]['title'],
-                'current_display_value' => $value
-            ];
         }
+
         return $filters;
     }
 }

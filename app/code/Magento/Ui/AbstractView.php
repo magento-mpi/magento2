@@ -15,7 +15,7 @@ use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
- * Class AbstractView
+ * Abstract class AbstractView
  */
 abstract class AbstractView extends Template implements ViewInterface
 {
@@ -99,6 +99,8 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
+     * Prepare data
+     *
      * @param array $arguments
      * @return void
      */
@@ -117,13 +119,16 @@ abstract class AbstractView extends Template implements ViewInterface
     public function render()
     {
         $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())->render(
-            $this, 
+            $this,
             $this->getContentTemplate()
         );
+
         return $result;
     }
 
     /**
+     * Render label
+     *
      * @param array $arguments
      * @return mixed|string
      */
@@ -131,7 +136,8 @@ abstract class AbstractView extends Template implements ViewInterface
     {
         $prevArgs = $this->_data;
         $this->_data = array_replace_recursive($this->_data, $arguments);
-        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())->render($this, $this->getLabelTemplate());
+        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())
+            ->render($this, $this->getLabelTemplate());
         $this->_data = $prevArgs;
 
         return $result;
@@ -150,9 +156,6 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
-     * @param $elementName
-     * @param array $arguments
-     * @return mixed|string
      * Get default parameters
      *
      * @return array
@@ -165,7 +168,7 @@ abstract class AbstractView extends Template implements ViewInterface
     /**
      * Prepare custom data
      *
-     * @return void
+     * @return string
      */
     public function renderElementLabel($elementName, array $arguments)
     {

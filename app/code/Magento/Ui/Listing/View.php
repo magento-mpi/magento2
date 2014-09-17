@@ -8,14 +8,14 @@
 namespace Magento\Ui\Listing;
 
 use Magento\Ui\Context;
+use Magento\Ui\Control\ActionPool;
+use Magento\Ui\ViewFactory;
 use Magento\Ui\AbstractView;
-use Magento\Ui\Configuration;
+use Magento\Ui\ConfigurationFactory;
 use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
-use Magento\Ui\ViewFactory;
-use Magento\Ui\ConfigurationFactory;
 
 /**
  * Class View
@@ -40,8 +40,16 @@ class View extends AbstractView
     protected $dataProviderRowPool;
 
     /**
+     * Page action pool
+     *
+     * @var ActionPool
+     */
+    protected $actionPool;
+
+    /**
      * Constructor
      *
+     * @param ActionPool $actionPool
      * @param OptionsFactory $optionsFactory
      * @param RowPool $dataProviderRowPool
      * @param Context $renderContext
@@ -52,6 +60,7 @@ class View extends AbstractView
      * @param array $data
      */
     public function __construct(
+        ActionPool $actionPool,
         OptionsFactory $optionsFactory,
         RowPool $dataProviderRowPool,
         Context $renderContext,
@@ -61,6 +70,7 @@ class View extends AbstractView
         ConfigurationFactory $configurationFactory,
         array $data = []
     ) {
+        $this->actionPool = $actionPool;
         $this->optionsFactory = $optionsFactory;
         $this->dataProviderRowPool = $dataProviderRowPool;
         parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
@@ -78,6 +88,15 @@ class View extends AbstractView
 
         $meta = $this->getMeta();
         $config = $this->getDefaultConfiguration();
+
+        foreach ($config['page_actions'] as $key => $action) {
+            $this->actionPool->addButton(
+                $key,
+                $action,
+                $this
+            );
+        }
+
         if ($this->hasData('config')) {
             $config = array_merge($config, $this->getData('config'));
         }
@@ -86,7 +105,7 @@ class View extends AbstractView
             [
                 'name' => $this->getData('name'),
                 'parentName' => $this->getData('name'),
-                'configuration' => $config,
+                'configuration' => $config
             ]
         );
 
@@ -118,7 +137,7 @@ class View extends AbstractView
         foreach ($meta['fields'] as $key => $field) {
 
             // TODO fixme
-            if ($field['data_type'] === 'date_time') {
+            if ($field['data_type'] === 'date') {
                 $field['date_format'] = $this->_localeDate->getDateTimeFormat(
                     \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                 );
@@ -205,5 +224,24 @@ class View extends AbstractView
                 'totalCount' => $countItems
             ]
         );
+    }
+
+    /**
+     * Get default parameters
+     *
+     * @return array
+     */
+    public function getDefaultConfiguration()
+    {
+        return [
+            'page_actions' => [
+                'add' => [
+                    'name' => 'add',
+                    'label' => __('Add New'),
+                    'class' => 'primary',
+                    'url' => $this->getUrl('*/*/new')
+                ]
+            ]
+        ];
     }
 }
