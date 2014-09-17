@@ -14,6 +14,8 @@
  */
 namespace Magento\Reward\Helper;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
@@ -113,12 +115,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_ratesFactory;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -126,8 +134,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
+        \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory,
+        PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_storeManager = $storeManager;
         $this->_scopeConfig = $scopeConfig;
         $this->_config = $config;
@@ -332,16 +342,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (null === $amount) {
             return null;
         }
-        return $asCurrency ? $this->_storeManager->getStore(
-            $storeId
-        )->convertPrice(
-            $amount,
-            true,
-            false
-        ) : sprintf(
-            '%.2F',
-            $amount
-        );
+        return $asCurrency
+            ? $this->priceCurrency->convertAndFormat(
+                $amount,
+                true,
+                PriceCurrencyInterface::DEFAULT_PRECISION,
+                $this->_storeManager->getStore($storeId)
+            )
+            : sprintf('%.2F', $amount);
     }
 
     /**

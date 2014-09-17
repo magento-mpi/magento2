@@ -35,8 +35,8 @@ class GuestPaypalDirect extends Checkout
         $this->_data = array(
             'totals' => array(
                 'grand_total' => array(
-                    '$15.83', //simple
-                    '$16.92' //configurable
+                    '15.83', //simple
+                    '16.92' //configurable
                 )
             )
         );
@@ -76,7 +76,7 @@ class GuestPaypalDirect extends Checkout
         $simple->switchData('simple_required');
         $simple->persist();
 
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
 

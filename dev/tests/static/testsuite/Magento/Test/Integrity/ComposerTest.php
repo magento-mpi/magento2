@@ -11,7 +11,7 @@ namespace Magento\Test\Integrity;
 use Magento\TestFramework\Utility\Files;
 use Magento\Framework\Shell;
 use Magento\Framework\Exception;
-use Magento\Tools\Composer\Package\Reader;
+use Magento\Tools\Composer\Helper\ReplaceFilter;
 
 /**
  * A test that enforces validity of composer.json files and any other conventions in Magento components
@@ -165,8 +165,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             case 'project':
                 sort(self::$dependencies);
                 $dependenciesListed = [];
-                foreach (array_keys((array) self::$rootJson->replace) as $key) {
-                    if (strncmp($key, 'magento', strlen('magento')) === 0) {
+                foreach (array_keys((array)self::$rootJson->replace) as $key) {
+                    if (ReplaceFilter::isMagentoComponent($key)) {
                         $dependenciesListed[] = $key;
                     }
                 }

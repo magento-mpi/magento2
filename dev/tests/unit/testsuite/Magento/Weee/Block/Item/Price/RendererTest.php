@@ -94,7 +94,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param bool $isWeeeEnabled
-     * @param bool #showWeeeDetails
+     * @param bool $showWeeeDetails
      * @param bool $hasWeeeAmount
      * @param bool $expectedValue
      * @dataProvider testDisplayPriceWithWeeeDetailsDataProvider

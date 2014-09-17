@@ -26,7 +26,6 @@ class Edit extends \Magento\Customer\Controller\Account
      * @param UrlFactory $urlFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\State $appState
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      */
@@ -37,7 +36,6 @@ class Edit extends \Magento\Customer\Controller\Account
         UrlFactory $urlFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\State $appState,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
     ) {
@@ -49,7 +47,6 @@ class Edit extends \Magento\Customer\Controller\Account
             $urlFactory,
             $storeManager,
             $scopeConfig,
-            $appState,
             $customerAccountService
         );
     }

@@ -22,6 +22,12 @@ class Grid extends ParentGrid
      * @var array
      */
     protected $filters = [
+        'wrapping_id_from' => [
+            'selector' => 'input[name="wrapping_id[from]"]',
+        ],
+        'wrapping_id_to' => [
+            'selector' => 'input[name="wrapping_id[to]"]',
+        ],
         'design' => [
             'selector' => '#giftwrappingGrid_filter_design',
         ],
