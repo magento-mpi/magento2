@@ -198,14 +198,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('registry')
             ->with('current_invoice')
             ->will($this->returnValue($invoice));
-        $this->coreRegistry->expects($this->at(2))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue($invoice));
-        $this->coreRegistry->expects($this->at(3))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue($invoice));
         $this->commonTestGetCalculatedTaxesInvoiceCreditmemo($source, $orderTaxDetails, $expectedResults);
     }
 
@@ -227,18 +219,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->with('current_creditmemo')
             ->will($this->returnValue($creditmemo));
         $this->coreRegistry->expects($this->at(2))
-            ->method('registry')
-            ->with('current_creditmemo')
-            ->will($this->returnValue($creditmemo));
-        $this->coreRegistry->expects($this->at(3))
-            ->method('registry')
-            ->with('current_invoice')
-            ->will($this->returnValue(null));
-        $this->coreRegistry->expects($this->at(4))
-            ->method('registry')
-            ->with('current_creditmemo')
-            ->will($this->returnValue($creditmemo));
-        $this->coreRegistry->expects($this->at(5))
             ->method('registry')
             ->with('current_creditmemo')
             ->will($this->returnValue($creditmemo));
@@ -405,6 +385,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'qty_not_changed' => [
                 'source' => new \Magento\Framework\Object(
                         [
+                            'shipping_tax_amount' => '2.6',
                             'id' => '19',
                             'store' => $store,
                         ]
@@ -444,8 +425,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     [
                         'tax_amount' => '2.6',
                         'base_tax_amount' => '5.21',
-                        'title' => 'Shipping & Handling Tax',
-                        'percent' => '',
+                        'title' => 'Shipping',
+                        'percent' => '21',
                     ],
                     [
                         'title' => 'US-CA-*-Rate 1',

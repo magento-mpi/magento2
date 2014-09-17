@@ -170,13 +170,7 @@ class View extends Block
      */
     public function addToCart(FixtureInterface $product)
     {
-        /** @var CatalogProductSimple $product */
-        $checkoutData = $product->getCheckoutData();
-
         $this->fillOptions($product);
-        if (isset($checkoutData['qty'])) {
-            $this->_rootElement->find($this->qty)->setValue($checkoutData['qty']);
-        }
         $this->clickAddToCart();
     }
 
