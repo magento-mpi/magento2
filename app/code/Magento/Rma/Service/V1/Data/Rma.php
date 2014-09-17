@@ -35,6 +35,10 @@ class Rma extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 
     const STATUS = 'status';
 
+    const COMMENTS = 'comments';
+
+    const TRACKS = 'tracks';
+
     /**#@-*/
 
     /**
@@ -145,5 +149,25 @@ class Rma extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     public function getStatus()
     {
         return $this->_get(self::STATUS);
+    }
+
+    /**
+     * Get comments list
+     *
+     * @return \Magento\Rma\Service\V1\Data\RmaStatusHistory[]
+     */
+    public function getComments()
+    {
+        return $this->_get(self::COMMENTS);
+    }
+
+    /**
+     * Get tracks list
+     *
+     * @return \Magento\Rma\Service\V1\Data\Track[]
+     */
+    public function getTracks()
+    {
+        return $this->_get(self::TRACKS);
     }
 }

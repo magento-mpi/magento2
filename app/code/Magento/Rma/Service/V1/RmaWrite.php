@@ -42,15 +42,15 @@ class RmaWrite implements RmaWriteInterface
     }
 
     /**
-     * @param int $rmaId
+     * @param int $id
      * @param \Magento\Rma\Service\V1\Data\Track $track
      *
      * @throws \Exception
      * @return bool
      */
-    public function addTrack($rmaId, \Magento\Rma\Service\V1\Data\Track $track)
+    public function addTrack($id, \Magento\Rma\Service\V1\Data\Track $track)
     {
-        $rmaModel = $this->rmaRepository->get($rmaId);
+        $rmaModel = $this->rmaRepository->get($id);
         if ($rmaModel->getId()) {
             return (bool)$this->labelService->addTrack(
                 $rmaModel->getId(),
@@ -63,14 +63,14 @@ class RmaWrite implements RmaWriteInterface
     }
 
     /**
-     * @param int $rmaId
+     * @param int $id
      * @param int $trackId
      *
      * @return bool
      */
-    public function removeTrackById($rmaId, $trackId)
+    public function removeTrackById($id, $trackId)
     {
-        $rmaModel = $this->rmaRepository->get($rmaId);
+        $rmaModel = $this->rmaRepository->get($id);
         if ($rmaModel->getId()) {
             return (bool)$this->labelService->removeTrack($trackId);
         }
@@ -108,7 +108,7 @@ class RmaWrite implements RmaWriteInterface
     /**
      * Create shipping label for rma
      *
-     * @param int $rmaId
+     * @param int $id
      * @param \Magento\Rma\Service\V1\Data\Packages[] $packages
      * @param string $carrierCode
      * @param string $carrierTitle
@@ -118,7 +118,7 @@ class RmaWrite implements RmaWriteInterface
      * @throws \Exception
      * @return bool
      */
-    public function createLabel($rmaId, $packages, $carrierCode = '', $carrierTitle = '', $methodTitle = '', $price = null)
+    public function createLabel($id, $packages, $carrierCode = '', $carrierTitle = '', $methodTitle = '', $price = null)
     {
         $data = [
             'packages' => $packages,
@@ -127,7 +127,7 @@ class RmaWrite implements RmaWriteInterface
             'method_title' => $methodTitle,
             'price' => $price
         ];
-        $rmaModel = $this->rmaRepository->get($rmaId);
+        $rmaModel = $this->rmaRepository->get($id);
         if ($rmaModel->getId()) {
             return (bool)$this->labelService->createShippingLabel($rmaModel, $data);
         }

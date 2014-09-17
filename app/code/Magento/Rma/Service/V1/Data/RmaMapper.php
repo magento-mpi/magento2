@@ -8,6 +8,9 @@
  
 namespace Magento\Rma\Service\V1\Data;
 
+use Magento\Rma\Service\V1\CommentReadInterface;
+use Magento\Rma\Service\V1\RmaReadInterface;
+
 class RmaMapper
 {
     /**
@@ -21,15 +24,31 @@ class RmaMapper
     private $itemMapper;
 
     /**
+     * @var RmaReadInterface
+     */
+    private $rmaReadService;
+
+    /**
+     * @var \Magento\Rma\Service\V1\CommentReadInterface
+     */
+    private $commentReadService;
+
+    /**
      * @param RmaBuilder $rmaBuilder
      * @param ItemMapper $itemMapper
+     * @param RmaReadInterface $rmaReadService
+     * @param CommentReadInterface $commentReadService
      */
     public function __construct(
         RmaBuilder $rmaBuilder,
-        ItemMapper $itemMapper
+        ItemMapper $itemMapper,
+        RmaReadInterface $rmaReadService,
+        CommentReadInterface $commentReadService
     ) {
         $this->rmaBuilder = $rmaBuilder;
         $this->itemMapper = $itemMapper;
+        $this->rmaReadService = $rmaReadService;
+        $this->commentReadService = $commentReadService;
     }
 
     /**
@@ -49,6 +68,18 @@ class RmaMapper
     }
 
     /**
+     * Returns list of comments
+     *
+     * @param $rmaId
+     * @return array
+     */
+    public function getMappedComments($rmaId)
+    {
+        $commentsResult = $this->commentReadService->commentsList($rmaId);
+        return $commentsResult->getItems();
+    }
+
+    /**
      * @param \Magento\Rma\Model\Rma $rmaModel
      * @return \Magento\Rma\Service\V1\Data\Rma
      */
@@ -56,6 +87,8 @@ class RmaMapper
     {
         $this->rmaBuilder->populateWithArray($rmaModel->getData());
         $this->rmaBuilder->setItems($this->getMappedItems($rmaModel->getItemsForDisplay()));
+        $this->rmaBuilder->setComments($this->getMappedComments($rmaModel->getId()));
+        $this->rmaBuilder->setTracks($this->getMappedTracks($this->rmaReadService->getTracks($rmaModel->getId())));
         return $this->rmaBuilder->create();
     }
 }

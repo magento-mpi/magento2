@@ -11,20 +11,20 @@ namespace Magento\Rma\Service\V1;
 interface RmaWriteInterface
 {
     /**
-     * @param int $rmaId
+     * @param int $id
      * @param \Magento\Rma\Service\V1\Data\Track $track
      *
      * @throws \Exception
      * @return bool
      */
-    public function addTrack($rmaId, \Magento\Rma\Service\V1\Data\Track $track);
+    public function addTrack($id, \Magento\Rma\Service\V1\Data\Track $track);
 
     /**
-     * @param int $rmaId
+     * @param int $id
      * @param int $trackId
      * @return bool
      */
-    public function removeTrackById($rmaId, $trackId);
+    public function removeTrackById($id, $trackId);
 
     /**
      * Create rma
@@ -38,7 +38,7 @@ interface RmaWriteInterface
     /**
      * Create shipping label for rma
      *
-     * @param int $rmaId
+     * @param int $id
      * @param \Magento\Rma\Service\V1\Data\Packages[] $packages
      * @param string $carrierCode
      * @param string $carrierTitle
@@ -48,7 +48,7 @@ interface RmaWriteInterface
      * @throws \Exception
      * @return bool
      */
-    public function createLabel($rmaId, $packages, $carrierCode = '', $carrierTitle = '', $methodTitle = '', $price = null);
+    public function createLabel($id, $packages, $carrierCode = '', $carrierTitle = '', $methodTitle = '', $price = null);
 
     /**
      * Update rma

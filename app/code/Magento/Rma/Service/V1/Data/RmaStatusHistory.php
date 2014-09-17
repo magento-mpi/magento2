@@ -58,7 +58,7 @@ class RmaStatusHistory extends DataObject
     /**
      * Returns is_customer_notified
      *
-     * @return int
+     * @return bool
      */
     public function getIsCustomerNotified()
     {
@@ -68,7 +68,7 @@ class RmaStatusHistory extends DataObject
     /**
      * Returns is_visible_on_front
      *
-     * @return int
+     * @return bool
      */
     public function getIsVisibleOnFront()
     {
@@ -88,7 +88,7 @@ class RmaStatusHistory extends DataObject
     /**
      * Returns is_admin
      *
-     * @return int
+     * @return bool
      */
     public function getIsAdmin()
     {

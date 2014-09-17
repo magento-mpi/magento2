@@ -12,11 +12,15 @@ use Magento\Framework\Service\Data\AbstractExtensibleObject as DataObject;
 
 class Track extends DataObject
 {
+    /**#@+
+     * Data object properties
+     */
     const ENTITY_ID = 'entity_id';
     const RMA_ENTITY_ID = 'rma_entity_id';
     const TRACK_NUMBER = 'track_number';
     const CARRIER_TITLE = 'carrier_title';
     const CARRIER_CODE = 'carrier_code';
+    /**#@-*/
 
     /**
      * Returns entity id

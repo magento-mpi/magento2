@@ -9,19 +9,19 @@
 -->
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
-    <route url="/V1/returns/:return-id/tracking-numbers" method="POST">
+    <route url="/V1/returns/:id/tracking-numbers" method="POST">
         <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="addTrack"/>
         <resources>
             <resource ref="Magento_Rma::magento_rma" />
         </resources>
     </route>
-    <route url="/V1/returns/:return-id/tracking-numbers/:tracking-id" method="DELETE">
+    <route url="/V1/returns/:id/tracking-numbers/:trackId" method="DELETE">
         <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="removeTrackById"/>
         <resources>
             <resource ref="Magento_Rma::magento_rma" />
         </resources>
     </route>
-    <route url="/V1/returns/:return-id/label" method="POST">
+    <route url="/V1/returns/:id/label" method="POST">
         <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="createLabel"/>
         <resources>
             <resource ref="Magento_Rma::magento_rma" />
@@ -41,6 +41,12 @@
     </route>
     <route url="/V1/returns" method="POST">
         <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns/:id" method="PUT">
+        <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="update"/>
         <resources>
             <resource ref="Magento_Rma::magento_rma" />
         </resources>
