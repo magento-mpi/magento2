@@ -26,25 +26,18 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerHelper;
 
     /**
-     * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $context;
-
-    /**
      * @var \Magento\Framework\App\Rss\UrlBuilderInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $urlBuilderInterface;
 
     protected function setUp()
     {
-        $this->context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->urlBuilderInterface = $this->getMock('Magento\Framework\App\Rss\UrlBuilderInterface');
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->link = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Block\Adminhtml\Rss\Grid\Link',
             [
-                'context' => $this->context,
                 'rssUrlBuilder' => $this->urlBuilderInterface
             ]
         );
@@ -52,13 +45,18 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLink()
     {
+        $rssUrl = 'http://rss.magento.com';
+        $this->urlBuilderInterface->expects($this->once())->method('getUrl')->will($this->returnValue($rssUrl));
+        $this->assertEquals($rssUrl, $this->link->getLink());
     }
 
     public function testGetLabel()
     {
+        $this->assertEquals('Notify Low Stock RSS', $this->link->getLabel());
     }
 
     public function testIsRssAllowed()
     {
+        $this->assertEquals(true, $this->link->isRssAllowed());
     }
 }

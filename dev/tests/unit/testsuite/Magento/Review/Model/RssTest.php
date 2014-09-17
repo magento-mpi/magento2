@@ -35,7 +35,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->managerInterface = $this->getMock('Magento\Framework\Event\ManagerInterface');
-        $this->reviewFactory = $this->getMock('Magento\Review\Model\ReviewFactory');
+        $this->reviewFactory = $this->getMock('Magento\Review\Model\ReviewFactory', ['create']);
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->rss = $this->objectManagerHelper->getObject(
@@ -49,5 +49,34 @@ class RssTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProductCollection()
     {
+        $reviewModel = $this->getMock(
+            'Magento\Review\Model\Review',
+            [
+                '__wakeUp',
+                'getProductCollection'
+            ],
+            [],
+            '',
+            false
+        );
+        $productCollection = $this->getMock(
+            'Magento\Review\Model\Resource\Review\Product\Collection',
+            [
+                'addStatusFilter',
+                'addAttributeToSelect',
+                'setDateOrder'
+            ],
+            [],
+            '',
+            false
+        );
+        $reviewModel->expects($this->once())->method('getProductCollection')
+            ->will($this->returnValue($productCollection));
+        $this->reviewFactory->expects($this->once())->method('create')->will($this->returnValue($reviewModel));
+        $productCollection->expects($this->once())->method('addStatusFilter')->will($this->returnSelf());
+        $productCollection->expects($this->once())->method('addAttributeToSelect')->will($this->returnSelf());
+        $productCollection->expects($this->once())->method('setDateOrder')->will($this->returnSelf());
+        $this->managerInterface->expects($this->once())->method('dispatch')->will($this->returnSelf());
+        $this->assertEquals($productCollection, $this->rss->getProductCollection());
     }
 }
