@@ -102,9 +102,8 @@ class Wishlist implements DataProviderInterface
      *
      * @return array
      */
-    public function getData()
+    public function getRssData()
     {
-        $data = array();
         $wishlist = $this->getWishlist();
         if ($wishlist->getId()) {
             $data = $this->getHeader();
@@ -242,5 +241,13 @@ class Wishlist implements DataProviderInterface
             );
         }
         return $price;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFeeds()
+    {
+        return array();
     }
 }
