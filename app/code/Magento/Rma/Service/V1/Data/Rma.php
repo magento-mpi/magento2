@@ -27,8 +27,6 @@ class Rma extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 
     const DATE_REQUESTED = 'date_requested';
 
-    const ORDER_DATE = 'order_date';
-
     const CUSTOMER_CUSTOM_EMAIL = 'customer_custom_email';
 
     const ITEMS = 'items';
@@ -109,16 +107,6 @@ class Rma extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     public function getDateRequested()
     {
         return $this->_get(self::DATE_REQUESTED);
-    }
-
-    /**
-     * Get order_date
-     *
-     * @return string
-     */
-    public function getOrderDate()
-    {
-        return $this->_get(self::ORDER_DATE);
     }
 
     /**
