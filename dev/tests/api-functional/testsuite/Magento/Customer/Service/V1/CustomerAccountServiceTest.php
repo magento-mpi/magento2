@@ -7,25 +7,27 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Model\CustomerRegistry;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SortOrder;
+use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Framework\Exception\InputException;
 
 /**
  * Class CustomerAccountServiceTest
- * 
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CustomerAccountServiceTest extends WebapiAbstract
@@ -73,6 +75,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
     private $currentCustomerId;
 
     /**
+     * @var SortOrderBuilder
+     */
+    private $sortOrderBuilder;
+
+    /**
      * Execute per test initialization.
      */
     public function setUp()
@@ -97,6 +104,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
+        $this->sortOrderBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
         $this->filterGroupBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder'
         );
@@ -106,7 +116,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function tearDown()
     {
         if (!empty($this->currentCustomerId)) {
-            foreach($this->currentCustomerId as $customerId) {
+            foreach ($this->currentCustomerId as $customerId) {
                 $serviceInfo = [
                     'rest' => [
                         'resourcePath' => self::RESOURCE_PATH . '/' . $customerId,
@@ -970,9 +980,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersMultipleFiltersWithSort()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-28264'
-        );
         $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->_createCustomer();
         $customerData2 = $this->_createCustomer();
@@ -987,7 +994,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->create();
         $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
         $this->searchCriteriaBuilder->addFilter([$filter3]);
-        $this->searchCriteriaBuilder->setSortOrders([Customer::EMAIL => SearchCriteria::SORT_ASC]);
+        /** @var SortOrder $sortOrder */
+        $sortOrder = $this->sortOrderBuilder
+            ->setField(Customer::EMAIL)
+            ->setDirection(SearchCriteria::SORT_ASC)
+            ->create();
+        $this->searchCriteriaBuilder->setSortOrders([$sortOrder]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
