@@ -23,6 +23,8 @@ class ActionPool implements ActionPoolInterface
     const ACTIONS_PAGE_TOOLBAR = 'page.actions.toolbar';
 
     /**
+     * Render context
+     *
      * @var Context
      */
     protected $context;

@@ -8,11 +8,19 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <update handle="ui_listing" />
     <referenceBlock name="listing">
         <arguments>
             <argument name="name" xsi:type="string">cms_block_listing</argument>
             <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Block\Grid\Collection</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+            <argument name="configuration" xsi:type="array">
+                <item name="page_actions" xsi:type="array">
+                    <item name="add" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Add New Block</item>
+                    </item>
+                </item>
+            </argument>
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>
@@ -66,19 +74,14 @@
                     <item name="creation_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Created</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">date_time</item>
-                        <item name="filter_type" xsi:type="string">filter_date</item>
+                        <item name="data_type" xsi:type="string">date</item>
+                        <item name="filter_type" xsi:type="string">filter_range</item>
                     </item>
                     <item name="update_time" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Modified</item>
                         <item name="align" xsi:type="string">left</item>
-                        <item name="data_type" xsi:type="string">date_time</item>
-                        <item name="filter_type" xsi:type="string">filter_date</item>
-                    </item>
-                    <item name="row_url" xsi:type="array">
-                        <item name="data_type" xsi:type="string">row_url</item>
-                        <item name="filterable" xsi:type="boolean">false</item>
-                        <item name="visible" xsi:type="boolean">false</item>
+                        <item name="data_type" xsi:type="string">date</item>
+                        <item name="filter_type" xsi:type="string">filter_range</item>
                     </item>
                 </item>
             </argument>

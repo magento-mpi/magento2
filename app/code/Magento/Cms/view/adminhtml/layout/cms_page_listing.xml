@@ -14,6 +14,13 @@
             <argument name="name" xsi:type="string">cms_page_listing</argument>
             <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Page\Grid\Collection</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+            <argument name="configuration" xsi:type="array">
+                <item name="page_actions" xsi:type="array">
+                    <item name="add" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Add New Page</item>
+                    </item>
+                </item>
+            </argument>
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>

@@ -89,16 +89,25 @@ class View extends AbstractView
         $meta = $this->getMeta();
         $config = $this->getDefaultConfiguration();
 
+        if ($this->hasData('configuration')) {
+            $configuration = $this->getData('configuration');
+            if (!empty($configuration['page_actions'])) {
+                foreach ($configuration['page_actions'] as $key => $action) {
+                    $config['page_actions'][$key] = isset($configuration['page_actions'])
+                        ? array_replace($config['page_actions'][$key], $configuration['page_actions'][$key])
+                        : $config['page_actions'][$key];
+                }
+            }
+            unset($configuration['page_actions']);
+            $config = array_merge($config, $configuration);
+        }
+
         foreach ($config['page_actions'] as $key => $action) {
             $this->actionPool->addButton(
                 $key,
                 $action,
                 $this
             );
-        }
-
-        if ($this->hasData('config')) {
-            $config = array_merge($config, $this->getData('config'));
         }
 
         $this->configuration = $this->configurationFactory->create(
