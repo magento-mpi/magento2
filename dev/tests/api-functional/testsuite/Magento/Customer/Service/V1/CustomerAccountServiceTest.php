@@ -349,9 +349,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $expectedMessage = 'Reset password token mismatch.';
 
         try {
-            $this->_webApiCall(
-                $serviceInfo,
-                ['customerId' => $customerData['id'], 'resetPasswordLinkToken' => 'invalid']
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->_webApiCall(
+                    $serviceInfo,
+                    ['customerId' => $customerData['id'], 'resetPasswordLinkToken' => 'invalid']
                 );
             } else {
                 $this->_webApiCall($serviceInfo);
