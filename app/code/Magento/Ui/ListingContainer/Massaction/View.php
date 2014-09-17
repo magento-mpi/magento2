@@ -25,14 +25,14 @@ class View extends AbstractView
     ];
 
     /**
-     * Prepare custom data
+     * Prepare component data
      *
-     * @return void
+     * @param array $arguments
+     * @return $this|void
      */
-    protected function prepare()
+    public function prepare(array $arguments = [])
     {
-        parent::prepare();
-        $this->rootComponent = $this->getParentComponent();
+        parent::prepare($arguments);
 
         $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
@@ -47,6 +47,8 @@ class View extends AbstractView
             },
             $this
         );
+
+        $this->rootComponent = $this->getParentComponent();
         $this->configuration = new Configuration(
             $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
             $this->rootComponent->getName(),

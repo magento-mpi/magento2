@@ -8,8 +8,10 @@
 namespace Magento\Ui\Listing;
 
 use Magento\Ui\Context;
+use Magento\Ui\Control\ActionPool;
+use Magento\Ui\ViewFactory;
 use Magento\Ui\AbstractView;
-use Magento\Ui\Configuration;
+use Magento\Ui\ConfigurationFactory;
 use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
@@ -38,48 +40,84 @@ class View extends AbstractView
     protected $dataProviderRowPool;
 
     /**
+     * Page action pool
+     *
+     * @var ActionPool
+     */
+    protected $actionPool;
+
+    /**
      * Constructor
      *
+     * @param ActionPool $actionPool
      * @param OptionsFactory $optionsFactory
      * @param RowPool $dataProviderRowPool
      * @param Context $renderContext
      * @param TemplateContext $context
+     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigurationFactory $configurationFactory
      * @param array $data
      */
     public function __construct(
+        ActionPool $actionPool,
         OptionsFactory $optionsFactory,
         RowPool $dataProviderRowPool,
         Context $renderContext,
         TemplateContext $context,
+        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
+        ConfigurationFactory $configurationFactory,
         array $data = []
     ) {
+        $this->actionPool = $actionPool;
         $this->optionsFactory = $optionsFactory;
         $this->dataProviderRowPool = $dataProviderRowPool;
-        parent::__construct($renderContext, $context, $contentTypeFactory, $data);
+        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
     }
 
     /**
-     * Prepare custom data
+     * Prepare component data
      *
-     * @return void
+     * @param array $arguments
+     * @return $this|void
      */
-    protected function prepare()
+    public function prepare(array $arguments = [])
     {
-        parent::prepare();
+        parent::prepare($arguments);
 
         $meta = $this->getMeta();
         $config = $this->getDefaultConfiguration();
-        if ($this->hasData('config')) {
-            $config = array_merge($config, $this->getData('config'));
+
+        if ($this->hasData('configuration')) {
+            $configuration = $this->getData('configuration');
+            if (!empty($configuration['page_actions'])) {
+                foreach ($configuration['page_actions'] as $key => $action) {
+                    $config['page_actions'][$key] = isset($configuration['page_actions'])
+                        ? array_replace($config['page_actions'][$key], $configuration['page_actions'][$key])
+                        : $config['page_actions'][$key];
+                }
+            }
+            unset($configuration['page_actions']);
+            $config = array_merge($config, $configuration);
         }
 
-        $this->configuration = new Configuration(
-            $this->getData('name'),
-            $this->getData('name'),
-            $config
+        foreach ($config['page_actions'] as $key => $action) {
+            $this->actionPool->addButton(
+                $key,
+                $action,
+                $this
+            );
+        }
+
+        $this->configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->getData('name'),
+                'parentName' => $this->getData('name'),
+                'configuration' => $config
+            ]
         );
+
         $this->renderContext->getStorage()->addComponentsData($this->configuration);
         $this->renderContext->getStorage()->addMeta($this->getData('name'), $meta);
         $this->renderContext->getStorage()->addDataCollection($this->getData('name'), $this->getData('dataSource'));
@@ -88,15 +126,13 @@ class View extends AbstractView
     /**
      * Render view
      *
-     * @param array $arguments
-     * @param string $acceptType
      * @return mixed|string
      */
-    public function render(array $arguments = [], $acceptType = 'html')
+    public function render()
     {
         $this->initialConfiguration();
 
-        return parent::render($arguments, $acceptType);
+        return parent::render();
     }
 
     /**
@@ -104,12 +140,13 @@ class View extends AbstractView
      *
      * @return array
      */
-    protected function getMeta()
+    public function getMeta()
     {
         $meta = $this->getData('meta');
         foreach ($meta['fields'] as $key => $field) {
+
             // TODO fixme
-            if ($field['data_type'] === 'date_time') {
+            if ($field['data_type'] === 'date') {
                 $field['date_format'] = $this->_localeDate->getDateTimeFormat(
                     \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                 );
@@ -149,7 +186,7 @@ class View extends AbstractView
      *
      * return array
      */
-    protected function getCollectionItems()
+    public function getCollectionItems()
     {
         $items = [];
         $collection = $this->renderContext->getStorage()->getDataCollection($this->getName());
@@ -196,5 +233,24 @@ class View extends AbstractView
                 'totalCount' => $countItems
             ]
         );
+    }
+
+    /**
+     * Get default parameters
+     *
+     * @return array
+     */
+    public function getDefaultConfiguration()
+    {
+        return [
+            'page_actions' => [
+                'add' => [
+                    'name' => 'add',
+                    'label' => __('Add New'),
+                    'class' => 'primary',
+                    'url' => $this->getUrl('*/*/new')
+                ]
+            ]
+        ];
     }
 }

@@ -22,24 +22,32 @@ class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
      * @param string $parentName
      * @return string
      */
-    public function toJson(ConfigurationStorageInterface $storage, $parentName)
+    public function toJson(ConfigurationStorageInterface $storage, $parentName = null)
     {
-        $rootComponent = $storage->getComponentsData($parentName);
-        $result = [];
-        $result['name'] = $rootComponent->getName();
-        $result['parent_name'] = $rootComponent->getParentName();
-        $components = $storage->getComponentsData();
-        if (!empty($components)) {
-            /** @var ConfigurationInterface $component */
-            foreach ($components as $name => $component) {
+        $result = [
+            'config' => []
+        ];
+        if ($parentName !== null) {
+            $rootComponent = $storage->getComponentsData($parentName);
+            $result['name'] = $rootComponent->getName();
+            $result['parent_name'] = $rootComponent->getParentName();
+            $result['meta'] = $storage->getMeta($parentName);
+            $result['data'] = $storage->getData($parentName);
+            $result['config']['components'][$rootComponent->getName()] = $rootComponent->getData();
+        } else {
+            $components = $storage->getComponentsData();
+            if (!empty($components)) {
+                /** @var ConfigurationInterface $component */
+                foreach ($components as $name => $component) {
                     $result['config']['components'][$name] = $component->getData();
+                }
             }
+            $result['meta'] = $storage->getMeta();
+            $result['data'] = $storage->getData();
         }
+
         $result['config'] += $storage->getCloudData();
         $result['dump']['extenders'] = [];
-        $result['meta'] = $storage->getMeta($parentName);
-        $result['data'] = $storage->getData($parentName);
-
         return json_encode($result);
     }
 }

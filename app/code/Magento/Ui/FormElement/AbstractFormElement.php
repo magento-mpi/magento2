@@ -7,24 +7,13 @@
  */
 namespace Magento\Ui\FormElement;
 
-use Magento\Ui\DataType\DataTypeInterface;
+use Magento\Ui\AbstractView;
 
 /**
  * Class AbstractFormElement
  */
-abstract class AbstractFormElement implements ElementInterface
+abstract class AbstractFormElement extends AbstractView implements ElementInterface
 {
-    /**
-     * @var array
-     */
-    protected $configuration = [];
-
-    /**
-     * @param DataTypeInterface $dataType
-     * @return string
-     */
-    abstract public function render(DataTypeInterface $dataType);
-
     /**
      * @return string
      */
@@ -34,11 +23,19 @@ abstract class AbstractFormElement implements ElementInterface
     }
 
     /**
+     * @return string|int
+     */
+    public function getValue()
+    {
+        return $this->getData('value');
+    }
+
+    /**
      * @return string
      */
     public function getFormInputName()
     {
-        return $this->configuration['input_name'];
+        return $this->getData('input_name');
     }
 
     /**
@@ -46,7 +43,7 @@ abstract class AbstractFormElement implements ElementInterface
      */
     public function getIsReadonly()
     {
-        return (bool) $this->configuration['readonly'];
+        return (bool) $this->getData('readonly');
     }
 
     /**
@@ -54,6 +51,6 @@ abstract class AbstractFormElement implements ElementInterface
      */
     public function getCssClasses()
     {
-        return $this->configuration['css_classes'];
+        return $this->getData('css_classes');
     }
 }

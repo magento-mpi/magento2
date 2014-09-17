@@ -7,19 +7,10 @@
  */
 namespace Magento\Ui\DataType;
 
-use Magento\Framework\Object as DataObject;
-
 /**
  * Class Media
  */
-class Media extends AbstractDataType implements DataTypeInterface
+class Media extends AbstractDataType
 {
-    /**
-     * @param DataObject $dataObject
-     * @return string
-     */
-    public function render(DataObject $dataObject)
-    {
-        //
-    }
+    //
 }

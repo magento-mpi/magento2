@@ -10,6 +10,7 @@ namespace Magento\Ui;
 use Magento\Ui\Render\Layout;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Class Render
@@ -17,11 +18,25 @@ use Magento\Framework\View\Element\AbstractBlock;
 class Render extends AbstractBlock
 {
     /**
+     * Ui element view
+     *
+     * @var ViewInterface
+     */
+    protected $view;
+
+    /**
      * Render context
      *
      * @var Context
      */
     protected $renderContext;
+
+    /**
+     * Ui element view factory
+     *
+     * @var ViewFactory
+     */
+    protected $viewFactory;
 
     /**
      * Private layout
@@ -35,30 +50,59 @@ class Render extends AbstractBlock
      *
      * @param Context $renderContext
      * @param Template\Context $context
+     * @param ViewFactory $viewFactory
      * @param Layout $privateLayout
      * @param array $data
      */
     public function __construct(
         Context $renderContext,
         Template\Context $context,
+        ViewFactory $viewFactory,
         Layout $privateLayout,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
+        $this->viewFactory = $viewFactory;
         $this->privateLayout = $privateLayout;
         parent::__construct($context, $data);
     }
 
     /**
-     * Prepare layout
+     * Get component name
+     *
+     * @return string
+     */
+    public function getComponent()
+    {
+        return $this->getData('configuration/component');
+    }
+
+    /**
+     * Get layout handle
+     *
+     * @return string
+     */
+    public function getLayoutHandle()
+    {
+        return $this->getData('configuration/name');
+    }
+
+    /**
+     * Prepare private layout object
      *
      * @return $this
      */
     protected function _prepareLayout()
     {
-        $this->privateLayout->addHandle('ui_' . $this->getComponent());
-        $this->privateLayout->addHandle($this->getName());
+        $this->privateLayout->addHandle($this->getLayoutHandle());
         $this->privateLayout->loadLayout();
+
+        $this->renderContext->setPageLayout($this->getLayout());
+
+        $this->view = $this->getUiElementView($this->getComponent());
+        $this->renderContext->setRootView($this->view);
+        $this->prepare($this->view, $this->getData('configuration'));
+
 
         return parent::_prepareLayout();
     }
@@ -74,31 +118,40 @@ class Render extends AbstractBlock
     }
 
     /**
-     * Render UI Element content
+     * Render Ui Element content
      *
-     * @param string $uiElementName
-     * @param array $arguments
-     * @return string
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    protected function render($uiElementName, array $arguments = [])
+    protected function render()
     {
-        // Obtain concrete UI Element View
-        $view = $this->getUiElementView($uiElementName);
-        $useArguments = array_replace($this->getData(), $arguments);
-        $useArguments['name'] = isset($useArguments['name']) ? $useArguments['name'] : $this->getName();
-
-        return $view->render($useArguments, $this->renderContext->getAcceptType());
+        return $this->view->render($this->renderContext->getAcceptType());
     }
 
     /**
+     * Prepare UI Element View
+     *
+     * @param BlockInterface $view
+     * @param array $arguments
+     */
+    protected function prepare(BlockInterface $view, array $arguments = [])
+    {
+        if ($view instanceof AbstractView) {
+            $view->prepare($arguments);
+        }
+        foreach ($view->getLayout()->getChildNames($view->getNameInLayout()) as $child) {
+            $this->prepare($view->getChildBlock($child));
+        }
+    }
+
+    /**
+     * Get UI Element View
+     *
      * @param string $uiElementName
-     * @param array $data
      * @return ViewInterface
      * @throws \InvalidArgumentException
      */
-    protected function getUiElementView($uiElementName, array $data = [])
+    protected function getUiElementView($uiElementName)
     {
         /** @var \Magento\Ui\ViewInterface $view */
         $view = $this->privateLayout->getBlock($uiElementName);

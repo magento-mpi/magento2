@@ -16,10 +16,10 @@ define([
     var defaults = {
         defaultTypes: 'input',
         types: {
-            input:  BASE_PATH + '/input',
-            select: BASE_PATH + '/select',
-            range:  BASE_PATH + '/range',
-            date:   BASE_PATH + '/date'
+            filter_input:  BASE_PATH + '/input',
+            filter_select: BASE_PATH + '/select',
+            filter_range:  BASE_PATH + '/range',
+            filter_date:   BASE_PATH + '/date'
         }
     }
 

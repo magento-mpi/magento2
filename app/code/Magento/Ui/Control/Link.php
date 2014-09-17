@@ -7,19 +7,12 @@
  */
 namespace Magento\Ui\Control;
 
-use Magento\Framework\Object;
+use Magento\Ui\AbstractView;
 
 /**
  * Class Link
  */
-class Link implements ControlInterface
+class Link extends AbstractView implements ControlInterface
 {
-    /**
-     * @param Object $dataObject
-     * @return string
-     */
-    public function render(Object $dataObject)
-    {
-        return '';
-    }
+    //
 }

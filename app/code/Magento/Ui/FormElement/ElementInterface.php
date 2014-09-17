@@ -8,18 +8,13 @@
 namespace Magento\Ui\FormElement;
 
 use Magento\Ui\DataType\DataTypeInterface;
+use Magento\Ui\ViewInterface;
 
 /**
  * Interface ElementInterface
  */
-interface ElementInterface
+interface ElementInterface extends ViewInterface
 {
-    /**
-     * @param DataTypeInterface $dataType
-     * @return string
-     */
-    public function render(DataTypeInterface $dataType);
-
     /**
      * @return string
      */

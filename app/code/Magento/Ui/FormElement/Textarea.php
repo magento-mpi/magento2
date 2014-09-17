@@ -7,19 +7,10 @@
  */
 namespace Magento\Ui\FormElement;
 
-use Magento\Ui\DataType\DataTypeInterface;
-
 /**
  * Class Textarea
  */
-class Textarea extends AbstractFormElement implements ElementInterface
+class Textarea extends AbstractFormElement
 {
-    /**
-     * @param DataTypeInterface $dataType
-     * @return string
-     */
-    public function render(DataTypeInterface $dataType)
-    {
-        //
-    }
+    //
 }
