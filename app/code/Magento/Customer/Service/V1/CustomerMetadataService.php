@@ -70,6 +70,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             $attributes[$attribute->getAttributeCode()] = $this->attributeMetadataConverter
                 ->createMetadataAttribute($attribute);
         }
+        if (empty($attributes)) {
+            throw NoSuchEntityException::singleField('formCode', $formCode);
+        }
         return $attributes;
     }
 

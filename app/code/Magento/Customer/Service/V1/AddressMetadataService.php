@@ -69,6 +69,9 @@ class AddressMetadataService implements AddressMetadataServiceInterface
             $attributes[$attribute->getAttributeCode()] = $this->attributeMetadataConverter
                 ->createMetadataAttribute($attribute);
         }
+        if (empty($attributes)) {
+            throw NoSuchEntityException::singleField('formCode', $formCode);
+        }
         return $attributes;
     }
 
@@ -79,7 +82,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     {
         /** @var AbstractAttribute $attribute */
         $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE_ADDRESS, $attributeCode);
-        if ($attribute) {
+        if ($attribute && ($attributeCode === 'id' || !is_null($attribute->getId()))) {
             $attributeMetadata = $this->attributeMetadataConverter->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
