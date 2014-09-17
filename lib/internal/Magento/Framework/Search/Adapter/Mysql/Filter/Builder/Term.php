@@ -49,8 +49,8 @@ class Term implements FilterInterface
     }
 
     /**
-     * @param $value
-     * @param $isNegation
+     * @param string|array $value
+     * @param bool $isNegation
      * @return string
      */
     private function getConditionOperator($value, $isNegation)

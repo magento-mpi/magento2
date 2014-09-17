@@ -69,6 +69,9 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $queryResponse->count());
     }
 
+    /**
+     * @return \Magento\Framework\Search\QueryResponse
+     */
     private function executeQuery()
     {
         $this->reindexAll();
@@ -237,7 +240,6 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testBoolFilter()
     {
-//        \\$this->requestBuilder->bind('wildcard_filter', 're');
         $expectedIds = [2, 3];
         $this->requestBuilder->bind('must_range_filter1_from', 1);
         $this->requestBuilder->bind('must_range_filter1_to', 6);
