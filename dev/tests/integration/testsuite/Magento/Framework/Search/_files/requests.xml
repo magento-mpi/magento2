@@ -93,7 +93,10 @@
             </query>
         </queries>
         <filters>
-            <filter name="range_filter" xsi:type="rangeFilter" field="product_id" from="$range_filter_from$"
+            <filter name="range_filter"
+                    xsi:type="rangeFilter"
+                    field="product_id"
+                    from="$range_filter_from$"
                     to="$range_filter_to$"/>
         </filters>
         <from>10</from>
@@ -109,7 +112,9 @@
             </query>
         </queries>
         <filters>
-            <filter name="range_filter_without_from_field" xsi:type="rangeFilter" field="product_id"
+            <filter name="range_filter_without_from_field"
+                    xsi:type="rangeFilter"
+                    field="product_id"
                     to="$range_filter_to$"/>
         </filters>
         <from>10</from>
@@ -125,7 +130,10 @@
             </query>
         </queries>
         <filters>
-            <filter name="range_filter_without_to_field" xsi:type="rangeFilter" field="product_id" from="$from$"/>
+            <filter name="range_filter_without_to_field"
+                    xsi:type="rangeFilter"
+                    field="product_id"
+                    from="$range_filter_from$"/>
         </filters>
         <from>10</from>
         <size>10</size>
@@ -159,16 +167,95 @@
                 <filterReference clause="must" ref="must_range_filter1"/>
                 <filterReference clause="should" ref="should_term_filter1"/>
                 <filterReference clause="should" ref="should_term_filter2"/>
+                <filterReference clause="should" ref="should_term_filter3"/>
+                <filterReference clause="should" ref="should_term_filter4"/>
                 <filterReference clause="not" ref="not_term_filter1"/>
                 <filterReference clause="not" ref="not_term_filter2"/>
             </filter>
-            <filter name="must_range_filter1" xsi:type="rangeFilter" field="product_id" value="$must_range_filter1$"/>
-            <filter name="should_term_filter1" xsi:type="termFilter" field="product_id" value="should_term_filter1"/>
-            <filter name="should_term_filter2" xsi:type="termFilter" field="product_id" value="should_term_filter2"/>
-            <filter name="should_term_filter3" xsi:type="termFilter" field="product_id" value="should_term_filter3"/>
-            <filter name="should_term_filter4" xsi:type="termFilter" field="product_id" value="should_term_filter4"/>
-            <filter name="not_term_filter1" xsi:type="termFilter" field="product_id" value="not_term_filter1"/>
-            <filter name="not_term_filter2" xsi:type="termFilter" field="product_id" value="not_term_filter2"/>
+            <filter name="must_range_filter1"
+                    xsi:type="rangeFilter"
+                    field="product_id"
+                    from="$must_range_filter1_from$"
+                    to="$must_range_filter1_to$"/>
+            <filter name="should_term_filter1"
+                    xsi:type="termFilter"
+                    field="product_id"
+                    value="$should_term_filter1$"/>
+            <filter name="should_term_filter2"
+                    xsi:type="termFilter"
+                    field="product_id"
+                    value="$should_term_filter2$"/>
+            <filter name="should_term_filter3"
+                    xsi:type="termFilter"
+                    field="product_id"
+                    value="$should_term_filter3$"/>
+            <filter name="should_term_filter4"
+                    xsi:type="termFilter"
+                    field="product_id"
+                    value="$should_term_filter4$"/>
+            <filter name="not_term_filter1"
+                    xsi:type="termFilter"
+                    field="product_id"
+                    value="$not_term_filter1$"/>
+            <filter name="not_term_filter2"
+                    xsi:type="termFilter"
+                    field="product_id"
+                    value="$not_term_filter2$"/>
+        </filters>
+        <from>10</from>
+        <size>10</size>
+    </request>
+    <request query="bool_filter_with_nested_bool_filter" index="catalogsearch_fulltext">
+        <dimensions>
+            <dimension name="scope" value="default"/>
+        </dimensions>
+        <queries>
+            <query xsi:type="filteredQuery" name="bool_filter_with_nested_bool_filter">
+                <filterReference ref="bool_filter_with_nested_bool_filter"/>
+            </query>
+        </queries>
+        <filters>
+            <filter xsi:type="boolFilter" name="bool_filter_with_nested_bool_filter">
+                <filterReference clause="not" ref="not_range_filter"/>
+                <filterReference clause="not" ref="not_bool_filter"/>
+            </filter>
+            <filter xsi:type="boolFilter" name="not_bool_filter">
+                <filterReference clause="not" ref="nested_not_term_filter"/>
+            </filter>
+            <filter name="not_range_filter"
+                    xsi:type="rangeFilter"
+                    field="product_id"
+                    from="$not_range_filter_from$"
+                    to="$not_range_filter_to$"/>
+            <filter name="nested_not_term_filter"
+                    xsi:type="termFilter"
+                    field="product_id"
+                    value="$nested_not_term_filter$"/>
+        </filters>
+        <from>10</from>
+        <size>10</size>
+    </request>
+    <request query="bool_filter_with_range_in_nested_negative_filter" index="catalogsearch_fulltext">
+        <dimensions>
+            <dimension name="scope" value="default"/>
+        </dimensions>
+        <queries>
+            <query xsi:type="filteredQuery" name="bool_filter_with_range_in_nested_negative_filter">
+                <filterReference ref="bool_filter_with_range_in_nested_negative_filter"/>
+            </query>
+        </queries>
+        <filters>
+            <filter xsi:type="boolFilter" name="bool_filter_with_range_in_nested_negative_filter">
+                <filterReference clause="not" ref="not_bool_filter"/>
+            </filter>
+            <filter xsi:type="boolFilter" name="not_bool_filter">
+                <filterReference clause="must" ref="nested_must_range_filter"/>
+            </filter>
+            <filter name="nested_must_range_filter"
+                    xsi:type="rangeFilter"
+                    field="product_id"
+                    from="$nested_must_range_filter_from$"
+                    to="$nested_must_range_filter_to$"/>
         </filters>
         <from>10</from>
         <size>10</size>
@@ -186,7 +273,7 @@
             <query xsi:type="matchQuery" name="name_query" value="$name_query$">
                 <match field="data_index" boost="1"/>
             </query>
-            <query xsi:type="matchQuery" name="description_query" value="$description_query$">
+            <query xsi:type="matchQuery" name="description_query" value="$description$">
                 <match field="data_index" boost="1"/>
             </query>
             <query xsi:type="filteredQuery" name="query_filter">

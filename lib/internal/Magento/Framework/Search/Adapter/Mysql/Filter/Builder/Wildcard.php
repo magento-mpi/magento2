@@ -8,37 +8,42 @@
 namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
 use Magento\Framework\App\Resource;
+use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
 
 class Wildcard implements FilterInterface
 {
-    /**
-     * @var \Magento\Framework\App\Resource
-     */
-    private $resource;
+
+    const CONDITION_LIKE = 'LIKE';
+    const CONDITION_NOT_LIKE = 'NOT LIKE';
 
     /**
-     * @param \Magento\Framework\App\Resource $resource
+     * @var ConditionManager
      */
-    public function __construct(\Magento\Framework\App\Resource $resource)
-    {
-        $this->resource = $resource;
+    private $conditionManager;
+
+    /**
+     * @param ConditionManager $conditionManager
+     */
+    public function __construct(
+        ConditionManager $conditionManager
+    ) {
+        $this->conditionManager = $conditionManager;
     }
 
     /**
      * {@inheritdoc}
      */
     public function buildFilter(
-        \Magento\Framework\Search\Request\FilterInterface $filter
+        \Magento\Framework\Search\Request\FilterInterface $filter,
+        $isNegation
     ) {
-        $adapter = $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
-
         /** @var \Magento\Framework\Search\Request\Filter\Wildcard $filter */
+
         $searchValue = '%' . $filter->getValue() . '%';
-        $condition = sprintf(
-            '%s LIKE %s',
+        return $this->conditionManager->generateCondition(
             $filter->getField(),
-            $adapter->quote($searchValue)
+            ($isNegation ? self::CONDITION_NOT_LIKE : self::CONDITION_LIKE),
+            $searchValue
         );
-        return $condition;
     }
 }

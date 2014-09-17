@@ -19,10 +19,12 @@ use Magento\TestFramework\Helper\ObjectManager;
  */
 class MapperTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var \Magento\Framework\Search\Adapter\Mysql\Dimensions|\PHPUnit_Framework_MockObject_MockObject
      */
     private $dimensionsBuilder;
+
     /**
      * @var \Magento\Framework\Search\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */

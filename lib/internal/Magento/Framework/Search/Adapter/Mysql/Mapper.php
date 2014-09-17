@@ -11,7 +11,6 @@ use Magento\Framework\App\Resource\Config;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 use Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match as MatchQueryBuilder;
-use Magento\Framework\Search\Request\Query\Bool;
 use Magento\Framework\Search\Request\Query\Bool as BoolQuery;
 use Magento\Framework\Search\Request\Query\Filter as FilterQuery;
 use Magento\Framework\Search\Request\Query\Match as MatchQuery;
@@ -37,16 +36,21 @@ class Mapper
      * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match
      */
     private $matchQueryBuilder;
-    
+
     /**
      * @var Filter\Builder
      */
     private $filterBuilder;
-    
+
     /**
      * @var Dimensions
      */
     private $dimensionsBuilder;
+
+    /**
+     * @var ConditionManager
+     */
+    private $conditionManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
@@ -54,19 +58,22 @@ class Mapper
      * @param MatchQueryBuilder $matchQueryBuilder
      * @param Builder $filterBuilder
      * @param Dimensions $dimensionsBuilder
+     * @param ConditionManager $conditionManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         ScoreBuilderFactory $scoreBuilderFactory,
         MatchQueryBuilder $matchQueryBuilder,
         Builder $filterBuilder,
-        Dimensions $dimensionsBuilder
+        Dimensions $dimensionsBuilder,
+        ConditionManager $conditionManager
     ) {
         $this->resource = $resource;
         $this->scoreBuilderFactory = $scoreBuilderFactory;
         $this->matchQueryBuilder = $matchQueryBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->dimensionsBuilder = $dimensionsBuilder;
+        $this->conditionManager = $conditionManager;
     }
 
     /**
@@ -83,7 +90,7 @@ class Mapper
             $scoreBuilder,
             $request->getQuery(),
             $this->getSelect(),
-            Bool::QUERY_CONDITION_MUST
+            BoolQuery::QUERY_CONDITION_MUST
         );
         $select = $this->processDimensions($request, $select);
         $tableName = $this->resource->getTableName($request->getIndex());
@@ -149,21 +156,21 @@ class Mapper
             $scoreBuilder,
             $query->getMust(),
             $select,
-            Bool::QUERY_CONDITION_MUST
+            BoolQuery::QUERY_CONDITION_MUST
         );
 
         $select = $this->processBoolQueryCondition(
             $scoreBuilder,
             $query->getShould(),
             $select,
-            Bool::QUERY_CONDITION_SHOULD
+            BoolQuery::QUERY_CONDITION_SHOULD
         );
 
         $select = $this->processBoolQueryCondition(
             $scoreBuilder,
             $query->getMustNot(),
             $select,
-            Bool::QUERY_CONDITION_NOT
+            BoolQuery::QUERY_CONDITION_NOT
         );
 
         $scoreBuilder->endQuery($query->getBoost());
@@ -210,10 +217,7 @@ class Mapper
                 $scoreBuilder->endQuery($query->getBoost());
                 break;
             case FilterQuery::REFERENCE_FILTER:
-                $filterCondition = $this->filterBuilder->build($query->getReference());
-                if ($conditionType === Bool::QUERY_CONDITION_NOT) {
-                    $filterCondition = '!' . $filterCondition;
-                }
+                $filterCondition = $this->filterBuilder->build($query->getReference(), $conditionType);
                 $select->where($filterCondition);
                 $scoreBuilder->addCondition(1, $query->getBoost());
                 break;
@@ -245,12 +249,9 @@ class Mapper
             $dimensions[] = $this->dimensionsBuilder->build($dimension);
         }
 
-        if (!empty($dimensions)) {
-            $query = sprintf(
-                '(%s)',
-                implode(' ' . Select::SQL_OR . ' ', $dimensions)
-            );
-            $select->where($query);
+        $query = $this->conditionManager->combineQueries($dimensions, \Zend_Db_Select::SQL_OR);
+        if (!empty($query)) {
+            $select->where($this->conditionManager->wrapBrackets($query));
         }
 
         return $select;
