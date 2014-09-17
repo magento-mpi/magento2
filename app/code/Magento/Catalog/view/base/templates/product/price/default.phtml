@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $this */
+
+$productId = $this->getSaleableItem()->getId();
+
+/** @var \Magento\Catalog\Pricing\Price\RegularPrice $priceModel */
+$priceModel = $this->getPriceType('regular_price');
+
+echo $this->renderAmount($priceModel->getAmount(), [
+    'price_id'          => $this->getPriceId('product-price-'),
+    'include_container' => true
+]);
+?>
