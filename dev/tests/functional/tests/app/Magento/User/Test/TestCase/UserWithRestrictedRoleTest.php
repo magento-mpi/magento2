@@ -110,13 +110,13 @@ class UserWithRestrictedRoleTest extends Functional
     public function testAclRoleWithRestrictedGwsScope()
     {
         //Create new Store
-        $storeGroupFixture = Factory::getFixtureFactory()->getMagentoStoreStoreGroup();
-        $storeGroupData = $storeGroupFixture->persist();
-
         $objectManager = Factory::getObjectManager();
+        $storeGroupFixture = $objectManager->create('\Magento\Store\Test\Fixture\StoreGroup', ['dataSet' => 'default']);
+        $storeGroupFixture->persist();
+
         $storeFixture = $objectManager->create(
             '\Magento\Store\Test\Fixture\Store',
-            ['dataSet' => 'default', 'data' => ['group_id' => $storeGroupData['id']]]
+            ['dataSet' => 'default', 'data' => ['group_id' => $storeGroupFixture->getGroupId()]]
         );
         $storeFixture->persist();
 
@@ -128,7 +128,7 @@ class UserWithRestrictedRoleTest extends Functional
         //Create new Acl Role - Role Resources: Sales
         $roleFixture = Factory::getFixtureFactory()->getMagentoUserRole();
         $roleFixture->switchData('custom_permissions_store_scope');
-        $roleFixture->setScopeItems(array($storeGroupData['id']));
+        $roleFixture->setScopeItems(array($storeGroupFixture->getGroupId()));
 
         $resourceFixture = Factory::getFixtureFactory()->getMagentoUserResource();
         $roleFixture->setResource($resourceFixture->get('Magento_Sales::sales_order'));

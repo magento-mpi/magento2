@@ -84,9 +84,10 @@ class CreditmemoGetTest extends WebapiAbstract
      */
     public function testCreditmemoGet()
     {
-        /** @var \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory */
-        $creditmemoFactory = $this->objectManager->create('Magento\Sales\Model\Order\CreditmemoFactory');
-        $creditmemo = $creditmemoFactory->create()->load(self::CREDITMEMO_INCREMENT_ID, 'increment_id');
+        /** @var \Magento\Sales\Model\Resource\Order\Creditmemo\Collection $creditmemoCollection */
+        $creditmemoCollection = $this->objectManager->get('\Magento\Sales\Model\Resource\Order\Creditmemo\Collection');
+        $creditmemo = $creditmemoCollection->getFirstItem();
+
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $creditmemo->getId(),

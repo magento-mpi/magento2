@@ -13,6 +13,13 @@ namespace Magento\Log\Model\Resource;
 class Visitor extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
+     * Primary key auto increment flag
+     *
+     * @var bool
+     */
+    protected $_isPkAutoIncrement = false;
+
+    /**
      * Magento string lib
      *
      * @var \Magento\Framework\Stdlib\String
@@ -66,7 +73,7 @@ class Visitor extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _prepareDataForSave(\Magento\Framework\Model\AbstractModel $visitor)
     {
         return array(
-            'session_id' => $visitor->getSessionId(),
+            'visitor_id' => $visitor->getVisitorId(),
             'first_visit_at' => $visitor->getFirstVisitAt(),
             'last_visit_at' => $visitor->getLastVisitAt(),
             'last_url_id' => $visitor->getLastUrlId() ? $visitor->getLastUrlId() : 0,

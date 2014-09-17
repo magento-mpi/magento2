@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Bundle\Service\V1\Product\Link;
 
 use Magento\Catalog\Model\ProductRepository;
@@ -68,7 +67,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function addChild($productSku, $optionId, Data\ProductLink $linkedProduct)
+    public function addChild($productSku, $optionId, \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct)
     {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
@@ -104,7 +103,8 @@ class WriteService implements WriteServiceInterface
         }
         if ($selections) {
             foreach ($selections as $selection) {
-                if ($selection['option_id'] == $optionId && $selection['product_id'] == $linkProductModel->getId()) {
+                if ($selection['option_id'] = $optionId &&
+                    $selection['product_id'] == $linkProductModel->getId()) {
                     throw new CouldNotSaveException(
                         'Child with specified sku: "%1" already assigned to product: "%2"',
                         [$linkedProduct->getSku(), $productSku]
@@ -116,9 +116,9 @@ class WriteService implements WriteServiceInterface
         $selectionModel = $this->bundleSelection->create();
         $selectionModel->setOptionId($optionId)
             ->setPosition($linkedProduct->getPosition())
-            ->setSelectionQty($linkedProduct->getQuantity())
+            ->setSelectionQty($linkedProduct->getQty())
             ->setSelectionPriceType($linkedProduct->getPriceType())
-            ->setSelectionPriceValue($linkedProduct->getPriceValue())
+            ->setSelectionPriceValue($linkedProduct->getPrice())
             ->setSelectionCanChangeQty($linkedProduct->getCanChangeQuantity())
             ->setProductId($linkProductModel->getId())
             ->setParentProductId($product->getId())

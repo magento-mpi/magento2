@@ -10,7 +10,7 @@ namespace Magento\VersionsCms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
 /**
  * Class AssertCmsPageVersionInGrid
@@ -48,7 +48,7 @@ class AssertCmsPageVersionInGrid extends AssertCmsPageInitialVersionInGrid
         $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
-        $this->cmsNew->getPageForm()->openTab('versions');
+        $this->cmsNew->getPageVersionsForm()->openTab('versions');
         $this->searchVersion($cms, $results);
     }
 

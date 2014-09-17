@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertOrderStatusSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+        <require>
+            <orderStatusIndex class="Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex" />
+        </require>
+    </assertOrderStatusSuccessCreateMessage>
+    <assertOrderStatusInGrid module="Magento_Sales">
+        <severeness>high</severeness>
+        <require>
+            <orderStatusIndex class="Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex" />
+            <orderStatus class="Magento\Sales\Test\Fixture\OrderStatus" />
+        </require>
+    </assertOrderStatusInGrid>
+    <assertOrderStatusDuplicateStatus module="Magento_Sales">
+        <severeness>high</severeness>
+        <require>
+            <orderStatusNew class="Magento\Sales\Test\Page\Adminhtml\OrderStatusNew" />
+        </require>
+    </assertOrderStatusDuplicateStatus>
+    <assertOrderButtonsAvailable module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderButtonsAvailable>
+    <assertOrderGrandTotal module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderGrandTotal>
+    <assertOrderStatusIsCorrect module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderStatusIsCorrect>
+</constraint>

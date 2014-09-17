@@ -103,7 +103,7 @@ class Observer
     /**
      * Create Backup
      *
-     * @return \Magento\Log\Model\Cron
+     * @return $this
      */
     public function scheduledBackup()
     {

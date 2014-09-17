@@ -104,7 +104,7 @@ class Config extends \Magento\Framework\Object
      */
     public function getAccountPassword($storeId = null)
     {
-        return $this->_encryptor->decrypt($this->getConfigData('password', $storeId));
+        return $this->getConfigData('password', $storeId);
     }
 
     /**

@@ -207,19 +207,6 @@ class Observer
     }
 
     /**
-     * Modify expired quotes cleanup
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function modifyExpiredQuotesCleanup($observer)
-    {
-        /** @var $salesObserver \Magento\Sales\Model\Observer */
-        $salesObserver = $observer->getEvent()->getSalesObserver();
-        $salesObserver->setExpireQuotesAdditionalFilterFields(array('is_persistent' => 0));
-    }
-
-    /**
      * Apply persistent data
      *
      * @param EventObserver $observer

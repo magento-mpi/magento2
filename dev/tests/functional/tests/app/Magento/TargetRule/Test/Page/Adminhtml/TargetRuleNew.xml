@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/targetrule/new" >
-    <block>
-        <name>pageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>targetRuleForm</name>
-        <class>Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\TargetRuleForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/targetrule/new" module="Magento_TargetRule">
+    <blocks>
+        <pageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+        <targetRuleForm>
+            <class>Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\TargetRuleForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </targetRuleForm>
+    </blocks>
 </page>

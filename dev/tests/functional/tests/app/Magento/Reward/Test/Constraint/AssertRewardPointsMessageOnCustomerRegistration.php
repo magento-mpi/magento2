@@ -10,7 +10,7 @@ namespace Magento\Reward\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Reward\Test\Page\CustomerAccountCreate;
+use Magento\Customer\Test\Page\CustomerAccountCreate;
 
 /**
  * Class AssertRewardPointsMessageOnCustomerRegistration

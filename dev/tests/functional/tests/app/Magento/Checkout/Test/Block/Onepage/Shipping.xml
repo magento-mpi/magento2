@@ -15,7 +15,7 @@
         <email />
         <company />
         <street>
-            <selector>[id='shipping:street1']</selector>
+            <selector>[id='billing:street1']</selector>
         </street>
         <city />
         <region_id>

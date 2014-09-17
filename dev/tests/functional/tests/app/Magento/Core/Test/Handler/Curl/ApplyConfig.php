@@ -3,8 +3,8 @@
  * {license_notice}
  *
  * @spi
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Core\Test\Handler\Curl;

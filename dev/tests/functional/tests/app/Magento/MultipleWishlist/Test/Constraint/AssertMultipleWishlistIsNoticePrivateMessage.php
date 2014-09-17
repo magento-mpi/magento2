@@ -28,6 +28,6 @@ class AssertMultipleWishlistIsNoticePrivateMessage extends AbstractAssertMultipl
      */
     public function toString()
     {
-        return 'Private notice message is accept.';
+        return 'Private notice message is accepted.';
     }
 }

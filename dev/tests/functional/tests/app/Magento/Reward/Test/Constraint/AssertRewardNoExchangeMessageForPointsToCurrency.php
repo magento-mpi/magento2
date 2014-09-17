@@ -12,7 +12,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Magento\Reward\Test\Page\RewardCustomerInfo;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -37,7 +37,7 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param RewardCustomerInfo $rewardCustomerInfo
-     * @param Reward $reward
+     * @param RewardRate $rate
      * @return void
      */
     public function processAssert(
@@ -46,7 +46,7 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         RewardCustomerInfo $rewardCustomerInfo,
-        Reward $reward
+        RewardRate $rate
     ) {
         $cmsIndex->open();
         if ($cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
@@ -62,8 +62,8 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
 
         $expectedMessage = sprintf(
             'Each %d Reward points can be redeemed for $%s.',
-            $reward->getPointsDelta(),
-            $reward->getEqualValue()
+            $rate->getValue(),
+            $rate->getEqualValue()
         );
 
         \PHPUnit_Framework_Assert::assertFalse(

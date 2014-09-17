@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_TargetRule">
+    <targetRuleIndex>
+        <mca>admin/targetrule/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex</class>
+    </targetRuleIndex>
+    <targetRuleNew>
+        <mca>admin/targetrule/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew</class>
+    </targetRuleNew>
+    <targetRuleEdit>
+        <mca>admin/targetrule/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit</class>
+    </targetRuleEdit>
+</page>
