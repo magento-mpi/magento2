@@ -26,26 +26,18 @@ class RmaRead implements RmaReadInterface
     private $rmaSearchResultsBuilder;
 
     /**
-     * @var Data\TrackBuilder
-     */
-    private $trackBuilder;
-
-    /**
      * @param \Magento\Rma\Model\RmaRepository $repository
      * @param Data\RmaMapper $rmaMapper
      * @param Data\RmaSearchResultsBuilder $rmaSearchResultsBuilder
-     * @param Data\TrackBuilder $trackBuilder
      */
     public function __construct(
         \Magento\Rma\Model\RmaRepository $repository,
         Data\RmaMapper $rmaMapper,
-        Data\RmaSearchResultsBuilder $rmaSearchResultsBuilder,
-        Data\TrackBuilder $trackBuilder
+        Data\RmaSearchResultsBuilder $rmaSearchResultsBuilder
     ) {
         $this->repository = $repository;
         $this->rmaMapper = $rmaMapper;
         $this->rmaSearchResultsBuilder = $rmaSearchResultsBuilder;
-        $this->trackBuilder = $trackBuilder;
     }
 
     /**
@@ -77,22 +69,5 @@ class RmaRead implements RmaReadInterface
             ->setTotalCount(count($rmaList))
             ->setSearchCriteria($searchCriteria)
             ->create();
-    }
-
-    /**
-     * Return list of track data objects based on search criteria
-     *
-     * @param int $id
-     * @return \Magento\Rma\Service\V1\Data\Track[]
-     */
-    public function getTracks($id)
-    {
-        $rmaModel = $this->repository->get($id);
-        $tracks = [];
-        foreach ($rmaModel->getTrackingNumbers() as $track) {
-            $this->trackBuilder->populateWithArray($track->getData());
-            $tracks[] = $this->trackBuilder->create();
-        }
-        return $tracks;
     }
 }

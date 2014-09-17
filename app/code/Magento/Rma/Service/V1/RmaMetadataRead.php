@@ -12,6 +12,7 @@ use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataConverter;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\Config\MetadataConfig;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 
 class RmaMetadataRead implements RmaMetadataReadInterface
 {
@@ -131,7 +132,7 @@ class RmaMetadataRead implements RmaMetadataReadInterface
         }
         foreach ($this->getAllAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
-            $camelCaseKey = \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $camelCaseKey = SimpleDataObjectConverter::snakeCaseToUpperCamelCase($attributeCode);
             $isDataObjectMethod = isset($this->dataObjectMethods['get' . $camelCaseKey])
                 || isset($this->dataObjectMethods['is' . $camelCaseKey]);
 

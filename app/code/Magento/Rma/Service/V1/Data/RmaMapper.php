@@ -9,7 +9,7 @@
 namespace Magento\Rma\Service\V1\Data;
 
 use Magento\Rma\Service\V1\CommentReadInterface;
-use Magento\Rma\Service\V1\RmaReadInterface;
+use Magento\Rma\Service\V1\TrackReadInterface;
 
 class RmaMapper
 {
@@ -24,9 +24,9 @@ class RmaMapper
     private $itemMapper;
 
     /**
-     * @var RmaReadInterface
+     * @var \Magento\Rma\Service\V1\TrackReadInterface
      */
-    private $rmaReadService;
+    private $trackReadService;
 
     /**
      * @var \Magento\Rma\Service\V1\CommentReadInterface
@@ -36,18 +36,18 @@ class RmaMapper
     /**
      * @param RmaBuilder $rmaBuilder
      * @param ItemMapper $itemMapper
-     * @param RmaReadInterface $rmaReadService
+     * @param TrackReadInterface $trackReadService
      * @param CommentReadInterface $commentReadService
      */
     public function __construct(
         RmaBuilder $rmaBuilder,
         ItemMapper $itemMapper,
-        RmaReadInterface $rmaReadService,
+        TrackReadInterface $trackReadService,
         CommentReadInterface $commentReadService
     ) {
         $this->rmaBuilder = $rmaBuilder;
         $this->itemMapper = $itemMapper;
-        $this->rmaReadService = $rmaReadService;
+        $this->trackReadService = $trackReadService;
         $this->commentReadService = $commentReadService;
     }
 
@@ -88,7 +88,7 @@ class RmaMapper
         $this->rmaBuilder->populateWithArray($rmaModel->getData());
         $this->rmaBuilder->setItems($this->getMappedItems($rmaModel->getItemsForDisplay()));
         $this->rmaBuilder->setComments($this->getMappedComments($rmaModel->getId()));
-        $this->rmaBuilder->setTracks($this->getMappedTracks($this->rmaReadService->getTracks($rmaModel->getId())));
+        $this->rmaBuilder->setTracks($this->trackReadService->getTracks($rmaModel->getId()));
         return $this->rmaBuilder->create();
     }
 }

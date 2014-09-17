@@ -50,10 +50,10 @@ class CommentWrite implements CommentWriteInterface
         $this->statusHistory->setComment($comment)
             ->setRma($this->rmaRepository->get($id));
 
-        if ($data->getIsCustomerNotified()) {
+        if ($data->isCustomerNotified()) {
             $this->statusHistory->sendCustomerCommentEmail();
         }
-        $this->statusHistory->saveComment($data->getComment(), $data->getIsVisibleOnFront(), true);
+        $this->statusHistory->saveComment($data->getComment(), $data->isVisibleOnFront(), true);
         return true;
     }
 }

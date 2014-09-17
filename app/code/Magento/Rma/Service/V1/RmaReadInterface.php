@@ -25,12 +25,4 @@ interface RmaReadInterface
      * @return \Magento\Rma\Service\V1\Data\RmaSearchResults
      */
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
-
-    /**
-     * Return list of track data objects based on search criteria
-     *
-     * @param int $id
-     * @return \Magento\Rma\Service\V1\Data\Track[]
-     */
-    public function getTracks($id);
 }

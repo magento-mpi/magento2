@@ -11,6 +11,8 @@
     <preference for="Magento\Rma\Service\V1\RmaWriteInterface" type="Magento\Rma\Service\V1\RmaWrite"/>
     <preference for="Magento\Rma\Service\V1\CommentWriteInterface" type="Magento\Rma\Service\V1\CommentWrite"/>
     <preference for="Magento\Rma\Service\V1\CommentReadInterface" type="Magento\Rma\Service\V1\CommentRead"/>
+    <preference for="Magento\Rma\Service\V1\TrackWriteInterface" type="Magento\Rma\Service\V1\TrackWrite"/>
+    <preference for="Magento\Rma\Service\V1\TrackReadInterface" type="Magento\Rma\Service\V1\TrackRead"/>
     <preference for="Magento\Rma\Service\V1\RmaReadInterface" type="Magento\Rma\Service\V1\RmaRead"/>
     <preference for="Magento\Rma\Service\V1\RmaMetadataReadInterface" type="Magento\Rma\Service\V1\RmaMetadataRead"/>
     <type name="Magento\Rma\Helper\Data">

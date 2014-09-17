@@ -18,12 +18,12 @@ class RmaStatusHistory extends DataObject
      * Data object properties
      */
     const ENTITY_ID = 'entity_id';
-    const IS_CUSTOMER_NOTIFIED = 'is_customer_notified';
-    const IS_VISIBLE_ON_FRONT = 'is_visible_on_front';
+    const CUSTOMER_NOTIFIED = 'customer_notified';
+    const VISIBLE_ON_FRONT = 'visible_on_front';
     const COMMENT = 'comment';
     const STATUS = 'status';
     const CREATED_AT = 'created_at';
-    const IS_ADMIN = 'is_admin';
+    const ADMIN = 'admin';
 
     /**
      * Returns comment
@@ -60,9 +60,9 @@ class RmaStatusHistory extends DataObject
      *
      * @return bool
      */
-    public function getIsCustomerNotified()
+    public function isCustomerNotified()
     {
-        return $this->_get(self::IS_CUSTOMER_NOTIFIED);
+        return $this->_get(self::CUSTOMER_NOTIFIED);
     }
 
     /**
@@ -70,9 +70,9 @@ class RmaStatusHistory extends DataObject
      *
      * @return bool
      */
-    public function getIsVisibleOnFront()
+    public function isVisibleOnFront()
     {
-        return $this->_get(self::IS_VISIBLE_ON_FRONT);
+        return $this->_get(self::VISIBLE_ON_FRONT);
     }
 
     /**
@@ -90,8 +90,8 @@ class RmaStatusHistory extends DataObject
      *
      * @return bool
      */
-    public function getIsAdmin()
+    public function isAdmin()
     {
-        return $this->_get(self::IS_ADMIN);
+        return $this->_get(self::ADMIN);
     }
 }
