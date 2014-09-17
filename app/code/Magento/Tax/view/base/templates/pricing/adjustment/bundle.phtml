@@ -11,7 +11,7 @@
 <?php if ($this->displayPriceIncludingTax()): ?>
     <?php echo $this->getDisplayAmount() ?>
 <?php elseif ($this->displayPriceExcludingTax()): ?>
-    <?php echo $this->getDisplayAmountExclTax() ?><
+    <?php echo $this->getDisplayAmountExclTax() ?>
 <?php elseif ($this->displayBothPrices()): ?>
     <?php echo $this->getDisplayAmount() ?>
     <?php if ($this->getDisplayAmountExclTax() !== $this->getDisplayAmount()): ?>

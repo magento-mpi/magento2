@@ -13,12 +13,6 @@
     .subtotal {
         border-top: 1px solid @color-secondary;
         padding-top: 10px;
-        .amount {
-            font-size: @font-size-xl;
-            .incl.tax {
-                display: block;
-            }
-        }
     }
     .subtitle {
         .heading(h3);
@@ -165,57 +159,11 @@
         padding-left: 88px;
     }
 
-    .product-item-pricing {
-        display: table;
-    }
-
-    .price-box {
-        display: table-row;
-        margin: 0;
-    }
-
-    .price-minicart,
-    .price-including-tax,
-    .price-excluding-tax,
-    .details-qty,
-    .details-map {
-        display: table-row;
-    }
-
-    .price-minicart,
-    .price-including-tax,
-    .price-excluding-tax {
-        .price {
-            .font-size(14);
-            font-weight: @font-weight-semibold;
-        }
-    }
-
-    .price-including-tax,
-    .price-excluding-tax {
-    .font-size(14);
-        &:before {
-            display: none;
-        }
-    }
-
-    .price-including-tax + .price-excluding-tax .price {
-        .font-size(14);
-    }
-
-    .label {
-        display: table-cell;
-        &:after {
+    .details-qty {
+        .label:after {
             content: ":";
         }
     }
-
-    .value,
-    .price {
-        display: table-cell;
-        padding-left: 15px;
-    }
-
     .action {
          &.edit,
          &.delete {

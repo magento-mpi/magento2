@@ -376,12 +376,12 @@
 //
 //    Box-sizing
 //--------------------------------------
-.add-box-sizing {
+.abstract-add-box-sizing {
     .box-sizing();
 }
 
 .responsive(@break) when (@break = @screen-m) {
-    .add-box-sizing-desktop {
+    .abstract-add-box-sizing-desktop {
         .box-sizing();
     }
 }
@@ -716,6 +716,7 @@
 .abstract-incl-excl-tax {
     .price-including-tax,
     .price-excluding-tax {
+        white-space: nowrap;
         color: @cart-price-color;
         display: block;
         .font-size(18);
@@ -864,7 +865,7 @@
         @_icon-font-size: 10px,
         @_icon-font-line-height: 10px,
         @_icon-font-vertical-align: middle
-    ); 
+    );
 }
 .responsive-smaller(@break) when (@break = @screen-m) {
     .abstract-icon-add-mobile {
@@ -875,7 +876,7 @@
             @_icon-font-vertical-align: middle,
             @_icon-font-margin: 0 5px 0 0,
             @_icon-font-display: block
-        ); 
+        );
     }
 }
 //

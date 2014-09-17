@@ -18,7 +18,7 @@
     .field select {
         max-width: none;
     }
-    &:extend(.add-box-sizing all);
+    &:extend(.abstract-add-box-sizing all);
     > .opc {
         &:extend(.reset-list all);
     }
@@ -359,7 +359,7 @@
     &.order-review-step {
         display: block;
     }
-    &:extend(.add-box-sizing all);
+    &:extend(.abstract-add-box-sizing all);
     > .title {
         background: @sidebar-background;
         .font-size(18);
@@ -456,7 +456,7 @@
     .checkout-onepage-index {
         .nav-toggle {
             display: none;
-        } 
+        }
         .logo {
             margin-left: 0;
         }
@@ -513,7 +513,7 @@
 
     .opc-wrapper {
         .layout-column(2, 2, @layout-column-checkout-main-width);
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
         .step-content {
             &:extend(.form-field-column-2 all);
 
@@ -608,7 +608,7 @@
 
     .opc-block-progress-wrapper {
         .layout-column(2, 1, @layout-column-checkout-left-width);
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
         padding-right: @layout-column-main-sidebar-offset;
         margin-top: 0;
     }

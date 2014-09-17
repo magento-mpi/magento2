@@ -72,8 +72,7 @@ $product = $this->getSaleableItem();
                     );
                 ?><?php echo __('each') ?>
                 <?php if ($this->getShowDetailedPrice() !== false): ?>
-                    <?php echo __('and') ?>&nbsp;<strong class="benefit">
-                        <?php echo __('save')?>
+                    <?php echo __('and') ?>&nbsp;<strong class="benefit"><?php echo __('save')?>
                         <span class="percent tier-<?php echo $index ?>"><?php echo $tierPriceModel->getSavePercent($price['price']) ?></span>%
                     </strong>
                 <?php endif ?>
@@ -89,7 +88,7 @@ $product = $this->getSaleableItem();
                 inputQty: '#qty',
                 productForm: '#product_addtocart_form'
             });
-                
+
         });
 </script>
     <?php endif;?>

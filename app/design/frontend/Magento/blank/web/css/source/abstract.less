@@ -292,7 +292,7 @@
 .responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-visually-hidden-mobile {
         .visually-hidden();
-    } 
+    }
 }
 
 .responsive-smaller(@break) when (@break = @screen-m) {
@@ -476,6 +476,7 @@
     .price-including-tax,
     .price-excluding-tax,
     .weee {
+        white-space: nowrap;
         display: inline-block;
         .font-size(14);
     }
@@ -543,7 +544,7 @@
         @_icon-font-size: 10px,
         @_icon-font-line-height: 10px,
         @_icon-font-vertical-align: middle
-    ); 
+    );
 }
 
 .responsive-smaller(@break) when (@break = @screen-m) {
@@ -555,7 +556,7 @@
             @_icon-font-vertical-align: middle,
             @_icon-font-margin: 0 5px 0 0,
             @_icon-font-display: block
-        ); 
+        );
     }
 }
 

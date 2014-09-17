@@ -18,6 +18,23 @@
 .old.price {
     //text-decoration: line-through;
 }
+.price-tier_price {
+    .price-including-tax + .price-excluding-tax {
+        &:before {
+            content: "(" attr(data-label) ":";
+        }
+        &:last-child:after {
+            content: ")";
+        }
+    }
+
+    .weee[data-label] {
+        display: inline;
+        &:before {
+            content: " +" attr(data-label) ":";
+        }
+    }
+}
 
 .actual-price {
     font-weight: @font-weight-bold;
