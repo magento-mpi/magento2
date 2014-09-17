@@ -705,32 +705,32 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *  )
      * )
      *
-     * @param \Magento\Sales\Model\Order $source
+     * @param \Magento\Sales\Model\Order|\Magento\Sales\Model\Order\Invoice|\Magento\Sales\Model\Order\Creditmemo $source
      * @return array
      */
     public function getCalculatedTaxes($source)
     {
-        if ($this->_coreRegistry->registry('current_invoice')) {
-            $current = $this->_coreRegistry->registry('current_invoice');
-        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
-            $current = $this->_coreRegistry->registry('current_creditmemo');
-        } else {
-            $current = $source;
+        $taxClassAmount = [];
+        if (empty($source)) {
+            return $taxClassAmount;
         }
-
-        $taxClassAmount = array();
-        if ($current && $source) {
-            if ($current == $source) {
-                $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($current->getId());
-                $appliedTaxes = $orderTaxDetails->getAppliedTaxes();
-                foreach ($appliedTaxes as $appliedTax) {
-                    $taxCode = $appliedTax->getCode();
-                    $taxClassAmount[$taxCode]['tax_amount'] = $appliedTax->getAmount();
-                    $taxClassAmount[$taxCode]['base_tax_amount'] = $appliedTax->getBaseAmount();
-                    $taxClassAmount[$taxCode]['title'] = $appliedTax->getTitle();
-                    $taxClassAmount[$taxCode]['percent'] = $appliedTax->getPercent();
-                }
-            } else {
+        $current = $source;
+        if ($source instanceof \Magento\Sales\Model\Order\Invoice
+            || $source instanceof \Magento\Sales\Model\Order\Creditmemo
+        ) {
+            $source = $current->getOrder();
+        }
+        if ($current == $source) {
+            $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($current->getId());
+            $appliedTaxes = $orderTaxDetails->getAppliedTaxes();
+            foreach ($appliedTaxes as $appliedTax) {
+                $taxCode = $appliedTax->getCode();
+                $taxClassAmount[$taxCode]['tax_amount'] = $appliedTax->getAmount();
+                $taxClassAmount[$taxCode]['base_tax_amount'] = $appliedTax->getBaseAmount();
+                $taxClassAmount[$taxCode]['title'] = $appliedTax->getTitle();
+                $taxClassAmount[$taxCode]['percent'] = $appliedTax->getPercent();
+            }
+        } else {
                 $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($source->getId());
 
                 // Apply any taxes for shipping
@@ -783,7 +783,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             $taxClassAmount = array_values($taxClassAmount);
-        }
+        
 
         return $taxClassAmount;
     }
