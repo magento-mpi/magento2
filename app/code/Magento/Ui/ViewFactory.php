@@ -24,6 +24,12 @@ class ViewFactory
      */
     protected $views = [];
 
+    /**
+     * Constructor
+     *
+     * @param ConfigInterface $config
+     * @param ObjectManager $objectManager
+     */
     public function __construct(ConfigInterface $config, ObjectManager $objectManager)
     {
         $this->config = $config;
@@ -31,6 +37,8 @@ class ViewFactory
     }
 
     /**
+     * Get view element
+     *
      * @param string $name
      * @return ViewInterface
      * @throws \InvalidArgumentException
@@ -40,14 +48,13 @@ class ViewFactory
         if (!isset($this->views[$name])) {
             $viewConfig = $this->config->getValue('elements/' . $name, []);
             $class = isset($viewConfig['class']) ? $viewConfig['class'] : self::DEFAULT_VIEW . '_' . $name;
-            $view = $this->objectManager->create($class, [
-                    'data'=> $viewConfig
-                ]);
-            if (!$view instanceof ViewInterface) {
+            $view = $this->objectManager->create($class, ['data'=> $viewConfig]);
+            if (!($view instanceof ViewInterface)) {
                 throw new \InvalidArgumentException('Invalid view class: ' . $class);
             }
             $this->views[$name] = $view;
         }
+
         return $this->views[$name];
     }
 }

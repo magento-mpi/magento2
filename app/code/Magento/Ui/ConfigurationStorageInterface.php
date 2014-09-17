@@ -139,7 +139,7 @@ interface ConfigurationStorageInterface
      * @param array $data
      * @return void
      */
-    public function addCloudData($key, array $data);
+    public function addGlobalData($key, array $data);
 
     /**
      * Remove cloud data in storage
@@ -147,7 +147,7 @@ interface ConfigurationStorageInterface
      * @param string $key
      * @return void
      */
-    public function removeCloudData($key);
+    public function removeGlobalData($key);
 
     /**
      * Get cloud data from storage
@@ -155,5 +155,5 @@ interface ConfigurationStorageInterface
      * @param string|null $key
      * @return array|null
      */
-    public function getCloudData($key = null);
+    public function getGlobalData($key = null);
 }

@@ -15,7 +15,17 @@ use Magento\Ui\ViewInterface;
  */
 interface DataTypeInterface extends ViewInterface
 {
+    /**
+     * Validate data
+     *
+     * @return bool
+     */
     public function validate();
 
+    /**
+     * Get data object value
+     *
+     * @return mixed
+     */
     public function getDataObjectValue();
 }

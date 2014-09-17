@@ -46,8 +46,9 @@ class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
             $result['data'] = $storage->getData();
         }
 
-        $result['config'] += $storage->getCloudData();
+        $result['config'] += $storage->getGlobalData();
         $result['dump']['extenders'] = [];
+
         return json_encode($result);
     }
 }

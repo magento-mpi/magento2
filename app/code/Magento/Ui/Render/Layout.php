@@ -13,6 +13,7 @@ use Magento\Framework\View\LayoutInterface;
 
 /**
  * UI library render's layout model
+ * Class Layout
  */
 class Layout
 {

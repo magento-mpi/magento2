@@ -12,6 +12,9 @@ namespace Magento\Ui\FormElement;
  */
 class Radio extends AbstractFormElement
 {
+    /**
+     * @return bool
+     */
     public function getChecked()
     {
         return false;

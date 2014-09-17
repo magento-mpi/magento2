@@ -209,7 +209,7 @@ class View extends AbstractView
     protected function initialConfiguration()
     {
 
-        $this->renderContext->getStorage()->addCloudData(
+        $this->renderContext->getStorage()->addGlobalData(
             'client',
             [
                 'root' => $this->getUrl($this->getData('client_root')),
@@ -220,7 +220,7 @@ class View extends AbstractView
                 ]
             ]
         );
-        $this->renderContext->getStorage()->addCloudData('dump', ['extenders' => []]);
+        $this->renderContext->getStorage()->addGlobalData('dump', ['extenders' => []]);
 
         $countItems = $this->renderContext->getStorage()->getDataCollection($this->getName())->getSize();
         $this->renderContext->getStorage()->addData(

@@ -12,6 +12,9 @@ namespace Magento\Ui\FormElement;
  */
 class Input extends AbstractFormElement
 {
+    /**
+     * @return mixed|string
+     */
     public function getType()
     {
         return $this->getData('input_type') ? $this->getData('input_type') : 'text';

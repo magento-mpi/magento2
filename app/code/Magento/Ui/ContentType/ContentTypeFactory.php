@@ -14,9 +14,14 @@ use Magento\Framework\ObjectManager;
  */
 class ContentTypeFactory
 {
+    /**
+     * Default content type
+     */
     const DEFAULT_TYPE = 'Magento\Ui\ContentType\Html';
 
     /**
+     * Content types
+     *
      * @var array
      */
     protected $types = [
@@ -26,11 +31,15 @@ class ContentTypeFactory
     ];
 
     /**
+     * Object manager
+     *
      * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
     /**
+     * Constructor
+     *
      * @param ObjectManager $objectManager
      * @param array $types
      */
@@ -41,6 +50,8 @@ class ContentTypeFactory
     }
 
     /**
+     * Get content type object instance
+     *
      * @param string $type
      * @return ContentTypeInterface
      * @throws \InvalidArgumentException
@@ -52,6 +63,7 @@ class ContentTypeFactory
         if (!$contentRender instanceof ContentTypeInterface) {
             throw new \InvalidArgumentException(sprintf("Wrong render for '%s' content type", $type));
         }
+
         return $contentRender;
     }
 }

@@ -242,7 +242,7 @@ class ConfigurationStorage implements ConfigurationStorageInterface
      * @param array $data
      * @return void
      */
-    public function addCloudData($key, array $data)
+    public function addGlobalData($key, array $data)
     {
         if (!isset($this->cloudDataStorage[$key])) {
             $this->cloudDataStorage[$key] = $data;
@@ -255,7 +255,7 @@ class ConfigurationStorage implements ConfigurationStorageInterface
      * @param string $key
      * @return void
      */
-    public function removeCloudData($key)
+    public function removeGlobalData($key)
     {
         unset($this->cloudDataStorage[$key]);
     }
@@ -266,7 +266,7 @@ class ConfigurationStorage implements ConfigurationStorageInterface
      * @param string|null $key
      * @return array|null
      */
-    public function getCloudData($key = null)
+    public function getGlobalData($key = null)
     {
         if ($key === null) {
             return $this->cloudDataStorage;

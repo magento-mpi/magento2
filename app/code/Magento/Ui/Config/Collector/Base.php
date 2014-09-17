@@ -5,16 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ui\Config\Collector;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\View\File\Factory;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 /**
  * Class Base
- * @package Magento\Ui\Config\Collector
  */
 class Base implements CollectorInterface
 {
@@ -46,14 +44,11 @@ class Base implements CollectorInterface
      * @param Factory $fileFactory
      * @param string $subDir
      */
-    public function __construct(
-        Filesystem $filesystem,
-        Factory $fileFactory,
-        $subDir = ''
-    ) {
+    public function __construct(Filesystem $filesystem, Factory $fileFactory, $subDir = '')
+    {
         $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
         $this->fileFactory = $fileFactory;
-        $this->subDir = $subDir ? $subDir . '/' : '';
+        $this->subDir = $subDir !== '' ? $subDir . '/' : '';
     }
 
     /**
@@ -66,7 +61,7 @@ class Base implements CollectorInterface
     {
         $result = [];
         $files = $this->modulesDirectory->search("*/*/view/base/{$this->subDir}{$filePath}");
-        $filePathPtn = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
+        $filePathPtn = strtr(preg_quote($filePath), ['\*' => '[^/]+']);
         $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/base/{$this->subDir}{$filePathPtn}$#i";
         foreach ($files as $file) {
             $filename = $this->modulesDirectory->getAbsolutePath($file);
@@ -76,6 +71,7 @@ class Base implements CollectorInterface
             $moduleFull = "{$matches['namespace']}_{$matches['module']}";
             $result[] = $this->fileFactory->create($filename, $moduleFull, null, true);
         }
+
         return $result;
     }
 }

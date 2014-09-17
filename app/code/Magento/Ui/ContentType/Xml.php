@@ -10,7 +10,6 @@ namespace Magento\Ui\ContentType;
 use Magento\Ui\ViewInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;
-use Magento\Framework\Object;
 use Magento\Framework\Xml\Generator;
 
 /**
@@ -46,6 +45,8 @@ class Xml implements ContentTypeInterface
     }
 
     /**
+     * Render data
+     *
      * @param ViewInterface $view
      * @param string $template
      * @return string
@@ -91,11 +92,13 @@ class Xml implements ContentTypeInterface
     }
 
     /**
-     * @param Object $object
+     * Convert object to xml format
+     *
+     * @param \Magento\Framework\Object $object
      * @return string
      */
-    protected function objectToXml(Object $object)
+    protected function objectToXml(\Magento\Framework\Object $object)
     {
-        return '[object]';
+        return (string)$object;
     }
 }

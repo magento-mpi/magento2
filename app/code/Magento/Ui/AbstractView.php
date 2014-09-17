@@ -118,10 +118,8 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function render()
     {
-        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())->render(
-            $this,
-            $this->getContentTemplate()
-        );
+        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())
+            ->render($this, $this->getContentTemplate());
 
         return $result;
     }
@@ -144,6 +142,8 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
+     * Render element
+     *
      * @param $elementName
      * @param array $arguments
      * @return mixed|string
@@ -217,6 +217,8 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
+     * Get parent component
+     *
      * @return bool|ViewInterface
      */
     protected function getParentComponent()

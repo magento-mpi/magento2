@@ -15,7 +15,6 @@ use Magento\Ui\Config\Collector\CollectorInterface;
 
 /**
  * Class FileResolver
- * @package Magento\Ui\Config
  */
 class FileResolver implements FileResolverInterface
 {

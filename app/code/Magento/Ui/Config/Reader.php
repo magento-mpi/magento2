@@ -11,7 +11,6 @@ use Magento\Framework\Config\Reader\Filesystem;
 
 /**
  * Class Reader
- * @package Magento\Ui\Config
  */
 class Reader extends Filesystem
 {
@@ -23,10 +22,10 @@ class Reader extends Filesystem
     /**
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/elements/element' => 'name',
         '/config/elements/element/settings/setting' => 'name'
-    );
+    ];
 
     /**
      * Read configuration files
@@ -52,24 +51,28 @@ class Reader extends Filesystem
             }
         }
         if ($this->_isValidated) {
-            $errors = array();
+            $errors = [];
             if ($configMerger && !$configMerger->validate($this->_schemaFile, $errors)) {
                 $message = "Invalid Document \n";
                 throw new \Magento\Framework\Exception($message . implode("\n", $errors));
             }
         }
 
-        $output = array();
+        $output = [];
         if ($configMerger) {
             $output = $this->_converter->convert($configMerger->getDom());
         }
+
         return $output;
     }
 
     /**
      * Create and return a config merger instance that takes into account types of arguments
      *
-     * {@inheritdoc}
+     * @param string $mergerClass
+     * @param string $initialContents
+     * @return \Magento\Framework\Config\Dom
+     * @throws \UnexpectedValueException
      */
     protected function _createConfigMerger($mergerClass, $initialContents)
     {

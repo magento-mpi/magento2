@@ -28,6 +28,8 @@ class Json implements ContentTypeInterface
     protected $templateEnginePool;
 
     /**
+     * Constructor
+     *
      * @param FileSystem $filesystem
      * @param TemplateEnginePool $templateEnginePool
      */
@@ -38,6 +40,8 @@ class Json implements ContentTypeInterface
     }
 
     /**
+     * Render data
+     *
      * @param ViewInterface $view
      * @param string $template
      * @return string

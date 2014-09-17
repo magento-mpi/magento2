@@ -7,8 +7,8 @@
  */
 namespace Magento\Ui\DataType;
 
-use Magento\Framework\Object as DataObject;
 use Magento\Ui\AbstractView;
+use Magento\Framework\Object as DataObject;
 
 /**
  * Class AbstractDataType

@@ -8,13 +8,14 @@
 namespace Magento\Ui\Config\Dom;
 
 /**
- * Class NodeMergingConfig
  * Configuration of identifier attributes to be taken into account during merging
- * @package Magento\Ui\Config\Dom
+ * Class NodeMergingConfig
  */
 class NodeMergingConfig
 {
     /**
+     * Node path matcher
+     *
      * @var NodePathMatcher
      */
     private $nodePathMatcher;
@@ -52,6 +53,7 @@ class NodeMergingConfig
                 return $idAttribute;
             }
         }
+
         return isset($this->idAttributes['*']) ? $this->idAttributes['*'] : null;
     }
 }

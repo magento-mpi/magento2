@@ -27,6 +27,8 @@ class Html implements ContentTypeInterface
     protected $templateEnginePool;
 
     /**
+     * Constructor
+     *
      * @param FileSystem $filesystem
      * @param TemplateEnginePool $templateEnginePool
      */
@@ -37,6 +39,8 @@ class Html implements ContentTypeInterface
     }
 
     /**
+     * Render data
+     *
      * @param ViewInterface $view
      * @param string $template
      * @return string

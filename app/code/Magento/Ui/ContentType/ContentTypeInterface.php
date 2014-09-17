@@ -15,6 +15,8 @@ use Magento\Ui\ViewInterface;
 interface ContentTypeInterface
 {
     /**
+     * Render data
+     *
      * @param ViewInterface $view
      * @param string $template
      * @return mixed

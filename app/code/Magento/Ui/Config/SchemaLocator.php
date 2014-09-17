@@ -11,7 +11,6 @@ use Magento\Framework\Config\SchemaLocatorInterface;
 
 /**
  * Class SchemaLocator
- * @package Magento\Ui\Config
  */
 class SchemaLocator implements SchemaLocatorInterface
 {

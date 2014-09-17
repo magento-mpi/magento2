@@ -9,18 +9,18 @@
 namespace Magento\Ui\Config\Collector;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Framework\Filesystem\Directory\ReadInterface;
-use Magento\Framework\View\DesignInterface;
-use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\View\File\Factory;
+use Magento\Framework\View\DesignInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 /**
  * Class Theme
- * @package Magento\Ui\Config\Collector
  */
 class Theme implements CollectorInterface
 {
     /**
+     * Theme
+     *
      * @var \Magento\Core\Model\Theme
      */
     protected $theme;
@@ -54,16 +54,12 @@ class Theme implements CollectorInterface
      * @param Factory $fileFactory
      * @param string $subDir
      */
-    public function __construct(
-        Filesystem $filesystem,
-        DesignInterface $design,
-        Factory $fileFactory,
-        $subDir = ''
-    ) {
+    public function __construct(Filesystem $filesystem, DesignInterface $design, Factory $fileFactory, $subDir = '')
+    {
         $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
         $this->theme = $design->getDesignTheme();
         $this->fileFactory = $fileFactory;
-        $this->subDir = $subDir ? $subDir . '/' : '';
+        $this->subDir = $subDir !== '' ? $subDir . '/' : '';
     }
 
     /**
@@ -76,7 +72,7 @@ class Theme implements CollectorInterface
     {
         $themePath = $this->theme->getFullPath();
         $files = $this->themesDirectory->search("{$themePath}/{$this->subDir}{$filePath}");
-        $result = array();
+        $result = [];
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             $result[] = $this->fileFactory->create($filename, null, $this->theme);

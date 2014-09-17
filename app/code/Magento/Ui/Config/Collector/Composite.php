@@ -11,7 +11,6 @@ use Magento\Framework\View\File\FileList\Factory;
 
 /**
  * Class Composite
- * @package Magento\Ui\Config\Collector
  */
 class Composite implements CollectorInterface
 {
@@ -37,15 +36,14 @@ class Composite implements CollectorInterface
     protected $themeFiles;
 
     /**
+     * Constructor
+     *
      * @param Factory $fileListFactory
      * @param Base $baseFiles
      * @param Theme $themeFiles
      */
-    public function __construct(
-        Factory $fileListFactory,
-        Base $baseFiles,
-        Theme $themeFiles
-    ) {
+    public function __construct(Factory $fileListFactory, Base $baseFiles, Theme $themeFiles)
+    {
         $this->fileListFactory = $fileListFactory;
         $this->baseFiles = $baseFiles;
         $this->themeFiles = $themeFiles;
@@ -53,7 +51,6 @@ class Composite implements CollectorInterface
 
     /**
      * Retrieve files
-     *
      * Aggregate configuration files from all appropriate locations
      *
      * @param string $filePath
@@ -64,6 +61,7 @@ class Composite implements CollectorInterface
         $list = $this->fileListFactory->create();
         $list->add($this->baseFiles->getFiles($filePath));
         $list->add($this->themeFiles->getFiles($filePath));
+
         return $list->getAll();
     }
 }

@@ -9,6 +9,9 @@
  */
 namespace Magento\Ui;
 
+/**
+ * Interface ConfigInterface
+ */
 interface ConfigInterface
 {
     /**

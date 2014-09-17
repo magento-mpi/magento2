@@ -8,9 +8,8 @@
 namespace Magento\Ui\Config\Dom;
 
 /**
- * Class NodePathMatcher
  * Matching of XPath expressions to path patterns
- * @package Magento\Ui\Config\Dom
+ * Class NodePathMatcher
  */
 class NodePathMatcher
 {
@@ -24,7 +23,8 @@ class NodePathMatcher
     public function match($pathPattern, $xpathSubject)
     {
         $pathSubject = $this->simplifyXpath($xpathSubject);
-        $pathPattern = '#^' . $pathPattern . '$#';
+        $pathPattern = '#^' . preg_quote($pathPattern) . '$#';
+
         return (bool)preg_match($pathPattern, $pathSubject);
     }
 
@@ -39,6 +39,7 @@ class NodePathMatcher
         $result = $xpath;
         $result = preg_replace('/\[@[^\]]+?\]/', '', $result);
         $result = preg_replace('/\/[^:]+?\:/', '/', $result);
+
         return $result;
     }
 }

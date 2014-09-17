@@ -8,7 +8,6 @@
 namespace Magento\Ui\Paging;
 
 use Magento\Ui\AbstractView;
-use Magento\Ui\Configuration;
 
 /**
  * Class View
@@ -31,10 +30,12 @@ class View extends AbstractView
         }
 
         $this->rootComponent = $this->getParentComponent();
-        $this->configuration = new Configuration(
-            $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
-            $this->rootComponent->getName(),
-            $config
+        $this->configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->rootComponent->getName(),
+                'configuration' => $config
+            ]
         );
 
         $this->renderContext->getStorage()->addComponentsData($this->configuration);

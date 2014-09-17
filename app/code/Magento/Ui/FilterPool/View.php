@@ -8,8 +8,8 @@
 namespace Magento\Ui\FilterPool;
 
 use Magento\Ui\Context;
-use Magento\Ui\AbstractView;
 use Magento\Ui\ViewFactory;
+use Magento\Ui\AbstractView;
 use Magento\Ui\ViewInterface;
 use Magento\Backend\Helper\Data;
 use Magento\Ui\Filter\FilterPool;
@@ -125,6 +125,8 @@ class View extends AbstractView
     }
 
     /**
+     * Get list of required filters
+     *
      * @return array
      */
     protected function getListOfRequiredFilters()
@@ -133,10 +135,13 @@ class View extends AbstractView
         foreach ($this->getFields() as $field) {
             $result[] = isset($field['filter_type']) ? $field['filter_type'] : $field['input_type'];
         }
+
         return $result;
     }
 
     /**
+     * Get fields
+     *
      * @return array
      */
     public function getFields()
@@ -146,7 +151,7 @@ class View extends AbstractView
         $fields = [];
         if (isset($meta['fields'])) {
             foreach ($meta['fields'] as $name => $config) {
-                if (isset($config['filterable']) && $config['filterable'] == false) {
+                if (isset($config['filterable']) && $config['filterable'] === false) {
                     continue;
                 }
                 $fields[$name] = $config;
@@ -156,6 +161,8 @@ class View extends AbstractView
     }
 
     /**
+     * Get active filters
+     *
      * @return array
      */
     public function getActiveFilters()

@@ -7,13 +7,12 @@
  */
 namespace Magento\Ui\Config;
 
+use Magento\Framework\Stdlib\BooleanUtils;
 use Magento\Framework\Config\ConverterInterface;
 use Magento\Framework\Data\Argument\InterpreterInterface;
-use Magento\Framework\Stdlib\BooleanUtils;
 
 /**
  * Class Converter
- * @package Magento\Ui\Config
  */
 class Converter implements ConverterInterface
 {
@@ -39,7 +38,7 @@ class Converter implements ConverterInterface
      */
     public function convert($config)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNode $node */
         foreach ($config->documentElement->childNodes as $node) {
             if ($node->nodeType != XML_ELEMENT_NODE) {
@@ -85,9 +84,7 @@ class Converter implements ConverterInterface
                             $data[$itemAttributes->getNamedItem('name')->nodeValue] = $itemData;
                             break;
                         default:
-                            throw new \Exception(
-                                "Invalid application config. Unknown node: {$itemNode->nodeName}."
-                            );
+                            throw new \Exception("Invalid application config. Unknown node: {$itemNode->nodeName}.");
                     }
                 }
                 $output[$node->nodeName] = $data;
@@ -95,25 +92,23 @@ class Converter implements ConverterInterface
             case 'settings':
                 /** @var \DOMNode $itemNode */
                 foreach ($node->childNodes as $itemNode) {
-                    if ($itemNode->nodeType != XML_ELEMENT_NODE) {
-                        continue;
-                    }
-                    $itemData = [];
-                    $itemAttributes = $itemNode->attributes;
-                    foreach ($itemAttributes as $itemAttribute) {
-                        $itemData[$itemAttribute->nodeName] = $itemAttribute->nodeValue;
-                    }
-                    if ($itemNode->childNodes) {
-                        /** @var \DOMNode $childNode */
-                        foreach ($itemNode->childNodes as $childNode) {
-                            if ($childNode->nodeType != XML_ELEMENT_NODE) {
-                                continue;
-                            }
-                            $nodeName = $childNode->nodeName;
-                            $itemData[$nodeName] = $this->convertNode($childNode);
+                    if ($itemNode->nodeType === XML_ELEMENT_NODE) {
+                        $itemData = [];
+                        $itemAttributes = $itemNode->attributes;
+                        foreach ($itemAttributes as $itemAttribute) {
+                            $itemData[$itemAttribute->nodeName] = $itemAttribute->nodeValue;
                         }
+                        if ($itemNode->childNodes) {
+                            /** @var \DOMNode $childNode */
+                            foreach ($itemNode->childNodes as $childNode) {
+                                if ($childNode->nodeType === XML_ELEMENT_NODE) {
+                                    $nodeName = $childNode->nodeName;
+                                    $itemData[$nodeName] = $this->convertNode($childNode);
+                                }
+                            }
+                        }
+                        $data[$itemNode->nodeName] = $itemData;
                     }
-                    $data[$itemNode->nodeName] = $itemData;
                 }
                 $output[$node->nodeName] = $data;
                 break;
@@ -125,24 +120,24 @@ class Converter implements ConverterInterface
                 break;
             default:
                 throw new \Exception("Invalid application config. Unknown node: {$node->nodeName}.");
-                break;
         }
+
         return $data;
     }
 
     /**
+     * Fetch booleans
+     *
      * @param \DOMNamedNodeMap $itemAttributes
      * @param array $attributes
-     * @param array $itemData
+     * @param array &$itemData
      */
     protected function fetchBooleans(\DOMNamedNodeMap $itemAttributes, array $attributes, array &$itemData)
     {
         foreach ($attributes as $attribute) {
             $attributeNode = $itemAttributes->getNamedItem($attribute);
             if ($attributeNode) {
-                $itemData[$attribute] = $this->booleanUtils->toBoolean(
-                    $attributeNode->nodeValue
-                );
+                $itemData[$attribute] = $this->booleanUtils->toBoolean($attributeNode->nodeValue);
             }
         }
     }
