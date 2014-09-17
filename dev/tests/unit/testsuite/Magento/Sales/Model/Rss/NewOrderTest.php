@@ -112,9 +112,6 @@ class NewOrderTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowed()
     {
-        $this->scopeConfigInterface->expects($this->once())->method('getValue')
-            ->with('rss/order/new', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->will($this->returnValue(true));
         $this->assertTrue($this->model->isAllowed());
     }
 
@@ -156,7 +153,7 @@ class NewOrderTest extends \PHPUnit_Framework_TestCase
         $this->layout->expects($this->once())->method('getBlockSingleton')->will($this->returnValue($block));
         $this->urlBuiler->expects($this->once())->method('getUrl')
             ->will($this->returnValue('http://magento.com/sales/order/view/order_id/1'));
-        $this->assertEquals($this->feedData, $this->model->getData());
+        $this->assertEquals($this->feedData, $this->model->getRssData());
     }
 
     public function testGetCacheKey()
@@ -167,5 +164,10 @@ class NewOrderTest extends \PHPUnit_Framework_TestCase
     public function testGetCacheLifetime()
     {
         $this->assertEquals(60, $this->model->getCacheLifetime());
+    }
+
+    public function getFeeds()
+    {
+        $this->assertEmpty($this->model->getFeeds());
     }
 }

@@ -294,7 +294,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             )
         );
 
-        $this->addRssList('rss/catalog/review', __('Pending Reviews RSS'));
+        $block = $this->getLayout()->getBlock('grid.bottom.links');
+        $this->setChild('grid.bottom.links', $block);
 
         return parent::_prepareColumns();
     }

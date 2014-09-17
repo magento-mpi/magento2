@@ -100,7 +100,7 @@ class OrderStatus implements DataProviderInterface
     /**
      * @return array
      */
-    public function getData()
+    public function getRssData()
     {
         $this->order = $this->getOrder();
         if (is_null($this->order)) {
@@ -206,5 +206,13 @@ class OrderStatus implements DataProviderInterface
         $newUrl = $this->urlBuilder->getUrl('sales/order/view', array('order_id' => $this->order->getId()));
 
         return array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8');
+    }
+
+    /**
+     * @return array
+     */
+    public function getFeeds()
+    {
+        return array();
     }
 }

@@ -28,11 +28,6 @@ class NewOrder implements DataProviderInterface
     protected $urlBuilder;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $config;
-
-    /**
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $localeDate;
@@ -66,7 +61,6 @@ class NewOrder implements DataProviderInterface
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\View\LayoutInterface $layout
      */
@@ -76,7 +70,6 @@ class NewOrder implements DataProviderInterface
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\LayoutInterface $layout
     ) {
@@ -84,7 +77,6 @@ class NewOrder implements DataProviderInterface
         $this->urlBuilder = $urlBuilder;
         $this->localeDate = $localeDate;
         $this->dateTime = $dateTime;
-        $this->config = $scopeConfig;
         $this->eventManager = $eventManager;
         $this->layout = $layout;
         $this->rssUrlBuilder = $rssUrlBuilder;
@@ -97,10 +89,7 @@ class NewOrder implements DataProviderInterface
      */
     public function isAllowed()
     {
-        if ($this->config->getValue('rss/order/new', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -108,7 +97,7 @@ class NewOrder implements DataProviderInterface
      *
      * @return array
      */
-    public function getData()
+    public function getRssData()
     {
         $passDate = $this->dateTime->formatDate(mktime(0, 0, 0, date('m'), date('d') - 7));
         $newUrl = $this->rssUrlBuilder->getUrl(array('_secure' => true, '_nosecret' => true, 'type' => 'new_order'));
@@ -154,5 +143,13 @@ class NewOrder implements DataProviderInterface
     public function getCacheLifetime()
     {
         return 60;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFeeds()
+    {
+        return array();
     }
 }

@@ -5,14 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Category View block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Block\Category;
 
+/**
+ * Class View
+ * @package Magento\Catalog\Block\Category
+ */
 class View extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
@@ -92,13 +90,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                     )
                 );
             }
-            /**
-             * want to show rss feed in the url
-             */
-            if ($this->isRssCatalogEnable() && $this->isTopCategory()) {
-                $title = __('%1 RSS Feed', $this->getCurrentCategory()->getName());
-                $headBlock->addRss($title, $this->getRssLink());
-            }
+
             $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
             if ($pageMainTitle) {
                 $pageMainTitle->setPageTitle($this->getCurrentCategory()->getName());
@@ -106,36 +98,6 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
         }
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function isRssCatalogEnable()
-    {
-        return $this->_scopeConfig->getValue('rss/catalog/category', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTopCategory()
-    {
-        return $this->getCurrentCategory()->getLevel() == 2;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRssLink()
-    {
-        return $this->_urlBuilder->getUrl(
-            'rss/catalog/category',
-            array(
-                'cid' => $this->getCurrentCategory()->getId(),
-                'store_id' => $this->_storeManager->getStore()->getId()
-            )
-        );
     }
 
     /**

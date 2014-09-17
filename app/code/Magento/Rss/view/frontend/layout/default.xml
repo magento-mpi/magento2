@@ -16,5 +16,5 @@
             </arguments>
         </block>
     </referenceBlock>
-    <block class="Magento\Rss\Block\ListBlock" name="head_rss" ifconfig="rss/config/active"/>
+    <block class="Magento\Rss\Block\Feeds" name="head_rss" ifconfig="rss/config/active"/>
 </page>
