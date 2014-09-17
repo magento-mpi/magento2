@@ -1,0 +1,59 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\AdvancedCheckout\Test\Constraint;
+
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Checkout\Test\Page\CheckoutCart;
+
+/**
+ * Class AssertProductRequiredAttentionFailMessage
+ * Assert that after adding products by sku to shopping cart, product requires attention error message appears
+ */
+class AssertProductRequiredAttentionFailMessage extends AbstractConstraint
+{
+    /**
+     * Product requires attention error message
+     */
+    const ERROR_MESSAGE = '%d %s requires your attention.';
+
+    /**
+     * Constraint severeness
+     *
+     * @var string
+     */
+    protected $severeness = 'low';
+
+    /**
+     * Assert that product requires attention error message is displayed after adding products by sku to shopping cart
+     *
+     * @param CheckoutCart $checkoutCart
+     * @param array $products
+     * @return void
+     */
+    public function processAssert(CheckoutCart $checkoutCart, $products)
+    {
+        $productsCount = count($products);
+        $qty = ($productsCount > 1) ? 'products' : 'product';
+        \PHPUnit_Framework_Assert::assertEquals(
+            sprintf(self::ERROR_MESSAGE, $productsCount, $qty),
+            $checkoutCart->getMessagesBlock()->getErrorMessages(),
+            'Wrong error message is displayed.'
+        );
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return 'Adding products by sku to shopping cart success message is present.';
+    }
+}

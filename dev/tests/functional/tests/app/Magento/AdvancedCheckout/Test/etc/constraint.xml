@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+<assertProductsAddBySkuSuccessMessage module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertProductsAddBySkuSuccessMessage>
+<assertProductRequiredAttentionFailMessage module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertProductRequiredAttentionFailMessage>
+<assertProductIsOutOfStockFailMessage module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertProductIsOutOfStockFailMessage>
+<assertQtyIsNotEnoughFailMessage module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertQtyIsNotEnoughFailMessage>
+<assertSkuNotFoundFailMessage module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertSkuNotFoundFailMessage>
+<assertMinRequestedQtyFailMessage module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertMinRequestedQtyFailMessage>
+<assertMaxRequestedQtyFailMessage module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertMaxRequestedQtyFailMessage>
+<assertSpecifyProductOptionsLink module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertSpecifyProductOptionsLink>
+<assertProductConfiguringFromRequiringAttention module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertProductConfiguringFromRequiringAttention >
+<assertProductIsNotEditable module="Magento_AdvancedCheckout">
+    <severeness>low</severeness>
+</assertProductIsNotEditable>
+</constraint>

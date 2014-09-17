@@ -39,6 +39,13 @@ class CartItem extends Block
     protected $qty = './/input[@type="number" and @title="Qty"]';
 
     /**
+     * Quantity input selector
+     *
+     * @var string
+     */
+    protected $name = '.product-item-name a';
+
+    /**
      * Cart item sub-total xpath selector
      *
      * @var string
@@ -161,5 +168,15 @@ class CartItem extends Block
     {
         $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
         return trim($this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText(), $currency);
+    }
+
+    /**
+     * Get product name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_rootElement->find($this->name, Locator::SELECTOR_CSS)->getText();
     }
 }

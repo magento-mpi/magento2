@@ -26,4 +26,10 @@
     <assertOrderTotalOnReviewPage module="Magento_Checkout">
         <severeness>low</severeness>
     </assertOrderTotalOnReviewPage>
+    <assertCartProductName module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertCartProductName>
+    <assertCartIsEmpty module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertCartIsEmpty>
 </constraint>
