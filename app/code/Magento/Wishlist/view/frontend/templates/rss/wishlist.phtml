@@ -1,0 +1,14 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this \Magento\Wishlist\Block\Rss\Link */
+?>
+<?php if ($this->isRssAllowed() && $this->helper('Magento\Wishlist\Helper\Data')->getWishlist()->getItemsCount()): ?>
+    <a href="<?php echo $this->getLink(); ?>" class="action rss wishlist">
+        <span><?php echo __('RSS Feed') ?></span>
+    </a>
+<?php endif; ?>
