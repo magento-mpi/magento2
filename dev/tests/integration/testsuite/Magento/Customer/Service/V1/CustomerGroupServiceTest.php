@@ -140,7 +140,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage id is not expected for this request.
+     * @expectedExceptionMessage ID is not expected for this request.
      * @magentoDbIsolation enabled
      */
     public function testCreateGroupWithId()

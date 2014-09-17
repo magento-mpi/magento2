@@ -548,7 +548,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $this->assertContains(
-                "id is not expected for this request.",
+                "ID is not expected for this request.",
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
@@ -582,7 +582,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                "id is not expected for this request.",
+                "ID is not expected for this request.",
                 $e->getMessage(),
                 "SoapFault does not contain expected message."
             );
