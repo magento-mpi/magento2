@@ -1079,54 +1079,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
-     * Test save customer group
-     */
-    public function testSaveGroup()
-    {
-        /** @var \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $builder */
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
-        $groupId = $this->createGroup(
-            $builder->populateWithArray([
-                    CustomerGroup::ID => null,
-                    CustomerGroup::CODE => 'New testSaveGroup Group',
-                    CustomerGroup::TAX_CLASS_ID => 3
-                ])->create()
-        );
-
-        $group = $this->groupService->getGroup($groupId);
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
-            ]
-        ];
-
-        $group = $builder->populate($group);
-        $group->setCode('New testSaveGroup Group Change');
-        $group = $group->create();
-
-        $requestData = ['group' => [
-                CustomerGroup::ID => $group->getId(),
-                CustomerGroup::CODE => $group->getCode(),
-                CustomerGroup::TAX_CLASS_ID => $group->getTaxClassId()
-            ]
-        ];
-
-        $changedGroupId = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($group->getId(), $changedGroupId);
-
-        $this->groupRegistry->remove($groupId);
-        $changedGroup = $this->groupService->getGroup($groupId);
-        $this->assertEquals($group, $changedGroup);
-    }
-
-    /**
      * Data provider for testSearchGroups
      */
     public function testSearchGroupsDataProvider()

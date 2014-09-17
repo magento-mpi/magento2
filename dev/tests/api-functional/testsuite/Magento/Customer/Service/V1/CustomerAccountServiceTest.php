@@ -204,7 +204,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/activateCustomer',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/activate',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -1227,7 +1227,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,

@@ -256,8 +256,8 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         // Save address data
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/{$customerFixtureId}/address",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'resourcePath' => "/V1/customers/{$customerFixtureId}/addresses",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
@@ -276,7 +276,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         // Retrieve saved address data
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/$customerFixtureId/address",
+                'resourcePath' => "/V1/customers/$customerFixtureId/addresses",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
