@@ -14,4 +14,7 @@
     <assertProductIsAbsentInWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
     </assertProductIsAbsentInWishlist>
+    <assertWishlistIsEmpty module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertWishlistIsEmpty>
 </constraint>

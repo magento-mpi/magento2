@@ -154,6 +154,9 @@ class CheckoutData implements FixtureInterface
             'order_default' => [
                 'options' => [
                     'qty' => 1
+                ],
+                'cartItem' => [
+                    'qty' => 1
                 ]
             ],
             'two_products' => [

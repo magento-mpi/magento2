@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <qty>
+            <selector>.input-text.qty</selector>
+            <input>number</input>
+        </qty>
+        <description>
+            <selector>textarea</selector>
+        </description>
+    </fields>
+</mapping>
