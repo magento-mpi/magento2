@@ -41,7 +41,7 @@ class ContentTypeFactory
     }
 
     /**
-     * @param $type
+     * @param string $type
      * @return ContentTypeInterface
      * @throws \InvalidArgumentException
      */

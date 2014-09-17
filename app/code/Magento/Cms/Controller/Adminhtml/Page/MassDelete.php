@@ -87,6 +87,7 @@ class MassDelete extends \Magento\Backend\App\Action
      * Delete all but the not selected
      *
      * @param array $excluded
+     * @return void
      * @throws \Exception
      */
     protected function excludedDelete(array $excluded)
@@ -109,6 +110,7 @@ class MassDelete extends \Magento\Backend\App\Action
      * Delete selected items
      *
      * @param array $selected
+     * @return void
      * @throws \Exception
      */
     protected function selectedDelete(array $selected)
@@ -130,7 +132,7 @@ class MassDelete extends \Magento\Backend\App\Action
     /**
      * Set error messages
      *
-     * @param int
+     * @param int $count
      * @return void
      */
     protected function setSuccessMessage($count)

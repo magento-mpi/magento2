@@ -147,7 +147,7 @@ class View extends AbstractView
     /**
      * Get collection items
      *
-     * return array
+     * @return array
      */
     protected function getCollectionItems()
     {

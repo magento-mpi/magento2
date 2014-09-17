@@ -41,6 +41,7 @@ class Date implements FilterInterface
      * Constructor
      *
      * @param Context $context
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
     public function __construct(Context $context, \Magento\Framework\Locale\ResolverInterface $localeResolver)
     {

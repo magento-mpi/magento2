@@ -62,14 +62,14 @@ abstract class AbstractView extends Template implements ViewInterface
     /**
      * Constructor
      *
-     * @param Context $renderContext
      * @param TemplateContext $context
+     * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param array $data
      */
     public function __construct(
-        Context $renderContext,
         TemplateContext $context,
+        Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {

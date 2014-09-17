@@ -15,6 +15,9 @@ use Magento\Ui\ViewInterface;
  */
 class Field extends AbstractView implements ViewInterface
 {
+    /**
+     * @return mixed
+     */
     public function renderHeader()
     {
         return $this->getRenderEngine()->render($this, $this->getHeaderTemplate());

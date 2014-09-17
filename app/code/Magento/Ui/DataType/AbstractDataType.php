@@ -36,7 +36,7 @@ abstract class AbstractDataType implements DataTypeInterface
     }
 
     /**
-     * return bool
+     * @return bool
      */
     public function getSortable()
     {
