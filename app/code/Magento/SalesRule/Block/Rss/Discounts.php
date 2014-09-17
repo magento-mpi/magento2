@@ -162,11 +162,15 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
      */
     public function getFeeds()
     {
-        $url = $this->rssUrlBuilder->getUrl(array(
-            'type' => 'discounts',
-            'store_id' => $this->getStoreId(),
-            'cid' => $this->getCustomerGroupId()
-        ));
-        return array('label' => __('Coupons/Discounts'), 'link' => $url);
+        $data = array();
+        if ($this->isAllowed()) {
+            $url = $this->rssUrlBuilder->getUrl(array(
+                    'type' => 'discounts',
+                    'store_id' => $this->getStoreId(),
+                    'cid' => $this->getCustomerGroupId()
+            ));
+            $data = array('label' => __('Coupons/Discounts'), 'link' => $url);
+        }
+        return $data;
     }
 }

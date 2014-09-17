@@ -196,7 +196,12 @@ class NewProducts extends \Magento\Framework\View\Element\AbstractBlock implemen
      */
     public function getFeeds()
     {
-        $url = $this->rssUrlBuilder->getUrl(array('type' => 'new_products'));
-        return array('label' => __('New Products'), 'link' => $url);
+        $data = array();
+        if ($this->isAllowed()) {
+            $url = $this->rssUrlBuilder->getUrl(array('type' => 'new_products'));
+            $data = array('label' => __('New Products'), 'link' => $url);
+        }
+
+        return $data;
     }
 }

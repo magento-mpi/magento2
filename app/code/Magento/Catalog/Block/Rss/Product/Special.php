@@ -245,7 +245,11 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function getFeeds()
     {
-        $url = $this->rssUrlBuilder->getUrl(array('type' => 'special_products'));
-        return array('label' => __('Special Products'), 'link' => $url);
+        $data = array();
+        if ($this->isAllowed()) {
+            $url = $this->rssUrlBuilder->getUrl(array('type' => 'special_products'));
+            $data = array('label' => __('Special Products'), 'link' => $url);
+        }
+        return $data;
     }
 }
