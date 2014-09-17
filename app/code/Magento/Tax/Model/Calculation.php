@@ -246,7 +246,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getRates($ruleId)
     {
         if (!isset($this->_rates[$ruleId])) {
-            $this->_rates[$ruleId] = $this->_getResource()->getDistinct('tax_calculation_rate_id', $ruleId);
+            $this->_rates[$ruleId] = $this->_getResource()->getCalculationsById('tax_calculation_rate_id', $ruleId);
         }
         return $this->_rates[$ruleId];
     }
@@ -260,7 +260,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getCustomerTaxClasses($ruleId)
     {
         if (!isset($this->_ctc[$ruleId])) {
-            $this->_ctc[$ruleId] = $this->_getResource()->getDistinct('customer_tax_class_id', $ruleId);
+            $this->_ctc[$ruleId] = $this->_getResource()->getCalculationsById('customer_tax_class_id', $ruleId);
         }
         return $this->_ctc[$ruleId];
     }
@@ -274,7 +274,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getProductTaxClasses($ruleId)
     {
         if (!isset($this->_ptc[$ruleId])) {
-            $this->_ptc[$ruleId] = $this->getResource()->getDistinct('product_tax_class_id', $ruleId);
+            $this->_ptc[$ruleId] = $this->getResource()->getCalculationsById('product_tax_class_id', $ruleId);
         }
         return $this->_ptc[$ruleId];
     }
