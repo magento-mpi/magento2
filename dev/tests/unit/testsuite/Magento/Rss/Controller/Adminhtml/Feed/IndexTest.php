@@ -103,7 +103,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->rssFactory->expects($this->once())->method('create')->will($this->returnValue($rssModel));
         $this->rssManager->expects($this->once())->method('getProvider')->will($this->returnValue($dataProvider));
 
-        $this->setExpectedException('\Magento\Framework\App\Action\NotFoundException');
+        $this->setExpectedException('\Zend_Feed_Builder_Exception');
         $this->controller->execute();
     }
 }

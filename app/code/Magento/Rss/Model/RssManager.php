@@ -61,7 +61,7 @@ class RssManager implements RssManagerInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getProviders()
     {

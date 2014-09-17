@@ -39,6 +39,7 @@ interface DataProviderInterface
 
     /**
      * Get information about all feeds this Data Provider is responsible for
+     *
      * @return array
      */
     public function getFeeds();

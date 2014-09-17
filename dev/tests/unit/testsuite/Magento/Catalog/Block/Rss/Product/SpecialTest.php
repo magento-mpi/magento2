@@ -202,7 +202,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowed()
     {
-        $this->scopeConfig->expects($this->once())->method('getValue')
+        $this->scopeConfig->expects($this->once())->method('isSetFlag')
             ->with('rss/catalog/special', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue(true));
         $this->assertEquals(true, $this->block->isAllowed());
@@ -215,6 +215,9 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFeeds()
     {
+        $this->scopeConfig->expects($this->once())->method('isSetFlag')
+            ->with('rss/catalog/special', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            ->will($this->returnValue(true));
         $this->rssUrlBuilder->expects($this->once())->method('getUrl')
             ->with(array('type' => 'special_products'))
             ->will($this->returnValue('http://magento.com/rss/feed/index/type/special_products/store_id/1'));

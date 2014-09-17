@@ -185,7 +185,7 @@ class NewProducts extends \Magento\Framework\View\Element\AbstractBlock implemen
      */
     public function getCacheLifetime()
     {
-        return 0;
+        return 600;
     }
 
     /**
