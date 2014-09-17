@@ -500,3 +500,7 @@ code {
     width: 300px; height: 400px; position: fixed; top: 150px; right: 100px;
     background-color: #ffffff;
 }
+
+.directory-tree {
+    padding-left: 20px
+}
