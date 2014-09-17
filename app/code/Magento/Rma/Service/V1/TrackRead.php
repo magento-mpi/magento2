@@ -21,15 +21,23 @@ class TrackRead implements TrackReadInterface
     private $trackBuilder;
 
     /**
+     * @var \Magento\Rma\Model\Shipping\LabelService
+     */
+    private $labelService;
+
+    /**
+     * @param \Magento\Rma\Model\Shipping\LabelService $labelService
      * @param \Magento\Rma\Model\RmaRepository $repository
      * @param Data\TrackBuilder $trackBuilder
      */
     public function __construct(
+        \Magento\Rma\Model\Shipping\LabelService $labelService,
         \Magento\Rma\Model\RmaRepository $repository,
         Data\TrackBuilder $trackBuilder
     ) {
         $this->repository = $repository;
         $this->trackBuilder = $trackBuilder;
+        $this->labelService = $labelService;
     }
 
     /**
@@ -47,5 +55,20 @@ class TrackRead implements TrackReadInterface
             $tracks[] = $this->trackBuilder->create();
         }
         return $tracks;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function getShippingLabelPdf($id)
+    {
+        $rmaModel = $this->repository->get($id);
+        if ($rmaModel->getId()) {
+            return $this->labelService->getShippingLabelByRmaPdf($rmaModel);
+        }
+        return '';
     }
 }

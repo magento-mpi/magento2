@@ -17,4 +17,12 @@ interface TrackReadInterface
      * @return \Magento\Rma\Service\V1\Data\Track[]
      */
     public function getTracks($id);
+
+    /**
+     * @param int $id
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function getShippingLabelPdf($id);
 }

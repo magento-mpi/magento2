@@ -132,6 +132,40 @@ class LabelService
     }
 
     /**
+     * @param \Magento\Rma\Model\Rma $rmaModel
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function getShippingLabelByRmaPdf(\Magento\Rma\Model\Rma $rmaModel)
+    {
+        /** @var $shippingModel \Magento\Rma\Model\Shipping */
+        $shippingModel = $this->shippingFactory->create();
+        /** @var $shipment \Magento\Rma\Model\Shipping */
+        $labelContent = $shippingModel->getShippingLabelByRma($rmaModel)->getShippingLabel();
+        if ($labelContent) {
+            $pdfContent = null;
+            if (stripos($labelContent, '%PDF-') !== false) {
+                $pdfContent = $labelContent;
+            } else {
+                $pdf = new \Zend_Pdf();
+                $page = $this->createPdfPageFromImageString($labelContent);
+                if (!$page) {
+                    throw new \Magento\Framework\Exception(__(
+                        "We don't recognize or support the file extension in shipment %1.", $rmaModel->getIncrementId())
+                    );
+                }
+                $pdf->pages[] = $page;
+                $pdfContent = $pdf->render();
+            }
+
+            return $pdfContent;
+        } else {
+            throw new \Magento\Framework\Exception(__('Shipment does not exists.'));
+        }
+    }
+
+    /**
      * Combine Labels Pdf
      *
      * @param string[] $labelsContent
