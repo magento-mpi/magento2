@@ -252,7 +252,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     public function authenticate($username, $password)
     {
-        $this->isPasswordSecure($password);
+        $this->checkPasswordStrength($password);
         $customerModel = $this->customerFactory->create();
         $customerModel->setWebsiteId($this->storeManager->getStore()->getWebsiteId());
         try {
@@ -336,7 +336,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel = $this->validateResetPasswordToken($customerId, $resetToken);
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
-        $this->isPasswordSecure($newPassword);
+        $this->checkPasswordStrength($newPassword);
         $customerModel->setPasswordHash($this->getPasswordHash($newPassword));
         $customerModel->save();
     }
@@ -367,7 +367,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     ) {
         //Generate password hash
         $password = $password ? $password : $this->mathRandom->getRandomString(self::DEFAULT_PASSWORD_LENGTH);
-        $this->isPasswordSecure($password);
+        $this->checkPasswordStrength($password);
         $hash = $this->getPasswordHash($password);
         return $this->createCustomerWithPasswordHash($customerDetails, $hash, $redirectUrl);
     }
@@ -618,7 +618,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
-        $this->isPasswordSecure($newPassword);
+        $this->checkPasswordStrength($newPassword);
         $customerModel->setPasswordHash($this->getPasswordHash($newPassword));
         $customerModel->save();
         // FIXME: Are we using the proper template here?
@@ -634,7 +634,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @return void
      * @throws InputException
      */
-    protected function isPasswordSecure($password)
+    protected function checkPasswordStrength($password)
     {
         $length = $this->stringHelper->strlen($password);
         if ($length < self::MIN_PASSWORD_LENGTH) {
