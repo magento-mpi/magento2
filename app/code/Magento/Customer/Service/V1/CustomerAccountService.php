@@ -631,6 +631,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Make sure that password complies with minimum security requirements.
      *
      * @param string $password
+     * @return void
      * @throws InputException
      */
     protected function isPasswordSecure($password)

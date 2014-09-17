@@ -898,7 +898,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = '12345';
-        $encryptedHash = 'password_encrypted_hash';
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
