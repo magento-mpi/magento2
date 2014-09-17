@@ -8,9 +8,9 @@
 namespace Magento\Ui\Listing;
 
 use Magento\Ui\Context;
-use Magento\Ui\Control\ActionPool;
 use Magento\Ui\ViewFactory;
 use Magento\Ui\AbstractView;
+use Magento\Ui\Control\ActionPool;
 use Magento\Ui\ConfigurationFactory;
 use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
@@ -52,8 +52,8 @@ class View extends AbstractView
      * @param ActionPool $actionPool
      * @param OptionsFactory $optionsFactory
      * @param RowPool $dataProviderRowPool
-     * @param Context $renderContext
      * @param TemplateContext $context
+     * @param Context $renderContext
      * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
@@ -63,8 +63,8 @@ class View extends AbstractView
         ActionPool $actionPool,
         OptionsFactory $optionsFactory,
         RowPool $dataProviderRowPool,
-        Context $renderContext,
         TemplateContext $context,
+        Context $renderContext,
         ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
@@ -77,10 +77,10 @@ class View extends AbstractView
     }
 
     /**
-     * Prepare component data
+     * Prepare custom data
      *
      * @param array $arguments
-     * @return $this|void
+     * @return void
      */
     public function prepare(array $arguments = [])
     {
@@ -117,7 +117,6 @@ class View extends AbstractView
                 'configuration' => $config
             ]
         );
-
         $this->renderContext->getStorage()->addComponentsData($this->configuration);
         $this->renderContext->getStorage()->addMeta($this->getData('name'), $meta);
         $this->renderContext->getStorage()->addDataCollection($this->getData('name'), $this->getData('dataSource'));
@@ -184,7 +183,7 @@ class View extends AbstractView
     /**
      * Get collection items
      *
-     * return array
+     * @return array
      */
     public function getCollectionItems()
     {

@@ -116,6 +116,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      * @param \DOMNamedNodeMap $itemAttributes
      * @param array $attributes
      * @param array $itemData
+     * @return void
      */
     protected function fetchBooleans(\DOMNamedNodeMap $itemAttributes, array $attributes, array &$itemData)
     {

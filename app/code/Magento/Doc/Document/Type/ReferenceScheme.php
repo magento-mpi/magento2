@@ -82,7 +82,7 @@ class ReferenceScheme extends AbstractType implements ReferenceInterface
 
     /**
      * @param array $scheme
-     * @param string$itemName
+     * @param string $itemName
      * @return null|array
      */
     protected function findItem(array $scheme, $itemName)

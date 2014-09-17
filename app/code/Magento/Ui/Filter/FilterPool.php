@@ -52,7 +52,7 @@ class FilterPool
     /**
      * Get filter by type
      *
-     * @param $dataType
+     * @param string $dataType
      * @return FilterInterface
      * @throws \InvalidArgumentException
      */
