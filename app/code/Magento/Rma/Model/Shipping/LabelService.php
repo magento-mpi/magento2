@@ -93,7 +93,7 @@ class LabelService
 
         $response = $shipment->requestToShipment();
 
-        if ($response->hasErrors() || $response->hasInfo()) {
+        if ($response->hasErrors() || !$response->hasInfo()) {
             throw new \Magento\Framework\Model\Exception($response->getErrors());
         }
 
@@ -159,7 +159,7 @@ class LabelService
                 $pdfContent = $pdf->render();
             }
 
-            return $pdfContent;
+            return utf8_encode($pdfContent);
         } else {
             throw new \Magento\Framework\Exception(__('Shipment does not exists.'));
         }
