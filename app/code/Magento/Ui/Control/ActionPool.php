@@ -116,10 +116,12 @@ class ActionPool implements ActionPoolInterface
      *
      * @param $key
      * @param array $data
-     * @return mixed
+     * @return void
      */
     public function update($key, array $data)
     {
-        $this->buttons[$key]->setData($data);
+        if (isset($this->buttons[$key])) {
+            $this->buttons[$key]->setData($data);
+        }
     }
 }

@@ -123,7 +123,7 @@
                     <item name="types" xsi:type="array">
                         <item name="filter_store" xsi:type="array">
                             <item name="template" xsi:type="string">Magento_Store/templates/filter/store.html</item>
-                            <item name="constructor" xsi:type="string">Magento_Store/js/listing/filter/filter_store.js</item>
+                            <item name="control" xsi:type="string">Magento_Store/js/listing/filter/store</item>
                         </item>
                     </item>
                 </argument>

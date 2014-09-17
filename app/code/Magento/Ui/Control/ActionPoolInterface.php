@@ -38,7 +38,7 @@ interface ActionPoolInterface
      *
      * @param $key
      * @param array $data
-     * @return mixed
+     * @return void
      */
     public function update($key, array $data);
 }
