@@ -11,6 +11,7 @@ use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term;
 use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
+use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Wildcard;
 use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 use Magento\Framework\Search\Request\Query\Bool;
 
@@ -20,28 +21,38 @@ class Builder implements BuilderInterface
      * @var Range
      */
     private $range;
+
     /**
      * @var Term
      */
     private $term;
+
     /**
      * @var ConditionManager
      */
     private $conditionManager;
 
     /**
+     * @var Wildcard
+     */
+    private $wildcard;
+
+    /**
      * @param Range $range
      * @param Term $term
+     * @param Wildcard $wildcard
      * @param ConditionManager $conditionManager
      */
     public function __construct(
         Range $range,
         Term $term,
+        Wildcard $wildcard,
         ConditionManager $conditionManager
     ) {
         $this->range = $range;
         $this->term = $term;
         $this->conditionManager = $conditionManager;
+        $this->wildcard = $wildcard;
     }
 
     /**
@@ -68,6 +79,10 @@ class Builder implements BuilderInterface
                 break;
             case RequestFilterInterface::TYPE_RANGE:
                 $query = $this->processRangeFilter($filter, $isNegation);
+                break;
+            case RequestFilterInterface::TYPE_WILDCARD:
+                /** @var \Magento\Framework\Search\Request\Filter\Wildcard $filter */
+                $query = $this->wildcard->buildFilter($filter, $isNegation);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown filter type \'%s\'', $filter->getType()));

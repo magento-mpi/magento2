@@ -10,16 +10,16 @@ namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
-class TermTest extends \PHPUnit_Framework_TestCase
+class WildcardTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \Magento\Framework\Search\Request\Filter\Term|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Request\Filter\Wildcard|\PHPUnit_Framework_MockObject_MockObject
      */
     private $requestFilter;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term
+     * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Wildcard
      */
     private $filter;
 
@@ -48,18 +48,13 @@ class TermTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnCallback(
                     function ($field, $operator, $value) {
-                        return sprintf(
-                            is_array($value) ? '%s %s (%s)' : '%s %s %s',
-                            $field,
-                            $operator,
-                            is_array($value) ? implode(', ', $value) : $value
-                        );
+                        return sprintf('%s %s %s', $field, $operator, $value);
                     }
                 )
             );
 
         $this->filter = $objectManager->getObject(
-            'Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term',
+            'Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Wildcard',
             [
                 'conditionManager' => $this->conditionManager,
             ]
@@ -69,7 +64,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $field
      * @param string $value
-     * @param bool $isNegation
+     * @param $isNegation
      * @param string $expectedResult
      * @dataProvider buildQueryDataProvider
      */
@@ -78,9 +73,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
         $this->requestFilter->expects($this->once())
             ->method('getField')
             ->will($this->returnValue($field));
-        $this->requestFilter->expects($this->atLeastOnce())
-            ->method('getValue')
-            ->will($this->returnValue($value));
+        $this->requestFilter->expects($this->once())->method('getValue')->willReturn($value);
 
         $actualResult = $this->filter->buildFilter($this->requestFilter, $isNegation);
         $this->assertEquals($expectedResult, $actualResult);
@@ -98,26 +91,14 @@ class TermTest extends \PHPUnit_Framework_TestCase
                 'field' => 'testField',
                 'value' => 'testValue',
                 'isNegation' => false,
-                'expectedResult' => 'testField = testValue',
+                'expectedResult' => "testField LIKE %testValue%",
             ],
             'negative' => [
                 'field' => 'testField2',
                 'value' => 'testValue2',
                 'isNegation' => true,
-                'expectedResult' => 'testField2 != testValue2',
+                'expectedResult' => "testField2 NOT LIKE %testValue2%",
             ],
-            'positiveIn' => [
-                'field' => 'testField2',
-                'value' => ['testValue2'],
-                'isNegation' => false,
-                'expectedResult' => 'testField2 IN (testValue2)',
-            ],
-            'negativeIn' => [
-                'field' => 'testField2',
-                'value' => ['testValue2'],
-                'isNegation' => true,
-                'expectedResult' => 'testField2 NOT IN (testValue2)',
-            ]
         ];
     }
 }

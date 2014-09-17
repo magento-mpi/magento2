@@ -14,6 +14,7 @@ use \Magento\Framework\Search\Request\Query\Bool as RequestBoolQuery;
 
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder
      */

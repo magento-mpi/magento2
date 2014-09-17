@@ -12,14 +12,17 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class RangeTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var \Magento\Framework\Search\Request\Filter\Term|\PHPUnit_Framework_MockObject_MockObject
      */
     private $requestFilter;
+
     /**
      * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range
      */
     private $filter;
+
     /**
      * @var \Magento\Framework\Search\Adapter\Mysql\ConditionManager|\PHPUnit_Framework_MockObject_MockObject
      */

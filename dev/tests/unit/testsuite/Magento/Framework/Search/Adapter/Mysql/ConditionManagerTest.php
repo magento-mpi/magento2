@@ -12,12 +12,15 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class ConditionManagerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     private $resource;
+
     /** @var \Magento\Framework\Search\Adapter\Mysql\ConditionManager */
     private $conditionManager;
+
     /**
      * @var \Magento\Framework\DB\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
      */

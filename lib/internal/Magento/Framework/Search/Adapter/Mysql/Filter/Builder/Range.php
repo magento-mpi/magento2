@@ -16,6 +16,7 @@ class Range implements FilterInterface
 {
     const CONDITION_PART_GREATER_THAN = '>=';
     const CONDITION_PART_LOWER_THAN = '<';
+
     /**
      * @var ConditionManager
      */

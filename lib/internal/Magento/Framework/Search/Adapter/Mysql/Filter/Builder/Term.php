@@ -13,8 +13,11 @@ use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 
 class Term implements FilterInterface
 {
-    const CONDITION_PART_EQUALS = '=';
-    const CONDITION_PART_NOT_EQUALS = '!=';
+    const CONDITION_OPERATOR_EQUALS = '=';
+    const CONDITION_OPERATOR_NOT_EQUALS = '!=';
+    const CONDITION_OPERATOR_IN = 'IN';
+    const CONDITION_OPERATOR_NOT_IN = 'NOT IN';
+
     /**
      * @var ConditionManager
      */
@@ -37,10 +40,26 @@ class Term implements FilterInterface
         $isNegation
     ) {
         /** @var \Magento\Framework\Search\Request\Filter\Term $filter */
+
         return $this->conditionManager->generateCondition(
             $filter->getField(),
-            ($isNegation ? self::CONDITION_PART_NOT_EQUALS : self::CONDITION_PART_EQUALS),
+            $this->getConditionOperator($filter->getValue(), $isNegation),
             $filter->getValue()
         );
+    }
+
+    /**
+     * @param $value
+     * @param $isNegation
+     * @return string
+     */
+    private function getConditionOperator($value, $isNegation)
+    {
+        if (is_array($value)) {
+            $operator = $isNegation ? self::CONDITION_OPERATOR_NOT_IN : self::CONDITION_OPERATOR_IN;
+        } else {
+            $operator = $isNegation ? self::CONDITION_OPERATOR_NOT_EQUALS : self::CONDITION_OPERATOR_EQUALS;
+        }
+        return $operator;
     }
 }

@@ -16,14 +16,19 @@ class DimensionsTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Magento\TestFramework\Helper\ObjectManager */
     private $objectManager;
+
     /** @var \Magento\Framework\App\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $scope;
+
     /** @var \Magento\Framework\App\ScopeResolverInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $scopeResolver;
+
     /** @var \Magento\Framework\Search\Request\Dimension|\PHPUnit_Framework_MockObject_MockObject */
     private $dimension;
+
     /** @var DimensionsBuilder */
     private $builder;
+
     /** @var  \Magento\Framework\Search\Adapter\Mysql\ConditionManager|\PHPUnit_Framework_MockObject_MockObject */
     private $conditionManager;
 

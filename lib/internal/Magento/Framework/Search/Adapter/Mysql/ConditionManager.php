@@ -12,6 +12,8 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 
 class ConditionManager
 {
+    const CONDITION_PATTERN_SIMPLE = '%s %s %s';
+    const CONDITION_PATTERN_ARRAY = '%s %s (%s)';
     /**
      * @var AdapterInterface
      */
@@ -58,7 +60,7 @@ class ConditionManager
     public function generateCondition($field, $operator, $value)
     {
         return sprintf(
-            '%s %s %s',
+            is_array($value) ? self::CONDITION_PATTERN_ARRAY :self::CONDITION_PATTERN_SIMPLE,
             $this->adapter->quoteIdentifier($field),
             $operator,
             $this->adapter->quote($value)
