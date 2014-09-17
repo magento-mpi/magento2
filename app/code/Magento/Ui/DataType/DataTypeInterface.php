@@ -42,14 +42,14 @@ interface DataTypeInterface
     public function getDataObjectValue(Object $dataObject);
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param \Magento\Framework\Object $dataObject
      * @return mixed
      */
     public function prepare($value, Object $dataObject);
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param \Magento\Framework\Object $dataObject
      * @return mixed
      */

@@ -50,7 +50,7 @@ abstract class AbstractDataType implements DataTypeInterface
     abstract public function render(DataObject $dataObject);
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param DataObject $dataObject
      * @return string
      */
@@ -60,7 +60,7 @@ abstract class AbstractDataType implements DataTypeInterface
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param DataObject $dataObject
      * @return bool
      */
