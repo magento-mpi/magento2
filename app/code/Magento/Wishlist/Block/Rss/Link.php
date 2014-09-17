@@ -50,14 +50,6 @@ class Link extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return __('Subscribe to Order Status');
-    }
-
-    /**
      * Check whether status notification is allowed
      *
      * @return bool
@@ -68,22 +60,6 @@ class Link extends \Magento\Framework\View\Element\Template
             'rss/wishlist/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-    }
-
-    /**
-     * Retrieve order status url key
-     *
-     * @param \Magento\Sales\Model\Order $order
-     * @return string
-     */
-    protected function getUrlKey($order)
-    {
-        $data = array(
-            'order_id' => $order->getId(),
-            'increment_id' => $order->getIncrementId(),
-            'customer_id' => $order->getCustomerId()
-        );
-        return base64_encode(json_encode($data));
     }
 
     /**

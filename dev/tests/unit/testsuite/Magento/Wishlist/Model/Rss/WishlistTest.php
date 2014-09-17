@@ -11,13 +11,15 @@ namespace Magento\Wishlist\Block;
 /**
  * Test for rendering price html in rss templates
  *
+ * Should be deleted
+ *
  */
 class RssTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Wishlist\Block\Rss
+     * @var \Magento\Wishlist\Model\Rss\Wishlist
      */
-    protected $block;
+    protected $model;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -66,7 +68,6 @@ class RssTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $templateContextMock = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false);
         $this->coreHelperMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->catalogOutputMock = $this->getMock('Magento\Catalog\Helper\Output', [], [], '', false);
         $wishlistFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', [], [], '', false);
@@ -107,30 +108,16 @@ class RssTest extends \PHPUnit_Framework_TestCase
         );
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
 
-        $templateContextMock->expects($this->once())
-            ->method('getEventManager')
-            ->will($this->returnValue($eventManagerMock));
-        $templateContextMock->expects($this->once())
-            ->method('getCacheState')
-            ->will($this->returnValue($cacheStateMock));
-        $templateContextMock->expects($this->once())
-            ->method('getImageHelper')
-            ->will($this->returnValue($this->imageHelperMock));
-        $templateContextMock->expects($this->once())
-            ->method('getWishlistHelper')
-            ->will($this->returnValue($this->wishlistHelperMock));
-        $templateContextMock->expects($this->once())
-            ->method('getScopeConfig')
-            ->will($this->returnValue($this->storeConfigMock));
-        $templateContextMock->expects($this->once())
-            ->method('getUrlBuilder')
-            ->will($this->returnValue($this->urlBuilderMock));
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->block = $objectManager->getObject(
+        $this->model = $objectManager->getObject(
             'Magento\Wishlist\Block\Rss',
             [
-                'context' => $templateContextMock,
+                'eventManager' => $eventManagerMock,
+                'cacheState' => $cacheStateMock,
+                'imageHelper'=> $this->imageHelperMock,
+                'wishlistHelper' => $this->wishlistHelperMock,
+                'scopeConfig' => $this->storeConfigMock,
+                'urlBuilder' => $this->urlBuilderMock,
                 'productFactory' => $this->productFactoryMock,
                 'coreData' => $this->coreHelperMock,
                 'wishlistFactory' => $wishlistFactoryMock,
@@ -140,15 +127,11 @@ class RssTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test for method _toHtml
-     */
-    public function testToHtml()
+    public function testGetData()
     {
         $wishlistId = 1;
         $customerName = 'Customer Name';
         $title = "$customerName's Wishlist";
-        $rssObjMock = $this->getMock('Magento\Rss\Model\Rss', [], [], '', false);
         $wishlistModelMock = $this->getMock(
             'Magento\Wishlist\Model\Wishlist',
             ['getId', '__wakeup', 'getCustomerId', 'getItemCollection'],
@@ -170,9 +153,6 @@ class RssTest extends \PHPUnit_Framework_TestCase
         ];
 
 
-        $this->rssFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($rssObjMock));
         $this->wishlistHelperMock->expects($this->once())
             ->method('getWishlist')
             ->will($this->returnValue($wishlistModelMock));
@@ -220,18 +200,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
         ];
         $rssString = '';
 
-        $rssObjMock->expects($this->once())
-            ->method('_addHeader')
-            ->with($expectedHeaders)
-            ->will($this->returnSelf());
-        $rssObjMock->expects($this->once())
-            ->method('_addEntry')
-            ->with($expectedEntry);
-        $rssObjMock->expects($this->once())
-            ->method('createRssXml')
-            ->will($this->returnValue($rssString));
-
-        $this->assertEquals($rssString, $this->block->toHtml());
+        $this->assertEquals($rssString, $this->model->getData());
     }
 
     /**
@@ -327,7 +296,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
             ->method('productAttribute')
             ->will($this->returnArgument(1));
 
-        $this->block->setLayout($layoutMock);
+        $this->model->setLayout($layoutMock);
         $description = '<table><tr><td><a href="' . $staticArgs['productUrl'] . '"><img src="' . $imgThumbSrc .
             '" border="0" align="left" height="75" width="75"></a></td><td style="text-decoration:none;">' .
             $productShortDescription . '<p>' . $priceHtmlForTest . '</p><p>Comment: ' . $productDescription . '<p>' .
@@ -382,6 +351,6 @@ class RssTest extends \PHPUnit_Framework_TestCase
             ->method('createRssXml')
             ->will($this->returnValue($rssString));
 
-        $this->assertEquals($rssString, $this->block->toHtml());
+        $this->assertEquals($rssString, $this->model->toHtml());
     }
 }

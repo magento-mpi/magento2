@@ -41,7 +41,7 @@ class Wishlist implements DataProviderInterface
     protected $layout;
 
     /**
-     * @var \Magento\Wishlist\Helper\Data
+     * @var \Magento\Wishlist\Helper\Rss
      */
     protected $wishlistHelper;
 
@@ -56,7 +56,7 @@ class Wishlist implements DataProviderInterface
     protected $imageHelper;
 
     /**
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
+     * @param \Magento\Wishlist\Helper\Rss $wishlistHelper
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Framework\Pricing\Render $priceRender
@@ -66,7 +66,7 @@ class Wishlist implements DataProviderInterface
      * @param \Magento\Framework\View\LayoutInterface $layout
      */
     public function __construct(
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
+        \Magento\Wishlist\Helper\Rss $wishlistHelper,
         \Magento\Catalog\Helper\Output $outputHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Framework\Pricing\Render $priceRender,
@@ -189,7 +189,7 @@ class Wishlist implements DataProviderInterface
      */
     public function getCacheLifetime()
     {
-        return 1;
+        return 60;
     }
 
     /**
@@ -197,7 +197,7 @@ class Wishlist implements DataProviderInterface
      *
      * @return array
      */
-    protected function getHeader()
+    public function getHeader()
     {
         $title = __('%1\'s Wishlist', $this->wishlistHelper->getCustomerName());
         $newUrl = $this->urlBuilder->getUrl(

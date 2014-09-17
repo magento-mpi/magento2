@@ -2762,5 +2762,7 @@ return array(
     ['Magento\Rss\Controller\Order\Status'],
     ['Magento\Rss\Helper\Order'],
     ['Magento\Rss\Block\Order\Details', 'Magento\Sales\Block\Order\Details'],
-    ['Magento\Rss\Model\Resource\Order', 'Magento\Sales\Model\Resource\Order\Rss\OrderStatus']
+    ['Magento\Rss\Model\Resource\Order', 'Magento\Sales\Model\Resource\Order\Rss\OrderStatus'],
+    ['Magento\Wishlist\Block\Rss'],
+    ['Magento\Wishlist\Controller\Index\Rss'],
 );
