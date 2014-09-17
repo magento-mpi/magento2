@@ -9,6 +9,6 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="page.main.title">
-        <block class="Magento\Catalog\Block\Category\View" name="rss.link" template="Magento_Rss::category/link.phtml"/>
+        <block class="Magento\Catalog\Block\Category\View" name="rss.link" template="Magento_Rss::category/link.phtml" ifconfig="rss/config/active"/>
     </referenceBlock>
 </page>
