@@ -113,22 +113,14 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $resourceCollection->expects($this->exactly(3))
-            ->method('addAttributeToSelect')
-            ->will($this->returnSelf());
-        $resourceCollection->expects($this->once())
-            ->method('addAttributeToFilter')
-            ->will($this->returnSelf());
+        $resourceCollection->expects($this->exactly(3))->method('addAttributeToSelect')->will($this->returnSelf());
+        $resourceCollection->expects($this->once())->method('addAttributeToFilter')->will($this->returnSelf());
         $resourceCollection->expects($this->once())
             ->method('addIdFilter')
             ->with($categoryChildren)
             ->will($this->returnSelf());
-        $resourceCollection->expects($this->once())
-            ->method('load')
-            ->will($this->returnSelf());
-        $products->expects($this->once())
-            ->method('addCountToCategories')
-            ->with($resourceCollection);
+        $resourceCollection->expects($this->once())->method('load')->will($this->returnSelf());
+        $products->expects($this->once())->method('addCountToCategories')->with($resourceCollection);
         $products->expects($this->once())
             ->method('addAttributeToSort')
             ->with('updated_at', 'desc')
@@ -137,21 +129,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->method('setVisibility')
             ->with($visibleInCatalogIds)
             ->will($this->returnSelf());
-        $products->expects($this->once())
-            ->method('setCurPage')
-            ->with(1)
-            ->will($this->returnSelf());
-        $products->expects($this->once())
-            ->method('setPageSize')
-            ->with(50)
-            ->will($this->returnSelf());
-        $products->expects($this->once())
-            ->method('setStoreId')
-            ->with($storeId);
-        $this->collectionFactory
-            ->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($products));
+        $products->expects($this->once())->method('setCurPage')->with(1)->will($this->returnSelf());
+        $products->expects($this->once())->method('setPageSize')->with(50)->will($this->returnSelf());
+        $products->expects($this->once())->method('setStoreId')->with($storeId);
+        $this->collectionFactory->expects($this->once())->method('create')->will($this->returnValue($products));
         $category = $this->getMock(
             'Magento\Catalog\Model\Category',
             [
@@ -167,12 +148,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $category->expects($this->once())
             ->method('getResourceCollection')
             ->will($this->returnValue($resourceCollection));
-        $category->expects($this->once())
-            ->method('getChildren')
-            ->will($this->returnValue($categoryChildren));
-        $category->expects($this->once())
-            ->method('getProductCollection')
-            ->will($this->returnValue($products));
+        $category->expects($this->once())->method('getChildren')->will($this->returnValue($categoryChildren));
+        $category->expects($this->once())->method('getProductCollection')->will($this->returnValue($products));
         $layer = $this->getMock(
             'Magento\Catalog\Model\Layer',
             [
