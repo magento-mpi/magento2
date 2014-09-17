@@ -8,6 +8,8 @@
  
 namespace Magento\Rma\Service\V1;
 
+use Magento\Rma\Model\RmaRepository;
+
 class TrackWrite implements TrackWriteInterface
 {
     /**
