@@ -9,9 +9,7 @@
 namespace Magento\Widget\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Widget\Test\Fixture\Widget;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceNew;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 
@@ -30,7 +28,7 @@ use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
  * 4. Delete
  * 5. Perform all asserts
  *
- * @group  Widget_(PS)
+ * @group Widget_(PS)
  * @ZephyrId MAGETWO-28459
  */
 class DeleteWidgetEntityTest extends Injectable
@@ -43,13 +41,6 @@ class DeleteWidgetEntityTest extends Injectable
     protected $widgetInstanceIndex;
 
     /**
-     * WidgetInstanceNew page
-     *
-     * @var WidgetInstanceNew
-     */
-    protected $widgetInstanceNew;
-
-    /**
      * WidgetInstanceEdit page
      *
      * @var WidgetInstanceEdit
@@ -60,38 +51,15 @@ class DeleteWidgetEntityTest extends Injectable
      * Injection data
      *
      * @param WidgetInstanceIndex $widgetInstanceIndex
-     * @param WidgetInstanceNew $widgetInstanceNew
      * @param WidgetInstanceEdit $widgetInstanceEdit
-     * @param FixtureFactory $fixtureFactory
      * @return array
      */
     public function __inject(
         WidgetInstanceIndex $widgetInstanceIndex,
-        WidgetInstanceNew $widgetInstanceNew,
-        WidgetInstanceEdit $widgetInstanceEdit,
-        FixtureFactory $fixtureFactory
+        WidgetInstanceEdit $widgetInstanceEdit
     ) {
         $this->widgetInstanceIndex = $widgetInstanceIndex;
-        $this->widgetInstanceNew = $widgetInstanceNew;
         $this->widgetInstanceEdit = $widgetInstanceEdit;
-
-        $cmsPage = $fixtureFactory->createByCode('cmsPage', ['dataSet' => 'default']);
-        $cmsPage->persist();
-
-        $widget = $fixtureFactory->createByCode(
-            'widget',
-            [
-                'dataSet' => 'cms_page_link',
-                'data' => [
-                    'parameters' => [
-                        'page_id' => $cmsPage->getPageId(),
-                    ],
-                ]
-            ]
-        );
-        $widget->persist();
-
-        return ['widget' => $widget];
     }
 
     /**
@@ -102,6 +70,10 @@ class DeleteWidgetEntityTest extends Injectable
      */
     public function test(Widget $widget)
     {
+        // Precondition
+        $widget->persist();
+
+        // Steps
         $filter = ['title' => $widget->getTitle()];
         $this->widgetInstanceIndex->open();
         $this->widgetInstanceIndex->getWidgetGrid()->searchAndOpen($filter);

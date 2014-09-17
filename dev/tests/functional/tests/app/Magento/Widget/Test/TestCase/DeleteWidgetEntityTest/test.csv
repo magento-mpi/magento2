@@ -1,2 +1,2 @@
-"widget";"constraint"
-"cms_page_link";"assertWidgetDeleteSuccessMessage, assertWidgetAbsentOnFrontendHome"
+"widget/dataSet";"constraint"
+"cms_page_link";"assertWidgetSuccessDeleteMessage, assertWidgetAbsentOnFrontendHome"

@@ -28,11 +28,11 @@ class Curl extends AbstractCurl
      */
     protected $mappingData = [
         'theme_id' => [
-            'Magento Blank' => 3,
+            'Magento Blank' => 2,
         ],
         'code' => [
             'CMS Page Link' => 'cms_page_link',
-            ],
+        ],
     ];
 
     /**
@@ -47,6 +47,10 @@ class Curl extends AbstractCurl
         $data = $this->replaceMappingData($fixture->getData());
         $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/'
             . $data['code'] . '/theme_id/' . $data['theme_id'];
+        if (isset($data['page_id'])) {
+            $data['parameters']['page_id'] = $data['page_id'][0];
+            unset($data['page_id']);
+        }
         unset($data['code']);
         unset($data['theme_id']);
         $curl = new BackendDecorator(new CurlTransport(), new Config());

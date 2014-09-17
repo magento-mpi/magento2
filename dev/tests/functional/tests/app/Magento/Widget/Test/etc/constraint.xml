@@ -8,9 +8,9 @@
  */
 -->
 <constraint>
-    <assertWidgetDeleteSuccessMessage module="Magento_Widget">
+    <assertWidgetSuccessDeleteMessage module="Magento_Widget">
         <severeness>low</severeness>
-    </assertWidgetDeleteSuccessMessage>
+    </assertWidgetSuccessDeleteMessage>
     <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetAbsentOnFrontendHome>

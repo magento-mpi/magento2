@@ -49,7 +49,7 @@ class Widget extends AbstractRepository
         $this->_data['cms_page_link'] = [
             'code' => 'CMS Page Link',
             'title' => 'Cms Page Link %isolation%',
-            'store_ids' => ['0'],
+            'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
@@ -65,7 +65,9 @@ class Widget extends AbstractRepository
                 'display_mode' => 'fixed',
                 'anchor_text' => 'text',
                 'title' => 'anchor title',
+
             ],
+            'page_id' => ['dataSet' => 'default'],
             'theme_id' => 'Magento Blank'
         ];
     }
