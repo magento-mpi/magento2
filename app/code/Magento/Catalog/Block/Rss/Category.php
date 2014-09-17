@@ -89,6 +89,7 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
             . $this->getStoreId() . '_'
             . $this->customerSession->getId()
         );
+        parent::_construct();
     }
 
     /**
@@ -207,10 +208,7 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
      */
     public function isAllowed()
     {
-        if ($this->_scopeConfig->getValue('rss/catalog/category', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-            return true;
-        }
-        return false;
+        return $this->_scopeConfig->isSetFlag('rss/catalog/category', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

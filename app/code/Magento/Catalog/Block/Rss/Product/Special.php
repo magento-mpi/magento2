@@ -91,6 +91,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
     protected function _construct()
     {
         $this->setCacheKey('rss_catalog_special_' . $this->getStoreId() . '_' . $this->getCustomerGroupId());
+        parent::_construct();
     }
 
     /**
@@ -226,10 +227,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function isAllowed()
     {
-        if ($this->_scopeConfig->getValue('rss/catalog/special', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-            return true;
-        }
-        return false;
+        return $this->_scopeConfig->isSetFlag('rss/catalog/special', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

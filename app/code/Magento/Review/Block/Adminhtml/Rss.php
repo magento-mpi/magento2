@@ -28,6 +28,7 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Review\Model\Rss $rssModel
      * @param array $data
      */
     public function __construct(
@@ -97,7 +98,7 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getFeeds()
     {

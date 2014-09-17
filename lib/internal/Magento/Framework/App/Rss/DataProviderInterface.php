@@ -38,6 +38,7 @@ interface DataProviderInterface
     public function getCacheLifetime();
 
     /**
+     * Get information about all feeds this Data Provider is responsible for
      * @return array
      */
     public function getFeeds();

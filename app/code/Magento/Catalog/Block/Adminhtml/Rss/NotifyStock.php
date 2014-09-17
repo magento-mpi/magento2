@@ -48,6 +48,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock implements DataPr
     protected function _construct()
     {
         $this->setCacheKey('rss_catalog_notifystock');
+        parent::_construct();
     }
 
     /**
@@ -60,7 +61,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock implements DataPr
         $data = array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8');
 
         foreach ($this->rssModel->getProductsCollection() as $item) {
-            /* @var $product \Magento\Catalog\Model\Product */
+            /* @var $item \Magento\Catalog\Model\Product */
             $url = $this->getUrl(
                 'catalog/product/edit',
                 array('id' => $item->getId(), '_secure' => true, '_nosecret' => true)
@@ -90,7 +91,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock implements DataPr
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getFeeds()
     {
