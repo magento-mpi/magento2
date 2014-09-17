@@ -112,7 +112,7 @@
                 <arguments>
                     <argument name="config" xsi:type="array">
                         <item name="types" xsi:type="array">
-                            <item name="store" xsi:type="array">
+                            <item name="filter_store" xsi:type="array">
                                 <item name="content_template" xsi:type="string">Magento_Store/templates/filter/store.html</item>
                                 <item name="control" xsi:type="string">Magento_Store/listing/filter/store</item>
                             </item>
