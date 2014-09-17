@@ -7,6 +7,8 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Gift wrapping order create abstract block
  *
@@ -43,12 +45,14 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
@@ -57,7 +61,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
         $this->_coreData = $coreData;
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingCollectionFactory = $wrappingCollectionFactory;
-        parent::__construct($context, $sessionQuote, $orderCreate, $data);
+        parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
     }
 
     /**

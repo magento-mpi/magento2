@@ -7,6 +7,7 @@
  */
 namespace Magento\Tax\Model;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
@@ -154,6 +155,11 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     protected $customerBuilder;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -161,15 +167,15 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
-     * @param \Magento\Tax\Model\Resource\Calculation $resource
+     * @param Resource\TaxClass\CollectionFactory $classesFactory
+     * @param Resource\Calculation $resource
      * @param AddressServiceInterface $addressService
      * @param GroupServiceInterface $groupService
      * @param CustomerAccountServiceInterface $customerAccount
      * @param CustomerBuilder $customerBuilder
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
-     * @internal param \Magento\Customer\Model\Converter $converter
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -185,6 +191,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         GroupServiceInterface $groupService,
         CustomerAccountServiceInterface $customerAccount,
         CustomerBuilder $customerBuilder,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -198,6 +205,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         $this->_groupService = $groupService;
         $this->customerAccountService = $customerAccount;
         $this->customerBuilder = $customerBuilder;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -727,7 +735,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      */
     public function round($price)
     {
-        return $this->_storeManager->getStore()->roundPrice($price);
+        return $this->priceCurrency->round($price);
     }
 
     /**
