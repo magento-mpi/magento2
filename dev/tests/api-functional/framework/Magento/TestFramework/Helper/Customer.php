@@ -17,7 +17,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 class Customer extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/customerAccounts';
+    const RESOURCE_PATH = '/V1/customers';
     const SERVICE_NAME = 'customerCustomerAccountServiceV1';
     const SERVICE_VERSION = 'V1';
 
