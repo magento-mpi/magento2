@@ -25,7 +25,7 @@ interface DataProviderInterface
      *
      * @return array
      */
-    public function getData();
+    public function getRssData();
 
     /**
      * @return string
@@ -36,4 +36,9 @@ interface DataProviderInterface
      * @return int
      */
     public function getCacheLifetime();
+
+    /**
+     * @return array
+     */
+    public function getFeeds();
 }

@@ -43,7 +43,7 @@ class Rss
             return array();
         }
         $cache = false;
-        if ($this->dataProvider->getCacheKey()) {
+        if ($this->dataProvider->getCacheKey() && $this->dataProvider->getCacheLifetime()) {
             $cache = $this->cache->load($this->dataProvider->getCacheKey());
         }
 
@@ -51,7 +51,7 @@ class Rss
             return unserialize($cache);
         }
 
-        $data = $this->dataProvider->getData();
+        $data = $this->dataProvider->getRssData();
 
         if ($this->dataProvider->getCacheKey() && $this->dataProvider->getCacheLifetime()) {
             $this->cache->save(

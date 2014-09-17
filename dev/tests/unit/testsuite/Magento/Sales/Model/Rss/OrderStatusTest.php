@@ -155,7 +155,7 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
             ->with('sales/order/view', array('order_id' => 1))
             ->will($this->returnValue('http://magento.com/sales/order/view/order_id/1'));
 
-        $this->assertEquals($this->feedData, $this->model->getData());
+        $this->assertEquals($this->feedData, $this->model->getRssData());
     }
 
     public function testIsAllowed()
