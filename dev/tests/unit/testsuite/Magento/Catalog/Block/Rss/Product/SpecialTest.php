@@ -70,6 +70,11 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     protected $localeDate;
 
+    /**
+     * @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $request;
+
     protected function setUp()
     {
         $this->request = $this->getMock('Magento\Framework\App\RequestInterface');
@@ -154,7 +159,10 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         unset($rssData['entries'][0]['description']);
         $this->assertEquals($data, $rssData);
         $this->assertContains('<a href="http://magento.com/product-name.html"><', $description);
-        $this->assertContains('<p>Price:  Special Price: 10<br />Special Expires On: 2014-09-16</p>', $description);
+        $this->assertContains(
+            sprintf('<p>Price:  Special Price: 10<br />Special Expires On: %s</p>', date('Y-m-d')),
+            $description
+        );
         $this->assertContains(
             '<img src="image_link" alt="" border="0" align="left" height="75" width="75" />',
             $description
