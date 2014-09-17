@@ -42,22 +42,22 @@ class View extends AbstractView
      *
      * @param OptionsFactory $optionsFactory
      * @param RowPool $dataProviderRowPool
-     * @param Context $renderContext
      * @param TemplateContext $context
+     * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param array $data
      */
     public function __construct(
         OptionsFactory $optionsFactory,
         RowPool $dataProviderRowPool,
-        Context $renderContext,
         TemplateContext $context,
+        Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
         array $data = []
     ) {
         $this->optionsFactory = $optionsFactory;
         $this->dataProviderRowPool = $dataProviderRowPool;
-        parent::__construct($renderContext, $context, $contentTypeFactory, $data);
+        parent::__construct($context, $renderContext, $contentTypeFactory, $data);
     }
 
     /**

@@ -263,5 +263,4 @@ class ActionPool
         }
         return ($sortOrderA < $sortOrderB) ? -1 : 1;
     }
-
 }

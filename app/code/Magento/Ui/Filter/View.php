@@ -52,22 +52,22 @@ class View extends AbstractView
      *
      * @param Data $dataHelper
      * @param FilterPool $filterPool
-     * @param Context $renderContext
      * @param TemplateContext $context
+     * @param Context $renderContext
      * @param ContentTypeFactory $factory
      * @param array $data
      */
     public function __construct(
         Data $dataHelper,
         FilterPool $filterPool,
-        Context $renderContext,
         TemplateContext $context,
+        Context $renderContext,
         ContentTypeFactory $factory,
         array $data = []
     ) {
         $this->dataHelper = $dataHelper;
         $this->filterPool = $filterPool;
-        parent::__construct($renderContext, $context, $factory, $data);
+        parent::__construct($context, $renderContext, $factory, $data);
     }
 
     /**
