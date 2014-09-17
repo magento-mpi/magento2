@@ -27,6 +27,16 @@
                 <argument name="file" xsi:type="string">Magento_Doc::jumly/css/jumly.min.css</argument>
             </arguments>
         </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="prettify-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Doc::prettify/prettify.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="prettify-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Doc::prettify/run_prettify.js</argument>
+            </arguments>
+        </block>
 
         <block class="Magento\Theme\Block\Html\Head\Script" name="requirejs">
             <arguments>

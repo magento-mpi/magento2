@@ -589,7 +589,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      * @param Item\AbstractItem $item
      * @return string
      */
-    public function getRowtotalExclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
+    public function getRowTotalExclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
     {
         /** @var Renderer $block */
         $block = $this->getLayout()->getBlock('checkout.onepage.review.item.price.rowtotal.excl');
@@ -603,7 +603,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      * @param Item\AbstractItem $item
      * @return string
      */
-    public function getRowtotalInclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
+    public function getRowTotalInclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
     {
         /** @var Renderer $block */
         $block = $this->getLayout()->getBlock('checkout.onepage.review.item.price.rowtotal.incl');
