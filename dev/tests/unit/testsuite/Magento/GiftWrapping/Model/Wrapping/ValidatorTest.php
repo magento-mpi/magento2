@@ -24,22 +24,29 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping\Validator');
     }
 
-    public function testValidate()
+    public function testValidateWithError()
     {
         $presentFields = [
             'status' => 'Status',
             'base_price' => 'Price'
         ];
-        $warningFields = [
-            'design' => __('Field is required: Gift Wrapping Design')
+        $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');
+        $wrapping->setData($presentFields);
+
+        $this->assertFalse($this->validator->isValid($wrapping));
+    }
+
+    public function testValidateSuccess()
+    {
+        $presentFields = [
+            'status' => 'Status',
+            'base_price' => 'Price',
+            'design' => 'Design'
         ];
 
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');
-        // prepare data
-        foreach ($presentFields as $key => $val) {
-            $wrapping->setData($key, $val);
-        }
+        $wrapping->setData($presentFields);
 
-        $this->assertEquals($warningFields, $this->validator->validate($wrapping));
+        $this->assertTrue($this->validator->isValid($wrapping));
     }
 }

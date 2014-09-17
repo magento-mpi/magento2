@@ -50,7 +50,7 @@ class SalesRuleRefund
      * Refund reward points earned by salesRule
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return null
+     * @return void
      */
     public function refund(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
