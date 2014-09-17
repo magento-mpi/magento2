@@ -32,7 +32,7 @@ use Magento\Framework\Service\V1\Data\SortOrder;
 class CustomerGroupService implements CustomerGroupServiceInterface
 {
 
-    const MESSAGE_CUSTOMER_GROUP_ID_IS_NOT_EXPECTED = 'id is not expected for this request.';
+    const MESSAGE_CUSTOMER_GROUP_ID_IS_NOT_EXPECTED = 'ID is not expected for this request.';
 
     /**
      * @var GroupFactory

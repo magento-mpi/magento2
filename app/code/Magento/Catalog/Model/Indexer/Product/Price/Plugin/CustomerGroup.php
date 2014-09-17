@@ -12,10 +12,11 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 class CustomerGroup extends AbstractPlugin
 {
     /**
+     * Invalidate the indexer after the group is created.
+     *
      * @param CustomerGroupServiceInterface $subject
      * @param string                        $result
      * @return string
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterCreateGroup(CustomerGroupServiceInterface $subject, $result)
@@ -25,10 +26,11 @@ class CustomerGroup extends AbstractPlugin
     }
 
     /**
+     * Invalidate the indexer after the group is updated.
+     *
      * @param CustomerGroupServiceInterface $subject
      * @param string                        $result
      * @return string
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterUpdateGroup(CustomerGroupServiceInterface $subject, $result)
@@ -38,10 +40,11 @@ class CustomerGroup extends AbstractPlugin
     }
 
     /**
+     * Invalidate the indexer after the group is deleted.
+     *
      * @param CustomerGroupServiceInterface $subject
      * @param string                        $result
      * @return string
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDeleteGroup(CustomerGroupServiceInterface $subject, $result)
