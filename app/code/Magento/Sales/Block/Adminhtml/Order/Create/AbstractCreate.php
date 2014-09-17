@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Adminhtml sales order create abstract block
  *
@@ -29,17 +31,25 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     protected $_orderCreate;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_sessionQuote = $sessionQuote;
         $this->_orderCreate = $orderCreate;
         parent::__construct($context, $data);
@@ -108,12 +118,17 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     /**
      * Retrieve formated price
      *
-     * @param decimal $value
+     * @param float $value
      * @return string
      */
     public function formatPrice($value)
     {
-        return $this->getStore()->formatPrice($value);
+        return $this->priceCurrency->format(
+            $value,
+            true,
+            PriceCurrencyInterface::DEFAULT_PRECISION,
+            $this->getStore()
+        );
     }
 
     /**
@@ -125,6 +140,13 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      */
     public function convertPrice($value, $format = true)
     {
-        return $this->getStore()->convertPrice($value, $format);
+        return $format
+            ? $this->priceCurrency->convertAndFormat(
+                $value,
+                true,
+                PriceCurrencyInterface::DEFAULT_PRECISION,
+                $this->getStore()
+            )
+            : $this->priceCurrency->convert($value, $this->getStore());
     }
 }
