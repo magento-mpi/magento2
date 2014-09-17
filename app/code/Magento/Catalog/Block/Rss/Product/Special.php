@@ -237,7 +237,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function getCacheLifetime()
     {
-        return 0;
+        return 600;
     }
 
     /**
