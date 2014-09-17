@@ -1,0 +1,4 @@
+"orders";"report/report_from";"report/report_to";"report/report_period";"columns/orders";"columns/average";"columns/total";"constraint"
+"default,simple_product_for_tax_rule";"m/d/Y";"m/d/Y";"Day";"2";"330";"660";"assertOrderCountReportInGrid"
+"default,simple_product_for_tax_rule";"m/d/Y";"m/d/Y";"Month";"2";"330";"660";"assertOrderCountReportInGrid"
+"default";"m/d/Y";"m/d/Y";"Year";"1";"560";"560";"assertOrderCountReportInGrid"

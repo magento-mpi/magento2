@@ -206,6 +206,7 @@ class CatalogProductSimple extends AbstractRepository
             'weight' => 1,
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
+            'checkout_data' => ['preset' => 'order_default'],
         ];
 
         $this->_data['withSpecialPrice'] = [
