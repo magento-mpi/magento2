@@ -70,9 +70,10 @@ class Calculator implements BundleCalculatorInterface
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
      * @param null|string $exclude
+     * @param null|array $context
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
-    public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null)
+    public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null, $context = [])
     {
         return $this->getOptionsAmount($saleableItem, $exclude, true, $amount);
     }
