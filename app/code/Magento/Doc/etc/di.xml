@@ -33,8 +33,7 @@
     <type name="Magento\Framework\View\TemplateEngineFactory">
         <arguments>
             <argument name="engines" xsi:type="array">
-                <item name="xhtml" xsi:type="string">Magento\Doc\TemplateEngine\Xhtml</item>
-                <item name="html" xsi:type="string">Magento\Doc\TemplateEngine\Xhtml</item>
+                <item name="html" xsi:type="string">Magento\Doc\TemplateEngine\Html</item>
             </argument>
         </arguments>
     </type>
@@ -42,18 +41,19 @@
     <type name="\Magento\Doc\Document\Type\Factory">
         <arguments>
             <argument name="types" xsi:type="array">
+                <item name="api" xsi:type="string">Magento\Doc\Document\Type\Api</item>
                 <item name="article" xsi:type="string">Magento\Doc\Document\Type\Article</item>
                 <item name="diagram" xsi:type="string">Magento\Doc\Document\Type\Diagram</item>
-                <item name="screenshot" xsi:type="string">Magento\Doc\Document\Type\Screenshot</item>
-                <item name="api" xsi:type="string">Magento\Doc\Document\Type\Api</item>
                 <item name="example" xsi:type="string">Magento\Doc\Document\Type\Example</item>
-                <item name="reference-scheme" xsi:type="string">Magento\Doc\Document\Type\ReferenceScheme</item>
+                <item name="media" xsi:type="string">Magento\Doc\Document\Type\Media</item>
                 <item name="reference-code" xsi:type="string">Magento\Doc\Document\Type\ReferenceCode</item>
+                <item name="reference-file" xsi:type="string">Magento\Doc\Document\Type\ReferenceFile</item>
+                <item name="reference-dir" xsi:type="string">Magento\Doc\Document\Type\ReferenceDir</item>
             </argument>
         </arguments>
     </type>
 
-    <type name="Magento\Doc\Document\Scheme\Collector">
+    <type name="Magento\Doc\Document\Outline\Collector">
         <arguments>
             <argument name="baseFiles" xsi:type="object">templateFileSourceBaseSorted</argument>
         </arguments>
@@ -68,13 +68,13 @@
             <argument name="subject" xsi:type="object">templateFileSourceBase</argument>
         </arguments>
     </virtualType>
-    <virtualType name="templateFileSourceBase" type="Magento\Doc\Document\Scheme\Collector\Base">
+    <virtualType name="templateFileSourceBase" type="Magento\Doc\Document\Outline\Collector\Base">
         <arguments>
-            <argument name="subDir" xsi:type="string">docs</argument>
+            <argument name="subDir" xsi:type="string">docs/outline</argument>
         </arguments>
     </virtualType>
 
-    <type name="Magento\Doc\Document\Scheme\ValidationState">
+    <type name="Magento\Doc\Document\Outline\ValidationState">
         <arguments>
             <argument name="appMode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
         </arguments>

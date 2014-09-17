@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<outline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../outline.xsd">
+    <content>
+        <item name="API_Framework_Overview" type="article" module="Magento_Doc">
+            <label>Overview</label>
+        </item>
+        <item name="API_Framework_Ui" type="article" module="Magento_Doc">
+            <label>UI components</label>
+            <content>
+                <item name="API_Framework_Ui_Listing" type="article" module="Magento_Doc">
+                    <label>Listing UI Component</label>
+                    <content>
+                        <item name="API_Framework_Ui_Listing_Directory" type="reference-dir" reference="code::Magento/Ui/Listing" module="Magento_Doc">
+                            <label>Directory Structure</label>
+                        </item>
+                    </content>
+                </item>
+            </content>
+        </item>
+    </content>
+</outline>
