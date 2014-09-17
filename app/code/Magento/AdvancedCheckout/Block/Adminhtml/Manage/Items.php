@@ -7,6 +7,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Shopping Cart items grid
  *
@@ -30,10 +32,16 @@ class Items extends \Magento\Backend\Block\Template
     protected $_wishlistFactory;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
@@ -41,12 +49,14 @@ class Items extends \Magento\Backend\Block\Template
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Framework\Registry $registry,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
         $this->_registry = $registry;
         parent::__construct($context, $data);
         $this->_wishlistFactory = $wishlistFactory;
+        $this->priceCurrency = $priceCurrency;
     }
 
     /**
@@ -112,8 +122,6 @@ class Items extends \Magento\Backend\Block\Template
         } else {
             return $address->getSubtotal();
         }
-
-        return false;
     }
 
     /**
@@ -149,7 +157,12 @@ class Items extends \Magento\Backend\Block\Template
      */
     public function formatPrice($value)
     {
-        return $this->getStore()->formatPrice($value);
+        return $this->priceCurrency->format(
+            $value,
+            true,
+            PriceCurrencyInterface::DEFAULT_PRECISION,
+            $this->getStore()
+        );
     }
 
     /**
