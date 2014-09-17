@@ -7,21 +7,10 @@
 define([
     '_',
     'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/component'
-], function(_, Scope, Component) {
+    'Magento_Ui/js/lib/component',
+    './filter/filters'
+], function(_, Scope, Component, controls) {
     'use strict';
-
-    var BASE_PATH = 'Magento_Ui/js/listing/filter';
-
-    var defaults = {
-        defaultTypes: 'input',
-        types: {
-            input:  BASE_PATH + '/input',
-            select: BASE_PATH + '/select',
-            range:  BASE_PATH + '/range',
-            date:   BASE_PATH + '/date'
-        }
-    }
 
     var Filter = Scope.extend({
         /**
@@ -29,63 +18,12 @@ define([
          * @param {Object} config - Filter component configuration
          */
         initialize: function(config) {
-            _.extend(this, config);
-
-            this.loadControls(this.proceed);
-        },
-
-        proceed: function (controls) {
-            this.types = controls;
+            this.config  = config;
+            this.provider = this.config.provider;
 
             this.initObservable()
                 .extractFields()
                 .initFilters();
-        },
-
-        loadControls: function (callback) {
-            var pathes,
-                defaultTypes = defaults.types,
-                defaultType  = defaults.type,
-                paths,
-                controls,
-                types;
-
-            types = _.map(this.types, function (config, type) {
-                config.name = type || defaultType;
-
-                config.control = config.control ||
-                    defaultTypes[type]          ||
-                    defaultTypes[defaults.type];
-
-                return config;
-            });
-
-            controls = types.map(function (settings) {
-                return {
-                    path:   settings.control,
-                    name:   settings.name,
-                    config: settings.config
-                }
-            });
-
-            paths = _.pluck(controls, 'path');
-
-            require(paths, this.onControlsLoaded.bind(this, controls, callback));
-        },
-
-        onControlsLoaded: function (controlsMap, callback) {
-            var controls = Array.prototype.slice.call(arguments, 2),
-                control;
-
-            controls = controls.map(function (constr, idx) {
-                control = controlsMap[idx];
-                delete control.path;
-                control.constr = constr;
-
-                return control;
-            });
-
-            callback.call(this, _.indexBy(controls, 'name'));
         },
 
         /**
@@ -122,15 +60,15 @@ define([
          * @returns {Filter} Chainbale.
          */
         initFilters: function () {
-            var controls = this.types,
+            var configs = this.config.types,
                 config,
                 type,
                 control;
 
             this.filters = this.fields.map(function (field) {
                 type    = (field.filter_type || field.input_type);
-                config  = controls && controls[type];
-                control = config.constr;
+                config  = configs && configs[type];
+                control = controls[type];
 
                 field.type = type;
 

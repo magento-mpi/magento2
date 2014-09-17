@@ -5,39 +5,10 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/listing/filter/abstract',
+    './abstract',
     '_'
 ], function (AbstractControl, _) {
     'use strict';
-
-    /**
-     * Recursively loops through array of objects ({label: '...', value: '...'}
-     *     or {label: '...', items: [...]}), looking for label, corresponding to value.
-     * @param  {Array} arr
-     * @param  {String} selected
-     * @return {String} found label
-     */
-    function findIn(arr, selected) {
-        var found,
-            obj,
-            i;
-
-        for (i = 0; i < arr.length; i++) {
-            obj = arr[i];
-
-            if ('value' in obj) {
-                found = obj.value == selected && obj.label;
-            } else {
-                found = findIn(obj.items, selected);
-            }
-
-            if (found) {
-                break;
-            }
-        }
-
-        return found;
-    }
 
     return AbstractControl.extend({
 
@@ -53,7 +24,7 @@ define([
 
             this.observe('selected', '');
 
-            this.options = this.options || [];
+            this.options = this.options ? this.formatOptions(this.options) : [];
         },
 
         /**
@@ -61,18 +32,30 @@ define([
          * @return {Boolean}
          */
         isEmpty: function(){
-            return !this.selected();
+            var selected = this.selected();
+
+            return !(selected && selected.value);
         },
 
         /**
-         * Looks up through the options for label, corresponding to passed value
-         * @param  {String} selected
-         * @return {String} label
+         * Formats options property of instance.
+         * @param {Object} options - object representing options
+         * @returns {Array} - Options, converted to array
          */
-        getLabelFor: function (selected) {
-            var label = findIn(this.options, selected);
-            
-            return label;
+        formatOptions: function (options) {
+            return _.map(options, function (value, key) {
+                return { value: key, label: value  };
+            });
+        },
+
+        /**
+         * Returns string value of current state for UI
+         * @return {String}
+         */
+        display: function(){
+            var selected = this.selected();
+
+            return selected && selected.label;
         },
 
         /**
@@ -81,11 +64,12 @@ define([
          */
         dump: function () {
             var selected = this.selected();
-            this.output(this.getLabelFor(selected));
+
+            this.output( this.display() );
 
             return {
                 field: this.index,
-                value: selected
+                value: selected && selected.value
             }
         },
 
