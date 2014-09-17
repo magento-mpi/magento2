@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/archive/invoices" module="Magento_SalesArchive">
+    <blocks>
+        <invoicesGrid>
+            <class>Magento\SalesArchive\Test\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid</class>
+            <locator>#sales_invoice_grid_archive</locator>
+            <strategy>css selector</strategy>
+        </invoicesGrid>
+    </blocks>
+</page>

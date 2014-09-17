@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/order_shipment/new">
+    <blocks>
+        <shipItemsBlock>
+            <class>Magento\Shipping\Test\Block\Adminhtml\Create\Items</class>
+            <locator>#ship_items_container</locator>
+            <strategy>css selector</strategy>
+        </shipItemsBlock>
+    </blocks>
+</page>

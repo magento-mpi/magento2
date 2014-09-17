@@ -19,5 +19,10 @@
             <locator>#sales_order_grid</locator>
             <strategy>css selector</strategy>
         </salesOrderGrid>
+        <messagesBlock>
+            <class>Magento\Sales\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
     </blocks>
 </page>

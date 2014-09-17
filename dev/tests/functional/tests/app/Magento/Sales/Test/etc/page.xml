@@ -55,4 +55,9 @@
         <mca>sales/order/view</mca>
         <class>Magento\Sales\Test\Page\OrderView</class>
     </orderView>
+    <orderShipmentNew>
+        <mca>admin/order_shipment/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderShipmentNew</class>
+    </orderShipmentNew>
 </page>

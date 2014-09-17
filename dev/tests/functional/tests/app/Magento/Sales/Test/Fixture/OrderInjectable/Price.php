@@ -39,6 +39,9 @@ class Price extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price
     public function getPreset()
     {
         $presets = [
+            'default' => [
+                'grand_invoice_total' => 1222.40,
+            ],
             'default_with_discount' => [
                 'subtotal' => 1120,
                 'discount' => 560,
