@@ -58,6 +58,7 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
     protected function _construct()
     {
         $this->setCacheKey('rss_catalog_salesrule_' . $this->getStoreId() . '_' . $this->getCustomerGroupId());
+        parent::_construct();
     }
 
     /**
@@ -151,14 +152,14 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
      */
     public function isAllowed()
     {
-        if ($this->_scopeConfig->getValue('rss/catalog/discounts', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-            return true;
-        }
-        return false;
+        return $this->_scopeConfig->isSetFlag(
+            'rss/catalog/discounts',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getFeeds()
     {

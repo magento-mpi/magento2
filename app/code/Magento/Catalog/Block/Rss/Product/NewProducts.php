@@ -64,6 +64,7 @@ class NewProducts extends \Magento\Framework\View\Element\AbstractBlock implemen
     protected function _construct()
     {
         $this->setCacheKey('rss_catalog_new_products_store_' . $this->getStoreId());
+        parent::_construct();
     }
 
     /**
@@ -71,10 +72,7 @@ class NewProducts extends \Magento\Framework\View\Element\AbstractBlock implemen
      */
     public function isAllowed()
     {
-        if ($this->_scopeConfig->getValue('rss/catalog/new', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-            return true;
-        }
-        return false;
+        return $this->_scopeConfig->isSetFlag('rss/catalog/new', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -113,7 +111,6 @@ class NewProducts extends \Magento\Framework\View\Element\AbstractBlock implemen
             }
 
             $allowedPriceInRss = $item->getAllowedPriceInRss();
-            $item->setData($item->getData());
             $description ='
                 <table><tr>
                 <td><a href="%s"><img src="%s" border="0" align="left" height="75" width="75"></a></td>

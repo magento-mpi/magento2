@@ -40,6 +40,7 @@ class Link extends \Magento\Framework\View\Element\Template
     protected function _construct()
     {
         $this->setId('grid.rss.link');
+        parent::_construct();
     }
 
     /**
