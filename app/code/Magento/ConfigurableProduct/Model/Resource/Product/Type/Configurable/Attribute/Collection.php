@@ -56,6 +56,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected $_storeManager;
 
+    protected static $priceValues;
+
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Framework\Logger $logger
@@ -243,101 +245,137 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * Load attribute prices information
      *
      * @return $this
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _loadPrices()
     {
         if ($this->count()) {
-            $pricings = array(0 => array());
 
-            if ($this->_catalogData->isPriceGlobal()) {
-                $websiteId = 0;
-            } else {
-                $websiteId = (int)$this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
-                $pricing[$websiteId] = array();
-            }
-
-            $select = $this->getConnection()->select()->from(
-                array('price' => $this->_priceTable)
-            )->where(
-                'price.product_super_attribute_id IN (?)',
-                array_keys($this->_items)
-            );
-
-            if ($websiteId > 0) {
-                $select->where('price.website_id IN(?)', array(0, $websiteId));
-            } else {
-                $select->where('price.website_id = ?', 0);
-            }
-
-            $query = $this->getConnection()->query($select);
-
-            while ($row = $query->fetch()) {
-                $pricings[(int)$row['website_id']][] = $row;
-            }
-
-            $values = array();
-            $usedProducts = $this->getProductType()->getUsedProducts($this->getProduct());
-            if ($usedProducts) {
-                foreach ($this->_items as $item) {
-                    $productAttribute = $item->getProductAttribute();
-                    if (!$productAttribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
-                        continue;
-                    }
-                    $itemId = $item->getId();
-                    $options = $productAttribute->getFrontend()->getSelectOptions();
-                    foreach ($options as $option) {
-                        foreach ($usedProducts as $associatedProduct) {
-                            $attributeCodeValue = $associatedProduct->getData($productAttribute->getAttributeCode());
-                            if (!empty($option['value']) && $option['value'] == $attributeCodeValue) {
-                                // If option available in associated product
-                                if (!isset($values[$item->getId() . ':' . $option['value']])) {
-                                    $values[$itemId . ':' . $option['value']] = array(
-                                        'product_super_attribute_id' => $itemId,
-                                        'value_index' => $option['value'],
-                                        'label' => $option['label'],
-                                        'default_label' => $option['label'],
-                                        'store_label' => $option['label'],
-                                        'is_percent' => 0,
-                                        'pricing_value' => null,
-                                        'use_default_value' => true
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            foreach ($pricings[0] as $pricing) {
-                // Addding pricing to options
-                $valueKey = $pricing['product_super_attribute_id'] . ':' . $pricing['value_index'];
-                if (isset($values[$valueKey])) {
-                    $values[$valueKey]['pricing_value'] = $pricing['pricing_value'];
-                    $values[$valueKey]['is_percent'] = $pricing['is_percent'];
-                    $values[$valueKey]['value_id'] = $pricing['value_id'];
-                    $values[$valueKey]['use_default_value'] = true;
-                }
-            }
-
-            if ($websiteId && isset($pricings[$websiteId])) {
-                foreach ($pricings[$websiteId] as $pricing) {
-                    $valueKey = $pricing['product_super_attribute_id'] . ':' . $pricing['value_index'];
-                    if (isset($values[$valueKey])) {
-                        $values[$valueKey]['pricing_value'] = $pricing['pricing_value'];
-                        $values[$valueKey]['is_percent'] = $pricing['is_percent'];
-                        $values[$valueKey]['value_id'] = $pricing['value_id'];
-                        $values[$valueKey]['use_default_value'] = false;
-                    }
-                }
-            }
+            $values = $this->getPriceValues();
 
             foreach ($values as $data) {
                 $this->getItemById($data['product_super_attribute_id'])->addPrice($data);
             }
         }
         return $this;
+    }
+
+    /**
+     * Retrieve price values
+     *
+     * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    protected function getPriceValues()
+    {
+        if (isset(self::$priceValues[$this->getProduct()->getId()])) {
+            return self::$priceValues[$this->getProduct()->getId()];
+        }
+        $pricings = array(0 => array());
+
+        if ($this->_catalogData->isPriceGlobal()) {
+            $websiteId = 0;
+        } else {
+            $websiteId = (int) $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
+            $pricing[$websiteId] = array();
+        }
+
+        $select = $this->getConnection()->select()->from(
+            array('price' => $this->_priceTable)
+        )->where(
+            'price.product_super_attribute_id IN (?)',
+            array_keys($this->_items)
+        );
+
+        if ($websiteId > 0) {
+            $select->where('price.website_id IN(?)', array(0, $websiteId));
+        } else {
+            $select->where('price.website_id = ?', 0);
+        }
+
+        $query = $this->getConnection()->query($select);
+
+        while ($row = $query->fetch()) {
+            $pricings[(int)$row['website_id']][] = $row;
+        }
+
+        $values = array();
+        $usedProducts = $this->getProductType()->getUsedProducts($this->getProduct());
+        if ($usedProducts) {
+            foreach ($this->_items as $item) {
+                $productAttribute = $item->getProductAttribute();
+                if (!$productAttribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
+                    continue;
+                }
+                $itemId = $item->getId();
+                $options = $this->getIncludedOptions($usedProducts, $productAttribute);
+                foreach ($options as $option) {
+                    foreach ($usedProducts as $associatedProduct) {
+                        $attributeCodeValue = $associatedProduct->getData($productAttribute->getAttributeCode());
+                        if (!empty($option['value']) && $option['value'] == $attributeCodeValue) {
+                            // If option available in associated product
+                            if (!isset($values[$item->getId() . ':' . $option['value']])) {
+                                $values[$itemId . ':' . $option['value']] = array(
+                                    'product_super_attribute_id' => $itemId,
+                                    'value_index' => $option['value'],
+                                    'label' => $option['label'],
+                                    'default_label' => $option['label'],
+                                    'store_label' => $option['label'],
+                                    'is_percent' => 0,
+                                    'pricing_value' => null,
+                                    'use_default_value' => true
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($pricings[0] as $pricing) {
+            // Addding pricing to options
+            $valueKey = $pricing['product_super_attribute_id'] . ':' . $pricing['value_index'];
+            if (isset($values[$valueKey])) {
+                $values[$valueKey]['pricing_value'] = $pricing['pricing_value'];
+                $values[$valueKey]['is_percent'] = $pricing['is_percent'];
+                $values[$valueKey]['value_id'] = $pricing['value_id'];
+                $values[$valueKey]['use_default_value'] = true;
+            }
+        }
+
+        if ($websiteId && isset($pricings[$websiteId])) {
+            foreach ($pricings[$websiteId] as $pricing) {
+                $valueKey = $pricing['product_super_attribute_id'] . ':' . $pricing['value_index'];
+                if (isset($values[$valueKey])) {
+                    $values[$valueKey]['pricing_value'] = $pricing['pricing_value'];
+                    $values[$valueKey]['is_percent'] = $pricing['is_percent'];
+                    $values[$valueKey]['value_id'] = $pricing['value_id'];
+                    $values[$valueKey]['use_default_value'] = false;
+                }
+            }
+        }
+
+        self::$priceValues[$this->getProduct()->getId()] = $values;
+
+        return $values;
+    }
+
+    /**
+     * Get options for all product attribute values from used products
+     *
+     * @param $usedProducts
+     * @param $productAttribute
+     * @return array
+     */
+    protected function getIncludedOptions($usedProducts, $productAttribute)
+    {
+        $attributeValues = [];
+        foreach ($usedProducts as $associatedProduct) {
+            $attributeValues[] = $associatedProduct->getData($productAttribute->getAttributeCode());
+        }
+        $options = $productAttribute->getSource()->getSpecificOptions(array_unique($attributeValues));
+        return $options;
+
     }
 
     /**
