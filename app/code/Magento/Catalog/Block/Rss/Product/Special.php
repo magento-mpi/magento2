@@ -98,7 +98,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function getRssData()
     {
-        $newUrl = $this->rssUrlBuilder->getUrl(array('store_id' => $this->getStoreId()));
+        $newUrl = $this->rssUrlBuilder->getUrl(array('type' => 'special_products', 'store_id' => $this->getStoreId()));
         $title = __('%1 - Special Products', $this->storeManager->getStore()->getFrontendName());
         $lang = $this->_scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 

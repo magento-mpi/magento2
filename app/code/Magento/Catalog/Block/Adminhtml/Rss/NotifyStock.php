@@ -78,7 +78,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock implements DataPr
      */
     public function getCacheLifetime()
     {
-        return 0;
+        return 600;
     }
 
     /**

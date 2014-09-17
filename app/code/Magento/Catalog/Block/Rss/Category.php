@@ -199,7 +199,7 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
      */
     public function getCacheLifetime()
     {
-        return 0;
+        return 600;
     }
 
     /**
