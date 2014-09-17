@@ -365,9 +365,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $password = null,
         $redirectUrl = ''
     ) {
-        //Generate password hash
-        $password = $password ? $password : $this->mathRandom->getRandomString(self::DEFAULT_PASSWORD_LENGTH);
-        $this->checkPasswordStrength($password);
+        if ($password) {
+            $this->checkPasswordStrength($password);
+        } else {
+            $password = $this->mathRandom->getRandomString(self::MIN_PASSWORD_LENGTH);
+        }
         $hash = $this->getPasswordHash($password);
         return $this->createCustomerWithPasswordHash($customerDetails, $hash, $redirectUrl);
     }

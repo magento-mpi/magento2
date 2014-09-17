@@ -1013,7 +1013,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
         /** @var \Magento\Framework\Math\Random $mathRandom */
         $password = $this->_objectManager->get('Magento\Framework\Math\Random')->getRandomString(
-            CustomerAccountServiceInterface::DEFAULT_PASSWORD_LENGTH
+            CustomerAccountServiceInterface::MIN_PASSWORD_LENGTH
         );
         /** @var \Magento\Framework\Encryption\EncryptorInterface $encryptor */
         $encryptor = $this->_objectManager->get('Magento\Framework\Encryption\EncryptorInterface');

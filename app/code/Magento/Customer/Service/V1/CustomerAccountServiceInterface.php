@@ -36,8 +36,6 @@ interface CustomerAccountServiceInterface
 
     const EMAIL_RESET = 'email_reset';
 
-    const DEFAULT_PASSWORD_LENGTH = 6;
-
     const MIN_PASSWORD_LENGTH = 6;
 
     /**
