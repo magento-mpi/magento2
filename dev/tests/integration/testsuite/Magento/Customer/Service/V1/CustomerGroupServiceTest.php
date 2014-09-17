@@ -148,7 +148,6 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $group = $builder->setId(88)->setCode('Test Create Group With Id')->setTaxClassId(3)->create();
         $this->_groupService->createGroup($group);
-
     }
 
     public function testUpdateGroup()
@@ -294,7 +293,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-    
+
     /**
      * @param $testGroup
      * @param $storeId
