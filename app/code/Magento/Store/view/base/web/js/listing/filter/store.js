@@ -39,8 +39,6 @@ define([
          * @param {Object} config - Filter configuration
          */
         initialize: function (data) {
-            console.log('store');
-
             this.constructor.__super__.initialize.apply(this, arguments);
 
             this.caption = 'Select...';
