@@ -18,23 +18,15 @@ define([
      * @return {String} found label
      */
     function findIn(arr, selected) {
-        var found,
-            obj,
-            i;
+        var found;
 
-        for (i = 0; i < arr.length; i++) {
-            obj = arr[i];
+        arr.some(function(obj){
+            found = 'value' in obj ?
+                obj.value == selected && obj.label :
+                findIn(obj.items, selected);
 
-            if ('value' in obj) {
-                found = obj.value == selected && obj.label;
-            } else {
-                found = findIn(obj.items, selected);
-            }
-
-            if (found) {
-                break;
-            }
-        }
+            return found;
+        });
 
         return found;
     }
@@ -81,6 +73,9 @@ define([
          */
         dump: function () {
             var selected = this.selected();
+
+            console.log( selected );
+
             this.output(this.getLabelFor(selected));
 
             return {

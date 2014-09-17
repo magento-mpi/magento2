@@ -31,9 +31,9 @@ define([
          * @return {Object} dumped value object
          */
         getValues: function(){
-            var value = {},
-                from = this.from(),
-                to = this.to();
+            var value   = {},
+                from    = this.from(),
+                to      = this.to();
 
             if (from) {
                 value.from = from;
@@ -51,15 +51,11 @@ define([
          * @return {String}
          */
         display: function(){
-            var key,
-                values = this.getValues(),
-                result = [];
+            var values = this.getValues();
 
-            for(key in values){
-                result.push(key + ': ' + values[key]);
-            }
-
-            return result.join(' ');
+            return _.map(values, function(value, name){
+                return name + ': ' + value;
+            }).join(' ');
         },
 
         /**
