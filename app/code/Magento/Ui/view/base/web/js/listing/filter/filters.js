@@ -8,16 +8,13 @@
 define([
     './item/filter_input',
     './item/filter_select',
-    './item/filter_range',
-    './item/store'
-], function (InputControl, SelectControl, RangeControl, StoreControl) {
+    './item/filter_range'
+], function (InputControl, SelectControl, RangeControl) {
     'use strict';
 
     return {
         filter_input: InputControl,
         filter_select: SelectControl,
-        filter_range: RangeControl,
-        filter_date: RangeControl,
-        store: StoreControl
+        filter_range: RangeControl
     }
 });
