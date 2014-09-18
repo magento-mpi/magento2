@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui;
+namespace Magento\Framework\View\Element\UiComponent;
 
 use Magento\Framework\Registry;
+use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\App\RequestInterface;
-use Magento\Ui\ContentType\Builders\ConfigurationStorageBuilder;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Class Context
@@ -19,23 +18,18 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 class Context extends Registry
 {
     /**
-     * @var ConfigInterface
-     */
-    protected $config;
-
-    /**
      * Configuration storage builder
      *
-     * @var ConfigurationStorageBuilder
+     * @var ConfigStorageBuilderInterface
      */
-    protected $configurationStorageBuilder;
+    protected $configStorageBuilder;
 
     /**
      * Configuration storage
      *
-     * @var ConfigurationStorageInterface
+     * @var ConfigStorageInterface
      */
-    protected $configurationStorage;
+    protected $configStorage;
 
     /**
      * Application request
@@ -57,9 +51,9 @@ class Context extends Registry
     protected $layout;
 
     /**
-     * @var Render
+     * @var UiComponentFactory
      */
-    protected $render;
+    protected $factory;
 
     /**
      * Data Namespace
@@ -71,17 +65,17 @@ class Context extends Registry
     /**
      * Constructor
      *
-     * @param ConfigurationStorage $configurationStorage
-     * @param ConfigurationStorageBuilder $configurationStorageBuilder
+     * @param ConfigStorageInterface $configStorage
+     * @param ConfigStorageBuilderInterface $configStorageBuilder
      * @param RequestInterface $request
      */
     public function __construct(
-        ConfigurationStorage $configurationStorage,
-        ConfigurationStorageBuilder $configurationStorageBuilder,
+        ConfigStorageInterface $configStorage,
+        ConfigStorageBuilderInterface $configStorageBuilder,
         RequestInterface $request
     ) {
-        $this->configurationStorageBuilder = $configurationStorageBuilder;
-        $this->configurationStorage = $configurationStorage;
+        $this->configStorage = $configStorage;
+        $this->configStorageBuilder = $configStorageBuilder;
         $this->request = $request;
         $this->setAcceptType();
     }
@@ -114,23 +108,23 @@ class Context extends Registry
     }
 
     /**
-     * Set Render
+     * Set Ui Components Factory
      *
-     * @param Render $render
+     * @param UiComponentFactory $render
      */
-    public function setRender(Render $render)
+    public function setRender(UiComponentFactory $render)
     {
-        $this->render = $render;
+        $this->factory = $render;
     }
 
     /**
-     * Get Render
+     * Get Ui Components Factory
      *
-     * @return Render
+     * @return UiComponentFactory
      */
     public function getRender()
     {
-        return $this->render;
+        return $this->factory;
     }
 
     /**
@@ -198,30 +192,20 @@ class Context extends Registry
     /**
      * Get storage configuration
      *
-     * @return ConfigurationStorageInterface
+     * @return configStorageInterface
      */
     public function getStorage()
     {
-        return $this->configurationStorage;
+        return $this->configStorage;
     }
 
     /**
      * Get configuration builder
      *
-     * @return ConfigurationStorageBuilder
+     * @return ConfigStorageBuilderInterface
      */
     public function getConfigurationBuilder()
     {
-        return $this->configurationStorageBuilder;
-    }
-
-    /**
-     * Get configuration object
-     *
-     * @return ConfigInterface
-     */
-    public function getConfig()
-    {
-        return $this->config;
+        return $this->configStorageBuilder;
     }
 }

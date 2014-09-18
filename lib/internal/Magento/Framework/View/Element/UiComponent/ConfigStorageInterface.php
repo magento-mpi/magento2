@@ -5,36 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui;
+namespace Magento\Framework\View\Element\UiComponent;
 
 use Magento\Framework\Data\Collection as DataCollection;
 
 /**
  * Class ConfigurationStorageInterface
  */
-interface ConfigurationStorageInterface
+interface ConfigStorageInterface
 {
     /**
      * Add components configuration
      *
-     * @param ConfigurationInterface $configuration
+     * @param ConfigInterface $configuration
      * @return void
      */
-    public function addComponentsData(ConfigurationInterface $configuration);
+    public function addComponentsData(ConfigInterface $configuration);
 
     /**
      * Remove components configuration
      *
-     * @param ConfigurationInterface $configuration
+     * @param ConfigInterface $configuration
      * @return void
      */
-    public function removeComponentsData(ConfigurationInterface $configuration);
+    public function removeComponentsData(ConfigInterface $configuration);
 
     /**
      * Get components configuration
      *
      * @param string|null $name
-     * @return ConfigurationInterface|null|array
+     * @return ConfigInterface|null|array
      */
     public function getComponentsData($name = null);
 

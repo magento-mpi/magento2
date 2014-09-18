@@ -7,10 +7,12 @@
  */
 namespace Magento\Ui;
 
+use Magento\Framework\View\Element\UiComponent\ConfigInterface;
+
 /**
  * Class Configuration
  */
-class Configuration implements ConfigurationInterface
+class Configuration implements ConfigInterface
 {
     /**
      * Configuration data

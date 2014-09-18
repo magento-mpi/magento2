@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;
 use Magento\Framework\Xml\Generator;
@@ -47,11 +47,11 @@ class Xml implements ContentTypeInterface
     /**
      * Render data
      *
-     * @param ViewInterface $view
+     * @param UiComponentInterface $view
      * @param string $template
      * @return string
      */
-    public function render(ViewInterface $view, $template = '')
+    public function render(UiComponentInterface $view, $template = '')
     {
         $templateEngine = false;
         if ($template) {
@@ -68,10 +68,10 @@ class Xml implements ContentTypeInterface
     }
 
     /**
-     * @param ViewInterface $view
+     * @param UiComponentInterface $view
      * @return string
      */
-    protected function getDataXml(ViewInterface $view)
+    protected function getDataXml(UiComponentInterface $view)
     {
         $result = [
             'configuration' => $view->getRenderContext()->getStorage()->getComponentsData($view->getName())->getData(),

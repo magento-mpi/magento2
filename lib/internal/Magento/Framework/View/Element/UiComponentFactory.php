@@ -5,22 +5,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui;
+namespace Magento\Framework\View\Element;
+
 
 use Magento\Framework\Object;
 use Magento\Framework\View\LayoutFactory;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\UiComponent\Context;
 
 /**
- * Class Render
+ * Class UiComponentFactory
+ * @package Magento\Framework\View\Element
  */
-class Render extends Object
+class UiComponentFactory extends Object
 {
     /**
      * Ui element view
      *
-     * @var ViewInterface
+     * @var UiComponentInterface
      */
     protected $view;
 
@@ -103,7 +106,7 @@ class Render extends Object
      * @param string $componentName
      * @param string $handleName
      * @param array $arguments
-     * @return ViewInterface
+     * @return UiComponentInterface
      */
     public function createUiComponent($componentName, $handleName = '', array $arguments = [])
     {
@@ -144,7 +147,7 @@ class Render extends Object
      */
     protected function prepare($view)
     {
-        if ($view instanceof ViewInterface) {
+        if ($view instanceof UiComponentInterface) {
             $view->prepare();
         }
         foreach ($view->getLayout()->getChildNames($view->getNameInLayout()) as $childName) {
@@ -157,16 +160,16 @@ class Render extends Object
      * Get UI Element View
      *
      * @param string $uiElementName
-     * @return ViewInterface
+     * @return UiComponentInterface
      * @throws \InvalidArgumentException
      */
     protected function getUiElementView($uiElementName)
     {
-        /** @var \Magento\Ui\ViewInterface $view */
+        /** @var UiComponentInterface $view */
         $view = $this->layout->getBlock($uiElementName);
-        if (!$view instanceof ViewInterface) {
+        if (!$view instanceof UiComponentInterface) {
             throw new \InvalidArgumentException(
-                sprintf('UI Element "%s" must implement \Magento\Ui\ViewInterface', $uiElementName)
+                sprintf('UI Element "%s" must implement \Magento\Framework\View\Element\UiComponentInterface', $uiElementName)
             );
         }
         return $view;

@@ -7,16 +7,20 @@
  */
 namespace Magento\Ui;
 
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigInterface;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Abstract class AbstractView
  */
-abstract class AbstractView extends Template implements ViewInterface
+abstract class AbstractView extends Template implements UiComponentInterface
 {
     /**
      * @var ConfigBuilderInterface
@@ -26,14 +30,14 @@ abstract class AbstractView extends Template implements ViewInterface
     /**
      * Root view component
      *
-     * @var ViewInterface
+     * @var UiComponentInterface
      */
     protected $rootComponent;
 
     /**
      * View configuration data
      *
-     * @var ConfigurationInterface
+     * @var ConfigInterface
      */
     protected $configuration;
 
@@ -45,7 +49,7 @@ abstract class AbstractView extends Template implements ViewInterface
     protected $renderContext;
 
     /**
-     * @var ConfigurationFactory
+     * @var ConfigFactory
      */
     protected $configurationFactory;
 
@@ -69,23 +73,23 @@ abstract class AbstractView extends Template implements ViewInterface
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
-     * @param ConfigurationFactory $configurationFactory
-     * @param ConfigBuilderInterface $configurationBuilder
+     * @param ConfigFactory $configFactory
+     * @param ConfigBuilderInterface $configBuilder
      * @param array $data
      */
     public function __construct(
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
-        ConfigurationFactory $configurationFactory,
-        ConfigBuilderInterface $configurationBuilder,
+        ConfigFactory $configFactory,
+        ConfigBuilderInterface $configBuilder,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
         $this->contentTypeFactory = $contentTypeFactory;
         $this->assetRepo = $context->getAssetRepository();
-        $this->configurationFactory = $configurationFactory;
-        $this->configurationBuilder = $configurationBuilder;
+        $this->configurationFactory = $configFactory;
+        $this->configurationBuilder = $configBuilder;
         parent::__construct($context, $data);
     }
 
@@ -254,7 +258,7 @@ abstract class AbstractView extends Template implements ViewInterface
     /**
      * Get component configuration
      *
-     * @return ConfigurationInterface
+     * @return ConfigInterface
      */
     public function getConfiguration()
     {

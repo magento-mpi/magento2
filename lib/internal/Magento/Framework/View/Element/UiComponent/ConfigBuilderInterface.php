@@ -5,9 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\ContentType\Builders;
-
-use Magento\Ui\ConfigurationInterface;
+namespace Magento\Framework\View\Element\UiComponent;
 
 /**
  * Interface ConfigBuilderInterface
@@ -17,8 +15,8 @@ interface ConfigBuilderInterface
     /**
      * Config data to JSON by output
      *
-     * @param ConfigurationInterface $configuration
+     * @param ConfigInterface $configuration
      * @return string
      */
-    public function toJson(ConfigurationInterface $configuration);
+    public function toJson(ConfigInterface $configuration);
 }

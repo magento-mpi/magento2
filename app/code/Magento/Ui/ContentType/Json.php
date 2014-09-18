@@ -8,7 +8,7 @@
 namespace Magento\Ui\ContentType;
 
 use Magento\Framework\Object;
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;
 
@@ -42,11 +42,11 @@ class Json implements ContentTypeInterface
     /**
      * Render data
      *
-     * @param ViewInterface $view
+     * @param UiComponentInterface $view
      * @param string $template
      * @return string
      */
-    public function render(ViewInterface $view, $template = '')
+    public function render(UiComponentInterface $view, $template = '')
     {
         return $view->getRenderContext()
             ->getConfigurationBuilder()

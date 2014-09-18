@@ -5,15 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui;
-
-use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
-use Magento\Framework\View\Element\BlockInterface;
+namespace Magento\Framework\View\Element;
 
 /**
- * Class ViewInterface
+ * Class UiComponentInterface
  */
-interface ViewInterface extends BlockInterface
+interface UiComponentInterface extends BlockInterface
 {
     /**
      * Update component data
@@ -73,23 +70,7 @@ interface ViewInterface extends BlockInterface
     public function getParentName();
 
     /**
-     * Get component configuration
-     *
-     * @return ConfigurationInterface
-     */
-    public function getConfiguration();
-
-    /**
-     * Get render context
-     *
-     * @return Context
+     * @return mixed
      */
     public function getRenderContext();
-
-    /**
-     * Get configuration builder
-     *
-     * @return ConfigBuilderInterface
-     */
-    public function getConfigurationBuilder();
 }

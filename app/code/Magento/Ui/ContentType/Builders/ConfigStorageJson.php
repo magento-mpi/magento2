@@ -7,22 +7,23 @@
  */
 namespace Magento\Ui\ContentType\Builders;
 
-use Magento\Ui\ConfigurationInterface;
-use Magento\Ui\ConfigurationStorageInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigStorageBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigStorageInterface;
 
 /**
- * Class ConfigurationStorageBuilder
+ * Class ConfigStorageBuilder
  */
-class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
+class ConfigStorageJson implements ConfigStorageBuilderInterface
 {
     /**
      * Config storage data to JSON by output
      *
-     * @param ConfigurationStorageInterface $storage
+     * @param ConfigStorageInterface $storage
      * @param string $parentName
      * @return string
      */
-    public function toJson(ConfigurationStorageInterface $storage, $parentName = null)
+    public function toJson(ConfigStorageInterface $storage, $parentName = null)
     {
         $result = [
             'config' => []
@@ -37,7 +38,7 @@ class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
         } else {
             $components = $storage->getComponentsData();
             if (!empty($components)) {
-                /** @var ConfigurationInterface $component */
+                /** @var ConfigInterface $component */
                 foreach ($components as $name => $component) {
                     $result['config']['components'][$name] = $component->getData();
                 }

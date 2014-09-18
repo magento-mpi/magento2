@@ -8,12 +8,12 @@
 namespace Magento\Ui\DataType;
 
 use Magento\Framework\Object;
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Interface DataTypeInterface
  */
-interface DataTypeInterface extends ViewInterface
+interface DataTypeInterface extends UiComponentInterface
 {
     /**
      * Validate data

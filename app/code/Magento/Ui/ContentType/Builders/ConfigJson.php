@@ -7,20 +7,21 @@
  */
 namespace Magento\Ui\ContentType\Builders;
 
-use Magento\Ui\ConfigurationInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigInterface;
 
 /**
- * Class ConfigurationBuilder
+ * Class ConfigJson
  */
-class ConfigurationBuilder implements ConfigBuilderInterface
+class ConfigJson implements ConfigBuilderInterface
 {
     /**
      * Config data to JSON by output
      *
-     * @param ConfigurationInterface $configuration
+     * @param ConfigInterface $configuration
      * @return string
      */
-    public function toJson(ConfigurationInterface $configuration)
+    public function toJson(ConfigInterface $configuration)
     {
         $result = $configuration->getData();
         $result['name'] = $configuration->getName();

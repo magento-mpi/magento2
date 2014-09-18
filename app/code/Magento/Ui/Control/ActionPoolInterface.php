@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\Control;
 
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\LayoutInterface;
 
 /**
@@ -20,10 +20,10 @@ interface ActionPoolInterface
      *
      * @param string $key
      * @param array $data
-     * @param ViewInterface $context
+     * @param UiComponentInterface $context
      * @return void
      */
-    public function add($key, array $data, ViewInterface $context);
+    public function add($key, array $data, UiComponentInterface $context);
 
     /**
      * Remove button

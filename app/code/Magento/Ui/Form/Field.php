@@ -7,13 +7,13 @@
  */
 namespace Magento\Ui\Form;
 
+use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Ui\AbstractView;
-use Magento\Ui\ViewInterface;
 
 /**
  * Class AbstractFormElement
  */
-class Field extends AbstractView implements ViewInterface
+class Field extends AbstractView implements UiComponentInterface
 {
     /**
      * @return mixed

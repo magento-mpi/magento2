@@ -7,13 +7,12 @@
  */
 namespace Magento\Ui\FormElement;
 
-use Magento\Ui\DataType\DataTypeInterface;
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Interface ElementInterface
  */
-interface ElementInterface extends ViewInterface
+interface ElementInterface extends UiComponentInterface
 {
     /**
      * @return string

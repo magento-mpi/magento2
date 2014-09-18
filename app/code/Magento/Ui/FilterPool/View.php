@@ -7,15 +7,15 @@
  */
 namespace Magento\Ui\FilterPool;
 
-use Magento\Ui\Context;
 use Magento\Ui\AbstractView;
 use Magento\Backend\Helper\Data;
 use Magento\Ui\Filter\FilterPool;
-use Magento\Ui\ConfigurationFactory;
-use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 use Magento\Ui\Filter\View as FilterView;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -45,7 +45,7 @@ class View extends AbstractView
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
-     * @param ConfigurationFactory $configurationFactory
+     * @param ConfigFactory $configurationFactory
      * @param ConfigBuilderInterface $configurationBuilder
      * @param array $data
      */
@@ -55,7 +55,7 @@ class View extends AbstractView
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
-        ConfigurationFactory $configurationFactory,
+        ConfigFactory $configurationFactory,
         ConfigBuilderInterface $configurationBuilder,
         array $data = []
     ) {

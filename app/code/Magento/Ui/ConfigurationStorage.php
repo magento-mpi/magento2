@@ -8,11 +8,13 @@
 namespace Magento\Ui;
 
 use Magento\Framework\Data\Collection as DataCollection;
+use Magento\Framework\View\Element\UiComponent\ConfigInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigStorageInterface;
 
 /**
  * Class ConfigurationStorage
  */
-class ConfigurationStorage implements ConfigurationStorageInterface
+class ConfigurationStorage implements ConfigStorageInterface
 {
     /**
      * Components configuration storage
@@ -52,10 +54,10 @@ class ConfigurationStorage implements ConfigurationStorageInterface
     /**
      * Add components configuration
      *
-     * @param ConfigurationInterface $configuration
+     * @param ConfigInterface $configuration
      * @return void
      */
-    public function addComponentsData(ConfigurationInterface $configuration)
+    public function addComponentsData(ConfigInterface $configuration)
     {
         if (!isset($this->componentStorage[$configuration->getName()])) {
             $this->componentStorage[$configuration->getName()] = $configuration;
@@ -65,10 +67,10 @@ class ConfigurationStorage implements ConfigurationStorageInterface
     /**
      * Remove components configuration
      *
-     * @param ConfigurationInterface $configuration
+     * @param ConfigInterface $configuration
      * @return void
      */
-    public function removeComponentsData(ConfigurationInterface $configuration)
+    public function removeComponentsData(ConfigInterface $configuration)
     {
         unset($this->componentStorage[$configuration->getName()]);
     }
@@ -77,7 +79,7 @@ class ConfigurationStorage implements ConfigurationStorageInterface
      * Get components configuration
      *
      * @param string|null $name
-     * @return ConfigurationInterface|null|array
+     * @return ConfigInterface|null|array
      */
     public function getComponentsData($name = null)
     {

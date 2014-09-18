@@ -64,9 +64,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $_update;
 
     /**
-     * @var \Magento\Ui\Render
+     * @var \Magento\Framework\View\Element\UiComponentFactory
      */
-    protected $_uiRender;
+    protected $_uiComponentFactory;
 
     /**
      * @var \Magento\Framework\View\Element\BlockFactory
@@ -207,7 +207,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Ui\Render $uiRender,
+     * @param \Magento\Framework\View\Element\UiComponentFactory $uiElementFactory,
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
      * @param \Magento\Framework\View\Layout\Argument\Parser $argumentParser
@@ -225,7 +225,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Ui\Render $uiRender,
+        \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Structure $structure,
         \Magento\Framework\View\Layout\Argument\Parser $argumentParser,
@@ -241,8 +241,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     ) {
         $this->_eventManager = $eventManager;
         $this->_scopeConfig = $scopeConfig;
-        $this->_uiRender = $uiRender;
-        $this->_uiRender->setLayout($this);
+        $this->_uiComponentFactory = $uiComponentFactory;
+        $this->_uiComponentFactory->setLayout($this);
         $this->_blockFactory = $blockFactory;
         $this->_appState = $appState;
         $this->_structure = $structure;
@@ -877,7 +877,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         // create Ui Component Object
         $componentName = (string)$node['component'];
 
-        $uiComponent = $this->_uiRender->createUiComponent($componentName, $elementName, $arguments);
+        $uiComponent = $this->_uiComponentFactory->createUiComponent($componentName, $elementName, $arguments);
 
         $this->_blocks[$elementName] = $uiComponent;
 

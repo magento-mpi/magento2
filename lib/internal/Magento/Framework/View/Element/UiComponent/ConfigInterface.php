@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui;
+namespace Magento\Framework\View\Element\UiComponent;
 
 /**
- * Class ConfigurationInterface
+ * Class ConfigInterface
  */
-interface ConfigurationInterface
+interface ConfigInterface
 {
     /**
      * Get configuration data

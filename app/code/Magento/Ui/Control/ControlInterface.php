@@ -7,12 +7,12 @@
  */
 namespace Magento\Ui\Control;
 
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Interface ControlInterface
  */
-interface ControlInterface extends ViewInterface
+interface ControlInterface extends UiComponentInterface
 {
     //
 }

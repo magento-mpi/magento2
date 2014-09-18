@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;
 
@@ -41,11 +41,11 @@ class Html implements ContentTypeInterface
     /**
      * Render data
      *
-     * @param ViewInterface $view
+     * @param UiComponentInterface $view
      * @param string $template
      * @return string
      */
-    public function render(ViewInterface $view, $template = '')
+    public function render(UiComponentInterface $view, $template = '')
     {
         $templateEngine = false;
         if ($template) {

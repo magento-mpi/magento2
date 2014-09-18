@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Interface ContentTypeInterface
@@ -17,9 +17,9 @@ interface ContentTypeInterface
     /**
      * Render data
      *
-     * @param ViewInterface $view
+     * @param UiComponentInterface $view
      * @param string $template
      * @return mixed
      */
-    public function render(ViewInterface $view, $template = '');
+    public function render(UiComponentInterface $view, $template = '');
 }

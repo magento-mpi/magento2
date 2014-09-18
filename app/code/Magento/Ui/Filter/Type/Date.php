@@ -8,12 +8,12 @@
 namespace Magento\Ui\Filter\Type;
 
 use\Magento\Ui\Filter\View;
-use Magento\Ui\ConfigurationFactory;
 use Magento\Ui\Filter\FilterPool;
-use Magento\Ui\Context;
 use Magento\Framework\LocaleInterface;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
@@ -50,7 +50,7 @@ class Date extends View
      * @param Context $renderContext
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
-     * @param ConfigurationFactory $configurationFactory
+     * @param ConfigFactory $configurationFactory
      * @param ConfigBuilderInterface $configurationBuilder
      * @param ResolverInterface $localeResolver
      * @param array $data
@@ -60,7 +60,7 @@ class Date extends View
         Context $renderContext,
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
-        ConfigurationFactory $configurationFactory,
+        ConfigFactory $configurationFactory,
         ConfigBuilderInterface $configurationBuilder,
         ResolverInterface $localeResolver,
         array $data = []

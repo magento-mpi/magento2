@@ -8,9 +8,12 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Ui\ContentType\Builders\ConfigBuilderInterface" type="Magento\Ui\ContentType\Builders\ConfigurationBuilder" />
-    <type name="Magento\Ui\Render" shared="true" />
+    <preference for="Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface" type="Magento\Ui\ContentType\Builders\ConfigJson" />
+    <preference for="Magento\Framework\View\Element\UiComponent\ConfigStorageBuilderInterface" type="Magento\Ui\ContentType\Builders\ConfigStorageJson" />
+    <preference for="Magento\Framework\View\Element\UiComponent\ConfigInterface" type="Magento\Ui\Configuration" />
+    <preference for="Magento\Framework\View\Element\UiComponent\ConfigStorageInterface" type="Magento\Ui\ConfigurationStorage" />
+    <type name="Magento\Framework\View\Element\UiComponentFactory" shared="true" />
     <type name="Magento\Ui\Context" shared="true" />
-    <type name="Magento\Ui\ContentType\Builders\ConfigurationBuilder" shared="true" />
+    <type name="Magento\Ui\ContentType\Builders\ConfigJson" shared="true" />
     <preference for="Magento\Ui\Control\ActionPoolInterface" type="Magento\Ui\Control\ActionPool" />
 </config>

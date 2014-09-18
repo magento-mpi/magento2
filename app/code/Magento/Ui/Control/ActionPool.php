@@ -7,8 +7,8 @@
  */
 namespace Magento\Ui\Control;
 
-use Magento\Ui\Context;
-use Magento\Ui\ViewInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
+use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Element\Template;
 
@@ -66,10 +66,10 @@ class ActionPool implements ActionPoolInterface
      * Create button container
      *
      * @param string $key
-     * @param ViewInterface $view
+     * @param UiComponentInterface $view
      * @return \Magento\Backend\Block\Widget\Button\Toolbar\Container
      */
-    protected function createContainer($key, ViewInterface $view)
+    protected function createContainer($key, UiComponentInterface $view)
     {
         $container = $this->context->getPageLayout()->createBlock(
             'Magento\Ui\Control\Container',
@@ -90,10 +90,10 @@ class ActionPool implements ActionPoolInterface
      *
      * @param string $key
      * @param array $data
-     * @param ViewInterface $view
+     * @param UiComponentInterface $view
      * @return void
      */
-    public function add($key, array $data, ViewInterface $view)
+    public function add($key, array $data, UiComponentInterface $view)
     {
         $data['id'] = isset($data['id']) ? $data['id'] : $key;
 
