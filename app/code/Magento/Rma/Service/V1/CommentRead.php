@@ -14,6 +14,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResultsBuilder;
 use Magento\Rma\Model\Rma\PermissionChecker;
+use Magento\Rma\Model\RmaRepository;
 
 class CommentRead implements CommentReadInterface
 {

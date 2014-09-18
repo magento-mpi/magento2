@@ -9,11 +9,12 @@
 namespace Magento\Rma\Service\V1;
 
 use Magento\Rma\Model\Rma\PermissionChecker;
+use Magento\Rma\Model\RmaRepository
 
 class TrackRead implements TrackReadInterface
 {
     /**
-     * @var \Magento\Rma\Model\RmaRepository
+     * @var RmaRepository
      */
     private $repository;
 
@@ -34,13 +35,13 @@ class TrackRead implements TrackReadInterface
 
     /**
      * @param \Magento\Rma\Model\Shipping\LabelService $labelService
-     * @param \Magento\Rma\Model\RmaRepository $repository
+     * @param RmaRepository $repository
      * @param Data\TrackBuilder $trackBuilder
      * @param PermissionChecker $permissionChecker
      */
     public function __construct(
         \Magento\Rma\Model\Shipping\LabelService $labelService,
-        \Magento\Rma\Model\RmaRepository $repository,
+        RmaRepository $repository,
         Data\TrackBuilder $trackBuilder,
         PermissionChecker $permissionChecker
     ) {

@@ -7,7 +7,6 @@
  */
 namespace Magento\Rma\Service\V1;
 
-use Magento\Rma\Model\RmaRepository;
 use Magento\Rma\Model\Rma\Converter;
 use Magento\Rma\Model\Rma\PermissionChecker;
 
