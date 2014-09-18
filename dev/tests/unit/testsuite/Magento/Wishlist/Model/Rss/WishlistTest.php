@@ -118,7 +118,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetData()
+    public function testGetRssData()
     {
         $wishlistId = 1;
         $customerName = 'Customer Name';
@@ -200,7 +200,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $this->assertEquals($expectedResult, $this->model->getData());
+        $this->assertEquals($expectedResult, $this->model->getRssData());
     }
 
     /**

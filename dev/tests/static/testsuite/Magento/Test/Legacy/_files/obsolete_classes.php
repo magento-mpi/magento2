@@ -2775,7 +2775,7 @@ return array(
     ['Magento\Rss\Controller\Catalog\Salesrule'],
     ['Magento\Rss\Controller\Catalog\Special'],
     ['Magento\Rss\Controller\Index\Nofeed'],
-    ['Magento\Rss\Controller\Catalog']
+    ['Magento\Rss\Controller\Catalog'],
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
 );

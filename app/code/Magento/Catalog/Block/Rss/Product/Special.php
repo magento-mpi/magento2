@@ -59,7 +59,6 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\Rss\Product\Special $rssModel
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -71,7 +70,6 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Rss\Product\Special $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->outputHelper = $outputHelper;
@@ -81,7 +79,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
         $this->priceCurrency = $priceCurrency;
         $this->catalogHelper = $catalogHelper;
         $this->httpContext = $httpContext;
-        $this->storeManager = $storeManager;
+        $this->storeManager = $context->getStoreManager();
         parent::__construct($context, $data);
     }
 

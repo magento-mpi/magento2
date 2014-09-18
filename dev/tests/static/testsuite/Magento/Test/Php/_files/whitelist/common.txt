@@ -107,7 +107,6 @@ app/code/Magento/Reports/Model/Resource/Customer
 app/code/Magento/Reports/Model/Resource/Report/Collection.php
 app/code/Magento/Sales/Block/Guest/Link.php
 app/code/Magento/Sales/Block/Order/Link.php
-app/code/Magento/Sales/Block/Adminhtml/Order/Grid/Rss/Link.php
 app/code/Magento/Sales/Block/Order/Info/Buttons/Rss.php
 app/code/Magento/Sales/Block/Adminhtml/Order/Details.php
 app/code/Magento/Sales/Model/Order/Pdf/Config

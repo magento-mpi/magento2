@@ -31,7 +31,6 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\SalesRule\Model\Rss\Discounts $rssModel
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
@@ -39,13 +38,12 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\SalesRule\Model\Rss\Discounts $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
         array $data = array()
     ) {
-        $this->storeManager = $storeManager;
+        $this->storeManager = $context->getStoreManager();
         $this->rssModel = $rssModel;
         $this->httpContext = $httpContext;
         $this->rssUrlBuilder = $rssUrlBuilder;

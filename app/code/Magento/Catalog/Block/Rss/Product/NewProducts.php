@@ -40,7 +40,6 @@ class NewProducts extends \Magento\Framework\View\Element\AbstractBlock implemen
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Model\Rss\Product\NewProducts $rssModel
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -48,13 +47,12 @@ class NewProducts extends \Magento\Framework\View\Element\AbstractBlock implemen
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Model\Rss\Product\NewProducts $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->imageHelper = $imageHelper;
         $this->rssModel = $rssModel;
         $this->rssUrlBuilder = $rssUrlBuilder;
-        $this->storeManager = $storeManager;
+        $this->storeManager = $context->getStoreManager();
         parent::__construct($context, $data);
     }
 

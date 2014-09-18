@@ -54,7 +54,6 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -66,7 +65,6 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->imageHelper = $imageHelper;
@@ -74,7 +72,7 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
         $this->customerSession = $customerSession;
         $this->rssModel = $rssModel;
         $this->rssUrlBuilder = $rssUrlBuilder;
-        $this->storeManager = $storeManager;
+        $this->storeManager = $context->getStoreManager();
         parent::__construct($context, $data);
     }
 
