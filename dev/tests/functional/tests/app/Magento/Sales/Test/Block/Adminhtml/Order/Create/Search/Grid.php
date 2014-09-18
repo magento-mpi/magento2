@@ -91,7 +91,7 @@ class Grid extends GridInterface
         $this->getTemplateBlock()->waitLoader();
         $configureBlock = $this->getConfigureBlock();
         if ($configureBlock->isVisible()) {
-            $this->getConfigureBlock()->fillOptions($product);
+            $configureBlock->fillOptions($product);
         }
 
         $this->_rootElement

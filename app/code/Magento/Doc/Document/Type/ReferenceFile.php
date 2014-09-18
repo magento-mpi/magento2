@@ -62,29 +62,4 @@ class ReferenceFile extends AbstractType implements ReferenceInterface
         }
         return $result;
     }
-
-    /**
-     * @param $parent
-     * @return string
-     */
-    protected function buildTree($parent)
-    {
-        $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
-        $result = '<ul style="padding-left: 20px">';
-        foreach ($parent as $item) {
-            /** @var \SplFileInfo $item */
-            if ($item->isDir()) {
-                $result .= '<li>';
-                $result .= '<label>' . $item->getBasename() . '</label>';
-                $result .= $this->buildTree(
-                    new \RecursiveDirectoryIterator($item, $flags)
-                );
-                $result .= '</li>';
-            } else {
-                //$result .= '<li>' . $item->getBasename() . '</li>';
-            }
-        }
-        $result .= '</ul>';
-        return $result;
-    }
 }

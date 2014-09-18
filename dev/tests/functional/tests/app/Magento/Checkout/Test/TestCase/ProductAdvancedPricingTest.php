@@ -139,11 +139,12 @@ class ProductAdvancedPricingTest extends Functional
         $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         // Validate each of the products.
+        $itemOrderedBlock = Factory::getPageFactory()->getSalesOrderView()->getItemsOrderedBlock();
         foreach ($checkoutFixture->getProducts() as $product) {
             $specialPrice = $product->getProductSpecialPrice();
             $this->assertContains(
                 $specialPrice,
-                Factory::getPageFactory()->getSalesOrderView()->getItemsOrderedBlock()->getPrice($product),
+                $itemOrderedBlock->getPrice($product),
                 'Incorrect price for item ' . $product->getName()
             );
         }

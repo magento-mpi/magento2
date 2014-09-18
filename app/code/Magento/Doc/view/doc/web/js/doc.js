@@ -5,6 +5,7 @@
  * @license     {license_link}
  */
 define(['jquery'], function(jQuery){
+    'use strict';
     var currentContentArea;
     var dictionary = {};
     jQuery.each(jQuery('[data-role="dictionary"]'), function(id, element) {
@@ -14,6 +15,11 @@ define(['jquery'], function(jQuery){
     var pageItems = [];
     var requiredHtml = 'Element %s is required!';
 
+    /**
+     * Collect item editable content and send to backend for saving
+     * @param {jQuery} item
+     * @private
+     */
     var saveElement = function (item) {
         var view = jQuery(item.find('*[data-role="doc-item-content"]')[0]);
         var source = jQuery(item.find('*[data-role="doc-item-content-src"]')[0]);
@@ -49,12 +55,22 @@ define(['jquery'], function(jQuery){
             }
         });
     };
-    var ensureIsNotEmpty = function(jEl) {
-        var content = jEl.html().trim();
-        if (!content && !jEl.attr('optional')) {
-            jEl.html(requiredHtml.replace(/%s/g, jEl.attr('data-type')));
+    /**
+     * Check if item content is empty
+     * @param {jQuery} item
+     * @private
+     */
+    var ensureIsNotEmpty = function(item) {
+        var content = item.html().trim();
+        if (!content && !item.attr('optional')) {
+            item.html(requiredHtml.replace(/%s/g, item.attr('data-type')));
         }
     };
+    /**
+     * Initialize wysiwyg editor for contenteditable area
+     * @param {HTMLElement} element
+     * @private
+     */
     var initEditor = function(element) {
         if (element.attr('readonly')) {
             return;
@@ -81,6 +97,11 @@ define(['jquery'], function(jQuery){
             button.addEventListener('mousedown', executeAction);
         });
     };
+    /**
+     * Main event listener for toolbar actions
+     * @param {Event} event
+     * @private
+     */
     var executeAction = function (event) {
         var button = event.srcElement || event.target;
         var action = button.getAttribute('data-role-command');
@@ -89,6 +110,13 @@ define(['jquery'], function(jQuery){
         }
         event.stopPropagation();
     };
+    /**
+     * Wrap selected content range with given tag element
+     * @param {HTMLElement} element
+     * @param {String} tag
+     * @param {Range} range
+     * @private
+     */
     var applyToRange = function(element, tag, range) {
         var len = currentContentArea.value.length;
         var start = currentContentArea.selectionStart;
@@ -99,6 +127,10 @@ define(['jquery'], function(jQuery){
             currentContentArea.value.substring(end,len);
     };
     var actions = {
+        /**
+         * Wrap selected text with '<b>' tag element
+         * @param {HTMLElement} element
+         */
         bold: function(element) {
             var selection = window.getSelection();
             if (selection.rangeCount) {
@@ -106,6 +138,10 @@ define(['jquery'], function(jQuery){
                 applyToRange(element, 'b', range);
             }
         },
+        /**
+         * Wrap selected text with '<i>' tag element
+         * @param {HTMLElement} element
+         */
         italic: function(element) {
             var selection = window.getSelection();
             if (selection.rangeCount) {
@@ -113,34 +149,39 @@ define(['jquery'], function(jQuery){
                 applyToRange(element, 'i', range);
             }
         },
+        /**
+         * Mark selected item content as "approved by" signature
+         * @param {HTMLElement} element
+         */
         approve: function(element) {
             if (selected) {
                 selected.removeClass('denoted');
             }
         },
+        /**
+         * Mark selected item content as "required to change"
+         * @param {HTMLElement} element
+         */
         denote: function(element) {
             if (selected) {
                 selected.addClass('denoted');
             }
         },
+        /**
+         * Collect all editable items on the page and send all one-by-one to backend for saving
+         * @param {HTMLElement} element
+         */
         save: function(element) {
-            var content = jQuery('#document').html();
-            jQuery.ajax({
-                url: '/doc/wiki',
-                method: 'POST',
-                data: {
-                    action: 'save',
-                    content: content
-                },
-                success: function() {}
-            });
-        },
-        toggle: function(element) {
-            jQuery.each(jQuery.find('div[outdated="true"]'), function(id, el){
-                jQuery(el).toggle();
+            jQuery.each(pageItems, function (id, item) {
+                saveElement(item);
             });
         }
     };
+    /**
+     * Find references to dictionary articles and activate dictionary popups
+     * @param {HTMLElement} element
+     * @private
+     */
     var applyDictionary = function(element) {
         jQuery.each(jQuery.find('a[rel="dictionary"]'), function (id, el) {
             var item = jQuery(el);
@@ -153,6 +194,10 @@ define(['jquery'], function(jQuery){
     };
 
     var init = {
+        /**
+         * Prepare item of article type for displaying and editing
+         * @param {jQuery} item
+         */
         article: function(item) {
             var content = jQuery(item.find('*[data-role="doc-item-content"]')[0]);
             var srcContent = jQuery(item.find('*[data-role="doc-item-content-src"]')[0]);
@@ -166,6 +211,10 @@ define(['jquery'], function(jQuery){
             applyDictionary(content);
             pageItems.push(item);
         },
+        /**
+         * Prepare item of diagram type for displaying and editing
+         * @param {jQuery} item
+         */
         diagram: function(item) {
             var content = jQuery(item.find('*[data-role="doc-item-content"]')[0]);
             var script = jQuery(item.find('script[type="text/jumly+sequence"]')[0]);
@@ -177,21 +226,52 @@ define(['jquery'], function(jQuery){
             });
             pageItems.push(item);
         },
+        /**
+         * Prepare item of api type for displaying and editing
+         * @param {jQuery} item
+         */
         api: function(item) {
             item.on('click', function (event) {
                 event.stopPropagation();
             });
         },
-        'reference-doc': function(item) {
-            init.article(item);
+        /**
+         * Prepare item of example type for displaying and editing
+         * @param {jQuery} item
+         */
+        example: function(item) {
+            item.on('click', function (event) {
+                event.stopPropagation();
+            });
+        },
+        /**
+         * Prepare item of reference-dir type for displaying and editing
+         * @param {jQuery} item
+         */
+        'reference-dir': function(item) {
+            item.on('click', function (event) {
+                event.stopPropagation();
+            });
+        },
+        /**
+         * Prepare item of reference-file type for displaying and editing
+         * @param {jQuery} item
+         */
+        'reference-file': function(item) {
+            item.on('click', function (event) {
+                event.stopPropagation();
+            });
+        },
+        /**
+         * Prepare item of reference-code type for displaying and editing
+         * @param {jQuery} item
+         */
+        'reference-code': function(item) {
+            item.on('click', function (event) {
+                event.stopPropagation();
+            });
         }
     };
-
-    document.getElementById('toolbar-save').addEventListener('click', function (event) {
-        jQuery.each(pageItems, function (id, item) {
-            saveElement(item);
-        });
-    });
 
     if (webkitSpeechRecognition) {
         var buffer, recognitionActive, recognition = new webkitSpeechRecognition();
@@ -231,6 +311,11 @@ define(['jquery'], function(jQuery){
         });
     }
 
+    /**
+     * Component Constructor
+     * @param {HTMLElement} el
+     * @param {Object} config
+     */
     return function(el, config) {
         var element = jQuery(el);
         jQuery.each(element.find('div[data-role="doc-item"]'), function (id, el) {
