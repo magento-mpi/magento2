@@ -8,10 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Fixture;
 
-use Magento\Catalog\Test\Fixture\ProductAttribute;
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\ProductAttribute;
 use Magento\ConfigurableProduct\Test\Repository\ConfigurableProduct as Repository;
 
 /**
@@ -322,11 +322,14 @@ class ConfigurableProduct extends Product
                 ],
             ],
             'checkout_data' => [
-                'configurable_options' => [
-                    [
-                        'title' => '0',
-                        'value' => '0'
-                    ]
+                'options' => [
+                    'configurable_options' => [
+                        [
+                            'title' => '0',
+                            'value' => '0'
+                        ]
+                    ],
+                    'qty' => 1
                 ],
                 'special_price' => '10'
             ]
@@ -367,7 +370,7 @@ class ConfigurableProduct extends Product
     public function getProductOptionsPrice()
     {
         $price = 0;
-        $configurableOptions = $this->getData('checkout_data/configurable_options');
+        $configurableOptions = $this->getData('checkout_data/options/configurable_options');
         $attributes = $this->getData('fields/configurable_attributes_data/value');
 
         foreach ($configurableOptions as $option) {

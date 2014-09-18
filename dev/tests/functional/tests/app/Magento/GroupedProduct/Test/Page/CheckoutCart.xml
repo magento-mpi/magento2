@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="checkout/cart/index" module="Magento_Checkout">
+    <blocks>
+        <cartBlock>
+            <renders>
+                <grouped>
+                    <class>Magento\GroupedProduct\Test\Block\Checkout\Cart</class>
+                </grouped>
+            </renders>
+        </cartBlock>
+    </blocks>
+</page>

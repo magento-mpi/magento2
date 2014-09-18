@@ -14,6 +14,9 @@
     <assertGiftCardProductForm module="Magento_GiftCard">
         <severeness>middle</severeness>
     </assertGiftCardProductForm>
+    <assertGiftCardProductPage module="Magento_GiftCard">
+        <severeness>middle</severeness>
+    </assertGiftCardProductPage>
     <assertGiftCardDuplicatedInGrid module="Magento_GiftCard">
         <severeness>high</severeness>
         <require>
