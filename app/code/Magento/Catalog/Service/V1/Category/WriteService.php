@@ -70,7 +70,7 @@ class WriteService implements WriteServiceInterface
             $this->validateCategory($categoryModel);
             $categoryModel->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not save category: %1', [$e->getMessage()], $e);
+            throw new CouldNotSaveException('Could not save category: %message', ['message' => $e->getMessage()], $e);
         }
         return $categoryModel->getId();
     }
@@ -89,7 +89,7 @@ class WriteService implements WriteServiceInterface
         try {
             $category->delete();
         } catch (\Exception $e) {
-            throw new StateException('Cannot delete category with id %1', [$categoryId], $e);
+            throw new StateException('Cannot delete category with id %category_id', ['category_id' => $categoryId], $e);
         }
 
         return true;
