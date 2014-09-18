@@ -14,9 +14,9 @@
     <assertOrderInSalesArchiveGrid module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertOrderInSalesArchiveGrid>
-    <assertOrderArchiveErrorMessage module="Magento_SalesArchive">
+    <assertOrderArchiveWarningMessage module="Magento_SalesArchive">
         <severeness>high</severeness>
-    </assertOrderArchiveErrorMessage>
+    </assertOrderArchiveWarningMessage>
     <assertOrderNotInArchiveGrid module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertOrderNotInArchiveGrid>

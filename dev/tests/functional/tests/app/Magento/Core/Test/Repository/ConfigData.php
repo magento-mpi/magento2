@@ -484,7 +484,7 @@ class ConfigData extends AbstractRepository
         ];
 
         //Sales Archiving
-        $this->_data['salesarchive'] = [
+        $this->_data['salesarchive_pending_closed'] = [
             'section' => [
                 [
                     'path' => 'sales/magento_salesarchive/active',

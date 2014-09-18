@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/order_shipment/new">
+<page mca="admin/order_shipment/new" module="Magento_Shipping">
     <blocks>
         <shipItemsBlock>
             <class>Magento\Shipping\Test\Block\Adminhtml\Create\Items</class>

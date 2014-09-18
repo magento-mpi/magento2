@@ -15,7 +15,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\SalesOrderCreditMemoNew;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentNew;
+use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
 use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 
@@ -38,7 +38,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
  * 3. Click 'Submit' button
  * 4. Perform all assertions
  *
- * @group Order_Management_(CS)
+ * @group Sales_Archive_(CS)
  * @ZephyrId MAGETWO-28235
  */
 class MoveToArchiveTest extends Injectable
@@ -93,6 +93,13 @@ class MoveToArchiveTest extends Injectable
     protected $orderCreditMemoNew;
 
     /**
+     * Fixture Factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Enable "Orders Archiving", "Check/Money Order", "Flat Rate" in configuration
      *
      * @param FixtureFactory $fixtureFactory
@@ -100,9 +107,6 @@ class MoveToArchiveTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'salesarchive']);
-        $configPayment->persist();
-
         $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
         $configPayment->persist();
 
@@ -120,6 +124,7 @@ class MoveToArchiveTest extends Injectable
      * @param OrderInvoiceView $orderInvoiceView
      * @param OrderShipmentView $orderShipmentView
      * @param SalesOrderCreditMemoNew $orderCreditMemoNew
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
@@ -129,7 +134,8 @@ class MoveToArchiveTest extends Injectable
         OrderShipmentNew $orderShipmentNew,
         OrderInvoiceView $orderInvoiceView,
         OrderShipmentView $orderShipmentView,
-        SalesOrderCreditMemoNew $orderCreditMemoNew
+        SalesOrderCreditMemoNew $orderCreditMemoNew,
+        FixtureFactory $fixtureFactory
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
@@ -138,6 +144,7 @@ class MoveToArchiveTest extends Injectable
         $this->orderInvoiceView = $orderInvoiceView;
         $this->orderShipmentView = $orderShipmentView;
         $this->orderCreditMemoNew = $orderCreditMemoNew;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
@@ -145,11 +152,15 @@ class MoveToArchiveTest extends Injectable
      *
      * @param OrderInjectable $order
      * @param string $steps
+     * @param string $configArchive
      * @return array
      */
-    public function test(OrderInjectable $order, $steps)
+    public function test(OrderInjectable $order, $steps, $configArchive)
     {
         // Preconditions
+        $configPayment = $this->fixtureFactory->createByCode('configData', ['dataSet' => $configArchive]);
+        $configPayment->persist();
+
         $order->persist();
 
         // Steps
@@ -166,23 +177,20 @@ class MoveToArchiveTest extends Injectable
      *
      * @param OrderInjectable $order
      * @param string $steps
+     * @throws \Exception
      * @return array
      */
     protected function processSteps(OrderInjectable $order, $steps)
     {
-        $steps = explode(',', $steps);
+        $steps = array_diff(explode(',', $steps), ['-']);
         $ids = [];
         foreach ($steps as $step) {
-            switch (trim($step)) {
-                case 'invoice':
-                    $ids['invoiceId'] = $this->processInvoice($order);
-                    break;
-                case 'shipping':
-                    $ids['shippingId'] = $this->processShipping($order);
-                    break;
-                case 'credit memo':
-                    $ids['creditMemoId'] = $this->processCreditMemo($order);
-                    break;
+            $action = str_replace(' ', '', ucwords(trim($step)));
+            $methodAction = 'process' . $action;
+            if (is_callable([$this, $methodAction])) {
+                $ids[lcfirst($action) . 'Id'] = $this->$methodAction($order);
+            } else {
+                throw new \Exception('Method ' . $methodAction . ' undefined!');
             }
         }
 
@@ -298,8 +306,8 @@ class MoveToArchiveTest extends Injectable
             'amount_to' => $amount
         ];
         $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->search($filter);
-        $creditMemoId = $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->getCreditMemoId(
-        );
+        $creditMemoId = $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()
+            ->getCreditMemoId();
 
         return $creditMemoId;
     }
