@@ -5,35 +5,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+ 
 namespace Magento\Checkout\Test\TestCase;
 
 use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Test Creation for AddProductsToShoppingCartEntity
+ * Class DeleteProductsFromShoppingCartTest
+ * Test delete products from shopping cart
  *
- * Test Flow:
- *
- * Preconditions:
- * 1. All type products is created
+ * Preconditions
+ * 1. Test products are created
  *
  * Steps:
- * 1. Navigate to frontend
- * 2. Open test product page
- * 3. Add to cart test product
- * 4. Perform all asserts
+ * 1. Add product(s) to Shopping Cart
+ * 2. Click 'Remove item' button from Shopping Cart for each product(s)
+ * 3. Perform all asserts
  *
  * @group Shopping_Cart_(CS)
- * @ZephyrId MAGETWO-25382
+ * @ZephyrId MAGETWO-25218
  */
-class AddProductsToShoppingCartEntityTest extends Injectable
+class DeleteProductsFromShoppingCartTest extends Injectable
 {
     /**
      * Browser interface
@@ -88,26 +87,23 @@ class AddProductsToShoppingCartEntityTest extends Injectable
      * Run test add products to shopping cart
      *
      * @param string $productsData
-     * @param array $cart
-     * @return array
+     * @return void
      */
-    public function test($productsData, array $cart)
+    public function test($productsData)
     {
         // Preconditions
         $products = $this->prepareProducts($productsData);
 
         // Steps
         $this->addToCart($products);
-
-        $cart['data']['items'] = ['products' => $products];
-        return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
+        $this->removeProducts($products);
     }
 
     /**
      * Create products
      *
      * @param string $productList
-     * @return array
+     * @return InjectableFixture[]
      */
     protected function prepareProducts($productList)
     {
@@ -133,5 +129,18 @@ class AddProductsToShoppingCartEntityTest extends Injectable
             ['products' => $products]
         );
         $addToCartStep->run();
+    }
+
+    /**
+     * Remove products form cart
+     *
+     * @param array $products
+     * @return void
+     */
+    protected function removeProducts(array $products)
+    {
+        foreach ($products as $product) {
+            $this->cartPage->getCartBlock()->getCartItem($product)->removeItem();
+        }
     }
 }
