@@ -41,7 +41,7 @@ class Wishlist implements DataProviderInterface
     protected $layout;
 
     /**
-     * @var \Magento\Wishlist\Helper\Rss
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $wishlistHelper;
 
@@ -56,10 +56,15 @@ class Wishlist implements DataProviderInterface
     protected $imageHelper;
 
     /**
+     * @var \Magento\Wishlist\Block\Customer\Wishlist
+     */
+    protected $wishlistBlock;
+
+    /**
      * @param \Magento\Wishlist\Helper\Rss $wishlistHelper
+     * @param \Magento\Wishlist\Block\Customer\Wishlist $wishlistBlock
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Framework\Pricing\Render $priceRender
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -67,15 +72,16 @@ class Wishlist implements DataProviderInterface
      */
     public function __construct(
         \Magento\Wishlist\Helper\Rss $wishlistHelper,
+        \Magento\Wishlist\Block\Customer\Wishlist $wishlistBlock,
         \Magento\Catalog\Helper\Output $outputHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Framework\Pricing\Render $priceRender,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\LayoutInterface $layout
     ) {
         $this->wishlistHelper = $wishlistHelper;
+        $this->wishlistBlock = $wishlistBlock;
         $this->outputHelper = $outputHelper;
         $this->imageHelper = $imageHelper;
         $this->urlBuilder = $urlBuilder;
@@ -113,7 +119,7 @@ class Wishlist implements DataProviderInterface
             foreach ($wishlist->getItemCollection() as $wishlistItem) {
                 /* @var $product \Magento\Catalog\Model\Product */
                 $product = $wishlistItem->getProduct();
-                $productUrl = $product->getUrlModel()->getUrl($product, ['_rss' => true]);
+                $productUrl = $this->wishlistBlock->getProductUrl($product, ['_rss' => true]);
                 $product->setAllowedInRss(true);
                 $product->setAllowedPriceInRss(true);
                 $product->setProductUrl($productUrl);
@@ -230,10 +236,16 @@ class Wishlist implements DataProviderInterface
      * @return string
      */
     public function getProductPriceHtml(\Magento\Catalog\Model\Product $product) {
+        $price = '';
         /** @var \Magento\Framework\Pricing\Render $priceRender */
         $priceRender = $this->layout->getBlock('product.price.render.default');
-        $price = '';
-
+        if (!$priceRender) {
+            $priceRender = $this->layout->createBlock(
+                'Magento\Framework\Pricing\Render',
+                'product.price.render.default',
+                array('data' => array('price_render_handle' => 'catalog_product_prices'))
+            );
+        }
         if ($priceRender) {
             $price = $priceRender->render(
                 \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,

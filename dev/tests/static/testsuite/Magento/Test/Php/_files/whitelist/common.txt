@@ -132,6 +132,8 @@ app/code/Magento/GroupedProduct
 app/code/Magento/Rss
 app/code/Magento/UrlRedirect
 app/code/Magento/Wishlist/Block/Link.php
+app/code/Magento/Wishlist/Block/Rss
+app/code/Magento/Wishlist/Model/Rss/Wishlist.php
 dev/shell
 dev/tests/functional
 dev/tests/integration
