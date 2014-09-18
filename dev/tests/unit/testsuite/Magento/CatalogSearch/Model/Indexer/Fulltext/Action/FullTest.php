@@ -73,7 +73,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfig = $this->getMockBuilder('Magento\\Framework\\App\\Config\\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->storeManager = $this->getMockBuilder('Magento\\Store\\Model\\StoreManagerInterface')
+        $this->storeManager = $this->getMockBuilder('Magento\\Framework\\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->dateTime = $this->getMockBuilder('Magento\\Framework\\Stdlib\\DateTime')
