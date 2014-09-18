@@ -92,7 +92,7 @@ class Render extends Object
      */
     public function setLayout(LayoutInterface $layout)
     {
-        if ($this->layout === null) {
+        if (!$this->renderContext->getPageLayout()) {
             $this->renderContext->setPageLayout($layout);
         }
     }

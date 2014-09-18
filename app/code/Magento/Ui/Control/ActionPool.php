@@ -44,6 +44,11 @@ class ActionPool implements ActionPoolInterface
     protected $itemFactory;
 
     /**
+     * @var \Magento\Framework\View\Element\AbstractBlock
+     */
+    protected $toolbarBlock;
+
+    /**
      * Construct
      *
      * @param Context $context
@@ -53,6 +58,7 @@ class ActionPool implements ActionPoolInterface
     {
         $this->context = $context;
         $this->itemFactory = $itemFactory;
+        $this->toolbarBlock = $this->context->getPageLayout()->getBlock(static::ACTIONS_PAGE_TOOLBAR);
     }
 
 
@@ -89,15 +95,13 @@ class ActionPool implements ActionPoolInterface
      */
     public function add($key, array $data, ViewInterface $view)
     {
-        /** @var \Magento\Framework\View\Element\AbstractBlock $toolbarBlock */
         $data['id'] = isset($data['id']) ? $data['id'] : $key;
-        $toolbarBlock = $this->context->getPageLayout()->getBlock(static::ACTIONS_PAGE_TOOLBAR);
 
-        if ($toolbarBlock !== false) {
+        if ($this->toolbarBlock !== false) {
             $this->items[$key] = $this->itemFactory->create();
             $this->items[$key]->setData($data);
             $container = $this->createContainer($key, $view);
-            $toolbarBlock->setChild($key, $container);
+            $this->toolbarBlock->setChild($key, $container);
         }
     }
 
