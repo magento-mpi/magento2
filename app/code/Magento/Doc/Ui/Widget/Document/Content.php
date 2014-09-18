@@ -9,7 +9,8 @@ namespace Magento\Doc\Ui\Widget\Document;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Outline;
+use Magento\Doc\Document\Outline as DocumentOutline;
+use Magento\Doc\Document\ItemFactory;
 use Magento\Doc\Document\Item;
 use Magento\Doc\Document\Type\Factory;
 use Magento\Doc\Document\Filter;
@@ -17,7 +18,7 @@ use Magento\Doc\Document\Filter;
 class Content extends Template
 {
     /**
-     * @var Outline
+     * @var DocumentOutline
      */
     protected $outline;
 
@@ -47,6 +48,11 @@ class Content extends Template
     protected $outlineName;
 
     /**
+     * @var ItemFactory
+     */
+    protected $itemFactory;
+
+    /**
      * @var Item
      */
     protected $currentItem;
@@ -65,21 +71,24 @@ class Content extends Template
      * Constructor
      *
      * @param Context $context
-     * @param Outline $outline
+     * @param DocumentOutline $outline
      * @param Factory $typeFactory
+     * @param ItemFactory $itemFactory
      * @param Filter $filter
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Outline $outline,
+        DocumentOutline $outline,
         Factory $typeFactory,
+        ItemFactory $itemFactory,
         Filter $filter,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->outline = $outline;
         $this->typeFactory = $typeFactory;
+        $this->itemFactory = $itemFactory;
         $this->filter = $filter;
         $this->outlineName = $this->_request->getParam('doc_name');
         $this->document = $this->outline->get($this->outlineName . '.xml');
@@ -98,7 +107,7 @@ class Content extends Template
         $content = '';
         if ($itemName = $this->_request->getParam('item')) {
             $item = $this->findItem($itemName);
-            if ($item) {
+            if (!empty($item)) {
                 $items = [$itemName => $item];
             } else {
                 $items = [];
@@ -153,7 +162,7 @@ class Content extends Template
     protected function renderItemHtml($name, array $item)
     {
         $item['outline'] = $this->outlineName;
-        $this->currentItem = new Item($item);
+        $this->currentItem = $this->itemFactory->create(['data' => $item]);
         try {
             $content = $this->typeFactory->get($this->currentItem->getData('type'))->getContent($this->currentItem);
             $vars = [
@@ -187,6 +196,13 @@ class Content extends Template
         return $this->filter->preProcess($content, $this->dictionary);
     }
 
+    /**
+     * Retrieve Document Outline item
+     *
+     * @param string $name
+     * @param array $parent
+     * @return array
+     */
     protected function findItem($name, array $parent = null)
     {
         if ($parent === null) {
@@ -204,6 +220,6 @@ class Content extends Template
                 }
             }
         }
-        return null;
+        return [];
     }
 }
