@@ -8,8 +8,6 @@
 namespace Magento\Store\Model;
 
 use Magento\Framework\Profiler;
-use Magento\Store\Model\Store;
-use Magento\Framework\StoreManagerInterface;
 
 class StorageFactory
 {
@@ -184,7 +182,7 @@ class StorageFactory
      * @param \Magento\Framework\StoreManagerInterface $storage
      * @param array $arguments
      * @return void
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Framework\App\InitException
      */
     protected function _reinitStores(\Magento\Framework\StoreManagerInterface $storage, $arguments)
     {
@@ -209,8 +207,8 @@ class StorageFactory
                 $storage->setCurrentStore($this->_getStoreByWebsite($storage, $scopeCode));
                 break;
             default:
-                throw new \Magento\Store\Model\Exception(
-                    'Store Manager has been initialized not properly'
+                throw new \Magento\Framework\App\InitException(
+                    'Store Manager has not been initialized properly'
                 );
         }
 

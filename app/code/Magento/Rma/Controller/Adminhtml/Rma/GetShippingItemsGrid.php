@@ -18,7 +18,7 @@ class GetShippingItemsGrid extends \Magento\Rma\Controller\Adminhtml\Rma
     public function execute()
     {
         $this->_initModel();
-        $this->_initAction();
+        $this->_view->loadLayout();
         $response = $this->_view->getLayout()->getBlock('magento_rma_getshippingitemsgrid')->toHtml();
 
         if (is_array($response)) {

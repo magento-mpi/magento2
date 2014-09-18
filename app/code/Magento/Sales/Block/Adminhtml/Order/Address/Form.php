@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Address;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Adminhtml sales order address block
  */
@@ -30,6 +32,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
@@ -45,6 +48,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
@@ -60,6 +64,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $context,
             $sessionQuote,
             $orderCreate,
+            $priceCurrency,
             $formFactory,
             $coreData,
             $jsonEncoder,

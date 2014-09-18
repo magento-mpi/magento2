@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <container name="root">
-        <block class="Magento\Doc\Ui\Page" name="root" template="Magento_Doc::html/page/default.xhtml">
+        <block class="Magento\Doc\Ui\Page" name="page.content" template="Magento_Doc::html/page/default.html">
             <block class="Magento\Theme\Block\Html\Head" name="head" as="head" template="Magento_Doc::html/page/element/head.phtml">
                 <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-css">
                     <arguments>

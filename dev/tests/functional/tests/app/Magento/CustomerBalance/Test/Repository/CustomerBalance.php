@@ -26,7 +26,13 @@ class CustomerBalance extends AbstractRepository
     {
         $this->_data['customerBalance_5'] = [
             'balance_delta' => 5,
-            'website_id' => 'Main Website',
+            'website_id' => ['dataSet' => 'main_website'],
+            'additional_info' => 'Some comment',
+        ];
+
+        $this->_data['customerBalance_100'] = [
+            'balance_delta' => 100,
+            'website_id' => ['dataSet' => 'main_website'],
             'additional_info' => 'Some comment',
         ];
     }

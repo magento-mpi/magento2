@@ -175,9 +175,6 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
      */
     public function rewrite(\Magento\Framework\App\RequestInterface $request = null)
     {
-        if (!$this->_appState->isInstalled()) {
-            return false;
-        }
         if (is_null($this->getStoreId()) || false === $this->getStoreId()) {
             $this->setStoreId($this->_storeManager->getStore()->getId());
         }

@@ -8,6 +8,7 @@
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
@@ -150,7 +151,7 @@ class WishlistReportEntityTest extends Injectable
     {
         // Precondition
         $multipleWishlist->persist();
-        $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomerId();
+        $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomer();
 
         // Steps
         $this->loginCustomer($customer);
@@ -159,9 +160,9 @@ class WishlistReportEntityTest extends Injectable
             $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist(
                 $multipleWishlist->getName()
             );
-            $description = $wishlist[$key]['description'];
-            $this->multipleWishlistIndex->getManagementBlock()->fillDescription($product, $description);
-            $this->multipleWishlistIndex->getManagementBlock()->updateWishlist();
+            $this->multipleWishlistIndex->getItemsBlock()->getItemProductByName($product->getName())
+                ->fillProduct($wishlist[$key]);
+            $this->multipleWishlistIndex->getWishlistBlock()->clickUpdateWishlist();
         }
 
         return ['customer' => $customer];
@@ -188,5 +189,19 @@ class WishlistReportEntityTest extends Injectable
     public function tearDown()
     {
         $this->customerAccountLogout->open();
+    }
+
+    /**
+     * Disable multiple wish list in config
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        $config = ObjectManager::getInstance()->create(
+            'Magento\Core\Test\Fixture\ConfigData',
+            ['dataSet' => 'disabled_multiple_wishlist_default']
+        );
+        $config->persist();
     }
 }

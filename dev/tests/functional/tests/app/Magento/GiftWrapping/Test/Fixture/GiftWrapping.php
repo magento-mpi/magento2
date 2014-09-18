@@ -27,7 +27,7 @@ class GiftWrapping extends InjectableFixture
 
     protected $defaultDataSet = [
         'design' => 'Gift Wrapping %isolation%',
-        'website_ids' => ['Main Website'],
+        'website_ids' => ['dataSet' => 'main_website'],
         'status' => 'Enabled',
         'base_price' => 10,
     ];
@@ -72,6 +72,8 @@ class GiftWrapping extends InjectableFixture
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
+        'input' => 'multiselectgrouplist',
+        'source' => 'Magento\GiftWrapping\Test\Fixture\GiftWrapping\WebsiteIds',
     ];
 
     public function getWrappingId()

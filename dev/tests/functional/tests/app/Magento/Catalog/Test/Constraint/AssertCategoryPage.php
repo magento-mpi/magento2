@@ -91,7 +91,7 @@ class AssertCategoryPage extends AbstractConstraint
 
         if (isset($categoryData['default_sort_by'])) {
             $sortBy = strtolower($categoryData['default_sort_by']);
-            $sortType = $categoryView->getToolbar()->getSelectSortType();
+            $sortType = $categoryView->getTopToolbar()->getSelectSortType();
             \PHPUnit_Framework_Assert::assertEquals(
                 $sortBy,
                 $sortType,
@@ -110,7 +110,7 @@ class AssertCategoryPage extends AbstractConstraint
             );
             if ($availableSortType) {
                 $availableSortType = array_values($availableSortType);
-                $availableSortTypeOnPage = $categoryView->getToolbar()->getSortType();
+                $availableSortTypeOnPage = $categoryView->getTopToolbar()->getSortType();
                 \PHPUnit_Framework_Assert::assertEquals(
                     $availableSortType,
                     $availableSortTypeOnPage,
