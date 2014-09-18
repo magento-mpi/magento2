@@ -40,19 +40,17 @@ class Collection extends PageCollection
     protected function _afterLoad()
     {
         $items = $this->getColumnValues('page_id');
-        $connection = $this->getConnection();
         if (count($items)) {
+            $connection = $this->getConnection();
             $select = $connection->select()->from(['cps' => $this->getTable('cms_page_store')])
                 ->where('cps.page_id IN (?)', $items);
             $result = $connection->fetchPairs($select);
             if ($result) {
                 foreach ($this as $item) {
-                    $storeIds = [];
                     $pageId = $item->getData('page_id');
                     if (!isset($result[$pageId])) {
                         continue;
                     }
-                    $storeIds[] = $result[$pageId];
                     if ($result[$pageId] == 0) {
                         $stores = $this->_storeManager->getStores(false, true);
                         $storeId = current($stores)->getId();
@@ -63,7 +61,7 @@ class Collection extends PageCollection
                     }
                     $item->setData('_first_store_id', $storeId);
                     $item->setData('store_code', $storeCode);
-                    $item->setData('store_id', $storeIds);
+                    $item->setData('store_id', [$result[$pageId]]);
                 }
             }
         }

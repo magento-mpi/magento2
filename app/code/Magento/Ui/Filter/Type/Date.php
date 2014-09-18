@@ -83,7 +83,7 @@ class Date extends View
     /**
      * Convert value
      *
-     * @param array|string|int|float $value
+     * @param array|string $value
      * @return array|null
      */
     protected function convertValue($value)

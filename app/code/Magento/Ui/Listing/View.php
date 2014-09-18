@@ -97,11 +97,7 @@ class View extends AbstractView
         }
 
         foreach ($config['page_actions'] as $key => $action) {
-            $this->actionPool->addButton(
-                $key,
-                $action,
-                $this
-            );
+            $this->actionPool->add($key, $action, $this);
         }
         unset($config['page_actions']);
 

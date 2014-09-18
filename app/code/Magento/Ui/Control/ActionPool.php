@@ -30,28 +30,29 @@ class ActionPool implements ActionPoolInterface
     protected $context;
 
     /**
-     * Buttons pool
+     * Actions pool
      *
-     * @var Button[]
+     * @var Item[]
      */
-    protected $buttons;
+    protected $items;
 
     /**
      * Button factory
      *
      * @var ItemFactory
      */
-    protected $buttonFactory;
+    protected $itemFactory;
 
     /**
      * Construct
      *
      * @param Context $context
+     * @param ItemFactory $itemFactory
      */
-    public function __construct(Context $context, ItemFactory $buttonFactory)
+    public function __construct(Context $context, ItemFactory $itemFactory)
     {
         $this->context = $context;
-        $this->buttonFactory = $buttonFactory;
+        $this->itemFactory = $itemFactory;
     }
 
 
@@ -69,7 +70,7 @@ class ActionPool implements ActionPoolInterface
             'container-' . $key,
             [
                 'data' => [
-                    'button_item' => $this->buttons[$key],
+                    'button_item' => $this->items[$key],
                     'context' => $view
                 ]
             ]
@@ -86,15 +87,15 @@ class ActionPool implements ActionPoolInterface
      * @param ViewInterface $view
      * @return void
      */
-    public function addButton($key, array $data, ViewInterface $view)
+    public function add($key, array $data, ViewInterface $view)
     {
         /** @var \Magento\Framework\View\Element\AbstractBlock $toolbarBlock */
         $data['id'] = isset($data['id']) ? $data['id'] : $key;
         $toolbarBlock = $this->context->getPageLayout()->getBlock(static::ACTIONS_PAGE_TOOLBAR);
 
         if ($toolbarBlock !== false) {
-            $this->buttons[$key] = $this->buttonFactory->create();
-            $this->buttons[$key]->setData($data);
+            $this->items[$key] = $this->itemFactory->create();
+            $this->items[$key]->setData($data);
             $container = $this->createContainer($key, $view);
             $toolbarBlock->setChild($key, $container);
         }
@@ -108,7 +109,7 @@ class ActionPool implements ActionPoolInterface
      */
     public function remove($key)
     {
-        unset($this->buttons[$key]);
+        unset($this->items[$key]);
     }
 
     /**
@@ -120,8 +121,8 @@ class ActionPool implements ActionPoolInterface
      */
     public function update($key, array $data)
     {
-        if (isset($this->buttons[$key])) {
-            $this->buttons[$key]->setData($data);
+        if (isset($this->items[$key])) {
+            $this->items[$key]->setData($data);
         }
     }
 }

@@ -17,7 +17,7 @@ class Range extends View
     /**
      * Get condition by data type
      *
-     * @param string|array $value
+     * @param array|string $value
      * @return array|null
      */
     public function getCondition($value)

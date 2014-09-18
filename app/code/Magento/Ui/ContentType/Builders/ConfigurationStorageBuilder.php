@@ -27,11 +27,11 @@ class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
         $result = [
             'config' => []
         ];
+        $result['meta'] = $storage->getMeta($parentName);
         if ($parentName !== null) {
             $rootComponent = $storage->getComponentsData($parentName);
             $result['name'] = $rootComponent->getName();
             $result['parent_name'] = $rootComponent->getParentName();
-            $result['meta'] = $storage->getMeta($parentName);
             $result['data'] = $storage->getData($parentName);
             $result['config']['components'][$rootComponent->getName()] = $rootComponent->getData();
         } else {
@@ -42,7 +42,6 @@ class ConfigurationStorageBuilder implements ConfigStorageBuilderInterface
                     $result['config']['components'][$name] = $component->getData();
                 }
             }
-            $result['meta'] = $storage->getMeta();
             $result['data'] = $storage->getData();
         }
 
