@@ -9,7 +9,7 @@
 namespace Magento\Rma\Service\V1;
 
 use Magento\Rma\Model\Rma\PermissionChecker;
-use Magento\Rma\Model\RmaRepository
+use Magento\Rma\Model\RmaRepository;
 
 class TrackRead implements TrackReadInterface
 {
