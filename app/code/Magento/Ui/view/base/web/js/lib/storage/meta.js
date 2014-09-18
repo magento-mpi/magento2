@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 define([
-    '_',
+    'underscore',
     './storage'
 ], function(_, Storage) {
     'use strict';

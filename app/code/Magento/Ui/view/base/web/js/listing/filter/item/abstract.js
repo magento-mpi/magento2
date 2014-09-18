@@ -6,7 +6,7 @@
  */
 define([
     'Magento_Ui/js/lib/ko/scope',
-    '_'
+    'underscore'
 ], function (Scope, _) {
     'use strict';
     

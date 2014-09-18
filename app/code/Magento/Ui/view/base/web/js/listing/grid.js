@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 define([
-    '_',
+    'underscore',
     'Magento_Ui/js/lib/component',
     'Magento_Ui/js/lib/ko/scope',
     'Magento_Ui/js/lib/mixins/loader',

@@ -6,7 +6,7 @@
  */
 define([
     './abstract',
-    '_'
+    'underscore'
 ], function (AbstractControl, _) {
     'use strict';
 
