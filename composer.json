@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha94",
+    "version": "0.1.0-alpha95",
     "require": {
         "php": "~5.4.11|~5.5.0"
     },
@@ -51,6 +51,7 @@
         "magento/module-design-editor": "self.version",
         "magento/module-dhl": "self.version",
         "magento/module-directory": "self.version",
+        "magento/module-doc": "self.version",
         "magento/module-downloadable": "self.version",
         "magento/module-eav": "self.version",
         "magento/module-email": "self.version",

@@ -16,7 +16,7 @@ class FreeTest extends \PHPUnit_Framework_TestCase
     protected $scopeConfig;
 
     /**  @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $storeManager;
+    protected $currencyPrice;
 
     protected function setUp()
     {
@@ -24,14 +24,14 @@ class FreeTest extends \PHPUnit_Framework_TestCase
         $paymentData  = $this->getMock('Magento\Payment\Helper\Data', [], [], '', false);
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface', [], [], '', false);
         $logAdapterFactory = $this->getMock('Magento\Framework\Logger\AdapterFactory', [], [], '', false);
-        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
+        $this->currencyPrice = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
 
         $this->methodFree = new \Magento\Payment\Model\Method\Free(
             $eventManager,
             $paymentData,
             $this->scopeConfig,
             $logAdapterFactory,
-            $this->storeManager
+            $this->currencyPrice
         );
     }
 
@@ -73,14 +73,9 @@ class FreeTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($grandTotal));
         }
 
-        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $store->expects($this->any())
-            ->method('roundPrice')
-            ->will($this->returnArgument(0));
-
-        $this->storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($store));
+        $this->currencyPrice->expects($this->any())
+            ->method('round')
+            ->willReturnArgument(0);
 
         $this->scopeConfig->expects($this->any())
             ->method('getValue')

@@ -30,6 +30,18 @@ class Curl extends AbstractCurl
         'theme_id' => [
             'Magento Blank' => 2,
         ],
+        'code' => [
+            'CMS Page Link' => 'cms_page_link',
+        ],
+    ];
+
+    /**
+     * Mapping store ids values for data.
+     *
+     * @var array
+     */
+    protected $mappingStoreIds = [
+        'All Store Views' => 0
     ];
 
     /**
@@ -41,9 +53,16 @@ class Curl extends AbstractCurl
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $this->replaceMappingData($fixture->getData());
+        $data = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/'
-            . $fixture->getData('code') . '/theme_id/' . $data['theme_id'];
+            . $data['code'] . '/theme_id/' . $data['theme_id'];
+        if (isset($data['page_id'])) {
+            $data['parameters']['page_id'] = $data['page_id'][0];
+            unset($data['page_id']);
+        }
+        if ($fixture->hasData('store_ids')) {
+            $data['store_ids'][0] = $fixture->getDataFieldConfig('store_ids')['source']->getStore()[0]->getStoreId();
+        }
         unset($data['code']);
         unset($data['theme_id']);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
@@ -59,5 +78,51 @@ class Curl extends AbstractCurl
             $id = $matches[1][count($matches[1]) - 1];
         }
         return ['id' => $id];
+    }
+
+    /**
+     * Prepare data for create widget
+     *
+     * @param FixtureInterface $widget
+     * @return array
+     */
+    protected function prepareData(FixtureInterface $widget)
+    {
+        $data = $this->replaceMappingData($widget->getData());
+        $data = $this->replaceStoreIds($data);
+
+        foreach ($data['widget_instance'] as $key => $widgetInstance) {
+            $pageGroup = $widgetInstance['page_group'];
+
+            if (!isset($widgetInstance[$pageGroup]['page_id'])) {
+                $widgetInstance[$pageGroup]['page_id'] = 0;
+            }
+            if ('notanchor_categories' == $pageGroup) {
+                $widgetInstance[$pageGroup]['is_anchor_only'] = 0;
+            }
+
+            $data['widget_instance'][$key] = $widgetInstance;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Replace store ids labels to values
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function replaceStoreIds(array $data)
+    {
+        if (isset($data['store_ids'])) {
+            foreach ($data['store_ids'] as $key => $storeId) {
+                if (isset($this->mappingStoreIds[$storeId])) {
+                    $data['store_ids'][$key] = $this->mappingStoreIds[$storeId];
+                }
+            }
+        }
+
+        return $data;
     }
 }

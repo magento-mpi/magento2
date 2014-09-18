@@ -115,7 +115,6 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
         $customerSegment,
         $widget
     ) {
-        $this->markTestIncomplete('MAGETWO-27635');
         // Preconditions
         $customer = $this->createCustomer($customer);
         $customerSegment = $this->createCustomerSegment($customerSegment);

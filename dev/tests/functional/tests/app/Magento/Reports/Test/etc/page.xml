@@ -58,4 +58,14 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\SalesCouponReportView</class>
     </salesCouponReportView>
+    <customerTotalsReport>
+        <mca>reports/report_customer/totals</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\OrderTotalReport</class>
+    </customerTotalsReport>
+    <customerOrdersReport>
+        <mca>reports/report_customer/orders</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport</class>
+    </customerOrdersReport>
 </page>
