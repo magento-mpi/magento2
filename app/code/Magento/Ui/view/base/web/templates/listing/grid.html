@@ -20,7 +20,7 @@
         <tbody data-part="body">
             <!-- ko if: hasData() -->
                 <!-- ko foreach: { data: rows, as: 'row' } -->
-                    <tr data-part="body.row" class="even pointer" data-bind="click: $parent.redirectTo(row.row_url)">
+                    <tr data-part="body.row" class="even pointer" data-bind="click: $parent.applyItemActionFor(row)">
                         <!-- ko foreach: { data: $parent.fields, as: 'field' }  -->
                             <!-- ko template: $parents[1].getCellTemplateFor(field) --><!-- /ko -->
                         <!-- /ko -->

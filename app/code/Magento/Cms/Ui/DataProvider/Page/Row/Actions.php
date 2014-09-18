@@ -54,6 +54,7 @@ class Actions implements RowInterface
             'edit' => [
                 'href' => $this->urlBuilder->getUrl(static::URL_PATH, ['page_id' => $dataRow['page_id']]),
                 'title' => __('Edit'),
+                'hidden' => true
 
             ],
             'preview' => [

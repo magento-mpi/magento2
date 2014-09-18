@@ -35,8 +35,9 @@ define([
          * @return {Object} reference to instance
          */
         initFields: function(){
-            this.meta = this.provider.meta;
-            this.fields = this.meta.getVisible();
+            this.meta          = this.provider.meta;
+            this.fields        = this.meta.getVisible();
+            this.itemActionKey = this.meta.get('item_action');
 
             return this;
         },
@@ -105,9 +106,32 @@ define([
         updateItems: function() {
             var items = this.provider.data.get('items');
 
-            this.rows(items);
+            this.rows(items.map(this.formatItem, this));
 
             return this;
+        },
+
+        formatItem: function (item) {
+            var actions       = item.actions,
+                itemActionKey = this.itemActionKey,
+                itemAction;
+
+            if (actions) {
+                itemAction = actions[itemActionKey];
+                item.action_url = itemAction.href;
+
+                if (itemAction.hidden) {
+                    delete item.actions[itemActionKey];
+                }
+                
+                item.actions = _.map(item.actions, function (action) { return action });
+            }
+
+            return item;
+        },
+
+        applyItemActionFor: function (item) {
+            return this.redirectTo.bind(this, item.action_url);
         },
 
         /**
@@ -176,17 +200,12 @@ define([
         },
 
         /**
-         * Returns handler for row click
+         * Sets location.href to target url
          * @param  {String} url
-         * @return {Function} click handler
          */
         redirectTo: function (url) {
-
-            /**
-             * Sets location.href to target url
-             */
-            return function () {
-                window.location.href = url;
+            if (url) {
+                window.location.href = url;    
             }
         },
 

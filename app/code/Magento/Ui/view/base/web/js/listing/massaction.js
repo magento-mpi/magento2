@@ -70,7 +70,7 @@ define([
         initProperties: function () {
             var provider = this.provider.meta;
 
-            this.indexField = provider.get('indexField');
+            this.indexField = provider.get('index_field');
 
             return this;
         },
