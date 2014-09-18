@@ -53,7 +53,7 @@ class CommentWrite implements CommentWriteInterface
         if ($data->isCustomerNotified()) {
             $this->statusHistory->sendCustomerCommentEmail();
         }
-        $this->statusHistory->saveComment($data->getComment(), $data->isVisibleOnFront(), true);
+        $this->statusHistory->saveComment($comment, $data->isVisibleOnFront(), true);
         return true;
     }
 }
