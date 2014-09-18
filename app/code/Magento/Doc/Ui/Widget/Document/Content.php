@@ -187,6 +187,11 @@ class Content extends Template
         return $this->filter->preProcess($content, $this->dictionary);
     }
 
+    /**
+     * @param string $name
+     * @param array $parent
+     * @return null
+     */
     protected function findItem($name, array $parent = null)
     {
         if ($parent === null) {

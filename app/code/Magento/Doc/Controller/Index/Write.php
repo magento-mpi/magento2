@@ -27,6 +27,11 @@ class Write extends AbstractAction
      */
     protected $moduleDir;
 
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param TemplateEnginePool $enginePool
+     * @param Filesystem $filesystem
+     */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         TemplateEnginePool $enginePool,

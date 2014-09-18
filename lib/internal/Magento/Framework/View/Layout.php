@@ -64,6 +64,11 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $_update;
 
     /**
+     * @var \Magento\Ui\Render
+     */
+    protected $_uiRender;
+
+    /**
      * @var \Magento\Framework\View\Element\BlockFactory
      */
     protected $_blockFactory;
@@ -202,6 +207,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Ui\Render $uiRender,
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
      * @param \Magento\Framework\View\Layout\Argument\Parser $argumentParser
@@ -219,6 +225,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Ui\Render $uiRender,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Structure $structure,
         \Magento\Framework\View\Layout\Argument\Parser $argumentParser,
@@ -234,6 +241,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     ) {
         $this->_eventManager = $eventManager;
         $this->_scopeConfig = $scopeConfig;
+        $this->_uiRender = $uiRender;
+        $this->_uiRender->setLayout($this);
         $this->_blockFactory = $blockFactory;
         $this->_appState = $appState;
         $this->_structure = $structure;
@@ -332,7 +341,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
             $elementName = key($this->_scheduledStructure->getElements());
 
-            if ($type == Element::TYPE_BLOCK) {
+            if ($type == Element::TYPE_UI_COMPONENT) {
+                $this->_generateUiComponent($elementName);
+            } else if ($type == Element::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
             } else {
                 $this->_generateContainer($elementName, (string)$node[Element::CONTAINER_OPT_LABEL], $attributes);
@@ -421,6 +432,10 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
                 case Element::TYPE_BLOCK:
                     $this->_scheduleStructure($node, $parent);
                     $this->_readStructure($node);
+                    break;
+
+                case Element::TYPE_UI_COMPONENT:
+                    $this->_scheduleStructure($node, $parent);
                     break;
 
                 case Element::TYPE_REFERENCE_CONTAINER:
@@ -831,6 +846,47 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
+     * Creates UI Component object based on xml node data and add it to the layout
+     *
+     * @param string $elementName
+     * @return \Magento\Framework\View\Element\AbstractBlock|void
+     * @throws \Magento\Framework\Exception
+     */
+    protected function _generateUiComponent($elementName)
+    {
+        list($type, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
+        if ($type !== Element::TYPE_UI_COMPONENT) {
+            throw new \Magento\Framework\Exception("Unexpected element type specified for generating UI Component: {$type}.");
+        }
+
+        $configPath = (string)$node->getAttribute('ifconfig');
+        if (!empty($configPath)
+            && !$this->_scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
+        ) {
+            $this->_scheduledStructure->unsetElement($elementName);
+            return;
+        }
+
+        $group = (string)$node->getAttribute('group');
+        if (!empty($group)) {
+            $this->_structure->addToParentGroup($elementName, $group);
+        }
+
+        $arguments = $this->_evaluateArguments($args);
+
+        // create Ui Component Object
+        $componentName = (string)$node['component'];
+
+        $uiComponent = $this->_uiRender->createUiComponent($componentName, $elementName, $arguments);
+
+        $this->_blocks[$elementName] = $uiComponent;
+
+        $this->_scheduledStructure->unsetElement($elementName);
+
+        return $uiComponent;
+    }
+
+    /**
      * Set container-specific data to structure element
      *
      * @param string $name
@@ -1077,7 +1133,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     public function renderElement($name, $useCache = true)
     {
         if (!isset($this->_renderElementCache[$name]) || !$useCache) {
-            if ($this->isBlock($name)) {
+            if ($this->isUiComponent($name)) {
+                $result = $this->_renderUiComponent($name);
+            } else if ($this->isBlock($name)) {
                 $result = $this->_renderBlock($name);
             } else {
                 $result = $this->_renderContainer($name);
@@ -1103,6 +1161,19 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         $block = $this->getBlock($name);
         return $block ? $block->toHtml() : '';
+    }
+
+    /**
+     * Gets HTML of Ui Component
+     *
+     * @param string $name
+     * @return string
+     * @throws \Magento\Framework\Exception
+     */
+    protected function _renderUiComponent($name)
+    {
+        $uiComponent = $this->getUiComponent($name);
+        return $uiComponent ? $uiComponent->toHtml() : '';
     }
 
     /**
@@ -1196,6 +1267,20 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         if ($this->_structure->hasElement($name)) {
             return Element::TYPE_BLOCK === $this->_structure->getAttribute($name, 'type');
+        }
+        return false;
+    }
+
+    /**
+     * Whether specified element is a UI Component
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isUiComponent($name)
+    {
+        if ($this->_structure->hasElement($name)) {
+            return Element::TYPE_UI_COMPONENT === $this->_structure->getAttribute($name, 'type');
         }
         return false;
     }
@@ -1400,6 +1485,24 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         if ($this->_scheduledStructure->hasElement($name)) {
             $this->_generateBlock($name);
+        }
+        if (isset($this->_blocks[$name])) {
+            return $this->_blocks[$name];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get Ui Component object by name
+     *
+     * @param string $name
+     * @return \Magento\Framework\View\Element\AbstractBlock|bool
+     */
+    public function getUiComponent($name)
+    {
+        if ($this->_scheduledStructure->hasElement($name)) {
+            $this->_generateUiComponent($name);
         }
         if (isset($this->_blocks[$name])) {
             return $this->_blocks[$name];

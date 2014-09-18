@@ -10,7 +10,7 @@
 <?php /** @var \Magento\Tax\Pricing\Render\Adjustment $this */ ?>
 
 <?php if ($this->displayBothPrices()): ?>
-    <span id="<?php echo $this->buildIdWithPrefix('price-including-tax-') ?>"
+    <span data-mage-init="{tax:{}}" id="<?php echo $this->buildIdWithPrefix('price-including-tax-') ?>"
           data-label="<?php echo __('Incl. Tax') ?>"
           class="price-wrapper price-including-tax">
     <span class="price" ><?php echo $this->getDisplayAmount(false) ?></span>
