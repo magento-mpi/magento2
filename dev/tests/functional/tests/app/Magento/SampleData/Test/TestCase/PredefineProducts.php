@@ -8,17 +8,17 @@
 
 namespace Magento\SampleData\Test\TestCase;
 
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
- * Class PredefineBuildConfig
- * Predefine Build config for the regression testing
+ * Class PredefineProducts
+ * Predefine products
  *
  * @ticketId MTA-404
  */
-class PredefineBuildConfig extends Injectable
+class PredefineProducts extends Injectable
 {
     /**
      * Sub category for product
@@ -32,7 +32,7 @@ class PredefineBuildConfig extends Injectable
     ];
 
     /**
-     * Predefine Build config for the regression testing
+     * Predefine products
      *
      * @param FixtureFactory $fixtureFactory
      * @param string $products
@@ -42,11 +42,13 @@ class PredefineBuildConfig extends Injectable
     public function test(FixtureFactory $fixtureFactory, $products, CatalogCategory $category)
     {
         $productsData = explode(', ', $products);
+        $rootCategoryId = 1;
         foreach ($productsData as $value) {
             $product = explode('::', $value);
             if (isset($this->subCategory[$product[1]])) {
                 if (!$category->hasData('id')) {
                     $category->persist();
+                    $rootCategoryId = $category->getId();
                 }
                 $category = $fixtureFactory->createByCode(
                     'catalogCategory',
@@ -55,7 +57,7 @@ class PredefineBuildConfig extends Injectable
                         'data' =>
                             [
                                 'name' => $this->subCategory[$product[1]],
-                                'parent_id' => $category->getId(),
+                                'parent_id' => $rootCategoryId,
                             ]
                     ]
                 );

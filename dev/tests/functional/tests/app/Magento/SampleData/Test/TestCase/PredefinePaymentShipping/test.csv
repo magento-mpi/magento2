@@ -1,0 +1,2 @@
+"shipping";"shippingOrigin";"payment"
+"freeshipping_disabled, flatrate, ups_disable, usps_disable, fedex_disable";"shipping_origin";"paypal_advanced, paypal_payflow_pro, paypal_direct, paypal_standard, paypal_payflow_link, paypal_express, cash_on_delivery, bank_transfer_payment, purchase_order, authorizenet, authorizenet_direct_post, ogone, paypal_disabled_all_methods, zero_subtotal_checkout, check_money_order"
