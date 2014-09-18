@@ -482,5 +482,23 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        //Sales Archiving
+        $this->_data['salesarchive_pending_closed'] = [
+            'section' => [
+                [
+                    'path' => 'sales/magento_salesarchive/active',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/magento_salesarchive/order_statuses',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => ['pending', 'closed'],
+                ],
+            ]
+        ];
     }
 }
