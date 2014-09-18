@@ -131,8 +131,6 @@ class Wishlist implements DataProviderInterface
                     continue;
                 }
 
-                /** @var $outputHelper \Magento\Catalog\Helper\Output */
-                $outputHelper = $this->outputHelper;
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="' . $this->imageHelper->init(
                         $product,
                         'thumbnail'
@@ -142,7 +140,7 @@ class Wishlist implements DataProviderInterface
                         ) .
                     '" border="0" align="left" height="75" width="75"></a></td>' .
                     '<td style="text-decoration:none;">' .
-                    $outputHelper->productAttribute(
+                    $this->outputHelper->productAttribute(
                         $product,
                         $product->getShortDescription(),
                         'short_description'
@@ -156,7 +154,7 @@ class Wishlist implements DataProviderInterface
                 if (trim($product->getDescription()) != '') {
                     $description .= '<p>' . __(
                             'Comment:'
-                        ) . ' ' . $outputHelper->productAttribute(
+                        ) . ' ' . $this->outputHelper->productAttribute(
                             $product,
                             $product->getDescription(),
                             'description'
@@ -165,7 +163,7 @@ class Wishlist implements DataProviderInterface
                 $description .= '</td></tr></table>';
 
                 $data['entries'][] = (array(
-                    'title' => $outputHelper->productAttribute($product, $product->getName(), 'name'),
+                    'title' => $this->outputHelper->productAttribute($product, $product->getName(), 'name'),
                     'link' => $productUrl,
                     'description' => $description
                 ));

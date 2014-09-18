@@ -77,9 +77,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     {
         $this->scopeConfig
             ->expects($this->atLeastOnce())
-            ->method('getValue')
+            ->method('isSetFlag')
             ->with('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->will($this->returnValue(1));
+            ->will($this->returnValue(true));
         $this->assertEquals(true, $this->link->isRssAllowed());
     }
 }
