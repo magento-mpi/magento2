@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Class AssertCustomerOrderReportResult
+ * Class AbstractAssertCustomerOrderReportResult
  * Check Order report grid for all params
  */
-abstract class AssertCustomerOrderReportResult extends AbstractConstraint
+abstract class AbstractAssertCustomerOrderReportResult extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -54,15 +54,5 @@ abstract class AssertCustomerOrderReportResult extends AbstractConstraint
             'average' => number_format($columns['average'], 2),
             'total' => number_format($columns['total'], 2)
         ];
-    }
-
-    /**
-     * Returns a string representation of successful assertion
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Order is present in reports grid.';
     }
 }

@@ -15,7 +15,7 @@ use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
  * Class AssertCustomerOrderTotalReportResult
  * Assert OrderTotalReport grid for all params
  */
-class AssertCustomerOrderTotalReportResult extends AssertCustomerOrderReportResult
+class AssertCustomerOrderTotalReportResult extends AbstractAssertCustomerOrderReportResult
 {
     /**
      * Constraint severeness

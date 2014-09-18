@@ -15,7 +15,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * Class AssertCustomerOrderCountReportResult
  * Assert OrderCountReport grid for all params
  */
-class AssertCustomerOrderCountReportResult extends AssertCustomerOrderReportResult
+class AssertCustomerOrderCountReportResult extends AbstractAssertCustomerOrderReportResult
 {
     /**
      * Constraint severeness
