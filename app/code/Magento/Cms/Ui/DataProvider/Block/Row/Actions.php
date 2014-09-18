@@ -11,9 +11,9 @@ use Magento\Framework\UrlInterface;
 use Magento\Ui\DataProvider\RowInterface;
 
 /**
- * Class Url
+ * Class Actions
  */
-class Url implements RowInterface
+class Actions implements RowInterface
 {
     /**
      * Url path
@@ -41,6 +41,12 @@ class Url implements RowInterface
      */
     public function getData(array $dataRow)
     {
-        return $this->urlBuilder->getUrl(static::URL_PATH, ['block_id' => $dataRow['block_id']]);
+        return [
+            'edit' => [
+                'href' => $this->urlBuilder->getUrl(static::URL_PATH, ['block_id' => $dataRow['block_id']]),
+                'title' => __('Edit'),
+
+            ]
+        ];
     }
 }

@@ -17,11 +17,16 @@ use Magento\Framework\Filesystem\Directory\ReadInterface;
 class Base implements CollectorInterface
 {
     /**
+     * File base path
+     */
+    const BASE_PATH = '/view/base/';
+
+    /**
      * File factory
      *
      * @var Factory
      */
-    private $fileFactory;
+    protected $fileFactory;
 
     /**
      * Modules directory
@@ -60,7 +65,7 @@ class Base implements CollectorInterface
     public function getFiles($filePath)
     {
         $result = [];
-        $files = $this->modulesDirectory->search("*/*/view/base/{$this->subDir}{$filePath}");
+        $files = $this->modulesDirectory->search('*/*' . static::BASE_PATH . "{$this->subDir}{$filePath}");
         $filePathPtn = strtr(preg_quote($filePath), ['\*' => '[^/]+']);
         $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/base/{$this->subDir}{$filePathPtn}$#i";
         foreach ($files as $file) {

@@ -27,7 +27,8 @@
                     <item name="filterable" xsi:type="boolean">true</item>
                     <item name="sortable" xsi:type="boolean">true</item>
                 </item>
-                <item name="indexField" xsi:type="string">page_id</item>
+                <item name="index_field" xsi:type="string">page_id</item>
+                <item name="item_action" xsi:type="string">edit</item>
                 <item name="fields" xsi:type="array">
                     <item name="page_id" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">ID</item>
@@ -93,9 +94,6 @@
             <argument name="row_data_provider" xsi:type="array">
                 <item name="actions" xsi:type="array">
                     <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Page\Row\Actions</item>
-                </item>
-                <item name="row_url" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Page\Row\Url</item>
                 </item>
                 <item name="store_id" xsi:type="array">
                     <item name="class" xsi:type="string">Magento\Ui\DataProvider\Row\Store</item>

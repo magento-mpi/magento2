@@ -109,6 +109,7 @@ class View extends AbstractView
                 $this
             );
         }
+        unset($config['page_actions']);
 
         $this->configuration = $this->configurationFactory->create(
             [
