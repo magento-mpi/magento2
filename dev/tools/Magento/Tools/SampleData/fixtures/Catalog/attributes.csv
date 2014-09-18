@@ -1,0 +1,335 @@
+frontend_label;frontend_input;is_required;option;default;attribute_code;is_global;default_value_text;default_value_yesno;default_value_date;default_value_textarea;is_unique;is_configurable;is_searchable;is_visible_in_advanced_search;is_comparable;is_filterable;is_filterable_in_search;position;is_used_for_promo_rules;is_html_allowed_on_front;is_visible_on_front;used_in_product_listing;used_for_sort_by;attribute_set
+Activity;multiselect;0;"Hike
+Outdoor
+Running
+Warmup
+Yoga
+Lounge
+Gym
+Climbing
+Crosstraining
+Post-workout
+Cycling
+Athletic
+Sports
+";;activity_general;1;;0;;;0;1;0;0;1;1;0;;1;1;1;0;0;"Top
+Bottom
+Gear
+Downloadable"
+Activity;multiselect;0;"Gym
+Hiking
+Overnight
+School
+Trail
+Travel
+Urban
+Warmup
+Yoga";;activity_bags;1;;0;;;0;1;0;0;1;1;0;;1;1;1;0;0;Bag
+Style;multiselect;0;"Insulated
+Jacket
+Vest
+Lightweight
+Hooded
+Heavy Duty
+Rain Coat
+Hard Shell
+Soft Shell
+Windbreaker
+1/2 zip
+1/4 zip
+Full Zip
+Reversible
+Bra
+Hoodies & Sweatshirts
+Polo
+Tank
+Tee
+Pullover
+Hoodie
+Cardigan 
+Henley
+Tunic
+Camisole
+";;style_general;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Top
+Style;multiselect;0;"Backpack
+Luggage
+Duffel
+Messenger
+Laptop
+Exercise
+Tote
+";;style_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
+Style;multiselect;0;"Workout 
+Cargo 
+Base Layer
+Compression
+Tights
+Sweatpants
+Track Pants
+Leggings
+Parachute
+";;style_bottom;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bottom
+Material;multiselect;0;"Cocona performance fabric
+Wool
+Fleece
+Hemp
+Jersey
+Luma Tech
+Lycra
+Mesh
+Nylon
+Polyester
+Spandex
+Cotton
+HeatTec
+EverCool
+Organic Cotton
+Rayon
+TENCEL
+CoolTech
+Khaki
+Linen
+Wool
+Terry";;material;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;"Top
+Bottom"
+Material;multiselect;0;"Burlap
+Canvas
+Cotton
+Faux Leather
+Leather
+Mesh
+Nylon
+Polyester
+Rayon
+Ripstop
+Suede";;material_bag;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
+Material;multiselect;0;"Burlap
+Canvas
+Cotton
+Faux Leather
+Leather
+Mesh
+Nylon
+Polyester
+Rayon
+Ripstop
+Suede";;material_gear;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gear
+Sleeve;multiselect;0;"Sleeve
+Long Sleeve
+Short Sleeve
+Sleeveless
+Tank
+Strap
+
+";;sleeve;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Top
+Size;select;0;"28
+29
+30
+31
+32
+33
+34
+36
+38";;size_pants;1;;0;;;0;1;0;0;;1;0;;1;1;0;0;0;Bottom
+Size;select;0;"XS
+S
+M
+L
+XL";;size_general;1;;0;;;0;1;0;0;;1;0;;1;1;0;0;0;Top
+Collar;multiselect;0;"N/A
+? zip
+? zip
+Boat Neck
+Crew
+Full zip
+V-neck
+Ballet
+Scoop
+High Collar
+Stand Collar
+Roll Neck
+Square Neck";;collar;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Top
+Pattern;multiselect;0;"Color-Blocked
+Checked
+Color-Blocked
+Graphic Print
+Solid
+Solid-Highlight
+Striped
+Camo
+Geometric";;pattern;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;"Top
+Bottom"
+Climate;multiselect;0;"All-Weather
+Cold
+Cool
+Indoor
+Mild
+Rainy
+Spring
+Warm
+Windy
+Wintry
+Hot";;climate;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;"Top
+Bottom"
+Color;select;;"Aqua
+Black
+Black/Blue
+Black/Gray
+Black/Light Blue
+Black/Mint
+Black/Pink
+Black/Red
+Black/Teal
+Black/White
+Black/Yellow
+Blue
+Blue/Green
+Blue/Mint
+Blue/Pink
+Brown
+Brown/Cream
+Cayenne
+Charcoal
+Chocolate
+Cream
+Cream/Black
+Cream/Navy
+Cream/Tan
+Dark Gray
+Deep Pink
+Electric Blue
+Gold
+Gold/Black/Turquoise
+Gray
+Gray/Black
+Gray/Green
+Gray/Mint
+Gray/Pink
+Gray/Purple
+Gray/Red
+Gray/Royal
+Gray/Seafoam
+Gray/Teal
+Gray/White
+Gray/Yellow
+Green
+Green/Gray
+Heather Navy
+Hot Pink
+Ivory
+Khaki
+Lavender
+Lemon
+Light Blue
+Light Blue/Lime
+Light Blue/Royal
+Light Gray
+Lime
+Lime-Green
+Lime/White
+Loden
+Mint
+Navy
+Navy/Light Blue
+Navy/Lime
+Navy/Teal
+Navy/White
+Orange
+Periwinkle
+Pink
+Purple
+Purple/Light Blue
+Purple/Light Green
+Purple/Lime-Green
+Purple/Mint
+Red
+Red/Gray
+Red/Pink
+Royal
+Salmon
+Salmon/Gold
+Sand
+Seafoam
+Silver
+Slate
+Spectrum
+Tan
+Tangerine
+Taupe
+Teal
+Teal/Black
+Teal/Gray
+Teal/Lime
+Teal/Silver
+Violet
+White
+White/Navy
+Yellow";;color;1;;0;;;0;1;0;0;;1;0;;1;1;0;0;0;"Top
+Bottom
+Bag
+Gear"
+Strap/Handle;multiselect;0;"Adjustable
+Cross Body
+Detachable
+Double
+Padded
+Shoulder
+Single
+Telescoping";;strap_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
+Features;multiselect;0;"Adjustable
+Cross Body
+Detachable
+Double
+Padded
+Shoulder
+Single
+Telescoping";;strap_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
+Gender;select;0;"Men
+Women
+Boys
+Girls
+Unisex";;gender;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gear
+Category;multiselect;0;"Cardio
+Electronic
+Exercise
+Fashion
+Hydration
+Timepiece";;category_gear;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gear
+Format;select;0;"Download
+DVD
+";;format;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Downloadable
+Type;select;0;"Training
+Discounts
+Coaching
+Education
+";;type;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Membership
+Duration;select;0;"6-month
+12-month
+";;duration;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;"Membership
+Gift Card"
+Package;select;0;"Basic
+Gold
+Deluxe 
+";;package;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Membership
+Benefits;select;0;"All-Access Video
+Weekly Newsletter
+Community Boards 
+Recipes and Library
+Expert tips
+Free 2-day Shipping
+LumaTrak App 
+Luma Visa®
+Luma Partner Program
+Product Discounts
+Annual refund
+Live coach
+Custom workout programming";;benefits;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Membership
+Purpose;select;0;"Products
+Video Streaming
+All-Purpose";;purpose;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gift Card
+Amount;select;0;"$25.00
+$50.00
+$100.00
+$200.00
+Custom 
+";;amount;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gift Card
