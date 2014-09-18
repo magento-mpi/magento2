@@ -17,6 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageNewVersionSuccessSaveMessage extends AbstractConstraint
 {
+    /**
+     * New version success save message
+     */
     const SUCCESS_SAVE_MESSAGE = 'You have created the new version.';
 
     /**
@@ -24,7 +27,7 @@ class AssertCmsPageNewVersionSuccessSaveMessage extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
      * Assert that after new CMS page version save successful message appears

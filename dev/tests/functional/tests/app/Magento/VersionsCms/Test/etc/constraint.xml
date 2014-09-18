@@ -120,13 +120,13 @@
         </require>
     </assertCmsPageRevisionPreview>
     <assertCmsPageNewVersionSuccessSaveMessage module="Magento_VersionsCms">
-        <severeness>high</severeness>
+        <severeness>low</severeness>
         <require>
             <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
         </require>
     </assertCmsPageNewVersionSuccessSaveMessage>
     <assertCmsPageVersionSaveErrorMessage module="Magento_VersionsCms">
-        <severeness>high</severeness>
+        <severeness>low</severeness>
         <require>
             <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
         </require>

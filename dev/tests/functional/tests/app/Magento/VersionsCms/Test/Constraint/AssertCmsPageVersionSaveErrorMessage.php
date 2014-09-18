@@ -17,6 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageVersionSaveErrorMessage extends AbstractConstraint
 {
+    /**
+     * Save error message
+     */
     const ERROR_SAVE_MESSAGE = 'Сannot change version access level because it is the last public version for its page.';
 
     /**
@@ -24,7 +27,7 @@ class AssertCmsPageVersionSaveErrorMessage extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
      * Assert that after change access level of last public version to private error message appears
