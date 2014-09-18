@@ -41,7 +41,7 @@ class Example extends AbstractType implements ExampleInterface
      */
     public function getContent(Item $item)
     {
-        $filePath = $item->getData('scheme') . '/' . $item->getData('name') . '.xhtml';
+        $filePath = $this->getFilePath($item);
         return $this->content->get($filePath);
     }
 }

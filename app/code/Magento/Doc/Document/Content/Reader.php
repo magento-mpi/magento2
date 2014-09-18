@@ -23,6 +23,7 @@ class Reader
      */
     protected $idAttributes = [
         '*' => 'id',
+        'div' => 'module',
         'img' => 'src'
     ];
 
@@ -110,25 +111,21 @@ class Reader
     /**
      * Merge document fragments
      *
-     * @param array $fragments
+     * @param \Magento\Framework\View\File[] $fragments
      * @return string
      * @throws \Magento\Framework\Exception
      */
-    protected function mergeDocumentFragments($fragments)
+    protected function mergeDocumentFragments(array $fragments)
     {
         /** @var \Magento\Framework\Config\Dom $merger */
         $merger = null;
         $html = '';
+        $merger = $this->createConfigMerger($this->domDocumentClass, '<div id="root"></div>');
         foreach ($fragments as $key => $fragment) {
-            if (!$fragment) {
-                continue;
-            }
+            /** @var \Magento\Framework\View\File $fragment */
             try {
-                if (!$merger) {
-                    $merger = $this->createConfigMerger($this->domDocumentClass, $fragment);
-                } else {
-                    $merger->merge($fragment);
-                }
+                $content = '<div module="'.$fragment->getModule().'">' . file_get_contents($fragment->getFilename()) . '</div>';
+                $merger->merge($content, '//div[@id="root"]');
             } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
                 throw new \Magento\Framework\Exception("Invalid XML in file " . $key . ":\n" . $e->getMessage());
             }

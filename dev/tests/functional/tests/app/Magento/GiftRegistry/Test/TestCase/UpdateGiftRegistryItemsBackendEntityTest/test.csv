@@ -1,0 +1,4 @@
+"description";"giftRegistry/dataSet";"products";"qty";"actions";"constraint"
+"update product in giftRegistry Items grid";"birthday";"catalogProductSimple::default";"2";"Update Quantity";"assertGiftRegistryItemsUpdatedSuccessMessage, assertGiftRegistryManageItemsTab"
+"update product in giftRegistry Items grid";"wedding";"configurableProductInjectable::default";"2";"Remove Item";"assertGiftRegistryItemsUpdatedSuccessMessage, assertGiftRegistryManageItemsTab"
+"update few  products in giftRegistry Items grid";"baby_registry";"configurableProductInjectable::default,catalogProductSimple::default";"3,2";"Update Quantity,Remove Item";"assertGiftRegistryItemsUpdatedSuccessMessage, assertGiftRegistryManageItemsTab"

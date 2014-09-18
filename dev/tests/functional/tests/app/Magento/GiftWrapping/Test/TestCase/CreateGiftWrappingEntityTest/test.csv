@@ -1,0 +1,3 @@
+"giftWrapping/data/design";"giftWrapping/data/website_ids/dataSet";"giftWrapping/data/status";"giftWrapping/data/base_price";"constraint"
+"GiftWrapping%isolation%";"main_website";"Enabled";10;"assertGiftWrappingSuccessSaveMessage, assertGiftWrappingInGrid, assertGiftWrappingForm"
+"GiftWrapping%isolation%";"main_website";"Disabled";10;"assertGiftWrappingSuccessSaveMessage, assertGiftWrappingInGrid, assertGiftWrappingForm"

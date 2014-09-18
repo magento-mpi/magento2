@@ -27,11 +27,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_appState;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_dirVerificationMock;
 
     /**
@@ -76,7 +71,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             return true;
         };
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
-        $this->_appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync = $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
         $this->_dirVerificationMock = $this->getMock(
@@ -110,12 +104,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $map = array(
             array('Magento\Framework\App\Filesystem\DirectoryList\Verification', $this->_dirVerificationMock),
-            array('Magento\Framework\App\State', $this->_appState),
             array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
             array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync)
         );
         $this->_model = new \Magento\Core\App\Media(
-            $this->_appState,
             $this->_objectManagerMock,
             $this->_requestMock,
             $this->_responseMock,
@@ -134,18 +126,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         unset($this->_model);
     }
 
-    public function testProcessRequestDoesNothingIfApplicationIsNotInstalled()
-    {
-        $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
-        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
-        $this->_requestMock->expects($this->never())->method('getPathInfo');
-        $this->assertEquals($this->_responseMock, $this->_model->launch());
-    }
-
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The specified path is not within media directory.
+     */
     public function testProcessRequestCreatesConfigFileMediaDirectoryIsNotProvided()
     {
         $this->_model = new \Magento\Core\App\Media(
-            $this->_appState,
             $this->_objectManagerMock,
             $this->_requestMock,
             $this->_responseMock,
@@ -156,7 +143,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             'params',
             $this->filesystemMock
         );
-        $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
@@ -167,16 +153,19 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_configMock)
         );
         $this->_configMock->expects($this->once())->method('save');
-        $this->assertEquals($this->_responseMock, $this->_model->launch());
+        $this->_model->launch();
     }
 
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The specified path is not allowed.
+     */
     public function testProcessRequestReturnsNotFoundResponseIfResourceIsNotAllowed()
     {
         $this->_closure = function () {
             return false;
         };
         $this->_model = new \Magento\Core\App\Media(
-            $this->_appState,
             $this->_objectManagerMock,
             $this->_requestMock,
             $this->_responseMock,
@@ -187,8 +176,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             'params',
             $this->filesystemMock
         );
-        $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
-        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
         $this->_requestMock->expects($this->once())->method('getPathInfo');
         $this->_objectManagerMock->expects(
             $this->once()
@@ -200,24 +187,25 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_configMock)
         );
         $this->_configMock->expects($this->once())->method('getAllowedResources')->will($this->returnValue(false));
-        $this->assertEquals($this->_responseMock, $this->_model->launch());
+        $this->_model->launch();
     }
 
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The specified path is not within media directory.
+     */
     public function testProcessRequestReturnsNotFoundIfFileIsNotAllowed()
     {
-        $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_configMock->expects($this->never())->method('save');
         $this->_requestMock->expects($this->once())->method('getPathInfo');
-        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
         $this->_requestMock->expects($this->never())->method('getFilePath');
-        $this->assertEquals($this->_responseMock, $this->_model->launch());
+        $this->_model->launch();
     }
 
     public function testProcessRequestReturnsFileIfItsProperlySynchronized()
     {
         $relativeFilePath = '_files';
         $filePath = str_replace('\\', '/', __DIR__ . '/' . $relativeFilePath);
-        $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_requestMock->expects(
             $this->any()
         )->method(
@@ -248,12 +236,11 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(true)
         );
         $this->_responseMock->expects($this->once())->method('setFilePath')->with($filePath);
-        $this->assertEquals($this->_responseMock, $this->_model->launch());
+        $this->assertSame($this->_responseMock, $this->_model->launch());
     }
 
     public function testProcessRequestReturnsNotFoundIfFileIsNotSynchronized()
     {
-        $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_requestMock->expects(
             $this->any()
         )->method(
@@ -270,6 +257,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('non_existing_file_name')
         );
         $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
-        $this->assertEquals($this->_responseMock, $this->_model->launch());
+        $this->assertSame($this->_responseMock, $this->_model->launch());
     }
 }

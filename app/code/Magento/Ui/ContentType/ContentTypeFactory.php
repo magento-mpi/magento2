@@ -17,7 +17,7 @@ class ContentTypeFactory
     /**
      * Default content type
      */
-    const DEFAULT_TYPE = 'Magento\Ui\ContentType\Html';
+    const DEFAULT_TYPE = 'html';
 
     /**
      * Content types
@@ -56,12 +56,17 @@ class ContentTypeFactory
      * @return ContentTypeInterface
      * @throws \InvalidArgumentException
      */
-    public function get($type)
+    public function get($type = ContentTypeFactory::DEFAULT_TYPE)
     {
-        $contentRenderClass = isset($this->types[$type]) ? $this->types[$type] : self::DEFAULT_TYPE;
-        $contentRender = $this->objectManager->get($contentRenderClass);
+        if (!isset($this->types[$type])) {
+            throw new \InvalidArgumentException(sprintf("Wrong content type '%s', renderer not exists.", $type));
+        }
+
+        $contentRender = $this->objectManager->get($this->types[$type]);
         if (!$contentRender instanceof ContentTypeInterface) {
-            throw new \InvalidArgumentException(sprintf("Wrong render for '%s' content type", $type));
+            throw new \InvalidArgumentException(
+                sprintf('"%s" must implement the interface ContentTypeInterface.', $contentRender)
+            );
         }
 
         return $contentRender;

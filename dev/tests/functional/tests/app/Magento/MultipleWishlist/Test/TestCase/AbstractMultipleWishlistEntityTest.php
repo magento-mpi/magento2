@@ -20,7 +20,7 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Abstract Class AbstractMultipleWishlistEntityTest
@@ -59,9 +59,9 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     /**
      * Multiple wish list index page
      *
-     * @var MultipleWishlistIndex
+     * @var WishlistIndex
      */
-    protected $multipleWishlistIndex;
+    protected $wishlistIndex;
 
     /**
      * Wish list id
@@ -128,18 +128,18 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
-     * @param MultipleWishlistIndex $multipleWishlistIndex
+     * @param WishlistIndex $wishlistIndex
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
-        MultipleWishlistIndex $multipleWishlistIndex
+        WishlistIndex $wishlistIndex
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
-        $this->multipleWishlistIndex = $multipleWishlistIndex;
+        $this->wishlistIndex = $wishlistIndex;
         $this->customerAccountIndex = $customerAccountIndex;
     }
 

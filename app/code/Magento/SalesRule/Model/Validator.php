@@ -8,7 +8,6 @@
 namespace Magento\SalesRule\Model;
 
 use Magento\Sales\Model\Quote\Item\AbstractItem;
-use Magento\Sales\Model\Quote\Item;
 use Magento\Sales\Model\Quote\Address;
 
 /**
@@ -77,6 +76,11 @@ class Validator extends \Magento\Framework\Model\AbstractModel
     protected $rulesApplier;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @var Validator\Pool
      */
     protected $validators;
@@ -93,6 +97,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param Utility $utility
      * @param RulesApplier $rulesApplier
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Validator\Pool $validators
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -106,6 +111,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\SalesRule\Model\Utility $utility,
         \Magento\SalesRule\Model\RulesApplier $rulesApplier,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\SalesRule\Model\Validator\Pool $validators,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -116,6 +122,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         $this->_catalogData = $catalogData;
         $this->validatorUtility = $utility;
         $this->rulesApplier = $rulesApplier;
+        $this->priceCurrency = $priceCurrency;
         $this->validators = $validators;
         $this->messageManager = $messageManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -274,12 +281,12 @@ class Validator extends \Magento\Framework\Model\AbstractModel
                     $address->setShippingDiscountPercent($discountPercent);
                     break;
                 case \Magento\SalesRule\Model\Rule::TO_FIXED_ACTION:
-                    $quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
+                    $quoteAmount = $this->priceCurrency->convert($rule->getDiscountAmount(), $quote->getStore());
                     $discountAmount = $shippingAmount - $quoteAmount;
                     $baseDiscountAmount = $baseShippingAmount - $rule->getDiscountAmount();
                     break;
                 case \Magento\SalesRule\Model\Rule::BY_FIXED_ACTION:
-                    $quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
+                    $quoteAmount = $this->priceCurrency->convert($rule->getDiscountAmount(), $quote->getStore());
                     $discountAmount = $quoteAmount;
                     $baseDiscountAmount = $rule->getDiscountAmount();
                     break;
@@ -289,7 +296,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
                         $cartRules[$rule->getId()] = $rule->getDiscountAmount();
                     }
                     if ($cartRules[$rule->getId()] > 0) {
-                        $quoteAmount = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
+                        $quoteAmount = $this->priceCurrency->convert($cartRules[$rule->getId()], $quote->getStore());
                         $discountAmount = min($shippingAmount - $address->getShippingDiscountAmount(), $quoteAmount);
                         $baseDiscountAmount = min(
                             $baseShippingAmount - $address->getBaseShippingDiscountAmount(),
@@ -502,10 +509,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
     /**
      * Check if we can apply discount to current QuoteItem
      *
-     * @param Item $item
+     * @param AbstractItem $item
      * @return bool
      */
-    public function canApplyDiscount(Item $item)
+    public function canApplyDiscount(AbstractItem $item)
     {
         $result = true;
         /** @var \Zend_Validate_Interface $validator */

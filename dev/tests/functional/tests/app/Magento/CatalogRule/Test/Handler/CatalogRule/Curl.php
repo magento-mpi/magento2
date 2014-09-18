@@ -136,9 +136,11 @@ class Curl extends Conditions implements CatalogRuleInterface
         if (!isset($data['stop_rules_processing'])) {
             $data['stop_rules_processing'] = 0;
         }
-        if (isset($data['rule'])) {
-            $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
+
+        if (!isset($data['rule'])) {
+            $data['rule'] = null;
         }
+        $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
 
         return $data;
     }

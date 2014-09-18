@@ -23,7 +23,7 @@ interface ActionPoolInterface
      * @param ViewInterface $context
      * @return void
      */
-    public function addButton($key, array $data, ViewInterface $context);
+    public function add($key, array $data, ViewInterface $context);
 
     /**
      * Remove button

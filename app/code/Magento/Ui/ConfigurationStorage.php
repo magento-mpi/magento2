@@ -43,11 +43,11 @@ class ConfigurationStorage implements ConfigurationStorageInterface
     protected $collectionStorage = [];
 
     /**
-     * Cloud data storage
+     * Global data storage
      *
      * @var array
      */
-    protected $cloudDataStorage = [];
+    protected $globalDataStorage = [];
 
     /**
      * Add components configuration
@@ -244,8 +244,8 @@ class ConfigurationStorage implements ConfigurationStorageInterface
      */
     public function addGlobalData($key, array $data)
     {
-        if (!isset($this->cloudDataStorage[$key])) {
-            $this->cloudDataStorage[$key] = $data;
+        if (!isset($this->globalDataStorage[$key])) {
+            $this->globalDataStorage[$key] = $data;
         }
     }
 
@@ -257,7 +257,7 @@ class ConfigurationStorage implements ConfigurationStorageInterface
      */
     public function removeGlobalData($key)
     {
-        unset($this->cloudDataStorage[$key]);
+        unset($this->globalDataStorage[$key]);
     }
 
     /**
@@ -269,8 +269,8 @@ class ConfigurationStorage implements ConfigurationStorageInterface
     public function getGlobalData($key = null)
     {
         if ($key === null) {
-            return $this->cloudDataStorage;
+            return $this->globalDataStorage;
         }
-        return isset($this->cloudDataStorage[$key]) ? $this->cloudDataStorage[$key] : null;
+        return isset($this->globalDataStorage[$key]) ? $this->globalDataStorage[$key] : null;
     }
 }
