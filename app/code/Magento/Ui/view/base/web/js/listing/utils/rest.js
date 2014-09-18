@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 define([
-    '_',
+    'underscore',
     'jquery',
     'Magento_Ui/js/lib/utils',
     'Magento_Ui/js/lib/class',

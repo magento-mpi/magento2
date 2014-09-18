@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 define([
-    '_',
+    'underscore',
     '../lib/ko/scope',
     '../lib/component'
 ], function(_, Scope, Component) {

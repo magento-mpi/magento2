@@ -8,7 +8,7 @@ define([
     '../loader',
     './overrides',
     'jquery',
-    '_'
+    'underscore'
 ], function(loader, overrides, $, _) {
     'use strict';
 

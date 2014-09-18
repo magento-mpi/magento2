@@ -6,7 +6,7 @@
  */
 define([
     'Magento_Ui/js/listing/filter/abstract',
-    '_'
+    'underscore'
 ], function (AbstractControl, _) {
     'use strict';
 
