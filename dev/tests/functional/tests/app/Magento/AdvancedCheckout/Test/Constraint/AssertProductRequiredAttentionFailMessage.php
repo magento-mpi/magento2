@@ -36,19 +36,18 @@ class AssertProductRequiredAttentionFailMessage extends AbstractConstraint
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
-        $productsCount = count($products);
-        $qty = ($productsCount > 1) ? 'products' : 'product';
+        $productsQty = count($products);
+        $qtyString = ($productsQty > 1) ? 'products' : 'product';
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::ERROR_MESSAGE, $productsCount, $qty),
-            $checkoutCart->getMessagesBlock()->getErrorMessages(),
-            'Wrong error message is displayed.'
+            sprintf(self::ERROR_MESSAGE, $productsQty, $qtyString),
+            $checkoutCart->getMessagesBlock()->getErrorMessages()
         );
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

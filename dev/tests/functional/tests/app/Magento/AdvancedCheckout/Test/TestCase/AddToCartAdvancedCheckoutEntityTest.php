@@ -29,7 +29,7 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  *
  * Steps:
  * 1. Login to Frontend
- * 2. Open My Account >Order by SKU
+ * 2. Open My Account > Order by SKU
  * 3. Fill data according dataSet
  * 4. Click Add to Cart button
  * 5. Perform all asserts
@@ -54,7 +54,7 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
-     * Page Customer account logout page
+     * Customer account logout page
      *
      * @var CustomerAccountLogout
      */
@@ -89,6 +89,19 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     protected $checkoutCart;
 
     /**
+     * Create customer
+     *
+     * @param CustomerInjectable $customer
+     * @return array
+     */
+    public function __prepare(CustomerInjectable $customer)
+    {
+        $customer->persist();
+
+        return ['customer' => $customer];
+    }
+
+    /**
      * Injection data
      *
      * @param CmsIndex $cmsIndex
@@ -119,34 +132,21 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     }
 
     /**
-     * Create customer
-     *
-     * @param CustomerInjectable $customer
-     * @return array
-     */
-    public function __prepare(CustomerInjectable $customer)
-    {
-        $customer->persist();
-
-        return ['customer' => $customer];
-    }
-
-    /**
      * Adding to cart AdvancedCheckoutEntity(from MyAccount)
      *
      * @param CustomerInjectable $customer
-     * @param string $products
+     * @param string $product
      * @param array $orderOptions
      * @return array
      */
-    public function test(CustomerInjectable $customer, $products, array $orderOptions)
+    public function test(CustomerInjectable $customer, $product, array $orderOptions)
     {
         // Preconditions
-        list($fixture, $dataSet) = explode('::', $products);
+        list($fixture, $dataSet) = explode('::', $product);
         $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
         $product->persist();
         $productSku = $product->getSku();
-        $orderOptions['sku'] = ($dataSet === 'one_variation')
+        $orderOptions['sku'] = ($orderOptions['sku'] === '%ConfSku%-%simpleSku%')
             ? $productSku . '-' . $product->getConfigurableAttributesData()['matrix']['attribute_0:option_0']['sku']
             : $productSku;
         // Steps

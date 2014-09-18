@@ -14,6 +14,8 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Block\Onepage\Link;
 use Mtf\Fixture\FixtureInterface;
+use Magento\AdvancedCheckout\Test\Block\Sku\Products\Info;
+use Magento\Checkout\Test\Block\Cart\CartItem;
 
 /**
  * Class Cart
@@ -58,21 +60,19 @@ class Cart extends Block
      */
     protected $cartEmpty = '.cart-empty';
 
-    // @codingStandardsIgnoreStart
     /**
      * Failed item block selector
      *
      * @var string
      */
-    protected $failedItem = '//*[@id="failed-products-table"]//div[contains(@class,"product details") and //div[contains(.,"%s")]]';
+    protected $failedItem = '//*[@id="failed-products-table"]//*[@class="product details" and //div[contains(.,"%s")]]';
 
     /**
      * Selector for not editable cart item block
      *
      * @var string
      */
-    protected $cartNotEditableItemByProductName = './/tr[contains(@class,"item-info") and (.//*[contains(@class,"product-item-name")] and contains(.,"%s"))]';
-    // @codingStandardsIgnoreEnd
+    protected $notEditableCartItem = './/tr[contains(@class,"item-info") and contains(.,"%s")]';
 
     /**
      * Get cart item block
@@ -182,7 +182,7 @@ class Cart extends Block
      * Get failed item block
      *
      * @param FixtureInterface $product
-     * @return \Magento\AdvancedCheckout\Test\Block\Sku\Products\Info
+     * @return Info
      */
     protected function getFailedItemBlock(FixtureInterface $product)
     {
@@ -210,12 +210,12 @@ class Cart extends Block
      * Get not editable cart item block
      *
      * @param FixtureInterface $product
-     * @return \Magento\Checkout\Test\Block\Cart\CartItem
+     * @return CartItem
      */
     public function getNotEditableCartItem(FixtureInterface $product)
     {
         $cartItem = $this->_rootElement->find(
-            sprintf($this->cartNotEditableItemByProductName, $product->getName()),
+            sprintf($this->notEditableCartItem, $product->getName()),
             Locator::SELECTOR_XPATH
         );
         return $this->blockFactory->create(

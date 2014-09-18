@@ -34,7 +34,7 @@
 </assertSpecifyProductOptionsLink>
 <assertProductConfiguringFromRequiringAttention module="Magento_AdvancedCheckout">
     <severeness>low</severeness>
-</assertProductConfiguringFromRequiringAttention >
+</assertProductConfiguringFromRequiringAttention>
 <assertProductIsNotEditable module="Magento_AdvancedCheckout">
     <severeness>low</severeness>
 </assertProductIsNotEditable>

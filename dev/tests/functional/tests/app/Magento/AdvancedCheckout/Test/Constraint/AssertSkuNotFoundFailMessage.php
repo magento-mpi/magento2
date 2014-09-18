@@ -11,7 +11,6 @@ namespace Magento\AdvancedCheckout\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 
-
 /**
  * Class AssertSkuNotFoundFailMessage
  * Assert that after adding products by sku to shopping cart, sku not found error message appears
@@ -19,7 +18,7 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertSkuNotFoundFailMessage extends AbstractConstraint
 {
     /**
-     *
+     * Sku not found error message
      */
     const ERROR_MESSAGE = 'SKU not found in catalog.';
 
@@ -37,20 +36,18 @@ class AssertSkuNotFoundFailMessage extends AbstractConstraint
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
         foreach ($products as $product) {
-            $checkoutCart->getCartBlock()->getFailedItemErrorMessage($product);
             \PHPUnit_Framework_Assert::assertEquals(
                 self::ERROR_MESSAGE,
-                $checkoutCart->getCartBlock()->getFailedItemErrorMessage($product),
-                'Wrong error message is displayed.'
+                $checkoutCart->getCartBlock()->getFailedItemErrorMessage($product)
             );
         }
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

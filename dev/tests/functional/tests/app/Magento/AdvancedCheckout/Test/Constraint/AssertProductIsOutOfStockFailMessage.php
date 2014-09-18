@@ -36,7 +36,7 @@ class AssertProductIsOutOfStockFailMessage extends AbstractConstraint
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
         foreach ($products as $product) {
             \PHPUnit_Framework_Assert::assertContains(
@@ -48,7 +48,7 @@ class AssertProductIsOutOfStockFailMessage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

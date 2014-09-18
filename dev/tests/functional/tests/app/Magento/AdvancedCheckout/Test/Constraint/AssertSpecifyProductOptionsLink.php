@@ -25,13 +25,13 @@ class AssertSpecifyProductOptionsLink extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that "Specify the product's options" link is displayed after adding products to cart
+     * Assert that specify products options link is displayed after adding products to cart
      *
      * @param CheckoutCart $checkoutCart
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
         foreach ($products as $product) {
             \PHPUnit_Framework_Assert::assertTrue(
@@ -42,7 +42,7 @@ class AssertSpecifyProductOptionsLink extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

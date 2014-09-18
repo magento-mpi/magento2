@@ -31,12 +31,12 @@ class AssertProductIsNotEditable extends AbstractConstraint
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
         foreach ($products as $product) {
             \PHPUnit_Framework_Assert::assertTrue(
                 $checkoutCart->getCartBlock()->getNotEditableCartItem($product)->isVisible(),
-                'Added product is editable'
+                'Added product is editable.'
             );
         }
     }
@@ -48,6 +48,6 @@ class AssertProductIsNotEditable extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Added products by sku to shopping cart are not editable.';
+        return 'Added products by sku to shopping cart are not editable';
     }
 }

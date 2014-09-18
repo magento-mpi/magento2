@@ -24,7 +24,7 @@ class Info extends Block
     protected $errorMessage = '.message.error div';
 
     /**
-     * Specify products options link  selector
+     * Specify products options link selector
      *
      * @var string
      */
@@ -41,7 +41,7 @@ class Info extends Block
     }
 
     /**
-     * Check that "Specify the product's options" link is visible
+     * Check that specify the product's options link is visible
      *
      * @return bool
      */
@@ -51,7 +51,7 @@ class Info extends Block
     }
 
     /**
-     * Click "Specify the product's options" link
+     * Click specify the product's options link
      *
      * @return void
      */

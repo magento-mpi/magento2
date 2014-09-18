@@ -1,4 +1,4 @@
-"description";"products";"orderOptions/sku";"orderOptions/qty";"constraint";"issue"
+"description";"product";"orderOptions/sku";"orderOptions/qty";"constraint";"issue"
 "add Simple product by SKU from My Account and verify it was added to Cart";"catalogProductSimple::default";"%simpleSku%";"1";"assertProductsAddBySkuSuccessMessage, assertCartProductName";""
 "Add Simple Out Of Stock";"catalogProductSimple::out_of_stock";"%simpleSku%";"1";"assertProductRequiredAttentionFailMessage, assertProductIsOutOfStockFailMessage, assertCartIsEmpty";"Bug: MAGETWO-28450"
 "Add Simple Products qty > than available";"catalogProductSimple::default";"%simpleSku%";"26";"assertProductRequiredAttentionFailMessage, assertQtyIsNotEnoughFailMessage, assertCartIsEmpty";""
@@ -7,5 +7,5 @@
 "Products, for which Qty is less than minimum allowed in cart";"catalogProductSimple::simple_with_cart_limits";"%simpleSku%";"1";"assertProductRequiredAttentionFailMessage, assertMinRequestedQtyFailMessage, assertCartIsEmpty";""
 "Products, for which Qty exceeds maximum allowed in cart";"catalogProductSimple::simple_with_cart_limits";"%simpleSku%";"6";"assertProductRequiredAttentionFailMessage, assertMaxRequestedQtyFailMessage, assertCartIsEmpty";""
 "Configurable  product by SKU from My Account and verify it wasn't added to Cart";"configurableProductInjectable::default";"%ConfSku%";"2";"assertProductRequiredAttentionFailMessage, assertSpecifyProductOptionsLink, assertCartIsEmpty, assertProductConfiguringFromRequiringAttention";""
-"add Simple and Configurable (by compound sku) products from My Account and verify they were added to Cart";"configurableProductInjectable::one_variation";"%ConfSKU%-%simpleSku%";"1";"assertProductsAddBySkuSuccessMessage, assertCartProductName";"Bug: MAGETWO-28539"
+"add Simple and Configurable (by compound sku) products from My Account and verify they were added to Cart";"configurableProductInjectable::one_variation";"%ConfSku%-%simpleSku%";"1";"assertProductsAddBySkuSuccessMessage, assertCartProductName";"Bug: MAGETWO-28539"
 "Bundle Product with Dynamic SKU";"catalogProductBundle::bundle_dynamic_product";"%dynamicSku%";"1";"assertProductRequiredAttentionFailMessage, assertCartIsEmpty";""

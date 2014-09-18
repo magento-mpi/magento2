@@ -32,6 +32,7 @@ class AssertCartIsEmpty extends AbstractConstraint
      */
     public function processAssert(CheckoutCart $checkoutCart)
     {
+        $checkoutCart->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $checkoutCart->getCartBlock()->cartIsEmpty(),
             'Shopping Cart is not empty.'
@@ -39,7 +40,7 @@ class AssertCartIsEmpty extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

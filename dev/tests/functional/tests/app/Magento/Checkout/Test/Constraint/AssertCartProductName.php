@@ -13,7 +13,7 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
  * Class AssertCartProductName
- * Assert that product(s) name in shopping cart is/are equal to expected
+ * Assert products name in shopping cart are equal to expected
  */
 class AssertCartProductName extends AbstractConstraint
 {
@@ -25,30 +25,29 @@ class AssertCartProductName extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that product(s) name in shopping cart is/are equal to expected
+     * Assert products name in shopping cart are equal to expected
      *
      * @param CheckoutCart $checkoutCart
      * @param array $products
      * @return void
      */
-    public function processAssert(
-        CheckoutCart $checkoutCart,
-        array $products
-    ) {
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
+    {
         $checkoutCart->open();
         foreach ($products as $product) {
             $cartProductName = $checkoutCart->getCartBlock()->getCartItem($product)->getName();
+            $productName = $product->getName();
             \PHPUnit_Framework_Assert::assertEquals(
                 $cartProductName,
-                $product->getName(),
+                $productName,
                 'Shopping cart product name: \'' . $cartProductName
-                . '\' not equals with name from data set: \'' . $product->getName() . '\''
+                . '\' not equals with name from data set: \'' . $productName . '\''
             );
         }
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

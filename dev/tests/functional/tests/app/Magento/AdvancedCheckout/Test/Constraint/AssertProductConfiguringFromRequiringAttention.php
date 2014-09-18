@@ -38,26 +38,25 @@ class AssertProductConfiguringFromRequiringAttention extends AbstractConstraint
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, CatalogProductView $catalogProductView, $products)
+    public function processAssert(CheckoutCart $checkoutCart, CatalogProductView $catalogProductView, array $products)
     {
         foreach ($products as $product) {
             $checkoutCart->getCartBlock()->clickSpecifyProductOptionsLink($product);
             $catalogProductView->getViewBlock()->addToCart($product);
             \PHPUnit_Framework_Assert::assertEquals(
                 sprintf(self::SUCCESS_MESSAGE, $product->getName()),
-                $checkoutCart->getMessagesBlock()->getSuccessMessages(),
-                'Wrong success message is displayed.'
+                $checkoutCart->getMessagesBlock()->getSuccessMessages()
             );
         }
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return "Product can be configured and added to cart after added this product to cart by sku";
+        return "Product can be configured and added to cart after added this product to cart by sku.";
     }
 }

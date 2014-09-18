@@ -41,7 +41,7 @@ class AssertMaxRequestedQtyFailMessage extends AbstractConstraint
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
         foreach ($products as $product) {
             $currentMessage = $checkoutCart->getCartBlock()->getFailedItemErrorMessage($product);
@@ -59,7 +59,7 @@ class AssertMaxRequestedQtyFailMessage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

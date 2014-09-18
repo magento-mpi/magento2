@@ -50,7 +50,7 @@ class AssertQtyIsNotEnoughFailMessage extends AbstractConstraint
                 $currentMessage,
                 'Wrong error message is displayed.'
             );
-            $productQty = $product->getData('quantity_and_stock_status')['qty'];
+            $productQty = $product->getQuantityAndStockStatus()['qty'];
             \PHPUnit_Framework_Assert::assertContains(
                 sprintf(self::LEFT_IN_STOCK_ERROR_MESSAGE, $productQty),
                 $currentMessage,
@@ -60,7 +60,7 @@ class AssertQtyIsNotEnoughFailMessage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

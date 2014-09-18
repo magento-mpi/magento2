@@ -36,19 +36,18 @@ class AssertProductsAddBySkuSuccessMessage extends AbstractConstraint
      * @param array $products
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
-        $productsCount = count($products);
-        $qty = ($productsCount > 1) ? 'products' : 'product';
+        $productsQty = count($products);
+        $qtyString = ($productsQty > 1) ? 'products' : 'product';
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::SUCCESS_MESSAGE, $productsCount, $qty),
-            $checkoutCart->getMessagesBlock()->getSuccessMessages(),
-            'Wrong success message is displayed.'
+            sprintf(self::SUCCESS_MESSAGE, $productsQty, $qtyString),
+            $checkoutCart->getMessagesBlock()->getSuccessMessages()
         );
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */
