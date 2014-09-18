@@ -9,13 +9,18 @@
 namespace Magento\Reports\Test\Block\Adminhtml\Customer\Counts;
 
 use Mtf\ObjectManager;
-use Magento\Reports\Test\Block\Adminhtml\Customer\Totals\Filter as TotalsFilter;
+use Magento\Reports\Test\Block\Adminhtml\AbstractFilter;
 
 /**
  * Class Filter
  * Filter for Order count Report
  */
-class Filter extends TotalsFilter
+class Filter extends AbstractFilter
 {
-    //
+    /**
+     * Date fields
+     *
+     * @var array
+     */
+    protected $dateFields = ['report_from', 'report_to'];
 }

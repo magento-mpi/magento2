@@ -9,13 +9,12 @@
 namespace Magento\Reports\Test\Block\Adminhtml\Customer\Counts;
 
 use Mtf\Client\Element;
-use Magento\Reports\Test\Block\Adminhtml\Customer\Totals\Grid as AbstractGrid;
 
 /**
  * Class Grid
  * Order count report grid
  */
-class Grid extends AbstractGrid
+class Grid extends \Magento\Reports\Test\Block\Adminhtml\Customer\Totals\Grid
 {
     //
 }
