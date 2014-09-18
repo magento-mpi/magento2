@@ -146,9 +146,7 @@ class View implements ViewInterface
      */
     public function addActionLayoutHandles()
     {
-        if (!$this->addPageLayoutHandles()) {
-            $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
-        }
+        $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         return $this;
     }
 

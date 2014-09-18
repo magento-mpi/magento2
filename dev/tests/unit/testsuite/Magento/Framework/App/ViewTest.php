@@ -164,62 +164,29 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('expectedvalue', $this->_view->getDefaultLayoutHandle());
     }
 
-    public function testAddActionLayoutHandlesWhenPageLayoutHandlesNotExist()
-    {
-        $defaultHandles = 'full_action_name';
-        $this->_requestMock->expects(
-            $this->exactly(2)
-        )->method(
-            'getFullActionName'
-        )->will(
-            $this->returnValue('Full_Action_Name')
-        );
-        $this->_layoutProcessor->expects(
-            $this->once()
-        )->method(
-            'addPageHandles'
-        )->with(
-            array($defaultHandles)
-        )->will(
-            $this->returnValue(false)
-        );
-        $this->_layoutProcessor->expects($this->once())->method('addHandle')->with($defaultHandles);
-        $this->_view->addActionLayoutHandles();
-    }
-
     public function testAddActionLayoutHandlesWhenPageLayoutHandlesExist()
     {
-        $this->_requestMock->expects(
-            $this->once()
-        )->method(
-            'getFullActionName'
-        )->will(
-            $this->returnValue('Full_Action_Name')
-        );
-        $this->_layoutProcessor->expects(
-            $this->once()
-        )->method(
-            'addPageHandles'
-        )->with(
-            array('full_action_name')
-        )->will(
-            $this->returnValue(true)
-        );
-        $this->_layoutProcessor->expects($this->never())->method('addHandle');
+        $this->_requestMock->expects($this->once())
+            ->method('getFullActionName')
+            ->will($this->returnValue('Full_Action_Name'));
+
+        $this->_layoutProcessor->expects($this->once())
+            ->method('addHandle')
+            ->with('full_action_name');
+
         $this->_view->addActionLayoutHandles();
     }
 
     public function testAddPageLayoutHandles()
     {
         $pageHandles = array('full_action_name', 'full_action_name_key_value');
-        $this->_requestMock->expects(
-            $this->once()
-        )->method(
-            'getFullActionName'
-        )->will(
-            $this->returnValue('Full_Action_Name')
-        );
-        $this->_layoutProcessor->expects($this->once())->method('addPageHandles')->with($pageHandles);
+        $this->_requestMock->expects($this->once())
+            ->method('getFullActionName')
+            ->will($this->returnValue('Full_Action_Name'));
+
+        $this->_layoutProcessor->expects($this->once())
+            ->method('addHandle')
+            ->with($pageHandles);
         $this->_view->addPageLayoutHandles(array('key' => 'value'));
     }
 

@@ -101,7 +101,7 @@ class Page extends Layout
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
         }
         // Do not sort array going into add page handles. Ensure default layout handle is added first.
-        return $this->getLayout()->getUpdate()->addPageHandles($pageHandles);
+        return $this->getLayout()->getUpdate()->addHandle($pageHandles);
     }
 
     /**
