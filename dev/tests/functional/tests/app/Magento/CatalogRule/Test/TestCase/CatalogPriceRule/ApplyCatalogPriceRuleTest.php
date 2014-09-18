@@ -188,7 +188,7 @@ class ApplyCatalogPriceRuleTest extends Functional
                         'value' => $options
                     ];
                 }
-                foreach ($product->getCheckoutData()['configurable_options'] as $checkoutOption) {
+                foreach ($product->getCheckoutData()['options']['configurable_options'] as $checkoutOption) {
                     $checkoutData[] = [
                         'type' => $configurableOptions[$checkoutOption['title']]['type'],
                         'title' => $configurableOptions[$checkoutOption['title']]['title'],

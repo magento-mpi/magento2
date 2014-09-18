@@ -156,6 +156,7 @@ class Actions extends Block
     public function cancel()
     {
         $this->_rootElement->find($this->cancel)->click();
+        $this->_rootElement->acceptAlert();
     }
 
     /**

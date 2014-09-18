@@ -41,6 +41,8 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>null</group>
+            <source>Magento\Sales\Test\Fixture\OrderInjectable\CouponCode</source>
         </coupon_code>
         <protect_code>
             <attribute_code>protect_code</attribute_code>
@@ -1428,6 +1430,12 @@
             <attribute_code>id</attribute_code>
             <backend_type>virtual</backend_type>
         </id>
+        <price>
+            <attribute_code>price</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>null</group>
+            <fixture>Magento\Sales\Test\Fixture\OrderInjectable\Price</fixture>
+        </price>
     </fields>
     <data_set></data_set>
     <data_config></data_config>
