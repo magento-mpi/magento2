@@ -34,13 +34,20 @@ class Converter
     private $statusFactory;
 
     /**
+     * @var RmaRepository
+     */
+    private $rmaRepository;
+
+    /**
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
+     * @param \Magento\Rma\Model\RmaRepository $rmaRepository
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param Source\StatusFactory $statusFactory
      * @param RmaDataMapper $rmaDataMapper
      */
     public function __construct(
         \Magento\Rma\Model\RmaFactory $rmaFactory,
+        \Magento\Rma\Model\RmaRepository $rmaRepository,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper
@@ -49,6 +56,7 @@ class Converter
         $this->orderFactory = $orderFactory;
         $this->statusFactory = $statusFactory;
         $this->rmaDataMapper = $rmaDataMapper;
+        $this->rmaRepository = $rmaRepository;
     }
 
     /**
@@ -99,8 +107,7 @@ class Converter
      */
     public function getModel($rmaId, array $preparedRmaData)
     {
-        $rmaModel = $this->rmaFactory->create();
-        $rmaModel->load($rmaId);
+        $rmaModel = $this->rmaRepository->get($rmaId);
 
         $itemStatuses = $this->rmaDataMapper->combineItemStatuses($preparedRmaData['items'], $rmaId);
 

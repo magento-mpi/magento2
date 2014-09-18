@@ -7,20 +7,32 @@
  */
 namespace Magento\Rma\Service\V1;
 
+use Magento\Rma\Model\RmaRepository;
+use Magento\Rma\Model\Rma\Converter;
+use Magento\Rma\Model\Rma\PermissionChecker;
+
 class RmaWrite implements RmaWriteInterface
 {
     /**
-     * @var \Magento\Rma\Model\Rma\Converter
+     * @var Converter
      */
     private $converter;
 
     /**
-     * @param \Magento\Rma\Model\Rma\Converter $converter
+     * @var PermissionChecker
+     */
+    private $permissionChecker;
+
+    /**
+     * @param Converter $converter
+     * @param PermissionChecker $permissionChecker
      */
     public function __construct(
-        \Magento\Rma\Model\Rma\Converter $converter
+        Converter $converter,
+        PermissionChecker $permissionChecker
     ) {
         $this->converter = $converter;
+        $this->permissionChecker = $permissionChecker;
     }
 
     /**
@@ -32,6 +44,8 @@ class RmaWrite implements RmaWriteInterface
      */
     public function create(\Magento\Rma\Service\V1\Data\Rma $rmaDataObject)
     {
+        /** @todo Find a way to place this logic somewhere else(not to plugins!) */
+        $this->permissionChecker->checkRmaForCustomerContext();
         $preparedRmaData = $this->converter->getPreparedModelData($rmaDataObject);
         $rmaModel = $this->converter->createNewRmaModel($rmaDataObject, $preparedRmaData);
         return (bool)$rmaModel->saveRma($preparedRmaData);
@@ -47,6 +61,8 @@ class RmaWrite implements RmaWriteInterface
      */
     public function update($id, \Magento\Rma\Service\V1\Data\Rma $rmaDataObject)
     {
+        /** @todo Find a way to place this logic somewhere else(not to plugins!) */
+        $this->permissionChecker->checkRmaForCustomerContext();
         $preparedRmaData = $this->converter->getPreparedModelData($rmaDataObject);
         $rmaModel = $this->converter->getModel($id, $preparedRmaData);
         return (bool)$rmaModel->saveRma($preparedRmaData);

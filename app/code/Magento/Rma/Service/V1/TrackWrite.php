@@ -9,6 +9,8 @@
 namespace Magento\Rma\Service\V1;
 
 use Magento\Rma\Model\RmaRepository;
+use Magento\Rma\Model\Rma\PermissionChecker;
+use Magento\Framework\Exception\StateException;
 
 class TrackWrite implements TrackWriteInterface
 {
@@ -23,15 +25,23 @@ class TrackWrite implements TrackWriteInterface
     private $rmaRepository;
 
     /**
+     * @var PermissionChecker
+     */
+    private $permissionChecker;
+
+    /**
      * @param \Magento\Rma\Model\Shipping\LabelService $labelService
      * @param RmaRepository $rmaRepository
+     * @param PermissionChecker $permissionChecker
      */
     public function __construct(
         \Magento\Rma\Model\Shipping\LabelService $labelService,
-        RmaRepository $rmaRepository
+        RmaRepository $rmaRepository,
+        PermissionChecker $permissionChecker
     ) {
         $this->labelService = $labelService;
         $this->rmaRepository = $rmaRepository;
+        $this->permissionChecker = $permissionChecker;
     }
 
     /**
@@ -43,6 +53,10 @@ class TrackWrite implements TrackWriteInterface
      */
     public function addTrack($id, \Magento\Rma\Service\V1\Data\Track $track)
     {
+        if ($this->permissionChecker->isCustomerContext()) {
+            throw new StateException('Unknown service');
+        }
+
         $rmaModel = $this->rmaRepository->get($id);
         if ($rmaModel->getId()) {
             return (bool)$this->labelService->addTrack(
@@ -58,11 +72,15 @@ class TrackWrite implements TrackWriteInterface
     /**
      * @param int $id
      * @param int $trackId
-     *
      * @return bool
+     * @throws \Magento\Framework\Exception\StateException
      */
     public function removeTrackById($id, $trackId)
     {
+        if ($this->permissionChecker->isCustomerContext()) {
+            throw new StateException('Unknown service');
+        }
+
         $rmaModel = $this->rmaRepository->get($id);
         if ($rmaModel->getId()) {
             return (bool)$this->labelService->removeTrack($trackId);

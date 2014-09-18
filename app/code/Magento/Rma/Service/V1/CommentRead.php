@@ -13,6 +13,7 @@ use Magento\Rma\Service\V1\Data\RmaStatusHistoryMapper;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResultsBuilder;
+use Magento\Rma\Model\Rma\PermissionChecker;
 
 class CommentRead implements CommentReadInterface
 {
@@ -42,24 +43,41 @@ class CommentRead implements CommentReadInterface
     protected $searchResultsBuilder;
 
     /**
+     * @var PermissionChecker
+     */
+    private $permissionChecker;
+
+    /**
+     * @var RmaRepository
+     */
+    private $repository;
+
+    /**
      * @param HistoryRepository $historyRepository
      * @param RmaStatusHistoryMapper $historyMapper
      * @param SearchCriteriaBuilder $criteriaBuilder
      * @param FilterBuilder $filterBuilder
      * @param RmaStatusHistorySearchResultsBuilder $searchResultsBuilder
+     * @param RmaRepository $repository
+     * @param PermissionChecker $permissionChecker
      */
     public function __construct(
         HistoryRepository $historyRepository,
         RmaStatusHistoryMapper $historyMapper,
         SearchCriteriaBuilder $criteriaBuilder,
         FilterBuilder $filterBuilder,
-        RmaStatusHistorySearchResultsBuilder $searchResultsBuilder
+        RmaStatusHistorySearchResultsBuilder $searchResultsBuilder,
+        RmaRepository $repository,
+        PermissionChecker $permissionChecker
+
     ) {
         $this->historyRepository = $historyRepository;
         $this->historyMapper = $historyMapper;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->searchResultsBuilder = $searchResultsBuilder;
+        $this->permissionChecker = $permissionChecker;
+        $this->repository = $repository;
     }
 
     /**
@@ -70,9 +88,18 @@ class CommentRead implements CommentReadInterface
      */
     public function commentsList($id)
     {
-        $this->criteriaBuilder->addFilter(
-            ['eq' => $this->filterBuilder->setField('rma_entity_id')->setValue($id)->create()]
-        );
+        /** @todo Find a way to place this logic somewhere else(not to plugins!) */
+        $this->permissionChecker->checkRmaForCustomerContext();
+
+        $rmaModel = $this->repository->get($id);
+
+        $filters = [$this->filterBuilder->setField('rma_entity_id')->setValue($rmaModel->getId())->create()];
+        if ($this->permissionChecker->isCustomerContext()) {
+            $filters[] = $this->filterBuilder->setField('is_visible_on_front')->setValue(1)->create();
+        }
+
+        $this->criteriaBuilder->addFilter($filters);
+
         $criteria = $this->criteriaBuilder->create();
         $comments = [];
         foreach ($this->historyRepository->find($criteria) as $comment) {

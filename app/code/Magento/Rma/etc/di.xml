@@ -73,4 +73,7 @@
             <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\CustomerMetadataConfig</argument>
         </arguments>
     </type>
+    <type name="Magento\Rma\Model\RmaRepository">
+        <plugin name="authorization" type="\Magento\Rma\Model\Rma\Plugin\Authorization" />
+    </type>
 </config>
