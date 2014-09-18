@@ -8,9 +8,9 @@
 namespace Magento\Ui\DataType;
 
 /**
- * Class DateTime
+ * Class Date
  */
-class DateTime extends AbstractDataType
+class Date extends AbstractDataType
 {
     //
 }

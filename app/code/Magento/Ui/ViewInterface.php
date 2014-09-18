@@ -15,12 +15,19 @@ use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 interface ViewInterface
 {
     /**
-     * prepare component data
+     * Update component data
      *
      * @param array $arguments
      * @return string
      */
-    public function prepare(array $arguments = []);
+    public function update(array $arguments = []);
+
+    /**
+     * Prepare component data
+     *
+     * @return string
+     */
+    public function prepare();
 
     /**
      * Render component
@@ -30,10 +37,11 @@ interface ViewInterface
     public function render();
 
     /**
-     * @param array $arguments
-     * @return string
+     * Render label
+     *
+     * @return mixed|string
      */
-    public function renderLabel(array $arguments = []);
+    public function renderLabel();
 
     /**
      * Getting template for rendering content

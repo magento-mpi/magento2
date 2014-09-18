@@ -11,7 +11,7 @@
     <referenceContainer name="footer">
         <block class="Magento\Ui\Context\DataProvider" name="ui.global.config" after="-">
             <arguments>
-                <argument name="content_template" xsi:type="string">Magento_Ui::context/content.phtml</argument>
+                <argument name="content_template" xsi:type="string">Magento_Ui::context/default.phtml</argument>
             </arguments>
         </block>
     </referenceContainer>

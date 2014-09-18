@@ -46,13 +46,6 @@ abstract class AbstractView extends Template implements ViewInterface
     protected $renderContext;
 
     /**
-     * View elements factory
-     *
-     * @var ViewFactory
-     */
-    protected $viewFactory;
-
-    /**
      * @var ConfigurationFactory
      */
     protected $configurationFactory;
@@ -76,7 +69,6 @@ abstract class AbstractView extends Template implements ViewInterface
      *
      * @param Context $renderContext
      * @param TemplateContext $context
-     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
      * @param array $data
@@ -84,13 +76,11 @@ abstract class AbstractView extends Template implements ViewInterface
     public function __construct(
         Context $renderContext,
         TemplateContext $context,
-        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
-        $this->viewFactory = $viewFactory;
         $this->contentTypeFactory = $contentTypeFactory;
         $this->assetRepo = $context->getAssetRepository();
         $this->configurationFactory = $configurationFactory;
@@ -99,45 +89,49 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
-     * Prepare data
+     * Update data
      *
      * @param array $arguments
      * @return void
      */
-    public function prepare(array $arguments = [])
+    public function update(array $arguments = [])
     {
         if ($arguments) {
-            $this->_data = array_merge($this->_data, $arguments);
+            $this->_data = array_merge_recursive($this->_data, $arguments);
         }
+    }
+
+    /**
+     * Prepare component data
+     *
+     * @return void
+     */
+    public function prepare()
+    {
+        //
     }
 
     /**
      * Render content
      *
-     * @return mixed|string
+     * @return string
      */
     public function render()
     {
         $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())
             ->render($this, $this->getContentTemplate());
-
         return $result;
     }
 
     /**
      * Render label
      *
-     * @param array $arguments
      * @return mixed|string
      */
-    public function renderLabel(array $arguments = [])
+    public function renderLabel()
     {
-        $prevArgs = $this->_data;
-        $this->_data = array_replace_recursive($this->_data, $arguments);
         $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())
             ->render($this, $this->getLabelTemplate());
-        $this->_data = $prevArgs;
-
         return $result;
     }
 
@@ -150,29 +144,29 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function renderElement($elementName, array $arguments)
     {
-        $element = $this->viewFactory->get($elementName);
-        $element->prepare($arguments);
-        return $element->render();
+        $element = $this->renderContext->getRender()->createUiComponent($elementName);
+        $prevData = $element->getData();
+        $element->update($arguments);
+        $result = $element->render();
+        $element->setData($prevData);
+        return $result;
     }
 
     /**
-     * Get default parameters
+     * Render component label
      *
-     * @return array
-     */
-    protected function getDefaultConfiguration()
-    {
-        return [];
-    }
-
-    /**
-     * Prepare custom data
-     *
+     * @param string $elementName
+     * @param array $arguments
      * @return string
      */
     public function renderElementLabel($elementName, array $arguments)
     {
-        return $this->viewFactory->get($elementName)->renderLabel($arguments);
+        $element = $this->renderContext->getRender()->createUiComponent($elementName);
+        $prevData = $element->getData();
+        $element->update($arguments);
+        $result = $element->renderLabel();
+        $element->setData($prevData);
+        return $result;
     }
 
     /**
@@ -183,7 +177,7 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function toHtml()
     {
-        return $this->render([], $this->renderContext->getAcceptType());
+        return $this->render();
     }
 
     /**
@@ -193,7 +187,7 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function getLabelTemplate()
     {
-        return $this->getData('label_template');
+        return 'Magento_Ui::label/default.phtml';
     }
 
     /**
@@ -207,6 +201,16 @@ abstract class AbstractView extends Template implements ViewInterface
     }
 
     /**
+     * Get default parameters
+     *
+     * @return array
+     */
+    protected function getDefaultConfiguration()
+    {
+        return [];
+    }
+
+    /**
      * Get render engine
      *
      * @return ContentType\ContentTypeInterface
@@ -214,16 +218,6 @@ abstract class AbstractView extends Template implements ViewInterface
     protected function getRenderEngine()
     {
         return $this->contentTypeFactory->get($this->renderContext->getAcceptType());
-    }
-
-    /**
-     * Get parent component
-     *
-     * @return bool|ViewInterface
-     */
-    protected function getParentComponent()
-    {
-        return $this->renderContext->getRootView();
     }
 
     /**

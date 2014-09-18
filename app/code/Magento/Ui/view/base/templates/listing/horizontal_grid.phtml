@@ -45,7 +45,7 @@
             <thead>
             <tr>
                 <?php foreach ($this->getMeta()['fields'] as $name => $field): $field['name'] = $name; ?>
-                    <td><?php echo $this->renderElementLabel($field['data_type'], $field); ?></td>
+                    <th><?php echo $this->renderElementLabel($field['data_type'], $field); ?></th>
                 <?php endforeach; ?>
             </tr>
             </thead>

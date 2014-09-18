@@ -7,8 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
-    <update handle="ui_listing" />
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <referenceBlock name="listing">
         <arguments>
             <argument name="name" xsi:type="string">cms_page_listing</argument>
@@ -101,38 +100,35 @@
             </argument>
         </arguments>
     </referenceBlock>
-    <referenceBlock name="listing_before">
-        <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
-            <arguments>
-                <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
-                <argument name="config" xsi:type="array">
-                    <item name="actions" xsi:type="array">
-                        <item name="delete" xsi:type="array">
-                            <item name="label" xsi:type="string" translate="true">Delete</item>
-                            <item name="url" xsi:type="string">cms/page/massDelete</item>
-                        </item>
+    <referenceBlock name="massaction_top">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="actions" xsi:type="array">
+                    <item name="delete" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="string">cms/page/massDelete</item>
                     </item>
-                </argument>
-            </arguments>
-        </block>
-        <referenceBlock name="filter_base">
-            <arguments>
-                <argument name="config" xsi:type="array">
-                    <item name="types" xsi:type="array">
-                        <item name="filter_store" xsi:type="array">
-                            <item name="template" xsi:type="string">Magento_Store/templates/filter/store.html</item>
-                            <item name="control" xsi:type="string">Magento_Store/js/listing/filter/store</item>
-                        </item>
-                    </item>
-                </argument>
-            </arguments>
-        </referenceBlock>
-        <referenceBlock name="sorting_base">
-            <arguments>
-                <argument name="config" xsi:type="array">
-                    <item name="field" xsi:type="string">page_id</item>
-                </argument>
-            </arguments>
-        </referenceBlock>
+                </item>
+            </argument>
+        </arguments>
     </referenceBlock>
-</page>
+    <referenceBlock name="filter_base">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="types" xsi:type="array">
+                    <item name="filter_store" xsi:type="array">
+                        <item name="template" xsi:type="string">Magento_Store/templates/filter/store.html</item>
+                        <item name="control" xsi:type="string">Magento_Store/js/listing/filter/store</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </referenceBlock>
+    <referenceBlock name="sorting_base">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="field" xsi:type="string">page_id</item>
+            </argument>
+        </arguments>
+    </referenceBlock>
+</layout>

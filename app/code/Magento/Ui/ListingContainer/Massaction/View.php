@@ -17,13 +17,10 @@ class View extends AbstractView
     /**
      * Prepare component data
      *
-     * @param array $arguments
      * @return $this|void
      */
-    public function prepare(array $arguments = [])
+    public function prepare()
     {
-        parent::prepare($arguments);
-
         $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
             $config = array_merge($config, $this->getData('config'));
@@ -38,11 +35,10 @@ class View extends AbstractView
             $this
         );
 
-        $this->rootComponent = $this->getParentComponent();
         $this->configuration = $this->configurationFactory->create(
             [
-                'name' => $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
-                'parentName' => $this->rootComponent->getName(),
+                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->renderContext->getNamespace(),
                 'configuration' => $config
             ]
         );
