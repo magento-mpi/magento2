@@ -8,7 +8,6 @@
 namespace Magento\Ui\Listing;
 
 use Magento\Ui\Context;
-use Magento\Ui\ViewFactory;
 use Magento\Ui\AbstractView;
 use Magento\Ui\Control\ActionPool;
 use Magento\Ui\ConfigurationFactory;
@@ -54,7 +53,6 @@ class View extends AbstractView
      * @param RowPool $dataProviderRowPool
      * @param TemplateContext $context
      * @param Context $renderContext
-     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
      * @param array $data
@@ -65,7 +63,6 @@ class View extends AbstractView
         RowPool $dataProviderRowPool,
         TemplateContext $context,
         Context $renderContext,
-        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
         array $data = []
@@ -73,19 +70,16 @@ class View extends AbstractView
         $this->actionPool = $actionPool;
         $this->optionsFactory = $optionsFactory;
         $this->dataProviderRowPool = $dataProviderRowPool;
-        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
+        parent::__construct($renderContext, $context, $contentTypeFactory, $configurationFactory, $data);
     }
 
     /**
      * Prepare custom data
      *
-     * @param array $arguments
      * @return void
      */
-    public function prepare(array $arguments = [])
+    public function prepare()
     {
-        parent::prepare($arguments);
-
         $meta = $this->getMeta();
         $config = $this->getDefaultConfiguration();
 
@@ -208,7 +202,6 @@ class View extends AbstractView
      */
     protected function initialConfiguration()
     {
-
         $this->renderContext->getStorage()->addGlobalData(
             'client',
             [

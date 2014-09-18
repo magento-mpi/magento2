@@ -7,15 +7,15 @@
  */
 namespace Magento\Ui;
 
-use Magento\Ui\Render\Layout;
+use Magento\Framework\Object;
+use Magento\Framework\View\LayoutFactory;
+use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\AbstractBlock;
-use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Class Render
  */
-class Render extends AbstractBlock
+class Render extends Object
 {
     /**
      * Ui element view
@@ -32,39 +32,38 @@ class Render extends AbstractBlock
     protected $renderContext;
 
     /**
-     * Ui element view factory
+     * Layout Interface
      *
-     * @var ViewFactory
+     * @var \Magento\Framework\View\LayoutFactory
      */
-    protected $viewFactory;
+    protected $layoutFactory;
 
     /**
-     * Private layout
-     *
-     * @var Layout
+     * @var LayoutInterface
      */
-    protected $privateLayout;
+    protected $layout;
+
+    /**
+     * @var boolean
+     */
+    protected $layoutLoaded;
 
     /**
      * Constructor
      *
      * @param Context $renderContext
-     * @param Template\Context $context
-     * @param ViewFactory $viewFactory
-     * @param Layout $privateLayout
+     * @param LayoutFactory $layoutFactory
      * @param array $data
      */
     public function __construct(
         Context $renderContext,
-        Template\Context $context,
-        ViewFactory $viewFactory,
-        Layout $privateLayout,
+        LayoutFactory $layoutFactory,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
-        $this->viewFactory = $viewFactory;
-        $this->privateLayout = $privateLayout;
-        parent::__construct($context, $data);
+        $this->renderContext->setRender($this);
+        $this->layoutFactory = $layoutFactory;
+        parent::__construct($data);
     }
 
     /**
@@ -88,59 +87,69 @@ class Render extends AbstractBlock
     }
 
     /**
-     * Prepare private layout object
-     *
-     * @return $this
+     * @param LayoutInterface $layout
+     * @return void
      */
-    protected function _prepareLayout()
+    public function setLayout(LayoutInterface $layout)
     {
-        $this->privateLayout->addHandle($this->getLayoutHandle());
-        $this->privateLayout->loadLayout();
-
-        $this->renderContext->setPageLayout($this->getLayout());
-
-        $this->view = $this->getUiElementView($this->getComponent());
-        $this->renderContext->setRootView($this->view);
-        $this->prepare($this->view, $this->getData('configuration'));
-
-
-        return parent::_prepareLayout();
-    }
-
-    /**
-     * Produce and return block's html output
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return $this->render($this->getComponent(), []);
-    }
-
-    /**
-     * Render Ui Element content
-     *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     */
-    protected function render()
-    {
-        return $this->view->render($this->renderContext->getAcceptType());
-    }
-
-    /**
-     * Prepare UI Element View
-     *
-     * @param BlockInterface $view
-     * @param array $arguments
-     */
-    protected function prepare(BlockInterface $view, array $arguments = [])
-    {
-        if ($view instanceof AbstractView) {
-            $view->prepare($arguments);
+        if ($this->layout === null) {
+            $this->renderContext->setPageLayout($layout);
         }
-        foreach ($view->getLayout()->getChildNames($view->getNameInLayout()) as $child) {
-            $this->prepare($view->getChildBlock($child));
+    }
+
+    /**
+     * Create Ui Component instance
+     *
+     * @param string $componentName
+     * @param string $handleName
+     * @param array $arguments
+     * @return ViewInterface
+     */
+    public function createUiComponent($componentName, $handleName = '', array $arguments = [])
+    {
+        $root = false;
+        if (!$this->renderContext->getNamespace()) {
+            $root = true;
+            if ($handleName) {
+                $this->renderContext->setNamespace($handleName);
+            }
+        }
+
+        if ($root && $handleName) {
+            if (!$this->layoutLoaded) {
+                $this->layoutLoaded = true;
+                $this->layout = $this->layoutFactory->create();
+                $this->layout->getUpdate()->addHandle('ui_components');
+                $this->layout->getUpdate()->addHandle($handleName);
+                $this->loadLayout();
+            }
+        }
+
+        $view = $this->getUiElementView($componentName);
+
+        $view->update($arguments);
+        if ($root) {
+            // data should be prepared starting from the root element
+            $this->prepare($view);
+            $this->renderContext->setNamespace(null);
+        }
+        return $view;
+    }
+
+    /**
+     * Prepare UI Component data
+     *
+     * @param object $view
+     * @return void
+     */
+    protected function prepare($view)
+    {
+        if ($view instanceof ViewInterface) {
+            $view->prepare();
+        }
+        foreach ($view->getLayout()->getChildNames($view->getNameInLayout()) as $childName) {
+            $child = $view->getChildBlock($childName);
+            $this->prepare($child);
         }
     }
 
@@ -154,13 +163,24 @@ class Render extends AbstractBlock
     protected function getUiElementView($uiElementName)
     {
         /** @var \Magento\Ui\ViewInterface $view */
-        $view = $this->privateLayout->getBlock($uiElementName);
+        $view = $this->layout->getBlock($uiElementName);
         if (!$view instanceof ViewInterface) {
             throw new \InvalidArgumentException(
                 sprintf('UI Element "%s" must implement \Magento\Ui\ViewInterface', $uiElementName)
             );
         }
-
         return $view;
+    }
+
+    /**
+     * Load layout
+     *
+     * @return void
+     */
+    protected function loadLayout()
+    {
+        $this->layout->getUpdate()->load();
+        $this->layout->generateXml();
+        $this->layout->generateElements();
     }
 }

@@ -8,11 +8,28 @@
  */
 namespace Magento\Ui\Controller\Adminhtml\Listing;
 
+use Magento\Backend\App\Action\Context;
+use Magento\Ui\Render;
+
 /**
  * Class Ajax
  */
 class Ajax extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\Ui\Render
+     */
+    protected $render;
+
+    /**
+     * @param Context $context
+     * @param Render $render
+     */
+    public function __construct(Context $context, Render $render)
+    {
+        parent::__construct($context);
+        $this->render = $render;
+    }
     /**
      * Action for AJAX request
      *
@@ -21,18 +38,7 @@ class Ajax extends \Magento\Backend\App\Action
     public function execute()
     {
         $this->_response->appendBody(
-            $this->_view->getLayout()->createBlock(
-                'Magento\Ui\Render',
-                'root',
-                [
-                    'data' => [
-                        'configuration' => [
-                            'component' => $this->getComponent(),
-                            'name' => $this->getName()
-                        ]
-                    ]
-                ]
-            )->toHtml()
+            $this->render->createUiComponent($this->getComponent(), $this->getName())->render()
         );
     }
 

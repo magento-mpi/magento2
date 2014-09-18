@@ -8,7 +8,6 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
-    <update handle="ui_listing" />
     <referenceBlock name="listing">
         <arguments>
             <argument name="name" xsi:type="string">cms_block_listing</argument>

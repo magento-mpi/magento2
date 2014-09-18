@@ -9,13 +9,6 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
-        <block class="Magento\Ui\Render" name="cms_block_listing">
-            <arguments>
-                <argument name="configuration" xsi:type="array">
-                    <item name="component" xsi:type="string">listing</item>
-                    <item name="name" xsi:type="string">cms_block_listing</item>
-                </argument>
-            </arguments>
-        </block>
+        <ui_component name="cms_block_listing" component="listing" />
     </referenceContainer>
 </page>

@@ -8,9 +8,7 @@
 namespace Magento\Ui\FilterPool;
 
 use Magento\Ui\Context;
-use Magento\Ui\ViewFactory;
 use Magento\Ui\AbstractView;
-use Magento\Ui\ViewInterface;
 use Magento\Backend\Helper\Data;
 use Magento\Ui\Filter\FilterPool;
 use Magento\Ui\ConfigurationFactory;
@@ -39,20 +37,12 @@ class View extends AbstractView
     protected $filterPool;
 
     /**
-     * Root view component
-     *
-     * @var ViewInterface
-     */
-    protected $rootComponent;
-
-    /**
      * Constructor
      *
      * @param Data $dataHelper
      * @param FilterPool $filterPool
      * @param Context $renderContext
      * @param TemplateContext $context
-     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
      * @param array $data
@@ -62,36 +52,31 @@ class View extends AbstractView
         FilterPool $filterPool,
         Context $renderContext,
         TemplateContext $context,
-        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
         array $data = []
     ) {
         $this->dataHelper = $dataHelper;
         $this->filterPool = $filterPool;
-        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
+        parent::__construct($renderContext, $context, $contentTypeFactory, $configurationFactory, $data);
     }
 
     /**
      * Prepare component data
      *
-     * @param array $arguments
      * @return void
      */
-    public function prepare(array $arguments = [])
+    public function prepare()
     {
-        parent::prepare($arguments);
-
         $config = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $this->rootComponent = $this->getParentComponent();
         $this->configuration = $this->configurationFactory->create(
             [
-                'name' => $this->rootComponent->getName() . '_' . $this->getNameInLayout(),
-                'parentName' => $this->rootComponent->getName(),
+                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->renderContext->getNamespace(),
                 'configuration' => $config
             ]
         );
@@ -146,7 +131,6 @@ class View extends AbstractView
      */
     public function getFields()
     {
-        $this->rootComponent = $this->getParentBlock()->getParentBlock();
         $meta = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $fields = [];
         if (isset($meta['fields'])) {

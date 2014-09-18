@@ -57,30 +57,32 @@ class Context extends Registry
     protected $layout;
 
     /**
-     * Root view element
-     *
-     * @var AbstractView
+     * @var Render
      */
-    protected $rootView;
+    protected $render;
+
+    /**
+     * Data Namespace
+     *
+     * @var string
+     */
+    protected $namespace;
 
     /**
      * Constructor
      *
-     * @param ConfigInterface $config
      * @param ConfigurationStorage $configurationStorage
      * @param ConfigurationStorageBuilder $configurationStorageBuilder
-     * @param TemplateContext $context
+     * @param RequestInterface $request
      */
     public function __construct(
-        ConfigInterface $config,
         ConfigurationStorage $configurationStorage,
         ConfigurationStorageBuilder $configurationStorageBuilder,
-        TemplateContext $context
+        RequestInterface $request
     ) {
-        $this->config = $config;
         $this->configurationStorageBuilder = $configurationStorageBuilder;
         $this->configurationStorage = $configurationStorage;
-        $this->request = $context->getRequest();
+        $this->request = $request;
         $this->setAcceptType();
     }
 
@@ -112,6 +114,26 @@ class Context extends Registry
     }
 
     /**
+     * Set Render
+     *
+     * @param Render $render
+     */
+    public function setRender(Render $render)
+    {
+        $this->render = $render;
+    }
+
+    /**
+     * Get Render
+     *
+     * @return Render
+     */
+    public function getRender()
+    {
+        return $this->render;
+    }
+
+    /**
      * Set root layout
      *
      * @param LayoutInterface $layout
@@ -134,21 +156,21 @@ class Context extends Registry
     /**
      * Set root view
      *
-     * @param AbstractView $view
+     * @param string $namespace
      */
-    public function setRootView(AbstractView $view)
+    public function setNamespace($namespace)
     {
-        $this->rootView = $view;
+        $this->namespace = $namespace;
     }
 
     /**
      * Get root view
      *
-     * @return AbstractView
+     * @return string
      */
-    public function getRootView()
+    public function getNamespace()
     {
-        return $this->rootView;
+        return $this->namespace;
     }
 
     /**

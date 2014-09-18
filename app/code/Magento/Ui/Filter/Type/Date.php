@@ -10,8 +10,8 @@ namespace Magento\Ui\Filter\Type;
 use\Magento\Ui\Filter\View;
 use Magento\Ui\ConfigurationFactory;
 
+use Magento\Ui\Filter\FilterPool;
 use Magento\Ui\Context;
-use Magento\Ui\ViewFactory;
 use Magento\Framework\LocaleInterface;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\Locale\ResolverInterface;
@@ -46,18 +46,18 @@ class Date extends View
     /**
      * Constructor
      *
+     * @param FilterPool $filterPool
      * @param Context $renderContext
      * @param TemplateContext $context
-     * @param ViewFactory $viewFactory
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
      * @param ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
+        FilterPool $filterPool,
         Context $renderContext,
         TemplateContext $context,
-        ViewFactory $viewFactory,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
         ResolverInterface $localeResolver,
@@ -66,7 +66,7 @@ class Date extends View
         $this->localeDate = $context->getLocaleDate();
         $this->scopeConfig = $context->getScopeConfig();
         $this->localeResolver = $localeResolver;
-        parent::__construct($renderContext, $context, $viewFactory, $contentTypeFactory, $configurationFactory, $data);
+        parent::__construct($filterPool, $renderContext, $context, $contentTypeFactory, $configurationFactory, $data);
     }
 
     /**

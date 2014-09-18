@@ -14,5 +14,5 @@ use Magento\Ui\AbstractView;
  */
 class Action extends AbstractView implements ControlInterface
 {
-    //
+
 }
