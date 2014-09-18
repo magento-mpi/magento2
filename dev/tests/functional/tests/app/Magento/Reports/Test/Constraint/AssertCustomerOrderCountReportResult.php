@@ -9,14 +9,13 @@
 namespace Magento\Reports\Test\Constraint;
 
 use Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Class AssertOrderCountReportInGrid
+ * Class AssertCustomerOrderCountReportResult
  * Assert OrderCountReport grid for all params
  */
-class AssertOrderCountReportInGrid extends AbstractConstraint
+class AssertCustomerOrderCountReportResult extends AssertCustomerOrderTotalReportResult
 {
     /**
      * Constraint severeness
@@ -40,25 +39,7 @@ class AssertOrderCountReportInGrid extends AbstractConstraint
         array $columns,
         array $report
     ) {
-        $format = '';
-        switch ($report['report_period']) {
-            case 'Day':
-                $format = 'M j, Y';
-                break;
-            case 'Month':
-                $format = 'j/Y';
-                break;
-            case 'Year':
-                $format = 'Y';
-                break;
-        }
-        $filter = [
-            'date' => date($format),
-            'customer' => $customer->getFirstname() . ' ' . $customer->getLastname(),
-            'orders' => $columns['orders'],
-            'average' => number_format($columns['average'], 2),
-            'total' => number_format($columns['total'], 2)
-        ];
+        $filter = $this->prepareFilter($customer, $columns, $report);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $customerOrdersReport->getGridBlock()->isRowVisible($filter),
@@ -73,7 +54,6 @@ class AssertOrderCountReportInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order total is present in count grid.';
+        return 'Order count is present in count grid.';
     }
 }
-

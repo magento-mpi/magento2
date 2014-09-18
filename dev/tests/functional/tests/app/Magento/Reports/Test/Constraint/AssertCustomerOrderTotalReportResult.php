@@ -40,6 +40,24 @@ class AssertCustomerOrderTotalReportResult extends AbstractConstraint
         array $columns,
         array $report
     ) {
+        $filter = $this->prepareFilter($customer, $columns, $report);
+
+        \PHPUnit_Framework_Assert::assertTrue(
+            $customerTotalsReport->getGridBlock()->isRowVisible($filter),
+            'Order does not present in report grid.'
+        );
+    }
+
+    /**
+     * Prepare filter
+     *
+     * @param CustomerInjectable $customer
+     * @param array $columns
+     * @param array $report
+     * @return array
+     */
+    public function prepareFilter(CustomerInjectable $customer, array $columns, array $report)
+    {
         $format = '';
         switch ($report['report_period']) {
             case 'Day':
@@ -52,18 +70,14 @@ class AssertCustomerOrderTotalReportResult extends AbstractConstraint
                 $format = 'Y';
                 break;
         }
-        $filter = [
+
+        return $filter = [
             'date' => date($format),
             'customer' => $customer->getFirstname() . ' ' . $customer->getLastname(),
             'orders' => $columns['orders'],
             'average' => number_format($columns['average'], 2),
             'total' => number_format($columns['total'], 2)
         ];
-
-        \PHPUnit_Framework_Assert::assertTrue(
-            $customerTotalsReport->getGridBlock()->isRowVisible($filter),
-            'Order does not present in report grid.'
-        );
     }
 
     /**

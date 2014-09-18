@@ -53,7 +53,7 @@
     <assertCustomerOrderTotalReportResult module="Magento_Reports">
         <severeness>low</severeness>
     </assertCustomerOrderTotalReportResult>
-    <assertOrderCountReportInGrid module="Magento_Reports">
+    <assertCustomerOrderCountReportResult module="Magento_Reports">
         <severeness>low</severeness>
-    </assertOrderCountReportInGrid>
+    </assertCustomerOrderCountReportResult>
 </constraint>
