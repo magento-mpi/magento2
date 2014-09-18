@@ -13,6 +13,7 @@ use Magento\Ui\ViewInterface;
 use Magento\Ui\ConfigurationFactory;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -47,6 +48,7 @@ class View extends AbstractView
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
+     * @param ConfigBuilderInterface $configurationBuilder
      * @param array $data
      */
     public function __construct(
@@ -55,10 +57,13 @@ class View extends AbstractView
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
+        ConfigBuilderInterface $configurationBuilder,
         array $data = []
     ) {
         $this->filterPool = $filterPool;
-        parent::__construct($renderContext, $context, $contentTypeFactory, $configurationFactory, $data);
+        parent::__construct(
+            $renderContext, $context, $contentTypeFactory, $configurationFactory, $configurationBuilder, $data
+        );
     }
 
     /**

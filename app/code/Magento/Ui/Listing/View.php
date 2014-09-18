@@ -14,6 +14,7 @@ use Magento\Ui\ConfigurationFactory;
 use \Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -55,6 +56,7 @@ class View extends AbstractView
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
+     * @param ConfigBuilderInterface $configurationBuilder
      * @param array $data
      */
     public function __construct(
@@ -65,12 +67,15 @@ class View extends AbstractView
         Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
+        ConfigBuilderInterface $configurationBuilder,
         array $data = []
     ) {
         $this->actionPool = $actionPool;
         $this->optionsFactory = $optionsFactory;
         $this->dataProviderRowPool = $dataProviderRowPool;
-        parent::__construct($renderContext, $context, $contentTypeFactory, $configurationFactory, $data);
+        parent::__construct(
+            $renderContext, $context, $contentTypeFactory, $configurationFactory, $configurationBuilder, $data
+        );
     }
 
     /**
