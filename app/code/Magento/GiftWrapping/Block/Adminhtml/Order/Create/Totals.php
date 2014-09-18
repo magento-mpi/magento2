@@ -7,6 +7,8 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Gift wrapping total block for admin checkout
  *
@@ -26,6 +28,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultT
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param array $data
      */
@@ -33,13 +36,14 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultT
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($context, $sessionQuote, $orderCreate, $salesData, $salesConfig, $data);
+        parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $salesData, $salesConfig, $data);
     }
 
     /**

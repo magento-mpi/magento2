@@ -7,6 +7,8 @@
  */
 namespace Magento\ProductAlert\Block\Email;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * ProductAlert email back in stock grid
  *
@@ -26,18 +28,20 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode
+     * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Helper\Image $imageHelper,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
-        parent::__construct($context, $maliciousCode, $data);
+        parent::__construct($context, $maliciousCode, $priceCurrency, $data);
     }
 
     /**

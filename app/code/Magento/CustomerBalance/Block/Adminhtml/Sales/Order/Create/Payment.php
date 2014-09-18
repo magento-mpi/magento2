@@ -38,11 +38,17 @@ class Payment extends \Magento\Framework\View\Element\Template
     protected $_customerBalanceHelper;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceHelper
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
@@ -51,12 +57,14 @@ class Payment extends \Magento\Framework\View\Element\Template
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\CustomerBalance\Helper\Data $customerBalanceHelper,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_sessionQuote = $sessionQuote;
         $this->_orderCreate = $orderCreate;
         $this->_customerBalanceHelper = $customerBalanceHelper;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $data);
     }
 
@@ -88,7 +96,12 @@ class Payment extends \Magento\Framework\View\Element\Template
      */
     public function formatPrice($value)
     {
-        return $this->_sessionQuote->getStore()->formatPrice($value);
+        return $this->priceCurrency->format(
+            $value,
+            true,
+            \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
+            $this->_sessionQuote->getStore()
+        );
     }
 
     /**
@@ -103,10 +116,9 @@ class Payment extends \Magento\Framework\View\Element\Template
             return 0.0;
         }
         if ($convertPrice) {
-            return $this->_getStoreManagerModel()->getStore(
+            return $this->priceCurrency->convert(
+                $this->_getBalanceInstance()->getAmount(),
                 $this->_getOrderCreateModel()->getQuote()->getStoreId()
-            )->convertPrice(
-                $this->_getBalanceInstance()->getAmount()
             );
         }
         return $this->_getBalanceInstance()->getAmount();
