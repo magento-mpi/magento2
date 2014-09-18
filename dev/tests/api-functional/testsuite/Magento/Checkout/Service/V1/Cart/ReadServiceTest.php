@@ -328,11 +328,7 @@ class ReadServiceTest extends WebapiAbstract
             }
         }
 
-        unset($data[Totals::SHIPPING_TAX_AMOUNT]);
-        unset($data[Totals::BASE_SHIPPING_TAX_AMOUNT]);
         unset($data[Totals::BASE_SUBTOTAL_INCL_TAX]);
-        unset($data[Totals::SHIPPING_INCL_TAX]);
-        unset($data[Totals::BASE_SHIPPING_INCL_TAX]);
 
         return $data;
     }

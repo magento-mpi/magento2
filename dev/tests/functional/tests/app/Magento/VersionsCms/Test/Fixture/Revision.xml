@@ -47,6 +47,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>meta-data</group>
         </meta_keywords>
         <meta_description>
             <attribute_code>meta_description</attribute_code>
@@ -54,6 +55,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>meta-data</group>
         </meta_description>
         <content_heading>
             <attribute_code>content_heading</attribute_code>
@@ -61,6 +63,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>content</group>
         </content_heading>
         <content>
             <attribute_code>content</attribute_code>
@@ -68,6 +71,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>content</group>
         </content>
         <created_at>
             <attribute_code>created_at</attribute_code>
@@ -82,6 +86,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>design</group>
         </layout_update_xml>
         <custom_theme>
             <attribute_code>custom_theme</attribute_code>

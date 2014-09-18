@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_CatalogEvent">
+    <catalogEventNew>
+        <mca>admin/catalog_event/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew</class>
+    </catalogEventNew>
+    <catalogEventIndex>
+        <mca>admin/catalog_event/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex</class>
+    </catalogEventIndex>
+</page>

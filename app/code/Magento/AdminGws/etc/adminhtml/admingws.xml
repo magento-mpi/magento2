@@ -243,7 +243,7 @@
         <callback class="Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form" method="setIsRequiredSubscribersFromFieldForNewsletterQueueForm" />
         <callback class="Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Options" method="disableRmaAttributeDeleteOptionButton" />
         <callback class="Magento\TargetRule\Block\Adminhtml\Product" method="readonlyTargetRuleProductAttribute" />
-        <callback class="Magento\Tax\Block\Adminhtml\Rate\ImportExport" method="removeTaxRateImport" />
+        <callback class="Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExport" method="removeTaxRateImport" />
         <callback class="Magento\Tax\Block\Adminhtml\Rule\Edit\Form" method="disableTaxRelatedMultiselects" />
         <callback class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy" method="prepareCmsHierarchyNodes" />
     </group>

@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertRewardPointsSuccessDeleteMessage module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <exchangeRateIndex class="Magento\Reward\Test\Page\Adminhtml\ExchangeRateIndex" />
+        </require>
+    </assertRewardPointsSuccessDeleteMessage>
+    <assertRewardNoExchangeMessageForPointsToCurrency module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
+            <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
+            <rewardCustomerInfo class="Magento\Reward\Test\Page\RewardCustomerInfo" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardNoExchangeMessageForPointsToCurrency>
+    <assertRewardNoExchangeMessageForCurrencyToPoints module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
+            <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
+            <rewardCustomerInfo class="Magento\Reward\Test\Page\RewardCustomerInfo" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardNoExchangeMessageForCurrencyToPoints>
+    <assertRewardSubscriptionSaveMessage module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customerAccountIndex class="Magento\Reward\Test\Page\RewardCustomerInfo" />
+        </require>
+    </assertRewardSubscriptionSaveMessage>
+    <assertRewardSubscriptionOnBackend module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customerInjectable class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+            <customerIndexEdit class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardSubscriptionOnBackend>
+    <assertRateSuccessSaveMessage module="Magento_Reward">
+        <severeness>high</severeness>
+        <require>
+            <gridPage class="Magento\Reward\Test\Page\Adminhtml\RewardRateIndex" />
+        </require>
+    </assertRateSuccessSaveMessage>
+    <assertRewardPointsMessageOnCustomerRegistration module="Magento_Reward">
+        <severeness>high</severeness>
+        <require>
+            <customerAccountCreate class="Magento\Customer\Test\Page\CustomerAccountCreate" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+        </require>
+    </assertRewardPointsMessageOnCustomerRegistration>
+    <assertRewardPointsBalance module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customerInjectable class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+            <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
+            <customerAccountLogout class="Magento\Customer\Test\Page\CustomerAccountLogout" />
+            <rewardCustomerInfo class="Magento\Reward\Test\Page\RewardCustomerInfo" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardPointsBalance>
+    <assertRewardPointsMessageOnShoppingCart module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertRewardPointsMessageOnShoppingCart>
+    <assertRewardInHistoryGrid module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customerIndexEdit class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit" />
+            <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardInHistoryGrid>
+</constraint>

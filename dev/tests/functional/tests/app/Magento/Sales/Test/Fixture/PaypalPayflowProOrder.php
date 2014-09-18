@@ -24,10 +24,10 @@ class PaypalPayflowProOrder extends OrderCheckout
     {
         $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowPro();
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$156.81'
-            )
-        );
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '156.81'
+            ]
+        ];
     }
 }

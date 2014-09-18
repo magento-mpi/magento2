@@ -8,10 +8,11 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Bundle\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertBundlePriceType
@@ -41,6 +42,7 @@ class AssertBundlePriceType extends AbstractConstraint
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $product
      * @param CheckoutCart $checkoutCartView
+     * @param Browser $browser
      * @param CatalogProductBundle $originalProduct [optional]
      * @return void
      */
@@ -48,12 +50,12 @@ class AssertBundlePriceType extends AbstractConstraint
         CatalogProductView $catalogProductView,
         CatalogProductBundle $product,
         CheckoutCart $checkoutCartView,
+        Browser $browser,
         CatalogProductBundle $originalProduct = null
     ) {
         $checkoutCartView->open()->getCartBlock()->clearShoppingCart();
         //Open product view page
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         //Process assertions
         $this->assertPrice($product, $catalogProductView, $checkoutCartView, $originalProduct);

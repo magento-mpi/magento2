@@ -54,6 +54,13 @@ class FormPageActions extends PageActions
     protected $deleteButton = '#delete';
 
     /**
+     * "Publish" button
+     *
+     * @var string
+     */
+    protected $publishButton = '#publish_button';
+
+    /**
      * Magento loader
      *
      * @var string
@@ -120,5 +127,15 @@ class FormPageActions extends PageActions
     public function checkDeleteButton()
     {
         return $this->_rootElement->find($this->deleteButton)->isVisible();
+    }
+
+    /**
+     * Click 'Publish' button
+     *
+     * @return void
+     */
+    public function publish()
+    {
+        $this->_rootElement->find($this->publishButton)->click();
     }
 }

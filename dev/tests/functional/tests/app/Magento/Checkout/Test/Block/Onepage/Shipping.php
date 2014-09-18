@@ -39,6 +39,7 @@ class Shipping extends Form
      *
      * @param array $fields
      * @param Element $element
+     * @return void
      */
     protected function _fill(array $fields, Element $element = null)
     {
@@ -50,6 +51,7 @@ class Shipping extends Form
      * Fill shipping address
      *
      * @param Checkout $fixture
+     * @return void
      */
     public function fillShipping(Checkout $fixture)
     {

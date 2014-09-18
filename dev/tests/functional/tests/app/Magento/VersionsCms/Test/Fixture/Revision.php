@@ -53,6 +53,7 @@ class Revision extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'design',
     ];
 
     protected $meta_keywords = [
@@ -61,6 +62,7 @@ class Revision extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'meta-data',
     ];
 
     protected $meta_description = [
@@ -69,6 +71,7 @@ class Revision extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'meta-data',
     ];
 
     protected $content_heading = [
@@ -77,6 +80,7 @@ class Revision extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'content',
     ];
 
     protected $content = [
@@ -85,6 +89,7 @@ class Revision extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'content',
     ];
 
     protected $created_at = [
@@ -101,6 +106,7 @@ class Revision extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'design'
     ];
 
     protected $custom_theme = [

@@ -90,6 +90,7 @@ class UpdateCategoryUrlRewriteEntityTest extends Injectable
      */
     public function test(UrlRewrite $categoryRedirect, UrlRewrite $urlRewrite)
     {
+        $this->markTestIncomplete('MAGETWO-26967');
         //Steps
         $this->urlRewriteIndex->open();
         $filter = ['request_path' => $categoryRedirect->getRequestPath()];

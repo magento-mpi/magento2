@@ -8,6 +8,7 @@
 namespace Magento\Sales\Model\Order;
 
 use Magento\Framework\Model\Exception;
+use Magento\Sales\Model\EntityInterface;
 
 /**
  * Order creditmemo model
@@ -85,7 +86,6 @@ use Magento\Framework\Model\Exception;
  * @method \Magento\Sales\Model\Order\Creditmemo setGlobalCurrencyCode(string $value)
  * @method string getTransactionId()
  * @method \Magento\Sales\Model\Order\Creditmemo setTransactionId(string $value)
- * @method string getIncrementId()
  * @method \Magento\Sales\Model\Order\Creditmemo setIncrementId(string $value)
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Creditmemo setCreatedAt(string $value)
@@ -104,7 +104,7 @@ use Magento\Framework\Model\Exception;
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order\Creditmemo setBaseShippingInclTax(float $value)
  */
-class Creditmemo extends \Magento\Sales\Model\AbstractModel
+class Creditmemo extends \Magento\Sales\Model\AbstractModel implements EntityInterface
 {
     const STATE_OPEN = 1;
 
@@ -847,6 +847,16 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     public function getFilteredCollectionItems($filter = null)
     {
         return $this->getResourceCollection()->getFiltered($filter);
+    }
+
+    /**
+     * Returns increment id
+     *
+     * @return string
+     */
+    public function getIncrementId()
+    {
+        return $this->getData('increment_id');
     }
 
     /**

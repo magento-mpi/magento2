@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,28 +14,37 @@ use Mtf\System\Config;
 
 /**
  * Class BackendDecorator
+ * Curl transport on backend
  */
 class BackendDecorator implements CurlInterface
 {
     /**
-     * @var \Mtf\Util\Protocol\CurlTransport
+     * Curl transport protocol
+     *
+     * @var CurlTransport
      */
-    protected $_transport;
+    protected $transport;
 
     /**
-     * @var \Mtf\System\Config
-     */
-    protected $_configuration;
-
-    /**
+     * Form key
+     *
      * @var string
      */
-    protected $_formKey = null;
+    protected $formKey = null;
 
     /**
+     * Response data
+     *
      * @var string
      */
-    protected $_response;
+    protected $response;
+
+    /**
+     * System config
+     *
+     * @var Config
+     */
+    protected $configuration;
 
     /**
      * Constructor
@@ -46,23 +54,26 @@ class BackendDecorator implements CurlInterface
      */
     public function __construct(CurlTransport $transport, Config $configuration)
     {
-        $this->_transport = $transport;
-        $this->_configuration = $configuration;
-        $this->_authorize();
+        $this->transport = $transport;
+        $this->configuration = $configuration;
+        $this->authorize();
     }
 
     /**
      * Authorize customer on backend
+     *
+     * @throws \Exception
+     * @return void
      */
-    protected function _authorize()
+    protected function authorize()
     {
-        $credentials = $this->_configuration->getConfigParam('application/backend_user_credentials');
-        $url = $_ENV['app_backend_url'] . $this->_configuration->getConfigParam('application/backend_login_url');
-        $data = array(
+        $credentials = $this->configuration->getConfigParam('application/backend_user_credentials');
+        $url = $_ENV['app_backend_url'] . $this->configuration->getConfigParam('application/backend_login_url');
+        $data = [
             'login[username]' => $credentials['login'],
             'login[password]' => $credentials['password']
-        );
-        $this->_transport->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        ];
+        $this->transport->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $this->read();
         if (strpos($response, 'page-login')) {
             throw new \Exception('Admin user cannot be logged in by curl handler!');
@@ -71,12 +82,14 @@ class BackendDecorator implements CurlInterface
 
     /**
      * Init Form Key from response
+     *
+     * @return void
      */
-    protected function _initFormKey()
+    protected function initFormKey()
     {
-        preg_match('!var FORM_KEY = \'(\w+)\';!', $this->_response, $matches);
+        preg_match('!var FORM_KEY = \'(\w+)\';!', $this->response, $matches);
         if (!empty($matches[1])) {
-            $this->_formKey = $matches[1];
+            $this->formKey = $matches[1];
         }
     }
 
@@ -88,17 +101,17 @@ class BackendDecorator implements CurlInterface
      * @param string $httpVer
      * @param array $headers
      * @param array $params
-     *
+     * @return void
      * @throws \Exception
      */
-    public function write($method, $url, $httpVer = '1.1', $headers = array(), $params = array())
+    public function write($method, $url, $httpVer = '1.1', $headers = [], $params = [])
     {
-        if ($this->_formKey) {
-            $params['form_key'] = $this->_formKey;
+        if ($this->formKey) {
+            $params['form_key'] = $this->formKey;
         } else {
-            throw new \Exception('Form key is absent! Response: '. $this->_response);
+            throw new \Exception('Form key is absent! Response: ' . $this->response);
         }
-        $this->_transport->write($method, $url, $httpVer, $headers, http_build_query($params));
+        $this->transport->write($method, $url, $httpVer, $headers, http_build_query($params));
     }
 
     /**
@@ -108,27 +121,30 @@ class BackendDecorator implements CurlInterface
      */
     public function read()
     {
-        $this->_response = $this->_transport->read();
-        $this->_initFormKey();
-        return $this->_response;
+        $this->response = $this->transport->read();
+        $this->initFormKey();
+        return $this->response;
     }
 
     /**
      * Add additional option to cURL
      *
-     * @param  int $option      the CURLOPT_* constants
+     * @param  int $option the CURLOPT_* constants
      * @param  mixed $value
+     * @return void
      */
     public function addOption($option, $value)
     {
-        $this->_transport->addOption($option, $value);
+        $this->transport->addOption($option, $value);
     }
 
     /**
      * Close the connection to the server
+     *
+     * @return void
      */
     public function close()
     {
-        $this->_transport->close();
+        $this->transport->close();
     }
 }
