@@ -187,7 +187,7 @@ abstract class AbstractView extends Template implements ViewInterface
      */
     public function getLabelTemplate()
     {
-        return 'Magento_Ui::label/content.phtml';
+        return 'Magento_Ui::label/default.phtml';
     }
 
     /**

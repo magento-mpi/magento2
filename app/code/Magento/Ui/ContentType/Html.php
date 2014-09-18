@@ -52,16 +52,12 @@ class Html implements ContentTypeInterface
             $extension = pathinfo($template, PATHINFO_EXTENSION);
             $templateEngine = $this->templateEnginePool->get($extension);
         }
-
         if ($templateEngine) {
-            $extension = pathinfo($template, PATHINFO_EXTENSION);
-            $templateEngine = $this->templateEnginePool->get($extension);
             $path = $this->filesystem->getTemplateFileName($template);
             $result = $templateEngine->render($view, $path);
         } else {
             $result = '';
         }
-
         return $result;
     }
 }
