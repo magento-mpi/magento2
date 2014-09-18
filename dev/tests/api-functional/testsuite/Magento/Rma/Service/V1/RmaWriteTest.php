@@ -30,75 +30,81 @@ class RmaWriteTest extends WebapiAbstract
     protected $objectManager;
 
     /**
-     * @magentoApiDataFixture Magento/Rma/_files/rma.php
+     * @magentoApiDataFixture Magento/Sales/_files/order.php
      */
-    protected function setUp()
+    protected function prepareRma()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $order = $this->objectManager->get('Magento\Sales\Model\Order')->load(1);
+        /** @var \Magento\Rma\Service\V1\Data\RmaBuilder $orderBuilder */
+        $rmaBuilder = $this->objectManager->get('Magento\Rma\Service\V1\Data\RmaBuilder');
+        $rmaBuilder->populateWithArray($this->getDataStructure('Magento\Rma\Service\V1\Data\Rma'));
+        $rmaBuilder->setOrderId($order->getId());
+        $rmaBuilder->setIncrementId(28);
+        return $rmaBuilder->create()->__toArray();
     }
 
     /**
-     * @dataProvider addTrackDataProvider
+     * @param string $className
+     *
+     * @return array
      */
-    public function testAddTrack($carrierCode, $carrierTitle)
+    protected function getDataStructure($className)
     {
-        $rma = $this->objectManager->get('Magento\Rma\Model\Rma')->load('1');
-        $rmaId = $rma->getId();
-        $requestData = [
-            'rmaId' => $rmaId,
-            'trackNumber' => 'number123',
-            'carrierCode' => $carrierCode,
-            'carrierTitle' => $carrierTitle
-        ];
+        $refClass = new \ReflectionClass ($className);
+        $constants = $refClass->getConstants();
+        $data = array_fill_keys($constants, null);
+        unset($data['custom_attributes']);
+        return $data;
+    }
+
+    public function testCreate()
+    {
+        $rma = $this->prepareRma();
+
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/returns/' . $rmaId . '/tracking-numbers/?' . http_build_query($requestData),
+                'resourcePath' => '/V1/returns',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'addTrack'
+                'operation' => self::SERVICE_NAME . 'create'
             ]
         ];
-        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $result = $this->_webApiCall($serviceInfo, ['rmaDataObject' => $rma]);
         $this->assertTrue($result);
+        $model = $this->objectManager->get('Magento\Rma\Model\Rma');
+        $model->load($rma['increment_id'], 'increment_id');
+        $this->assertTrue((bool)$model->getId());
     }
 
     /**
-     * @return array
+     * @magentoApiDataFixture Magento/Rma/_files/rma.php
      */
-    public function addTrackDataProvider()
+    public function testUpdate()
     {
-        return [
-            [null, 'Some Title'],
-            ['carrier_code', ''],
+        $rma = [
+            'customer_custom_email' => 'email@example.com'
         ];
-    }
 
-    public function testRemoveTrackById()
-    {
-        $rma = $this->objectManager->get('Magento\Rma\Model\Rma')->load('1');
-        $rmaId = $rma->getId();
-        $shippingModel = $this->objectManager->get('Magento\Rma\Model\Shipping')->load('1');
-        $trackId = $shippingModel->getId();
-        $requestData = [
-            'rmaId' => $rmaId,
-            'trackId' => $trackId
-        ];
+        $model = $this->objectManager->get('Magento\Rma\Model\Rma');
+        $model->load('1', 'increment_id');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/returns/' . $rmaId . '/tracking-numbers/' . $trackId
-                    . '/?' . http_build_query($requestData),
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'resourcePath' => '/V1/returns/' . $model->getId(),
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'removeTrackById'
+                'operation' => self::SERVICE_NAME . 'update'
             ]
         ];
-        $result = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertTrue($result);
+        $this->_webApiCall($serviceInfo, ['rmaDataObject' => $rma]);
+        $actualRma = $this->objectManager->get('Magento\Rma\Model\Rma')->load($model->getId());
+        $customerCustomEmail = $actualRma->getCustomerCustomEmail();
+        $this->assertEquals('email@example.com', $customerCustomEmail->getData('customer_custom_email'));
     }
 }
