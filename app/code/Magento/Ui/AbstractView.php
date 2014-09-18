@@ -10,7 +10,6 @@ namespace Magento\Ui;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\ContentType\Builders\ConfigurationBuilder;
 use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
@@ -71,6 +70,7 @@ abstract class AbstractView extends Template implements ViewInterface
      * @param TemplateContext $context
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigurationFactory $configurationFactory
+     * @param ConfigBuilderInterface $configurationBuilder
      * @param array $data
      */
     public function __construct(
@@ -78,13 +78,14 @@ abstract class AbstractView extends Template implements ViewInterface
         TemplateContext $context,
         ContentTypeFactory $contentTypeFactory,
         ConfigurationFactory $configurationFactory,
+        ConfigBuilderInterface $configurationBuilder,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
         $this->contentTypeFactory = $contentTypeFactory;
         $this->assetRepo = $context->getAssetRepository();
         $this->configurationFactory = $configurationFactory;
-        $this->configurationBuilder = new ConfigurationBuilder();
+        $this->configurationBuilder = $configurationBuilder;
         parent::__construct($context, $data);
     }
 

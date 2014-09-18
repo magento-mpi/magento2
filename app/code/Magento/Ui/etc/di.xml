@@ -8,31 +8,9 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Ui\ConfigInterface" type="Magento\Ui\Config" />
+    <preference for="Magento\Ui\ContentType\Builders\ConfigBuilderInterface" type="Magento\Ui\ContentType\Builders\ConfigurationBuilder" />
     <type name="Magento\Ui\Render" shared="true" />
     <type name="Magento\Ui\Context" shared="true" />
+    <type name="Magento\Ui\ContentType\Builders\ConfigurationBuilder" shared="true" />
     <preference for="Magento\Ui\Control\ActionPoolInterface" type="Magento\Ui\Control\ActionPool" />
-    <type name="Magento\Ui\Config\Reader">
-        <arguments>
-            <argument name="fileResolver" xsi:type="object">Magento\Ui\Config\FileResolver</argument>
-            <argument name="schemaLocator" xsi:type="object">Magento\Ui\Config\SchemaLocator</argument>
-            <argument name="converter" xsi:type="object">Magento\Ui\Config\Converter</argument>
-            <argument name="fileName" xsi:type="string">ui.xml</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Ui\Config\FileResolver">
-        <arguments>
-            <argument name="collector" xsi:type="object">Magento\Ui\Config\Collector\Composite</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Ui\Config\Collector\Base">
-        <arguments>
-            <argument name="subDir" xsi:type="string">etc</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Ui\Config\Collector\Theme">
-        <arguments>
-            <argument name="subDir" xsi:type="string">etc</argument>
-        </arguments>
-    </type>
 </config>

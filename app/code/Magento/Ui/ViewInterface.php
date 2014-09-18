@@ -8,11 +8,12 @@
 namespace Magento\Ui;
 
 use Magento\Ui\ContentType\Builders\ConfigBuilderInterface;
+use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Class ViewInterface
  */
-interface ViewInterface
+interface ViewInterface extends BlockInterface
 {
     /**
      * Update component data
