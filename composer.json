@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha94",
+    "version": "0.1.0-alpha95",
     "require": {
         "php": "~5.4.11|~5.5.0"
     },
@@ -140,6 +140,7 @@
         "magento/language-pt_br": "self.version",
         "magento/language-zh_cn": "self.version",
         "magento/framework": "self.version",
+        "magento/project-setup": "0.1.0",
         "zendframework/zend-eventmanager": "2.0.3",
         "zendframework/zend-stdlib": "2.0.3",
         "zendframework/zend-di": "2.0.3",

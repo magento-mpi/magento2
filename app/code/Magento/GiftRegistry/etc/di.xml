@@ -23,6 +23,11 @@
             <argument name="modulePrefix" xsi:type="string">giftregistry</argument>
         </arguments>
     </type>
+    <type name="Magento\GiftRegistry\Model\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\GiftRegistry\Model\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">

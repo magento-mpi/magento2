@@ -9,34 +9,34 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
     <event name="websiterestriction_frontend">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="skipWebsiteRestriction" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\SkipWebsiteRestriction" method="execute" />
     </event>
     <event name="controller_action_layout_generate_blocks_after">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="applyPersistentData" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\ApplyPersistentData" method="execute" />
     </event>
     <event name="controller_action_predispatch_catalog_product_compare_clear">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="applyCustomerId" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\ApplyCustomerId" method="execute" />
     </event>
     <event name="controller_action_predispatch_catalog_product_compare_remove">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="applyCustomerId" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\ApplyCustomerId" method="execute" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateCustomer" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\EmulateCustomer" method="execute" />
         <observer name="persistent_customer" disabled="true" />
     </event>
     <event name="sales_quote_save_before">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="setQuotePersistentData" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\SetQuotePersistentData" method="execute" />
     </event>
     <event name="controller_action_predispatch_checkout_onepage_saveMethod">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="preventSettingQuotePersistent" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\SetQuotePersistentData" method="preventSettingQuotePersistent" />
     </event>
     <event name="controller_action_predispatch_checkout_onepage_saveOrder">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="preventSettingQuotePersistent" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\SetQuotePersistentData" method="preventSettingQuotePersistent" />
     </event>
     <event name="render_block">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="applyBlockPersistentData" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\ApplyBlockPersistentData" method="execute" />
     </event>
     <event name="persistent_session_expired">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="expireSidebars" />
+        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\ExpireSidebars" method="execute" />
     </event>
 </config>

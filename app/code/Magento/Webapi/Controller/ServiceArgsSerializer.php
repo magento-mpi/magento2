@@ -232,8 +232,10 @@ class ServiceArgsSerializer
                 // Initializing the result for array type else it will return null for empty array
                 $result = is_array($value) ? [] : null;
                 $itemType = $this->_typeProcessor->getArrayItemType($type);
-                foreach ($value as $key => $item) {
-                    $result[$key] = $this->_createFromArray($itemType, $item);
+                if (is_array($value)) {
+                    foreach ($value as $key => $item) {
+                        $result[$key] = $this->_createFromArray($itemType, $item);
+                    }
                 }
             } else {
                 $result = $this->_createFromArray($type, $value);

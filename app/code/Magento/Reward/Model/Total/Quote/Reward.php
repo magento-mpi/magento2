@@ -7,6 +7,7 @@
  */
 namespace Magento\Reward\Model\Total\Quote;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Quote\Address;
 
 /**
@@ -31,13 +32,21 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_rewardFactory;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Reward\Model\RewardFactory $rewardFactory
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
+        PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_rewardData = $rewardData;
         $this->_rewardFactory = $rewardFactory;
         $this->setCode('reward');
@@ -76,8 +85,9 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 )->loadByCustomer();
             }
             $pointsLeft = $reward->getPointsBalance() - $quote->getRewardPointsBalance();
-            $rewardCurrencyAmountLeft = $quote->getStore()->convertPrice(
-                $reward->getCurrencyAmount()
+            $rewardCurrencyAmountLeft = $this->priceCurrency->convert(
+                $reward->getCurrencyAmount(),
+                $quote->getStore()
             ) - $quote->getRewardCurrencyAmount();
             $baseRewardCurrencyAmountLeft = $reward->getCurrencyAmount() - $quote->getBaseRewardCurrencyAmount();
             if ($baseRewardCurrencyAmountLeft >= $address->getBaseGrandTotal()) {

@@ -44,7 +44,7 @@ class Setup extends \Magento\Framework\Module\Setup
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function createThemeResourceFactory()
     {
@@ -52,7 +52,7 @@ class Setup extends \Magento\Framework\Module\Setup
     }
 
     /**
-     * @return \Magento\Core\Model\Theme\CollectionFactory
+     * @return \Magento\Core\Model\Theme\Collection
      */
     public function createThemeFactory()
     {

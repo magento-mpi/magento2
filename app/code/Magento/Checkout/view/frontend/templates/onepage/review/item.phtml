@@ -51,12 +51,12 @@ $_item = $this->getItem();
     <td class="col subtotal" data-th="<?php echo $this->escapeHtml(__('Subtotal'));?>">
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceInclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
             <span class="price-including-tax" data-label="<?php echo $this->escapeHtml(__('Incl. Tax'));?>">
-                <?php echo $this->getRowtotalInclTaxHtml($_item); ?>
+                <?php echo $this->getRowTotalInclTaxHtml($_item); ?>
             </span>
         <?php endif; ?>
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
             <span class="price-excluding-tax" data-label="<?php echo $this->escapeHtml(__('Excl. Tax'));?>">
-                <?php echo $this->getRowtotalExclTaxHtml($_item); ?>
+                <?php echo $this->getRowTotalExclTaxHtml($_item); ?>
             </span>
         <?php endif; ?>
     </td>

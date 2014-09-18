@@ -24,5 +24,10 @@
             <locator>#maincontent</locator>
             <strategy>css selector</strategy>
         </storeCreditBlock>
+        <checkBlock>
+            <class>Magento\GiftCardAccount\Test\Block\Check</class>
+            <locator>.giftcard.info</locator>
+            <strategy>css selector</strategy>
+        </checkBlock>
     </blocks>
 </page>
