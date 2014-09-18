@@ -28,11 +28,6 @@
             <argument name="wishlistHelper" xsi:type="object">Magento\Wishlist\Helper\Rss</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Wishlist\Block\Rss">
-        <arguments>
-            <argument name="context" xsi:type="object">Magento\Wishlist\Block\Context</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\App\Rss\RssManagerInterface">
         <arguments>
             <argument name="dataProviders" xsi:type="array">

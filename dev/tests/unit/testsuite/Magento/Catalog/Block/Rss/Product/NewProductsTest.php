@@ -73,7 +73,7 @@ class NewProductsTest extends \PHPUnit_Framework_TestCase
 
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $store = $this->getMockBuilder('\Magento\Store\Model\Store')
-            ->setMethods(['getId', 'getFrontendName'])->disableOriginalConstructor()->getMock();
+            ->setMethods(['getId', 'getFrontendName', '__wakeup'])->disableOriginalConstructor()->getMock();
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
         $store->expects($this->any())->method('getFrontendName')->will($this->returnValue('Store 1'));
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
@@ -117,7 +117,8 @@ class NewProductsTest extends \PHPUnit_Framework_TestCase
             'getAllowedInRss',
             'getProductUrl',
             'getDescription',
-            'getName'
+            'getName',
+            '__wakeup'
         ];
         $item = $this->getMock('\Magento\Catalog\Model\Product', $methods, [], '', false);
         $item->expects($this->once())->method('setAllowedInRss')->with(true);

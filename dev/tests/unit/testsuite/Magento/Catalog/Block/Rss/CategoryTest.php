@@ -104,7 +104,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->customerSession->expects($this->any())->method('getId')->will($this->returnValue(1));
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $store = $this->getMockBuilder('\Magento\Store\Model\Store')
-            ->setMethods(['getId'])->disableOriginalConstructor()->getMock();
+            ->setMethods(['getId', '__wakeup'])->disableOriginalConstructor()->getMock();
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $this->scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');

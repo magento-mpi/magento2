@@ -210,7 +210,7 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsAllowed($isAllowed)
     {
-        $this->scopeConfigInterface->expects($this->once())->method('getValue')->will($this->returnValue($isAllowed));
+        $this->scopeConfigInterface->expects($this->once())->method('isSetFlag')->will($this->returnValue($isAllowed));
         $this->assertEquals($isAllowed, $this->block->isAllowed());
     }
 
@@ -229,6 +229,7 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
             'link' => 'http://rss.magento.com/discount'
         );
         $this->rssBuilderInterface->expects($this->any())->method('getUrl')->will($this->returnValue($feedData['link']));
+        $this->scopeConfigInterface->expects($this->once())->method('isSetFlag')->will($this->returnValue(true));
         $this->assertEquals($feedData, $this->block->getFeeds());
     }
 }

@@ -65,7 +65,7 @@ class NotifyStockTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->rssModel = $this->getMockBuilder('Magento\Catalog\Model\Rss\Product\NotifyStock')
-            ->setMethods(['getProductsCollection'])
+            ->setMethods(['getProductsCollection', '__wakeup'])
             ->disableOriginalConstructor()->getMock();
         $this->rssUrlBuilder = $this->getMock('Magento\Framework\App\Rss\UrlBuilderInterface');
         $this->urlBuilder = $this->getMock('Magento\Framework\UrlInterface');
