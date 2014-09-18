@@ -33,12 +33,12 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
     protected $rmaSearchResultsBuilderMock;
 
     /**
-     * @var \Magento\Rma\Model\Rma | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Rma\Service\V1\Data\Rma | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $dataRmaMock;
 
     /**
-     * @var \Magento\Rma\Service\V1\Data\Rma | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Rma\Model\Rma | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $rmaModelMock;
 
