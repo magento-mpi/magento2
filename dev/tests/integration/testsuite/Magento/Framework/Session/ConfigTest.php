@@ -217,11 +217,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($preVal, $this->_model->getCookieDomain());
     }
 
-    public function testCookieHttpOnlyDefaultsToIniSettings()
-    {
-        $this->assertSame((bool)ini_get('session.cookie_httponly'), $this->_model->getCookieHttpOnly());
-    }
-
     public function testCookieHttpOnlyIsMutable()
     {
         $value = ini_get('session.cookie_httponly') ? false : true;
