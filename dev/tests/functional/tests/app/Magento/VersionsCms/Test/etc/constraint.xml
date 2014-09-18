@@ -119,4 +119,16 @@
             <cmsRevisionPreview class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionPreview" />
         </require>
     </assertCmsPageRevisionPreview>
+    <assertCmsPageNewVersionSuccessSaveMessage module="Magento_VersionsCms">
+        <severeness>high</severeness>
+        <require>
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageNewVersionSuccessSaveMessage>
+    <assertCmsPageVersionSaveErrorMessage module="Magento_VersionsCms">
+        <severeness>high</severeness>
+        <require>
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageVersionSaveErrorMessage>
 </constraint>
