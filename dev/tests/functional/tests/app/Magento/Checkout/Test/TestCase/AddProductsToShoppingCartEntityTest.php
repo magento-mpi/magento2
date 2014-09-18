@@ -94,7 +94,6 @@ class AddProductsToShoppingCartEntityTest extends Injectable
     public function test($productsData, array $cart)
     {
         // Preconditions
-        /** @var CatalogProductSimple[] $products */
         $products = $this->prepareProducts($productsData);
 
         // Steps
@@ -112,17 +111,13 @@ class AddProductsToShoppingCartEntityTest extends Injectable
      */
     protected function prepareProducts($productList)
     {
-        $productsData = explode(', ', $productList);
-        $products = [];
+        $addToCartStep = ObjectManager::getInstance()->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $productList]
+        );
 
-        foreach ($productsData as $productConfig) {
-            list($fixtureClass, $dataSet) = explode('::', $productConfig);
-            $product = $this->fixtureFactory->createByCode($fixtureClass, ['dataSet' => $dataSet]);
-            $product->persist();
-            $products[] = $product;
-        }
-
-        return $products;
+        $result = $addToCartStep->run();
+        return $result['products'];
     }
 
     /**
@@ -138,16 +133,5 @@ class AddProductsToShoppingCartEntityTest extends Injectable
             ['products' => $products]
         );
         $addToCartStep->run();
-    }
-
-    /**
-     * Clear shopping cart after test
-     *
-     * @return void
-     */
-    protected function tearDown()
-    {
-        $this->cartPage->open();
-        $this->cartPage->getCartBlock()->clearShoppingCart();
     }
 }
