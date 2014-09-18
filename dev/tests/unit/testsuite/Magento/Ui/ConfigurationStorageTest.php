@@ -9,6 +9,10 @@
 namespace Magento\Ui;
 use Magento\Framework\Data\Collection as DataCollection;
 
+/**
+ * Class ConfigurationStorageTest
+ * @package Magento\Ui
+ */
 class ConfigurationStorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
