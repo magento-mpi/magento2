@@ -9,8 +9,6 @@
 
 /**
  * Wishlist RSS URL to Email Block
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Wishlist\Block\Rss;
 
