@@ -48,14 +48,13 @@ class Write extends AbstractAction
     public function execute()
     {
         $action = $this->_request->getParam('action');
-        $content = $this->_request->getParam('content');
-        $type = $this->_request->getParam('type', 'xhtml');
         $module = $this->_request->getParam('module', 'Magento_Doc');
         $name = $this->_request->getParam('name');
-        $scheme = $this->_request->getParam('scheme');
+        $type = $this->_request->getParam('type', 'html');
+        $content = $this->_request->getParam('content');
         switch ($action) {
             case 'save':
-                echo $this->processContent($content, $type, $module, $scheme, $name);
+                echo $this->processContent($content, $type, $module, $name);
                 break;
         }
     }
@@ -64,19 +63,15 @@ class Write extends AbstractAction
      * @param string $content
      * @param string $type
      * @param string $module
-     * @param string $scheme
      * @param string $name
      * @return string
      */
-    protected function processContent($content, $type, $module, $scheme, $name)
+    protected function processContent($content, $type, $module, $name)
     {
         $content = trim($content, "\n");
         $content = html_entity_decode($content);
-        if ($type === 'xhtml') {
-            $content = "<div>\n" . $content . "\n</div>";
-        }
-        if ($module && $scheme && $name) {
-            $path = str_replace('_', '/', $module) . '/docs/content/' . $scheme . '/' . $name . '.' . $type;
+        if ($module && $name) {
+            $path = str_replace('_', '/', $module) . '/docs/content/' . str_replace('_', '/', $name) . '.' . $type;
             $this->moduleDir->writeFile($path, $content);
         }
         $block = $this->_view->getLayout()->createBlock('Magento\Framework\View\Element\Template');

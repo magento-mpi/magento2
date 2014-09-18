@@ -70,11 +70,6 @@ class Base implements \Magento\Framework\App\RouterInterface
     protected $_storeManager;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
-
-    /**
      * @var \Magento\Framework\App\ResponseFactory
      */
     protected $_responseFactory;
@@ -117,7 +112,6 @@ class Base implements \Magento\Framework\App\RouterInterface
      * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
      * @param \Magento\Framework\App\Route\ConfigInterface $routeConfig
-     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\StoreManagerInterface|\Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -132,7 +126,6 @@ class Base implements \Magento\Framework\App\RouterInterface
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Framework\App\ResponseFactory $responseFactory,
         \Magento\Framework\App\Route\ConfigInterface $routeConfig,
-        \Magento\Framework\App\State $appState,
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -149,7 +142,6 @@ class Base implements \Magento\Framework\App\RouterInterface
         $this->_scopeConfig = $scopeConfig;
         $this->_url = $url;
         $this->_storeManager = $storeManager;
-        $this->_appState = $appState;
         $this->nameBuilder = $nameBuilder;
     }
 
@@ -358,7 +350,7 @@ class Base implements \Magento\Framework\App\RouterInterface
      */
     protected function _checkShouldBeSecure(\Magento\Framework\App\RequestInterface $request, $path = '')
     {
-        if (!$this->_appState->isInstalled() || $request->getPost()) {
+        if ($request->getPost()) {
             return;
         }
 

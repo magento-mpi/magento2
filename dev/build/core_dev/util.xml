@@ -127,4 +127,28 @@
         </replace>
     </target>
 
+    <target name="_drop_database" description="Drops Database" >
+        <property name="file.drop_database" location="${product_root_dir}/dev/build/bin/drop-database.sh"/>
+        <chmod file="${file.drop_database}" perm="ugo+rx"/>
+
+        <exec executable="${file.drop_database}" failonerror="true">
+            <arg value="${env.db_host}"/>
+            <arg value="${env.db_name}"/>
+            <arg value="${env.db_user}"/>
+            <arg value="${env.db_password}"/>
+        </exec>
+    </target>
+
+    <target name="_create_database" description="Creates Database">
+        <property name="file.create_database" location="${product_root_dir}/dev/build/bin/create-database.sh"/>
+        <chmod file="${file.create_database}" perm="ugo+rx"/>
+
+        <exec executable="${file.create_database}" failonerror="true">
+            <arg value="${env.db_host}"/>
+            <arg value="${env.db_name}"/>
+            <arg value="${env.db_user}"/>
+            <arg value="${env.db_password}"/>
+        </exec>
+    </target>
+
 </project>

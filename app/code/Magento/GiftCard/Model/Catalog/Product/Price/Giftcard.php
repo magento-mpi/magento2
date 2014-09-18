@@ -29,24 +29,6 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     protected $_minMaxCache = array();
 
     /**
-     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     */
-    public function __construct(
-        \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Event\ManagerInterface $eventManager
-    ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager);
-    }
-
-    /**
      * Return price of the specified product
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -152,7 +134,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
             $giftcardAmounts = $this->getAmounts($product);
             if (is_array($giftcardAmounts)) {
                 foreach ($giftcardAmounts as $amount) {
-                    $result[] = $this->_storeManager->getStore()->roundPrice($amount['website_value']);
+                    $result[] = $this->priceCurrency->round($amount['website_value']);
                 }
             }
             sort($result);

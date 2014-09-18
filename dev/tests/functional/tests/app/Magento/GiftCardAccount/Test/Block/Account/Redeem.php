@@ -31,6 +31,13 @@ class Redeem extends Block
     protected $redeemGiftCard = ".action.redeem";
 
     /**
+     * Redeem button
+     *
+     * @var string
+     */
+    protected $checkStatusAndBalance = ".action.check";
+
+    /**
      * Fill gift card redeem
      *
      * @param string $value
@@ -38,7 +45,30 @@ class Redeem extends Block
      */
     public function redeemGiftCard($value)
     {
-        $this->_rootElement->find($this->giftCardCode)->setValue($value);
+        $this->enterGiftCardCode($value);
         $this->_rootElement->find($this->redeemGiftCard)->click();
+    }
+
+    /**
+     * Check status and balance
+     *
+     * @param string $value
+     * @return void
+     */
+    public function checkStatusAndBalance($value)
+    {
+        $this->enterGiftCardCode($value);
+        $this->_rootElement->find($this->checkStatusAndBalance)->click();
+    }
+
+    /**
+     * Enter gift card code
+     *
+     * @param string $value
+     * @return void
+     */
+    protected function enterGiftCardCode($value)
+    {
+        $this->_rootElement->find($this->giftCardCode)->setValue($value);
     }
 }

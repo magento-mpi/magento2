@@ -8,19 +8,15 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\Cms\Test\Page\CmsIndex;
 
 /**
  * Class AssertGiftCardAccountNotRedeemableOnFrontend
  * Assert that gift card is not redeemable on frontend
  */
-class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
+class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractAssertGiftCardAccountOnFrontend
 {
     /**
      * Constraint severeness
@@ -32,33 +28,22 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
     /**
      * Assert that gift card is not redeemable on frontend
      *
-     * @param Index $index
      * @param CustomerAccountIndex $customerAccountIndex
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerInjectable $customer
-     * @param GiftCardAccount $giftCardAccount
+     * @param string $code
      * @return void
      */
     public function processAssert(
-        Index $index,
         CustomerAccountIndex $customerAccountIndex,
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerInjectable $customer,
-        GiftCardAccount $giftCardAccount
+        $code
     ) {
-        if ($giftCardAccount->hasData('code')) {
-            $value = $giftCardAccount->getCode();
-        } else {
-            $index->open();
-            $filter = ['balance' => $giftCardAccount->getBalance()];
-            $value = $index->getGiftCardAccount()->getCode($filter, false);
-        }
-        $this->login($cmsIndex, $customerAccountLogin, $customer);
-
+        $this->login($customer);
+        $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
-        $customerAccountIndex->getRedeemBlock()->redeemGiftCard($value);
+        $customerAccountIndex->getRedeemBlock()->redeemGiftCard($code);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $customerAccountIndex->getMessages()->assertErrorMessage(),
@@ -74,26 +59,5 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
     public function toString()
     {
         return 'Gift card is not redeemable on frontend';
-    }
-
-    /**
-     * Login to frontend
-     *
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
-     * @param CustomerInjectable $customer
-     * @return void
-     */
-    protected function login(
-        CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
-        CustomerInjectable $customer
-    ) {
-        $cmsIndex->open();
-        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $cmsIndex->getLinksBlock()->openLink("Log In");
-            $customerAccountLogin->getLoginBlock()->login($customer);
-        }
-        $cmsIndex->getLinksBlock()->openLink("My Account");
     }
 }

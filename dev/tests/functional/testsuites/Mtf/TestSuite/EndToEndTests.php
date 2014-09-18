@@ -23,11 +23,11 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateSimpleWithCategoryTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UnassignCategoryTest');
         // Grouped
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateGroupedTest');
+        $suite->addTestSuite('Magento\GroupedProduct\Test\TestCase\CreateGroupedTest');
         // Virtual
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
         // Configurable
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\EditConfigurableTest');
+        $suite->addTestSuite('Magento\ConfigurableProduct\Test\TestCase\EditConfigurableTest');
         // Downloadable
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
         // Gift Card
@@ -37,7 +37,7 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\EditBundleTest');
         // Product configuration
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\ApplyMapTest');
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\ApplyMapConfigurableTest');
+        $suite->addTestSuite('Magento\ConfigurableProduct\Test\TestCase\ApplyMapConfigurableTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\OutOfStockTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UpsellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');

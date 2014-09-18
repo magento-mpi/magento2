@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_invoice/new" module="Magento_Sales">
+    <blocks>
+        <totalsBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Totals</class>
+            <locator>#invoice_totals</locator>
+            <strategy>css selector</strategy>
+        </totalsBlock>
+    </blocks>
+</page>

@@ -20,12 +20,6 @@
     <assertMultipleWishlistIsPrivate module="Magento_MultipleWishlist">
         <severeness>medium</severeness>
     </assertMultipleWishlistIsPrivate>
-    <assertMultipleWishlistIsNoticePublicMessage module="Magento_MultipleWishlist">
-        <severeness>medium</severeness>
-    </assertMultipleWishlistIsNoticePublicMessage>
-    <assertMultipleWishlistIsNoticePrivateMessage module="Magento_MultipleWishlist">
-        <severeness>medium</severeness>
-    </assertMultipleWishlistIsNoticePrivateMessage>
     <assertMultipleWishlistSuccessDeleteMessage module="Magento_MultipleWishlist">
         <severeness>medium</severeness>
     </assertMultipleWishlistSuccessDeleteMessage>
@@ -35,9 +29,6 @@
     <assertDeleteMultipleWishlistButtonIsAbsent module="Magento_MultipleWishlist">
         <severeness>medium</severeness>
     </assertDeleteMultipleWishlistButtonIsAbsent>
-    <assertMultipleWishlistIsNoticePrivateMessage module="Magento_MultipleWishlist">
-        <severeness>medium</severeness>
-    </assertMultipleWishlistIsNoticePrivateMessage>
     <assertWishlistReportGrid module="Magento_MultipleWishlist">
         <severeness>low</severeness>
     </assertWishlistReportGrid>

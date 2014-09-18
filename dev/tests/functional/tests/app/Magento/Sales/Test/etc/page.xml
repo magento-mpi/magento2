@@ -18,4 +18,23 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusNew</class>
     </orderStatusNew>
+    <orderIndex>
+        <mca>sales/order/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OderIndex</class>
+    </orderIndex>
+    <orderView>
+        <mca>sales/order/view/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderView</class>
+    </orderView>
+    <orderHistory>
+        <mca>sales/order/history</mca>
+        <class>Magento\Sales\Test\Page\OrderHistory</class>
+    </orderHistory>
+    <orderInvoiceNew>
+        <mca>sales/order_invoice/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew</class>
+    </orderInvoiceNew>
 </page>
