@@ -31,6 +31,8 @@ class UserConfigurationData
     const KEY_LANGUAGE = 'language';
     const KEY_TIMEZONE = 'timezone';
     const KEY_CURRENCY = 'currency';
+    const KEY_ADMIN_NO_FORM_KEY = 'admin_no_form_key';
+    const XML_PATH_ADMIN_KEY = 'admin/security/use_form_key';
     /**#@- */
 
     /**
@@ -49,6 +51,7 @@ class UserConfigurationData
         Currency::XML_PATH_CURRENCY_BASE => self::KEY_CURRENCY,
         Currency::XML_PATH_CURRENCY_DEFAULT => self::KEY_CURRENCY,
         Currency::XML_PATH_CURRENCY_ALLOW => self::KEY_CURRENCY,
+        self::XML_PATH_ADMIN_KEY => self::KEY_ADMIN_NO_FORM_KEY,
     ];
 
     /**
@@ -65,6 +68,7 @@ class UserConfigurationData
         self::KEY_LANGUAGE => 'en_US',
         self::KEY_TIMEZONE => 'America/Los_Angeles',
         self::KEY_CURRENCY => 'USD',
+        self::KEY_ADMIN_NO_FORM_KEY => 0,
     ];
 
     /**

@@ -129,6 +129,9 @@ class Installer
         $this->log->log('Installing data fixtures:');
         $this->installDataFixtures();
 
+        $this->log->log('Creating store order increment prefix configuration:');
+        $this->installOrderIncrementPrefix($request);
+
         $this->log->log('Installing admin user...');
         $this->installAdminUser($request);
 
@@ -260,6 +263,19 @@ class Installer
         $setup = $this->setupFactory->createSetup($this->log);
         $userConfig = new UserConfigurationData($setup);
         $userConfig->install($data);
+    }
+
+    /**
+     * Creates store order increment prefix configuration
+     *
+     * @param \ArrayObject|array $data
+     * @return void
+     */
+    public function installOrderIncrementPrefix($data)
+    {
+        $setup = $this->setupFactory->createSetup($this->log);
+        $orderIncrementPrefix = new OrderIncrementPrefix($setup, (array)$data);
+        $orderIncrementPrefix->save();
     }
 
     /**
