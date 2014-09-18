@@ -65,7 +65,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $failedItem = '//*[@id="failed-products-table"]//*[@class="product details" and //div[contains(.,"%s")]]';
+    protected $failedItem = '//*[@id="failed-products-table"]//tr[contains(@class,"info") and //div[contains(.,"%s")]]';
 
     /**
      * Selector for not editable cart item block
