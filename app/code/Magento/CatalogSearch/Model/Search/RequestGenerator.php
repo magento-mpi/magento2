@@ -52,7 +52,6 @@ class RequestGenerator
             }
             $request['queries']['quick_search_container']['match'][] = [
                 'field' => $attribute->getAttributeCode(),
-                'value' => '$search_term',
                 'boost' => $attribute->getSearchWeight() ?: 1,
             ];
         }
@@ -90,10 +89,10 @@ class RequestGenerator
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
                         'type' => 'matchQuery',
+                        'value' => '$' . $attribute->getAttributeCode() . '$',
                         'match' => [
                             [
                                 'field' => $attribute->getAttributeCode(),
-                                'value' => '$' . $attribute->getAttributeCode() . '$',
                                 'boost' => $attribute->getSearchWeight() ?: 1,
                             ]
                         ]

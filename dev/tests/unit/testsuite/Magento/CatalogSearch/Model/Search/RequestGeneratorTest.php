@@ -36,6 +36,52 @@ class RequestGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return array
+     */
+    public function attributesProvider()
+    {
+        return [
+            [[0, 0, 0], 'sku', 'static'],
+            [[0, 0, 0], 'price', 'static'],
+            [[1, 2, 0], 'name', 'text'],
+            [[1, 0, 0], 'name2', 'text', false],
+            [[1, 2, 1], 'date', 'decimal'],
+            [[1, 2, 1], 'attr_int', 'int'],
+        ];
+    }
+
+    /**
+     * @param array $countResult
+     * @param string $code
+     * @param string $type
+     * @param bool $visibleInAdvanced
+     * @dataProvider attributesProvider
+     */
+    public function testGenerate($countResult, $code, $type, $visibleInAdvanced = true)
+    {
+        $collection = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $collection->expects($this->any())
+            ->method('getIterator')
+            ->willReturn(
+                new \ArrayIterator(
+                    [
+                        $this->createAttributeMock($code, $type, $visibleInAdvanced),
+                    ]
+                )
+            );
+        $this->productAttributeCollectionFactory->expects($this->any())
+            ->method('create')
+            ->willReturn($collection);
+        $result = $this->object->generate();
+
+        $this->assertEquals($countResult[0], $this->countVal($result['quick_search_container']['queries']));
+        $this->assertEquals($countResult[1], $this->countVal($result['advanced_search_container']['queries']));
+        $this->assertEquals($countResult[2], $this->countVal($result['advanced_search_container']['filters']));
+    }
+
+    /**
      * Create attribute mock
      *
      * @param string $code
@@ -66,53 +112,8 @@ class RequestGeneratorTest extends \PHPUnit_Framework_TestCase
         return $attribute;
     }
 
-    /**
-     * @return array
-     */
-    public function attributesProvider()
-    {
-        return [
-           [[0, 0, 0], 'sku', 'static'],
-           [[0, 0, 0], 'price', 'static'],
-           [[1, 2, 0], 'name', 'text'],
-           [[1, 0, 0], 'name2', 'text', false],
-           [[1, 2, 1], 'date', 'decimal'],
-           [[1, 2, 1], 'attr_int', 'int'],
-        ];
-    }
-
     private function countVal(&$value)
     {
-        return !empty($value) ? count($value) : 0 ;
-    }
-
-    /**
-     * @param array $countResult
-     * @param string $code
-     * @param string $type
-     * @param bool $visibleInAdvanced
-     *
-     * @dataProvider attributesProvider
-     */
-    public function testGenerate($countResult, $code, $type, $visibleInAdvanced = true)
-    {
-        $collection = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $collection->expects($this->any())
-            ->method('getIterator')
-            ->willReturn(new \ArrayIterator(
-                [
-                    $this->createAttributeMock($code, $type, $visibleInAdvanced),
-                ]
-                ));
-        $this->productAttributeCollectionFactory->expects($this->any())
-            ->method('create')
-            ->willReturn($collection);
-        $result = $this->object->generate();
-
-        $this->assertEquals($countResult[0], $this->countVal($result['quick_search_container']['queries']));
-        $this->assertEquals($countResult[1], $this->countVal($result['advanced_search_container']['queries']));
-        $this->assertEquals($countResult[2], $this->countVal($result['advanced_search_container']['filters']));
+        return !empty($value) ? count($value) : 0;
     }
 }
