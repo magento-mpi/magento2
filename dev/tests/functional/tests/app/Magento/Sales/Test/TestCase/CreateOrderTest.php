@@ -48,7 +48,7 @@ class CreateOrderTest extends Functional
         $orderCreatePage->getStoreBlock()->selectStoreView($fixture);
 
         $orderCreateBlock = $orderCreatePage->getCreateBlock();
-        $orderCreateBlock->waitOrderDetails();
+        $orderCreateBlock->waitOrderItemsGrid();
         $orderCreateBlock->addProducts($fixture);
         $orderCreateBlock->fillAddresses($fixture);
         $orderCreateBlock->selectShippingMethod($fixture);

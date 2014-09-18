@@ -14,5 +14,12 @@
             <locator>.product-info-main</locator>
             <strategy>css selector</strategy>
         </giftCardBlock>
+        <viewBlock>
+            <renders>
+                <giftcard>
+                    <class>Magento\GiftCard\Test\Block\Catalog\Product\View</class>
+                </giftcard>
+            </renders>
+        </viewBlock>
     </blocks>
 </page>
