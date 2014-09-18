@@ -12,24 +12,16 @@ use Magento\Rma\Model\RmaRepository;
 class RmaWrite implements RmaWriteInterface
 {
     /**
-     * @var RmaRepository
-     */
-    private $rmaRepository;
-
-    /**
      * @var \Magento\Rma\Model\Rma\Converter
      */
     private $converter;
 
     /**
-     * @param RmaRepository $rmaRepository
      * @param \Magento\Rma\Model\Rma\Converter $converter
      */
     public function __construct(
-        RmaRepository $rmaRepository,
         \Magento\Rma\Model\Rma\Converter $converter
     ) {
-        $this->rmaRepository = $rmaRepository;
         $this->converter = $converter;
     }
 

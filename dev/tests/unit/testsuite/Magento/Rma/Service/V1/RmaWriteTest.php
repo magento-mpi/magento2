@@ -21,19 +21,13 @@ class RmaWriteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $rmaRepository;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $labelService;
+    protected $converter;
 
     protected function setUp()
     {
-        $this->rmaRepository = $this->getMock('Magento\Rma\Model\RmaRepository', ['get'], [], '', false);
-        $this->labelService = $this->getMock(
-            'Magento\Rma\Model\Shipping\LabelService',
-            ['addTrack', 'removeTrack'],
+        $this->converter = $this->getMock(
+            'Magento\Rma\Model\Rma\Converter',
+            ['getPreparedModelData', 'createNewRmaModel', 'getModel'],
             [],
             '',
             false
@@ -41,73 +35,75 @@ class RmaWriteTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->rmaService = $this->objectManagerHelper->getObject(
             'Magento\Rma\Service\V1\RmaWrite',
-            [
-                'rmaRepository' => $this->rmaRepository,
-                'labelService' => $this->labelService
-            ]
+            ['converter' => $this->converter]
         );
     }
 
     /**
-     * @dataProvider addTrackDataProvider
+     * @dataProvider createDataProvider
      */
-    public function testAddTrack($id, $number, $carrier, $title, $isAdmin, $expected)
+    public function testCreate($preparedRmaData, $expected)
     {
-        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['getId'], [], '', false);
-        $rmaModel->expects($this->any())
-            ->method('getId')
-            ->willReturn($id);
-        $this->rmaRepository->expects($this->once())
-            ->method('get')
+        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['saveRma'], [], '', false);
+        $rmaDataObject = $this->getMock('Magento\Rma\Service\V1\Data\Rma', [], [], '', false);
+        $this->converter->expects($this->once())
+            ->method('getPreparedModelData')
+            ->with($rmaDataObject)
+            ->willReturn($preparedRmaData);
+        $this->converter->expects($this->once())
+            ->method('createNewRmaModel')
+            ->with($rmaDataObject, $preparedRmaData)
             ->willReturn($rmaModel);
-        $this->labelService->expects($this->any())
-            ->method('addTrack')
+        $rmaModel->expects($this->once())
+            ->method('saveRma')
+            ->with($preparedRmaData)
             ->willReturn($expected);
-        $this->assertEquals($expected, $this->rmaService->addTrack($id, $number, $carrier, $title, $isAdmin));
+
+        $this->assertEquals($expected, $this->rmaService->create($rmaDataObject));
     }
 
     /**
      * @return array
      */
-    public function addTrackDataProvider()
+    public function createDataProvider()
     {
         return [
-            [1, '123qwer', '', '', null, true],
-            [1, '123qwer', 'some_carrier', '', null, true],
-            [1, '123qwer', 'some_carrier', '', 3, true],
-            [1, '123qwer', '', 'Some Title', null, true],
-            [1, '123qwer', 'some_carrier', 'Some Title', null, true],
-            [1, '123qwer', 'some_carrier', 'Some Title', 3, true],
-            [0, '123qwer', 'some_carrier', 'Some Title', 3, false],
+            [['entity_id' => 1], true],
+            [['entity_id' => 1], false]
         ];
     }
 
     /**
-     * @dataProvider removeTrackByIdDataProvider
+     * @dataProvider updateDataProvider
      */
-    public function testRemoveTrackById($id, $trackId, $expected)
+    public function testUpdate($id, $preparedRmaData, $expected)
     {
-        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['getId'], [], '', false);
-        $rmaModel->expects($this->any())
-            ->method('getId')
-            ->willReturn($id);
-        $this->rmaRepository->expects($this->once())
-            ->method('get')
+        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['saveRma'], [], '', false);
+        $rmaDataObject = $this->getMock('Magento\Rma\Service\V1\Data\Rma', [], [], '', false);
+        $this->converter->expects($this->once())
+            ->method('getPreparedModelData')
+            ->with($rmaDataObject)
+            ->willReturn($preparedRmaData);
+        $this->converter->expects($this->once())
+            ->method('getModel')
+            ->with($id, $preparedRmaData)
             ->willReturn($rmaModel);
-        $this->labelService->expects($this->any())
-            ->method('removeTrack')
+        $rmaModel->expects($this->once())
+            ->method('saveRma')
+            ->with($preparedRmaData)
             ->willReturn($expected);
-        $this->assertEquals($expected, $this->rmaService->removeTrackById($id, $trackId));
+
+        $this->assertEquals($expected, $this->rmaService->update($id, $rmaDataObject));
     }
 
     /**
      * @return array
      */
-    public function removeTrackByIdDataProvider()
+    public function updateDataProvider()
     {
         return [
-            [1, 1, true],
-            [0, 1, false],
+            [1, ['entity_id' => 1], true],
+            [1, ['entity_id' => 1], false]
         ];
     }
 }
