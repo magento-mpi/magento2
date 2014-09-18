@@ -65,7 +65,7 @@ class ContentTypeFactory
         $contentRender = $this->objectManager->get($this->types[$type]);
         if (!$contentRender instanceof ContentTypeInterface) {
             throw new \InvalidArgumentException(
-                sprintf('"%s" must implement the interface ContentTypeInterface.', $contentRender)
+                sprintf('"%s" must implement the interface ContentTypeInterface.', $this->types[$type])
             );
         }
 

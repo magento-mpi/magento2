@@ -7,6 +7,9 @@
  */
 namespace Magento\Ui\ContentType;
 
+/**
+ * Class ContentTypeFactoryTest
+ */
 class ContentTypeFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -36,7 +39,23 @@ class ContentTypeFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testGetException()
+    public function testGetTypeException()
+    {
+        $objectManagerMock = $this->getMock(
+            'Magento\Framework\ObjectManager',
+            ['get', 'create', 'configure'],
+            [],
+            '',
+            false
+        );
+        $this->contentTypeFactory = new ContentTypeFactory($objectManagerMock);
+        $this->contentTypeFactory->get('bad_type');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetInstanceException()
     {
         $objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager',
@@ -47,9 +66,12 @@ class ContentTypeFactoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->contentTypeFactory = new ContentTypeFactory($objectManagerMock);
         $objectManagerMock->expects($this->once())->method('get')->willReturnSelf();
-        $this->contentTypeFactory->get('test_exception');
+        $this->contentTypeFactory->get();
     }
 
+    /**
+     * @return array
+     */
     public function getDataProvider()
     {
         $htmlMock = $this->getMock('Magento\Ui\ContentType\Html', [], [], '', false);
@@ -58,8 +80,7 @@ class ContentTypeFactoryTest extends \PHPUnit_Framework_TestCase
         return [
             ['html', $htmlMock, 'Magento\Ui\ContentType\Html'],
             ['json', $jsonMock, 'Magento\Ui\ContentType\Json'],
-            ['xml', $xmlMock, 'Magento\Ui\ContentType\Xml'],
-            ['default', $htmlMock, 'Magento\Ui\ContentType\Html']
+            ['xml', $xmlMock, 'Magento\Ui\ContentType\Xml']
         ];
     }
 }

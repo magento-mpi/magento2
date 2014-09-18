@@ -10,7 +10,7 @@ define([
     'use strict';
 
     /**
-     * Extends configuration that will be retrived from the data provider
+     * Extends configuration that will be retrieved from the data provider
      * with configuration that is stored in a 'baseConfig' object.
      * @param {Object} provider - DataProvider instance.
      * @param {Object} baseConfig - Basic configuration.

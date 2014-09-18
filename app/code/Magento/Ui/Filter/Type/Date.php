@@ -47,8 +47,8 @@ class Date extends View
      * Constructor
      *
      * @param FilterPool $filterPool
-     * @param Context $renderContext
      * @param TemplateContext $context
+     * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configurationFactory
      * @param ConfigBuilderInterface $configurationBuilder
@@ -57,8 +57,8 @@ class Date extends View
      */
     public function __construct(
         FilterPool $filterPool,
-        Context $renderContext,
         TemplateContext $context,
+        Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configurationFactory,
         ConfigBuilderInterface $configurationBuilder,
@@ -68,7 +68,15 @@ class Date extends View
         $this->localeDate = $context->getLocaleDate();
         $this->scopeConfig = $context->getScopeConfig();
         $this->localeResolver = $localeResolver;
-        parent::__construct($filterPool, $renderContext, $context, $contentTypeFactory, $configurationFactory, $configurationBuilder, $data);
+        parent::__construct(
+            $filterPool,
+            $context,
+            $renderContext,
+            $contentTypeFactory,
+            $configurationFactory,
+            $configurationBuilder,
+            $data
+        );
     }
 
     /**

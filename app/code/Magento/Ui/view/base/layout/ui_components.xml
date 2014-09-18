@@ -14,13 +14,13 @@
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
             <argument name="client_root" xsi:type="string">mui/listing/ajax</argument>
         </arguments>
-        <block class="Magento\Framework\View\Element\Text\ListText" name="listing_head"/>
-        <block class="Magento\Framework\View\Element\Text\ListText" name="listing_before">
+        <container label="Listing Head" name="listing_head"/>
+        <container label="Listing Before" name="listing_before">
             <ui_component name="paging_small_top" component="paging" />
             <ui_component name="filter_base" component="filter_pool" />
             <ui_component name="massaction_top" component="control_massaction" />
             <ui_component name="sorting_base" component="sorting" />
-        </block>
+        </container>
     </block>
     <block class="Magento\Ui\Sorting\View" name="sorting">
         <arguments>

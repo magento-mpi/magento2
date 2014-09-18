@@ -70,16 +70,16 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * Constructor
      *
-     * @param Context $renderContext
      * @param TemplateContext $context
+     * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
      * @param array $data
      */
     public function __construct(
-        Context $renderContext,
         TemplateContext $context,
+        Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
@@ -143,7 +143,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * Render element
      *
-     * @param $elementName
+     * @param string $elementName
      * @param array $arguments
      * @return mixed|string
      */

@@ -8,9 +8,9 @@
 namespace Magento\Framework\View\Element\UiComponent;
 
 use Magento\Framework\Registry;
-use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\View\Element\UiComponentFactory;
 
 /**
  * Class Context
@@ -83,7 +83,7 @@ class Context extends Registry
     /**
      * Getting requested accept type
      *
-     * @return string
+     * @return void
      */
     protected function setAcceptType()
     {
@@ -111,6 +111,7 @@ class Context extends Registry
      * Set Ui Components Factory
      *
      * @param UiComponentFactory $render
+     * @return void
      */
     public function setRender(UiComponentFactory $render)
     {
@@ -131,6 +132,7 @@ class Context extends Registry
      * Set root layout
      *
      * @param LayoutInterface $layout
+     * @return void
      */
     public function setPageLayout(LayoutInterface $layout)
     {
@@ -151,6 +153,7 @@ class Context extends Registry
      * Set root view
      *
      * @param string $namespace
+     * @return void
      */
     public function setNamespace($namespace)
     {
@@ -192,7 +195,7 @@ class Context extends Registry
     /**
      * Get storage configuration
      *
-     * @return configStorageInterface
+     * @return ConfigStorageInterface
      */
     public function getStorage()
     {

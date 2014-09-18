@@ -36,7 +36,7 @@ interface ActionPoolInterface
     /**
      * Update button
      *
-     * @param $key
+     * @param string $key
      * @param array $data
      * @return void
      */

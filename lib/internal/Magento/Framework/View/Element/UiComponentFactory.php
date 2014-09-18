@@ -12,11 +12,10 @@ use Magento\Framework\Object;
 use Magento\Framework\View\LayoutFactory;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\Context as RenderContext;
 
 /**
  * Class UiComponentFactory
- * @package Magento\Framework\View\Element
  */
 class UiComponentFactory extends Object
 {
@@ -30,7 +29,7 @@ class UiComponentFactory extends Object
     /**
      * Render context
      *
-     * @var Context
+     * @var RenderContext
      */
     protected $renderContext;
 
@@ -54,12 +53,12 @@ class UiComponentFactory extends Object
     /**
      * Constructor
      *
-     * @param Context $renderContext
+     * @param RenderContext $renderContext
      * @param LayoutFactory $layoutFactory
      * @param array $data
      */
     public function __construct(
-        Context $renderContext,
+        RenderContext $renderContext,
         LayoutFactory $layoutFactory,
         array $data = []
     ) {
@@ -150,9 +149,17 @@ class UiComponentFactory extends Object
         if ($view instanceof UiComponentInterface) {
             $view->prepare();
         }
-        foreach ($view->getLayout()->getChildNames($view->getNameInLayout()) as $childName) {
-            $child = $view->getChildBlock($childName);
-            $this->prepare($child);
+        foreach ($view->getLayout()->getChildNames($view->getNameInLayout()) as $childAlias) {
+            $name = $view->getLayout()->getChildName($view->getNameInLayout(), $childAlias);
+            if ($view->getLayout()->isContainer($name)) {
+                foreach ($view->getLayout()->getChildNames($name) as $childName) {
+                    $child = $view->getLayout()->getBlock($childName);
+                    $this->prepare($child);
+                }
+            } else {
+                $child = $view->getChildBlock($childAlias);
+                $this->prepare($child);
+            }
         }
     }
 
@@ -169,7 +176,10 @@ class UiComponentFactory extends Object
         $view = $this->layout->getBlock($uiElementName);
         if (!$view instanceof UiComponentInterface) {
             throw new \InvalidArgumentException(
-                sprintf('UI Element "%s" must implement \Magento\Framework\View\Element\UiComponentInterface', $uiElementName)
+                sprintf(
+                    'UI Element "%s" must implement \Magento\Framework\View\Element\UiComponentInterface',
+                    $uiElementName
+                )
             );
         }
         return $view;

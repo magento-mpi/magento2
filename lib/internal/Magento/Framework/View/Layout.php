@@ -851,12 +851,16 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param string $elementName
      * @return \Magento\Framework\View\Element\AbstractBlock|void
      * @throws \Magento\Framework\Exception
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _generateUiComponent($elementName)
     {
         list($type, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
         if ($type !== Element::TYPE_UI_COMPONENT) {
-            throw new \Magento\Framework\Exception("Unexpected element type specified for generating UI Component: {$type}.");
+            throw new \Magento\Framework\Exception(
+                "Unexpected element type specified for generating UI Component: {$type}."
+            );
         }
 
         $configPath = (string)$node->getAttribute('ifconfig');

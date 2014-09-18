@@ -7,28 +7,31 @@
  */
 namespace Magento\Ui\ContentType\Builders;
 
-class ConfigurationStorageBuilderTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class ConfigStorageJsonTest
+ */
+class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ConfigurationStorageBuilder
+     * @var ConfigStorageJson
      */
     protected $builder;
 
     public function testToJson()
     {
-        $this->builder = new ConfigurationStorageBuilder();
+        $this->builder = new ConfigStorageJson();
         $name = 'name';
         $data = [];
         $parentName = 'parentName';
         $result = [
             'config' => ['components' => [$name => $data], 'globalData' => ['globalData']],
+            'meta' => null,
             'name' => $name,
             'parent_name' => $parentName,
-            'meta' => null,
             'data' => null,
             'dump' => ['extenders' => []]
         ];
-//        $componentsMock = $this->getMock('Magento\Ui\Configuration', ['getData'], [], '', false);
+
         $rootComponentMock = $this->getMock(
             'Magento\Ui\Configuration',
             ['getName', 'getParentName', 'getData'],
@@ -41,7 +44,8 @@ class ConfigurationStorageBuilderTest extends \PHPUnit_Framework_TestCase
             ['getComponentsData', 'getGlobalData', 'getMeta', 'getData'],
             [],
             '',
-            false);
+            false
+        );
 
         $storageMock->expects($this->once())
             ->method('getComponentsData')
@@ -59,7 +63,7 @@ class ConfigurationStorageBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testToJsonNoParentName()
     {
-        $this->builder = new ConfigurationStorageBuilder();
+        $this->builder = new ConfigStorageJson();
         $data = [];
         $result = [
             'config' => ['components' => ['name' => $data], 'globalData' => ['globalData']],
@@ -73,7 +77,8 @@ class ConfigurationStorageBuilderTest extends \PHPUnit_Framework_TestCase
             ['getComponentsData', 'getGlobalData', 'getMeta', 'getData'],
             [],
             '',
-            false);
+            false
+        );
 
         $storageMock->expects($this->once())->method('getComponentsData')->will($this->returnValue($componentsMock));
         $componentsMock->expects($this->any())->method('getData')->willReturn($data);

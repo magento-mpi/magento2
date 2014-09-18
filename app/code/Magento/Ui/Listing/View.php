@@ -74,7 +74,12 @@ class View extends AbstractView
         $this->optionsFactory = $optionsFactory;
         $this->dataProviderRowPool = $dataProviderRowPool;
         parent::__construct(
-            $renderContext, $context, $contentTypeFactory, $configurationFactory, $configurationBuilder, $data
+            $context,
+            $renderContext,
+            $contentTypeFactory,
+            $configurationFactory,
+            $configurationBuilder,
+            $data
         );
     }
 

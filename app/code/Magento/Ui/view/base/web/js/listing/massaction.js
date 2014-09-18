@@ -211,7 +211,7 @@ define([
         },
 
         /**
-         * Retrives all id's from available records.
+         * Retrieve all id's from available records.
          * @param {Boolean} [exclude] - Whether to exclude not selected ids' from result.
          * @returns {Array} An array of ids'.
          */

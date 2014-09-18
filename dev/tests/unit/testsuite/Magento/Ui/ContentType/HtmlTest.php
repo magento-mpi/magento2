@@ -7,6 +7,9 @@
  */
 namespace Magento\Ui\ContentType;
 
+/**
+ * Class HtmlTest
+ */
 class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -15,17 +18,17 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     protected $html;
 
     /**
-     * @var \Magento\Framework\View\FileSystem| \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystemMock;
 
     /**
-     * @var \Magento\Framework\View\TemplateEnginePool| \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\TemplateEnginePool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $templateEnginePoolMock;
 
     /**
-     * @var \Magento\Ui\ViewInterface| \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Element\UiComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $viewInterfaceMock;
 
@@ -36,15 +39,19 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             ['getTemplateFileName'],
             [],
             '',
-            false);
+            false
+        );
         $this->templateEnginePoolMock = $this->getMock(
             'Magento\Framework\View\TemplateEnginePool',
             ['get'],
             [],
             '',
-            false);
-        $this->html = new Html($this->filesystemMock , $this->templateEnginePoolMock);
-        $this->viewInterfaceMock = $this->getMockForAbstractClass('Magento\Ui\ViewInterface');
+            false
+        );
+        $this->html = new Html($this->filesystemMock, $this->templateEnginePoolMock);
+        $this->viewInterfaceMock = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Element\UiComponentInterface'
+        );
     }
 
     public function testRender()
@@ -52,7 +59,9 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $template = 'test_template';
         $result = 'result';
         $path = 'path';
-        $this->viewInterfaceMock = $this->getMockForAbstractClass('Magento\Ui\ViewInterface');
+        $this->viewInterfaceMock = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Element\UiComponentInterface'
+        );
         $templateEngineMock = $this->getMockForAbstractClass('Magento\Framework\View\TemplateEngineInterface');
 
         $this->templateEnginePoolMock->expects($this->once())

@@ -35,6 +35,7 @@ class Actions implements RowInterface
      * Constructor
      *
      * @param UrlBuilder $actionUrlBuilder
+     * @param UrlInterface $urlBuilder
      */
     public function __construct(UrlBuilder $actionUrlBuilder, UrlInterface $urlBuilder)
     {

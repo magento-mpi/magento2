@@ -187,7 +187,7 @@ class Bootstrap
                 $response = $application->launch();
                 $response->sendResponse();
                 \Magento\Framework\Profiler::stop('magento');
-            } catch (\Exception $e) {echo $e;dd();
+            } catch (\Exception $e) {
                 \Magento\Framework\Profiler::stop('magento');
                 if (!$application->catchException($this, $e)) {
                     throw $e;
