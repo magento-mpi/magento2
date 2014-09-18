@@ -9,14 +9,13 @@
 namespace Magento\GiftCard\Test\TestCase;
 
 use Magento\Checkout\Test\TestCase\DeleteProductsFromShoppingCartTest;
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 
 /**
  * Class DeleteGiftCardFromShoppingCartTest
  * Test delete GiftCard from shopping cart
  *
  * Preconditions
- * 1. Test GiftCard product are created
+ * 1. Test GiftCard product is created
  *
  * Steps:
  * 1. Add product to Shopping Cart

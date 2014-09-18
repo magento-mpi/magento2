@@ -22,7 +22,7 @@ class CartEmpty extends Block
      *
      * @var string
     */
-    protected $linkToMainPage = './/a[.="here"]';
+    protected $linkToMainPage = './/a';
 
     /**
      * Get test for empty cart

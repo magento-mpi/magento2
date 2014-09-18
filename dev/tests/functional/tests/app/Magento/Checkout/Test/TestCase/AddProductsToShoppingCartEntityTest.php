@@ -8,6 +8,7 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
@@ -69,7 +70,7 @@ class AddProductsToShoppingCartEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $cartPage
-     * @return array
+     * @return void
      */
     public function __prepare(
         Browser $browser,
@@ -92,13 +93,12 @@ class AddProductsToShoppingCartEntityTest extends Injectable
      */
     public function test($productsData, array $cart)
     {
+        // Preconditions
         /** @var CatalogProductSimple[] $products */
         $products = $this->prepareProducts($productsData);
 
-        foreach ($products as $product) {
-            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->addToCart($product);
-        }
+        // Steps
+        $this->addToCart($products);
 
         $cart['data']['items'] = ['products' => $products];
         return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
@@ -123,6 +123,21 @@ class AddProductsToShoppingCartEntityTest extends Injectable
         }
 
         return $products;
+    }
+
+    /**
+     * Add products to cart
+     *
+     * @param array $products
+     * @return void
+     */
+    protected function addToCart(array $products)
+    {
+        $addToCartStep = ObjectManager::getInstance()->create(
+            'Magento\Checkout\Test\TestStep\AddProductsToTheCartStep',
+            ['products' => $products]
+        );
+        $addToCartStep->run();
     }
 
     /**

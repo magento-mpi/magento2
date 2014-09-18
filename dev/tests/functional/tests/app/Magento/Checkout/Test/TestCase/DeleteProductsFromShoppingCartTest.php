@@ -8,6 +8,7 @@
  
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Magento\Checkout\Test\Page\CheckoutCart;
@@ -68,7 +69,7 @@ class DeleteProductsFromShoppingCartTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $cartPage
-     * @return array
+     * @return void
      */
     public function __prepare(
         Browser $browser,
@@ -90,17 +91,12 @@ class DeleteProductsFromShoppingCartTest extends Injectable
      */
     public function test($productsData)
     {
-        /** @var CatalogProductSimple[] $products */
+        // Preconditions
         $products = $this->prepareProducts($productsData);
 
-        foreach ($products as $product) {
-            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->addToCart($product);
-        }
-
-        foreach ($products as $product) {
-            $this->cartPage->getCartBlock()->getCartItem($product)->removeItem();
-        }
+        // Steps
+        $this->addToCart($products);
+        $this->removeProducts($products);
     }
 
     /**
@@ -125,13 +121,30 @@ class DeleteProductsFromShoppingCartTest extends Injectable
     }
 
     /**
-     * Clear shopping cart after test
+     * Add products to cart
      *
+     * @param array $products
      * @return void
      */
-    protected function tearDown()
+    protected function addToCart(array $products)
     {
-        $this->cartPage->open();
-        $this->cartPage->getCartBlock()->clearShoppingCart();
+        $addToCartStep = ObjectManager::getInstance()->create(
+            'Magento\Checkout\Test\TestStep\AddProductsToTheCartStep',
+            ['products' => $products]
+        );
+        $addToCartStep->run();
+    }
+
+    /**
+     * Remove products form cart
+     *
+     * @param array $products
+     * @return void
+     */
+    protected function removeProducts(array $products)
+    {
+        foreach ($products as $product) {
+            $this->cartPage->getCartBlock()->getCartItem($product)->removeItem();
+        }
     }
 }
