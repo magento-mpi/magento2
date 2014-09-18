@@ -185,14 +185,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_importFactory = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
-     */
-    protected $_storeManager = null;
-
-    /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
+
+    /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -212,6 +212,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -229,9 +230,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_cart = $cart;
         $this->_products = $products;
         $this->_catalogConfig = $catalogConfig;
@@ -247,7 +249,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->stockStatusService = $stockStatusService;
         $this->_productFactory = $productFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
-        $this->_storeManager = $storeManager;
         $this->messageManager = $messageManager;
     }
 
@@ -461,13 +462,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                $this->_storeManager->getStore()->formatPrice(
-                                    $this->_storeManager->getStore()->convertPrice(
-                                        $this->_catalogData->getTaxPrice(
-                                            $itemProduct,
-                                            $itemProduct->getFinalPrice(),
-                                            true
-                                        )
+                                $this->priceCurrency->convertAndFormat(
+                                    $this->_catalogData->getTaxPrice(
+                                        $itemProduct,
+                                        $itemProduct->getFinalPrice(),
+                                        true
                                     )
                                 )
                             );

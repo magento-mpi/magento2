@@ -16,6 +16,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Catalog\Pricing\Price\CustomOptionPriceInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Class PriceOptions
@@ -36,19 +37,27 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     protected $storeManager;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param PriceModifierInterface $modifier
      * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
         PriceModifierInterface $modifier,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->priceModifier = $modifier;
         $this->storeManager = $storeManager;
         parent::__construct($saleableItem, $quantity, $calculator);
@@ -248,9 +257,9 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             return 0;
         }
 
-        $price = $this->storeManager->getStore()->convertPrice($price);
+        $price = $this->priceCurrency->convert($price);
         if ($round) {
-            $price = $this->storeManager->getStore()->roundPrice($price);
+            $price = $this->priceCurrency->round($price);
         }
 
         return $price;
