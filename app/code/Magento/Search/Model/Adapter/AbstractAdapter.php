@@ -32,7 +32,7 @@ abstract class AbstractAdapter
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -162,7 +162,7 @@ abstract class AbstractAdapter
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\CacheInterface $cache
      */
     public function __construct(
@@ -170,7 +170,7 @@ abstract class AbstractAdapter
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Framework\Logger $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\CacheInterface $cache
     ) {
         $this->_customerSession = $customerSession;

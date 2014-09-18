@@ -7,12 +7,9 @@
  */
 namespace Magento\Translation\Model\Resource;
 
-class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implements \Magento\Framework\Translate\ResourceInterface
+class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implements
+    \Magento\Framework\Translate\ResourceInterface
 {
-    /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
 
     /**
      * @var \Magento\Framework\App\ScopeResolverInterface
@@ -26,17 +23,14 @@ class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implemen
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param null|string $scope
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\App\State $appState,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         $scope = null
     ) {
-        $this->_appState = $appState;
         $this->scopeResolver = $scopeResolver;
         $this->scope = $scope;
         parent::__construct($resource);
@@ -61,10 +55,6 @@ class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implemen
      */
     public function getTranslationArray($storeId = null, $locale = null)
     {
-        if (!$this->_appState->isInstalled()) {
-            return array();
-        }
-
         if (is_null($storeId)) {
             $storeId = $this->getStoreId();
         }
@@ -94,10 +84,6 @@ class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implemen
      */
     public function getTranslationArrayByStrings(array $strings, $storeId = null)
     {
-        if (!$this->_appState->isInstalled()) {
-            return array();
-        }
-
         if (is_null($storeId)) {
             $storeId = $this->getStoreId();
         }

@@ -13,4 +13,8 @@
         <area>adminhtml</area>
         <class>Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport</class>
     </customerWishlistReport>
+    <searchResult>
+        <mca>wishlist/search/results</mca>
+        <class>Magento\MultipleWishlist\Test\Page\SearchResult</class>
+    </searchResult>
 </page>

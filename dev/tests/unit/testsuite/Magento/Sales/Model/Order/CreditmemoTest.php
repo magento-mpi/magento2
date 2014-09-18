@@ -51,7 +51,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
                     false
                 ),
             'calculatorFactory' => $this->getMock('Magento\Framework\Math\CalculatorFactory', [], [], '', false),
-            'storeManager' => $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false),
+            'storeManager' => $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false),
             'commentFactory' => $this->getMock(
                     'Magento\Sales\Model\Order\Creditmemo\CommentFactory',
                     [],

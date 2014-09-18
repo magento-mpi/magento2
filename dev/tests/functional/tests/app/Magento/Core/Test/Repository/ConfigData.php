@@ -193,6 +193,17 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['flatrate'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/flatrate/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ]
+            ]
+        ];
+
         // Payments settings
         $this->_data['cashondelivery'] = [
             'section' =>

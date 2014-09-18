@@ -29,7 +29,7 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
         )->getSession()->setAffectedItems(
             array(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Store\Model\StoreManagerInterface'
+                    'Magento\Framework\StoreManagerInterface'
                 )->getStore()->getId() => array(
                     $item
                 )

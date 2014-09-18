@@ -19,5 +19,10 @@
             <locator>[id="page:main-container"]</locator>
             <strategy>css selector</strategy>
         </customerCustomAttributesForm>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
     </blocks>
 </page>
