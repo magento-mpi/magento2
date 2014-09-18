@@ -24,7 +24,7 @@ class Price extends Block
      */
     protected $mapTypePrices = [
         'price' => [
-            'selector' => '.price .price'
+            'selector' => '.price-container .price'
         ],
         'old_price' => [
             'selector' => '.old-price .price'
