@@ -117,8 +117,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllAttributeMetadata()
     {
-        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
