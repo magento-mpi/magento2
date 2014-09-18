@@ -9,10 +9,15 @@
 -->
 <tabs>
     <invoices>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <class>Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Invoices</class>
         <selector>#sales_order_view_tabs_order_invoices</selector>
         <strategy>css selector</strategy>
     </invoices>
+    <shipments>
+        <class>Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Shipments</class>
+        <selector>#sales_order_view_tabs_order_shipments</selector>
+        <strategy>css selector</strategy>
+    </shipments>
     <creditmemos>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#sales_order_view_tabs_order_creditmemos</selector>

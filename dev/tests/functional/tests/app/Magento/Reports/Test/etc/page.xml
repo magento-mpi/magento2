@@ -48,11 +48,6 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\OrderedProductsReport</class>
     </orderedProductsReport>
-    <bestsellers>
-        <mca>reports/report_sales/bestsellers</mca>
-        <area>adminhtml</area>
-        <class>Magento\Reports\Test\Page\Adminhtml\Bestsellers</class>
-    </bestsellers>
     <statistics>
         <mca>reports/report_statistics</mca>
         <area>adminhtml</area>
@@ -63,4 +58,9 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\SalesCouponReportView</class>
     </salesCouponReportView>
+    <customerTotalsReport>
+        <mca>reports/report_customer/totals</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\OrderTotalReport</class>
+    </customerTotalsReport>
 </page>
