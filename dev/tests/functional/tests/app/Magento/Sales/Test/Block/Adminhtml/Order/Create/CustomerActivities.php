@@ -9,6 +9,10 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
 use Mtf\Block\Block;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ShoppingCartItems;
 
 /**
  * Class CustomerActivities
@@ -21,7 +25,7 @@ class CustomerActivities extends Block
      *
      * @var string
      */
-    protected $updateChanges = '.action-.scalable';
+    protected $updateChanges = '.actions .action-.scalable';
 
     /**
      * Order sidebar reorder css selector
@@ -45,9 +49,23 @@ class CustomerActivities extends Block
     protected $recentlyComparedSidebar = '#order-sidebar_pcompared';
 
     /**
+     * Shopping cart sidebar selector
+     *
+     * @var string
+     */
+    protected $shoppingCartSidebar = '#order-sidebar_cart';
+
+    /**
+     * Recently Viewed Products sidebar selector
+     *
+     * @var string
+     */
+    protected $recentlyViewedSidebar = '#order-sidebar_pviewed';
+
+    /**
      * Get last ordered items block
      *
-     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems
+     * @return LastOrderedItems
      */
     public function getLastOrderedItemsBlock()
     {
@@ -60,7 +78,7 @@ class CustomerActivities extends Block
     /**
      * Get products in comparison block
      *
-     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison
+     * @return ProductsInComparison
      */
     public function getProductsInComparisonBlock()
     {
@@ -73,7 +91,7 @@ class CustomerActivities extends Block
     /**
      * Get products in comparison block
      *
-     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts
+     * @return RecentlyComparedProducts
      */
     public function getRecentlyComparedProductsBlock()
     {
@@ -84,12 +102,26 @@ class CustomerActivities extends Block
     }
 
     /**
+     * Get shopping Cart items block
+     *
+     * @return ShoppingCartItems
+     */
+    public function getShoppingCartItemsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ShoppingCartItems',
+            ['element' => $this->_rootElement->find($this->shoppingCartSidebar)]
+        );
+    }
+
+    /**
      * Click 'Update Changes' button
      *
      * @return void
      */
     public function updateChanges()
     {
+        $this->_rootElement->find($this->recentlyViewedSidebar)->click();
         $this->_rootElement->find($this->updateChanges)->click();
     }
 }

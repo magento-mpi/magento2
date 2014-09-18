@@ -6,43 +6,50 @@
  * @license     {license_link}
  */
 
-namespace Magento\Wishlist\Test\TestCase;
+namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 
 /**
- * Test creation for DeleteProductFromCustomerWishlistOnBackend
+ * Create order from customer page(cartActions)
  *
  * Test Flow:
  *
  * Preconditions:
  * 1. Create customer
- * 2. Create product
- * 3. Login to frontend as a customer
- * 4. Add product to Wish List
+ * 2. Create Product
+ * 3. Add product to cart
  *
  * Steps:
- * 1. Go to Backend
- * 2. Go to Customers > All Customers
- * 3. Open the customer
- * 4. Open wishlist tab
- * 5. Click 'Delete'
- * 6. Perform assertions
+ * 1. Open Customers ->All Customers
+ * 2. Search and open customer from preconditions
+ * 3. Click Create Order
+ * 4. Check product in Shopping Cart section
+ * 5. Click Update Changes
+ * 6. Perform all assertions
  *
- * @group Wishlist_(CS)
- * @ZephyrId MAGETWO-27813
+ * @group Order_Management_(CS)
+ * @ZephyrId MAGETWO-28540
  */
-class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
+class CreateOrderFromCustomerPageEntityTest extends Injectable
 {
+    /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
     /**
      * Cms index page
      *
@@ -58,32 +65,46 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
     protected $customerAccountLogin;
 
     /**
-     * Product view page
-     *
-     * @var CatalogProductView
-     */
-    protected $catalogProductView;
-
-    /**
-     * Page CustomerAccountLogout
+     * Customer logout page
      *
      * @var CustomerAccountLogout
      */
     protected $customerAccountLogout;
 
     /**
-     * Page of all customer grid
+     * Browser
+     *
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
+     * Catalog product page
+     *
+     * @var CatalogProductView
+     */
+    protected $catalogProductView;
+
+    /**
+     * Customer index page
      *
      * @var CustomerIndex
      */
     protected $customerIndex;
 
     /**
-     * Customer edit page
+     * Customer index edit page
      *
      * @var CustomerIndexEdit
      */
     protected $customerIndexEdit;
+
+    /**
+     * Order create index page
+     *
+     * @var OrderCreateIndex
+     */
+    protected $orderCreateIndex;
 
     /**
      * Prepare data
@@ -107,6 +128,9 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
      * @param CatalogProductView $catalogProductView
      * @param CustomerIndex $customerIndex
      * @param CustomerIndexEdit $customerIndexEdit
+     * @param FixtureFactory $fixtureFactory
+     * @param Browser $browser
+     * @param OrderCreateIndex $orderCreateIndex
      * @return void
      */
     public function __inject(
@@ -115,7 +139,10 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         CustomerAccountLogout $customerAccountLogout,
         CatalogProductView $catalogProductView,
         CustomerIndex $customerIndex,
-        CustomerIndexEdit $customerIndexEdit
+        CustomerIndexEdit $customerIndexEdit,
+        FixtureFactory $fixtureFactory,
+        Browser $browser,
+        OrderCreateIndex $orderCreateIndex
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
@@ -123,52 +150,38 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         $this->catalogProductView = $catalogProductView;
         $this->customerIndex = $customerIndex;
         $this->customerIndexEdit = $customerIndexEdit;
+        $this->fixtureFactory = $fixtureFactory;
+        $this->browser = $browser;
+        $this->orderCreateIndex = $orderCreateIndex;
     }
 
     /**
-     * Delete product from customer wishlist on backend
+     * Create order from customer page(cartActions)
      *
-     * @param Browser $browser
      * @param CustomerInjectable $customer
-     * @param FixtureFactory $fixtureFactory
      * @param string $product
      * @return array
      */
-    public function test(Browser $browser, CustomerInjectable $customer, FixtureFactory $fixtureFactory, $product)
+    public function test(CustomerInjectable $customer, $product)
     {
-        $this->markTestIncomplete('MAGETWO-27949');
         //Preconditions
         list($fixture, $dataSet) = explode('::', $product);
-        $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+        $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
         $product->persist();
-        $this->loginCustomer($customer);
-        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->addToWishlist();
+        $this->cmsIndex->open()->getLinksBlock()->openLink("Log In");
+        $this->customerAccountLogin->getLoginBlock()->login($customer);
+        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $this->catalogProductView->getViewBlock()->addToCart($product);
 
         //Steps
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
-        $customerForm = $this->customerIndexEdit->getCustomerForm();
-        $customerForm->openTab('wishlist');
-        $filter = ['product_name' => $product->getName()];
-        $customerForm->getTabElement('wishlist')->getSearchGridBlock()->searchAndDelete($filter);
+        $this->customerIndexEdit->getPageActionsBlock()->createOrder();
+        $this->orderCreateIndex->getCustomerActivitiesBlock()->getShoppingCartItemsBlock()
+            ->addToOrderByName($product->getName());
+        $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();
 
-        return ['product' => $product];
-    }
-
-    /**
-     * Login customer
-     *
-     * @param CustomerInjectable $customer
-     * @return void
-     */
-    protected function loginCustomer(CustomerInjectable $customer)
-    {
-        $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink('Log In');
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        return ['entityData' => ['products' => [$product]]];
     }
 
     /**
