@@ -39,7 +39,7 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'title' => [
-            'selector' => '#cmsPageGrid_filter_title'
+            'selector' => '#title'
         ],
     ];
 
