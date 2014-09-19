@@ -50,7 +50,7 @@ class AssertTaxReportNotInGrid extends AbstractConstraint
 
         \PHPUnit_Framework_Assert::assertFalse(
             $salesTaxReport->getGridBlock()->isRowVisible($filter, false),
-            "Tax Report is visible."
+            "Tax Report is visible in grid on tax report page."
         );
     }
 
@@ -61,6 +61,6 @@ class AssertTaxReportNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return "Tax Report is absent on tax report page.";
+        return "Sales info in report: Tax, Rate, Orders, Tax Amount is absent in grid on tax report page.";
     }
 }

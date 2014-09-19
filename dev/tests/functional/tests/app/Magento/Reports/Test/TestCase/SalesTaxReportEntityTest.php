@@ -9,7 +9,6 @@
 namespace Magento\Reports\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Tax\Test\Fixture\TaxRule;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
 use Magento\Sales\Test\Fixture\OrderInjectable;
@@ -17,7 +16,6 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Reports\Test\Page\Adminhtml\Statistics;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
 use Magento\Reports\Test\Page\Adminhtml\SalesTaxReport;
 
@@ -35,7 +33,7 @@ use Magento\Reports\Test\Page\Adminhtml\SalesTaxReport;
  *
  * Steps:
  * 1. Login to backend
- * 2. Go to Reports> Sales > Tax
+ * 2. Go to Reports > Sales > Tax
  * 3. Fill data from dataSet
  * 4. Click "Show report"
  * 5. Perform all assertions
@@ -132,32 +130,25 @@ class SalesTaxReportEntityTest extends Injectable
     }
 
     /**
-     * @param CustomerInjectable $customer
-     * @param string $order
+     * Tax report
+     *
+     * @param OrderInjectable $order
      * @param TaxRule $taxRule
      * @param array $report
-     * @param FixtureFactory $fixtureFactory
      * @param string $orderStatus
      * @param string $invoice
-     * @return array
+     * @return void
      */
     public function test(
-        CustomerInjectable $customer,
-        $order,
+        OrderInjectable $order,
         TaxRule $taxRule,
         array $report,
-        FixtureFactory $fixtureFactory,
         $orderStatus,
         $invoice
     ) {
         // Precondition
-        $customer->persist();
         $taxRule->persist();
         $this->taxRule = $taxRule;
-        $order = $fixtureFactory->createByCode(
-            'orderInjectable',
-            ['dataSet' => $order, 'data' => ['customer_id' => ['customer' => $customer]]]
-        );
         $order->persist();
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
@@ -180,22 +171,22 @@ class SalesTaxReportEntityTest extends Injectable
         $this->salesTaxReport->open();
         $this->salesTaxReport->getFilterBlock()->viewsReport($report);
         $this->salesTaxReport->getActionBlock()->showReport();
-
-        return ['order' => $order, 'taxRule' => $taxRule];
     }
 
     /**
-     * Log out after test
+     * Delete Tax rule after test
      *
      * @return void
      */
     public function tearDown()
     {
-        $filters = [
-            'code' => $this->taxRule->getCode(),
-        ];
-        $this->taxRuleIndexPage->open();
-        $this->taxRuleIndexPage->getTaxRuleGrid()->searchAndOpen($filters);
-        $this->taxRuleNewPage->getFormPageActions()->delete();
+        if ($this->taxRule !== null) {
+            $filters = [
+                'code' => $this->taxRule->getCode(),
+            ];
+            $this->taxRuleIndexPage->open();
+            $this->taxRuleIndexPage->getTaxRuleGrid()->searchAndOpen($filters);
+            $this->taxRuleNewPage->getFormPageActions()->delete();
+        }
     }
 }
