@@ -8,6 +8,11 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceBlock name="body.class">
+        <action method="addBodyClass">
+            <argument name="class" xsi:type="string">page-product-downloadable</argument>
+        </action>
+    </referenceBlock>
     <referenceContainer name="product.info.type">
         <block class="Magento\Downloadable\Block\Catalog\Product\View\Type" name="product.info.downloadable" as="product_type_data" template="catalog/product/type.phtml">
             <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.downloadable.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>

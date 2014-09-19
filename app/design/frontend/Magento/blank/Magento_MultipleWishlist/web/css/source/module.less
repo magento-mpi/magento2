@@ -121,7 +121,7 @@
                 }
             }
             &-items {
-                &:extend(.reset-list all);
+                &:extend(.abstract-reset-list all);
                 &.active {
                 }
             }
@@ -175,14 +175,12 @@
 .responsive-smaller(@break) when (@break = @screen-m) {
     .block-wishlist-management {
         clear: both;
-        margin-top: -1px;
+        margin-top: -21px;
         .wishlist {
             // Select wish list
             &-select {
-                margin: 0 -@layout-width-xs-indent 10px;
-                .css(background, @sidebar-background);
+                margin: 0 -@layout-width-xs-indent 20px;
                 .wishlist-name {
-                    margin-top: -1px;
                     &:extend(.abstract-toggling-title-mobile all);
                     &-label {
                     }
@@ -191,6 +189,7 @@
                 }
                 &-items {
                     display: none;
+                    .css(background, @collapsible-nav-background);
                     border-bottom: @border-width-base solid @border-color-base;
                     padding: 15px 0;
                     &.active {
@@ -209,7 +208,7 @@
                             padding: @indent-xs-base 18px;
                             text-decoration: none;
                             &:hover {
-                                .css(background, @account-nav-background);
+                                .css(background, @collapsible-nav-item-hover);
                             }
                         }
                     }
@@ -300,7 +299,7 @@
     }
 
     .block-wishlist-management {
-        &:extend(.add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop all);
         margin-bottom: @indent-base;
         .wishlist {
             // Select wish list
