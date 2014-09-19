@@ -98,5 +98,5 @@ define([
         }
     });
 
-
+    return $.mage.rmaTrackInfo;
 });

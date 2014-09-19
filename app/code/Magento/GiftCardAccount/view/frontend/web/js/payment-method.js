@@ -38,5 +38,6 @@ define([
             });
         }
     });
-
+    
+    return $.mage.paymentMethod;
 });

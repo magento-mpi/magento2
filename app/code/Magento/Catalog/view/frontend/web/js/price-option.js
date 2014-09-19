@@ -227,4 +227,6 @@ define([
             }
         }
     });
+    
+    return $.mage.priceOption;
 });

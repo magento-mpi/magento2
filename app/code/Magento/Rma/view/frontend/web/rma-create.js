@@ -366,5 +366,5 @@ define([
         }
     });
 
-
+    return $.mage.rmaCreate;
 });

@@ -434,4 +434,5 @@ define([
         }
     });
 
+    return $.mage.multipleWishlist;
 });

@@ -12,6 +12,7 @@ define([
     "jquery/template"
 ], function($){
     'use strict';
+
     $.widget('mage.groupedProduct', {
         /**
          * Create widget
@@ -185,4 +186,6 @@ define([
             this.element.find('.no-products-message').toggle(!showGrid);
         }
     });
+    
+    return $.mage.groupedProduct;
 });

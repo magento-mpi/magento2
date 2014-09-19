@@ -177,5 +177,6 @@ define([
             this._setOption('buttons', buttons);
         }
     });
-
+    
+    return $.vde.dialog;
 });

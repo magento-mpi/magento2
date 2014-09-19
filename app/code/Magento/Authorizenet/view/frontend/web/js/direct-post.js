@@ -131,5 +131,5 @@ define([
         }
     });
 
-
+    return $.mage.directpost;
 });

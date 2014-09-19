@@ -69,5 +69,6 @@ define([
                 });
         }
     });
-
+    
+    return $.mage.orderEditDialog;
 });

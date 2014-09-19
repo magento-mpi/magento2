@@ -94,5 +94,6 @@ define([
             return result;
         }
     });
-
+    
+    return $.mage.categoryTree;
 });

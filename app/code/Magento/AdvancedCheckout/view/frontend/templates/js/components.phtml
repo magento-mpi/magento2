@@ -6,19 +6,4 @@
  * @license     {license_link}
  */
 ?>
-<script type="text/javascript">
-    require([
-        "jquery",
-        "mage/mage"
-    ], function($){
-        "use strict";
-        /**
-         * Declaration of resources needed for defined components
-         */
-        $.mage.component({
-            orderBySkuFailure: 'Magento_AdvancedCheckout/js/order-by-sku-failure',
-            fileChooser: 'Magento_AdvancedCheckout/js/file-chooser'
-        });
-    });
-</script>
 <?php echo $this->getChildHtml() ?>

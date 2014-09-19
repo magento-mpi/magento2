@@ -73,5 +73,6 @@ define([
             $(this.options.shipping.copyBillingSelector).prop('checked', true);
         }
     });
-
+    
+    return $.mage.opcShippingInfo;
 });

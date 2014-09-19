@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-define(["jquery","jquery/ui"], function($){
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.checkoutBalance', {
         /**
          * Initialize store credit events
@@ -32,4 +36,6 @@ define(["jquery","jquery/ui"], function($){
             }, this));
         }
     });
+
+    return $.mage.checkoutBalance;
 });

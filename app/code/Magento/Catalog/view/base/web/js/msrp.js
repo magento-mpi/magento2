@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-define(["jquery","jquery/ui","mage/dropdown"], function($){
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/dropdown"
+], function($){
 
     $.widget('mage.addToCart', {
         options: {
@@ -75,4 +79,6 @@ define(["jquery","jquery/ui","mage/dropdown"], function($){
             $(this.options.cartForm).submit();
         }
     });
+    
+    return $.mage.addToCart;
 });
