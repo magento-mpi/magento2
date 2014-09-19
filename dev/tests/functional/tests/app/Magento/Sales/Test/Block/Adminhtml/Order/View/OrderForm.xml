@@ -19,7 +19,7 @@
         <strategy>css selector</strategy>
     </shipments>
     <creditmemos>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <class>Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\CreditMemos</class>
         <selector>#sales_order_view_tabs_order_creditmemos</selector>
         <strategy>css selector</strategy>
     </creditmemos>

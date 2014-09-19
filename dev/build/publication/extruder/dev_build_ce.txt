@@ -73,6 +73,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Reward
 ~dev/tests/functional/tests/app/Magento/Rma
 ~dev/tests/functional/tests/app/Magento/Sales
+~dev/tests/functional/tests/app/Magento/SalesArchive
 ~dev/tests/functional/tests/app/Magento/SalesRule
 ~dev/tests/functional/tests/app/Magento/Shipping
 ~dev/tests/functional/tests/app/Magento/TargetRule

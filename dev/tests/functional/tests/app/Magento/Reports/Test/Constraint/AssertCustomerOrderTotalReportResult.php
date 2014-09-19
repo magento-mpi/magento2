@@ -8,7 +8,6 @@
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
 
@@ -16,7 +15,7 @@ use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
  * Class AssertCustomerOrderTotalReportResult
  * Assert OrderTotalReport grid for all params
  */
-class AssertCustomerOrderTotalReportResult extends AbstractConstraint
+class AssertCustomerOrderTotalReportResult extends AbstractAssertCustomerOrderReportResult
 {
     /**
      * Constraint severeness
@@ -40,25 +39,7 @@ class AssertCustomerOrderTotalReportResult extends AbstractConstraint
         array $columns,
         array $report
     ) {
-        $format = '';
-        switch ($report['report_period']) {
-            case 'Day':
-                $format = 'M j, Y';
-                break;
-            case 'Month':
-                $format = 'j/Y';
-                break;
-            case 'Year':
-                $format = 'Y';
-                break;
-        }
-        $filter = [
-            'date' => date($format),
-            'customer' => $customer->getFirstname() . ' ' . $customer->getLastname(),
-            'orders' => $columns['orders'],
-            'average' => number_format($columns['average'], 2),
-            'total' => number_format($columns['total'], 2)
-        ];
+        $filter = $this->prepareFilter($customer, $columns, $report);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $customerTotalsReport->getGridBlock()->isRowVisible($filter),

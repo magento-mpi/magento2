@@ -63,4 +63,14 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\OrderTotalReport</class>
     </customerTotalsReport>
+    <abandonedCarts>
+        <mca>reports/report_shopcart/abandoned</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\AbandonedCarts</class>
+    </abandonedCarts>
+    <customerOrdersReport>
+        <mca>reports/report_customer/orders</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport</class>
+    </customerOrdersReport>
 </page>
