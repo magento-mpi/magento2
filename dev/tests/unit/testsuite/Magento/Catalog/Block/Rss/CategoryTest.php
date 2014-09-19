@@ -11,7 +11,7 @@ use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class CategoryTest
- * @package Magento\Catalog\Block\Rss
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {

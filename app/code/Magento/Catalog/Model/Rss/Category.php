@@ -46,8 +46,8 @@ class Category
 
     /**
      * @param \Magento\Catalog\Model\Category $category
-     * @param $storeId
-     * @return \Magento\Catalog\Model\Resource\Product\Collection
+     * @param int $storeId
+     * @return $this
      */
     public function getProductCollection(\Magento\Catalog\Model\Category $category, $storeId)
     {

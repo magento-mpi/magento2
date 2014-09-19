@@ -12,6 +12,7 @@ use \Magento\Framework\App\Rss\DataProviderInterface;
 
 /**
  * Wishlist RSS model
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Wishlist implements DataProviderInterface
 {
@@ -130,16 +131,11 @@ class Wishlist implements DataProviderInterface
                     continue;
                 }
 
-                $description = '<table><tr><td><a href="' . $productUrl . '"><img src="' . $this->imageHelper->init(
-                        $product,
-                        'thumbnail'
-                    )->resize(
-                            75,
-                            75
-                        ) .
-                    '" border="0" align="left" height="75" width="75"></a></td>' .
-                    '<td style="text-decoration:none;">' .
-                    $this->outputHelper->productAttribute(
+                $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
+                    . $this->imageHelper->init($product, 'thumbnail')->resize(75, 75)
+                    . '" border="0" align="left" height="75" width="75"></a></td>'
+                    . '<td style="text-decoration:none;">'
+                    . $this->outputHelper->productAttribute(
                         $product,
                         $product->getShortDescription(),
                         'short_description'
@@ -151,9 +147,8 @@ class Wishlist implements DataProviderInterface
                 $description .= '</p>';
 
                 if (trim($product->getDescription()) != '') {
-                    $description .= '<p>' . __(
-                            'Comment:'
-                        ) . ' ' . $this->outputHelper->productAttribute(
+                    $description .= '<p>' . __('Comment:') . ' '
+                        . $this->outputHelper->productAttribute(
                             $product,
                             $product->getDescription(),
                             'description'
@@ -220,7 +215,9 @@ class Wishlist implements DataProviderInterface
     {
         $wishlist = $this->wishlistHelper->getWishlist();
         $currentCustomer = $this->wishlistHelper->getCustomer();
-        if (!$wishlist->getVisibility() && $currentCustomer && ($wishlist->getCustomerId() != $currentCustomer->getId())) {
+        if (!$wishlist->getVisibility() && $currentCustomer
+            && ($wishlist->getCustomerId() != $currentCustomer->getId())
+        ) {
             $wishlist->unsetData();
         }
         return $wishlist;
@@ -232,7 +229,8 @@ class Wishlist implements DataProviderInterface
      * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product) {
+    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product)
+    {
         $price = '';
         /** @var \Magento\Framework\Pricing\Render $priceRender */
         $priceRender = $this->layout->getBlock('product.price.render.default');

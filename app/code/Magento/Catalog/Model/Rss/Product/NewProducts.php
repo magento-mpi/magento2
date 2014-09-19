@@ -45,7 +45,7 @@ class NewProducts
 
 
     /**
-     * @param $storeId
+     * @param int $storeId
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getProductsCollection($storeId)

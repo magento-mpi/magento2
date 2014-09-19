@@ -179,7 +179,10 @@ class OrderStatus implements DataProviderInterface
                 $description = '<p>' . __('Notified Date: %1', $this->localeDate->formatDate($result['created_at']))
                     . '<br/>'
                     . __('Comment: %1<br/>', $result['comment']) . '</p>';
-                $url = $this->urlBuilder->getUrl('sales/order/' . $urlAppend, array('order_id' => $this->order->getId()));
+                $url = $this->urlBuilder->getUrl(
+                    'sales/order/' . $urlAppend,
+                    array('order_id' => $this->order->getId())
+                );
                 $entries[] = array('title' => $title, 'link' => $url, 'description' => $description);
             }
         }

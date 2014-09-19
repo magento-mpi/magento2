@@ -231,7 +231,8 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
             $collection->addIdFilter($nodeIds)
                 ->addAttributeToSelect('url_key')
                 ->addAttributeToSelect('name')
-                ->addAttributeToSelect('is_anchor')->addAttributeToFilter('is_active',1)
+                ->addAttributeToSelect('is_anchor')
+                ->addAttributeToFilter('is_active', 1)
                 ->addAttributeToSort('name')
                 ->load();
 

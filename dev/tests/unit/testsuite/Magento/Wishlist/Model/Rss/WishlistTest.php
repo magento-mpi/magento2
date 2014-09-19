@@ -135,14 +135,6 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $locale = 'en_US';
         $productUrl = 'http://product.url/';
         $productName = 'Product name';
-        $expectedHeaders = [
-            'title' => $title,
-            'description' => $title,
-            'link' => $wishlistSharingUrl,
-            'charset' => 'UTF-8',
-            'language' => $locale
-        ];
-
 
         $this->wishlistHelperMock->expects($this->any())
             ->method('getWishlist')

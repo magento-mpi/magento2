@@ -64,7 +64,6 @@ class Wishlist
     }
 
     /**
-    /**
      * @param \Magento\Wishlist\Model\Rss\Wishlist $subject
      * @param \Closure $proceed
      * @return array
@@ -85,12 +84,13 @@ class Wishlist
             /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
             $customer = $this->customerAccountService->getCustomer($wishlist->getCustomerId());
         }
+        $customerName = $this->customerViewHelper->getCustomerName($customer);
         if ($this->wishlistHelper->isWishlistDefault($wishlist)
             && $wishlist->getName() == $this->wishlistHelper->getDefaultWishlistName()
         ) {
-            $title = __("%1's Wish List", $this->customerViewHelper->getCustomerName($customer));
+            $title = __("%1's Wish List", $customerName);
         } else {
-            $title = __("%1's Wish List (%2)", $this->customerViewHelper->getCustomerName($customer), $wishlist->getName());
+            $title = __("%1's Wish List (%2)", $customerName, $wishlist->getName());
         }
 
         $newUrl = $this->urlBuilder->getUrl(

@@ -110,7 +110,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
         );
 
         $currentDate = new \Magento\Framework\Stdlib\DateTime\Date();
-        foreach ($this->rssModel->getProductsCollection($this->getStoreId(),  $this->getCustomerGroupId()) as $item) {
+        foreach ($this->rssModel->getProductsCollection($this->getStoreId(), $this->getCustomerGroupId()) as $item) {
             /** @var $item \Magento\Catalog\Model\Product */
             $item->setAllowedInRss(true);
             $item->setAllowedPriceInRss(true);

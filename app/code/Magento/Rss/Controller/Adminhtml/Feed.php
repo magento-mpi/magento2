@@ -18,7 +18,7 @@ class Feed extends Authenticate
      */
     protected $rssManager;
 
-   /**
+    /**
      * @var \Magento\Rss\Model\RssFactory
      */
     protected $rssFactory;

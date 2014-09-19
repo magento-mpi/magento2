@@ -18,7 +18,7 @@ class Feed extends \Magento\Framework\App\Action\Action
      */
     protected $rssManager;
 
-   /**
+    /**
      * @var \Magento\Rss\Model\RssFactory
      */
     protected $rssFactory;

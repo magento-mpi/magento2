@@ -228,7 +228,10 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
             'label' => 'Coupons/Discounts',
             'link' => 'http://rss.magento.com/discount'
         );
-        $this->rssBuilderInterface->expects($this->any())->method('getUrl')->will($this->returnValue($feedData['link']));
+        $this->rssBuilderInterface->expects($this->any())
+            ->method('getUrl')
+            ->will($this->returnValue($feedData['link']));
+
         $this->scopeConfigInterface->expects($this->once())->method('isSetFlag')->will($this->returnValue(true));
         $this->assertEquals($feedData, $this->block->getFeeds());
     }
