@@ -123,17 +123,22 @@ class TrackReadTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getShippingLabelPdfDataProvider
+     *
+     * @param integer $id                 Rma model ID
+     * @param bool    $doesRmaModelExists Does Rma model exist
+     * @param string  $pdfData            Some test data
      */
-    public function testGetShippingLabelPdf($id, $hasRmaModelId, $pdfData)
+    public function testGetShippingLabelPdf($id, $doesRmaModelExists, $pdfData)
     {
         $this->rmaRepositoryMock->expects($this->once())->method('get')
             ->with($id)
             ->willReturn($this->rmaModelMock);
 
         $this->rmaModelMock->expects($this->once())->method('getId')
-            ->willReturn($hasRmaModelId);
+            ->willReturn($doesRmaModelExists);
 
-        $this->rmaLabelServiceMock->expects($this->exactly((int)$hasRmaModelId))->method('getShippingLabelByRmaPdf')
+        $this->rmaLabelServiceMock->expects($this->exactly((int)$doesRmaModelExists))
+            ->method('getShippingLabelByRmaPdf')
             ->with($this->rmaModelMock)
             ->willReturn($pdfData);
 

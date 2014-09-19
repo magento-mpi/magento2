@@ -73,6 +73,21 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     protected $searchResultsMock;
 
     /**
+     * @var \Magento\Rma\Model\Rma\PermissionChecker | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $permissionCheckerMock;
+
+    /**
+     * @var \Magento\Rma\Model\RmaRepository | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rmaRepositoryMock;
+
+    /**
+     * @var \Magento\Rma\Model\Rma | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rmaModelMock;
+
+    /**
      * Sets up the Mocks.
      * This method is called before a test is executed.
      */
@@ -122,7 +137,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
             'Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResultsBuilder'
         )
             ->disableOriginalConstructor()
-            ->setMethods(['setItems', 'setTotalCount', 'create'])
+            ->setMethods(['setItems', 'setTotalCount', 'setSearchCriteria', 'create'])
             ->getMock();
 
         $this->searchResultsMock = $this->getMockBuilder('Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResults')
@@ -130,14 +145,31 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
+        $this->rmaRepositoryMock = $this->getMockBuilder('Magento\Rma\Model\RmaRepository')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'get'])
+            ->getMock();
+
+        $this->permissionCheckerMock = $this->getMockBuilder('Magento\Rma\Model\Rma\PermissionChecker')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'checkRmaForCustomerContext', 'isCustomerContext'])
+            ->getMock();
+
+        $this->rmaModelMock = $this->getMockBuilder('Magento\Rma\Model\Rma')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'getId'])
+            ->getMock();
+
         $this->rmaServiceCommentReadMock = (new ObjectManagerHelper($this))->getObject(
             '\Magento\Rma\Service\V1\CommentRead',
             [
-                "historyRepository" => $this->historyRepositoryMock,
-                "historyMapper" => $this->historyMapperMock,
-                "criteriaBuilder" => $this->criteriaBuilderMock,
-                "filterBuilder" => $this->filterBuilderMock,
+                "historyRepository"    => $this->historyRepositoryMock,
+                "historyMapper"        => $this->historyMapperMock,
+                "criteriaBuilder"      => $this->criteriaBuilderMock,
+                "filterBuilder"        => $this->filterBuilderMock,
                 "searchResultsBuilder" => $this->searchResultsBuilderMock,
+                "repository"           => $this->rmaRepositoryMock,
+                "permissionChecker"    => $this->permissionCheckerMock,
             ]
         );
     }
@@ -145,33 +177,74 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for commentsList method
      *
+     * @dataProvider commentsListDataProvider
+     *
+     * @param int  $id
+     * @param bool $isCustomerContext
+     *
      * @return void
      */
-    public function testCommentsList()
+    public function testCommentsList($id, $isCustomerContext)
     {
-        $id = 1;
+        $this->permissionCheckerMock->expects($this->once())->method('checkRmaForCustomerContext');
+
+        $this->permissionCheckerMock
+            ->expects($this->once())
+            ->method('isCustomerContext')
+            ->willReturn($isCustomerContext);
+
+        $this->rmaModelMock->expects($this->once())->method('getId')
+            ->willReturn($id);
+
+        $this->rmaRepositoryMock->expects($this->once())->method('get')
+            ->with($id)
+            ->willReturn($this->rmaModelMock);
 
         $this->filterBuilderMock
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('setField')
             ->with($this->equalTo('rma_entity_id'))
-            ->willReturnSelf();
+            ->willReturn($this->filterBuilderMock);
 
         $this->filterBuilderMock
-            ->expects($this->once())
+            ->expects($this->at(1))
             ->method('setValue')
-            ->with($this->equalTo($id))
-            ->willReturnSelf();
+            ->with($id)
+            ->willReturn($this->filterBuilderMock);
 
         $this->filterBuilderMock
-            ->expects($this->once())
+            ->expects($this->at(2))
             ->method('create')
             ->will($this->returnValue($this->filterMock));
 
-        $this->criteriaBuilderMock
-            ->expects($this->once())
-            ->method('addFilter')
-            ->with($this->equalTo(['eq' => $this->filterMock]));
+        if ($isCustomerContext) {
+            $this->filterBuilderMock
+                ->expects($this->at(3))
+                ->method('setField')
+                ->with($this->equalTo('is_visible_on_front'))
+                ->willReturn($this->filterBuilderMock);
+
+            $this->filterBuilderMock
+                ->expects($this->at(4))
+                ->method('setValue')
+                ->with($id)
+                ->willReturn($this->filterBuilderMock);
+
+            $this->filterBuilderMock
+                ->expects($this->at(5))
+                ->method('create')
+                ->will($this->returnValue($this->filterMock));
+
+            $this->criteriaBuilderMock
+                ->expects($this->once())
+                ->method('addFilter')
+                ->with($this->equalTo([$this->filterMock, $this->filterMock]));
+        } else {
+            $this->criteriaBuilderMock
+                ->expects($this->once())
+                ->method('addFilter')
+                ->with($this->equalTo([$this->filterMock]));
+        }
 
         $this->criteriaBuilderMock
             ->expects($this->once())
@@ -204,6 +277,12 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
 
         $this->searchResultsBuilderMock
             ->expects($this->once())
+            ->method('setSearchCriteria')
+            ->with($this->equalTo($this->searchCriteriaMock))
+            ->willReturnSelf();
+
+        $this->searchResultsBuilderMock
+            ->expects($this->once())
             ->method('create')
             ->willReturn($this->searchResultsMock);
 
@@ -211,5 +290,16 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
             $this->searchResultsMock,
             $this->rmaServiceCommentReadMock->commentsList($id)
         );
+    }
+
+    /**
+     *
+     */
+    public function commentsListDataProvider()
+    {
+        return [
+            1 => [42, false],
+            2 => [1, true],
+        ];
     }
 }

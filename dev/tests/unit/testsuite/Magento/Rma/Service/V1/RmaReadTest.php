@@ -43,6 +43,11 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
     protected $rmaModelMock;
 
     /**
+     * @var \Magento\Rma\Model\Rma\PermissionChecker | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $permissionCheckerMock;
+
+    /**
      * Sets up the common Mocks.
      * This method is called before a test is executed.
      */
@@ -75,12 +80,18 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
+        $this->permissionCheckerMock = $this->getMockBuilder('Magento\Rma\Model\Rma\PermissionChecker')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'checkRmaForCustomerContext', 'isRmaOwner'])
+            ->getMock();
+
         $this->serviceRmaReadMock = (new ObjectManagerHelper($this))->getObject(
             'Magento\Rma\Service\V1\RmaRead',
             [
                 "repository" => $this->rmaRepositoryMock,
                 "rmaMapper" => $this->rmaMapperMock,
                 "rmaSearchResultsBuilder" => $this->rmaSearchResultsBuilderMock,
+                "permissionChecker"    => $this->permissionCheckerMock,
             ]
         );
 
@@ -92,6 +103,8 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $id = 1;
+
+        $this->permissionCheckerMock->expects($this->once())->method('checkRmaForCustomerContext');
 
         $this->rmaRepositoryMock->expects($this->once())->method('get')
             ->with($id)
@@ -105,8 +118,12 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test for search method
+     *
+     * @dataProvider searchDataProvider
+     *
+     * @param $isRmaOwner
      */
-    public function testSearch()
+    public function testSearch($isRmaOwner)
     {
         $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteria')
             ->disableOriginalConstructor()
@@ -118,17 +135,28 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
+        $this->permissionCheckerMock->expects($this->once())->method('checkRmaForCustomerContext');
+
+        $this->permissionCheckerMock->expects($this->once())->method('isRmaOwner')
+            ->with($this->rmaModelMock)
+            ->willReturn($isRmaOwner);
+
         $this->rmaRepositoryMock->expects($this->once())->method('find')
             ->with($searchCriteriaMock)->willReturn([$this->rmaModelMock]);
 
-        $this->rmaMapperMock->expects($this->once())->method('extractDto')
-            ->with($this->rmaModelMock)->willReturn($this->dataRmaMock);
+        if ($isRmaOwner) {
+            $this->rmaMapperMock->expects($this->once())->method('extractDto')
+                ->with($this->rmaModelMock)->willReturn($this->dataRmaMock);
 
-        $this->rmaSearchResultsBuilderMock->expects($this->once())->method('setItems')
-            ->with([$this->dataRmaMock])->willReturnSelf();
+            $this->rmaSearchResultsBuilderMock->expects($this->once())->method('setItems')
+                ->with([$this->dataRmaMock])->willReturnSelf();
+        } else {
+            $this->rmaSearchResultsBuilderMock->expects($this->once())->method('setItems')
+                ->with([])->willReturnSelf();
+        }
 
         $this->rmaSearchResultsBuilderMock->expects($this->once())->method('setTotalCount')
-            ->with(1)->willReturnSelf();
+            ->with((int)$isRmaOwner)->willReturnSelf();
 
         $this->rmaSearchResultsBuilderMock->expects($this->once())->method('setSearchCriteria')
             ->with($searchCriteriaMock)->willReturnSelf();
@@ -140,5 +168,16 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
             $resultsMock,
             $this->serviceRmaReadMock->search($searchCriteriaMock)
         );
+    }
+
+    /**
+     *
+     */
+    public function searchDataProvider()
+    {
+        return [
+            1 => [false],
+            2 => [true],
+        ];
     }
 }
