@@ -1,2 +1,2 @@
 "products";"qty";"constraint"
-"configurableProductInjectable::default";"3";"assertProductQtyInShoppingCart, assertProductIsAbsentInWishlist"
+"configurableProductInjectable::default";"3";"assertProductQtyInShoppingCart, assertProductsIsAbsentInWishlist"

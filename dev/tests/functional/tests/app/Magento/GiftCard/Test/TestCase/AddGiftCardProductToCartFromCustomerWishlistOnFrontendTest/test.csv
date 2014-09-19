@@ -1,2 +1,2 @@
 "products";"qty";"constraint"
-"giftCardProduct::default";"1";"assertProductQtyInShoppingCart, assertProductIsAbsentInWishlist"
+"giftCardProduct::default";"1";"assertProductQtyInShoppingCart, assertProductsIsAbsentInWishlist"

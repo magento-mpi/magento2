@@ -153,7 +153,7 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         $filter = ['product_name' => $product->getName()];
         $customerForm->getTabElement('wishlist')->getSearchGridBlock()->searchAndDelete($filter);
 
-        return ['product' => $product];
+        return ['products' => [$product]];
     }
 
     /**

@@ -11,6 +11,7 @@ namespace Magento\Wishlist\Test\Block\Customer\Wishlist;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product;
 
 /**
  * Class Items
@@ -29,7 +30,7 @@ class Items extends Block
      * Get item product block
      *
      * @param string $productName
-     * @return \Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product
+     * @return Product
      */
     public function getItemProductByName($productName)
     {

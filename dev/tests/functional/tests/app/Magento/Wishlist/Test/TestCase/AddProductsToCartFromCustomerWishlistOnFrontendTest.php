@@ -8,16 +8,16 @@
 
 namespace Magento\Wishlist\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Wishlist\Test\Page\WishlistIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\GiftCardAccount\Test\Page\CustomerAccountIndex;
 
 /**
  * Test Creation for Adding products from Wishlist to Cart
@@ -36,30 +36,23 @@ use Magento\GiftCardAccount\Test\Page\CustomerAccountIndex;
  * 4. Perform asserts
  *
  * @group Wishlist_(CS)
- * @ZephyrId  MAGETWO-25268
+ * @ZephyrId MAGETWO-25268
  */
 class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
 {
+    /**
+     * Object Manager
+     *
+     * @var ObjectManager
+     */
+    protected $objectManager;
+
     /**
      * Cms index page
      *
      * @var CmsIndex
      */
     protected $cmsIndex;
-
-    /**
-     * Customer login page
-     *
-     * @var CustomerAccountLogin
-     */
-    protected $customerAccountLogin;
-
-    /**
-     * Customer account index page
-     *
-     * @var CustomerAccountIndex
-     */
-    protected $customerAccountIndex;
 
     /**
      * Product view page
@@ -90,33 +83,40 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
     protected $wishlistIndex;
 
     /**
+     * Page CustomerAccountLogout
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Injection data
      *
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
-     * @param CustomerAccountIndex $customerAccountIndex
      * @param CatalogProductView $catalogProductView
      * @param FixtureFactory $fixtureFactory
      * @param Browser $browser
      * @param WishlistIndex $wishlistIndex
+     * @param ObjectManager $objectManager
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
-        CustomerAccountIndex $customerAccountIndex,
         CatalogProductView $catalogProductView,
         FixtureFactory $fixtureFactory,
         Browser $browser,
-        WishlistIndex $wishlistIndex
+        WishlistIndex $wishlistIndex,
+        ObjectManager $objectManager,
+        CustomerAccountLogout $customerAccountLogout
     ) {
         $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogin;
-        $this->customerAccountIndex = $customerAccountIndex;
         $this->catalogProductView = $catalogProductView;
         $this->fixtureFactory = $fixtureFactory;
         $this->browser = $browser;
         $this->wishlistIndex = $wishlistIndex;
+        $this->objectManager = $objectManager;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -141,7 +141,7 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
         // Prepare data for asserts
         $cart = $this->createCart($products);
 
-        return ['product' => $products, 'customer' => $customer, 'cart' => $cart];
+        return ['products' => $products, 'customer' => $customer, 'cart' => $cart];
     }
 
     /**
@@ -152,11 +152,11 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
      */
     protected function loginCustomer(CustomerInjectable $customer)
     {
-        $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $loginCustomerOnFrontendStep = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $loginCustomerOnFrontendStep->run();
     }
 
     /**
@@ -167,15 +167,12 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
      */
     protected function createProducts($products)
     {
-        $products = explode(',', $products);
-        foreach ($products as $key => $product) {
-            list($fixture, $dataSet) = explode('::', $product);
-            $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-            $product->persist();
-            $products[$key] = $product;
-        }
+        $createProductsStep = $this->objectManager->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $products]
+        );
 
-        return $products;
+        return $createProductsStep->run()['products'];
     }
 
     /**
@@ -224,5 +221,15 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
     protected function createCart(array $products)
     {
         return $this->fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => $products]]]);
+    }
+
+    /**
+     * Log out after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }

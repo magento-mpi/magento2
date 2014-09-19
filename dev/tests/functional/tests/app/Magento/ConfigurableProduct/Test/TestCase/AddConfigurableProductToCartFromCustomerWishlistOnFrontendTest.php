@@ -27,7 +27,7 @@ use Magento\Wishlist\Test\TestCase\AddProductsToCartFromCustomerWishlistOnFronte
  * 4. Perform asserts
  *
  * @group Wishlist_(CS)
- * @ZephyrId  MAGETWO-25268
+ * @ZephyrId MAGETWO-25268
  */
 class AddConfigurableProductToCartFromCustomerWishlistOnFrontendTest extends AddProductsToCartFromWishlist
 {

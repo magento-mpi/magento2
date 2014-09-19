@@ -10,8 +10,7 @@
 <mapping strict="0">
     <fields>
         <qty>
-            <selector>.input-text.qty</selector>
-            <input>number</input>
+            <selector>[data-role="qty"]</selector>
         </qty>
         <description>
             <selector>textarea</selector>

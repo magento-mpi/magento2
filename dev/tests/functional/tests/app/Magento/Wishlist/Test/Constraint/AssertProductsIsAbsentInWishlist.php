@@ -18,10 +18,10 @@ use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class AssertProductIsAbsentInWishlist
- * Assert that product is absent in Wishlist on Frontend
+ * Class AssertProductsIsAbsentInWishlist
+ * Assert products is absent in Wishlist on Frontend
  */
-class AssertProductIsAbsentInWishlist extends AbstractConstraint
+class AssertProductsIsAbsentInWishlist extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -35,7 +35,7 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
      *
      * @param CustomerAccountIndex $customerAccountIndex
      * @param WishlistIndex $wishlistIndex
-     * @param InjectableFixture|InjectableFixture[] $product
+     * @param InjectableFixture[] $products
      * @param CustomerInjectable $customer
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
@@ -45,7 +45,7 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
     public function processAssert(
         CustomerAccountIndex $customerAccountIndex,
         WishlistIndex $wishlistIndex,
-        $product,
+        $products,
         CustomerInjectable $customer,
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
@@ -55,10 +55,9 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
         $cmsIndex->getLinksBlock()->openLink('Log In');
         $customerAccountLogin->getLoginBlock()->login($customer);
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("My Wish List");
-        $product = is_array($product) ? $product : [$product];
         $itemBlock = $wishlistIndex->getWishlistBlock()->getProductItemsBlock();
 
-        foreach ($product as $itemProduct) {
+        foreach ($products as $itemProduct) {
             $productName = $itemProduct->getName();
             \PHPUnit_Framework_Assert::assertFalse(
                 $itemBlock->getItemProductByName($productName)->isVisible(),
