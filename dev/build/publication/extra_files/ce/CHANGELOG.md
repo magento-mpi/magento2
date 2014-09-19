@@ -12,7 +12,7 @@
    * Fixed an issue where the Configure link was not displayed in the Product Requiring Attention section
    * Fixed an issue where Magento could only be installed in the host root directory
    * Fixed an issue where no proper error message was displayed if vendor directory did not exist in the setup tool
-   * Fixed an i;q:qssue where a fatal error was thrown during checkout with multiple addresses
+   * Fixed an issue where a fatal error was thrown during checkout with multiple addresses
    * Fixed an issue where integration tests failed if prefixes for tables were used
  * Checkout API:
    * Created Customer Shopping Cart Service
@@ -27,7 +27,7 @@
    * Ordered products report
    * Sales coupon report
  * GitHub requests:
-   * #662 -- Composer Installation
+   * [#662] (https://github.corp.ebay.com/magento2/magento2/pull/662) -- Composer Installation
 
 0.1.0-alpha95
 =============
@@ -88,8 +88,8 @@
    * Configuration scope of items' InStock status on order cancellation
    * Creating the new customer in admin
  * GitHub requests:
-   * #621 -- Parse error: syntax error, unexpected T_OBJECT_OPERATOR
-   * #651 -- Multishipping checkout add/edit address page issue
+   * [#621] (https://github.corp.ebay.com/magento2/magento2/pull/621) -- Parse error: syntax error, unexpected T_OBJECT_OPERATOR
+   * [#651] (https://github.corp.ebay.com/magento2/magento2/pull/651) -- Multishipping checkout add/edit address page issue
 
 0.1.0-alpha94
 =============
