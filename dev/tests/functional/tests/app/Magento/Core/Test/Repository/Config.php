@@ -31,12 +31,12 @@ class Config extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
             'data' => $defaultData
-        );
+        ];
         // General
         $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
         // Currency Setup
@@ -50,6 +50,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
+        $this->_data['disable_all_payment_methods'] = $this->_getDisableAllPayment();
         $this->_data['paypal_payflow_link'] = $this->_getPaypalPayFlowLink();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['paypal_advanced'] = $this->_getPaypalAdvanced();
@@ -58,8 +59,14 @@ class Config extends AbstractRepository
         $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
+        $this->_data['authorizenet_direct_post'] = $this->_getAuthorizeNetDirectPost();
         $this->_data['authorizenet_3d_secure'] = $this->_getAuthorizeNet3dSecure();
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
+        $this->_data['zero_subtotal_checkout'] = $this->_getZeroSubtotalCheckout();
+        $this->_data['cash_on_delivery'] = $this->_getCashOnDelivery();
+        $this->_data['bank_transfer_payment'] = $this->_getBankTransferPayment();
+        $this->_data['purchase_order'] = $this->_getPurchaseOrder();
+        $this->_data['ogone'] = $this->_getOgone();
         //Payment Services
         $this->_data['3d_secure_credit_card_validation'] = $this->_get3dSecureCreditCardValidation();
         //Shipping settings
@@ -98,32 +105,219 @@ class Config extends AbstractRepository
     }
 
     /**
+     * Set Purchase Order
+     *
+     * @return array
+     */
+    protected function _getPurchaseOrder()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => [
+                            'purchaseorder' => [
+                                'fields' => [
+                                    'title' => [
+                                        'value' => 'Purchase Order'
+                                    ],
+                                    'active' => [
+                                        'value' => self::YES_VALUE
+                                    ],
+                                    'order_status' => [
+                                        'value' => 'pending'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Set Ogone
+     *
+     * @return array
+     */
+    protected function _getOgone()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => [
+                            'ogone' => [
+                                'fields' => [
+                                    'title' => [
+                                        'value' => 'Ogone'
+                                    ],
+                                    'active' => [
+                                        'value' => self::YES_VALUE
+                                    ],
+                                    'order_status' => [
+                                        'value' => 'pending'
+                                    ],
+                                    'pspid' => [
+                                        'value' => 'Varien'
+                                    ],
+                                    'secret_key_out' => [
+                                        'value' => 'abcdef1234567890'
+                                    ],
+                                    'secret_key_in' => [
+                                        'value' => '4B0Deneu§r+GOt>HkG2'
+                                    ],
+                                    'ogone_gateway' => [
+                                        'value' => 'https://secure.ogone.com/ncol/test/orderstandard.asp'
+                                    ],
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Set Bank Transfer Payment
+     *
+     * @return array
+     */
+    protected function _getBankTransferPayment()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => [
+                            'banktransfer' => [
+                                'fields' => [
+                                    'title' => [
+                                        'value' => 'Bank Transfer Payment'
+                                    ],
+                                    'active' => [
+                                        'value' => self::YES_VALUE
+                                    ],
+                                    'order_status' => [
+                                        'value' => 'pending'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Set Cash On Delivery Payment
+     *
+     * @return array
+     */
+    protected function _getCashOnDelivery()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => [
+                            'cashondelivery' => [
+                                'fields' => [
+                                    'title' => [
+                                        'value' => 'Cash On Delivery'
+                                    ],
+                                    'active' => [
+                                        'value' => self::YES_VALUE
+                                    ],
+                                    'order_status' => [
+                                        'value' => 'pending'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Set Zero Subtotal Checkout
+     *
+     * @return array
+     */
+    protected function _getZeroSubtotalCheckout()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => [
+                            'free' => [
+                                'fields' => [
+                                    'title' => [
+                                        'value' => 'No Payment Information Required'
+                                    ],
+                                    'active' => [
+                                        'value' => self::YES_VALUE
+                                    ],
+                                    'order_status' => [
+                                        'value' => 'pending'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
      * Set Currency to value passed in.
      *
      * @return array
      */
     protected function _getCurrencyUSD()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'currency' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'currency' => [
                         'section' => 'currency',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'options' => array(
-                                'fields' => array(
-                                    'allow' => array( //Allowed Currencies
+                        'groups' => [
+                            'options' => [
+                                'fields' => [
+                                    'allow' => [ //Allowed Currencies
                                         'value' => ['USD']
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -133,110 +327,110 @@ class Config extends AbstractRepository
      */
     protected function _getShippingOriginUS()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'shipping' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'shipping' => [
                         'section' => 'shipping',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'origin' => array(
-                                'fields' => array(
-                                    'country_id' => array( //Country
+                        'groups' => [
+                            'origin' => [
+                                'fields' => [
+                                    'country_id' => [ //Country
                                         'value' => 'US'
-                                    ),
-                                    'region_id' => array( //Region/State
+                                    ],
+                                    'region_id' => [ //Region/State
                                         'value' => '12' //California
-                                    ),
-                                    'postcode' => array( //Zip/Postal Code
+                                    ],
+                                    'postcode' => [ //Zip/Postal Code
                                         'value' => '90232'
-                                    ),
-                                    'city' => array( //City
+                                    ],
+                                    'city' => [ //City
                                         'value' => 'Culver City'
-                                    ),
-                                    'street_line1' => array( //Street Address
+                                    ],
+                                    'street_line1' => [ //Street Address
                                         'value' => '10441 Jefferson Blvd'
-                                    ),
-                                    'street_line2' => array( //Street Address Line 2
+                                    ],
+                                    'street_line2' => [ //Street Address Line 2
                                         'value' => 'Suite 200'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getFreeShipping()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'freeshipping' => array( //Free Shipping
-                                'fields' => array(
-                                    'active' => array( //Enabled
+                        'groups' => [
+                            'freeshipping' => [ //Free Shipping
+                                'fields' => [
+                                    'active' => [ //Enabled
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'free_shipping_subtotal' => array( //Minimum Order Amount
+                                    ],
+                                    'free_shipping_subtotal' => [ //Minimum Order Amount
                                         'value' => 10
-                                    ),
-                                    'sallowspecific' => array( //Ship to Applicable Countries
+                                    ],
+                                    'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 1 //Specific Countries
-                                    ),
-                                    'specificcountry' => array( //Ship to Applicable Countries
+                                    ],
+                                    'specificcountry' => [ //Ship to Applicable Countries
                                         'value' => 'US' //United States
-                                    ),
-                                    'showmethod' => array( //Show Method if Not Applicable
+                                    ],
+                                    'showmethod' => [ //Show Method if Not Applicable
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getFlatRate()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'flatrate' => array( //Flat Rate
-                                'fields' => array(
-                                    'active' => array( //Enabled
+                        'groups' => [
+                            'flatrate' => [ //Flat Rate
+                                'fields' => [
+                                    'active' => [ //Enabled
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'price' => array( //Price
+                                    ],
+                                    'price' => [ //Price
                                         'value' => 5
-                                    ),
-                                    'type' => array( //Type
+                                    ],
+                                    'type' => [ //Type
                                         'value' => 'I' //Per Item
-                                    ),
-                                    'sallowspecific' => array( //Ship to Applicable Countries
+                                    ],
+                                    'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -248,87 +442,87 @@ class Config extends AbstractRepository
      */
     protected function _getShippingCarrierDhlEU()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'dhl' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                        'groups' => [
+                            'dhl' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'gateway_url' => array( //Gateway URL
+                                    ],
+                                    'gateway_url' => [ //Gateway URL
                                         'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
-                                    ),
-                                    'id' => array( //Access ID
+                                    ],
+                                    'id' => [ //Access ID
                                         'value' => 'EvgeniyDE'
-                                    ),
-                                    'password' => array( //Password
+                                    ],
+                                    'password' => [ //Password
                                         'value' => 'aplNb6Rop'
-                                    ),
-                                    'account' => array( //Account Number
+                                    ],
+                                    'account' => [ //Account Number
                                         'value' => '152691811'
-                                    ),
-                                    'showmethod' => array( //Show Method if Not Applicable
+                                    ],
+                                    'showmethod' => [ //Show Method if Not Applicable
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'debug' => array( //Debug
+                                    ],
+                                    'debug' => [ //Debug
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    'shipping' => array(
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'shipping' => [
                         'section' => 'shipping',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'origin' => array(
-                                'fields' => array(
-                                    'country_id' => array( //Country
+                        'groups' => [
+                            'origin' => [
+                                'fields' => [
+                                    'country_id' => [ //Country
                                         'value' => 'CH' //Switzerland
-                                    ),
-                                    'region_id' => array( //Region/State
+                                    ],
+                                    'region_id' => [ //Region/State
                                         'value' => '107' //Bern
-                                    ),
-                                    'postcode' => array( //Zip/Postal Code
+                                    ],
+                                    'postcode' => [ //Zip/Postal Code
                                         'value' => '3005'
-                                    ),
-                                    'city' => array( //City
+                                    ],
+                                    'city' => [ //City
                                         'value' => 'Bern'
-                                    ),
-                                    'street_line1' => array( //Street Address
+                                    ],
+                                    'street_line1' => [ //Street Address
                                         'value' => 'Weinbergstrasse 4'
-                                    ),
-                                    'street_line2' => array( //Street Address Line 2
+                                    ],
+                                    'street_line2' => [ //Street Address Line 2
                                         'value' => 'Suite 1'
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    'currency' => array(
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'currency' => [
                         'section' => 'currency',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'options' => array(
-                                'fields' => array(
-                                    'allow' => array( //Allowed Currencies
-                                        'value' => ['USD','CHF']
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                        'groups' => [
+                            'options' => [
+                                'fields' => [
+                                    'allow' => [ //Allowed Currencies
+                                        'value' => ['USD', 'CHF']
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -339,84 +533,84 @@ class Config extends AbstractRepository
      */
     protected function _getShippingCarrierDhlUK()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'dhl' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                        'groups' => [
+                            'dhl' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'gateway_url' => array( //Gateway URL
+                                    ],
+                                    'gateway_url' => [ //Gateway URL
                                         'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
-                                    ),
-                                    'id' => array( //Access ID
+                                    ],
+                                    'id' => [ //Access ID
                                         'value' => 'EvgeniyDE'
-                                    ),
-                                    'password' => array( //Password
+                                    ],
+                                    'password' => [ //Password
                                         'value' => 'aplNb6Rop'
-                                    ),
-                                    'account' => array( //Account Number
+                                    ],
+                                    'account' => [ //Account Number
                                         'value' => '152691811'
-                                    ),
-                                    'showmethod' => array( //Show Method if Not Applicable
+                                    ],
+                                    'showmethod' => [ //Show Method if Not Applicable
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'debug' => array( //Debug
+                                    ],
+                                    'debug' => [ //Debug
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    'shipping' => array(
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'shipping' => [
                         'section' => 'shipping',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'origin' => array(
-                                'fields' => array(
-                                    'country_id' => array( //Country
+                        'groups' => [
+                            'origin' => [
+                                'fields' => [
+                                    'country_id' => [ //Country
                                         'value' => 'GB' //United Kingdom
-                                    ),
-                                    'region_id' => array( //Region/State
+                                    ],
+                                    'region_id' => [ //Region/State
                                         'value' => 'London'
-                                    ),
-                                    'postcode' => array( //Zip/Postal Code
+                                    ],
+                                    'postcode' => [ //Zip/Postal Code
                                         'value' => 'SE10 8SE'
-                                    ),
-                                    'city' => array( //City
+                                    ],
+                                    'city' => [ //City
                                         'value' => 'London'
-                                    ),
-                                    'street_line1' => array( //Street Address
+                                    ],
+                                    'street_line1' => [ //Street Address
                                         'value' => '89 Royal Hill'
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    'currency' => array(
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'currency' => [
                         'section' => 'currency',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'options' => array(
-                                'fields' => array(
-                                    'allow' => array( //Allowed Currencies
-                                        'value' => ['USD','GBP']
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                        'groups' => [
+                            'options' => [
+                                'fields' => [
+                                    'allow' => [ //Allowed Currencies
+                                        'value' => ['USD', 'GBP']
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -427,184 +621,185 @@ class Config extends AbstractRepository
      */
     protected function _getShippingCarrierFedex()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'fedex' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                        'groups' => [
+                            'fedex' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'account' => array( //Account ID
+                                    ],
+                                    'account' => [ //Account ID
                                         'value' => '510087801'
-                                    ),
-                                    'meter_number' => array( //Meter Number
+                                    ],
+                                    'meter_number' => [ //Meter Number
                                         'value' => '100047915'
-                                    ),
-                                    'key' => array( //Key
+                                    ],
+                                    'key' => [ //Key
                                         'value' => 'INdxa6ug7qZ2KD7y'
-                                    ),
-                                    'password' => array( //Password
+                                    ],
+                                    'password' => [ //Password
                                         'value' => 'pTfh4K0nkHcHVginelU4HmJkA'
-                                    ),
-                                    'sandbox_mode' => array( //Sandbox Mode
+                                    ],
+                                    'sandbox_mode' => [ //Sandbox Mode
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    'shipping' => array(
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'shipping' => [
                         'section' => 'shipping',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'origin' => array(
-                                'fields' => array(
-                                    'country_id' => array( //Country
+                        'groups' => [
+                            'origin' => [
+                                'fields' => [
+                                    'country_id' => [ //Country
                                         'value' => 'US'
-                                    ),
-                                    'region_id' => array( //Region/State
+                                    ],
+                                    'region_id' => [ //Region/State
                                         'value' => '12' //California
-                                    ),
-                                    'postcode' => array( //Zip/Postal Code
+                                    ],
+                                    'postcode' => [ //Zip/Postal Code
                                         'value' => '90024'
-                                    ),
-                                    'city' => array( //City
+                                    ],
+                                    'city' => [ //City
                                         'value' => 'Los Angeles'
-                                    ),
-                                    'street_line1' => array( //Street Address
+                                    ],
+                                    'street_line1' => [ //Street Address
                                         'value' => '1419 Westwood Blvd'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getShippingCarrierUps()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'ups' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                        'groups' => [
+                            'ups' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'active_rma' => array( //Enabled for RMA
+                                    ],
+                                    'active_rma' => [ //Enabled for RMA
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'type' => array( //UPS Type
+                                    ],
+                                    'type' => [ //UPS Type
                                         'value' => 'UPS_XML' //United Parcel Service XML
-                                    ),
-                                    'is_account_live' => array( //Live account
+                                    ],
+                                    'is_account_live' => [ //Live account
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'password' => array( //Password
+                                    ],
+                                    'password' => [ //Password
                                         'value' => 'magento200'
-                                    ),
-                                    'username' => array( //User ID
+                                    ],
+                                    'username' => [ //User ID
                                         'value' => 'magento'
-                                    ),
-                                    'mode_xml' => array( //Mode
+                                    ],
+                                    'mode_xml' => [ //Mode
                                         'value' => 0 //Development
-                                    ),
-                                    'gateway_xml_url' => array( //Gateway XML URL
+                                    ],
+                                    'gateway_xml_url' => [ //Gateway XML URL
                                         'value' => 'https://wwwcie.ups.com/ups.app/xml/Rate'
-                                    ),
-                                    'origin_shipment' => array( //Origin of the Shipment
+                                    ],
+                                    'origin_shipment' => [ //Origin of the Shipment
                                         'value' => 'Shipments Originating in United States'
-                                    ),
-                                    'access_license_number' => array( //Access License Number
+                                    ],
+                                    'access_license_number' => [ //Access License Number
                                         'value' => 'ECAB751ABF189ECA'
-                                    ),
-                                    'negotiated_active' => array( //Enable Negotiated Rates
+                                    ],
+                                    'negotiated_active' => [ //Enable Negotiated Rates
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'shipper_number' => array( //Shipper Number
+                                    ],
+                                    'shipper_number' => [ //Shipper Number
                                         'value' => '207W88'
-                                    ),
-                                    'container' => array( //Container
+                                    ],
+                                    'container' => [ //Container
                                         'value' => 'CP' //Customer Packaging
-                                    ),
-                                    'dest_type' => array( //Destination Type
+                                    ],
+                                    'dest_type' => [ //Destination Type
                                         'value' => 'RES' //Residential
-                                    ),
-                                    'tracking_xml_url' => array( //Tracking XML URL
+                                    ],
+                                    'tracking_xml_url' => [ //Tracking XML URL
                                         'value' => 'https://wwwcie.ups.com/ups.app/xml/Track'
-                                    ),
-                                    'unit_of_measure' => array( //Weight Unit
+                                    ],
+                                    'unit_of_measure' => [ //Weight Unit
                                         'value' => 'LBS'
-                                    ),
-                                    'allowed_methods' => array( //Allowed Methods
-                                        'value' => ['11','12','14','54','59','65','01','02','03','07','08']//Select all
-                                    ),
-                                    'sallowspecific' => array( //Ship to Applicable Countries
+                                    ],
+                                    'allowed_methods' => [ //Allowed Methods
+                                        //Select all
+                                        'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08']
+                                    ],
+                                    'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
-                                    ),
-                                    'showmethod' => array( //Show Method if Not Applicable
+                                    ],
+                                    'showmethod' => [ //Show Method if Not Applicable
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'debug' => array( //Debug
+                                    ],
+                                    'debug' => [ //Debug
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getShippingCarrierUsps()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'usps' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                        'groups' => [
+                            'usps' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'gateway_url' => array( //Gateway URL
+                                    ],
+                                    'gateway_url' => [ //Gateway URL
                                         'value' => 'http://production.shippingapis.com/ShippingAPI.dll'
-                                    ),
-                                    'gateway_secure_url' => array( //Secure Gateway URL
+                                    ],
+                                    'gateway_secure_url' => [ //Secure Gateway URL
                                         'value' => 'https://secure.shippingapis.com/ShippingAPI.dll'
-                                    ),
-                                    'userid' => array( //User ID
+                                    ],
+                                    'userid' => [ //User ID
                                         'value' => '721FRAGR6267'
-                                    ),
-                                    'password' => array( //Password
+                                    ],
+                                    'password' => [ //Password
                                         'value' => '326ZL84XF990'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -614,496 +809,627 @@ class Config extends AbstractRepository
      */
     protected function _disableAllShippingCarriers()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'carriers' => [
                         'section' => 'carriers',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'ups' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                        'groups' => [
+                            'ups' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'usps' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                                    ]
+                                ]
+                            ],
+                            'usps' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'fedex' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                                    ]
+                                ]
+                            ],
+                            'fedex' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'dhl' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
+                                    ]
+                                ]
+                            ],
+                            'dhl' => [
+                                'fields' => [
+                                    'active' => [ //Enabled for Checkout
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getAuthorizeNet()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'authorizenet' => array( //Credit Card (Authorize.net)
-                                'fields' => array(
-                                    'active' => array( //Enabled
+                        'groups' => [
+                            'authorizenet' => [ //Credit Card (Authorize.net)
+                                'fields' => [
+                                    'active' => [ //Enabled
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'login' => array( //API Login ID
+                                    ],
+                                    'login' => [ //API Login ID
                                         'value' => '36sCtGS8w'
-                                    ),
-                                    'payment_action' => array( //Payment Action
+                                    ],
+                                    'payment_action' => [ //Payment Action
                                         'value' => 'authorize'
-                                    ),
-                                    'trans_key' => array( //Transaction Key
+                                    ],
+                                    'trans_key' => [ //Transaction Key
                                         'value' => '"67RY59y59p25JQsZ"'
-                                    ),
-                                    'cgi_url' => array( //Gateway URL
+                                    ],
+                                    'cgi_url' => [ //Gateway URL
                                         'value' => 'https://test.authorize.net/gateway/transact.dll'
-                                    ),
-                                    'test' => array( //Test Mode
+                                    ],
+                                    'test' => [ //Test Mode
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'cctypes' => array( //Card Types
+                                    ],
+                                    'cctypes' => [ //Card Types
                                         'value' => 'AE,VI,MC,DI' //American Express, Visa, MasterCard, Discover
-                                    ),
-                                    'useccv' => array( //Credit Card Verification
+                                    ],
+                                    'useccv' => [ //Credit Card Verification
                                         'value' => self::YES_VALUE
-                                    ),
-                                    'centinel' => array( //3D Secure Card Validation
+                                    ],
+                                    'centinel' => [ //3D Secure Card Validation
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'debug' => array( // Debug Mode
+                                    ],
+                                    'debug' => [ // Debug Mode
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    protected function _getAuthorizeNetDirectPost()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => [
+                            'authorizenet_directpost' => [ //authorize.net Direct Post
+                                'fields' => [
+                                    'active' => [ //Enabled
+                                        'value' => self::YES_VALUE
+                                    ],
+                                    'login' => [ //API Login ID
+                                        'value' => '72nUK46WmnG'
+                                    ],
+                                    'payment_action' => [ //Payment Action
+                                        'value' => 'authorize'
+                                    ],
+                                    'trans_key' => [ //Transaction Key
+                                        'value' => '"2gvHY854P9P634tJ"'
+                                    ],
+                                    'trans_md5' => [
+                                        'value' => 'mperfqa'
+                                    ],
+                                    'cgi_url' => [ //Gateway URL
+                                        'value' => 'https://test.authorize.net/gateway/transact.dll'
+                                    ],
+                                    'test' => [ //Test Mode
+                                        'value' => self::NO_VALUE
+                                    ],
+                                    'cctypes' => [ //Card Types
+                                        'value' => 'AE,VI,MC,DI' //American Express, Visa, MasterCard, Discover
+                                    ],
+                                    'useccv' => [ //Credit Card Verification
+                                        'value' => self::YES_VALUE
+                                    ],
+                                    'centinel' => [ //3D Secure Card Validation
+                                        'value' => self::NO_VALUE
+                                    ],
+                                    'debug' => [ // Debug Mode
+                                        'value' => self::YES_VALUE
+                                    ],
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getAuthorizeNet3dSecure()
     {
-        $data = array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        $data = [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'authorizenet' => array( //Credit Card (Authorize.net)
-                                'fields' => array(
-                                    'centinel' => array( //3D Secure Card Validation
+                        'groups' => [
+                            'authorizenet' => [ //Credit Card (Authorize.net)
+                                'fields' => [
+                                    'centinel' => [ //3D Secure Card Validation
                                         'value' => 1 //No
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
         return array_merge_recursive($data, $this->_getAuthorizeNet());
+    }
+
+    protected function _getDisableAllPayment()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array_merge(
+                            [
+                                'cashondelivery' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'banktransfer' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'purchaseorder' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'authorizenet' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'authorizenet_directpost' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'ogone' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'free' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'checkmo' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            $this->_getPaypalDisabled()['data']['sections']['payment']['groups']
+                        )
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getPaypalDisabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_express' => array(
-                                'fields' => array(
-                                    'active' => array(
+                        'groups' => [
+                            'paypal_express' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'paypal_standard' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                    ]
+                                ]
+                            ],
+                            'paypal_standard' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'paypal_direct' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                    ]
+                                ]
+                            ],
+                            'paypal_direct' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'payflowpro' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                    ]
+                                ]
+                            ],
+                            'payflowpro' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'payflow_express' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                    ]
+                                ]
+                            ],
+                            'payflow_express' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'payflow_advanced' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                    ]
+                                ]
+                            ],
+                            'payflow_advanced' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'payflow_link' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                    ]
+                                ]
+                            ],
+                            'payflow_link' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getPaypalDirect()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
-                                'groups' => array(
-                                    'wpp_usuk' => array( //Payments Pro (Includes Express Checkout)
-                                        'groups' => array(
-                                            'wpp_required_settings' => array( //Required PayPal Settings
-                                                'groups' => array(
-                                                    'wpp_and_express_checkout' => array( //Payments Pro and Express Checkout
-                                                        'fields' => array(
-                                                            'business_account' => array( //Email Associated with PayPal
+                        'groups' => [
+                            'paypal_group_all_in_one' => [ //PayPal All-in-One Payment Solutions
+                                'groups' => [
+                                    'wpp_usuk' => [ //Payments Pro (Includes Express Checkout)
+                                        'groups' => [
+                                            'wpp_required_settings' => [ //Required PayPal Settings
+                                                'groups' => [
+                                                    'wpp_and_express_checkout' => [ //Payments Pro and Express Checkout
+                                                        'fields' => [
+                                                            'business_account' => [ //Email Associated with PayPal
                                                                 'value' => 'mtf_bussiness_pro@example.net'
-                                                            ),
-                                                            'api_authentication' => array( //API Authentication Methods
+                                                            ],
+                                                            'api_authentication' => [ //API Authentication Methods
                                                                 'value' => 0 //API Signature
-                                                            ),
-                                                            'api_username' => array( //API Username
+                                                            ],
+                                                            'api_username' => [ //API Username
                                                                 'value' => 'mtf_bussiness_pro_api1.example.net'
-                                                            ),
-                                                            'api_password' => array( //API Password
+                                                            ],
+                                                            'api_password' => [ //API Password
                                                                 'value' => '1396336783'
-                                                            ),
-                                                            'api_signature' => array( //API Signature
+                                                            ],
+                                                            'api_signature' => [ //API Signature
                                                                 'value' => 'Ai4aunchzf-e-FeWoRkUYBBHvZciAXN6kt7.wD1oGG-uZPAcDD1wcP4Y'
-                                                            ),
-                                                            'sandbox_flag' => array( //Sandbox Mode
+                                                            ],
+                                                            'sandbox_flag' => [ //Sandbox Mode
                                                                 'value' => self::YES_VALUE
-                                                            ),
-                                                            'use_proxy' => array( //API Uses Proxy
+                                                            ],
+                                                            'use_proxy' => [ //API Uses Proxy
                                                                 'value' => self::NO_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                ),
-                                                'fields' => array(
-                                                    'enable_wpp' => array( //Enable this Solution
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ],
+                                                'fields' => [
+                                                    'enable_wpp' => [ //Enable this Solution
                                                         'value' => self::YES_VALUE
-                                                    )
-                                                )
-                                            ),
-                                            'wpp_settings' => array( //Basic Settings - PayPal Payments Pro
-                                                'fields' => array(
-                                                    'payment_action' => array( //Payment Action
+                                                    ]
+                                                ]
+                                            ],
+                                            'wpp_settings' => [ //Basic Settings - PayPal Payments Pro
+                                                'fields' => [
+                                                    'payment_action' => [ //Payment Action
                                                         'value' => 'Authorization' //Authorization
-                                                    )
-                                                ),
-                                                'groups' => array(
-                                                    'wpp_settings_advanced' => array(
-                                                        'fields' => array(
-                                                            'centinel' => array( //3D Secure Card Validation
+                                                    ]
+                                                ],
+                                                'groups' => [
+                                                    'wpp_settings_advanced' => [
+                                                        'fields' => [
+                                                            'centinel' => [ //3D Secure Card Validation
                                                                 'value' => 0
-                                                            ),
-                                                            'debug' => array( // Debug Mode
+                                                            ],
+                                                            'debug' => [ // Debug Mode
                                                                 'value' => self::YES_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            ),
-                            'paypal_express' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            'paypal_express' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
+
     protected function _getPaypalAdvanced()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
-                                'groups' => array(
-                                    'payflow_advanced' => array( //PayPal Payments Advanced (Includes Express Checkout)
-                                        'groups' => array(
-                                            'required_settings' => array( //Required PayPal Settings
-                                                'groups' => array(
-                                                    'payments_advanced' => array( //Payments Pro and Express Checkout
-                                                        'fields' => array(
-                                                            'business_account' => array( //Email Associated with PayPal
+                        'groups' => [
+                            'paypal_group_all_in_one' => [ //PayPal All-in-One Payment Solutions
+                                'groups' => [
+                                    'payflow_advanced' => [ //PayPal Payments Advanced (Includes Express Checkout)
+                                        'groups' => [
+                                            'required_settings' => [ //Required PayPal Settings
+                                                'groups' => [
+                                                    'payments_advanced' => [ //Payments Pro and Express Checkout
+                                                        'fields' => [
+                                                            'business_account' => [ //Email Associated with PayPal
                                                                 'value' => 'rlus_1349181941_biz@ebay.com'
-                                                            ),
-                                                            'partner' => array( //Partner
+                                                            ],
+                                                            'partner' => [ //Partner
                                                                 'value' => 'PayPal'
-                                                            ),
-                                                            'vendor' => array( //Vendor
+                                                            ],
+                                                            'vendor' => [ //Vendor
                                                                 'value' => 'mpiteamadvanced123'
-                                                            ),
-                                                            'user' => array( //User
+                                                            ],
+                                                            'user' => [ //User
                                                                 'value' => 'mpiteamadvanced123'
-                                                            ),
-                                                            'pwd' => array( //Password
+                                                            ],
+                                                            'pwd' => [ //Password
                                                                 'value' => 'Temp1234'
-                                                            ),
-                                                            'sandbox_flag' => array( //Test Mode
+                                                            ],
+                                                            'sandbox_flag' => [ //Test Mode
                                                                 'value' => self::YES_VALUE
-                                                            ),
-                                                            'use_proxy' => array( //Use Proxy
+                                                            ],
+                                                            'use_proxy' => [ //Use Proxy
                                                                 'value' => self::NO_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                ),
-                                                'fields' => array(
-                                                    'enable_payflow_advanced' => array( //Enable this Solution
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ],
+                                                'fields' => [
+                                                    'enable_payflow_advanced' => [ //Enable this Solution
                                                         'value' => self::YES_VALUE
-                                                    )
-                                                )
-                                            ),
-                                            'settings_payments_advanced' => array( //Basic Settings - PayPal Payments Pro
-                                                'fields' => array(
-                                                    'payment_action' => array( //Payment Action
+                                                    ]
+                                                ]
+                                            ],
+                                            'settings_payments_advanced' => [ //Basic Settings - PayPal Payments Pro
+                                                'fields' => [
+                                                    'payment_action' => [ //Payment Action
                                                         'value' => 'Authorization' //Authorization
-                                                    )
-                                                ),
-                                            ),
-                                            'settings_express_checkout' => array(
-                                                'groups' => array(
-                                                    'settings_express_checkout_advanced' => array( // Advanced Settings
-                                                        'fields' => array(
-                                                            'debug' => array(
+                                                    ]
+                                                ],
+                                            ],
+                                            'settings_express_checkout' => [
+                                                'groups' => [
+                                                    'settings_express_checkout_advanced' => [ // Advanced Settings
+                                                        'fields' => [
+                                                            'debug' => [
                                                                 'value' => self::YES_VALUE // Debug Mode
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            ),
-                            'paypal_express' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            'paypal_express' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getPaypalStandard()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
-                                'groups' => array(
-                                    'wps_usuk' => array( //Payments Standard
-                                        'groups' => array(
-                                            'wps_required_settings' => array( //Required PayPal Settings
-                                                'fields' => array(
-                                                    'business_account' => array( //Email Associated with PayPal Merchant Account
+                        'groups' => [
+                            'paypal_group_all_in_one' => [ //PayPal All-in-One Payment Solutions
+                                'groups' => [
+                                    'wps_usuk' => [ //Payments Standard
+                                        'groups' => [
+                                            'wps_required_settings' => [ //Required PayPal Settings
+                                                'fields' => [
+                                                    'business_account' => [ //Email Associated with PayPal Merchant Account
                                                         'value' => 'rlus_1349181941_biz@ebay.com'
-                                                    ),
-                                                    'enable_wps' => array( //Enable this Solution
+                                                    ],
+                                                    'enable_wps' => [ //Enable this Solution
                                                         'value' => 1 //Yes
-                                                    )
-                                                )
-                                            ),
-                                            'settings_payments_standart' => array( //Basic Settings - PayPal Payments Standard
-                                                'fields' => array(
-                                                    'payment_action' => array( //Payment Action
+                                                    ]
+                                                ]
+                                            ],
+                                            'settings_payments_standart' => [ //Basic Settings - PayPal Payments Standard
+                                                'fields' => [
+                                                    'payment_action' => [ //Payment Action
                                                         'value' => 'Sale' //Sale
-                                                    )
-                                                ),
-                                                'groups' => array(
-                                                    'settings_payments_standart_advanced' => array(
-                                                        'fields' => array(
-                                                            'allowspecific' => array(  // Payment Applicable From
+                                                    ]
+                                                ],
+                                                'groups' => [
+                                                    'settings_payments_standart_advanced' => [
+                                                        'fields' => [
+                                                            'allowspecific' => [ // Payment Applicable From
                                                                 'value' => 'All Allowed Countries'
-                                                            ),
-                                                            'sandbox_flag' => array( //Sandbox Mode
+                                                            ],
+                                                            'sandbox_flag' => [ //Sandbox Mode
                                                                 'value' => 1 //Yes
-                                                            ),
-                                                            'line_items_enabled' => array( //Transfer Cart Line Items
+                                                            ],
+                                                            'line_items_enabled' => [ //Transfer Cart Line Items
                                                                 'value' => 1 //Yes
-                                                            ),
-                                                            'verify_peer' => array( //Enable SSL verification
+                                                            ],
+                                                            'verify_peer' => [ //Enable SSL verification
                                                                 'value' => 0 //No
-                                                            ),
-                                                            'debug' => array( // Debug Mode
+                                                            ],
+                                                            'debug' => [ // Debug Mode
                                                                 'value' => self::YES_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
 
     protected function _getPaypalExpress()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_alternative_payment_methods' => array( //PayPal Express Checkout
-                                'groups' => array(
-                                    'express_checkout_us' => array( //Express Checkout
-                                        'groups' => array(
-                                            'express_checkout_required' => array( //Required PayPal Settings
-                                                'groups' => array(
-                                                    'express_checkout_required_express_checkout' => array( //Express Checkout
-                                                        'fields' => array(
-                                                            'business_account' => array( //Email Associated with PayPal
+                        'groups' => [
+                            'paypal_alternative_payment_methods' => [ //PayPal Express Checkout
+                                'groups' => [
+                                    'express_checkout_us' => [ //Express Checkout
+                                        'groups' => [
+                                            'express_checkout_required' => [ //Required PayPal Settings
+                                                'groups' => [
+                                                    'express_checkout_required_express_checkout' => [ //Express Checkout
+                                                        'fields' => [
+                                                            'business_account' => [ //Email Associated with PayPal
                                                                 'value' => 'paymentspro@biz.com'
-                                                            ),
-                                                            'api_authentication' => array( //API Authentication Methods
+                                                            ],
+                                                            'api_authentication' => [ //API Authentication Methods
                                                                 'value' => 0 //API Signature
-                                                            ),
-                                                            'api_username' => array( //API Username
+                                                            ],
+                                                            'api_username' => [ //API Username
                                                                 'value' => 'paymentspro_api1.biz.com'
-                                                            ),
-                                                            'api_password' => array( //API Password
+                                                            ],
+                                                            'api_password' => [ //API Password
                                                                 'value' => '1369911703'
-                                                            ),
-                                                            'api_signature' => array( //API Signature
+                                                            ],
+                                                            'api_signature' => [ //API Signature
                                                                 'value' => 'AOolWQExAt2k.RZzqZ6i6hWlSW4vAnkvVXvL8r1P-kXgqaV7sfD.ftNQ'
-                                                            ),
-                                                            'sandbox_flag' => array( //Sandbox Mode
+                                                            ],
+                                                            'sandbox_flag' => [ //Sandbox Mode
                                                                 'value' => self::YES_VALUE
-                                                            ),
-                                                            'use_proxy' => array( //API Uses Proxy
+                                                            ],
+                                                            'use_proxy' => [ //API Uses Proxy
                                                                 'value' => self::NO_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                ),
-                                                'fields' => array(
-                                                    'enable_express_checkout' => array( //Enable this Solution
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ],
+                                                'fields' => [
+                                                    'enable_express_checkout' => [ //Enable this Solution
                                                         'value' => self::YES_VALUE
-                                                    )
-                                                )
-                                            ),
-                                            'settings_ec' => array( //Basic Settings - PayPal Payments Pro
-                                                'fields' => array(
-                                                    'payment_action' => array( //Payment Action
+                                                    ]
+                                                ]
+                                            ],
+                                            'settings_ec' => [ //Basic Settings - PayPal Payments Pro
+                                                'fields' => [
+                                                    'payment_action' => [ //Payment Action
                                                         'value' => 'Authorization' //Authorization
-                                                    )
-                                                ),
-                                                'groups' => array(
-                                                    'settings_ec_advanced' => array(
-                                                        'fields' => array(
-                                                            'debug' => array( // Debug Mode
+                                                    ]
+                                                ],
+                                                'groups' => [
+                                                    'settings_ec_advanced' => [
+                                                        'fields' => [
+                                                            'debug' => [ // Debug Mode
                                                                 'value' => self::YES_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1113,87 +1439,87 @@ class Config extends AbstractRepository
      */
     protected function _getPaypalPayFlowLink()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_payment_gateways' => array( // PayPal Payment Gateways
-                                'groups' => array(
-                                    'payflow_link_us' => array( // Payflow Link(Includes Express Checkout)
-                                        'groups' => array(
-                                            'payflow_link_required' => array( // Required Paypal Settings
-                                                'groups' => array(
-                                                    'payflow_link_payflow_link' => array( // Payflow Link and Express Checkout
-                                                        'fields' => array(
-                                                            'business_account' => array( // Email Associated with PayPal Merchant Account
+                        'groups' => [
+                            'paypal_payment_gateways' => [ // PayPal Payment Gateways
+                                'groups' => [
+                                    'payflow_link_us' => [ // Payflow Link(Includes Express Checkout)
+                                        'groups' => [
+                                            'payflow_link_required' => [ // Required Paypal Settings
+                                                'groups' => [
+                                                    'payflow_link_payflow_link' => [ // Payflow Link and Express Checkout
+                                                        'fields' => [
+                                                            'business_account' => [ // Email Associated with PayPal Merchant Account
                                                                 'value' => 'mtf_payflowlink@ebay.com'
-                                                            ),
-                                                            'partner' => array( // Partner
+                                                            ],
+                                                            'partner' => [ // Partner
                                                                 'value' => 'PayPal'
-                                                            ),
-                                                            'user' => array( // API User
+                                                            ],
+                                                            'user' => [ // API User
                                                                 'value' => 'mtfpayflowlink'
-                                                            ),
-                                                            'vendor' => array( // Vendor
+                                                            ],
+                                                            'vendor' => [ // Vendor
                                                                 'value' => 'mtfpayflowlink'
-                                                            ),
-                                                            'pwd' => array( // API Password
+                                                            ],
+                                                            'pwd' => [ // API Password
                                                                 'value' => '123123mtf'
-                                                            ),
-                                                            'sandbox_flag' => array( // Test Mode
+                                                            ],
+                                                            'sandbox_flag' => [ // Test Mode
                                                                 'value' => self::YES_VALUE
-                                                            ),
-                                                            'use_proxy' => array( // Use Proxy
+                                                            ],
+                                                            'use_proxy' => [ // Use Proxy
                                                                 'value' => self::NO_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                ),
-                                                'fields' => array(
-                                                    'enable_payflow_link' => array( // Enable this solution
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ],
+                                                'fields' => [
+                                                    'enable_payflow_link' => [ // Enable this solution
                                                         'value' => self::YES_VALUE
-                                                    ),
-                                                    'enable_express_checkout' => array( // Enable this solution
+                                                    ],
+                                                    'enable_express_checkout' => [ // Enable this solution
                                                         'value' => self::YES_VALUE
-                                                    )
-                                                )
-                                            ),
-                                            'settings_payflow_link' => array( // Basic Settings - PayPal Payflow Link
-                                                'fields' => array(
-                                                    'payment_action' => array( // Payment Action
+                                                    ]
+                                                ]
+                                            ],
+                                            'settings_payflow_link' => [ // Basic Settings - PayPal Payflow Link
+                                                'fields' => [
+                                                    'payment_action' => [ // Payment Action
                                                         'value' => 'Authorization'
-                                                    )
-                                                ),
-                                                'groups' => array(
-                                                    'settings_payflow_link_advanced' => array(
-                                                        'fields' => array(
-                                                            'debug' => array( // Debug Mode
+                                                    ]
+                                                ],
+                                                'groups' => [
+                                                    'settings_payflow_link_advanced' => [
+                                                        'fields' => [
+                                                            'debug' => [ // Debug Mode
                                                                 'value' => self::YES_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            ),
-                                            'settings_payflow_link_express_checkout' => array( // Basic Settings - PayPal Express Checkout
-                                                'fields' => array(
-                                                    'payment_action' => array( // Payment Action
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ],
+                                            'settings_payflow_link_express_checkout' => [ // Basic Settings - PayPal Express Checkout
+                                                'fields' => [
+                                                    'payment_action' => [ // Payment Action
                                                         'value' => 'Authorization'
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1203,87 +1529,87 @@ class Config extends AbstractRepository
      */
     protected function _getPaypalPayFlowPro()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_payment_gateways' => array( // PayPal Payment Gateways
-                                'groups' => array(
-                                    'paypal_payflowpro_with_express_checkout' => array( // Payflow Pro (Includes Express Checkout)
-                                        'groups' => array(
-                                            'paypal_payflow_required' => array( // Required Paypal Settings
-                                                'groups' => array(
-                                                    'paypal_payflow_api_settings' => array( // Payflow Pro and Express Checkout
-                                                        'fields' => array(
-                                                            'business_account' => array( // Email Associated with PayPal Merchant Account
+                        'groups' => [
+                            'paypal_payment_gateways' => [ // PayPal Payment Gateways
+                                'groups' => [
+                                    'paypal_payflowpro_with_express_checkout' => [ // Payflow Pro (Includes Express Checkout)
+                                        'groups' => [
+                                            'paypal_payflow_required' => [ // Required Paypal Settings
+                                                'groups' => [
+                                                    'paypal_payflow_api_settings' => [ // Payflow Pro and Express Checkout
+                                                        'fields' => [
+                                                            'business_account' => [ // Email Associated with PayPal Merchant Account
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
-                                                            ),
-                                                            'partner' => array( // Partner
+                                                            ],
+                                                            'partner' => [ // Partner
                                                                 'value' => 'PayPal'
-                                                            ),
-                                                            'user' => array( // API User
+                                                            ],
+                                                            'user' => [ // API User
                                                                 'value' => 'empayflowpro'
-                                                            ),
-                                                            'vendor' => array( // Vendor
+                                                            ],
+                                                            'vendor' => [ // Vendor
                                                                 'value' => 'empayflowpro'
-                                                            ),
-                                                            'pwd' => array( // API Password
+                                                            ],
+                                                            'pwd' => [ // API Password
                                                                 'value' => 'Temp1234'
-                                                            ),
-                                                            'sandbox_flag' => array( // Test Mode
+                                                            ],
+                                                            'sandbox_flag' => [ // Test Mode
                                                                 'value' => self::YES_VALUE
-                                                            ),
-                                                            'use_proxy' => array( // Use Proxy
+                                                            ],
+                                                            'use_proxy' => [ // Use Proxy
                                                                 'value' => self::NO_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                ),
-                                                'fields' => array(
-                                                    'enable_paypal_payflow' => array( //Enable this Solution
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ],
+                                                'fields' => [
+                                                    'enable_paypal_payflow' => [ //Enable this Solution
                                                         'value' => self::YES_VALUE
-                                                    )
-                                                )
-                                            ),
-                                            'settings_paypal_payflow' => array( // Basic Settings - PayPal Payflow Pro
-                                                'fields' => array(
-                                                    'payment_action' => array( // Payment Action
+                                                    ]
+                                                ]
+                                            ],
+                                            'settings_paypal_payflow' => [ // Basic Settings - PayPal Payflow Pro
+                                                'fields' => [
+                                                    'payment_action' => [ // Payment Action
                                                         'value' => 'Authorization'
-                                                    )
-                                                ),
-                                                'groups' => array(
-                                                    'settings_paypal_payflow_advanced' => array(
-                                                        'fields' => array(
-                                                            'centinel' => array( //3D Secure Card Validation
+                                                    ]
+                                                ],
+                                                'groups' => [
+                                                    'settings_paypal_payflow_advanced' => [
+                                                        'fields' => [
+                                                            'centinel' => [ //3D Secure Card Validation
                                                                 'value' => 0
-                                                            ),
-                                                            'debug' => array( // Debug Mode
+                                                            ],
+                                                            'debug' => [ // Debug Mode
                                                                 'value' => self::YES_VALUE
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            ),
-                            'payflow_express' => array(
-                                'fields' => array(
-                                    'active' => array(
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            'payflow_express' => [
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1291,38 +1617,38 @@ class Config extends AbstractRepository
      */
     protected function _getPayPalPayflowPro3dSecure()
     {
-        $data = array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        $data = [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_payment_gateways' => array(
-                                'groups' => array(
-                                    'paypal_payflowpro_with_express_checkout' => array(
-                                        'groups' => array(
-                                            'settings_paypal_payflow' => array(
-                                                'groups' => array(
-                                                    'settings_paypal_payflow_advanced' => array(
-                                                        'fields' => array(
-                                                            'centinel' => array( //3D Secure Card Validation
+                        'groups' => [
+                            'paypal_payment_gateways' => [
+                                'groups' => [
+                                    'paypal_payflowpro_with_express_checkout' => [
+                                        'groups' => [
+                                            'settings_paypal_payflow' => [
+                                                'groups' => [
+                                                    'settings_paypal_payflow_advanced' => [
+                                                        'fields' => [
+                                                            'centinel' => [ //3D Secure Card Validation
                                                                 'value' => 1
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
         return array_merge_recursive($data, $this->_getPaypalPayFlowPro());
     }
 
@@ -1333,41 +1659,41 @@ class Config extends AbstractRepository
      */
     protected function _getDefaultTax()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'tax' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'tax' => [
                         'section' => 'tax',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'calculation' => array(
-                                'fields' => array(
-                                    'algorithm' => array( //Tax Calculation Method Based On
+                        'groups' => [
+                            'calculation' => [
+                                'fields' => [
+                                    'algorithm' => [ //Tax Calculation Method Based On
                                         'value' => 'TOTAL_BASE_CALCULATION' //Total
-                                    ),
-                                    'based_on' => array( //Tax Calculation Based On
+                                    ],
+                                    'based_on' => [ //Tax Calculation Based On
                                         'value' => 'shipping' //Shipping Address
-                                    ),
-                                    'price_includes_tax' => array( //Catalog Prices
+                                    ],
+                                    'price_includes_tax' => [ //Catalog Prices
                                         'value' => 0 //Excluding Tax
-                                    ),
-                                    'apply_after_discount' => array( //Apply Customer Tax
+                                    ],
+                                    'apply_after_discount' => [ //Apply Customer Tax
                                         'value' => 0 //Before Discount
-                                    ),
-                                    'discount_tax' => array( //Apply Discount On Prices
+                                    ],
+                                    'discount_tax' => [ //Apply Discount On Prices
                                         'value' => 0 //Excluding Tax
-                                    ),
-                                    'apply_tax_on' => array( //Apply Tax On
+                                    ],
+                                    'apply_tax_on' => [ //Apply Tax On
                                         'value' => 0 //Custom Price if available
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1377,29 +1703,29 @@ class Config extends AbstractRepository
      */
     protected function _getPriceDisplay()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'tax' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'tax' => [
                         'section' => 'tax',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'display' => array( // Price Display Settings
-                                'fields' => array(
-                                    'type' => array( // Display Product Prices In Catalog
+                        'groups' => [
+                            'display' => [ // Price Display Settings
+                                'fields' => [
+                                    'type' => [ // Display Product Prices In Catalog
                                         'value' => self::EXCLUDING_TAX
-                                    ),
-                                    'shipping' => array( // Display Shipping Prices
+                                    ],
+                                    'shipping' => [ // Display Shipping Prices
                                         'value' => self::EXCLUDING_TAX
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1409,47 +1735,47 @@ class Config extends AbstractRepository
      */
     protected function _getShoppingCartDisplay()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'tax' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'tax' => [
                         'section' => 'tax',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'cart_display' => array( // Shipping Cart Display Settings
-                                'fields' => array(
-                                    'price' => array( // Display Prices
+                        'groups' => [
+                            'cart_display' => [ // Shipping Cart Display Settings
+                                'fields' => [
+                                    'price' => [ // Display Prices
                                         'value' => self::EXCLUDING_TAX
-                                    ),
-                                    'subtotal' => array( // Display Subtotal
+                                    ],
+                                    'subtotal' => [ // Display Subtotal
                                         'value' => self::EXCLUDING_TAX
-                                    ),
-                                    'shipping' => array( // Display Shipping Amount
+                                    ],
+                                    'shipping' => [ // Display Shipping Amount
                                         'value' => self::EXCLUDING_TAX
-                                    ),
-                                    'gift_wrapping' => array( // Display Gift Wrapping Prices
+                                    ],
+                                    'gift_wrapping' => [ // Display Gift Wrapping Prices
                                         'value' => self::EXCLUDING_TAX
-                                    ),
-                                    'printed_card' => array( // Display Printed Card Prices
+                                    ],
+                                    'printed_card' => [ // Display Printed Card Prices
                                         'value' => self::EXCLUDING_TAX
-                                    ),
-                                    'grandtotal' => array( // Include Tax In Grand Total
+                                    ],
+                                    'grandtotal' => [ // Include Tax In Grand Total
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'full_summary' => array( // Display Full Tax Summary
+                                    ],
+                                    'full_summary' => [ // Display Full Tax Summary
                                         'value' => self::NO_VALUE
-                                    ),
-                                    'zero_tax' => array( // Display Zero Tax Subtotal
+                                    ],
+                                    'zero_tax' => [ // Display Zero Tax Subtotal
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1467,75 +1793,75 @@ class Config extends AbstractRepository
      */
     protected function _getPayPalPayflow()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_payment_gateways' => array(
-                                'groups' => array(
-                                    'paypal_payflowpro_with_express_checkout' => array(
-                                        'groups' => array(
-                                            'paypal_payflow_required' => array(
-                                                'groups' => array(
-                                                    'paypal_payflow_api_settings' => array(
-                                                        'fields' => array(
-                                                            'business_account' => array(
+                        'groups' => [
+                            'paypal_payment_gateways' => [
+                                'groups' => [
+                                    'paypal_payflowpro_with_express_checkout' => [
+                                        'groups' => [
+                                            'paypal_payflow_required' => [
+                                                'groups' => [
+                                                    'paypal_payflow_api_settings' => [
+                                                        'fields' => [
+                                                            'business_account' => [
                                                                 'value' => 'pro_em_1350644409_biz@ebay.com'
-                                                            ),
-                                                            'partner' => array(
+                                                            ],
+                                                            'partner' => [
                                                                 'value' => 'PayPal'
-                                                            ),
-                                                            'user' => array(
+                                                            ],
+                                                            'user' => [
                                                                 'value' => 'empayflowpro'
-                                                            ),
-                                                            'vendor' => array(
+                                                            ],
+                                                            'vendor' => [
                                                                 'value' => 'empayflowpro'
-                                                            ),
-                                                            'pwd' => array(
+                                                            ],
+                                                            'pwd' => [
                                                                 'value' => 'Temp1234'
-                                                            ),
-                                                            'sandbox_flag' => array(
+                                                            ],
+                                                            'sandbox_flag' => [
                                                                 'value' => 1
-                                                            ),
-                                                            'enable_paypal_payflow' => array(
+                                                            ],
+                                                            'enable_paypal_payflow' => [
                                                                 'value' => 1
-                                                            ),
-                                                            'use_proxy' => array(
+                                                            ],
+                                                            'use_proxy' => [
                                                                 'value' => 0
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            ),
-                                            'settings_paypal_payflow' => array(
-                                                'groups' => array(
-                                                    'fields' => array(
-                                                        'payment_action' => array(
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ],
+                                            'settings_paypal_payflow' => [
+                                                'groups' => [
+                                                    'fields' => [
+                                                        'payment_action' => [
                                                             'value' => 'Authorization'
-                                                        )
-                                                    ),
-                                                    'settings_paypal_payflow_advanced' => array(
-                                                        'fields' => array(
-                                                            'useccv' => array(
+                                                        ]
+                                                    ],
+                                                    'settings_paypal_payflow_advanced' => [
+                                                        'fields' => [
+                                                            'useccv' => [
                                                                 'value' => 1
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1545,26 +1871,26 @@ class Config extends AbstractRepository
      */
     protected function _getAuthorizeNetDisable()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'authorizenet' => array( //Credit Card (Authorize.net)
-                                'fields' => array(
-                                    'active' => array( //Enabled
+                        'groups' => [
+                            'authorizenet' => [ //Credit Card (Authorize.net)
+                                'fields' => [
+                                    'active' => [ //Enabled
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1574,26 +1900,27 @@ class Config extends AbstractRepository
      */
     protected function _getMysqlSearchEnabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'catalog' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'catalog' => [
                         'section' => 'catalog',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'search' => array(
-                                'fields' => array(
-                                    'engine' => array(
-                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine' //MySql Fulltext
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                        'groups' => [
+                            'search' => [
+                                'fields' => [
+                                    'engine' => [
+                                        //MySql Fulltext
+                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1603,32 +1930,32 @@ class Config extends AbstractRepository
      */
     protected function getCheckmo()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'checkmo' => array( //Credit Card (Authorize.net)
-                                'fields' => array(
-                                    'active' => array(
+                        'groups' => [
+                            'checkmo' => [ //Credit Card (Authorize.net)
+                                'fields' => [
+                                    'active' => [
                                         'value' => self::YES_VALUE,
-                                    ),
-                                    'order_status' => array(
+                                    ],
+                                    'order_status' => [
                                         'value' => 'pending', //New Order Status
-                                    ),
-                                    'allowspecific' => array(
+                                    ],
+                                    'allowspecific' => [
                                         'value' => 0, //All Allowed Counries
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -1638,38 +1965,38 @@ class Config extends AbstractRepository
      */
     protected function _get3dSecureCreditCardValidation()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'payment_services' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'payment_services' => [
                         'section' => 'payment_services',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'centinel' => array( //3D Secure Credit Card Validation
-                                'fields' => array(
-                                    'processor_id' => array(
+                        'groups' => [
+                            'centinel' => [ //3D Secure Credit Card Validation
+                                'fields' => [
+                                    'processor_id' => [
                                         'value' => '134-01'
-                                    ),
-                                    'merchant_id' => array(
+                                    ],
+                                    'merchant_id' => [
                                         'value' => 'magentoTEST'
-                                    ),
-                                    'password' => array(
+                                    ],
+                                    'password' => [
                                         'value' => 'mag3nt0T3ST'
-                                    ),
-                                    'test_mode' => array(
+                                    ],
+                                    'test_mode' => [
                                         'value' => 1 //Yes
-                                    ),
-                                    'debug' => array(
+                                    ],
+                                    'debug' => [
                                         'value' => 0 //No
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1677,38 +2004,38 @@ class Config extends AbstractRepository
      */
     protected function _getPayPalPaymentsPro3dSecure()
     {
-        $data = array(
-            'data' => array(
-                'sections' => array(
-                    'payment' => array(
+        $data = [
+            'data' => [
+                'sections' => [
+                    'payment' => [
                         'section' => 'payment',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'paypal_group_all_in_one' => array( // PayPal All-in-One Payment Solutions
-                                'groups' => array(
-                                    'wpp_usuk' => array( // Payments Pro (Includes Express Checkout)
-                                        'groups' => array(
-                                            'wpp_settings' => array( // Basic Settings - PayPal Express Checkout
-                                                'groups' => array(
-                                                    'wpp_settings_advanced' => array( // Advanced Settings
-                                                        'fields' => array(
-                                                            'centinel' => array( // 3D Secure Card Validation
+                        'groups' => [
+                            'paypal_group_all_in_one' => [ // PayPal All-in-One Payment Solutions
+                                'groups' => [
+                                    'wpp_usuk' => [ // Payments Pro (Includes Express Checkout)
+                                        'groups' => [
+                                            'wpp_settings' => [ // Basic Settings - PayPal Express Checkout
+                                                'groups' => [
+                                                    'wpp_settings_advanced' => [ // Advanced Settings
+                                                        'fields' => [
+                                                            'centinel' => [ // 3D Secure Card Validation
                                                                 'value' => 1
-                                                            ),
-                                                        ),
-                                                    ),
-                                                ),
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
         return array_merge_recursive($data, $this->_getPaypalDirect());
     }
 
@@ -1719,26 +2046,26 @@ class Config extends AbstractRepository
      */
     protected function _getMapEnabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'sales' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'sales' => [
                         'section' => 'sales',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'msrp' => array( //Minimum Advertised Price)
-                                'fields' => array(
-                                    'enabled' => array( //Enabled
+                        'groups' => [
+                            'msrp' => [ //Minimum Advertised Price)
+                                'fields' => [
+                                    'enabled' => [ //Enabled
                                         'value' => 1 //Yes
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1748,26 +2075,26 @@ class Config extends AbstractRepository
      */
     protected function _getMapDisabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'sales' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'sales' => [
                         'section' => 'sales',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'msrp' => array( //Minimum Advertised Price)
-                                'fields' => array(
-                                    'enabled' => array( //Disabled
+                        'groups' => [
+                            'msrp' => [ //Minimum Advertised Price)
+                                'fields' => [
+                                    'enabled' => [ //Disabled
                                         'value' => 0 //No
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1777,27 +2104,27 @@ class Config extends AbstractRepository
      */
     protected function _getAddressTemplate()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'customer' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'customer' => [
                         'section' => 'customer',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'address_templates' => array(
-                                'fields' => array(
-                                    'oneline' => array(
+                        'groups' => [
+                            'address_templates' => [
+                                'fields' => [
+                                    'oneline' => [
                                         'value' => '{{var firstname}} {{var lastname}}, {{var street}}, {{var city}},'
                                             . ' {{var region}} {{var postcode}}, {{var country}}'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1807,26 +2134,26 @@ class Config extends AbstractRepository
      */
     protected function _getSecretKeyEnabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'admin' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'admin' => [
                         'section' => 'admin',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'security' => array(
-                                'fields' => array(
-                                    'use_form_key' => array(
+                        'groups' => [
+                            'security' => [
+                                'fields' => [
+                                    'use_form_key' => [
                                         'value' => '0'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1836,54 +2163,54 @@ class Config extends AbstractRepository
      */
     public function getGeneralStoreGermany()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'general' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'general' => [
                         'section' => 'general',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'store_information' => array(
-                                'fields' => array(
-                                    'name' => array(
+                        'groups' => [
+                            'store_information' => [
+                                'fields' => [
+                                    'name' => [
                                         'value' => 'Test',
-                                    ),
-                                    'phone' => array(
+                                    ],
+                                    'phone' => [
                                         'value' => '630-371-7008',
-                                    ),
-                                    'country_id' => array(
+                                    ],
+                                    'country_id' => [
                                         'value' => 'DE',
-                                    ),
-                                    'region_id' => array(
+                                    ],
+                                    'region_id' => [
                                         'value' => 82,
-                                    ),
-                                    'postcode' => array(
+                                    ],
+                                    'postcode' => [
                                         'value' => '10789',
-                                    ),
-                                    'city' => array(
+                                    ],
+                                    'city' => [
                                         'value' => 'Berlin',
-                                    ),
-                                    'street_line1' => array(
+                                    ],
+                                    'street_line1' => [
                                         'value' => 'Augsburger Strabe 41',
-                                    ),
-                                    'merchant_vat_number' => array(
+                                    ],
+                                    'merchant_vat_number' => [
                                         'value' => '111607872'
-                                    ),
-                                ),
-                            ),
-                            'country' => array(
-                                'fields' => array(
-                                    'eu_countries' => array(
-                                        'value' => array('FR', 'DE', 'GB'),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    ],
+                                ],
+                            ],
+                            'country' => [
+                                'fields' => [
+                                    'eu_countries' => [
+                                        'value' => ['FR', 'DE', 'GB'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -1893,26 +2220,26 @@ class Config extends AbstractRepository
      */
     public function getDisableGroupAssignData()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'customer' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'customer' => [
                         'section' => 'customer',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'create_account' => array(
-                                'fields' => array(
-                                    'auto_group_assign' => array(
+                        'groups' => [
+                            'create_account' => [
+                                'fields' => [
+                                    'auto_group_assign' => [
                                         'value' => self::NO_VALUE,
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -1922,26 +2249,26 @@ class Config extends AbstractRepository
      */
     protected function _getAllowedCurrencies()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'currency' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'currency' => [
                         'section' => 'currency',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'options' => array(
-                                'fields' => array(
-                                    'allow' => array(
-                                        'value' => array('EUR', 'USD')
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                        'groups' => [
+                            'options' => [
+                                'fields' => [
+                                    'allow' => [
+                                        'value' => ['EUR', 'USD']
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -1951,50 +2278,50 @@ class Config extends AbstractRepository
      */
     protected function _getRmaEnabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'sales' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'sales' => [
                         'section' => 'sales',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'magento_rma' => array( //RMA
-                                'fields' => array(
-                                    'enabled' => array( //Enabled
+                        'groups' => [
+                            'magento_rma' => [ //RMA
+                                'fields' => [
+                                    'enabled' => [ //Enabled
                                         'value' => 1 //Yes
-                                    ),
-                                    'enabled_on_product' => array( //Enabled
+                                    ],
+                                    'enabled_on_product' => [ //Enabled
                                         'value' => 1 //Yes
-                                    ),
-                                    'use_store_address' => array( //Disabled
+                                    ],
+                                    'use_store_address' => [ //Disabled
                                         'value' => 0 //No
-                                    ),
-                                    'store_name' => array(
+                                    ],
+                                    'store_name' => [
                                         'value' => 'Return Store'
-                                    ),
-                                    'address' => array(
+                                    ],
+                                    'address' => [
                                         'value' => 'Main Street 1'
-                                    ),
-                                    'city' => array( //New York
+                                    ],
+                                    'city' => [ //New York
                                         'value' => 'New York'
-                                    ),
-                                    'region_id' => array( // New York
+                                    ],
+                                    'region_id' => [ // New York
                                         'value' => '43'
-                                    ),
-                                    'zip' => array(
-                                        'value' =>'10010'
-                                    ),
-                                    'country_id' => array( // United States
+                                    ],
+                                    'zip' => [
+                                        'value' => '10010'
+                                    ],
+                                    'country_id' => [ // United States
                                         'value' => 'US'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -2004,26 +2331,26 @@ class Config extends AbstractRepository
      */
     protected function _getProductFlatEnabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'catalog' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'catalog' => [
                         'section' => 'catalog',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'frontend' => array( //Frontend
-                                'fields' => array(
-                                    'flat_catalog_product' => array( //Enabled
+                        'groups' => [
+                            'frontend' => [ //Frontend
+                                'fields' => [
+                                    'flat_catalog_product' => [ //Enabled
                                         'value' => self::YES_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -2033,26 +2360,26 @@ class Config extends AbstractRepository
      */
     protected function _getProductFlatDisabled()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'catalog' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'catalog' => [
                         'section' => 'catalog',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'frontend' => array( //Frontend
-                                'fields' => array(
-                                    'flat_catalog_product' => array( //Disabled
+                        'groups' => [
+                            'frontend' => [ //Frontend
+                                'fields' => [
+                                    'flat_catalog_product' => [ //Disabled
                                         'value' => self::NO_VALUE
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -2062,29 +2389,29 @@ class Config extends AbstractRepository
      */
     protected function _getManualPriceLayeredNavigationMysql()
     {
-        $config  =  array(
-            'data' => array(
-                'sections' => array(
-                    'catalog' => array(
+        $config = [
+            'data' => [
+                'sections' => [
+                    'catalog' => [
                         'section' => 'catalog',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'layered_navigation' => array(
-                                'fields' => array(
-                                    'price_range_calculation' => array(
+                        'groups' => [
+                            'layered_navigation' => [
+                                'fields' => [
+                                    'price_range_calculation' => [
                                         'value' => 'manual' // Price Navigation Step Calculation
-                                    ),
-                                    'price_range_step' => array(
+                                    ],
+                                    'price_range_step' => [
                                         'value' => '10' // Default Price Navigation Step
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
         return array_replace_recursive($this->_getMysqlSearchEnabled(), $config);
     }
@@ -2096,26 +2423,26 @@ class Config extends AbstractRepository
      */
     protected function _getShowOutOfStock()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'cataloginventory' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'cataloginventory' => [
                         'section' => 'cataloginventory',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'options' => array( //Stock Options
-                                'fields' => array(
-                                    'show_out_of_stock' => array(
+                        'groups' => [
+                            'options' => [ //Stock Options
+                                'fields' => [
+                                    'show_out_of_stock' => [
                                         'value' => 1, //Yes
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -2127,26 +2454,26 @@ class Config extends AbstractRepository
      */
     protected function _getStartupPage($page)
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'admin' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'admin' => [
                         'section' => 'admin',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'startup' => array(
-                                'fields' => array(
-                                    'menu_item_id' => array(
+                        'groups' => [
+                            'startup' => [
+                                'fields' => [
+                                    'menu_item_id' => [
                                         'value' => $page
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -2156,25 +2483,25 @@ class Config extends AbstractRepository
      */
     protected function _getAppState1Configuration()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'cms' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'cms' => [
                         'section' => 'cms',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'wysiwyg' => array(
-                                'fields' => array(
-                                    'enabled' => array(
+                        'groups' => [
+                            'wysiwyg' => [
+                                'fields' => [
+                                    'enabled' => [
                                         'value' => 'disabled'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }
