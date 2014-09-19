@@ -41,12 +41,13 @@ $bootstrap->runBootstrap();
 
 /** Magento installation */
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
-    $installCmd = sprintf('php -f %s --', escapeshellarg(realpath($testsBaseDir . '/../../shell/install.php')));
     if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
-        passthru("{$installCmd} --uninstall", $exitCode);
+        $unInstallCmd = sprintf('php -f %s --', escapeshellarg(realpath($testsBaseDir . '/../../shell/uninstall.php')));
+        passthru($unInstallCmd, $exitCode);
         if ($exitCode) {
             exit($exitCode);
         }
+        echo $unInstallCmd . "\n";
     }
     $installConfigFile = $testsBaseDir . '/config/install.php';
     $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "{$installConfigFile}.dist";
@@ -55,9 +56,11 @@ if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'ena
 
     /* Install application */
     if ($installOptions) {
+        $installCmd = sprintf('php -f %s --', escapeshellarg(realpath($testsBaseDir . '/../../shell/install.php')));
         foreach ($installOptions as $optionName => $optionValue) {
             $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
         }
+        echo $installCmd . "\n";
         passthru($installCmd, $exitCode);
         if ($exitCode) {
             exit($exitCode);

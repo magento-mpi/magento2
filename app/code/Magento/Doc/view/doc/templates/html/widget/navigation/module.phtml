@@ -19,12 +19,16 @@
         background-color: #cccccc;
         padding: 3px 0 3px 5px;
     }
+
     ul.modules li {
         border-bottom: 1px solid #aaaaaa;
     }
 </style>
 <ul class="modules">
     <?php foreach ($this->getModules() as $module): ?>
-    <li><a href="<?php echo $this->getUrl('*/api/module', ['article' => $module['name']]) ?>"><?php echo substr($module['name'], 8) ?></a></li>
+        <li><a href="<?php echo $this->getUrl('*/api/module', ['item' => $module['name']]) ?>"><?php echo substr(
+                    $module['name'],
+                    8
+                ) ?></a></li>
     <?php endforeach; ?>
 </ul>

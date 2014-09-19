@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertWidgetSuccessDeleteMessage module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetSuccessDeleteMessage>
+    <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetAbsentOnFrontendHome>
+</constraint>

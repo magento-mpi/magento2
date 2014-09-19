@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertGlobalSearchProductName module="Magento_Backend">
+        <severeness>low</severeness>
+    </assertGlobalSearchProductName>
+    <assertGlobalSearchOrderId module="Magento_Backend">
+        <severeness>low</severeness>
+    </assertGlobalSearchOrderId>
+    <assertGlobalSearchNoRecordsFound module="Magento_Backend">
+        <severeness>low</severeness>
+    </assertGlobalSearchNoRecordsFound>
+    <assertGlobalSearchCustomerName module="Magento_Backend">
+        <severeness>low</severeness>
+    </assertGlobalSearchCustomerName>
+</constraint>

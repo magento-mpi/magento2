@@ -16,18 +16,22 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Model\Resource\Order\Grid|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $grid;
+
     /**
      * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $appResourceMock;
+
     /**
      * @var \Magento\Framework\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $adapterMock;
+
     /**
      * @var \Magento\Framework\DB\Select|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $selectMock;
+
     /**
      * @var \Zend_Db_Statement_Interface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -62,7 +66,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         );
         $this->adapterMock = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            [],
+            ['select', 'query', 'insertFromSelect', 'delete'],
             [],
             '',
             false
@@ -96,6 +100,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->appResourceMock->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($this->adapterMock));
+        $this->appResourceMock->expects($this->any())
+            ->method('getTableName')
+            ->will($this->returnValue('sales_flat_order_grid'));
         $this->adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($this->selectMock));
@@ -131,6 +138,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->appResourceMock->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($this->adapterMock));
+        $this->appResourceMock->expects($this->once())
+            ->method('getTableName')
+            ->will($this->returnValue('sales_flat_order_grid'));
         $this->adapterMock->expects($this->once())
             ->method('delete')
             ->with('sales_flat_order_grid', ['fi.field = ?' => 1])

@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Fixture\GroupedProduct;
 
 /**
  * Class View
@@ -21,6 +20,7 @@ use Magento\Catalog\Test\Fixture\GroupedProduct;
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 class View extends Block
 {
@@ -60,13 +60,6 @@ class View extends Block
     protected $paypalCheckout = '[data-action=checkout-form-submit]';
 
     /**
-     * This member holds the class name for the price block found inside the product details.
-     *
-     * @var string
-     */
-    protected $priceBlockClass = 'price-box';
-
-    /**
      * Product name element
      *
      * @var string
@@ -93,13 +86,6 @@ class View extends Block
      * @var string
      */
     protected $productShortDescription = '.product.attibute.overview';
-
-    /**
-     * Product price element
-     *
-     * @var string
-     */
-    protected $productPrice = '.price-box .price';
 
     /**
      * Click for Price link on Product page
@@ -251,16 +237,6 @@ class View extends Block
     }
 
     /**
-     * Return product price displayed on page
-     *
-     * @return array|string Returns arrays with keys corresponding to fixture keys
-     */
-    public function getProductPrice()
-    {
-        return $this->getPriceBlock()->getPrice();
-    }
-
-    /**
      * Return product short description on page
      *
      * @return string|null
@@ -289,10 +265,10 @@ class View extends Block
     /**
      * Return product options
      *
-     * @param FixtureInterface $product [optional]
+     * @param FixtureInterface $product
      * @return array
      */
-    public function getOptions(FixtureInterface $product = null)
+    public function getOptions(FixtureInterface $product)
     {
         /** @var CatalogProductSimple $product */
         $dataConfig = $product->getDataConfig();
@@ -301,33 +277,6 @@ class View extends Block
         return $this->hasRender($typeId)
             ? $this->callRender($typeId, 'getOptions', ['product' => $product])
             : $this->getCustomOptionsBlock()->getOptions($product);
-    }
-
-    /**
-     * Verify product options
-     *
-     * @param FixtureInterface $product
-     * @return bool
-     */
-    public function verifyProductOptions(FixtureInterface $product)
-    {
-        $attributes = $product->getConfigurableOptions();
-        foreach ($attributes as $attributeName => $attribute) {
-            foreach ($attribute as $optionName) {
-                $option = $this->_rootElement->find(
-                    '//*[*[@class="field configurable required"]//span[text()="' .
-                    $attributeName .
-                    '"]]//select/option[contains(text(), "' .
-                    $optionName .
-                    '")]',
-                    Locator::SELECTOR_XPATH
-                );
-                if (!$option->isVisible()) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**
@@ -340,26 +289,32 @@ class View extends Block
     {
         $dataConfig = $product->getDataConfig();
         $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
+        $checkoutData = null;
 
         /** @var CatalogProductSimple $product */
         if ($this->hasRender($typeId)) {
             $this->callRender($typeId, 'fillOptions', ['product' => $product]);
         } else {
-            $optionsCheckoutData = [];
+            $checkoutCustomOptions = [];
 
             if ($product instanceof InjectableFixture) {
                 /** @var CatalogProductSimple $product */
+                $checkoutData = $product->getCheckoutData();
+                $checkoutCustomOptions = isset($checkoutData['options']['custom_options'])
+                    ? $checkoutData['options']['custom_options']
+                    : [];
                 $customOptions = $product->hasData('custom_options')
                     ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
                     : [];
-                $checkoutData = $product->getCheckoutData();
-                $productCheckoutData = isset($checkoutData['custom_options'])
-                    ? $checkoutData['custom_options']
-                    : [];
-                $optionsCheckoutData = $this->prepareCheckoutData($customOptions, $productCheckoutData);
+
+                $checkoutCustomOptions = $this->prepareCheckoutData($customOptions, $checkoutCustomOptions);
             }
 
-            $this->getCustomOptionsBlock()->fillCustomOptions($optionsCheckoutData);
+            $this->getCustomOptionsBlock()->fillCustomOptions($checkoutCustomOptions);
+        }
+
+        if (isset($checkoutData['options']['qty'])) {
+            $this->_rootElement->find($this->qty)->setValue($checkoutData['options']['qty']);
         }
     }
 
@@ -375,18 +330,18 @@ class View extends Block
         $result = [];
 
         foreach ($checkoutData as $checkoutOption) {
-            $attributeKey = $checkoutOption['title'];
-            $optionKey = $checkoutOption['value'];
+            $attribute = str_replace('attribute_key_', '', $checkoutOption['title']);
+            $option = str_replace('option_key_', '', $checkoutOption['value']);
 
-            if (isset($options[$attributeKey])) {
+            if (isset($options[$attribute])) {
                 $result[] = [
-                    'type' => strtolower(preg_replace('/[^a-z]/i', '', $options[$attributeKey]['type'])),
-                    'title' => isset($options[$attributeKey]['title'])
-                            ? $options[$attributeKey]['title']
-                            : $attributeKey,
-                    'value' => isset($options[$attributeKey]['options'][$optionKey]['title'])
-                            ? $options[$attributeKey]['options'][$optionKey]['title']
-                            : $optionKey
+                    'type' => strtolower(preg_replace('/[^a-z]/i', '', $options[$attribute]['type'])),
+                    'title' => isset($options[$attribute]['title'])
+                            ? $options[$attribute]['title']
+                            : $attribute,
+                    'value' => isset($options[$attribute]['options'][$option]['title'])
+                            ? $options[$attribute]['options'][$option]['title']
+                            : $option
                 ];
             }
         }
@@ -416,26 +371,6 @@ class View extends Block
     public function clickAddToCartButton()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
-     * Verification of group products
-     *
-     * @param GroupedProduct $product
-     * @return bool
-     */
-    public function verifyGroupedProducts(GroupedProduct $product)
-    {
-        foreach ($product->getAssociatedProductNames() as $name) {
-            $option = $this->_rootElement->find(
-                "//*[@id='super-product-table']//tr[td/strong='{$name}']",
-                Locator::SELECTOR_XPATH
-            );
-            if (!$option->isVisible()) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

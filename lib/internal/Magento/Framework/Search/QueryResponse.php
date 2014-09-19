@@ -1,7 +1,5 @@
 <?php
 /**
- * Search Response
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search;
 
+/**
+ * Search Response
+ */
 class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
 {
     /**
@@ -21,15 +22,15 @@ class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
     /**
      * Aggregation Collection
      *
-     * @var Aggregation[]
+     * @var Aggregation
      */
     protected $aggregations;
 
     /**
      * @param Document[] $documents
-     * @param Aggregation[] $aggregations
+     * @param Aggregation $aggregations
      */
-    public function __construct(array $documents, array $aggregations)
+    public function __construct(array $documents, Aggregation $aggregations)
     {
         $this->documents = $documents;
         $this->aggregations = $aggregations;
@@ -57,7 +58,7 @@ class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
     /**
      * Return Aggregation Collection
      *
-     * @return Aggregation[]
+     * @return Aggregation
      */
     public function getAggregations()
     {

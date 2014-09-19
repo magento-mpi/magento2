@@ -44,6 +44,8 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  *
  * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-27625
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ManageProductReviewFromCustomerPageTest extends Injectable
 {

@@ -32,7 +32,7 @@ class AssertGiftWrappingNotInGrid extends AbstractConstraint
      * @param GiftWrapping $giftWrapping
      * @return void
      */
-    public function processAssert(GiftWrappingIndex $giftWrappingIndexPage, GiftWrapping $giftWrapping)
+    public function processAssert(GiftWrappingIndex $giftWrappingIndexPage, $giftWrapping)
     {
         $data = $giftWrapping->getData();
         reset($data['website_ids']);

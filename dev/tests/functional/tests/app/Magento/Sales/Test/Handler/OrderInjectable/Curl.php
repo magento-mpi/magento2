@@ -16,6 +16,7 @@ use Mtf\Handler\Curl as AbstractCurl;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
 /**
  * Class Curl
@@ -59,6 +60,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     protected $steps = [
         'customer_choice' => 'header,data',
         'products_choice' => 'search,items,shipping_method,totals,giftmessage,billing_method',
+        'apply_coupon_code' => 'items,shipping_method,totals,billing_method',
         'shipping_data_address' => 'shipping_method,billing_method,shipping_address,totals,giftmessage',
         'shipping_data_method_get' => 'shipping_method,totals',
         'shipping_data_method_set' => 'shipping_method,totals,billing_method',
@@ -90,6 +92,9 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         $data = $fixture->getData();
         $result['customer_choice'] = $this->prepareCustomerData($data);
         $result['products_choice'] = $this->prepareProductsData($data['entity_id']);
+        if (isset($data['coupon_code'])) {
+            $result['apply_coupon_code'] = $this->prepareCouponCode($data['coupon_code']);
+        }
         $result['order_data'] = $this->prepareOrderData($data);
         $result['shipping_data_address'] = $this->prepareShippingData($result['order_data']);
         $result['shipping_data_method_get'] = [
@@ -102,6 +107,17 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         ];
 
         return $result;
+    }
+
+    /**
+     * Prepare coupon data
+     *
+     * @param SalesRuleInjectable $data
+     * @return array
+     */
+    protected function prepareCouponCode(SalesRuleInjectable $data)
+    {
+        return ['order' => ['coupon' => ['code' => $data->getCouponCode()]]];
     }
 
     /**
@@ -136,8 +152,11 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
             if (!$value->hasData('checkout_data')) {
                 continue;
             }
-            $methodName = ucfirst($value->getDataConfig()['type_id']);
-            $result['item'][$value->getId()] = $this->{'prepare' . $methodName . 'Data'}($value);
+            $methodName = 'prepare' . ucfirst($value->getDataConfig()['type_id']) . 'Data';
+            if (!method_exists($this, $methodName)) {
+                $methodName = 'prepareSimpleData';
+            }
+            $result['item'][$value->getId()] = $this->$methodName($value);
         }
         return $result;
     }
@@ -152,7 +171,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
-        $result['qty'] = $checkoutData['qty'];
+        $result['qty'] = $checkoutData['options']['qty'];
         $attributesData = $product->hasData('configurable_attributes_data')
             ? $product->getDataFieldConfig('configurable_attributes_data')['source']->getAttributesData()
             : null;
@@ -176,7 +195,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
      */
     protected function prepareSimpleData(FixtureInterface $product)
     {
-        return ['qty' => $product->getCheckoutData()['qty']];
+        return ['qty' => $product->getCheckoutData()['options']['qty']];
     }
 
     /**
@@ -237,7 +256,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         $result = [];
         foreach ($data['products'] as $value) {
             $result[$value->getId()] = [
-                'qty' => ['qty' => $value->getCheckoutData()['qty']],
+                'qty' => ['qty' => $value->getCheckoutData()['options']['qty']],
             ];
         }
 

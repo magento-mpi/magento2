@@ -9,6 +9,7 @@
 namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
 
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class ProductGrid
@@ -40,9 +41,8 @@ class ProductGrid extends Grid
     {
         $views = [];
         foreach ($products as $product) {
-            $views[] = $this->_rootElement
-                ->find(sprintf($this->product . $this->productView, $product->getName(), $product->getPrice()))
-                ->getText();
+            $productLocator = sprintf($this->product . $this->productView, $product->getName(), $product->getPrice());
+            $views[] = $this->_rootElement->find($productLocator, Locator::SELECTOR_XPATH)->getText();
         }
         return $views;
     }

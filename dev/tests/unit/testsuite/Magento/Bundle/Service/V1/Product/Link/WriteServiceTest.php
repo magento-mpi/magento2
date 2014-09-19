@@ -36,7 +36,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $optionCollectionFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\StoreManagerInterface
      */
     protected $storeManagerMock;
 
@@ -81,7 +81,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false
+            '\Magento\Framework\StoreManagerInterface', array(), array(), '', false
         );
 
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')

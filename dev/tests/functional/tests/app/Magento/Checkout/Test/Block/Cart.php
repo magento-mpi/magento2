@@ -29,7 +29,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $cartItemByProductName = './/tr[contains(@class,"item-info") and (.//*[contains(@class,"product-item-name")]/a[.="%s"])]';
+    protected $cartItemByProductName = './/tbody[contains(@class,"cart item") and (.//*[contains(@class,"product-item-name")]/a[.="%s"])]';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -82,14 +82,24 @@ class Cart extends Block
      */
     public function getCartItem(FixtureInterface $product)
     {
-        $cartItem = $this->_rootElement->find(
-            sprintf($this->cartItemByProductName, $product->getName()),
-            Locator::SELECTOR_XPATH
-        );
-        return $this->blockFactory->create(
-            'Magento\Checkout\Test\Block\Cart\CartItem',
-            ['element' => $cartItem]
-        );
+        $dataConfig = $product->getDataConfig();
+        $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
+        $cartItem = null;
+
+        if ($this->hasRender($typeId)) {
+            $cartItem = $this->callRender($typeId, 'getCartItem', ['product' => $product]);
+        } else {
+            $cartItemBlock = $this->_rootElement->find(
+                sprintf($this->cartItemByProductName, $product->getName()),
+                Locator::SELECTOR_XPATH
+            );
+            $cartItem = $this->blockFactory->create(
+                'Magento\Checkout\Test\Block\Cart\CartItem',
+                ['element' => $cartItemBlock]
+            );
+        }
+
+        return $cartItem;
     }
 
     /**

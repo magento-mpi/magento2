@@ -40,7 +40,8 @@ class CatalogProductVirtual extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
-            'price' => ['value' => 10.00, 'preset' => '-']
+            'price' => ['value' => 10.00, 'preset' => '-'],
+            'checkout_data' => ['preset' => 'order_default'],
         ];
 
         $this->_data['50_dollar_product'] = [
@@ -57,7 +58,8 @@ class CatalogProductVirtual extends AbstractRepository
                 'qty' => 111.0000,
                 'is_in_stock' => 'In Stock',
             ],
-            'price' => ['value' => 50.00, 'preset' => '-']
+            'price' => ['value' => 50.00, 'preset' => '-'],
+            'checkout_data' => ['preset' => '50_dollar_product']
         ];
     }
 }

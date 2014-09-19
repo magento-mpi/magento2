@@ -113,7 +113,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     /**
      * Store Manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -153,7 +153,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
@@ -171,7 +171,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,

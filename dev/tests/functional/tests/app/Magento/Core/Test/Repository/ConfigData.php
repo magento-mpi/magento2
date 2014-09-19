@@ -193,6 +193,17 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['flatrate'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/flatrate/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ]
+            ]
+        ];
+
         // Payments settings
         $this->_data['cashondelivery'] = [
             'section' =>
@@ -468,6 +479,24 @@ class ConfigData extends AbstractRepository
                     'scope' => 'wishlist',
                     'scope_id' => 1,
                     'value' => 0,
+                ],
+            ]
+        ];
+
+        //Sales Archiving
+        $this->_data['salesarchive_pending_closed'] = [
+            'section' => [
+                [
+                    'path' => 'sales/magento_salesarchive/active',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/magento_salesarchive/order_statuses',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => ['pending', 'closed'],
                 ],
             ]
         ];

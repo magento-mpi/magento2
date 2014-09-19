@@ -16,7 +16,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Registry;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;
 use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\Stdlib\DateTime;
@@ -121,7 +121,7 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
         Registry $registry,
         TimezoneInterface $localeDate,
         Filesystem $filesystem,
-        StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         DateTime $dateTime,
         ResourceEvent $resource = null,
         Db $resourceCollection = null,

@@ -5,12 +5,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require_once __DIR__ . '/../../../../../app/bootstrap.php';
-$rootDir = realpath(__DIR__ . '/../../../../..');
-try {
-    $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint($rootDir, array());
 
-    $objectManager = new \Magento\Framework\App\ObjectManager();
+require_once __DIR__ . '/../../../../../app/bootstrap.php';
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+try {
+    $objectManager = $bootstrap->getObjectManager();
     /** @var $configModel \Magento\Framework\App\Config\ReinitableConfigInterface */
     $configModel = $objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface');
     $configModel->reinit();
