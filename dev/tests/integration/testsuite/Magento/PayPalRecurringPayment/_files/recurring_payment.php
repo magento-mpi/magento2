@@ -36,7 +36,7 @@ $recurringPayment->addData(
             'street' => 'Street',
             'city' => 'City',
             'customer_email' => 'co@co.co',
-            'telephone' => 'Telephone',
+            'telephone' => 'Phone Number',
             'country_id' => 'Country',
             'firstname' => 'Co',
             'address_type' => 'billing'
@@ -47,7 +47,7 @@ $recurringPayment->addData(
             'street' => 'Street',
             'city' => 'City',
             'customer_email' => 'co@co.co',
-            'telephone' => 'Telephone',
+            'telephone' => 'Phone Number',
             'country_id' => 'Country',
             'firstname' => 'Co',
             'address_type' => 'shipping'
