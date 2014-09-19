@@ -745,8 +745,8 @@ class Config extends AbstractRepository
                                         'value' => 'LBS'
                                     ],
                                     'allowed_methods' => [ //Allowed Methods
-                                        'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08']
                                         //Select all
+                                        'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08']
                                     ],
                                     'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
@@ -1911,8 +1911,8 @@ class Config extends AbstractRepository
                             'search' => [
                                 'fields' => [
                                     'engine' => [
-                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine'
                                         //MySql Fulltext
+                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine'
                                     ]
                                 ]
                             ]

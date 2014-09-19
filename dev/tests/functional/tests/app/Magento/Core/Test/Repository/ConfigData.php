@@ -309,6 +309,12 @@ class ConfigData extends AbstractRepository
                     'value' => 0,
                 ],
                 [
+                    'path' => 'carriers/freeshipping/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
                     'path' => 'carriers/ups/active',
                     'scope' => 'carriers',
                     'scope_id' => 1,
