@@ -44,7 +44,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMockForAbstractClass();

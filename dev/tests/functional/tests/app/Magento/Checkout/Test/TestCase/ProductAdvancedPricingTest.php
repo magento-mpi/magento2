@@ -109,17 +109,16 @@ class ProductAdvancedPricingTest extends Functional
     {
         $productName = $product->getName();
         $specialPrice = $product->getProductSpecialPrice();
+        $cartItem = Factory::getPageFactory()->getCheckoutCartIndex()->getCartBlock()->getCartItem($product);
+        $unitPrice = $cartItem->getPrice();
+        $subTotal = $cartItem->getSubtotalPrice();
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
-
-        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-        $subTotal = $checkoutCartPage->getCartBlock()->getCartItemSubTotal($product);
         $this->assertEquals(
             $specialPrice,
             $unitPrice,
             'Incorrect unit price for ' . $productName
         );
-        $this->assertContains(
+        $this->assertEquals(
             $specialPrice,
             $subTotal,
             'Incorrect sub-total for ' . $productName
@@ -140,11 +139,12 @@ class ProductAdvancedPricingTest extends Functional
         $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         // Validate each of the products.
+        $itemOrderedBlock = Factory::getPageFactory()->getSalesOrderView()->getItemsOrderedBlock();
         foreach ($checkoutFixture->getProducts() as $product) {
             $specialPrice = $product->getProductSpecialPrice();
             $this->assertContains(
                 $specialPrice,
-                Factory::getPageFactory()->getSalesOrderView()->getItemsOrderedBlock()->getPrice($product),
+                $itemOrderedBlock->getPrice($product),
                 'Incorrect price for item ' . $product->getName()
             );
         }

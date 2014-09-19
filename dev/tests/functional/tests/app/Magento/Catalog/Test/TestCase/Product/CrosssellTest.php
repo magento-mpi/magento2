@@ -45,7 +45,7 @@ class CrosssellTest extends Functional
         $simple2->switchData('simple');
         $simple2->persist();
 
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $configurable->switchData('configurable');
         $configurable->persist();
 
@@ -127,9 +127,8 @@ class CrosssellTest extends Functional
         //Steps
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(['sku' => $product->getProductSku()]);
-        $productForm = $editProductPage->getProductForm();
-        $productForm->fill($crosssellFixture);
-        $editProductPage->getFormAction()->save();
+        $editProductPage->getProductForm()->fill($crosssellFixture);
+        $editProductPage->getFormPageActions()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
     }
 }

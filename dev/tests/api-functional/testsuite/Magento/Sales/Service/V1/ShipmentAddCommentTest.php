@@ -48,9 +48,9 @@ class ShipmentAddCommentTest extends WebapiAbstract
      */
     public function testShipmentAddComment()
     {
-        /** @var \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory */
-        $shipmentFactory = $this->objectManager->create('Magento\Sales\Model\Order\ShipmentFactory');
-        $shipment = $shipmentFactory->create()->load(self::SHIPMENT_INCREMENT_ID, 'increment_id');
+        /** @var \Magento\Sales\Model\Resource\Order\Shipment\Collection $shipmentCollection */
+        $shipmentCollection = $this->objectManager->get('\Magento\Sales\Model\Resource\Order\Shipment\Collection');
+        $shipment = $shipmentCollection->getFirstItem();
 
         $commentData = [
             Comment::COMMENT => 'Hello world!',

@@ -41,7 +41,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     protected $_store = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -70,7 +70,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Store\Model\System\Store $systemStore
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\GiftWrapping\Model\Wrapping\Validator $validator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -82,7 +82,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\GiftWrapping\Model\Wrapping\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -111,16 +111,9 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      * Perform actions before object save.
      *
      * @return void
-     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
-        $errors = $this->_validator->validate($this);
-        if (!empty($errors)) {
-            throw new \Magento\Framework\Model\Exception(
-                __('Cannot save Gift Wrapping:') . ' ' . implode(', ', $errors)
-            );
-        }
         if (!$this->hasData('website_ids') && $this->_storeManager->hasSingleStore()) {
             $this->setData('website_ids', array_keys($this->_systemStore->getWebsiteOptionHash()));
         }
@@ -346,5 +339,14 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
             ) . self::IMAGE_PATH . $this->getImage();
         }
         return false;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _getValidationRulesBeforeSave()
+    {
+        return $this->_validator;
     }
 }

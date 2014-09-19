@@ -56,8 +56,8 @@ class CloseOrderTest extends Functional
 
         if (!($fixture instanceof PaypalStandardOrder)) {
             $orderPage->getOrderActionsBlock()->invoice();
-            $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
-            $newInvoicePage->getInvoiceTotalsBlock()->submit();
+            $newInvoicePage->getTotalsBlock()->setCaptureOption('Capture Online');
+            $newInvoicePage->getTotalsBlock()->submit();
             $this->assertContains(
                 $orderPage->getMessagesBlock()->getSuccessMessages(),
                 'The invoice has been created.',

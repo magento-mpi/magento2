@@ -86,4 +86,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\SalesRule\Model\Validator\Pool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="discount" xsi:type="array">
+                    <item name="giftcard_validator" xsi:type="object">Magento\GiftCard\Model\Validator\Discount</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

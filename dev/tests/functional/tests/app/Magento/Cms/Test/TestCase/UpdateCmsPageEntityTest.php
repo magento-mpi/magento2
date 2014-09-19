@@ -49,16 +49,6 @@ class UpdateCmsPageEntityTest extends Injectable
     protected $cmsNew;
 
     /**
-     * This method is called before the first test of this test class is run.
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::markTestIncomplete('MAGETWO-27635');
-    }
-
-    /**
      * Inject page
      *
      * @param CmsIndex $cmsIndex

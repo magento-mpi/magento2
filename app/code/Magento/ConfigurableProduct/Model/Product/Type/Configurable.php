@@ -370,6 +370,11 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         $res = array();
         foreach ($this->getConfigurableAttributes($product) as $attribute) {
             $eavAttribute = $attribute->getProductAttribute();
+            $storeId = 0;
+            if ($product->getStoreId() !== null) {
+                $storeId = $product->getStoreId();
+            }
+            $eavAttribute->setStoreId($storeId);
             /* @var $attribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
             $res[$eavAttribute->getId()] = array(
                 'id' => $attribute->getId(),
@@ -675,6 +680,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 
             foreach ($data as $attributeId => $attributeValue) {
                 if (isset($usedAttributes[$attributeId])) {
+                    /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
                     $attribute = $usedAttributes[$attributeId]->getProductAttribute();
                     $label = $attribute->getStoreLabel();
                     $value = $attribute;

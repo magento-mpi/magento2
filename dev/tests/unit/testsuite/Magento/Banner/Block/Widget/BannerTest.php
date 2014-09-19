@@ -63,7 +63,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $currentStore = new \Magento\Framework\Object(array('id' => 42));
         $currentWebsite = new \Magento\Framework\Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
-            'Magento\Store\Model\StoreManagerInterface',
+            'Magento\Framework\StoreManagerInterface',
             array(),
             '',
             true,

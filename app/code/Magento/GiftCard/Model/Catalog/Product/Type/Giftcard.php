@@ -7,6 +7,8 @@
  */
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     const TYPE_GIFTCARD = 'giftcard';
@@ -52,6 +54,11 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_scopeConfig;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -63,9 +70,10 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -82,14 +90,16 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_store = $storeManager->getStore();
         $this->_localeFormat = $localeFormat;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -276,7 +286,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         if (is_null($this->_giftcardAmounts)) {
             $allowedAmounts = array();
             foreach ($product->getGiftcardAmounts() as $value) {
-                $allowedAmounts[] = $this->_store->roundPrice($value['website_value']);
+                $allowedAmounts[] = $this->priceCurrency->round($value['website_value']);
             }
             $this->_giftcardAmounts = $allowedAmounts;
         }
@@ -430,7 +440,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         if ($rate != 1 && $customAmount) {
             $customAmount = $this->_localeFormat->getNumber($customAmount);
             if (is_numeric($customAmount) && $customAmount) {
-                $customAmount = $this->_store->roundPrice($customAmount / $rate);
+                $customAmount = $this->priceCurrency->round($customAmount / $rate);
             }
         }
         return $customAmount;

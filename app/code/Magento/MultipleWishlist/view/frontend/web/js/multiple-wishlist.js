@@ -107,7 +107,7 @@ define([
     $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         options: {
             wishlistFormSelector: '#wishlist-view-form',
-            formTmplSelector: '#form-tmpl',
+            formTmplSelector: '#form-tmpl-multiple',
             formTmplId: '#wishlist-hidden-form'
         },
 
