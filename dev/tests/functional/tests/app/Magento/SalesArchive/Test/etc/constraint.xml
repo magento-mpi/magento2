@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertOrderArchivedSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderArchivedSuccessMessage>
+    <assertOrderInSalesArchiveGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderInSalesArchiveGrid>
+    <assertOrderArchiveWarningMessage module="Magento_SalesArchive">
+        <severeness>high</severeness>
+    </assertOrderArchiveWarningMessage>
+    <assertOrderNotInArchiveGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderNotInArchiveGrid>
+    <assertOrderInvoiceArchivedInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderInvoiceArchivedInGrid>
+    <assertOrderShipmentArchivedInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderShipmentArchivedInGrid>
+    <assertOrderCreditMemoArchivedInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderCreditMemoArchivedInGrid>
+</constraint>

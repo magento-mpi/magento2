@@ -53,4 +53,10 @@
     <assertCustomerOrderTotalReportResult module="Magento_Reports">
         <severeness>low</severeness>
     </assertCustomerOrderTotalReportResult>
+    <assertAbandonedCartCustomerInfoResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertAbandonedCartCustomerInfoResult>
+    <assertCustomerOrderCountReportResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertCustomerOrderCountReportResult>
 </constraint>

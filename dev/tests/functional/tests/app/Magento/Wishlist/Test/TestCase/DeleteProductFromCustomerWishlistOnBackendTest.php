@@ -123,7 +123,6 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         $this->catalogProductView = $catalogProductView;
         $this->customerIndex = $customerIndex;
         $this->customerIndexEdit = $customerIndexEdit;
-
     }
 
     /**
