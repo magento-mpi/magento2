@@ -15,12 +15,12 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
 /**
- * Class PredefineTaxDiscount
+ * Class PredefineTaxDiscountTest
  * Predefine tax and discount data
  *
  * @ticketId MTA-404
  */
-class PredefineTaxDiscount extends Injectable
+class PredefineTaxDiscountTest extends Injectable
 {
     /**
      * Predefine tax and discount data
@@ -33,8 +33,8 @@ class PredefineTaxDiscount extends Injectable
      */
     public function test(TaxRule $tax, SalesRuleInjectable $cartPriceRule, CatalogRule $catalogRule, ConfigData $store)
     {
-        $tax->persist();
         $cartPriceRule->persist();
+        $tax->persist();
         $catalogRule->persist();
         $store->persist();
     }

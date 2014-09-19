@@ -312,6 +312,35 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['disable_shipping_all'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/flatrate/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/ups/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/usps/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/fedex/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
         $this->_data['flatrate'] = [
             'section' => [
                 [
@@ -359,13 +388,13 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['ups_disable'] = [
+        $this->_data['ups'] = [
             'section' => [
                 [
                     'path' => 'carriers/ups/active',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 0,
+                    'value' => 1,
                 ],
                 [
                     'path' => 'carriers/ups/active_rma',
@@ -377,80 +406,120 @@ class ConfigData extends AbstractRepository
                     'path' => 'carriers/ups/type',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'UPS',
+                    'value' => 'UPS_XML',
                 ],
                 [
-                    'path' => 'carriers/ups/gateway_url',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'http://www.ups.com/using/services/rave/qcostcgi.cgi',
-                ],
-                [
-                    'path' => 'carriers/ups/title',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'United Parcel Service',
-                ],
-                [
-                    'path' => 'carriers/ups/max_package_weight',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 150,
-                ],
-                [
-                    'path' => 'carriers/ups/min_package_weight',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 0.1,
-                ],
-                [
-                    'path' => 'carriers/ups/handling_type',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'F',
-                ],
-                [
-                    'path' => 'carriers/ups/handling_action',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'O',
-                ],
-                [
-                    'path' => 'carriers/ups/allowed_methods',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    // @codingStandardsIgnoreStart
-                    'value' => '1DM,1DML,1DA,1DAL,1DAPI,1DP,1DPL,2DM,2DML,2DA,2DAL,3DS,GND,GNDCOM,GNDRES,STD,XPR,WXS,XPRL,XDM,XDML,XPD',
-                    // @codingStandardsIgnoreEnd
-                ],
-                [
-                    'path' => 'carriers/ups/free_method',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'GND',
-                ],
-            ]
-        ];
-
-        $this->_data['usps_disable'] = [
-            'section' => [
-                [
-                    'path' => 'carriers/usps/active',
+                    'path' => 'carriers/ups/is_account_live',
                     'scope' => 'carriers',
                     'scope_id' => 1,
                     'value' => 0,
                 ],
                 [
-                    'path' => 'carriers/usps/active_rma',
+                    'path' => 'carriers/ups/password',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'magento200',
+                ],
+                [
+                    'path' => 'carriers/ups/username',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'magento',
+                ],
+                [
+                    'path' => 'carriers/ups/mode_xml',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/ups/gateway_url',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'https://wwwcie.ups.com/ups.app/xml/Rate',
+                ],
+                [
+                    'path' => 'carriers/ups/origin_shipment',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'Shipments Originating in United States',
+                ],
+                [
+                    'path' => 'carriers/ups/access_license_number',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'ECAB751ABF189ECA',
+                ],
+                [
+                    'path' => 'carriers/ups/negotiated_active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/ups/shipper_number',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => '207W88',
+                ],
+                [
+                    'path' => 'carriers/ups/container',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'CP',
+                ],
+                [
+                    'path' => 'carriers/ups/dest_type',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'RES',
+                ],
+                [
+                    'path' => 'carriers/ups/tracking_xml_url',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'https://wwwcie.ups.com/ups.app/xml/Track',
+                ],
+                [
+                    'path' => 'carriers/ups/unit_of_measure',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'LBS',
+                ],
+                [
+                    'path' => 'carriers/ups/allowed_methods',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => ['11','12','14','54','59','65','01','02','03','07','08'],
+                ],
+                [
+                    'path' => 'carriers/ups/sallowspecific',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/ups/showmethod',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/ups/debug',
                     'scope' => 'carriers',
                     'scope_id' => 1,
                     'value' => 1,
                 ],
+            ]
+        ];
+
+        $this->_data['usps'] = [
+            'section' => [
                 [
-                    'path' => 'carriers/usps/type',
+                    'path' => 'carriers/usps/active',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'UPS',
+                    'value' => 1,
                 ],
                 [
                     'path' => 'carriers/usps/gateway_url',
@@ -462,106 +531,90 @@ class ConfigData extends AbstractRepository
                     'path' => 'carriers/usps/gateway_secure_url',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'http://production.shippingapis.com/ShippingAPI.dll',
+                    'value' => 'https://secure.shippingapis.com/ShippingAPI.dll',
                 ],
                 [
-                    'path' => 'carriers/usps/title',
+                    'path' => 'carriers/usps/userid',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'United States Postal Service',
+                    'value' => '721FRAGR6267',
                 ],
                 [
-                    'path' => 'carriers/usps/max_package_weight',
+                    'path' => 'carriers/usps/password',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 70,
-                ],
-                [
-                    'path' => 'carriers/usps/min_package_weight',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 0.1,
-                ],
-                [
-                    'path' => 'carriers/usps/handling_type',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'F',
-                ],
-                [
-                    'path' => 'carriers/usps/handling_action',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'O',
-                ],
-                [
-                    'path' => 'carriers/usps/allowed_methods',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    // @codingStandardsIgnoreStart
-                    'value' => '0_FCLE,0_FCL,0_FCP,1,2,3,4,6,7,13,16,17,22,23,25,27,28,33,34,35,36,37,42,43,53,55,56,57,61,INT_1,INT_2,INT_4,INT_6,INT_7,INT_8,INT_9,INT_10,INT_11,INT_12,INT_13,INT_14,INT_15,INT_16,INT_20,INT_26',
-                    // @codingStandardsIgnoreEnd
+                    'value' => '326ZL84XF990',
                 ],
             ]
         ];
 
-        $this->_data['fedex_disable'] = [
+        $this->_data['fedex'] = [
             'section' => [
                 [
                     'path' => 'carriers/fedex/active',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 0,
+                    'value' => 1,
                 ],
                 [
-                    'path' => 'carriers/fedex/active_rma',
+                    'path' => 'carriers/fedex/account',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 0,
+                    'value' => '510087801',
                 ],
                 [
-                    'path' => 'carriers/fedex/production_webservices_url',
+                    'path' => 'carriers/fedex/meter_number',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'https://ws.fedex.com:443/web-services/',
+                    'value' => '100047915',
                 ],
                 [
-                    'path' => 'carriers/fedex/title',
+                    'path' => 'carriers/fedex/key',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'Federal Express',
+                    'value' => 'INdxa6ug7qZ2KD7y',
                 ],
                 [
-                    'path' => 'carriers/fedex/max_package_weight',
+                    'path' => 'carriers/fedex/password',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 150,
+                    'value' => 'pTfh4K0nkHcHVginelU4HmJkA',
                 ],
                 [
-                    'path' => 'carriers/fedex/handling_type',
+                    'path' => 'carriers/fedex/sandbox_mode',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'F',
+                    'value' => 1,
                 ],
                 [
-                    'path' => 'carriers/fedex/handling_action',
+                    'path' => 'shipping/origin/country_id',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => 'O',
+                    'value' => 'US',
                 ],
                 [
-                    'path' => 'carriers/fedex/allowed_methods',
-                    'scope' => 'carriers',
+                    'path' => 'shipping/origin/region_id',
+                    'scope' => 'shipping',
                     'scope_id' => 1,
-                    // @codingStandardsIgnoreStart
-                    'value' => 'EUROPE_FIRST_INTERNATIONAL_PRIORITY,FEDEX_1_DAY_FREIGHT,FEDEX_2_DAY_FREIGHT,FEDEX_2_DAY,FEDEX_2_DAY_AM,FEDEX_3_DAY_FREIGHT,FEDEX_EXPRESS_SAVER,FEDEX_GROUND,FIRST_OVERNIGHT,GROUND_HOME_DELIVERY,INTERNATIONAL_ECONOMY,INTERNATIONAL_ECONOMY_FREIGHT,INTERNATIONAL_FIRST,INTERNATIONAL_GROUND,INTERNATIONAL_PRIORITY,INTERNATIONAL_PRIORITY_FREIGHT,PRIORITY_OVERNIGHT,SMART_POST,STANDARD_OVERNIGHT,FEDEX_FREIGHT,FEDEX_NATIONAL_FREIGHT',
-                    // @codingStandardsIgnoreEnd
+                    'value' => '12',
                 ],
                 [
-                    'path' => 'carriers/fedex/free_method',
-                    'scope' => 'carriers',
+                    'path' => 'shipping/origin/postcode',
+                    'scope' => 'shipping',
                     'scope_id' => 1,
-                    'value' => 'FEDEX_GROUND',
+                    'value' => '90024',
+                ],
+                [
+                    'path' => 'shipping/origin/city',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'Los Angeles',
+                ],
+                [
+                    'path' => 'shipping/origin/street_line1',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => '1419 Westwood Blvd',
                 ],
             ]
         ];

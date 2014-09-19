@@ -124,7 +124,7 @@ class Config extends AbstractRepository
                                         'value' => 'Purchase Order'
                                     ],
                                     'active' => [
-                                        'value' => self::NO_VALUE
+                                        'value' => self::YES_VALUE
                                     ],
                                     'order_status' => [
                                         'value' => 'pending'
@@ -159,7 +159,7 @@ class Config extends AbstractRepository
                                         'value' => 'Ogone'
                                     ],
                                     'active' => [
-                                        'value' => self::NO_VALUE
+                                        'value' => self::YES_VALUE
                                     ],
                                     'order_status' => [
                                         'value' => 'pending'
@@ -206,7 +206,7 @@ class Config extends AbstractRepository
                                         'value' => 'Bank Transfer Payment'
                                     ],
                                     'active' => [
-                                        'value' => self::NO_VALUE
+                                        'value' => self::YES_VALUE
                                     ],
                                     'order_status' => [
                                         'value' => 'pending'
@@ -241,7 +241,7 @@ class Config extends AbstractRepository
                                         'value' => 'Cash On Delivery'
                                     ],
                                     'active' => [
-                                        'value' => self::NO_VALUE
+                                        'value' => self::YES_VALUE
                                     ],
                                     'order_status' => [
                                         'value' => 'pending'
@@ -911,19 +911,22 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => [
-                            'authorizenet_directpost' => [ //Credit Card (Authorize.net)
+                            'authorizenet_directpost' => [
                                 'fields' => [
                                     'active' => [ //Enabled
-                                        'value' => self::NO_VALUE
+                                        'value' => self::YES_VALUE
                                     ],
                                     'login' => [ //API Login ID
-                                        'value' => '36sCtGS8w'
+                                        'value' => '72nUK46WmnG'
                                     ],
                                     'payment_action' => [ //Payment Action
                                         'value' => 'authorize'
                                     ],
                                     'trans_key' => [ //Transaction Key
-                                        'value' => '"67RY59y59p25JQsZ"'
+                                        'value' => '"2gvHY854P9P634tJ"'
+                                    ],
+                                    'trans_md5' => [
+                                        'value' => 'mperfqa'
                                     ],
                                     'cgi_url' => [ //Gateway URL
                                         'value' => 'https://test.authorize.net/gateway/transact.dll'
@@ -942,7 +945,7 @@ class Config extends AbstractRepository
                                     ],
                                     'debug' => [ // Debug Mode
                                         'value' => self::YES_VALUE
-                                    ]
+                                    ],
                                 ]
                             ]
                         ]

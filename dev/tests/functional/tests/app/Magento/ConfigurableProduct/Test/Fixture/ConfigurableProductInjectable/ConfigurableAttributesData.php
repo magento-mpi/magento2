@@ -336,12 +336,12 @@ class ConfigurableAttributesData implements FixtureInterface
                 'attribute_key_0' => [
                     'options' => [
                         'option_key_0' => [
-                            'pricing_value' => 12.00,
+                            'pricing_value' => 0.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
                         ],
                         'option_key_1' => [
-                            'pricing_value' => 20.00,
+                            'pricing_value' => 0.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
                         ],
@@ -350,12 +350,12 @@ class ConfigurableAttributesData implements FixtureInterface
                 'attribute_key_1' => [
                     'options' => [
                         'option_key_0' => [
-                            'pricing_value' => 12.00,
+                            'pricing_value' => 5.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
                         ],
                         'option_key_1' => [
-                            'pricing_value' => 20.00,
+                            'pricing_value' => 10.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
                         ],
@@ -372,25 +372,25 @@ class ConfigurableAttributesData implements FixtureInterface
             'matrix' => [
                 'attribute_key_0:option_key_0 attribute_key_1:option_key_0' => [
                     'quantity_and_stock_status' => [
-                        'qty' => 10
+                        'qty' => 100
                     ],
                     'weight' => 1
                 ],
                 'attribute_key_0:option_key_0 attribute_key_1:option_key_1' => [
                     'quantity_and_stock_status' => [
-                        'qty' => 10
+                        'qty' => 100
                     ],
                     'weight' => 1
                 ],
                 'attribute_key_0:option_key_1 attribute_key_1:option_key_0' => [
                     'quantity_and_stock_status' => [
-                        'qty' => 10
+                        'qty' => 100
                     ],
                     'weight' => 1
                 ],
                 'attribute_key_0:option_key_1 attribute_key_1:option_key_1' => [
                     'quantity_and_stock_status' => [
-                        'qty' => 10
+                        'qty' => 100
                     ],
                     'weight' => 1
                 ],
@@ -401,12 +401,12 @@ class ConfigurableAttributesData implements FixtureInterface
                 'attribute_key_0' => [
                     'options' => [
                         'option_key_0' => [
-                            'pricing_value' => 12.00,
+                            'pricing_value' => 0.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
                         ],
                         'option_key_1' => [
-                            'pricing_value' => 20.00,
+                            'pricing_value' => 0.00,
                             'include' => 'Yes',
                             'is_percent' => 'No'
                         ],

@@ -13,12 +13,12 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
- * Class PredefineProducts
+ * Class PredefineProductsTest
  * Predefine products
  *
  * @ticketId MTA-404
  */
-class PredefineProducts extends Injectable
+class PredefineProductsTest extends Injectable
 {
     /**
      * Sub category for product
@@ -26,7 +26,7 @@ class PredefineProducts extends Injectable
      * @var array
      */
     protected $subCategory = [
-        'with_custom_option' => 'With Custom Options',
+        'with_all_custom_option' => 'With Custom Options',
         'bundle_dynamic_product' => 'Dynamic',
         'bundle_fixed_product' => 'Fixed',
     ];
@@ -42,7 +42,7 @@ class PredefineProducts extends Injectable
     public function test(FixtureFactory $fixtureFactory, $products, CatalogCategory $category)
     {
         $productsData = explode(', ', $products);
-        $rootCategoryId = 1;
+        $rootCategoryId = null;
         foreach ($productsData as $value) {
             $product = explode('::', $value);
             if (isset($this->subCategory[$product[1]])) {
@@ -74,6 +74,9 @@ class PredefineProducts extends Injectable
                 ]
             );
             $product->persist();
+            if (!$rootCategoryId) {
+                $rootCategoryId = $category->getId();
+            }
         }
     }
 }

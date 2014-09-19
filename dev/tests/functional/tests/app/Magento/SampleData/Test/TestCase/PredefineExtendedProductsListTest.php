@@ -13,12 +13,12 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
- * Class PredefineExtendedProductsList
+ * Class PredefineExtendedProductsListTest
  * Predefine products list in category tree
  *
  * @ticketId MTA-404
  */
-class PredefineExtendedProductsList extends Injectable
+class PredefineExtendedProductsListTest extends Injectable
 {
     /**
      * Predefine products list in category tree
@@ -26,7 +26,7 @@ class PredefineExtendedProductsList extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param string $product
      * @param int $productQty
-     * @param $productsInCategory
+     * @param string $productsInCategory
      * @param CatalogCategory $rootCategory
      * @param string $subCategoryName
      * @return void
@@ -41,6 +41,7 @@ class PredefineExtendedProductsList extends Injectable
     ) {
         $productData = explode('::', $product);
         $rootCategory->persist();
+        $category = null;
         for ($i = 0; $i < $productQty; $i++) {
             if (($i % $productsInCategory) == 0) {
                 $to = $productsInCategory < $productQty - $i ? $i + $productsInCategory : $productQty;

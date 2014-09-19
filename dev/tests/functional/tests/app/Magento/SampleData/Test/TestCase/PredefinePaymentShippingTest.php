@@ -12,25 +12,25 @@ use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 
 /**
- * Class PredefinePaymentShipping
+ * Class PredefinePaymentShippingTest
  * Predefine payment and shipping data
  *
  * @ticketId MTA-404
  */
-class PredefinePaymentShipping extends Injectable
+class PredefinePaymentShippingTest extends Injectable
 {
     /**
      * Predefine payment and shipping data
      *
      * @param FixtureFactory $fixtureFactory
-     * @param string $shipping
-     * @param string $payment
+     * @param string $shippings
+     * @param string $payments
      * @param string $shippingOrigin
      * @return void
      */
-    public function test(FixtureFactory $fixtureFactory, $shipping, $payment, $shippingOrigin)
+    public function test(FixtureFactory $fixtureFactory, $shippings, $payments, $shippingOrigin)
     {
-        $shippingData = explode(', ', $shipping);
+        $shippingData = explode(', ', $shippings);
         $shippingData[] = $shippingOrigin;
 
         foreach ($shippingData as $value) {
@@ -38,7 +38,7 @@ class PredefinePaymentShipping extends Injectable
             $configFixture->persist();
         }
 
-        $paymentData = explode(', ', $payment);
+        $paymentData = explode(', ', $payments);
         foreach ($paymentData as $value) {
             $configFixture = $fixtureFactory->create('\Magento\Core\Test\Fixture\Config');
             $configFixture->switchData($value);
