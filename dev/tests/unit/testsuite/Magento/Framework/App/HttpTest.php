@@ -18,11 +18,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_stateMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_responseMock;
 
     /**
@@ -66,11 +61,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $areaListMock->expects($this->once())->method('getCodeByFrontName')->with($frontName)->will(
             $this->returnValue($areaCode)
         );
-        $this->_stateMock = $this->getMockBuilder('Magento\Framework\App\State')
-            ->disableOriginalConstructor()
-            ->setMethods(['setAreaCode', 'getMode'])
-            ->getMock();
-        $this->_stateMock->expects($this->once())->method('setAreaCode')->with($areaCode);
         $areaConfig = [];
         $configLoaderMock = $this->getMockBuilder(
             'Magento\Framework\App\ObjectManager\ConfigLoader'
@@ -117,12 +107,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 'request' => $this->_requestMock,
                 'response' => $this->_responseMock,
                 'configLoader' => $configLoaderMock,
-                'state' => $this->_stateMock,
                 'filesystem' => $this->_filesystemMock
             ]
         );
     }
-    
+
     public function testLaunchSuccess()
     {
         $this->_eventManagerMock->expects($this->once())->method('dispatch')->with(
@@ -132,7 +121,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->_responseMock, $this->_http->launch());
     }
 
-    public function testLaunchDispatchException()
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Message
+     */
+    public function testLaunchException()
     {
         $this->_frontControllerMock->expects($this->once())->method('dispatch')->with($this->_requestMock)->will(
             $this->returnCallback(
@@ -141,14 +134,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 }
             )
         );
-        $this->_stateMock->expects($this->once())->method('getMode')->will(
-            $this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER)
-        );
-        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(500);
-
-        $this->_responseMock->expects($this->once())->method('setBody')->with(
-            $this->matchesRegularExpression('/Message[\n]+<pre>Message[\n]*(.|\n)*<\/pre>/')
-        );
-        $this->assertSame($this->_responseMock, $this->_http->launch());
+        $this->_http->launch();
     }
 }

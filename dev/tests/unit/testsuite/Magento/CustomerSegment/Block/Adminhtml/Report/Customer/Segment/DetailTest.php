@@ -43,7 +43,7 @@ class DetailTest extends \PHPUnit_Framework_TestCase
     protected $buttonList;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -65,7 +65,7 @@ class DetailTest extends \PHPUnit_Framework_TestCase
 
         $this->urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface', [], '', false);
         $this->layout = $this->getMock('Magento\Framework\View\LayoutInterface');
-        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
 
         $this->buttonList = $this->getMock('Magento\Backend\Block\Widget\Button\ButtonList', [], [], '', false);
         $this->buttonList

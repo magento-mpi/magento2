@@ -53,7 +53,6 @@ class UpdateProductAttributeEntityTest extends Injectable
         CatalogProductAttributeIndex $attributeIndex,
         CatalogProductAttributeNew $attributeNew
     ) {
-        $this->markTestIncomplete('MAGETWO-27282');
         //Precondition
         $productTemplate->persist();
         $productAttributeOriginal->persist();

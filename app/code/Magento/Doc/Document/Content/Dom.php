@@ -10,12 +10,13 @@ namespace Magento\Doc\Document\Content;
 
 use Magento\Doc\Document\Content\Dom\NodeMergingConfig;
 use Magento\Doc\Document\Content\Dom\NodePathMatcher;
+use Magento\Doc\Document\DomInterface;
 
 /**
  * Class Dom
  * @package Magento\Doc\Document\Content
  */
-class Dom
+class Dom implements DomInterface
 {
     /**
      * Prefix which will be used for root namespace
@@ -103,7 +104,7 @@ class Dom
     public function merge($xml)
     {
         $dom = $this->_initDom($xml);
-        $this->_mergeNode($dom->documentElement, '');
+        $this->_mergeNode($dom->documentElement);
     }
 
     /**
@@ -118,7 +119,7 @@ class Dom
      * @param string $parentPath path to parent node
      * @return void
      */
-    protected function _mergeNode(\DOMElement $node, $parentPath)
+    protected function _mergeNode(\DOMElement $node, $parentPath = '//div[@id="root"]')
     {
         $path = $this->_getNodePathByParent($node, $parentPath);
 
@@ -158,6 +159,9 @@ class Dom
                 foreach ($node->childNodes as $childNode) {
                     if ($childNode instanceof \DOMElement) {
                         $this->_mergeNode($childNode, $path);
+                    } else if ($childNode instanceof \DOMText) {
+                        $newNode = $this->_dom->importNode($childNode);
+                        $matchedNode->appendChild($newNode);
                     }
                 }
             }
@@ -173,7 +177,7 @@ class Dom
                 /* recursive merge for all child nodes */
                 foreach ($node->childNodes as $childNode) {
                     if ($childNode instanceof \DOMElement) {
-                        $this->_mergeNode($childNode, $parentPath . '/' . $newNode->tagName);
+                        $this->_mergeNode($childNode, $parentPath . '/' . $this->_getNodePath($newNode));
                     }
                 }
             }
@@ -218,7 +222,31 @@ class Dom
         $path = $prefix . $node->tagName;
         $idAttribute = $this->_nodeMergingConfig->getIdAttribute($path);
         if ($idAttribute) {
-            $path = '//' . $path;
+            if (is_array($idAttribute)) {
+                $path = '//' . $path;
+                $constraints = [];
+                foreach ($idAttribute as $attribute) {
+                    $value = $node->getAttribute($attribute);
+                    $constraints[] = "@{$attribute}='{$value}'";
+                }
+                $path .= '[' . join(' and ', $constraints) . ']';
+            } elseif ($idAttribute && ($value = $node->getAttribute($idAttribute))) {
+                $path = '//' . $path;
+                $path .= "[@{$idAttribute}='{$value}']";
+            }
+        } else {
+            $path = $parentPath . $path;
+        }
+
+        return $path;
+    }
+
+    protected function _getNodePath(\DOMElement $node)
+    {
+        $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
+        $path = $prefix . $node->tagName;
+        $idAttribute = $this->_nodeMergingConfig->getIdAttribute($path);
+        if ($idAttribute) {
             if (is_array($idAttribute)) {
                 $constraints = [];
                 foreach ($idAttribute as $attribute) {
@@ -229,8 +257,6 @@ class Dom
             } elseif ($idAttribute && ($value = $node->getAttribute($idAttribute))) {
                 $path .= "[@{$idAttribute}='{$value}']";
             }
-        } else {
-            $path = $parentPath . $path;
         }
 
         return $path;

@@ -7,8 +7,8 @@
  */
 namespace Magento\TestModule1\Service\V2;
 
-use Magento\TestModule1\Service\V2\Entity\ItemBuilder;
 use Magento\TestModule1\Service\V2\Entity\Item;
+use Magento\TestModule1\Service\V2\Entity\ItemBuilder;
 
 class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestInterface
 {
@@ -24,7 +24,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
     {
         $this->itemBuilder = $itemBuilder;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -70,9 +70,12 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
     /**
      * {@inheritdoc}
      */
-    public function update(Item $item)
+    public function update(Item $entityItem)
     {
-        return $this->itemBuilder->setId($item->getId())->setName('Updated'.$item->getName())->setPrice('5')->create();
+        return $this->itemBuilder
+            ->setId($entityItem->getId())
+            ->setName('Updated' . $entityItem->getName())
+            ->setPrice('5')->create();
     }
 
     /**

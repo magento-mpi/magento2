@@ -16,9 +16,9 @@ use \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount as GiftCardAcc
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var \Magento\Checkout\Service\V1\QuoteLoader
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $quoteLoader;
+    protected $quoteRepository;
 
     /**
      * @var GiftCardAccountBuilder
@@ -26,30 +26,22 @@ class ReadService implements ReadServiceInterface
     protected $giftCardBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $giftCardHelper;
 
     /**
-     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param GiftCardAccountBuilder $giftCardBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardHelper
      */
     public function __construct(
-        \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         GiftCardAccountBuilder $giftCardBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\GiftCardAccount\Helper\Data $giftCardHelper
     ) {
-        $this->quoteLoader = $quoteLoader;
+        $this->quoteRepository = $quoteRepository;
         $this->giftCardBuilder = $giftCardBuilder;
-        $this->storeManager = $storeManager;
         $this->giftCardHelper = $giftCardHelper;
     }
 
@@ -58,9 +50,8 @@ class ReadService implements ReadServiceInterface
      */
     public function getList($cartId)
     {
-        $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $quote = $this->quoteRepository->get($cartId);
         $giftCards = $this->giftCardHelper->getCards($quote);
         $cards = [];
         foreach ($giftCards as $giftCard) {

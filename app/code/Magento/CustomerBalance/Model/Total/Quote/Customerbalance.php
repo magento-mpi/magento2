@@ -7,6 +7,8 @@
  */
 namespace Magento\CustomerBalance\Model\Total\Quote;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -17,7 +19,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_customerBalanceData = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -27,15 +29,23 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
-        \Magento\CustomerBalance\Helper\Data $customerBalanceData
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_storeManager = $storeManager;
         $this->_balanceFactory = $balanceFactory;
         $this->_customerBalanceData = $customerBalanceData;
@@ -74,7 +84,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
                 )->setWebsiteId(
                     $store->getWebsiteId()
                 )->loadByCustomer()->getAmount();
-                $balance = $quote->getStore()->convertPrice($baseBalance);
+                $balance = $this->priceCurrency->convert($baseBalance, $quote->getStore());
             }
         }
 

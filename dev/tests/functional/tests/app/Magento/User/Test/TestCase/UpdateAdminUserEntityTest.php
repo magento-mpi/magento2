@@ -13,7 +13,7 @@ use Magento\User\Test\Fixture\User;
 use Magento\User\Test\Fixture\AdminUserRole;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Magento\Backend\Test\Page\Dashboard;
+use Magento\Backend\Test\Page\Adminhtml\Dashboard;
 use Magento\User\Test\Page\Adminhtml\UserEdit;
 use Magento\User\Test\Page\Adminhtml\UserIndex;
 

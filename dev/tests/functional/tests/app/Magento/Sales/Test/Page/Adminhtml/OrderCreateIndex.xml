@@ -29,5 +29,10 @@
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </actionsBlock>
+        <customerActivitiesBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities</class>
+            <locator>.customer-current-activity</locator>
+            <strategy>css selector</strategy>
+        </customerActivitiesBlock>
     </blocks>
 </page>

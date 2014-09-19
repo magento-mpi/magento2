@@ -1,0 +1,3 @@
+"description";"rewardPoints";"shipping/shipping_service";"shipping/shipping_method";"payment/method";"payment/use_reward_points";"constraint"
+"create order with total < reward points total";"reward_points_150";"Flat Rate";"Fixed";"checkmo";"Yes";"assertRewardPointsSuccessRemoveMessage"
+"create order with total > reward points total";"reward_points_50";"Flat Rate";"Fixed";"checkmo";"Yes";"assertRewardPointsSuccessRemoveMessage"

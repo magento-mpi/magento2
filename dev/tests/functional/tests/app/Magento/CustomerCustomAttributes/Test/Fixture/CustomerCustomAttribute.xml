@@ -22,6 +22,7 @@
             <is_required>1</is_required>
             <default_value />
             <input />
+            <group />
         </attribute_id>
         <entity_type_id>
             <attribute_code>entity_type_id</attribute_code>

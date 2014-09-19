@@ -26,13 +26,13 @@ class MultipleWishlist extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['wishlist_private'] = [
-            'customer_id' => ['preset' => 'default'],
+            'customer_id' => ['dataSet' => 'default'],
             'name' => 'Wish list %isolation%',
             'visibility' => 'No',
         ];
 
         $this->_data['wishlist_public'] = [
-            'customer_id' => ['preset' => 'default'],
+            'customer_id' => ['dataSet' => 'default'],
             'name' => 'Wish list %isolation%',
             'visibility' => 'Yes',
         ];

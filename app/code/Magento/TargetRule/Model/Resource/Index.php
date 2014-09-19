@@ -58,7 +58,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_visibility;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -88,7 +88,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\TargetRule\Model\Resource\Rule $rule
      * @param \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Customer\Model\Session $session
@@ -102,7 +102,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
         \Magento\TargetRule\Model\Resource\Rule $rule,
         \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Customer\Model\Session $session,
