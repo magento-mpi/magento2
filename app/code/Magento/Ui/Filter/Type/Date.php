@@ -49,8 +49,8 @@ class Date extends View
      * @param TemplateContext $context
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
-     * @param ConfigFactory $configurationFactory
-     * @param ConfigBuilderInterface $configurationBuilder
+     * @param ConfigFactory $configFactory
+     * @param ConfigBuilderInterface $configBuilder
      * @param FilterPool $filterPool
      * @param ResolverInterface $localeResolver
      * @param array $data
@@ -59,8 +59,8 @@ class Date extends View
         TemplateContext $context,
         Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
-        ConfigFactory $configurationFactory,
-        ConfigBuilderInterface $configurationBuilder,
+        ConfigFactory $configFactory,
+        ConfigBuilderInterface $configBuilder,
         FilterPool $filterPool,
         ResolverInterface $localeResolver,
         array $data = []
@@ -69,12 +69,12 @@ class Date extends View
         $this->scopeConfig = $context->getScopeConfig();
         $this->localeResolver = $localeResolver;
         parent::__construct(
-            $filterPool,
             $context,
             $renderContext,
             $contentTypeFactory,
-            $configurationFactory,
-            $configurationBuilder,
+            $configFactory,
+            $configBuilder,
+            $filterPool,
             $data
         );
     }
