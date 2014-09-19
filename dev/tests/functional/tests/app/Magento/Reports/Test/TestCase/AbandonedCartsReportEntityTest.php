@@ -18,7 +18,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Cover Abandoned Carts ReportEntity with functional test designed for automation
+ * Test Creation for AbandonedCartsReportEntity
  *
  * Test Flow:
  *
@@ -145,9 +145,10 @@ class AbandonedCartsReportEntityTest extends Injectable
      */
     protected function addProductsToCart(array $products)
     {
-        foreach ($products as $product) {
-            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->addToCart($product);
-        }
+        $addProductsToCart = $this->objectManager->create(
+            'Magento\Checkout\Test\TestStep\AddProductsToTheCartStep',
+            ['products' => $products]
+        );
+        $addProductsToCart->run();
     }
 }

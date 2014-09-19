@@ -57,7 +57,7 @@ class AssertAbandonedCartCustomerInfoResult extends AbstractConstraint
         $filter['updated_at'] = date('M j, Y');
         \PHPUnit_Framework_Assert::assertTrue(
             $abandonedCarts->getGridBlock()->isRowVisible($filter, false, false),
-            'Customer info is absent in Abandoned Carts report grid.'
+            'Expected customer info is absent in Abandoned Carts report grid.'
         );
     }
 
@@ -68,6 +68,6 @@ class AssertAbandonedCartCustomerInfoResult extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer info in Abandoned Carts report. grid';
+        return 'Customer info in Abandoned Carts report grid is correct.';
     }
 }
