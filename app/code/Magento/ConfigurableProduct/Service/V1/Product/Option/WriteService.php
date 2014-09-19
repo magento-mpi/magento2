@@ -89,6 +89,7 @@ class WriteService implements WriteServiceInterface
      */
     public function add($productSku, Option $option)
     {
+        $this->validateNewOptionData($option);
         $product = $this->productRepository->get($productSku);
         $allowedTypes = [ProductType::TYPE_SIMPLE, ProductType::TYPE_VIRTUAL, ConfigurableType::TYPE_CODE];
         if (!in_array($product->getTypeId(), $allowedTypes)) {
@@ -120,6 +121,46 @@ class WriteService implements WriteServiceInterface
         }
 
         return $configurableAttribute->getId();
+    }
+
+    /**
+     * Ensure that all necessary data is available for a new option creation.
+     *
+     * @param Option $option
+     * @return void
+     * @throws InputException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function validateNewOptionData(Option $option)
+    {
+        $inputException = new InputException();
+        if (!$option->getAttributeId()) {
+            $inputException->addError('Option attribute ID is not specified.');
+        }
+        if (!$option->getType()) {
+            $inputException->addError('Option type is not specified.');
+        }
+        if (!$option->getLabel()) {
+            $inputException->addError('Option label is not specified.');
+        }
+        if (!$option->getValues()) {
+            $inputException->addError('Option values are not specified.');
+        } else {
+            foreach ($option->getValues() as $optionValue) {
+                if (!$optionValue->getIndex()) {
+                    $inputException->addError('Value index is not specified for an option.');
+                }
+                if (null === $optionValue->getPrice()) {
+                    $inputException->addError('Price is not specified for an option.');
+                }
+                if (null === $optionValue->isPercent()) {
+                    $inputException->addError('Percent/absolute is not specified for an option.');
+                }
+            }
+        }
+        if ($inputException->wasErrorAdded()) {
+            throw $inputException;
+        }
     }
 
     /**
