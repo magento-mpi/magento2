@@ -2,44 +2,32 @@
 =============
  * Framework improvements:
    * Increased unit tests code coverage for Magento_Persistent, Magento_GiftMessage, Magento_Checkout modules
-   * [DOC] Service Layer: Tax & Price Service (MAGEDOC-1362)
-   * Mock up API reference pages for Magento 2 APIs (MAGEDOC-1507)
-   * Mark up Customer Service code with phpDoc doc blocks (MAGEDOC-1524)
-   * Review and publish Customer Service code with phpDoc doc blocks (MAGEDOC-1562)
-   * Add doc blocks to Magento PHP code/Customer service (MAGEDOC-1517)
-   * Use consistent style for docs for boolean return values (MAGEDOC-1647)
-   * Ticket to address rest of review comments for Customer Service (MAGEDOC-1648)
-   * [DOC] CatalogInventory module API reference (MAGEDOC-1667)
-   * [REVIEW] Service Layer: Tax & Price Service (MAGEDOC-1694)
-   * [REVIEW] CatalogInventory module API reference (MAGEDOC-1697)
-   * [DOC] Magento 2 Customer service PHP API doc - pull request (MAGEDOC-1744)
  * Modularity:
-   * Removed module dependency on Weee (MAGETWO-26097)
+   * Removed module dependency on the Weee module
  * Fixed Bugs:
-   * Fixed: Composer installation: Magento/Framework marshaling did not work (MAGETWO-28280)
-   * Tax for shipping is included twice in tax details (MAGETWO-18330)
-   * [GITHUB] getDistinct is not distinct in Tax Model (MAGETWO-27036)
-   * Can't reorder; Can't create new order if order page was reloaded - in backend (MAGETWO-26881)
-   * No Configure link on Product Requiring Attention section (MAGETWO-28218)
-   * MAGETWO-28384 - Installation works now if in subdirectory
-   * MAGETWO-28379 - Throw useful error message if vendor directory doesn't exist in setup tool
-   * Fixed: Remove explicit descriptions for Boolean return values (MAGEDOC-1669)
-   * Fixed Fatal error while checkout with multiple addresses (MAGETWO-28220)
-   * Fixed Integration tests failed if prefixes for tables are used (MAGETWO-28207)
+   * Fixed an issue in composer installation where Magento/Framework marshaling did not work
+   * Fixed an issue where shipping tax was included twice in tax details
+   * Renamed the getDistinct method in Tax Model
+   * Fixed an issue where it was impossible to reorder and create a new order in the Admin panel if some fields of the order were specified incorrectly and the page was reloaded
+   * Fixed an issue where the Configure link was not displayed in the Product Requiring Attention section
+   * Fixed an issue where Magento could only be installed in the host root directory
+   * Fixed an issue where no proper error message was displayed if vendor directory did not exist in the setup tool
+   * Fixed an i;q:qssue where a fatal error was thrown during checkout with multiple addresses
+   * Fixed an issue where integration tests failed if prefixes for tables were used
  * Checkout API:
-   * Created Customer Shopping Cart Service (MAGETWO-25967)
+   * Created Customer Shopping Cart Service
  * Price template refactoring
-   * Introduced single interface for price and tax calculation logic (MAGETWO-28134)
+   * Introduced a single interface for price and tax calculation logic
  * Functional tests:
-   * Add products to shopping cart (MTA-57)
-   * Bestseller products report (MTA-273)
-   * Cancel created order (MTA-100)
-   * Delete customer address (MTA-351)
-   * Hold created order (MTA-406)
-   * Ordered products report (MTA-272)
-   * Sales coupon report (MTA-280)
+   * Add products to shopping cart
+   * Bestseller products report
+   * Cancel created order
+   * Delete customer address
+   * Hold created order
+   * Ordered products report
+   * Sales coupon report
  * GitHub requests:
-   * #662 -- Composer Installation (MAGETWO-28280)
+   * #662 -- Composer Installation
 
 0.1.0-alpha95
 =============
