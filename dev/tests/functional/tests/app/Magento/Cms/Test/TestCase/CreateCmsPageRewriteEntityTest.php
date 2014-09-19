@@ -75,7 +75,6 @@ class CreateCmsPageRewriteEntityTest extends Injectable
      */
     public function test(CmsPage $cmsPage, UrlRewrite $urlRewrite)
     {
-        $this->markTestIncomplete('MAGETWO-27635');
         //Preconditions
         $cmsPage->persist();
         //Steps

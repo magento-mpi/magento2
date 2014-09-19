@@ -90,21 +90,21 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $result = [];
         foreach (glob("{$root}/app/code/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-module'];
+            $result[$dir] = [$dir, 'magento2-module'];
         }
         foreach (glob("{$root}/app/i18n/magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-language'];
+            $result[$dir] = [$dir, 'magento2-language'];
         }
         foreach (glob("{$root}/app/design/adminhtml/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme'];
+            $result[$dir] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/app/design/frontend/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme'];
+            $result[$dir] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/lib/internal/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-library'];
+            $result[$dir] = [$dir, 'magento2-library'];
         }
-        $result[] = [$root, 'project'];
+        $result[$root] = [$root, 'project'];
 
         return $result;
     }
@@ -147,21 +147,25 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertConsistentModuleName($xml, $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 $this->assertModuleDependenciesInSync($xml, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 break;
             case 'magento2-theme':
                 $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
                 break;
             case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
                 $this->assertRegExp('/^magento\/framework$/', $json->name);
+                $this->assertDependsOnInstaller($json->require);
                 break;
             case 'project':
                 sort(self::$dependencies);
@@ -172,10 +176,17 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                     }
                 }
                 sort($dependenciesListed);
-                $this->assertEquals(
-                    self::$dependencies,
-                    $dependenciesListed,
-                    'The root composer.json does not match with currently available components.'
+                $nonDeclaredDependencies = array_diff(self::$dependencies, $dependenciesListed);
+                $nonexistentDependencies = array_diff($dependenciesListed, self::$dependencies);
+                $this->assertEmpty(
+                    $nonDeclaredDependencies,
+                    'Following dependencies are not declared in the root composer.json: '
+                    . join(', ', $nonDeclaredDependencies)
+                );
+                $this->assertEmpty(
+                    $nonexistentDependencies,
+                    'Following dependencies declared in the root composer.json do not exist: '
+                    . join(', ', $nonexistentDependencies)
                 );
                 break;
             default:
@@ -253,6 +264,20 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             'magento/framework',
             $json,
             'This component is expected to depend on magento/framework'
+        );
+    }
+
+    /**
+     * Make sure a component depends on Magento Composer Installer component
+     *
+     * @param \StdClass $json
+     */
+    private function assertDependsOnInstaller(\StdClass $json)
+    {
+        $this->assertObjectHasAttribute(
+            'magento/magento-composer-installer',
+            $json,
+            'This component is expected to depend on magento/magento-composer-installer'
         );
     }
 

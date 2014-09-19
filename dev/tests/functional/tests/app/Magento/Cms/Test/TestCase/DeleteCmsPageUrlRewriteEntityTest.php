@@ -71,7 +71,6 @@ class DeleteCmsPageUrlRewriteEntityTest extends Injectable
      */
     public function test(UrlRewrite $urlRewrite)
     {
-        $this->markTestIncomplete('MAGETWO-27635');
         //Precondition
         $urlRewrite->persist();
 

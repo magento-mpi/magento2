@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Helper;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxClassKey;
@@ -170,6 +171,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_taxCalculationService;
 
     /**
+     * Price currency
+     *
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -182,13 +190,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param string $templateFilterModel
-     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
-     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param TaxClassKeyBuilder $taxClassKeyBuilder
+     * @param Config $taxConfig
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService
+     * @param TaxCalculationServiceInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -209,7 +218,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService,
         CustomerSession $customerSession,
-        AddressConverter $addressConverter
+        AddressConverter $addressConverter,
+        PriceCurrencyInterface $priceCurrency
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_productFactory = $productFactory;
@@ -229,6 +239,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_taxCalculationService = $taxCalculationService;
         $this->_customerSession = $customerSession;
         $this->_addressConverter = $addressConverter;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context);
     }
 
@@ -551,7 +562,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         if ($roundPrice) {
-            return $store->roundPrice($price);
+            return $this->priceCurrency->round($price);
         } else {
             return $price;
         }

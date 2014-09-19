@@ -39,4 +39,22 @@
     <assertProductInItemsOrderedGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertProductInItemsOrderedGrid>
+    <assertOrderCancelSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderCancelSuccessMessage>
+    <assertOrderInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGrid>
+    <assertOrderInOrdersGridOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGridOnFrontend>
+    <assertOrderOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderOnHoldSuccessMessage>
+    <assertUnholdButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertUnholdButton>
+    <assertOrderButtonsUnavailable module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderButtonsUnavailable>
 </constraint>

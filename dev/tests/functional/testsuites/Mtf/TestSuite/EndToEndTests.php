@@ -23,7 +23,7 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateSimpleWithCategoryTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UnassignCategoryTest');
         // Grouped
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateGroupedTest');
+        $suite->addTestSuite('Magento\GroupedProduct\Test\TestCase\CreateGroupedTest');
         // Virtual
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
         // Configurable

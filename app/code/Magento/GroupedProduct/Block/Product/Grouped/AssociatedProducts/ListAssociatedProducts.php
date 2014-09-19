@@ -23,16 +23,24 @@ class ListAssociatedProducts extends \Magento\Backend\Block\Template
     protected $_registry;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         parent::__construct($context, $data);
+        $this->priceCurrency = $priceCurrency;
         $this->_registry = $registry;
     }
 
@@ -53,7 +61,7 @@ class ListAssociatedProducts extends \Magento\Backend\Block\Template
                 'id' => $product->getId(),
                 'sku' => $product->getSku(),
                 'name' => $product->getName(),
-                'price' => $this->_storeManager->getStore()->formatPrice($product->getPrice(), false),
+                'price' => $this->priceCurrency->format($product->getPrice(), false),
                 'qty' => $product->getQty(),
                 'position' => $product->getPosition()
             );

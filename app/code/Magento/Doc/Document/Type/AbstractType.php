@@ -23,4 +23,18 @@ abstract class AbstractType
      * @return string
      */
     abstract public function getContent(Item $item);
+
+    /**
+     * @param Item $item
+     * @return string
+     */
+    protected function getFilePath(Item $item)
+    {
+        if ($item->getData('reference')) {
+            return str_replace('_', '/', $item->getData('reference')) . '.html';
+        } else {
+            return str_replace('_', '/', $item->getData('name')) . '.html';
+        }
+
+    }
 }

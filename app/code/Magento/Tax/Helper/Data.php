@@ -7,12 +7,12 @@
  */
 namespace Magento\Tax\Helper;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
 use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
@@ -150,6 +150,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Tax\Service\V1\OrderTaxServiceInterface
      */
     protected $orderTaxService;
+
+    /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
@@ -170,6 +176,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
      * @param OrderTaxServiceInterface $orderTaxService
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -190,9 +197,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
-        OrderTaxServiceInterface $orderTaxService
+        OrderTaxServiceInterface $orderTaxService,
+        PriceCurrencyInterface $priceCurrency
     ) {
         parent::__construct($context);
+        $this->priceCurrency = $priceCurrency;
         $this->_scopeConfig = $scopeConfig;
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
@@ -249,7 +258,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         try {
             $value = $product->getPrice();
-            $value = $this->_storeManager->getStore()->convertPrice($value, $format);
+            $value = $format ? $this->priceCurrency->convertAndFormat($value) : $this->priceCurrency->convert($value);
         } catch (\Exception $e) {
             $value = $e->getMessage();
         }
@@ -768,8 +777,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 if ($tax['tax_amount'] == 0 && $tax['base_tax_amount'] == 0) {
                     unset($taxClassAmount[$key]);
                 } else {
-                    $taxClassAmount[$key]['tax_amount'] = $source->getStore()->roundPrice($tax['tax_amount']);
-                    $taxClassAmount[$key]['base_tax_amount'] = $source->getStore()->roundPrice($tax['base_tax_amount']);
+                    $taxClassAmount[$key]['tax_amount'] = $this->priceCurrency->round($tax['tax_amount']);
+                    $taxClassAmount[$key]['base_tax_amount'] = $this->priceCurrency->round($tax['base_tax_amount']);
                 }
             }
 

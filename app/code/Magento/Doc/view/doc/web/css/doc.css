@@ -17,18 +17,6 @@ nav.navigation {
     padding: 0 20px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .column-toolbar {
     position: fixed; left: 0; top: 0; width: 64px; height: 100%; z-index: 1000;
     padding-top: 40px;
@@ -299,7 +287,7 @@ textarea {
     background: transparent;
     height: 100%;
     border: 0;
-    resize: none;
+    resize: both;
     white-space: pre;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -357,6 +345,7 @@ div[data-role="doc-item"] *[data-role="doc-item-content"],
 div[data-role="doc-item"] *[data-role="doc-item-content-src"] {
     font-size: 16px;
     font-style: normal;
+    min-height: 20px;
 }
 
 div[data-role="doc-item"] span.label {
@@ -510,4 +499,8 @@ code {
 #speech-buffer {
     width: 300px; height: 400px; position: fixed; top: 150px; right: 100px;
     background-color: #ffffff;
+}
+
+.directory-tree {
+    padding-left: 20px
 }
