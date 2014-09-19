@@ -49,6 +49,12 @@ class Mapper implements \Magento\Framework\Config\ConverterInterface
         return $data;
     }
 
+    /**
+     * Convert DOM object into array
+     *
+     * @param \DOMNode $node
+     * @return array
+     */
     public function convertNode(\DOMNode $node)
     {
         $data = [];
