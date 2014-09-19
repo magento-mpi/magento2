@@ -1,3 +1,46 @@
+0.1.0-alpha96
+=============
+ * Framework improvements:
+   * Increased unit tests code coverage for Magento_Persistent, Magento_GiftMessage, Magento_Checkout modules
+   * [DOC] Service Layer: Tax & Price Service (MAGEDOC-1362)
+   * Mock up API reference pages for Magento 2 APIs (MAGEDOC-1507)
+   * Mark up Customer Service code with phpDoc doc blocks (MAGEDOC-1524)
+   * Review and publish Customer Service code with phpDoc doc blocks (MAGEDOC-1562)
+   * Add doc blocks to Magento PHP code/Customer service (MAGEDOC-1517)
+   * Use consistent style for docs for boolean return values (MAGEDOC-1647)
+   * Ticket to address rest of review comments for Customer Service (MAGEDOC-1648)
+   * [DOC] CatalogInventory module API reference (MAGEDOC-1667)
+   * [REVIEW] Service Layer: Tax & Price Service (MAGEDOC-1694)
+   * [REVIEW] CatalogInventory module API reference (MAGEDOC-1697)
+   * [DOC] Magento 2 Customer service PHP API doc - pull request (MAGEDOC-1744)
+ * Modularity:
+   * Removed module dependency on Weee (MAGETWO-26097)
+ * Fixed Bugs:
+   * Fixed: Composer installation: Magento/Framework marshaling did not work (MAGETWO-28280)
+   * Tax for shipping is included twice in tax details (MAGETWO-18330)
+   * [GITHUB] getDistinct is not distinct in Tax Model (MAGETWO-27036)
+   * Can't reorder; Can't create new order if order page was reloaded - in backend (MAGETWO-26881)
+   * No Configure link on Product Requiring Attention section (MAGETWO-28218)
+   * MAGETWO-28384 - Installation works now if in subdirectory
+   * MAGETWO-28379 - Throw useful error message if vendor directory doesn't exist in setup tool
+   * Fixed: Remove explicit descriptions for Boolean return values (MAGEDOC-1669)
+   * Fixed Fatal error while checkout with multiple addresses (MAGETWO-28220)
+   * Fixed Integration tests failed if prefixes for tables are used (MAGETWO-28207)
+ * Checkout API:
+   * Created Customer Shopping Cart Service (MAGETWO-25967)
+ * Price template refactoring
+   * Introduced single interface for price and tax calculation logic (MAGETWO-28134)
+ * Functional tests:
+   * Add products to shopping cart (MTA-57)
+   * Bestseller products report (MTA-273)
+   * Cancel created order (MTA-100)
+   * Delete customer address (MTA-351)
+   * Hold created order (MTA-406)
+   * Ordered products report (MTA-272)
+   * Sales coupon report (MTA-280)
+ * GitHub requests:
+   * #662 -- Composer Installation (MAGETWO-28280)
+
 0.1.0-alpha95
 =============
  * Modularity
