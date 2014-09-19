@@ -27,11 +27,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  *
  * Preconditions:
  * 1. Create customer
- * 2. Create Product
+ * 2. Create product
  * 3. Add product to cart
  *
  * Steps:
- * 1. Open Customers ->All Customers
+ * 1. Open Customers -> All Customers
  * 2. Search and open customer from preconditions
  * 3. Click Create Order
  * 4. Check product in Shopping Cart section
@@ -41,7 +41,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-28540
  */
-class CreateOrderFromCustomerPageEntityTest extends Injectable
+class MoveShoppingCartProductsOnOrderPageTest extends Injectable
 {
     /**
      * Fixture factory
@@ -72,7 +72,7 @@ class CreateOrderFromCustomerPageEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
-     * Browser
+     * Browser instance
      *
      * @var Browser
      */
@@ -177,6 +177,7 @@ class CreateOrderFromCustomerPageEntityTest extends Injectable
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $this->customerIndexEdit->getPageActionsBlock()->createOrder();
+        $this->orderCreateIndex->getStoreBlock()->selectStoreView();
         $this->orderCreateIndex->getCustomerActivitiesBlock()->getShoppingCartItemsBlock()
             ->addToOrderByName($product->getName());
         $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();

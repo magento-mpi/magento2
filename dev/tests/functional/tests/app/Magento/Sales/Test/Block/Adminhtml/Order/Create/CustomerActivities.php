@@ -13,6 +13,7 @@ use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\L
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ShoppingCartItems;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class CustomerActivities
@@ -55,12 +56,14 @@ class CustomerActivities extends Block
      */
     protected $shoppingCartSidebar = '#order-sidebar_cart';
 
+    // @codingStandardsIgnoreStart
     /**
-     * Recently Viewed Products sidebar selector
+     * Last sidebar block selector
      *
      * @var string
      */
-    protected $recentlyViewedSidebar = '#order-sidebar_pviewed';
+    protected $lastSidebar = '//*[@class="create-order-sidebar-container"]/div[div[@class="create-order-sidebar-block"]][last()]';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Get last ordered items block
@@ -121,7 +124,7 @@ class CustomerActivities extends Block
      */
     public function updateChanges()
     {
-        $this->_rootElement->find($this->recentlyViewedSidebar)->click();
+        $this->_rootElement->find($this->lastSidebar, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->updateChanges)->click();
     }
 }
