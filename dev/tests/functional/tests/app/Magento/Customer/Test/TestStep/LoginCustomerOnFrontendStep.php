@@ -16,7 +16,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Class LoginCustomerOnFrontendStep
- * Login customer on frontend using handler
+ * Login customer on frontend
  */
 class LoginCustomerOnFrontendStep implements TestStepInterface
 {

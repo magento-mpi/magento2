@@ -16,7 +16,6 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
@@ -83,13 +82,6 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
     protected $wishlistIndex;
 
     /**
-     * Page CustomerAccountLogout
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
      * Injection data
      *
      * @param CmsIndex $cmsIndex
@@ -98,7 +90,6 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
      * @param Browser $browser
      * @param WishlistIndex $wishlistIndex
      * @param ObjectManager $objectManager
-     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
@@ -107,8 +98,7 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
         FixtureFactory $fixtureFactory,
         Browser $browser,
         WishlistIndex $wishlistIndex,
-        ObjectManager $objectManager,
-        CustomerAccountLogout $customerAccountLogout
+        ObjectManager $objectManager
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
@@ -116,7 +106,6 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
         $this->browser = $browser;
         $this->wishlistIndex = $wishlistIndex;
         $this->objectManager = $objectManager;
-        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -221,15 +210,5 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
     protected function createCart(array $products)
     {
         return $this->fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => $products]]]);
-    }
-
-    /**
-     * Log out after test
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $this->customerAccountLogout->open();
     }
 }

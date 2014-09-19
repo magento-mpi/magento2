@@ -17,7 +17,7 @@ use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
- * Curl handler for creating Store Group.
+ * Curl handler for creating Store Group
  */
 class Curl extends AbstractCurl implements StoreGroupInterface
 {
