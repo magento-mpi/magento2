@@ -13,6 +13,7 @@
         "magento/module-backend": "0.1.0-alpha95",
         "magento/module-sales": "0.1.0-alpha95",
         "magento/module-checkout": "0.1.0-alpha95",
+        "magento/module-msrp": "0.1.0-alpha95",
         "magento/module-directory": "0.1.0-alpha95",
         "magento/module-wishlist": "0.1.0-alpha95",
         "magento/module-gift-message": "0.1.0-alpha95",

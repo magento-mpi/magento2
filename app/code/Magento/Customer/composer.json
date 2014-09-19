@@ -12,7 +12,6 @@
         "magento/module-sales": "0.1.0-alpha95",
         "magento/module-checkout": "0.1.0-alpha95",
         "magento/module-wishlist": "0.1.0-alpha95",
-        "magento/module-index": "0.1.0-alpha95",
         "magento/module-theme": "0.1.0-alpha95",
         "magento/module-backend": "0.1.0-alpha95",
         "magento/module-review": "0.1.0-alpha95",

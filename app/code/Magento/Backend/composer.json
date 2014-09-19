@@ -17,7 +17,6 @@
         "magento/module-backup": "0.1.0-alpha95",
         "magento/module-email": "0.1.0-alpha95",
         "magento/module-customer": "0.1.0-alpha95",
-        "magento/module-url-rewrite": "0.1.0-alpha95",
         "magento/module-translation": "0.1.0-alpha95",
         "magento/framework": "0.1.0-alpha95",
         "magento/magento-composer-installer": "*"

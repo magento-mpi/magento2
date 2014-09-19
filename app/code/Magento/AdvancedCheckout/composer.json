@@ -12,6 +12,7 @@
         "magento/module-directory": "0.1.0-alpha95",
         "magento/module-wishlist": "0.1.0-alpha95",
         "magento/module-tax": "0.1.0-alpha95",
+        "magento/module-msrp": "0.1.0-alpha95",
         "magento/module-reports": "0.1.0-alpha95",
         "magento/module-catalog-inventory": "0.1.0-alpha95",
         "magento/module-backend": "0.1.0-alpha95",
