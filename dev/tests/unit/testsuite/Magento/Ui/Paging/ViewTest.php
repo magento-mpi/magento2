@@ -36,7 +36,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $contextMock;
 
     /**
-
      * @var Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $renderContextMock;
