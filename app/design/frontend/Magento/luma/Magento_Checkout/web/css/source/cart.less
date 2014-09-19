@@ -36,7 +36,7 @@
 
     //  Summary block
     &-summary {
-        &:extend(.add-box-sizing all);
+        &:extend(.abstract-add-box-sizing all);
         background: @sidebar-background;
         margin-bottom: 25px;
         padding: 1px 0 25px;
@@ -108,13 +108,14 @@
                 }
             }
         }
-        
+
         .message {
             padding-left: 20px;
             > *:first-child:before {
                 display: none;
             }
         }
+        &:extend(.abstract-adjustment-incl-excl-tax all);
     }
 
     //  Totals block
@@ -317,6 +318,9 @@
 
         .cart-tax-total {
             &:extend(.abstract-tax-total all);
+            &-expanded {
+                &:extend(.abstract-tax-total-expanded all);
+            }
         }
     }
 
@@ -369,6 +373,10 @@
     &-empty {
         padding-left: @layout-width-xs-indent;
         padding-right: @layout-width-xs-indent;
+    }
+
+    .cart-tax-info + .cart-tax-total {
+        display: block;
     }
 }
 
@@ -456,7 +464,7 @@
             &:extend(.add-clearfix-desktop all);
             .form.cart {
                 .layout-column(2, 1, @layout-column-checkout-main-width);
-                &:extend(.add-box-sizing-desktop all);
+                &:extend(.abstract-add-box-sizing-desktop all);
                 padding-right: 4%;
                 position: relative;
                 .actions.main {
@@ -551,7 +559,7 @@
         //  Discount
         &-discount {
             border: 0;
-            &:extend(.add-box-sizing-desktop all);
+            &:extend(.abstract-add-box-sizing-desktop all);
             padding-right: 4%;
             .layout-column(2, 1, @layout-column-checkout-main-width);
             .block {
@@ -592,7 +600,7 @@
     .block.crosssell {
         padding: 0;
         .layout-column(2, 1, @layout-column-checkout-main-width);
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
         padding-right: 4%;
         .products-grid .product-item {
             width: 100%/4;

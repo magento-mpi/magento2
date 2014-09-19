@@ -18,19 +18,16 @@
                 <?php echo $this->getDesignSelectHtml() ?>
                 <div class="nested design no-display">
                     <img id="image-box-${_id_}" alt="<?php echo __('Preview')?>" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>" />
-                    <div class="price box" id="price-box-${_id_}">
+                    <div class="price-box" id="price-box-${_id_}">
                     <?php if ($this->getDisplayWrappingBothPrices()): ?>
-                        <span class="price excl tax">
-                            <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
-                            <span class="price" id="price-excluding-tax-${_id_}"></span>
-                        </span>
-                        <span class="price incl tax">
-                            <span class="label"><?php echo __('Price Incl. Tax') ?>:</span>
+                        <span class="price-including-tax" data-label="<?php echo __('Price Incl. Tax') ?>">
                             <span class="price" id="price-including-tax-${_id_}"></span>
                         </span>
+                        <span class="price-excluding-tax" data-label="<?php echo __('Price Excl. Tax') ?>">
+                            <span class="price" id="price-excluding-tax-${_id_}"></span>
+                        </span>
                     <?php else: ?>
-                        <span class="regular price">
-                            <span class="label"><?php echo __('Price') ?>:</span>
+                        <span class="regular-price" data-label="<?php echo __('Price') ?>">
                             <span class="price" id="regular-price-${_id_}"></span>
                         </span>
                     <?php endif;?>
@@ -53,19 +50,16 @@
         <input type="checkbox" name="giftwrapping[${type}][${id}][add_printed_card]" id="add-printed-card-${id}" value="1" onclick="" class="checkbox" />
         <label for="add-printed-card-${id}" class="label"><span><?php echo __('Add Printed Card') ?></span></label>
     </div>
-    <div class="price box no-display" id="price-options-box-${id}">
+    <div class="price-box no-display" id="price-options-box-${id}">
         <?php if ($this->getDisplayCardBothPrices()): ?>
-        <span class="price excl tax">
-            <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
-            <span class="price" id="price-card-excluding-tax-${id}">${price_excl_tax}</span>
-        </span>
-        <span class="price incl tax">
-            <span class="label"><?php echo __('Price Incl. Tax') ?>:</span>
+        <span class="price-including-tax" data-label="<?php echo __('Price Incl. Tax') ?>">
             <span class="price" id="price-card-including-tax-${id}">${price_incl_tax}</span>
         </span>
+        <span class="price-excluding-tax" data-label="<?php echo __('Price Excl. Tax') ?>">
+            <span class="price" id="price-card-excluding-tax-${id}">${price_excl_tax}</span>
+        </span>
         <?php else: ?>
-        <span class="regular price">
-            <span class="label"><?php echo __('Price') ?>:</span>
+        <span class="regular-price" data-label="<?php echo __('Price') ?>">
             <span class="price" id="regular-card-price-${id}">${price}</span>
         </span>
         <?php endif;?>

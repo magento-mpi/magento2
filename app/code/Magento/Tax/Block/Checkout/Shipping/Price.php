@@ -96,6 +96,16 @@ class Price extends \Magento\Checkout\Block\Shipping\Price
     }
 
     /**
+     * Return flag whether to display shipping price excluding tax
+     *
+     * @return bool
+     */
+    public function displayShippingPriceExclTax()
+    {
+        return $this->taxHelper->displayShippingPriceExcludingTax();
+    }
+
+    /**
      * Return flag whether to display shipping price including and excluding tax
      *
      * @return bool
