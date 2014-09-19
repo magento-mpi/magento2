@@ -7,7 +7,6 @@
         "magento/module-catalog": "0.1.0-alpha95",
         "magento/module-configurable-product": "0.1.0-alpha95",
         "magento/module-core": "0.1.0-alpha95",
-        "magento/module-checkout": "0.1.0-alpha95",
         "magento/module-downloadable": "0.1.0-alpha95",
         "magento/module-eav": "0.1.0-alpha95",
         "magento/module-grouped-product": "0.1.0-alpha95",
