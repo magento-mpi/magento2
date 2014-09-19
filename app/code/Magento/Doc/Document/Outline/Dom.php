@@ -8,7 +8,9 @@
 
 namespace Magento\Doc\Document\Outline;
 
-class Dom extends \Magento\Framework\Config\Dom
+use Magento\Doc\Document\DomInterface;
+
+class Dom extends \Magento\Framework\Config\Dom implements DomInterface
 {
     //
 }
