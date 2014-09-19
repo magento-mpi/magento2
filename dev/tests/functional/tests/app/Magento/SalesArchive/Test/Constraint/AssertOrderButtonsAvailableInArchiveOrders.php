@@ -43,9 +43,8 @@ class AssertOrderButtonsAvailableInArchiveOrders extends AbstractConstraint
         $orderButtonsAvailable,
         $orderStatus
     ) {
-        $data = $order->getData();
         $filter = [
-            'id' => $data['id'],
+            'id' => $order->getId(),
             'status' => $orderStatus,
         ];
         $archiveOrders->open();
@@ -63,7 +62,7 @@ class AssertOrderButtonsAvailableInArchiveOrders extends AbstractConstraint
         }
         \PHPUnit_Framework_Assert::assertEmpty(
             $absentButtons,
-            "Next buttons was not found on page: \n" . implode(";\n", $absentButtons)
+            "Next buttons were not found on page: \n" . implode(";\n", $absentButtons)
         );
     }
 

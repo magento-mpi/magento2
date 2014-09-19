@@ -67,9 +67,16 @@ class CreateInvoice implements TestStepInterface
     /**
      * Invoice data
      *
-     * @var null/array
+     * @var array|null
      */
     protected $data;
+
+    /**
+     * Order status
+     *
+     * @var string
+     */
+    protected $status = 'Paid';
 
     /**
      * @construct
@@ -79,7 +86,7 @@ class CreateInvoice implements TestStepInterface
      * @param OrderInvoiceView $orderInvoiceView
      * @param OrderInjectable $order
      * @param OrderShipmentView $orderShipmentView
-     * @param null/array $data[optional]
+     * @param array|null $data[optional]
      */
     public function __construct(
         OrderIndex $orderIndex,
@@ -116,58 +123,37 @@ class CreateInvoice implements TestStepInterface
         if (!empty($this->data)) {
             $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
         }
-        $invoiceId = $this->getInvoiceId($this->order);
+        $invoiceIds = $this->getInvoiceIds();
         if (!empty($this->data)) {
-            $shipmentId = $this->getShipmentId($this->order);
+            $shipmentIds = $this->getShipmentIds();
         }
 
         return [
-            'invoiceId' => $invoiceId,
-            'shippingId' => isset($shipmentId) ? $shipmentId : null,
+            'invoiceIds' => $invoiceIds,
+            'shipmentIds' => isset($shipmentIds) ? $shipmentIds : null,
             'successMessage' => isset($successMessage) ? $successMessage : null,
         ];
     }
 
     /**
-     * Get invoice id
+     * Get invoice ids
      *
-     * @param OrderInjectable $order
-     * @return null|string
+     * @return array
      */
-    protected function getInvoiceId(OrderInjectable $order)
+    protected function getInvoiceIds()
     {
         $this->orderView->getOrderForm()->openTab('invoices');
-        $amount = $order->getPrice()['grand_invoice_total'];
-        $filter = [
-            'status' => 'Paid',
-            'amount_from' => $amount,
-            'amount_to' => $amount
-        ];
-        $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->searchAndOpen($filter);
-        return trim($this->orderInvoiceView->getTitleBlock()->getTitle(), ' #');
+        return $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->getIds();
     }
 
     /**
-     * Get shipment id
+     * Get shipment ids
      *
-     * @param OrderInjectable $order
-     * @return null|string
+     * @return array
      */
-    protected function getShipmentId(OrderInjectable $order)
+    protected function getShipmentIds()
     {
-        $qty = $order->getTotalQtyOrdered();
-        $shipmentId = null;
-        if ($qty !== null) {
-            $this->orderInvoiceView->getPageActions()->back();
-            $this->orderView->getOrderForm()->openTab('shipments');
-            $filter = [
-                'qty_from' => $qty,
-                'qty_to' => $qty
-            ];
-            $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->searchAndOpen($filter);
-            $shipmentId = trim($this->orderShipmentView->getTitleBlock()->getTitle(), ' #');
-        }
-
-        return $shipmentId;
+        $this->orderView->getOrderForm()->openTab('shipments');
+        return $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->getIds();
     }
 }

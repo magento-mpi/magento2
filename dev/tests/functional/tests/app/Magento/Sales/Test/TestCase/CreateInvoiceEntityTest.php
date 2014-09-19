@@ -45,6 +45,8 @@ class CreateInvoiceEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
+     * Object Manager
+     *
      * @var ObjectManager
      */
     protected $objectManager;
@@ -99,8 +101,10 @@ class CreateInvoiceEntityTest extends Injectable
         $data = $createInvoice->run();
 
         return [
-            'shipmentId' => $data['shippingId'],
-            'invoiceId' => $data['invoiceId'],
+            'ids' => [
+                'invoiceIds' => $data['invoiceIds'],
+                'shipmentIds' => isset($data['shipmentIds']) ? $data['shipmentIds'] : null,
+            ],
             'successMessage' => $data['successMessage'],
         ];
     }

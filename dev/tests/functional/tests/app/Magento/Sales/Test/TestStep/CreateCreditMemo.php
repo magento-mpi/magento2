@@ -49,6 +49,13 @@ class CreateCreditMemo implements TestStepInterface
     protected $order;
 
     /**
+     * Order status
+     *
+     * @var string
+     */
+    protected $status = 'Refunded';
+
+    /**
      * @construct
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
@@ -78,30 +85,18 @@ class CreateCreditMemo implements TestStepInterface
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->orderCreditMemo();
         $this->orderCreditMemoNew->getActionsBlock()->refundOffline();
-        $creditMemoId = $this->getCreditMemoId($this->order);
 
-        return ['creditMemoId' => $creditMemoId];
+        return ['creditMemoIds' => $this->getCreditMemoIds()];
     }
 
     /**
-     * Get credit memo id
+     * Get credit memo ids
      *
-     * @param OrderInjectable $order
-     * @return null|string
+     * @return array
      */
-    protected function getCreditMemoId(OrderInjectable $order)
+    protected function getCreditMemoIds()
     {
         $this->orderView->getOrderForm()->openTab('creditmemos');
-        $amount = $order->getPrice()['grand_invoice_total'];
-        $filter = [
-            'status' => 'Refunded',
-            'amount_from' => $amount,
-            'amount_to' => $amount
-        ];
-        $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->search($filter);
-        $creditMemoId = $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()
-            ->getCreditMemoId();
-
-        return $creditMemoId;
+        return $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->getIds();
     }
 }

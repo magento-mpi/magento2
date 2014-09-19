@@ -35,17 +35,21 @@ class AssertOrderInvoiceArchivedInGrid extends AbstractConstraint
      */
     public function processAssert(ArchiveInvoices $archiveInvoices, OrderInjectable $order, array $ids)
     {
-        $data = $order->getData();
-        $filter = [
-            'invoice_id' => $ids['invoiceId'],
-            'order_id' => $data['id'],
-        ];
+        $orderId = $order->getId();
         $archiveInvoices->open();
-        $errorMessage = implode(', ', $filter);
-        \PHPUnit_Framework_Assert::assertTrue(
-            $archiveInvoices->getInvoicesGrid()->isRowVisible($filter),
-            'Invoice with following data \'' . $errorMessage . '\' is absent in archive invoices grid.'
-        );
+
+        foreach ($ids['invoiceIds'] as $invoiceId) {
+            $filter = [
+                'order_id' => $orderId,
+                'invoice_id' => $invoiceId
+            ];
+
+            $errorMessage = implode(', ', $filter);
+            \PHPUnit_Framework_Assert::assertTrue(
+                $archiveInvoices->getInvoicesGrid()->isRowVisible($filter),
+                'Invoice with following data \'' . $errorMessage . '\' is absent in archive invoices grid.'
+            );
+        }
     }
 
     /**

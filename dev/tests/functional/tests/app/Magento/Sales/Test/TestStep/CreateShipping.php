@@ -89,31 +89,18 @@ class CreateShipping implements TestStepInterface
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->ship();
         $this->orderShipmentNew->getShipItemsBlock()->submit();
-        $shippingId = $this->getShipmentId($this->order);
 
-        return ['shippingId' => $shippingId];
+        return ['shipmentIds' => $this->getShipmentIds()];
     }
 
     /**
      * Get shipment id
      *
-     * @param OrderInjectable $order
-     * @return null|string
+     * @return array
      */
-    protected function getShipmentId(OrderInjectable $order)
+    public function getShipmentIds()
     {
-        $qty = $order->getTotalQtyOrdered();
-        $shipmentId = null;
-        if ($qty !== null) {
-            $this->orderView->getOrderForm()->openTab('shipments');
-            $filter = [
-                'qty_from' => $qty,
-                'qty_to' => $qty
-            ];
-            $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->searchAndOpen($filter);
-            $shipmentId = trim($this->orderShipmentView->getTitleBlock()->getTitle(), ' #');
-        }
-
-        return $shipmentId;
+        $this->orderView->getOrderForm()->openTab('shipments');
+        return $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->getIds();
     }
 }

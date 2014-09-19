@@ -14,7 +14,7 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 
 /**
  * Class AssertOrderStatusInArchiveOrders
- * Assert  that status is correct on order page in backend
+ * Assert that status is correct on order page in backend
  */
 class AssertOrderStatusInArchiveOrders extends AbstractConstraint
 {
@@ -35,9 +35,8 @@ class AssertOrderStatusInArchiveOrders extends AbstractConstraint
      */
     public function processAssert(OrderInjectable $order, ArchiveOrders $archiveOrders, $orderStatus)
     {
-        $data = $order->getData();
         $filter = [
-            'id' => $data['id'],
+            'id' => $order->getId(),
             'status' => $orderStatus,
         ];
         $archiveOrders->open();
@@ -55,6 +54,6 @@ class AssertOrderStatusInArchiveOrders extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order status is correct on order page backend.';
+        return 'Order status is correct on archive orders page backend.';
     }
 }

@@ -35,17 +35,21 @@ class AssertOrderShipmentArchivedInGrid extends AbstractConstraint
      */
     public function processAssert(ArchiveShipments $archiveShipments, OrderInjectable $order, array $ids)
     {
-        $data = $order->getData();
-        $filter = [
-            'shipment_id' => $ids['shippingId'],
-            'order_id' => $data['id'],
-        ];
+        $orderId = $order->getId();
         $archiveShipments->open();
-        $errorMessage = implode(', ', $filter);
-        \PHPUnit_Framework_Assert::assertTrue(
-            $archiveShipments->getShipmentsGrid()->isRowVisible($filter),
-            'Shipment with following data \'' . $errorMessage . '\' is absent in archive shipments grid.'
-        );
+
+        foreach ($ids['shipmentIds'] as $shipmentId) {
+            $filter = [
+                'order_id' => $orderId,
+                'shipment_id' => $shipmentId
+            ];
+
+            $errorMessage = implode(', ', $filter);
+            \PHPUnit_Framework_Assert::assertTrue(
+                $archiveShipments->getShipmentsGrid()->isRowVisible($filter),
+                'Shipment with following data \'' . $errorMessage . '\' is absent in archive shipments grid.'
+            );
+        }
     }
 
     /**
