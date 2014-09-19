@@ -8,38 +8,33 @@
 
 namespace Magento\VersionsCms\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage;
+use Magento\VersionsCms\Test\Fixture\Version;
+use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\VersionsCms\Test\Fixture\Version;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 
 /**
- * Test Creation for MassDeleteCmsVersionsEntityTest
+ * Test Creation for SaveNewVersion of VersionsCmsEntity
  *
  * Test Flow:
  *
  * Preconditions:
  * 1. Create CMS page
- * 2. Edit this Page and add new Version:
- *  - Change Name
- *  - Open Revision and click Publish
  *
  * Steps:
- * 1. Login to the backend
- * 2. Navigate to Content > Elements: Pages
- * 3. Open the page
- * 4. Open 'Versions' tab
- * 5. Select the version according to dataset in grid
- * 6. Select 'Delete' in Versions Mass Actions form
- * 7. Click 'Submit'
- * 8. Perform appropriate assertions
+ * 1. Open Backend
+ * 2. Go to Content > Pages
+ * 3. Find and open created page
+ * 4. Go to Versions tab and open default version
+ * 5. Change version label, access level, user and click "Save as new version"
+ * 6. Perform all assertions
  *
  * @group CMS_Versioning_(PS)
- * @ZephyrId MAGETWO-27096
+ * @ZephyrId MAGETWO-28574
  */
-class MassDeleteCmsVersionsEntityTest extends Injectable
+class SaveNewVersionOfVersionsCmsEntityTest extends Injectable
 {
     /**
      * CmsIndex page
@@ -78,18 +73,19 @@ class MassDeleteCmsVersionsEntityTest extends Injectable
     }
 
     /**
-     * Mass Delete Cms Page Versions Entity
+     * Run Save New Version Of Versions Cms Entity Test
      *
      * @param CmsPage $cms
      * @param Version $version
-     * @param array $results
-     * @param string $initialVersionToDelete
+     * @param string $quantity
      * @return array
      */
-    public function test(CmsPage $cms, Version $version, array $results, $initialVersionToDelete)
+    public function test(CmsPage $cms, Version $version, $quantity)
     {
-        // Precondition
+        // Preconditions:
         $cms->persist();
+
+        // Steps:
         $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
@@ -99,21 +95,12 @@ class MassDeleteCmsVersionsEntityTest extends Injectable
         $this->cmsVersionEdit->getVersionForm()->fill($version);
         $this->cmsVersionEdit->getFormPageActions()->saveAsNewVersion();
 
-        // Steps
-        $filter = ['title' => $cms->getTitle()];
-        $this->cmsIndex->open();
-        $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
-        $this->cmsNew->getPageForm()->openTab('versions');
-        $label = $initialVersionToDelete == 'Yes' ? $cms->getTitle() : $version->getLabel();
-        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()
-            ->massaction([['label' => $label]], 'Delete', true);
-
         return [
             'results' => [
-                'label' => $label,
-                'owner' => $results['owner'],
-                'access_level' => $results['access_level'],
-                'quantity' => $results['quantity'],
+                'label' => $version->getLabel(),
+                'owner' => $version->getUserId(),
+                'access_level' => $version->getAccessLevel(),
+                'quantity' => $quantity,
             ]
         ];
     }
