@@ -108,6 +108,7 @@ class CommentRead implements CommentReadInterface
         }
         return $this->searchResultsBuilder->setItems($comments)
             ->setTotalCount(count($comments))
+            ->setSearchCriteria($criteria)
             ->create();
     }
 }
