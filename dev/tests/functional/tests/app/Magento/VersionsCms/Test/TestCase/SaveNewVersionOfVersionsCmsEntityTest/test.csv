@@ -1,3 +1,3 @@
-"cms/dataSet";"version/data/label";"version/data/access_level";"version/data/user_id/dataSet";"quantity";"constraint"
-"cms-page-test";"label_upd_%isolation%";"Public";"-";"1";"assertCmsPageNewVersionSuccessSaveMessage, assertCmsPageVersionInGrid"
-"cms-page-test";"label_upd_%isolation%";"Protected";"custom_user";"1";"assertCmsPageVersionSaveErrorMessage, assertCmsPageVersionNotInGrid"
+"description";"cms/dataSet";"version/data/label";"version/data/access_level";"version/data/user_id/dataSet";"quantity";"constraint"
+"Save default version as new";"cms-page-test";"label_upd_%isolation%";"Public";"-";"1";"assertCmsPageNewVersionSuccessSaveMessage, assertCmsPageVersionInGrid"
+"Change default version owner and access level and save as new";"cms-page-test";"label_upd_%isolation%";"Protected";"custom_user";"1";"assertCmsPageVersionErrorSaveMessage, assertCmsPageVersionNotInGrid"

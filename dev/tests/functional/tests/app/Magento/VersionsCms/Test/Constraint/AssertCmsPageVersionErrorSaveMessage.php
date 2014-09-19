@@ -12,15 +12,15 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertCmsPageVersionSaveErrorMessage
+ * Class AssertCmsPageVersionErrorSaveMessage
  * Assert that after change access level of last public version to private error message appears
  */
-class AssertCmsPageVersionSaveErrorMessage extends AbstractConstraint
+class AssertCmsPageVersionErrorSaveMessage extends AbstractConstraint
 {
     /**
      * Save error message
      */
-    const ERROR_SAVE_MESSAGE = 'Сannot change version access level because it is the last public version for its page.';
+    const ERROR_SAVE_MESSAGE = 'Cannot change version access level because it is the last public version for its page.';
 
     /**
      * Constraint severeness
@@ -50,7 +50,6 @@ class AssertCmsPageVersionSaveErrorMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return '"Сannot change version access level because it is the last public version for its page"'
-        . 'error message is present.';
+        return '"' . self::ERROR_SAVE_MESSAGE . '" error message is present.';
     }
 }
