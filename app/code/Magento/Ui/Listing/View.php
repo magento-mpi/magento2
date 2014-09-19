@@ -63,11 +63,11 @@ class View extends AbstractView
         TemplateContext $context,
         Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
+        ConfigFactory $configFactory,
+        ConfigBuilderInterface $configBuilder,
         OptionsFactory $optionsFactory,
         ActionPool $actionPool,
         RowPool $dataProviderRowPool,
-        ConfigFactory $configFactory,
-        ConfigBuilderInterface $configBuilder,
         array $data = []
     ) {
         $this->actionPool = $actionPool;

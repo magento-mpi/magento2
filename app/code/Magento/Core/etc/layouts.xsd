@@ -205,6 +205,7 @@
             <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="referenceBlock" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="referenceContainer" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="ui_component" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="elementNameType" name="name"/>
         <xs:attribute type="xs:string" name="label"/>
