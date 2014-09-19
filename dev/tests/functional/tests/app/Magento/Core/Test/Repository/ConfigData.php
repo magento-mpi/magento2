@@ -116,6 +116,17 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['config_currency_symbols_usd_and_chf'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'currency',
+                    'scope_id' => '1',
+                    'value' => ['USD', 'CHF'],
+                ],
+            ]
+        ];
+
         $this->_data['config_currency_symbols_usd'] = [
             'section' => [
                 [
@@ -238,29 +249,6 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['freeshipping_disabled'] = [
-            'section' => [
-                [
-                    'path' => 'carriers/freeshipping/active',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 0,
-                ],
-                [
-                    'path' => 'carriers/freeshipping/name',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'Free',
-                ],
-                [
-                    'path' => 'carriers/freeshipping/title',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 'Free Shipping',
-                ],
-            ]
-        ];
-
         $this->_data['freeshipping_rollback'] = [
             'section' => [
                 [
@@ -338,6 +326,12 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
+                [
+                    'path' => 'carriers/dhl/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
             ]
         ];
 
@@ -548,6 +542,53 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['dhl_eu'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/dhl/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'carriers/dhl/gateway_url',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet',
+                ],
+                [
+                    'path' => 'carriers/dhl/id',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'EvgeniyDE',
+                ],
+                [
+                    'path' => 'carriers/dhl/password',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'aplNb6Rop',
+                ],
+                [
+                    'path' => 'carriers/dhl/account',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => '152691811',
+                ],
+                [
+                    'path' => 'carriers/dhl/showmethod',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'carriers/dhl/debug',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
         $this->_data['fedex'] = [
             'section' => [
                 [
@@ -616,17 +657,6 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => '1419 Westwood Blvd',
                 ],
-            ]
-        ];
-
-        $this->_data['dhl_disable'] = [
-            'section' => [
-                [
-                    'path' => 'carriers/dhl/active',
-                    'scope' => 'carriers',
-                    'scope_id' => 1,
-                    'value' => 0,
-                ]
             ]
         ];
 

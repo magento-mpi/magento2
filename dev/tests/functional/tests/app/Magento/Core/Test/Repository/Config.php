@@ -50,6 +50,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
+        $this->_data['disable_all_payment_methods'] = $this->_getDisableAllPayment();
         $this->_data['paypal_payflow_link'] = $this->_getPaypalPayFlowLink();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['paypal_advanced'] = $this->_getPaypalAdvanced();
@@ -513,7 +514,7 @@ class Config extends AbstractRepository
                             'options' => [
                                 'fields' => [
                                     'allow' => [ //Allowed Currencies
-                                        'value' => ['USD','CHF']
+                                        'value' => ['USD', 'CHF']
                                     ]
                                 ]
                             ]
@@ -601,7 +602,7 @@ class Config extends AbstractRepository
                             'options' => [
                                 'fields' => [
                                     'allow' => [ //Allowed Currencies
-                                        'value' => ['USD','GBP']
+                                        'value' => ['USD', 'GBP']
                                     ]
                                 ]
                             ]
@@ -744,7 +745,8 @@ class Config extends AbstractRepository
                                         'value' => 'LBS'
                                     ],
                                     'allowed_methods' => [ //Allowed Methods
-                                        'value' => ['11','12','14','54','59','65','01','02','03','07','08']//Select all
+                                        'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08']
+                                        //Select all
                                     ],
                                     'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
@@ -911,7 +913,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => [
-                            'authorizenet_directpost' => [
+                            'authorizenet_directpost' => [ //authorize.net Direct Post
                                 'fields' => [
                                     'active' => [ //Enabled
                                         'value' => self::YES_VALUE
@@ -978,6 +980,82 @@ class Config extends AbstractRepository
             ]
         ];
         return array_merge_recursive($data, $this->_getAuthorizeNet());
+    }
+
+    protected function _getDisableAllPayment()
+    {
+        return [
+            'data' => [
+                'sections' => [
+                    'payment' => [
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array_merge(
+                            [
+                                'cashondelivery' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'banktransfer' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'purchaseorder' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'authorizenet' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'authorizenet_directpost' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'ogone' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'free' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ],
+                                'checkmo' => [
+                                    'fields' => [
+                                        'active' => [
+                                            'value' => self::NO_VALUE
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            $this->_getPaypalDisabled()['data']['sections']['payment']['groups']
+                        )
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getPaypalDisabled()
@@ -1130,6 +1208,7 @@ class Config extends AbstractRepository
             ]
         ];
     }
+
     protected function _getPaypalAdvanced()
     {
         return [
@@ -1247,7 +1326,7 @@ class Config extends AbstractRepository
                                                 'groups' => [
                                                     'settings_payments_standart_advanced' => [
                                                         'fields' => [
-                                                            'allowspecific' => [  // Payment Applicable From
+                                                            'allowspecific' => [ // Payment Applicable From
                                                                 'value' => 'All Allowed Countries'
                                                             ],
                                                             'sandbox_flag' => [ //Sandbox Mode
@@ -1832,7 +1911,8 @@ class Config extends AbstractRepository
                             'search' => [
                                 'fields' => [
                                     'engine' => [
-                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine' //MySql Fulltext
+                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine'
+                                        //MySql Fulltext
                                     ]
                                 ]
                             ]
@@ -2230,7 +2310,7 @@ class Config extends AbstractRepository
                                         'value' => '43'
                                     ],
                                     'zip' => [
-                                        'value' =>'10010'
+                                        'value' => '10010'
                                     ],
                                     'country_id' => [ // United States
                                         'value' => 'US'
@@ -2309,7 +2389,7 @@ class Config extends AbstractRepository
      */
     protected function _getManualPriceLayeredNavigationMysql()
     {
-        $config  =  [
+        $config = [
             'data' => [
                 'sections' => [
                     'catalog' => [

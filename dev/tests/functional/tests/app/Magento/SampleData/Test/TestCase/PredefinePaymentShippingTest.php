@@ -10,6 +10,7 @@ namespace Magento\SampleData\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
+use Magento\Core\Test\Fixture\ConfigData;
 
 /**
  * Class PredefinePaymentShippingTest
@@ -24,12 +25,25 @@ class PredefinePaymentShippingTest extends Injectable
      *
      * @param FixtureFactory $fixtureFactory
      * @param string $shippings
+     * @param ConfigData $configCurrency
+     * @param string $currency
      * @param string $payments
      * @param string $shippingOrigin
      * @return void
      */
-    public function test(FixtureFactory $fixtureFactory, $shippings, $payments, $shippingOrigin)
-    {
+    public function test(
+        FixtureFactory $fixtureFactory,
+        $shippings,
+        ConfigData $configCurrency,
+        $currency,
+        $payments,
+        $shippingOrigin
+    ) {
+        $configCurrency->persist();
+        $currencyRate = $fixtureFactory->create('\Magento\CurrencySymbol\Test\Fixture\CurrencyRate');
+        $currencyRate->switchData($currency);
+        $currencyRate->persist();
+
         $shippingData = explode(', ', $shippings);
         $shippingData[] = $shippingOrigin;
 

@@ -181,8 +181,8 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => 'simple_product_with_special_price_and_category%isolation%',
             'name' => 'Simple with Special Price 1$ off %isolation%',
             'attribute_set_id' => ['dataSet' => 'default'],
-            'price' => ['value' => 100, 'preset' => ''],
-            'special_price' => 1,
+            'price' => ['value' => 10, 'preset' => ''],
+            'special_price' => 9,
             'website_ids' => ['Main Website'],
         ];
 
@@ -307,16 +307,6 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['with_all_custom_option'] = [
-            'type_id' => 'simple',
-            'attribute_set_id' => ['dataSet' => 'default'],
-            'name' => 'Simple Product %isolation%',
-            'sku' => 'sku_simple_product_%isolation%',
-            'price' => ['value' => 300, 'preset' => '-'],
-            'weight' => 1,
-            'custom_options' => ['preset' => 'all_types'],
-        ];
-
-        $this->_data['with_custom_option'] = [
             'type_id' => 'simple',
             'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Simple Product With Custom Option %isolation%',
