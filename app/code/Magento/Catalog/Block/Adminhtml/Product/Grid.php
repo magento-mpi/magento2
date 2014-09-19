@@ -368,7 +368,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         );
 
         $block = $this->getLayout()->getBlock('grid.bottom.links');
-        $this->setChild('grid.bottom.links', $block);
+        if ($block) {
+            $this->setChild('grid.bottom.links', $block);
+        }
 
         return parent::_prepareColumns();
     }
