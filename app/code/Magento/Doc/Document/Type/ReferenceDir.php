@@ -65,13 +65,15 @@ class ReferenceDir extends AbstractType implements ReferenceInterface
     }
 
     /**
+     * Build directory tree html
+     *
      * @param $parent
      * @return string
      */
     protected function buildTree($parent)
     {
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
-        $result = '<ul style="padding-left: 20px">';
+        $result = '<ul class="directory-tree">';
         foreach ($parent as $item) {
             /** @var \SplFileInfo $item */
             if ($item->isDir()) {
@@ -81,8 +83,6 @@ class ReferenceDir extends AbstractType implements ReferenceInterface
                     new \RecursiveDirectoryIterator($item, $flags)
                 );
                 $result .= '</li>';
-            } else {
-                //$result .= '<li>' . $item->getBasename() . '</li>';
             }
         }
         $result .= '</ul>';
