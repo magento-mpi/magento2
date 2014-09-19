@@ -33,7 +33,7 @@ class AbstractMassDelete extends \Magento\Backend\App\Action
     protected $collection = 'Magento\Framework\Model\Resource\Db\Collection\AbstractCollection';
 
     /**
-     * Page model
+     * Model
      *
      * @var string
      */
