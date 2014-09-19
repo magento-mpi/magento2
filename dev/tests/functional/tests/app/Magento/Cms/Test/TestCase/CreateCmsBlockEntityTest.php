@@ -38,7 +38,6 @@ class CreateCmsBlockEntityTest extends AbstractCmsBlockEntityTest
      */
     public function test(CmsBlock $cmsBlock)
     {
-        $this->markTestIncomplete('MAGETWO-27635');
         // Prepare data for tearDown
         $this->storeName = $cmsBlock->getStores();
 

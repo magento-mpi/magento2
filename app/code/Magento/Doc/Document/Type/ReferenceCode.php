@@ -41,7 +41,7 @@ class ReferenceCode extends AbstractType implements ReferenceInterface
      */
     public function getContent(Item $item)
     {
-        $filePath = $item->getData('scheme') . '/' . $item->getData('name') . '.xhtml';
+        $filePath = $this->getFilePath($item);
         $result = $this->content->get($filePath);
         if (!$result) {
             list ($class, $method) = explode('::', $item->getData('reference'));

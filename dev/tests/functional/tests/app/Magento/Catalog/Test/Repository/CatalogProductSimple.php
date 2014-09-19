@@ -43,22 +43,6 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'order_default'],
         ];
 
-        $this->_data['simple_big_qty'] = [
-            'attribute_set_id' => ['dataSet' => 'default'],
-            'name' => 'Simple Product %isolation%',
-            'sku' => 'sku_simple_product_%isolation%',
-            'weight' => 1,
-            'quantity_and_stock_status' => [
-                'qty' => 1000.0000,
-                'is_in_stock' => 'In Stock',
-            ],
-            'price' => ['value' => 560.00, 'preset' => '-'],
-            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
-            'website_ids' => ['Main Website'],
-            'visibility' => 'Catalog, Search',
-            'checkout_data' => ['preset' => 'order_big_qty'],
-        ];
-
         $this->_data['100_dollar_product'] = [
             'sku' => '100_dollar_product%isolation%',
             'name' => '100_dollar_product%isolation%',
@@ -71,6 +55,7 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
+            'checkout_data' => ['preset' => 'two_products']
         ];
 
         $this->_data['40_dollar_product'] = [
@@ -271,7 +256,8 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => 'sku_simple_product_%isolation%',
             'price' => ['value' => 100, 'preset' => '-'],
             'weight' => 1,
-            'special_price' => 9
+            'special_price' => 9,
+            'website_ids' => ['Main Website']
         ];
 
         $this->_data['simple_with_group_price'] = [
@@ -282,6 +268,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 100, 'preset' => '-'],
             'weight' => 1,
             'group_price' => ['preset' => 'default'],
+            'website_ids' => ['Main Website']
         ];
 
         $this->_data['simple_with_tier_price'] = [
@@ -292,6 +279,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 300, 'preset' => '-'],
             'weight' => 1,
             'tier_price' => ['preset' => 'default'],
+            'website_ids' => ['Main Website']
         ];
 
         $this->_data['with_two_custom_option'] = [
@@ -302,7 +290,8 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 300, 'preset' => '-'],
             'weight' => 1,
             'custom_options' => ['preset' => 'two_options'],
-            'checkout_data' => ['preset' => 'with_two_custom_option']
+            'checkout_data' => ['preset' => 'with_two_custom_option'],
+            'website_ids' => ['Main Website']
         ];
 
         $this->_data['with_all_custom_option'] = [
@@ -312,7 +301,8 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => 'sku_simple_product_%isolation%',
             'price' => ['value' => 300, 'preset' => '-'],
             'weight' => 1,
-            'custom_options' => ['preset' => 'all_types'],
+            'website_ids' => ['Main Website'],
+            'custom_options' => ['preset' => 'all_types']
         ];
 
         $this->_data['with_custom_option'] = [
