@@ -27,13 +27,13 @@ class Price extends Block
             'selector' => '.price-container .price'
         ],
         'old_price' => [
-            'selector' => '.old-price .price'
+            'selector' => '.old-price .price-wrapper'
         ],
         'map_old_price' => [
-            'selector' => '.old.price .price'
+            'selector' => '.old-price .price'
         ],
         'actual_price' => [
-            'selector' => '.actual.price .price'
+            'selector' => '.actual-price .price'
         ],
         'special_price' => [
             'selector' => '.special-price .price'
