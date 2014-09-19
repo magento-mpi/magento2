@@ -10,12 +10,13 @@ namespace Magento\Doc\Document\Content;
 
 use Magento\Doc\Document\Content\Dom\NodeMergingConfig;
 use Magento\Doc\Document\Content\Dom\NodePathMatcher;
+use Magento\Doc\Document\DomInterface;
 
 /**
  * Class Dom
  * @package Magento\Doc\Document\Content
  */
-class Dom
+class Dom implements DomInterface
 {
     /**
      * Prefix which will be used for root namespace
@@ -98,13 +99,12 @@ class Dom
      * Merge $xml into DOM document
      *
      * @param string $xml
-     * @param string $parentPath
      * @return void
      */
-    public function merge($xml, $parentPath = '')
+    public function merge($xml)
     {
         $dom = $this->_initDom($xml);
-        $this->_mergeNode($dom->documentElement, $parentPath);
+        $this->_mergeNode($dom->documentElement);
     }
 
     /**
@@ -119,7 +119,7 @@ class Dom
      * @param string $parentPath path to parent node
      * @return void
      */
-    protected function _mergeNode(\DOMElement $node, $parentPath)
+    protected function _mergeNode(\DOMElement $node, $parentPath = '//div[@id="root"]')
     {
         $path = $this->_getNodePathByParent($node, $parentPath);
 
