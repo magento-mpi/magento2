@@ -59,4 +59,16 @@ class RssManager implements RssManagerInterface
 
         return $this->providers[$type];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProviders()
+    {
+        $result = array();
+        foreach (array_keys($this->providers) as $type) {
+            $result[] = $this->getProvider($type);
+        }
+        return $result;
+    }
 }

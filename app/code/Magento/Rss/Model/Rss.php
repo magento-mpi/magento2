@@ -22,11 +22,6 @@ class Rss
     protected $dataProvider;
 
     /**
-     * @var array
-     */
-    protected $_feedArray = array();
-
-    /**
      * @var \Magento\Framework\App\CacheInterface
      */
     protected $cache;
@@ -40,39 +35,6 @@ class Rss
     }
 
     /**
-     * @param array $data
-     * @return $this
-     * @codeCoverageIgnore
-     */
-    public function _addHeader($data = array())
-    {
-        $this->_feedArray = $data;
-        return $this;
-    }
-
-    /**
-     * @param array $entries
-     * @return $this
-     * @codeCoverageIgnore
-     */
-    public function _addEntries($entries)
-    {
-        $this->_feedArray['entries'] = $entries;
-        return $this;
-    }
-
-    /**
-     * @param array $entry
-     * @return $this
-     * @codeCoverageIgnore
-     */
-    public function _addEntry($entry)
-    {
-        $this->_feedArray['entries'][] = $entry;
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function getFeeds()
@@ -81,7 +43,7 @@ class Rss
             return array();
         }
         $cache = false;
-        if ($this->dataProvider->getCacheKey()) {
+        if ($this->dataProvider->getCacheKey() && $this->dataProvider->getCacheLifetime()) {
             $cache = $this->cache->load($this->dataProvider->getCacheKey());
         }
 
@@ -89,7 +51,7 @@ class Rss
             return unserialize($cache);
         }
 
-        $data = $this->dataProvider->getData();
+        $data = $this->dataProvider->getRssData();
 
         if ($this->dataProvider->getCacheKey() && $this->dataProvider->getCacheLifetime()) {
             $this->cache->save(
