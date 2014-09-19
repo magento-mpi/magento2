@@ -27,7 +27,7 @@
    * Ordered products report
    * Sales coupon report
  * GitHub requests:
-   * [#662] (https://github.corp.ebay.com/magento2/magento2/pull/662) -- Composer Installation
+   * [#662] (https://github.com/magento/magento2/issues/662) -- Composer Installation
 
 0.1.0-alpha95
 =============
@@ -88,8 +88,8 @@
    * Configuration scope of items' InStock status on order cancellation
    * Creating the new customer in admin
  * GitHub requests:
-   * [#621] (https://github.corp.ebay.com/magento2/magento2/pull/621) -- Parse error: syntax error, unexpected T_OBJECT_OPERATOR
-   * [#651] (https://github.corp.ebay.com/magento2/magento2/pull/651) -- Multishipping checkout add/edit address page issue
+   * [#621] (https://github.com/magento/magento2/issues/621) -- Parse error: syntax error, unexpected T_OBJECT_OPERATOR
+   * [#651] (https://github.com/magento/magento2/issues/651) -- Multishipping checkout add/edit address page issue
 
 0.1.0-alpha94
 =============
