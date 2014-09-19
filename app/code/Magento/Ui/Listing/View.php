@@ -49,25 +49,25 @@ class View extends AbstractView
     /**
      * Constructor
      *
-     * @param ActionPool $actionPool
-     * @param OptionsFactory $optionsFactory
-     * @param RowPool $dataProviderRowPool
      * @param TemplateContext $context
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
-     * @param ConfigFactory $configurationFactory
-     * @param ConfigBuilderInterface $configurationBuilder
+     * @param OptionsFactory $optionsFactory
+     * @param ActionPool $actionPool
+     * @param RowPool $dataProviderRowPool
+     * @param ConfigFactory $configFactory
+     * @param ConfigBuilderInterface $configBuilder
      * @param array $data
      */
     public function __construct(
-        ActionPool $actionPool,
-        OptionsFactory $optionsFactory,
-        RowPool $dataProviderRowPool,
         TemplateContext $context,
         Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
-        ConfigFactory $configurationFactory,
-        ConfigBuilderInterface $configurationBuilder,
+        OptionsFactory $optionsFactory,
+        ActionPool $actionPool,
+        RowPool $dataProviderRowPool,
+        ConfigFactory $configFactory,
+        ConfigBuilderInterface $configBuilder,
         array $data = []
     ) {
         $this->actionPool = $actionPool;
@@ -77,8 +77,8 @@ class View extends AbstractView
             $context,
             $renderContext,
             $contentTypeFactory,
-            $configurationFactory,
-            $configurationBuilder,
+            $configFactory,
+            $configBuilder,
             $data
         );
     }

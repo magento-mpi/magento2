@@ -47,8 +47,8 @@ class View extends AbstractView
      * @param TemplateContext $context
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
-     * @param ConfigFactory $configurationFactory
-     * @param ConfigBuilderInterface $configurationBuilder
+     * @param ConfigFactory $configFactory
+     * @param ConfigBuilderInterface $configBuilder
      * @param array $data
      */
     public function __construct(
@@ -56,8 +56,8 @@ class View extends AbstractView
         TemplateContext $context,
         Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
-        ConfigFactory $configurationFactory,
-        ConfigBuilderInterface $configurationBuilder,
+        ConfigFactory $configFactory,
+        ConfigBuilderInterface $configBuilder,
         array $data = []
     ) {
         $this->filterPool = $filterPool;
@@ -65,8 +65,8 @@ class View extends AbstractView
             $context,
             $renderContext,
             $contentTypeFactory,
-            $configurationFactory,
-            $configurationBuilder,
+            $configFactory,
+            $configBuilder,
             $data
         );
     }

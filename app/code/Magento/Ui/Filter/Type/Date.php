@@ -46,22 +46,22 @@ class Date extends View
     /**
      * Constructor
      *
-     * @param FilterPool $filterPool
      * @param TemplateContext $context
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configurationFactory
      * @param ConfigBuilderInterface $configurationBuilder
+     * @param FilterPool $filterPool
      * @param ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
-        FilterPool $filterPool,
         TemplateContext $context,
         Context $renderContext,
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configurationFactory,
         ConfigBuilderInterface $configurationBuilder,
+        FilterPool $filterPool,
         ResolverInterface $localeResolver,
         array $data = []
     ) {
