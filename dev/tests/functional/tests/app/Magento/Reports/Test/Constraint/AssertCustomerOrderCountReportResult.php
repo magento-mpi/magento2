@@ -8,14 +8,14 @@
 
 namespace Magento\Reports\Test\Constraint;
 
+use Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
 
 /**
- * Class AssertCustomerOrderTotalReportResult
- * Assert OrderTotalReport grid for all params
+ * Class AssertCustomerOrderCountReportResult
+ * Assert OrderCountReport grid for all params
  */
-class AssertCustomerOrderTotalReportResult extends AbstractAssertCustomerOrderReportResult
+class AssertCustomerOrderCountReportResult extends AbstractAssertCustomerOrderReportResult
 {
     /**
      * Constraint severeness
@@ -25,16 +25,16 @@ class AssertCustomerOrderTotalReportResult extends AbstractAssertCustomerOrderRe
     protected $severeness = 'low';
 
     /**
-     * Assert OrderTotalReport grid for all params
+     * Assert OrderCountReport grid for all params
      *
-     * @param CustomerTotalsReport $customerTotalsReport
+     * @param CustomerOrdersReport $customerOrdersReport
      * @param CustomerInjectable $customer
      * @param array $columns
      * @param array $report
      * @return void
      */
     public function processAssert(
-        CustomerTotalsReport $customerTotalsReport,
+        CustomerOrdersReport $customerOrdersReport,
         CustomerInjectable $customer,
         array $columns,
         array $report
@@ -42,8 +42,8 @@ class AssertCustomerOrderTotalReportResult extends AbstractAssertCustomerOrderRe
         $filter = $this->prepareFilter($customer, $columns, $report);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $customerTotalsReport->getGridBlock()->isRowVisible($filter),
-            'Order does not present in report grid.'
+            $customerOrdersReport->getGridBlock()->isRowVisible($filter),
+            'Order does not present in count grid.'
         );
     }
 
@@ -54,6 +54,6 @@ class AssertCustomerOrderTotalReportResult extends AbstractAssertCustomerOrderRe
      */
     public function toString()
     {
-        return 'Order total is present in reports grid.';
+        return 'Order count is present in count grid.';
     }
 }

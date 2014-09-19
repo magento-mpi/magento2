@@ -25,6 +25,13 @@ abstract class AbstractFilter extends Form
     protected $dateFields = ['from', 'to'];
 
     /**
+     * Refresh button css selector
+     *
+     * @var string
+     */
+    protected $refresh = '[data-ui-id="adminhtml-report-grid-refresh-button"]';
+
+    /**
      * Prepare data
      *
      * @param array $viewsReport
@@ -55,5 +62,15 @@ abstract class AbstractFilter extends Form
         $report = $this->prepareData($report);
         $data = $this->dataMapping($report);
         $this->_fill($data);
+    }
+
+    /**
+     * Click refresh filter button
+     *
+     * @return void
+     */
+    public function refreshFilter()
+    {
+        $this->_rootElement->find($this->refresh)->click();
     }
 }

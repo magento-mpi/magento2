@@ -23,21 +23,4 @@ class Filter extends AbstractFilter
      * @var array
      */
     protected $dateFields = ['report_from', 'report_to'];
-
-    /**
-     * Refresh button css selector
-     *
-     * @var string
-     */
-    protected $refresh = '[data-ui-id="adminhtml-report-grid-refresh-button"]';
-
-    /**
-     * Click refresh filter button
-     *
-     * @return void
-     */
-    public function refreshFilter()
-    {
-        $this->_rootElement->find($this->refresh)->click();
-    }
 }
