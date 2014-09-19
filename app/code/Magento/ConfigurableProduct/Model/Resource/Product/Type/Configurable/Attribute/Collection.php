@@ -9,6 +9,8 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute;
 
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -309,7 +311,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if ($usedProducts) {
             foreach ($this->_items as $item) {
                 $productAttribute = $item->getProductAttribute();
-                if (!$productAttribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
+                if (!$productAttribute instanceof AbstractAttribute) {
                     continue;
                 }
                 $itemId = $item->getId();
@@ -368,11 +370,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Get options for all product attribute values from used products
      *
-     * @param $usedProducts
-     * @param $productAttribute
+     * @param \Magento\Catalog\Model\Product[] $usedProducts
+     * @param AbstractAttribute $productAttribute
      * @return array
      */
-    protected function getIncludedOptions($usedProducts, $productAttribute)
+    protected function getIncludedOptions(array $usedProducts, AbstractAttribute $productAttribute)
     {
         $attributeValues = [];
         foreach ($usedProducts as $associatedProduct) {
