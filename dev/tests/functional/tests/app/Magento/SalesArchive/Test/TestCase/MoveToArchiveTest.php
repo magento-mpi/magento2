@@ -8,16 +8,11 @@
 
 namespace Magento\SalesArchive\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\SalesOrderCreditMemoNew;
-use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
-use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
-use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 
 /**
  * Test Creation for MoveToArchive
@@ -51,48 +46,6 @@ class MoveToArchiveTest extends Injectable
     protected $orderIndex;
 
     /**
-     * Order View Page
-     *
-     * @var OrderView
-     */
-    protected $orderView;
-
-    /**
-     * Order New Invoice Page
-     *
-     * @var OrderInvoiceNew
-     */
-    protected $orderInvoiceNew;
-
-    /**
-     * New Order Shipment Page
-     *
-     * @var OrderShipmentNew
-     */
-    protected $orderShipmentNew;
-
-    /**
-     * Order invoice view page
-     *
-     * @var OrderInvoiceView
-     */
-    protected $orderInvoiceView;
-
-    /**
-     * Order shipment view page
-     *
-     * @var OrderShipmentView
-     */
-    protected $orderShipmentView;
-
-    /**
-     * OrderCreditMemoNew Page
-     *
-     * @var SalesOrderCreditMemoNew
-     */
-    protected $orderCreditMemoNew;
-
-    /**
      * Fixture Factory
      *
      * @var FixtureFactory
@@ -100,7 +53,12 @@ class MoveToArchiveTest extends Injectable
     protected $fixtureFactory;
 
     /**
-     * Enable "Orders Archiving", "Check/Money Order", "Flat Rate" in configuration
+     * @var ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * Enable Check/Money Order", "Flat Rate" in configuration
      *
      * @param FixtureFactory $fixtureFactory
      * @return void
@@ -118,33 +76,18 @@ class MoveToArchiveTest extends Injectable
      * Injection data
      *
      * @param OrderIndex $orderIndex
-     * @param OrderView $orderView
-     * @param OrderInvoiceNew $orderInvoiceNew
-     * @param OrderShipmentNew $orderShipmentNew
-     * @param OrderInvoiceView $orderInvoiceView
-     * @param OrderShipmentView $orderShipmentView
-     * @param SalesOrderCreditMemoNew $orderCreditMemoNew
      * @param FixtureFactory $fixtureFactory
+     * @param ObjectManager $objectManager
      * @return void
      */
     public function __inject(
         OrderIndex $orderIndex,
-        OrderView $orderView,
-        OrderInvoiceNew $orderInvoiceNew,
-        OrderShipmentNew $orderShipmentNew,
-        OrderInvoiceView $orderInvoiceView,
-        OrderShipmentView $orderShipmentView,
-        SalesOrderCreditMemoNew $orderCreditMemoNew,
-        FixtureFactory $fixtureFactory
+        FixtureFactory $fixtureFactory,
+        ObjectManager $objectManager
     ) {
         $this->orderIndex = $orderIndex;
-        $this->orderView = $orderView;
-        $this->orderInvoiceNew = $orderInvoiceNew;
-        $this->orderShipmentNew = $orderShipmentNew;
-        $this->orderInvoiceView = $orderInvoiceView;
-        $this->orderShipmentView = $orderShipmentView;
-        $this->orderCreditMemoNew = $orderCreditMemoNew;
         $this->fixtureFactory = $fixtureFactory;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -185,130 +128,13 @@ class MoveToArchiveTest extends Injectable
         $steps = array_diff(explode(',', $steps), ['-']);
         $ids = [];
         foreach ($steps as $step) {
-            $action = str_replace(' ', '', ucwords(trim($step)));
-            $methodAction = 'process' . $action;
-            if (is_callable([$this, $methodAction])) {
-                $ids[lcfirst($action) . 'Id'] = $this->$methodAction($order);
-            } else {
-                throw new \Exception('Method ' . $methodAction . ' undefined!');
-            }
+            $action = str_replace(' ', '', ucwords($step));
+            $methodAction = 'Create' . $action;
+            $path = 'Magento\Sales\Test\TestStep';
+            $processStep = $this->objectManager->create($path . '\\' . $methodAction, ['order' => $order]);
+            $ids = array_replace($ids, $processStep->run());
         }
 
         return $ids;
-    }
-
-    /**
-     * Create invoice for order
-     *
-     * @param OrderInjectable $order
-     * @return string
-     */
-    protected function processInvoice(OrderInjectable $order)
-    {
-        $this->orderIndex->open();
-        $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        $this->orderView->getPageActions()->invoice();
-        $this->orderInvoiceNew->getTotalsBlock()->submit();
-        $invoiceId = $this->getInvoiceId($order);
-
-        return $invoiceId;
-    }
-
-    /**
-     * Create shipping for order
-     *
-     * @param OrderInjectable $order
-     * @return string
-     */
-    protected function processShipping(OrderInjectable $order)
-    {
-        $this->orderIndex->open();
-        $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        $this->orderView->getPageActions()->ship();
-        $this->orderShipmentNew->getShipItemsBlock()->submit();
-        $shipmentId = $this->getShipmentId($order);
-
-        return $shipmentId;
-    }
-
-    /**
-     * Create Credit Memo for order
-     *
-     * @param OrderInjectable $order
-     * @return string
-     */
-    protected function processCreditMemo(OrderInjectable $order)
-    {
-        $this->orderIndex->open();
-        $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getActionsBlock()->refundOffline();
-        $creditMemoId = $this->getCreditMemoId($order);
-
-        return $creditMemoId;
-    }
-
-    /**
-     * Get invoice id
-     *
-     * @param OrderInjectable $order
-     * @return null|string
-     */
-    protected function getInvoiceId(OrderInjectable $order)
-    {
-        $this->orderView->getOrderForm()->openTab('invoices');
-        $amount = $order->getPrice()['grand_invoice_total'];
-        $filter = [
-            'status' => 'Paid',
-            'amount_from' => $amount,
-            'amount_to' => $amount
-        ];
-        $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->searchAndOpen($filter);
-        return trim($this->orderInvoiceView->getTitleBlock()->getTitle(), ' #');
-    }
-
-    /**
-     * Get shipment id
-     *
-     * @param OrderInjectable $order
-     * @return null|string
-     */
-    protected function getShipmentId(OrderInjectable $order)
-    {
-        $qty = $order->getTotalQtyOrdered();
-        $shipmentId = null;
-        if ($qty !== null) {
-            $this->orderView->getOrderForm()->openTab('shipments');
-            $filter = [
-                'qty_from' => $qty,
-                'qty_to' => $qty
-            ];
-            $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->searchAndOpen($filter);
-            $shipmentId = trim($this->orderShipmentView->getTitleBlock()->getTitle(), ' #');
-        }
-
-        return $shipmentId;
-    }
-
-    /**
-     * Get credit memo id
-     *
-     * @param OrderInjectable $order
-     * @return null|string
-     */
-    protected function getCreditMemoId(OrderInjectable $order)
-    {
-        $this->orderView->getOrderForm()->openTab('creditmemos');
-        $amount = $order->getPrice()['grand_invoice_total'];
-        $filter = [
-            'status' => 'Refunded',
-            'amount_from' => $amount,
-            'amount_to' => $amount
-        ];
-        $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->search($filter);
-        $creditMemoId = $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()
-            ->getCreditMemoId();
-
-        return $creditMemoId;
     }
 }
