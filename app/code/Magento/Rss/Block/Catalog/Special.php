@@ -136,7 +136,10 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
         $newUrl = $this->_urlBuilder->getUrl('rss/catalog/special/store_id/' . $storeId);
         $title = __('%1 - Special Products', $this->_storeManager->getStore()->getFrontendName());
-        $lang = $this->_scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $lang = $this->_scopeConfig->getValue(
+            \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $this->_rssFactory->create();
         $rssObj->_addHeader(

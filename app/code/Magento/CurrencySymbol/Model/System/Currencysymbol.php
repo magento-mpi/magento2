@@ -53,7 +53,7 @@ class Currencysymbol
      */
     const XML_PATH_CUSTOM_CURRENCY_SYMBOL = 'currency/options/customsymbol';
 
-    const XML_PATH_ALLOWED_CURRENCIES = 'currency/options/allow';
+    const XML_PATH_ALLOWED_CURRENCIES = \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW;
 
     /*
      * Separator used in config in allowed currencies list

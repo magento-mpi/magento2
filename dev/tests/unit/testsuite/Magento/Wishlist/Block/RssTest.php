@@ -199,7 +199,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
                             null
                         ],
                         [
-                            'general/locale/code',
+                            \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
                             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                             null,
                             $locale
