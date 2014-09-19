@@ -30,7 +30,7 @@ class AssertOrderStatusInArchiveOrders extends AbstractConstraint
      *
      * @param OrderInjectable $order
      * @param ArchiveOrders $archiveOrders
-     * @param $orderStatus
+     * @param string $orderStatus
      * @return void
      */
     public function processAssert(OrderInjectable $order, ArchiveOrders $archiveOrders, $orderStatus)
@@ -44,7 +44,7 @@ class AssertOrderStatusInArchiveOrders extends AbstractConstraint
         $errorMessage = implode(', ', $filter);
         \PHPUnit_Framework_Assert::assertTrue(
             $archiveOrders->getSalesOrderGrid()->isRowVisible($filter),
-            'Order with following data \'' . $errorMessage . '\' is absent in archive orders grid.'
+            "Order with following data '$errorMessage' is absent in archive orders grid."
         );
     }
 

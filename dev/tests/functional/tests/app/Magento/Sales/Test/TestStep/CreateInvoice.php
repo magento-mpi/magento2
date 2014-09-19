@@ -67,7 +67,7 @@ class CreateInvoice implements TestStepInterface
     /**
      * Invoice data
      *
-     * @var array
+     * @var null/array
      */
     protected $data;
 
@@ -79,7 +79,7 @@ class CreateInvoice implements TestStepInterface
      * @param OrderInvoiceView $orderInvoiceView
      * @param OrderInjectable $order
      * @param OrderShipmentView $orderShipmentView
-     * @param $data[optional]
+     * @param null/array $data[optional]
      */
     public function __construct(
         OrderIndex $orderIndex,
