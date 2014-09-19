@@ -16,7 +16,7 @@ use Magento\Framework\App\Rss\DataProviderInterface;
 class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderInterface
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -27,13 +27,13 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\Rss $rssModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Review\Model\Rss $rssModel,
         array $data = array()
     ) {

@@ -26,7 +26,7 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerHelper;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerInterface;
 
@@ -72,7 +72,7 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerInterface = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->requestInterface = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->rssBuilderInterface = $this->getMock('Magento\Framework\App\Rss\UrlBuilderInterface');
         $this->urlBuilderInterface = $this->getMock('Magento\Framework\UrlInterface');
