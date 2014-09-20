@@ -44,7 +44,7 @@ class RmaWriteTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($preparedRmaData, $expected)
     {
-        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['saveRma'], [], '', false);
+        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['saveRma', '__wakeup'], [], '', false);
         $rmaDataObject = $this->getMock('Magento\Rma\Service\V1\Data\Rma', [], [], '', false);
         $this->converter->expects($this->once())
             ->method('getPreparedModelData')
@@ -78,7 +78,7 @@ class RmaWriteTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdate($id, $preparedRmaData, $expected)
     {
-        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['saveRma'], [], '', false);
+        $rmaModel = $this->getMock('Magento\Rma\Model\Rma', ['saveRma', '__wakeup'], [], '', false);
         $rmaDataObject = $this->getMock('Magento\Rma\Service\V1\Data\Rma', [], [], '', false);
         $this->converter->expects($this->once())
             ->method('getPreparedModelData')

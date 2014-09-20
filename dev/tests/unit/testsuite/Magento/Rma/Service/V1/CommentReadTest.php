@@ -93,6 +93,8 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->rmaRepositoryMock = $this->getMock('Magento\Rma\Model\RmaRepository', ['get'], [], '', false);
+
         $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder')
             ->disableOriginalConstructor()
             ->setMethods([])
@@ -188,8 +190,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     {
         $this->permissionCheckerMock->expects($this->once())->method('checkRmaForCustomerContext');
 
-        $this->permissionCheckerMock
-            ->expects($this->once())
+        $this->permissionCheckerMock->expects($this->once())
             ->method('isCustomerContext')
             ->willReturn($isCustomerContext);
 
@@ -203,14 +204,14 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
         $this->filterBuilderMock
             ->expects($this->at(0))
             ->method('setField')
-            ->with($this->equalTo('rma_entity_id'))
-            ->willReturn($this->filterBuilderMock);
+            ->with('rma_entity_id')
+            ->willReturnSelf();
 
         $this->filterBuilderMock
             ->expects($this->at(1))
             ->method('setValue')
             ->with($id)
-            ->willReturn($this->filterBuilderMock);
+            ->willReturnSelf();
 
         $this->filterBuilderMock
             ->expects($this->at(2))
@@ -254,13 +255,13 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
         $this->historyRepositoryMock
             ->expects($this->once())
             ->method('find')
-            ->with($this->equalTo($this->searchCriteriaMock))
+            ->with($this->searchCriteriaMock)
             ->will($this->returnValue([$this->commentMock]));
 
         $this->historyMapperMock
             ->expects($this->once())
             ->method('extractDto')
-            ->with($this->equalTo($this->commentMock))
+            ->with($this->commentMock)
             ->will($this->returnValue($this->dataObjectMock));
 
         $this->searchResultsBuilderMock

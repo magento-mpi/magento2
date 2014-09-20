@@ -24,9 +24,9 @@ class Converter
     private $rmaDataMapper;
 
     /**
-     * @var \Magento\Sales\Model\OrderFactory
+     * @var \Magento\Sales\Model\OrderRepository
      */
-    private $orderFactory;
+    private $orderRepository;
 
     /**
      * @var Source\StatusFactory
@@ -41,19 +41,19 @@ class Converter
     /**
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\RmaRepository $rmaRepository
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\OrderRepository $orderRepository
      * @param Source\StatusFactory $statusFactory
      * @param RmaDataMapper $rmaDataMapper
      */
     public function __construct(
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\RmaRepository $rmaRepository,
-        \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
-        \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper
+        \Magento\Sales\Model\OrderRepository $orderRepository,
+        Source\StatusFactory $statusFactory,
+        RmaDataMapper $rmaDataMapper
     ) {
         $this->rmaFactory = $rmaFactory;
-        $this->orderFactory = $orderFactory;
+        $this->orderRepository = $orderRepository;
         $this->statusFactory = $statusFactory;
         $this->rmaDataMapper = $rmaDataMapper;
         $this->rmaRepository = $rmaRepository;
@@ -68,10 +68,9 @@ class Converter
      */
     public function createNewRmaModel(Rma $rmaDto, array $rmaData)
     {
-        $orderModel = $this->orderFactory->create();
-        $orderModel->load($rmaDto->getOrderId());
+        $orderModel = $this->orderRepository->get($rmaDto->getOrderId());
 
-        $rmaData = $this->rmaDataMapper->prepareNewRmaInstanceData($rmaData, $orderModel);
+        $rmaData = $this->rmaDataMapper->filterRmaSaveRequest($rmaData);
 
         $rmaModel = $this->rmaFactory->create();
         $rmaModel->setData($this->rmaDataMapper->prepareNewRmaInstanceData($rmaData, $orderModel));
@@ -112,7 +111,8 @@ class Converter
         $itemStatuses = $this->rmaDataMapper->combineItemStatuses($preparedRmaData['items'], $rmaId);
 
         $sourceStatus = $this->statusFactory->create();
-        $rmaModel->setStatus($sourceStatus->getStatusByItems($itemStatuses))->setIsUpdate(1);
+        $rmaModel->setStatus($sourceStatus->getStatusByItems($itemStatuses));
+        $rmaModel->setIsUpdate(1);
 
         return $rmaModel;
     }

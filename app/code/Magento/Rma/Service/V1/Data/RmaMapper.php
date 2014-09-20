@@ -54,13 +54,13 @@ class RmaMapper
     /**
      * Returns list of Item
      *
-     * @param \Magento\Rma\Model\Resource\Item\Collection $items
+     * @param \Magento\Rma\Model\Resource\Item\Collection $itemCollection
      * @return array
      */
-    public function getMappedItems(\Magento\Rma\Model\Resource\Item\Collection $items)
+    public function getMappedItems(\Magento\Rma\Model\Resource\Item\Collection $itemCollection)
     {
         $dtoItems = [];
-        foreach ($items as $itemModel) {
+        foreach ($itemCollection as $itemModel) {
             $dtoItems[] = $this->itemMapper->extractDto($itemModel);
         }
 

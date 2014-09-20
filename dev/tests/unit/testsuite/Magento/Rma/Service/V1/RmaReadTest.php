@@ -82,7 +82,7 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
 
         $this->permissionCheckerMock = $this->getMockBuilder('Magento\Rma\Model\Rma\PermissionChecker')
             ->disableOriginalConstructor()
-            ->setMethods(['__wakeup', 'checkRmaForCustomerContext', 'isRmaOwner'])
+            ->setMethods([])
             ->getMock();
 
         $this->serviceRmaReadMock = (new ObjectManagerHelper($this))->getObject(
@@ -91,7 +91,7 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
                 "repository" => $this->rmaRepositoryMock,
                 "rmaMapper" => $this->rmaMapperMock,
                 "rmaSearchResultsBuilder" => $this->rmaSearchResultsBuilderMock,
-                "permissionChecker"    => $this->permissionCheckerMock,
+                'permissionChecker' => $this->permissionCheckerMock
             ]
         );
 
@@ -140,6 +140,7 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
         $this->permissionCheckerMock->expects($this->once())->method('isRmaOwner')
             ->with($this->rmaModelMock)
             ->willReturn($isRmaOwner);
+
 
         $this->rmaRepositoryMock->expects($this->once())->method('find')
             ->with($searchCriteriaMock)->willReturn([$this->rmaModelMock]);

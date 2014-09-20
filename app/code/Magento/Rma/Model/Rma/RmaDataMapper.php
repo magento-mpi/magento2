@@ -46,18 +46,11 @@ class RmaDataMapper
                 __('We failed to save this RMA. No items have been specified.')
             );
         }
+        $requiredKeys = ['qty_authorized', 'qty_approved', 'qty_returned', 'qty_requested'];
         $items = [];
         foreach ($saveRequest['items'] as $key => $itemData) {
-            if (!isset(
-                $itemData['qty_authorized']
-                ) && !isset(
-                $itemData['qty_returned']
-                ) && !isset(
-                $itemData['qty_approved']
-                ) && !isset(
-                $itemData['qty_requested']
-                )
-            ) {
+            $intersection = array_intersect($requiredKeys, array_keys($itemData));
+            if (empty($intersection)) {
                 continue;
             }
             $itemData['entity_id'] = strpos($key, '_') === false ? $key : false;
@@ -107,9 +100,12 @@ class RmaDataMapper
                 $statuses[] = $requestedItem['status'];
             }
         }
-        /** @var $rmaItems \Magento\Rma\Model\Resource\Item\Collection */
-        $rmaItems = $this->itemCollectionFactory->create()->addAttributeToFilter('rma_entity_id', $rmaId);
-        foreach ($rmaItems as $rmaItem) {
+
+        /** @todo verify this code is needed as we always have all items in request */
+        /** @var $rmaCollection \Magento\Rma\Model\Resource\Item\Collection */
+        $itemCollection = $this->itemCollectionFactory->create();
+        $itemCollection->addAttributeToFilter('rma_entity_id', $rmaId);
+        foreach ($itemCollection as $rmaItem) {
             if (!isset($requestedItems[$rmaItem->getId()])) {
                 $statuses[] = $rmaItem->getStatus();
             }
