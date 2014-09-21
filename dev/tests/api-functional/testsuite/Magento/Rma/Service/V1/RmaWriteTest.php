@@ -29,12 +29,16 @@ class RmaWriteTest extends WebapiAbstract
      */
     protected $objectManager;
 
+    public function setUp()
+    {
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+    }
+
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
      */
     protected function prepareRma()
     {
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $order = $this->objectManager->get('Magento\Sales\Model\Order')->load(1);
         /** @var \Magento\Rma\Service\V1\Data\RmaBuilder $orderBuilder */
         $rmaBuilder = $this->objectManager->get('Magento\Rma\Service\V1\Data\RmaBuilder');
