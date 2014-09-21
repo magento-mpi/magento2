@@ -6,53 +6,50 @@
  * @license     {license_link}
  */
  
-namespace Magento\Rma\Model;
+namespace Magento\Sales\Model;
 
-/**
- * Repository class for \Magento\Rma\Model\Rma
- */
-class RmaRepository
+class OrderRepository
 {
     /**
-     * rmaFactory
+     * orderFactory
      *
-     * @var \Magento\Rma\Model\RmaFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
-    protected $rmaFactory = null;
+    protected $orderFactory = null;
 
     /**
      * Collection Factory
      *
-     * @var \Magento\Rma\Model\Resource\Rma\CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
-    protected $rmaCollectionFactory = null;
+    protected $orderCollectionFactory = null;
 
     /**
-     * Magento\Rma\Model\Rma[]
+     * Magento\Sales\Model\Order[]
      *
      * @var array
      */
     protected $registry = array();
 
-   /**
-    * Repository constructor
-    *
-    * @param RmaFactory $rmaFactory
-    * @param Resource\Rma\CollectionFactory $rmaCollectionFactory
-    */
+    /**
+     * Repository constructor
+     *
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     */
     public function __construct(
-        \Magento\Rma\Model\RmaFactory $rmaFactory,
-        \Magento\Rma\Model\Resource\Rma\CollectionFactory $rmaCollectionFactory
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
     ) {
-        $this->rmaFactory = $rmaFactory;
-        $this->rmaCollectionFactory = $rmaCollectionFactory;
+        $this->orderFactory = $orderFactory;
+        $this->orderCollectionFactory = $orderCollectionFactory;
     }
 
     /**
      * load entity
      *
      * @param int $id
-     * @return \Magento\Rma\Model\Rma
+     * @return \Magento\Sales\Model\Order
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -62,7 +59,7 @@ class RmaRepository
             throw new \Magento\Framework\Exception\InputException('ID required');
         }
         if (!isset($this->registry[$id])) {
-            $entity = $this->rmaFactory->create()->load($id);
+            $entity = $this->orderFactory->create()->load($id);
             if (!$entity->getId()) {
                 throw new \Magento\Framework\Exception\NoSuchEntityException('Requested entity doesn\'t exist');
             }
@@ -74,10 +71,10 @@ class RmaRepository
     /**
      * Register entity
      *
-     * @param \Magento\Rma\Model\Rma $object
-     * @return \Magento\Rma\Model\RmaRepository
+     * @param \Magento\Sales\Model\Order $object
+     * @return \Magento\Sales\Model\OrderRepository
      */
-    public function register(\Magento\Rma\Model\Rma $object)
+    public function register(\Magento\Sales\Model\Order $object)
     {
         if ($object->getId() && !isset($this->registry[$object->getId()])) {
             $object->load($object->getId());
@@ -90,11 +87,11 @@ class RmaRepository
      * Find entities by criteria
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria  $criteria
-     * @return \Magento\Rma\Model\Rma[]
+     * @return \Magento\Sales\Model\Order[]
      */
     public function find(\Magento\Framework\Service\V1\Data\SearchCriteria $criteria)
     {
-        $collection = $this->rmaCollectionFactory->create();
+        $collection = $this->orderCollectionFactory->create();
         foreach ($criteria->getFilterGroups() as $filterGroup) {
             foreach ($filterGroup->getFilters() as $filter) {
                 $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';

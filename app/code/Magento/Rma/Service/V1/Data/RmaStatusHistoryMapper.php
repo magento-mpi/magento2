@@ -8,6 +8,8 @@
  
 namespace Magento\Rma\Service\V1\Data;
 
+use Magento\Rma\Model\Rma\Status\History;
+
 class RmaStatusHistoryMapper
 {
     /**
@@ -30,15 +32,15 @@ class RmaStatusHistoryMapper
     /**
      * Extract data object from model
      *
-     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param History $historyModel
      * @return RmaStatusHistory
      */
-    public function extractDto(\Magento\Framework\Model\AbstractModel $object)
+    public function extractDto(History $historyModel)
     {
-        $this->rmaStatusHistoryBuilder->populateWithArray($object->getData());
-        $this->rmaStatusHistoryBuilder->setAdmin($object->getIsAdmin());
-        $this->rmaStatusHistoryBuilder->setVisibleOnFront($object->getIsVisibleOnFront());
-        $this->rmaStatusHistoryBuilder->setCustomerNotified($object->getIsCustomerNotified());
+        $this->rmaStatusHistoryBuilder->populateWithArray($historyModel->getData());
+        $this->rmaStatusHistoryBuilder->setAdmin($historyModel->getIsAdmin());
+        $this->rmaStatusHistoryBuilder->setVisibleOnFront($historyModel->getIsVisibleOnFront());
+        $this->rmaStatusHistoryBuilder->setCustomerNotified($historyModel->getIsCustomerNotified());
         return $this->rmaStatusHistoryBuilder->create();
     }
 }

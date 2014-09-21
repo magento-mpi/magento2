@@ -38,7 +38,7 @@ class ItemMapper
      */
     public function extractDto(\Magento\Rma\Model\Item $item)
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($item->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $item->getDataUsingMethod($attrCode);
