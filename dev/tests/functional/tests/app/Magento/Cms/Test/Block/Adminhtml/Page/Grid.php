@@ -18,6 +18,20 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 class Grid extends ParentGrid
 {
     /**
+     * Locator value for 'Search' button
+     *
+     * @var string
+     */
+    protected $searchButton = '.action.primary.action-apply';
+
+    /**
+     * Locator value for 'Reset' button
+     *
+     * @var string
+     */
+    protected $resetButton = '.action.secondary.action-reset';
+
+    /**
      * Locator value for link in action column
      *
      * @var string
@@ -44,13 +58,6 @@ class Grid extends ParentGrid
     ];
 
     /**
-     * Selector for action expand Filter
-     *
-     * @var string
-     */
-    protected $filterOpen = '.action.filters-toggle';
-
-    /**
      * Search item and open it on front
      *
      * @param array $filter
@@ -67,14 +74,5 @@ class Grid extends ParentGrid
         } else {
             throw new \Exception('Searched item was not found.');
         }
-    }
-
-    /**
-     * Press 'Reset' button
-     */
-    public function resetFilter()
-    {
-        $this->_rootElement->find($this->filterOpen, Locator::SELECTOR_CSS)->click();
-        parent::resetFilter();
     }
 }

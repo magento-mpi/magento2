@@ -34,7 +34,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $searchButton = '.action.primary.action-apply';
+    protected $searchButton = '[title=Search][class*=action]';
 
     /**
      * Locator for 'Sort' link
@@ -48,7 +48,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $resetButton = '.action.secondary.action-reset';
+    protected $resetButton = '[title="Reset Filter"][class*=action]';
 
     /**
      * The first row in grid. For this moment we suggest that we should strictly define what we are going to search
@@ -133,6 +133,13 @@ abstract class Grid extends Block
      * @var string
      */
     protected $option = '[name="status"]';
+
+    /**
+     * Selector for action expand Filter
+     *
+     * @var string
+     */
+    protected $filterOpen = '.action.filters-toggle';
 
     /**
      * Get backend abstract block
@@ -238,6 +245,10 @@ abstract class Grid extends Block
      */
     public function resetFilter()
     {
+        $expandFilterButton = $this->_rootElement->find($this->filterOpen, Locator::SELECTOR_CSS);
+        if ($expandFilterButton->isVisible()) {
+            $expandFilterButton->click();
+        }
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
         $this->getTemplateBlock()->waitLoader();
         $this->reinitRootElement();
