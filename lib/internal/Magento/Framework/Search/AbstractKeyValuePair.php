@@ -46,7 +46,7 @@ class AbstractKeyValuePair
     /**
      * Get field values
      *
-     * @return array
+     * @return mixed
      */
     public function getValue()
     {

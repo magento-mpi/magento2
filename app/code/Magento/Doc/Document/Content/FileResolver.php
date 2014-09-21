@@ -28,6 +28,8 @@ class FileResolver
     protected $collector;
 
     /**
+     * Constructor
+     *
      * @param DesignInterface $design
      * @param Collector $collector
      */
@@ -40,11 +42,14 @@ class FileResolver
     }
 
     /**
+     * Retrieve the list of document item content files with given name
+     *
      * @param string $filename
      * @return \Magento\Framework\View\File[]
      */
     public function get($filename)
     {
+
         $result = $this->collector->getFiles($this->theme, $filename);
         return $result;
     }

@@ -59,11 +59,11 @@ class Reader
     protected $perFileSchema;
 
     /**
-     * Class of dom configuration document used for merge
+     * Dom Interface Factory
      *
-     * @var string
+     * @var DomFactory
      */
-    protected $domDocumentClass;
+    protected $domFactory;
 
     /**
      * Should configuration be validated
@@ -78,8 +78,8 @@ class Reader
      * @param SchemaLocator $schemaLocator
      * @param ValidationState $validationState
      * @param Filter $filter
+     * @param string DomFactory $domFactory
      * @param array $idAttributes
-     * @param string $domDocumentClass
      * @param string $defaultScope
      */
     public function __construct(
@@ -88,19 +88,19 @@ class Reader
         SchemaLocator $schemaLocator,
         ValidationState $validationState,
         Filter $filter,
+        DomFactory $domFactory,
         $idAttributes = [],
-        $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'doc'
     ) {
         $this->fileResolver = $fileResolver;
         $this->converter = $converter;
         $this->filter = $filter;
-        $this->idAttributes = array_replace($this->idAttributes, $idAttributes);
         $this->schemaFile = $schemaLocator->getSchema();
-        $this->isValidated = $validationState->isValidated();
         $this->perFileSchema = $schemaLocator->getPerFileSchema() &&
         $this->isValidated ? $schemaLocator->getPerFileSchema() : null;
-        $this->domDocumentClass = $domDocumentClass;
+        $this->isValidated = $validationState->isValidated();
+        $this->domFactory = $domFactory;
+        $this->idAttributes = array_replace($this->idAttributes, $idAttributes);
         $this->defaultScope = $defaultScope;
     }
 
@@ -163,14 +163,22 @@ class Reader
     {
         /** @var \Magento\Framework\Config\Dom $configMerger */
         $configMerger = null;
-        foreach ($fileList as $key => $content) {
+        foreach ($fileList as $key => $file) {
+            /** @var \Magento\Framework\View\File $file */
+            $content = file_get_contents($file->getFilename());
             if ($templateVars) {
                 $this->filter->setVariables($templateVars);
                 $content = $this->filter->preProcess($content);
             }
             try {
                 if (!$configMerger) {
-                    $configMerger = $this->_createConfigMerger($this->domDocumentClass, $content);
+                    $configMerger = $this->domFactory->create(
+                        [
+                            'xml' => $content,
+                            'idAttributes' => $this->idAttributes,
+                            'schemaFile' => $this->perFileSchema
+                        ]
+                    );
                 } else {
                     $configMerger->merge($content);
                 }

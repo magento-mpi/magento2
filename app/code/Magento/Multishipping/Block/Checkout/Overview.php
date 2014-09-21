@@ -317,7 +317,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     public function renderTotals($totals, $colspan = null)
     {
         if ($colspan === null) {
-            $colspan = $this->_taxHelper->displayCartBothPrices() ? 5 : 3;
+            $colspan = 3;
         }
         $totals = $this->getChildBlock(
             'totals'
