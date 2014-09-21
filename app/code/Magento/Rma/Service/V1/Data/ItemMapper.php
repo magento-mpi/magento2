@@ -56,4 +56,3 @@ class ItemMapper
         return $this->itemBuilder->create();
     }
 }
-

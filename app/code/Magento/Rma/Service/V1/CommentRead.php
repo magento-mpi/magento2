@@ -70,7 +70,6 @@ class CommentRead implements CommentReadInterface
         RmaStatusHistorySearchResultsBuilder $searchResultsBuilder,
         RmaRepository $repository,
         PermissionChecker $permissionChecker
-
     ) {
         $this->historyRepository = $historyRepository;
         $this->historyMapper = $historyMapper;

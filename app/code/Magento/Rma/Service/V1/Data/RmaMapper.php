@@ -70,7 +70,7 @@ class RmaMapper
     /**
      * Returns list of comments
      *
-     * @param $rmaId
+     * @param int $rmaId
      * @return array
      */
     public function getMappedComments($rmaId)

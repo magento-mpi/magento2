@@ -150,9 +150,10 @@ class LabelService
             } else {
                 $pdf = new \Zend_Pdf();
                 $page = $this->createPdfPageFromImageString($labelContent);
+                $incrementId = $rmaModel->getIncrementId();
                 if (!$page) {
-                    throw new \Magento\Framework\Exception(__(
-                        "We don't recognize or support the file extension in shipment %1.", $rmaModel->getIncrementId())
+                    throw new \Magento\Framework\Exception(
+                        __("We don't recognize or support the file extension in shipment %1.", $incrementId)
                     );
                 }
                 $pdf->pages[] = $page;
@@ -219,7 +220,7 @@ class LabelService
     }
 
     /**
-     * @param $trackId
+     * @param int $trackId
      *
      * @return bool
      * @throws \Exception

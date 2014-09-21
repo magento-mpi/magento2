@@ -39,7 +39,7 @@ class RmaMapperTest extends \PHPUnit_Framework_TestCase
         $this->itemMapperMock = $this->getMock('Magento\Rma\Service\V1\Data\ItemMapper', [], [], '', false);
         $this->trackReadMock = $this->getMock(
             'Magento\Rma\Service\V1\TrackReadInterface',
-            ['getTracks','getShippingLabelPdf'],
+            ['getTracks', 'getShippingLabelPdf'],
             [],
             '',
             false
