@@ -88,7 +88,6 @@ class Setup extends ZendRegex
         if ($pathOffset !== null) {
             array_shift($chunks); // Extract 'module name' part
         }
-        array_shift($chunks); // Extract 'lang' part
         array_pop($chunks); // Extract 'controller' part
 
         array_unshift($chunks, $this->defaults['__NAMESPACE__']);
