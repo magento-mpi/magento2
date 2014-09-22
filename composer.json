@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha95",
+    "version": "0.1.0-alpha96",
     "require": {
         "php": "~5.4.11|~5.5.0"
     },
@@ -118,6 +118,7 @@
         "magento/module-tax-import-export": "self.version",
         "magento/module-theme": "self.version",
         "magento/module-translation": "self.version",
+        "magento/module-ui": "self.version",
         "magento/module-ups": "self.version",
         "magento/module-url-redirect": "self.version",
         "magento/module-url-rewrite": "self.version",
