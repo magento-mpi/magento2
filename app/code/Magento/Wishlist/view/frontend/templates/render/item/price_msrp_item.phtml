@@ -32,7 +32,7 @@
     <?php endif; ?>
     <?php if ($_catalogHelper->isShowPriceOnGesture($_product)): ?>
         <?php $priceElementId = 'product-price-' . $_id . $this->getIdSuffix(); ?>
-        <span id="<?php echo $priceElementId ?>" style="display:none"></span>
+        <span id="<?php echo $priceElementId ?>" style="display: none"></span>
         <?php $popupId = 'msrp-popup-' . $_id . $this->getRandomString(20); ?>
         <a href="#"
            id="<?php echo($popupId);?>"
