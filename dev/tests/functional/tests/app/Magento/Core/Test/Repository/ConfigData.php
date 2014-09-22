@@ -962,5 +962,23 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+
+        $this->_data['salesarchive_complete'] = [
+            'section' => [
+                [
+                    'path' => 'sales/magento_salesarchive/active',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/magento_salesarchive/order_statuses',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => ['complete'],
+                ],
+            ]
+        ];
     }
 }

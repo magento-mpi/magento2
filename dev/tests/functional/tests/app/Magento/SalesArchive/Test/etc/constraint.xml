@@ -29,4 +29,10 @@
     <assertOrderCreditMemoArchivedInGrid module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertOrderCreditMemoArchivedInGrid>
+    <assertOrderStatusInArchiveOrders module="Magento_SalesArchive">
+        <severeness>high</severeness>
+    </assertOrderStatusInArchiveOrders>
+    <assertOrderButtonsAvailableInArchiveOrders module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderButtonsAvailableInArchiveOrders>
 </constraint>

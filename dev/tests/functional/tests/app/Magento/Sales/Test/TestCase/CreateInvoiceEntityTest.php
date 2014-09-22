@@ -8,15 +8,11 @@
 
 namespace Magento\Sales\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
-use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
-use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 
 /**
  * Test Creation for CreateInvoiceEntity
@@ -42,34 +38,6 @@ use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 class CreateInvoiceEntityTest extends Injectable
 {
     /**
-     * Order index page
-     *
-     * @var OrderIndex
-     */
-    protected $orderIndex;
-
-    /**
-     * Order view page
-     *
-     * @var OrderView
-     */
-    protected $orderView;
-
-    /**
-     * Order invoice new page
-     *
-     * @var OrderInvoiceNew
-     */
-    protected $orderInvoiceNew;
-
-    /**
-     * Order invoice view page
-     *
-     * @var OrderInvoiceView
-     */
-    protected $orderInvoiceView;
-
-    /**
      * Customer account logout page
      *
      * @var CustomerAccountLogout
@@ -77,11 +45,11 @@ class CreateInvoiceEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
-     * Order shipment view page
+     * Object Manager
      *
-     * @var OrderShipmentView
+     * @var ObjectManager
      */
-    protected $orderShipmentView;
+    protected $objectManager;
 
     /**
      * Set up configuration
@@ -101,28 +69,16 @@ class CreateInvoiceEntityTest extends Injectable
     /**
      * Injection data
      *
-     * @param OrderIndex $orderIndex
-     * @param OrderView $orderView
-     * @param OrderInvoiceNew $orderInvoiceNew
-     * @param OrderInvoiceView $orderInvoiceView
      * @param CustomerAccountLogout $customerAccountLogout
-     * @param OrderShipmentView $orderShipmentView
+     * @param ObjectManager $objectManager
      * @return void
      */
     public function __inject(
-        OrderIndex $orderIndex,
-        OrderView $orderView,
-        OrderInvoiceNew $orderInvoiceNew,
-        OrderInvoiceView $orderInvoiceView,
         CustomerAccountLogout $customerAccountLogout,
-        OrderShipmentView $orderShipmentView
+        ObjectManager $objectManager
     ) {
-        $this->orderIndex = $orderIndex;
-        $this->orderView = $orderView;
-        $this->orderInvoiceNew = $orderInvoiceNew;
-        $this->orderInvoiceView = $orderInvoiceView;
         $this->customerAccountLogout = $customerAccountLogout;
-        $this->orderShipmentView = $orderShipmentView;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -138,65 +94,19 @@ class CreateInvoiceEntityTest extends Injectable
         $order->persist();
 
         // Steps
-        $this->orderIndex->open();
-        $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        $this->orderView->getPageActions()->invoice();
-        $this->orderInvoiceNew->getCreateBlock()->fill($invoice, $order->getEntityId()['products']);
-        $this->orderInvoiceNew->getTotalsBlock()->submit();
-
-        // Prepare data for asserts
-        $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
-        $invoiceId = $this->getInvoiceId($order);
-        $shipmentId = $this->getShipmentId($order);
+        $createInvoice = $this->objectManager->create(
+            'Magento\Sales\Test\TestStep\CreateInvoice',
+            ['order' => $order, 'data' => $invoice]
+        );
+        $data = $createInvoice->run();
 
         return [
-            'shipmentId' => $shipmentId,
-            'invoiceId' => $invoiceId,
-            'successMessage' => $successMessage
+            'ids' => [
+                'invoiceIds' => $data['invoiceIds'],
+                'shipmentIds' => isset($data['shipmentIds']) ? $data['shipmentIds'] : null,
+            ],
+            'successMessage' => $data['successMessage'],
         ];
-    }
-
-    /**
-     * Get invoice id
-     *
-     * @param OrderInjectable $order
-     * @return string
-     */
-    protected function getInvoiceId(OrderInjectable $order)
-    {
-        $this->orderView->getOrderForm()->openTab('invoices');
-        $amount = $order->getPrice()['grand_invoice_total'];
-        $filter = [
-            'status' => 'Paid',
-            'amount_from' => $amount,
-            'amount_to' => $amount
-        ];
-        $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->searchAndOpen($filter);
-        return trim($this->orderInvoiceView->getTitleBlock()->getTitle(), ' #');
-    }
-
-    /**
-     * Get shipment id
-     *
-     * @param OrderInjectable $order
-     * @return null|string
-     */
-    protected function getShipmentId(OrderInjectable $order)
-    {
-        $qty = $order->getTotalQtyOrdered();
-        $shipmentId = null;
-        if ($qty !== null) {
-            $this->orderInvoiceView->getPageActions()->back();
-            $this->orderView->getOrderForm()->openTab('shipments');
-            $filter = [
-                'qty_from' => $qty,
-                'qty_to' => $qty
-            ];
-            $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->searchAndOpen($filter);
-            $shipmentId = trim($this->orderShipmentView->getTitleBlock()->getTitle(), ' #');
-        }
-
-        return $shipmentId;
     }
 
     /**

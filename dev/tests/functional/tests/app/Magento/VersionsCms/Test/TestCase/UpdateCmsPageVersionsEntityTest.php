@@ -85,7 +85,6 @@ class UpdateCmsPageVersionsEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Version $version, $quantity)
     {
-        $this->markTestIncomplete('MAGETWO-26802');
         // Precondition
         $cms->persist();
         // Steps

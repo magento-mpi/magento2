@@ -51,4 +51,20 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     {
         return $this->_rootElement->find($this->editLink)->getText();
     }
+
+    /**
+     * Get credit memo ids
+     *
+     * @return array
+     */
+    public function getIds()
+    {
+        $result = [];
+        $creditMemoIds = $this->_rootElement->find($this->editLink)->getElements();
+        foreach ($creditMemoIds as $creditMemoId) {
+            $result[] = trim($creditMemoId->getText());
+        }
+
+        return $result;
+    }
 }

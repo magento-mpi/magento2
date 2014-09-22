@@ -21,7 +21,7 @@ class CartEmpty extends Block
      * Selector for link "here" to main page
      *
      * @var string
-    */
+     */
     protected $linkToMainPage = './/a';
 
     /**
