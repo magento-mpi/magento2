@@ -18,7 +18,7 @@ class RmaReadTest extends WebapiAbstract
      * Constants defined for Web Api call
      */
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'rmaReadV1';
+    const SERVICE_NAME = 'rmaRmaReadV1';
     /**#@-*/
 
     /**
