@@ -16,5 +16,6 @@ $params = array(
 
 $config = include __DIR__ . '/config/config.php';
 
-$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $params);
-$entryPoint->run('Magento\Tools\SampleData\Installer', ['resources' => $config['setup_resources']]);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
+$app = $bootstrap->createApplication('Magento\Tools\SampleData\Installer', ['resources' => $config['setup_resources']]);
+$bootstrap->run($app);

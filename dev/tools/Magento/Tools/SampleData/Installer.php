@@ -12,6 +12,7 @@ use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Event;
 use Magento\Framework\ObjectManager;
 use Magento\Framework\App\ObjectManager\ConfigLoader;
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Console;
 
 /**
@@ -19,18 +20,39 @@ use Magento\Framework\App\Console;
  */
 class Installer implements \Magento\Framework\AppInterface
 {
+    /**
+     * @var State
+     */
     protected $appState;
 
+    /**
+     * @var array
+     */
     protected $resources;
 
+    /**
+     * @var SetupFactory
+     */
     protected $setupFactory;
 
+    /**
+     * @var ModuleListInterface
+     */
     protected $moduleList;
 
+    /**
+     * @var ObjectManager
+     */
     protected $objectManager;
 
+    /**
+     * @var ConfigLoader
+     */
     protected $configLoader;
 
+    /**
+     * @var Console\Response
+     */
     protected $response;
 
     /**
@@ -60,10 +82,8 @@ class Installer implements \Magento\Framework\AppInterface
         $this->response = $response;
     }
 
-    /**
-     * Launch application
-     *
-     * @return \Magento\Framework\App\ResponseInterface
+    /*
+     * {@inheritdoc}
      */
     public function launch()
     {
@@ -80,5 +100,13 @@ class Installer implements \Magento\Framework\AppInterface
 
         $this->response->setCode(0);
         return $this->response;
+    }
+
+    /*
+     * {@inheritdoc}
+     */
+    public function catchException(Bootstrap $bootstrap, \Exception $exception)
+    {
+        return false;
     }
 }
