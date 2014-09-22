@@ -54,32 +54,5 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->block->setCurrentCategory($currentCatogoryMock);
         $this->assertEquals($categoryTag, $this->block->getIdentities());
     }
-
-    /**
-     * @param $rssConfig
-     * @param $rssCategoryConfig
-     * @param $expected
-     * @dataProvider isRssCatalogEnableDataProvider
-     */
-    public function testIsRssCatalogEnable($rssConfig, $rssCategoryConfig, $expected)
-    {
-        $map = [
-            ['rss/config/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $rssConfig],
-            ['rss/catalog/category', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $rssCategoryConfig],
-        ];
-        $this->scopeConfigMock->expects($this->atLeastOnce())
-            ->method('getValue')
-            ->will($this->returnValueMap($map));
-        $this->assertEquals($expected, $this->block->isRssCatalogEnable());
-    }
-
-    public function isRssCatalogEnableDataProvider()
-    {
-        return [
-            [false, true, false],
-            [false, false, false],
-            [true, false, false],
-            [true, true, true],
-        ];
-    }
 }
+
