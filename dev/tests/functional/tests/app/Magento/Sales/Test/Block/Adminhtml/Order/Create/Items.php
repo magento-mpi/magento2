@@ -8,14 +8,14 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Items
  * Adminhtml sales order create items block
  */
-class Items extends Block
+class Items extends Form
 {
     /**
      * 'Add Products' button
@@ -30,6 +30,13 @@ class Items extends Block
      * @var string
      */
     protected $itemProduct = '//tr[td//*[normalize-space(text())="%s"]]';
+
+    /**
+     * Product locator in Items Order grid
+     *
+     * @var string
+     */
+    protected $productInItemsOrder = './/td[contains(.,"%s")]';
 
     /**
      * Click 'Add Products' button

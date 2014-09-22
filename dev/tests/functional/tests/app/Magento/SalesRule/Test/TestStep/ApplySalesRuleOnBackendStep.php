@@ -8,22 +8,22 @@
 
 namespace Magento\SalesRule\Test\TestStep;
 
-use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Class ApplySalesRuleStep
- * Apply Sales Rule before one page checkout
+ * Class ApplySalesRuleOnBackendStep
+ * Apply Sales Rule on backend
  */
-class ApplySalesRuleStep implements TestStepInterface
+class ApplySalesRuleOnBackendStep implements TestStepInterface
 {
     /**
-     * Checkout cart page
+     * Order Create Index
      *
-     * @var CheckoutCart
+     * @var OrderCreateIndex
      */
-    protected $checkoutCart;
+    protected $orderCreateIndex;
 
     /**
      * SalesRule fixture
@@ -34,12 +34,12 @@ class ApplySalesRuleStep implements TestStepInterface
 
     /**
      * @constructor
-     * @param CheckoutCart $checkoutCart
+     * @param OrderCreateIndex $orderCreateIndex
      * @param SalesRuleInjectable $salesRule
      */
-    public function __construct(CheckoutCart $checkoutCart, SalesRuleInjectable $salesRule = null)
+    public function __construct(OrderCreateIndex $orderCreateIndex, SalesRuleInjectable $salesRule = null)
     {
-        $this->checkoutCart = $checkoutCart;
+        $this->orderCreateIndex = $orderCreateIndex;
         $this->salesRule = $salesRule;
     }
 
@@ -51,7 +51,7 @@ class ApplySalesRuleStep implements TestStepInterface
     public function run()
     {
         if ($this->salesRule !== null) {
-            $this->checkoutCart->getDiscountCodesBlock()->applyCouponCode($this->salesRule->getCouponCode());
+            $this->orderCreateIndex->getCouponsBlock()->applyCouponCode($this->salesRule->getCouponCode());
         }
     }
 }

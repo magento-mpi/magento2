@@ -8,11 +8,10 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Fixture\Order;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Create
@@ -83,6 +82,14 @@ class Create extends Block
      * @var string
      */
     protected $orderItemsGrid = '#order-items_grid';
+
+
+    /**
+     * Update items button
+     *
+     * @var string
+     */
+    protected $updateItems = '//button[contains(*, "Update Items")]';
 
     /**
      * Getter for order selected products grid
@@ -193,35 +200,52 @@ class Create extends Block
     /**
      * Add products to order
      *
-     * @param Order $fixture
+     * @param array $products
      * @return void
      */
-    public function addProducts(Order $fixture)
+    public function addProducts(array $products)
     {
         $this->waitForElementVisible($this->itemsBlock);
         $this->getItemsBlock()->clickAddProducts();
-        $this->getGridBlock()->selectProducts($fixture);
+        $this->getGridBlock()->selectProducts($products);
         //Loader appears twice
         $this->getTemplateBlock()->waitLoader();
         $this->getTemplateBlock()->waitLoader();
     }
 
     /**
-     * Fill addresses based on present data in customer and order fixtures
+     * Update product data in sales
      *
-     * @param Order $fixture
+     * @param array $products
      * @return void
      */
-    public function fillAddresses(Order $fixture)
+    public function updateProductData(array $products)
+    {
+        /** @var \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items $items */
+        $items = $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\Items',
+            [
+                'element' => $this->_rootElement->find($this->itemsBlock)
+            ]
+        );
+        foreach ($products as $product) {
+            $items->getItemProductByName($product->getName())
+                ->fill($product->getDataFieldConfig('checkout_data')['source']);
+        }
+        $this->_rootElement->find($this->updateItems, Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Fill addresses based on present data in customer and order fixtures
+     *
+     * @param FixtureInterface $address
+     * @return void
+     */
+    public function fillAddresses(FixtureInterface $address)
     {
         $this->getShippingAddressBlock()->uncheckSameAsBillingShippingAddress();
         $this->getTemplateBlock()->waitLoader();
-        $billingAddress = $fixture->getBillingAddress();
-        if (empty($billingAddress)) {
-            $this->getBillingAddressBlock()->fill($fixture->getCustomer()->getDefaultBillingAddress());
-        } else {
-            $this->getBillingAddressBlock()->fill($billingAddress);
-        }
+        $this->getBillingAddressBlock()->fill($address);
         $this->getShippingAddressBlock()->setSameAsBillingShippingAddress();
         $this->getTemplateBlock()->waitLoader();
     }
@@ -229,24 +253,23 @@ class Create extends Block
     /**
      * Select shipping method
      *
-     * @param Order $fixture
+     * @param array $shippingMethod
      * @return void
      */
-    public function selectShippingMethod(Order $fixture)
+    public function selectShippingMethod(array $shippingMethod)
     {
-        $this->getShippingMethodBlock()->selectShippingMethod($fixture);
+        $this->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
         $this->getTemplateBlock()->waitLoader();
     }
 
     /**
      * Select payment method
      *
-     * @param Order $fixture
-     * @return void
+     * @param array $paymentCode
      */
-    public function selectPaymentMethod(Order $fixture)
+    public function selectPaymentMethod(array $paymentCode)
     {
-        $this->getBillingMethodBlock()->selectPaymentMethod($fixture);
+        $this->getBillingMethodBlock()->selectPaymentMethod($paymentCode);
         $this->getTemplateBlock()->waitLoader();
     }
 

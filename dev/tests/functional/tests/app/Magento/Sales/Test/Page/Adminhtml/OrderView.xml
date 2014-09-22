@@ -24,5 +24,10 @@
             <locator>[id="page:main-container"]</locator>
             <strategy>css selector</strategy>
         </orderForm>
+        <titleBlock>
+            <class>Magento\Theme\Test\Block\Html\Title</class>
+            <locator>.page-title</locator>
+            <strategy>css selector</strategy>
+        </titleBlock>
     </blocks>
 </page>

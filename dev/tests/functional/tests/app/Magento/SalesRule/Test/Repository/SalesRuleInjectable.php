@@ -52,6 +52,22 @@ class SalesRuleInjectable extends AbstractRepository
             'discount_amount' => '10',
         ];
 
+        $this->_data['active_fixed_sales_rule_with_coupon'] = [
+            'name' => 'Shopping Cart Price Rule with Specific Coupon %isolation%',
+            'description' => 'Description for Cart Price Rule',
+            'is_active' => 'Active',
+            'website_ids' => ['Main Website'],
+            'customer_group_ids' => ['NOT LOGGED IN', 'General'],
+            'coupon_type' => 'Specific Coupon',
+            'coupon_code' => '123-abc-ABC-987-%isolation%',
+            'simple_action' => 'Fixed amount discount',
+            'discount_amount' => '50',
+            'store_labels' => [
+                0 => 'Shopping Cart price Rule with Specific Coupon',
+                1 => 'Shopping Cart price Rule with Specific Coupon'
+            ],
+        ];
+
         $this->_data['active_sales_rule_for_retailer'] = [
             'name' => 'Shopping Cart Price Rule %isolation%',
             'description' => 'Description for Cart Price Rule',
