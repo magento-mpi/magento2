@@ -1,0 +1,106 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+@layout-column-main-sidebar-offset: 2%;
+@layout-column-additional-sidebar-offset: @layout-column-main-sidebar-offset;
+
+.navigation,
+.breadcrumbs,
+.page-header .header.panel,
+.header.content,
+.footer.content,
+.page.main,
+.page-wrapper > .widget,
+.page-wrapper > .page.bottom,
+.block.category.event {
+    padding-left: @layout-width-xs-indent;
+    padding-right: @layout-width-xs-indent;
+}
+
+
+.columns {
+    #layout-columns();
+    .column.main {
+        &:extend(.add-box-sizing all);
+        .mix-flex-flex(@_basis: 100%);
+        .css(padding-bottom, @indent-xl-base);
+        .mix-flex-order(1);
+    }
+    .sidebar-main {
+        &:extend(.add-box-sizing all);
+        .mix-flex-flex(@_basis: 100%);
+        .mix-flex-order(0);
+    }
+    .sidebar-additional {
+        &:extend(.add-box-sizing all);
+        .mix-flex-flex(@_basis: 100%);
+        .mix-flex-order(2);
+    }
+}
+
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .navigation,
+    .breadcrumbs,
+    .page-header .header.panel,
+    .header.content,
+    .footer.content,
+    .page.main,
+    .page-wrapper > .widget,
+    .page-wrapper > .page.bottom,
+    .block.category.event {
+        margin-left: auto;
+        margin-right: auto;
+        width: auto;
+        max-width: @layout-max-width;
+    }
+
+    .columns {
+        display: block;
+    }
+
+    .column.main {
+        #layout-columns > .main();
+        &:extend(.add-box-sizing-desktop all);
+        min-height: 300px;
+    }
+
+    .sidebar-main {
+        #layout-columns > .left();
+        padding-right: @layout-column-main-sidebar-offset;
+        &:extend(.add-box-sizing-desktop all);
+    }
+
+    .page-layout-2columns-right .sidebar-main {
+        padding-right: 0;
+        padding-left: @layout-column-main-sidebar-offset;
+    }
+
+    .sidebar-additional {
+        #layout-columns > .right();
+        padding-left: @layout-column-additional-sidebar-offset;
+        clear: right;
+        &:extend(.add-box-sizing-desktop all);
+    }
+
+    .page-layout-2columns-left {
+        .sidebar-additional {
+            padding-right: @layout-column-additional-sidebar-offset;
+            padding-left: 0;
+            clear: left;
+            float: left;
+        }
+    }
+
+    .panel.header {
+        padding: 10px 20px;
+    }
+}

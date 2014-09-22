@@ -42,11 +42,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_fulltextSearchMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $subjectMock;
 
     protected function setUp()
@@ -60,9 +55,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         );
         $this->_searchHelperMock = $this->getMock('Magento\Search\Helper\Data', array(), array(), '', false);
         $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
-        $this->_searchEngineMock = $this->getMock('Magento\Search\Model\Resource\Engine', array(), array(), '', false);
-        $this->_fulltextSearchMock = $this->getMock(
-            'Magento\CatalogSearch\Model\Fulltext',
+        $this->_searchEngineMock = $this->getMock(
+            'Magento\Search\Model\Resource\Solr\Engine',
             array(),
             array(),
             '',
@@ -75,8 +69,13 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        $this->subjectMock = $this->getMock('Magento\CatalogSearch\Model\Fulltext', array(), array(), '', false);
+        $this->subjectMock = $this->getMock(
+            'Magento\CatalogSearch\Model\Indexer\Fulltext',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
@@ -91,7 +90,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
      */
     public function testBeforeRebuildIndexNoThirdPartyEngine()
     {
@@ -105,13 +104,13 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $this->_engineProviderMock->expects($this->never())->method('get');
 
-        $this->_model->beforeRebuildIndex($this->subjectMock, 1, array(1, 2));
+        $this->_model->beforeExecuteFull($this->subjectMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
      */
-    public function testBeforeRebuildIndexThirdPartyEngine()
+    public function testBeforeRebuildIndexThirdPartyEngineNoHoldCommit()
     {
         $this->_searchHelperMock->expects(
             $this->once()
@@ -133,13 +132,13 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_searchEngineMock)
         );
 
-        $this->_model->beforeRebuildIndex($this->subjectMock, 1, array(1, 2));
+        $this->_model->beforeExecuteFull($this->subjectMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
      */
-    public function testBeforeRebuildIndexThirdPartyEngineNoProductIds()
+    public function testBeforeRebuildIndexThirdPartyEngineHoldCommit()
     {
         $this->_searchHelperMock->expects(
             $this->once()
@@ -161,39 +160,11 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_searchEngineMock)
         );
 
-        $this->_model->beforeRebuildIndex($this->subjectMock, 1, null);
+        $this->_model->beforeExecuteFull($this->subjectMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeRebuildIndex
-     */
-    public function testBeforeRebuildIndexThirdPartyEngineProductIdsSet()
-    {
-        $this->_searchHelperMock->expects(
-            $this->once()
-        )->method(
-            'isThirdPartyEngineAvailable'
-        )->will(
-            $this->returnValue(true)
-        );
-
-        $this->_searchEngineMock->expects($this->once())->method('holdCommit')->will($this->returnValue(true));
-
-        $this->_searchEngineMock->expects($this->never())->method('setIndexNeedsOptimization');
-
-        $this->_engineProviderMock->expects(
-            $this->once()
-        )->method(
-            'get'
-        )->will(
-            $this->returnValue($this->_searchEngineMock)
-        );
-
-        $this->_model->beforeRebuildIndex($this->subjectMock, 1, array(1, 2));
-    }
-
-    /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexNoThirdPartyEngine()
     {
@@ -207,14 +178,11 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $this->_engineProviderMock->expects($this->never())->method('get');
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexThirdPartyEngine()
     {
@@ -238,14 +206,11 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_searchEngineMock)
         );
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNeeded()
     {
@@ -284,14 +249,11 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue(array($cacheTag)));
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterRebuildIndex
+     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNotNeeded()
     {
@@ -330,9 +292,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue(array($cacheTag)));
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 }

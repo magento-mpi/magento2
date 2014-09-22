@@ -21,13 +21,15 @@
                 </div>
             <?php endif;?>
             <script type="text/javascript">
-                (function($) {
-                    $('#<?php echo $this->getBlockId();?>-search_by').mage('wishlistSearch',{
-                        nameFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
-                        emailFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
-                    });
-                })(jQuery);
-            </script>
+require(['jquery', 'mage/mage'], function($){
+
+    $('#<?php echo $this->getBlockId();?>-search_by').mage('wishlistSearch',{
+        nameFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
+        emailFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
+    });
+            
+});
+</script>
 
             <?php if ($this->useNameForm()) : ?>
                 <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form"

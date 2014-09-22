@@ -19,7 +19,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\User\Model\Resource\Role\CollectionFactory
+     * @var \Magento\Authorization\Model\Resource\Role\CollectionFactory
      */
     protected $_userRolesFactory;
 
@@ -32,7 +32,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory
+     * @param \Magento\Authorization\Model\Resource\Role\CollectionFactory $userRolesFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
@@ -40,7 +40,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory,
+        \Magento\Authorization\Model\Resource\Role\CollectionFactory $userRolesFactory,
         \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {

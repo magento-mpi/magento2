@@ -18,7 +18,7 @@
             <word>Enterprise_Staging</word>
         </item>
         <item>
-            <path>app/code/Magento/Enterprise/sql/enterprise_setup/upgrade-1.11.0.1-1.11.0.2.php</path>
+            <path>app/code/Magento/Enterprise/data/enterprise_setup/data-upgrade-1.11.0.1-1.11.0.2.php</path>
             <word>Enterprise_Staging</word>
         </item>
         <item>

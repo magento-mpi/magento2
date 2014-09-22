@@ -52,10 +52,9 @@ class GiftCardProduct extends AbstractRepository
             'visibility' => 'Catalog, Search',
             'url_key' => 'test-product-giftcard-%isolation%',
             'use_config_gift_message_available' => 'Yes',
-            'use_config_gift_wrapping_available' => 'Yes',
-            'gift_wrapping_price' => 100.00,
             'website_ids' => ['Main Website'],
-            'attribute_set_id' => ['dataSet' => 'default']
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'checkout_data' => ['preset' => 'default']
         ];
 
         $this->_data['giftcard_product_with_price'] = [
@@ -87,8 +86,6 @@ class GiftCardProduct extends AbstractRepository
             'visibility' => 'Catalog, Search',
             'url_key' => 'test-product-giftcard-%isolation%',
             'use_config_gift_message_available' => 'Yes',
-            'use_config_gift_wrapping_available' => 'Yes',
-            'gift_wrapping_price' => 100.00,
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default']
         ];

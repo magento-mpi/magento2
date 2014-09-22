@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="giftregistry/index" module="Magento_GiftRegistry">
+    <blocks>
+        <actionsToolbar>
+            <class>Magento\GiftRegistry\Test\Block\Customer\ActionsToolbar</class>
+            <locator>.actions-toolbar</locator>
+            <strategy>css selector</strategy>
+        </actionsToolbar>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <giftRegistryGrid>
+            <class>Magento\GiftRegistry\Test\Block\Customer\Grid</class>
+            <locator>#giftregistry-table</locator>
+            <strategy>css selector</strategy>
+        </giftRegistryGrid>
+    </blocks>
+</page>

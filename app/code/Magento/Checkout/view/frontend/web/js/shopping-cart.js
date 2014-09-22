@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
     $.widget('mage.shoppingCart', {
         _create: function() {
             if ($(this.options.updateCartActionContainer).length > 0) { /* <!--[if lt IE 8]> Only */
@@ -20,4 +24,5 @@
             }, this));
         }
     });
-})(jQuery);
+
+});

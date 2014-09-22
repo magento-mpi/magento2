@@ -9,6 +9,7 @@
 namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
 use Magento\Backend\App\Action;
+use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
 
 class AddComment extends \Magento\Backend\App\Action
 {
@@ -18,14 +19,22 @@ class AddComment extends \Magento\Backend\App\Action
     protected $creditmemoLoader;
 
     /**
+     * @var CreditmemoSender
+     */
+    protected $creditmemoSender;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader
+     * @param CreditmemoSender $creditmemoSender
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader
+        \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader,
+        CreditmemoSender $creditmemoSender
     ) {
         $this->creditmemoLoader = $creditmemoLoader;
+        $this->creditmemoSender = $creditmemoSender;
         parent::__construct($context);
     }
 
@@ -51,14 +60,19 @@ class AddComment extends \Magento\Backend\App\Action
                 throw new \Magento\Framework\Model\Exception(__('The Comment Text field cannot be empty.'));
             }
             $this->_title->add(__('Credit Memos'));
-            $creditmemo = $this->creditmemoLoader->load($this->_request);
+            $this->creditmemoLoader->setOrderId($this->getRequest()->getParam('order_id'));
+            $this->creditmemoLoader->setCreditmemoId($this->getRequest()->getParam('creditmemo_id'));
+            $this->creditmemoLoader->setCreditmemo($this->getRequest()->getParam('creditmemo'));
+            $this->creditmemoLoader->setInvoiceId($this->getRequest()->getParam('invoice_id'));
+            $creditmemo = $this->creditmemoLoader->load();
             $comment = $creditmemo->addComment(
                 $data['comment'],
                 isset($data['is_customer_notified']),
                 isset($data['is_visible_on_front'])
             );
             $comment->save();
-            $creditmemo->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
+
+            $this->creditmemoSender->send($creditmemo, !empty($data['is_customer_notified']), $data['comment']);
 
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('creditmemo_comments')->toHtml();

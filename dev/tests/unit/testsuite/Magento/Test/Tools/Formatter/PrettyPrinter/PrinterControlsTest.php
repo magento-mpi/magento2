@@ -327,45 +327,6 @@ class TestIfCase
 }
 
 FORMATTEDCODESNIPPET;
-        $originalCodeSnippet5 = <<<'ORIGINALCODESNIPPET'
-<?php
-function alpha() {
-if ($ftp) {
-    $cwd=$ftpObj->getcwd();
-    $dir=$cwd . '/' .$config->downloader_path . '/'
-        . \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim( $pChan, "\\/");
-    $ftpObj->mkdirRecursive($dir,0777);
-    $ftpObj->chdir($cwd);
-} else {
-    $dir = $config->getChannelCacheDir($pChan);
-    @mkdir($dir, 0777, true);
-}}
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet5 = <<<'FORMATTEDCODESNIPPET'
-<?php
-function alpha()
-{
-    if ($ftp) {
-        $cwd = $ftpObj->getcwd();
-        $dir = $cwd .
-            '/' .
-            $config->downloader_path .
-            '/' .
-            \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH .
-            '/' .
-            trim(
-            $pChan,
-            "\\/"
-        );
-        $ftpObj->mkdirRecursive($dir, 0777);
-        $ftpObj->chdir($cwd);
-    } else {
-        $dir = $config->getChannelCacheDir($pChan);
-        @mkdir($dir, 0777, true);
-    }
-}
-
-FORMATTEDCODESNIPPET;
         $originalClosure = <<<'ORIGINALCLOSURE'
 <?php
 class CSample {
@@ -720,7 +681,6 @@ FS0;
             array($originalCodeSnippet2, $formattedCodeSnippet2),
             array($originalCodeSnippet3, $formattedCodeSnippet3),
             array($originalCodeSnippet4, $formattedCodeSnippet4),
-            array($originalCodeSnippet5, $formattedCodeSnippet5),
             array($originalClosure, $formattedClosure),
             array($originalClosure2, $formattedClosure2),
             array($originalClosure3, $formattedClosure3),

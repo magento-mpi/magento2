@@ -886,7 +886,7 @@
         <group name="adminhtml_permission_roles">
             <label translate="true">Admin Permission Roles</label>
             <expected_models>
-                <expected_model class="Magento\User\Model\Role" />
+                <expected_model class="Magento\Authorization\Model\Role" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_user_role_editrole" action_alias="view" />

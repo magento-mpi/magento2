@@ -7,58 +7,8 @@
  */
 namespace Magento\TargetRule\Model;
 
-/**
- * TargetRule Product Index by Rule Product List Type Model
- *
- * @method \Magento\TargetRule\Model\Resource\Index getResource()
- * @method \Magento\TargetRule\Model\Index setEntityId(int $value)
- * @method int getTypeId()
- * @method \Magento\TargetRule\Model\Index setTypeId(int $value)
- * @method int getFlag()
- * @method \Magento\TargetRule\Model\Index setFlag(int $value)
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- * @SuppressWarnings(PHPMD.LongVariable)
- */
-class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
+class Index extends \Magento\Framework\Model\AbstractModel
 {
-    /**
-     * Reindex products target-rules event type
-     */
-    const EVENT_TYPE_REINDEX_PRODUCTS = 'reindex_targetrules';
-
-    /**
-     * Clean target-rules event type
-     */
-    const EVENT_TYPE_CLEAN_TARGETRULES = 'clean_targetrule_index';
-
-    /**
-     * Product entity for indexers
-     */
-    const ENTITY_PRODUCT = 'targetrule_product';
-
-    /**
-     * Target-rule entity for indexers
-     */
-    const ENTITY_TARGETRULE = 'targetrule_entity';
-
-    /**
-     * Matched entities
-     *
-     * @var array
-     */
-    protected $_matchedEntities = array(
-        self::ENTITY_PRODUCT => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
-        self::ENTITY_TARGETRULE => array(self::EVENT_TYPE_CLEAN_TARGETRULES)
-    );
-
-    /**
-     * Whether the indexer should be displayed on process/list page
-     *
-     * @var bool
-     */
-    protected $_isVisible = false;
-
     /**
      * Target rule data
      *
@@ -72,19 +22,9 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_session;
 
     /**
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
-
-    /**
-     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
-     */
-    protected $_localeDate;
 
     /**
      * @var \Magento\TargetRule\Model\Resource\Rule\CollectionFactory
@@ -92,45 +32,31 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_ruleCollectionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_ruleCollectionFactory = $ruleFactory;
         $this->_storeManager = $storeManager;
-        $this->_localeDate = $localeDate;
-        $this->_indexer = $indexer;
         $this->_session = $session;
         $this->_targetRuleData = $targetRuleData;
-        $this->_productFactory = $productFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -348,140 +274,5 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function select()
     {
         return $this->_getResource()->select();
-    }
-
-    /**
-     * Run processing by cron
-     * Check store datetime and every day per store clean index cache
-     *
-     * @return void
-     */
-    public function cron()
-    {
-        $websites = $this->_storeManager->getWebsites();
-
-        foreach ($websites as $website) {
-            /* @var $website \Magento\Store\Model\Website */
-            $store = $website->getDefaultStore();
-            $date = $this->_localeDate->scopeDate($store);
-            if ($date->equals(0, \Zend_Date::HOUR)) {
-                $this->_indexer->logEvent(
-                    new \Magento\Framework\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
-                    self::ENTITY_TARGETRULE,
-                    self::EVENT_TYPE_CLEAN_TARGETRULES
-                );
-            }
-        }
-        $this->_indexer->indexEvents(self::ENTITY_TARGETRULE, self::EVENT_TYPE_CLEAN_TARGETRULES);
-    }
-
-    /**
-     * Get Indexer name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return __('Target Rules');
-    }
-
-    /**
-     * Register indexer required data inside event object
-     *
-     * @param \Magento\Index\Model\Event $event
-     * @return void
-     */
-    protected function _registerEvent(\Magento\Index\Model\Event $event)
-    {
-        switch ($event->getType()) {
-            case self::EVENT_TYPE_REINDEX_PRODUCTS:
-                switch ($event->getEntity()) {
-                    case self::ENTITY_PRODUCT:
-                        $event->addNewData('product', $event->getDataObject());
-                        break;
-                }
-                break;
-            case self::EVENT_TYPE_CLEAN_TARGETRULES:
-                switch ($event->getEntity()) {
-                    case self::ENTITY_TARGETRULE:
-                        $event->addNewData('params', $event->getDataObject());
-                        break;
-                }
-                break;
-        }
-    }
-
-    /**
-     * Process event based on event state data
-     *
-     * @param \Magento\Index\Model\Event $event
-     * @return void
-     */
-    protected function _processEvent(\Magento\Index\Model\Event $event)
-    {
-        switch ($event->getType()) {
-            case self::EVENT_TYPE_REINDEX_PRODUCTS:
-                switch ($event->getEntity()) {
-                    case self::ENTITY_PRODUCT:
-                        $data = $event->getNewData();
-                        if (!empty($data['product'])) {
-                            $this->_reindex($data['product']);
-                        }
-                        break;
-                }
-                break;
-            case self::EVENT_TYPE_CLEAN_TARGETRULES:
-                switch ($event->getEntity()) {
-                    case self::ENTITY_TARGETRULE:
-                        $data = $event->getNewData();
-                        if (!empty($data['params'])) {
-                            $params = $data['params'];
-                            $this->_cleanIndex($params->getTypeId(), $params->getStore());
-                        }
-                        break;
-                }
-                break;
-        }
-    }
-
-    /**
-     * Reindex targetrules
-     *
-     * @param \Magento\Framework\Object $product
-     * @return $this
-     */
-    protected function _reindex($product)
-    {
-        $indexResource = $this->_getResource();
-
-        // remove old cache index data
-        $this->_cleanIndex();
-
-        // remove old matched product index
-        $indexResource->removeProductIndex($product->getId());
-
-        $ruleCollection = $this->_ruleCollectionFactory->create();
-
-        $product = $this->_productFactory->create()->load($product->getId());
-        foreach ($ruleCollection as $rule) {
-            /** @var $rule \Magento\TargetRule\Model\Rule */
-            if ($rule->validate($product)) {
-                $indexResource->saveProductIndex($rule);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove targetrule's index
-     *
-     * @param int|null $typeId
-     * @param \Magento\Store\Model\Store|int|array|null $store
-     * @return $this
-     */
-    protected function _cleanIndex($typeId = null, $store = null)
-    {
-        $this->_getResource()->cleanIndex($typeId, $store);
-        return $this;
     }
 }

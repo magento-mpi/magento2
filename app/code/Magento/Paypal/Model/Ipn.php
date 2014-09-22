@@ -8,6 +8,8 @@
 namespace Magento\Paypal\Model;
 
 use Exception;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
 
 /**
  * PayPal Instant Payment Notification processor model
@@ -32,11 +34,23 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
     protected $_paypalInfo;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
+     * @var CreditmemoSender
+     */
+    protected $creditmemoSender;
+
+    /**
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param Info $paypalInfo
+     * @param OrderSender $orderSender
+     * @param CreditmemoSender $creditmemoSender
      * @param array $data
      */
     public function __construct(
@@ -45,11 +59,15 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
         \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         Info $paypalInfo,
+        OrderSender $orderSender,
+        CreditmemoSender $creditmemoSender,
         array $data = array()
     ) {
         parent::__construct($configFactory, $logAdapterFactory, $curlFactory, $data);
         $this->_orderFactory = $orderFactory;
         $this->_paypalInfo = $paypalInfo;
+        $this->orderSender = $orderSender;
+        $this->creditmemoSender = $creditmemoSender;
     }
 
     /**
@@ -296,7 +314,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
         // notify customer
         $invoice = $payment->getCreatedInvoice();
         if ($invoice && !$this->_order->getEmailSent()) {
-            $this->_order->sendNewOrderEmail()->addStatusHistoryComment(
+            $this->orderSender->send($this->_order);
+            $this->_order->addStatusHistoryComment(
                 __('You notified customer about invoice #%1.', $invoice->getIncrementId())
             )->setIsCustomerNotified(
                 true
@@ -403,7 +422,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
             );
         }
         if (!$this->_order->getEmailSent()) {
-            $this->_order->sendNewOrderEmail();
+            $this->orderSender->send($this->_order);
         }
         $this->_order->save();
     }
@@ -474,7 +493,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
         $creditMemo = $payment->getCreatedCreditmemo();
         if ($creditMemo) {
-            $creditMemo->sendEmail();
+            $this->creditmemoSender->send($creditMemo);
             $this->_order->addStatusHistoryComment(
                 __('You notified customer about creditmemo #%1.', $creditMemo->getIncrementId())
             )->setIsCustomerNotified(

@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function ($) {
+define(["jquery","mage/backend/validation"], function($){
     $.validator.addMethod('validate-greater-zero-based-on-option', function(v, el) {
         var optionType = $(el)
                 .closest('.form-list')
@@ -19,4 +19,4 @@
         }
         return true;
     }, 'Please enter a number greater 0 in this field.');
-})(jQuery);
+});

@@ -4,9 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+	"jquery",
+	"jquery/ui",
+	"Magento_Catalog/catalog/product"
+], function($){
 
-(function ($) {
-$.widget("mage.configurableAttribute", $.mage.productAttributes, {
+    $.widget("mage.configurableAttribute", $.mage.productAttributes, {
         _prepareUrl: function() {
             var name = $('#configurable-attribute-selector').val();
             return this.options.url +
@@ -16,4 +20,5 @@ $.widget("mage.configurableAttribute", $.mage.productAttributes, {
                 window.encodeURIComponent(name);
         }
     });
-})(jQuery);
+
+});

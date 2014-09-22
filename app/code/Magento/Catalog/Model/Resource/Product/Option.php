@@ -17,7 +17,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -40,13 +40,13 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->_currencyFactory = $currencyFactory;
@@ -236,95 +236,87 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _saveValueTitles(\Magento\Framework\Model\AbstractModel $object)
     {
-        $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
-        $titleTable = $this->getTable('catalog_product_option_title');
-
-        //title
-        if (!$object->getData('scope', 'title')) {
-            $statement = $readAdapter->select()->from(
-                $titleTable
-            )->where(
-                'option_id = ?',
-                $object->getId()
-            )->where(
-                'store_id  = ?',
+        $titleTableName = $this->getTable('catalog_product_option_title');
+        foreach ([\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()] as $storeId) {
+            $existInCurrentStore = $this->getColFromOptionTable($titleTableName, (int)$object->getId(), (int)$storeId);
+            $existInDefaultStore = $this->getColFromOptionTable(
+                $titleTableName,
+                (int)$object->getId(),
                 \Magento\Store\Model\Store::DEFAULT_STORE_ID
             );
-
-            if ($readAdapter->fetchOne($statement)) {
-                if ($object->getStoreId() == '0') {
-                    $data = $this->_prepareDataForTable(
-                        new \Magento\Framework\Object(array('title' => $object->getTitle())),
-                        $titleTable
-                    );
-
-                    $writeAdapter->update(
-                        $titleTable,
-                        $data,
+            if ($object->getTitle()) {
+                if ($existInCurrentStore) {
+                    if ($object->getStoreId() == $storeId) {
+                        $data = $this->_prepareDataForTable(
+                            new \Magento\Framework\Object(array('title' => $object->getTitle())),
+                            $titleTableName
+                        );
+                        $writeAdapter->update(
+                            $titleTableName,
+                            $data,
+                            array(
+                                'option_id = ?' => $object->getId(),
+                                'store_id  = ?' => $storeId,
+                            )
+                        );
+                    }
+                } else {
+                    // we should insert record into not default store only of if it does not exist in default store
+                    if (($storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInDefaultStore)
+                        || ($storeId != \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInCurrentStore)
+                    ) {
+                        $data = $this->_prepareDataForTable(
+                            new \Magento\Framework\Object(
+                                array(
+                                    'option_id' => $object->getId(),
+                                    'store_id' => $storeId,
+                                    'title' => $object->getTitle(),
+                                )
+                            ),
+                            $titleTableName
+                        );
+                        $writeAdapter->insert($titleTableName, $data);
+                    }
+                }
+            } else {
+                if ($object->getId() && $object->getStoreId() > \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                    && $storeId
+                ) {
+                    $writeAdapter->delete(
+                        $titleTableName,
                         array(
                             'option_id = ?' => $object->getId(),
-                            'store_id  = ?' => \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                            'store_id  = ?' => $object->getStoreId(),
                         )
                     );
                 }
-            } else {
-                $data = $this->_prepareDataForTable(
-                    new \Magento\Framework\Object(
-                        array(
-                            'option_id' => $object->getId(),
-                            'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-                            'title' => $object->getTitle()
-                        )
-                    ),
-                    $titleTable
-                );
-
-                $writeAdapter->insert($titleTable, $data);
             }
         }
+    }
 
-        if ($object->getStoreId() != '0' && !$object->getData('scope', 'title')) {
-            $statement = $readAdapter->select()->from(
-                $titleTable
-            )->where(
-                'option_id = ?',
-                $object->getId()
-            )->where(
-                'store_id  = ?',
-                $object->getStoreId()
-            );
+    /**
+     * Get first col from from first row for option table
+     *
+     * @param string $tableName
+     * @param int $optionId
+     * @param int $storeId
+     * @return string
+     */
+    protected function getColFromOptionTable($tableName, $optionId, $storeId)
+    {
+        $readAdapter = $this->_getReadAdapter();
+        $statement = $readAdapter->select()->from(
+            $tableName
+        )->where(
+            'option_id = ?',
+            $optionId
+        )->where(
+            'store_id  = ?',
+            $storeId
+        );
 
-            if ($readAdapter->fetchOne($statement)) {
-                $data = $this->_prepareDataForTable(
-                    new \Magento\Framework\Object(array('title' => $object->getTitle())),
-                    $titleTable
-                );
-
-                $writeAdapter->update(
-                    $titleTable,
-                    $data,
-                    array('option_id = ?' => $object->getId(), 'store_id  = ?' => $object->getStoreId())
-                );
-            } else {
-                $data = $this->_prepareDataForTable(
-                    new \Magento\Framework\Object(
-                        array(
-                            'option_id' => $object->getId(),
-                            'store_id' => $object->getStoreId(),
-                            'title' => $object->getTitle()
-                        )
-                    ),
-                    $titleTable
-                );
-                $writeAdapter->insert($titleTable, $data);
-            }
-        } elseif ($object->getData('scope', 'title')) {
-            $writeAdapter->delete(
-                $titleTable,
-                array('option_id = ?' => $object->getId(), 'store_id  = ?' => $object->getStoreId())
-            );
-        }
+        return $readAdapter->fetchOne($statement);
     }
 
     /**

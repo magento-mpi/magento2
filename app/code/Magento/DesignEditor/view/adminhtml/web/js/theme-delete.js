@@ -5,7 +5,14 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "jquery/template",
+    "Magento_DesignEditor/js/dialog"
+], function($){
+
     /**
      * VDE theme remove button widget
      */
@@ -101,4 +108,5 @@
             return $(this.options.dialogSelector);
         }
     });
-})(jQuery);
+
+});

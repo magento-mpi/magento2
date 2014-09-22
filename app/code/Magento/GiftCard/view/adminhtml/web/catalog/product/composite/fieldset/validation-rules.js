@@ -7,7 +7,12 @@
  * @license     {license_link}
  */
 /*global productConfigure:true*/
-(function ($) {
+define([
+	"jquery",
+	"mage/validation",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function($){
+
     $.validator.addMethod('giftcard-min-amount', function(v) {
         return (productConfigure.giftcardConfig.parsePrice(v) >= productConfigure.giftcardConfig.minAllowedAmount);
     }, 'The amount you entered is too low.');
@@ -18,4 +23,5 @@
         }
         return (productConfigure.giftcardConfig.parsePrice(v) <= productConfigure.giftcardConfig.maxAllowedAmount);
     }, 'The amount you entered is too high.');
-})(jQuery);
+
+});

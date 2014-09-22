@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template"
+], function($){
+
     "use strict";
     /**
      * Product gallery widget
@@ -366,4 +371,5 @@
             });
         }
     });
-})(jQuery);
+
+});

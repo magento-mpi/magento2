@@ -9,7 +9,7 @@
 <?php
     /* @var $this \Magento\MultipleWishlist\Block\Behaviour */
 ?>
-<script id="form-tmpl" type="text/x-jQuery-tmpl">
+<script id="form-tmpl-multiple" type="text/x-jQuery-tmpl">
     <form id="wishlist-hidden-form" method="post" action="${url}" class="no-display">
         {{if itemId}}<input name="item_id" value="${itemId}">{{/if}}
         {{if wishlistId}}<input name="wishlist_id" value="${wishlistId}">{{/if}}
@@ -40,7 +40,7 @@
                     </div>
                     <div class="field choice">
                         <input id="wishlist-public" type="checkbox" name="visibility"{{if isPublic}} checked=true{{/if}}">
-                        <label for="wishlist-public" class="label"><span>${$.mage.__('Make This Wish List Public')}</span></label>
+                        <label for="wishlist-public" class="label"><span>${$.mage.__('Public Wish List')}</span></label>
                     </div>
                     <div class="actions-toolbar">
                         <div class="primary">
@@ -86,6 +86,12 @@
     if ($canCreateWishlist || !empty($shortWishList)):
 ?>
 <script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage',
+    'mage/dropdowns'
+], function(jQuery){
+
     <?php if (count($this->getWishlistShortList()) > 0): ?>
     (function($) {
         $('body').mage('multipleWishlist', {
@@ -97,7 +103,7 @@
         $('.products.list [data-toggle=dropdown]')
             .add('.cart.items.data [data-toggle=dropdown]')
             .add('.product-addto-links [data-toggle=dropdown]')
-            .add('.secondary-addto-links [data-toggle=dropdown]')
+            .add('.secondary-addto-links.actions-secondary [data-toggle=dropdown]')
             .dropdown({
                 events: [{
                     'name': 'mouseleave',
@@ -110,5 +116,7 @@
             });
     }(jQuery));
     <?php endif; ?>
+
+});
 </script>
 <?php endif; ?>

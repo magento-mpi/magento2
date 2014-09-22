@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Doc\Document\Filter" shared="false" />
+    <type name="Magento\Framework\App\AreaList">
+        <arguments>
+            <argument name="areas" xsi:type="array">
+                <item name="doc" xsi:type="array">
+                    <item name="frontNameResolver" xsi:type="string">Magento\Doc\App\Area\FrontNameResolver</item>
+                    <item name="router" xsi:type="string">doc</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="doc" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Doc\App\Router</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\TemplateEngineFactory">
+        <arguments>
+            <argument name="engines" xsi:type="array">
+                <item name="html" xsi:type="string">Magento\Doc\TemplateEngine\Html</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="\Magento\Doc\Document\Type\Factory">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="api" xsi:type="string">Magento\Doc\Document\Type\Api</item>
+                <item name="article" xsi:type="string">Magento\Doc\Document\Type\Article</item>
+                <item name="diagram" xsi:type="string">Magento\Doc\Document\Type\Diagram</item>
+                <item name="example" xsi:type="string">Magento\Doc\Document\Type\Example</item>
+                <item name="media" xsi:type="string">Magento\Doc\Document\Type\Media</item>
+                <item name="reference-code" xsi:type="string">Magento\Doc\Document\Type\ReferenceCode</item>
+                <item name="reference-file" xsi:type="string">Magento\Doc\Document\Type\ReferenceFile</item>
+                <item name="reference-dir" xsi:type="string">Magento\Doc\Document\Type\ReferenceDir</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Doc\Document\Outline\Collector">
+        <arguments>
+            <argument name="baseFiles" xsi:type="object">templateFileSourceBaseSorted</argument>
+        </arguments>
+    </type>
+    <virtualType name="templateFileSourceBaseSorted" type="Magento\Framework\View\File\Collector\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">templateFileSourceBaseFiltered</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="templateFileSourceBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">templateFileSourceBase</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="templateFileSourceBase" type="Magento\Doc\Document\Outline\Collector\Base">
+        <arguments>
+            <argument name="subDir" xsi:type="string">docs/outline</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Doc\Document\Outline\ValidationState">
+        <arguments>
+            <argument name="appMode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Doc\Document\Content\ValidationState">
+        <arguments>
+            <argument name="appMode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
+        </arguments>
+    </type>
+</config>

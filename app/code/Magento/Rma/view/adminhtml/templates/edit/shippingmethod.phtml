@@ -196,8 +196,10 @@
 </div>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-    function showPackedWindow() {
+    showPackedWindow = function() {
         var window = $('packed_window');
         window.show().setStyle({
             'marginLeft': -window.getDimensions().width/2 + 'px'
@@ -206,9 +208,11 @@
             height: $('html-body').getHeight() + 'px'
         }).show();
     }
-    function hidePackedWindow() {
+    hidePackedWindow = function() {
         $('packed_window').hide();
         $('popup-window-mask').hide();
     }
 //]]>
+
+});
 </script>

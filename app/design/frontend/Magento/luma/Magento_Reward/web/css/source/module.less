@@ -25,7 +25,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.reward-history {
         &:extend(.abstract-account-table-margin-mobile all);
     }
@@ -34,7 +34,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .table-wrapper.reward-history {
         &:extend(.abstract-account-table-margin-desktop all);
     }

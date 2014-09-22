@@ -70,7 +70,7 @@ class Gws extends \Magento\Backend\Block\Template
     /**
      * Get the role object
      *
-     * @return \Magento\User\Model\Role
+     * @return \Magento\Authorization\Model\Role
      */
     public function getRole()
     {

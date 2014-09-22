@@ -6,6 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+  "jquery",
+  "mage/validation",
+  "prototype"
+], function(jQuery){
 
  if (!window.Enterprise) {
      window.Enterprise = {};
@@ -333,3 +338,5 @@
         return false;
     }
  });
+
+});

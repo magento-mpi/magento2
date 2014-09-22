@@ -6,6 +6,8 @@
 //  * @license     {license_link}
 //  */
 
+@import "collapsible_navigation.less";
+
 @message-global-note-color: @text-color;
 @message-global-note-background: #ffee9c;
 @message-global-note-link-color: @link-color;
@@ -170,7 +172,7 @@ body {
                 font-size: 16px;
                 background: @footer-bg-color;
                 margin: 0 -@layout-width-xs-indent;
-                padding: 0 @layout-indent;
+                padding: 0 @layout-width-xs-indent;
             }
             strong,
             a {
@@ -193,9 +195,6 @@ body {
                      @_link-text-decoration-active: underline
                 );
             }
-        }
-        .switcher {
-            display: none;
         }
     }
 }
@@ -249,6 +248,59 @@ body {
 }
 
 //
+//    Navigation
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .customer.name,
+    .customer-welcome + .authorization-link {
+        display: none;
+    }
+    .nav-sections .switcher-trigger strong:after {
+        font-size: 16px;
+        right: -25px;
+        top: 2px;
+    }
+    .navigation .parent .level-top:after {
+        font-size: 16px;
+        top: 7px;
+        right: 10px;
+    }
+    .page-footer .footer.content {
+        .switcher-store {
+            background: @footer-bg-color;
+            font-size: 16px;
+            margin: 0 -@layout-width-xs-indent;
+            .switcher-options {
+                display: block;
+                ul.dropdown {
+                    position: relative;
+                    box-shadow: none;
+                    margin: 0;
+                    border: 0;
+                    background: none;
+                    &:before,
+                    &:after {
+                        display: none;
+                    }
+                }
+                .switcher-trigger,
+                .switcher-option {
+                    border-top: 1px solid @footer-links-separator-border-color;
+                    display: block;
+                    padding: 10px @layout-indent;
+                }
+                .switcher-trigger strong {
+                    padding: 10px 0;
+                }
+                .switcher-option a {
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
+//
 //    Layered navigation
 //--------------------------------------
 
@@ -260,7 +312,10 @@ body {
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
+    .navigation ul {
+        padding: 0 8px;
+    }
     .page-header {
         border: 0;
         margin-bottom: 0;
@@ -294,7 +349,7 @@ body {
         }
     }
 
-    .customer.welcome {
+    .customer-welcome {
         .dropdown(
             @_toggle-selector : ~".action.switch",
             @_options-selector : ~"ul",
@@ -329,6 +384,23 @@ body {
                 line-height: 1.4;
             }
         }
+        .customer-menu {
+            display: none;
+        }
+        &.active {
+            .action.switch {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
+                );
+            }
+            .customer-menu {
+                display: block;
+            }
+        }
+        .greet {
+            display: none;
+        }
     }
 
     .header {
@@ -336,6 +408,7 @@ body {
             > .header.links {
                 float: right;
                 .list-inline();
+                margin-left: auto;
                 > li {
                     margin: 0 0 0 15px;
                     &.welcome,
@@ -344,11 +417,13 @@ body {
                         display: inline-block;
                     }
                 }
-                margin-left: auto;
                 > .authorization-link:after {
                     content: "or";
                     display: inline-block;
                     margin: 0 -5px 0 5px;
+                }
+                > .customer-welcome + .authorization-link {
+                    display: none;
                 }
             }
         }

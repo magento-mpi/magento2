@@ -11,6 +11,7 @@ namespace Magento\Test\Integrity;
 use Magento\TestFramework\Utility\Files;
 use Magento\Framework\Shell;
 use Magento\Framework\Exception;
+use Magento\Tools\Composer\Helper\ReplaceFilter;
 
 /**
  * A test that enforces validity of composer.json files and any other conventions in Magento components
@@ -33,6 +34,16 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private static $root;
 
     /**
+     * @var \stdClass
+     */
+    private static $rootJson;
+
+    /**
+     * @var array
+     */
+    private static $dependencies;
+
+    /**
      * @var string
      */
     private static $composerPath = 'composer';
@@ -45,6 +56,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         self::$shell = self::createShell();
         self::$isComposerAvailable = self::isComposerAvailable();
         self::$root = Files::init()->getPathToSource();
+        self::$rootJson = json_decode(file_get_contents(self::$root . '/composer.json'));
+        self::$dependencies = [];
     }
 
     /**
@@ -72,20 +85,22 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $result = [];
         foreach (glob("{$root}/app/code/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-module'];
+            $result[$dir] = [$dir, 'magento2-module'];
         }
         foreach (glob("{$root}/app/i18n/magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-language'];
+            $result[$dir] = [$dir, 'magento2-language'];
         }
         foreach (glob("{$root}/app/design/adminhtml/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme'];
+            $result[$dir] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/app/design/frontend/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme'];
+            $result[$dir] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/lib/internal/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-library'];
+            $result[$dir] = [$dir, 'magento2-library'];
         }
+        $result[$root] = [$root, 'project'];
+
         return $result;
     }
 
@@ -113,31 +128,61 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('name', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
+        $this->assertVersionInSync($json->name, $json->version);
         $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
-        $this->assertHasMap($json);
-        $this->assertMapConsistent($dir, $json);
+        if ($packageType !== 'project') {
+            self::$dependencies[] = $json->name;
+            $this->assertHasMap($json);
+            $this->assertMapConsistent($dir, $json);
+        }
         switch ($packageType) {
             case 'magento2-module':
                 $xml = simplexml_load_file("$dir/etc/module.xml");
                 $this->assertConsistentModuleName($xml, $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 $this->assertModuleDependenciesInSync($xml, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 break;
             case 'magento2-theme':
                 $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
                 break;
             case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
                 $this->assertRegExp('/^magento\/framework$/', $json->name);
+                $this->assertDependsOnInstaller($json->require);
+                break;
+            case 'project':
+                sort(self::$dependencies);
+                $dependenciesListed = [];
+                foreach (array_keys((array)self::$rootJson->replace) as $key) {
+                    if (ReplaceFilter::isMagentoComponent($key)) {
+                        $dependenciesListed[] = $key;
+                    }
+                }
+                sort($dependenciesListed);
+                $nonDeclaredDependencies = array_diff(self::$dependencies, $dependenciesListed);
+                $nonexistentDependencies = array_diff($dependenciesListed, self::$dependencies);
+                $this->assertEmpty(
+                    $nonDeclaredDependencies,
+                    'Following dependencies are not declared in the root composer.json: '
+                    . join(', ', $nonDeclaredDependencies)
+                );
+                $this->assertEmpty(
+                    $nonexistentDependencies,
+                    'Following dependencies declared in the root composer.json do not exist: '
+                    . join(', ', $nonexistentDependencies)
+                );
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
@@ -218,6 +263,20 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Make sure a component depends on Magento Composer Installer component
+     *
+     * @param \StdClass $json
+     */
+    private function assertDependsOnInstaller(\StdClass $json)
+    {
+        $this->assertObjectHasAttribute(
+            'magento/magento-composer-installer',
+            $json,
+            'This component is expected to depend on magento/magento-composer-installer'
+        );
+    }
+
+    /**
      * Assert that references to module dependencies in module.xml and composer.json are not out of sync
      *
      * @param \SimpleXMLElement $xml
@@ -241,7 +300,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 "Dependency on the component {$package} is found at the etc/module.xml, but missing in composer.json"
             );
         }
-        foreach ($json as $key => $value) {
+        foreach (array_keys((array) $json) as $key) {
             if (0 === strpos($key, 'magento/module-', 0)) {
                 $this->assertContains(
                     $key,
@@ -262,6 +321,22 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file("$dir/theme.xml");
         $this->assertEquals($xml->version, $version);
+    }
+
+    /**
+     * Assert that versions in root composer.json and Magento component's composer.json are not out of sync
+     *
+     * @param string $name
+     * @param string $version
+     */
+    private function assertVersionInSync($name, $version)
+    {
+        $this->assertEquals(
+            self::$rootJson->version,
+            $version,
+            "Version {$version} in component {$name} is inconsistent with version "
+            . self::$rootJson->version . ' in root composer.json'
+        );
     }
 
     /**
@@ -312,6 +387,41 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     {
         if (!self::$isComposerAvailable) {
             $this->markTestSkipped();
+        }
+    }
+
+    public function testComponentPathsInRoot()
+    {
+        if (!isset(self::$rootJson->extra) || !isset(self::$rootJson->extra->component_paths)) {
+            $this->markTestSkipped("The root composer.json file doesn't mention any extra component paths information");
+        }
+        $this->assertObjectHasAttribute(
+            'replace',
+            self::$rootJson,
+            "If there are any component paths specified, then they must be reflected in 'replace' section"
+        );
+        $flat = [];
+        foreach (self::$rootJson->extra->component_paths as $key => $element) {
+            if (is_string($element)) {
+                $flat[] = [$key, $element];
+            } elseif (is_array($element)) {
+                foreach ($element as $path) {
+                    $flat[] = [$key, $path];
+                }
+            } else {
+                throw new \Exception("Unexpected element 'in extra->component_paths' section");
+            }
+        }
+        while (list(, list($component, $path)) = each($flat)) {
+            $this->assertFileExists(
+                self::$root . '/' . $path,
+                "Missing or invalid component path: {$component} -> {$path}"
+            );
+            $this->assertObjectHasAttribute(
+                $component,
+                self::$rootJson->replace,
+                "The {$component} is specified in 'extra->component_paths', but missing in 'replace' section"
+            );
         }
     }
 }

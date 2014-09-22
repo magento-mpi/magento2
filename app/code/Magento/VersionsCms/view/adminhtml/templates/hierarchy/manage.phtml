@@ -34,6 +34,8 @@
 <div id="popup-window-mask" style="display:none;"></div>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
     function countSelectedScopes()
     {
@@ -127,5 +129,13 @@
         $$('.cms-popup').each(Element.hide);
         $('popup-window-mask').hide();
     }
+
+    window.hideHierarchyDialog = hideHierarchyDialog;
+    window.openHierarchyDialog = openHierarchyDialog;
+    window.submitDelete = submitDelete;
+    window.submitCopy = submitCopy;
+    window.countSelectedScopes = countSelectedScopes;
 //]]>
+
+});
 </script>

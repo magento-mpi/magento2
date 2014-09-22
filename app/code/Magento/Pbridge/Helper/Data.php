@@ -75,7 +75,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -92,13 +92,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
-
-    /**
-     * Layout
-     *
-     * @var \Magento\Framework\View\LayoutInterface
-     */
-    protected $_layout;
 
     /**
      * Encryption factory
@@ -126,9 +119,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Payment\Model\CartFactory $cartFactory
@@ -138,9 +130,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\Framework\App\State $appState,
         \Magento\Payment\Model\CartFactory $cartFactory
@@ -150,7 +141,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
         $this->_localeResolver = $localeResolver;
-        $this->_layout = $layout;
         $this->_encryptionFactory = $encryptionFactory;
         $this->_appState = $appState;
         $this->_cartFactory = $cartFactory;
@@ -503,10 +493,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get template for button in order review page if HSS method was selected
      *
      * @param string $name template name
-     * @param string $block buttons block name
      * @return string
      */
-    public function getReviewButtonTemplate($name, $block)
+    public function getReviewButtonTemplate($name)
     {
         $quote = $this->_checkoutSession->getQuote();
         if ($quote) {
@@ -515,12 +504,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 return $name;
             }
         }
-
-        $blockObject = $this->_layout->getBlock($block);
-        if ($blockObject) {
-            return $blockObject->getTemplate();
-        }
-
         return '';
     }
 
@@ -528,10 +511,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get template for Continue button to save order and load iframe
      *
      * @param string $name template name
-     * @param string $block buttons block name
      * @return string
      */
-    public function getContinueButtonTemplate($name, $block)
+    public function getContinueButtonTemplate($name)
     {
         $quote = $this->_checkoutSession->getQuote();
         if ($quote) {
@@ -540,12 +522,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 return $name;
             }
         }
-
-        $blockObject = $this->_layout->getBlock($block);
-        if ($blockObject) {
-            return $blockObject->getTemplate();
-        }
-
         return '';
     }
 }

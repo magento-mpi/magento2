@@ -73,6 +73,9 @@
     }
 }
 
+//
+//    Review product page
+//--------------------------------------
 .review {
     &-toolbar {
         padding: 0;
@@ -104,7 +107,6 @@
             margin: 0;
         }
         .actions-toolbar .actions-primary {
-            float: right;
             padding: 0;
         }
     }
@@ -187,15 +189,12 @@
     }
 }
 
-
-
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
     .review {
-        &-form-actions,
-        &-fieldset > .field {
+        &-form {
             max-width: 500px;
         }
 
@@ -278,7 +277,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .product-reviews-summary {
         margin-bottom: @indent-s-base + @indent-xs-base;
         .products.wrapper.list & {
@@ -334,7 +333,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.reviews {
         &:extend(.abstract-account-table-border all);
     }
@@ -350,7 +349,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .block-reviews-dashboard {
         .product-name {
             &:extend(.abstract-account-block-font-size all);
@@ -408,7 +407,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .customer-review {
         .product-name {
             .css(margin-bottom, @indent-xs-base);
@@ -425,7 +424,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .customer-review {
         .product-details {
             &:extend(.abstract-margin-for-blocks-and-widgets-desktop all);

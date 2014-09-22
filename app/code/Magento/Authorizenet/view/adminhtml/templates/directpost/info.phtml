@@ -67,7 +67,12 @@ $_orderUrl = $this->helper('Magento\Authorizenet\Helper\Backend')->getPlaceOrder
     <?php endif; ?>
 </ul>
 <script type="text/javascript">
-//<![CDATA[
+require([
+    'prototype',
+    'Magento_Sales/order/create/scripts',
+    'Magento_Authorizenet/js/direct-post'
+], function(){
+
 /**
  * Disable cart server validation in admin
  */
@@ -135,5 +140,5 @@ directPostModel = new directPost(
 <?php if (!$this->isAjaxRequest()): ?>
 });
 <?php endif; ?>
-//]]>
+});
 </script>

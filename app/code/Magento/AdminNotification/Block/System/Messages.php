@@ -54,14 +54,14 @@ class Messages extends \Magento\Backend\Block\Template
     /**
      * Retrieve message list
      *
-     * @return \Magento\AdminNotification\Model\System\MessageInterface[]
+     * @return \Magento\Framework\Notification\MessageInterface[]
      */
     public function getLastCritical()
     {
         $items = array_values($this->_messages->getItems());
         if (isset(
             $items[0]
-        ) && $items[0]->getSeverity() == \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL
+        ) && $items[0]->getSeverity() == \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL
         ) {
             return $items[0];
         }
@@ -76,7 +76,7 @@ class Messages extends \Magento\Backend\Block\Template
     public function getCriticalCount()
     {
         return $this->_messages->getCountBySeverity(
-            \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL
+            \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL
         );
     }
 
@@ -88,7 +88,7 @@ class Messages extends \Magento\Backend\Block\Template
     public function getMajorCount()
     {
         return $this->_messages->getCountBySeverity(
-            \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR
+            \Magento\Framework\Notification\MessageInterface::SEVERITY_MAJOR
         );
     }
 

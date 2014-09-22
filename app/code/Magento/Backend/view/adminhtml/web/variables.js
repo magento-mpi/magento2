@@ -4,8 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "jquery",
+    "jquery/ui",
+    "prototype"
+], function(jQuery){
 
-var Variables = {
+window.Variables = {
     textareaElementId: null,
     variablesContent: null,
     dialogWindow: null,
@@ -92,7 +97,7 @@ var Variables = {
     }
 };
 
-MagentovariablePlugin = {
+window.MagentovariablePlugin = {
     editor: null,
     variables: null,
     textareaId: null,
@@ -131,3 +136,5 @@ MagentovariablePlugin = {
         return;
     }
 };
+
+});

@@ -41,10 +41,6 @@
     </target>
 
     <target name="_prepare_packages" depends="_server_info" description="Prepare repositories of the product and components packages">
-        <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
-        <fail message="Bamboo variable 'release_version' must be defined.">
-            <condition><equals arg1="${env.bamboo_release_version}" arg2="" trim="true"/></condition>
-        </fail>
         <fail message="Bamboo variable 'publication_target_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_publication_target_dir}" arg2="" trim="true"/></condition>
         </fail>
@@ -62,8 +58,6 @@
         </fail>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/prepare_packages.php --
-                --edition=${product_edition_code}
-                --version=${env.bamboo_release_version}
                 --source-dir=${env.bamboo_publication_target_dir}
                 --changelog-file=CHANGELOG.md
                 --target-satis-repo=${env.bamboo_target_satis_repository}
@@ -88,9 +82,7 @@
             <not><isset property="env.bamboo_target_branch"/></not>
         </condition>
         <!-- Prepare CE packages -->
-        <antcall target="_prepare_packages" inheritAll="true">
-            <param name="product_edition_code" value="ce"/>
-        </antcall>
+        <antcall target="_prepare_packages" inheritAll="true"/>
         <!-- Push components to Satis repo -->
         <exec dir="${env.bamboo_target_satis_dir}" executable="git" failonerror="true">
             <arg line="push origin master"/>

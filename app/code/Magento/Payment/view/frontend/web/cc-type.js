@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+
     $.widget('mage.creditCardType', {
         options: {
             typeCodes: ['SS', 'SM', 'SO'] // Type codes for Switch/Maestro/Solo credit cards.
@@ -31,4 +35,5 @@
                 .toggle($.inArray(this.element.val(), this.options.typeCodes) !== -1);
         }
     });
-})(jQuery);
+
+});

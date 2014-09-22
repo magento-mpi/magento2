@@ -24,12 +24,14 @@
 </ul>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-    var enterpriseLoggingActionsLabel = $('<?php echo $this->getHtmlId() ?>').up('table').select('td.label label');
+    enterpriseLoggingActionsLabel = $('<?php echo $this->getHtmlId() ?>').up('table').select('td.label label');
     if (enterpriseLoggingActionsLabel) {
-        var enterpriseLoggingActions = $('<?php echo $this->getHtmlId() ?>').parentNode.select('ul.checkboxes input');
+        enterpriseLoggingActions = $('<?php echo $this->getHtmlId() ?>').parentNode.select('ul.checkboxes input');
         if (enterpriseLoggingActions) {
-            var enterpriseLoggingShouldBeChecked = true;
+            enterpriseLoggingShouldBeChecked = true;
             Event.observe(enterpriseLoggingActionsLabel[0], 'click', function () {
                 for (var i = 0; i < enterpriseLoggingActions.length; i++) {
                     enterpriseLoggingActions[i].checked = enterpriseLoggingShouldBeChecked;
@@ -39,4 +41,6 @@
         }
     }
 //]]>
+
+});
 </script>

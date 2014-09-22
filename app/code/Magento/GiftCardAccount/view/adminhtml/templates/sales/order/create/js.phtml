@@ -7,18 +7,22 @@
  */
 ?>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-    function removeGiftCard(code) {
+    removeGiftCard = function(code) {
         var data = {};
         data['giftcard_remove'] = code;
         order.loadArea(['totals', 'billing_method', 'items'], true, data);
     }
 
-    function applyGiftCard() {
+    applyGiftCard = function() {
         var code = $('giftcardaccount_add_input').value;
         var data = {};
         data['giftcard_add'] = code;
         order.loadArea(['totals', 'billing_method', 'items'], true, data);
     }
 //]]>
+
+});
 </script>

@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<div class="block <?php echo $this->getBlockCss(); ?>">
+    <div class="title <?php echo $this->getBlockCss();?>-title" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#<?php echo $this->getBlockCss(); ?>", "selectorsToggleClass": "active"}}'>
+        <strong><?php echo $this->getBlockTitle(); ?></strong>
+    </div>
+    <div class="content <?php echo $this->getBlockCss(); ?>-content" id="<?php echo $this->getBlockCss(); ?>">
+        <?php echo $this->getChildHtml(); ?>
+    </div>
+</div>

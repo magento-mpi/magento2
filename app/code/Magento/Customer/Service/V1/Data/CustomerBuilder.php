@@ -5,27 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1\Data;
 
+use Magento\Framework\Service\Data\AbstractExtensibleObject as ExtensibleObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Framework\Service\Data\Eav\AbstractObject;
-use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 /**
  * Builder for the Customer Service Data Object
  *
  * @method Customer create()
- * @method Customer mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
- * @method Customer mergeDataObjects(AbstractObject $firstDataObject, AbstractObject $secondDataObject)
+ * @method Customer mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
+ * @method Customer mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
  */
-class CustomerBuilder extends AbstractObjectBuilder
+class CustomerBuilder extends AbstractExtensibleObjectBuilder
 {
-    /**
-     * @var CustomerMetadataServiceInterface
-     */
-    protected $_metadataService;
-
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
@@ -36,22 +32,7 @@ class CustomerBuilder extends AbstractObjectBuilder
         AttributeValueBuilder $valueBuilder,
         CustomerMetadataServiceInterface $metadataService
     ) {
-        parent::__construct($objectFactory, $valueBuilder);
-        $this->_metadataService = $metadataService;
-    }
-
-    /**
-     * Template method used to configure the attribute codes for the custom attributes
-     *
-     * @return string[]
-     */
-    public function getCustomAttributesCodes()
-    {
-        $attributeCodes = array();
-        foreach ($this->_metadataService->getCustomCustomerAttributeMetadata() as $attribute) {
-            $attributeCodes[] = $attribute->getAttributeCode();
-        }
-        return $attributeCodes;
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
     }
 
     /**

@@ -23,6 +23,11 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     protected $taxHelper;
 
     /**
+     * @var \Magento\Catalog\Helper\Data | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $catalogHelper;
+
+    /**
      * @var int
      */
     protected $sortOrder = 5;
@@ -30,7 +35,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->taxHelper = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
-        $this->adjustment = new Adjustment($this->taxHelper, $this->sortOrder);
+        $this->catalogHelper = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
+        $this->adjustment = new Adjustment($this->taxHelper, $this->catalogHelper, $this->sortOrder);
     }
 
     public function testGetAdjustmentCode()
@@ -99,12 +105,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->taxHelper->expects($this->any())
             ->method('priceIncludesTax')
             ->will($this->returnValue($isPriceIncludesTax));
-        $this->taxHelper->expects($this->any())
-            ->method('getPrice')
-            ->with($object, $amount)
-            ->will($this->returnValue($price));
-        $this->taxHelper->expects($this->any())
-            ->method('getPriceUnrounded')
+        $this->catalogHelper->expects($this->any())
+            ->method('getTaxPrice')
             ->with($object, $amount)
             ->will($this->returnValue($price));
 
@@ -128,20 +130,13 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      * @param $expectedResult
      * @dataProvider applyAdjustmentDataProvider
      */
-    public function testApplyAdjustment($isPriceIncludesTax, $amount, $price, $expectedResult)
+    public function testApplyAdjustment($amount, $price, $expectedResult)
     {
         $object = $this->getMockBuilder('Magento\Framework\Pricing\Object\SaleableInterface')->getMock();
 
-        $this->taxHelper->expects($this->any())
-            ->method('priceIncludesTax')
-            ->will($this->returnValue($isPriceIncludesTax));
-        $this->taxHelper->expects($this->any())
-            ->method('getPrice')
-            ->with($object, $amount, !$isPriceIncludesTax)
-            ->will($this->returnValue($price));
-        $this->taxHelper->expects($this->any())
-            ->method('getPriceUnrounded')
-            ->with($object, $amount, !$isPriceIncludesTax)
+        $this->catalogHelper->expects($this->any())
+            ->method('getTaxPrice')
+            ->with($object, $amount, true)
             ->will($this->returnValue($price));
 
         $this->assertEquals($expectedResult, $this->adjustment->applyAdjustment($amount, $object));
@@ -153,9 +148,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     public function applyAdjustmentDataProvider()
     {
         return [
-            [true, 1.1, 2.2, 2.2],
-            [true, 0.0, 2.2, 2.2],
-            [true, 1.1, 0.0, 0.0],
+            [1.1, 2.2, 2.2],
+            [0.0, 2.2, 2.2],
+            [1.1, 0.0, 0.0],
         ];
     }
 

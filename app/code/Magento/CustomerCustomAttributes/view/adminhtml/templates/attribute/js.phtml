@@ -7,12 +7,14 @@
  */
 ?>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
 var show_option_panel           = false;
 var attribute_validate_filters  = <?php echo $this->getValidateFiltersJson();?>;
 var attribute_filter_types      = <?php echo $this->getFilteTypesJson();?>;
 
-function toggleApplyVisibility(select) {
+toggleApplyVisibility = function(select) {
     if ($(select).value == 1) {
         $(select).next('select').removeClassName('no-display');
         $(select).next('select').removeClassName('ignore-validate');
@@ -27,12 +29,12 @@ function toggleApplyVisibility(select) {
     }
 }
 
-function bindAttributeInputType()
+bindAttributeInputType = function()
 {
     switchDefaultValueField();
 }
 
-function switchFilterSelect(id, vals, dict)
+switchFilterSelect = function(id, vals, dict)
 {
     if ($(id)) {
         if (vals) {
@@ -55,7 +57,7 @@ function switchFilterSelect(id, vals, dict)
     }
 }
 
-function switchDefaultValueField()
+switchDefaultValueField = function()
 {
     if (!$('frontend_input')) {
         return;
@@ -147,7 +149,7 @@ function switchDefaultValueField()
     }
 }
 
-function setRowVisibility(id, isVisible)
+setRowVisibility = function(id, isVisible)
 {
     if ($(id)) {
         var tr = $(id).up(1);
@@ -161,7 +163,7 @@ function setRowVisibility(id, isVisible)
     }
 }
 
-function updateRequriedOptions()
+updateRequriedOptions = function()
 {
     if (show_option_panel && $F('is_required') == 1) {
         $('option-count-check').addClassName('required-options-count');
@@ -169,6 +171,8 @@ function updateRequriedOptions()
         $('option-count-check').removeClassName('required-options-count');
     }
 }
+
+
 
 if($('frontend_input')){
     Event.observe($('frontend_input'), 'change', updateRequriedOptions);
@@ -179,5 +183,9 @@ if ($('is_required')) {
     Event.observe($('is_required'), 'change', updateRequriedOptions);
 }
 bindAttributeInputType();
+
+window.switchDefaultValueField = switchDefaultValueField;
 //]]>
+
+});
 </script>

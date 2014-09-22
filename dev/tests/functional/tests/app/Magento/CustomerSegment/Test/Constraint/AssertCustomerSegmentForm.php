@@ -52,7 +52,7 @@ class AssertCustomerSegmentForm extends AbstractAssertForm
         ];
         $customerSegmentIndex->getGrid()->searchAndOpen($filter);
 
-        $formData = $customerSegmentNew->getFormTabs()->getData();
+        $formData = $customerSegmentNew->getCustomerSegmentForm()->getData();
         $dataDiff = $this->verifyData($customerSegment->getData(), $formData, false, false);
         \PHPUnit_Framework_Assert::assertEmpty(
             $dataDiff,

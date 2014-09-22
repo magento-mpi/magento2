@@ -69,6 +69,17 @@
 
         &-actions {
             display: none;
+            .actions-secondary {
+                > .action {
+                    &:extend(.abstract-actions-addto all);
+                    &:before {
+                        margin: 0;
+                    }
+                    span {
+                        &:extend(.visually-hidden all);
+                    }
+                }
+            }
         }
         &-description {
             margin: @indent-m-base 0;
@@ -92,52 +103,39 @@
             .price-label {
                 font-size: @font-size-s;
                 color: @text-color-muted;
+                &:after {
+                    content: ":";
+                }
             }
+        }
 
-        }
-        .special-price,
-        .old-price {
-            display: inline;
-        }
         .old-price {
             color: @text-color-muted;
+            margin: 5px 0;
             .price {
                 font-weight: normal;
             }
         }
 
-        .towishlist {
-            display: inline-block;
-            margin-top: 5px;
-            .icon-font(
-                @icon-wishlist-full,
-                @_icon-font-size: 18px,
-                @_icon-font-color: @addto-color,
-                @_icon-font-color-hover: @addto-hover-color,
-                @_icon-font-text-hide: true,
-                @_icon-font-vertical-align: middle,
-                @_icon-font-line-height: normal
-            );
-            &:before {
-                width: 30px;
+        .minimal-price {
+            .price-container {
+                display: block;
             }
         }
-        .tocompare {
+
+        .minimal-price-link {
             margin-top: 5px;
-            display: inline-block;
-            display: none;
-            .icon-font(
-                @icon-compare-full,
-                @_icon-font-size: 18px,
-                @_icon-font-color: @addto-color,
-                @_icon-font-color-hover: @addto-hover-color,
-                @_icon-font-text-hide: true,
-                @_icon-font-vertical-align: middle,
-                @_icon-font-line-height: normal
+        }
+
+        .price-from,
+        .price-to {
+            margin: 0;
+        }
+
+        .tocompare {
+            .icon-font-symbol(
+                @icon-compare-full
             );
-            &:before {
-                width: 30px;
-            }
         }
         .tocart {
             white-space: nowrap;
@@ -146,6 +144,40 @@
             line-height: 1;
             padding-top: 10px;
             padding-bottom: 10px;
+        }
+    }
+}
+
+.price-container {
+    .price {
+        .font-size(14);
+    }
+
+    .price-including-tax + .price-excluding-tax,
+    .weee {
+        margin-top: 5px;
+    }
+
+    .price-including-tax + .price-excluding-tax,
+    .weee,
+    .price-including-tax + .price-excluding-tax .price,
+    .weee .price,
+    .weee + .price-excluding-tax:before,
+    .weee + .price-excluding-tax .price {
+        .font-size(11);
+    }
+
+    .weee {
+        &:before {
+            content: "("attr(data-label) ": ";
+        }
+        &:after {
+            content: ")";
+        }
+        + .price-excluding-tax {
+            &:before {
+                content: attr(data-label) ": ";
+            }
         }
     }
 }
@@ -171,7 +203,7 @@
     }
 }
 
-.responsive-smaller (@break) when (@break = @break-point-0) {
+.responsive-smaller (@break) when (@break = @screen-s) {
     .products-list .product {
         &-item {
             table-layout: fixed;
@@ -183,7 +215,7 @@
     }
 }
 
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
     .product {
         &-item {
             .products-grid & {
@@ -210,9 +242,14 @@
                 }
                 .actions-primary + .actions-secondary {
                     display: table-cell;
-                    text-align: center;
-                    white-space: nowrap;
                     width: 50%;
+                    padding-left: 10px;
+                    > .action {
+                        margin-right: 10px;
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
                 }
                 .actions-primary { display: table-cell; }
                 .products-grid .product-item-info:hover & {
@@ -223,28 +260,34 @@
     }
 }
 
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
     .products-grid .product-item { width: 100%/3 }
     .layout-1 .products-grid .product-item { width: 100%/3 }
     .layout-3 .products-grid .product-item { width: 100%/3 }
-
     .page-products .products-grid .product-item { width: 100%/3 }
     .page-products.layout-1 .products-grid .product-item { width: 100%/3 }
     .page-products.layout-3 .products-grid .product-item { width: 100%/3 }
 }
-.responsive(@break) when (@break = @break-point-1) {
-    .page-products .products-grid .product-item { width: 100%/3 }
+.responsive(@break) when (@break = @screen-m) {
+    .page-products .products-grid .product-item{ width: 100%/3 }
     .page-products.layout-1 .products-grid .product-item { width: 100%/4 }
     .page-products.layout-3 .products-grid .product-item { width: 100%/2 }
 }
-.responsive(@break) when (@break = @break-point-2) {
-
+.responsive(@break) when (@break = @screen-l) {
     .products-grid .product-item { width: 100%/5 }
     .layout-1 .products-grid .product-item { width: 100%/6 }
     .layout-3 .products-grid .product-item { width: 100%/4 }
-
-    .page-products .products-grid .product-item { width: 100%/4 }
+    .page-products .products-grid .product-items { margin: 0; }
+    .page-products .products-grid .product-item {
+        width: 100%/4;
+        width: 200px;
+        margin: 0;
+        margin-left: calc(~"(100% - 4 * 200px) / 3");
+        padding: 0;
+        &:nth-child(4n+1) {
+            margin-left: 0;
+        }
+    }
     .page-products.layout-1 .products-grid .product-item { width: 100%/5 }
     .page-products.layout-3 .products-grid .product-item { width: 100%/4 }
 }
-

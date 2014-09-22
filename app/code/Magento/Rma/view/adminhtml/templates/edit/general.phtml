@@ -7,11 +7,12 @@
  */
 ?>
 <script type="text/javascript">
-//<![CDATA[
-var rma = new AdminRma();
-//]]>
+    require(['prototype', 'Magento_Rma/rma'], function() {
+        window.rma = new AdminRma();
+    });
+    require(['Magento_Rma/details-validator']);
 </script>
-<script type="text/javascript" src="<?php echo $this->getViewFileUrl('Magento_Rma::details-validator.js') ?>"></script>
+
 <?php
 /**
  * @see \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General

@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     'use strict';
+    
     /**
      * VDE tool panel
      */
@@ -200,4 +204,5 @@
             }, this));
         }
     });
-})(window.jQuery);
+
+});

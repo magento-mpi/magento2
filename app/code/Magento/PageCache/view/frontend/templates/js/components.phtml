@@ -6,20 +6,4 @@
  * @license     {license_link}
  */
 ?>
-<script type="text/javascript">
-    (function($) {
-        "use strict";
-        /**
-         * Declaration of resources needed for defined components
-         */
-        $.mage.component({
-            formKey: [
-                '<?php echo $this->getViewFileUrl('Magento_PageCache::js/form-key.js') ?>'
-            ],
-            pageCache: [
-                '<?php echo $this->getViewFileUrl('Magento_PageCache::js/page-cache.js') ?>'
-            ]
-        });
-    })(jQuery);
-</script>
 <?php echo $this->getChildHtml() ?>

@@ -6,7 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function ($) {
+define([
+    "jquery",
+    "mage/validation"
+], function($){
+
     $.validator.addMethod(
         'validate-rating',
         function () {
@@ -19,4 +23,5 @@
             return noError;
         },
         'Please select one of each ratings above.');
-})(jQuery);
+
+});

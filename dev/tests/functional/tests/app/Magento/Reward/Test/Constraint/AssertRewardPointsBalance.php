@@ -12,7 +12,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Magento\Reward\Test\Page\RewardCustomerInfo;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -48,8 +48,9 @@ class AssertRewardPointsBalance extends AbstractConstraint
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param RewardCustomerInfo $rewardCustomerInfo
-     * @param Reward $rate
+     * @param RewardRate $rate
      * @param string $registrationReward
+     * @param RewardRate $updateRate
      * @return void
      */
     public function processAssert(
@@ -58,9 +59,12 @@ class AssertRewardPointsBalance extends AbstractConstraint
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         RewardCustomerInfo $rewardCustomerInfo,
-        Reward $rate,
-        $registrationReward
+        RewardRate $rate,
+        $registrationReward,
+        RewardRate $updateRate = null
     ) {
+        $rate = $updateRate === null ? $rate : $updateRate;
+
         $customerAccountLogout->open();
         $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->login($customer);

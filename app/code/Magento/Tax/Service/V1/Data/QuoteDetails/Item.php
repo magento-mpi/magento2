@@ -7,7 +7,7 @@
  */
 namespace Magento\Tax\Service\V1\Data\QuoteDetails;
 
-class Item extends \Magento\Framework\Service\Data\AbstractObject
+class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -31,6 +31,8 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     const KEY_PARENT_CODE = 'parent_code';
 
     const KEY_ASSOCIATED_ITEM_CODE = 'association_code';
+
+    const KEY_TAX_CLASS_ID = 'tax_class_id';
     /**#@-*/
 
     /**
@@ -131,5 +133,15 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     public function getAssociatedItemCode()
     {
         return $this->_get(self::KEY_ASSOCIATED_ITEM_CODE);
+    }
+
+    /**
+     * Get associated item tax class id
+     *
+     * @return int
+     */
+    public function getTaxClassId()
+    {
+        return $this->_get(self::KEY_TAX_CLASS_ID);
     }
 }

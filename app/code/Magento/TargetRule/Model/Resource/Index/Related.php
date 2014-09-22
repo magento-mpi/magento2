@@ -28,6 +28,6 @@ class Related extends \Magento\TargetRule\Model\Resource\Index\AbstractIndex
      */
     protected function _construct()
     {
-        $this->_init('magento_targetrule_index_related', 'entity_id');
+        $this->_init('magento_targetrule_index_related', 'product_set_id');
     }
 }

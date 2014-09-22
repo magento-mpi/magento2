@@ -7,8 +7,10 @@
  */
 ?>
 <script type="text/javascript">
+require(["jquery", "prototype"], function(jQuery){
+
 //<![CDATA[
-function setSettings(urlTemplate, codeElement, themeElement) {
+setSettings = function(urlTemplate, codeElement, themeElement) {
     if (!jQuery('#edit_form').valid()) {
         return false;
     }
@@ -21,4 +23,6 @@ function setSettings(urlTemplate, codeElement, themeElement) {
     }));
 }
 //]]>
+
+});
 </script>

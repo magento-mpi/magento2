@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="popup_window">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Items" name="wrapping_order_create_items" template="order/create/items.phtml"/>
     </referenceBlock>
@@ -17,4 +17,4 @@
     <referenceBlock name="gift_options_link">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create\Link" name="giftwrapping_item_info" template="sales/order/link.phtml"/>
     </referenceBlock>
-</layout>
+</page>

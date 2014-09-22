@@ -4,7 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template",
+    "mage/adminhtml/form"
+], function($){
+
     $.widget('mage.fptAttribute', {
         _create: function () {
             var widget = this;
@@ -87,4 +93,5 @@
             }
         }
     });
-})(jQuery);
+
+});

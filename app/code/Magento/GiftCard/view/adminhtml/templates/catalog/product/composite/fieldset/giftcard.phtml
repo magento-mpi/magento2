@@ -12,9 +12,11 @@
 <?php $_storeId = $_product->getStoreId(); ?>
 <?php $_skipSaleableCheck = $this->helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
 <script>
-//<![CDATA[
-productConfigure.giftcardConfig = {};
-//]]>
+require([
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
+    productConfigure.giftcardConfig = {};
+});
 </script>
 <div id="catalog_product_composite_configure_fields_downloadable" class="giftcard <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
 
@@ -37,7 +39,7 @@ productConfigure.giftcardConfig = {};
         </div>
 
     <?php else: ?>
-        <div class="giftcard amount">
+        <div class="giftcard-amount">
             <div class="field amount required">
                 <?php if ($this->isAmountAvailable($_product)): ?>
                     <label for="giftcard_amount" id="amount_label_select" class="label"><span><?php echo __('Amount'); ?></span></label>
@@ -85,38 +87,47 @@ productConfigure.giftcardConfig = {};
                             <?php endif; ?>
                         </div>
                         <script type="text/javascript">
-                        //<![CDATA[
-                            productConfigure.giftcardConfig.minAllowedAmount = <?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($_product->getOpenAmountMin(), $_storeId, false, false) ?>;
-                            productConfigure.giftcardConfig.maxAllowedAmount = <?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($_product->getOpenAmountMax(), $_storeId, false, false) ?>;
+require([
+    "Magento_GiftCard/catalog/product/composite/fieldset/validation-rules",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
 
-                            productConfigure.giftcardConfig.parsePrice = function (value) {
-                                value = value.replace('\'', '').replace(' ', '');
-                                separatorComa = value.indexOf(',');
-                                separatorDot  = value.indexOf('.');
+//<![CDATA[
+    productConfigure.giftcardConfig.minAllowedAmount = <?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($_product->getOpenAmountMin(), $_storeId, false, false) ?>;
+    productConfigure.giftcardConfig.maxAllowedAmount = <?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($_product->getOpenAmountMax(), $_storeId, false, false) ?>;
 
-                                if (separatorComa != -1 && separatorDot != -1) {
-                                    if (separatorComa > separatorDot) {
-                                        value = value.replace('.', '').replace(',', '.');
-                                    } else {
-                                        value = value.replace(',', '');
-                                    }
-                                } else if (separatorComa != -1) {
-                                    value = value.replace(',', '.');
-                                }
+    productConfigure.giftcardConfig.parsePrice = function (value) {
+        value = value.replace('\'', '').replace(' ', '');
+        separatorComa = value.indexOf(',');
+        separatorDot  = value.indexOf('.');
 
-                                return parseFloat(value);
-                            }
+        if (separatorComa != -1 && separatorDot != -1) {
+            if (separatorComa > separatorDot) {
+                value = value.replace('.', '').replace(',', '.');
+            } else {
+                value = value.replace(',', '');
+            }
+        } else if (separatorComa != -1) {
+            value = value.replace(',', '.');
+        }
 
-                            head.js('<?php echo $this->getViewFileUrl('Magento_GiftCard::catalog/product/composite/fieldset/validation-rules.js'); ?>');
-                        //]]>
-                        </script>
+        return parseFloat(value);
+    };
+//]]>
+                        
+});
+</script>
                     <?php endif; ?>
                 </div>
             </div>
             <?php endif; ?>
         </div>
         <script type="text/javascript">
-        //<![CDATA[
+require([
+    "prototype",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
+
         productConfigure.giftcardConfig.switchGiftCardInputs = function ()
         {
             if (!$('giftcard_amount') || !$('giftcard_amount_input_fields')) {
@@ -143,8 +154,9 @@ productConfigure.giftcardConfig = {};
         }
 
         productConfigure.giftcardConfig.switchGiftCardInputs();
-        //]]>
-        </script>
+        
+});
+</script>
     <?php endif; ?>
         <?php echo $this->getChildHtml('product.composite.giftcard.qty') ?>
             <div class="field sender name required">
@@ -192,10 +204,17 @@ productConfigure.giftcardConfig = {};
                               rows="3"><?php echo $this->escapeHtml($this->getDefaultValue('giftcard_message')) ?></textarea>
                     <?php if ($this->getMessageMaxLength()): ?>
                         <script type="text/javascript">
-                            jQuery.validator.addMethod('giftcard-message-max-length', function(v) {
-                                return v.length <= <?php echo $this->getMessageMaxLength(); ?>;
-                            }, '<?php echo __('Maximum length of the message is %1 characters.', $this->getMessageMaxLength()); ?>');
-                        </script>
+require([
+    "jquery",
+    "mage/validation"
+], function(jQuery){
+
+    jQuery.validator.addMethod('giftcard-message-max-length', function(v) {
+        return v.length <= <?php echo $this->getMessageMaxLength(); ?>;
+    }, '<?php echo __('Maximum length of the message is %1 characters.', $this->getMessageMaxLength()); ?>');
+                        
+});
+</script>
                     <?php endif; ?>
                 </div>
             </div>

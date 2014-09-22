@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this \Magento\Tax\Block\Item\Price\Renderer */
+?>
+<?php $_item = $this->getItem() ?>
+<div class="price-container">
+    <span class="price-label"><?php echo __('Price')?></span>
+    <?php if ($this->displayPriceInclTax() || $this->displayBothPrices()): ?>
+        <span class="price-wrapper price-including-tax" data-label="<?php echo __('Incl. Tax')?>">
+            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_incl) ?>
+        </span>
+    <?php endif; ?>
+    <?php if ($this->displayPriceExclTax() || $this->displayBothPrices()): ?>
+        <span class="price-wrapper price-excluding-tax" data-label="<?php echo __('Excl. Tax')?>">
+            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()) ?>
+        </span>
+    <?php endif; ?>
+</div>

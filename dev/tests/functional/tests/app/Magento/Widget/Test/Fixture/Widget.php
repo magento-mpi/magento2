@@ -83,16 +83,21 @@ class Widget extends InjectableFixture
     protected $code = [
         'attribute_code' => 'code',
         'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
     ];
 
     protected $theme_id = [
         'attribute_code' => 'theme_id',
         'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
     ];
 
     protected $store_ids = [
         'attribute_code' => 'store_ids',
         'backend_type' => 'virtual',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\StoreIds',
     ];
 
     protected $widget_instance = [
@@ -108,6 +113,12 @@ class Widget extends InjectableFixture
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
+    ];
+
+    protected $page_id = [
+        'attribute_code' => 'page_id',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\PageIds',
     ];
 
     public function getAnchorText()
@@ -183,5 +194,10 @@ class Widget extends InjectableFixture
     public function getId()
     {
         return $this->getData('id');
+    }
+
+    public function getPageId()
+    {
+        return $this->getData('page_id');
     }
 }

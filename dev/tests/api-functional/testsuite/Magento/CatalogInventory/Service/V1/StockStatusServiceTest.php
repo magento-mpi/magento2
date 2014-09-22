@@ -62,13 +62,16 @@ class StockStatusServiceTest extends WebapiAbstract
         $builder = Bootstrap::getObjectManager()->create(
             'Magento\CatalogInventory\Service\V1\Data\LowStockCriteriaBuilder'
         );
+        $builder->setCurrentPage($currentPage);
+        $builder->setPageSize($pageSize);
+        $builder->setQty($qty);
         /** @var \Magento\CatalogInventory\Service\V1\Data\LowStockCriteria $lowStockCriteria */
-        $lowStockCriteria = $builder->setCurrentPage($currentPage)->setPageSize($pageSize)->setQty($qty)->create();
-
+        $lowStockCriteria = $builder->create();
+        $requestData = ['lowStockCriteria' => $lowStockCriteria->__toArray()];
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => self::RESOURCE_PATH . 'lowStock/',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+                'resourcePath' => self::RESOURCE_PATH . 'lowStock/?' . http_build_query($requestData),
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ),
             'soap' => array(
                 'service' => self::SERVICE_NAME,
@@ -76,7 +79,6 @@ class StockStatusServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetLowStockItems',
             ),
         );
-        $requestData = ['lowStockCriteria' => $lowStockCriteria->__toArray()];
         $this->assertEquals($result, $this->_webApiCall($serviceInfo, $requestData));
     }
 

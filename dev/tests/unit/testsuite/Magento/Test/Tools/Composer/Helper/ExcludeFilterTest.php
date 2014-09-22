@@ -29,19 +29,20 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
     protected $exclude = array();
 
     /**
-     * Intial Setup
+     * Initial Setup
      * @return void
      */
     protected function setUp()
     {
         $source = __DIR__ . '/../_files';
-        $exclude = array(
-            realpath(__DIR__ . '/../_files/app/code/Magento/OtherModule')
+        $this->exclude = array(
+            str_replace('\\', '/', realpath(__DIR__ . '/../_files/app/code/Magento/OtherModule')),
+            str_replace('\\', '/', realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc/module.xml.dist')),
         );
 
         $directory = new \RecursiveDirectoryIterator($source);
 
-        $this->excludeFilter = new \Magento\Tools\Composer\Helper\ExcludeFilter($directory, $exclude);
+        $this->excludeFilter = new \Magento\Tools\Composer\Helper\ExcludeFilter($directory, $this->exclude);
     }
 
     /**
@@ -50,16 +51,32 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testExclude()
     {
-        $files = new \RecursiveIteratorIterator($this->excludeFilter, \RecursiveIteratorIterator::SELF_FIRST);
-
-        $found = false;
-
-        foreach ($files as $file) {
-            if (in_array(realpath($file), $this->exclude)) {
-                $found = true;
-            }
+        $expected = [
+            realpath(__DIR__ . '/../'),
+            realpath(__DIR__ . '/../_files'),
+            realpath(__DIR__ . '/../_files'),
+            realpath(__DIR__ . '/../_files/app'),
+            realpath(__DIR__ . '/../_files/app'),
+            realpath(__DIR__ . '/../_files/app'),
+            realpath(__DIR__ . '/../_files/app/code'),
+            realpath(__DIR__ . '/../_files/app/code'),
+            realpath(__DIR__ . '/../_files/app/code'),
+            realpath(__DIR__ . '/../_files/app/code/Magento'),
+            realpath(__DIR__ . '/../_files/app/code/Magento'),
+            realpath(__DIR__ . '/../_files/app/code/Magento'),
+            realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule'),
+            realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule'),
+            realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule'),
+            realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc'),
+            realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc'),
+            realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc/module.xml'),
+        ];
+        $filesIterator = new \RecursiveIteratorIterator($this->excludeFilter, \RecursiveIteratorIterator::SELF_FIRST);
+        $files = [];
+        foreach ($filesIterator as $file) {
+            $files[] = realpath($file);
         }
-
-        $this->assertFalse($found);
+        sort($files);
+        $this->assertSame($expected, $files);
     }
 }

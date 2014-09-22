@@ -72,7 +72,13 @@
 </div>
 
 <script type="text/javascript">
-(function($) {
+require([
+    'jquery',
+    'Magento_DesignEditor/js/quick-style-element',
+    'Magento_DesignEditor/js/message',
+    'Magento_DesignEditor/js/tools-panel'
+], function($){
+
     'use strict';
 
     $(function () {
@@ -80,7 +86,9 @@
         e.preventDefault();
       })
     })
+
     $('.vde-tools').toolsPanel();
+    
     $('#vde-tab-quick-styles .element-font-picker select,' +
       '#vde-tab-quick-styles .element-color-picker input,' +
       '#vde-tab-quick-styles .element-background .element-checkbox'
@@ -99,5 +107,6 @@
     $('.vde-tools').vdeMessage({
         messageTemplateId: '#vde-message-template'
     });
-})(window.jQuery);
+
+});
 </script>

@@ -91,6 +91,8 @@
 </div>
 
 <script type="text/javascript">
+require(['jquery'], function(jQuery){
+
     (function($) {
         var $storesList = $('[data-role=stores-list]');
         $storesList.on('click', '[data-value]', function(event) {
@@ -104,7 +106,7 @@
                 switcher.val(val).trigger('change'); // Set the value & trigger event
             }
         });
-    })(jQuery)
+    })(jQuery);
 
     var scopeSwitcherHandler;
 
@@ -140,5 +142,10 @@
             <?php endif; ?>
         }
     }
+    
+    window.scopeSwitcherHandler = scopeSwitcherHandler;    
+    window.switchScope = switchScope;
+
+});
 </script>
 <?php endif; ?>

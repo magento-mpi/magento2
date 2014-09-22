@@ -87,9 +87,9 @@
         </div>
 
         <div class="field address telephone required">
-            <label for="address:telephone" class="label"><span><?php echo __('Telephone') ?></span></label>
+            <label for="address:telephone" class="label"><span><?php echo __('Phone Number') ?></span></label>
             <div class="control">
-                <input type="text" name="address[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Telephone') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="address:telephone"/>
+                <input type="text" name="address[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Phone Number') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="address:telephone"/>
             </div>
         </div>
         <div class="field address fax">
@@ -102,14 +102,16 @@
 </fieldset>
 
 <script type="text/javascript">
-    (function($) {
-        $('#address\\:country_id').mage('regionUpdater', {
-            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
-            regionListId: '#address\\\:region_id',
-            regionInputId: '#address\\\:region',
-            postcodeId: '#address\\\:postcode',
-            regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>,
-            defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>"
-        });
-    })(jQuery);
+require(['jquery', "mage/mage"], function($){
+
+    $('#address\\:country_id').mage('regionUpdater', {
+        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+        regionListId: '#address\\\:region_id',
+        regionInputId: '#address\\\:region',
+        postcodeId: '#address\\\:postcode',
+        regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>,
+        defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>"
+    });
+
+});
 </script>

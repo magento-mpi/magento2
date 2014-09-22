@@ -1,0 +1,27 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//
+//    Using buttons mixins
+//--------------------------------------
+button {
+    border-radius: @button-border-radius;
+    &:active,
+    &:focus {
+        box-shadow: inset 0 2px 1px rgba(0,0,0,.12);
+    }
+}
+
+a.action.primary {
+    .link-as-button();
+    border-radius: @button-border-radius;
+}
+
+.action.primary {
+    .button-primary();
+}

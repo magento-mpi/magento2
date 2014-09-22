@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="Email Creditmemo Items List" design_abstraction="custom">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd" label="Email Creditmemo Items List" design_abstraction="custom">
     <referenceBlock name="sales.email.order.creditmemo.renderers">
         <block class="Magento\Sales\Block\Order\Email\Items\DefaultItems" as="default" template="email/items/creditmemo/default.phtml"/>
     </referenceBlock>
-</layout>
+</page>

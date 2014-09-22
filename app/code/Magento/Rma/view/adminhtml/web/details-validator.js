@@ -8,13 +8,17 @@
     if (typeof define !== 'undefined' && define.amd) {
         define([
             'jquery',
-            'mage/backend/validation'
+            'mage/backend/validation',
+            'mage/mage',
+            'mage/translate',
+            'Magento_Rma/rma'
         ], factory);
     } else {
-        factory(window.jQuery);
+        factory(jQuery);
     }
-})(function ($) {
+}(function ($) {
     "use strict";
+
     var rma = window.rma;
     if (rma === undefined) {
         return;
@@ -43,4 +47,5 @@
             );
         });
     });
-});
+
+}));

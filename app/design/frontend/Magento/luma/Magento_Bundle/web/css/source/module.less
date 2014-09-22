@@ -36,11 +36,11 @@
         margin-bottom: @indent-l-base;
         .fieldset > .field {
             padding-top: @form-field-vertical-indent;
-            border-top: 1px #e4e4e4 solid; 
+            border-top: 1px #e4e4e4 solid;
             &:first-of-type {
                 border-top: 0;
                 padding-top: 0;
-            } 
+            }
         }
         .field.choice {
             input {
@@ -58,7 +58,7 @@
             }
             .price-notice {
                 float: left;
-                text-align: right;
+                &:extend(.abstract-adjustment-incl-excl-tax all);
             }
             .price-excluding-tax {
                 display: inline-block;
@@ -134,7 +134,7 @@
         .product-addto-links {
             text-align: center;
             > .action {
-                &:extend(.abstract-add-to-actions all);
+                &:extend(.abstract-actions-addto all);
                 margin-right: 5%;
                 &.tocompare {
                     .icon-font-symbol(
@@ -175,7 +175,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .bundle-actions {
         .action.primary.customize {
             width: auto;
@@ -195,7 +195,7 @@
         .block-bundle-summary {
             margin-top: 66px;
             padding: @indent-s-base @indent-base;
-            &:extend(.add-box-sizing-desktop all);
+            &:extend(.abstract-add-box-sizing-desktop all);
             float: right;
             width: 40%;
             position: relative;
@@ -206,6 +206,12 @@
                 .price {
                     font-size: @price-size-desktop;
                     line-height: @price-size-desktop;
+                }
+            }
+            .price-including-tax + .price-excluding-tax {
+                .price {
+                    .font-size(14);
+                    line-height: 16px;
                 }
             }
             .box-tocart {
@@ -221,9 +227,9 @@
         .product-options-wrapper,
         .product-options-bottom,
         .block-bundle-summary {
-            .layout-2-left &,
-            .layout-2-right &,
-            .layout-3 & {
+            .page-layout-2columns-left &,
+            .page-layout-2columns-right &,
+            .page-layout-3columns & {
                 width: 48%;
             }
         }

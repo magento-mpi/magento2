@@ -7,12 +7,14 @@
  */
 namespace Magento\CatalogInventory\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
 /**
  * Stock item details data object
+ *
+ * @codeCoverageIgnore
  */
-class StockItemDetails extends AbstractObject
+class StockItemDetails extends AbstractExtensibleObject
 {
     /**#@+
      * Stock item object data keys
@@ -47,7 +49,7 @@ class StockItemDetails extends AbstractObject
     /**#@-*/
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getQty()
     {
@@ -55,7 +57,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getMinQty()
     {
@@ -63,7 +65,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function getIsQtyDecimal()
     {
@@ -71,7 +73,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isBackorders()
     {
@@ -79,7 +81,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getMinSaleQty()
     {
@@ -87,7 +89,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getMaxSaleQty()
     {
@@ -95,7 +97,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function getIsInStock()
     {
@@ -103,7 +105,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLowStockDate()
     {
@@ -111,7 +113,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getNotifyStockQty()
     {
@@ -119,7 +121,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isManageStock()
     {
@@ -127,7 +129,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isStockStatusChangedAuto()
     {
@@ -135,7 +137,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getQtyIncrements()
     {
@@ -143,7 +145,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isEnableQtyIncrements()
     {
@@ -151,7 +153,7 @@ class StockItemDetails extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function getIsDecimalDivided()
     {

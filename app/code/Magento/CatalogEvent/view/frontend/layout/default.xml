@@ -7,17 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-catalogevent-js-ticker-js" ifconfig="catalog/magento_catalogevent/enabled">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_CatalogEvent::js/ticker.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-catalogevent-js-carousel-js" ifconfig="catalog/magento_catalogevent/enabled">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_CatalogEvent::js/carousel.js</argument>
-            </arguments>
-        </block>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Template" name="magento_catalogevent_page_head_components" template="Magento_CatalogEvent::js/components.phtml"/>
     </referenceBlock>
-</layout>
+</page>

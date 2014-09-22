@@ -34,7 +34,7 @@ class MassOperations
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -53,11 +53,11 @@ class MassOperations
     protected $_productFactory;
 
     /**
-     * Inbox factory
+     * Notifier
      *
-     * @var \Magento\AdminNotification\Model\InboxFactory
+     * @var \Magento\Framework\Notification\NotifierInterface
      */
-    protected $_inboxFactory;
+    protected $_notifier;
 
     /**
      * Collection factory
@@ -70,8 +70,8 @@ class MassOperations
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Notification\NotifierInterface $notifier
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\GoogleShopping\Helper\Data $gleShoppingData
      * @param \Magento\GoogleShopping\Helper\Category $gleShoppingCategory
@@ -81,8 +81,8 @@ class MassOperations
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Notification\NotifierInterface $notifier,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,
         \Magento\GoogleShopping\Helper\Data $gleShoppingData,
         \Magento\GoogleShopping\Helper\Category $gleShoppingCategory,
@@ -91,7 +91,7 @@ class MassOperations
         $this->_collectionFactory = $collectionFactory;
         $this->_itemFactory = $itemFactory;
         $this->_productFactory = $productFactory;
-        $this->_inboxFactory = $inboxFactory;
+        $this->_notifier = $notifier;
         $this->_storeManager = $storeManager;
         $this->_gleShoppingData = $gleShoppingData;
         $this->_gleShoppingCategory = $gleShoppingCategory;
@@ -195,18 +195,18 @@ class MassOperations
         }
 
         if ($totalAdded > 0) {
-            $this->_getNotifier()->addNotice(
+            $this->_notifier->addNotice(
                 __('Products were added to Google Shopping account.'),
                 __('A total of %1 product(s) have been added to Google Content.', $totalAdded)
             );
         }
 
         if (count($errors)) {
-            $this->_getNotifier()->addMajor(__('Errors happened while adding products to Google Shopping.'), $errors);
+            $this->_notifier->addMajor(__('Errors happened while adding products to Google Shopping.'), $errors);
         }
 
         if ($this->_flag->isExpired()) {
-            $this->_getNotifier()->addMajor(
+            $this->_notifier->addMajor(
                 __('Operation of adding products to Google Shopping expired.'),
                 __('Some products may have not been added to Google Shopping bacause of expiration')
             );
@@ -282,7 +282,7 @@ class MassOperations
             return $this;
         }
 
-        $this->_getNotifier()->addNotice(
+        $this->_notifier->addNotice(
             __('Product synchronization with Google Shopping completed'),
             __(
                 'A total of %1 items(s) have been deleted; a total of %2 items(s) have been updated.',
@@ -292,7 +292,7 @@ class MassOperations
         );
         if ($totalFailed > 0 || count($errors)) {
             array_unshift($errors, __("We cannot update %1 items.", $totalFailed));
-            $this->_getNotifier()->addMajor(
+            $this->_notifier->addMajor(
                 __('Errors happened during synchronization with Google Shopping'),
                 $errors
             );
@@ -343,13 +343,13 @@ class MassOperations
         }
 
         if ($totalDeleted > 0) {
-            $this->_getNotifier()->addNotice(
+            $this->_notifier->addNotice(
                 __('Google Shopping item removal process succeded'),
                 __('Total of %1 items(s) have been removed from Google Shopping.', $totalDeleted)
             );
         }
         if (count($errors)) {
-            $this->_getNotifier()->addMajor(__('Errors happened while deleting items from Google Shopping'), $errors);
+            $this->_notifier->addMajor(__('Errors happened while deleting items from Google Shopping'), $errors);
         }
 
         return $this;
@@ -375,16 +375,6 @@ class MassOperations
     }
 
     /**
-     * Retrieve admin notifier
-     *
-     * @return \Magento\AdminNotification\Model\Inbox
-     */
-    protected function _getNotifier()
-    {
-        return $this->_inboxFactory->create();
-    }
-
-    /**
      * Provides general error information
      *
      * @return void
@@ -392,7 +382,7 @@ class MassOperations
     protected function _addGeneralError()
     {
         if (!$this->_hasError) {
-            $this->_getNotifier()->addMajor(__('Google Shopping Error'), $this->_gleShoppingCategory->getMessage());
+            $this->_notifier->addMajor(__('Google Shopping Error'), $this->_gleShoppingCategory->getMessage());
             $this->_hasError = true;
         }
     }

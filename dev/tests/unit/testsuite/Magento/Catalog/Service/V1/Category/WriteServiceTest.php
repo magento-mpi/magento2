@@ -87,7 +87,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $store = $this->getMock(
             'Magento\Store\Model\Store',
-            ['getRootCategoryId', '__sleep', '__wakeup'], [], '', false
+            ['getRootCategoryId', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
         );
         $store->expects($this->any())->method('getRootCategoryId')->will($this->returnValue($parentId));
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
@@ -122,9 +125,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedException \Magento\Framework\Exception\StateException
      */
-    public function testDeleteCouldNotSaveException()
+    public function testDeleteStateException()
     {
         $id = 3;
         $this->category->expects($this->once())->method('getId')->will($this->returnValue($id));

@@ -12,8 +12,10 @@
         <input type="checkbox" name="creditmemo[refund_reward_points_enable]" value="1" <?php if ($this->isAutoRefundEnabled()): ?>checked="checked"<?php endif; ?> id="creditmemo_refund_reward_points_enable">
         <input type="text" name="creditmemo[refund_reward_points]" value="<?php echo $this->getRefundRewardPointsBalance() ?>" id="creditmemo_refund_reward_points" class="input-text not-negative-amount" style="width: 60px; text-align: right;">
         <script type="text/javascript">
+require(['prototype'], function(){
+
         //<![CDATA[
-            function toggleRewardPointsRefundAmount() {
+            toggleRewardPointsRefundAmount = function() {
                 if ($('creditmemo_refund_reward_points_enable').checked) {
                     $('creditmemo_refund_reward_points').disabled = false;
                 } else {
@@ -23,6 +25,8 @@
             Event.observe($('creditmemo_refund_reward_points_enable'), 'change', toggleRewardPointsRefundAmount);
             toggleRewardPointsRefundAmount();
         //]]>
-        </script>
+        
+});
+</script>
     </p>
 <?php endif; ?>

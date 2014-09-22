@@ -7,19 +7,18 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
-        "use strict";
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        'use strict';
+        
         /**
          * Declaration of resources needed for defined components
          */
         $.mage.component({
-            validation: [
-                '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>',
-                '<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>',
-                '<?php echo $this->getViewFileUrl('mage/validation.js')?>',
-                '<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>'
-            ]
+            validation: 'mage/validation/validation'
         });
-    })(jQuery);
+    });
 </script>
 <?php echo $this->getChildHtml() ?>

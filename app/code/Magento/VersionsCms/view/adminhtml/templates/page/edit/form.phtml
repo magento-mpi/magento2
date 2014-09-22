@@ -24,6 +24,7 @@
 <?php endif;*/ ?>
 </div>
 <script type="text/javascript">
+require(['jquery'], function(jQuery){
 //<![CDATA[
 <?php if ($this->getSelectedTabId()): ?>
     jQuery(function() {
@@ -32,5 +33,7 @@
         }
     });
 <?php endif; ?>
+
+});
 </script>
 

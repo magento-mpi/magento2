@@ -43,6 +43,12 @@
     </div>
 
     <script type="text/javascript">
+require([
+    "jquery",
+    "mage/mage",
+    "prototype"
+], function(jQuery){
+
     /**
      * Fix ext compatibility with prototype 1.6
      */
@@ -916,8 +922,12 @@
         }
 
     };
+
+    window.deleteCurrentHierarchy = deleteCurrentHierarchy;
     Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
-    </script>
+    
+});
+</script>
 
     <div id="cms_page_grid_container">
         <div class="entry-edit">
@@ -938,6 +948,15 @@
     </div>
 
     <script type="text/javascript">
-        <?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
-    </script>
+require([
+    "jquery",
+    "mage/mage",
+    "prototype",
+    "mage/adminhtml/grid"
+], function(jQuery){
+
+    <?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
+    
+});
+</script>
 </div>

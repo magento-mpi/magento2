@@ -7,41 +7,41 @@
 //  */
 
 @toolbar-mode-icon-font-size: 16px;
-@toolbar-background: #f0f0f0;
+@toolbar-background: transparent;
+@toolbar-element-background: #f0f0f0;
+@pager-action-background: @toolbar-element-background;
+@pager-action-background-hover: darken(@toolbar-element-background, 7%);
+@pager-font-weight: @font-weight-bold;
 
 .page-products .columns {
     position: relative;
     z-index: 1;
-    padding-top: 55px;
+    padding-top: 38px;
 }
 
 .toolbar {
     select {
-        background-color: transparent;
+        background-color: @toolbar-element-background;
         border-radius: 3px;
         .css(box-shadow, @button-shadow);
     }
-    &-products {
-        .page-products & {
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            right: 0;
-            left: 0;
-        }
-        .products.wrapper ~ & {
-            position: static;
-        }
-    }
+
     text-align: center;
-    padding: @indent-s-base;
     &:extend(.add-clearfix all);
     &-amount {
-        display: none;
+        display: block;
+        float: left;
+        line-height: @toolbar-mode-icon-font-size+2;
+        padding: 7px 0;
+        margin: 0;
+        vertical-align: middle;
+        .products.wrapper ~ .toolbar & {
+            display: none;
+        }
     }
     margin-bottom: @indent-l-base;
     &-products {
-        background-color: @toolbar-background;
+        .css(background-color, @toolbar-background);
         .pages {
             display: none;
             .products.wrapper ~ & {
@@ -56,6 +56,12 @@
 
 .sorter {
     float: right;
+    .page-products & {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        right: @indent-s-base;
+    }
     .products.wrapper ~ .toolbar & {
         display: none;
     }
@@ -81,7 +87,7 @@
 }
 
 .limiter {
-    display: inline-block;
+    display: none;
     &-options {
         width: auto;
         margin: 0 5px 0 7px;
@@ -92,32 +98,21 @@
     .page-products .toolbar & {
         display: none;
     }
-    .products.wrapper ~ .toolbar & {
-        display: block;
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .toolbar-products {
+        margin-bottom: -20px;
     }
 }
 
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
     .page-products .columns {
         position: relative;
         z-index: 1;
         padding-top: 0;
     }
     .toolbar {
-        .page-products &-products {
-            position: static;
-        }
-        &-amount {
-            display: block;
-            float: left;
-            line-height: @toolbar-mode-icon-font-size;
-            padding: 7px 10px;
-            margin: 0;
-            vertical-align: middle;
-            .products.wrapper ~ .toolbar & {
-                display: none;
-            }
-        }
         .products.wrapper ~ & .pages {
             float: left;
             margin-bottom: 0;
@@ -144,10 +139,15 @@
             padding: 7px 10px;
             line-height: 1;
             border-right: 0;
+            .css(background-color, @toolbar-element-background);
             .css(box-shadow, @button-shadow);
             .icon-text-hide();
             .modes-label + & {
                 border-radius: 3px 0 0 3px;
+            }
+            &:hover {
+                background: darken(@toolbar-element-background, 2%);
+                color: @text-color-muted;
             }
             &:last-child {
                 border-radius: 0 3px 3px 0;
@@ -155,7 +155,7 @@
             }
             &.active {
                 .css(box-shadow, @button-shadow-active);
-                background: darken(@toolbar-background, 7%);
+                background: darken(@toolbar-element-background, 7%);
                 color: #9e9e9e;
             }
             .icon-font(
@@ -164,10 +164,18 @@
             );
         }
     }
+    .sorter {
+        .page-products & {
+            position: static;
+        }
+    }
     .mode-list:before {
         content: @icon-list;
     }
     .limiter {
         float: right;
+        .products.wrapper ~ .toolbar & {
+            display: block;
+        }
     }
 }

@@ -51,6 +51,7 @@
     </tr>
 </table>
 <script type="text/javascript">
+require(["jquery","mage/backend/validation", "prototype"], function(jQuery){
 /**
  * Fix ext compatibility with prototype 1.6
  */
@@ -281,5 +282,10 @@ var formType = {
         jQuery('#edit_form').triggerHandler(continueEdit ? 'saveAndContinueEdit' : 'save');
     }
 };
+
+window.formType = formType;
+
 Ext.onReady(formType.initialize.bind(formType));
+
+});
 </script>

@@ -16,7 +16,7 @@ interface RoleLocator
     /**
      * Retrieve current role
      *
-     * @return string
+     * @return string|null
      */
     public function getAclRoleId();
 }

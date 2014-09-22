@@ -15,8 +15,12 @@
 ?>
 
 <script type="text/javascript">
+require([
+    "jquery",
+    "jquery/ui"
+], function($){
+
 //<![CDATA[
-(function($) {
     $.extend(true, $, {
         calendarConfig: {
             dayNames: <?php echo $days['wide']?>,
@@ -47,7 +51,9 @@
             showMinute: false
         }
     });
-})(jQuery);
-enUS = <?php echo $enUS?>; // en_US locale reference
+
+    enUS = <?php echo $enUS?>; // en_US locale reference
 //]]>
+
+});
 </script>

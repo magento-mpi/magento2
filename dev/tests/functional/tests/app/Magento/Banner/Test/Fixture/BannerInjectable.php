@@ -102,6 +102,21 @@ class BannerInjectable extends InjectableFixture
         'group' => 'content',
     ];
 
+    protected $banner_catalog_rules = [
+        'attribute_code' => 'banner_catalog_rules',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $banner_sales_rules = [
+        'attribute_code' => 'banner_sales_rules',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $customer_segment_ids = [
+        'attribute_code' => 'customer_segment_ids',
+        'backend_type' => 'virtual',
+    ];
+
     public function getBannerId()
     {
         return $this->getData('banner_id');
@@ -135,5 +150,20 @@ class BannerInjectable extends InjectableFixture
     public function getStoreContents()
     {
         return $this->getData('store_contents');
+    }
+
+    public function getBannerCatalogRules()
+    {
+        return $this->getData('banner_catalog_rules');
+    }
+
+    public function getBannerSalesRules()
+    {
+        return $this->getData('banner_sales_rules');
+    }
+
+    public function getCustomerSegmentIds()
+    {
+        return $this->getData('customer_segment_ids');
     }
 }

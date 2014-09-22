@@ -7,6 +7,9 @@
  */
 namespace Magento\Backend\Model\Auth;
 
+use \Magento\Framework\Stdlib\CookieManager;
+use \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+
 /**
  * Backend Auth session model
  *
@@ -28,7 +31,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
     /**
-     * Whether it is the first page after successfull login
+     * Whether it is the first page after successful login
      *
      * @var boolean
      */
@@ -52,21 +55,17 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     protected $_config;
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie
-     */
-    protected $_cookie;
-
-    /**
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
+     * @param CookieManager $cookieManager
+     * @param CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Framework\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -75,16 +74,25 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
+        CookieManager $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Framework\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Framework\Stdlib\Cookie $cookie
+        \Magento\Backend\App\ConfigInterface $config
     ) {
         $this->_config = $config;
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
-        $this->_cookie = $cookie;
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct(
+            $request,
+            $sidResolver,
+            $sessionConfig,
+            $saveHandler,
+            $validator,
+            $storage,
+            $cookieManager,
+            $cookieMetadataFactory
+        );
         $this->start();
     }
 
@@ -171,22 +179,20 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         $currentTime = time();
 
         $this->setUpdatedAt($currentTime);
-        $cookieValue = $this->_cookie->get($this->getName());
+        $cookieValue = $this->cookieManager->getCookie($this->getName());
         if ($cookieValue) {
-            $this->_cookie->set(
-                $this->getName(),
-                $cookieValue,
-                $lifetime,
-                $this->sessionConfig->getCookiePath(),
-                $this->sessionConfig->getCookieDomain(),
-                $this->sessionConfig->getCookieSecure(),
-                $this->sessionConfig->getCookieHttpOnly()
-            );
+            $cookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                ->setDuration($lifetime)
+                ->setPath($this->sessionConfig->getCookiePath())
+                ->setDomain($this->sessionConfig->getCookieDomain())
+                ->setSecure($this->sessionConfig->getCookieSecure())
+                ->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
+            $this->cookieManager->setPublicCookie($this->getName(), $cookieValue, $cookieMetadata);
         }
     }
 
     /**
-     * Check if it is the first page after successfull login
+     * Check if it is the first page after successful login
      *
      * @return bool
      */
@@ -218,7 +224,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     public function processLogin()
     {
         if ($this->getUser()) {
-            $this->regenerateId(false);
+            $this->regenerateId();
 
             if ($this->_backendUrl->useSecretKey()) {
                 $this->_backendUrl->renewSecretUrls();

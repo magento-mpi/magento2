@@ -7,16 +7,17 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
         "use strict";
         /**
          * Declaration of resources needed for defined components
          */
         $.mage.component({
-            toggleGiftCard: [
-                '<?php echo $this->getViewFileUrl('Magento_GiftCard::toggle-gift-card.js')?>'
-            ]
+            toggleGiftCard: 'Magento_GiftCard/toggle-gift-card'
         });
-    })(jQuery);
+    });
 </script>
 <?php echo $this->getChildHtml() ?>

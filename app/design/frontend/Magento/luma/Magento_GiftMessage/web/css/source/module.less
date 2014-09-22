@@ -106,6 +106,19 @@
                 }
             }
         }
+        .regular-price,
+        .price-including-tax,
+        .price-excluding-tax {
+            &:before {
+                content: attr(data-label) ": ";
+            }
+            .price {
+                font-weight: @font-weight-bold;
+            }
+        }
+        .price-including-tax {
+            .font-size(14);
+        }
     }
 }
 
@@ -122,7 +135,7 @@
     }
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .opc-wrapper {
         .gift-message {
             .items {

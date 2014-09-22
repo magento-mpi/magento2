@@ -27,6 +27,8 @@ $order->setIncrementId(
     100
 )->setBaseSubtotal(
     100
+)->setCustomerEmail(
+    'admin@example.com'
 )->setCustomerIsGuest(
     true
 )->setBillingAddress(
@@ -35,7 +37,7 @@ $order->setIncrementId(
     $shippingAddress
 )->setStoreId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getId()
 )->setPayment(
     $payment

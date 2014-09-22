@@ -5,7 +5,13 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "jquery/template"
+], function($){
+
     $.widget('vde.dialog', $.ui.dialog, {
         options: {
             text: {
@@ -171,4 +177,5 @@
             this._setOption('buttons', buttons);
         }
     });
-})(jQuery);
+
+});

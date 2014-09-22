@@ -4,7 +4,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-var centinelValidator = new Class.create();
+define(["prototype"], function(){
+
+window.centinelValidator = new Class.create();
+
 centinelValidator.prototype = {
 
     initialize : function(method, validationUrl, containerId){
@@ -51,3 +54,5 @@ centinelValidator.prototype = {
     }
 
 };
+
+});

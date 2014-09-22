@@ -4,10 +4,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint browser:true jquery:true expr:true*/
-(function ($) {
-    "use strict";
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/cookies"
+], function($){
+     "use strict";
+    
     /**
      * MsgBox Widget checks if message box is displayed and sets cookie
      */
@@ -24,8 +28,9 @@
             }
         }
     });
-})(jQuery);
 
-jQuery(document).ready(function($){
-    $('body').msgBox();
+    $(document).ready(function($){
+        $('body').msgBox();
+    });
+
 });

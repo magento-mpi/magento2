@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
     "use strict";
+        
     $.widget('mage.authorizenetAuthenticate', {
         options : {
             cancelButtonSelector: 'button[name="cancel"]',
@@ -61,4 +66,5 @@
             });
         }
     });
-})(jQuery, window);
+
+});

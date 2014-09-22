@@ -14,6 +14,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 
 class TaxRateServiceTest extends WebapiAbstract
 {
@@ -41,6 +42,9 @@ class TaxRateServiceTest extends WebapiAbstract
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
 
+    /** @var  SortOrderBuilder */
+    private $sortOrderBuilder;
+
     /**
      * Other rates created during tests, to be deleted in tearDown()
      *
@@ -60,6 +64,9 @@ class TaxRateServiceTest extends WebapiAbstract
         );
         $this->filterBuilder = $objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'
+        );
+        $this->sortOrderBuilder = $objectManager->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
         );
         /** Initialize tax classes, tax rates and tax rules defined in fixture Magento/Tax/_files/tax_classes.php */
         $this->getFixtureTaxRates();
@@ -275,9 +282,9 @@ class TaxRateServiceTest extends WebapiAbstract
 
         $result = $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
         $expectedRateData = [
-            'id' => 2,
+            'id' => '2',
             'country_id' => 'US',
-            'region_id' => 43,
+            'region_id' => '43',
             'postcode' => '*',
             'code' => 'US-NY-*-Rate 1',
             'percentage_rate' => 8.375,
@@ -418,11 +425,11 @@ class TaxRateServiceTest extends WebapiAbstract
                 'id' => $rates['codeUs12']->getId(),
                 'country_id' => $rates['codeUs12']->getTaxCountryId(),
                 'region_id' => $rates['codeUs12']->getTaxRegionId(),
-                'region_name' => $rates['codeUs12']->getRegionName(),
+                'region_name' => 'CA',
                 'postcode' => $rates['codeUs12']->getTaxPostcode(),
                 'code' =>  $rates['codeUs12']->getCode(),
-                'percentage_rate' =>  $rates['codeUs12']->getRate(),
-                'titles' =>  [],
+                'percentage_rate' => ((float) $rates['codeUs12']->getRate()),
+                'titles' => [],
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
@@ -438,11 +445,13 @@ class TaxRateServiceTest extends WebapiAbstract
         $filter = $this->filterBuilder->setField(TaxRate::KEY_COUNTRY_ID)
             ->setValue('CZ')
             ->create();
-
+        $sortOrder = $this->sortOrderBuilder
+            ->setField(TaxRate::KEY_POSTCODE)
+            ->setDirection(SearchCriteria::SORT_DESC)
+            ->create();
         // Order them by descending postcode (not the default order)
         $this->searchCriteriaBuilder->addFilter([$filter])
-            ->addSortOrder(TaxRate::KEY_POSTCODE, SearchCriteria::SORT_DESC);
-
+            ->addSortOrder($sortOrder);
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
@@ -466,22 +475,22 @@ class TaxRateServiceTest extends WebapiAbstract
             [
                 'id' => $rates['codeCz2']->getId(),
                 'country_id' => $rates['codeCz2']->getTaxCountryId(),
-                'region_id' => 0,
-                'region_name' => $rates['codeCz2']->getRegionName(),
                 'postcode' => $rates['codeCz2']->getTaxPostcode(),
                 'code' =>  $rates['codeCz2']->getCode(),
-                'percentage_rate' =>  $rates['codeCz2']->getRate(),
-                'titles' =>  [],
+                'percentage_rate' =>  ((float) $rates['codeCz2']->getRate()),
+                'region_id' => '0',
+                'region_name' => null,
+                'titles' => [],
             ],
             [
                 'id' => $rates['codeCz1']->getId(),
                 'country_id' => $rates['codeCz1']->getTaxCountryId(),
-                'region_id' => 0,
-                'region_name' => $rates['codeCz1']->getRegionName(),
                 'postcode' => $rates['codeCz1']->getTaxPostcode(),
-                'code' =>  $rates['codeCz1']->getCode(),
-                'percentage_rate' =>  $rates['codeCz1']->getRate(),
-                'titles' =>  [],
+                'code' => $rates['codeCz1']->getCode(),
+                'percentage_rate' => ((float) $rates['codeCz1']->getRate()),
+                'region_id' => '0',
+                'region_name' => null,
+                'titles' => [],
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);

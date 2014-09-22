@@ -8,6 +8,7 @@
 require __DIR__ . '/../../../bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../../');
 use Magento\Framework\ObjectManager\Code\Generator\Factory;
+use Magento\Framework\ObjectManager\Code\Generator\Repository;
 use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Tools\Di\Compiler\Log\Log;
 use Magento\Tools\Di\Compiler\Log\Writer;
@@ -15,6 +16,11 @@ use Magento\Tools\Di\Compiler\Directory;
 use Magento\Tools\Di\Code\Scanner;
 use Magento\Tools\Di\Definition\Compressor;
 use Magento\Tools\Di\Definition\Serializer;
+use Magento\Framework\Service\Code\Generator\Builder;
+use Magento\Framework\Service\Code\Generator\Mapper;
+use Magento\Framework\ObjectManager\Code\Generator\Converter;
+use Magento\Framework\Service\Code\Generator\SearchResults;
+use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 
 $filePatterns = array('php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/');
 $codeScanDir = realpath($rootDir . '/app');
@@ -81,10 +87,18 @@ try {
         array(
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
+            SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
             Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
-            Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
+            Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
+            Builder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Builder',
+            Mapper::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Mapper',
+            Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
+            Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
+            SearchResults::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResults',
         )
     );
+    $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
+    spl_autoload_register(array($autoloader, 'load'));
     foreach (array('php', 'additional') as $type) {
         sort($entities[$type]);
         foreach ($entities[$type] as $entityName) {

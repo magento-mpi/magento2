@@ -11,8 +11,10 @@
 </div>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-var giftWrappingOrder = {
+giftWrappingOrder = {
     designsInfo : <?php echo $this->getDesignsInfo()->toJson() ?>,
     cardInfo : <?php echo $this->getCardInfo()->toJson() ?>,
     allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>,
@@ -123,7 +125,7 @@ var giftWrappingOrder = {
 giftWrappingOrder.init();
 giftWrappingOrder.setWrapping(null, <?php echo $this->getWrappingDesignValue() ?>);
 giftWrappingOrder.setCardPrice(null, <?php echo $this->getWrappingPrintedCardValue() ?>);
-Event.observe(document, 'quote_items:afterIFrameLoaded',  giftWrappingOrder.refresh.bind(giftWrappingOrder));
-Event.observe(document, 'product_to_add:afterIFrameLoaded',  giftWrappingOrder.refresh.bind(giftWrappingOrder));
 //]]>
+
+});
 </script>

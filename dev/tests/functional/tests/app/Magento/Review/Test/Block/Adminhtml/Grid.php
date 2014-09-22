@@ -8,7 +8,6 @@
 
 namespace Magento\Review\Test\Block\Adminhtml;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridAbstract;
 
 /**
@@ -30,7 +29,7 @@ class Grid extends GridAbstract
             'selector' => 'input[name="title"]',
         ],
         'status' => [
-            'selector' => '.grid select[name="status"]',
+            'selector' => '#reviwGrid_filter_status',
             'input' => 'select',
         ],
         'nickname' => [

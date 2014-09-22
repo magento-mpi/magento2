@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template"
+], function($){
     "use strict";
+
     $.widget('mage.rowBuilder', {
 
         /**
@@ -201,4 +206,4 @@
         }
     });
 
-})(jQuery);
+});

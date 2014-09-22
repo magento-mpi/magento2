@@ -7,6 +7,8 @@
  */
 namespace Magento\Authorizenet\Model;
 
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+
 /**
  * Authorize.net DirectPost payment method model.
  */
@@ -55,7 +57,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
     /**#@-*/
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -75,6 +77,11 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
     protected $_helper;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -89,11 +96,12 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory
      * @param \Magento\Authorizenet\Model\Directpost\Response $response
      * @param \Magento\Authorizenet\Helper\HelperInterface $helper
+     * @param OrderSender $orderSender
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -113,11 +121,12 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Authorizenet\Helper\Data $authorizenetData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory,
         \Magento\Authorizenet\Model\Directpost\Response $response,
         \Magento\Authorizenet\Helper\HelperInterface $helper,
+        OrderSender $orderSender,
         array $data = array()
     ) {
         parent::__construct(
@@ -142,6 +151,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         $this->_requestFactory = $directRequestFactory;
         $this->_response = $response;
         $this->_helper = $helper;
+        $this->orderSender = $orderSender;
     }
 
     /**
@@ -689,7 +699,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
 
         try {
             if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()) {
-                $order->sendNewOrderEmail();
+                $this->orderSender->send($order);
             }
 
             $this->_quoteFactory->create()->load($order->getQuoteId())->setIsActive(false)->save();

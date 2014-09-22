@@ -19,8 +19,18 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected $_sidResolver;
 
+    /**
+     * @var string
+     */
+    protected $sessionName;
+
     protected function setUp()
     {
+        $this->sessionName = 'frontEndSession';
+
+        ini_set('session.use_only_cookies', '0');
+        ini_set('session.name', $this->sessionName);
+
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var \Magento\Framework\Session\SidResolverInterface $sidResolver */
@@ -38,6 +48,20 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Framework\Session\StorageInterface')
             )
         );
+    }
+
+    public function testSessionNameFromIni()
+    {
+        $this->_model->start();
+        $this->assertSame($this->sessionName, $this->_model->getName());
+        $this->_model->destroy();
+    }
+
+    public function testSessionUseOnlyCookies()
+    {
+        $expectedValue = '1';
+        $sessionUseOnlyCookies = ini_get('session.use_only_cookies');
+        $this->assertSame($expectedValue, $sessionUseOnlyCookies);
     }
 
     public function testGetData()
@@ -104,7 +128,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetSessionIdForHost()
     {
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_model->start('test');
+        $this->_model->start();
         $this->assertEmpty($this->_model->getSessionIdForHost('localhost'));
         $this->assertNotEmpty($this->_model->getSessionIdForHost('test'));
         $this->_model->destroy();
@@ -113,7 +137,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     public function testIsValidForHost()
     {
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_model->start('test');
+        $this->_model->start();
 
         $reflection = new \ReflectionMethod($this->_model, '_addHost');
         $reflection->setAccessible(true);

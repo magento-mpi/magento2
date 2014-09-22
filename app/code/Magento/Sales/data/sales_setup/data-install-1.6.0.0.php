@@ -10,6 +10,11 @@
 $installer = $this;
 
 /**
+ * Install eav entity types to the eav/entity_type table
+ */
+$installer->installEntities();
+
+/**
  * Install order statuses from config
  */
 $data = array();

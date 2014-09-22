@@ -68,16 +68,19 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $result = [
             'foo' => json_decode('{"name":"foo","version":"1.0.0"}'),
             'bar' => json_decode('{"name":"bar","version":"1.0.0","require":{"foo":"1.0.0"}}'),
-            'baz' => json_decode('{"name":"baz","version":"1.0.0","replace":{"foo":"1.0.0","bar":"1.0.0"}}'),
+            'baz' => json_decode('{"name":"baz","version":"1.0.0","require":{"foo":"1.0.0","bar":"1.0.0"}}'),
+            'qux' => json_decode('{"name":"qux","version":"1.0.0","replace":{"foo":"1.0.0"}}')
         ];
         $object->add(new Package($result['foo'], '...'));
         $object->add(new Package($result['bar'], '...'));
         $object->add(new Package($result['baz'], '...'));
+        $object->add(new Package($result['qux'], '...'));
         $object->setVersion('foo', '2.0.0', $updateDependent);
         $this->assertEquals('2.0.0', $result['foo']->version);
         $this->assertEquals($expectedBarFoo, $result['bar']->require->foo);
-        $this->assertEquals($expectedBazFoo, $result['baz']->replace->foo);
-        $this->assertEquals($expectedBazBar, $result['baz']->replace->bar);
+        $this->assertEquals($expectedBazFoo, $result['baz']->require->foo);
+        $this->assertEquals($expectedBazBar, $result['baz']->require->bar);
+        $this->assertEquals('1.0.0', $result['qux']->replace->foo);
     }
 
     /**

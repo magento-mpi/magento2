@@ -7,9 +7,19 @@
 //  */
 
 //
+//    Product
+//--------------------------------------
+.payment-schedule {
+    margin: 20px 0 0;
+    .item-content {
+        margin: 0 0 5px;
+    }
+}
+
+//
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.recurring-payments {
         &:extend(.abstract-account-table-border all);
     }

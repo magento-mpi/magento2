@@ -12,9 +12,10 @@ use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Custom Options
+ * Class CustomOptions
  * Form of custom options product
  */
 class CustomOptions extends Form
@@ -113,15 +114,22 @@ class CustomOptions extends Form
     /**
      * Get product options
      *
-     * @param FixtureInterface|null $product [optional]
+     * @param FixtureInterface $product
      * @return array
      * @throws \Exception
      */
-    public function getOptions(FixtureInterface $product = null)
+    public function getOptions(FixtureInterface $product)
     {
-        $dataOptions = ($product && $product->hasData('custom_options')) ? $product->getCustomOptions() : [];
-        $listCustomOptions = $this->getListCustomOptions();
-        $readyOptions = [];
+        if ($product instanceof InjectableFixture) {
+            $dataOptions = $product->hasData('custom_options')
+                ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+                : [];
+        } else {
+            // TODO: Removed after refactoring(removed) old product fixture.
+            $dataOptions = $product->getData('fields/custom_options/value');
+            $dataOptions = $dataOptions ? $dataOptions : [];
+        }
+        $listCustomOptions = $this->getListOptions();
         $result = [];
 
         foreach ($dataOptions as $option) {
@@ -142,17 +150,10 @@ class CustomOptions extends Form
                 ? 'Yes'
                 : 'No';
 
-            $readyOptions[] = $title;
             $result[$title] = $optionData;
         }
 
-        $unreadyCustomOptions = array_diff_key($listCustomOptions, array_flip($readyOptions));
-        foreach ($unreadyCustomOptions as $optionElement) {
-            $title = $optionElement->find($this->title, Locator::SELECTOR_XPATH)->getText();
-            $result[$title] = ['title' => $title];
-        }
-
-        return $result;
+        return ['custom_options' => $result];
     }
 
     /**
@@ -160,7 +161,7 @@ class CustomOptions extends Form
      *
      * @return array
      */
-    protected function getListCustomOptions()
+    protected function getListOptions()
     {
         $customOptions = [];
         $context = $this->_rootElement->find($this->optionsContext);
@@ -390,113 +391,100 @@ class CustomOptions extends Form
      */
     protected function parseOptionText($optionText)
     {
-        preg_match('/\+?.([0-9.]+)$/', $optionText, $match);
-        $optionPrice = isset($match[1]) ? $match[1] : 0;
-        $optionTitle = isset($match[0])
-            ? substr($optionText, 0, strlen($optionText) - strlen($match[0]))
-            : $optionText;
+        preg_match('`^(.*?)\+\$(\d.*?)$`', $optionText, $match);
+        $optionPrice = isset($match[2]) ? str_replace(',', '', $match[2]) : 0;
+        $optionTitle = isset($match[1]) ? trim($match[1]) : $optionText;
 
         return [
-            'title' => trim($optionTitle),
+            'title' => $optionTitle,
             'price' => $optionPrice
         ];
     }
 
     /**
-     * Fill configurable product options
-     *
-     * @param array $productOptions
-     * @return void
-     */
-    public function fillProductOptions(array $productOptions)
-    {
-        foreach ($productOptions as $attributeLabel => $attributeValue) {
-            $select = $this->_rootElement->find(
-                sprintf($this->selectByTitleLocator, $attributeLabel),
-                Locator::SELECTOR_XPATH,
-                'select'
-            );
-            $select->setValue($attributeValue);
-        }
-    }
-
-    /**
      * Fill custom options
      *
-     * @param array $customOptions
+     * @param array $checkoutData
      * @return void
      */
-    public function fillCustomOptions(array $customOptions)
+    public function fillCustomOptions(array $checkoutData)
     {
-        $type = strtolower(preg_replace('/[^a-zA-Z]/', '', $customOptions['type']));
-        $customOptions += $this->dataMapping([$type => []]);
-
-        $isDate = $customOptions['type'] == 'Date' ||
-            $customOptions['type'] == 'Time' ||
-            $customOptions['type'] == 'Date & Time';
-        $isChecked = $customOptions['type'] == 'Checkbox' || $customOptions['type'] == 'Radio Buttons';
-
-        if ($isDate) {
-            $customOptions['value'] = explode('/', $customOptions['value'][0]);
-            $customOptions['dateSelector'] = $this->setDateTypeSelector(count($customOptions['value']));
-        }
-
-        foreach ($customOptions['value'] as $key => $attributeValue) {
-            $selector = $customOptions[$type]['selector'];
-            if ($isDate) {
-                $selector .= $customOptions['dateSelector'][$key];
-            } elseif ($isChecked) {
-                $selector = str_replace('%product_name%', $attributeValue, $selector);
-                $attributeValue = 'Yes';
-            }
-
-            $select = $this->_rootElement->find(
-                sprintf($this->optionByName, $customOptions['title']) . $selector,
-                Locator::SELECTOR_XPATH,
-                $customOptions[$type]['input']
-            );
-            $select->setValue($attributeValue);
-        }
+        $checkoutOptions = $this->prepareOptions($checkoutData);
+        $this->fillOptions($checkoutOptions);
     }
 
     /**
-     * Set item data type selector
+     * Prepare composite fields in checkout options data
      *
-     * @param int $count
+     * @param array $options
      * @return array
      */
-    protected function setDateTypeSelector($count)
+    protected function prepareOptions(array $options)
     {
         $result = [];
-        $parent = '';
-        for ($i = 0; $i < $count; $i++) {
-            if (!(($i + 1) % 4)) {
-                $parent = '//span';
+
+        foreach ($options as $key => $option) {
+            switch ($option['type']) {
+                case 'datetime':
+                    list($day, $month, $year, $hour, $minute, $dayPart) = explode('/', $option['value']);
+                    $option['value'] = [
+                        'day' => $day,
+                        'month' => $month,
+                        'year' => $year,
+                        'hour' => $hour,
+                        'minute' => $minute,
+                        'day_part' => $dayPart
+                    ];
+                    break;
+                case 'date':
+                    list($day, $month, $year) = explode('/', $option['value']);
+                    $option['value'] = [
+                        'day' => $day,
+                        'month' => $month,
+                        'year' => $year,
+                    ];
+                    break;
+                case 'time':
+                    list($hour, $minute, $dayPart) = explode('/', $option['value']);
+                    $option['value'] = [
+                        'hour' => $hour,
+                        'minute' => $minute,
+                        'day_part' => $dayPart
+                    ];
+                    break;
             }
-            $result[$i] = $parent . '//select[' . ($i % 3 + 1) . ']';
+
+            $result[$key] = $option;
         }
 
         return $result;
     }
 
     /**
-     * Choose custom option in a drop down
+     * Fill product options
      *
-     * @param string $title
-     * @param string|null $value [optional]
+     * @param array $options
      * @return void
      */
-    public function selectProductCustomOption($title, $value = null)
+    protected function fillOptions(array $options)
     {
-        $select = $this->_rootElement->find(
-            sprintf($this->selectByTitleLocator, $title),
-            Locator::SELECTOR_XPATH,
-            'select'
-        );
+        foreach ($options as $option) {
+            $optionBlock = $this->_rootElement->find(
+                sprintf($this->optionByName, $option['title']),
+                Locator::SELECTOR_XPATH
+            );
+            $type = $option['type'];
+            $mapping = $this->dataMapping([$type => $option['value']]);
 
-        if (null === $value) {
-            $value = $select->find('.//option[@value != ""][1]', Locator::SELECTOR_XPATH)->getText();
+            if ('radiobuttons' == $type || 'checkbox' == $type) {
+                $mapping[$type]['selector'] = str_replace(
+                    '%option_name%',
+                    $mapping[$type]['value'],
+                    $mapping[$type]['selector']
+                );
+                $mapping[$type]['value'] = 'Yes';
+            }
+            $this->_fill($mapping, $optionBlock);
         }
-        $select->setValue($value);
     }
 }

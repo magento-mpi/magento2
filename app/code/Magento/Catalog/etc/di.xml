@@ -50,6 +50,8 @@
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter\Composite" />
+    <preference for="Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductSaveProcessorComposite" />
+    <preference for="Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -338,12 +340,6 @@
         </arguments>
     </type>
     <type name="Magento\Framework\Pricing\Adjustment\Collection">
-        <arguments>
-            <argument name="adjustments" xsi:type="array">
-                <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE</item>
-                <item name="weee" xsi:type="const">Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE</item>
-            </argument>
-        </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product\ReservedAttributeList">
         <arguments>
@@ -443,14 +439,45 @@
             </argument>
         </arguments>
     </type>
+    <virtualType name="Magento\Catalog\Service\Config\ProductMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+        <arguments>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Catalog\Service\V1\Product\MetadataService">
         <arguments>
             <argument name="metadataService" xsi:type="object">Magento\Catalog\Service\V1\MetadataService\Proxy</argument>
+            <argument name="metadataConfig" xsi:type="object">Magento\Catalog\Service\Config\ProductMetadataConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\Catalog\Service\Config\CategoryMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+        <arguments>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Service\V1\Category\MetadataService">
+        <arguments>
+            <argument name="metadataConfig" xsi:type="object">Magento\Catalog\Service\Config\CategoryMetadataConfig</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Service\V1\ProductService">
         <arguments>
             <argument name="searchResultsBuilder" xsi:type="object" shared="false">Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\ProductTypes\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Catalog\Model\ProductTypes\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Attribute\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Catalog\Model\Attribute\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\ProductOptions\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Catalog\Model\ProductOptions\Config\Reader\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\CatalogInventory\Model\Config\Backend\ShowOutOfStock">

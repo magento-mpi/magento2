@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint evil:true browser:true jquery:true */
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
     $.widget('mage.requireCookie', {
         options: {
             event: 'click',
@@ -45,4 +49,5 @@
             window.location = this.options.noCookieUrl;
         }
     });
-})(jQuery);
+
+});

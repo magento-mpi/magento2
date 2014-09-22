@@ -4,9 +4,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint browser:true jquery:true*/
-(function($) {
+define(["jquery","jquery/ui"], function($){
+
     $.widget('mage.ticker', {
         options: {
             secondsInDay: 86400,
@@ -61,5 +61,6 @@
             return number < 10 ? '0' + number.toString() : number.toString();
         }
     });
-})(jQuery);
 
+
+});

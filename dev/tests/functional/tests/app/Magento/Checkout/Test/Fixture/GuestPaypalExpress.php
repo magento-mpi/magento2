@@ -41,12 +41,12 @@ class GuestPaypalExpress extends Checkout
     protected function _initData()
     {
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => '$156.81',
+        $this->_data = [
+            'totals' => [
+                'grand_total' => '156.81',
                 'comment_history'   => 'Authorized amount of $156.81',
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -67,22 +67,24 @@ class GuestPaypalExpress extends Checkout
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
         $bundle->switchData('bundle_required');
         $bundle->persist();
 
-        $this->products = array(
+        $this->products = [
             $simple,
             $configurable,
             $bundle
-        );
+        ];
 
         //Checkout data
-        $this->billingAddress = $this->_initBillingAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress = $objectManager->create(
+            '\Magento\Customer\Test\Fixture\AddressInjectable',
+            ['dataSet' => 'customer_US']
+        );
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');
@@ -100,11 +102,11 @@ class GuestPaypalExpress extends Checkout
     /**
      * Init billing address for checkout
      *
-     * @return \Magento\Customer\Test\Fixture\Address
+     * @return \Magento\Customer\Test\Fixture\AddressInjectable
      */
     protected function _initBillingAddress()
     {
-        return Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        return Factory::getFixtureFactory()->getMagentoCustomerAddressInjectable();
     }
 
     /**
@@ -114,13 +116,13 @@ class GuestPaypalExpress extends Checkout
      */
     protected function _getConfigFixtures()
     {
-        return array(
+        return [
             'flat_rate',
             'paypal_disabled_all_methods',
             'paypal_express',
             'display_price',
             'display_shopping_cart',
             'default_tax_config'
-        );
+        ];
     }
 }

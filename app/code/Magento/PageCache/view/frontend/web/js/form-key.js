@@ -4,8 +4,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/cookies"
+], function($){
 
-(function($) {
     /**
      * FormKey Widget - this widget is generating from key, saves it to cookie and
      */
@@ -34,7 +38,9 @@
             return result;
         }
     });
+
     $(function() {
         $('body').formKey();
     });
-})(jQuery);
+
+});

@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function ($, undefined) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template"
+], function($){
     "use strict";
 
     /**
@@ -97,4 +101,4 @@
             });
         }
     });
-})(jQuery);
+});

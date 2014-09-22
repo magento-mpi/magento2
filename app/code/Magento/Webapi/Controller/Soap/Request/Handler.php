@@ -7,10 +7,10 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
-use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\DataObjectConverter;
+use Magento\Framework\Service\Data\AbstractSimpleObject;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
@@ -36,10 +36,10 @@ class Handler
     /** @var SoapConfig */
     protected $_apiConfig;
 
-    /** @var AuthorizationService */
-    protected $_authorizationService;
+    /** @var AuthorizationInterface */
+    protected $_authorization;
 
-    /** @var DataObjectConverter */
+    /** @var SimpleDataObjectConverter */
     protected $_dataObjectConverter;
 
     /** @var ServiceArgsSerializer */
@@ -51,22 +51,22 @@ class Handler
      * @param SoapRequest $request
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
-     * @param AuthorizationService $authorizationService
-     * @param DataObjectConverter $dataObjectConverter
+     * @param AuthorizationInterface $authorization
+     * @param SimpleDataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
      */
     public function __construct(
         SoapRequest $request,
         \Magento\Framework\ObjectManager $objectManager,
         SoapConfig $apiConfig,
-        AuthorizationService $authorizationService,
-        DataObjectConverter $dataObjectConverter,
+        AuthorizationInterface $authorization,
+        SimpleDataObjectConverter $dataObjectConverter,
         ServiceArgsSerializer $serializer
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
-        $this->_authorizationService = $authorizationService;
+        $this->_authorization = $authorization;
         $this->_dataObjectConverter = $dataObjectConverter;
         $this->_serializer = $serializer;
     }
@@ -94,8 +94,11 @@ class Handler
         }
 
         $isAllowed = false;
-        foreach ($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] as $resources) {
-            if ($this->_authorizationService->isAllowed($resources)) {
+        $serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] = array_values(
+            $serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES][0]
+        );
+        foreach ($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] as $resource) {
+            if ($this->_authorization->isAllowed($resource)) {
                 $isAllowed = true;
                 break;
             }
@@ -105,7 +108,7 @@ class Handler
             // TODO: Consider passing Integration ID instead of Consumer ID
             throw new AuthorizationException(
                 AuthorizationException::NOT_AUTHORIZED,
-                ['resources' => implode($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES], ', ')]
+                ['resources' => implode(', ', $serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES])]
             );
         }
         $service = $this->_objectManager->get($serviceClass);
@@ -126,7 +129,7 @@ class Handler
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
-        $arguments = $this->_dataObjectConverter->convertStdObjectToArray($arguments);
+        $arguments = $this->_dataObjectConverter->convertStdObjectToArray($arguments, true);
         return $this->_serializer->getInputData($serviceClass, $serviceMethod, $arguments);
     }
 
@@ -139,13 +142,16 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
-        if ($data instanceof AbstractObject) {
+        $result = null;
+        if ($data instanceof AbstractSimpleObject) {
             $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $value instanceof AbstractObject
-                    ? $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray())
-                    : $value;
+                if ($value instanceof AbstractSimpleObject) {
+                    $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray());
+                } else {
+                    $result[$key] = $value;
+                }
             }
         } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;

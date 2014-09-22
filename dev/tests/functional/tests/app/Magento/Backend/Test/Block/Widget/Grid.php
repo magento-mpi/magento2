@@ -128,11 +128,18 @@ abstract class Grid extends Block
     protected $waitForSelectorVisible = true;
 
     /**
-     * Selector for status select
+     * Selector for action option select
      *
      * @var string
      */
-    protected $status = '[name="status"]';
+    protected $option = '[name="status"]';
+
+    /**
+     * Selector for action expand Filter
+     *
+     * @var string
+     */
+    protected $filterOpen = '.action.filters-toggle';
 
     /**
      * Get backend abstract block
@@ -238,6 +245,10 @@ abstract class Grid extends Block
      */
     public function resetFilter()
     {
+        $expandFilterButton = $this->_rootElement->find($this->filterOpen, Locator::SELECTOR_CSS);
+        if ($expandFilterButton->isVisible()) {
+            $expandFilterButton->click();
+        }
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
         $this->getTemplateBlock()->waitLoader();
         $this->reinitRootElement();
@@ -247,7 +258,7 @@ abstract class Grid extends Block
      * Perform selected massaction over checked items
      *
      * @param array $items
-     * @param array|string $action
+     * @param array|string $action [array -> key = value from first select; value => value from subselect]
      * @param bool $acceptAlert [optional]
      * @param string $massActionSelection [optional]
      * @return void
@@ -267,7 +278,7 @@ abstract class Grid extends Block
         $actionType = key($action);
         $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
         if (isset($action[$actionType]) && $action[$actionType] != '-') {
-            $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue($action[$actionType]);
+            $this->_rootElement->find($this->option, Locator::SELECTOR_CSS, 'select')->setValue($action[$actionType]);
         }
         $this->massActionSubmit($acceptAlert);
     }

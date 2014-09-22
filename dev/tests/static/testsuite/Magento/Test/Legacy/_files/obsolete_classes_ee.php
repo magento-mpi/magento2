@@ -14,6 +14,13 @@ return array(
         'Magento\CustomAttributeManagement\Block\Form\Template',
         'Magento\Framework\View\Element\Template with renderers as child blocks'
     ),
+    array('Magento\AdminNotification\Controller\Adminhtml\Survey', 'Magento\Install\Controller\Adminhtml\Survey'),
+    array(
+        'Magento\AdminNotification\Controller\Adminhtml\Survey\Index',
+        'Magento\Install\Controller\Adminhtml\Survey\Index'
+    ),
+    array('Magento\AdminNotification\Model\System\Message\Survey', 'Magento\Install\Model\System\Message\Survey'),
+    array('Magento\AdminNotification\Model\Survey', 'Magento\Install\Model\Survey'),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\AbstractRenderer'),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\Boolean'),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\Date'),
@@ -130,5 +137,8 @@ return array(
     ['Magento\Pci\Helper\Data'],
     ['Magento\SalesArchive\Helper\Data'],
     ['Magento\WebsiteRestriction\Helper\Data'],
-    array('Magento\CustomerCustomAttributes\Block\Account\RegisterLink'),
+    ['Magento\CustomerCustomAttributes\Block\Account\RegisterLink'],
+    ['Magento\Invitation\Model\Observer','Magento\Invitation\Model\Logging'],
+    ['Magento\Reward\Model\Observer'],
+    ['Magento\WebsiteRestriction\Model\Observer']
 );

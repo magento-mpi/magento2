@@ -8,17 +8,24 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Class AssertGiftCardAccountForm
  * Assert that gift card account equals to passed from fixture
  */
-class AssertGiftCardAccountForm extends AbstractConstraint
+class AssertGiftCardAccountForm extends AbstractAssertForm
 {
+    /**
+     * Skipped fields for verify data
+     *
+     * @var array
+     */
+    protected $skippedFields = ['code'];
+
     /**
      * Constraint severeness
      *
@@ -44,22 +51,21 @@ class AssertGiftCardAccountForm extends AbstractConstraint
         $index->getGiftCardAccount()->searchAndOpen($filter, false);
 
         $giftCardAccountFormData = $newIndex->getPageMainForm()->getData();
-        $giftCardAccountFixtureData = $giftCardAccount->getData();
-        $diff = array_diff($giftCardAccountFixtureData, $giftCardAccountFormData);
+        $dataDiff = $this->verifyData($giftCardAccount->getData(), $giftCardAccountFormData);
 
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($diff),
-            'Gift card account not equals to passed from fixture.'
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $dataDiff,
+            'Gift card account form data does not equal to passed from fixture.'
         );
     }
 
     /**
-     * Success assert of gift card account equals to passed from fixture
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'Gift card account equals to passed from fixture.';
+        return 'Gift card account form data equals to passed from fixture.';
     }
 }

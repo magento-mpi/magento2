@@ -166,5 +166,13 @@
             <path>dev/tests/unit/testsuite/Magento/CatalogPermissions/Model/Indexer/Plugin/MviewStateTest.php</path>
             <word>CHANGELOG</word>
         </item>
+        <item>
+            <word>saas</word>
+            <path>setup/pub/angular/angular.min.js.map</path>
+        </item>
+        <item>
+            <word>saas</word>
+            <path>setup/pub/bootstrap/css/bootstrap.css.map</path>
+        </item>
     </whitelist>
 </config>

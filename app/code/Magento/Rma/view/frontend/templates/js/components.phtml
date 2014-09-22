@@ -7,22 +7,18 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
-        "use strict";
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        'use strict';
         /**
          * Declaration of resources needed for defined components
          */
         $.mage.component({
-            rmaTrackInfo: [
-                "<?php echo $this->getViewFileUrl('Magento_Rma::rma-track-info.js');?>"
-            ],
-            fileElement: [
-                "<?php echo $this->getViewFileUrl('Magento_CustomerCustomAttributes::file-element.js')?>"
-            ],
-            rmaCreate: [
-                "<?php echo $this->getViewFileUrl('Magento_Rma::rma-create.js') ?>"
-            ]
+            rmaTrackInfo: 'Magento_Rma/rma-track-info',
+            rmaCreate: 'Magento_Rma/rma-create'
         });
-    })(jQuery);
+    });
 </script>
 <?php echo $this->getChildHtml() ?>

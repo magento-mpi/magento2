@@ -90,6 +90,10 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testSearch($filterGroups, $expectedAttributes, $sortData)
     {
+        $this->markTestIncomplete(
+            'The test relies on system state that is incorrect as it is very fragile. '
+            . 'It must prepare its own data to rely on.'
+        );
         list($sortField, $sortValue) = $sortData;
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');

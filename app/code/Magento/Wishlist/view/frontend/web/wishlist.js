@@ -4,13 +4,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint browser:true jquery:true sub:true*/
 /*global alert*/
 /*global Handlebars*/
+define([
+    "jquery",
+    "handlebars",
+    "jquery/ui",
+    "mage/validation/validation",
+    "mage/dataPost"
+], function($){
+     "use strict";
 
-(function($, Handlebars, window) {
-    "use strict";
     $.widget('mage.wishlist', {
         options: {
             dataAttribute: 'item-id',
@@ -194,4 +199,6 @@
             });
         }
     });
-})(jQuery, Handlebars, window);
+
+
+});

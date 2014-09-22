@@ -17,7 +17,7 @@
         <p><?php echo __("Gift Card: %1", '<strong class="giftcard number">' . $card->getCode() . '</strong>'); ?></p>
         <p><?php echo __('Current Balance: %1', '<strong>' . $this->helper('Magento\Core\Helper\Data')->currency($card->getBalance()) . '</strong>'); ?></p>
         <?php if ($card->getDateExpires()): ?>
-            <p><?php echo __('Expires: %1', '<strong>' . $this->formatDate($card->getDateExpires(), 'short') . '</strong>'); ?></p>
+            <p><?php echo __('Expires: %1', '<strong>' . $this->formatDate($card->getDateExpires()) . '</strong>'); ?></p>
         <?php endif; ?>
     </div>
 <?php else: ?>

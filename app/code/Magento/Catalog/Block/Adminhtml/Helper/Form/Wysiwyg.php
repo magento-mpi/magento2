@@ -84,7 +84,7 @@ class Wysiwyg extends \Magento\Framework\Data\Form\Element\Textarea
                         'label' => __('WYSIWYG Editor'),
                         'type' => 'button',
                         'disabled' => $disabled,
-                        'class' => $disabled ? 'disabled action-wysiwyg' : 'action-wysiwyg',
+                        'class' => 'action-wysiwyg',
                         'onclick' => 'catalogWysiwygEditor.open(\'' . $this->_backendData->getUrl(
                             'catalog/product/wysiwyg'
                         ) . '\', \'' . $this->getHtmlId() . '\')'
@@ -93,6 +93,11 @@ class Wysiwyg extends \Magento\Framework\Data\Form\Element\Textarea
             )->toHtml();
             $html .= <<<HTML
 <script type="text/javascript">
+require([
+    'jquery',
+    'mage/adminhtml/wysiwyg/tiny_mce/setup'
+], function(jQuery){
+
 jQuery('#{$this->getHtmlId()}')
     .addClass('wysiwyg-editor')
     .data(
@@ -111,6 +116,8 @@ jQuery('#{$this->getHtmlId()}')
             }
         ).turnOn()
     );
+
+});
 </script>
 HTML;
         }

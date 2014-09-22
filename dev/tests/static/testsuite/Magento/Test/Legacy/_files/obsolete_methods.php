@@ -20,7 +20,12 @@ return array(
     array('_afterSetConfig', 'Magento\Eav\Model\Entity\AbstractEntity'),
     array('_aggregateByOrderCreatedAt', 'Magento\SalesRule\Model\Resource\Report\Rule'),
     array('_amountByCookies', 'Magento\Sendfriend\Model\Sendfriend'),
-    array('_amountByIp', 'Magento\Sendfriend\Model\Sendfriend'),
+    array('setCookie', 'Magento\Sendfriend\Model\Sendfriend'),
+    array('getCookie', 'Magento\Sendfriend\Model\Sendfriend'),
+    array('setRemoteAddr', 'Magento\Sendfriend\Model\Sendfriend'),
+    array('getRemoteAddr', 'Magento\Sendfriend\Model\Sendfriend'),
+    array('setWebsiteId', 'Magento\Sendfriend\Model\Sendfriend'),
+    array('getWebsiteId', 'Magento\Sendfriend\Model\Sendfriend'),
     array('_applyClassRewrites', 'Magento\Core\Model\Config'),
     array('_applyCustomDesignSettings'),
     array('_applyCustomizationFiles', 'Magento\Core\Model\Theme'),
@@ -987,7 +992,6 @@ return array(
     array('getHelper', 'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection'),
     array('getHelper', 'Magento\Cms\Model\Wysiwyg\Images\Storage'),
     array('getCatalogHelper', 'Magento\Backend\Block\Catalog\Category\Tabs'),
-    array('getStabilityOptions', 'Magento\Connect\Model\Extension'),
     array('_getSession', 'Magento\Centinel\Model\Service'),
     array('_getValidationStateModel', 'Magento\Centinel\Model\Service'),
     array('_getIndexer', 'Magento\Index\Model\Shell'),
@@ -1015,8 +1019,8 @@ return array(
     array('getMigrationInstance', 'Magento\Customer\Model\Resource\Setup', '$this->_migrationFactory->create()'),
     array('turnOnReadCommittedMode', 'Magento\Backup\Model\Resource\Db'),
     array('turnOnSerializableMode', 'Magento\Backup\Model\Resource\Db', 'prepareTransactionIsolationLevel'),
-    array('turnOnMaintenanceMode', 'Magento\Backup\Helper\Data', 'Magento\Framework\App\State::turnOnMaintenanceMode'),
-    array('turnOffMaintenanceMode', 'Magento\Backup\Helper\Data', 'Magento\Framework\App\State::turnOffMaintenanceMode'),
+    array('turnOnMaintenanceMode', 'Magento\Backup\Helper\Data', 'Magento\Framework\App\MaintenanceMode::set'),
+    array('turnOffMaintenanceMode', 'Magento\Backup\Helper\Data', 'Magento\Framework\App\MaintenanceMode::set'),
     array('getMaintenanceFlagFilePath', 'Magento\Backup\Helper\Data',),
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\GiftMessage\Model\Save', '$this->_session'),
@@ -1287,8 +1291,6 @@ return array(
     array('getDataHelperName', 'Magento\Backend\Block\Dashboard\AbstractDashboard'),
     array('setDataHelperName', 'Magento\Backend\Block\Dashboard\AbstractDashboard'),
     array('addStoresToCollection', '\Magento\Review\Model\Resource\Rating\Collection'),
-    array('getLocalPackagesPath', 'Magento\Connect\Helper\Data'),
-    array('getLocalPackagesPathV1x', 'Magento\Connect\Helper\Data'),
     array('getSessionSaveMethod', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('setSessionName', '\Magento\Core\Model\Session\AbstractSession', 'setName'),
     array('getCode', '\Magento\Framework\Message\AbstractMessage', 'getText'),
@@ -1670,9 +1672,9 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
-    ['getCurrentStore', 'Magento\Store\Model\StoreManagerInterface'],
-    ['getAnyStoreView', 'Magento\Store\Model\StoreManagerInterface'],
-    ['throwStoreException', 'Magento\Store\Model\StoreManagerInterface'],
+    ['getCurrentStore', 'Magento\Framework\StoreManagerInterface'],
+    ['getAnyStoreView', 'Magento\Framework\StoreManagerInterface'],
+    ['throwStoreException', 'Magento\Framework\StoreManagerInterface'],
     ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
@@ -1786,8 +1788,122 @@ return array(
     ['getCalculator', '\Magento\Tax\Helper\Data'],
     ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
     ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['getMaxRecipients', 'Magento\Catalog\Block\Product\Send'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
-    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
+    ['getPriceHtml', '\Magento\Catalog\Block\Product\AbstractProduct', '\Magento\Catalog\Block\Product\AbstractProduct::getProductPriceHtml'],
+    ['getDeleteUrl', '\Magento\Checkout\Block\Cart\Item\Renderer'],
+    ['sendNewOrderEmail', 'Magento\Sales\Model\Order'],
+    ['_getEmails', 'Magento\Sales\Model\Order'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Invoice'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Invoice'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Invoice'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Shipment'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Shipment'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Shipment'],
+    ['rebuildIndex', 'Magento\CatalogSearch\Model\Fulltext', 'Magento\CatalogSearch\Model\Indexer\Fulltext::execute'],
+    ['cleanIndex', 'Magento\CatalogSearch\Model\Fulltext'],
+    ['setAllowTableChanges', 'Magento\CatalogSearch\Model\Fulltext'],
+    ['updateCategoryIndex', 'Magento\CatalogSearch\Model\Fulltext'],
+    [
+        'rebuildIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::rebuildIndex'
+    ],
+    [
+        '_rebuildStoreIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::rebuildStoreIndex'
+    ],
+    [
+        '_getSearchableProducts',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableProducts'
+    ],
+    [
+        'cleanIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::cleanIndex'
+    ],
+    [
+        'getEavConfig',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getEavConfig'
+    ],
+    [
+        '_getSearchableAttributes',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableAttributes'
+    ],
+    [
+        '_getSearchableAttribute',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableAttribute'
+    ],
+    [
+        '_unifyField',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::unifyField'
+    ],
+    [
+        '_getProductAttributes',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductAttributes'
+    ],
+    [
+        '_getProductTypeInstance',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductTypeInstance'
+    ],
+    [
+        '_getProductChildIds',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductChildIds'
+    ],
+    [
+        '_getProductEmulator',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getProductEmulator'
+    ],
+    [
+        '_prepareProductIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::prepareProductIndex'
+    ],
+    [
+        '_getAttributeValue',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getAttributeValue'
+    ],
+    [
+        '_saveProductIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+    ],
+    [
+        '_saveProductIndexes',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::saveProductIndexes'
+    ],
+    [
+        '_getStoreDate',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+        'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getStoreDate'
+    ],
+    [
+        'updateCategoryIndex',
+        'Magento\CatalogSearch\Model\Resource\Fulltext',
+    ],
+    ['removeTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
+    ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
+    ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],
+    ['getMethodFormBlock', 'Magento\Centinel\Helper\Data'],
+    ['login', 'Magento\Customer\Model\Session'],
+    ['roundPrice', 'Magento\Store\Model\Store', 'Magento\Framework\Pricing\PriceCurrencyInterface::round'],
+    ['formatPrice', 'Magento\Store\Model\Store', 'Magento\Framework\Pricing\PriceCurrencyInterface::format'],
+    ['convertPrice', 'Magento\Store\Model\Store', 'Magento\Framework\Pricing\PriceCurrencyInterface::convert'],
+    ['getPriceFilter', 'Magento\Store\Model\Store'],
 );

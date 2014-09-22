@@ -12,9 +12,9 @@
             'mage/backend/validation'
         ], factory);
     } else {
-        factory(window.jQuery);
+        factory(jQuery);
     }
-})(function ($) {
+}(function ($) {
     "use strict";
     $.validator.prototype.checkForm = function () {
         this.prepareForm();
@@ -33,4 +33,4 @@
         }
         return this.valid();
     };
-});
+}));

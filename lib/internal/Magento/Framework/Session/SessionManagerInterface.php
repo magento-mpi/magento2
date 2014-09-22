@@ -22,10 +22,9 @@ interface SessionManagerInterface
     /**
      * Start session
      *
-     * @param string $sessionName
      * @return SessionManagerInterface
      */
-    public function start($sessionName = null);
+    public function start();
 
     /**
      * Session write close
@@ -110,10 +109,9 @@ interface SessionManagerInterface
     /**
      * Renew session id and update session cookie
      *
-     * @param bool $deleteOldSession
      * @return SessionManagerInterface
      */
-    public function regenerateId($deleteOldSession = true);
+    public function regenerateId();
 
     /**
      * Expire the session cookie

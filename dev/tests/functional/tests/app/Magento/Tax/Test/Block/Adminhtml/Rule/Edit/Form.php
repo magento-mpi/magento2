@@ -9,9 +9,7 @@
 namespace Magento\Tax\Test\Block\Adminhtml\Rule\Edit;
 
 use Magento\Tax\Test\Fixture\TaxRule;
-use Mtf\Block\BlockFactory;
 use Mtf\Block\Form as FormInterface;
-use Mtf\Block\Mapper;
 use Mtf\Client\Browser;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
@@ -42,7 +40,7 @@ class Form extends FormInterface
      *
      * @var string
      */
-    protected $taxRateBlock = '[class*=tax_rate]';
+    protected $taxRateBlock = '[class*="tax_rate"]';
 
     /**
      * Tax rate form
@@ -73,11 +71,11 @@ class Form extends FormInterface
     protected $optionMaskElement = './/*[contains(@class, "mselect-list-item")]//label/span[text()="%s"]';
 
     /**
-     * Css selector for Add New button
+     * XPath selector for "Add New Tax Rate" button
      *
      * @var string
      */
-    protected $addNewButton = '.mselect-button-add';
+    protected $addNewButton = './/*[contains(@class,"mselect-button-add")]';
 
     /**
      * Css selector for Add New tax class input
@@ -92,19 +90,6 @@ class Form extends FormInterface
      * @var string
      */
     protected $saveButton = '.mselect-save';
-
-    /**
-     * @constructor
-     * @param Element $element
-     * @param BlockFactory $blockFactory
-     * @param Mapper $mapper
-     * @param Browser $browser
-     */
-    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser)
-    {
-        parent::__construct($element, $blockFactory, $mapper);
-        $this->browser = $browser;
-    }
 
     /**
      * Fill the root form
@@ -148,6 +133,7 @@ class Form extends FormInterface
      */
     protected function addNewTaxRates($taxRule)
     {
+        $this->waitForElementVisible($this->taxRateBlock);
         $taxRateBlock = $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS, 'multiselectlist');
         /** @var \Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate $taxRateForm */
         $taxRateForm = $this->blockFactory->create(
@@ -165,10 +151,10 @@ class Form extends FormInterface
             if (!$option->isVisible()) {
                 $taxRate = $taxRatesFixture[$key];
 
-                /** @var \Magento\Tax\Test\Fixture\TaxRate $taxRate */
-                $taxRateBlock->find($this->addNewButton)->click();
+                $this->clickAddNewButton($taxRateBlock);
                 $taxRateForm->fill($taxRate);
                 $taxRateForm->saveTaxRate();
+                /** @var \Magento\Tax\Test\Fixture\TaxRate $taxRate */
                 $code = $taxRate->getCode();
                 $this->waitUntilOptionIsVisible($taxRateBlock, $code);
             }
@@ -187,7 +173,7 @@ class Form extends FormInterface
         foreach ($taxClasses as $taxClass) {
             $option = $element->find(sprintf($this->optionMaskElement, $taxClass), Locator::SELECTOR_XPATH);
             if (!$option->isVisible()) {
-                $element->find($this->addNewButton)->click();
+                $element->find($this->addNewButton, Locator::SELECTOR_XPATH)->click();
                 $element->find($this->addNewInput)->setValue($taxClass);
                 $element->find($this->saveButton)->click();
                 $this->waitUntilOptionIsVisible($element, $taxClass);
@@ -235,5 +221,22 @@ class Form extends FormInterface
         /** @var \Mtf\Client\Driver\Selenium\Element\MultiselectlistElement $taxRates */
         $taxRates = $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS, 'multiselectlist');
         return $taxRates->getAllValues();
+    }
+
+    /**
+     * Click 'Add New Tax Rate' button
+     *
+     * @param Element $taxRateBlock
+     * @return void
+     */
+    protected function clickAddNewButton(Element $taxRateBlock)
+    {
+        $addNewButton = $this->addNewButton;
+        $taxRateBlock->waitUntil(
+            function () use ($taxRateBlock, $addNewButton) {
+                return $taxRateBlock->find($addNewButton, Locator::SELECTOR_XPATH)->isVisible() ? true : null;
+            }
+        );
+        $taxRateBlock->find($this->addNewButton, Locator::SELECTOR_XPATH)->click();
     }
 }

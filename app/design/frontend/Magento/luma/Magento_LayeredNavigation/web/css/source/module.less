@@ -8,57 +8,27 @@
 
 
 .filter {
-    &.active {
-        position: relative;
-        z-index: 99;
-        visibility: visible;
+    *[data-role="title"]:focus {
+        outline: none
     }
     &.block {
         margin-bottom: 0;
     }
     &-title {
-        .filter.active & {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: 50px;
-            z-index: 2;
-        }
         strong {
             position: absolute;
             z-index: 2;
             line-height: 16px;
             border: 1px solid @border-color-base;
             text-align: center;
-            padding:7px 20px 7px 10px;
+            padding: 7px 10px 7px 10px;
             @_shadow: inset 0px 1px 0px 0px rgba(255,255,255,1), inset 0px -1px 0px 0px fade(@border-color-base, 30);
+            background-color: @toolbar-element-background;
             .css(box-shadow, @_shadow);
             border-radius: 3px;
             font-weight: 400;
-            top: @indent-s-base;
-            left: @indent-s-base;
-            .icon-font(
-                @_icon-font-content: @icon-down,
-                @_icon-font-size: 10px,
-                @_icon-font-position: before,
-                @_icon-font-display: inline-block
-            );
-            &:before {
-                position: absolute;
-                right: 7px;
-            }
-            .filter.active & {
-                right: 10px;
-                left: auto;
-                @_shadow: inset 0px 1px 0px 0px fade(@border-color-base, 80), inset 0px -1px 0px 0px fade(@border-color-base, 30);
-                .css(box-shadow, @_shadow);
-                background: darken(@toolbar-background, 7%);
-                .icon-font-symbol(
-                    @_icon-font-content: @icon-up,
-                    @_icon-font-position: before
-                );
-            }
+            top: 0;
+            left: 0;
             &[data-count]:after {
                 content: attr(data-count);
                 display: inline-block;
@@ -71,53 +41,50 @@
                 line-height: 1;
                 background: #fc5e10;
             }
+            &.disabled {
+                opacity: 0.5;
+            }
         }
     }
     .block-subtitle {
-        text-transform: uppercase;
         font-weight: @font-weight-semibold;
-        margin-bottom: @indent-s-base;
-        background: @filter-title-bg;
-        padding: @indent-s-base;
+        padding: @indent-s-base @indent-s-base @indent-base;
+        font-size: @font-size-base;
         line-height: 1em;
+        border-bottom: @border-width-base solid @border-color-base;
     }
     &-subtitle {
             display: none;
-            .filter.active & {
-                display: block;
-                position: fixed;
-                top: 0;
-                right: 0;
-                left: 0;
-                height: 50px;
-                background: @toolbar-background;
-                z-index: 1;
-                line-height: 32px;
-            }
     }
     &-current {
         margin: 0 0 0;
         .items {
-            padding: @indent-s-base;
+            padding: @indent-xs-base @indent-s-base;
         }
         .item {
             position: relative;
-            margin: 0 0 7px;
-            padding-right: 20px;
+            z-index: 1;
+            padding-left: 17px;
         }
-        &-subtitle {
+        .filter &-subtitle {
             display: block;
+            border: none;
+            padding-bottom: @indent-s-base;
+            &:focus {
+                outline:0;
+            }
+
         }
         .action.remove {
             &:extend(.remove-button-for-blocks all);
             position: absolute;
-            right: 0;
-            top: 0;
+            left: -2px;
+            top: -1px;
         }
     }
     &-actions {
         padding: 0 @indent-s-base;
-        margin-bottom: @indent-l-base;
+        margin-bottom: @indent-m-base;
     }
     &-label {
         font-weight: @font-weight-bold;
@@ -133,45 +100,33 @@
         margin: 0;
         &-item {
             border-bottom: @border-width-base solid @border-color-base;
-        }
-        .filter.active & {
-            display: block;
-            position: fixed;
-            top: 50px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: scroll;
-            background: #fff;
-            z-index: 10;
-            padding-left: @indent-s-base;
-            padding-right: @indent-s-base;
+            padding-bottom: @indent-s-base;
         }
         &-title {
             cursor: pointer;
             font-weight: @font-weight-semibold;
             margin: 0;
             overflow: hidden;
-            padding: 10px 15px+@indent-s-base 5px @indent-s-base;
+            padding: @indent-s-base 20px+@indent-s-base 0 @indent-s-base;
             position: relative;
             z-index: 1;
             text-transform: uppercase;
 
             .icon-font(
                 @_icon-font-content: @icon-down,
-                @_icon-font-size: 10px,
+                @_icon-font-size: 13px,
                 @_icon-font-position: after,
                 @_icon-font-display: block
             );
             &:after {
                 position: absolute;
-                right: 7px;
-                top: 12px;
+                right: 13px;
+                top: 9px;
             }
             &:hover {
                 color: @filter-link-hover;
             }
-            &.active {
+            .active > & {
                 .icon-font-symbol(
                     @_icon-font-content: @icon-up,
                     @_icon-font-position: after
@@ -182,7 +137,7 @@
             margin: 0;
             padding: @indent-s-base;
             .item {
-                margin-bottom: @indent-s-base;
+                margin: @indent-s-base 0;
                 line-height: 1.5em;
             }
             a {
@@ -213,7 +168,7 @@
     }
 }
 
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     body.filter-active {
         .page-wrapper {
             visibility: hidden;
@@ -224,87 +179,156 @@
             z-index: 999;
         }
     }
-    .filter.active .filter-options-item:last-child {
-        margin-bottom: @indent-xl-base;
+
+    .filter {
+        &.active {
+            position: relative;
+            z-index: 99;
+            visibility: visible;
+            .filter-options-item:last-child {
+                margin-bottom: @indent-xl-base;
+            }
+            .filter-title {
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 0;
+                height: 48px;
+                z-index: 2;
+                border-bottom: 1px solid @border-color-base;
+                strong {
+                        right: 3px;
+                        left: auto;
+                        top: 10px;
+                        border: 0;
+                        background: none;
+                        .css(box-shadow, none);
+                        color: transparent;
+                        .icon-font(
+                            @icon-remove,
+                            @_icon-font-color: @text-color-muted,
+                            @_icon-font-size: 16px,
+                            @_icon-font-position: after
+                            );
+                }
+            }
+            .filter-subtitle {
+                display: block;
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 0;
+                height: 50px;
+                background: @toolbar-background;
+                z-index: 1;
+                line-height: 32px;
+            }
+            .filter-options {
+                display: block;
+                position: fixed;
+                top: 50px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                overflow: scroll;
+                background: #fff;
+                z-index: 10;
+            }
+        }
     }
-    .filter-actions {
-        margin-bottom: 0;
+
+    .filter {
+        & &-subtitle {
+            font-size: 20px;
+            font-weight: @font-weight-light;
+        }
+        &-actions {
+            margin: -35px -@indent-s-base @indent-m-base;
+        }
+        &-options-content {
+            padding: @indent-xs-base @indent-s-base;
+        }
+    }
+    .filter-no-options {
+        .filter-title:before {
+            content: "";
+            width: 100px;
+            height: 40px;
+            background: rgba(255,255,255,0.5);
+            display: block;
+            position: relative;
+            z-index: 99;
+            margin-top: -40px;
+            left: -15px;
+        }
+    }
+    .filter .filter-current {
+        margin: @indent-xs-base -@indent-s-base 0;
+        border: solid @border-color-base;
+        border-width: 1px 0;
+
+        .items {
+            display: none;
+        }
+        &-subtitle {
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            .icon-font(
+                @_icon-font-content: @icon-down,
+                @_icon-font-size: 13px,
+                @_icon-font-position: before,
+                @_icon-font-display: block
+            );
+            &:before {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+            }
+
+            &:after {
+                content:' (' attr(data-count) ')';
+                font-size:.9em;
+                color: @text-color-muted;
+            }
+        }
+        &.active {
+            padding-bottom: 30px;
+            .block-subtitle {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: before
+                );
+            }
+            .items {
+                display: block;
+            }
+            & + .block-actions {
+                display: block;
+            }
+        }
+        & + .block-actions {
+            display: none;
+        }
     }
 }
 
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
 
     .filter {
         &.block {
             margin-bottom: @indent-xl-base;
         }
-        .layout-1 & {
-            position: relative;
-            z-index: 2;
-            margin-top: -(@indent-l-base);
-            margin-bottom: 60px;
-        }
-        .layout-1 &.active {
-            margin-bottom: 30px;
-        }
         &-title {
             display: none;
-            .layout-1 .active &,
-            .layout-1 & {
-                z-index: 1;
-                display: inline-block;
-                position: absolute;
-                top: -52px;
-                left: 0;
-                right: 0;
-                margin-left: auto;
-                margin-right: auto;
-                margin-bottom: 20px;
-                width: 200px;
-                text-align: center;
-                strong {
-                    position: relative;
-                    left: 0;
-                }
-            }
         }
         &-content {
-            .layout-1 & {
-                display: none;
-            }
             .item {
-                margin-bottom: @indent-xs-base;
-            }
-            .layout-1 .active & {
-                display: block;
-                border-top: 1px solid darken(@toolbar-background, 10);
-                background: @toolbar-background;
-                &:before {
-                    content: "";
-                    .arrow(up, 8px, darken(@toolbar-background, 10));
-                    top: -16px;
-                    left: 50%;
-                    margin-left: -8px;
-                    position: absolute;
-                }
-                &:after {
-                    content: "";
-                    .arrow(up, 8px, @toolbar-background);
-                    top: -14px;
-                    left: 50%;
-                    margin-left: -8px;
-                    position: absolute;
-                }
+                margin: @indent-s-base 0;
             }
         }
-        &-current {
-            .layout-1 & {
-                float: left;
-                .item {
-                    display: inline-block;
-                    margin-right: @indent-m-base;
-                }
-            }
+        &-actions {
+            margin-bottom: @indent-l-base;
         }
         &.active &-options,
         &-options {
@@ -314,33 +338,124 @@
             display: block;
             background: transparent;
         }
-        .layout-1 &-content {
-            padding: @indent-s-base;
-        }
-        .layout-1 &-options {
-            padding-top: @indent-m-base;
-            padding-bottom: @indent-m-base;
-        }
-        .layout-1 &-options-item {
-            width: 22%;
-            margin-left: 3.6%;
-            vertical-align: top;
-            display: inline-block;
-            &:nth-child(4n + 1) {
-                margin-left: 0;
-            }
-        }
         &-subtitle {
             position: static;
             display: block;
         }
-        .layout-1 & .block-subtitle {
-            display: none;
+    }
+    .page-layout-1column {
+        .toolbar-products {
+            position: absolute;
+            top: 0;
+            width: 100%;
         }
-        .layout-1 &-actions {
-            margin-top: @indent-s-base;
-            float: right;
-            margin-bottom: 0;
+        .products ~ .toolbar-products {
+            position: static;
+        }
+        &.page-with-filter .column.main {
+            position: relative;
+            z-index: 1;
+            padding-top: 45px;
+        }
+        .filter {
+            &.block {
+                border-top: 1px solid @border-color-base;
+            }
+            &-content {
+                margin-top: @indent-s-base;
+            }
+            &-subtitle {
+                display: none;
+            }
+            &-options {
+                &-item {
+                    display: inline-block;
+                    border: 0;
+                    margin-right: @indent-m-base;
+                    &.active {
+                        position: relative;
+                        z-index: 2;
+                        &:hover {
+                            z-index: 3;
+                        }
+                        &:after,
+                        &:before {
+                            content: "";
+                            display: block;
+                            .arrow(up,8px,#000000);
+                            position: absolute;
+                            left: 50%;
+                            bottom: -1px;
+                            z-index: 3;
+                            margin-left: -20px;
+                        }
+                        &:after {
+                            border-bottom-color: #fff;
+                            margin-top:2px;
+                            z-index: 4;
+                        }
+                    }
+                }
+                &-title {
+                    padding: 0 20px 0 0;
+                    &:after {
+                        right: 2px;
+                        top: 3px;
+                        z-index: 3;
+                    }
+                }
+                &-content {
+                    position: absolute;
+                    z-index: 2;
+                    background: #fff;
+                    width: 180px;
+                    top: 100%;
+                    border: 1px solid @border-color-base;
+                    padding: @indent-xs-base 0;
+                    @_shadow:  0px 3px 5px 0px rgba(50, 50, 50, 0.75);
+                    .css(box-shadow, @_shadow, 1);
+                    .item {
+                        padding: @indent-xs-base;
+                        margin:0;
+                        a {
+                            margin-left: 0;
+                        }
+                        &:hover {
+                            background-color: #e8e8e8;
+                        }
+                    }
+                }
+            }
+            &-current {
+                display: inline;
+                line-height: 35px;
+                &-subtitle {
+                    display: inline;
+                    padding: 0;
+                    color: @text-color-muted;
+                    font-size: @font-size-base;
+                    font-weight: normal;
+                    &:after {
+                        content: ":";
+                    }
+                }
+                .item,
+                .items {
+                    display: inline;
+                }
+                .item {
+                    margin-right: @indent-m-base;
+                }
+                .action.remove {
+                    line-height: normal;
+                }
+            }
+            &-actions {
+                display: inline;
+                & ~ .filter-options {
+                    margin-top: @indent-m-base;
+                }
+            }
         }
     }
 }

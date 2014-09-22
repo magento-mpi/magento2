@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Template" name="theme_page_head_components" template="Magento_Theme::js/components.phtml"/>
+    </referenceBlock>
+    <referenceBlock name="head">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="magento-calendar-css">
+            <arguments>
+                <argument name="file" xsi:type="string">mage/calendar.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="doc-doc-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Doc::css/doc.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="doc-jumly-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Doc::jumly/css/jumly.min.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="prettify-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Doc::prettify/prettify.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="prettify-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Doc::prettify/run_prettify.js</argument>
+            </arguments>
+        </block>
+
+        <block class="Magento\Theme\Block\Html\Head\Script" name="requirejs">
+            <arguments>
+                <argument name="file" xsi:type="string">requirejs/require.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="app-config" after="jquery">
+            <arguments>
+                <argument name="file" xsi:type="string">app-config.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery" after="requirejs">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/jquery.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-no-conflict" after="jquery">
+            <arguments>
+                <argument name="file" xsi:type="string">mage/jquery-no-conflict.js</argument>
+            </arguments>
+        </block>
+
+        <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
+    </referenceBlock>
+</page>

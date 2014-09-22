@@ -4,10 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+
     $.widget('mage.wishlistSearch', {
 
         /**
@@ -36,4 +39,5 @@
             }
         }
     });
-})(jQuery);
+
+});

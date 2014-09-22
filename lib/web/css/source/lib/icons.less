@@ -30,7 +30,7 @@
     @_icon-font-text-hide: @icon-font-text-hide,
     @_icon-font-display: @icon-font-display
 ) when (@_icon-font-position = before) {
-    display: @_icon-font-display;
+    .css(display, @_icon-font-display);
     text-decoration: none;
     ._icon-text-hide(@_icon-font-text-hide);
 
@@ -71,7 +71,7 @@
     @_icon-font-text-hide: @icon-font-text-hide,
     @_icon-font-display: @icon-font-display
 ) when (@_icon-font-position = after) {
-    display: @_icon-font-display;
+    .css(display, @_icon-font-display);
     text-decoration: none;
     ._icon-text-hide(@_icon-font-text-hide);
     &:after {

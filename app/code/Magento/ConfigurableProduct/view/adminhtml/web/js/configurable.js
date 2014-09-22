@@ -4,11 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**************************** CONFIGURABLE PRODUCT **************************/
+define(["prototype"], function(){
+
 if (typeof Product == 'undefined') {
-    var Product = {};
+    window.Product = {};
 }
 
-/**************************** CONFIGURABLE PRODUCT **************************/
 Product.Config = Class.create();
 Product.Config.prototype = {
     initialize: function(config){
@@ -304,3 +306,5 @@ Product.Config.prototype = {
         }
     }
 };
+
+});

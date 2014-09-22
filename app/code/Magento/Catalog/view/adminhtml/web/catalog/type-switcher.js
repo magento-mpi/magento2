@@ -4,7 +4,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function ($) {
+define([
+    "jquery"
+], function($){
+
     /**
      * Type Switcher
      *
@@ -134,4 +137,5 @@
     });
     // export to global scope
     window.TypeSwitcher = TypeSwitcher;
-})(jQuery);
+
+});

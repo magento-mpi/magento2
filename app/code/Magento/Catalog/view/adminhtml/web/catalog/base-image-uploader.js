@@ -5,7 +5,15 @@
  * @license     {license_link}
  */
 /*global alert:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template",
+    "jquery/file-uploader",
+    "Magento_Catalog/js/product-gallery",
+    "mage/translate"
+], function($){
+
     $.widget('mage.baseImage', {
         /**
          * Button creation
@@ -128,4 +136,4 @@
             });
         }
     });
-})(jQuery);
+});

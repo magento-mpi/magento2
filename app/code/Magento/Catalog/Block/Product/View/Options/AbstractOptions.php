@@ -14,6 +14,8 @@
  */
 namespace Magento\Catalog\Block\Product\View\Options;
 
+use Magento\Catalog\Pricing\Price\CustomOptionPriceInterface;
+
 abstract class AbstractOptions extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -31,31 +33,29 @@ abstract class AbstractOptions extends \Magento\Framework\View\Element\Template
     protected $_option;
 
     /**
-     * Tax data
-     *
-     * @var \Magento\Tax\Helper\Data
-     */
-    protected $_taxData = null;
-
-    /**
      * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogHelper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Catalog\Helper\Data $catalogData,
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
-        $this->_taxData = $taxData;
+        $this->_catalogHelper = $catalogData;
         parent::__construct($context, $data);
     }
 
@@ -141,7 +141,8 @@ abstract class AbstractOptions extends \Magento\Framework\View\Element\Template
         $priceStr = $sign;
 
         $customOptionPrice = $this->getProduct()->getPriceInfo()->getPrice('custom_option_price');
-        $optionAmount = $customOptionPrice->getCustomAmount($value['pricing_value']);
+        $context = [CustomOptionPriceInterface::CONFIGURATION_OPTION_FLAG => true];
+        $optionAmount = $customOptionPrice->getCustomAmount($value['pricing_value'], null, $context);
         $priceStr .= $this->getLayout()->getBlock('product.price.render.default')->renderAmount(
             $optionAmount,
             $customOptionPrice,
@@ -165,9 +166,9 @@ abstract class AbstractOptions extends \Magento\Framework\View\Element\Template
     public function getPrice($price, $includingTax = null)
     {
         if (!is_null($includingTax)) {
-            $price = $this->_taxData->getPrice($this->getProduct(), $price, true);
+            $price = $this->_catalogHelper->getTaxPrice($this->getProduct(), $price, true);
         } else {
-            $price = $this->_taxData->getPrice($this->getProduct(), $price);
+            $price = $this->_catalogHelper->getTaxPrice($this->getProduct(), $price);
         }
         return $price;
     }

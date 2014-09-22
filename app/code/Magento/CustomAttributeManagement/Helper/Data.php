@@ -300,7 +300,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (isset($inputTypes[$inputType])) {
             $value = $inputTypes[$inputType]['default_value'];
             if ($value) {
-                return 'default_value_' . $value;
+                return 'scope_default_value_' . $value;
             }
         }
         return false;
@@ -321,6 +321,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             foreach ($inputTypes[$inputType]['validate_types'] as $validateType) {
                 if (!empty($data[$validateType])) {
                     $rules[$validateType] = $data[$validateType];
+                } else if (!empty($data['scope_' . $validateType])) {
+                    $rules[$validateType] = $data['scope_' . $validateType];
                 }
             }
             //transform date validate rules to timestamp

@@ -36,6 +36,12 @@ class CustomerInjectable extends InjectableFixture
         'password_confirmation' => '123123q',
     ];
 
+    protected $address = [
+        'attribute_code' => 'address',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address'
+    ];
+
     protected $confirmation = [
         'attribute_code' => 'confirmation',
         'backend_type' => 'varchar',
@@ -135,6 +141,7 @@ class CustomerInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'select',
         'group' => 'account_information',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId'
     ];
 
     protected $lastname = [
@@ -249,6 +256,16 @@ class CustomerInjectable extends InjectableFixture
         'backend_type' => 'virtual',
         'group' => null,
     ];
+
+    public function getId()
+    {
+        return $this->getData('id');
+    }
+
+    public function getAddress()
+    {
+        return $this->getData('address');
+    }
 
     public function getConfirmation()
     {

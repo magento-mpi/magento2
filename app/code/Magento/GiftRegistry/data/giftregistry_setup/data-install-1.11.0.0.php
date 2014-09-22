@@ -8,6 +8,29 @@
 
 /** @var $installer \Magento\GiftRegistry\Model\Resource\Setup */
 $installer = $this;
+/**
+ * Add attributes
+ */
+$installer->addAttribute(
+    'quote_item',
+    'giftregistry_item_id',
+    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+);
+$installer->addAttribute(
+    'order_item',
+    'giftregistry_item_id',
+    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+);
+$installer->addAttribute(
+    'quote_address',
+    'giftregistry_item_id',
+    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+);
+$installer->addAttribute(
+    'order_address',
+    'giftregistry_item_id',
+    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+);
 
 $typesData = array(
     array(

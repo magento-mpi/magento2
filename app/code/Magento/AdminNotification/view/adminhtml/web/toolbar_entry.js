@@ -4,9 +4,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     'use strict';
+
     $(document).ready(function() {
         // Mark notification as read via AJAX call
         var markNotificationAsRead = function(notificationId) {
@@ -104,4 +107,5 @@
             $('.notifications-action .counter').show();
         }
     });
-})(window.jQuery);
+
+});

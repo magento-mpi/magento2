@@ -7,10 +7,15 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
+
 /**
  * Class AttributeMetadataBuilder
  */
-class AttributeMetadataBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implements AttributeMetadataBuilderInterface
 {
     /**
      * Option builder
@@ -28,15 +33,19 @@ class AttributeMetadataBuilder extends \Magento\Framework\Service\Data\AbstractO
 
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
      * @param OptionBuilder $optionBuilder
      * @param ValidationRuleBuilder $validationRuleBuilder
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService,
         \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder,
         \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
     ) {
-        parent::__construct($objectFactory);
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
         $this->_data[AttributeMetadata::OPTIONS] = array();
@@ -100,7 +109,7 @@ class AttributeMetadataBuilder extends \Magento\Framework\Service\Data\AbstractO
 
     /**
      * Set options
-     * 
+     *
      * @param \Magento\Customer\Service\V1\Data\Eav\Option[] $options
      * @return $this
      */
@@ -172,7 +181,7 @@ class AttributeMetadataBuilder extends \Magento\Framework\Service\Data\AbstractO
      */
     public function setIsUserDefined($isUserDefined)
     {
-        return $this->_set(AttributeMetadata::IS_USER_DEFINED, $isUserDefined);
+        return $this->_set(AttributeMetadata::USER_DEFINED, $isUserDefined);
     }
 
     /**
@@ -205,7 +214,7 @@ class AttributeMetadataBuilder extends \Magento\Framework\Service\Data\AbstractO
      */
     public function setIsSystem($isSystem)
     {
-        return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
+        return $this->_set(AttributeMetadata::SYSTEM, $isSystem);
     }
 
     /**

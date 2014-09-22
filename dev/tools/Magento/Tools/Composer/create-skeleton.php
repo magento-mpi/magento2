@@ -6,79 +6,81 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../bootstrap.php';
+use Magento\Tools\Composer\Helper\Zipper;
+use Magento\Tools\Composer\Package\Reader;
+use Magento\Tools\Composer\Helper\ExcludeFilter;
 
-use \Magento\Tools\Composer\Package\Reader;
-use \Magento\Tools\Composer\Package\Package;
+require __DIR__ . '/../../../bootstrap.php';
+$destinationDir = __DIR__ . '/_skeleton';
 
 /**
- * Composer Skeleton Creator Tool
+ * Skeleton Composer Package Creator Tool
  *
- * This tool creates skeleton composer.json file.
+ * This tool creates a skeleton composer package
  */
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
-            'version|v=s' => 'Version for the composer.json file',
-            'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
+            'source|s=s' => 'Source directory. Default value ' . realpath(BP),
+            'destination|d=s' => 'Destination directory. Default value ' . $destinationDir,
         )
     );
     $opt->parse();
 
-    $version = $opt->getOption('v');
-    \Magento\Tools\Composer\Package\Version::validate($version);
-    if ($opt->getOption('d')) {
-        $workingDir = realpath($opt->getOption('d'));
-    } else {
-        $workingDir = realpath(BP);
+    $sourceDir = $opt->getOption('s') ?: realpath(BP);
+    $sourceDir = str_replace('\\', '/', realpath($sourceDir));
+    if (!$sourceDir || !is_dir($sourceDir)) {
+        throw new Exception($opt->getOption('s') . " must be a Magento code base.");
     }
 
-    if (!$workingDir || !is_dir($workingDir)) {
-        throw new Exception($opt->getOption('d') . " must be a Magento code base.");
-    }
+    $destinationDir = $opt->getOption('d') ?: $destinationDir;
+    $destinationDir = str_replace('\\', '/', $destinationDir);
 
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
-    $logger->setTimestampFormat('H:i:s');
-    $logger->info('Working copy root directory: ' . $workingDir);
+    $logger->setTimestampFormat("H:i:s");
+    $logger->info(sprintf("Your Magento installation directory (Source Directory): %s ", $sourceDir));
+    $logger->info(sprintf("Your skeleton output directory (Destination Directory): %s ", $destinationDir));
 
-    $edition = $opt->getOption('e');
-    switch (strtolower($edition)) {
-        case 'ee':
-            $name = 'magento/product-enterprise-edition';
-            break;
-        case 'ce':
-            $name = 'magento/product-community-edition';
-            break;
-        default:
-            throw new \Zend_Console_Getopt_Exception('Edition value not acceptable. Acceptable values: [ee|ce]');
+    try {
+        if (!is_dir($destinationDir)) {
+            mkdir($destinationDir, 0777, true);
+        }
+    } catch (\Exception $ex) {
+        $logger->error(sprintf("ERROR: Creating Directory %s failed. Message: %s", $destinationDir, $ex->getMessage()));
+        exit($e->getCode());
     }
-    $logger->info("Root package name: {$name}");
 
-    $root = new Package(
-        json_decode(file_get_contents(__DIR__ . '/etc/root_composer_template.json')),
-        $workingDir . '/composer.json'
+    $reader = new Reader($sourceDir);
+    $excludes = $reader->getExcludePaths();
+    $excludes[] = $destinationDir;
+
+    $directory = new \RecursiveDirectoryIterator($sourceDir, \RecursiveDirectoryIterator::SKIP_DOTS);
+    $directory = new ExcludeFilter($directory, $excludes);
+    $files = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
+    foreach ($files as $file) {
+        $file = str_replace('\\', '/', realpath($file));
+        $relativePath = str_replace($sourceDir . '/', '', $file);
+        if (is_dir($file) === true) {
+            $relativePath .= '/';
+            mkdir($destinationDir . '/' . $relativePath);
+        } elseif (is_file($file) === true) {
+            copy($file, $destinationDir . '/' . $relativePath);
+        } else {
+            throw new \Exception("The path $file is not a directory or file!", "1");
+        }
+    }
+
+    $logger->info(
+        sprintf(
+            "SUCCESS: Skeleton created! You should be able to find it at %s \n",
+            $destinationDir
+        )
     );
-    $root->set('name', $name);
-    if ($version) {
-        $root->set('version', $version);
-    }
-    $reader = new Reader($workingDir);
-    foreach ($reader->readMagentoPackages() as $package) {
-        $root->set("require->{$package->get('name')}", $package->get('version'));
-    }
-    //as the last one, adding dependency on magento/magento-custom-installer
-    $root->set("require->magento/magento-composer-installer", "*");
 
-    $size = sizeof((array)$root->get('require'));
-    $logger->info("Total number of dependencies in the skeleton package: {$size}");
-    $root->set('extra->map', $reader->getRootMappingPatterns());
-    file_put_contents($root->getFile(), $root->getJson());
-    $logger->info("SUCCESS: created package at {$root->getFile()}");
 } catch (\Zend_Console_Getopt_Exception $e) {
-    echo $e->getMessage();
+    echo $e->getUsageMessage();
     exit(1);
 } catch (\Exception $e) {
     echo $e;

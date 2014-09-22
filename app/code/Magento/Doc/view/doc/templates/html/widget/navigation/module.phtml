@@ -1,0 +1,34 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Modules list template
+ *
+ * @var $this \Magento\Doc\Ui\Widget\Navigation\Module
+ */
+?>
+<style>
+    ul.modules {
+        list-style: none;
+        background-color: #cccccc;
+        padding: 3px 0 3px 5px;
+    }
+
+    ul.modules li {
+        border-bottom: 1px solid #aaaaaa;
+    }
+</style>
+<ul class="modules">
+    <?php foreach ($this->getModules() as $module): ?>
+        <li><a href="<?php echo $this->getUrl('*/api/module', ['item' => $module['name']]) ?>"><?php echo substr(
+                    $module['name'],
+                    8
+                ) ?></a></li>
+    <?php endforeach; ?>
+</ul>

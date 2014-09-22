@@ -6,8 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
     "use strict";
 
     $.widget('mage.orderEditDialog', {
@@ -66,4 +69,5 @@
                 });
         }
     });
-})(jQuery);
+
+});

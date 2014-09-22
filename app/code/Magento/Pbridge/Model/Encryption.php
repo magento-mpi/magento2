@@ -9,6 +9,7 @@ namespace Magento\Pbridge\Model;
 
 use Magento\Framework\Math\Random;
 use Magento\Framework\Encryption\CryptFactory;
+use Magento\Framework\Encryption\Crypt;
 
 class Encryption extends \Magento\Pci\Model\Encryption
 {
@@ -25,6 +26,44 @@ class Encryption extends \Magento\Pci\Model\Encryption
         parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
         $this->_keys = array($key);
         $this->_keyVersion = 0;
+    }
+
+    /**
+     * Initialize crypt module if needed
+     *
+     * By default initializes with latest key and crypt versions
+     *
+     * @param string $key
+     * @param int $cipherVersion
+     * @param bool $initVector
+     * @return Crypt
+     */
+    protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)
+    {
+        if (null === $key && null == $cipherVersion) {
+            $cipherVersion = self::CIPHER_RIJNDAEL_256;
+        }
+
+        if (null === $key) {
+            $key = $this->_keys[$this->_keyVersion];
+        }
+        if (null === $cipherVersion) {
+            $cipherVersion = $this->_cipher;
+        }
+        $cipherVersion = $this->validateCipher($cipherVersion);
+
+        if ($cipherVersion === self::CIPHER_RIJNDAEL_128) {
+            $cipher = MCRYPT_RIJNDAEL_128;
+            $mode = MCRYPT_MODE_ECB;
+        } elseif ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
+            $cipher = MCRYPT_RIJNDAEL_128;
+            $mode = MCRYPT_MODE_CBC;
+        } else {
+            $cipher = MCRYPT_BLOWFISH;
+            $mode = MCRYPT_MODE_ECB;
+        }
+
+        return new Crypt($key, $cipher, $mode, $initVector);
     }
 
     /**

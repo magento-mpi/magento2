@@ -14,8 +14,9 @@
         <label for="creditmemo_customerbalance_return_enable"><span><?php echo __('Refund to Store Credit') ?></span></label>
         <input type="text" name="creditmemo[refund_customerbalance_return]" value="<?php echo $this->getReturnValue(); ?>" id="creditmemo_customerbalance_return" class="input-text not-negative-amount">
         <script type="text/javascript">
-        //<![CDATA[
-        jQuery(function ($) {
+require(['jquery'], function($){
+
+        $(function ($) {
             var toggleCustomerBalanceRefundAmount = function (e) {
                 var refundReturn = $('#creditmemo_customerbalance_return');
                 if ($(e.target).prop('checked')) {
@@ -25,12 +26,12 @@
                     refundReturn.prop('disabled', true);
                     enableElements('refund');
                 }
-            }
+            };
             var refundCustomerBalanceEnable = $('#creditmemo_customerbalance_return_enable');
             refundCustomerBalanceEnable.change(toggleCustomerBalanceRefundAmount);
             toggleCustomerBalanceRefundAmount({target:refundCustomerBalanceEnable});
         });
-        //]]>
-        </script>
+});
+</script>
     </div>
 <?php endif; ?>

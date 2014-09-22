@@ -8,7 +8,7 @@
 
 .form-giftregistry-share,
 .form-giftregistry-edit {
-    &:extend(.add-recipients all);
+    &:extend(.abstract-add-recipients all);
     .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
     }
@@ -16,12 +16,12 @@
 
 .form.giftregistry.items {
     .actions-toolbar {
-        &:extend(.reset-left-margin all);
+        &:extend(.abstract-reset-left-margin all);
     }
 }
 
-.dropdown.giftregisty {
-    &:extend(.dropdown-simple all);
+.giftregisty-dropdown {
+    &:extend(.abstract-dropdown-simple all);
 }
 
 .table-giftregistry-items {
@@ -55,13 +55,13 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .table-giftregistry-items {
         .col.product {
             &:before {
-                &:extend(.visually-hidden-mobile all);
+                &:extend(.abstract-visually-hidden-mobile all);
             }
-            &:extend(.add-clearfix-mobile all);
+            &:extend(.abstract-add-clearfix-mobile all);
         }
         .field.choice,
         .field.qty {
@@ -73,9 +73,9 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .form-giftregistry-share,
     .form-giftregistry-edit {
-        &:extend(.add-recipients-desktop all);
+        &:extend(.abstract-add-recipients-desktop all);
     }
 }

@@ -8,10 +8,10 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
-    <event name="admin_roles_load_after">
+    <event name="authorization_roles_load_after">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="addDataAfterRoleLoad" />
     </event>
-    <event name="admin_roles_save_before">
+    <event name="authorization_roles_save_before">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="setDataBeforeRoleSave" />
     </event>
     <event name="admin_permissions_role_prepare_save">

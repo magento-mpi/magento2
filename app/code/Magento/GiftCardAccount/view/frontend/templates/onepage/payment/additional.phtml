@@ -19,7 +19,11 @@
 </div>
 <?php if ($this->isFullyPaidAfterApplication()): ?>
     <script type="text/javascript">
+require(['jquery', 'mage/mage'], function(jQuery){
+
         jQuery('#co-payment-form').mage('paymentMethod', {});
-    </script>
+    
+});
+</script>
     <input id="hidden-free" type="hidden" name="payment[method]" value="free">
 <?php endif; ?>

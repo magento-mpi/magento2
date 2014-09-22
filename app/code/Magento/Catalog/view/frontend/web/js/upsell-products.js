@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define(["jquery","jquery/ui"], function($){
     "use strict";
     $.widget('mage.upsellProducts', {
         options: {
@@ -53,4 +53,4 @@
             return o;
         }
     });
-})(jQuery);
+});

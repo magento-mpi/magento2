@@ -1,0 +1,4 @@
+"giftRegistry/dataSet";"constraint"
+"birthday";"assertGiftRegistryNotInGrid, assertGiftRegistryInactiveNotInShoppingCart, assertGiftRegistryInactiveNotInWishlist"
+"baby_registry";"assertGiftRegistryNotInGrid, assertGiftRegistryInactiveNotInShoppingCart, assertGiftRegistryInactiveNotInWishlist"
+"wedding";"assertGiftRegistryNotInGrid, assertGiftRegistryInactiveNotInShoppingCart, assertGiftRegistryInactiveNotInWishlist"

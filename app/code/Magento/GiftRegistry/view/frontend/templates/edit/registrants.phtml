@@ -72,6 +72,8 @@
 </fieldset>
 
 <script type="text/javascript">
+require(['jquery', "mage/mage"], function(jQuery){
+
     jQuery('#form-validate').mage('giftRegistry', {
         'rowParentElem': '<div></div>',
         'remEventSelector': 'button',
@@ -80,4 +82,6 @@
         'maxRows': '<?php echo $this->getMaxRegistrant() ?>',
         'formDataPost': {"formData": <?php echo json_encode($this->getRegistrantPresets($this->getEntity()->getId())); ?>}
     });
+
+});
 </script>

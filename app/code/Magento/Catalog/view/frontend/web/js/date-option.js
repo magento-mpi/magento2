@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+    
     $.widget('mage.dateOption', {
         options: {
         },
@@ -88,5 +92,4 @@
             }
         }
     });
-})(jQuery);
-
+});

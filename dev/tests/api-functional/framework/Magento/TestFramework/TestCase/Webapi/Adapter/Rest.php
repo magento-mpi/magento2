@@ -10,7 +10,6 @@
 
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-use Magento\Webapi\Model\Config\Converter;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Webapi\Model\Rest\Config;
 
@@ -50,7 +49,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $this->_config = $objectManager->get('Magento\Webapi\Model\Config');
         $this->curlClient = $objectManager->get('Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient');
         $this->defaultStoreCode = Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')
+            ->get('Magento\Framework\StoreManagerInterface')
             ->getStore()
             ->getCode();
     }

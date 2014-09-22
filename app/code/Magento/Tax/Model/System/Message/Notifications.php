@@ -10,12 +10,12 @@ namespace Magento\Tax\Model\System\Message;
 /**
  * Notifications class
  */
-class Notifications implements \Magento\AdminNotification\Model\System\MessageInterface
+class Notifications implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * Store manager object
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -46,12 +46,12 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
     protected $storesWithInvalidDiscountSettings;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Tax\Model\Config $taxConfig
     ) {
@@ -77,7 +77,7 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      *      Tax Calculation Method Based On 'Total' or 'Row'
      *      and at least one Price Display Settings has 'Including and Excluding Tax' value
      *
-     * @param null|int|bool|string|Store $store $store
+     * @param null|int|bool|string|\Magento\Store\Model\Store $store $store
      * @return bool
      */
     public function checkDisplaySettings($store = null)
@@ -102,7 +102,7 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      *      Before Discount / Excluding Tax
      *      Before Discount / Including Tax
      *
-     * @param null|int|bool|string|Store $store $store
+     * @param null|int|bool|string|\Magento\Store\Model\Store $store $store
      * @return bool
      */
     public function checkDiscountSettings($store = null)
@@ -220,15 +220,15 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
         if (!empty($this->storesWithInvalidDisplaySettings) && !$this->taxConfig->isWrongDisplaySettingsIgnored()) {
             $messageDetails .= '<strong>';
             $messageDetails .= __('Warning tax configuration can result in rounding errors. ');
-            $messageDetails .= '</strong><br>';
+            $messageDetails .= '</strong><p>';
             $messageDetails .= __('Store(s) affected: ');
             $messageDetails .= implode(', ', $this->storesWithInvalidDisplaySettings);
-            $messageDetails .= '<br><div style="text-align:right">';
+            $messageDetails .= '</p><p>';
             $messageDetails .= __(
                 'Click on the link to <a href="%1">ignore this notification</a>',
                 $this->getIgnoreTaxNotificationUrl('price_display')
             );
-            $messageDetails .= "</div><br>";
+            $messageDetails .= "</p>";
         }
 
         if (!empty($this->storesWithInvalidDiscountSettings) && !$this->taxConfig->isWrongDiscountSettingsIgnored()) {
@@ -237,23 +237,24 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
                 'Warning tax discount configuration might result in different discounts
                                 than a customer might expect. '
             );
-            $messageDetails .= '</strong><br>';
+            $messageDetails .= '</strong><p>';
             $messageDetails .= __('Store(s) affected: ');
             $messageDetails .= implode(', ', $this->storesWithInvalidDiscountSettings);
-            $messageDetails .= '<br><div style="text-align:right">';
+            $messageDetails .= '</p><p>';
             $messageDetails .= __(
                 'Click on the link to <a href="%1">ignore this notification</a>',
                 $this->getIgnoreTaxNotificationUrl('discount')
             );
-            $messageDetails .= "</div><br>";
+            $messageDetails .= "</p>";
         }
 
-        $messageDetails .= '<br>';
+        $messageDetails .= '<p>';
         $messageDetails .= __('Please see <a href="%1">documentation</a> for more details. ', $this->getInfoUrl());
         $messageDetails .= __(
             'Click here to go to <a href="%1">Tax Configuration</a> and change your settings.',
             $this->getManageUrl()
         );
+        $messageDetails .= '</p>';
 
         return $messageDetails;
     }

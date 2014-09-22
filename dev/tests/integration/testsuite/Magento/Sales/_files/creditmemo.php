@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+require 'default_rollback.php';
 require __DIR__ . '/order.php';
 
 /** @var \Magento\Sales\Model\Order $order */

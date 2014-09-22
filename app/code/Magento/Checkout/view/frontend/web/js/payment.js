@@ -6,8 +6,14 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "jquery/template"
+], function($){
     'use strict';
+
     $.widget('mage.payment', {
         options: {
             continueSelector: '#payment-continue',
@@ -113,4 +119,4 @@
             }
         }
     });
-})(jQuery);
+});

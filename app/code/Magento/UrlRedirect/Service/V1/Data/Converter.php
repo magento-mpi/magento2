@@ -7,7 +7,7 @@
  */
 namespace Magento\UrlRedirect\Service\V1\Data;
 
-use Magento\Framework\Service\DataObjectConverter;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\UrlRedirect\Service\V1\Data\UrlRewriteBuilderFactory;
 
 /**
@@ -47,6 +47,6 @@ class Converter
      */
     public function convertObjectToArray(UrlRewrite $object)
     {
-        return DataObjectConverter::toFlatArray($object);
+        return SimpleDataObjectConverter::toFlatArray($object);
     }
 }

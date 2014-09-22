@@ -5,11 +5,17 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
+    "use strict";
+
     /**
      * This widget is used in setting of a flag when a file is chosen.
      */
-    "use strict";
+    
     $.widget('mage.fileChooser', {
         options: {
             fileNameSelector: null,
@@ -57,4 +63,5 @@
             }
         }
     });
-})(jQuery);
+
+});

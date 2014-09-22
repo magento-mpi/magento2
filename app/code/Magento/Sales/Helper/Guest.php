@@ -20,18 +20,23 @@ class Guest extends \Magento\Core\Helper\Data
      *
      * @var \Magento\Framework\Registry
      */
-    protected $_coreRegistry;
+    protected $coreRegistry;
 
     /**
      * @var \Magento\Customer\Model\Session
      */
-    protected $_customerSession;
+    protected $customerSession;
+    
+    /**
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $cookieManager;
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    protected $_coreCookie;
-
+    protected $cookieMetadataFactory;
+    
     /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
@@ -40,7 +45,7 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * @var \Magento\Sales\Model\OrderFactory
      */
-    protected $_orderFactory;
+    protected $orderFactory;
 
     /**
      * Cookie key for guest view
@@ -60,36 +65,41 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * @param App\Helper\Context $context
      * @param App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Stdlib\Cookie $coreCookie
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\ViewInterface $view
      * @param bool $dbCompatibleMode
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         App\Helper\Context $context,
         App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Stdlib\Cookie $coreCookie,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\ViewInterface $view,
         $dbCompatibleMode = true
     ) {
-        $this->_coreRegistry = $coreRegistry;
-        $this->_customerSession = $customerSession;
-        $this->_coreCookie = $coreCookie;
+        $this->coreRegistry = $coreRegistry;
+        $this->customerSession = $customerSession;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->messageManager = $messageManager;
-        $this->_orderFactory = $orderFactory;
+        $this->orderFactory = $orderFactory;
         $this->_view = $view;
         parent::__construct(
             $context,
@@ -107,10 +117,13 @@ class Guest extends \Magento\Core\Helper\Data
      * @param App\RequestInterface $request
      * @param App\ResponseInterface $response
      * @return bool
+     * 
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function loadValidOrder(App\RequestInterface $request, App\ResponseInterface $response)
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->customerSession->isLoggedIn()) {
             $response->setRedirect($this->_urlBuilder->getUrl('sales/order/history'));
             return false;
         }
@@ -119,9 +132,10 @@ class Guest extends \Magento\Core\Helper\Data
         $errors = false;
 
         /** @var $order \Magento\Sales\Model\Order */
-        $order = $this->_orderFactory->create();
+        $order = $this->orderFactory->create();
 
-        if (empty($post) && !$this->_coreCookie->get(self::COOKIE_NAME)) {
+        $fromCookie = $this->cookieManager->getCookie(self::COOKIE_NAME);
+        if (empty($post) && !$fromCookie) {
             $response->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type'])) {
@@ -156,10 +170,9 @@ class Guest extends \Magento\Core\Helper\Data
 
             if (!$errors) {
                 $toCookie = base64_encode($order->getProtectCode() . ':' . $incrementId);
-                $this->_coreCookie->set(self::COOKIE_NAME, $toCookie, self::COOKIE_LIFETIME, self::COOKIE_PATH);
+                $this->setGuestViewCookie($toCookie);
             }
-        } elseif ($this->_coreCookie->get(self::COOKIE_NAME)) {
-            $fromCookie = $this->_coreCookie->get(self::COOKIE_NAME);
+        } elseif ($fromCookie) {
             $cookieData = explode(':', base64_decode($fromCookie));
             $protectCode = isset($cookieData[0]) ? $cookieData[0] : null;
             $incrementId = isset($cookieData[1]) ? $cookieData[1] : null;
@@ -168,14 +181,15 @@ class Guest extends \Magento\Core\Helper\Data
             if (!empty($protectCode) && !empty($incrementId)) {
                 $order->loadByIncrementId($incrementId);
                 if ($order->getProtectCode() == $protectCode) {
-                    $this->_coreCookie->renew(self::COOKIE_NAME, self::COOKIE_LIFETIME, self::COOKIE_PATH);
+                    // renew cookie
+                    $this->setGuestViewCookie($fromCookie);
                     $errors = false;
                 }
             }
         }
 
         if (!$errors && $order->getId()) {
-            $this->_coreRegistry->register('current_order', $order);
+            $this->coreRegistry->register('current_order', $order);
             return true;
         }
 
@@ -204,5 +218,20 @@ class Guest extends \Magento\Core\Helper\Data
             'cms_page',
             array('label' => __('Order Information'), 'title' => __('Order Information'))
         );
+    }
+
+    /**
+     * Set guest-view cookie
+     *
+     * @param string $cookieValue
+     * @return void
+     */
+    private function setGuestViewCookie($cookieValue)
+    {
+        $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+            ->setPath(self::COOKIE_PATH)
+            ->setDuration(self::COOKIE_LIFETIME)
+            ->setHttpOnly(true);
+        $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $cookieValue, $metadata);
     }
 }

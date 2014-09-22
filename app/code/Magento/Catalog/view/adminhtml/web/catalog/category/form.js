@@ -6,8 +6,14 @@
  */
 /*jshint jquery:true browser:true*/
 /*global Ajax:true alert:true*/
-(function($){
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/backend/form",
+    "prototype"
+], function($){
     "use strict";
+
     $.widget("mage.categoryForm", $.mage.form, {
         options: {
             categoryIdSelector : 'input[name="general[id]"]',
@@ -61,4 +67,5 @@
             }
         }
     });
-})(jQuery);
+
+});

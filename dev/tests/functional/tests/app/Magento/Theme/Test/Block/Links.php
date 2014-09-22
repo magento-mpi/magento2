@@ -37,14 +37,11 @@ class Links extends Block
      * Open Link by title
      *
      * @param string $linkTitle
-     * @return Element
+     * @return void
      */
     public function openLink($linkTitle)
     {
-        $link = $this->_rootElement->find(sprintf($this->link, $linkTitle), Locator::SELECTOR_XPATH);
-        if ($link->isVisible()) {
-            $link->click();
-        }
+        $this->_rootElement->find(sprintf($this->link, $linkTitle), Locator::SELECTOR_XPATH)->click();
     }
 
     /**
@@ -61,17 +58,14 @@ class Links extends Block
     /**
      * Get the number of products added to compare list
      *
-     * @return string|bool
+     * @return string
      */
     public function getQtyInCompareList()
     {
+        $this->waitForElementVisible($this->qtyCompareProducts);
         $compareProductLink = $this->_rootElement->find($this->qtyCompareProducts);
-        if ($compareProductLink->isVisible()) {
-            preg_match_all('/^\d+/', $compareProductLink->getText(), $matches);
-            return $matches[0][0];
-        } else {
-            return false;
-        }
+        preg_match_all('/^\d+/', $compareProductLink->getText(), $matches);
+        return $matches[0][0];
     }
 
     /**

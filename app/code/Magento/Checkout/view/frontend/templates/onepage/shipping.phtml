@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="field telephone required">
-            <label class="label" for="shipping:telephone"><span><?php echo __('Telephone') ?></span></label>
+            <label class="label" for="shipping:telephone"><span><?php echo __('Phone Number') ?></span></label>
             <div class="control">
                 <input type="text" name="shipping[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Telephone') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="shipping:telephone" />
             </div>
@@ -108,15 +108,20 @@
     </div>
 </form>
 <script type="text/javascript">
-    (function($) {
-        $('#shipping\\:country_id').mage('regionUpdater', {
-            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
-            regionListId: '#shipping\\\:region_id',
-            regionInputId: '#shipping\\\:region',
-            postcodeId: '#shipping\\\:postcode',
-            regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
-            defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-            countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
-        });
-    })(jQuery);
+require([
+    "jquery",
+    "mage/mage"
+], function($){
+
+    $('#shipping\\:country_id').mage('regionUpdater', {
+        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+        regionListId: '#shipping\\\:region_id',
+        regionInputId: '#shipping\\\:region',
+        postcodeId: '#shipping\\\:postcode',
+        regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+        defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
+        countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+    });
+
+});
 </script>

@@ -18,18 +18,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     protected $_priceBlock = array();
 
     /**
-     * Default price block
-     *
-     * @var string
-     */
-    protected $_block = 'Magento\Catalog\Block\Product\Price';
-
-    /**
-     * @var string
-     */
-    protected $_priceBlockDefaultTemplate = 'product/price.phtml';
-
-    /**
      * Flag which allow/disallow to use link for as low as price
      *
      * @var bool
@@ -106,11 +94,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     protected $_compareProduct;
 
     /**
-     * @var \Magento\Theme\Helper\Layout
-     */
-    protected $_layoutHelper;
-
-    /**
      * @var \Magento\Catalog\Helper\Image
      */
     protected $_imageHelper;
@@ -134,7 +117,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
         array $data = array()
     ) {
         $this->_imageHelper = $context->getImageHelper();
-        $this->_layoutHelper = $context->getLayoutHelper();
         $this->_compareProduct = $context->getCompareProduct();
         $this->_wishlistHelper = $context->getWishlistHelper();
         $this->_cartHelper = $context->getCartHelper();
@@ -226,36 +208,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     {
         $minSaleQty = $this->stockItemService->getMinSaleQty($product->getId());
         return $minSaleQty > 0 ? $minSaleQty : null;
-    }
-
-    /**
-     * Returns product price block html
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param boolean $displayMinimalPrice
-     * @param string $idSuffix
-     * @return string
-     * @deprecated
-     */
-    public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
-    {
-        $typeId = $product->getTypeId();
-        if ($this->_catalogData->canApplyMsrp($product)) {
-            $realPriceHtml = $this->_preparePriceRenderer($typeId)
-                ->setProduct($product)
-                ->setDisplayMinimalPrice($displayMinimalPrice)
-                ->setIdSuffix($idSuffix)
-                ->toHtml();
-            $product->setAddToCartUrl($this->getAddToCartUrl($product));
-            $product->setRealPriceHtml($realPriceHtml);
-            $typeId = $this->_mapRenderer;
-        }
-
-        return $this->_preparePriceRenderer($typeId)
-            ->setProduct($product)
-            ->setDisplayMinimalPrice($displayMinimalPrice)
-            ->setIdSuffix($idSuffix)
-            ->toHtml();
     }
 
     /**
@@ -381,7 +333,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
                 $this->setData('column_count', $this->_defaultColumnCount);
             }
         }
-
         return (int) $this->_getData('column_count');
     }
 
@@ -431,11 +382,12 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     /**
      * Retrieve current page layout
      *
-     * @return \Magento\Framework\Object
+     * @return string
      */
     public function getPageLayout()
     {
-        return $this->_layoutHelper->getCurrentPageLayout();
+        // TODO: Implement of getting  current page layout
+        return '';
     }
 
     /**

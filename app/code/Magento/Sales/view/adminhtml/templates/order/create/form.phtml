@@ -5,14 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form $this */
 ?>
-<script type="text/javascript">
-    var order = new AdminOrder(<?php echo $this->getOrderDataJson() ?>);
-    order.setLoadBaseUrl('<?php echo $this->getLoadBlockUrl() ?>');
-    var payment = {};
-    payment.switchMethod = order.switchPaymentMethod.bind(order);
-</script>
-<form id="edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
+<form id="edit_form" data-order-config='<?php echo $this->getOrderDataJson() ?>' data-load-base-url="<?php echo $this->getLoadBlockUrl() ?>" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
     <div id="order-message">
         <?php echo $this->getChildHtml('message') ?>

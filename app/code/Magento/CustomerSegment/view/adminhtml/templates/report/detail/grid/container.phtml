@@ -13,6 +13,8 @@
 <?php echo $this->getGridHtml() ?>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
     function setFilterValue(obj) {
         <?php echo $this->getChildBlock('grid')->getJsObjectName() ?>.addVarToUrl("website_ids", obj);
     }
@@ -25,6 +27,11 @@
         }
         setFilterValue(serialized.website_ids);
     }
+
+    window.refreshValues = refreshValues;
+    window.setFilterValue = setFilterValue;
+
+});
 </script>
 
 <?php if ($websites = $this->getWebsites()): ?>

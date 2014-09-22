@@ -16,7 +16,7 @@ class Role extends \Magento\Framework\Object
     /**
      * Store ACL role model instance
      *
-     * @var \Magento\User\Model\Role
+     * @var \Magento\Authorization\Model\Role
      */
     protected $_adminRole;
 
@@ -75,17 +75,17 @@ class Role extends \Magento\Framework\Object
     protected $_categoryCollectionFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         array $data = []
     ) {
@@ -97,7 +97,7 @@ class Role extends \Magento\Framework\Object
     /**
      * Set ACL role and determine its limitations
      *
-     * @param \Magento\User\Model\Role $role
+     * @param \Magento\Authorization\Model\Role $role
      * @return void
      */
     public function setAdminRole($role)

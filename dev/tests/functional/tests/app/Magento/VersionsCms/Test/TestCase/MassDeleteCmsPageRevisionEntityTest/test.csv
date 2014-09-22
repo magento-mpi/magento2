@@ -1,0 +1,3 @@
+"revision/data/content";"initialRevision";"results/author";"results/revision_number_from";"results/revision_number_to";"results/quantity";"constraint"
+"revision_0";"1";"admin";"2";"2";"1";"assertCmsPageRevisionSuccessMassDeleteMessage, assertCmsPageRevisionNotInGrid"
+"revision_1";"1";"admin";"1";"1";"1";"assertCmsPageRevisionErrorDeleteMessage, assertCmsPageRevisionInGrid, assertCmsPagePreview"

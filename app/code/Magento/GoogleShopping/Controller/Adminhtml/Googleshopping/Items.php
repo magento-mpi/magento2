@@ -7,6 +7,9 @@
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
+use \Magento\Framework\Notification\NotifierInterface;
+use \Magento\Backend\App\Action;
+
 /**
  * GoogleShopping Admin Items Controller
  *
@@ -15,6 +18,20 @@ namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
  */
 class Items extends \Magento\Backend\App\Action
 {
+    /**
+     * @var NotifierInterface
+     */
+    protected $notifier;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param NotifierInterface $notifier
+     */
+    public function __construct(Action\Context $context, NotifierInterface $notifier)
+    {
+        parent::__construct($context);
+        $this->notifier = $notifier;
+    }
 
     /**
      * Retrieve synchronization process mutex
@@ -64,7 +81,7 @@ class Items extends \Magento\Backend\App\Action
     public function _getStore()
     {
         $store = $this->_objectManager->get(
-            'Magento\Store\Model\StoreManagerInterface'
+            'Magento\Framework\StoreManagerInterface'
         )->getStore(
             (int)$this->getRequest()->getParam('store', 0)
         );

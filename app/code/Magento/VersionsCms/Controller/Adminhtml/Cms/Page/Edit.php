@@ -58,13 +58,8 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Page\Edit
         $this->_view->addActionLayoutHandles();
         $update->addHandle($this->_handles);
 
-        $this->_view->loadLayoutUpdates();
-        $this->_view->generateLayoutXml();
-        $this->_view->generateLayoutBlocks();
-
-        $this->_view->getLayout()->initMessages();
-
         //load layout, set active menu and breadcrumbs
+        $this->_view->loadLayout();
         $this->_setActiveMenu(
             'Magento_VersionsCms::versionscms_page_page'
         )->_addBreadcrumb(

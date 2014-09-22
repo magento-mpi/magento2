@@ -15,9 +15,9 @@ return array(
     array('Mage_Admin_Model_Acl_Role'),
     array('Mage_Admin_Model_Acl_Resource', 'Magento\Framework\Acl\Resource'),
     array('Mage_Admin_Model_Acl_Role_Registry', 'Magento\Framework\Acl\Role\Registry'),
-    array('Mage_Admin_Model_Acl_Role_Generic', 'Magento\User\Model\Acl\Role\Generic'),
-    array('Mage_Admin_Model_Acl_Role_Group', 'Magento\User\Model\Acl\Role\Group'),
-    array('Mage_Admin_Model_Acl_Role_User', 'Magento\User\Model\Acl\Role\User'),
+    array('Mage_Admin_Model_Acl_Role_Generic', 'Magento\Authorization\Model\Acl\Role\Generic'),
+    array('Mage_Admin_Model_Acl_Role_Group', 'Magento\Authorization\Model\Acl\Role\Group'),
+    array('Mage_Admin_Model_Acl_Role_User', 'Magento\Authorization\Model\Acl\Role\User'),
     array('Mage_Admin_Model_Resource_Acl', 'Magento\User\Model\Resource\Acl'),
     array('Mage_Admin_Model_Observer'),
     array('Mage_Admin_Model_Session', 'Magento\Backend\Model\Auth\Session'),
@@ -27,17 +27,20 @@ return array(
     array('Mage_Admin_Model_Config'),
     array('Mage_Admin_Model_Resource_User', 'Magento\User\Model\Resource\User'),
     array('Mage_Admin_Model_Resource_User_Collection', 'Magento\User\Model\Resource\User\Collection'),
-    array('Mage_Admin_Model_Role', 'Magento\User\Model\Role'),
-    array('Mage_Admin_Model_Roles', 'Magento\User\Model\Roles'),
-    array('Mage_Admin_Model_Rules', 'Magento\User\Model\Rules'),
-    array('Mage_Admin_Model_Resource_Role', 'Magento\User\Model\Resource\Role'),
+    array('Mage_Admin_Model_Role', 'Magento\Authorization\Model\Role'),
+    array('Mage_Admin_Model_Roles', 'Magento\Authorization\Model\Roles'),
+    array('Mage_Admin_Model_Rules', 'Magento\Authorization\Model\Rules'),
+    array('Mage_Admin_Model_Resource_Role', 'Magento\Authorization\Model\Resource\Role'),
     array('Mage_Admin_Model_Resource_Roles', 'Magento\User\Model\Resource\Roles'),
-    array('Mage_Admin_Model_Resource_Rules', 'Magento\User\Model\Resource\Rules'),
-    array('Mage_Admin_Model_Resource_Role_Collection', 'Magento\User\Model\Resource\Role\Collection'),
+    array('Mage_Admin_Model_Resource_Rules', 'Magento\Authorization\Model\Resource\Rules'),
+    array('Mage_Admin_Model_Resource_Role_Collection', 'Magento\Authorization\Model\Resource\Role\Collection'),
     array('Mage_Admin_Model_Resource_Roles_Collection', 'Magento\User\Model\Resource\Roles\Collection'),
     array('Mage_Admin_Model_Resource_Roles_User_Collection', 'Magento\User\Model\Resource\Roles\User\Collection'),
-    array('Mage_Admin_Model_Resource_Rules_Collection', 'Magento\User\Model\Resource\Rules\Collection'),
-    array('Mage_Admin_Model_Resource_Permissions_Collection', 'Magento\User\Model\Resource\Permissions\Collection'),
+    array('Mage_Admin_Model_Resource_Rules_Collection', 'Magento\Authorization\Model\Resource\Rules\Collection'),
+    array(
+        'Mage_Admin_Model_Resource_Permissions_Collection',
+        'Magento\Authorization\Model\Resource\Permissions\Collection'
+    ),
     array('Mage_Adminhtml_Block_Abstract', 'Magento\Backend\Block\AbstractBlock'),
     array('Mage_Adminhtml_Block_Backup_Grid'),
     array('Mage_Adminhtml_Block_Cache_Grid'),
@@ -583,7 +586,8 @@ return array(
     array('Mage_Adminhtml_Model_System_Config_Source_Store', 'Magento\Backend\Model\Config\Source\Store'),
     array('Mage_Adminhtml_Model_System_Config_Source_Website', 'Magento\Backend\Model\Config\Source\Website'),
     array('Mage_Adminhtml_Model_System_Config_Source_Yesno', 'Magento\Backend\Model\Config\Source\Yesno'),
-    array('Mage_Adminhtml_Model_System_Config_Source_Yesnocustom',
+    array(
+        'Mage_Adminhtml_Model_System_Config_Source_Yesnocustom',
         'Magento\Backend\Model\Config\Source\Yesnocustom'
     ),
     array('Mage_Adminhtml_Model_System_Store', 'Magento\Store\Model\System\Store'),
@@ -680,7 +684,8 @@ return array(
         'Magento\ConfigurableProduct\Block\Product\View\Type\Configurable'
     ),
     array(
-        'Magento\Catalog\Block\Layer\Filter\AbstractFilter', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
+        'Magento\Catalog\Block\Layer\Filter\AbstractFilter',
+        'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array('Magento\Catalog\Block\Layer\Filter\Attribute', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'),
     array('Magento\Catalog\Block\Layer\Filter\Category', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'),
@@ -705,10 +710,12 @@ return array(
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Decimal', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
+        'Magento\Search\Block\Catalog\Layer\Filter\Decimal',
+        'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Price', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
+        'Magento\Search\Block\Catalog\Layer\Filter\Price',
+        'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
         'Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute',
@@ -820,8 +827,8 @@ return array(
     array('Mage_Core_Model_Session_Abstract_Varien'),
     array('Mage_Core_Model_Session_Abstract_Zend'),
     array('Magento\Core\Model\Source\Email\Variables', 'Magento\Email\Model\Source\Variables'),
-    array('Magento\Core\Model\Store\ListInterface', 'Magento\Store\Model\StoreManagerInterface'),
-    array('Magento\Core\Model\Store\StorageInterface', 'Magento\Store\Model\StoreManagerInterface'),
+    array('Magento\Core\Model\Store\ListInterface', 'Magento\Framework\StoreManagerInterface'),
+    array('Magento\Core\Model\Store\StorageInterface', 'Magento\Framework\StoreManagerInterface'),
     array('Mage_Core_Model_Store_Group_Limitation'),
     array('Mage_Core_Model_Store_Limitation'),
     array('Magento\Core\Model\Variable\Observer'),
@@ -1411,12 +1418,15 @@ return array(
     ),
     array('Magento\Core\Model\Design\FileResolution\StrategyPool'),
     array('Magento\Framework\View\Design\FileResolution\StrategyPool'),
-    array('Magento\Core\Model\Layout\File','Magento\Framework\View\File'),
-    array('Magento\Core\Model\Layout\File\Factory','Magento\Framework\View\File\Factory'),
-    array('Magento\Core\Model\Layout\File\FileList\Factory','Magento\Framework\View\File\FileList\Factory'),
-    array('Magento\Core\Model\Layout\File\ListFile','Magento\Framework\View\File\FileList'),
-    array('Magento\Core\Model\Layout\File\Source\Aggregated','Magento\Framework\View\Layout\File\Collector\Aggregated'),
-    array('Magento\Core\Model\Layout\File\Source\Base','Magento\Framework\View\Layout\File\Source\Base'),
+    array('Magento\Core\Model\Layout\File', 'Magento\Framework\View\File'),
+    array('Magento\Core\Model\Layout\File\Factory', 'Magento\Framework\View\File\Factory'),
+    array('Magento\Core\Model\Layout\File\FileList\Factory', 'Magento\Framework\View\File\FileList\Factory'),
+    array('Magento\Core\Model\Layout\File\ListFile', 'Magento\Framework\View\File\FileList'),
+    array(
+        'Magento\Core\Model\Layout\File\Source\Aggregated',
+        'Magento\Framework\View\Layout\File\Collector\Aggregated'
+    ),
+    array('Magento\Core\Model\Layout\File\Source\Base', 'Magento\Framework\View\Layout\File\Source\Base'),
     array(
         'Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency',
         'Magento\Framework\View\File\Collector\Decorator\ModuleDependency'
@@ -2096,7 +2106,7 @@ return array(
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
     array('Magento\Catalog\Helper\Flat\AbstractFlat'),
-    array('Magento\Core\App\Action\Plugin\Install', 'Magento\Install\App\Action\Plugin\Install'),
+    array('Magento\Core\App\Action\Plugin\Install', 'Magento\Framework\App\Bootstrap'),
     array('Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'),
     array(
         'Magento\Core\Model\LocaleInterface',
@@ -2281,8 +2291,8 @@ return array(
     ['Magento\Framework\App\Locale\ScopeConfigInterface', 'Magento\Framework\App\Config\ScopeConfigInterface'],
     ['Magento\Core\App\Action\Plugin\StoreCheck', 'Magento\Store\App\Action\Plugin\StoreCheck'],
     [
-        'Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler',
-        'Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler'
+        'Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler',
+        'Magento\Framework\App\Bootstrap'
     ],
     [
         'Magento\Core\App\FrontController\Plugin\RequestPreprocessor',
@@ -2307,14 +2317,14 @@ return array(
     ['Magento\Core\Model\Resource\Website\Grid\Collection', 'Magento\Store\Model\Resource\Website\Grid\Collection'],
     ['Magento\Core\Model\ScopeInterface', 'Magento\Store\Model\ScopeInterface'],
     ['Magento\Core\Model\Store', 'Magento\Store\Model\Store'],
-    ['Magento\Core\Model\Store\Exception', 'Magento\Store\Model\Exception'],
+    ['Magento\Store\Model\Exception', 'Magento\Framework\Model\Exception, Magento\Framework\App\InitException'],
     ['Magento\Core\Model\Store\Group', 'Magento\Store\Model\Group'],
     ['Magento\Core\Model\Store\Group\Factory', 'Magento\Store\Model\GroupFactory'],
     ['Magento\Core\Model\Store\Storage\Db', 'Magento\Store\Model\Storage\Db'],
     ['Magento\Core\Model\Store\Storage\DefaultStorage', 'Magento\Store\Model\Storage\DefaultStorage'],
     ['Magento\Core\Model\Store\StorageFactory', 'Magento\Store\Model\StorageFactory'],
     ['Magento\Core\Model\StoreManager', 'Magento\Store\Model\StoreManager'],
-    ['Magento\Core\Model\StoreManagerInterface', 'Magento\Store\Model\StoreManagerInterface'],
+    ['Magento\Core\Model\StoreManagerInterface', 'Magento\Framework\StoreManagerInterface'],
     ['Magento\Core\Model\System\Store', 'Magento\Store\Model\System\Store'],
     ['Magento\Core\Model\Website', 'Magento\Store\Model\Website'],
     ['Magento\Core\Model\Website\Factory', 'Magento\Store\Model\WebsiteFactory'],
@@ -2322,9 +2332,9 @@ return array(
     ['Magento\BaseScopeInterface', 'Magento\Framework\App\ScopeInterface'],
     ['Magento\BaseScopeResolverInterface', 'Magento\Framework\App\ScopeResolverInterface'],
     ['Magento\Framework\Locale\ScopeConfigInterface'],
-    ['Magento\Core\Model\Module\Output\Config','Magento\Framework\Module\Output\Config'],
-    ['Magento\Core\Model\Resource\Setup\Context','Magento\Framework\Module\Setup\Context'],
-    ['Magento\Core\Model\Resource\Setup\Migration','Magento\Framework\Module\Setup\Migration'],
+    ['Magento\Core\Model\Module\Output\Config', 'Magento\Framework\Module\Output\Config'],
+    ['Magento\Core\Model\Resource\Setup\Context', 'Magento\Framework\Module\Setup\Context'],
+    ['Magento\Core\Model\Resource\Setup\Migration', 'Magento\Framework\Module\Setup\Migration'],
     ['Magento\Core\Model\Resource\Setup\Generic'],
     ['Magento\Newsletter\Model\Resource\Setup'],
     ['Magento\SalesRule\Model\Resource\Setup'],
@@ -2425,8 +2435,6 @@ return array(
     ['Magento\AclFactory', 'Magento\Framework\AclFactory'],
     ['Magento\AppInterface', 'Magento\Framework\AppInterface'],
     ['Magento\Archive', 'Magento\Framework\Archive'],
-    ['Magento\Authorization', 'Magento\Framework\Authorization'],
-    ['Magento\AuthorizationInterface', 'Magento\Framework\AuthorizationInterface'],
     ['Magento\Event', 'Magento\Framework\Event'],
     ['Magento\EventFactory', 'Magento\Framework\EventFactory'],
     ['Magento\Exception', 'Magento\Framework\Exception'],
@@ -2440,7 +2448,6 @@ return array(
     ['Magento\Logger', 'Magento\Framework\Logger'],
     ['Magento\Phrase', 'Magento\Framework\Phrase'],
     ['Magento\Pear', 'Magento\Framework\Pear'],
-    ['Magento\Connect\Channel\Generator', 'Magento\Framework\Connect\Channel\Generator'],
     [
         'Magento\ImportExport\Model\Export\Product\Type\AbstractType',
         'Magento\CatalogImportExport\Model\Export\Product\Type\AbstractType'
@@ -2507,33 +2514,6 @@ return array(
         'Magento\ImportExport\Model\Resource\Customer\Collection',
         'Magento\CustomerFinance\Model\Resource\Customer\Collection'
     ],
-    ['Magento\Connect\Channel\VO', 'Magento\Framework\Connect\Channel\VO'],
-    ['Magento\Connect\Command\Channels', 'Magento\Framework\Connect\Command\Channels'],
-    ['Magento\Connect\Command\Config', 'Magento\Framework\Connect\Command\Config'],
-    ['Magento\Connect\Command\Install', 'Magento\Framework\Connect\Command\Install'],
-    ['Magento\Connect\Command\Package', 'Magento\Framework\Connect\Command\Package'],
-    ['Magento\Connect\Command\Registry', 'Magento\Framework\Connect\Command\Registry'],
-    ['Magento\Connect\Command\Remote', 'Magento\Framework\Connect\Command\Remote'],
-    ['Magento\Connect\Frontend\CLI', 'Magento\Framework\Connect\Frontend\CLI'],
-    ['Magento\Connect\Loader\Ftp', 'Magento\Framework\Connect\Loader\Ftp'],
-    ['Magento\Connect\Package\Hotfix', 'Magento\Framework\Connect\Package\Hotfix'],
-    ['Magento\Connect\Package\Reader', 'Magento\Framework\Connect\Package\Reader'],
-    ['Magento\Connect\Package\Target', 'Magento\Framework\Connect\Package\Target'],
-    ['Magento\Connect\Package\VO', 'Magento\Framework\Connect\Package\VO'],
-    ['Magento\Connect\Package\Writer', 'Magento\Framework\Connect\Package\Writer'],
-    ['Magento\Connect\Structures\Graph', 'Magento\Framework\Connect\Structures\Graph'],
-    ['Magento\Connect\Structures\Node', 'Magento\Framework\Connect\Structures\Node'],
-    ['Magento\Connect\Command', 'Magento\Framework\Connect\Command'],
-    ['Magento\Connect\Config', 'Magento\Framework\Connect\Config'],
-    ['Magento\Connect\Converter', 'Magento\Framework\Connect\Converter'],
-    ['Magento\Connect\Frontend', 'Magento\Framework\Connect\Frontend'],
-    ['Magento\Connect\Ftp', 'Magento\Framework\Connect\Ftp'],
-    ['Magento\Connect\Loader', 'Magento\Framework\Connect\Loader'],
-    ['Magento\Connect\Package', 'Magento\Framework\Connect\Package'],
-    ['Magento\Connect\Packager', 'Magento\Framework\Connect\Packager'],
-    ['Magento\Connect\Rest', 'Magento\Framework\Connect\Rest'],
-    ['Magento\Connect\Singleconfig', 'Magento\Framework\Connect\Singleconfig'],
-    ['Magento\Connect\Validator', 'Magento\Framework\Connect\Validator'],
     ['Magento\Profiler', 'Magento\Framework\Profiler'],
     ['Magento\Shell', 'Magento\Framework\Shell'],
     ['Magento\Url', 'Magento\Framework\Url'],
@@ -2553,7 +2533,8 @@ return array(
     ['Magento\OsInfo', 'Magento\Framework\OsInfo'],
     ['Magento\Registry', 'Magento\Framework\Registry'],
     ['Magento\Util', 'Magento\Framework\Util'],
-    ['Magento\BootstrapException', 'Magento\Framework\BootstrapException'],
+    ['Magento\BootstrapException', 'Magento\Framework\App\InitException'],
+    ['Magento\Framework\BootstrapException', 'Magento\Framework\App\InitException'],
     ['Magento\Checkout\Helper\Url'],
     [
         'Magento\Customer\Service\V1\CustomerCurrentService',
@@ -2585,7 +2566,10 @@ return array(
     ['Magento\Framework\View\Url', 'Magento\Framework\View\Asset\Repository'],
     ['Magento\Less\File\Source\Base', 'Magento\Framework\View\File\Collector\Base'],
     ['Magento\Less\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],
-    ['Magento\Framework\View\Layout\File\FileList\CollateInterface', 'Magento\Framework\View\File\FileList\CollateInterface'],
+    [
+        'Magento\Framework\View\Layout\File\FileList\CollateInterface',
+        'Magento\Framework\View\File\FileList\CollateInterface'
+    ],
     ['Magento\Framework\View\Layout\File\FileList\Collator', 'Magento\Framework\View\File\FileList\Collator'],
     ['Magento\Framework\View\Layout\File\FileList\Factory', 'Magento\Framework\View\File\FileList\Factory'],
     [
@@ -2706,7 +2690,108 @@ return array(
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\HashOptimized'],
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\ProductTaxClass'],
     ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
+    ['Magento\Framework\System\Args'],
+    ['Magento\Framework\Autoload\Simple'],
     ['Magento\Catalog\Helper\Product\Price'],
     ['Magento\Tax\Model\Config\Source\TaxClass\Product', 'Magento\Tax\Model\TaxClass\Source\Product'],
     ['Magento\Tax\Model\Config\Source\TaxClass\Customer', 'Magento\Tax\Model\TaxClass\Source\Customer'],
+    ['Magento\AdminNotification\Model\System\MessageInterface', 'Magento\Framework\Notification\MessageInterface'],
+    ['Magento\AdminNotification\Model\System\MessageList', 'Magento\Framework\Notification\MessageList'],
+    [
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable',
+        'Magento\ConfigurableImportExport\Model\Import\Product\Type\Configurable'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Configurable',
+        'Magento\ConfigurableImportExport\Model\Export\Product\Type\Configurable'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Export\RowCustomizer',
+        'Magento\ConfigurableImportExport\Model\Export\RowCustomizer'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Grouped',
+        'Magento\GroupedImportExport\Model\Export\Product\Type\Grouped'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Grouped',
+        'Magento\GroupedImportExport\Model\Import\Product\Type\Grouped'
+    ],
+    ['Magento\Catalog\Model\Observer\Reindex'],
+    ['Magento\CatalogSearch\Model\Fulltext\Observer'],
+    ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer\Country',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\Grid\Renderer\Country'
+    ],
+    ['Magento\Tax\Block\Adminhtml\Rate\ImportExport', 'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExport'],
+    [
+        'Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader',
+        'Magento\TaxImportExport\Block\Adminhtml\Rate\ImportExportHeader'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportCsv', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportCsv'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ExportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportPost'
+    ],
+    ['Magento\Tax\Controller\Adminhtml\Rate\ExportXml', 'Magento\TaxImportExport\Controller\Adminhtml\Rate\ExportXml'],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportExport',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportExport'
+    ],
+    [
+        'Magento\Tax\Controller\Adminhtml\Rate\ImportPost',
+        'Magento\TaxImportExport\Controller\Adminhtml\Rate\ImportPost'
+    ],
+    ['Magento\Tax\Model\Rate\CsvImportHandler', 'Magento\TaxImportExport\Model\Rate\CsvImportHandler'],
+    ['\Magento\Theme\Helper\Layout'],
+    ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
+    ['Magento\Framework\View\Design\Theme\Provider'],
+    ['Magento\Install\Controller\Index'],
+    ['Magento\Install\Controller\Wizard'],
+    ['Magento\Install\Controller\Wizard\Administrator'],
+    ['Magento\Install\Controller\Wizard\AdministratorPost'],
+    ['Magento\Install\Controller\Wizard\Begin'],
+    ['Magento\Install\Controller\Wizard\BeginPost'],
+    ['Magento\Install\Controller\Wizard\Config'],
+    ['Magento\Install\Controller\Wizard\ConfigPost'],
+    ['Magento\Install\Controller\Wizard\Download'],
+    ['Magento\Install\Controller\Wizard\DownloadAuto'],
+    ['Magento\Install\Controller\Wizard\DownloadManual'],
+    ['Magento\Install\Controller\Wizard\DownloadPost'],
+    ['Magento\Install\Controller\Wizard\End'],
+    ['Magento\Install\Controller\Wizard\Index'],
+    ['Magento\Install\Controller\Wizard\Install'],
+    ['Magento\Install\Controller\Wizard\InstallDb'],
+    ['Magento\Install\Controller\Wizard\Locale'],
+    ['Magento\Install\Controller\Wizard\LocaleChange'],
+    ['Magento\Install\Controller\Wizard\LocalePost'],
+    ['Magento\Install\App\Action\Plugin\Dir'],
+    ['\Magento\Framework\App\EntryPoint\EntryPoint', '\Magento\Framework\App\Bootstrap'],
+    ['\Magento\Framework\App\EntryPointInterface', '\Magento\Framework\App\Bootstrap'],
+    ['Magento\Framework\Module\FrontController\Plugin\Install', '\Magento\Framework\Module\Plugin\DbStatusValidator'],
+    ['Magento\Framework\Module\UpdaterInterface'],
+    ['Magento\Framework\App\EntryPoint\EntryPoint', 'Magento\Framework\App\Bootstrap'],
+    ['Magento\Framework\App\EntryPointInterface', 'Magento\Framework\App\Bootstrap'],
+    ['Magento\Install\Model\Installer\AbstractInstaller', 'Magento\Install\Model\Installer\Console'],
+    ['Magento\Install\App\Action\Plugin\Install', 'Magento\Framework\App\Bootstrap'],
+    ['\Magento\Cron\App\Cron\Plugin\ApplicationInitializer', 'Magento\Framework\App\Bootstrap'],
+    ['Magento\Framework\App\Error\Handler', 'Magento\Framework\App\Http'],
+    ['Magento\Framework\App\State\MaintenanceMode', 'Magento\Framework\App\MaintenanceMode'],
+    ['Magento\Framework\Error\Handler', 'Magento\Framework\App\ErrorHandler'],
+    ['Magento\Framework\Error\HandlerInterface', 'Magento\Framework\App\ErrorHandler'],
+    ['\Magento\Framework\Service\Data\Eav\AbstractObject', 'Magento\Framework\Service\Data\AbstractExtensibleObject'],
+    ['\Magento\Framework\Service\Data\AbstractObject', 'Magento\Framework\Service\Data\AbstractSimpleObject'],
+    [
+        '\Magento\Framework\Service\Data\Eav\AbstractObjectBuilder',
+        'Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder'
+    ],
+    [
+        '\Magento\Framework\Service\Data\AbstractObjectBuilder',
+        'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
+    ],
+    ['Magento\Catalog\Block\Product'],
+    ['\Magento\Sales\Model\Observer'],
+    ['\Magento\Checkout\Service\V1\QuoteLoader', '\Magento\Sales\Model\QuoteRepository'],
+    ['Magento\PageCache\Model\Observer']
 );

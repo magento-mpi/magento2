@@ -4,8 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-(function($) {
+define(["jquery","jquery/ui"], function($){
     /**
      * Widget panel
      */
@@ -45,4 +44,4 @@
         }
     });
 
-})(jQuery);
+});

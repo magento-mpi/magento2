@@ -10,7 +10,7 @@ namespace Magento\Sales\Model\Resource\Order;
 /**
  * Flat sales order address resource
  */
-class Address extends AbstractOrder
+class Address extends \Magento\Sales\Model\Resource\Entity
 {
     /**
      * Event prefix
@@ -20,26 +20,37 @@ class Address extends AbstractOrder
     protected $_eventPrefix = 'sales_order_address_resource';
 
     /**
-     * @var \Magento\Sales\Model\Resource\Factory
+     * @var \Magento\Sales\Model\Order\Address\Validator
      */
-    protected $_salesResourceFactory;
+    protected $_validator;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\GridPool
+     */
+    protected $gridPool;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
-     * @param \Magento\Sales\Model\Resource\Factory $salesResourceFactory
+     * @param \Magento\Sales\Model\Resource\Attribute $attribute
+     * @param \Magento\Sales\Model\Increment $salesIncrement
+     * @param \Magento\Sales\Model\Order\Address\Validator $validator
+     * @param \Magento\Sales\Model\Resource\GridPool $gridPool
+     * @param \Magento\Sales\Model\Resource\GridInterface $gridAggregator
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
-        \Magento\Sales\Model\Resource\Factory $salesResourceFactory
+        \Magento\Sales\Model\Resource\Attribute $attribute,
+        \Magento\Sales\Model\Increment $salesIncrement,
+        \Magento\Sales\Model\Order\Address\Validator $validator,
+        \Magento\Sales\Model\Resource\GridPool $gridPool,
+        \Magento\Sales\Model\Resource\GridInterface $gridAggregator = null
     ) {
-        parent::__construct($resource, $dateTime, $eventManager, $eavEntityTypeFactory);
-        $this->_salesResourceFactory = $salesResourceFactory;
+        $this->_validator = $validator;
+        $this->gridPool = $gridPool;
+        parent::__construct($resource, $dateTime, $attribute, $salesIncrement, $gridAggregator);
+
     }
 
     /**
@@ -68,11 +79,30 @@ class Address extends AbstractOrder
             'lastname' => __('Last Name'),
             'region_id' => __('State/Province'),
             'street' => __('Street Address'),
-            'telephone' => __('Telephone'),
+            'telephone' => __('Phone Number'),
             'postcode' => __('Zip/Postal Code')
         );
         asort($attributes);
         return $attributes;
+    }
+
+    /**
+     * Performs validation before save
+     *
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
+     * @throws \Magento\Framework\Model\Exception
+     */
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
+    {
+        parent::_beforeSave($object);
+        $warnings = $this->_validator->validate($object);
+        if (!empty($warnings)) {
+            throw new \Magento\Framework\Model\Exception(
+                __("Cannot save address") . ":\n" . implode("\n", $warnings)
+            );
+        }
+        return $this;
     }
 
     /**
@@ -84,25 +114,9 @@ class Address extends AbstractOrder
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $resource = parent::_afterSave($object);
-        if ($object->hasDataChanges() && $object->getOrder()) {
-            $gridList = array(
-                'Magento\Sales\Model\Resource\Order' => 'entity_id',
-                'Magento\Sales\Model\Resource\Order\Invoice' => 'order_id',
-                'Magento\Sales\Model\Resource\Order\Shipment' => 'order_id',
-                'Magento\Sales\Model\Resource\Order\Creditmemo' => 'order_id'
-            );
-
-            // update grid table after grid update
-            foreach ($gridList as $gridResource => $field) {
-                $this->_salesResourceFactory->create(
-                    $gridResource
-                )->updateOnRelatedRecordChanged(
-                    $field,
-                    $object->getParentId()
-                );
-            }
+        if ($object->hasDataChanges() && $object->getOrderId()) {
+            $this->gridPool->refreshByOrderId($object->getOrderId());
         }
-
         return $resource;
     }
 }

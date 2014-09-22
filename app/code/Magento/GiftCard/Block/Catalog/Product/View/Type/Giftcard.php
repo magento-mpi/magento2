@@ -8,6 +8,7 @@
 namespace Magento\GiftCard\Block\Catalog\Product\View\Type;
 
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
 {
@@ -19,17 +20,25 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_customerSession;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_customerSession = $customerSession;
         parent::__construct(
             $context,
@@ -107,7 +116,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     {
         $result = array();
         foreach ($product->getGiftcardAmounts() as $amount) {
-            $result[] = $this->_storeManager->getStore()->roundPrice($amount['website_value']);
+            $result[] = $this->priceCurrency->round($amount['website_value']);
         }
         sort($result);
         return $result;

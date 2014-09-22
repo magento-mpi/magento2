@@ -14,9 +14,10 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
+use Magento\Framework\Service\ExtensibleDataObjectConverter;
 
 /**
  * Test for \Magento\Customer\Service\V1\CustomerAccountService
@@ -55,7 +56,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_eventManagerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\StoreManagerInterface
      */
     private $_storeManagerMock;
 
@@ -93,6 +94,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataService
      */
     private $_customerMetadataService;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\AddressMetadataService
+     */
+    private $_addressMetadataService;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | CustomerRegistry
@@ -227,10 +233,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomCustomerAttributeMetadata'
+            'getCustomAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );
+
+        $this->_addressMetadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\AddressMetadataServiceInterface',
+            [],
+            '',
+            false
+        );
+
+        $this->_addressMetadataService
+            ->expects($this->any())
+            ->method('getCustomAttributesMetadata')
+            ->will($this->returnValue(array()));
 
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
@@ -239,7 +257,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $addressBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
-            ['metadataService' => $this->_customerMetadataService]
+            ['metadataService' => $this->_addressMetadataService]
         );
 
         $this->_customerDetailsBuilder = $this->_objectManager->getObject(
@@ -1296,7 +1314,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1359,7 +1377,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1426,7 +1444,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1476,7 +1494,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-                'getCustomerAttributeMetadata'
+                'getAttributeMetadata'
             )->will(
                 $this->returnValue($mockAttribute)
             );
@@ -1585,7 +1603,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count(\Magento\Framework\Service\EavDataObjectConverter::toFlatArray($actualCustomer)));
+        $this->assertEquals(4, count(ExtensibleDataObjectConverter::toFlatArray($actualCustomer)));
     }
 
     public function testSearchCustomersEmpty()
@@ -1623,7 +1641,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
+            'getAllAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );
@@ -1693,7 +1711,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
+            'getAllAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );
@@ -2091,7 +2109,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private function _setupStoreMock()
     {
         $this->_storeManagerMock = $this->getMockBuilder(
-            '\Magento\Store\Model\StoreManagerInterface'
+            '\Magento\Framework\StoreManagerInterface'
         )->disableOriginalConstructor()->getMock();
 
         $this->_storeMock = $this->getMockBuilder(

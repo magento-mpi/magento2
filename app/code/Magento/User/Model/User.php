@@ -7,6 +7,9 @@
  */
 namespace Magento\User\Model;
 
+use Magento\Backend\Model\Auth\Credential\StorageInterface;
+use Magento\Framework\Model\AbstractModel;
+
 /**
  * Admin user model
  *
@@ -38,7 +41,7 @@ namespace Magento\User\Model;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Backend\Model\Auth\Credential\StorageInterface
+class User extends AbstractModel implements StorageInterface
 {
     /**
      * Configuration paths for email templates and identities
@@ -64,7 +67,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     /**
      * Admin role
      *
-     * @var \Magento\User\Model\Role
+     * @var \Magento\Authorization\Model\Role
      */
     protected $_role;
 
@@ -99,7 +102,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     /**
      * Role model factory
      *
-     * @var \Magento\User\Model\RoleFactory
+     * @var \Magento\Authorization\Model\RoleFactory
      */
     protected $_roleFactory;
 
@@ -119,7 +122,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -129,13 +132,13 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Backend\App\ConfigInterface $config
      * @param \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory
-     * @param \Magento\User\Model\RoleFactory $roleFactory
+     * @param \Magento\Authorization\Model\RoleFactory $roleFactory
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -146,11 +149,11 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         \Magento\User\Helper\Data $userData,
         \Magento\Backend\App\ConfigInterface $config,
         \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory,
-        \Magento\User\Model\RoleFactory $roleFactory,
+        \Magento\Authorization\Model\RoleFactory $roleFactory,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -209,10 +212,10 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
         $this->_registry = $objectManager->get('Magento\Framework\Registry');
         $this->_validatorObject = $objectManager->get('Magento\Framework\Validator\ObjectFactory');
-        $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
+        $this->_roleFactory = $objectManager->get('Magento\Authorization\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
         $this->_transportBuilder = $objectManager->get('Magento\Framework\Mail\Template\TransportBuilder');
-        $this->_storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        $this->_storeManager = $objectManager->get('Magento\Framework\StoreManagerInterface');
     }
 
     /**
@@ -411,7 +414,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     /**
      * Get admin role model
      *
-     * @return \Magento\User\Model\Role
+     * @return \Magento\Authorization\Model\Role
      */
     public function getRole()
     {

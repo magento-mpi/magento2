@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 ?>
-<div class="page-actions">
-    <?php echo $this->getBackButtonHtml() ?>
-    <?php echo $this->getCancelButtonHtml() ?>
-    <?php echo $this->getSaveButtonHtml() ?>
-</div>
+
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="attributes-edit-form" class="attributes-edit-form" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
+require(['jquery', "mage/mage"], function(jQuery){
+
     jQuery('#attributes-edit-form').mage('form')
         .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+
+});
 </script>

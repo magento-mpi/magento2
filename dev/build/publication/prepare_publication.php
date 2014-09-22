@@ -13,7 +13,7 @@
 define(
     'SYNOPSIS',
 <<<SYNOPSIS
-php -f publish.php --
+php -f prepare_publication.php --
     --source="<repository>" --source-point="<branch name or commit ID>"
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
     --changelog-file="<markdown_file>"
@@ -79,18 +79,9 @@ try {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
 
+    echo 'Parsing top section of CHANGELOG.md:' . PHP_EOL;
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
-
-    // composer.json
-    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
-    execVerbose("$gitCmd add composer.json");
-
-    // Travis CI config
-    copy(__DIR__ . '/travis/.travis.yml', $targetDir . '/.travis.yml');
-    execVerbose("$gitCmd add .travis.yml");
-    $integrationTestsLocalConfig = 'dev/tests/integration/etc/local-mysql.travis.xml.dist';
-    copy(__DIR__ . "/travis/$integrationTestsLocalConfig", $targetDir . "/$integrationTestsLocalConfig");
-    execVerbose("$gitCmd add $integrationTestsLocalConfig");
+    echo $commitMsg . PHP_EOL;
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';

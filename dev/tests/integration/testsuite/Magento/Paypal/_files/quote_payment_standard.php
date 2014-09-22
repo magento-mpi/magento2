@@ -84,7 +84,7 @@ $quote->setCustomerIsGuest(
     true
 )->setStoreId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getId()
 )->setReservedOrderId(
     'test01'
@@ -101,6 +101,7 @@ $quote->getShippingAddress()->setCollectShippingRates(true);
 $quote->collectTotals()->save();
 
 $quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
+$quote->setCustomerEmail('admin@example.com');
 
 /** @var $service \Magento\Sales\Model\Service\Quote */
 $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

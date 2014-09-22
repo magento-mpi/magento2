@@ -8,6 +8,8 @@
 ?>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
     document.observe('dom:loaded', function () {
         $('edit_form').insert({
@@ -15,4 +17,6 @@
         });
     });
 //]]>
+
+});
 </script>

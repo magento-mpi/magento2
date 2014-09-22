@@ -19,11 +19,30 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 class AssertProductForm extends AbstractAssertForm
 {
     /**
+     * List skipped fixture fields in verify
+     *
+     * @var array
+     */
+    protected $skippedFixtureFields = [
+        'id',
+        'checkout_data'
+    ];
+
+    /**
      * Sort fields for fixture and form data
      *
      * @var array
      */
-    protected $sortFields = [];
+    protected $sortFields = [
+        'custom_options::title'
+    ];
+
+    /**
+     * Formatting options for array values
+     *
+     * @var array
+     */
+    protected $specialArray = [];
 
     /**
      * Constraint severeness
@@ -49,8 +68,13 @@ class AssertProductForm extends AbstractAssertForm
         $productGrid->open();
         $productGrid->getProductGrid()->searchAndOpen($filter);
 
-        $fixtureData = $this->prepareFixtureData($product->getData(), $this->sortFields);
-        $formData = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
+        $productData = $product->getData();
+        if ($product->hasData('custom_options')) {
+            $customOptionsSource = $product->getDataFieldConfig('custom_options')['source'];
+            $productData['custom_options'] = $customOptionsSource->getCustomOptions();
+        }
+        $fixtureData = $this->prepareFixtureData($productData, $this->sortFields);
+        $formData = $this->prepareFormData($productPage->getProductForm()->getData($product), $this->sortFields);
         $error = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
@@ -64,14 +88,37 @@ class AssertProductForm extends AbstractAssertForm
      */
     protected function prepareFixtureData(array $data, array $sortFields = [])
     {
+        $data = array_diff_key($data, array_flip($this->skippedFixtureFields));
+
         if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
             $data['website_ids'] = [$data['website_ids']];
+        }
+        if (!empty($this->specialArray)) {
+            $data = $this->prepareSpecialPriceArray($data);
         }
 
         foreach ($sortFields as $path) {
             $data = $this->sortDataByPath($data, $path);
         }
         return $data;
+    }
+
+    /**
+     * Prepare special price array for product
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function prepareSpecialPriceArray(array $fields)
+    {
+        foreach ($this->specialArray as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                if (isset($value['type']) && $value['type'] == 'date') {
+                    $fields[$key] = vsprintf('%d/%d/%d', explode('/', $fields[$key]));
+                }
+            }
+        }
+        return $fields;
     }
 
     /**

@@ -20,6 +20,8 @@ $coreHelper = $this->helper('Magento\Core\Helper\Data');
     <div id="<?php echo $this->getFieldPrefix() ?>_attribute_container"></div>
 
     <script type="text/javascript">
+require(['jquery', 'js/theme', 'Magento_GiftRegistry/edit/validation-rules', 'prototype'], function(jQuery){
+
     //<![CDATA[
     var attributeTemplate =
         '<div class="fieldset-wrapper opened option-box collapsable-wrapper" id="{{prefix}}_option_{{id}}">'+
@@ -327,7 +329,7 @@ $coreHelper = $this->helper('Magento\Core\Helper\Data');
                 Element.insert(element, {'after':this.secondTemplate.evaluate(data)});
             }
         }
-    }
+    };
 
     if($('<?php echo $this->getAddButtonId() ?>')){
         Event.observe('<?php echo $this->getAddButtonId() ?>', 'click', customAttribute.add.bind(customAttribute));
@@ -340,9 +342,8 @@ $coreHelper = $this->helper('Magento\Core\Helper\Data');
     customAttribute.bindScopeCheckbox();
     customAttribute.changeScopeInputs(<?php echo $this->getTypeStoreId() ?>);
 
-    head.js('<?php echo $this->getViewFileUrl('Magento_GiftRegistry::edit/validation-rules.js'); ?>');
 
-    function bindActiveRegistryTab(event, ui) {
+    bindActiveRegistryTab = function(event, ui) {
         var anchor = jQuery(ui.newTab).find('a');
         if ($('store_switcher') && anchor.length && anchor.prop('name')) {
             $('store_switcher').switchParams = 'active_tab/' + anchor.prop('name') + '/';
@@ -350,5 +351,7 @@ $coreHelper = $this->helper('Magento\Core\Helper\Data');
     }
     jQuery(document).on('tabsactivate', bindActiveRegistryTab);
     //]]>
-    </script>
+    
+});
+</script>
 </div>

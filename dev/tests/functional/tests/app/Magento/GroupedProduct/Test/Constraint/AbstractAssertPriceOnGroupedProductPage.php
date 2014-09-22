@@ -8,10 +8,11 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
-use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertPriceOnProductPageInterface;
 
 /**
@@ -37,26 +38,27 @@ abstract class AbstractAssertPriceOnGroupedProductPage extends AbstractConstrain
     /**
      * Verify product price on grouped product view page
      *
-     * @param CatalogProductGrouped $product
+     * @param GroupedProductInjectable $product
      * @param CatalogProductView $catalogProductView
      * @param AssertPriceOnProductPageInterface $object
+     * @param Browser $browser
      * @param string $typePrice [optional]
      * @return bool|string
      */
     protected function processAssertPrice(
-        CatalogProductGrouped $product,
+        GroupedProductInjectable $product,
         CatalogProductView $catalogProductView,
         AssertPriceOnProductPageInterface $object,
+        Browser $browser,
         $typePrice = ''
     ) {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         $groupedData = $product->getAssociated();
         /** @var InjectableFixture $subProduct */
         foreach ($groupedData['products'] as $key => $subProduct) {
             //Process assertions
-            $catalogProductView->getGroupedViewBlock()
+            $catalogProductView->getViewBlock()
                 ->{'item' . $typePrice . 'PriceProductBlock'}(++$key);
             $object->setErrorMessage(sprintf($this->errorMessage, $subProduct->getData('name')));
             $object->assertPrice($subProduct, $catalogProductView, 'Grouped');

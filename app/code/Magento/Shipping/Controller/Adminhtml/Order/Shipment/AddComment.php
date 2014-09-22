@@ -9,6 +9,7 @@
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
 use Magento\Backend\App\Action;
+use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 
 class AddComment extends \Magento\Backend\App\Action
 {
@@ -18,14 +19,22 @@ class AddComment extends \Magento\Backend\App\Action
     protected $shipmentLoader;
 
     /**
+     * @var ShipmentSender
+     */
+    protected $shipmentSender;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader $shipmentLoader
+     * @param ShipmentSender $shipmentSender
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader $shipmentLoader
+        \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader $shipmentLoader,
+        ShipmentSender $shipmentSender
     ) {
         $this->shipmentLoader = $shipmentLoader;
+        $this->shipmentSender = $shipmentSender;
         parent::__construct($context);
     }
 
@@ -51,21 +60,26 @@ class AddComment extends \Magento\Backend\App\Action
                 throw new \Magento\Framework\Model\Exception(__("The comment text field cannot be empty."));
             }
             $this->_title->add(__('Shipments'));
-            $shipment = $this->shipmentLoader->load($this->_request);
+            $this->shipmentLoader->setOrderId($this->getRequest()->getParam('order_id'));
+            $this->shipmentLoader->setShipmentId($this->getRequest()->getParam('shipment_id'));
+            $this->shipmentLoader->setShipment($this->getRequest()->getParam('shipment'));
+            $this->shipmentLoader->setTracking($this->getRequest()->getParam('tracking'));
+            $shipment = $this->shipmentLoader->load();
             $shipment->addComment(
                 $data['comment'],
                 isset($data['is_customer_notified']),
                 isset($data['is_visible_on_front'])
             );
-            $shipment->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
+
+            $this->shipmentSender->send($shipment, !empty($data['is_customer_notified']), $data['comment']);
             $shipment->save();
 
             $this->_view->loadLayout(false);
             $response = $this->_view->getLayout()->getBlock('shipment_comments')->toHtml();
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('Cannot add new comment.'));
+            $response = ['error' => true, 'message' => __('Cannot add new comment.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

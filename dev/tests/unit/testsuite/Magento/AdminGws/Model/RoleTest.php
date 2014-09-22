@@ -22,7 +22,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $storeManagerMock->expects($this->any())
@@ -56,7 +56,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         $gwsWebsites
     ) {
         $adminRole = $this->objectManagerHelper->getObject(
-            'Magento\User\Model\Role',
+            'Magento\Authorization\Model\Role',
             [
                 'data' => [
                     'gws_relevant_websites' => $gwsRelevantWebsites,

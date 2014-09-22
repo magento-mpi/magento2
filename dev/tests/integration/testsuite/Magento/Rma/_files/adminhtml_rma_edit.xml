@@ -9,16 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <block class="Magento\Backend\Block\Page\Head" name="head" as="head" template="page/head.phtml">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-order-shipment-packaging-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Shipping::order/packaging.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-rma-rma-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Rma::rma.js</argument>
-            </arguments>
-        </block>
     </block>
     <block class="Magento\Rma\Block\Adminhtml\Rma\Create" name="content">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit" name="magento_rma_edit" />

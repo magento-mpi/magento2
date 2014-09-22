@@ -9,7 +9,6 @@
 //
 //    Newsletter subscription
 //--------------------------------------
-
 .block.newsletter {
     margin-bottom: 40px;
     .form.subscribe {
@@ -30,7 +29,7 @@
                 @_icon-font-size: 35px,
                 @_icon-font-line-height: 33px,
                 @_icon-font-color: @form-element-input-placeholder-color
-                );
+            );
             &:before {
                 position: absolute;
             }
@@ -44,7 +43,7 @@
         display: none;
     }
     .label {
-        .visually-hidden();
+        &:extend(.abstract-visually-hidden all);
     }
     .actions {
         display: table-cell;
@@ -61,7 +60,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .block.newsletter {
         width: 32%;
         .field {

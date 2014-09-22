@@ -9,6 +9,7 @@
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
 use \Magento\Backend\App\Action;
+use Magento\Sales\Model\Order\Email\Sender\OrderCommentSender;
 
 class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
 {
@@ -39,9 +40,13 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
                 $comment = trim(strip_tags($data['comment']));
 
                 $order->save();
-                $order->sendOrderUpdateEmail($notify, $comment);
+                /** @var OrderCommentSender $orderCommentSender */
+                $orderCommentSender = $this->_objectManager
+                    ->create('Magento\Sales\Model\Order\Email\Sender\OrderCommentSender');
 
-                $this->_view->loadLayout('empty');
+                $orderCommentSender->send($order, $notify, $comment);
+
+                $this->_view->loadLayout();
                 $this->_view->renderLayout();
             } catch (\Magento\Framework\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());

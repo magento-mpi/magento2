@@ -5,8 +5,18 @@
  * @license     {license_link}
  */
 /*jshint browser:true, jquery:true*/
-(function($, window) {
+(function (factory) {
+    if (typeof define === "function" && define.amd) {
+        define([
+            "jquery",
+            "jquery/ui"
+        ], factory);
+    } else {
+        factory(jQuery);
+    }
+}(function ($) {
     "use strict";
+
     $.widget('mage.gallery', {
         options: {
             minWidth: 300, // Minimum width of the gallery image.
@@ -34,4 +44,4 @@
             window.resizeTo(width + this.options.widthOffset, img.height() + this.options.heightOffset);
         }
     });
-})(jQuery, window);
+}));

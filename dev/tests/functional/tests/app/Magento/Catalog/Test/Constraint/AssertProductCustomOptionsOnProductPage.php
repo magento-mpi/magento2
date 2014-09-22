@@ -8,10 +8,11 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
+use Mtf\ObjectManager;
+use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductCustomOptionsOnProductPage
@@ -74,25 +75,34 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
     ];
 
     /**
+     * Flag for verify price data
+     *
+     * @var bool
+     */
+    protected $isPrice = true;
+
+    /**
      * Assertion that commodity options are displayed correctly
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
+     * @param Browser $browser
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product, Browser $browser)
     {
-        // TODO fix initialization url for frontend page
-        // Open product view page
-        $catalogProductView->init($product);
-        $catalogProductView->open();
-        // Prepare data
-        $formCustomOptions = $catalogProductView->getCustomOptionsBlock()->getOptions($product);
-        $prices = $catalogProductView->getViewBlock()->getProductPriceBlock()->getPrice();
-        $actualPrice = isset($prices['price_special_price'])
-            ? $prices['price_special_price']
-            : $prices['price_regular_price'];
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+
+        $actualPrice = null;
+        if ($this->isPrice) {
+            $priceBlock = $catalogProductView->getViewBlock()->getPriceBlock();
+            $specialPrice = $priceBlock->getSpecialPrice();
+            $price = $priceBlock->getPrice();
+            $actualPrice = $specialPrice ? $specialPrice : $price;
+        }
         $fixtureCustomOptions = $this->prepareOptions($product, $actualPrice);
+        $formCustomOptions = $catalogProductView->getViewBlock()->getOptions($product)['custom_options'];
+
         $error = $this->verifyData($fixtureCustomOptions, $formCustomOptions);
         \PHPUnit_Framework_Assert::assertEmpty($error, $error);
     }
@@ -103,12 +113,15 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
      * @param FixtureInterface $product
      * @param int|null $actualPrice
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareOptions(FixtureInterface $product, $actualPrice = null)
     {
-        $customOptions = $product->getCustomOptions();
         $result = [];
-
+        $customOptions = $product->hasData('custom_options')
+            ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+            : null;
         $actualPrice = $actualPrice ? $actualPrice : $product->getPrice();
         foreach ($customOptions as $customOption) {
             $skippedField = isset($this->skippedFieldOptions[$customOption['type']])

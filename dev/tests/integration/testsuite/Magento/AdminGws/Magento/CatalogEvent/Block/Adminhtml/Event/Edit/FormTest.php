@@ -22,8 +22,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\User\Model\Role $adminRole */
-        $adminRole = $objectManager->get('Magento\User\Model\Role');
+        /** @var \Magento\Authorization\Model\Role $adminRole */
+        $adminRole = $objectManager->get('Magento\Authorization\Model\Role');
         $adminRole->load('admingws_role', 'role_name');
 
         /** @var \Magento\AdminGws\Model\Role $adminGwsRole */

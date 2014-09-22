@@ -1,0 +1,3 @@
+"notFoundCustomers";"foundCustomers";"customers";"customerSegments";"reportActions/select";"reportActions/massaction/View Combined Report";"constraint"
+"-";"0,1,2";"default::US_address,default::US_address_default_billing,default::US_address_default_shipping";"active_customer_segment_with_billing_address,active_customer_segment_with_shipping_address";"Select All";"Union";"assertCustomerSegmentReportMessage, assertCustomerSegmentReportInGrid"
+"1,2";"0";"default::US_address,default::US_address_default_billing,default::US_address_default_shipping";"active_customer_segment_with_billing_address,active_customer_segment_with_shipping_address";"Select All";"Intersection";"assertCustomerSegmentReportMessage, assertCustomerSegmentReportInGrid, assertCustomerSegmentReportNotInGrid"

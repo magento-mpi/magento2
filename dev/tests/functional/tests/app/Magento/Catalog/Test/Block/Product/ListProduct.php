@@ -59,7 +59,7 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $oldPrice = ".old-price .price";
+    protected $oldPrice = ".old-price .price-container";
 
     /**
      * 'Add to Card' button
@@ -74,6 +74,13 @@ class ListProduct extends Block
      * @var string
      */
     protected $priceBox = '.price-box #product-price-%s .price';
+
+    /**
+     * Popup map price
+     *
+     * @var string
+     */
+    protected $mapPopupPrice = '//ancestor::*[@id="map-popup-click-for-price"]';
 
     /**
      * This method returns the price box block for the named product.
@@ -154,6 +161,7 @@ class ListProduct extends Block
     public function openMapBlockOnCategoryPage($productName)
     {
         $this->_rootElement->find(sprintf($this->clickForPrice, $productName), Locator::SELECTOR_XPATH)->click();
+        $this->waitForElementVisible($this->mapPopupPrice, Locator::SELECTOR_XPATH);
     }
 
     /**

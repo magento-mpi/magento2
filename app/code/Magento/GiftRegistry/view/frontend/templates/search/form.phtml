@@ -76,13 +76,16 @@
 </form>
 
 <script type="text/javascript">
-    (function($) {
-        $('form[id^="gr-search"]').mage('validation');
-        $('#params-type-id').mage('advancedSearch', {
-            url: '<?php echo $this->getAdvancedUrl() ?>',
-            selectedOption: '<?php echo ($this->getFormData('type_id') ? $this->getFormData('type_id') : null); ?>'
-        });
-    })(jQuery);
+require(['jquery', "mage/mage"], function($){
+
+    $('form[id^="gr-search"]').mage('validation');
+    
+    $('#params-type-id').mage('advancedSearch', {
+        url: '<?php echo $this->getAdvancedUrl() ?>',
+        selectedOption: '<?php echo ($this->getFormData('type_id') ? $this->getFormData('type_id') : null); ?>'
+    });
+
+});
 </script>
 
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>

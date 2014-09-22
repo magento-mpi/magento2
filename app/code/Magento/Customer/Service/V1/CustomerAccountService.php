@@ -8,34 +8,34 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\CustomerDetails;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Customer\Model\AddressRegistry;
+use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
-use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Customer\Service\V1\Data\CustomerDetails;
+use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\Framework\Exception\EmailNotConfirmedException;
-use Magento\Framework\Exception\InvalidEmailOrPasswordException;
-use Magento\Framework\Exception\State\ExpiredException;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\AuthenticationException;
-use Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\EmailNotConfirmedException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InvalidEmailOrPasswordException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\State\ExpiredException;
 use Magento\Framework\Exception\State\InputMismatchException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
+use Magento\Framework\Logger;
 use Magento\Framework\Mail\Exception as MailException;
 use Magento\Framework\Math\Random;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SortOrder;
 use Magento\Framework\UrlInterface;
-use Magento\Framework\Logger;
-use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
-use Magento\Customer\Model\Config\Share as ConfigShare;
-use Magento\Customer\Model\AddressRegistry;
-use Magento\Framework\Service\V1\Data\Filter;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Handle various customer account actions
@@ -72,7 +72,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $eventManager;
 
     /**
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     private $storeManager;
 
@@ -134,7 +134,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * @param CustomerFactory $customerFactory
      * @param ManagerInterface $eventManager
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
@@ -260,12 +260,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             }
         }
 
-        $this->eventManager->dispatch('customer_login', array('customer' => $customerModel));
+        $customerData = $this->converter->createCustomerFromModel($customerModel);
+        $this->eventManager->dispatch('customer_data_object_login', array('customer' => $customerData));
 
-        $customerDto = $this->converter->createCustomerFromModel($customerModel);
-        $this->eventManager->dispatch('customer_data_object_login', array('customer' => $customerDto));
-
-        return $customerDto;
+        return $customerData;
     }
 
     /**
@@ -418,7 +416,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      *
      * @param CustomerModel $customerModel
      * @param Data\Customer $customer
-     * @param string        $redirectUrl
+     * @param string $redirectUrl
      * @return void
      */
     protected function _sendEmailConfirmation(CustomerModel $customerModel, Data\Customer $customer, $redirectUrl)
@@ -492,7 +490,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         /** @var Collection $collection */
         $collection = $this->customerFactory->create()->getCollection();
         // This is needed to make sure all the attributes are properly loaded
-        foreach ($this->customerMetadataService->getAllCustomerAttributeMetadata() as $metadata) {
+        foreach ($this->customerMetadataService->getAllAttributesMetadata() as $metadata) {
             $collection->addAttributeToSelect($metadata->getAttributeCode());
         }
         // Needed to enable filtering on name as a whole
@@ -510,9 +508,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         $this->searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
+        /** @var SortOrder $sortOrder */
         if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            foreach ($searchCriteria->getSortOrders() as $sortOrder) {
+                $collection->addOrder(
+                    $sortOrder->getField(),
+                    ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
+                );
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -621,7 +623,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function validateCustomerData(Data\Customer $customer, array $attributes = [])
     {
         $customerErrors = $this->validator->validateData(
-            \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer),
+            \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer),
             $attributes,
             'customer'
         );
@@ -746,7 +748,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'lastname']);
         }
 
-        if (!\Zend_Validate::is($customerModel->getEmail(), 'EmailAddress')) {
+        $isEmailAddress = \Zend_Validate::is(
+            $customerModel->getEmail(),
+            'EmailAddress',
+            ['allow' => ['allow'=> \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
+        );
+
+        if (!$isEmailAddress) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE,
                 ['fieldName' => 'email', 'value' => $customerModel->getEmail()]
@@ -814,7 +822,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private function getAttributeMetadata($attributeCode)
     {
         try {
-            return $this->customerMetadataService->getCustomerAttributeMetadata($attributeCode);
+            return $this->customerMetadataService->getAttributeMetadata($attributeCode);
         } catch (NoSuchEntityException $e) {
             return null;
         }

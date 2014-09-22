@@ -131,10 +131,29 @@ class Observer
         if ($registryItemId = $object->getGiftregistryItemId()) {
             $model = $this->entityFactory->create()->loadByEntityItem($registryItemId);
             if ($model->getId()) {
-                $object->setId($this->_giftRegistryData->getAddressIdPrefix() . $model->getId());
+                $object->setId($this->_giftRegistryData->getAddressIdPrefix() . $registryItemId);
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
             }
+        }
+        return $this;
+    }
+
+    /**
+     * Check if gift registry prefix is set for customer address id
+     * and set giftRegistryItemId
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return $this
+     */
+    public function addressDataBeforeSave($observer)
+    {
+        $object = $observer->getEvent()->getDataObject();
+        $addressId = $object->getCustomerAddressId();
+        $prefix = $this->_giftRegistryData->getAddressIdPrefix();
+
+        if (!is_numeric($addressId) && preg_match('/^' . $prefix . '([0-9]+)$/', $addressId)) {
+            $object->setGiftregistryItemId(str_replace($prefix, '', $addressId));
         }
         return $this;
     }

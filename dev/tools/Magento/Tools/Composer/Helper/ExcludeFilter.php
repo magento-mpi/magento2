@@ -37,16 +37,8 @@ class ExcludeFilter extends \RecursiveFilterIterator
      */
     public function accept()
     {
-        return !($this->current()->isDir() &&
-            in_array(
-                str_replace(
-                    '\\',
-                    '/',
-                    realpath($this->current()->getPathname())
-                ),
-                $this->exclude
-            )
-        );
+        $path = str_replace('\\', '/', realpath($this->current()->getPathname()));
+        return !in_array($path, $this->exclude);
     }
 
     /**

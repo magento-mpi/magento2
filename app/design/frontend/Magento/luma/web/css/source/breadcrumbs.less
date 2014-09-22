@@ -1,0 +1,20 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.breadcrumbs {
+    .mixin-breadcrumbs();
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .breadcrumbs {
+        display: none;
+    }
+}

@@ -57,14 +57,17 @@
         <code>
             <attribute_code>code</attribute_code>
             <backend_type>virtual</backend_type>
+            <group>settings</group>
         </code>
         <theme_id>
             <attribute_code>theme_id</attribute_code>
             <backend_type>virtual</backend_type>
+            <group>settings</group>
         </theme_id>
         <store_ids>
             <attribute_code>store_ids</attribute_code>
             <backend_type>virtual</backend_type>
+            <source>Magento\Widget\Test\Fixture\Widget\StoreIds</source>
         </store_ids>
         <widget_instance>
             <attribute_code>widget_instance</attribute_code>
@@ -78,6 +81,11 @@
             <attribute_code>id</attribute_code>
             <backend_type>virtual</backend_type>
         </id>
+        <page_id>
+            <attribute_code>page_id</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>Magento\Widget\Test\Fixture\Widget\PageIds</source>
+        </page_id>
     </fields>
     <repository_class>Magento\Widget\Test\Repository\Widget</repository_class>
     <handler_interface>Magento\Widget\Test\Handler\Widget\WidgetInterface</handler_interface>

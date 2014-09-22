@@ -56,7 +56,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->ruleModel = $this->getMock('Magento\TargetRule\Model\Rule', [], [], '', false);
 
         $this->adapter = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql',
-            ['_connect', 'delete', 'describeTable', 'fetchCol', 'insert', 'lastInsertId', 'quote'], [], '', false);
+            ['_connect', 'delete', 'insertOnDuplicate'], [], '', false);
         $this->adapter->expects($this->any())->method('describeTable')->will($this->returnValue([]));
         $this->adapter->expects($this->any())->method('lastInsertId')->will($this->returnValue(1));
 
@@ -71,39 +71,62 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function testCleanProductPagesCache()
+    public function testSaveCustomerSegments()
     {
-        $productIdsBeforeUnbind = [1, 2, 3];
-        $matchedProductIds = [3, 4, 5];
-        $productIdsForClean = [1, 2, 3, 4 => 4, 5 => 5]; // result of array_unique and array_merge
+        $ruleId = 1;
+        $segmentIds = array(1, 2);
+
+        $this->adapter->expects($this->at(2))
+            ->method('insertOnDuplicate')
+            ->will($this->returnSelf());
 
         $this->adapter->expects($this->once())
-            ->method('fetchCol')
-            ->with($this->isInstanceOf('Magento\Framework\DB\Select'))
-            ->will($this->returnValue($productIdsBeforeUnbind));
+            ->method('delete')
+            ->with($this->resourceRule->getTable('magento_targetrule_customersegment'))
+            ->will($this->returnSelf());
 
-        $this->ruleModel->expects($this->once())->method('getMatchingProductIds')
-            ->will($this->returnValue($matchedProductIds));
-
-        $this->moduleManager->expects($this->once())->method('isEnabled')->with('Magento_PageCache')
-            ->will($this->returnValue(true));
-
-        $this->context->expects($this->once())->method('registerEntities')
-            ->with(Product::CACHE_TAG, $productIdsForClean);
-
-        $this->eventManager->expects($this->once())->method('dispatch')
-            ->with('clean_cache_by_tags', ['object' => $this->context]);
-
-        $this->resourceRule->save($this->ruleModel);
+        $this->resourceRule->saveCustomerSegments($ruleId, $segmentIds);
     }
 
-    public function testCleanProductPagesCacheIfPageCacheIsDisabled()
+    public function testCleanCachedDataByProductIds()
     {
-        $this->moduleManager->expects($this->once())->method('isEnabled')->with('Magento_PageCache')
-            ->will($this->returnValue(false));
-        $this->context->expects($this->never())->method('registerEntities');
-        $this->eventManager->expects($this->never())->method('dispatch');
+        $productIds = array (1, 2, 3);
+        $this->moduleManager->expects($this->once())
+            ->method('isEnabled')
+            ->with('Magento_PageCache')
+            ->will($this->returnValue(true));
 
-        $this->resourceRule->save($this->ruleModel);
+        $this->context->expects($this->once())
+            ->method('registerEntities')
+            ->with(Product::CACHE_TAG, $productIds)
+            ->will($this->returnSelf());
+
+        $this->eventManager->expects($this->once())
+            ->method('dispatch')
+            ->with('clean_cache_by_tags', array('object' => $this->context))
+            ->will($this->returnSelf());
+
+        $this->resourceRule->cleanCachedDataByProductIds($productIds);
+    }
+
+    public function testBindRuleToEntity()
+    {
+        $this->appResource->expects($this->any())
+            ->method('getTableName')
+            ->with('magento_targetrule_product')
+            ->will($this->returnValue('magento_targetrule_product'));
+
+        $this->adapter->expects($this->any())
+            ->method('insertOnDuplicate')
+            ->with('magento_targetrule_product', [['product_id' => 1, 'rule_id' => 1]], ['rule_id']);
+
+        $this->adapter->expects($this->never())
+            ->method('beginTransaction');
+        $this->adapter->expects($this->never())
+            ->method('commit');
+        $this->adapter->expects($this->never())
+            ->method('rollback');
+
+        $this->resourceRule->bindRuleToEntity([1], [1], 'product');
     }
 }

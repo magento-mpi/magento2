@@ -2,3 +2,4 @@
 /etc/*.xml
 /tmp/
 /var/
+/config/install.php

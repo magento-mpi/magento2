@@ -41,9 +41,9 @@
         <selector>#page_tabs_design_section</selector>
         <strategy>css selector</strategy>
         <fields>
-            <root_template>
+            <page_layout>
                 <input>select</input>
-            </root_template>
+            </page_layout>
             <layout_update_xml>
                 <selector>#page_layout_update_xml</selector>
                 <input>textarea</input>
@@ -53,9 +53,9 @@
             <custom_theme>
                 <input>select</input>
             </custom_theme>
-            <custom_root_template>
+            <custom_page_layout>
                 <input>select</input>
-            </custom_root_template>
+            </custom_page_layout>
             <custom_layout_update_xml>
                 <selector>#page_custom_layout_update_xml</selector>
                 <input>textarea</input>

@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="row">
+    <div ng-include="'controls/menu'"></div>
+
+    <div class="container {{class}}" ng-controller="mainController" id="main">
+        <div ui-view="root">
+            <div ui-view></div>
+        </div>
+    </div>
+</div>

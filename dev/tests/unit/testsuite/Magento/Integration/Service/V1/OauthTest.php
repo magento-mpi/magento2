@@ -92,7 +92,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_service = new \Magento\Integration\Service\V1\Oauth(
-            $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false),
             $this->_consumerFactory,
             $this->_tokenFactoryMock,
             $this->getMock('Magento\Integration\Helper\Oauth\Data', array(), array(), '', false),
@@ -161,7 +161,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -198,7 +198,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -223,7 +223,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->throwException(
                 new \Magento\Framework\Oauth\Exception(
@@ -337,14 +337,14 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
 
         $this->_tokenMock->expects($this->once())->method('delete');
 
-        $this->assertTrue($this->_service->deleteToken(self::VALUE_CONSUMER_ID));
+        $this->assertTrue($this->_service->deleteIntegrationToken(self::VALUE_CONSUMER_ID));
     }
 
     public function testDeleteTokenNegative()
@@ -362,14 +362,14 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
 
         $this->_tokenMock->expects($this->never())->method('delete');
 
-        $this->assertFalse($this->_service->deleteToken(null));
+        $this->assertFalse($this->_service->deleteIntegrationToken(null));
     }
 
     public function testGetAccessTokenNoAccess()
@@ -387,7 +387,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -412,7 +412,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );

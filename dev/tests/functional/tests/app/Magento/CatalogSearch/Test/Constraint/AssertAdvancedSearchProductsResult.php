@@ -79,7 +79,7 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
             /** @var CatalogProductSimple $product */
             $name = $product->getName();
             $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($product->getName());
-            while (!$isProductVisible && $resultPage->getToolbar()->nextPage()) {
+            while (!$isProductVisible && $resultPage->getBottomToolbar()->nextPage()) {
                 $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($product->getName());
             }
             if (!$isProductVisible) {
@@ -117,9 +117,6 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
         $searchData = $searchBlock->getSearchSummaryItems();
         $productData = $this->prepareFixtureData($productSearch);
         foreach ($productData as $key => $data) {
-            if ($key === 'tax_class' && $data === ['All']) {
-                continue;
-            }
             if (!isset($searchData[$key])) {
                 $errors[] = '- "' . $key . '" not found on the page';
             } elseif ($searchData[$key] !== $data) {

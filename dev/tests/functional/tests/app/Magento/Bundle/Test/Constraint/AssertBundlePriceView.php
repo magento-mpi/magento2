@@ -8,9 +8,10 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Bundle\Test\Page\Product\CatalogProductView;
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
+use Magento\Bundle\Test\Fixture\BundleProduct;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertBundlePriceView
@@ -28,16 +29,17 @@ class AssertBundlePriceView extends AbstractConstraint
      * Assert that displayed price view for bundle product on product page equals passed from fixture.
      *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductBundle $product
+     * @param Browser $browser
+     * @param BundleProduct $product
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
-        CatalogProductBundle $product
+        Browser $browser,
+        BundleProduct $product
     ) {
         //Open product view page
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         //Process assertions
         $this->assertPrice($product, $catalogProductView);
@@ -46,14 +48,14 @@ class AssertBundlePriceView extends AbstractConstraint
     /**
      * Assert prices on the product view Page
      *
-     * @param CatalogProductBundle $product
+     * @param BundleProduct $product
      * @param CatalogProductView $catalogProductView
      * @return void
      */
-    protected function assertPrice(CatalogProductBundle $product, CatalogProductView $catalogProductView)
+    protected function assertPrice(BundleProduct $product, CatalogProductView $catalogProductView)
     {
         $priceData = $product->getDataFieldConfig('price')['source']->getPreset();
-        $priceBlock = $catalogProductView->getViewBlock()->getProductPriceBlock();
+        $priceBlock = $catalogProductView->getViewBlock()->getPriceBlock();
 
         $priceLow = ($product->getPriceView() == 'Price Range')
             ? $priceBlock->getPriceFrom()

@@ -20,7 +20,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_filterItemFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
@@ -55,7 +55,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_string;
 
     /**
-     * @var \Magento\Search\Model\Resource\Engine|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Search\Model\Resource\Solr\Engine|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceEngine;
 
@@ -96,19 +96,16 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_filterItem)
         );
-
         $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManager = $this->getMock(
-            '\Magento\Store\Model\StoreManagerInterface',
+            '\Magento\Framework\StoreManagerInterface',
             array(),
             array(),
             '',
             false
         );
         $this->_storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
-
         $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
-
         $this->_productCollection = $this->getMock(
             '\Magento\Search\Model\Resource\Collection',
             array(),
@@ -123,10 +120,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_productCollection)
         );
-
         $this->_state = $this->getMock('\Magento\Catalog\Model\Layer\State', array(), array(), '', false);
         $this->_layer->expects($this->any())->method('getState')->will($this->returnValue($this->_state));
-
         $this->_attributeFactory = $this->getMock(
             '\Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory',
             array('create'),
@@ -148,13 +143,17 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_attributeItem)
         );
-
         $this->_string = $this->getMock('\Magento\Framework\Stdlib\String', array(), array(), '', false);
-
-        $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
-
+        $this->_resourceEngine = $this->getMock(
+            'Magento\Search\Model\Resource\Solr\Engine',
+            array(),
+            array(),
+            '',
+            false
+        );
         $tagFilter = $this->getMock('\Magento\Framework\Filter\StripTags', array(), array(), '', false);
         $tagFilter->expects($this->any())->method('filter')->will($this->returnArgument(0));
+
         $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Attribute(
             $this->_filterItemFactory,
             $this->_storeManager,

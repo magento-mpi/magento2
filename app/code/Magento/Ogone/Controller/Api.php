@@ -9,6 +9,7 @@ namespace Magento\Ogone\Controller;
 
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\Transaction as PaymentTransaction;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 /**
  * Ogone Api Controller
@@ -33,18 +34,26 @@ class Api extends \Magento\Framework\App\Action\Action
     protected $_transactionFactory;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
+     * @param OrderSender $orderSender
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
-        \Magento\Sales\Model\OrderFactory $salesOrderFactory
+        \Magento\Sales\Model\OrderFactory $salesOrderFactory,
+        OrderSender $orderSender
     ) {
         parent::__construct($context);
         $this->_transactionFactory = $transactionFactory;
         $this->_salesOrderFactory = $salesOrderFactory;
+        $this->orderSender = $orderSender;
     }
 
     /**
@@ -232,7 +241,7 @@ class Api extends \Magento\Framework\App\Action\Action
                     $invoice->getOrder()->setIsInProcess(true);
 
                     $this->_transactionFactory->create()->addObject($invoice)->addObject($invoice->getOrder())->save();
-                    $order->sendNewOrderEmail();
+                    $this->orderSender->send($order);
                 }
             } else {
                 $order->save();
@@ -266,7 +275,7 @@ class Api extends \Magento\Framework\App\Action\Action
             } else {
                 //to send new order email only when state is pending payment
                 if ($order->getState() == \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
-                    $order->sendNewOrderEmail();
+                    $this->orderSender->send($order);
                 }
                 $order->setState(
                     \Magento\Sales\Model\Order::STATE_PROCESSING,
@@ -340,7 +349,7 @@ class Api extends \Magento\Framework\App\Action\Action
                 $order->getPayment()->setLastTransId($params['PAYID']);
                 //to send new order email only when state is pending payment
                 if ($order->getState() == \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
-                    $order->sendNewOrderEmail();
+                    $this->orderSender->send($order);
                     $order->setState(
                         \Magento\Sales\Model\Order::STATE_PROCESSING,
                         \Magento\Ogone\Model\Api::PROCESSING_OGONE_STATUS,

@@ -10,6 +10,7 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
 use \Magento\Sales\Model\Order;
 use \Magento\Backend\App\Action;
+use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
 
 class Save extends \Magento\Backend\App\Action
 {
@@ -19,14 +20,22 @@ class Save extends \Magento\Backend\App\Action
     protected $creditmemoLoader;
 
     /**
+     * @var CreditmemoSender
+     */
+    protected $creditmemoSender;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader
+     * @param CreditmemoSender $creditmemoSender
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader
+        \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader,
+        CreditmemoSender $creditmemoSender
     ) {
         $this->creditmemoLoader = $creditmemoLoader;
+        $this->creditmemoSender = $creditmemoSender;
         parent::__construct($context);
     }
 
@@ -51,9 +60,13 @@ class Save extends \Magento\Backend\App\Action
             $this->_getSession()->setCommentText($data['comment_text']);
         }
         try {
-            $creditmemo = $this->creditmemoLoader->load($this->_request);
+            $this->creditmemoLoader->setOrderId($this->getRequest()->getParam('order_id'));
+            $this->creditmemoLoader->setCreditmemoId($this->getRequest()->getParam('creditmemo_id'));
+            $this->creditmemoLoader->setCreditmemo($this->getRequest()->getParam('creditmemo'));
+            $this->creditmemoLoader->setInvoiceId($this->getRequest()->getParam('invoice_id'));
+            $creditmemo = $this->creditmemoLoader->load();
             if ($creditmemo) {
-                if ($creditmemo->getGrandTotal() <= 0 && !$creditmemo->getAllowZeroGrandTotal()) {
+                if (!$creditmemo->isValidGrandTotal()) {
                     throw new \Magento\Framework\Model\Exception(__('Credit memo\'s total must be positive.'));
                 }
 
@@ -99,7 +112,8 @@ class Save extends \Magento\Backend\App\Action
                     $transactionSave->addObject($creditmemo->getInvoice());
                 }
                 $transactionSave->save();
-                $creditmemo->sendEmail(!empty($data['send_email']), $comment);
+                $this->creditmemoSender->send($creditmemo, !empty($data['send_email']), $comment);
+
                 $this->messageManager->addSuccess(__('You created the credit memo.'));
                 $this->_getSession()->getCommentText(true);
                 $this->_redirect('sales/order/view', array('order_id' => $creditmemo->getOrderId()));

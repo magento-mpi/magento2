@@ -21,7 +21,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .storecredit {
         .block {
             &:extend(.blocks-2columns all);
@@ -43,7 +43,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.balance-history {
         &:extend(.abstract-account-table-margin-mobile all);
     }

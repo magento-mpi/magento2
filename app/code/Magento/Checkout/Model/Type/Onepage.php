@@ -20,6 +20,7 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 class Onepage
 {
@@ -70,7 +71,7 @@ class Onepage
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -133,13 +134,18 @@ class Onepage
     protected $_customerAccountService;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Customer\Model\AddressFactory $customrAddrFactory
      * @param \Magento\Customer\Model\FormFactory $customerFormFactory
@@ -155,6 +161,7 @@ class Onepage
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param CustomerAddressServiceInterface $customerAddressService
+     * @param OrderSender $orderSender
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -163,7 +170,7 @@ class Onepage
         \Magento\Framework\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Customer\Model\AddressFactory $customrAddrFactory,
         \Magento\Customer\Model\FormFactory $customerFormFactory,
@@ -178,7 +185,8 @@ class Onepage
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         CustomerAddressServiceInterface $customerAddressService,
-        CustomerAccountServiceInterface $accountService
+        CustomerAccountServiceInterface $accountService,
+        OrderSender $orderSender
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -202,6 +210,7 @@ class Onepage
         $this->_encryptor = $encryptor;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAccountService = $accountService;
+        $this->orderSender = $orderSender;
     }
 
     /**
@@ -336,7 +345,7 @@ class Onepage
 
         $address = $this->getQuote()->getBillingAddress();
         $addressForm = $this->_formFactory->create(
-            \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
+            \Magento\Customer\Service\V1\AddressMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
             'customer_address_edit',
             array(),
             $this->_request->isAjax(),
@@ -497,7 +506,7 @@ class Onepage
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
         $customer = $quote->getCustomerData();
-        $customerData = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer);
+        $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
@@ -562,7 +571,7 @@ class Onepage
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_account',
             'to_quote',
-            \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer),
+            \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer),
             $quote
         );
 
@@ -927,7 +936,7 @@ class Onepage
              */
             if (!$redirectUrl && $order->getCanSendNewEmailFlag()) {
                 try {
-                    $order->sendNewOrderEmail();
+                    $this->orderSender->send($order);
                 } catch (\Exception $e) {
                     $this->_logger->logException($e);
                 }

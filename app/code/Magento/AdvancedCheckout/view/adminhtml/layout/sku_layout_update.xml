@@ -7,19 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="adminhtml_sku_errors_block"/>
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-catalog-product-composite-configure-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Catalog::catalog/product/composite/configure.js</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
     <referenceBlock name="data">
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku" name="additional_area" template="Magento_Sales::order/create/abstract.phtml">
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Add"/>
         </block>
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Errors" name="errors"/>
     </referenceBlock>
-</layout>
+</page>

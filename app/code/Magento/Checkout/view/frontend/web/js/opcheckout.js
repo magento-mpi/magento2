@@ -6,8 +6,15 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/validation",
+    "jquery/template",
+    "mage/translate"
+], function($){
     'use strict';
+
     // Base widget, handle ajax events and first section(Checkout Method) in one page checkout accordion
     $.widget('mage.opcheckout', {
         options: {
@@ -521,4 +528,5 @@
             }
         }
     });
-})(jQuery, window);
+
+});

@@ -28,17 +28,26 @@ class Adjustment implements AdjustmentInterface
     protected $taxHelper;
 
     /**
+     * \Magento\Catalog\Helper\Data
+     *
+     * @var CatalogHelper
+     */
+    protected $catalogHelper;
+
+    /**
      * @var int|null
      */
     protected $sortOrder;
 
     /**
      * @param TaxHelper $taxHelper
-     * @param int $sortOrder
+     * @param \Magento\Catalog\Helper\Data $catalogHelper
+     * @param int|null $sortOrder
      */
-    public function __construct(TaxHelper $taxHelper, $sortOrder = null)
+    public function __construct(TaxHelper $taxHelper, \Magento\Catalog\Helper\Data $catalogHelper, $sortOrder = null)
     {
         $this->taxHelper = $taxHelper;
+        $this->catalogHelper = $catalogHelper;
         $this->sortOrder = $sortOrder;
     }
 
@@ -77,12 +86,23 @@ class Adjustment implements AdjustmentInterface
      *
      * @param float $amount
      * @param SaleableInterface $saleableItem
+     * @param null|array $context
      * @return float
      */
-    public function extractAdjustment($amount, SaleableInterface $saleableItem)
+    public function extractAdjustment($amount, SaleableInterface $saleableItem, $context = [])
     {
         if ($this->taxHelper->priceIncludesTax()) {
-            $adjustedAmount = $this->taxHelper->getPriceUnrounded($saleableItem, $amount);
+            $adjustedAmount = $this->catalogHelper->getTaxPrice(
+                $saleableItem,
+                $amount,
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                false
+            );
             $result = $amount - $adjustedAmount;
         } else {
             $result = 0.;
@@ -95,12 +115,22 @@ class Adjustment implements AdjustmentInterface
      *
      * @param float $amount
      * @param SaleableInterface $saleableItem
+     * @param null|array $context
      * @return float
      */
-    public function applyAdjustment($amount, SaleableInterface $saleableItem)
+    public function applyAdjustment($amount, SaleableInterface $saleableItem, $context = [])
     {
-        $includingTax = !$this->taxHelper->priceIncludesTax();
-        return $this->taxHelper->getPriceUnrounded($saleableItem, $amount, $includingTax);
+        return $this->catalogHelper->getTaxPrice(
+            $saleableItem,
+            $amount,
+            true,
+            null,
+            null,
+            null,
+            null,
+            null,
+            false
+        );
     }
 
     /**

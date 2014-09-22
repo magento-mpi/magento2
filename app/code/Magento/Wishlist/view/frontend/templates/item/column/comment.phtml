@@ -1,0 +1,14 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* @var \Magento\Wishlist\Model\Item $item */
+
+$item = $this->getItem();
+?>
+
+<textarea placeholder="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->defaultCommentString() ?>" name="description[<?php echo $item->getWishlistItemId() ?>]" title="<?php echo __('Comment') ?>" class="product-item-comment"><?php echo($this->escapeHtml($item->getDescription())) ?></textarea>

@@ -47,7 +47,7 @@ $quote->setCustomerIsGuest(
     true
 )->setStoreId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getId()
 )->setReservedOrderId(
     'test01'
@@ -68,6 +68,8 @@ $quote->getShippingAddress()->collectShippingRates();
 $quote->collectTotals();
 $quote->save();
 
+
+$quote->setCustomerEmail('admin@example.com');
 /** @var $service \Magento\Sales\Model\Service\Quote */
 $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Service\Quote',

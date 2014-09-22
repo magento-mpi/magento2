@@ -146,7 +146,7 @@ class Product extends DataFixture
                         ->getMagentoDownloadableDownloadableProductLinksNotPurchasedSeparately();
                     break;
                 case 'configurable':
-                    $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+                    $product = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
                     break;
                 default:
                     throw new \InvalidArgumentException(
@@ -363,5 +363,15 @@ class Product extends DataFixture
     public function getProductMapPrice()
     {
         return $this->getData('fields/msrp/value');
+    }
+
+    /**
+     * Get checkout data for fill options of product
+     *
+     * @return array|null
+     */
+    public function getCheckoutData()
+    {
+        return $this->getData('fields/checkout_data');
     }
 }

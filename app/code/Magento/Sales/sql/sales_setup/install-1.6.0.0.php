@@ -1127,7 +1127,7 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
-    'Telephone'
+    'Phone Number'
 )->addColumn(
     'country_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -4388,7 +4388,7 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
-    'Telephone'
+    'Phone Number'
 )->addColumn(
     'fax',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -5573,7 +5573,7 @@ $table = $installer->getConnection()->newTable(
     'order_status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     50,
-    array('nullable' => false, 'default' => ''),
+    array('nullable' => false, 'default' => false),
     'Order Status'
 )->addColumn(
     'orders_count',
@@ -5656,7 +5656,7 @@ $table = $installer->getConnection()->newTable(
     'order_status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     50,
-    array('nullable' => false, 'default' => ''),
+    array('nullable' => false, 'default' => false),
     'Order Status'
 )->addColumn(
     'orders_count',
@@ -5911,7 +5911,7 @@ $table = $installer->getConnection()->newTable(
     'order_status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     50,
-    array('nullable' => false, 'default' => ''),
+    array('nullable' => false, 'default' => false),
     'Order Status'
 )->addColumn(
     'orders_count',
@@ -6640,11 +6640,5 @@ $table = $installer->getConnection()->newTable(
     'Sales Order Status Label Table'
 );
 $installer->getConnection()->createTable($table);
-
-
-/**
- * Install eav entity types to the eav/entity_type table
- */
-$installer->installEntities();
 
 $installer->endSetup();

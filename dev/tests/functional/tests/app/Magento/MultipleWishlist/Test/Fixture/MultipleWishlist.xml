@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\MultipleWishlist\Test\Fixture\MultipleWishlist">
+    <module>Magento_MultipleWishlist</module>
+    <type>wishlist</type>
+    <collection>Magento\MultipleWishlist\Model\Resource\Item\Collection</collection>
+    <fields>
+        <name>
+            <attribute_code>name</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required>1</is_required>
+            <default_value />
+            <input />
+        </name>
+        <visibility>
+            <attribute_code>visibility</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required>1</is_required>
+            <default_value />
+            <input />
+        </visibility>
+        <customer_id>
+            <attribute_code>customer_id</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>1</is_required>
+            <default_value />
+            <input />
+            <spurce>Magento\MultipleWishlist\Test\Fixture\MultipleWishlist\CustomerId</spurce>
+            <group>null</group>
+        </customer_id>
+    </fields>
+    <repository_class>Magento\MultipleWishlist\Test\Repository\MultipleWishlist</repository_class>
+    <handler_interface>Magento\MultipleWishlist\Test\Handler\MultipleWishlist\MultipleWishlistInterface</handler_interface>
+</fixture>

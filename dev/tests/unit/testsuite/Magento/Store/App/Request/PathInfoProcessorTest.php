@@ -39,7 +39,8 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
                 'setModuleName',
                 'getActionName',
                 'setActionName',
-                'getParam'
+                'getParam',
+                'getCookie'
             )
         );
         $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array(), array(), '', false);

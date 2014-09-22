@@ -4,14 +4,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Add By SKU class
  *
  * @method submitConfigured()
  * @method removeAllFailed()
  */
-var AddBySku = Class.create();
+define([
+    "prototype",
+    "mage/translate",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
+
+window.AddBySku = Class.create();
+
 AddBySku.prototype = {
     /**
      * Constructor
@@ -414,3 +420,5 @@ AddBySku.prototype = {
         return false;
     }
 };
+
+});

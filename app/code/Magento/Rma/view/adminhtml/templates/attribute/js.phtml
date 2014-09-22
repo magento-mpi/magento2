@@ -7,6 +7,8 @@
  */
 ?>
 <script type="text/javascript">
+require(["jquery","prototype"], function(jQuery){
+
 var show_option_panel           = false;
 var attribute_validate_filters  = <?php echo $this->getValidateFiltersJson();?>;
 var attribute_filter_types      = <?php echo $this->getFilteTypesJson();?>;
@@ -168,6 +170,14 @@ function updateRequriedOptions()
     }
 }
 
+window.updateRequriedOptions = updateRequriedOptions;
+window.setRowVisibility = setRowVisibility;
+window.switchDefaultValueField = switchDefaultValueField;
+window.switchFilterSelect = switchFilterSelect;
+window.bindAttributeInputType = bindAttributeInputType;
+window.toggleApplyVisibility = toggleApplyVisibility;
+
+
 if($('frontend_input')){
     Event.observe($('frontend_input'), 'change', updateRequriedOptions);
     Event.observe($('frontend_input'), 'change', bindAttributeInputType);
@@ -177,4 +187,6 @@ if ($('is_required')) {
     Event.observe($('is_required'), 'change', updateRequriedOptions);
 }
 bindAttributeInputType();
+
+});
 </script>

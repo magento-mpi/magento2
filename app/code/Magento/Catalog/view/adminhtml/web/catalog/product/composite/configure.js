@@ -4,8 +4,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "prototype"
+], function(jQuery){
 
-ProductConfigure = Class.create();
+window.ProductConfigure = Class.create();
+
 ProductConfigure.prototype = {
 
     listTypes:                  $H({}),
@@ -768,4 +775,6 @@ ProductConfigure.prototype = {
 
 jQuery(document).ready(function(){
     productConfigure = new ProductConfigure();
+});
+
 });

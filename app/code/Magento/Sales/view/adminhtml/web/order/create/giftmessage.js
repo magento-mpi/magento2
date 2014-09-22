@@ -4,8 +4,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/********************* GIFT OPTIONS POPUP ***********************/
+/********************* GIFT OPTIONS SET ***********************/
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "mage/validation",
+    "prototype"
+], function(jQuery){
 
-var giftMessagesController = {
+window.giftMessagesController = {
     toogleRequired: function(source, objects)
     {
         if(!$(source).value.blank()) {
@@ -116,9 +125,9 @@ function findFieldLabel(field) {
     return false;
 }
 
+window.findFieldLabel = findFieldLabel;
 
-/********************* GIFT OPTIONS POPUP ***********************/
-var GiftOptionsPopup = Class.create();
+window.GiftOptionsPopup = Class.create();
 GiftOptionsPopup.prototype = {
     //giftOptionsWindowMask: null,
     giftOptionsWindow: null,
@@ -201,13 +210,14 @@ GiftOptionsPopup.prototype = {
 }
 
 
-/********************* GIFT OPTIONS SET ***********************/
-GiftMessageSet = Class.create();
+window.GiftMessageSet = Class.create();
+
 GiftMessageSet.prototype = {
     destPrefix: 'current_item_giftmessage_',
     sourcePrefix: 'giftmessage_',
     fields: ['sender', 'recipient', 'message'],
     isObserved: false,
+    callback: null,
 
     initialize: function() {
         $$('.action-link').each(function (el) {
@@ -236,6 +246,22 @@ GiftMessageSet.prototype = {
         }
     },
 
+    prepareSaveData: function() {
+        var hash = $H();
+        $$("div[id^=gift_options_data_]").each(function (el) {
+            var fields = el.select('input', 'select', 'textarea');
+            var data = Form.serializeElements(fields, true);
+            hash.update(data);
+        });
+        return hash;
+    },
+
+    setSaveCallback: function(callback) {
+        if (typeof callback == 'function') {
+            this.callback = callback;
+        }
+    },
+
     saveData: function(event){
         this.fields.each(function(el) {
             if ($(this.sourcePrefix + this.id + '_' + el) && $(this.destPrefix + el)) {
@@ -245,8 +271,15 @@ GiftMessageSet.prototype = {
         if ($(this.sourcePrefix + this.id + '_form')) {
             $(this.sourcePrefix + this.id + '_form').request();
         } else if (typeof(order) != 'undefined') {
-            var data = order.serializeData('gift_options_data_' + this.id);
-            order.loadArea(['items'], true, data.toObject());
+            var data = this.prepareSaveData();
+            var self = this;
+            jQuery.when(order.loadArea(['items'], true, data.toObject())).done(function() {
+                if (self.callback !== null) {
+                    self.callback();
+                }
+            });
         }
     }
 };
+
+});

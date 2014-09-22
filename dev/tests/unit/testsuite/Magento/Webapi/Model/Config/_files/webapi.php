@@ -63,9 +63,7 @@ return [
                 'parameters' => [
                     'id' => [
                         'force' => true,
-                        'source' => 'session',
-                        'method' => 'getUserId',
-                        'value' => null,
+                        'value' => '%customer_id%',
                     ],
                 ],
             ],

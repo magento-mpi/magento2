@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Magento\Tax\Block\Checkout\Cart\Sidebar\Totals */
+?>
+
+<div class="amount price-container">
+    <?php if ($this->getDisplaySubtotalExclTax()): ?>
+        <span class="price-wrapper">
+            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotalExclTax()); ?>
+        </span>
+    <?php elseif ($this->getDisplaySubtotalInclTax()): ?>
+        <span class="price-wrapper">
+            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotalInclTax()); ?>
+        </span>
+    <?php else: ?>
+        <span class="price-wrapper price-including-tax" data-label="<?php echo __('Incl. Tax'); ?>">
+            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotalInclTax()) ?>
+        </span>
+        <span class="price-wrapper price-excluding-tax" data-label="<?php echo __('Excl. Tax'); ?>">
+            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotalExclTax()); ?>
+        </span>
+    <?php endif; ?>
+</div>

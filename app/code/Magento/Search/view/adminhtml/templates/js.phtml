@@ -9,6 +9,8 @@
 <?php
 if ($this->isThirdPartSearchEngine()) :?>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
 function checkIsSearchWeightVisibility()
 {
@@ -19,9 +21,14 @@ function checkIsSearchWeightVisibility()
     }
 }
 checkIsSearchWeightVisibility();
+
+window.checkIsSearchWeightVisibility = checkIsSearchWeightVisibility;
+
 if($('frontend_input')){
     Event.observe($('is_searchable'), 'change', checkIsSearchWeightVisibility);
 }
 //]]>
+
+});
 </script>
 <?php endif;?>

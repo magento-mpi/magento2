@@ -129,6 +129,9 @@
     }
     .cart-tax-total {
         &:extend(.abstract-tax-total all);
+        &-expanded {
+            &:extend(.abstract-tax-total-expanded all);
+        }
     }
     tfoot {
         td {
@@ -283,10 +286,90 @@
 }
 
 //
+//    Guest order view page
+//--------------------------------------
+.sales-guest-view {
+    .column.main {
+        .block:not(.widget) {
+            &:extend(.abstract-account-blocks all);
+        }
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .table-wrapper {
+        &.orders-recent {
+            &:extend(.abstract-account-table-margin-mobile all);
+        }
+        &.orders-history {
+            &:extend(.abstract-account-table-border all);
+        }
+    }
+    .account {
+        .table-order-items {
+            .col.actions {
+                &:extend(.abstract-account-col-actions all);
+            }
+        }
+        .data.table.table-order-items tfoot tr td {
+            display: table-cell;
+        }
+
+        .page-title {
+            .title {
+                display: block;
+            }
+            .order-status {
+                margin: -20px 0 0;
+            }
+            .order-date {
+                margin-top: -5px;
+            }
+        }
+    }
+    .order-details-items {
+        .items-qty {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .col {
+            &.price,
+            &.subtotal {
+                .price-including-tax,
+                .price-excluding-tax {
+                    display: inline-block;
+                }
+            }
+        }
+        .options-label + .item-options,
+        .item-options + .item-options {
+            &:before {
+                content: attr(data-th) ":";
+                display: block;
+                font-weight: bold;
+            }
+            .col {
+                .font-size(12);
+                padding: 0;
+                &:first-child {
+                    padding-top: 3px;
+                }
+                &:last-child {
+                    padding-bottom: 20px;
+                }
+            }
+        }
+    }
+}
+
+
+//
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
-
+.responsive(@break) when (@break = @screen-m) {
     .table-wrapper.orders-recent {
         &:extend(.abstract-account-table-margin-desktop all);
     }
@@ -320,10 +403,14 @@
                 margin-top: -30px;
             }
         }
+    }
+
+    .account,
+    .sales-guest-view {
         .column.main .block.block-order-details-view {
             &:extend(.add-clearfix-desktop all);
             .block-content:not(.widget) .box {
-                &:extend(.add-box-sizing-desktop all);
+                &:extend(.abstract-add-box-sizing-desktop all);
                 clear: none;
                 float: left;
                 width: 100%/4;
@@ -402,58 +489,6 @@
             }
             .col.total {
                 text-align: right;
-            }
-        }
-    }
-}
-
-//
-//    Mobile
-//--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
-    .table-wrapper {
-        &.orders-recent {
-            &:extend(.abstract-account-table-margin-mobile all);
-        }
-        &.orders-history {
-            &:extend(.abstract-account-table-border all);
-        }
-    }
-    .account {
-        .table-order-items {
-            .col.actions {
-                &:extend(.abstract-account-col-actions all);
-            }
-        }
-        .data.table.table-order-items tfoot tr td {
-            display: table-cell;
-        }
-
-        .page-title {
-            .title {
-                display: block;
-            }
-            .order-status {
-                margin: -20px 0 0;
-            }
-            .order-date {
-                margin-top: -5px;
-            }
-        }
-    }
-    .order-details-items {
-        .items-qty {
-            display: inline-block;
-            vertical-align: top;
-        }
-        .col {
-            &.price,
-            &.subtotal {
-                .incl.tax,
-                .excl.tax,
-                .incl.tax + .excl.tax {
-                    display: inline-block;
-                }
             }
         }
     }

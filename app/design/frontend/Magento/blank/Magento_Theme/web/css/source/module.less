@@ -6,6 +6,8 @@
 //  * @license     {license_link}
 //  */
 
+@import "collapsible_navigation.less";
+
 @message-global-note-color: @text-color;
 @message-global-note-background: #ffee9c;
 @message-global-note-link-color: @link-color;
@@ -21,6 +23,9 @@
 @message-global-caution-border-color: none;
 
 @header-bg-color: false;
+
+@addto-color: @text-color-muted;
+@addto-hover-color: @color-primary;
 
 body {
     .css(background-color, @page-bg-color);
@@ -65,7 +70,7 @@ body {
 }
 
 .action.skip {
-    .visually-hidden();
+    &:extend(.abstract-visually-hidden all);
 }
 
 //
@@ -115,7 +120,7 @@ body {
         padding-bottom: 25px;
         border-top: 1px solid @border-color-base;
         ul {
-            &:extend(.reset-list all);
+            &:extend(.abstract-reset-list all);
             padding: 0 50px 0 0;
         }
         .links {
@@ -125,11 +130,11 @@ body {
         }
         .links {
             li {
-                margin: 0 0 8px 0;
+                margin: 0 0 8px;
             }
         }
-        .switcher.store {
-            margin: 0 0 30px 0;
+        .switcher-store {
+            margin: 0 0 30px;
         }
     }
     .copyright,
@@ -169,7 +174,7 @@ body {
             font-size: @font-size-s;
         }
         .label {
-            .visually-hidden();
+            &:extend(.abstract-visually-hidden all);
         }
         strong {
             font-weight: @font-weight-base;
@@ -180,7 +185,10 @@ body {
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
+    .navigation ul {
+        padding: 0 8px;
+    }
     .header {
         &.panel {
             > .header.links {
@@ -198,7 +206,7 @@ body {
         }
         &.content {
             padding: 30px 20px 0;
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
         }
     }
 
@@ -211,7 +219,7 @@ body {
         .header.panel {
             padding-top: 10px;
             padding-bottom: 10px;
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
         }
         .switcher {
             display: inline-block;
@@ -238,14 +246,6 @@ body {
         }
     }
 
-    .page-wrapper {
-        position: relative;
-        width: 100%;
-        float: right;
-        margin: 0;
-        .transition(margin .3s ease-out 0);
-    }
-
     .footer {
         &.content {
             .block {
@@ -258,7 +258,7 @@ body {
             }
         }
         .copyright {
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-add-clearfix all);
         }
     }
 }

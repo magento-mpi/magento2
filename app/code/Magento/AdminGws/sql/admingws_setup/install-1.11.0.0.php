@@ -17,7 +17,7 @@ $installer->startSetup();
  * gws_websites     - comma-separated
  * gws_store_groups - comma-separated
  */
-$tableRoles = $installer->getTable('admin_role');
+$tableRoles = $installer->getTable('authorization_role');
 $columns = array(
     'gws_is_all' => array(
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,

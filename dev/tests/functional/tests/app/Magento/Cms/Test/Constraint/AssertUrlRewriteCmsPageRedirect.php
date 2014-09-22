@@ -12,6 +12,7 @@ use Mtf\Client\Browser;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\UrlRewrite;
+use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
 
 /**
  * Class AssertUrlRewriteCmsPageRedirect
@@ -38,15 +39,21 @@ class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
      *
      * @param UrlRewrite $urlRewrite
      * @param CmsPage $cmsPage
+     * @param SystemVariableNew $systemVariableNew
      * @param Browser $browser
      * @return void
      */
     public function processAssert(
         UrlRewrite $urlRewrite,
         CmsPage $cmsPage,
+        SystemVariableNew $systemVariableNew,
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $urlRewrite->getRequestPath());
+        if ($urlRewrite->hasData('store_id')) {
+            $store = explode('/', $urlRewrite->getStoreId());
+            $systemVariableNew->getFormPageActions()->selectStoreView($store[2]);
+        }
         $url = $urlRewrite->getOptions() == 'No'
             ? $urlRewrite->getRequestPath()
             : $this->url . $cmsPage->getPageId();

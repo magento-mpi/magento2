@@ -10,7 +10,7 @@ $installer = $this;
 $installer->startSetup();
 
 
-$tableName = $installer->getTable('admin_rule');
+$tableName = $installer->getTable('authorization_rule');
 
 if ($tableName) {
     /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */

@@ -5,7 +5,8 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($, undefined) {
+define(["jquery","jquery/ui"], function($){
+
     "use strict";
     $.widget('mage.captcha', {
         options: {
@@ -49,5 +50,4 @@
             });
         }
     });
-})(jQuery);
-
+});

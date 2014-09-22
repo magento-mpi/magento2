@@ -8,8 +8,10 @@
 ?>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-    function reloadIframe(method) {
+    reloadIframe = function(method) {
         var iframeContainer = $('payment_form_' + method + '_container');
         if (iframeContainer) {
             var hiddenElms = iframeContainer.up('li').select('input');
@@ -33,4 +35,6 @@
         }
     }
 //]]>
+
+});
 </script>

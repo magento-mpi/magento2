@@ -13,7 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Block;
 
-class Rss extends \Magento\Rss\Block\Wishlist
+class Rss extends \Magento\Wishlist\Block\Rss
 {
     /**
      * @var \Magento\Customer\Helper\View

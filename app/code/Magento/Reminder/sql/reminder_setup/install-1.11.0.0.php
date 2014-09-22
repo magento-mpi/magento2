@@ -292,5 +292,4 @@ $table = $installer->getConnection()->newTable(
 );
 $installer->getConnection()->createTable($table);
 
-
 $installer->endSetup();

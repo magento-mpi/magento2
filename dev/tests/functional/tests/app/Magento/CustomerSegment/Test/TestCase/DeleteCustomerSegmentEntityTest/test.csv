@@ -1,0 +1,3 @@
+"customerSegment/dataSet";"constraint"
+"active_customer_segment";"assertCustomerSegmentSuccessDeleteMessage, assertCustomerSegmentNotInGrid, assertCustomerSegmentNotApplicableToBanner"
+"not_active_customer_segment";"assertCustomerSegmentSuccessDeleteMessage, assertCustomerSegmentNotInGrid, assertCustomerSegmentNotApplicableToBanner"

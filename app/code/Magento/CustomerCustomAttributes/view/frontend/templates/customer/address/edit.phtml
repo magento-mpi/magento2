@@ -27,9 +27,9 @@
             </div>
         </div>
         <div class="field telephone required">
-            <label class="label" for="telephone"><span><?php echo __('Telephone') ?></span></label>
+            <label class="label" for="telephone"><span><?php echo __('Phone Number') ?></span></label>
             <div class="control">
-                <input type="text" name="telephone" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Telephone') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="telephone"/>
+                <input type="text" name="telephone" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Phone Number') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="telephone"/>
             </div>
         </div>
         <div class="field fax">
@@ -139,10 +139,14 @@
     </div>
 </form>
 <script type="text/javascript">
-    (function($) {
+    require([
+        "jquery",
+        "mage/validation",
+        "Magento_Checkout/js/region-updater"
+    ], function($){
         var $form = $('#form-validate');
-        $form.mage('validation');
-        $('#country').mage('regionUpdater', {
+        $form.validation();
+        $('#country').regionUpdater({
             optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
             regionListId: '#region_id',
             regionInputId: '#region',
@@ -152,5 +156,5 @@
             defaultRegion: "<?php echo $this->getAddress()->getRegion()->getRegionId() ?>",
             countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
         });
-    })(jQuery);
+    });
 </script>

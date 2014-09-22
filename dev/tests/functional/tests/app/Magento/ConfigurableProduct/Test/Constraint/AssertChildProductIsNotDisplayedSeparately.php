@@ -1,0 +1,73 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\ConfigurableProduct\Test\Constraint;
+
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+
+/**
+ * Class AssertChildProductIsNotDisplayedSeparately
+ * Assert that products generated during configurable product creation - are not visible on frontend(by default).
+ */
+class AssertChildProductIsNotDisplayedSeparately extends AbstractConstraint
+{
+    /**
+     * Constraint severeness
+     *
+     * @var string
+     */
+    protected $severeness = 'middle';
+
+    /**
+     * Assert that products generated during configurable product creation - are not visible on frontend(by default).
+     *
+     * @param CatalogSearchResult $catalogSearchResult
+     * @param CmsIndex $cmsIndex
+     * @param ConfigurableProductInjectable $product
+     * @return void
+     */
+    public function processAssert(
+        CatalogsearchResult $catalogSearchResult,
+        CmsIndex $cmsIndex,
+        ConfigurableProductInjectable $product
+    ) {
+        $configurableAttributesData = $product->getConfigurableAttributesData();
+        $errors = [];
+
+        $cmsIndex->open();
+        foreach ($configurableAttributesData['matrix'] as $variation) {
+            $cmsIndex->getSearchBlock()->search($variation['sku']);
+
+            $isVisibleProduct = $catalogSearchResult->getListProductBlock()->isProductVisible($variation['name']);
+            while (!$isVisibleProduct && $catalogSearchResult->getBottomToolbar()->nextPage()) {
+                $isVisibleProduct = $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName());
+            }
+            if ($isVisibleProduct) {
+                $errors[] = sprintf(
+                    "\nChild product with sku: \"%s\" is visible on frontend(by default).",
+                    $variation['sku']
+                );
+            }
+        }
+
+        \PHPUnit_Framework_Assert::assertEmpty($errors, implode(' ', $errors));
+    }
+
+    /**
+     * Returns a string representation of the object
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return 'Child products generated during configurable product creation are not visible on frontend(by default)';
+    }
+}

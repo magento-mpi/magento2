@@ -11,9 +11,6 @@ atlassian*
 /app/config_sandbox
 /app/etc/local.xml
 /app/etc/*/module.xml
-/downloader/.cache
-/downloader/cache.cfg
-/downloader/connect.cfg
 /lib/internal/flex/uploader/.actionScriptProperties
 /lib/internal/flex/uploader/.flexProperties
 /lib/internal/flex/uploader/.project
@@ -37,3 +34,4 @@ atlassian*
 
 /var/*
 !/var/.htaccess
+/vendor

@@ -7,6 +7,7 @@
  */
 namespace Magento\TestFramework;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -234,6 +235,9 @@ class Application
         );
 
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
+            $objectManager->get('Magento\Framework\ObjectManager\DynamicConfigInterface')->getConfiguration()
+        );
         \Magento\Framework\Phrase::setRenderer($objectManager->get('Magento\Framework\Phrase\RendererInterface'));
 
         /** @var \Magento\Framework\App\Filesystem\DirectoryList\Verification $verification */
@@ -452,18 +456,21 @@ class Application
         );
         $user->save();
 
-        /** @var $roleAdmin \Magento\User\Model\Role */
-        $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
+        /** @var $roleAdmin \Magento\Authorization\Model\Role */
+        $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Authorization\Model\Role');
         $roleAdmin->load($adminRoleName, 'role_name');
 
-        /** @var $roleUser \Magento\User\Model\Role */
-        $roleUser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
+        /** @var $roleUser \Magento\Authorization\Model\Role */
+        $roleUser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Authorization\Model\Role');
         $roleUser->setData(
             array(
                 'parent_id' => $roleAdmin->getId(),
                 'tree_level' => $roleAdmin->getTreeLevel() + 1,
-                'role_type' => \Magento\User\Model\Acl\Role\User::ROLE_TYPE,
+                'role_type' => \Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE,
                 'user_id' => $user->getId(),
+                'user_type' => UserContextInterface::USER_TYPE_ADMIN,
                 'role_name' => $user->getFirstname()
             )
         );

@@ -27,18 +27,18 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\Validator $validator
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\Validator $validator
     ) {
         $this->_eventManager = $eventManager;
@@ -77,40 +77,41 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         $address->setDiscountDescription(array());
 
         $items = $this->_calculator->sortItemsByPriority($items);
+        /** @var \Magento\Sales\Model\Quote\Item $item */
         foreach ($items as $item) {
-            if ($item->getNoDiscount()) {
+            if ($item->getNoDiscount() || !$this->_calculator->canApplyDiscount($item)) {
                 $item->setDiscountAmount(0);
                 $item->setBaseDiscountAmount(0);
-            } else {
-                /**
-                 * Child item discount we calculate for parent
-                 */
-                if ($item->getParentItemId()) {
-                    continue;
-                }
+                continue;
+            }
+            /**
+             * Child item discount we calculate for parent
+             */
+            if ($item->getParentItemId()) {
+                continue;
+            }
 
-                $eventArgs['item'] = $item;
-                $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
+            $eventArgs['item'] = $item;
+            $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
 
-                if ($item->getHasChildren() && $item->isChildrenCalculated()) {
-                    $isMatchedParent = $this->_calculator->canApplyRules($item);
-                    $this->_calculator->setSkipActionsValidation($isMatchedParent);
-                    foreach ($item->getChildren() as $child) {
-                        $this->_calculator->process($child);
-                        if ($isMatchedParent) {
-                            $this->_recalculateChildDiscount($child);
-                        }
-
-                        $eventArgs['item'] = $child;
-                        $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
-
-                        $this->_aggregateItemDiscount($child);
+            if ($item->getHasChildren() && $item->isChildrenCalculated()) {
+                $isMatchedParent = $this->_calculator->canApplyRules($item);
+                $this->_calculator->setSkipActionsValidation($isMatchedParent);
+                foreach ($item->getChildren() as $child) {
+                    $this->_calculator->process($child);
+                    if ($isMatchedParent) {
+                        $this->_recalculateChildDiscount($child);
                     }
-                    $this->_calculator->setSkipActionsValidation(false);
-                } else {
-                    $this->_calculator->process($item);
-                    $this->_aggregateItemDiscount($item);
+
+                    $eventArgs['item'] = $child;
+                    $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
+
+                    $this->_aggregateItemDiscount($child);
                 }
+                $this->_calculator->setSkipActionsValidation(false);
+            } else {
+                $this->_calculator->process($item);
+                $this->_aggregateItemDiscount($item);
             }
         }
 
@@ -172,10 +173,9 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         if ($amount != 0) {
             $description = $address->getDiscountDescription();
+            $title = __('Discount');
             if (strlen($description)) {
                 $title = __('Discount (%1)', $description);
-            } else {
-                $title = __('Discount');
             }
             $address->addTotal(array('code' => $this->getCode(), 'title' => $title, 'value' => $amount));
         }

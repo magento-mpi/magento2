@@ -6,8 +6,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.multiShipping', {
         options: {
             addNewAddressBtn: 'button[data-role="add-new-address"]', // Add a new multishipping address.
@@ -43,4 +47,5 @@
             $(this.options.canContinueFlag).val(parseInt($(event.currentTarget).data('flag'), 10));
         }
     });
-})(jQuery);
+
+});

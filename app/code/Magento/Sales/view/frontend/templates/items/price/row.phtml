@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer $this */
+$_item = $this->getItem();
+?>
+<span class="price-excluding-tax" data-label="<?php echo $this->escapeHtml(__('Excl. Tax')); ?>">
+    <span class="cart-price">
+        <?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?>
+    </span>
+</span>

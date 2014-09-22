@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertCustomerBalanceAmount module="Magento_CustomerBalance">
+    <severeness>low</severeness>
+    </assertCustomerBalanceAmount>
+    <assertCustomerBalanceHistory module="Magento_CustomerBalance">
+        <severeness>low</severeness>
+    </assertCustomerBalanceHistory>
+    <assertRemoveStoreCreditSuccessMessage module="Magento_CustomerBalance">
+        <severeness>high</severeness>
+    </assertRemoveStoreCreditSuccessMessage>
+</constraint>

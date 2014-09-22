@@ -8,6 +8,8 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
+use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Data\ObjectFactory;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
@@ -23,15 +25,25 @@ class TaxClassSearchResultsBuilder extends AbstractSearchResultsBuilder
      * Constructor
      *
      * @param ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param TaxClassBuilder $taxClassObjectBuilder
+     * @param TaxClassBuilder $itemObjectBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        TaxClassBuilder $taxClassObjectBuilder
+        TaxClassBuilder $itemObjectBuilder
     ) {
-        parent::__construct($objectFactory, $searchCriteriaBuilder, $taxClassObjectBuilder);
+        parent::__construct(
+            $objectFactory,
+            $valueBuilder,
+            $metadataService,
+            $searchCriteriaBuilder,
+            $itemObjectBuilder
+        );
     }
 
     /**

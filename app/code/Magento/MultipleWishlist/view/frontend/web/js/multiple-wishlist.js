@@ -6,8 +6,17 @@
  */
 /*jshint browser:true jquery:true expr:true sub:true*/
 /*global alert confirm*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template",
+    "mage/validation/validation",
+    "mage/dataPost",
+    "mage/translate",
+    "mage/dropdowns"
+], function($){
     'use strict';
+    
     $.widget('mage.multipleWishlist', {
         options: {
             createTmplSelector: '#popup-tmpl',
@@ -98,7 +107,7 @@
     $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         options: {
             wishlistFormSelector: '#wishlist-view-form',
-            formTmplSelector: '#form-tmpl',
+            formTmplSelector: '#form-tmpl-multiple',
             formTmplId: '#wishlist-hidden-form'
         },
 
@@ -424,4 +433,5 @@
             });
         }
     });
-})(jQuery);
+
+});

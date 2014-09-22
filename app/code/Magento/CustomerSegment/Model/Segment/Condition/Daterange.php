@@ -176,8 +176,8 @@ class Daterange extends AbstractCondition
             return false;
         }
 
-        $start = $value[0];
-        $end = $value[1];
+        $start = $value[0] . ' 00:00:00';
+        $end = $value[1] . ' 23:59:59';
 
         if (!$start || !$end) {
             return false;

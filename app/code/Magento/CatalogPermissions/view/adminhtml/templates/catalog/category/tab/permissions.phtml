@@ -28,7 +28,11 @@
 </div>
 
 <script type="text/javascript">
+require(['Magento_CatalogPermissions/category_edit'], function(){
+
 //<![CDATA[
 window.categoryPermissionsTab = new Enterprise.CatalogPermissions.CategoryTab('category_permissions_<?php echo $this->getCategoryId(); ?>', <?php echo $this->getConfigJson(); ?>);
 //]]>
+
+});
 </script>

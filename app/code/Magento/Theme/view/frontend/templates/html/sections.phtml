@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+
+/**
+*  General template for displaying group of blocks devided into sections
+*/
+
+$group = $this->getGroupName();
+$groupCss = $this->getGroupCss();
+$groupBehavior = $this->getGroupBehaviour() ? $this->getGroupBehaviour() : '{"tabs":{"openedState":"active"}}';
+?>
+<?php if ($detailedInfoGroup = $this->getGroupChildNames($group, 'getChildHtml')):?>
+    <div class="sections <?php echo $groupCss ?>">
+        <?php $layout = $this->getLayout(); ?>
+        <div class="section-items <?php echo $groupCss ?>-items" data-mage-init='<?php echo $groupBehavior ?>'>
+            <?php foreach ($detailedInfoGroup as $name):?>
+                <?php
+                    $html = $layout->renderElement($name);
+                    if (!trim($html) && ($this->getUseForce() != true)) continue;
+                    $alias = $layout->getElementAlias($name);
+                    $label = $this->getChildData($alias, 'title');
+                ?>
+                <div class="section-item-title <?php echo $groupCss ?>-item-title" data-role="collapsible">
+                    <a class="<?php echo $groupCss ?>-item-switch" data-toggle="switch" href="#<?php echo $alias; ?>"><?php echo $label; ?></a>
+                </div>
+                <div class="section-item-content <?php echo $groupCss ?>-item-content" id="<?php echo $alias; ?>" data-role="content"><?php echo $html; ?></div>
+            <?php endforeach;?>
+        </div>
+    </div>
+<?php endif; ?>

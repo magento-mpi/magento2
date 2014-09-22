@@ -7,9 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="Customer My Account (All Pages)" design_abstraction="custom">
-    <update handle="page_two_columns_left"/>
-    <referenceBlock name="root">
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd" label="Customer My Account (All Pages)" design_abstraction="custom">
+    <referenceBlock name="body.class">
         <action method="addBodyClass">
             <argument name="class" xsi:type="string">account</argument>
         </action>
@@ -36,4 +35,4 @@
             </block>
         </block>
     </referenceContainer>
-</layout>
+</page>

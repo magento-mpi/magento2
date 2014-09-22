@@ -9,19 +9,51 @@
 namespace Magento\CustomerSegment\Test\Handler\CustomerSegment;
 
 use Mtf\System\Config;
-use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlInterface;
+use Magento\Backend\Test\Handler\Conditions;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
  * Curl handler for creating customer segment through backend.
  */
-class Curl extends AbstractCurl implements CustomerSegmentInterface
+class Curl extends Conditions implements CustomerSegmentInterface
 {
+    /**
+     * Map of type parameter
+     *
+     * @var array
+     */
+    protected $mapTypeParams = [
+        'Conditions combination' => [
+            'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Combine\Root',
+            'aggregator' => 'all',
+            'value' => 1
+        ],
+        'Default Billing Address' => [
+            'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes',
+            'attribute' => 'default_billing'
+        ],
+        'Default Shipping Address' => [
+            'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes',
+            'attribute' => 'default_shipping'
+        ]
+    ];
+
+    /**
+     * Map of rule parameters
+     *
+     * @var array
+     */
+    protected $mapRuleParams = [
+        'value' => [
+            'exists' => 'is_exists',
+        ],
+    ];
+
     /**
      * Mapping values for data.
      *
@@ -52,6 +84,11 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
         $url = $_ENV['app_backend_url'] . 'customersegment/index/save/back/edit/active_tab/general_section';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $data = $this->replaceMappingData($customerSegment->getData());
+
+        if ($customerSegment->hasData('conditions_serialized')) {
+            $data['rule']['conditions'] = $this->prepareCondition($data['conditions_serialized']);
+            unset($data['conditions_serialized']);
+        }
 
         $data['website_ids'] = $this->getWebsiteIdsValue($data['website_ids']);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
@@ -86,7 +123,7 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
         $names = is_array($names) ? $names : [$names];
         foreach ($names as $name) {
             preg_match(
-                '/<a[^>]+href="[^"]+website_id\\/([\\d]+)\\/"[^>]*>' . $name . '<\\/a>/',
+                '/<a[^>]+href="[^"]+website_id\\/([\\d]+)\\/"[^>]*>' . preg_quote($name) . '<\\/a>/',
                 $response,
                 $match
             );

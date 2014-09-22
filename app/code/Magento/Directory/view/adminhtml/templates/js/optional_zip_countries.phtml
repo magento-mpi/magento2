@@ -15,6 +15,11 @@
  */
 ?>
 <script type="text/javascript">
+require([
+    "prototype",
+    "mage/adminhtml/events"
+], function(){
+
 //<![CDATA[
 optionalZipCountries = <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>;
 
@@ -44,5 +49,11 @@ function setPostcodeOptional(zipElement, country) {
 }
 
 varienGlobalEvents.attachEventHandler("address_country_changed", onAddressCountryChanged);
+
+window.setPostcodeOptional = setPostcodeOptional;
+window.onAddressCountryChanged = onAddressCountryChanged;
+window.optionalZipCountries = optionalZipCountries;
 //]]>
+
+});
 </script>

@@ -8,8 +8,14 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($, window) {
-    'use strict';    
+define([
+    "jquery",
+    "jquery/ui",
+    "Magento_Checkout/js/opc-checkout-method",
+    "mage/validation"
+], function($){
+    'use strict';
+       
     // Extension for mage.opcheckout - second section(Billing Information) in one page checkout accordion
     $.widget('mage.opcBillingInfo', $.mage.opcCheckoutMethod, {
         options: {
@@ -45,4 +51,5 @@
             });
         }
     });
-})(jQuery, window);
+
+});

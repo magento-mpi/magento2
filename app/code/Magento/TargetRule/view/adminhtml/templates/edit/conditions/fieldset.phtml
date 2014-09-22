@@ -22,7 +22,13 @@
     </fieldset>
 </div>
 <script type="text/javascript">
-var TargetRuleForm = Class.create(VarienRulesForm, {
+require([
+    "jquery",
+    "prototype",
+    "Magento_Rule/rules"
+], function(jQuery){
+
+window.TargetRuleForm = Class.create(VarienRulesForm, {
     initParam: function ($super, container) {
         $super(container);
         var valueType = container.down('.value-type-chooser');
@@ -57,6 +63,6 @@ var TargetRuleForm = Class.create(VarienRulesForm, {
     }
 });
 
-var <?php echo $_element->getHtmlId() ?> = new TargetRuleForm('<?php echo $_element->getHtmlId() ?>', '<?php echo $this->getNewChildUrl() ?>');
-
+window.<?php echo $_element->getHtmlId() ?> = new TargetRuleForm('<?php echo $_element->getHtmlId() ?>', '<?php echo $this->getNewChildUrl() ?>');
+});
 </script>

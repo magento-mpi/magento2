@@ -39,7 +39,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Mail\TransportInterface|PHPUnit_Framework_MockObject_MockObject */
     protected $_transportMock;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\StoreManagerInterface|PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManagerMock;
 
     /** @var \Magento\Store\Model\Store|PHPUnit_Framework_MockObject_MockObject */
@@ -94,7 +94,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             array('create')
         )->getMock();
         $roleFactoryMock = $this->getMockBuilder(
-            'Magento\User\Model\RoleFactory'
+            'Magento\Authorization\Model\RoleFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();
@@ -114,7 +114,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             array()
         )->getMock();
         $this->_storeManagerMock = $this->getMockBuilder(
-            '\Magento\Store\Model\StoreManagerInterface'
+            '\Magento\Framework\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();

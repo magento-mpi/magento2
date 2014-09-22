@@ -510,30 +510,6 @@ $table = $installer->getConnection()->newTable(
 $installer->getConnection()->createTable($table);
 
 /**
- * Add attributes
- */
-$installer->addAttribute(
-    'quote_item',
-    'giftregistry_item_id',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
-);
-$installer->addAttribute(
-    'order_item',
-    'giftregistry_item_id',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
-);
-$installer->addAttribute(
-    'quote_address',
-    'giftregistry_item_id',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
-);
-$installer->addAttribute(
-    'order_address',
-    'giftregistry_item_id',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
-);
-
-/**
  * Prepare database after module installation
  */
 $installer->endSetup();

@@ -41,14 +41,17 @@
                     <span><?php echo __('Update Gift Registry') ?></span>
                 </button>
             </div>
+            <div class="secondary">
+                <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+            </div>
         </div>
     </fieldset>
 </form>
 <?php else: ?>
     <div class="message info empty"><span><?php echo __('This gift registry has no items.') ?></span></div>
-<?php endif ?>
-<div class="actions-toolbar">
-    <div class="secondary">
-        <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+    <div class="actions-toolbar">
+        <div class="secondary">
+            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+        </div>
     </div>
-</div>
+<?php endif ?>

@@ -40,7 +40,7 @@ class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('admin_role', 'role_id');
+        $this->_init('authorization_role', 'role_id');
     }
 
     /**
@@ -57,7 +57,7 @@ class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!$isAll) {
             $select = $this->_getReadAdapter()->select();
             $select->from(
-                $this->getTable('admin_role'),
+                $this->getTable('authorization_role'),
                 array('role_id', 'gws_is_all', 'gws_websites', 'gws_store_groups')
             );
             $select->where('parent_id = ?', 0);
@@ -118,7 +118,8 @@ class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $limitedRoles = $this->getRolesOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups);
         if ($limitedRoles) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('admin_role'), array('user_id'))->where('parent_id IN (?)', $limitedRoles);
+            $select->from($this->getTable('authorization_role'), array('user_id'))
+                ->where('parent_id IN (?)', $limitedRoles);
 
             $users = $this->_getReadAdapter()->fetchCol($select);
 

@@ -7,18 +7,21 @@
  */
 ?>
 <script type="text/javascript">
-//<![CDATA[
-    document.observe('dom:loaded', function () {
-        rma.setLoadAttributesUrl('<?php echo $this->getLoadAttributesUrl() ?>');
-        rma.setLoadBundleUrl('<?php echo $this->getLoadBundleUrl() ?>');
-        rma.setLoadOrderId('<?php echo $this->getLoadOrderId() ?>');
-        $$('a[class="product_to_add"]').each(function(obj) {
-            obj.observe('click', rma.showBundleItems.bind(rma));
-        });
+require([
+    'prototype',
+    'Magento_Rma/rma'
+], function(){
 
-        $('edit_form').insert({
-            bottom: new Element('div', {id: 'details_container'})
-        });
+    rma.setLoadAttributesUrl('<?php echo $this->getLoadAttributesUrl() ?>');
+    rma.setLoadBundleUrl('<?php echo $this->getLoadBundleUrl() ?>');
+    rma.setLoadOrderId('<?php echo $this->getLoadOrderId() ?>');
+    $$('a[class="product_to_add"]').each(function(obj) {
+        obj.observe('click', rma.showBundleItems.bind(rma));
     });
-//]]>
+
+    $('edit_form').insert({
+        bottom: new Element('div', {id: 'details_container'})
+    });
+
+});
 </script>

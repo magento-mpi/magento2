@@ -38,12 +38,15 @@
 </div>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-var giftWrappingItem = {
+giftWrappingItem = {
     itemId : null,
     itemsInfo : <?php echo $this->getItemsInfo()->toJson() ?>,
     designsInfo : <?php echo $this->getDesignsInfo()->toJson() ?>,
     isObserved : false,
+    wrappingData : null,
     init : function() {
         $$('.action-link').each(function (el) {
             Event.observe(el, 'click', this.setData.bind(this));
@@ -116,17 +119,23 @@ var giftWrappingItem = {
             $('wrapping-item-container').addClassName('no-display');
         }
         if (!this.isObserved) {
-            Event.observe($('gift_options_ok_button'), 'click', this.processOk.bind(this));
+            window.giftMessageSet.setSaveCallback(this.processOk);
+            Event.observe($('gift_options_ok_button'), 'click', this.collectWrappingData.bind(this));
             Event.observe($('gift_options_cancel_button'), 'click', this.processCancel.bind(this));
             Event.observe($('giftwrapping_design_item'), 'change', this.setWrapping.bind(this));
             this.isObserved = true;
         }
     },
 
-    processOk : function(event){
-        var data = order.serializeData('wrapping-item-container');
-        order.loadArea(['items','totals', 'billing_method'], true, data.toObject());
-        this.reset();
+    processOk : function(){
+        var giftmessageData = window.giftMessageSet.prepareSaveData();
+        giftmessageData.update(giftWrappingItem.wrappingData.toJSON());
+        giftWrappingItem.reset();
+        order.loadArea(['items','totals', 'billing_method'], true, giftmessageData.toObject());
+    },
+
+    collectWrappingData: function(event) {
+        this.wrappingData = order.serializeData('wrapping-item-container');
     },
 
     processCancel : function(event){
@@ -140,5 +149,7 @@ var giftWrappingItem = {
 }
 giftWrappingItem.init();
 //]]>
+
+});
 </script>
 <?php endif; ?>

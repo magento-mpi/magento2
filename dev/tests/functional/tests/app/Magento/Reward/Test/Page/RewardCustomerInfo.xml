@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="reward/customer/info" >
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.page.messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>accountMenuBlock</name>
-        <class>Magento\Customer\Test\Block\Account\Links</class>
-        <locator>.nav.items</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>rewardPointsBlock</name>
-        <class>Magento\Reward\Test\Block\Customer\RewardPoints</class>
-        <locator>//div[div[contains(@class, "block-reward-info")]]</locator>
-        <strategy>xpath</strategy>
-    </block>
+<page mca="reward/customer/info" module="Magento_Reward">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.page.messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <accountMenuBlock>
+            <class>Magento\Customer\Test\Block\Account\Links</class>
+            <locator>.nav.items</locator>
+            <strategy>css selector</strategy>
+        </accountMenuBlock>
+        <rewardPointsBlock>
+            <class>Magento\Reward\Test\Block\Customer\RewardPoints</class>
+            <locator>//div[div[contains(@class, "block-reward-info")]]</locator>
+            <strategy>xpath</strategy>
+        </rewardPointsBlock>
+    </blocks>
 </page>

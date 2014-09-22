@@ -7,11 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="checkout_page_head_components" template="Magento_Catalog::js/components.phtml"/>
     </referenceBlock>
-    <update handle="page_one_column"/>
     <referenceBlock name="page.main.title">
         <arguments>
             <argument name="css_class" xsi:type="string">product</argument>
@@ -27,11 +26,6 @@
         <block class="Magento\Theme\Block\Html\Head\Css" name="mage-gallery-css">
             <arguments>
                 <argument name="file" xsi:type="string">mage/gallery.css</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-terms">
-            <arguments>
-                <argument name="file" xsi:type="string">mage/terms.js</argument>
             </arguments>
         </block>
     </referenceBlock>
@@ -153,4 +147,4 @@
     </referenceBlock>
     <update handle="MAP_popup"/>
     <update handle="MAP_price_msrp_item"/>
-</layout>
+</page>

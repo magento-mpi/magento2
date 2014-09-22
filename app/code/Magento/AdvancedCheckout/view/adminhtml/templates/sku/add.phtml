@@ -54,7 +54,11 @@
     </div>
 </div>
 <script type="text/javascript">
-//<![CDATA[
+require([
+    "prototype",
+    "Magento_AdvancedCheckout/addbysku",
+    "Magento_Sales/order/create/form"
+], function(){
 
     function initSku() {
         addBySku = new AddBySku(<?php echo $this->getJsOrderObject() ?>, <?php echo $this->getAddBySkuDataJson() ?>);
@@ -76,7 +80,9 @@
         <?php echo $this->getAdditionalJavascript() ?>
     }
 
+    window.initSku = initSku;
+
     <?php echo $this->getContextSpecificJs(); ?>
 
-//]]>
+});
 </script>

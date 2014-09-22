@@ -27,13 +27,12 @@ class Widget extends AbstractRepository
         $this->_data['default'] = [
             'title' => 'Test Frontend App',
             'store_ids' => [
-                '0' => '0'
+                '0' => 'All Store Views'
             ],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
                     'all_pages' => [
-                        'page_id' => '0',
                         'layout_handle' => 'default',
                         'for' => 'all',
                         'block' => 'content',
@@ -47,30 +46,29 @@ class Widget extends AbstractRepository
             'theme_id' => '2'
         ];
 
-        $this->_data['banner_rotator'] = [
-            'code' => 'magento_banner',
-            'title' => 'Banner Rotator %isolation%',
-            'store_ids' => [
-                '0' => '0'
-            ],
+        $this->_data['cms_page_link'] = [
+            'code' => 'CMS Page Link',
+            'title' => 'Cms Page Link %isolation%',
+            'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
                     'all_pages' => [
-                        'page_id' => '0',
                         'layout_handle' => 'default',
                         'for' => 'all',
                         'block' => 'content',
-                        'template' => 'widget/block.phtml'
+                        'template' => 'widget/link/link_block.phtml'
                     ]
                 ]
             ],
-            //TODO 'parameters' array should be deleted while creating functional test for widget (MTA-296)
             'parameters' => [
-                'display_mode' => 'catalogrule'
+                'display_mode' => 'fixed',
+                'anchor_text' => 'text',
+                'title' => 'anchor title',
+
             ],
-            //TODO 'theme_id' should be specified via UI and data source should be used
-            'theme_id' => '2'
+            'page_id' => ['dataSet' => 'default'],
+            'theme_id' => 'Magento Blank'
         ];
     }
 }

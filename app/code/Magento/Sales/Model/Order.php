@@ -8,6 +8,7 @@
 namespace Magento\Sales\Model;
 
 use Magento\Directory\Model\Currency;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Resource\Order\Address\Collection;
 use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
@@ -211,7 +212,6 @@ use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryColle
  * @method \Magento\Sales\Model\Order setWeight(float $value)
  * @method string getCustomerDob()
  * @method \Magento\Sales\Model\Order setCustomerDob(string $value)
- * @method string getIncrementId()
  * @method \Magento\Sales\Model\Order setIncrementId(string $value)
  * @method string getAppliedRuleIds()
  * @method \Magento\Sales\Model\Order setAppliedRuleIds(string $value)
@@ -294,37 +294,19 @@ use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryColle
  * @method \Magento\Sales\Model\Order setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order setBaseShippingInclTax(float $value)
+ * @method bool hasBillingAddressId()
+ * @method \Magento\Sales\Model\Order unsBillingAddressId()
+ * @method bool hasShippingAddressId()
+ * @method \Magento\Sales\Model\Order unsShippingAddressId()
+ * @method int getShippigAddressId()
+ * @method bool hasCustomerNoteNotify()
+ * @method bool hasForcedCanCreditmemo()
+ * @method bool getIsInProcess()
+ * @method \Magento\Customer\Model\Customer getCustomer()
  */
-class Order extends \Magento\Sales\Model\AbstractModel
+class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterface
 {
     const ENTITY = 'order';
-
-    /**
-     * XML configuration paths
-     */
-    const XML_PATH_EMAIL_TEMPLATE = 'sales_email/order/template';
-
-    const XML_PATH_EMAIL_GUEST_TEMPLATE = 'sales_email/order/guest_template';
-
-    const XML_PATH_EMAIL_IDENTITY = 'sales_email/order/identity';
-
-    const XML_PATH_EMAIL_COPY_TO = 'sales_email/order/copy_to';
-
-    const XML_PATH_EMAIL_COPY_METHOD = 'sales_email/order/copy_method';
-
-    const XML_PATH_EMAIL_ENABLED = 'sales_email/order/enabled';
-
-    const XML_PATH_UPDATE_EMAIL_TEMPLATE = 'sales_email/order_comment/template';
-
-    const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE = 'sales_email/order_comment/guest_template';
-
-    const XML_PATH_UPDATE_EMAIL_IDENTITY = 'sales_email/order_comment/identity';
-
-    const XML_PATH_UPDATE_EMAIL_COPY_TO = 'sales_email/order_comment/copy_to';
-
-    const XML_PATH_UPDATE_EMAIL_COPY_METHOD = 'sales_email/order_comment/copy_method';
-
-    const XML_PATH_UPDATE_EMAIL_ENABLED = 'sales_email/order_comment/enabled';
 
     /**
      * Order states
@@ -377,13 +359,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     const REPORT_DATE_TYPE_CREATED = 'created';
 
     const REPORT_DATE_TYPE_UPDATED = 'updated';
-
-    /*
-     * Identifier for history item
-     *
-     * @var string
-     */
-    const HISTORY_ENTITY_NAME = 'order';
 
     /**
      * @var string
@@ -469,31 +444,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
      *
      * @var string
      */
-    protected $_historyEntityName = self::HISTORY_ENTITY_NAME;
+    protected $entityType = 'order';
 
     /**
-     * Sales data
-     *
-     * @var \Magento\Sales\Helper\Data
-     */
-    protected $_salesData;
-
-    /**
-     * Payment data
-     *
-     * @var \Magento\Payment\Helper\Data
-     */
-    protected $_paymentData;
-
-    /**
-     * Core store config
-     *
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -506,11 +460,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
-
-    /**
-     * @var \Magento\Framework\Mail\Template\TransportBuilder
-     */
-    protected $_transportBuilder;
 
     /**
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
@@ -536,11 +485,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
-
-    /**
-     * @var \Magento\Eav\Model\Config
-     */
-    protected $_eavConfig;
 
     /**
      * @var \Magento\Sales\Model\Order\Status\HistoryFactory
@@ -588,17 +532,18 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_trackCollectionFactory;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param Resource\Order\Item\CollectionFactory $orderItemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Tax\Model\Calculation $taxCalculation
@@ -614,6 +559,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory
      * @param Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory
      * @param Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -623,13 +569,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Sales\Helper\Data $salesData,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Tax\Model\Calculation $taxCalculation,
@@ -645,17 +587,15 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_paymentData = $paymentData;
-        $this->_salesData = $salesData;
-        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_orderConfig = $orderConfig;
         $this->_productFactory = $productFactory;
-        $this->_transportBuilder = $transportBuilder;
+
         $this->_orderItemCollectionFactory = $orderItemCollectionFactory;
         $this->_productVisibility = $productVisibility;
         $this->_taxCalculation = $taxCalculation;
@@ -671,6 +611,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         $this->_shipmentCollectionFactory = $shipmentCollectionFactory;
         $this->_memoCollectionFactory = $memoCollectionFactory;
         $this->_trackCollectionFactory = $trackCollectionFactory;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $registry, $localeDate, $dateTime, $resource, $resourceCollection, $data);
     }
 
@@ -796,8 +737,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
         if (!$this->_canVoidOrder()) {
             return false;
         }
-
-        if (!$this->getPayment()->canReviewPayment() && $this->getPayment()->canFetchTransactionInfo()) {
+        if ($this->canUnhold()) {
+            return false;
+        }
+        if (!$this->canReviewPayment() && $this->canFetchPaymentReviewUpdate()) {
             return false;
         }
 
@@ -897,7 +840,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
          * for this we have additional diapason for 0
          * TotalPaid - contains amount, that were not rounded.
          */
-        if (abs($this->getStore()->roundPrice($this->getTotalPaid()) - $this->getTotalRefunded()) < .0001) {
+        if (abs($this->priceCurrency->round($this->getTotalPaid()) - $this->getTotalRefunded()) < .0001) {
             return false;
         }
 
@@ -1229,11 +1172,17 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param string|bool $status
      * @param string $comment
      * @param bool $isCustomerNotified
+     * @param bool $shouldProtectState
      * @return \Magento\Sales\Model\Order
      */
-    public function setState($state, $status = false, $comment = '', $isCustomerNotified = null)
-    {
-        return $this->_setState($state, $status, $comment, $isCustomerNotified, true);
+    public function setState(
+        $state,
+        $status = false,
+        $comment = '',
+        $isCustomerNotified = null,
+        $shouldProtectState = true
+    ) {
+        return $this->_setState($state, $status, $comment, $isCustomerNotified, $shouldProtectState);
     }
 
     /**
@@ -1336,7 +1285,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         )->setComment(
             $comment
         )->setEntityName(
-            $this->_historyEntityName
+            $this->entityType
         );
         $this->addStatusHistory($history);
         return $history;
@@ -1350,8 +1299,18 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function setHistoryEntityName($entityName)
     {
-        $this->_historyEntityName = $entityName;
+        $this->entityType = $entityName;
         return $this;
+    }
+
+    /**
+     * Return order entity type
+     *
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return $this->entityType;
     }
 
     /**
@@ -1490,232 +1449,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         }
     }
 
-    /**
-     * Send email with order data
-     *
-     * @return $this
-     */
-    public function sendNewOrderEmail()
-    {
-        $storeId = $this->getStore()->getId();
-
-        if (!$this->_salesData->canSendNewOrderEmail($storeId)) {
-            return $this;
-        }
-
-        // Get the destination email addresses to send copies to
-        $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = $this->_scopeConfig->getValue(
-            self::XML_PATH_EMAIL_COPY_METHOD,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
-
-        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($this->getPayment(), $storeId);
-
-        // Retrieve corresponding email template id and customer name
-        if ($this->getCustomerIsGuest()) {
-            $templateId = $this->_scopeConfig->getValue(
-                self::XML_PATH_EMAIL_GUEST_TEMPLATE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            );
-            $customerName = $this->getBillingAddress()->getName();
-        } else {
-            $templateId = $this->_scopeConfig->getValue(
-                self::XML_PATH_EMAIL_TEMPLATE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            );
-            $customerName = $this->getCustomerName();
-        }
-
-        $this->_transportBuilder->setTemplateIdentifier(
-            $templateId
-        )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-        )->setTemplateVars(
-            array(
-                'order' => $this,
-                'billing' => $this->getBillingAddress(),
-                'payment_html' => $paymentBlockHtml,
-                'store' => $this->getStore()
-            )
-        )->setFrom(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_EMAIL_IDENTITY,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        )->addTo(
-            $this->getCustomerEmail(),
-            $customerName
-        );
-        if ($copyTo && $copyMethod == 'bcc') {
-            // Add bcc to customer email
-            foreach ($copyTo as $email) {
-                $this->_transportBuilder->addBcc($email);
-            }
-        }
-        /** @var \Magento\Framework\Mail\TransportInterface $transport */
-        $transport = $this->_transportBuilder->getTransport();
-        $transport->sendMessage();
-
-        // Email copies are sent as separated emails if their copy method is 'copy'
-        if ($copyTo && $copyMethod == 'copy') {
-            foreach ($copyTo as $email) {
-                $this->_transportBuilder->setTemplateIdentifier(
-                    $templateId
-                )->setTemplateOptions(
-                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-                )->setTemplateVars(
-                    array(
-                        'order' => $this,
-                        'billing' => $this->getBillingAddress(),
-                        'payment_html' => $paymentBlockHtml,
-                        'store' => $this->getStore()
-                    )
-                )->setFrom(
-                    $this->_scopeConfig->getValue(
-                        self::XML_PATH_EMAIL_IDENTITY,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $storeId
-                    )
-                )->addTo(
-                    $email
-                )->getTransport()->sendMessage();
-            }
-        }
-
-        $this->setEmailSent(true);
-        $this->_getResource()->saveAttribute($this, 'email_sent');
-
-        return $this;
-    }
-
-    /**
-     * Send email with order update information
-     *
-     * @param boolean $notifyCustomer
-     * @param string $comment
-     * @return $this
-     */
-    public function sendOrderUpdateEmail($notifyCustomer = true, $comment = '')
-    {
-        $storeId = $this->getStore()->getId();
-
-        if (!$this->_salesData->canSendOrderCommentEmail($storeId)) {
-            return $this;
-        }
-        // Get the destination email addresses to send copies to
-        $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = $this->_scopeConfig->getValue(
-            self::XML_PATH_UPDATE_EMAIL_COPY_METHOD,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
-        // Check if at least one recipient is found
-        if (!$notifyCustomer && !$copyTo) {
-            return $this;
-        }
-
-        // Retrieve corresponding email template id and customer name
-        if ($this->getCustomerIsGuest()) {
-            $templateId = $this->_scopeConfig->getValue(
-                self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            );
-            $customerName = $this->getBillingAddress()->getName();
-        } else {
-            $templateId = $this->_scopeConfig->getValue(
-                self::XML_PATH_UPDATE_EMAIL_TEMPLATE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            );
-            $customerName = $this->getCustomerName();
-        }
-
-        if ($notifyCustomer) {
-            $this->_transportBuilder->setTemplateIdentifier(
-                $templateId
-            )->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-            )->setTemplateVars(
-                array(
-                    'order' => $this,
-                    'comment' => $comment,
-                    'billing' => $this->getBillingAddress(),
-                    'store' => $this->getStore()
-                )
-            )->setFrom(
-                $this->_scopeConfig->getValue(
-                    self::XML_PATH_UPDATE_EMAIL_IDENTITY,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                    $storeId
-                )
-            )->addTo(
-                $this->getCustomerEmail(),
-                $customerName
-            );
-            if ($copyTo && $copyMethod == 'bcc') {
-                // Add bcc to customer email
-                foreach ($copyTo as $email) {
-                    $this->_transportBuilder->addBcc($email);
-                }
-            }
-            /** @var \Magento\Framework\Mail\TransportInterface $transport */
-            $transport = $this->_transportBuilder->getTransport();
-            $transport->sendMessage();
-        }
-
-        // Email copies are sent as separated emails if their copy method is
-        // 'copy' or a customer should not be notified
-        if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
-            foreach ($copyTo as $email) {
-                $this->_transportBuilder->setTemplateIdentifier(
-                    $templateId
-                )->setTemplateOptions(
-                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-                )->setTemplateVars(
-                    array(
-                        'order' => $this,
-                        'comment' => $comment,
-                        'billing' => $this->getBillingAddress(),
-                        'store' => $this->getStore()
-                    )
-                )->setFrom(
-                    $this->_scopeConfig->getValue(
-                        self::XML_PATH_UPDATE_EMAIL_IDENTITY,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $storeId
-                    )
-                )->addTo(
-                    $email
-                )->getTransport()->sendMessage();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $configPath
-     * @return array|false
-     */
-    protected function _getEmails($configPath)
-    {
-        $data = $this->_scopeConfig->getValue(
-            $configPath,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->getStoreId()
-        );
-        if (!empty($data)) {
-            return explode(',', $data);
-        }
-        return false;
-    }
-
     /*********************** ADDRESSES ***************************/
 
     /**
@@ -1850,7 +1583,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @return array
+     * @return \Magento\Sales\Model\Order\Item[]
      */
     public function getAllItems()
     {
@@ -2205,7 +1938,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getTotalDue()
     {
         $total = $this->getGrandTotal() - $this->getTotalPaid();
-        $total = $this->_storeManager->getStore($this->getStoreId())->roundPrice($total);
+        $total = $this->priceCurrency->round($total);
         return max($total, 0);
     }
 
@@ -2217,7 +1950,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getBaseTotalDue()
     {
         $total = $this->getBaseGrandTotal() - $this->getBaseTotalPaid();
-        $total = $this->_storeManager->getStore($this->getStoreId())->roundPrice($total);
+        $total = $this->priceCurrency->round($total);
         return max($total, 0);
     }
 
@@ -2397,135 +2130,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * Processing object before save data
-     *
-     * @return $this
-     */
-    protected function _beforeSave()
-    {
-        parent::_beforeSave();
-        $this->_checkState();
-        if (!$this->getId()) {
-            $store = $this->getStore();
-            $name = array($store->getWebsite()->getName(), $store->getGroup()->getName(), $store->getName());
-            $this->setStoreName(implode("\n", $name));
-        }
-
-        if (!$this->getIncrementId()) {
-            $incrementId = $this->_eavConfig->getEntityType('order')->fetchNewIncrementId($this->getStoreId());
-            $this->setIncrementId($incrementId);
-        }
-
-        /**
-         * Process items dependency for new order
-         */
-        if (!$this->getId()) {
-            $itemsCount = 0;
-            foreach ($this->getAllItems() as $item) {
-                $parent = $item->getQuoteParentItemId();
-                if ($parent && !$item->getParentItem()) {
-                    $item->setParentItem($this->getItemByQuoteItemId($parent));
-                } elseif (!$parent) {
-                    $itemsCount++;
-                }
-            }
-            // Set items count
-            $this->setTotalItemCount($itemsCount);
-        }
-        /** TODO refactor getCustomer usage after MAGETWO-20182 and MAGETWO-20258 are done */
-        $isNewCustomer = !$this->getCustomerId() || $this->getCustomerId() === true;
-        if ($isNewCustomer && $this->getCustomer()) {
-            $this->setCustomerId($this->getCustomer()->getId());
-        }
-
-        if ($this->hasBillingAddressId() && $this->getBillingAddressId() === null) {
-            $this->unsBillingAddressId();
-        }
-
-        if ($this->hasShippingAddressId() && $this->getShippingAddressId() === null) {
-            $this->unsShippingAddressId();
-        }
-
-        $this->setData('protect_code', substr(md5(uniqid(\Magento\Framework\Math\Random::getRandomNumber(), true) . ':' . microtime(true)), 5, 6));
-        return $this;
-    }
-
-    /**
-     * Check order state before saving
-     *
-     * @return $this
-     */
-    protected function _checkState()
-    {
-        if (!$this->getId()) {
-            return $this;
-        }
-
-        $userNotification = $this->hasCustomerNoteNotify() ? $this->getCustomerNoteNotify() : null;
-
-        if (!$this->isCanceled() && !$this->canUnhold() && !$this->canInvoice() && !$this->canShip()) {
-            if (0 == $this->getBaseGrandTotal() || $this->canCreditmemo()) {
-                if ($this->getState() !== self::STATE_COMPLETE) {
-                    $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
-                }
-            } elseif (floatval(
-                $this->getTotalRefunded()
-            ) || !$this->getTotalRefunded() && $this->hasForcedCanCreditmemo()
-            ) {
-                if ($this->getState() !== self::STATE_CLOSED) {
-                    $this->_setState(self::STATE_CLOSED, true, '', $userNotification);
-                }
-            }
-        }
-
-        if ($this->getState() == self::STATE_NEW && $this->getIsInProcess()) {
-            $this->setState(self::STATE_PROCESSING, true, '', $userNotification);
-        }
-        return $this;
-    }
-
-    /**
-     * Save order related objects
-     *
-     * @return $this
-     */
-    protected function _afterSave()
-    {
-        if (null !== $this->_addresses) {
-            $this->_addresses->save();
-            $billingAddress = $this->getBillingAddress();
-            $attributesForSave = array();
-            if ($billingAddress && $this->getBillingAddressId() != $billingAddress->getId()) {
-                $this->setBillingAddressId($billingAddress->getId());
-                $attributesForSave[] = 'billing_address_id';
-            }
-
-            $shippingAddress = $this->getShippingAddress();
-            if ($shippingAddress && $this->getShippigAddressId() != $shippingAddress->getId()) {
-                $this->setShippingAddressId($shippingAddress->getId());
-                $attributesForSave[] = 'shipping_address_id';
-            }
-
-            if (!empty($attributesForSave)) {
-                $this->_getResource()->saveAttribute($this, $attributesForSave);
-            }
-        }
-        if (null !== $this->_items) {
-            $this->_items->save();
-        }
-        if (null !== $this->_payments) {
-            $this->_payments->save();
-        }
-        if (null !== $this->_statusHistory) {
-            $this->_statusHistory->save();
-        }
-        foreach ($this->getRelatedObjects() as $object) {
-            $object->save();
-        }
-        return parent::_afterSave();
-    }
-
-    /**
      * @return string
      */
     public function getStoreGroupName()
@@ -2614,11 +2218,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * Protect order delete from not admin scope
-     * @return $this
+     * Returns increment id
+     *
+     * @return string
      */
-    protected function _beforeDelete()
+    public function getIncrementId()
     {
-        return parent::_beforeDelete();
+        return $this->getData('increment_id');
     }
 }

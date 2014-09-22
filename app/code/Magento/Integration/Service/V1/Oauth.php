@@ -8,7 +8,7 @@
 namespace Magento\Integration\Service\V1;
 
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
-use Magento\Integration\Model\Oauth\Token;
+use Magento\Integration\Model\Oauth\Token as OauthTokenModel;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
 use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
@@ -24,7 +24,7 @@ use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
 class Oauth implements OauthInterface
 {
     /**
-     * @var  \Magento\Store\Model\StoreManagerInterface
+     * @var  \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -66,7 +66,7 @@ class Oauth implements OauthInterface
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param ConsumerFactory $consumerFactory
      * @param TokenFactory $tokenFactory
      * @param IntegrationOauthHelper $dataHelper
@@ -76,7 +76,7 @@ class Oauth implements OauthInterface
      * @param TokenProvider $tokenProvider
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         ConsumerFactory $consumerFactory,
         TokenFactory $tokenFactory,
         IntegrationOauthHelper $dataHelper,
@@ -122,7 +122,7 @@ class Oauth implements OauthInterface
     {
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $existingToken = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
+            $existingToken = $this->_tokenProvider->getIntegrationTokenByConsumerId($consumer->getId());
             if ($existingToken && $clearExistingToken) {
                 $existingToken->delete();
                 unset($existingToken);
@@ -146,8 +146,8 @@ class Oauth implements OauthInterface
     {
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $token = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
-            if ($token->getType() != Token::TYPE_ACCESS) {
+            $token = $this->_tokenProvider->getIntegrationTokenByConsumerId($consumer->getId());
+            if ($token->getType() != OauthTokenModel::TYPE_ACCESS) {
                 return false;
             }
         } catch (\Exception $e) {
@@ -244,11 +244,11 @@ class Oauth implements OauthInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteToken($consumerId)
+    public function deleteIntegrationToken($consumerId)
     {
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $existingToken = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
+            $existingToken = $this->_tokenProvider->getIntegrationTokenByConsumerId($consumer->getId());
             $existingToken->delete();
             return true;
         } catch (\Exception $e) {

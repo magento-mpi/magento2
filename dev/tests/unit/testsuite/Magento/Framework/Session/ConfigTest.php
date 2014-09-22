@@ -34,11 +34,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_requestMock;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
-
-    /**
      * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
@@ -64,15 +59,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('init.host')
         );
-        $this->_appState = $this->getMock('\Magento\Framework\App\State', array('isInstalled'), array(), '', false, false);
-        $this->_appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
         $this->_filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false, false);
 
         $this->config = new \Magento\Framework\Session\Config(
             $this->_configMock,
             $this->_stringHelperMock,
             $this->_requestMock,
-            $this->_appState,
             $this->_filesystem,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER,
@@ -87,16 +79,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'Parameter provided to Magento\Framework\Session\Config::setOptions must be an array or Traversable'
         );
         $this->config->setOptions('');
-    }
-
-    public function testSetOptionsWrongOption()
-    {
-        $this->setExpectedException(
-            '\InvalidArgumentException',
-            '"session.0" is not a valid sessions-related ini setting.'
-        );
-
-        $this->config->setOptions(array('lol'));
     }
 
     /**
@@ -152,28 +134,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($original, $this->config->toArray());
     }
 
-    public function testHasOption()
-    {
-        $appStateProperty = new \ReflectionProperty('Magento\Framework\Session\Config', 'options');
-        $appStateProperty->setAccessible(true);
-        $original = $appStateProperty->getValue($this->config);
-        $valueForTest = array('session.test' => 'test2');
-        $appStateProperty->setValue($this->config, $valueForTest);
-        $this->assertTrue($this->config->hasOption('test'));
-        $this->assertFalse($this->config->hasOption('no_set'));
-        $appStateProperty->setValue($this->config, $original);
-    }
-
     public function testNameIsMutable()
     {
         $this->config->setName('FOOBAR');
         $this->assertEquals('FOOBAR', $this->config->getName());
-    }
-
-    public function testNameAltersIniSetting()
-    {
-        $this->config->setName('FOOBAR');
-        $this->assertEquals('FOOBAR', ini_get('session.name'));
     }
 
     public function testSaveHandlerDefaultsToIniSettings()
@@ -191,21 +155,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('user', $this->config->getSaveHandler());
     }
 
-    public function testCookieLifetimeDefaultsToIniSettings()
-    {
-        $this->assertSame((int)ini_get('session.cookie_lifetime'), $this->config->getCookieLifetime());
-    }
-
     public function testCookieLifetimeIsMutable()
     {
         $this->config->setCookieLifetime(20);
         $this->assertEquals(20, $this->config->getCookieLifetime());
-    }
-
-    public function testCookieLifetimeAltersIniSetting()
-    {
-        $this->config->setCookieLifetime(24);
-        $this->assertEquals(24, ini_get('session.cookie_lifetime'));
     }
 
     public function testCookieLifetimeCanBeZero()
@@ -250,18 +203,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($value, $this->config->getCookieSecure());
     }
 
-    public function testCookieSecureAltersIniSetting()
-    {
-        $value = ini_get('session.cookie_secure') ? false : true;
-        $this->config->setCookieSecure($value);
-        $this->assertEquals($value, ini_get('session.cookie_secure'));
-    }
-
-    public function testCookieDomainDefaultsToIniSettings()
-    {
-        $this->assertSame(ini_get('session.cookie_domain'), $this->config->getCookieDomain());
-    }
-
     public function testCookieDomainIsMutable()
     {
         $this->config->setCookieDomain('example.com');
@@ -272,12 +213,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->setCookieDomain('');
         $this->assertEquals('', $this->config->getCookieDomain());
-    }
-
-    public function testCookieDomainAltersIniSetting()
-    {
-        $this->config->setCookieDomain('localhost');
-        $this->assertEquals('localhost', ini_get('session.cookie_domain'));
     }
 
     public function testSettingInvalidCookieDomainRaisesException()
@@ -307,13 +242,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($value, $this->config->getCookieHttpOnly());
     }
 
-    public function testCookieHttpOnlyAltersIniSetting()
-    {
-        $value = ini_get('session.cookie_httponly') ? false : true;
-        $this->config->setCookieHttpOnly($value);
-        $this->assertEquals($value, ini_get('session.cookie_httponly'));
-    }
-
     public function testUseCookiesDefaultsToIniSettings()
     {
         $this->assertSame((bool)ini_get('session.use_cookies'), $this->config->getUseCookies());
@@ -326,13 +254,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($value, (bool)$this->config->getUseCookies());
     }
 
-    public function testUseCookiesAltersIniSetting()
-    {
-        $value = ini_get('session.use_cookies') ? false : true;
-        $this->config->setUseCookies($value);
-        $this->assertEquals($value, (bool)ini_get('session.use_cookies'));
-    }
-
     public function testUseOnlyCookiesDefaultsToIniSettings()
     {
         $this->assertSame((bool)ini_get('session.use_only_cookies'), $this->config->getUseOnlyCookies());
@@ -343,13 +264,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $value = ini_get('session.use_only_cookies') ? false : true;
         $this->config->setOption('use_only_cookies', $value);
         $this->assertEquals($value, (bool)$this->config->getOption('use_only_cookies'));
-    }
-
-    public function testUseOnlyCookiesAltersIniSetting()
-    {
-        $value = ini_get('session.use_only_cookies') ? false : true;
-        $this->config->setOption('use_only_cookies', $value);
-        $this->assertEquals($value, (bool)ini_get('session.use_only_cookies'));
     }
 
     public function testRefererCheckDefaultsToIniSettings()
@@ -369,15 +283,39 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $this->config->getOption('referer_check'));
     }
 
-    public function testRefererCheckAltersIniSetting()
-    {
-        $this->config->setOption('referer_check', 'BARBAZ');
-        $this->assertEquals('BARBAZ', ini_get('session.referer_check'));
-    }
-
     public function testSetSavePath()
     {
         $this->config->setSavePath('some_save_path');
         $this->assertEquals($this->config->getOption('save_path'), 'some_save_path');
+    }
+
+    public function testSetLifetimePath()
+    {
+        $getValueReturnMap = [
+            [
+                'test_web/test_cookie/test_cookie_lifetime', 'store', null, 7200
+            ],
+            [
+                'web/cookie/cookie_path', 'store', null, ''
+            ],
+        ];
+
+        $this->_configMock
+            ->method('getValue')
+            ->will($this->returnValueMap($getValueReturnMap));
+
+        $config = new \Magento\Framework\Session\Config(
+            $this->_configMock,
+            $this->_stringHelperMock,
+            $this->_requestMock,
+            $this->_filesystem,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER,
+            __DIR__,
+            null,
+            'test_web/test_cookie/test_cookie_lifetime'
+        );
+
+        $this->assertEquals(7200, $config->getCookieLifetime());
     }
 }

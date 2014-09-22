@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <update handle="sales_recurringpayment_view__tabs"/>
     <referenceBlock name="sales.recurring.payment.view.tab.payment">
@@ -68,4 +68,4 @@
             </action>
         </block>
     </referenceBlock>
-</layout>
+</page>

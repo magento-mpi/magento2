@@ -13,7 +13,7 @@ namespace Magento\Authorizenet\Helper;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper implements HelperInterface
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -24,12 +24,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         parent::__construct($context);
@@ -181,6 +181,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
      * @param \Magento\Framework\Object $card
      * @param bool|float $amount
      * @param bool|string $exception
+     * @param bool|string $additionalMessage
      * @return bool|string
      */
     public function getTransactionMessage(
@@ -189,73 +190,30 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
         $lastTransactionId,
         $card,
         $amount = false,
-        $exception = false
-    ) {
-        return $this->getExtendedTransactionMessage(
-            $payment,
-            $requestType,
-            $lastTransactionId,
-            $card,
-            $amount,
-            $exception
-        );
-    }
-
-    /**
-     * Return message for gateway transaction request
-     * 
-     * @param \Magento\Payment\Model\Info $payment
-     * @param string $requestType
-     * @param string $lastTransactionId
-     * @param \Magento\Framework\Object $card
-     * @param bool|float $amount
-     * @param bool|string $exception
-     * @param bool|string $additionalMessage
-     * @return bool|mixed
-     */
-    public function getExtendedTransactionMessage(
-        $payment,
-        $requestType,
-        $lastTransactionId,
-        $card,
-        $amount = false,
         $exception = false,
         $additionalMessage = false
     ) {
+        $message[] = __('Credit Card: xxxx-%1', $card->getCcLast4());
+        if ($amount) {
+            $message[] = __('amount %1', $this->_formatPrice($payment, $amount));
+        }
         $operation = $this->_getOperation($requestType);
-
         if (!$operation) {
             return false;
-        }
-
-        if ($amount) {
-            $amount = __('amount %1', $this->_formatPrice($payment, $amount));
-        }
-
-        if ($exception) {
-            $result = __('failed');
         } else {
-            $result = __('successful');
+            $message[] = $operation;
         }
-
-        $card = __('Credit Card: xxxx-%1', $card->getCcLast4());
-
-        $pattern = '%s %s %s - %s.';
-        $texts = array($card, $amount, $operation, $result);
-
+        $message[] = ($exception) ? '- ' . __('failed.') : '- ' . __('successful.');
         if (!is_null($lastTransactionId)) {
-            $pattern .= ' %s.';
-            $texts[] = __('Authorize.Net Transaction ID %1', $lastTransactionId);
+            $message[] = __('Authorize.Net Transaction ID %1.', $lastTransactionId);
         }
-
         if ($additionalMessage) {
-            $pattern .= ' %s.';
-            $texts[] = $additionalMessage;
+            $message[] = $additionalMessage;
         }
-        $pattern .= ' %s';
-        $texts[] = $exception;
-
-        return call_user_func_array('__', array_merge(array($pattern), $texts));
+        if ($exception) {
+            $message[] = $exception;
+        }
+        return implode(' ', $message);
     }
 
     /**

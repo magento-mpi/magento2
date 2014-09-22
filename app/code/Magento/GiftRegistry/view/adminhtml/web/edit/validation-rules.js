@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 /*global parts:true*/
-(function ($) {
+define(["jquery","mage/validation"], function($){
+
     $.validator.addMethod('attribute-code', function(v, element){
         var resultFlag = true,
             select = $($('#' + $(element).prop('id').sub('_code','_type')));
@@ -24,4 +25,5 @@
         var optionContainerElm = $(elm).closest('fieldset');
         return !!$(optionContainerElm).find('tr:not(.no-display) .select-option-code').length;
     }, 'Please add rows to option.');
-})(jQuery);
+
+});

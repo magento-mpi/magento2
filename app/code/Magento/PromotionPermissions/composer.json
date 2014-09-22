@@ -2,17 +2,17 @@
     "name": "magento/module-promotion-permissions",
     "description": "N/A",
     "require": {
-        "php": "5.4.*|5.5.*",
-        "magento/module-banner": "0.1.0",
-        "magento/module-reminder": "0.1.0",
-        "magento/module-catalog-rule": "0.1.0",
-        "magento/framework": "0.1.0",
+        "php": "~5.4.11|~5.5.0",
+        "magento/module-banner": "0.1.0-alpha95",
+        "magento/module-reminder": "0.1.0-alpha95",
+        "magento/module-catalog-rule": "0.1.0-alpha95",
+        "magento/framework": "0.1.0-alpha95",
         "magento/magento-composer-installer": "*",
-        "magento/module-sales-rule": "0.1.0",
-        "magento/module-backend": "0.1.0"
+        "magento/module-sales-rule": "0.1.0-alpha95",
+        "magento/module-backend": "0.1.0-alpha95"
     },
     "type": "magento2-module",
-    "version": "0.1.0",
+    "version": "0.1.0-alpha95",
     "extra": {
         "map": [
             [

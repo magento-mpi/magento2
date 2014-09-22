@@ -4,8 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template",
+    "mage/backend/tabs"
+], function($){
 
-(function ($, window) {
     $.widget('mage.addressTabs', $.mage.tabs, {
         options: {
             itemCount: 0,
@@ -506,4 +511,6 @@
             return false;
         }
     });
-})(jQuery, window);
+
+
+});

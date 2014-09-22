@@ -16,7 +16,9 @@
         <input id="p_method_use_reward_points" value="1" name="payment[use_reward_points]" type="checkbox" <?php if ($this->useRewardPoints()): ?>checked="checked"<?php endif; ?> />
         <label for="p_method_use_reward_points"><?php echo $this->getUseLabel() ?></label>
         <script type="text/javascript">
-            function toggleUseRewardPoints()
+require(['prototype'], function(){
+
+            toggleUseRewardPoints = function()
             {
                 value = ($('p_method_use_reward_points').checked ? 1 : 0);
                 var data = {};
@@ -26,6 +28,8 @@
             }
             Event.observe($('p_method_use_reward_points'), 'change', toggleUseRewardPoints);
             Event.observe(document, 'dom:loaded', toggleUseRewardPoints);
-        </script>
+        
+});
+</script>
     </div>
 <?php endif; ?>

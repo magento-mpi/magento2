@@ -202,7 +202,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
@@ -220,7 +220,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $config,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
@@ -644,10 +644,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                     '_crosssell_sku',
                     '_crosssell_position',
                     '_upsell_sku',
-                    '_upsell_position',
-                    '_associated_sku',
-                    '_associated_default_qty',
-                    '_associated_position'
+                    '_upsell_position'
                 ),
                 array('_tier_price_website', '_tier_price_customer_group', '_tier_price_qty', '_tier_price_price'),
                 array('_group_price_website', '_group_price_customer_group', '_group_price_price'),

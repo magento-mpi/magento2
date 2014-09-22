@@ -12,9 +12,12 @@
 @autocomplete-item-hover: #e8e8e8;
 @autocomplete-item-amount-color: #999;
 
-.block.search {
-    .title {
-        display: none;
+.block-search {
+    margin-bottom: 0;
+    .block {
+        &-title {
+            display: none;
+        }
     }
     .label {
         .icon-font(
@@ -40,8 +43,8 @@
     .control {
         border-top: 1px solid @border-color-base;
         clear: both;
-        margin: 0 -10px -1px;
-        padding: 0 20px;
+        margin: 0 -@layout-width-xs-indent -1px;
+        padding: 0 @layout-width-xs-indent;
     }
 
     input {
@@ -58,14 +61,15 @@
 
 }
 
-.search.autocomplete {
+.search-autocomplete {
     display: none;
     position: absolute;
     z-index: 3;
     overflow: hidden;
     margin-top: -15px;
-    &:extend(.add-box-sizing all);
+    &:extend(.abstract-add-box-sizing all);
     ul {
+        .list-reset-styles();
         &:not(:empty) {
             background: @autocomplete-background;
             border: @autocomplete-border;
@@ -151,8 +155,8 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
-    .block.search {
+.responsive(@break) when (@break = @screen-m) {
+    .block-search {
         position: relative;
         float: right;
         padding-left: 15px;
@@ -192,7 +196,7 @@
             }
         }
     }
-    .search.autocomplete {
+    .search-autocomplete {
         margin-top: 0;
     }
 }

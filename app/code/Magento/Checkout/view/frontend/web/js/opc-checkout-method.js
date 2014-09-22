@@ -8,8 +8,15 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/validation/validation",
+    "Magento_Checkout/js/accordion",
+    "mage/translate"
+], function($){
     'use strict';
+
     // Base widget, handle ajax events and first section(Checkout Method) in one page checkout accordion
     $.widget('mage.opcCheckoutMethod', {
         options: {
@@ -21,6 +28,7 @@
                 registerCustomerPasswordSelector: '#co-billing-form .field.password,#co-billing-form .field.confirm',
                 suggestRegistration: false
             },
+            pageMessages: '#maincontent .messages .message',
             sectionSelectorPrefix: 'opc-',
             billingSection: 'billing',
             ajaxLoaderPlaceButton: false,
@@ -48,8 +56,9 @@
             events['click ' + this.options.checkout.continueSelector] = function(e) {
                 this._continue($(e.currentTarget));
             };
-            events['click ' + this.options.backSelector] = function() {
-                var prev  = self.steps.index($('.' + self.sectionActiveClass)) -1 ;
+            events['click ' + this.options.backSelector] = function(event) {
+                event.preventDefault();
+                var prev  = self.steps.index($('li.' + self.sectionActiveClass)) -1 ;
                 this._activateSection(prev);
             };
             events['click ' + '[data-action=checkout-method-login]'] = function(event) {
@@ -148,13 +157,16 @@
             var json            = elem.data('checkout'),
                 checkout        = this.options.checkout,
                 guestChecked    = $( checkout.loginGuestSelector ).is( ':checked' ),
-                loginRegister   = $( checkout.loginRegisterSelector )[0],
+                registerChecked = $( checkout.loginRegisterSelector ).is( ':checked' ),
                 method          = 'register',
                 action          = 'show';
+
+            //Remove page messages
+            $(this.options.pageMessages).remove();
             
             if (json.isGuestCheckoutAllowed) {
                 
-                if( !guestChecked && !(loginRegister && loginRegister.checked) ){
+                if( !guestChecked && !registerChecked ){
                     alert( $.mage.__('Please choose to register or to checkout as a guest.') );
                     
                     return false;
@@ -172,6 +184,9 @@
                 );
 
                 this.element.find( checkout.registerCustomerPasswordSelector )[action]();
+            }
+            else if( json.registrationUrl ){
+                window.location = json.registrationUrl;
             }
 
             this.element.trigger('login');
@@ -265,4 +280,4 @@
             }
         }
     });
-})(jQuery, window);
+});

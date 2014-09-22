@@ -33,7 +33,7 @@ try {
     if (empty($options['w'])) {
         throw new Exception(USAGE);
     }
-    $workingDir = realpath($options['w']);
+    $workingDir = $options['w'];
     if (!$workingDir || !is_writable($workingDir) || !is_dir($workingDir)) {
         throw new Exception("'{$options['w']}' must be a writable directory.");
     }
@@ -85,9 +85,10 @@ try {
         if (!file_exists($item)) {
             throw new Exception("The file or directory '{$item} is marked for deletion, but it doesn't exist.");
         }
+        $itemRel = substr($item, strlen($workingDir) + 1);
         $shell->execute(
             'git --git-dir %s --work-tree %s rm -r -f -- %s',
-            array("{$workingDir}/.git", $workingDir, $item)
+            array("{$workingDir}/.git", $workingDir, $itemRel)
         );
         if (file_exists($item)) {
             throw new Exception("The file or directory '{$item}' was supposed to be deleted, but it still exists.");

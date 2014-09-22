@@ -7,7 +7,10 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
-class Tree extends \Magento\Framework\Service\Data\AbstractObject
+/**
+ * @codeCoverageIgnore
+ */
+class Tree extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     const ID = 'id';
     const PARENT_ID = 'parent_id';
@@ -16,6 +19,7 @@ class Tree extends \Magento\Framework\Service\Data\AbstractObject
     const POSITION = 'position';
     const LEVEL = 'level';
     const CHILDREN = 'children';
+    const PRODUCT_COUNT = 'product_count';
 
     /**
      * Get category ID
@@ -75,6 +79,16 @@ class Tree extends \Magento\Framework\Service\Data\AbstractObject
     public function getLevel()
     {
         return $this->_get(self::LEVEL);
+    }
+
+    /**
+     * Get product count
+     *
+     * @return int
+     */
+    public function getProductCount()
+    {
+        return $this->_get(self::PRODUCT_COUNT);
     }
 
     /**

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="catalog_product_superconfig_config"/>
     <referenceBlock name="product_tabs">
         <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config" name="admin.product.edit.tab.super.config.grid.container">
@@ -22,4 +22,4 @@
             <argument name="block" xsi:type="string">admin.product.edit.tab.super.config.grid.container</argument>
         </action>
     </referenceBlock>
-</layout>
+</page>

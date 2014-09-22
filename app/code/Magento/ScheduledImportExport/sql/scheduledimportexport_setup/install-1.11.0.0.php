@@ -92,7 +92,7 @@ $table = $installer->getConnection()->newTable(
     null,
     array(
         'nullable' => false,
-        'default' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::STATUS_PENDING
+        'default' => 2
     ),
     'Is Success'
 )->addColumn(

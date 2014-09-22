@@ -8,6 +8,8 @@
  */
 namespace Magento\Invitation\Model;
 
+use Magento\Framework\App\RequestInterface;
+
 class InvitationProvider
 {
     /**
@@ -41,15 +43,18 @@ class InvitationProvider
     }
 
     /**
+     * Retrieve invitation
+     *
+     * @param RequestInterface $request
      * @return \Magento\Invitation\Model\Invitation
-     */
-    public function get()
+    */
+    public function get(RequestInterface $request)
     {
         if (!$this->registry->registry('current_invitation')) {
             $invitation = $this->invitationFactory->create();
             $invitation->loadByInvitationCode(
                 $this->helper->urlDecode(
-                    $this->getRequest()->getParam('invitation', false)
+                    $request->getParam('invitation', false)
                 )
             )->makeSureCanBeAccepted();
             $this->registry->register('current_invitation', $invitation);

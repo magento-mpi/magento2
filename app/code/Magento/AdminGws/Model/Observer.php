@@ -38,7 +38,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $config;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -63,7 +63,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_aclBuilder;
 
     /**
-     * @var \Magento\User\Model\Resource\Role\Collection
+     * @var \Magento\Authorization\Model\Resource\Role\Collection
      */
     protected $_userRoles;
 
@@ -82,10 +82,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Framework\Acl\Builder $aclBuilder
-     * @param \Magento\User\Model\Resource\Role\Collection $userRoles
+     * @param \Magento\Authorization\Model\Resource\Role\Collection $userRoles
      * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
      * @param ConfigInterface $config
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Stdlib\String $string
      * @param CallbackInvoker $callbackInvoker
@@ -97,10 +97,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Framework\Acl\Builder $aclBuilder,
-        \Magento\User\Model\Resource\Role\Collection $userRoles,
+        \Magento\Authorization\Model\Resource\Role\Collection $userRoles,
         \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Stdlib\String $string,
         \Magento\AdminGws\Model\CallbackInvoker $callbackInvoker
@@ -124,10 +124,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * If all permissions are allowed, all possible websites / store groups / stores will be set
      * If only websites selected, all their store groups and stores will be set as well
      *
-     * @param \Magento\User\Model\Role $object
+     * @param \Magento\Authorization\Model\Role $object
      * @return void
      */
-    protected function _assignRolePermissions(\Magento\User\Model\Role $object)
+    protected function _assignRolePermissions(\Magento\Authorization\Model\Role $object)
     {
         $gwsIsAll = (bool)(int)$object->getData('gws_is_all');
         $object->setGwsIsAll($gwsIsAll);

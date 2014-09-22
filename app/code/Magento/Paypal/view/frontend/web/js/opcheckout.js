@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "Magento_Checkout/js/opc-order-review"
+], function($){
     "use strict";
+
     $.widget('mage.opcheckoutPaypalIframe', $.mage.opcOrderReview, {
         options: {
             review: {
@@ -27,4 +32,4 @@
             this._on(events);
         }
     });
-})(jQuery, window);
+});

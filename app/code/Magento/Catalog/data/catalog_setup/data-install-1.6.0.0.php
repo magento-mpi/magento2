@@ -8,7 +8,7 @@
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
-
+$installer->installEntities();
 // Create Root Catalog Node
 $installer->createCategory()->load(
     1

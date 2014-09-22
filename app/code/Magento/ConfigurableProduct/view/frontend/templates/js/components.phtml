@@ -6,18 +6,4 @@
  * @license     {license_link}
  */
 ?>
-<script type="text/javascript">
-    (function($) {
-        "use strict";
-        /**
-         * Declaration of resources needed for defined components
-         */
-        $.mage.component({
-            configurable: [
-                '<?php echo $this->getViewFileUrl('jquery/jquery.parsequery.js') ?>',
-                '<?php echo $this->getViewFileUrl('Magento_ConfigurableProduct::js/configurable.js') ?>'
-            ]
-        });
-    })(jQuery);
-</script>
 <?php echo $this->getChildHtml() ?>
