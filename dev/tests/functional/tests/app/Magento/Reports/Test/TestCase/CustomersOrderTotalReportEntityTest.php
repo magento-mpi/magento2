@@ -33,7 +33,7 @@ use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
  * @group Reports_(MX)
  * @ZephyrId MAGETWO-28358
  */
-class OrderTotalReportEntityTest extends Injectable
+class CustomersOrderTotalReportEntityTest extends Injectable
 {
     /**
      * Order total report page

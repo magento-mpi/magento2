@@ -18,10 +18,10 @@ use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class AssertProductIsAbsentInWishlist
- * Assert that product is absent in Wishlist on Frontend
+ * Class AssertProductsIsAbsentInWishlist
+ * Assert products is absent in Wishlist on Frontend
  */
-class AssertProductIsAbsentInWishlist extends AbstractConstraint
+class AssertProductsIsAbsentInWishlist extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -35,7 +35,7 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
      *
      * @param CustomerAccountIndex $customerAccountIndex
      * @param WishlistIndex $wishlistIndex
-     * @param InjectableFixture $product
+     * @param InjectableFixture[] $products
      * @param CustomerInjectable $customer
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
@@ -45,21 +45,25 @@ class AssertProductIsAbsentInWishlist extends AbstractConstraint
     public function processAssert(
         CustomerAccountIndex $customerAccountIndex,
         WishlistIndex $wishlistIndex,
-        InjectableFixture $product,
+        $products,
         CustomerInjectable $customer,
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountLogout $customerAccountLogout
     ) {
-        $productName = $product->getName();
         $customerAccountLogout->open();
         $cmsIndex->getLinksBlock()->openLink('Log In');
         $customerAccountLogin->getLoginBlock()->login($customer);
         $customerAccountIndex->open()->getAccountMenuBlock()->openMenuItem("My Wish List");
-        \PHPUnit_Framework_Assert::assertFalse(
-            $wishlistIndex->getWishlistBlock()->getProductItemsBlock()->isProductPresent($productName),
-            'Product \'' . $productName . '\' is present in Wishlist on Frontend.'
-        );
+        $itemBlock = $wishlistIndex->getWishlistBlock()->getProductItemsBlock();
+
+        foreach ($products as $itemProduct) {
+            $productName = $itemProduct->getName();
+            \PHPUnit_Framework_Assert::assertFalse(
+                $itemBlock->getItemProductByName($productName)->isVisible(),
+                'Product \'' . $productName . '\' is present in Wishlist on Frontend.'
+            );
+        }
     }
 
     /**

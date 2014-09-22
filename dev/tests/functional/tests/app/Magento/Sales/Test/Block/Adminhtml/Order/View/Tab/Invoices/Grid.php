@@ -22,6 +22,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     protected $editLink = '[data-column="increment_id"]';
 
     /**
+     * Locator for invoice ids
+     *
+     * @var string
+     */
+    protected $invoiceId = 'td[data-column="increment_id"]';
+
+    /**
      * Filters array mapping
      *
      * @var array
@@ -41,4 +48,20 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
             'selector' => 'input[name="base_grand_total[to]"]'
         ]
     ];
+
+    /**
+     * Get invoice ids
+     *
+     * @return array
+     */
+    public function getIds()
+    {
+        $result = [];
+        $invoiceIds = $this->_rootElement->find($this->invoiceId)->getElements();
+        foreach ($invoiceIds as $invoiceId) {
+            $result[] = trim($invoiceId->getText());
+        }
+
+        return $result;
+    }
 }

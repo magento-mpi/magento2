@@ -32,24 +32,31 @@ class AssertShipmentInShipmentsTab extends AbstractConstraint
      * @param OrderView $orderView
      * @param OrderIndex $orderIndex
      * @param OrderInjectable $order
-     * @param string $shipmentId
+     * @param array $ids
      * @return void
      */
-    public function processAssert(OrderView $orderView, OrderIndex $orderIndex, OrderInjectable $order, $shipmentId)
-    {
+    public function processAssert(
+        OrderView $orderView,
+        OrderIndex $orderIndex,
+        OrderInjectable $order,
+        array $ids
+    ) {
         $orderIndex->open();
         $orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $orderView->getOrderForm()->openTab('shipments');
-        $qty = $order->getTotalQtyOrdered();
-        $filter = [
-            'id' => $shipmentId,
-            'qty_from' => $qty,
-            'qty_to' => $qty
-        ];
-        \PHPUnit_Framework_Assert::assertTrue(
-            $orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->isRowVisible($filter),
-            'Shipment is absent on shipments tab.'
-        );
+
+        foreach ($ids['shipmentIds'] as $shipmentId) {
+            $qty = $order->getTotalQtyOrdered();
+            $filter = [
+                'id' => $shipmentId,
+                'qty_from' => $qty,
+                'qty_to' => $qty
+            ];
+            \PHPUnit_Framework_Assert::assertTrue(
+                $orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->isRowVisible($filter),
+                'Shipment is absent on shipments tab.'
+            );
+        }
     }
 
     /**
