@@ -5,7 +5,9 @@
  * Example - run a particular store or website:
  * --------------------------------------------
  * $extra = ['MAGE_RUN_CODE' => 'website2', 'MAGE_RUN_TYPE' => 'website'];
- * $bootstrap = new \Magento\Framework\App\Bootstrap(BP, $_SERVER, $extra);
+ * $params = array_merge($_SERVER, $extra);
+ * $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params, null);
+ * \/** @var \Magento\Framework\App\Http $app *\/
  * $app = $bootstrap->createApplication('Magento\Framework\App\Http');
  * $bootstrap->run($app);
  * --------------------------------------------
