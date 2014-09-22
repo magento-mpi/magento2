@@ -18,7 +18,7 @@
     .field select {
         max-width: none;
     }
-    &:extend(.add-box-sizing all);
+    &:extend(.abstract-add-box-sizing all);
     > .opc {
         &:extend(.reset-list all);
     }
@@ -160,6 +160,7 @@
                     font-weight: @font-weight-bold;
                 }
             }
+            &:extend(.abstract-adjustment-incl-excl-tax all);
         }
         .price.box {
             > .price {
@@ -264,9 +265,6 @@
                 border-bottom: @border-width-base solid @border-color-base;
             }
         }
-        th.col.subtotal {
-            text-align: center;
-        }
         .col {
             &.price,
             &.qty {
@@ -276,6 +274,10 @@
             &.subtotal {
                 text-align: right;
                 white-space: nowrap;
+            }
+            &.price,
+            &.subtotal {
+                &:extend(.abstract-incl-excl-tax all);
             }
         }
         .amount {
@@ -295,7 +297,7 @@
             .font-size(18);
             font-weight: @font-weight-light;
         }
-        .cart.price {
+        .cart-price {
             color: @color-primary-lighter;
             .font-size(16);
             font-weight: @font-weight-bold;
@@ -339,17 +341,25 @@
     }
 }
 
+.cart-tax-info + .cart-tax-total,
+.order-details-items .table-wrapper .cart-tax-info + .cart-tax-total {
+    display: block;
+}
+
 //
 //    Checkout Progress
 //--------------------------------------
+.opc-block-progress-wrapper {
+    margin-top: 20px;
+    margin-bottom: @indent-l-base;
+}
+
 .opc-block-progress {
     display: none;
     &.order-review-step {
         display: block;
     }
-    &:extend(.add-box-sizing all);
-    margin-top: 20px;
-    margin-bottom: @indent-l-base;
+    &:extend(.abstract-add-box-sizing all);
     > .title {
         background: @sidebar-background;
         .font-size(18);
@@ -446,7 +456,7 @@
     .checkout-onepage-index {
         .nav-toggle {
             display: none;
-        } 
+        }
         .logo {
             margin-left: 0;
         }
@@ -503,7 +513,7 @@
 
     .opc-wrapper {
         .layout-column(2, 2, @layout-column-checkout-main-width);
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
         .step-content {
             &:extend(.form-field-column-2 all);
 
@@ -598,7 +608,7 @@
 
     .opc-block-progress-wrapper {
         .layout-column(2, 1, @layout-column-checkout-left-width);
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
         padding-right: @layout-column-main-sidebar-offset;
         margin-top: 0;
     }

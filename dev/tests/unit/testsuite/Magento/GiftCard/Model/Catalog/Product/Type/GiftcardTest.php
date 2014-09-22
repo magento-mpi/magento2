@@ -40,7 +40,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     protected $_store;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManagerMock;
 
@@ -62,7 +62,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_storeManagerMock = $this->getMockBuilder(
-            'Magento\Store\Model\StoreManagerInterface'
+            'Magento\Framework\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(
             array('getStore')
         )->getMockForAbstractClass();
@@ -93,6 +93,16 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
+        $priceCurrency->expects($this->any())
+            ->method('round')
+            ->will(
+                $this->returnCallback(
+                    function ($price) {
+                        return round($price, 2);
+                    }
+                )
+            );
         $this->_model = $this->getMock(
             'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
@@ -110,7 +120,8 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $catalogData,
                 $this->_storeManagerMock,
                 $locale,
-                $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface')
+                $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
+                $priceCurrency
             )
         );
     }
@@ -245,7 +256,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(serialize(array()))
         );
-        $this->_setGetGiftcardAmountsReturnEmpty();
+        $this->_setGetGiftcardAmountsReturnArray();
 
         $this->_setStrictProcessMode(true);
         $this->setExpectedException(
@@ -524,27 +535,18 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $this->_mockModel(array('_isStrictProcessMode', '_getAmountWithinConstraints'));
         $this->_preConditions();
         $this->_setStrictProcessMode(false);
-        $this->_setGetGiftcardAmountsReturnArray();
-        $this->_quoteItemOption->expects(
-            $this->any()
-        )->method(
-            'getValue'
-        )->will(
-            $this->returnValue(
-                serialize(array('custom_giftcard_amount' => $giftcardAmount, 'giftcard_amount' => 'custom'))
+        $this->_setGetGiftcardAmountsReturnEmpty();
+        $this->_quoteItemOption->expects($this->any())
+            ->method('getValue')
+            ->willReturn(serialize(['custom_giftcard_amount' => $giftcardAmount, 'giftcard_amount' => 'custom']));
+        $this->_model->expects($this->once())
+            ->method('_getAmountWithinConstraints')
+            ->with(
+                $this->equalTo($this->_product),
+                $this->equalTo($giftcardAmount / $storeRate),
+                $this->equalTo(false)
             )
-        );
-        $this->_model->expects(
-            $this->once()
-        )->method(
-            '_getAmountWithinConstraints'
-        )->with(
-            $this->equalTo($this->_product),
-            $this->equalTo($giftcardAmount / $storeRate),
-            $this->equalTo(false)
-        )->will(
-            $this->returnValue($giftcardAmount)
-        );
+            ->willreturn($giftcardAmount);
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -576,13 +578,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setGetGiftcardAmountsReturnArray()
     {
-        $this->_product->expects(
-            $this->once()
-        )->method(
-            'getGiftcardAmounts'
-        )->will(
-            $this->returnValue(array(array('website_value' => 5)))
-        );
+        $this->_product->expects($this->once())->method('getGiftcardAmounts')->willReturn([['website_value' => 5]]);
     }
 
     /**

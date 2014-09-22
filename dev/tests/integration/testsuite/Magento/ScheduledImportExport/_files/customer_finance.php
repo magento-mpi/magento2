@@ -12,7 +12,7 @@ $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $website->setCode('finance_website')->setName('Finance Website');
 $website->save();
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Store\Model\StoreManagerInterface'
+    'Magento\Framework\StoreManagerInterface'
 )->reinitStores();
 
 // create test customer
@@ -28,7 +28,7 @@ $objectManager->get('Magento\Framework\Registry')->register($registerKey, $custo
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customer->save();
@@ -42,7 +42,7 @@ $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
 // increment to modify balance values
 $increment = 0;
 $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Store\Model\StoreManagerInterface'
+    'Magento\Framework\StoreManagerInterface'
 )->getWebsites();
 /** @var $website \Magento\Store\Model\Website */
 foreach ($websites as $website) {

@@ -27,7 +27,7 @@ class RewardPointsRefund
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -54,7 +54,7 @@ class RewardPointsRefund
 
     /**
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -62,7 +62,7 @@ class RewardPointsRefund
      */
     public function __construct(
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Reward\Helper\Data $rewardData,
@@ -83,7 +83,6 @@ class RewardPointsRefund
      * @param \Closure $proceed
      * @param \Magento\Framework\Model\AbstractModel $object
      * @return bool
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         \Magento\Sales\Model\Resource\Order\Creditmemo $subject,
@@ -147,7 +146,7 @@ class RewardPointsRefund
      * Update reward history row
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return null
+     * @return void
      */
     protected function updateHistoryRow(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {

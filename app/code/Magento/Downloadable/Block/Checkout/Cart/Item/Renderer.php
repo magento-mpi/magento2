@@ -13,6 +13,8 @@
  */
 namespace Magento\Downloadable\Block\Checkout\Cart\Item;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     /**
@@ -29,6 +31,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig
      * @param array $data
      */
@@ -39,6 +42,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
         array $data = array()
     ) {
@@ -50,6 +54,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
             $imageHelper,
             $urlHelper,
             $messageManager,
+            $priceCurrency,
             $data
         );
     }

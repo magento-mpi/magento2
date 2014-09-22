@@ -8,11 +8,11 @@
 
 namespace Magento\MultipleWishlist\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
 
 /**
  * Abstract Class AbstractAssertMultipleWishlistExist
@@ -24,20 +24,20 @@ abstract class AbstractAssertMultipleWishlistExist extends AbstractConstraint
      * Assert that Wishlist exists on 'My Account' page
      *
      * @param CmsIndex $cmsIndex
-     * @param MultipleWishlistIndex $multipleWishlistIndex
+     * @param WishlistIndex $wishlistIndex
      * @param MultipleWishlist $multipleWishlist
      * @param CustomerAccountIndex $customerAccountIndex
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
-        MultipleWishlistIndex $multipleWishlistIndex,
-        $multipleWishlist,
+        WishlistIndex $wishlistIndex,
+        MultipleWishlist $multipleWishlist,
         CustomerAccountIndex $customerAccountIndex
     ) {
         $cmsIndex->open()->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        $isPresent = $multipleWishlistIndex->getManagementBlock()->isWishlistVisible($multipleWishlist->getName());
+        $isPresent = $wishlistIndex->getManagementBlock()->isWishlistVisible($multipleWishlist->getName());
         $this->assert($isPresent);
     }
 

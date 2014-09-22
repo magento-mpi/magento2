@@ -160,6 +160,12 @@
             <input>text</input>
             <group>giftcard</group>
         </use_config_lifetime>
+        <checkout_data>
+            <attribute_code>checkout_data</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group />
+            <source>Magento\GiftCard\Test\Fixture\GiftCardProduct\CheckoutData</source>
+        </checkout_data>
     </fields>
     <data_set>
         <sku></sku>

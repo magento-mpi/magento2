@@ -9,10 +9,10 @@ namespace Magento\Doc\Ui\Widget\Document;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Scheme;
+use Magento\Doc\Document\Outline as DocOutline;
 
 /**
- * Outline navigation
+ * Outline navigation menu
  *
  */
 class Outline extends Template
@@ -25,21 +25,21 @@ class Outline extends Template
     /**
      * @var string
      */
-    protected $scheme;
+    protected $outline;
 
     /**
      * @param Context $context
-     * @param Scheme $schemeReader
+     * @param DocOutline $outline
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Scheme $schemeReader,
+        DocOutline $outline,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->scheme = $this->_request->getParam('doc_scheme');
-        $this->document = $schemeReader->get($this->scheme . '.xml');
+        $this->outline = $this->_request->getParam('doc_name');
+        $this->document = $outline->get($this->outline . '.xml');
     }
 
     /**
@@ -101,7 +101,7 @@ class Outline extends Template
         $html = array();
         $html[] = $htmlLi;
 
-        $url = $this->getUrl('*/' . $this->scheme, ['article' => $item['name']]);
+        $url = $this->getUrl('*/' . $this->outline, ['item' => $item['name']]);
         $html[] = '<a href="' . $url . '"' . $linkClass . '>';
         $html[] = '<span>' . $item['label'] . '</span>';
         $html[] = '</a>';

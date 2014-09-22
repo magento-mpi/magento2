@@ -9,12 +9,6 @@
 @account-title-border-color: #c6c6c6;
 @account-table-border-bottom-color: #e4e4e4;
 @account-table-action-delete: #d10029;
-@account-nav-background: #e8e8e8;
-@account-nav-color: #575757;
-@account-nav-current-color: #000;
-@account-nav-current-font-weight: @font-weight-semibold;
-@account-nav-current-border: 3px solid transparent;
-@account-nav-current-border-color: #ff5501;
 
 .login.container {
     .block {
@@ -96,25 +90,7 @@
             margin-top: 0;
         }
         .block:not(.widget) {
-            .block-title {
-                &:extend(.abstract-account-title all);
-                > .action {
-                    margin-left: 15px;
-                }
-            }
-            .box-title {
-                > span {
-                    .font-size(16);
-                }
-                display: inline-block;
-                margin: 0 0 @indent-s-base;
-                > .action {
-                    font-weight: 400;
-                    margin-left: 15px;
-                }
-            }
-            .box-content {
-            }
+            &:extend(.abstract-account-blocks all);
         }
         .block.block-dashboard-welcome {
             .block-title {
@@ -126,50 +102,7 @@
     .sidebar-additional {
         margin-top: 40px;
     }
-    .block-account-nav {
-        .title {
-            &:extend(.abstract-toggling-title all);
-            strong {
-                .font-size(16);
-                font-weight: @font-weight-base;
-            }
-        }
-        .content {
-            padding: 15px 0;
-            .css(background, @sidebar-background);
-        }
-        .nav.items {
-            padding: 0;
-            margin: 0;
-            .nav.item {
-                margin: 3px 0 0;
-                &:first-child {
-                    margin-top: 0;
-                }
-                a,
-                strong {
-                    display: block;
-                    padding: 5px 18px 5px 15px;
-                    .css(border-left, @account-nav-current-border);
-                }
-                a {
-                    .css(color, @account-nav-color);
-                    text-decoration: none;
-                    &:hover {
-                        .css(background, @account-nav-background);
-                    }
-                }
-                &.current {
-                    a,
-                    strong {
-                        .css(color, @account-nav-current-color);
-                        .css(border-color, @account-nav-current-border-color);
-                        .css(font-weight, @account-nav-current-font-weight);
-                    }
-                }
-            }
-        }
-    }
+
     .table-wrapper {
         .css(margin-bottom, @indent-base);
         border-bottom: 1px solid @account-table-border-bottom-color;
@@ -309,11 +242,7 @@
             );
             margin-bottom: 0;
         }
-        .block-account-nav {
-            .title {
-                &:extend(.visually-hidden-desktop all);
-            }
-        }
+
         .data.table {
             .col.total {
                 text-align: right;
@@ -409,6 +338,9 @@
         .page.messages {
             margin-bottom: 40px;
         }
+        .block-collapsible-nav {
+            margin-top: -21px;
+        }
         .data.table {
             &:extend(.table-vertical-mobile-m all);
             td {
@@ -436,18 +368,6 @@
                             margin-bottom: 0;
                         }
                     }
-                }
-            }
-        }
-
-        .block-account-nav {
-            margin-left: -@layout-width-xs-indent;
-            margin-right: -@layout-width-xs-indent;
-            margin-top: -(@indent-base + 1);
-            .content {
-                display: none;
-                &.active {
-                    display: block;
                 }
             }
         }

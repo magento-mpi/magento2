@@ -8,6 +8,7 @@
 namespace Magento\GiftWrapping\Model\Total\Quote\Tax;
 
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
+use \Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as ItemTaxDetails;
 
 /**
@@ -149,7 +150,7 @@ class GiftwrappingAfterTax extends Giftwrapping
     protected function processWrappingForQuote($address, $itemTaxDetails)
     {
         //there is only one gift wrapping per quote
-        $gwTaxDetail = $itemTaxDetails[self::ASSOCIATION_ITEM_CODE_FOR_QUOTE][0];
+        $gwTaxDetail = $itemTaxDetails[CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE][0];
 
         $wrappingBaseTaxAmount = $gwTaxDetail['base_row_tax'];
         $wrappingTaxAmount = $gwTaxDetail['row_tax'];
@@ -169,7 +170,7 @@ class GiftwrappingAfterTax extends Giftwrapping
     protected function processPrintedCard($address, $itemTaxDetails)
     {
         //there is only one printed card per quote
-        $taxDetail = $itemTaxDetails[self::ASSOCIATION_ITEM_CODE_FOR_QUOTE][0];
+        $taxDetail = $itemTaxDetails[CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE][0];
 
         $printedCardBaseTaxAmount = $taxDetail['base_row_tax'];
         $printedCardTaxAmount = $taxDetail['row_tax'];

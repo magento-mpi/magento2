@@ -40,5 +40,21 @@ class RewardRate extends AbstractRepository
             'value' => 10,
             'equal_value' => 1
         ];
+
+        $this->_data['rate_1_point_to_1_currency'] = [
+            'website_id' => ['dataSet' => 'Main Website'],
+            'customer_group_id' => ['dataSet' => 'All Customer Groups'],
+            'direction' => 'Points to Currency',
+            'value' => 1,
+            'equal_value' => 1
+        ];
+
+        $this->_data['rate_1_currency_to_1_point'] = [
+            'website_id' => ['dataSet' => 'Main Website'],
+            'customer_group_id' => ['dataSet' => 'All Customer Groups'],
+            'direction' => 'Currency to Points',
+            'value' => 1,
+            'equal_value' => 1
+        ];
     }
 }

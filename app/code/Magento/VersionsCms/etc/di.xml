@@ -9,8 +9,14 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\VersionsCms\Model\Hierarchy\ConfigInterface" type="Magento\VersionsCms\Model\Hierarchy\Config" />
+    <type name="Magento\VersionsCms\Model\Hierarchy\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\VersionsCms\Model\Hierarchy\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\VersionsCms\Model\Config">
         <arguments>
+            <argument name="reader" xsi:type="object">Magento\VersionsCms\Model\Hierarchy\Config\Reader\Proxy</argument>
             <argument name="authorization" xsi:type="object">Magento\Framework\Authorization\Proxy</argument>
         </arguments>
     </type>

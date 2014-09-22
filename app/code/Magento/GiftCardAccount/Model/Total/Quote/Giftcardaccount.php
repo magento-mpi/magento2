@@ -7,6 +7,7 @@
  */
 namespace Magento\GiftCardAccount\Model\Total\Quote;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Quote;
 
 class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -23,20 +24,26 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
      *
      * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
      */
-    protected $_giftCAFactory = null;
+    protected $_giftCAFactory;
 
     /**
-     * Init total model, set total code
-     *
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
+        \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
+        PriceCurrencyInterface $priceCurrency
     ) {
         $this->_giftCAFactory = $giftCAFactory;
         $this->_giftCardAccountData = $giftCardAccountData;
+        $this->priceCurrency = $priceCurrency;
         $this->setCode('giftcardaccount');
     }
 
@@ -143,7 +150,9 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
                 } else if ($model->getBalance() != $card['ba']) {
                     $card['ba'] = $model->getBalance();
                 } else {
-                    $card['a'] = $quote->getStore()->roundPrice($quote->getStore()->convertPrice($card['ba']));
+                    $card['a'] = $this->priceCurrency->round(
+                        $this->priceCurrency->convert($card['ba'], $quote->getStore())
+                    );
                     $baseAmount += $card['ba'];
                     $amount += $card['a'];
                 }
