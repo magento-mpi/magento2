@@ -6,20 +6,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend;
+/**
+ * Test class for \Magento\Backend\Model\Session\AdminConfig
+ */
+namespace Magento\Backend\Model\Session;
 
 use Magento\TestFramework\ObjectManager;
 
-/**
- * Test class for \Magento\Backend\AdminConfig
- *
- */
 class AdminConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $requestMock;
+
+    /**
+     * @var \Magento\Framework\ValidatorFactory | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $validatorFactory;
 
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -46,6 +50,10 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('init.host')
         );
         $this->objectManager =  new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->validatorFactory = $this->getMockBuilder('Magento\Framework\ValidatorFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        
     }
 
     public function testSetCookiePathNonDefault()
@@ -58,9 +66,22 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getFrontName')
             ->will($this->returnValue('backend'));
 
+        $validatorMock = $this->getMockBuilder('Magento\Framework\Validator\ValidatorInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $validatorMock->expects($this->any())
+            ->method('isValid')
+            ->willReturn(true);
+        $this->validatorFactory->expects($this->any())
+            ->method('setInstanceName')
+            ->willReturnSelf();
+        $this->validatorFactory->expects($this->any())
+            ->method('create')
+            ->willReturn($validatorMock);
         $adminConfig = $this->objectManager->getObject(
-            'Magento\Backend\AdminConfig',
+            'Magento\Backend\Model\Session\AdminConfig',
             [
+                'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,
                 'frontNameResolver' => $mockFrontNameResolver,
             ]
@@ -76,11 +97,26 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
     public function testSetSessionNameByConstructor()
     {
         $sessionName = 'admin';
+
+        $validatorMock = $this->getMockBuilder('Magento\Framework\Validator\ValidatorInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $validatorMock->expects($this->any())
+            ->method('isValid')
+            ->willReturn(true);
+        $this->validatorFactory->expects($this->any())
+            ->method('setInstanceName')
+            ->willReturnSelf();
+        $this->validatorFactory->expects($this->any())
+            ->method('create')
+            ->willReturn($validatorMock);
+
         $adminConfig = $this->objectManager->getObject(
-            'Magento\Backend\AdminConfig',
+            'Magento\Backend\Model\Session\AdminConfig',
             [
+                'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,
-                'sessionName' => $sessionName
+                'sessionName' => $sessionName,
             ]
         );
         $this->assertSame($sessionName, $adminConfig->getName());
