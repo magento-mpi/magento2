@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Filter\Type\Range $this
+ */
+?>
+<fieldset class="field field-range field-<?php echo $this->getData('data_type') ?>">
+    <legend class="label"><?php echo $this->renderElementLabel('input', [
+            'title' => $this->getData('title')
+        ]); ?></legend><br />
+    <div class="control">
+        <div class="fields group group-2">
+            <div class="field field-range-from">
+                <label class="label"><span data-bind-="text: $t('From')">From</span></label>
+                <div class="control">
+                    <?php echo $this->renderElement('input', [
+                            'data-bind' => "datepicker: { storage: from, options: config }, attr: {placeholder: \$t('From')}",
+                        ]); ?>
+                </div>
+            </div>
+            <div class="field field-range-to">
+                <label class="label"><span data-bind-="text: $t('To')">To</span></label>
+                <div class="control">
+                    <?php echo $this->renderElement('input', [
+                            'data-bind' => "datepicker: { storage: to, options: config }, attr: {placeholder: \$t('To')}",
+                        ]); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

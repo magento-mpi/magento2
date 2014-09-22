@@ -143,6 +143,7 @@
                 <argument name="file" xsi:type="string">requirejs/require.js</argument>
             </arguments>
         </block>
+        <block class="Magento\RequireJs\Block\Html\Head\Config" name="requirejs-config"/>
         <block class="Magento\Theme\Block\Html\Head\Script" name="mage-requirejs-resolver">
             <arguments>
                 <argument name="file" xsi:type="string">mage/requirejs/resolver.js</argument>

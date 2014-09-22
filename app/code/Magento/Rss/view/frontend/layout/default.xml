@@ -16,8 +16,5 @@
             </arguments>
         </block>
     </referenceBlock>
-    <referenceBlock name="sales.order.info.buttons">
-        <block class="Magento\Rss\Block\Order\Info\Buttons\Rss" name="sales.order.info.button.rss"  ifconfig="rss/config/active"/>
-    </referenceBlock>
-    <block class="Magento\Rss\Block\ListBlock" name="head_rss" ifconfig="rss/config/active"/>
+    <block class="Magento\Rss\Block\Feeds" name="head_rss" ifconfig="rss/config/active"/>
 </page>

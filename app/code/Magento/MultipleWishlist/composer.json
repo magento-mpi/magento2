@@ -9,7 +9,6 @@
         "magento/module-customer": "0.1.0-alpha95",
         "magento/module-checkout": "0.1.0-alpha95",
         "magento/module-backend": "0.1.0-alpha95",
-        "magento/module-rss": "0.1.0-alpha95",
         "magento/module-advanced-checkout": "0.1.0-alpha95",
         "magento/module-widget": "0.1.0-alpha95",
         "magento/module-eav": "0.1.0-alpha95",
