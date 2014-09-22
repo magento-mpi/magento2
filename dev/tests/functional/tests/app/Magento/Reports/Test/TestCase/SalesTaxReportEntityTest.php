@@ -100,6 +100,17 @@ class SalesTaxReportEntityTest extends Injectable
     protected $taxRule;
 
     /**
+     * Delete Tax rules
+     *
+     * @return void
+     */
+    public function __prepare()
+    {
+        $deleteTaxRule = $this->objectManager->create('Magento\Reports\Test\TestStep\DeleteTaxRule');
+        $deleteTaxRule->run();
+    }
+
+    /**
      * Injection data
      *
      * @param OrderIndex $orderIndex
@@ -179,10 +190,7 @@ class SalesTaxReportEntityTest extends Injectable
      */
     public function tearDown()
     {
-        if ($this->taxRule !== null) {
-            $this->taxRuleIndexPage->open();
-            $this->taxRuleIndexPage->getTaxRuleGrid()->searchAndOpen(['code' => $this->taxRule->getCode()]);
-            $this->taxRuleNewPage->getFormPageActions()->delete();
-        }
+        $deleteTaxRule = $this->objectManager->create('Magento\Reports\Test\TestStep\DeleteTaxRule');
+        $deleteTaxRule->run();
     }
 }
