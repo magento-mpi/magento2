@@ -168,7 +168,7 @@ class Observer
             $categoryNode = new \Magento\Framework\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 
-            if ($this->categoryFlatConfig->isFlatEnabled()) {
+            if ($this->categoryFlatConfig->isFlatEnabled() && $category->getUseFlatResource()) {
                 $subcategories = (array)$category->getChildrenNodes();
             } else {
                 $subcategories = $category->getChildren();
