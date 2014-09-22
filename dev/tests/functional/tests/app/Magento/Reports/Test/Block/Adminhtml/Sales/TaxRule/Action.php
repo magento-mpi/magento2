@@ -8,13 +8,13 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Sales\TaxRule;
 
-use Magento\Backend\Test\Block\GridPageActions;
+use Magento\Backend\Test\Block\PageActions;
 
 /**
  * Class Action
- * Action block for Coupons Views Report
+ * Action block for Tax Report
  */
-class Action extends GridPageActions
+class Action extends PageActions
 {
     /**
      * Show Report button

@@ -61,6 +61,6 @@ class AssertTaxReportInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return "Sales info in report: Tax, Rate, Orders, Tax Amount is visible in grid on tax report page.";
+        return "Sales info in report: Tax, Rate, Orders, Tax Amount is correct in grid on tax report page.";
     }
 }

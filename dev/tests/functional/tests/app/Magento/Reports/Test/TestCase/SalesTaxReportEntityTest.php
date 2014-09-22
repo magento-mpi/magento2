@@ -25,10 +25,10 @@ use Magento\Reports\Test\Page\Adminhtml\SalesTaxReport;
  * Test Flow:
  *
  * Preconditions:
- * 1. Product created
- * 2. Customer created
- * 3. Tax Rule created
- * 4. Order placed
+ * 1. Product is created
+ * 2. Customer is created
+ * 3. Tax Rule is created
+ * 4. Order is placed
  * 5. Refresh statistic
  *
  * Steps:
@@ -93,7 +93,7 @@ class SalesTaxReportEntityTest extends Injectable
     protected $taxRuleNewPage;
 
     /**
-     * Tax Rule fiwture
+     * Tax Rule fixture
      *
      * @var TaxRule
      */
@@ -130,7 +130,7 @@ class SalesTaxReportEntityTest extends Injectable
     }
 
     /**
-     * Tax report
+     * Create tax report entity
      *
      * @param OrderInjectable $order
      * @param TaxRule $taxRule
@@ -153,12 +153,17 @@ class SalesTaxReportEntityTest extends Injectable
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         if ($orderStatus === 'Processing') {
-            $this->orderView->getPageActions()->invoice();
-            $this->orderInvoiceNew->getTotalsBlock()->submit();
+            $createInvoice = $this->objectManager->create(
+                'Magento\Sales\Test\TestStep\CreateInvoice',
+                ['order' => $order]
+            );
+            $createInvoice->run();
         } elseif ($orderStatus === 'Complete') {
-            $this->orderView->getPageActions()->invoice();
-            $this->orderInvoiceNew->getCreateBlock()->fill($invoice, $order->getEntityId()['products']);
-            $this->orderInvoiceNew->getTotalsBlock()->submit();
+            $createInvoice = $this->objectManager->create(
+                'Magento\Sales\Test\TestStep\CreateInvoice',
+                ['order' => $order, 'data' => $invoice]
+            );
+            $createInvoice->run();
         }
         $this->reportStatistic->open();
         $this->reportStatistic->getGridBlock()->massaction(
@@ -181,11 +186,8 @@ class SalesTaxReportEntityTest extends Injectable
     public function tearDown()
     {
         if ($this->taxRule !== null) {
-            $filters = [
-                'code' => $this->taxRule->getCode(),
-            ];
             $this->taxRuleIndexPage->open();
-            $this->taxRuleIndexPage->getTaxRuleGrid()->searchAndOpen($filters);
+            $this->taxRuleIndexPage->getTaxRuleGrid()->searchAndOpen(['code' => $this->taxRule->getCode()]);
             $this->taxRuleNewPage->getFormPageActions()->delete();
         }
     }
