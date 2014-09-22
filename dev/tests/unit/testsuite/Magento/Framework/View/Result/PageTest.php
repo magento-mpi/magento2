@@ -186,11 +186,11 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($fullActionName));
 
         $this->layoutMerge->expects($this->any())
-            ->method('addPageHandles')
+            ->method('addHandle')
             ->with($expected)
-            ->willReturn(true);
+            ->willReturnSelf();
 
-        $this->assertTrue($this->page->addPageLayoutHandles($parameters, $defaultHandle));
+        $this->assertEquals($this->layoutMerge, $this->page->addPageLayoutHandles($parameters, $defaultHandle));
     }
 
     public function testAddPageLayoutHandlesWithDefaultHandle()
@@ -209,11 +209,11 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->method('getFullActionName');
 
         $this->layoutMerge->expects($this->any())
-            ->method('addPageHandles')
+            ->method('addHandle')
             ->with($expected)
-            ->willReturn(true);
+            ->willReturnSelf();
 
-        $this->assertTrue($this->page->addPageLayoutHandles($parameters, $defaultHandle));
+        $this->assertEquals($this->layoutMerge, $this->page->addPageLayoutHandles($parameters, $defaultHandle));
     }
 
     public function testRenderResult()
