@@ -14,7 +14,7 @@
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.0-alpha95",
+    "version": "0.1.0-alpha96",
     "extra": {
         "map": [
             [

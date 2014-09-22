@@ -48,6 +48,8 @@ return array(
     'lib/web/flash',
     'lib/web/headjs',
     'lib/web/jquery',
+    'lib/web/ko',
+    'lib/web/moment.js',
     'lib/web/lib',
     'lib/web/mage/adminhtml/hash.js',
     'lib/web/matchMedia.js',

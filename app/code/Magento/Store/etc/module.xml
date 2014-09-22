@@ -15,6 +15,7 @@
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Directory"/>
+            <module name="Magento_Ui"/>
         </depends>
     </module>
 </config>

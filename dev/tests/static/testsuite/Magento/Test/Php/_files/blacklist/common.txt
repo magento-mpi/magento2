@@ -16,6 +16,7 @@ app/code/Magento/Theme/view
 app/code/Magento/User/view
 app/code/Magento/Webapi/view
 app/code/Magento/GroupedProduct/view
+app/code/Magento/Rss/view
 app/code/Magento/RecurringPayment/view
 app/code/Magento/UrlRewrite/view
 dev/tests/integration/framework/Magento/TestFramework/Db/Mysql.php
