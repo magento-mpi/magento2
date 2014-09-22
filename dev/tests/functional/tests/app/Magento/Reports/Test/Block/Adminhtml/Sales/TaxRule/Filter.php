@@ -25,18 +25,6 @@ class Filter extends AbstractFilter
      */
     protected function prepareData(array $viewsReport)
     {
-        foreach ($viewsReport as $name => $reportFilter) {
-            if ($reportFilter == '-') {
-                unset($viewsReport[$name]);
-            }
-            if ($name === 'from' || $name === 'to') {
-                $date = ObjectManager::getInstance()->create(
-                    '\Magento\Backend\Test\Fixture\Date',
-                    ['params' => [], 'data' => ['pattern' => $reportFilter]]
-                );
-                $viewsReport[$name] = $date->getData();
-            }
-        }
-        return $viewsReport;
+        return parent::prepareData(array_diff($viewsReport, ['-']));
     }
 }

@@ -152,13 +152,7 @@ class SalesTaxReportEntityTest extends Injectable
         $order->persist();
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        if ($orderStatus === 'Processing') {
-            $createInvoice = $this->objectManager->create(
-                'Magento\Sales\Test\TestStep\CreateInvoice',
-                ['order' => $order]
-            );
-            $createInvoice->run();
-        } elseif ($orderStatus === 'Complete') {
+        if ($orderStatus !== 'Pending') {
             $createInvoice = $this->objectManager->create(
                 'Magento\Sales\Test\TestStep\CreateInvoice',
                 ['order' => $order, 'data' => $invoice]
