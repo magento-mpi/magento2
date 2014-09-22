@@ -17,5 +17,7 @@ dev/tests/performance/apply_fixture.php
 dev/tests/performance/regenerate_profile.php
 dev/tests/performance/benchmark_logs_merge.php
 
+dev/tests/functional/tests/app/Magento/SampleData
+
 app/code/Magento/Doc
 app/design/doc

@@ -44,7 +44,7 @@ class Widget extends ParentWidget
             'parameters' => [
                 'display_mode' => 'fixed'
             ],
-            'theme_id' => '2'
+            'theme_id' => 'Magento Blank'
         ];
 
         $this->_data['banner_rotator_shoping_cart'] = [
@@ -67,15 +67,13 @@ class Widget extends ParentWidget
             'parameters' => [
                 'display_mode' => 'fixed'
             ],
-            'theme_id' => '2'
+            'theme_id' => 'Magento Blank'
         ];
 
         $this->_data['banner_rotator'] = [
             'code' => 'magento_banner',
             'title' => 'Banner Rotator %isolation%',
-            'store_ids' => [
-                '0' => 'All Store Views'
-            ],
+            'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
@@ -92,7 +90,7 @@ class Widget extends ParentWidget
                 'display_mode' => 'catalogrule'
             ],
             //TODO 'theme_id' should be specified via UI and data source should be used
-            'theme_id' => '2'
+            'theme_id' => 'Magento Blank'
         ];
 
         $this->_data['widget_banner_rotator'] = [

@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Action;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Full
 {
     /**
@@ -129,9 +131,20 @@ class Full
     protected $fulltextResource;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
+     * @var \Magento\Framework\Search\Request\Config
+     */
+    private $searchRequestConfig;
+
+    /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Framework\Search\Request\Config $searchRequestConfig
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
@@ -143,11 +156,13 @@ class Full
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $fulltextResource
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Framework\Search\Request\Config $searchRequestConfig,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
@@ -158,11 +173,13 @@ class Full
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\CatalogSearch\Model\Resource\Fulltext $fulltextResource
+        \Magento\CatalogSearch\Model\Resource\Fulltext $fulltextResource,
+        PriceCurrencyInterface $priceCurrency
     ) {
         $this->resource = $resource;
         $this->catalogProductType = $catalogProductType;
         $this->eavConfig = $eavConfig;
+        $this->searchRequestConfig = $searchRequestConfig;
         $this->catalogProductStatus = $catalogProductStatus;
         $this->productAttributeCollectionFactory = $productAttributeCollectionFactory;
         $this->eventManager = $eventManager;
@@ -174,6 +191,7 @@ class Full
         $this->localeResolver = $localeResolver;
         $this->localeDate = $localeDate;
         $this->fulltextResource = $fulltextResource;
+        $this->priceCurrency = $priceCurrency;
     }
 
     /**
@@ -234,6 +252,7 @@ class Full
         foreach ($storeIds as $storeId) {
             $this->rebuildStoreIndex($storeId, $productIds);
         }
+        $this->searchRequestConfig->reset();
     }
 
     /**
@@ -730,7 +749,7 @@ class Full
         } else {
             $inputType = $attribute->getFrontend()->getInputType();
             if ($inputType == 'price') {
-                $value = $this->storeManager->getStore($storeId)->roundPrice($value);
+                $value = $this->priceCurrency->round($value);
             }
         }
 

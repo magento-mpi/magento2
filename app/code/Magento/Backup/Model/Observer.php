@@ -69,7 +69,7 @@ class Observer
     protected $_backupFactory;
 
     /**
-     * @var \Magento\Framework\App\State\MaintenanceMode
+     * @var \Magento\Framework\App\MaintenanceMode
      */
     protected $maintenanceMode;
 
@@ -80,7 +80,7 @@ class Observer
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Backup\Factory $backupFactory
-     * @param \Magento\Framework\App\State\MaintenanceMode $maintenanceMode
+     * @param \Magento\Framework\App\MaintenanceMode $maintenanceMode
      */
     public function __construct(
         \Magento\Backup\Helper\Data $backupData,
@@ -89,7 +89,7 @@ class Observer
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Backup\Factory $backupFactory,
-        \Magento\Framework\App\State\MaintenanceMode $maintenanceMode
+        \Magento\Framework\App\MaintenanceMode $maintenanceMode
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
@@ -112,7 +112,7 @@ class Observer
         }
 
         if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
-            $this->maintenanceMode->turnOn();
+            $this->maintenanceMode->set(true);
         }
 
         $type = $this->_scopeConfig->getValue(self::XML_PATH_BACKUP_TYPE, ScopeInterface::SCOPE_STORE);
@@ -150,7 +150,7 @@ class Observer
         }
 
         if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
-            $this->maintenanceMode->turnOff();
+            $this->maintenanceMode->set(false);
         }
 
         return $this;

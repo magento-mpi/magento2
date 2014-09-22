@@ -27,9 +27,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         );
         $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
 
-        $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-
         $dependencyManager = $this->getMock('Magento\Framework\Module\DependencyManagerInterface');
         $dependencyManager->expects(
             $this->any()
@@ -44,7 +41,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             $converter,
             $schemaLocatorMock,
             $validationStateMock,
-            $appStateMock,
             $dependencyManager
         );
     }

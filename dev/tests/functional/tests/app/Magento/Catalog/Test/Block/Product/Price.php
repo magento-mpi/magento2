@@ -24,28 +24,28 @@ class Price extends Block
      */
     protected $mapTypePrices = [
         'price' => [
-            'selector' => '.price .price'
+            'selector' => '.price-container .price'
         ],
         'old_price' => [
-            'selector' => '.old-price'
+            'selector' => '.old-price .price-wrapper'
         ],
         'map_old_price' => [
-            'selector' => '.old.price'
+            'selector' => '.old-price .price'
         ],
         'actual_price' => [
-            'selector' => '.actual.price .price'
+            'selector' => '.actual-price .price'
         ],
         'special_price' => [
-            'selector' => '.special-price'
+            'selector' => '.special-price .price'
         ],
         'final_price' => [
             'selector' => '.price-final_price .price'
         ],
         'price_from' => [
-            'selector' => 'p.price-from span.price'
+            'selector' => 'p.price-from .price'
         ],
         'price_to' => [
-            'selector' => 'p.price-to span.price'
+            'selector' => 'p.price-to .price'
         ]
     ];
 
@@ -177,7 +177,7 @@ class Price extends Block
             }
         }
         // return the actual value of the price
-        return $priceElement->getText();
+        return $this->escape($priceElement->getText());
     }
 
     /**

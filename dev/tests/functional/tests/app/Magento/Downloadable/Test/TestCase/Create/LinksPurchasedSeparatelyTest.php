@@ -101,7 +101,8 @@ class LinksPurchasedSeparatelyTest extends Functional
         );
 
         $productDownloadableLinks = $product->getData('fields/downloadable_links/value/downloadable/link');
-        $pageDownloadableOptions = $productViewBlock->getOptions($product)['downloadable_links'];
+        $pageOptions = $productViewBlock->getOptions($product);
+        $pageDownloadableOptions = $pageOptions['downloadable_options']['downloadable_links'];
         $pageDownloadableLinks = $pageDownloadableOptions['downloadable']['link'];
         foreach ($productDownloadableLinks as $key => $link) {
             $this->assertEquals(

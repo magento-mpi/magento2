@@ -111,16 +111,9 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      * Perform actions before object save.
      *
      * @return void
-     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
-        $errors = $this->_validator->validate($this);
-        if (!empty($errors)) {
-            throw new \Magento\Framework\Model\Exception(
-                __('Cannot save Gift Wrapping:') . ' ' . implode(', ', $errors)
-            );
-        }
         if (!$this->hasData('website_ids') && $this->_storeManager->hasSingleStore()) {
             $this->setData('website_ids', array_keys($this->_systemStore->getWebsiteOptionHash()));
         }
@@ -346,5 +339,14 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
             ) . self::IMAGE_PATH . $this->getImage();
         }
         return false;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _getValidationRulesBeforeSave()
+    {
+        return $this->_validator;
     }
 }

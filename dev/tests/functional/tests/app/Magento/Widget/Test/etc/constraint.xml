@@ -38,4 +38,10 @@
     <assertProductInRecentlyViewedBlock module="Magento_Widget">
         <severeness>low</severeness>
     </assertProductInRecentlyViewedBlock>
+    <assertWidgetSuccessDeleteMessage module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetSuccessDeleteMessage>
+    <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetAbsentOnFrontendHome>
 </constraint>

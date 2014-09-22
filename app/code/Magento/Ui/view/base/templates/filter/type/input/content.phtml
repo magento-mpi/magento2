@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Filter\Type\Input $this
+ */
+?>
+<fieldset class="field field-<?php echo $this->getData('data_type') ?>">
+    <legend class="label"><?php echo $this->renderElementLabel('input', [
+            'title' => $this->getData('title')
+        ]); ?></legend><br />
+    <div class="control">
+        <?php echo $this->renderElement('input', [
+                'data-bind' => "",
+            ]); ?>
+    </div>
+</fieldset>

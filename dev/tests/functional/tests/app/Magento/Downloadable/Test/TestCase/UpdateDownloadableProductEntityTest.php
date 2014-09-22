@@ -86,7 +86,7 @@ class UpdateDownloadableProductEntityTest extends Injectable
         FixtureFactory $fixtureFactory
     ) {
         $this->product = $fixtureFactory->createByCode(
-            'DownloadableProductInjectable',
+            'downloadableProductInjectable',
             ['dataSet' => 'default']
         );
         $this->product->persist();

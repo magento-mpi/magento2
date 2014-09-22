@@ -46,6 +46,13 @@ class Messages extends Block
     protected $noticeMessage = '[data-ui-id$=message-notice]';
 
     /**
+     * Warning message selector.
+     *
+     * @var string
+     */
+    protected $warningMessage = '[data-ui-id$=message-warning]';
+
+    /**
      * Check for success message
      *
      * @return bool
@@ -162,5 +169,16 @@ class Messages extends Block
     {
         $this->waitForElementVisible($this->noticeMessage);
         return $this->_rootElement->find($this->noticeMessage)->getText();
+    }
+
+    /**
+     * Get warning message which is present on the page
+     *
+     * @return string
+     */
+    public function getWarningMessages()
+    {
+        $this->waitForElementVisible($this->warningMessage);
+        return $this->_rootElement->find($this->warningMessage)->getText();
     }
 }

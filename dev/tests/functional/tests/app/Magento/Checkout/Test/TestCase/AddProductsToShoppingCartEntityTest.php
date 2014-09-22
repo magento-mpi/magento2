@@ -8,15 +8,13 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Test Creation for AddProductsToShoppingCartEntity
@@ -72,7 +70,7 @@ class AddProductsToShoppingCartEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $cartPage
-     * @return array
+     * @return void
      */
     public function __prepare(
         Browser $browser,
@@ -95,12 +93,11 @@ class AddProductsToShoppingCartEntityTest extends Injectable
      */
     public function test($productsData, array $cart)
     {
+        // Preconditions
         $products = $this->prepareProducts($productsData);
 
-        foreach ($products as $product) {
-            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->addToCart($product);
-        }
+        // Steps
+        $this->addToCart($products);
 
         $cart['data']['items'] = ['products' => $products];
         return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
@@ -114,27 +111,27 @@ class AddProductsToShoppingCartEntityTest extends Injectable
      */
     protected function prepareProducts($productList)
     {
-        $productsData = explode(', ', $productList);
-        $products = [];
+        $addToCartStep = ObjectManager::getInstance()->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $productList]
+        );
 
-        foreach ($productsData as $productConfig) {
-            list($fixtureClass, $dataSet) = explode('::', $productConfig);
-            $product = $this->fixtureFactory->createByCode($fixtureClass, ['dataSet' => $dataSet]);
-            $product->persist();
-            $products[] = $product;
-        }
-
-        return $products;
+        $result = $addToCartStep->run();
+        return $result['products'];
     }
 
     /**
-     * Clear shopping cart after test
+     * Add products to cart
      *
+     * @param array $products
      * @return void
      */
-    protected function tearDown()
+    protected function addToCart(array $products)
     {
-        $this->cartPage->open();
-        $this->cartPage->getCartBlock()->clearShoppingCart();
+        $addToCartStep = ObjectManager::getInstance()->create(
+            'Magento\Checkout\Test\TestStep\AddProductsToTheCartStep',
+            ['products' => $products]
+        );
+        $addToCartStep->run();
     }
 }

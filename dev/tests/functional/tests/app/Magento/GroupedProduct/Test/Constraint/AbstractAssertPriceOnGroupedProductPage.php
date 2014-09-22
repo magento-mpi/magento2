@@ -58,7 +58,7 @@ abstract class AbstractAssertPriceOnGroupedProductPage extends AbstractConstrain
         /** @var InjectableFixture $subProduct */
         foreach ($groupedData['products'] as $key => $subProduct) {
             //Process assertions
-            $catalogProductView->getGroupedViewBlock()
+            $catalogProductView->getViewBlock()
                 ->{'item' . $typePrice . 'PriceProductBlock'}(++$key);
             $object->setErrorMessage(sprintf($this->errorMessage, $subProduct->getData('name')));
             $object->assertPrice($subProduct, $catalogProductView, 'Grouped');
