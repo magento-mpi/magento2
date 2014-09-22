@@ -32,4 +32,7 @@
     <assertProductAttributeAbsenceInVariationsSearch module="Magento_ConfigurableProduct">
         <severeness>low</severeness>
     </assertProductAttributeAbsenceInVariationsSearch>
+    <assertProductAttributeIsConfigurable module="Magento_ConfigurableProduct">
+        <severeness>high</severeness>
+    </assertProductAttributeIsConfigurable>
 </constraint>
