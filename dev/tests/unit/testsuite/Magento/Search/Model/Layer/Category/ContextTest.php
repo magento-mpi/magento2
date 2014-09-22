@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Model\Layer\Category;
+namespace Magento\Solr\Model\Layer\Category;
 
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,14 +37,14 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @var \Magento\Search\Model\Layer\Category\Context
+     * @var \Magento\Solr\Model\Layer\Category\Context
      */
     protected $model;
 
     protected function setUp()
     {
         $this->searchProviderMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Category\ItemCollectionProvider',
+            '\Magento\Solr\Model\Layer\Category\ItemCollectionProvider',
             array(),
             array(),
             '',
@@ -57,7 +57,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->helperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
         $this->stateKeyMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\Category\StateKey',
             array(),
@@ -83,8 +83,8 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Category\Context::getCollectionProvider
-     * @covers \Magento\Search\Model\Layer\Category\Context::__construct
+     * @covers \Magento\Solr\Model\Layer\Category\Context::getCollectionProvider
+     * @covers \Magento\Solr\Model\Layer\Category\Context::__construct
      */
     public function testGetCollectionProviderEngineAvailable()
     {
@@ -96,7 +96,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Category\Context::getCollectionProvider
+     * @covers \Magento\Solr\Model\Layer\Category\Context::getCollectionProvider
      */
     public function testGetCollectionProviderEngineUnavailable()
     {
@@ -108,7 +108,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Category\Context::getStateKey
+     * @covers \Magento\Solr\Model\Layer\Category\Context::getStateKey
      */
     public function testGetStateKey()
     {
@@ -116,7 +116,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Category\Context::getCollectionFilter
+     * @covers \Magento\Solr\Model\Layer\Category\Context::getCollectionFilter
      */
     public function testGetCollectionFilter()
     {

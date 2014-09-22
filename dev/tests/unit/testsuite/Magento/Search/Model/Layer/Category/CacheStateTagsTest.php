@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Layer\Category;
+namespace Magento\Solr\Model\Layer\Category;
 
 class CacheStateTagsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Search\Model\Layer\Category\CacheStateTags
+     * @var \Magento\Solr\Model\Layer\Category\CacheStateTags
      */
     protected $model;
 

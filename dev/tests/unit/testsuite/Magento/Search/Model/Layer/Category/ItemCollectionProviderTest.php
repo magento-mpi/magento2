@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Model\Layer\Category;
+namespace Magento\Solr\Model\Layer\Category;
 
 class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
     protected $engineProviderMock;
 
     /**
-     * @var \Magento\Search\Model\Layer\Category\ItemCollectionProvider
+     * @var \Magento\Solr\Model\Layer\Category\ItemCollectionProvider
      */
     protected $model;
 
@@ -34,8 +34,8 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Category\ItemCollectionProvider::getCollection
-     * @covers \Magento\Search\Model\Layer\Category\ItemCollectionProvider::__construct
+     * @covers \Magento\Solr\Model\Layer\Category\ItemCollectionProvider::getCollection
+     * @covers \Magento\Solr\Model\Layer\Category\ItemCollectionProvider::__construct
      */
     public function testGetCollection()
     {

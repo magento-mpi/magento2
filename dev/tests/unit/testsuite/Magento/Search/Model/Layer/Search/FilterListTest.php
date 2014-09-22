@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Model\Layer\Search;
+namespace Magento\Solr\Model\Layer\Search;
 
 class FilterListTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     protected $layerMock;
 
     /**
-     * @var \Magento\Search\Model\Layer\Search\FilterList
+     * @var \Magento\Solr\Model\Layer\Search\FilterList
      */
     protected $model;
 
@@ -39,21 +39,21 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManagerMock = $this->getMock('\Magento\Framework\ObjectManager');
         $this->attributeListMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Search\FilterableAttributeList',
+            '\Magento\Solr\Model\Layer\Search\FilterableAttributeList',
             array(),
             array(),
             '',
             false
         );
-        $this->searchHelperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->searchHelperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
         $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
 
         $this->model = new FilterList($this->objectManagerMock, $this->attributeListMock, $this->searchHelperMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Search\FilterList::getFilters
-     * @covers \Magento\Search\Model\Layer\Search\FilterList::__construct
+     * @covers \Magento\Solr\Model\Layer\Search\FilterList::getFilters
+     * @covers \Magento\Solr\Model\Layer\Search\FilterList::__construct
      */
     public function testGetFiltersThirdPartSearchEngineIsTurnedOff()
     {
@@ -69,12 +69,12 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Search\FilterList::getFilters
+     * @covers \Magento\Solr\Model\Layer\Search\FilterList::getFilters
      */
     public function testGetFiltersThirdPartSearchEngineIsAvailable()
     {
         $filterMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Category\Filter\Category',
+            '\Magento\Solr\Model\Layer\Category\Filter\Category',
             array(),
             array(),
             '',

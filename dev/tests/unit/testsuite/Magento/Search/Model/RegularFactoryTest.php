@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-/** Test class for \Magento\Search\Model\Client\RegularFactory */
-namespace Magento\Search\Model;
+/** Test class for \Magento\Solr\Model\Client\RegularFactory */
+namespace Magento\Solr\Model;
 
 class RegularFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_clientMock;
 
-    /** @var \Magento\Search\Model\RegularFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Solr\Model\RegularFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_factoryObject;
 
-    /** @var \Magento\Search\Model\Adapter\HttpStream */
+    /** @var \Magento\Solr\Model\Adapter\HttpStream */
     protected $_adapterMock;
 
     /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -27,9 +27,9 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')->getMock();
-        $this->_clientMock = $this->getMock('Magento\Search\Model\Client\Solr', array(), array(), '', false, false);
+        $this->_clientMock = $this->getMock('Magento\Solr\Model\Client\Solr', array(), array(), '', false, false);
         $this->_adapterMock = $this->getMock(
-            'Magento\Search\Model\Adapter\HttpStream',
+            'Magento\Solr\Model\Adapter\HttpStream',
             array(),
             array(),
             '',
@@ -38,7 +38,7 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $this->_factoryObject = new \Magento\Search\Model\RegularFactory($this->_objectManager);
+        $this->_factoryObject = new \Magento\Solr\Model\RegularFactory($this->_objectManager);
     }
 
     /**
@@ -52,7 +52,7 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\Search\Model\Client\Solr'
+            'Magento\Solr\Model\Client\Solr'
         )->will(
             $this->returnValue($this->_clientMock)
         );
@@ -70,7 +70,7 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\Search\Model\Adapter\HttpStream'
+            'Magento\Solr\Model\Adapter\HttpStream'
         )->will(
             $this->returnValue($this->_adapterMock)
         );

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Model\Layer\Search\AvailabilityFlag;
+namespace Magento\Solr\Model\Layer\Search\AvailabilityFlag;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +46,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     protected $filterMock;
 
     /**
-     * @var \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin
+     * @var \Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin
      */
     protected $model;
 
@@ -63,7 +63,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->filters = array($this->filterMock);
 
         $this->subjectMock = $this->getMock('Magento\Catalog\Model\Layer\Search\AvailabilityFlag');
-        $this->helperMock = $this->getMock('Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->helperMock = $this->getMock('Magento\Solr\Helper\Data', array(), array(), '', false);
         $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->stateMock = $this->getMock('Magento\Catalog\Model\Layer\State', array(), array(), '', false);
         $this->model = new Plugin($this->helperMock);
@@ -74,8 +74,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @param bool $isActive
      *
      * @dataProvider aroundIsEnabledWithThirdPartEngineOffDataProvider
-     * @covers       \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
-     * @covers       \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::__construct
+     * @covers       \Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
+     * @covers       \Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin::__construct
      */
     public function testIsEnabledWithThirdPartEngineOff($isThirdPart, $isActive)
     {
@@ -115,8 +115,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @param bool $expectedResult
      *
      * @dataProvider aroundIsEnabledDataProvider
-     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
-     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::canShowOptions
+     * @covers \Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
+     * @covers \Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin::canShowOptions
      */
     public function testAroundIsEnabled($itemsCount, $filters, $expectedResult)
     {

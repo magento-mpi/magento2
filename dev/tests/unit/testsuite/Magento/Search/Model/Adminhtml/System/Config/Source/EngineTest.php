@@ -5,22 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Adminhtml\System\Config\Source;
+namespace Magento\Solr\Model\Adminhtml\System\Config\Source;
 
 class EngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Search\Model\Adminhtml\System\Config\Source\Engine
+     * @var \Magento\Solr\Model\Adminhtml\System\Config\Source\Engine
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Search\Model\Adminhtml\System\Config\Source\Engine();
+        $this->_model = new \Magento\Solr\Model\Adminhtml\System\Config\Source\Engine();
     }
 
     /**
-     * Check if \Magento\Search\Model\Adminhtml\System\Config\Source\Engine has method toOptionArray
+     * Check if \Magento\Solr\Model\Adminhtml\System\Config\Source\Engine has method toOptionArray
      */
     public function testToOptionArrayExistence()
     {

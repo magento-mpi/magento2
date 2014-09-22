@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Model\Layer\Category;
+namespace Magento\Solr\Model\Layer\Category;
 
 class FilterListTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     protected $layerMock;
 
     /**
-     * @var \Magento\Search\Model\Layer\Category\FilterList
+     * @var \Magento\Solr\Model\Layer\Category\FilterList
      */
     protected $model;
 
@@ -45,15 +45,15 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->searchHelperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->searchHelperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
         $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
 
         $this->model = new FilterList($this->objectManagerMock, $this->attributeListMock, $this->searchHelperMock);
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Category\FilterList::getFilters
-     * @covers \Magento\Search\Model\Layer\Category\FilterList::__construct
+     * @covers \Magento\Solr\Model\Layer\Category\FilterList::getFilters
+     * @covers \Magento\Solr\Model\Layer\Category\FilterList::__construct
      */
     public function testGetFiltersThirdPartSearchEngineIsTurnedOff()
     {
@@ -69,12 +69,12 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Layer\Category\FilterList::getFilters
+     * @covers \Magento\Solr\Model\Layer\Category\FilterList::getFilters
      */
     public function testGetFiltersThirdPartSearchEngineIsAvailable()
     {
         $filterMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Category\Filter\Category',
+            '\Magento\Solr\Model\Layer\Category\Filter\Category',
             array(),
             array(),
             '',

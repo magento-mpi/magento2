@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Catalog\Layer\Filter;
+namespace Magento\Solr\Model\Catalog\Layer\Filter;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,17 +55,17 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_string;
 
     /**
-     * @var \Magento\Search\Model\Resource\Solr\Engine|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Solr\Model\Resource\Solr\Engine|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceEngine;
 
     /**
-     * @var \Magento\Search\Model\Resource\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Solr\Model\Resource\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_productCollection;
 
     /**
-     * @var \Magento\Search\Model\Layer\Category\Filter\Attribute
+     * @var \Magento\Solr\Model\Layer\Category\Filter\Attribute
      */
     protected $_model;
 
@@ -107,7 +107,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
         $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->_productCollection = $this->getMock(
-            '\Magento\Search\Model\Resource\Collection',
+            '\Magento\Solr\Model\Resource\Collection',
             array(),
             array(),
             '',
@@ -145,7 +145,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         );
         $this->_string = $this->getMock('\Magento\Framework\Stdlib\String', array(), array(), '', false);
         $this->_resourceEngine = $this->getMock(
-            'Magento\Search\Model\Resource\Solr\Engine',
+            'Magento\Solr\Model\Resource\Solr\Engine',
             array(),
             array(),
             '',
@@ -154,7 +154,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $tagFilter = $this->getMock('\Magento\Framework\Filter\StripTags', array(), array(), '', false);
         $tagFilter->expects($this->any())->method('filter')->will($this->returnArgument(0));
 
-        $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Attribute(
+        $this->_model = new \Magento\Solr\Model\Layer\Category\Filter\Attribute(
             $this->_filterItemFactory,
             $this->_storeManager,
             $this->_layer,

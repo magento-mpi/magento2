@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Layer\Category\Filter;
+namespace Magento\Solr\Model\Layer\Category\Filter;
 
 /**
  * Suppress coupling warning, because it is rather issue of the class tested, than the test itself
@@ -39,7 +39,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_priceFilterItem;
 
     /**
-     * @var \Magento\Search\Model\Resource\Solr\Engine|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Solr\Model\Resource\Solr\Engine|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceEngine;
 
@@ -49,7 +49,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_cache;
 
     /**
-     * @var \Magento\Search\Model\Resource\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Solr\Model\Resource\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_productCollection;
 
@@ -59,7 +59,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Search\Model\Layer\Category\Filter\Price
+     * @var \Magento\Solr\Model\Layer\Category\Filter\Price
      */
     protected $_model;
 
@@ -76,7 +76,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $this->_productCollection = $this->getMock(
-            '\Magento\Search\Model\Resource\Collection',
+            '\Magento\Solr\Model\Resource\Collection',
             array(),
             array(),
             '',
@@ -114,7 +114,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_resourceEngine = $this->getMock(
-            'Magento\Search\Model\Resource\Solr\Engine',
+            'Magento\Solr\Model\Resource\Solr\Engine',
             array(),
             array(),
             '',
@@ -126,7 +126,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
-            'Magento\Search\Model\Layer\Category\Filter\Price',
+            'Magento\Solr\Model\Layer\Category\Filter\Price',
             array(
                 'storeManager' => $this->_storeManager,
                 'layer' => $this->_layer,

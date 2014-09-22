@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Plugin;
+namespace Magento\Solr\Model\Plugin;
 
 class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Search\Model\Plugin\FulltextIndexRebuild
+     * @var \Magento\Solr\Model\Plugin\FulltextIndexRebuild
      */
     protected $_model;
 
@@ -53,17 +53,17 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_searchHelperMock = $this->getMock('Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->_searchHelperMock = $this->getMock('Magento\Solr\Helper\Data', array(), array(), '', false);
         $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
         $this->_searchEngineMock = $this->getMock(
-            'Magento\Search\Model\Resource\Solr\Engine',
+            'Magento\Solr\Model\Resource\Solr\Engine',
             array(),
             array(),
             '',
             false
         );
         $this->_filterPriceMock = $this->getMock(
-            'Magento\Search\Model\Layer\Category\Filter\Price',
+            'Magento\Solr\Model\Layer\Category\Filter\Price',
             array(),
             array(),
             '',
@@ -79,7 +79,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
-            '\Magento\Search\Model\Plugin\FulltextIndexRebuild',
+            '\Magento\Solr\Model\Plugin\FulltextIndexRebuild',
             array(
                 'engineProvider' => $this->_engineProviderMock,
                 'searchHelper' => $this->_searchHelperMock,
@@ -90,7 +90,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
+     * @covers \Magento\Solr\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
      */
     public function testBeforeRebuildIndexNoThirdPartyEngine()
     {
@@ -108,7 +108,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
+     * @covers \Magento\Solr\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
      */
     public function testBeforeRebuildIndexThirdPartyEngineNoHoldCommit()
     {
@@ -136,7 +136,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
+     * @covers \Magento\Solr\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull
      */
     public function testBeforeRebuildIndexThirdPartyEngineHoldCommit()
     {
@@ -164,7 +164,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
+     * @covers \Magento\Solr\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexNoThirdPartyEngine()
     {
@@ -182,7 +182,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
+     * @covers \Magento\Solr\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexThirdPartyEngine()
     {
@@ -210,7 +210,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
+     * @covers \Magento\Solr\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNeeded()
     {
@@ -253,7 +253,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
+     * @covers \Magento\Solr\Model\Plugin\FulltextIndexRebuild::afterExecuteFull
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNotNeeded()
     {

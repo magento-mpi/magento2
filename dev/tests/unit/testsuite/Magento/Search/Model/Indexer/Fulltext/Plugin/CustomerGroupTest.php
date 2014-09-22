@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Indexer\Fulltext\Plugin;
+namespace Magento\Solr\Model\Indexer\Fulltext\Plugin;
 
 class CustomerGroupTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
     protected $subjectMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Search\Helper\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Solr\Helper\Data
      */
     protected $helperMock;
 
@@ -32,7 +32,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->subjectMock = $this->getMock('Magento\Customer\Model\Resource\Group', [], [], '', false);
-        $this->helperMock = $this->getMock('Magento\Search\Helper\Data', [], [], '', false);
+        $this->helperMock = $this->getMock('Magento\Solr\Helper\Data', [], [], '', false);
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
             [],

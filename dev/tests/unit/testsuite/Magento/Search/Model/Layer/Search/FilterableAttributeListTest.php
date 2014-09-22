@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Model\Layer\Search;
+namespace Magento\Solr\Model\Layer\Search;
 
 class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Search\Model\Layer\Search\FilterableAttributeList
+     * @var \Magento\Solr\Model\Layer\Search\FilterableAttributeList
      */
     protected $model;
 
@@ -61,9 +61,9 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->helperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
 
-        $this->model = new \Magento\Search\Model\Layer\Search\FilterableAttributeList(
+        $this->model = new \Magento\Solr\Model\Layer\Search\FilterableAttributeList(
             $this->collectionFactoryMock,
             $this->storeManagerMock,
             $this->layerMock,

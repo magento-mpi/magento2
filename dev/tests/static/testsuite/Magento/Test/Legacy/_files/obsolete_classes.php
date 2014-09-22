@@ -700,35 +700,35 @@ return array(
     ),
     array('Magento\CatalogSearch\Model\Layer', 'Magento\Catalog\Model\Layer'),
     array('Magento\CatalogSearch\Model\Layer\Filter\Attribute'),
-    array('Magento\Search\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
+    array('Magento\Solr\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Attribute',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Attribute',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Category',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Category',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Decimal',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Decimal',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Price',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Price',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute',
+        'Magento\Solr\Block\Catalogsearch\Layer\Filter\Attribute',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
-    array('Magento\Search\Block\Catalogsearch\Layer', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'),
-    array('Magento\Search\Model\Catalog\Layer', 'Magento\Catalog\Model\Layer\Category'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Category', 'Magento\Catalog\Model\Layer\Filter\Category'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Decimal', 'Magento\Catalog\Model\Layer\Filter\Decimal'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Price', 'Magento\Catalog\Model\Layer\Filter\Price'),
-    array('Magento\Search\Model\Search\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
-    array('Magento\Search\Model\Search\Layer', 'Magento\Catalog\Model\Layer'),
+    array('Magento\Solr\Block\Catalogsearch\Layer', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'),
+    array('Magento\Solr\Model\Catalog\Layer', 'Magento\Catalog\Model\Layer\Category'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Category', 'Magento\Catalog\Model\Layer\Filter\Category'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Decimal', 'Magento\Catalog\Model\Layer\Filter\Decimal'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Price', 'Magento\Catalog\Model\Layer\Filter\Price'),
+    array('Magento\Solr\Model\Search\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
+    array('Magento\Solr\Model\Search\Layer', 'Magento\Catalog\Model\Layer'),
     array(
         'Magento\Catalog\Model\Product\Type\Configurable',
         'Magento\ConfigurableProduct\Model\Product\Type\Configurable'
