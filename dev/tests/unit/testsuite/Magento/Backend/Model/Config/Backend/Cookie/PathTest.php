@@ -49,14 +49,14 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSaveException()
     {
-        $invalidCookieLifetime = 'invalid path';
+        $invalidCookiePath = 'invalid path';
         $this->validatorMock->expects($this->once())
             ->method('isValid')
-            ->with($invalidCookieLifetime)
+            ->with($invalidCookiePath)
             ->willReturn(false);
 
         // Must throw exception
-        $this->model->setValue($invalidCookieLifetime)->save();
+        $this->model->setValue($invalidCookiePath)->save();
     }
 
     /**
@@ -67,14 +67,31 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSaveNoException()
     {
-        $validCookieLifetime = 1;
+        $validCookiePath = 1;
         $this->validatorMock->expects($this->once())
             ->method('isValid')
-            ->with($validCookieLifetime)
+            ->with($validCookiePath)
             ->willReturn(true);
         $this->resourceMock->expects($this->any())->method('addCommitCallback')->willReturnSelf();
 
         // Must not throw exception
-        $this->model->setValue($validCookieLifetime)->save();
+        $this->model->setValue($validCookiePath)->save();
     }
-} 
+
+    /**
+     * Method is not publicly accessible, so it must be called through parent
+     *
+     * Empty string should not be sent to validator
+     */
+    public function testBeforeSaveEmptyString()
+    {
+        $validCookiePath = '';
+        $this->validatorMock->expects($this->never())
+            ->method('isValid');
+
+        $this->resourceMock->expects($this->any())->method('addCommitCallback')->willReturnSelf();
+
+        // Must not throw exception
+        $this->model->setValue($validCookiePath)->save();
+    }
+}

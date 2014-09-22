@@ -82,4 +82,22 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
         // Test
         $this->model->setValue($validCookieLifetime)->save();
     }
-} 
+
+    /**
+     * Method is not publicly accessible, so it must be called through parent
+     *
+     * No assertions exist because the purpose of the test is to make sure that no
+     * exception gets thrown
+     */
+    public function testBeforeEmptyString()
+    {
+        $validCookieLifetime = '';
+        $this->validatorMock->expects($this->never())
+            ->method('isValid');
+
+        $this->resourceMock->expects($this->once())->method('addCommitCallback')->willReturnSelf();
+
+        // Test
+        $this->model->setValue($validCookieLifetime)->save();
+    }
+}
