@@ -87,6 +87,7 @@ Magento/Shipping/Model/Carrier
 Magento/Sitemap/Block/Adminhtml/Edit
 Magento/Sitemap/Model/
 Magento/CatalogRule/Model
+Magento/Rss/Controller/Adminhtml/Feed
 Magento/Tax/Block/Checkout
 Magento/Tax/Model/Sales/Pdf
 Magento/Tax/Model/Config/Price
