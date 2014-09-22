@@ -72,13 +72,6 @@ class CreateInvoice implements TestStepInterface
     protected $data;
 
     /**
-     * Order status
-     *
-     * @var string
-     */
-    protected $status = 'Paid';
-
-    /**
      * @construct
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView

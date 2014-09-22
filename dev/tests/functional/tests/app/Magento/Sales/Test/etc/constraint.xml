@@ -75,4 +75,22 @@
     <assertOrderNotInOrdersGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderNotInOrdersGrid>
+    <assertOrderCancelMassActionSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderCancelMassActionSuccessMessage>
+    <assertOrderCancelMassActionFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderCancelMassActionFailMessage>
+    <assertOrderOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderOnHoldSuccessMessage>
+    <assertOrderOnHoldFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderOnHoldFailMessage>
+    <assertOrderReleaseSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderReleaseSuccessMessage>
+    <assertOrderReleaseFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderReleaseFailMessage>
 </constraint>

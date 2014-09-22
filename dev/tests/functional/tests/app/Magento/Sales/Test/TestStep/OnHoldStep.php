@@ -12,13 +12,12 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\SalesOrderCreditMemoNew;
 
 /**
- * Class CreateCreditMemo
- * Create credit memo from order on backend
+ * Class OnHoldStep
+ * On hold order on backend
  */
-class CreateCreditMemo implements TestStepInterface
+class OnHoldStep implements TestStepInterface
 {
     /**
      * Orders Page
@@ -35,13 +34,6 @@ class CreateCreditMemo implements TestStepInterface
     protected $orderView;
 
     /**
-     * OrderCreditMemoNew Page
-     *
-     * @var SalesOrderCreditMemoNew
-     */
-    protected $orderCreditMemoNew;
-
-    /**
      * OrderInjectable fixture
      *
      * @var OrderInjectable
@@ -53,43 +45,26 @@ class CreateCreditMemo implements TestStepInterface
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderInjectable $order
-     * @param SalesOrderCreditMemoNew $orderCreditMemoNew
      */
     public function __construct(
         OrderIndex $orderIndex,
         OrderView $orderView,
-        OrderInjectable $order,
-        SalesOrderCreditMemoNew $orderCreditMemoNew
+        OrderInjectable $order
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
         $this->order = $order;
-        $this->orderCreditMemoNew = $orderCreditMemoNew;
     }
 
     /**
-     * Create credit memo from order on backend
+     * On hold order on backend
      *
-     * @return array
+     * @return void
      */
     public function run()
     {
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
-        $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getActionsBlock()->refundOffline();
-
-        return ['creditMemoIds' => $this->getCreditMemoIds()];
-    }
-
-    /**
-     * Get credit memo ids
-     *
-     * @return array
-     */
-    protected function getCreditMemoIds()
-    {
-        $this->orderView->getOrderForm()->openTab('creditmemos');
-        return $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->getIds();
+        $this->orderView->getPageActions()->hold();
     }
 }
