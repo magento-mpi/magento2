@@ -28,7 +28,6 @@
             <module name="Magento_Email"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Translation"/>
-            <module name="Magento_RequireJs"/>
         </depends>
     </module>
 </config>
