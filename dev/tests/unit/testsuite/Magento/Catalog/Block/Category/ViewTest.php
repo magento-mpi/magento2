@@ -21,24 +21,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        $this->scopeConfigMock = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $context = $objectManager->getObject(
-            'Magento\Framework\View\Element\Template\Context',
-            [
-                'scopeConfig' => $this->scopeConfigMock,
-            ]
-        );
-        $this->block = $objectManager->getObject(
-            'Magento\Catalog\Block\Category\View',
-            [
-                'context' => $context,
-            ]
-        );
+        $this->block = $objectManager->getObject('Magento\Catalog\Block\Category\View', []);
     }
 
     protected function tearDown()
