@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <block class="Magento\Ui\Filter\Type\Select" name="filter_store">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::filter/type/select/default.phtml</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\DataType\Text" name="store">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/text/default.phtml</argument>
+        </arguments>
+    </block>
+</layout>

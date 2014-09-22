@@ -1906,4 +1906,7 @@ return array(
     ['formatPrice', 'Magento\Store\Model\Store', 'Magento\Framework\Pricing\PriceCurrencyInterface::format'],
     ['convertPrice', 'Magento\Store\Model\Store', 'Magento\Framework\Pricing\PriceCurrencyInterface::convert'],
     ['getPriceFilter', 'Magento\Store\Model\Store'],
+    ['_addHeader', 'Magento\Rss\Model\Rss'],
+    ['_addEntries', 'Magento\Rss\Model\Rss'],
+    ['_addEntry', 'Magento\Rss\Model\Rss'],
 );

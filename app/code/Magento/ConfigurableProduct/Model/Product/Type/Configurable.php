@@ -680,6 +680,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 
             foreach ($data as $attributeId => $attributeValue) {
                 if (isset($usedAttributes[$attributeId])) {
+                    /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
                     $attribute = $usedAttributes[$attributeId]->getProductAttribute();
                     $label = $attribute->getStoreLabel();
                     $value = $attribute;
