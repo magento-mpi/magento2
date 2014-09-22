@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<outline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../outline.xsd">
+    <content>
+        <item name="{{var name}}_Overview" type="article" module="{{var module}}">
+            <label>Overview</label>
+        </item>
+        <item name="{{var name}}_Configuration" type="article" module="{{var module}}">
+            <label>Configuration</label>
+        </item>
+        <item name="{{var name}}_UseCases" type="article" module="{{var module}}">
+            <label>Use Cases</label>
+        </item>
+    </content>
+</outline>

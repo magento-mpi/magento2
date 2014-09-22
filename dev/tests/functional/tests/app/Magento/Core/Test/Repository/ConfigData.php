@@ -51,6 +51,29 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['config_currency_symbols_usd_and_uah'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'currency',
+                    'scope_id' => '1',
+                    'value' => ['USD', 'UAH'],
+                ],
+            ]
+        ];
+
+        $this->_data['config_currency_symbols_usd'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'currency',
+                    'scope_id' => '1',
+                    'value' => ['USD'],
+                ],
+            ]
+        ];
+
+        // Reward settings
         $this->_data['reward_points_with_registration_reward'] = [
             'section' => [
                 [
@@ -107,28 +130,331 @@ class ConfigData extends AbstractRepository
             ],
         ];
 
-        $this->_data['config_currency_symbols_usd_and_uah'] = [
+        // Shipping settings
+        $this->_data['freeshipping'] = [
             'section' => [
                 [
-                    'path' => 'currency/options/allow',
-                    'scope' => 'currency',
-                    'scope_id' => '1',
-                    'value' => ['USD', 'UAH'],
+                    'path' => 'carriers/freeshipping/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ]
+            ]
+        ];
+
+        $this->_data['freeshipping_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/freeshipping/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
+        $this->_data['freeshipping_specificcountry_gb'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/freeshipping/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'carriers/freeshipping/sallowspecific',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'carriers/freeshipping/specificcountry/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 'GB',
                 ],
             ]
         ];
 
-        $this->_data['config_currency_symbols_usd'] = [
+        $this->_data['freeshipping_specificcountry_gb_rollback'] = [
             'section' => [
                 [
-                    'path' => 'currency/options/allow',
-                    'scope' => 'currency',
-                    'scope_id' => '1',
-                    'value' => ['USD'],
+                    'path' => 'carriers/freeshipping/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'carriers/freeshipping/sallowspecific',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
                 ],
             ]
         ];
 
+        $this->_data['flatrate'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/flatrate/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ]
+            ]
+        ];
+
+        // Payments settings
+        $this->_data['cashondelivery'] = [
+            'section' =>
+                [
+                    [
+                        'path' => 'payment/cashondelivery/active',
+                        'scope' => 'payment',
+                        'scope_id' => 1,
+                        'value' => 1,
+                    ]
+                ]
+        ];
+
+        $this->_data['cashondelivery_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/cashondelivery/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
+        $this->_data['cashondelivery_specificcountry_gb'] = [
+            'section' => [
+                [
+                    'path' => 'payment/cashondelivery/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/cashondelivery/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/cashondelivery/specificcountry/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 'GB',
+                ],
+            ]
+        ];
+
+        $this->_data['cashondelivery_specificcountry_gb_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/cashondelivery/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'payment/cashondelivery/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['checkmo'] = [
+            'section' => [
+                [
+                    'path' => 'payment/checkmo/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ]
+            ]
+        ];
+
+        $this->_data['checkmo_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/checkmo/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
+        $this->_data['checkmo_specificcountry_gb'] = [
+            'section' => [
+                [
+                    'path' => 'payment/checkmo/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/checkmo/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/checkmo/specificcountry/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 'GB',
+                ],
+            ]
+        ];
+
+        $this->_data['checkmo_specificcountry_gb_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/checkmo/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'payment/checkmo/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['banktransfer'] = [
+            'section' => [
+                [
+                    'path' => 'payment/banktransfer/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ]
+            ]
+        ];
+
+        $this->_data['banktransfer_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/banktransfer/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
+        $this->_data['banktransfer_specificcountry_gb'] = [
+            'section' => [
+                [
+                    'path' => 'payment/banktransfer/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/banktransfer/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/banktransfer/specificcountry/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 'GB',
+                ],
+            ]
+        ];
+
+        $this->_data['banktransfer_specificcountry_gb_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/banktransfer/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'payment/banktransfer/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['purchaseorder'] = [
+            'section' => [
+                [
+                    'path' => 'payment/purchaseorder/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ]
+            ]
+        ];
+
+        $this->_data['purchaseorder_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/purchaseorder/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
+        $this->_data['purchaseorder_specificcountry_gb'] = [
+            'section' => [
+                [
+                    'path' => 'payment/purchaseorder/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/purchaseorder/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'payment/purchaseorder/specificcountry/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 'GB',
+                ],
+            ]
+        ];
+
+        $this->_data['purchaseorder_specificcountry_gb_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'payment/purchaseorder/active',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'payment/purchaseorder/allowspecific',
+                    'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+        
+        //Multiple wishlist
         $this->_data['multiple_wishlist_default'] = [
             'section' => [
                 [

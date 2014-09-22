@@ -27,6 +27,7 @@
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
+            <source>Magento\CustomerBalance\Test\Fixture\CustomerBalance\CustomerId</source>
         </customer_id>
         <website_id>
             <attribute_code>website_id</attribute_code>
@@ -34,7 +35,8 @@
             <is_required></is_required>
             <default_value></default_value>
             <group>store_credit</group>
-            <input></input>
+            <input>select</input>
+            <source>Magento\CustomerBalance\Test\Fixture\CustomerBalance\WebsiteId</source>
         </website_id>
         <amount>
             <attribute_code>amount</attribute_code>
@@ -74,5 +76,7 @@
             <group>store_credit</group>
             <input></input>
         </is_customer_notified>
+        <repository_class>Magento\CustomerBalance\Test\Repository\CustomerBalance</repository_class>
+        <handler_interface>Magento\CustomerBalance\Test\Handler\CustomerBalance\CustomerBalanceInterface</handler_interface>
     </fields>
 </fixture>

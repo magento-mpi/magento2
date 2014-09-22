@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/cms_page/index" >
-    <block>
-        <name>pageActionsBlock</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>cmsPageGridBlock</name>
-        <class>Magento\Cms\Test\Block\Adminhtml\Page\Grid</class>
-        <locator>#cmsPageGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages .messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/cms_page/index" module="Magento_Cms">
+    <blocks>
+        <pageActionsBlock>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActionsBlock>
+        <cmsPageGridBlock>
+            <class>Magento\Cms\Test\Block\Adminhtml\Page\Grid</class>
+            <locator>#cmsPageGrid</locator>
+            <strategy>css selector</strategy>
+        </cmsPageGridBlock>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

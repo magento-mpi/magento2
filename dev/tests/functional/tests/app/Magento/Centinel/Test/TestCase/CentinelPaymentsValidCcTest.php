@@ -49,10 +49,10 @@ class CentinelPaymentsValidCcTest extends AbstractCentinelPaymentsTest
      */
     public function validCreditCardDataProvider()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPayflowProValidCc()),
-            array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPaymentsProValidCc()),
-            array(Factory::getFixtureFactory()->getMagentoCentinelRegisteredAuthorizenetValidCc()),
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPayflowProValidCc()],
+            [Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPaymentsProValidCc()],
+            [Factory::getFixtureFactory()->getMagentoCentinelRegisteredAuthorizenetValidCc()],
+        ];
     }
 }

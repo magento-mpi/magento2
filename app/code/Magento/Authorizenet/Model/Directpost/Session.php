@@ -21,7 +21,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\StorageInterface $storage
      * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
-     * @param string|null $sessionName
      * @internal param array $data
      */
     public function __construct(
@@ -32,8 +31,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
         \Magento\Framework\Stdlib\CookieManager $cookieManager,
-        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        $sessionName = null
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
     ) {
         parent::__construct(
             $request,
@@ -45,7 +43,7 @@ class Session extends \Magento\Framework\Session\SessionManager
             $cookieManager,
             $cookieMetadataFactory
         );
-        $this->start($sessionName);
+        $this->start();
     }
 
     /**

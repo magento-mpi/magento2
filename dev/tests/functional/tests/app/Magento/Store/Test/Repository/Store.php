@@ -12,7 +12,7 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class Store
- * Data for creation Catalog Price Rule
+ * Data for creation Store
  */
 class Store extends AbstractRepository
 {
@@ -26,10 +26,15 @@ class Store extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'group_id' => 'Main Website Store',
+            'group_id' => ['dataSet' => 'default'],
             'name' => 'Custom_Store_%isolation%',
             'code' => 'code_%isolation%',
             'is_active' => 'Enabled',
+        ];
+
+        $this->_data['default_store_view'] = [
+            'store_id' => 1,
+            'name' => 'Default Store View',
         ];
 
         $this->_data['All Store Views'] = [
@@ -38,7 +43,7 @@ class Store extends AbstractRepository
         ];
 
         $this->_data['german'] = [
-            'group_id' => 'Main Website Store',
+            'group_id' => ['dataSet' => 'default'],
             'name' => 'DE%isolation%',
             'code' => 'de%isolation%',
             'is_active' => 'Enabled',

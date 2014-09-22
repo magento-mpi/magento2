@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/index/edit" >
-    <block>
-        <name>actionsToolbarBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Edit\ActionsToolbar</class>
-        <locator>//div[div/button[@id="submit.save"]]</locator>
-        <strategy>xpath</strategy>
-    </block>
-    <block>
-        <name>customerEditForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Edit</class>
-        <locator>.form-giftregistry-edit</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="giftregistry/index/edit" module="Magento_GiftRegistry">
+    <blocks>
+        <actionsToolbarBlock>
+            <class>Magento\GiftRegistry\Test\Block\Customer\Edit\ActionsToolbar</class>
+            <locator>//div[div/button[@id="submit.save"]]</locator>
+            <strategy>xpath</strategy>
+        </actionsToolbarBlock>
+        <customerEditForm>
+            <class>Magento\GiftRegistry\Test\Block\Customer\Edit</class>
+            <locator>.form-giftregistry-edit</locator>
+            <strategy>css selector</strategy>
+        </customerEditForm>
+    </blocks>
 </page>

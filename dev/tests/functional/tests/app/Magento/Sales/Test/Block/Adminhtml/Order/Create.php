@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -77,11 +78,18 @@ class Create extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Order items grid block
+     *
+     * @var string
+     */
+    protected $orderItemsGrid = '#order-items_grid';
+
+    /**
      * Getter for order selected products grid
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
      */
-    protected function getItemsBlock()
+    public function getItemsBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateItems(
             $this->_rootElement->find($this->itemsBlock, Locator::SELECTOR_CSS)
@@ -93,7 +101,7 @@ class Create extends Block
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Billing\Address
      */
-    protected function getBillingAddressBlock()
+    public function getBillingAddressBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateBillingAddress(
             $this->_rootElement->find($this->billingAddressBlock, Locator::SELECTOR_CSS)
@@ -173,12 +181,24 @@ class Create extends Block
     }
 
     /**
+     * Wait display order items grid
+     *
+     * @return void
+     */
+    public function waitOrderItemsGrid()
+    {
+        $this->waitForElementVisible($this->orderItemsGrid);
+    }
+
+    /**
      * Add products to order
      *
      * @param Order $fixture
+     * @return void
      */
     public function addProducts(Order $fixture)
     {
+        $this->waitForElementVisible($this->itemsBlock);
         $this->getItemsBlock()->clickAddProducts();
         $this->getGridBlock()->selectProducts($fixture);
         //Loader appears twice
@@ -190,6 +210,7 @@ class Create extends Block
      * Fill addresses based on present data in customer and order fixtures
      *
      * @param Order $fixture
+     * @return void
      */
     public function fillAddresses(Order $fixture)
     {
@@ -209,6 +230,7 @@ class Create extends Block
      * Select shipping method
      *
      * @param Order $fixture
+     * @return void
      */
     public function selectShippingMethod(Order $fixture)
     {
@@ -220,6 +242,7 @@ class Create extends Block
      * Select payment method
      *
      * @param Order $fixture
+     * @return void
      */
     public function selectPaymentMethod(Order $fixture)
     {
@@ -229,6 +252,8 @@ class Create extends Block
 
     /**
      * Submit order
+     *
+     * @return void
      */
     public function submitOrder()
     {

@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/cms_page/new" >
-    <block>
-        <name>pageForm</name>
-        <class>Magento\Cms\Test\Block\Adminhtml\Page\Edit\PageForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>pageMainActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/cms_page/new" module="Magento_Cms">
+    <blocks>
+        <pageForm>
+            <class>Magento\Cms\Test\Block\Adminhtml\Page\Edit\PageForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </pageForm>
+        <pageMainActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageMainActions>
+    </blocks>
 </page>

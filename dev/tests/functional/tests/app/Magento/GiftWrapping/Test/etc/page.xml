@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_GiftWrapping">
+    <giftWrappingIndex>
+        <mca>admin/giftwrapping/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex</class>
+    </giftWrappingIndex>
+    <giftWrappingNew>
+        <mca>admin/giftwrapping/new/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew</class>
+    </giftWrappingNew>
+</page>

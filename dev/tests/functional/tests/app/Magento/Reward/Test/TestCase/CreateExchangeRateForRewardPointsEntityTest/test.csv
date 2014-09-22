@@ -1,3 +1,3 @@
-"config/dataSet";"configRollback/dataSet";"registrationReward";"checkoutReward";"rate/data/website_id";"rate/data/customer_group_id/dataSet";"rate/data/direction";"rate/data/value";"rate/data/equal_value";"constraint"
+"config/dataSet";"configRollback/dataSet";"registrationReward";"checkoutReward";"rate/data/website_id/dataSet";"rate/data/customer_group_id/dataSet";"rate/data/direction";"rate/data/value";"rate/data/equal_value";"constraint"
 "reward_points_with_registration_reward";"reward_points_with_registration_reward_rollback";"10";"-";"All Websites";"All Customer Groups";"Points to Currency";10;1;"assertRateSuccessSaveMessage, assertRewardPointsMessageOnCustomerRegistration, assertRewardPointsBalance"
 "reward_purchase";"reward_purchase_rollback";"-";"10";"Main Website";"All Customer Groups";"Currency to Points";10;1;"assertRateSuccessSaveMessage, assertRewardPointsMessageOnShoppingCart"

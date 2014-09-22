@@ -51,12 +51,12 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Log\Model\Visitor
+     * @var \Magento\Customer\Model\Visitor
      */
     protected $_visitor;
 
     /**
-     * @var \Magento\Log\Model\VisitorFactory
+     * @var \Magento\Customer\Model\VisitorFactory
      */
     protected $_visitorFactory;
 
@@ -68,7 +68,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Store list manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -77,10 +77,10 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
-     * @param \Magento\Log\Model\Visitor $visitor
-     * @param \Magento\Log\Model\VisitorFactory $visitorFactory
+     * @param \Magento\Customer\Model\Visitor $visitor
+     * @param \Magento\Customer\Model\VisitorFactory $visitorFactory
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -91,10 +91,10 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
-        \Magento\Log\Model\Visitor $visitor,
-        \Magento\Log\Model\VisitorFactory $visitorFactory,
+        \Magento\Customer\Model\Visitor $visitor,
+        \Magento\Customer\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

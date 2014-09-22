@@ -16,9 +16,19 @@ use Mtf\Fixture\InjectableFixture;
  */
 class CustomerBalance extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\CustomerBalance\Test\Repository\CustomerBalance';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\CustomerBalance\Test\Handler\CustomerBalance\CustomerBalanceInterface';
+
     protected $defaultDataSet = [
         'balance_delta' => 100,
-        'website_id' => 'Main Website',
+        'website_id' => ['dataSet' => 'main_website'],
         'additional_info' => 'Some comment',
     ];
 
@@ -36,6 +46,7 @@ class CustomerBalance extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\CustomerBalance\Test\Fixture\CustomerBalance\CustomerId',
     ];
 
     protected $website_id = [
@@ -44,7 +55,8 @@ class CustomerBalance extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'group' => 'store_credit',
-        'input' => '',
+        'input' => 'select',
+        'source' => 'Magento\CustomerBalance\Test\Fixture\CustomerBalance\WebsiteId',
     ];
 
     protected $amount = [

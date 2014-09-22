@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 /**
  * Class Grid
  * Sales order grid
- *
  */
 class Grid extends GridInterface
 {
@@ -40,17 +39,24 @@ class Grid extends GridInterface
     protected $purchasePointOptionGroup = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]/optgroup';
 
     /**
+     * Order Id td selector
+     *
+     * @var string
+     */
+    protected $editLink = 'td[class*=col-action] a';
+
+    /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'id' => array(
+    protected $filters = [
+        'id' => [
             'selector' => '#sales_order_grid_filter_real_order_id'
-        ),
-        'status' => array(
+        ],
+        'status' => [
             'selector' => '#sales_order_grid_filter_status',
             'input' => 'select'
-        ),
-    );
+        ],
+    ];
 
     /**
      * Start to create new order

@@ -8,8 +8,10 @@
 namespace Magento\Doc\Controller\Index;
 
 use Magento\Doc\App\Controller\AbstractAction;
+use Magento\Doc\Document\Content;
 use Magento\Framework\View\TemplateEnginePool;
 use Magento\Framework\App\Filesystem;
+
 
 /**
  * Class Write
@@ -23,17 +25,22 @@ class Write extends AbstractAction
     protected $enginePool;
 
     /**
-     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
+     * @var \Magento\Doc\Document\Content
      */
-    protected $moduleDir;
+    protected $content;
 
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param TemplateEnginePool $enginePool
+     * @param Content $content
+     */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         TemplateEnginePool $enginePool,
-        Filesystem $filesystem
+        Content $content
     ) {
         $this->enginePool = $enginePool;
-        $this->moduleDir = $filesystem->getDirectoryWrite(Filesystem::MODULES_DIR);
+        $this->content = $content;
         parent::__construct($context);
     }
 
@@ -43,40 +50,22 @@ class Write extends AbstractAction
     public function execute()
     {
         $action = $this->_request->getParam('action');
-        $content = $this->_request->getParam('content');
-        $type = $this->_request->getParam('type', 'xhtml');
         $module = $this->_request->getParam('module', 'Magento_Doc');
         $name = $this->_request->getParam('name');
-        $scheme = $this->_request->getParam('scheme');
+        $type = $this->_request->getParam('type', 'html');
+        $content = $this->_request->getParam('content');
         switch ($action) {
             case 'save':
-                echo $this->processContent($content, $type, $module, $scheme, $name);
+                $result = $this->content->write($content, $type, $module, $name);
+                if ($result === true) {
+                    $block = $this->_view->getLayout()->createBlock('Magento\Framework\View\Element\Template');
+                    $templateEngine = $this->enginePool->get($type);
+                    $result = $templateEngine->render($block, $content);
+                } else {
+                    $result = __('Document is not saved due to error.');
+                }
+                $this->_response->setBody($result, 'save_result');
                 break;
         }
-    }
-
-    /**
-     * @param string $content
-     * @param string $type
-     * @param string $module
-     * @param string $scheme
-     * @param string $name
-     * @return string
-     */
-    protected function processContent($content, $type, $module, $scheme, $name)
-    {
-        $content = trim($content, "\n");
-        $content = html_entity_decode($content);
-        if ($type === 'xhtml') {
-            $content = "<div>\n" . $content . "\n</div>";
-        }
-        if ($module && $scheme && $name) {
-            $path = str_replace('_', '/', $module) . '/docs/content/' . $scheme . '/' . $name . '.' . $type;
-            $this->moduleDir->writeFile($path, $content);
-        }
-        $block = $this->_view->getLayout()->createBlock('Magento\Framework\View\Element\Template');
-        $templateEngine = $this->enginePool->get($type);
-        $html = $templateEngine->render($block, $content);
-        return $html;
     }
 }

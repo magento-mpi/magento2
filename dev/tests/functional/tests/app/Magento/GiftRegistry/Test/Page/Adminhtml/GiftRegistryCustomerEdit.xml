@@ -7,23 +7,32 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry_customer/edit" >
-    <block>
-        <name>actionsToolbarBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Edit\ActionsToolbar</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>sharingInfoBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Sharing</class>
-        <locator>#edit_form</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="giftregistry_customer/edit" module="Magento_GiftRegistry">
+    <blocks>
+        <actionsToolbarBlock>
+            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Edit\ActionsToolbar</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </actionsToolbarBlock>
+        <sharingInfoBlock>
+            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Sharing</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </sharingInfoBlock>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <itemsGrid>
+            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Items</class>
+            <locator>#update_form</locator>
+            <strategy>css selector</strategy>
+        </itemsGrid>
+        <cartItemsGrid>
+            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\CartItems</class>
+            <locator>#giftregistry_customer_cart_grid</locator>
+            <strategy>css selector</strategy>
+        </cartItemsGrid>
+    </blocks>
 </page>

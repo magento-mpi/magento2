@@ -142,7 +142,7 @@ class Online extends \Magento\Framework\Model\AbstractModel
             )
         );
         if (!$value) {
-            $value = \Magento\Log\Model\Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
+            $value = \Magento\Log\Model\Log::DEFAULT_ONLINE_MINUTES_INTERVAL;
         }
         return $value;
     }

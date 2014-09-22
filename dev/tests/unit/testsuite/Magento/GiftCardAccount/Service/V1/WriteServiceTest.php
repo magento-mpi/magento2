@@ -19,17 +19,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $quoteLoaderMock;
+    protected $quoteRepositoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $giftCardBuilderMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $storeManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -70,10 +65,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->quoteLoaderMock = $this->getMock('\Magento\Checkout\Service\V1\QuoteLoader', [], [], '', false);
+        $this->quoteRepositoryMock = $this->getMock('Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->giftCardBuilderMock =
             $this->getMock('Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccountBuilder', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->giftCardHelperMock = $this->getMock('\Magento\GiftCardAccount\Helper\Data', [], [], '', false);
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->giftCardLoaderMock =
@@ -94,9 +88,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service = $objectManager->getObject(
             'Magento\GiftCardAccount\Service\V1\WriteService',
             [
-                'quoteLoader' => $this->quoteLoaderMock,
+                'quoteRepository' => $this->quoteRepositoryMock,
                 'giftCardBuilder' => $this->giftCardBuilderMock,
-                'storeManager' => $this->storeManagerMock,
                 'giftCardHelper' => $this->giftCardHelperMock,
                 'loader' => $this->giftCardLoaderMock
             ]
@@ -110,14 +103,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testSetWithNoSuchEntityException()
     {
         $cartId = 12;
-        $storeId = 34;
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock
+        $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
+            ->method('get')
+            ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
         $this->giftCard->expects($this->never())->method('getGiftCards');
@@ -132,15 +122,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testSetWithCouldNotSaveException()
     {
         $cartId = 12;
-        $storeId = 34;
         $cardCode = [['ABC-123']];
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock
+        $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
+            ->method('get')
+            ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
         $this->giftCardAccountData->expects($this->once())
@@ -163,15 +150,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testSet()
     {
         $cartId = 12;
-        $storeId = 34;
         $cardCode = [['ABC-123']];
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock
+        $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
+            ->method('get')
+            ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
         $this->giftCardAccountData->expects($this->once())
@@ -197,15 +181,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteWithNoSuchEntityException()
     {
         $cartId = 12;
-        $storeId = 34;
         $couponCode = 'ABC-1223';
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock
+        $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
+            ->method('get')
+            ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
 
@@ -219,15 +200,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteWithCouldNotDeleteException()
     {
         $cartId = 12;
-        $storeId = 34;
         $couponCode = 'ABC-1223';
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock
+        $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
+            ->method('get')
+            ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
         $this->giftCardLoaderMock
@@ -248,15 +226,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testDelete()
     {
         $cartId = 12;
-        $storeId = 34;
         $couponCode = 'ABC-1223';
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock
+        $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
+            ->method('get')
+            ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
         $this->giftCardLoaderMock

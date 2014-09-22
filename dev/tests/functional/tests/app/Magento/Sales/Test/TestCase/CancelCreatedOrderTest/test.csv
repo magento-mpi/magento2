@@ -1,0 +1,2 @@
+"description";"order/dataSet";"order/data/entity_id/products";"status";"constraint"
+"cancel order and check status on the frontend";"default";"catalogProductSimple::default,catalogProductSimple::default";"Canceled";"assertOrderCancelSuccessMessage, assertOrderInOrdersGrid, assertOrderInOrdersGridOnFrontend"

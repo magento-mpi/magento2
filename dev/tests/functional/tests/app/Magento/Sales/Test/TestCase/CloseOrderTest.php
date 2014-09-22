@@ -44,7 +44,7 @@ class CloseOrderTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $this->assertContains(
             $grandTotal,
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
@@ -56,8 +56,8 @@ class CloseOrderTest extends Functional
 
         if (!($fixture instanceof PaypalStandardOrder)) {
             $orderPage->getOrderActionsBlock()->invoice();
-            $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
-            $newInvoicePage->getInvoiceTotalsBlock()->submit();
+            $newInvoicePage->getTotalsBlock()->setCaptureOption('Capture Online');
+            $newInvoicePage->getTotalsBlock()->submit();
             $this->assertContains(
                 $orderPage->getMessagesBlock()->getSuccessMessages(),
                 'The invoice has been created.',
@@ -102,7 +102,7 @@ class CloseOrderTest extends Functional
         //Verification on order grid
         $orderPage->open();
         $this->assertTrue(
-            $orderPage->getOrderGridBlock()->isRowVisible(array('id' => $orderId, 'status' => 'Complete')),
+            $orderPage->getOrderGridBlock()->isRowVisible(['id' => $orderId, 'status' => 'Complete']),
             "Order # $orderId in complete state was not found on the grid!"
         );
     }
@@ -114,14 +114,14 @@ class CloseOrderTest extends Functional
      */
     public function dataProviderOrder()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()],
+            [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder()]
+        ];
     }
 }

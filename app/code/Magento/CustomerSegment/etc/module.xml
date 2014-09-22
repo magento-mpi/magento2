@@ -15,14 +15,12 @@
             <module name="Magento_Catalog"/>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_Rule"/>
-            <module name="Magento_Log"/>
         </sequence>
         <depends>
             <module name="Magento_Store"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Rule"/>
-            <module name="Magento_Log"/>
             <module name="Magento_Core"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Sales"/>

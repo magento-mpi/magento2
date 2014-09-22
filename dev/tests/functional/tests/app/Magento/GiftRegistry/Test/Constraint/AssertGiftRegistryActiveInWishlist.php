@@ -8,11 +8,12 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\GiftRegistry\Test\Page\WishlistIndex;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
@@ -43,6 +44,7 @@ class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
      * @param WishlistIndex $wishlistIndex
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryItems $giftRegistryItems
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
@@ -51,10 +53,11 @@ class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
         GiftRegistry $giftRegistry,
         WishlistIndex $wishlistIndex,
         GiftRegistryIndex $giftRegistryIndex,
-        GiftRegistryItems $giftRegistryItems
+        GiftRegistryItems $giftRegistryItems,
+        Browser $browser
     ) {
-        $catalogProductView->init($product);
-        $catalogProductView->open()->getViewBlock()->addToWishlist();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $catalogProductView->getViewBlock()->addToWishlist();
         $wishlistIndex->getWishlistBlock()->addToGiftRegistry($giftRegistry->getTitle());
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
@@ -63,7 +66,7 @@ class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
         );
         $giftRegistryIndex->open()->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
         \PHPUnit_Framework_Assert::assertTrue(
-            $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product->getName()),
+            $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product),
             'Product can not be added to active gift registry \'' . $giftRegistry->getTitle() . '\' from Wishlist.'
         );
     }

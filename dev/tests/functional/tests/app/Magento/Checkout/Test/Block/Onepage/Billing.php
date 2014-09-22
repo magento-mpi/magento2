@@ -8,11 +8,10 @@
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
-use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Billing
@@ -42,28 +41,27 @@ class Billing extends Form
     protected $waitElement = '.loading-mask';
 
     /**
-     * Locator for customer attribute on New Order page
-     *
-     * @var string
-     */
-    protected $customerAttribute = "[name='billing[%s]']";
-
-    /**
      * Fill billing address
      *
-     * @param Checkout $fixture
+     * @param AddressInjectable $billingAddress
+     * @param CustomerInjectable $customer
+     * @param bool $isShippingAddress
      * @return void
      */
-    public function fillBilling(Checkout $fixture)
-    {
-        $billingAddress = $fixture->getBillingAddress();
+    public function fillBilling(
+        AddressInjectable $billingAddress = null,
+        CustomerInjectable $customer = null,
+        $isShippingAddress = false
+    ) {
         if ($billingAddress) {
             $this->fill($billingAddress);
         }
-        if ($fixture->getShippingAddress()) {
-            $this->_rootElement->find($this->useForShipping, Locator::SELECTOR_CSS)->click();
+        if ($customer) {
+            $this->fill($customer);
         }
-        $this->clickContinue();
+        if ($isShippingAddress) {
+            $this->_rootElement->find($this->useForShipping)->click();
+        }
     }
 
     /**
@@ -73,20 +71,7 @@ class Billing extends Form
      */
     public function clickContinue()
     {
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->continue)->click();
         $this->waitForElementNotVisible($this->waitElement);
-    }
-
-    /**
-     * Check for visible customer attribute
-     *
-     * @param CustomerCustomAttribute $customerAttribute
-     * @return bool
-     */
-    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
-    {
-        return $this->_rootElement->find(
-            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
-        )->isVisible();
     }
 }

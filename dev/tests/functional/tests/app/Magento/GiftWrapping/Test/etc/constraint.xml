@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertGiftWrappingSuccessSaveMessage module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingSuccessSaveMessage>
+    <assertGiftWrappingForm module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingForm>
+    <assertGiftWrappingInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingInGrid>
+    <assertGiftWrappingSuccessDeleteMessage module="Magento_GiftWrapping">
+        <severeness>high</severeness>
+    </assertGiftWrappingSuccessDeleteMessage>
+    <assertGiftWrappingNotInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingNotInGrid>
+    <assertGiftWrappingNotOnOrderCreationPage module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingNotOnOrderCreationPage>
+    <assertGiftWrappingNotOnFrontendCheckout module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingNotOnFrontendCheckout>
+    <assertGiftWrappingMassActionSuccessDeleteMessage module="Magento_GiftWrapping">
+        <severeness>high</severeness>
+    </assertGiftWrappingMassActionSuccessDeleteMessage>
+    <assertGiftWrappingMassActionInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingMassActionInGrid>
+    <assertGiftWrappingOnFrontendCheckout module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingOnFrontendCheckout>
+    <assertGiftWrappingSuccessUpdateMessage module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingSuccessUpdateMessage>
+    <assertGiftWrappingMassActionForm module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingMassActionForm>
+    <assertGiftWrappingMassActionNotInGrid module="Magento_GiftWrapping">
+        <severeness>low</severeness>
+    </assertGiftWrappingMassActionNotInGrid>
+</constraint>

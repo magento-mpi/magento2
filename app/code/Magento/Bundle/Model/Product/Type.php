@@ -7,6 +7,8 @@
  */
 namespace Magento\Bundle\Model\Product;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Bundle Type Model
  */
@@ -83,7 +85,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_catalogProduct = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -118,8 +120,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_bundleModelSelection;
 
     /**
-     * Construct
-     *
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -138,7 +143,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -162,7 +168,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Model\Config $config,
         \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Bundle\Model\OptionFactory $bundleOption,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -174,6 +181,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleCollection = $bundleCollection;
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -755,7 +763,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                  */
                 $price = $product->getPriceModel()->getSelectionFinalTotalPrice($product, $selection, 0, $qty);
                 $attributes = array(
-                    'price' => $this->_storeManager->getStore()->convertPrice($price),
+                    'price' => $this->priceCurrency->convert($price),
                     'qty' => $qty,
                     'option_label' => $selection->getOption()->getTitle(),
                     'option_id' => $selection->getOption()->getId()
@@ -914,7 +922,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                         $bundleOptions[$option->getId()]['value'][] = array(
                             'title' => $selection->getName(),
                             'qty' => $selectionQty->getValue(),
-                            'price' => $this->_storeManager->getStore()->convertPrice($price)
+                            'price' => $this->priceCurrency->convert($price)
                         );
                     }
                 }

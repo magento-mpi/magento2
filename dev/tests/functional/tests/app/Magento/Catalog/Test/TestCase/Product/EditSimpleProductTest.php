@@ -49,14 +49,9 @@ class EditSimpleProductTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();
-        $gridBlock->searchAndOpen(
-            array(
-                'sku' => $product->getProductSku(),
-                'type' => 'Simple Product'
-            )
-        );
+        $gridBlock->searchAndOpen(['sku' => $product->getProductSku(), 'type' => 'Simple Product']);
         $productForm->fill($editProduct);
-        $editProductPage->getFormAction()->save();
+        $editProductPage->getFormPageActions()->save();
         //Verifying
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
@@ -79,7 +74,7 @@ class EditSimpleProductTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getProductSku()]));
     }
 
     /**
@@ -111,13 +106,12 @@ class EditSimpleProductTest extends Functional
      */
     protected function assertOnProductPage(SimpleProduct $productOld, SimpleProduct $productEdited)
     {
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $productOld->getUrlKey() . '.html');
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($productOld);
-        $productPage->open();
 
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($productEdited->getName(), $productViewBlock->getProductName());
-        $price = $productViewBlock->getProductPrice();
-        $this->assertEquals(number_format($productEdited->getProductPrice(), 2), $price['price_regular_price']);
+        $price = $productViewBlock->getPriceBlock()->getPrice();
+        $this->assertEquals(number_format($productEdited->getProductPrice(), 2), $price);
     }
 }

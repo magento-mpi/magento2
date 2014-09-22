@@ -49,7 +49,6 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $expectedCookie = [
                 'name' => 'test-sensitive-cookie',
                 'value' => 'test-sensitive-cookie-value',
-                'secure' => 'true',
                 'httponly' => 'true',
 
         ];

@@ -45,29 +45,29 @@ class MagentoImport implements PreProcessorInterface
     protected $assetRepo;
 
     /**
-     * @var \Magento\Framework\View\Design\Theme\Provider
+     * @var \Magento\Framework\View\Design\Theme\ListInterface
      */
-    protected $themeProvider;
+    protected $themeList;
 
     /**
      * @param DesignInterface $design
      * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
-     * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
+     * @param \Magento\Framework\View\Design\Theme\ListInterface $themeList
      */
     public function __construct(
         DesignInterface $design,
         CollectorInterface $fileSource,
         ErrorHandlerInterface $errorHandler,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Framework\View\Design\Theme\Provider $themeProvider
+        \Magento\Framework\View\Design\Theme\ListInterface $themeList
     ) {
         $this->design = $design;
         $this->fileSource = $fileSource;
         $this->errorHandler = $errorHandler;
         $this->assetRepo = $assetRepo;
-        $this->themeProvider = $themeProvider;
+        $this->themeList = $themeList;
     }
 
     /**
@@ -119,7 +119,7 @@ class MagentoImport implements PreProcessorInterface
     {
         $context = $asset->getContext();
         if ($context instanceof FallbackContext) {
-            return $this->themeProvider->getThemeModel($context->getThemePath(), $context->getAreaCode());
+            return $this->themeList->getThemeByFullPath($context->getAreaCode() . '/' . $context->getThemePath());
         }
         return $this->design->getDesignTheme();
     }

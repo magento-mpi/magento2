@@ -9,18 +9,18 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
     <event name="customer_session_init">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="checkRates" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\CheckRates" method="execute" />
     </event>
     <event name="customer_save_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="customerRegister" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\CustomerRegister" method="execute" />
     </event>
     <event name="payment_method_is_active">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="preparePaymentMethod" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\PreparePaymentMethod" method="execute" />
     </event>
     <event name="sales_quote_payment_import_data_before">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="paymentDataImport" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\PaymentDataImport" method="execute" />
     </event>
     <event name="magento_invitation_save_commit_after">
-        <observer name="magento_reward" instance="Magento\Reward\Model\Observer" method="invitationToCustomer" />
+        <observer name="magento_reward" instance="Magento\Reward\Model\Observer\InvitationToCustomer" method="execute" />
     </event>
 </config>

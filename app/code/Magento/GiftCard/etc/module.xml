@@ -25,7 +25,6 @@
             <module name="Magento_Index"/>
             <module name="Magento_Theme"/>
             <module name="Magento_CatalogInventory"/>
-            <module name="Magento_CatalogRule"/>
         </depends>
     </module>
 </config>

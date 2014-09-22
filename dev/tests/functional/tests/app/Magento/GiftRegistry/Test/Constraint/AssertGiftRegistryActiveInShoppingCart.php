@@ -8,10 +8,11 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\GiftRegistry\Test\Page\CheckoutCart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
@@ -36,6 +37,7 @@ class AssertGiftRegistryActiveInShoppingCart extends AbstractConstraint
      * @param CatalogProductSimple $product
      * @param GiftRegistry $giftRegistry
      * @param GiftRegistryItems $giftRegistryItems
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
@@ -43,13 +45,14 @@ class AssertGiftRegistryActiveInShoppingCart extends AbstractConstraint
         CheckoutCart $checkoutCart,
         CatalogProductSimple $product,
         GiftRegistry $giftRegistry,
-        GiftRegistryItems $giftRegistryItems
+        GiftRegistryItems $giftRegistryItems,
+        Browser $browser
     ) {
-        $catalogProductView->init($product);
-        $catalogProductView->open()->getViewBlock()->clickAddToCart();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $catalogProductView->getViewBlock()->clickAddToCart();
         $checkoutCart->getGiftRegistryCart()->addToGiftRegistry($giftRegistry->getTitle());
         \PHPUnit_Framework_Assert::assertTrue(
-            $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product->getName()),
+            $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product),
             'Product can not be added to active gift registry \'' . $giftRegistry->getTitle() . '\' from Shopping Cart.'
         );
     }
