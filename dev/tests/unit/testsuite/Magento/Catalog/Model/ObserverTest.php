@@ -37,6 +37,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_categoryFlatState;
 
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
     public function setUp()
     {
         $this->_catalogCategory = $this->getMock(
@@ -55,11 +60,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->_storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_observer = (new ObjectManager($this))->getObject('\Magento\Catalog\Model\Observer', [
             'urlFactory' => $this->_getCleanMock('\Magento\Catalog\Model\UrlFactory'),
             'categoryResource' => $this->_getCleanMock('\Magento\Catalog\Model\Resource\Category'),
             'catalogProduct' => $this->_getCleanMock('\Magento\Catalog\Model\Resource\Product'),
-            'storeManager' => $this->_getCleanMock('\Magento\Store\Model\StoreManagerInterface'),
+            'storeManager' => $this->_storeManager,
             'catalogLayer' => $this->_getCleanMock('\Magento\Catalog\Model\Layer\Category'),
             'indexIndexer' => $this->_getCleanMock('\Magento\Index\Model\Indexer'),
             'catalogCategory' => $this->_catalogCategory,
