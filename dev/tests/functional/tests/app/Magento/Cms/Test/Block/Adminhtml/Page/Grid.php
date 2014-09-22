@@ -18,6 +18,20 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 class Grid extends ParentGrid
 {
     /**
+     * Locator value for 'Search' button
+     *
+     * @var string
+     */
+    protected $searchButton = '.action.primary.action-apply';
+
+    /**
+     * Locator value for 'Reset' button
+     *
+     * @var string
+     */
+    protected $resetButton = '.action.secondary.action-reset';
+
+    /**
      * Locator value for link in action column
      *
      * @var string
@@ -39,7 +53,7 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'title' => [
-            'selector' => '#cmsPageGrid_filter_title'
+            'selector' => '#title'
         ],
     ];
 

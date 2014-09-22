@@ -483,4 +483,13 @@
     <type name="Magento\CatalogInventory\Model\Config\Backend\ShowOutOfStock">
         <plugin name="showOutOfStockValueChanged" type="\Magento\Catalog\Model\Plugin\ShowOutOfStockConfig"/>
     </type>
+    <type name="Magento\Framework\App\Rss\RssManagerInterface">
+        <arguments>
+            <argument name="dataProviders" xsi:type="array">
+                <item name="new_products" xsi:type="string">Magento\Catalog\Block\Rss\Product\NewProducts</item>
+                <item name="special_products" xsi:type="string">Magento\Catalog\Block\Rss\Product\Special</item>
+                <item name="category" xsi:type="string">Magento\Catalog\Block\Rss\Category</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
