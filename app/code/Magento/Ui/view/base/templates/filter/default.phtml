@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var \Magento\Ui\Filter\View $this
+ */
+?>
+
+<script data-mage-apply='{"Magento_Ui/js/listing/filter": ""}' type="application/json">
+    <?php echo $this->getConfigurationBuilder()->toJson($this->getConfiguration()); ?>
+</script>
+<div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'">
+    <!-- ko template: 'ui/filter' --><!-- /ko -->
+</div>
