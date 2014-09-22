@@ -85,18 +85,11 @@ $table = $installer->getConnection()->newTable(
     array('request_path', 'store_id'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
-    $installer->getIdxName('url_rewrite', array('target_path', 'store_id')),
-    array('target_path', 'store_id')
+    $installer->getIdxName('url_rewrite', array('target_path')),
+    array('target_path')
 )->addIndex(
-    $installer->getIdxName('url_rewrite', array('store_id')),
-    array('store_id')
-)->addForeignKey(
-    $installer->getFkName('url_rewrite', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+    $installer->getIdxName('url_rewrite', array('store_id', 'entity_id')),
+    array('store_id', 'entity_id')
 )->setComment(
     'Url Rewrites'
 );
