@@ -17,7 +17,8 @@ namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\A
  * @todo Configurable Product models/resouces should be refactored with introduction of new entity(es),
  * such as ConfigurableOption (or OptionPrice, OptionPriceCollection)
  */
-class Data {
+class Data
+{
     /**
      * @var array
      */
@@ -26,6 +27,7 @@ class Data {
     /**
      * @param int $productId
      * @param array $priceData
+     * @return void
      */
     public function setProductPrice($productId, array $priceData)
     {
@@ -40,4 +42,4 @@ class Data {
     {
         return isset($this->prices[$productId]) ? $this->prices[$productId] : false;
     }
-} 
+}
