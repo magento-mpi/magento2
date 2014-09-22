@@ -17,7 +17,7 @@
     <script>
         var allowLocalCache = true;
     </script>
-    <script data-mage-apply='{"Magento_Ui/js/listing/utils/provider": ""}' type="application/json">
+    <script data-mage-apply='{"Magento_Ui/js/lib/provider": ""}' type="application/json">
         <?php
             echo $this->getRenderContext()
                 ->getConfigurationBuilder()
@@ -39,7 +39,7 @@
         <div class="grid-loader"></div>
     </div>
 <?php else: ?>
-    <div class="grid" data-mage-apply='{"Magento_Ui/js/listing/utils/provider": ""}'>
+    <div class="grid" data-mage-apply='{"Magento_Ui/js/lib/provider": ""}'>
         <?php echo $this->getChildHtml('listing_before'); ?>
         <table>
             <thead>
