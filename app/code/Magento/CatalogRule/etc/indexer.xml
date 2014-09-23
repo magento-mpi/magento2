@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Indexer/etc/indexer.xsd">
+    <indexer id="catalogrule_rule" view_id="catalogrule_rule" class="Magento\CatalogRule\Model\Indexer\Rule">
+        <title translate="true">Catalog Rule Product</title>
+        <description translate="true">Indexed rule/product association</description>
+    </indexer>
+    <indexer id="catalogrule_product" view_id="catalogrule_product" class="Magento\CatalogRule\Model\Indexer\Product">
+        <title translate="true">Catalog Product Rule</title>
+        <description translate="true">Indexed product/rule association</description>
+    </indexer>
+</config>
