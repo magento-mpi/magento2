@@ -9,6 +9,7 @@ namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -82,6 +83,8 @@ class Login extends Form
     public function registerCustomer()
     {
         $this->_rootElement->find($this->registerCustomer)->click();
+        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementNotVisible('.loading-mask');
     }
 
     /**

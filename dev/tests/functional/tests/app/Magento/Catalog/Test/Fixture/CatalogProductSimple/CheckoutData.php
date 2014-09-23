@@ -164,7 +164,9 @@ class CheckoutData implements FixtureInterface
                     'qty' => 2
                 ],
                 'cartItem' => [
-                    'qty' => 2
+                    'price' => 100,
+                    'qty' => 2,
+                    'subtotal' => 200
                 ]
             ],
             'order_big_qty' => [

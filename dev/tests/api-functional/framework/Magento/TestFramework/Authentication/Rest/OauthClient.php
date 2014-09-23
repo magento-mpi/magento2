@@ -172,7 +172,7 @@ class OauthClient extends AbstractService
     }
 
     /**
-     * @override to fix since parent implementation from lib not sending the oauth_verifier when requeting access token
+     * @override to fix since parent implementation from lib not sending the oauth_verifier when requesting access token
      * Builds the authorization header for an authenticated API request
      * @param string $method
      * @param UriInterface $uri the uri the request is headed
@@ -207,7 +207,17 @@ class OauthClient extends AbstractService
         return $authorizationHeader;
     }
 
-    public function buildOauthHeaderForApiRequest($uri, $token, $tokenSecret, $bodyParams, $method = 'GET')
+    /**
+     * Builds the oAuth authorization header for an authenticated API request
+     *
+     * @param UriInterface $uri the uri the request is headed
+     * @param \OAuth\OAuth1\Token\TokenInterface $token
+     * @param string $tokenSecret used to verify the passed token
+     * @param array $bodyParams
+     * @param string $method HTTP method to use
+     * @return array
+     */
+    public function buildOauthAuthorizationHeader($uri, $token, $tokenSecret, $bodyParams, $method = 'GET')
     {
         $uri = new Uri($uri);
         $tokenObj = new StdOAuth1Token();
@@ -216,6 +226,19 @@ class OauthClient extends AbstractService
         $tokenObj->setEndOfLife(StdOAuth1Token::EOL_NEVER_EXPIRES);
         return array(
             'Authorization: ' . $this->buildAuthorizationHeaderForAPIRequest($method, $uri, $tokenObj, $bodyParams)
+        );
+    }
+
+    /**
+     * Builds the bearer token authorization header
+     *
+     * @param string $token
+     * @return array
+     */
+    public function buildBearerTokenAuthorizationHeader($token)
+    {
+        return array(
+            'Authorization: Bearer ' . $token
         );
     }
 

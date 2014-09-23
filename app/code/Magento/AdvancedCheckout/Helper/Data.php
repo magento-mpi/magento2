@@ -194,6 +194,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $priceCurrency;
 
+    /** @var \Magento\Msrp\Helper\Data */
+    protected $msrpData;
+
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
@@ -213,6 +216,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Msrp\Helper\Data $msrpData
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -231,7 +235,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Msrp\Helper\Data $msrpData
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_cart = $cart;
@@ -250,6 +255,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_productFactory = $productFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageManager = $messageManager;
+        $this->msrpData = $msrpData;
     }
 
     /**
@@ -459,7 +465,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if ($this->_catalogData->canApplyMsrp($itemProduct)) {
+                        if ($this->msrpData->canApplyMsrp($itemProduct)
+                            && $this->msrpData->isMinimalPriceLessMsrp($itemProduct)
+                        ) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 $this->priceCurrency->convertAndFormat(

@@ -8,9 +8,11 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -31,11 +33,25 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  * 4. Click "Update Shopping Cart" button
  * 5. Perform all assertion from dataset
  *
- * @group Shopping Cart (CS)
+ * @group Shopping_Cart_(CS)
  * @ZephyrId MAGETWO-25081
  */
 class UpdateShoppingCartTest extends Injectable
 {
+    /**
+     * Browser interface
+     *
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
     /**
      * Page CatalogProductView
      *
@@ -49,6 +65,19 @@ class UpdateShoppingCartTest extends Injectable
      * @var CheckoutCart
      */
     protected $checkoutCart;
+
+    /**
+     * Prepare test data
+     *
+     * @param Browser $browser
+     * @param FixtureFactory $fixtureFactory
+     * @return void
+     */
+    public function __prepare(Browser $browser, FixtureFactory $fixtureFactory)
+    {
+        $this->browser = $browser;
+        $this->fixtureFactory = $fixtureFactory;
+    }
 
     /**
      * Inject data
@@ -66,41 +95,49 @@ class UpdateShoppingCartTest extends Injectable
     }
 
     /**
-     * Create simple product with price "100"
+     * Update Shopping Cart
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param string $productData
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function testUpdateShoppingCart($productData)
     {
-        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
-        $product->persist();
+        // Preconditions
+        /** @var CatalogProductSimple $product */
+        $product = $this->prepareProduct($productData);
+        $checkoutData = $product->getCheckoutData();
+        $qty = isset($checkoutData['options']['qty']) ? ($checkoutData['options']['qty']) : 1;
+        $initialQty = 2 * $qty;
 
-        return [
-            'product' => $product
-        ];
+        // Steps
+        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+
+        $productView = $this->catalogProductView->getViewBlock();
+        $productView->fillOptions($product);
+        $productView->setQty($initialQty);
+        $productView->clickAddToCart();
+
+        $this->checkoutCart->getCartBlock()->getCartItem($product)->setQty($qty);
+        $this->checkoutCart->getCartBlock()->updateShoppingCart();
+
+        $cart['data']['items'] = ['products' => [$product]];
+        return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
     }
 
     /**
-     * Update Shopping Cart
+     * Create product
      *
-     * @param Cart $cart
-     * @param CatalogProductSimple $product
-     * @param Browser $browser
-     * @return void
+     * @param string $productData
+     * @return FixtureInterface
      */
-    public function testUpdateShoppingCart(
-        Cart $cart,
-        CatalogProductSimple $product,
-        Browser $browser
-    ) {
-        // Preconditions
-        $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
+    protected function prepareProduct($productData)
+    {
+        $addToCartStep = ObjectManager::getInstance()->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $productData]
+        );
 
-        // Steps
-        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->clickAddToCart();
-        $this->checkoutCart->getCartBlock()->getCartItem($product)->setQty($cart->getQty());
-        $this->checkoutCart->getCartBlock()->updateShoppingCart();
+        $result = $addToCartStep->run();
+        return reset($result['products']);
     }
 }

@@ -450,7 +450,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function updateItems($data)
     {
-        $this->_eventManager->dispatch('checkout_cart_update_items_before', array('cart' => $this, 'info' => $data));
+        $infoDataObject = new \Magento\Framework\Object($data);
+        $this->_eventManager->dispatch(
+            'checkout_cart_update_items_before',
+            ['cart' => $this, 'info' => $infoDataObject]
+        );
 
         $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
@@ -490,7 +494,10 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             );
         }
 
-        $this->_eventManager->dispatch('checkout_cart_update_items_after', array('cart' => $this, 'info' => $data));
+        $this->_eventManager->dispatch(
+            'checkout_cart_update_items_after',
+            ['cart' => $this, 'info' => $infoDataObject]
+        );
         return $this;
     }
 

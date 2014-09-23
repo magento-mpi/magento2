@@ -28,7 +28,6 @@ class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -37,7 +36,6 @@ class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
@@ -45,7 +43,7 @@ class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
         array $data = array()
     ) {
         $this->priceCurrency = $priceCurrency;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        parent::__construct($context, $customerSession, $checkoutSession, $salesConfig, $data);
     }
 
     /**

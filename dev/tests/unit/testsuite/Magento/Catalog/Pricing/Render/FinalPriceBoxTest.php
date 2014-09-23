@@ -118,7 +118,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderMsrpDisabled()
     {
-        $priceType = $this->getMock('Magento\Catalog\Pricing\Price\MsrpPrice', [], [], '', false);
+        $priceType = $this->getMock('Magento\Msrp\Pricing\Price\MsrpPrice', [], [], '', false);
         $this->priceInfo->expects($this->once())
             ->method('getPrice')
             ->with($this->equalTo('msrp_price'))
@@ -139,7 +139,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderMsrpEnabled()
     {
-        $priceType = $this->getMock('Magento\Catalog\Pricing\Price\MsrpPrice', [], [], '', false);
+        $priceType = $this->getMock('Magento\Msrp\Pricing\Price\MsrpPrice', [], [], '', false);
         $this->priceInfo->expects($this->once())
             ->method('getPrice')
             ->with($this->equalTo('msrp_price'))
@@ -147,6 +147,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $priceType->expects($this->any())
             ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue(true));
+
+        $priceType->expects($this->any())
+            ->method('isMinimalPriceLessMsrp')
             ->with($this->equalTo($this->product))
             ->will($this->returnValue(true));
 
