@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/** @var $this \Magento\Checkout\Block\Cart\Item\Renderer */
 ?>
-<?php $_item = $this->getItem() ?>
-<?php $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_item->getProduct(), \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM); ?>
-<?php $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')?>
+<?php
+/** @var $this \Magento\Checkout\Block\Cart\Item\Renderer */
+$_item = $this->getItem();
+$product = $_item->getProduct();
+/** @var \Magento\Msrp\Helper\Data $helper */
+$helper = $this->helper('Magento\Msrp\Helper\Data');
+$canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
+$imageBlock = $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')
+?>
 <li class="item product product-item">
     <div class="product">
         <?php if ($this->hasProductUrl()): ?>
@@ -72,8 +76,9 @@
                     <span class="value qty"><?php echo $this->getQty() ?></span>
                 </div>
             </div>
+
             <div class="product actions">
-                <?php if ($_item->getProduct()->isVisibleInSiteVisibility()):?>
+                <?php if ($product->isVisibleInSiteVisibility()):?>
                 <div class="primary">
                     <a href="<?php echo $this->getConfigureUrl() ?>"
                        title="<?php echo __('Edit item') ?>"
