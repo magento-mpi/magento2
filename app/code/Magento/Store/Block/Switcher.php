@@ -96,7 +96,7 @@ class Switcher extends \Magento\Framework\View\Element\Template
                     continue;
                 }
                 $localeCode = $this->_scopeConfig->getValue(
-                    'general/locale/code',
+                    \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 );
@@ -128,7 +128,7 @@ class Switcher extends \Magento\Framework\View\Element\Template
 
             $groups = array();
             $localeCode = $this->_scopeConfig->getValue(
-                'general/locale/code',
+                \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             foreach ($rawGroups as $group) {
