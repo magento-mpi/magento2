@@ -9,7 +9,7 @@ namespace Magento\Ui\Listing;
 
 use Magento\Ui\AbstractView;
 use Magento\Ui\Control\ActionPool;
-use \Magento\Ui\DataProvider\RowPool;
+use Magento\Ui\DataProvider\RowPool;
 use Magento\Ui\DataProvider\OptionsFactory;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
@@ -144,7 +144,6 @@ class View extends AbstractView
     {
         $meta = $this->getData('meta');
         foreach ($meta['fields'] as $key => $field) {
-
             // TODO fixme
             if ($field['data_type'] === 'date') {
                 $field['date_format'] = $this->_localeDate->getDateTimeFormat(
@@ -209,10 +208,11 @@ class View extends AbstractView
      */
     protected function initialConfiguration()
     {
+        $url = $this->getUrl($this->getData('client_root'));
         $this->renderContext->getStorage()->addGlobalData(
             'client',
             [
-                'root' => $this->getUrl($this->getData('client_root')),
+                'root' => $url,
                 'ajax' => [
                     'data' => [
                         'component' => $this->getNameInLayout()
@@ -222,7 +222,9 @@ class View extends AbstractView
         );
         $this->renderContext->getStorage()->addGlobalData('dump', ['extenders' => []]);
 
-        $countItems = $this->renderContext->getStorage()->getDataCollection($this->getName())->getSize();
+        $storage = $this->renderContext->getStorage();
+        $collection = $storage->getDataCollection($this->getName());
+        $countItems = $collection->getSize();
         $this->renderContext->getStorage()->addData(
             $this->getName(),
             [
