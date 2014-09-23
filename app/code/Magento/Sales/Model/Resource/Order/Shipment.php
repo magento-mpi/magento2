@@ -44,4 +44,23 @@ class Shipment extends SalesResource
     {
         $this->_init('sales_flat_shipment', 'entity_id');
     }
+
+    /**
+     * Constructor
+     *
+     * @param Resource|Resource $resource
+     * @param DateTime $dateTime
+     * @param Attribute $attribute
+     * @param SalesIncrement $salesIncrement
+     * @param ShipmentGrid $gridAggregator
+     */
+    public function __construct(
+        Resource $resource,
+        DateTime $dateTime,
+        Attribute $attribute,
+        SalesIncrement $salesIncrement,
+        ShipmentGrid $gridAggregator
+    ) {
+        parent::__construct($resource, $dateTime, $attribute, $salesIncrement, $gridAggregator);
+    }
 }

@@ -9,6 +9,8 @@ namespace Magento\Sales\Model\Resource\Order;
 
 use Magento\Framework\App\Resource;
 use Magento\Framework\Stdlib\DateTime;
+use Magento\Sales\Model\Resource\Attribute;
+use Magento\Sales\Model\Increment as SalesIncrement;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
 use Magento\Sales\Model\Resource\Order\Creditmemo\Grid as CreditmemoGrid;
 
@@ -34,5 +36,24 @@ class Creditmemo extends SalesResource
     protected function _construct()
     {
         $this->_init('sales_flat_creditmemo', 'entity_id');
+    }
+
+    /**
+     * Constructor
+     *
+     * @param Resource $resource
+     * @param DateTime $dateTime
+     * @param Attribute $attribute
+     * @param SalesIncrement $salesIncrement
+     * @param CreditmemoGrid $gridAggregator
+     */
+    public function __construct(
+        Resource $resource,
+        DateTime $dateTime,
+        Attribute $attribute,
+        SalesIncrement $salesIncrement,
+        CreditmemoGrid $gridAggregator
+    ) {
+        parent::__construct($resource, $dateTime, $attribute, $salesIncrement, $gridAggregator);
     }
 }
