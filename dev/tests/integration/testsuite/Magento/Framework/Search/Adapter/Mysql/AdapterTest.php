@@ -70,7 +70,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Framework\Search\QueryResponse
+     * @return \Magento\Framework\Search\Response\QueryResponse
      */
     private function executeQuery()
     {

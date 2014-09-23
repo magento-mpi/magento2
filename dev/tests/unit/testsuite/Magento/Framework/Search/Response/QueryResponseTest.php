@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Framework\Search\Response;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -17,12 +17,12 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
     private $documents = [];
 
     /**
-     * @var \Magento\Framework\Search\Aggregation
+     * @var \Magento\Framework\Search\Response\Aggregation
      */
     private $aggregations = [];
 
     /**
-     * @var \Magento\Framework\Search\QueryResponse | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Response\QueryResponse | \PHPUnit_Framework_MockObject_MockObject
      */
     private $queryResponse;
 
@@ -39,12 +39,12 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
             $this->documents[] = $document;
         }
 
-        $this->aggregations = $this->getMockBuilder('Magento\Framework\Search\Aggregation')
+        $this->aggregations = $this->getMockBuilder('Magento\Framework\Search\Response\Aggregation')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->queryResponse = $helper->getObject(
-            'Magento\Framework\Search\QueryResponse',
+            'Magento\Framework\Search\Response\QueryResponse',
             [
                 'documents' => $this->documents,
                 'aggregations' => $this->aggregations,
@@ -69,6 +69,6 @@ class QueryResponseTest extends \PHPUnit_Framework_TestCase
     public function testGetAggregations()
     {
         $aggregations = $this->queryResponse->getAggregations();
-        $this->assertInstanceOf('Magento\Framework\Search\Aggregation', $aggregations);
+        $this->assertInstanceOf('Magento\Framework\Search\Response\Aggregation', $aggregations);
     }
 }

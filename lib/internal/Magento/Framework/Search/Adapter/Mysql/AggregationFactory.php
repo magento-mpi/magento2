@@ -32,21 +32,42 @@ class AggregationFactory
      * Create Aggregation instance
      *
      * @param mixed $rawAggregation
-     * @return \Magento\Framework\Search\Aggregation
+     * @return \Magento\Framework\Search\Response\Aggregation
      */
     public function create($rawAggregation)
     {
         $buckets = array();
         foreach ($rawAggregation as $rawBucket) {
-            /** @var \Magento\Framework\Search\Bucket[] $buckets */
+            /** @var \Magento\Framework\Search\Response\Bucket[] $buckets */
             $buckets[] = $this->objectManager->create(
-                '\Magento\Framework\Search\Bucket',
+                'Magento\Framework\Search\Response\Bucket',
                 [
                     $rawBucket['name'],
-                    $rawBucket['value']
+                    $this->prepareValues((array)$rawBucket['values'])
                 ]
             );
         }
-        return $this->objectManager->create('\Magento\Framework\Search\Aggregation', ['buckets' => $buckets]);
+        return $this->objectManager->create('\Magento\Framework\Search\Response\Aggregation', ['buckets' => $buckets]);
+    }
+
+    /**
+     * Prepare values list
+     *
+     * @param array $values
+     * @return \Magento\Framework\Search\Response\Aggregation\Value[]
+     */
+    private function prepareValues(array $values)
+    {
+        $valuesObjects = [];
+        foreach ($values as $value) {
+            $valuesObjects[] = $this->objectManager->create(
+                '\Magento\Framework\Search\Response\Aggregation\Value',
+                [
+                    'value' => $value['value'],
+                    'metrics' => $value['metrics'],
+                ]
+            );
+        }
+        return $valuesObjects;
     }
 }
