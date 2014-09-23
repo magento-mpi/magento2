@@ -12,7 +12,7 @@
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::listing/horizontal_grid.phtml</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
-            <argument name="client_root" xsi:type="string">mui/listing/ajax</argument>
+            <argument name="client_root" xsi:type="string">mui/index/render</argument>
         </arguments>
         <container label="Listing Head" name="listing_head"/>
         <container label="Listing Before" name="listing_before">

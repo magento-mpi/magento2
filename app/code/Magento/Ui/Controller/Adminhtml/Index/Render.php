@@ -6,15 +6,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\Controller\Adminhtml\Listing;
+namespace Magento\Ui\Controller\Adminhtml\Index;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Element\UiComponentFactory;
 
 /**
- * Class Ajax
+ * Class Render
  */
-class Ajax extends \Magento\Backend\App\Action
+class Render extends \Magento\Backend\App\Action
 {
     /**
      * @var UiComponentFactory
@@ -30,6 +30,7 @@ class Ajax extends \Magento\Backend\App\Action
         parent::__construct($context);
         $this->factory = $factory;
     }
+
     /**
      * Action for AJAX request
      *
