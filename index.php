@@ -4,7 +4,6 @@
  *
  * Example - run a particular store or website:
  * --------------------------------------------
- *
  * $params = $_SERVER;
  * $params[StoreManager::PARAM_RUN_CODE] = 'website2';
  * $params[StoreManager::PARAM_RUN_TYPE] = 'website';
