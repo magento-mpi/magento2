@@ -13,11 +13,15 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class InstallerFactory
 {
     /**
+     * Zend Framework's service locator
+     *
      * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
 
     /**
+     * Constructor
+     *
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
@@ -26,6 +30,8 @@ class InstallerFactory
     }
 
     /**
+     * Factory method for installer object
+     *
      * @param LoggerInterface $log
      * @return Installer
      */

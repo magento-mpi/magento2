@@ -88,6 +88,8 @@ class Installer
     private $connectionFactory;
 
     /**
+     * Constructor
+     *
      * @param FilePermissions $filePermissions
      * @param DeploymentConfigFactory $deploymentConfigFactory
      * @param SetupFactory $setupFactory

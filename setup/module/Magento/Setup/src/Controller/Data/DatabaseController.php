@@ -16,26 +16,34 @@ use Magento\Setup\Model\WebLogger;
 class DatabaseController extends AbstractActionController
 {
     /**
+     * JSON response object
+     *
      * @var JsonModel
      */
-    protected $jsonModel;
+    protected $response;
 
     /**
+     * Installer service factory
+     *
      * @var \Magento\Setup\Model\InstallerFactory
      */
     protected $installerFactory;
 
     /**
-     * @param JsonModel $jsonModel
+     * Constructor
+     *
+     * @param JsonModel $response
      * @param InstallerFactory $installerFactory
      */
-    public function __construct(JsonModel $jsonModel, InstallerFactory $installerFactory)
+    public function __construct(JsonModel $response, InstallerFactory $installerFactory)
     {
-        $this->jsonModel = $jsonModel;
+        $this->response = $response;
         $this->installerFactory = $installerFactory;
     }
 
     /**
+     * Result of checking DB credentials
+     *
      * @return JsonModel
      */
     public function indexAction()
@@ -44,9 +52,9 @@ class DatabaseController extends AbstractActionController
         try {
             $installer = $this->installerFactory->create(new WebLogger);
             $installer->checkDatabaseConnection($params['name'], $params['host'], $params['user'], $params['password']);
-            return $this->jsonModel->setVariables(['success' => true]);
+            return $this->response->setVariables(['success' => true]);
         } catch (\Exception $e) {
-            return $this->jsonModel->setVariables(['success' => false]);
+            return $this->response->setVariables(['success' => false]);
         }
     }
 
