@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
+use Magento\CatalogInventory\Model\Stock\Item;
+
 /**
  * Class ItemRegistryTest
  *
@@ -19,7 +21,7 @@ class ItemRegistryTest extends \PHPUnit_Framework_TestCase
      */
     protected $model;
 
-    /** @var \Magento\CatalogInventory\Model\Stock\Item|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Item|\PHPUnit_Framework_MockObject_MockObject */
 
     protected $stockItemRegistry;
 
@@ -59,10 +61,8 @@ class ItemRegistryTest extends \PHPUnit_Framework_TestCase
         $times = 1;
 
         $this->buildStockItem($productId, $times);
-
         $this->model->retrieve($productId);
         $this->model->retrieve($productId);
-
     }
 
     public function testErase()
@@ -70,16 +70,17 @@ class ItemRegistryTest extends \PHPUnit_Framework_TestCase
         $productId = 3;
         $times = 2;
 
-        $this->buildStockItem($productId, $times);
+        $stockItem = $this->buildStockItem($productId, $times);
 
         $this->model->retrieve($productId);
-        $this->model->erase($productId);
-        $this->model->retrieve($productId);
+        $this->assertEquals($this->model, $this->model->erase($productId));
+        $this->assertEquals($stockItem, $this->model->retrieve($productId));
     }
 
     /**
      * @param $productId
      * @param $times
+     * @return \PHPUnit_Framework_MockObject_MockObject|Item
      */
     private function buildStockItem($productId, $times)
     {
@@ -92,11 +93,12 @@ class ItemRegistryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->exactly($times))
             ->method('create')
             ->will($this->returnValue($stockItem));
-
         $this->stockItemResource
             ->expects($this->exactly($times))
             ->method('loadByProductId')
             ->with($stockItem, $productId)
             ->will($this->returnSelf());
+
+        return $stockItem;
     }
 }

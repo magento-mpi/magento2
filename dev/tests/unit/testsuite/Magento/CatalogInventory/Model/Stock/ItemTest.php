@@ -698,7 +698,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
      * @param bool $setFlag
      * @dataProvider addQtyDataProvider
      */
-    public function testAddQty($getManageStock,$setFlag)
+    public function testAddQty($getManageStock, $setFlag)
     {
         $qty = 5.5;
 

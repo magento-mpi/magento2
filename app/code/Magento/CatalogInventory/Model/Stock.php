@@ -293,7 +293,6 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      *
      * @param int|int[] $productIds
      * @return $this
-     * @codeCoverageIgnore
      */
     public function lockProductItems($productIds)
     {
@@ -306,11 +305,10 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      *
      * @param \Magento\Catalog\Model\Resource\Product\Link\Product\Collection $collection
      * @return $this
-     * @codeCoverageIgnore
      */
     public function addInStockFilterToCollection($collection)
     {
-        $this->getResource()->setInStockFilterToCollection($collection);
+        $this->_getResource()->setInStockFilterToCollection($collection);
         return $this;
     }
 }

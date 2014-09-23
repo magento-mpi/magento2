@@ -12,7 +12,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Bundle\Model\Product\Type
      */
-    protected $_model;
+    protected $model;
 
     /**
      * @var \Magento\Bundle\Model\Resource\Selection\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
@@ -52,7 +52,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectHelper->getObject(
+        $this->model = $objectHelper->getObject(
             'Magento\Bundle\Model\Product\Type',
             array(
                 'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory'),
@@ -68,7 +68,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testHasWeightTrue()
     {
-        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but it should');
+        $this->assertTrue($this->model->hasWeight(), 'This product has not weight, but it should');
     }
 
     public function testGetIdentities()
@@ -109,7 +109,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->expects($this->exactly(2))
             ->method('getSelections')
             ->will($this->returnValue(array($productMock)));
-        $this->assertEquals($identities, $this->_model->getIdentities($productMock));
+        $this->assertEquals($identities, $this->model->getIdentities($productMock));
     }
 
     public function testGetSkuWithType()
@@ -127,7 +127,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->with('sku_type')
             ->will($this->returnValue('some_data'));
 
-        $this->assertEquals($sku, $this->_model->getSku($productMock));
+        $this->assertEquals($sku, $this->model->getSku($productMock));
     }
 
     public function testGetSkuWithoutType()
@@ -179,7 +179,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('getSku')
             ->will($this->returnValue($itemSku));
 
-        $this->assertEquals($sku . '-' . $itemSku, $this->_model->getSku($productMock));
+        $this->assertEquals($sku . '-' . $itemSku, $this->model->getSku($productMock));
     }
 
     public function testGetWeightWithoutCustomOption()
@@ -199,7 +199,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->with('weight')
             ->will($this->returnValue($weight));
 
-        $this->assertEquals($weight, $this->_model->getWeight($productMock));
+        $this->assertEquals($weight, $this->model->getWeight($productMock));
     }
 
     public function testGetWeightWithCustomOption()
@@ -250,7 +250,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($weight));
 
 
-        $this->assertEquals($weight, $this->_model->getWeight($productMock));
+        $this->assertEquals($weight, $this->model->getWeight($productMock));
     }
 
     public function testGetWeightWithSeveralCustomOption()
@@ -308,7 +308,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('getWeight')
             ->will($this->returnValue($weight));
 
-        $this->assertEquals($weight * $qtyOption, $this->_model->getWeight($productMock));
+        $this->assertEquals($weight * $qtyOption, $this->model->getWeight($productMock));
     }
 
     public function testIsVirtualWithoutCustomOption()
@@ -321,7 +321,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('hasCustomOptions')
             ->will($this->returnValue(false));
 
-        $this->assertFalse($this->_model->isVirtual($productMock));
+        $this->assertFalse($this->model->isVirtual($productMock));
     }
 
     public function testIsVirtual()
@@ -365,7 +365,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('count')
             ->will($this->returnValue(1));
 
-        $this->assertTrue($this->_model->isVirtual($productMock));
+        $this->assertTrue($this->model->isVirtual($productMock));
     }
 
     /**
@@ -450,7 +450,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('getSelectionId')
             ->will($this->returnValue($secondId));
 
-        $this->assertEquals($expected, $this->_model->shakeSelections($firstItemMock, $secondItemMock));
+        $this->assertEquals($expected, $this->model->shakeSelections($firstItemMock, $secondItemMock));
     }
 
     /**
@@ -564,7 +564,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->with('_cache_instance_used_selections_ids', $selectionIds)
             ->will($this->returnSelf());
 
-        $this->_model->getSelectionsByIds($selectionIds, $productMock);
+        $this->model->getSelectionsByIds($selectionIds, $productMock);
     }
 
     public function testGetOptionsByIds()
@@ -635,6 +635,6 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->with('_cache_instance_used_options_ids', $optionsIds)
             ->will($this->returnSelf());
 
-        $this->_model->getOptionsByIds($optionsIds, $productMock);
+        $this->model->getOptionsByIds($optionsIds, $productMock);
     }
 }

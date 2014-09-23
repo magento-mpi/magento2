@@ -74,11 +74,11 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManagerHelper->getObject(
             'Magento\CatalogInventory\Model\Stock',
             [
-                'stockStatus'       => $this->stockStatus,
+                'stockStatus' => $this->stockStatus,
                 'collectionFactory' => $this->collectionFactory,
-                'stockItemService'  => $this->stockItemService,
-                'stockItemFactory'  => $this->stockItemFactory,
-                'productFactory'    => $this->productFactory
+                'stockItemService' => $this->stockItemService,
+                'stockItemFactory' => $this->stockItemFactory,
+                'productFactory' => $this->productFactory
             ]
         );
     }
@@ -132,7 +132,6 @@ class StockTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($itemCollection));
 
-
         $productOne = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->setMethods(['getId', 'getStockStatus', '__wakeup'])
@@ -152,7 +151,6 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $productCollection->expects($this->any())
             ->method('getIterator')
             ->will($this->returnValue(new \ArrayIterator([$productOne, $productTwo, $productThree])));
-
 
         $this->stockStatus->expects($this->once())
             ->method('assignProduct')
@@ -208,7 +206,6 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $this->model->registerItemSale($item);
     }
 
-
     public function testRegisterItemSale()
     {
         $productId = 1;
@@ -233,7 +230,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
 
         $item->expects($this->at(1))->method('__call')->with('getStoreId')->will($this->returnValue($storeId));
         $item->expects($this->at(2))->method('__call')->with('getStoreId')->will($this->returnValue($storeId));
-        $stockItem->expects($this->at(1))->method('__call')->with('setStoreId',[$storeId])->will($this->returnSelf());
+        $stockItem->expects($this->at(1))->method('__call')->with('setStoreId', [$storeId])->will($this->returnSelf());
         $item->expects($this->at(3))->method('__call')->with('getQtyOrdered')->will($this->returnValue($qty));
         $item->expects($this->at(4))->method('__call')->with('getQtyOrdered')->will($this->returnValue($qty));
         $stockItem->expects($this->once())->method('checkQty')->with($qty)->will($this->returnValue(true));
