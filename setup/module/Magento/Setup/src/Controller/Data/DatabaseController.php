@@ -7,10 +7,11 @@
  */
 namespace Magento\Setup\Controller\Data;
 
-use Magento\Setup\Model\Installer;
+use Magento\Setup\Model\InstallerFactory;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\Json\Json;
+use Magento\Setup\Model\WebLogger;
 
 class DatabaseController extends AbstractActionController
 {
@@ -20,12 +21,18 @@ class DatabaseController extends AbstractActionController
     protected $jsonModel;
 
     /**
-     * @param JsonModel $jsonModel
+     * @var \Magento\Setup\Model\InstallerFactory
      */
-    public function __construct(JsonModel $jsonModel)
+    protected $installerFactory;
+
+    /**
+     * @param JsonModel $jsonModel
+     * @param InstallerFactory $installerFactory
+     */
+    public function __construct(JsonModel $jsonModel, InstallerFactory $installerFactory)
     {
         $this->jsonModel = $jsonModel;
-
+        $this->installerFactory = $installerFactory;
     }
 
     /**
@@ -35,7 +42,8 @@ class DatabaseController extends AbstractActionController
     {
         $params = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
         try {
-            Installer::checkDatabaseConnection($params['name'], $params['host'], $params['user'], $params['password']);
+            $installer = $this->installerFactory->create(new WebLogger);
+            $installer->checkDatabaseConnection($params['name'], $params['host'], $params['user'], $params['password']);
             return $this->jsonModel->setVariables(['success' => true]);
         } catch (\Exception $e) {
             return $this->jsonModel->setVariables(['success' => false]);

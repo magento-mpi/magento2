@@ -7,7 +7,7 @@
  */
 namespace Magento\Setup\Module;
 
-use Magento\Setup\Module\Setup\Connection\AdapterInterface;
+use Magento\Setup\Module\Setup\ConnectionFactory;
 use Magento\Setup\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Setup\Module\Updater\SetupInterface;
 use Magento\Setup\Model\LoggerInterface;
@@ -73,19 +73,19 @@ class Setup implements SetupInterface
     /**
      * Constructor
      *
-     * @param AdapterInterface $connection
+     * @param ConnectionFactory $connectionFactory
      * @param SetupFileResolver $setupFileResolver
      * @param LoggerInterface $logger
      * @param array $connectionConfig
      */
     public function __construct(
-        AdapterInterface $connection,
+        ConnectionFactory $connectionFactory,
         SetupFileResolver $setupFileResolver,
         LoggerInterface $logger,
         array $connectionConfig = array()
     ) {
         $this->logger = $logger;
-        $this->connection = $connection->getConnection($connectionConfig);
+        $this->connection = $connectionFactory->create($connectionConfig);
         $this->setupFileResolver = $setupFileResolver;
     }
 

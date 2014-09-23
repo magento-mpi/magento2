@@ -9,7 +9,7 @@
 namespace Magento\Setup\Module;
 
 use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
-use Magento\Setup\Module\Setup\Connection\AdapterInterface;
+use Magento\Setup\Module\Setup\ConnectionFactory;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Model\LoggerInterface;
 
@@ -23,9 +23,9 @@ class SetupFactory
     /**
      * Adapter
      *
-     * @var AdapterInterface
+     * @var ConnectionFactory
      */
-    protected $adapter;
+    protected $connectionFactory;
 
     /**
      * List of all Modules
@@ -45,18 +45,18 @@ class SetupFactory
      * Default Constructor
      *
      * @param DeploymentConfigFactory $deploymentConfigFactory
-     * @param AdapterInterface $connection
+     * @param ConnectionFactory $connectionFactory
      * @param ModuleListInterface $moduleList
      * @param Setup\FileResolver $setupFileResolver
      */
     public function __construct(
         DeploymentConfigFactory $deploymentConfigFactory,
-        AdapterInterface $connection,
+        ConnectionFactory $connectionFactory,
         ModuleListInterface $moduleList,
         Setup\FileResolver $setupFileResolver
     ) {
         $this->deploymentConfigFactory = $deploymentConfigFactory;
-        $this->adapter = $connection;
+        $this->connectionFactory = $connectionFactory;
         $this->moduleList = $moduleList;
         $this->fileResolver = $setupFileResolver;
     }
@@ -70,7 +70,7 @@ class SetupFactory
     public function createSetup(LoggerInterface $log)
     {
         return new Setup(
-            $this->adapter,
+            $this->connectionFactory,
             $this->fileResolver,
             $log,
             $this->loadConfigData()
@@ -88,7 +88,7 @@ class SetupFactory
     {
         $configData = $this->loadConfigData();
         $result = new SetupModule(
-            $this->adapter,
+            $this->connectionFactory,
             $this->moduleList,
             $this->fileResolver,
             $log,

@@ -174,11 +174,12 @@ class ConsoleController extends AbstractActionController
             . ' --' . AdminAccount::KEY_LAST_NAME . '=';
         return [
             self::CMD_INSTALL => [
-                'route' => self::CMD_INSTALL . ' ' . $deployConfig . ' ' . $userConfig
-                    . ' ' . $adminUser,
+                'route' => self::CMD_INSTALL . ' ' . $deployConfig . ' ' . $userConfig . ' ' . $adminUser
+                    . ' [--' . Installer::CLEANUP_DB . ']',
                 'usage' => $deployConfig . "\n"
                     . $userConfig . "\n"
-                    . $adminUser,
+                    . $adminUser . "\n"
+                    . '[--' . Installer::CLEANUP_DB . ']',
                 'usage_short' => self::CMD_INSTALL . ' <options>',
                 'usage_desc' => 'Install Magento application',
             ],

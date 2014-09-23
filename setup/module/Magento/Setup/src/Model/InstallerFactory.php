@@ -39,7 +39,8 @@ class InstallerFactory
             $this->serviceLocator->get('Magento\Config\ConfigFactory'),
             $this->serviceLocator->get('Magento\Setup\Model\AdminAccountFactory'),
             $log,
-            $this->serviceLocator->get('Magento\Framework\Math\Random')
+            $this->serviceLocator->get('Magento\Framework\Math\Random'),
+            $this->serviceLocator->get('Magento\Setup\Module\Setup\ConnectionFactory')
         );
     }
 }

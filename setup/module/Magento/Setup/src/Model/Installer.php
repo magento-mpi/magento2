@@ -15,9 +15,12 @@ use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Setup\Module\ModuleListInterface;
 use Magento\Framework\Math\Random;
+use Magento\Setup\Module\Setup\ConnectionFactory;
 
 class Installer
 {
+    const CLEANUP_DB = 'cleanup_database';
+
     /**
      * File permissions checker
      *
@@ -72,7 +75,14 @@ class Installer
      *
      * @var Random
      */
-    protected $random;
+    private $random;
+
+    /**
+     * DB connection factory
+     *
+     * @var ConnectionFactory
+     */
+    private $connectionFactory;
 
     /**
      * @param FilePermissions $filePermissions
@@ -83,6 +93,7 @@ class Installer
      * @param AdminAccountFactory $adminAccountFactory
      * @param LoggerInterface $log
      * @param Random $random
+     * @param ConnectionFactory $connectionFactory
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -92,7 +103,8 @@ class Installer
         SystemConfigFactory $systemConfigFactory,
         AdminAccountFactory $adminAccountFactory,
         LoggerInterface $log,
-        Random $random
+        Random $random,
+        ConnectionFactory $connectionFactory
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -102,6 +114,7 @@ class Installer
         $this->adminAccountFactory = $adminAccountFactory;
         $this->log = $log;
         $this->random = $random;
+        $this->connectionFactory = $connectionFactory;
     }
 
     /**
@@ -119,6 +132,11 @@ class Installer
 
         $this->log->log('Installing deployment configuration...');
         $deploymentConfig = $this->installDeploymentConfig($request);
+
+        if (!empty($request[self::CLEANUP_DB])) {
+            $this->log->log('Cleaning up database...');
+            $this->cleanupDb($request);
+        }
 
         $this->log->log('Installing database schema:');
         $this->installSchema();
@@ -301,21 +319,32 @@ class Installer
      * @return boolean
      * @throws \Exception
      */
-    public static function checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass = '')
+    public function checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass = '')
     {
-        $dbConnectionInfo = array(
-            'driver' => "Pdo",
-            'dsn' => "mysql:dbname=" . $dbName . ";host=" . $dbHost,
-            'username' => $dbUser,
-            'password' => $dbPass,
-            'driver_options' => array(
-                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
-            ),
-        );
-        $checkDB = new DatabaseCheck($dbConnectionInfo);
-        if (!$checkDB->checkConnection()) {
+        $adapter = $this->connectionFactory->create([
+            Config::KEY_DB_NAME => $dbName,
+            Config::KEY_DB_HOST => $dbHost,
+            Config::KEY_DB_USER => $dbUser,
+            Config::KEY_DB_PASS => $dbPass
+        ]);
+        $adapter->connect();
+        if (!$adapter->getDriver()->getConnection()->isConnected()) {
             throw new \Exception('Database connection failure.');
         }
         return true;
+    }
+
+    /**
+     * Cleans up database
+     *
+     * @param \ArrayObject|array $config
+     * @return void
+     */
+    public function cleanupDb($config)
+    {
+        $adapter = $this->connectionFactory->create($config);
+        $dbName = $adapter->quoteIdentifier($config[Config::KEY_DB_NAME]);
+        $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
+        $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
     }
 }
