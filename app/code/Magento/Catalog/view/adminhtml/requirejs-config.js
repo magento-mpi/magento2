@@ -13,5 +13,8 @@ var config = {
             categoryTree:       'Magento_Catalog/js/category-tree',
             productGallery:     'Magento_Catalog/js/product-gallery'
         }
-    } 
+    },
+    paths: {
+        baseImage: 'Magento_Catalog/catalog/base-image-uploader'
+    }
 };
