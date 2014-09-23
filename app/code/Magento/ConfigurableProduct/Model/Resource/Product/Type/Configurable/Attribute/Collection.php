@@ -14,6 +14,7 @@ use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribu
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -77,6 +78,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute $resource
      * @param PriceData $priceData
      * @param \Zend_Db_Adapter_Abstract $connection
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
