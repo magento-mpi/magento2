@@ -33,6 +33,7 @@ class Config
      */
     const FULL_CONFIG_TEMPLATE = <<<config
 (function(require){
+%base%
 %function%
 
 %usages%
@@ -97,6 +98,7 @@ config;
     public function getConfig()
     {
         $distributedConfig = '';
+        $baseConfig = $this->getBaseConfig();
         $customConfigFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), self::CONFIG_FILE_NAME);
         foreach ($customConfigFiles as $file) {
             $config = $this->baseDir->readFile($this->baseDir->getRelativePath($file->getFilename()));
@@ -108,8 +110,8 @@ config;
         }
 
         $fullConfig = str_replace(
-            array('%function%', '%usages%'),
-            array($distributedConfig),
+            array('%function%', '%usages%', '%base%'),
+            array($distributedConfig, $baseConfig),
             self::FULL_CONFIG_TEMPLATE
         );
 
@@ -135,9 +137,6 @@ config;
     {
         $config = array(
             'baseUrl' => $this->staticContext->getBaseUrl() . $this->staticContext->getPath(),
-            'paths' => array(
-                'magento' => self::NORMALIZE_PLUGIN_PATH,
-            ),
             //Disable the timeout, so that normalizer plugin and other JS modules are waited to be loaded
             // independent of server load time and network speed
             'waitSeconds' => 0,
