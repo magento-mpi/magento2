@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Framework\App\Resource;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Resource\Attribute;
+use Magento\Framework\App\Resource as AppResource;
 use Magento\Sales\Model\Increment as SalesIncrement;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
 use Magento\Sales\Model\Resource\Order\Shipment\Grid as ShipmentGrid;
@@ -48,14 +48,14 @@ class Shipment extends SalesResource
     /**
      * Constructor
      *
-     * @param Resource|Resource $resource
+     * @param AppResource $resource
      * @param DateTime $dateTime
      * @param Attribute $attribute
      * @param SalesIncrement $salesIncrement
      * @param ShipmentGrid $gridAggregator
      */
     public function __construct(
-        Resource $resource,
+        AppResource $resource,
         DateTime $dateTime,
         Attribute $attribute,
         SalesIncrement $salesIncrement,
