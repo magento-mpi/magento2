@@ -89,7 +89,7 @@ class Create extends Block
      *
      * @var string
      */
-    protected $updateItems = '//button[contains(*, "Update Items")]';
+    protected $updateItems = '#order-items_grid p button';
 
     /**
      * Getter for order selected products grid
@@ -219,20 +219,18 @@ class Create extends Block
      * @param array $products
      * @return void
      */
-    public function updateProductData(array $products)
+    public function updateProductsData(array $products)
     {
         /** @var \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items $items */
         $items = $this->blockFactory->create(
             'Magento\Sales\Test\Block\Adminhtml\Order\Create\Items',
-            [
-                'element' => $this->_rootElement->find($this->itemsBlock)
-            ]
+            ['element' => $this->_rootElement->find($this->itemsBlock)]
         );
         foreach ($products as $product) {
             $items->getItemProductByName($product->getName())
                 ->fill($product->getDataFieldConfig('checkout_data')['source']);
         }
-        $this->_rootElement->find($this->updateItems, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->updateItems)->click();
     }
 
     /**

@@ -10,10 +10,12 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
 use Magento\Backend\Test\Block\Widget\Form;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Coupons
- * Customer selection grid
+ * Adminhtml sales order create coupons block
  */
 class Coupons extends Form
 {
@@ -29,17 +31,17 @@ class Coupons extends Form
      *
      * @var string
      */
-    protected $applyButton = 'button[title="Apply"]';
+    protected $applyButton = '//*[@id="coupons:code"]/following-sibling::button';
 
     /**
      * Enter discount code and click apply button
      *
-     * @param string $code
+     * @param SalesRuleInjectable $code
      * @return void
      */
-    public function applyCouponCode($code)
+    public function applyCouponCode(SalesRuleInjectable $code)
     {
-        $this->_rootElement->find($this->couponCode)->setValue($code);
-        $this->_rootElement->find($this->applyButton)->click();
+        $this->_rootElement->find($this->couponCode)->setValue($code->getCouponCode());
+        $this->_rootElement->find($this->applyButton, Locator::SELECTOR_XPATH)->click();
     }
 }

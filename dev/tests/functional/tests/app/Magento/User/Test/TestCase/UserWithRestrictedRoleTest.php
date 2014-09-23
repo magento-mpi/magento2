@@ -117,7 +117,7 @@ class UserWithRestrictedRoleTest extends Functional
 
         $storeFixture = $objectManager->create(
             '\Magento\Store\Test\Fixture\Store',
-            ['dataSet' => 'default', 'data' => ['group_id' => $storeGroupFixture->getGroupId()]]
+            ['dataSet' => 'custom', 'data' => ['group_id' => $storeGroupFixture->getGroupId()]]
         );
         $storeFixture->persist();
 

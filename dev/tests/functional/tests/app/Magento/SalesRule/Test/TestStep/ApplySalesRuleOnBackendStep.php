@@ -51,7 +51,7 @@ class ApplySalesRuleOnBackendStep implements TestStepInterface
     public function run()
     {
         if ($this->salesRule !== null) {
-            $this->orderCreateIndex->getCouponsBlock()->applyCouponCode($this->salesRule->getCouponCode());
+            $this->orderCreateIndex->getCouponsBlock()->applyCouponCode($this->salesRule);
         }
     }
 }

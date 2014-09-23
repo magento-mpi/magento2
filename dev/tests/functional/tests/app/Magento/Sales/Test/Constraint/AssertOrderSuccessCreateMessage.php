@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 
 /**
- * Class AssertBackendOrderSuccessCreatedMessage
- * Assert Message presents "You created the order."
+ * Class AssertOrderSuccessCreateMessage
+ * Assert success Message presents
  */
-class AssertBackendOrderSuccessCreatedMessage extends AbstractConstraint
+class AssertOrderSuccessCreateMessage extends AbstractConstraint
 {
     /**
      * Message displayed after created sales order

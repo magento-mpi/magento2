@@ -51,7 +51,7 @@ class SubmitOrderStep implements TestStepInterface
     public function run()
     {
         $this->orderCreateIndex->getCreateBlock()->submitOrder();
-        $this->orderView->getMessagesBlock()->assertSuccessMessage();
+        $this->orderView->getMessagesBlock()->waitSuccessMessage();
         return['orderId' => trim($this->orderView->getTitleBlock()->getTitle(), '#')];
     }
 }

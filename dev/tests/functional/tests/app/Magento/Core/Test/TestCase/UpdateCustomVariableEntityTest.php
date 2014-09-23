@@ -10,6 +10,7 @@ namespace Magento\Core\Test\TestCase;
 
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 use Magento\Store\Test\Fixture\Store;
 use Magento\Core\Test\Fixture\SystemVariable;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
@@ -63,11 +64,16 @@ class UpdateCustomVariableEntityTest extends Injectable
     /**
      * Prepare data
      *
-     * @param Store $storeOrigin
+     * @param FixtureFactory $factory
      * @return array
      */
-    public function __prepare(Store $storeOrigin)
+    public function __prepare(FixtureFactory $factory)
     {
+        /** @var Store $storeOrigin */
+        $storeOrigin = $factory->createByCode(
+            'store',
+            ['dataSet' => 'custom']
+        );
         $storeOrigin->persist();
         self::$storeName = $storeOrigin->getName();
 

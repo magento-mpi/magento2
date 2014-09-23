@@ -18,7 +18,7 @@ use Mtf\Client\Element;
 class ItemProduct extends Form
 {
     /**
-     * Fields
+     * Actions for fields
      *
      * @var array
      */

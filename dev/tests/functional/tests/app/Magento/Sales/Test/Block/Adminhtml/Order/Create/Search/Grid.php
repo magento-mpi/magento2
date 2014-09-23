@@ -12,12 +12,10 @@ use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Grid
  * Adminhtml sales order create search products block
- *
  */
 class Grid extends GridInterface
 {
@@ -85,11 +83,7 @@ class Grid extends GridInterface
      */
     protected function addProduct($product)
     {
-        if ($product instanceof InjectableFixture) {
-            $sku = $product->getSku();
-        } else {
-            $sku = $product->getProductSku();
-        }
+        $sku = $product->getSku();
         $this->search(['sku' => $sku]);
 
         $this->_rootElement->find($this->configure)->click();

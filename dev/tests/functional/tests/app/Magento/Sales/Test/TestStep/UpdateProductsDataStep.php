@@ -8,15 +8,14 @@
 
 namespace Magento\Sales\Test\TestStep;
 
-use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 
 /**
- * Class FillSalesDataStep
- * Fill Sales Data
+ * Class UpdateProductsDataStep
+ * Fill Product Data
  */
-class FillSalesDataStep implements TestStepInterface
+class UpdateProductsDataStep implements TestStepInterface
 {
     /**
      * Sales order create index page
@@ -26,30 +25,30 @@ class FillSalesDataStep implements TestStepInterface
     protected $orderCreateIndex;
 
     /**
-     * Customer
+     * Products list
      *
-     * @var AddressInjectable
+     * @var array
      */
-    protected $billingAddress;
+    protected $products;
 
     /**
      * @constructor
      * @param OrderCreateIndex $orderCreateIndex
-     * @param AddressInjectable $billingAddress
+     * @param array $products
      */
-    public function __construct(OrderCreateIndex $orderCreateIndex, AddressInjectable $billingAddress)
+    public function __construct(OrderCreateIndex $orderCreateIndex, array $products)
     {
         $this->orderCreateIndex = $orderCreateIndex;
-        $this->billingAddress = $billingAddress;
+        $this->products = $products;
     }
 
     /**
-     * Fill Sales Data
+     * Fill product data
      *
      * @return void
      */
     public function run()
     {
-        $this->orderCreateIndex->getCreateBlock()->fillAddresses($this->billingAddress);
+        $this->orderCreateIndex->getCreateBlock()->updateProductsData($this->products);
     }
 }

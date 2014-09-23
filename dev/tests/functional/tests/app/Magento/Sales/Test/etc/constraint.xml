@@ -57,9 +57,9 @@
     <assertOrderButtonsUnavailable module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderButtonsUnavailable>
-    <assertBackendOrderSuccessCreatedMessage module="Magento_Sales">
+    <assertOrderSuccessCreateMessage module="Magento_Sales">
         <severeness>low</severeness>
-    </assertBackendOrderSuccessCreatedMessage>
+    </assertOrderSuccessCreateMessage>
     <assertNoInvoiceButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertNoInvoiceButton>

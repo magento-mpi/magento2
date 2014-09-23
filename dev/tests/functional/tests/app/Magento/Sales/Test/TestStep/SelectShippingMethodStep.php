@@ -12,10 +12,10 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 
 /**
- * Class AddProductStep
- * Add Product Step
+ * Class SelectShippingMethodStep
+ * Select Shipping data
  */
-class AddProductStep implements TestStepInterface
+class SelectShippingMethodStep implements TestStepInterface
 {
     /**
      * Sales order create index page
@@ -25,30 +25,32 @@ class AddProductStep implements TestStepInterface
     protected $orderCreateIndex;
 
     /**
-     * Catalog Product Simple
+     * Shipping
      *
      * @var array
      */
-    protected $products;
+    protected $shipping;
 
     /**
      * @constructor
      * @param OrderCreateIndex $orderCreateIndex
-     * @param array $products
+     * @param array $shipping
      */
-    public function __construct(OrderCreateIndex $orderCreateIndex, array $products)
+    public function __construct(OrderCreateIndex $orderCreateIndex, array $shipping)
     {
         $this->orderCreateIndex = $orderCreateIndex;
-        $this->products = $products;
+        $this->shipping = $shipping;
     }
 
     /**
-     * Add product to sales
+     * Fill Shipping Data
      *
      * @return void
      */
     public function run()
     {
-        $this->orderCreateIndex->getCreateBlock()->addProducts($this->products);
+        if ($this->shipping['shipping_service'] != '-') {
+            $this->orderCreateIndex->getCreateBlock()->selectShippingMethod($this->shipping);
+        }
     }
 }

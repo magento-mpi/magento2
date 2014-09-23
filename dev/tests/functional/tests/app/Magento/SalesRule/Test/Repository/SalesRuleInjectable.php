@@ -25,7 +25,7 @@ class SalesRuleInjectable extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['active_sales_rule_with_coupon'] = [
+        $this->_data['active_sales_rule_with_percent_price_discount_coupon'] = [
             'name' => 'Shopping Cart Price Rule with Specific Coupon %isolation%',
             'description' => 'Description for Cart Price Rule',
             'is_active' => 'Active',
@@ -52,7 +52,7 @@ class SalesRuleInjectable extends AbstractRepository
             'discount_amount' => '10',
         ];
 
-        $this->_data['active_fixed_sales_rule_with_coupon'] = [
+        $this->_data['active_sales_rule_with_fixed_price_discount_coupon'] = [
             'name' => 'Shopping Cart Price Rule with Specific Coupon %isolation%',
             'description' => 'Description for Cart Price Rule',
             'is_active' => 'Active',

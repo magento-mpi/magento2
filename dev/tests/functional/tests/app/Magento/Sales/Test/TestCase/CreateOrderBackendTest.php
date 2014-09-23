@@ -13,7 +13,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Scenario;
 
 /**
- * Test Creation for CreateSalesOrderBackend
+ * Test Creation for CreateOrderBackendTest
  *
  * Test Flow:
  * Preconditions:
@@ -37,7 +37,7 @@ use Mtf\TestCase\Scenario;
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-28696
  */
-class CreateSalesOrderBackendTest extends Scenario
+class CreateOrderBackendTest extends Scenario
 {
     /**
      * Configuration data set name
@@ -66,7 +66,7 @@ class CreateSalesOrderBackendTest extends Scenario
      * @var array
      */
     protected $scenario = [
-        'CreateSalesOrderBackendTest' => [
+        'CreateOrderBackendTest' => [
             'methods' => [
                 'test' => [
                     'scenario' => [
@@ -95,29 +95,33 @@ class CreateSalesOrderBackendTest extends Scenario
                         ],
                         'selectCustomerOrder' => [
                             'module' => 'Magento_Sales',
-                            'next' => 'addProduct'
+                            'next' => 'selectStore'
                         ],
-                        'addProduct' => [
+                        'selectStore' => [
+                            'module' => 'Magento_Store',
+                            'next' => 'addProducts'
+                        ],
+                        'addProducts' => [
                             'module' => 'Magento_Sales',
-                            'next' => 'fillProductData'
+                            'next' => 'updateProductsData'
                         ],
-                        'fillProductData' => [
+                        'updateProductsData' => [
                             'module' => 'Magento_Sales',
                             'next' => 'applySalesRuleOnBackend'
                         ],
                         'applySalesRuleOnBackend' => [
                             'module' => 'Magento_SalesRule',
-                            'next' => 'fillSalesData',
+                            'next' => 'fillBillingAddress',
                         ],
-                        'fillSalesData' => [
+                        'fillBillingAddress' => [
                             'module' => 'Magento_Sales',
-                            'next' => 'fillPaymentData'
+                            'next' => 'selectPaymentMethodForOrder'
                         ],
-                        'fillPaymentData' => [
+                        'selectPaymentMethodForOrder' => [
                             'module' => 'Magento_Sales',
-                            'next' => 'fillShippingData'
+                            'next' => 'selectShippingMethod'
                         ],
-                        'fillShippingData' => [
+                        'selectShippingMethod' => [
                             'module' => 'Magento_Sales',
                             'next' => 'submitOrder'
                         ],

@@ -12,10 +12,10 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 
 /**
- * Class FillProductDataStep
- * Fill Product Data
+ * Class SelectPaymentMethodForOrderStep
+ * Fill Payment Data Step
  */
-class FillProductDataStep implements TestStepInterface
+class SelectPaymentMethodForOrderStep implements TestStepInterface
 {
     /**
      * Sales order create index page
@@ -25,30 +25,30 @@ class FillProductDataStep implements TestStepInterface
     protected $orderCreateIndex;
 
     /**
-     * Products list
+     * Payment
      *
      * @var array
      */
-    protected $products;
+    protected $payment;
 
     /**
      * @constructor
      * @param OrderCreateIndex $orderCreateIndex
-     * @param array $products
+     * @param array $payment
      */
-    public function __construct(OrderCreateIndex $orderCreateIndex, array $products)
+    public function __construct(OrderCreateIndex $orderCreateIndex, array $payment)
     {
         $this->orderCreateIndex = $orderCreateIndex;
-        $this->products = $products;
+        $this->payment = $payment;
     }
 
     /**
-     * Fill product data
+     * Fill Payment data
      *
      * @return void
      */
     public function run()
     {
-        $this->orderCreateIndex->getCreateBlock()->updateProductData($this->products);
+        $this->orderCreateIndex->getCreateBlock()->selectPaymentMethod($this->payment);
     }
 }

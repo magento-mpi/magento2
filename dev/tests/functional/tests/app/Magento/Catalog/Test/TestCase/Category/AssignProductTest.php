@@ -52,20 +52,20 @@ class AssignProductTest extends Functional
         $products = [$simple, $configurable, $bundle];
         /** @var Product $product */
         foreach ($products as $product) {
-            $categoryProductsGrid->searchAndSelect(['sku' => $product->getProductSku()]);
+            $categoryProductsGrid->searchAndSelect(['sku' => $product->getSku()]);
         }
         $actionsBlock->save();
-        $messagesBlock->assertSuccessMessage();
+        $messagesBlock->waitSuccessMessage();
         //Clean Cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        $cachePage->getMessagesBlock()->waitSuccessMessage();
         //Indexing
         $indexPage = Factory::getPageFactory()->getAdminProcessList();
         $indexPage->open();
         $indexPage->getActionsBlock()->reindexAll();
-        $indexPage->getMessagesBlock()->assertSuccessMessage();
+        $indexPage->getMessagesBlock()->waitSuccessMessage();
         //Verifying
         $this->assertProductsOnCategory($category, $products);
     }
