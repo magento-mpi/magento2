@@ -17,10 +17,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
 use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 
 /**
- * Class CreateInvoice
+ * Class CreateInvoiceStep
  * Create invoice from order on backend
  */
-class CreateInvoice implements TestStepInterface
+class CreateInvoiceStep implements TestStepInterface
 {
     /**
      * Orders Page

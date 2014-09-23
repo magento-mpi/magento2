@@ -12,13 +12,14 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\SalesOrderCreditMemoNew;
+use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
+use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 
 /**
- * Class CreateCreditMemo
- * Create credit memo from order on backend
+ * Class CreateShippingStep
+ * Create shipping from order on backend
  */
-class CreateCreditMemo implements TestStepInterface
+class CreateShippingStep implements TestStepInterface
 {
     /**
      * Orders Page
@@ -35,11 +36,18 @@ class CreateCreditMemo implements TestStepInterface
     protected $orderView;
 
     /**
-     * OrderCreditMemoNew Page
+     * New Order Shipment Page
      *
-     * @var SalesOrderCreditMemoNew
+     * @var OrderShipmentNew
      */
-    protected $orderCreditMemoNew;
+    protected $orderShipmentNew;
+
+    /**
+     * Order shipment view page
+     *
+     * @var OrderShipmentView
+     */
+    protected $orderShipmentView;
 
     /**
      * OrderInjectable fixture
@@ -52,23 +60,26 @@ class CreateCreditMemo implements TestStepInterface
      * @construct
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
+     * @param OrderShipmentNew $orderShipmentNew
+     * @param OrderShipmentView $orderShipmentView
      * @param OrderInjectable $order
-     * @param SalesOrderCreditMemoNew $orderCreditMemoNew
      */
     public function __construct(
         OrderIndex $orderIndex,
         OrderView $orderView,
-        OrderInjectable $order,
-        SalesOrderCreditMemoNew $orderCreditMemoNew
+        OrderShipmentNew $orderShipmentNew,
+        OrderShipmentView $orderShipmentView,
+        OrderInjectable $order
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
+        $this->orderShipmentNew = $orderShipmentNew;
+        $this->orderShipmentView = $orderShipmentView;
         $this->order = $order;
-        $this->orderCreditMemoNew = $orderCreditMemoNew;
     }
 
     /**
-     * Create credit memo from order on backend
+     * Create shipping for order on backend
      *
      * @return array
      */
@@ -76,20 +87,20 @@ class CreateCreditMemo implements TestStepInterface
     {
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
-        $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getActionsBlock()->refundOffline();
+        $this->orderView->getPageActions()->ship();
+        $this->orderShipmentNew->getShipItemsBlock()->submit();
 
-        return ['creditMemoIds' => $this->getCreditMemoIds()];
+        return ['shipmentIds' => $this->getShipmentIds()];
     }
 
     /**
-     * Get credit memo ids
+     * Get shipment id
      *
      * @return array
      */
-    protected function getCreditMemoIds()
+    public function getShipmentIds()
     {
-        $this->orderView->getOrderForm()->openTab('creditmemos');
-        return $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->getIds();
+        $this->orderView->getOrderForm()->openTab('shipments');
+        return $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->getIds();
     }
 }

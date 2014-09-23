@@ -28,25 +28,36 @@ class AssertOrderInOrdersGrid extends AbstractConstraint
     /**
      * Assert that order with fixture data is present in Sales -> Orders Grid
      *
-     * @param OrderInjectable[] $orders
-     * @param string[] $statuses
+     * @param OrderInjectable $order
      * @param OrderIndex $orderIndex
+     * @param string $status
      * @return void
      */
-    public function processAssert(array $orders, array $statuses, OrderIndex $orderIndex)
+    public function processAssert($order, OrderIndex $orderIndex, $status)
     {
         $orderIndex->open();
-        foreach ($orders as $key => $order) {
-            $filter = [
-                'id' => $order->getId(),
-                'status' => $statuses[$key],
-            ];
-            $errorMessage = implode(', ', $filter);
-            \PHPUnit_Framework_Assert::assertTrue(
-                $orderIndex->getSalesOrderGrid()->isRowVisible($filter),
-                'Order with following data \'' . $errorMessage . '\' is absent in Orders grid.'
-            );
-        }
+        $this->assert($order, $orderIndex, $status);
+    }
+
+    /**
+     * Process assert
+     *
+     * @param OrderInjectable $order
+     * @param OrderIndex $orderIndex
+     * @param string $status
+     * @return void
+     */
+    protected function assert(OrderInjectable $order, OrderIndex $orderIndex, $status)
+    {
+        $filter = [
+            'id' => $order->getId(),
+            'status' => $status,
+        ];
+        $errorMessage = implode(', ', $filter);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $orderIndex->getSalesOrderGrid()->isRowVisible($filter),
+            'Order with following data \'' . $errorMessage . '\' is absent in Orders grid.'
+        );
     }
 
     /**

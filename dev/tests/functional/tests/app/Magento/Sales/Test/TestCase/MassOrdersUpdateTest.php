@@ -83,19 +83,13 @@ class MassOrdersUpdateTest extends Injectable
     {
         // Preconditions
         $orders = $this->createOrders($ordersCount, $ordersStatus);
-        $items = [];
-        foreach ($orders as $order) {
-            $items[] = ['id' => $order->getId()];
-        }
+        $items = $this->prepareFilter($orders);
 
         // Steps
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->massaction($items, $action);
 
-        // Prepare data for asserts
-        $resultStatuses = explode(',', $resultStatuses);
-
-        return ['orders' => $orders, 'statuses' => $resultStatuses];
+        return ['orders' => $orders, 'statuses' => explode(',', $resultStatuses)];
     }
 
     /**
@@ -117,16 +111,17 @@ class MassOrdersUpdateTest extends Injectable
 
             switch ($statuses[$i]) {
                 case 'Closed':
-                    $this->orderCreditMemo($order);
+                    $this->processStep('CreateInvoice', ['order' => $order]);
+                    $this->processStep('CreateCreditMemo', ['order' => $order]);
                     break;
                 case 'Complete':
-                    $this->orderInvoice($order, ['do_shipment' => 'Yes']);
+                    $this->processStep('CreateInvoice', ['order' => $order, 'data' => ['do_shipment' => 'Yes']]);
                     break;
                 case 'Processing':
-                    $this->orderInvoice($order);
+                    $this->processStep('CreateInvoice', ['order' => $order]);
                     break;
                 case 'On Hold':
-                    $this->orderHold($order);
+                    $this->processStep('OnHold', ['order' => $order]);
                     break;
             }
         }
@@ -135,46 +130,31 @@ class MassOrdersUpdateTest extends Injectable
     }
 
     /**
-     * Order invoice
+     * Process which step to take for order
      *
-     * @param OrderInjectable $order
-     * @param array|null $data [optional]
+     * @param string $type
+     * @param array $arguments
      * @return void
      */
-    protected function orderInvoice(OrderInjectable $order, array $data = null)
+    protected function processStep($type, array $arguments = [])
     {
-        $createInvoiceStep = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateInvoice',
-            ['order' => $order, 'data' => $data]
-        );
-        $createInvoiceStep->run();
+        $processStep = $this->objectManager->create('Magento\Sales\Test\TestStep\\' . $type . 'Step', $arguments);
+        $processStep->run();
     }
 
     /**
-     * Order credit memo
+     * Prepare filter
      *
-     * @param OrderInjectable $order
-     * @return void
+     * @param OrderInjectable[] $orders
+     * @return array
      */
-    protected function orderCreditMemo(OrderInjectable $order)
+    protected function prepareFilter(array $orders)
     {
-        $this->orderInvoice($order);
-        $createCreditMemoStep = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateCreditMemo',
-            ['order' => $order]
-        );
-        $createCreditMemoStep->run();
-    }
+        $items = [];
+        foreach ($orders as $order) {
+            $items[] = ['id' => $order->getId()];
+        }
 
-    /**
-     * Order hold
-     *
-     * @param OrderInjectable $order
-     * @return void
-     */
-    protected function orderHold(OrderInjectable $order)
-    {
-        $createOnHoldStep = $this->objectManager->create('Magento\Sales\Test\TestStep\OnHoldStep', ['order' => $order]);
-        $createOnHoldStep->run();
+        return $items;
     }
 }

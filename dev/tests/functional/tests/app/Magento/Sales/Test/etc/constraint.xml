@@ -45,6 +45,9 @@
     <assertOrderInOrdersGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderInOrdersGrid>
+    <assertOrdersInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrdersInOrdersGrid>
     <assertOrderInOrdersGridOnFrontend module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderInOrdersGridOnFrontend>
