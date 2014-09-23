@@ -141,6 +141,12 @@
 
 .minilist {
     .list-reset-styles(0, 0);
+    .product-image-wrapper {
+        &:extend(.abstract-reset-image-wrapper all);
+    }
+    .product-item-name {
+        margin-top: 0;
+    }
     .item {
         border-top: 1px solid @color-secondary;
         padding: 15px 0;

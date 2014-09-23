@@ -145,17 +145,20 @@
     .item > .product {
         &:extend(.add-clearfix all);
     }
-
+    .product-image-wrapper {
+        &:extend(.abstract-reset-image-wrapper all);
+    }
     .product {
         &.photo {
             float: left;
         }
-        &.name {
+        &-item-name {
             display: block;
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
             font-weight: @font-weight-base;
+            margin-top: 0;
             a {
                 color: @link-color;
             }
