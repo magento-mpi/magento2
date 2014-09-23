@@ -18,6 +18,7 @@
         "magento/module-email": "0.1.0-alpha96",
         "magento/module-customer": "0.1.0-alpha96",
         "magento/module-translation": "0.1.0-alpha96",
+        "magento/module-require-js": "0.1.0-alpha96",
         "magento/framework": "0.1.0-alpha96",
         "magento/magento-composer-installer": "*"
     },
