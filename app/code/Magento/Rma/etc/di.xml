@@ -8,6 +8,13 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Rma\Service\V1\RmaWriteInterface" type="Magento\Rma\Service\V1\RmaWrite"/>
+    <preference for="Magento\Rma\Service\V1\CommentWriteInterface" type="Magento\Rma\Service\V1\CommentWrite"/>
+    <preference for="Magento\Rma\Service\V1\CommentReadInterface" type="Magento\Rma\Service\V1\CommentRead"/>
+    <preference for="Magento\Rma\Service\V1\TrackWriteInterface" type="Magento\Rma\Service\V1\TrackWrite"/>
+    <preference for="Magento\Rma\Service\V1\TrackReadInterface" type="Magento\Rma\Service\V1\TrackRead"/>
+    <preference for="Magento\Rma\Service\V1\RmaReadInterface" type="Magento\Rma\Service\V1\RmaRead"/>
+    <preference for="Magento\Rma\Service\V1\RmaMetadataReadInterface" type="Magento\Rma\Service\V1\RmaMetadataRead"/>
     <type name="Magento\Rma\Helper\Data">
         <arguments>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
@@ -40,5 +47,33 @@
     </type>
     <type name="Magento\Sales\Block\Adminhtml\Order\View\Tab\History">
         <plugin name="sales-order-history-rma-plugin" type="Magento\Rma\Block\Adminhtml\Order\View\Tab\HistoryPlugin"/>
+    </type>
+    <virtualType name="Magento\Rma\Service\Resource\Item\Form\Attribute\CollectionFactory" type="Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory">
+        <arguments>
+            <argument name="instance" xsi:type="string">Magento\Rma\Model\Resource\Item\Form\Attribute\Collection</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Rma\Service\V1\Data\Eav\AttributeMetadataDataProvider" type="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataDataProvider">
+        <arguments>
+            <argument name="attrFormCollectionFactory" xsi:type="object">Magento\Rma\Service\Resource\Item\Form\Attribute\CollectionFactory</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Rma\Service\V1\RmaMetadataRead">
+        <arguments>
+            <argument name="attributeMetadataDataProvider" xsi:type="object">Magento\Rma\Service\V1\Data\Eav\AttributeMetadataDataProvider</argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\Rma\Service\Config\RmaMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+        <arguments>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
+        </arguments>
+    </virtualType>
+    <type name="\Magento\Rma\Service\V1\RmaMetadataRead">
+        <arguments>
+            <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\CustomerMetadataConfig</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Rma\Model\RmaRepository">
+        <plugin name="authorization" type="\Magento\Rma\Model\Rma\Plugin\Authorization" />
     </type>
 </config>

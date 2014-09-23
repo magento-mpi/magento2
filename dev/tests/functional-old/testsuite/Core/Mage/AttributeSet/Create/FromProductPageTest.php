@@ -133,7 +133,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
     }
 
     /**
-     * New Attribute created from Product page to new set from Search Optimization tab
+     * New Attribute created from Product page to new set from Search Engine Optimization tab
      *
      * @test
      * @depends preconditionsForTests

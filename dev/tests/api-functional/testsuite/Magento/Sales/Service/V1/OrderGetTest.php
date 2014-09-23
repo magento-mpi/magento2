@@ -35,9 +35,6 @@ class OrderGetTest extends WebapiAbstract
      */
     public function testOrderGet()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
-        );
         $expectedOrderData = [
             'base_subtotal' => '100.0000',
             'subtotal' => '100.0000',

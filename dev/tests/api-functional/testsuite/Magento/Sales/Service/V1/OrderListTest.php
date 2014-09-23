@@ -37,9 +37,6 @@ class OrderListTest extends WebapiAbstract
      */
     public function testOrderList()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
-        );
         /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
