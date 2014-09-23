@@ -15,13 +15,6 @@ namespace Magento\TargetRule\Block\Checkout\Cart;
 class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
 {
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp_item';
-
-    /**
      * Array of product objects in cart
      *
      * @var array
