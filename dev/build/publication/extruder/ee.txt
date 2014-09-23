@@ -181,4 +181,5 @@ dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndCETests.php
 dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndTests.php
 dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndWithExternalSolutionsCETests.php
 dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndWithExternalSolutionsTests.php
+dev/tests/functional/testsuites/Mtf/TestSuite/GithubPublicationTests.php
 dev/tests/functional/composer.json

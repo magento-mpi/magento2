@@ -1,0 +1,18 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<td data-part="body.row.cell" data-bind="stopPropagation: true">
+    <div data-bind="if: window.Array.isArray(row[field.index])">
+        <div data-bind="foreach: { data: row[field.index], as: 'action' }">
+            <a target="_blank" data-bind="attr: { href: action.href }, text: action.title"></a>
+        </div>
+    </div>
+    <div data-bind="ifnot: window.Array.isArray(row[field.index])">
+        <a target="_blank" data-bind="attr: { href: row[field.index].href }, text: row[field.index].title"></a>
+    </div>
+</td>
