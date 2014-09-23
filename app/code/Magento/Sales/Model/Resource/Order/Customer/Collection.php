@@ -55,7 +55,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             'store_name',
             'store',
             'name',
-            'store_id=store_id',
+            'store_id=website_id',
             null,
             'left'
         );
