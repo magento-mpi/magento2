@@ -9,13 +9,13 @@
 -->
 <page module="Magento_UrlRewrite">
     <urlrewriteIndex>
-        <mca>admin/urlrewrite/index</mca>
+        <mca>admin/url_rewrite/index</mca>
         <area>adminhtml</area>
-        <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex</class>
+        <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex</class>
     </urlrewriteIndex>
     <urlrewriteEdit>
-        <mca>admin/urlrewrite/edit</mca>
+        <mca>admin/url_rewrite/edit</mca>
         <area>adminhtml</area>
-        <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit</class>
+        <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit</class>
     </urlrewriteEdit>
 </page>

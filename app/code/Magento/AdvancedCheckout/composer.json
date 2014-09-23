@@ -19,6 +19,7 @@
         "magento/module-widget": "0.1.0-alpha96",
         "magento/module-gift-card": "0.1.0-alpha96",
         "magento/module-downloadable": "0.1.0-alpha96",
+        "magento/module-msrp": "0.1.0-alpha96",
         "magento/framework": "0.1.0-alpha96",
         "magento/magento-composer-installer": "*"
     },
