@@ -21,7 +21,6 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Webapi\Exception;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -164,21 +163,19 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
+     * Get product by SKU.
+     *
      * @param string $productSku
      * @return \Magento\Catalog\Model\Product
-     * @throws \Magento\Webapi\Exception
+     * @throws InputException
      */
     private function getProduct($productSku)
     {
         $product = $this->productRepository->get($productSku);
         if (ConfigurableType::TYPE_CODE !== $product->getTypeId()) {
-            throw new Exception(
-                'Product with specified sku: "%1" is not a configurable product',
-                Exception::HTTP_FORBIDDEN,
-                Exception::HTTP_FORBIDDEN,
-                [
-                    $product->getSku()
-                ]
+            throw new InputException(
+                'Product with specified sku: "%sku" is not a configurable product',
+                ['sku' => $product->getSku()]
             );
         }
         return $product;
