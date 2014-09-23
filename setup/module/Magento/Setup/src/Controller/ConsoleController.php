@@ -165,7 +165,7 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_IS_SECURE . '=]'
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]'
-            . ' [--' . UserConfig::KEY_ADMIN_NO_FORM_KEY . '=]'
+            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]'
             . ' [--' . OrderIncrementPrefix::KEY_ORDER_INCREMENT_PREFIX . '=]';
         $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
