@@ -5,20 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Model\Config\Backend;
+namespace Magento\Backend\Model\Config\Backend\Cookie;
 
 use Magento\Framework\Model\Exception;
+use Magento\Framework\Session\Config\Validator\CookieDomainValidator;
 
 /**
- * Test \Magento\Backend\Model\Config\Backend\Domain
+ * Test \Magento\Backend\Model\Config\Backend\Cookie\Domain
  */
 class DomainTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Framework\Model\Resource\AbstractResource | \PHPUnit_Framework_MockObject_MockObject */
     protected $resourceMock;
 
-    /** @var \Magento\Backend\Model\Config\Backend\Domain */
+    /** @var \Magento\Backend\Model\Config\Backend\Cookie\Domain */
     protected $domain;
+
+    /**
+     * @var  CookieDomainValidator | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $validatorMock;
 
     protected function setUp()
     {
@@ -50,12 +56,17 @@ class DomainTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->validatorMock = $this->getMockBuilder(
+            'Magento\Framework\Session\Config\Validator\CookieDomainValidator'
+        )->disableOriginalConstructor()
+            ->getMock();
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->domain = $helper->getObject(
-            'Magento\Backend\Model\Config\Backend\Domain',
+            'Magento\Backend\Model\Config\Backend\Cookie\Domain',
             [
                 'context' => $contextMock,
                 'resource' => $this->resourceMock,
+                'configValidator' => $this->validatorMock,
             ]
         );
     }
@@ -65,23 +76,30 @@ class DomainTest extends \PHPUnit_Framework_TestCase
      * @dataProvider beforeSaveDataProvider
      *
      * @param string $value
-     * @param string $exceptionMessage
+     * @param bool $isValid
+     * @param int $callNum
+     * @param int $callGetMessages
      */
-    public function testBeforeSave($value, $exceptionMessage = null)
+    public function testBeforeSave($value, $isValid, $callNum, $callGetMessages = 0)
     {
         $this->resourceMock->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
         $this->resourceMock->expects($this->any())->method('commit')->will($this->returnSelf());
         $this->resourceMock->expects($this->any())->method('rollBack')->will($this->returnSelf());
 
+        $this->validatorMock->expects($this->exactly($callNum))
+            ->method('isValid')
+            ->will($this->returnValue($isValid));
+        $this->validatorMock->expects($this->exactly($callGetMessages))
+            ->method('getMessages')
+            ->will($this->returnValue(['message']));
         $this->domain->setValue($value);
         try {
             $this->domain->save();
-            if ($exceptionMessage ) {
+            if ($callGetMessages ) {
                 $this->fail('Failed to throw exception');
             }
         } catch (Exception $e) {
-            $this->assertContains('Invalid domain name: ', $e->getMessage());
-            $this->assertContains($exceptionMessage, $e->getMessage());
+            $this->assertEquals('Invalid domain name: message', $e->getMessage());
         }
     }
 
@@ -91,15 +109,10 @@ class DomainTest extends \PHPUnit_Framework_TestCase
     public function beforeSaveDataProvider()
     {
         return [
-            'not string' => [['array'], 'Invalid type given. String expected'],
-            'invalid hostname' => [
-                'http://',
-                'The input does not match the expected structure for a DNS hostname; '
-                . 'The input does not appear to be a valid URI hostname; '
-                . 'The input does not appear to be a valid local network name'
-            ],
-            'valid hostname' => ['hostname.com'],
-            'empty string' => [''],
+            'not string' => [['array'], false, 1, 1],
+            'invalid hostname' => ['http://', false, 1, 1],
+            'valid hostname' => ['hostname.com', true, 1, 0],
+            'empty string' => ['', false, 0, 0],
         ];
     }
 }

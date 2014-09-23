@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend;
+namespace Magento\Backend\Model\Session;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Framework\Session\Config;
@@ -30,6 +30,7 @@ class AdminConfig extends Config
     protected $frontNameResolver;
 
     /**
+     * @param \Magento\Framework\ValidatorFactory $validatorFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\String $stringHelper
      * @param \Magento\Framework\App\RequestInterface $request
@@ -44,6 +45,7 @@ class AdminConfig extends Config
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Framework\ValidatorFactory $validatorFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\String $stringHelper,
         \Magento\Framework\App\RequestInterface $request,
@@ -57,6 +59,7 @@ class AdminConfig extends Config
         $sessionName = self::SESSION_NAME_ADMIN
     ) {
         parent::__construct(
+            $validatorFactory,
             $scopeConfig,
             $stringHelper,
             $request,
@@ -69,9 +72,7 @@ class AdminConfig extends Config
         );
 
         $this->frontNameResolver = $frontNameResolver;
-
-        $baseUrl = $this->_httpRequest->getBaseUrl();
-        $adminPath = $this->extractAdminPath($baseUrl);
+        $adminPath = $this->extractAdminPath();
         $this->setCookiePath($adminPath);
         $this->setName($sessionName);
     }
@@ -79,16 +80,11 @@ class AdminConfig extends Config
     /**
      * Determine the admin path
      *
-     * @param string $baseUrl
      * @return string
-     * @throws \InvalidArgumentException
      */
-    private function extractAdminPath($baseUrl)
+    private function extractAdminPath()
     {
-        if (!is_string($baseUrl)) {
-            throw new \InvalidArgumentException('Cookie path is not a string.');
-        }
-
+        $baseUrl = $this->_httpRequest->getBaseUrl();
         $adminPath = $this->frontNameResolver->getFrontName();
 
         if (!substr($baseUrl, -1) || ('/' != substr($baseUrl, -1))) {

@@ -5,11 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Model\Config\Backend;
+namespace Magento\Backend\Model\Config\Backend\Cookie;
+
 use Magento\Framework\Model\Exception;
 
 /**
- * Test \Magento\Backend\Model\Config\Backend\Domain
+ * Test \Magento\Backend\Model\Config\Backend\Cookie\Domain
  *
  * @magentoAppArea adminhtml
  */
@@ -23,9 +24,9 @@ class DomainTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSave($value, $exceptionMessage = null)
     {
-        /** @var $domain \Magento\Backend\Model\Config\Backend\Domain */
+        /** @var $domain \Magento\Backend\Model\Config\Backend\Cookie\Domain */
         $domain = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Backend\Model\Config\Backend\Domain'
+            'Magento\Backend\Model\Config\Backend\Cookie\Domain'
         );
         $domain->setValue($value);
         try {
@@ -37,7 +38,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
             }
         } catch (Exception $e) {
             $this->assertContains('Invalid domain name: ', $e->getMessage());
-            $this->assertContains($exceptionMessage, $e->getMessage());
+            $this->assertEquals($exceptionMessage, $e->getMessage());
             $this->assertNull($domain->getId());
         }
     }
@@ -48,10 +49,10 @@ class DomainTest extends \PHPUnit_Framework_TestCase
     public function beforeSaveDataProvider()
     {
         return [
-            'not string' => [['array'], 'Invalid type given. String expected'],
+            'not string' => [['array'], 'Invalid domain name: must be a string'],
             'invalid hostname' => [
                 'http://',
-                'The input does not match the expected structure for a DNS hostname; '
+                'Invalid domain name: The input does not match the expected structure for a DNS hostname; '
                 . 'The input does not appear to be a valid URI hostname; '
                 . 'The input does not appear to be a valid local network name'
             ],
