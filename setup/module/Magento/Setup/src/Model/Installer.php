@@ -19,6 +19,9 @@ use Magento\Setup\Module\Setup\ConnectionFactory;
 
 class Installer
 {
+    /**
+     * Parameter indicating command whether to cleanup database in the install routine
+     */
     const CLEANUP_DB = 'cleanup_database';
 
     /**
