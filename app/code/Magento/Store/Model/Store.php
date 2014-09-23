@@ -1102,19 +1102,10 @@ class Store extends AbstractModel implements
     /**
      * Protect delete from non admin area
      *
-     * Register indexing event before delete store
-     *
      * @return $this
      */
     protected function _beforeDelete()
     {
-        \Magento\Framework\App\ObjectManager::getInstance()->get(
-            'Magento\Index\Model\Indexer'
-        )->logEvent(
-            $this,
-            self::ENTITY,
-            \Magento\Index\Model\Event::TYPE_DELETE
-        );
         $this->_configDataResource->clearScopeData(\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $this->getId());
 
         return parent::_beforeDelete();
@@ -1129,23 +1120,6 @@ class Store extends AbstractModel implements
     {
         parent::_afterDelete();
         $this->_configCacheType->clean();
-        return $this;
-    }
-
-    /**
-     * Init indexing process after store delete commit
-     *
-     * @return $this
-     */
-    protected function _afterDeleteCommit()
-    {
-        parent::_afterDeleteCommit();
-        \Magento\Framework\App\ObjectManager::getInstance()->get(
-            'Magento\Index\Model\Indexer'
-        )->indexEvents(
-            self::ENTITY,
-            \Magento\Index\Model\Event::TYPE_DELETE
-        );
         return $this;
     }
 

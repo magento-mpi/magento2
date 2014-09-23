@@ -348,7 +348,6 @@ return array(
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Backend_Seo_Product',
-        'Magento\Catalog\Model\Config\Backend\Seo\Product'
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array',
@@ -1616,8 +1615,6 @@ return array(
         'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped'
     ),
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
-    array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
-    array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('Magento\Core\Model\Config\Modules\Reader', 'Magento\Framework\Module\Dir\Reader'),
     array('Magento\Framework\Data\Form\Factory', 'Magento\Framework\Data\FormFactory'),
     array('Magento\Framework\App\Cache\Config', 'Magento\Framework\Cache\Config'),
@@ -2255,7 +2252,7 @@ return array(
     array('Magento\Backend\Helper\Media\Js'),
     array(
         'Magento\Core\Model\Resource\Url\Rewrite\Collection',
-        'Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection'
+        'Magento\UrlRewrite\Model\Resource\UrlRewriteCollection'
     ),
     array(
         'Magento\Core\Model\Resource\Url\Rewrite',
@@ -2780,6 +2777,8 @@ return array(
     ['Magento\Framework\App\State\MaintenanceMode', 'Magento\Framework\App\MaintenanceMode'],
     ['Magento\Framework\Error\Handler', 'Magento\Framework\App\ErrorHandler'],
     ['Magento\Framework\Error\HandlerInterface', 'Magento\Framework\App\ErrorHandler'],
+    ['Magento\Index'],
+    ['Magento\Catalog\Model\Resource\Product\Indexer\Eav'],
     ['\Magento\Framework\Service\Data\Eav\AbstractObject', 'Magento\Framework\Service\Data\AbstractExtensibleObject'],
     ['\Magento\Framework\Service\Data\AbstractObject', 'Magento\Framework\Service\Data\AbstractSimpleObject'],
     [

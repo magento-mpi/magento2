@@ -31,20 +31,7 @@ class AddTrack extends \Magento\Rma\Controller\Adminhtml\Rma
 
             $model = $this->_initModel();
             if ($model->getId()) {
-                /** @var $shippingModel \Magento\Rma\Model\Shipping */
-                $shippingModel = $this->_objectManager->create('Magento\Rma\Model\Shipping');
-                $shippingModel->setTrackNumber(
-                    $number
-                )->setCarrierCode(
-                    $carrier
-                )->setCarrierTitle(
-                    $title
-                )->setRmaEntityId(
-                    $model->getId()
-                )->setIsAdmin(
-                    \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER
-                )->save();
-
+                $this->labelService->addTrack($model->getId(), $number, $carrier, $title);
                 $this->_view->loadLayout();
                 $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
