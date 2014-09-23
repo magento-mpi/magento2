@@ -28,13 +28,11 @@ define([
     /**
      * Creates new instance of a grids' component.
      * @param {Object} data -
-            Data object that was passed while creating component initializer. 
-     * @param {HTMLElement} el -
-            Element upon which compononet is going to be initialized.
+            Data object that was passed while creating component initializer.
      * @param {Object} base -
             Basic configuration.
      */
-    function init(data, el, base) {
+    function init(data, base ) {
         var providerName    = base.parent_name,
             component       = providerName + ':' + base.name,
             mainComponent   = providerName + ':' + providerName,

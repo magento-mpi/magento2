@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                recentlyViewedProducts: 'Magento_Reports/js/recently-viewed'
-            }
+    map: {
+        '*': {
+            recentlyViewedProducts: 'Magento_Reports/js/recently-viewed'
         }
     }
 };

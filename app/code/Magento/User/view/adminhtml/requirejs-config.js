@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                rolesTree: 'Magento_User/js/roles-tree'
-            }
+    map: {
+        '*': {
+            rolesTree: 'Magento_User/js/roles-tree'
         }
     } 
 };

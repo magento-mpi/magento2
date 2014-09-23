@@ -45,7 +45,7 @@ config;
     const PARTIAL_CONFIG_TEMPLATE = <<<config
 (function() {
 %config%
-require.config(mageUpdateConfigPaths(config, '%context%'))
+require.config(config);
 })();
 
 config;
@@ -96,9 +96,6 @@ config;
      */
     public function getConfig()
     {
-        $functionSource = __DIR__ . '/paths-updater.js';
-        $functionDeclaration = $this->baseDir->readFile($this->baseDir->getRelativePath($functionSource));
-
         $distributedConfig = '';
         $customConfigFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), self::CONFIG_FILE_NAME);
         foreach ($customConfigFiles as $file) {
@@ -112,7 +109,7 @@ config;
 
         $fullConfig = str_replace(
             array('%function%', '%usages%'),
-            array($functionDeclaration, $distributedConfig),
+            array($distributedConfig),
             self::FULL_CONFIG_TEMPLATE
         );
 

@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                multipleWishlist: 'Magento_MultipleWishlist/js/multiple-wishlist'
-            }
+    map: {
+        '*': {
+            multipleWishlist: 'Magento_MultipleWishlist/js/multiple-wishlist'
         }
     }
 };

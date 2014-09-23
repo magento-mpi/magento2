@@ -6,12 +6,10 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {                
-                giftOptions:    'Magento_GiftMessage/gift-options',
-                extraOptions:   'Magento_GiftMessage/extra-options'
-            }
+    map: {
+        '*': {
+            giftOptions:    'Magento_GiftMessage/gift-options',
+            extraOptions:   'Magento_GiftMessage/extra-options'
         }
     }
 };

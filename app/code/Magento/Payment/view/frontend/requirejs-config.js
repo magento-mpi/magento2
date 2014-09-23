@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                creditCardType: 'Magento_Payment/cc-type'
-            }
+    map: {
+        '*': {
+            creditCardType: 'Magento_Payment/cc-type'
         }
     }
 };

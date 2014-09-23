@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                newsletter: 'Magento_Newsletter/newsletter'
-            }
+    map: {
+        '*': {
+            newsletter: 'Magento_Newsletter/newsletter'
         }
     }
 };

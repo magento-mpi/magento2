@@ -6,12 +6,12 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                fileElement:    'Magento_CustomerCustomAttributes/file-element',
-                validation:     'mage/validation/dob-rule'
-            }
+    map: {
+        '*': {
+            fileElement: 'Magento_CustomerCustomAttributes/file-element'
         }
-    }
+    },
+    deps: [
+        'mage/validation/dob-rule'
+    ]
 };

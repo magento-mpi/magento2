@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                fptAttribute: 'Magento_Weee/js/fpt-attribute'
-            }
+    map: {
+        '*': {
+            fptAttribute: 'Magento_Weee/js/fpt-attribute'
         }
     }
 };

@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                multiShipping: 'Magento_Multishipping/js/multi-shipping'
-            }
+    map: {
+        '*': {
+            multiShipping: 'Magento_Multishipping/js/multi-shipping'
         }
     }
 };

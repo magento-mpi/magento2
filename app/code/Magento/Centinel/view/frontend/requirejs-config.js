@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                centinelAuthenticate: 'Magento_Centinel/centinel-authenticate'
-            }
+    map: {
+        '*': {
+            centinelAuthenticate: 'Magento_Centinel/centinel-authenticate'
         }
     }
 };

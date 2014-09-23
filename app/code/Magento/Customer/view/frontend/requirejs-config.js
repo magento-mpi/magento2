@@ -6,14 +6,14 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                checkoutBalance:    'Magento_Customer/js/checkout-balance',
-                address:            'Magento_Customer/address',
-                setPassword:        'Magento_Customer/set-password',
-                validation:         'mage/validation/dob-rule'
-            }
+    map: {
+        '*': {
+            checkoutBalance:    'Magento_Customer/js/checkout-balance',
+            address:            'Magento_Customer/address',
+            setPassword:        'Magento_Customer/set-password'
         }
-    }
+    },
+    deps: [
+        'mage/validation/dob-rule'
+    ]
 };

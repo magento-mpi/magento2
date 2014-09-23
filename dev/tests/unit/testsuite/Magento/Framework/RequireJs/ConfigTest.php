@@ -91,11 +91,11 @@ relative/%s/paths-updater.js content
 
 (function() {
 relative/file_one.js content
-require.config(mageUpdateConfigPaths(config, 'Module_One'))
+require.config(config)
 })();
 (function() {
 relative/file_two.js content
-require.config(mageUpdateConfigPaths(config, ''))
+require.config(config)
 })();
 
 })(require);

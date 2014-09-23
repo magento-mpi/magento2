@@ -6,11 +6,7 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                validation: 'mage/validation/validation'
-            }
-        }
-    }
+    deps: [
+        'mage/validation/validation'
+    ]
 };

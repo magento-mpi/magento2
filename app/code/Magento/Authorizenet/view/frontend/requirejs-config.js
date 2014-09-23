@@ -6,12 +6,10 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                authorizenetAuthenticate:   'Magento_Authorizenet/authorizenet-authenticate',
-                directpost:                 'Magento_Authorizenet/js/direct-post'
-            }
+    map: {
+        '*': {
+            authorizenetAuthenticate:   'Magento_Authorizenet/authorizenet-authenticate',
+            directpost:                 'Magento_Authorizenet/js/direct-post'
         }
     }
 };

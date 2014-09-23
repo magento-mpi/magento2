@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                integration: 'Magento_Integration/js/integration'
-            }
+    map: {
+        '*': {
+            integration: 'Magento_Integration/js/integration'
         }
     } 
 };

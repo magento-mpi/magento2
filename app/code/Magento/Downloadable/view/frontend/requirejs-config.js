@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                downloadable: 'Magento_Downloadable/downloadable'
-            }
+    map: {
+        '*': {
+            downloadable: 'Magento_Downloadable/downloadable'
         }
     }
 };

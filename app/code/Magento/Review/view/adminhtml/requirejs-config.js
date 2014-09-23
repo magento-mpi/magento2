@@ -6,9 +6,7 @@
  */
 
 var config = {
-    map: {
-        '*': {
-            requireCookie: 'Magento_Core/js/require-cookie'
-        }
-    }
+    deps: [
+        'Magento_Review/rating/validation-rules'
+    ]
 };

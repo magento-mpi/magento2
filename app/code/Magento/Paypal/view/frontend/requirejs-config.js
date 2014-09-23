@@ -6,12 +6,10 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {                
-                opcheckoutPaypalIframe: 'Magento_Paypal/js/opcheckout',
-                orderReview:            'Magento_Paypal/order-review'
-            }
+    map: {
+        '*': {
+            opcheckoutPaypalIframe: 'Magento_Paypal/js/opcheckout',
+            orderReview:            'Magento_Paypal/order-review'
         }
     }
 };

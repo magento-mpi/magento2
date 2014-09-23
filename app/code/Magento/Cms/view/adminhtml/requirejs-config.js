@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                folderTree: 'Magento_Cms/js/folder-tree'
-            }
+    map: {
+        '*': {
+            folderTree: 'Magento_Cms/js/folder-tree'
         }
     }
 };

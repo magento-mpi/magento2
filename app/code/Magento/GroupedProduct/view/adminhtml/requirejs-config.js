@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                groupedProduct: 'Magento_GroupedProduct/js/grouped-product'
-            }
+    map: {
+        '*': {
+            groupedProduct: 'Magento_GroupedProduct/js/grouped-product'
         }
     }
 };

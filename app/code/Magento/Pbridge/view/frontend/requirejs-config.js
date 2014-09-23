@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                pbridge: 'Magento_Pbridge/js/pbridge'
-            }
+    map: {
+        '*': {
+            pbridge: 'Magento_Pbridge/js/pbridge'
         }
     }
 };

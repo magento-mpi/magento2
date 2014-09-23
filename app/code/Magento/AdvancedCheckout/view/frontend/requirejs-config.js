@@ -6,12 +6,10 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                orderBySkuFailure:  'Magento_AdvancedCheckout/js/order-by-sku-failure',
-                fileChooser:        'Magento_AdvancedCheckout/js/file-chooser'
-            }
+    map: {
+        '*': {
+            orderBySkuFailure:  'Magento_AdvancedCheckout/js/order-by-sku-failure',
+            fileChooser:        'Magento_AdvancedCheckout/js/file-chooser'
         }
     }
 };

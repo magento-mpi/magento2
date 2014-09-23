@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                systemMessageDialog: 'Magento_AdminNotification/system/notification'
-            }
+    map: {
+        '*': {
+            systemMessageDialog: 'Magento_AdminNotification/system/notification'
         }
     }
 };

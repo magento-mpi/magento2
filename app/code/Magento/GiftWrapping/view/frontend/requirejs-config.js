@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                giftWrapping: 'Magento_GiftWrapping/gift-wrapping'
-            }
+    map: {
+        '*': {
+            giftWrapping: 'Magento_GiftWrapping/gift-wrapping'
         }
     }
 };

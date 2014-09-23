@@ -38,7 +38,6 @@
 </form>
 <script type="text/javascript">
 require(['jquery', "mage/mage"], function($){
-    $.mage.extend('categoryForm', 'form', 'Magento_Catalog/catalog/category/form');
     $('#category_edit_form')
         .mage('categoryForm', {refreshUrl: '<?php echo $this->getRefreshPathUrl() ?>'})
         .mage('validation', {submitHandler: function(form){

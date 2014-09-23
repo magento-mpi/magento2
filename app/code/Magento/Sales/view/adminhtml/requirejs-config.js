@@ -6,11 +6,9 @@
  */
 
 var config = {
-    config: {
-        'mage/mage': {
-            components: {
-                orderEditDialog: 'Magento_Sales/order/edit/message'
-            }
+    map: {
+        '*': {
+            orderEditDialog: 'Magento_Sales/order/edit/message'
         }
     }
 };
