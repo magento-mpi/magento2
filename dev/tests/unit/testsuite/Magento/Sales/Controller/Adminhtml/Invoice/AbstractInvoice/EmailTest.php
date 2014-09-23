@@ -66,22 +66,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManagerHelper = new ObjectManagerHelper($this);
-        $this->context = $this->getMock(
-            'Magento\Backend\App\Action\Context',
-            [
-                'getRequest',
-                'getResponse',
-                'getMessageManager',
-                'getRedirect',
-                'getObjectManager',
-                'getSession',
-                'getActionFlag',
-                'getHelper'
-            ],
-            [],
-            '',
-            false
-        );
+        $this->context = $this->getMock('Magento\Backend\App\Action\Context', [], [], '', false);
         $this->response = $this->getMock(
             'Magento\Framework\App\ResponseInterface',
             ['setRedirect', 'sendResponse'],
@@ -89,24 +74,12 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->request = $this->getMock(
-            'Magento\Framework\App\RequestInterface',
-            ['isPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getCookie'],
-            [],
-            '',
-            false
-        );
-        $this->objectManager = $this->getMock(
-            'Magento\Framework\ObjectManager\ObjectManager',
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->messageManager = $this->getMock('Magento\Framework\Message\Manager', ['addSuccess'], [], '', false);
+        $this->request = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', [], [], '', false);
+        $this->messageManager = $this->getMock('Magento\Framework\Message\Manager', [], [], '', false);
         $this->session = $this->getMock('Magento\Backend\Model\Session', ['setIsUrlNotice'], [], '', false);
-        $this->actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', ['get'], [], '', false);
-        $this->helper = $this->getMock('\Magento\Backend\Helper\Data', ['getUrl'], [], '', false);
+        $this->actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', [], [], '', false);
+        $this->helper = $this->getMock('\Magento\Backend\Helper\Data', [], [], '', false);
         $this->context->expects($this->once())
             ->method('getMessageManager')
             ->willReturn($this->messageManager);
@@ -144,8 +117,8 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $orderId = 100000030;
         $invoiceClassName = 'Magento\Sales\Model\Order\Invoice';
         $cmNotifierClassName = 'Magento\Sales\Model\Order\InvoiceNotifier';
-        $invoice = $this->getMock($invoiceClassName, ['load', 'getOrder', '__wakeup'], [], '', false);
-        $notifier = $this->getMock($cmNotifierClassName, ['notify', '__wakeup'], [], '', false);
+        $invoice = $this->getMock($invoiceClassName, [], [], '', false);
+        $notifier = $this->getMock($cmNotifierClassName, [], [], '', false);
         $order = $this->getMock('Magento\Sales\Model\Order', [], [], '', false);
         $order->expects($this->once())
             ->method('getId')
@@ -196,7 +169,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     {
         $invoiceId = 10000031;
         $invoiceClassName = 'Magento\Sales\Model\Order\Invoice';
-        $invoice = $this->getMock($invoiceClassName, ['load', '__wakeup'], [], '', false);
+        $invoice = $this->getMock($invoiceClassName, [], [], '', false);
 
         $this->request->expects($this->once())
             ->method('getParam')
@@ -237,4 +210,3 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->willReturn($path . '/' . $invoiceId);
     }
 }
- 
