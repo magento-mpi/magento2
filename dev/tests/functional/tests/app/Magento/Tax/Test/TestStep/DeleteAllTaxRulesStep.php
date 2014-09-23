@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\TestStep;
+namespace Magento\Tax\Test\TestStep;
 
 use Mtf\TestStep\TestStepInterface;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
 
 /**
- * Class DeleteTaxRule
- * Delete Tax Rule on backend
+ * Class DeleteAllTaxRulesStep
+ * Delete all Tax Rule on backend
  */
-class DeleteTaxRule implements TestStepInterface
+class DeleteAllTaxRulesStep implements TestStepInterface
 {
     /**
      * Tax Rule grid page

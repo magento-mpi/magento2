@@ -100,13 +100,13 @@ class SalesTaxReportEntityTest extends Injectable
     protected $taxRule;
 
     /**
-     * Delete Tax rules
+     * Delete all tax rules
      *
      * @return void
      */
     public function __prepare()
     {
-        $deleteTaxRule = $this->objectManager->create('Magento\Reports\Test\TestStep\DeleteTaxRule');
+        $deleteTaxRule = $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep');
         $deleteTaxRule->run();
     }
 
@@ -184,13 +184,13 @@ class SalesTaxReportEntityTest extends Injectable
     }
 
     /**
-     * Delete Tax rule after test
+     * Delete all tax rules after test
      *
      * @return void
      */
     public function tearDown()
     {
-        $deleteTaxRule = $this->objectManager->create('Magento\Reports\Test\TestStep\DeleteTaxRule');
+        $deleteTaxRule = $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep');
         $deleteTaxRule->run();
     }
 }
