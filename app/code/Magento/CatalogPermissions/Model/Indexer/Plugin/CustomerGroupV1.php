@@ -41,7 +41,7 @@ class CustomerGroupV1
      * @return int
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundSaveGroup(
+    public function aroundCreateGroup(
         \Magento\Customer\Service\V1\CustomerGroupService $subject,
         \Closure $proceed,
         \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup

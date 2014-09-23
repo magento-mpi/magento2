@@ -21,7 +21,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerCustomerGroupServiceV1";
     const SERVICE_VERSION = "V1";
-    const RESOURCE_PATH = "/V1/customerGroup";
+    const RESOURCE_PATH = "/V1/customerGroups";
 
     /**
      * @var CustomerGroupServiceInterface
@@ -260,7 +260,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/canDelete/$groupId",
+                'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -304,7 +304,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/canDelete/$groupId",
+                'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -347,7 +347,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ]
         ];
 
@@ -392,7 +392,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ]
         ];
 
@@ -427,7 +427,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ]
         ];
 
@@ -461,7 +461,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ]
         ];
 
@@ -498,7 +498,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ]
         ];
 
@@ -524,6 +524,72 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
+     * Verify that an attempt to update via POST is not allowed.
+     */
+    public function testCreateGroupWithIdRest()
+    {
+        $this->_markTestAsRestOnly();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ]
+        ];
+
+        $groupData = [
+            CustomerGroup::ID => 88,
+            CustomerGroup::CODE => 'Create Group With Id REST',
+            CustomerGroup::TAX_CLASS_ID => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Expected exception');
+        } catch (\Exception $e) {
+            $this->assertContains(
+                "ID is not expected for this request.",
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
+    }
+
+    /**
+     * Verify that creating a new group fails via SOAP if there is an Id specified.
+     */
+    public function testCreateGroupWithIdSoap()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $serviceInfo = [
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+            ]
+        ];
+
+        $groupData = [
+            CustomerGroup::ID => 88,
+            CustomerGroup::CODE => 'Create Group with Id SOAP',
+            CustomerGroup::TAX_CLASS_ID => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                "ID is not expected for this request.",
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        }
+    }
+
+    /**
      * Verify that updating an existing group works via REST.
      */
     public function testUpdateGroupRest()
@@ -540,7 +606,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/$groupId",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ]
         ];
@@ -552,10 +618,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $newGroupId = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
-        $group = $this->groupService->getGroup($newGroupId);
+        $group = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData[CustomerGroup::TAX_CLASS_ID],
@@ -571,11 +636,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $this->_markTestAsRestOnly();
 
-        $nonExistentGroupId = 9999;
+        $nonExistentGroupId = '9999';
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/$nonExistentGroupId",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ]
         ];
@@ -592,7 +657,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
-             . '"parameters":{"fieldName":"id","fieldValue":9999}';
+             . '"parameters":{"fieldName":"id","fieldValue":"9999"}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
@@ -612,7 +677,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -657,7 +722,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -693,7 +758,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -728,7 +793,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -766,7 +831,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
             ]
         ];
 
@@ -810,7 +875,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1UpdateGroup'
             ]
         ];
 
@@ -819,12 +884,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = ['group' => $groupData];
+        $requestData = ['groupId' => $groupId, 'group' => $groupData];
 
-        $newGroupId = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
-        $group = $this->groupService->getGroup($newGroupId);
+        $group = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData['taxClassId'],
@@ -834,19 +898,19 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
-     * Verify that updating a non-existing group throws an exception  via SOAP.
+     * Verify that updating a non-existing group throws an exception via SOAP.
      */
     public function testUpdateGroupNotExistingGroupSoap()
     {
         $this->_markTestAsSoapOnly();
 
-        $nonExistentGroupId = 9999;
+        $nonExistentGroupId = '9999';
 
         $serviceInfo = [
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+                'operation' => 'customerCustomerGroupServiceV1UpdateGroup'
             ]
         ];
 
@@ -855,7 +919,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Non-Existent Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = ['group' => $groupData];
+        $requestData = ['groupId' => $nonExistentGroupId, 'group' => $groupData];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -997,7 +1061,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     private function createGroup($group)
     {
-        $groupId = $this->groupService->saveGroup($group);
+        $groupId = $this->groupService->createGroup($group);
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupService->getGroup($groupId);
@@ -1012,54 +1076,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->groupRegistry->remove($groupId);
 
         return $groupId;
-    }
-
-    /**
-     * Test save customer group
-     */
-    public function testSaveGroup()
-    {
-        /** @var \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $builder */
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
-        $groupId = $this->createGroup(
-            $builder->populateWithArray([
-                    CustomerGroup::ID => null,
-                    CustomerGroup::CODE => 'New testSaveGroup Group',
-                    CustomerGroup::TAX_CLASS_ID => 3
-                ])->create()
-        );
-
-        $group = $this->groupService->getGroup($groupId);
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
-            ]
-        ];
-
-        $group = $builder->populate($group);
-        $group->setCode('New testSaveGroup Group Change');
-        $group = $group->create();
-
-        $requestData = ['group' => [
-                CustomerGroup::ID => $group->getId(),
-                CustomerGroup::CODE => $group->getCode(),
-                CustomerGroup::TAX_CLASS_ID => $group->getTaxClassId()
-            ]
-        ];
-
-        $changedGroupId = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($group->getId(), $changedGroupId);
-
-        $this->groupRegistry->remove($groupId);
-        $changedGroup = $this->groupService->getGroup($groupId);
-        $this->assertEquals($group, $changedGroup);
     }
 
     /**
@@ -1137,7 +1153,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/search",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -1150,6 +1166,47 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $requestData = ['searchCriteria' => $searchData];
 
         $searchResult = $this->_webApiCall($serviceInfo, $requestData);
+
+        if (is_null($expectedResult)) {
+            $this->assertEquals(0, $searchResult['total_count']);
+        } elseif(is_array($expectedResult))  {
+            $this->assertGreaterThan(0, $searchResult['total_count']);
+            if(!empty($expectedResult)) {
+                $this->assertEquals($expectedResult, $searchResult['items'][0]);
+            }
+        }
+    }
+
+    /**
+     * Test search customer group using GET
+     *
+     * @param string $filterField Customer Group field to filter by
+     * @param string $filterValue Value of the field to be filtered by
+     * @param array $expectedResult Expected search result
+     *
+     * @dataProvider testSearchGroupsDataProvider
+     */
+    public function testSearchGroupsWithGET($filterField, $filterValue, $expectedResult)
+    {
+        $this->_markTestAsRestOnly('SOAP is covered in ');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $searchCriteriaBuilder =  Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+        $filter = $filterBuilder
+            ->setField($filterField)
+            ->setValue($filterValue)
+            ->create();
+        $searchCriteriaBuilder->addFilter([$filter]);
+        $searchData = $searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ]
+        ];
+        $searchResult = $this->_webApiCall($serviceInfo);
 
         if (is_null($expectedResult)) {
             $this->assertEquals(0, $searchResult['total_count']);

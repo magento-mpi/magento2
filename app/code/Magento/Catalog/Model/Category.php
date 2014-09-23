@@ -249,6 +249,16 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     }
 
     /**
+     * Get flat resource model flag
+     *
+     * @return bool
+     */
+    public function getUseFlatResource()
+    {
+        return $this->_useFlatResource;
+    }
+
+    /**
      * Return flat indexer object
      *
      * @return \Magento\Indexer\Model\IndexerInterface
