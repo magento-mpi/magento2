@@ -18,8 +18,7 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\RequestInterface as Request;
 use Zend\Mvc\Controller\AbstractActionController;
-use \Magento\Setup\Model\UserConfigurationData as UserConfig;
-use \Magento\Setup\Model\OrderIncrementPrefix as OrderIncrementPrefix;
+use Magento\Setup\Model\UserConfigurationData as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 
 /**
@@ -166,7 +165,7 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]'
             . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]'
-            . ' [--' . OrderIncrementPrefix::KEY_ORDER_INCREMENT_PREFIX . '=]';
+            . ' [--' . UserConfig::KEY_SALES_ORDER_INCREMENT_PREFIX . '=]';
         $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
             . ' --' . AdminAccount::KEY_EMAIL . '='

@@ -14,9 +14,14 @@ use Magento\Config\ConfigFactory as SystemConfigFactory;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Setup\Module\ModuleListInterface;
+use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
 use Magento\Setup\Module\Setup\ConnectionFactory;
 
+/**
+ * Class Installer contains the logic to install Magento application.
+ *
+ */
 class Installer
 {
     /**
@@ -153,7 +158,7 @@ class Installer
         $this->installDataFixtures();
 
         $this->log->log('Creating store order increment prefix configuration:');
-        $this->installOrderIncrementPrefix($request);
+        $this->installOrderIncrementPrefix($request[UserConfigurationData::KEY_SALES_ORDER_INCREMENT_PREFIX]);
 
         $this->log->log('Installing admin user...');
         $this->installAdminUser($request);
@@ -260,7 +265,7 @@ class Installer
                     if ((file_exists($result . 'php') && !is_dir($result . 'php'))
                         || (file_exists($result . 'php.exe') && !is_dir($result . 'php.exe'))) {
                         break;
-                    } else if ((file_exists($result . 'bin/php') && !is_dir($result . 'bin/php'))
+                    } elseif ((file_exists($result . 'bin/php') && !is_dir($result . 'bin/php'))
                         || (file_exists($result . 'bin/php.exe') && !is_dir($result . 'bin/php.exe'))) {
                         $result .= 'bin' . '/';
                         break;
@@ -291,14 +296,30 @@ class Installer
     /**
      * Creates store order increment prefix configuration
      *
-     * @param \ArrayObject|array $data
+     * @param string|null $orderIncrementPrefix If not null, value to use for order increment prefix
      * @return void
      */
-    public function installOrderIncrementPrefix($data)
+    private function installOrderIncrementPrefix($orderIncrementPrefix)
     {
-        $setup = $this->setupFactory->createSetup($this->log);
-        $orderIncrementPrefix = new OrderIncrementPrefix($setup, (array)$data);
-        $orderIncrementPrefix->save();
+        if (isset($orderIncrementPrefix)) {
+            $setup = $this->setupFactory->createSetup($this->log);
+            $dbConnection = $setup->getConnection();
+
+            // get entity_type_id for order
+            $select = $dbConnection->select()
+                ->from($setup->getTable('eav_entity_type'))
+                ->where('entity_type_code = \'order\'');
+            $selectString = $select->getSqlString($dbConnection->getPlatform());
+            $entity_type_id = $dbConnection->fetchOne($selectString, 'entity_type_id');
+
+            // add a row to the store's eav table, setting the increment_prefix
+            $rowData = [
+                'entity_type_id' => $entity_type_id,
+                'store_id' => Store::DISTRO_STORE_ID,
+                'increment_prefix' => $orderIncrementPrefix,
+            ];
+            $dbConnection->insert($setup->getTable('eav_entity_store'), $rowData);
+        }
     }
 
     /**

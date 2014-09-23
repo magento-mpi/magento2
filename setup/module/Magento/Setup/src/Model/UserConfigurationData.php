@@ -33,6 +33,7 @@ class UserConfigurationData
     const KEY_TIMEZONE = 'timezone';
     const KEY_CURRENCY = 'currency';
     const KEY_ADMIN_USE_SECURITY_KEY = 'admin_use_security_key';
+    const KEY_SALES_ORDER_INCREMENT_PREFIX = 'sales_order_increment_prefix';
     /**#@- */
 
     /**
