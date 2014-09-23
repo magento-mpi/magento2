@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Theme\Block\Html;
+namespace Magento\Theme\Block\Html\Header;
 
-class HeaderTest extends \PHPUnit_Framework_TestCase
+class LogoTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\Theme\Block\Html\Header::getLogoSrc
+     * @covers \Magento\Theme\Block\Html\Header\Logo::getLogoSrc
      */
     public function testGetLogoSrc()
     {
@@ -49,7 +49,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
             'fileStorageHelper' => $helper,
             'filesystem' => $filesystem
         );
-        $block = $objectManager->getObject('Magento\Theme\Block\Html\Header', $arguments);
+        $block = $objectManager->getObject('Magento\Theme\Block\Html\Header\Logo', $arguments);
 
         $this->assertEquals('http://localhost/pub/media/logo/default/image.gif', $block->getLogoSrc());
     }
