@@ -57,16 +57,14 @@ class TrackWrite implements TrackWriteInterface
             throw new StateException('Unknown service');
         }
 
+        /** @var  $rmaModel */
         $rmaModel = $this->rmaRepository->get($id);
-        if ($rmaModel->getId()) {
-            return (bool)$this->labelService->addTrack(
-                $rmaModel->getId(),
-                $track->getTrackNumber(),
-                $track->getCarrierCode(),
-                $track->getCarrierTitle()
-            );
-        }
-        return false;
+        return (bool)$this->labelService->addTrack(
+            $rmaModel->getId(),
+            $track->getTrackNumber(),
+            $track->getCarrierCode(),
+            $track->getCarrierTitle()
+        );
     }
 
     /**
@@ -82,9 +80,6 @@ class TrackWrite implements TrackWriteInterface
         }
 
         $rmaModel = $this->rmaRepository->get($id);
-        if ($rmaModel->getId()) {
-            return (bool)$this->labelService->removeTrack($trackId);
-        }
-        return false;
+        return (bool)$this->labelService->removeTrack($trackId, $rmaModel->getId());
     }
 }

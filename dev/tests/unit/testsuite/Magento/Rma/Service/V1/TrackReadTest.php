@@ -120,24 +120,14 @@ class TrackReadTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
-    /**
-     * @dataProvider getShippingLabelPdfDataProvider
-     *
-     * @param integer $id                 Rma model ID
-     * @param bool    $doesRmaModelExists Does Rma model exist
-     * @param string  $pdfData            Some test data
-     */
-    public function testGetShippingLabelPdf($id, $doesRmaModelExists, $pdfData)
+    public function testGetShippingLabelPdf()
     {
+        list($id, $pdfData) = [1, 'blabla'];
         $this->rmaRepositoryMock->expects($this->once())->method('get')
             ->with($id)
             ->willReturn($this->rmaModelMock);
 
-        $this->rmaModelMock->expects($this->once())->method('getId')
-            ->willReturn($doesRmaModelExists);
-
-        $this->rmaLabelServiceMock->expects($this->exactly((int)$doesRmaModelExists))
+        $this->rmaLabelServiceMock->expects($this->once())
             ->method('getShippingLabelByRmaPdf')
             ->with($this->rmaModelMock)
             ->willReturn($pdfData);
@@ -147,23 +137,4 @@ class TrackReadTest extends \PHPUnit_Framework_TestCase
             $this->rmaServiceTrackReadMock->getShippingLabelPdf($id)
         );
     }
-
-    /**
-     * Data provider of success cases
-     *
-     * @see testGetShippingLabelPdf
-     * @return array
-     *
-     * @case #1 We got Magento\Rma\Model\Rma with some id and return some PDF-data
-     * @case #2 We didn't get Magento\Rma\Model\Rma with some id and return empty string
-     *
-     */
-    public function getShippingLabelPdfDataProvider()
-    {
-        return [
-            1 => [1, true, 'blabla'],
-            2 => [1, false, '']
-        ];
-    }
 }
- 

@@ -221,16 +221,16 @@ class LabelService
 
     /**
      * @param int $trackId
-     *
+     * @param int $rmaId
      * @return bool
      * @throws \Exception
      */
-    public function removeTrack($trackId)
+    public function removeTrack($trackId, $rmaId)
     {
         /** @var $shippingModel \Magento\Rma\Model\Shipping */
         $shippingModel = $this->shippingFactory->create();
         $shippingModel->load($trackId);
-        if ($shippingModel->getId()) {
+        if ($shippingModel->getId() && $shippingModel->getRmaEntityId() == $rmaId) {
             $shippingModel->delete();
         } else {
             throw new \Exception(

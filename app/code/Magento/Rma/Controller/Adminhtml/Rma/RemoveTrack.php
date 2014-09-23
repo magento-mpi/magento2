@@ -21,7 +21,7 @@ class RemoveTrack extends \Magento\Rma\Controller\Adminhtml\Rma
         try {
             $model = $this->_initModel();
             if ($model->getId()) {
-                $this->labelService->removeTrack($trackId);
+                $this->labelService->removeTrack($trackId, $model->getId());
                 $this->_view->loadLayout();
                 $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {

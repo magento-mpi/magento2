@@ -136,4 +136,3 @@ class CommentWriteTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rmaServiceCommentWriteMock->addComment($id, $dataMock));
     }
 }
- 

@@ -71,80 +71,35 @@ class TrackWriteTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test for removeTrackById
-     *
-     * @dataProvider removeTrackByIdDataProvider
-     *
-     * @param integer $id                 Rma model id
-     * @param integer $trackId            Track id
-     * @param boolean $doesRmaModelExists Does Rma Model exists
-     * @param boolean $removeTrackResult  Expected remove track method result
-     */
-    public function testRemoveTrackById($id, $trackId, $doesRmaModelExists, $removeTrackResult)
+    public function testRemoveTrackById()
     {
+        list($id, $trackId) = [1, 1];
         $this->permissionCheckerMock->expects($this->once())->method('isCustomerContext')
             ->willReturn(false);
 
         $this->rmaModelMock->expects($this->once())->method('getId')
-            ->willReturn($doesRmaModelExists);
+            ->willReturn($id);
 
         $this->rmaRepositoryMock->expects($this->once())->method('get')
             ->with($id)
             ->willReturn($this->rmaModelMock);
 
-        $this->rmaLabelServiceMock->expects($this->exactly((int)$doesRmaModelExists))
+        $this->rmaLabelServiceMock->expects($this->once())
             ->method('removeTrack')
             ->with($trackId)
-            ->willReturn($removeTrackResult);
+            ->willReturn(true);
 
-        $this->assertEquals(
-            $removeTrackResult,
-            $this->rmaServiceTrackWriteMock->removeTrackById($id, $trackId)
-        );
+        $this->assertTrue($this->rmaServiceTrackWriteMock->removeTrackById($id, $trackId));
     }
 
-    /**
-     * DataProvider for testRemoveTrackById
-     *
-     * @see testRemoveTrackById
-     * @return array
-     *
-     * @case #1 Rma model exists
-     * @case #2 Rma model doesn't exists
-     */
-    public function removeTrackByIdDataProvider()
+    public function testAddTrack()
     {
-        return [
-            1 => [1, 1, true, 1],
-            2 => [1, 1, false, 0]
-        ];
-    }
-
-    /**
-     * Test for addTrack
-     *
-     * @dataProvider addTrackDataProvider
-     *
-     * @param integer $id                 Rma model id
-     * @param integer $trackNumber        Track number
-     * @param string  $carrierCode        Carrier code
-     * @param string  $carrierTitle       Carrier title
-     * @param boolean $doesRmaModelExists Does Rma Model exists
-     * @param boolean $addTrackResult     Expected add track method result
-     */
-    public function testAddTrack($id, $trackNumber, $carrierCode, $carrierTitle, $doesRmaModelExists, $addTrackResult)
-    {
+        list ($id, $trackNumber, $carrierCode, $carrierTitle, $addTrackResult) = [1, 1, 'code', 'title', true];
         $this->permissionCheckerMock->expects($this->once())->method('isCustomerContext')
             ->willReturn(false);
 
-        $this->rmaModelMock->expects($this->at(0))->method('getId')
-            ->willReturn($doesRmaModelExists);
-
-        if ($doesRmaModelExists) {
-            $this->rmaModelMock->expects($this->at(1))->method('getId')
-                ->willReturn($doesRmaModelExists);
-        }
+        $this->rmaModelMock->expects($this->once())->method('getId')
+            ->willReturn($id);
 
         /** @var \Magento\Rma\Service\V1\Data\Track | \PHPUnit_Framework_MockObject_MockObject $trackMock */
         $trackMock = $this->getMockBuilder('Magento\Rma\Service\V1\Data\Track')
@@ -152,20 +107,20 @@ class TrackWriteTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
-        $trackMock->expects($this->exactly((int)$doesRmaModelExists))->method('getTrackNumber')
+        $trackMock->expects($this->once())->method('getTrackNumber')
             ->willReturn($trackNumber);
 
-        $trackMock->expects($this->exactly((int)$doesRmaModelExists))->method('getCarrierCode')
+        $trackMock->expects($this->once())->method('getCarrierCode')
             ->willReturn($carrierCode);
 
-        $trackMock->expects($this->exactly((int)$doesRmaModelExists))->method('getCarrierTitle')
+        $trackMock->expects($this->once())->method('getCarrierTitle')
             ->willReturn($carrierTitle);
 
         $this->rmaRepositoryMock->expects($this->once())->method('get')
             ->with($id)
             ->willReturn($this->rmaModelMock);
 
-        $this->rmaLabelServiceMock->expects($this->exactly((int)$doesRmaModelExists))
+        $this->rmaLabelServiceMock->expects($this->once())
             ->method('addTrack')
             ->with($id, $trackNumber, $carrierCode, $carrierTitle)
             ->willReturn($addTrackResult);
@@ -174,23 +129,6 @@ class TrackWriteTest extends \PHPUnit_Framework_TestCase
             $addTrackResult,
             $this->rmaServiceTrackWriteMock->addTrack($id, $trackMock)
         );
-    }
-
-    /**
-     * DataProvider for testAddTrack
-     *
-     * @see testAddTrack
-     * @return array
-     *
-     * @case #1 Rma model exists
-     * @case #2 Rma model doesn't exists
-     */
-    public function addTrackDataProvider()
-    {
-        return [
-            1 => [1, 1, 'carrierCode', 'carrierTitle', true, true],
-            2 => [1, 1, 'carrierCode', 'carrierTitle', false, false]
-        ];
     }
 
     /**
@@ -223,4 +161,3 @@ class TrackWriteTest extends \PHPUnit_Framework_TestCase
         $this->rmaServiceTrackWriteMock->removeTrackById(1, 1);
     }
 }
- 

@@ -83,9 +83,7 @@ class TrackRead implements TrackReadInterface
         $this->permissionChecker->checkRmaForCustomerContext();
 
         $rmaModel = $this->repository->get($id);
-        if ($rmaModel->getId()) {
-            return base64_encode($this->labelService->getShippingLabelByRmaPdf($rmaModel));
-        }
-        return '';
+
+        return base64_encode($this->labelService->getShippingLabelByRmaPdf($rmaModel));
     }
 }

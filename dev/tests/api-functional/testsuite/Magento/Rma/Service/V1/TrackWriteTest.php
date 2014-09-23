@@ -43,7 +43,9 @@ class TrackWriteTest extends WebapiAbstract
         $requestData = [
             'id' => $rma->getId(),
             'track' => [
+                Track::ENTITY_ID => null,
                 Track::TRACK_NUMBER => 'Track Number',
+                Track::RMA_ENTITY_ID => $rma->getId(),
                 Track::CARRIER_TITLE => 'Carrier title',
                 Track::CARRIER_CODE => 'custom'
             ]
@@ -69,7 +71,7 @@ class TrackWriteTest extends WebapiAbstract
             ]
         ];
 
-        $this->assertTrue($this->_webApiCall($serviceInfo, ['id' => $track->getId()]));
+        $this->assertTrue($this->_webApiCall($serviceInfo, ['id' => $rma->getId(), 'trackId' => $track->getId()]));
     }
 
     /**

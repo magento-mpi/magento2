@@ -84,7 +84,7 @@ class RmaWriteTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'update'
             ]
         ];
-        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $result = $this->_webApiCall($serviceInfo, array_merge(['id' => $rma->getId()], $requestData));
         $this->assertTrue($result);
     }
 
@@ -102,20 +102,23 @@ class RmaWriteTest extends WebapiAbstract
         $order = $collection->fetchItem();
         $items = $order->getItemsCollection();
 
-        $request = [
-            Rma::ORDER_ID => $order->getId(),
-            Rma::ITEMS => []
-        ];
+        $request = $this->getRmaInitData();
+        $request[Rma::ORDER_ID] = $order->getId();
+        $request[Rma::ITEMS] = [];
 
         /** @var \Magento\Sales\Model\Order\Item $item */
         foreach ($items as $item) {
             $request[Rma::ITEMS][] = [
+                Item::ID => null,
                 Item::ORDER_ITEM_ID => $item->getId(),
                 Item::QTY_REQUESTED => 1,
                 Item::CONDITION => 7,
                 Item::REASON => 9,
                 Item::RESOLUTION => 4,
-                Item::STATUS => 'pending'
+                Item::STATUS => 'pending',
+                Item::QTY_AUTHORIZED => null,
+                Item::QTY_APPROVED => null,
+                Item::QTY_RETURNED => null
             ];
             $item->setProductType('simple');
             $item->setQtyShipped($item->getQtyOrdered());
@@ -148,10 +151,9 @@ class RmaWriteTest extends WebapiAbstract
      */
     private function getRequestForUpdateRma(\Magento\Rma\Model\Rma $rma)
     {
-        $request = [
-            Rma::ORDER_ID => $rma->getOrderId(),
-            Rma::ITEMS => []
-        ];
+        $request = $this->getRmaInitData();
+        $request[Rma::ORDER_ID] = $rma->getOrderId();
+        $request[Rma::ITEMS] = [];
 
         /** @var \Magento\Rma\Model\Item $item */
         foreach ($rma->getItemsForDisplay()as $item) {
@@ -162,9 +164,33 @@ class RmaWriteTest extends WebapiAbstract
                 Item::CONDITION => 7,
                 Item::REASON => 9,
                 Item::RESOLUTION => 4,
-                Item::STATUS => 'authorized'
+                Item::STATUS => 'authorized',
+                Item::QTY_REQUESTED => null,
+                Item::QTY_APPROVED => null,
+                Item::QTY_RETURNED => null
             ];
         }
         return $request;
+    }
+
+    /**
+     * @return array
+     */
+    private function getRmaInitData()
+    {
+        return [
+            Rma::ENTITY_ID => null,
+            Rma::ORDER_ID => null,
+            Rma::ORDER_INCREMENT_ID => null,
+            Rma::INCREMENT_ID => null,
+            Rma::STORE_ID => null,
+            Rma::CUSTOMER_ID => null,
+            Rma::DATE_REQUESTED => null,
+            Rma::CUSTOMER_CUSTOM_EMAIL => null,
+            Rma::ITEMS => null,
+            Rma::STATUS => null,
+            Rma::COMMENTS => null,
+            Rma::TRACKS => null,
+        ];
     }
 }
