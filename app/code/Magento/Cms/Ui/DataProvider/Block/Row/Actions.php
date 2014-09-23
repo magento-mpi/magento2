@@ -8,7 +8,7 @@
 namespace Magento\Cms\Ui\DataProvider\Block\Row;
 
 use Magento\Framework\UrlInterface;
-use Magento\Ui\DataProvider\RowInterface;
+use Magento\Ui\Component\Listing\RowInterface;
 
 /**
  * Class Actions

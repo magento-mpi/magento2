@@ -8,7 +8,7 @@
 namespace Magento\Cms\Ui\DataProvider\Page\Row;
 
 use Magento\Framework\UrlInterface;
-use Magento\Ui\DataProvider\RowInterface;
+use Magento\Ui\Component\Listing\RowInterface;
 use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;
 
 /**

@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\Context;
 
-use Magento\Ui\AbstractView;
+use Magento\Ui\Component\AbstractView;
 
 /**
  * Class DataProvider

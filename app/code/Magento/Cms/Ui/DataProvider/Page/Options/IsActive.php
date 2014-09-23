@@ -7,7 +7,7 @@
  */
 namespace Magento\Cms\Ui\DataProvider\Page\Options;
 
-use Magento\Ui\DataProvider\OptionsInterface;
+use Magento\Ui\Component\Listing\OptionsInterface;
 
 /**
  * Class IsActive

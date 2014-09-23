@@ -9,7 +9,7 @@ namespace Magento\Ui\DataProvider\Row;
 
 use Magento\Framework\Escaper;
 use Magento\Framework\UrlInterface;
-use Magento\Ui\DataProvider\RowInterface;
+use Magento\Ui\Component\Listing\RowInterface;
 use Magento\Store\Model\System\Store as SystemStore;
 
 /**

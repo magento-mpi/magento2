@@ -8,7 +8,7 @@
 namespace Magento\Ui\DataProvider\Options;
 
 use Magento\Framework\Escaper;
-use Magento\Ui\DataProvider\OptionsInterface;
+use Magento\Ui\Component\Listing\OptionsInterface;
 use Magento\Store\Model\System\Store as SystemStore;
 
 /**
