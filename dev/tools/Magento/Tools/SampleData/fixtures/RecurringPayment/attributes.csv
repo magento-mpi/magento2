@@ -1,0 +1,26 @@
+frontend_label;frontend_input;is_required;option;default;attribute_code;is_global;default_value_text;default_value_yesno;default_value_date;default_value_textarea;is_unique;is_configurable;is_searchable;is_visible_in_advanced_search;is_comparable;is_filterable;is_filterable_in_search;position;is_used_for_promo_rules;is_html_allowed_on_front;is_visible_on_front;used_in_product_listing;used_for_sort_by;attribute_set
+Package;select;0;"Basic
+Gold
+Deluxe 
+";;package;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Membership
+Benefits;select;0;"All-Access Video
+Weekly Newsletter
+Community Boards 
+Recipes and Library
+Expert tips
+Free 2-day Shipping
+LumaTrak App 
+Luma Visa�
+Luma Partner Program
+Product Discounts
+Annual refund
+Live coach
+Custom workout programming";;benefits;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Membership
+Type;select;0;"Training
+Discounts
+Coaching
+Education
+";;type;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Membership
+Duration;select;0;"6-month
+12-month
+";;duration;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Membership

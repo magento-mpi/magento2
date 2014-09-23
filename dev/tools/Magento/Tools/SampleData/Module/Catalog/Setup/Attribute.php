@@ -11,98 +11,174 @@ use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
+/**
+ * Setup sample attributes
+ *
+ * Class Attribute
+ * @package Magento\Tools\SampleData\Module\Catalog\Setup
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Attribute implements SetupInterface
 {
+    /**
+     * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
+     */
     protected $attributeFactory;
 
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
+     */
+    protected $attributeSetFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Config
+     */
     protected $catalogConfig;
 
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     */
     protected $attrOptionCollectionFactory;
 
+    /**
+     * @var \Magento\Catalog\Helper\Product
+     */
     protected $productHelper;
 
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
     protected $eavConfig;
 
+    /**
+     * @var FixtureHelper
+     */
     protected $fixtureHelper;
 
+    /**
+     * @var \Magento\Framework\Module\ModuleListInterface
+     */
+    protected $moduleList;
+
+    /**
+     * @var CsvReaderFactory
+     */
     protected $csvReaderFactory;
 
+    /*
+     * @var int
+     */
+    protected $entityTypeId;
+
+    /**
+     * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+     * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param FixtureHelper $fixtureHelper
+     * @param CsvReaderFactory $csvReaderFactory
+     */
     public function __construct(
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory
     ) {
         $this->attributeFactory = $attributeFactory;
+        $this->attributeSetFactory = $attributeSetFactory;
         $this->catalogConfig = $catalogConfig;
         $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
         $this->productHelper = $productHelper;
         $this->eavConfig = $eavConfig;
+        $this->moduleList = $moduleList;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         echo "Installing catalog attributes\n";
-
         $attributePrototype = $this->attributeFactory->create();
 
-        $fileName = $this->fixtureHelper->getPath('Catalog/attributes.csv');
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-        foreach($csvReader as $row) {
-
-            $data = $row;
-
-            $data['attribute_set'] = explode("\n", $data['attribute_set']);
-
-            $attribute = $this->eavConfig->getAttribute('catalog_product', $data['attribute_code']);
-            if (!$attribute) {
-                $attribute = $attributePrototype;
-                $attribute->unsetData();
+        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+            $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/attributes.csv';
+            $fileName = $this->fixtureHelper->getPath($fileName);
+            if (!$fileName) {
+                continue;
             }
+            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            foreach ($csvReader as $data) {
+                $data['attribute_set'] = explode("\n", $data['attribute_set']);
 
-            $data['option'] = $this->getOption($attribute, $data);
-            $data['source_model'] = $this->productHelper->getAttributeSourceModelByInputType($data['frontend_input']);
-            $data['backend_model'] = $this->productHelper->getAttributeBackendModelByInputType($data['frontend_input']);
-            $data += array('is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => array());
-            $data['backend_type'] = $attribute->getBackendTypeByInput($data['frontend_input']);
-
-            $attribute->addData($data);
-            $attribute->setIsUserDefined(1);
-
-            $attribute->save();
-            $attributeId = $attribute->getId();
-
-            if (is_array($data['attribute_set'])) {
-                foreach ($data['attribute_set'] as $setName) {
-                    static $i = 0; $i++;
-
-                    $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $setName);
-                    $attributeGroupId = $this->catalogConfig->getAttributeGroupId($attributeSetId, 'Product Details');
-
+                $attribute = $this->eavConfig->getAttribute('catalog_product', $data['attribute_code']);
+                if (!$attribute) {
                     $attribute = $attributePrototype;
                     $attribute->unsetData();
-                    $attribute
-                        ->setId($attributeId)
-                        ->setAttributeGroupId($attributeGroupId)
-                        ->setAttributeSetId($attributeSetId)
-                        ->setEntityTypeId(4)
-                        ->setSortOrder($i + 999)
-                        ->save();
                 }
-            }
 
-            echo '.';
+                $data['option'] = $this->getOption($attribute, $data);
+                $data['source_model'] = $this->productHelper->getAttributeSourceModelByInputType(
+                    $data['frontend_input']
+                );
+                $data['backend_model'] = $this->productHelper->getAttributeBackendModelByInputType(
+                    $data['frontend_input']
+                );
+                $data += array('is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => array());
+                $data['backend_type'] = $attribute->getBackendTypeByInput($data['frontend_input']);
+
+                $attribute->addData($data);
+                $attribute->setIsUserDefined(1);
+
+                $attribute->save();
+                $attributeId = $attribute->getId();
+
+                if (is_array($data['attribute_set'])) {
+                    foreach ($data['attribute_set'] as $setName) {
+                        $setName = trim($setName);
+                        static $i = 0;
+                        $i++;
+                        $attributeSetId = $this->processAttributeSet($setName)->getId();
+                        $attributeGroupId = $this->catalogConfig->getAttributeGroupId(
+                            $attributeSetId,
+                            'Product Details'
+                        );
+
+                        $attribute = $attributePrototype;
+                        $attribute->unsetData();
+                        $attribute
+                            ->setId($attributeId)
+                            ->setAttributeGroupId($attributeGroupId)
+                            ->setAttributeSetId($attributeSetId)
+                            ->setEntityTypeId($this->getEntityTypeId())
+                            ->setSortOrder($i + 999)
+                            ->save();
+                    }
+                }
+
+                echo '.';
+            }
         }
         echo "\n";
 
         $this->eavConfig->clear();
     }
 
+    /**
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param array $data
+     * @return array
+     */
     protected function getOption($attribute, $data)
     {
         $result = [];
@@ -120,6 +196,12 @@ class Attribute implements SetupInterface
         return $result ? $this->convertOption($result) : $result;
     }
 
+    /**
+     * Converting attribute options from csv to correct sql values
+     *
+     * @param array $values
+     * @return array
+     */
     protected function convertOption($values)
     {
         $result = ['order' => [], 'value' => []];
@@ -130,5 +212,49 @@ class Attribute implements SetupInterface
             $i++;
         }
         return $result;
+    }
+
+    /**
+     * @return int
+     * @throws \Magento\Framework\Model\Exception
+     */
+    protected function getEntityTypeId()
+    {
+        if (!$this->entityTypeId) {
+            $this->entityTypeId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
+        }
+        return $this->entityTypeId;
+    }
+
+    /**
+     * Loads attribute set by name if attribute with such name exists
+     * Otherwise creates the attribute set with $setName name and return it
+     *
+     * @param string $setName
+     * @return \Magento\Eav\Model\Entity\Attribute\Set
+     * @throws \Exception
+     * @throws \Magento\Framework\Model\Exception
+     */
+    protected function processAttributeSet($setName)
+    {
+        /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
+        $attributeSet = $this->attributeSetFactory->create();
+        $setCollection = $attributeSet->getResourceCollection()
+            ->addFieldToFilter('entity_type_id', $this->getEntityTypeId())
+            ->addFieldToFilter('attribute_set_name', $setName)
+            ->load();
+        $attributeSet = $setCollection->fetchItem();
+
+        if (!$attributeSet) {
+            $attributeSet = $this->attributeSetFactory->create();
+            $attributeSet->setEntityTypeId($this->getEntityTypeId());
+            $attributeSet->setAttributeSetName($setName);
+            $attributeSet->save();
+            $defaultSetId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
+                ->getDefaultAttributeSetId();
+            $attributeSet->initFromSkeleton($defaultSetId);
+            $attributeSet->save();
+        }
+        return $attributeSet;
     }
 }
