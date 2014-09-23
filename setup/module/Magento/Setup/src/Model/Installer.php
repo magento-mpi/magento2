@@ -8,7 +8,6 @@
 
 namespace Magento\Setup\Model;
 
-use Zend\Stdlib\Parameters;
 use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
 use Magento\Config\ConfigFactory as SystemConfigFactory;
 use Magento\Setup\Module\Setup\Config;
@@ -17,6 +16,7 @@ use Magento\Setup\Module\ModuleListInterface;
 use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
 use Magento\Setup\Module\Setup\ConnectionFactory;
+use Zend\Db\Sql\Sql;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -309,12 +309,15 @@ class Installer
             $select = $dbConnection->select()
                 ->from($setup->getTable('eav_entity_type'))
                 ->where('entity_type_code = \'order\'');
-            $selectString = $select->getSqlString($dbConnection->getPlatform());
-            $entity_type_id = $dbConnection->fetchOne($selectString, 'entity_type_id');
+            $sql = new Sql($dbConnection);
+            $selectString = $sql->getSqlStringForSqlObject($select, $dbConnection->getPlatform());
+            $statement = $dbConnection->getDriver()->createStatement($selectString);
+            $selectResult = $statement->execute();
+            $entityTypeId = $selectResult->current()['entity_type_id'];
 
             // add a row to the store's eav table, setting the increment_prefix
             $rowData = [
-                'entity_type_id' => $entity_type_id,
+                'entity_type_id' => $entityTypeId,
                 'store_id' => Store::DISTRO_STORE_ID,
                 'increment_prefix' => $orderIncrementPrefix,
             ];

@@ -2767,25 +2767,4 @@ class Mysql extends Adapter implements AdapterInterface
         $result = $this->query($sqlString);
         return $result->count();
     }
-
-    /**
-     * Fetches the first column of the first row of the SQL result.
-     *
-     * @param string $sql
-     * @param string|int $field
-     * @return mixed|null
-     */
-    public function fetchOne($sql, $field)
-    {
-        $result = $this->rawQuery($sql);
-
-        if ($result instanceof ResultSet\ResultSetInterface && $result->count()) {
-            $resultSet = new ResultSet\ResultSet;
-            $resultSet->initialize($result);
-            $row = $resultSet->toArray();
-            return $row[0][$field];
-        } else {
-            return null;
-        }
-    }
 }

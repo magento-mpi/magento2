@@ -623,13 +623,4 @@ interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
      * @return bool
      */
     public function dropTrigger($triggerName, $schemaName = null);
-
-    /**
-     * Fetches the first column of the first row of the SQL result.
-     *
-     * @param string $sql
-     * @param string|int $field
-     * @return mixed|null
-     */
-    public function fetchOne($sql, $field);
 }
