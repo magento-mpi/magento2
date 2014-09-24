@@ -19,7 +19,6 @@
             <module name="Magento_Customer"/>
             <module name="Magento_Checkout"/>
             <module name="Magento_Backend"/>
-            <module name="Magento_Rss"/>
             <module name="Magento_AdvancedCheckout"/>
             <module name="Magento_Widget"/>
             <module name="Magento_Eav"/>

@@ -12,7 +12,6 @@
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Theme"/>
-            <module name="Magento_Store"/>
         </depends>
     </module>
 </config>

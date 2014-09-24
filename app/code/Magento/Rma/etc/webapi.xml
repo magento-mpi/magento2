@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route url="/V1/returns/:id/tracking-numbers" method="POST">
+        <service class="Magento\Rma\Service\V1\TrackWriteInterface" method="addTrack"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns/:id/tracking-numbers/:trackId" method="DELETE">
+        <service class="Magento\Rma\Service\V1\TrackWriteInterface" method="removeTrackById"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns/:id" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaReadInterface" method="get"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns/:id/comment" method="POST">
+        <service class="Magento\Rma\Service\V1\CommentWriteInterface" method="addComment"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns" method="POST">
+        <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns/:id" method="PUT">
+        <service class="Magento\Rma\Service\V1\RmaWriteInterface" method="update"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns/:id/comments" method="GET">
+        <service class="Magento\Rma\Service\V1\CommentReadInterface" method="commentsList"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns" method="PUT">
+        <service class="Magento\Rma\Service\V1\RmaReadInterface" method="search"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+
+    <route url="/V1/returnsAttributeMetadata/:attributeCode" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getAttributeMetadata"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
+    <route url="/V1/returnsAttributeMetadata/form/:formCode" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getAttributes"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
+    <route url="/V1/returnsAttributeMetadata" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getAllAttributesMetadata"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
+    <route url="/V1/returnsAttributeMetadata/custom" method="GET">
+        <service class="Magento\Rma\Service\V1\RmaMetadataReadInterface" method="getCustomAttributesMetadata"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma"/>
+        </resources>
+    </route>
+    <route url="/V1/returns/:id/tracking-numbers" method="GET">
+        <service class="Magento\Rma\Service\V1\TrackReadInterface" method="getTracks"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+    <route url="/V1/returns/:id/label" method="GET">
+        <service class="Magento\Rma\Service\V1\TrackReadInterface" method="getShippingLabelPdf"/>
+        <resources>
+            <resource ref="Magento_Rma::magento_rma" />
+        </resources>
+    </route>
+</routes>

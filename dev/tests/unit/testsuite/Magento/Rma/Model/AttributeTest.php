@@ -40,7 +40,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', ['getWebsite'], [], '', false);
         $this->getResourceMock = $this->getMock(
             'Magento\Rma\Model\Resource\Item\Attribute',
-            ['getUsedInForms', 'getIdFieldName'],
+            ['getUsedInForms', 'getIdFieldName', '__wakeup'],
             [],
             '',
             false
