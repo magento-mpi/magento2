@@ -80,12 +80,9 @@ class NewObject implements HandlerInterface
         // New products are created without recurring payments
         $product->setIsRecurring(false);
         $product->unsRecurringPayment();
-        // Add MAP default values
-        $product->setMsrpEnabled(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
-        );
+        // Add Msrp default values
         $product->setMsrpDisplayActualPriceType(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
     }
 }

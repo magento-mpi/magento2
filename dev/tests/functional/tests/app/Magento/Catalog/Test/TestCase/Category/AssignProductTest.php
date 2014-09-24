@@ -61,11 +61,6 @@ class AssignProductTest extends Functional
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
         $cachePage->getMessagesBlock()->waitSuccessMessage();
-        //Indexing
-        $indexPage = Factory::getPageFactory()->getAdminProcessList();
-        $indexPage->open();
-        $indexPage->getActionsBlock()->reindexAll();
-        $indexPage->getMessagesBlock()->waitSuccessMessage();
         //Verifying
         $this->assertProductsOnCategory($category, $products);
     }

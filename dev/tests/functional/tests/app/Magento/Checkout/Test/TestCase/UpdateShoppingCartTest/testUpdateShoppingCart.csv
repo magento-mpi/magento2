@@ -1,3 +1,2 @@
-"cart/data/qty";"cart/data/price";"cart/data/row_total";"constraint"
-"10";"100.00";"1,000.00";"assertPriceInShoppingCart, assertProductQtyInShoppingCart, assertProductQtyInMiniShoppingCart, assertSubtotalInShoppingCart"
-"1";"100.00";"100.00";"assertPriceInShoppingCart, assertProductQtyInShoppingCart, assertProductQtyInMiniShoppingCart, assertSubtotalInShoppingCart"
+"productData";"constraint"
+"catalogProductSimple::100_dollar_product";"assertPriceInShoppingCart, assertProductQtyInShoppingCart, assertProductQtyInMiniShoppingCart, assertSubtotalInShoppingCart"

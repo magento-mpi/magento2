@@ -31,7 +31,7 @@ use Magento\Framework\Service\ExtensibleDataObjectConverter;
 class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** Sample values for testing */
-    const ID = 1;
+    const ID = '1';
     const FIRSTNAME = 'Jane';
     const LASTNAME = 'Doe';
     const NAME = 'J';
@@ -215,10 +215,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->any())->method('validate')->will($this->returnValue(true));
 
         $this->_setupStoreMock();
-
-        $this->_mathRandomMock = $this->getMockBuilder(
-            '\Magento\Framework\Math\Random'
-        )->disableOriginalConstructor()->getMock();
 
         $this->_validator = $this->getMockBuilder(
             '\Magento\Customer\Model\Metadata\Validator'
@@ -651,7 +647,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->validateResetPasswordLinkToken(1, $resetToken);
+            $customerService->validateResetPasswordLinkToken('1', $resetToken);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
             $this->assertSame('No such entity with customerId = 1', $nsee->getMessage());
@@ -665,7 +661,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_mockReturnValue(
             $this->_customerModelMock,
             array(
-                'getId' => 0,
+                'getId' => '0',
                 'load' => $this->_customerModelMock,
                 'getRpToken' => $resetToken,
                 'isResetPasswordLinkTokenExpired' => false
@@ -682,7 +678,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->validateResetPasswordLinkToken(14, null);
+            $customerService->validateResetPasswordLinkToken('14', null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
             $this->assertEquals(InputException::REQUIRED_FIELD, $e->getRawMessage());
@@ -901,8 +897,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordShortPassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = '';
-        $encryptedHash = 'password_encrypted_hash';
+        $password = '12345';
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -929,17 +924,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('setRpTokenCreatedAt')
             ->with(null)
             ->will($this->returnSelf());
-        $this->_encryptorMock->expects($this->once())
-            ->method('getHash')
-            ->with($password, true)
-            ->will($this->returnValue($encryptedHash));
-        $this->_customerModelMock->expects($this->once())
-            ->method('setPasswordHash')
-            ->with($encryptedHash)
-            ->will($this->returnSelf());
 
         $customerService = $this->_createService();
 
+        $this->setExpectedException(
+            'Magento\Framework\Exception\InputException',
+            'The password must have at least 6 characters.'
+        );
         $customerService->resetPassword(self::ID, $resetToken, $password);
     }
 
@@ -1016,7 +1007,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
-        $invalidCustomerId = 4200;
+        $invalidCustomerId = '4200';
 
         $this->_customerRegistry
             ->expects($this->any())
@@ -1508,7 +1499,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getRawMessage());
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getMessage());
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getLogMessage());
-            
+
             $errors = $inputException->getErrors();
             $this->assertCount(6, $errors);
 
@@ -1864,7 +1855,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getEmail')
             ->will($this->returnValue('somebody@example.com'));
 
-        
+
 
         $this->_customerModelMock->expects($this->any())
             ->method('getId')
@@ -2168,6 +2159,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'encryptor' => $this->_encryptorMock,
                 'logger' => $this->_loggerMock,
                 'url' => $this->_urlMock,
+                'stringHelper' => new \Magento\Framework\Stdlib\String(),
+                'mathRandom' => new \Magento\Framework\Math\Random()
             ]
         );
         return $customerService;

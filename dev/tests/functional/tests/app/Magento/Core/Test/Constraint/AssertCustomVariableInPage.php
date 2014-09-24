@@ -53,72 +53,41 @@ class AssertCustomVariableInPage extends AbstractConstraint
             'cmsPage',
             [
                 'dataSet' => 'default',
-                'data' => ['content' => '{{customVar code=' . $customVariable->getCode() . '}}'],
+                'data' => [
+                    'content' => [
+                        'content' => '{{customVar code=' . $customVariable->getCode() . '}}'
+                    ]
+                ],
             ]
         );
         $cmsPage->persist();
-        $url = $_ENV['app_frontend_url'] . $cmsPage->getIdentifier();
-        $browser->open($url);
-
+        $browser->open($_ENV['app_frontend_url'] . $cmsPage->getIdentifier());
         $cmsIndex->getStoreSwitcherBlock()->selectStoreView('Default Store View');
 
-        $htmlValue = ($customVariableOrigin !== null)
-            ? $this->getHtmlValue($customVariable, $customVariableOrigin)
-            : strip_tags($customVariable->getHtmlValue());
-        $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
-        $this->checkVariable($htmlValue, $pageContent);
-
-        if ($storeOrigin !== null) {
-            $cmsIndex->getStoreSwitcherBlock()->selectStoreView($storeOrigin->getName());
-            $htmlValue = strip_tags($customVariable->getHtmlValue());
-            if ($htmlValue === '') {
-                $htmlValue = strip_tags($variable->getHtmlValue());
-            }
-            $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
-            $this->checkVariable($htmlValue, $pageContent);
-        }
-    }
-
-    /**
-     * Get html value
-     *
-     * @param SystemVariable $customVariable
-     * @param SystemVariable $customVariableOrigin
-     * @return string
-     */
-    protected function getHtmlValue(SystemVariable $customVariable, SystemVariable $customVariableOrigin)
-    {
-        $data = array_merge($customVariableOrigin->getData(), $customVariable->getData());
-        if ($customVariable->getHtmlValue() == "" && $customVariableOrigin->getHtmlValue() == "") {
-            $htmlValue = ($data['plain_value'] == "")
-                ? $customVariableOrigin->getPlainValue()
-                : $data['plain_value'];
-        } else {
-            $htmlValue = ($customVariableOrigin == null)
-                ? $customVariable->getHtmlValue()
-                : $customVariableOrigin->getHtmlValue();
-            $htmlValue = strip_tags($htmlValue);
-        }
-        return $htmlValue;
-    }
-
-    /**
-     * Check Variable on frontend page
-     *
-     * @param string $htmlValue
-     * @param string $pageContent
-     * @return void
-     */
-    protected function checkVariable($htmlValue, $pageContent)
-    {
+        $data = $customVariableOrigin
+            ? array_replace_recursive($customVariableOrigin->getData(), $customVariable->getData())
+            : $customVariable->getData();
+        $fixtureContent = empty($data['html_value']) ? $data['plain_value'] : strip_tags($data['html_value']);
+        $pageContent = $cmsIndex->getCmsPageBlock()->getPageContent();
         \PHPUnit_Framework_Assert::assertEquals(
-            $htmlValue,
+            $fixtureContent,
             $pageContent,
             'Wrong content is displayed on frontend page'
-            . "\nExpected: " . $htmlValue
+            . "\nExpected: " . $fixtureContent
             . "\nActual: " . $pageContent
         );
 
+        if ($storeOrigin !== null) {
+            $cmsIndex->getStoreSwitcherBlock()->selectStoreView($storeOrigin->getName());
+            $pageContent = $cmsIndex->getCmsPageBlock()->getPageContent();
+            \PHPUnit_Framework_Assert::assertEquals(
+                $fixtureContent,
+                $pageContent,
+                'Wrong content is displayed on frontend page'
+                . "\nExpected: " . $fixtureContent
+                . "\nActual: " . $pageContent
+            );
+        }
     }
 
     /**

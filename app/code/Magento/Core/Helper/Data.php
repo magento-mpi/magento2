@@ -195,7 +195,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $types = array();
         foreach ($this->_cacheConfig->getTypes() as $type => $node) {
-            $types[$type] = $node['label'];
+            if (array_key_exists('label', $node)) {
+                $types[$type] = $node['label'];
+            }
         }
         return $types;
     }

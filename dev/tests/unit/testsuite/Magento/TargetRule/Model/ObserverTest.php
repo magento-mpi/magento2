@@ -19,11 +19,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var \Magento\Index\Model\Indexer|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_indexerMock;
-
-    /**
      * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_productRuleProcessorMock;
@@ -35,8 +30,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_indexerMock = $this->getMock('\Magento\Index\Model\Indexer', [], [], '', false);
-
         $this->_productRuleIndexer = $this->getMock('\Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule',
             [],
             [],
@@ -53,7 +46,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_observer = (new ObjectManager($this))->getObject('\Magento\TargetRule\Model\Observer', [
-            'indexer' => $this->_indexerMock,
             'productRuleIndexerProcessor' => $this->_productRuleProcessorMock,
             'productRuleIndexer' => $this->_productRuleIndexer,
         ]);
