@@ -20,9 +20,4 @@
             <argument name="block" xsi:type="string">cms_page_edit_tab_hierarchy</argument>
         </action>
     </referenceBlock>
-    <referenceBlock name="head">
-        <action method="setCanLoadExtJs">
-            <argument name="flag" xsi:type="string">1</argument>
-        </action>
-    </referenceBlock>
 </page>
