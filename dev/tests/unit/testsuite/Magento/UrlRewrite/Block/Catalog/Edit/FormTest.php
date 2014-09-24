@@ -95,8 +95,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->categoryFactory->expects($this->once())->method('create')
             ->willReturn($this->getMock('Magento\Catalog\Model\Category', [], [], '', false));
 
-        $storeElement->expects($this->once())->method('setAfterElementHtml')
-            ->with('We can\'t set up a URL rewrite because the product you chose is not associated with a website.');
+        $storeElement->expects($this->once())->method('setAfterElementHtml');
         $storeElement->expects($this->once())->method('setValues')->with([]);
 
         $this->layout->expects($this->once())->method('createBlock')

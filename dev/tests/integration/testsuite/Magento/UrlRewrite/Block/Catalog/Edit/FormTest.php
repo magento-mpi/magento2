@@ -176,7 +176,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form = $this->_getFormInstance($args);
         $this->assertEquals([], $form->getElement('store_id')->getValues());
         $this->assertEquals(
-            'We can\'t set up a URL rewrite because the category your chose is not associated with a website.',
+            'We can\'t set up a URL rewrite because the category you chose is not associated with a website.',
             $form->getElement('store_id')->getAfterElementHtml()
         );
     }
