@@ -52,7 +52,7 @@
                 <argument name="name" xsi:type="string">order_invoices</argument>
                 <argument name="block" xsi:type="string">sales_order_invoice.grid.container</argument>
             </action>
-        <block class = "Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos" name="sales_order_creditmemo.grid.container"/>
+            <block class = "Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos" name="sales_order_creditmemo.grid.container"/>
             <action method="addTab">
                 <argument name="name" xsi:type="string">order_creditmemos</argument>
                 <argument name="block" xsi:type="string">sales_order_creditmemo.grid.container</argument>
