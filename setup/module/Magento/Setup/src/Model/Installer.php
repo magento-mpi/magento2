@@ -30,6 +30,11 @@ class Installer
     const CLEANUP_DB = 'cleanup_database';
 
     /**
+     * Parameter to specify an order_increment_prefix
+     */
+    const SALES_ORDER_INCREMENT_PREFIX = 'sales_order_increment_prefix';
+
+    /**
      * File permissions checker
      *
      * @var FilePermissions
@@ -158,7 +163,7 @@ class Installer
         $this->installDataFixtures();
 
         $this->log->log('Creating store order increment prefix configuration:');
-        $this->installOrderIncrementPrefix($request[UserConfigurationData::KEY_SALES_ORDER_INCREMENT_PREFIX]);
+        $this->installOrderIncrementPrefix($request[self::SALES_ORDER_INCREMENT_PREFIX]);
 
         $this->log->log('Installing admin user...');
         $this->installAdminUser($request);

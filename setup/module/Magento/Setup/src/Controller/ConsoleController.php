@@ -164,20 +164,22 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_IS_SECURE . '=]'
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]'
-            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]'
-            . ' [--' . UserConfig::KEY_SALES_ORDER_INCREMENT_PREFIX . '=]';
+            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]';
         $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
             . ' --' . AdminAccount::KEY_EMAIL . '='
             . ' --' . AdminAccount::KEY_FIRST_NAME . '='
             . ' --' . AdminAccount::KEY_LAST_NAME . '=';
+        $salesConfig = '[--' . Installer::SALES_ORDER_INCREMENT_PREFIX . '=]';
         return [
             self::CMD_INSTALL => [
-                'route' => self::CMD_INSTALL . ' ' . $deployConfig . ' ' . $userConfig . ' ' . $adminUser
+                'route' => self::CMD_INSTALL . ' '
+                    . $deployConfig . ' ' . $userConfig . ' ' . $adminUser . ' ' . $salesConfig
                     . ' [--' . Installer::CLEANUP_DB . ']',
                 'usage' => $deployConfig . "\n"
                     . $userConfig . "\n"
                     . $adminUser . "\n"
+                    . $salesConfig . "\n"
                     . '[--' . Installer::CLEANUP_DB . ']',
                 'usage_short' => self::CMD_INSTALL . ' <options>',
                 'usage_desc' => 'Install Magento application',
