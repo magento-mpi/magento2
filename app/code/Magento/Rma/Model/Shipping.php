@@ -344,34 +344,6 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Create \Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
-     *
-     * @param string $imageString
-     * @return \Zend_Pdf_Page|bool
-     */
-    public function createPdfPageFromImageString($imageString)
-    {
-        $image = imagecreatefromstring($imageString);
-        if (!$image) {
-            return false;
-        }
-
-        $xSize = imagesx($image);
-        $ySize = imagesy($image);
-        $page = new \Zend_Pdf_Page($xSize, $ySize);
-
-        imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
-        $tmpFileName = 'shipping_labels_' . uniqid(\Magento\Framework\Math\Random::getRandomNumber()) . time() . '.png';
-        $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
-        imagepng($image, $tmpFilePath);
-        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFilePath);
-        $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        $dir->delete($tmpFileName);
-        return $page;
-    }
-
-    /**
      * Check whether custom carrier was used for this track
      *
      * @return bool
