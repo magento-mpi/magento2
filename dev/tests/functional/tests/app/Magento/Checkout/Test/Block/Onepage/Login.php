@@ -90,8 +90,6 @@ class Login extends Form
     public function registerCustomer()
     {
         $this->_rootElement->find($this->registerCustomer)->click();
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible($this->loadingMask);
     }
 
     /**

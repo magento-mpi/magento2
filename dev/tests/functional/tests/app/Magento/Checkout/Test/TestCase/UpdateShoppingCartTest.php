@@ -112,6 +112,7 @@ class UpdateShoppingCartTest extends Injectable
         $productView->clickAddToCart();
 
         $qty = $product->getCheckoutData()['options']['qty'];
+        $this->checkoutCart->open();
         $this->checkoutCart->getCartBlock()->getCartItem($product)->setQty($qty);
         $this->checkoutCart->getCartBlock()->updateShoppingCart();
 
