@@ -19,11 +19,6 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_validatorFactory;
 
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
@@ -31,7 +26,6 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
@@ -42,11 +36,9 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         $data = array()
     ) {
         $this->_validatorFactory = $validatorFactory;
-        $this->_customerFactory = $customerFactory;
         parent::__construct(
             $resource,
             $eavConfig,
@@ -86,7 +78,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
             return $this;
         }
         if ($address->getId() && ($address->getIsDefaultBilling() || $address->getIsDefaultShipping())) {
-            $customer = $this->_createCustomer()->load($address->getCustomerId());
+            $customer = $address->getCustomer();
 
             if ($address->getIsDefaultBilling()) {
                 $customer->setDefaultBilling($address->getId());
@@ -133,13 +125,5 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
                 $validator->getMessages()
             );
         }
-    }
-
-    /**
-     * @return \Magento\Customer\Model\Customer
-     */
-    protected function _createCustomer()
-    {
-        return $this->_customerFactory->create();
     }
 }

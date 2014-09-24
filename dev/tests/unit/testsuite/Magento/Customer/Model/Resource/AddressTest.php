@@ -1,0 +1,209 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Customer\Model\Resource;
+
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+
+class AddressTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var \Magento\Customer\Model\Resource\Address */
+    protected $addressResource;
+
+    /** @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject */
+    protected $resource;
+
+    /** @var \Magento\Core\Model\Validator\Factory|\PHPUnit_Framework_MockObject_MockObject */
+    protected $validatorFactory;
+
+    protected function setUp()
+    {
+        $dbSelect = $this->getMock('Magento\Framework\DB\Select', [], [], '', false);
+        $dbSelect->expects($this->any())->method('from')->willReturnSelf();
+        $dbSelect->expects($this->any())->method('where')->willReturnSelf();
+
+        $dbAdapter = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', [], [], '', false);
+        $dbAdapter->expects($this->any())
+            ->method('describeTable')
+            ->with('customer_address_entity')
+            ->willReturn(
+                [
+                    'entity_type_id',
+                    'attribute_set_id',
+                    'created_at',
+                    'updated_at',
+                    'parent_id',
+                    'increment_id',
+                    'entity_id'
+                ]
+            );
+        $dbAdapter->expects($this->any())->method('lastInsertId');
+        $dbAdapter->expects($this->any())->method('select')->willReturn($dbSelect);
+
+        $resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
+        $resource->expects($this->any())->method('getConnection')->will($this->returnValue($dbAdapter));
+        $resource->expects($this->any())->method('getTableName')->will($this->returnValue('customer_address_entity'));
+
+        $validatorMock =  $this->getMock('Magento\Framework\Validator', ['isValid'], [], '', false);
+        $validatorMock->expects($this->any())
+            ->method('isValid')
+            ->willReturn(true);
+
+        $validatorFactory = $this->getMock(
+            'Magento\Core\Model\Validator\Factory',
+            ['createValidator'],
+            [],
+            '',
+            false
+        );
+        $validatorFactory->expects($this->any())
+            ->method('createValidator')
+            ->with('customer_address', 'save')
+            ->willReturn($validatorMock);
+
+        $attributeMock = $this->getMock(
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            ['getAttributeCode', 'getBackend'],
+            [],
+            '',
+            false
+        );
+        $attributeMock->expects($this->any())
+            ->method('getAttributeCode')
+            ->willReturn('entity_id');
+        $attributeMock->expects($this->any())
+            ->method('getBackend')
+            ->willReturn(
+                $this->getMock(
+                    'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend', [], [], '', false
+                )
+            );
+
+        $eavConfigType = $this->getMock(
+            'Magento\Eav\Model\Config\Type',
+            ['getEntityIdField', 'getId', 'getEntityTable'],
+            [],
+            '',
+            false
+        );
+        $eavConfigType->expects($this->any())->method('getEntityIdField')->willReturn(false);
+        $eavConfigType->expects($this->any())->method('getId')->willReturn(false);
+        $eavConfigType->expects($this->any())->method('getEntityTable')->willReturn('customer_address_entity');
+
+        $eavConfig = $this->getMock(
+            'Magento\Eav\Model\Config',
+            ['getEntityType', 'getEntityAttributeCodes', 'getAttribute'],
+            [],
+            '',
+            false
+        );
+        $eavConfig->expects($this->any())
+            ->method('getEntityType')
+            ->with('customer_address')
+            ->willReturn($eavConfigType);
+        $eavConfig->expects($this->any())
+            ->method('getEntityAttributeCodes')
+            ->with($eavConfigType)
+            ->willReturn(
+                [
+                    'entity_type_id',
+                    'attribute_set_id',
+                    'created_at',
+                    'updated_at',
+                    'parent_id',
+                    'increment_id',
+                    'entity_id'
+                ]
+            );
+        $eavConfig->expects($this->any())
+            ->method('getAttribute')
+            ->willReturnMap([
+                [$eavConfigType, 'entity_type_id', $attributeMock],
+                [$eavConfigType, 'attribute_set_id', $attributeMock],
+                [$eavConfigType, 'created_at', $attributeMock],
+                [$eavConfigType, 'updated_at', $attributeMock],
+                [$eavConfigType, 'parent_id', $attributeMock],
+                [$eavConfigType, 'increment_id', $attributeMock],
+                [$eavConfigType, 'entity_id', $attributeMock],
+            ]);
+        $this->addressResource = (new ObjectManagerHelper($this))->getObject(
+            'Magento\Customer\Model\Resource\Address',
+            [
+                'resource' => $resource,
+                'eavConfig' => $eavConfig,
+                'validatorFactory' => $validatorFactory,
+            ]
+        );
+    }
+
+    /**
+     * @param $addressId
+     * @param $isDefaultBilling
+     * @param $isDefaultShipping
+     *
+     * @dataProvider getSaveDataProvider
+     */
+    public function testSave($addressId, $isDefaultBilling, $isDefaultShipping)
+    {
+        /** @var $customer \Magento\Customer\Model\Address|\PHPUnit_Framework_MockObject_MockObject */
+        $customer = $this->getMock(
+            'Magento\Customer\Model\Customer',
+            ['__wakeup', 'setDefaultBilling', 'setDefaultShipping', 'save'],
+            [],
+            '',
+            false
+        );
+        /** @var $address \Magento\Customer\Model\Address|\PHPUnit_Framework_MockObject_MockObject */
+        $address = $this->getMock(
+            'Magento\Customer\Model\Address',
+            [
+                '__wakeup',
+                'getId',
+                'getEntityTypeId',
+                'getIsDefaultBilling',
+                'getIsDefaultShipping',
+                'getCustomer'
+            ],
+            [],
+            '',
+            false
+        );
+        $address->expects($this->any())->method('getEntityTypeId')->willReturn('3');
+        $address->expects($this->any())->method('getId')->willReturn($addressId);
+        $address->expects($this->any())->method('getIsDefaultShipping')->willReturn($isDefaultShipping);
+        $address->expects($this->any())->method('getIsDefaultBilling')->willReturn($isDefaultBilling);
+        if ($addressId && ($isDefaultBilling || $isDefaultShipping)) {
+            if ($isDefaultBilling) {
+                $customer->expects($this->once())->method('setDefaultBilling')->with($addressId);
+            }
+            if ($isDefaultShipping) {
+                $customer->expects($this->once())->method('setDefaultShipping')->with($addressId);
+            }
+            $customer->expects($this->once())->method('save');
+            $address->expects($this->once())->method('getCustomer')->willReturn($customer);
+        } else {
+            $address->expects($this->never())->method('getCustomer');
+            $customer->expects($this->never())->method('setDefaultBilling');
+            $customer->expects($this->never())->method('setDefaultShipping');
+            $customer->expects($this->never())->method('save');
+        }
+        $this->addressResource->setType('customer_address');
+        $this->addressResource->save($address);
+    }
+
+    public function getSaveDataProvider()
+    {
+        return [
+            [null, true, true],
+            [1, true, true],
+            [1, true, false],
+            [1, false, true],
+            [1, false, false],
+        ];
+    }
+}
