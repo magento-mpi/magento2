@@ -159,7 +159,7 @@ class ShareWishlistEntityTest extends Injectable
         //Steps
         $this->loginCustomer($customer);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->addToWishlist($product);
+        $this->catalogProductView->getViewBlock()->addToWishlist();
         $this->wishlistIndex->getWishlistBlock()->clickShareWishList();
         $this->wishlistShare->getSharingInfoForm()->fillForm($sharingInfo);
         $this->wishlistShare->getSharingInfoForm()->shareWishlist();

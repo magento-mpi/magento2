@@ -41,16 +41,4 @@ class Items extends Block
             ['element' => $this->_rootElement->find($productBlock, Locator::SELECTOR_XPATH)]
         );
     }
-
-    /**
-     * Check if product is visible
-     *
-     * @param FixtureInterface $product
-     * @return bool
-     */
-    public function isProductVisible(FixtureInterface $product)
-    {
-        $productBlock = sprintf($this->itemBlock, $product->getName());
-        return $this->_rootElement->find($productBlock, Locator::SELECTOR_XPATH)->isVisible();
-    }
 }

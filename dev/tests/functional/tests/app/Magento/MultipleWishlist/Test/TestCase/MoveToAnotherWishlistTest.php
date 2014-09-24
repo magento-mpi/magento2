@@ -19,6 +19,7 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\InjectableFixture;
 
@@ -102,15 +103,24 @@ class MoveToAnotherWishlistTest extends Injectable
     protected $browser;
 
     /**
+     * ObjectManager object
+     *
+     * @var ObjectManager
+     */
+    protected $objectManager;
+
+    /**
      * Prepare data for test
      *
      * @param FixtureFactory $fixtureFactory
      * @param Browser $browser
+     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory, Browser $browser)
+    public function __prepare(FixtureFactory $fixtureFactory, Browser $browser, ObjectManager $objectManager)
     {
         $this->browser = $browser;
+        $this->objectManager = $objectManager;
         $this->fixtureFactory = $fixtureFactory;
         $config = $this->fixtureFactory->createByCode('configData', ['dataSet' => 'multiple_wishlist_default']);
         $config->persist();
@@ -177,12 +187,11 @@ class MoveToAnotherWishlistTest extends Injectable
      */
     protected function loginCustomer(CustomerInjectable $customer)
     {
-        $this->cmsIndex->open();
-        $linksBlock = $this->cmsIndex->getLinksBlock();
-        if (!$linksBlock->isLinkVisible('Log Out')) {
-            $linksBlock->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $customerLogin = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $customerLogin->run();
     }
 
     /**
@@ -219,6 +228,6 @@ class MoveToAnotherWishlistTest extends Injectable
     protected function addProductToWishlist($product)
     {
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getMultipleWishlistViewBlock()->addToWishlist($product);
+        $this->catalogProductView->getMultipleWishlistViewBlock()->fillOptionsAndaddToWishlist($product);
     }
 }

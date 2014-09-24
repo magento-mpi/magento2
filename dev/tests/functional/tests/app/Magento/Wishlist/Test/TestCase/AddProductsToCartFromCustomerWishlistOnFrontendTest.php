@@ -174,7 +174,7 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
     {
         foreach ($products as $product) {
             $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->addToWishlist($product);
+            $this->catalogProductView->getViewBlock()->addToWishlist();
         }
     }
 
