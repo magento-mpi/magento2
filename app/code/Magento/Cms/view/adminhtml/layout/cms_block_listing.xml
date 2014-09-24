@@ -95,7 +95,7 @@
             </argument>
         </arguments>
         <referenceBlock name="listing_before">
-            <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
+            <block class="Magento\Ui\Component\MassAction" name="massaction_top">
                 <arguments>
                     <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
                     <argument name="config" xsi:type="array">
