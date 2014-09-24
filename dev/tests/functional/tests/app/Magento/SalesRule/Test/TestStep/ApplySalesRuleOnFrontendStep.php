@@ -13,10 +13,10 @@ use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Class ApplySalesRuleStep
+ * Class ApplySalesRuleOnFrontendStep
  * Apply Sales Rule before one page checkout
  */
-class ApplySalesRuleStep implements TestStepInterface
+class ApplySalesRuleOnFrontendStep implements TestStepInterface
 {
     /**
      * Checkout cart page

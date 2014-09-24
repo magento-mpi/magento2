@@ -31,12 +31,13 @@ class AssertOrderInOrdersGrid extends AbstractConstraint
      * @param OrderInjectable $order
      * @param OrderIndex $orderIndex
      * @param string $status
+     * @param string $orderId [optional]
      * @return void
      */
-    public function processAssert($order, OrderIndex $orderIndex, $status)
+    public function processAssert(OrderInjectable $order, OrderIndex $orderIndex, $status, $orderId = '')
     {
         $orderIndex->open();
-        $this->assert($order, $orderIndex, $status);
+        $this->assert($order, $orderIndex, $status, $orderId);
     }
 
     /**
@@ -45,12 +46,13 @@ class AssertOrderInOrdersGrid extends AbstractConstraint
      * @param OrderInjectable $order
      * @param OrderIndex $orderIndex
      * @param string $status
+     * @param string $orderId [optional]
      * @return void
      */
-    protected function assert(OrderInjectable $order, OrderIndex $orderIndex, $status)
+    protected function assert(OrderInjectable $order, OrderIndex $orderIndex, $status, $orderId = '')
     {
         $filter = [
-            'id' => $order->getId(),
+            'id' => $order->hasData('id') ? $order->getId() : $orderId,
             'status' => $status,
         ];
         $errorMessage = implode(', ', $filter);

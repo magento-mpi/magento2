@@ -170,12 +170,14 @@ class CheckoutData implements FixtureInterface
                 ]
             ],
             'order_big_qty' => [
-                'options' => [
-                    'qty' => 2
+                'qty' => 900
+            ],
+            'order_custom_price' => [
+                'checkout_data' => [
+                    'qty' => 3,
+                    'use_custom_price' => "Yes",
+                    'custom_price' => 100,
                 ],
-                'cartItem' => [
-                    'qty' => 2
-                ]
             ]
         ];
         return isset($presets[$name]) ? $presets[$name] : [];
