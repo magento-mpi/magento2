@@ -82,10 +82,9 @@ class CancelCreatedOrderTest extends Injectable
      * Cancel created order
      *
      * @param OrderInjectable $order
-     * @param string $status
      * @return array
      */
-    public function test(OrderInjectable $order, $status)
+    public function test(OrderInjectable $order)
     {
         // Preconditions
         $order->persist();
@@ -97,8 +96,6 @@ class CancelCreatedOrderTest extends Injectable
 
         return [
             'customer' => $order->getDataFieldConfig('customer_id')['source']->getCustomer(),
-            'orders' => [$order],
-            'statuses' => [$status]
         ];
     }
 }

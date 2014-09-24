@@ -30,11 +30,11 @@ class AssertOrderInOrdersGrid extends AbstractConstraint
      *
      * @param OrderInjectable $order
      * @param OrderIndex $orderIndex
-     * @param string $status
+     * @param string|null $status [optional]
      * @param string $orderId [optional]
      * @return void
      */
-    public function processAssert(OrderInjectable $order, OrderIndex $orderIndex, $status, $orderId = '')
+    public function processAssert(OrderInjectable $order, OrderIndex $orderIndex, $status = null, $orderId = '')
     {
         $orderIndex->open();
         $this->assert($order, $orderIndex, $status, $orderId);

@@ -46,11 +46,8 @@ class OnHoldStep implements TestStepInterface
      * @param OrderView $orderView
      * @param OrderInjectable $order
      */
-    public function __construct(
-        OrderIndex $orderIndex,
-        OrderView $orderView,
-        OrderInjectable $order
-    ) {
+    public function __construct(OrderIndex $orderIndex, OrderView $orderView, OrderInjectable $order)
+    {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
         $this->order = $order;

@@ -8,14 +8,15 @@
 
 namespace Magento\Sales\Test\Constraint;
 
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
  * Class AssertOrdersInOrdersGrid
- * Assert that orders is present in Orders grid
+ * Assert that orders are present in Orders grid
  */
-class AssertOrdersInOrdersGrid extends AssertOrderInOrdersGrid
+class AssertOrdersInOrdersGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -25,18 +26,23 @@ class AssertOrdersInOrdersGrid extends AssertOrderInOrdersGrid
     protected $severeness = 'low';
 
     /**
-     * Assert that orders with fixture data is present in Sales -> Orders Grid
+     * Assert that orders are present in Sales -> Orders Grid
      *
      * @param OrderInjectable[] $orders
      * @param OrderIndex $orderIndex
-     * @param string[] $statuses
+     * @param array $statuses
+     * @param AssertOrderInOrdersGrid $assertOrderInOrdersGrid
      * @return void
      */
-    public function processAssert($orders, OrderIndex $orderIndex, $statuses)
-    {
+    public function processAssert(
+        $orders,
+        OrderIndex $orderIndex,
+        array $statuses,
+        AssertOrderInOrdersGrid $assertOrderInOrdersGrid
+    ) {
         $orderIndex->open();
         foreach ($orders as $key => $order) {
-            $this->assert($order, $orderIndex, $statuses[$key]);
+             $assertOrderInOrdersGrid->assert($order, $orderIndex, $statuses[$key]);
         }
     }
 
@@ -47,6 +53,6 @@ class AssertOrdersInOrdersGrid extends AssertOrderInOrdersGrid
      */
     public function toString()
     {
-        return 'Sales orders is present in sales orders grid.';
+        return 'All orders are present in sales orders grid.';
     }
 }

@@ -120,7 +120,6 @@ class MoveToArchiveTest extends Injectable
      *
      * @param OrderInjectable $order
      * @param string $steps
-     * @throws \Exception
      * @return array
      */
     protected function processSteps(OrderInjectable $order, $steps)

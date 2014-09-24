@@ -73,16 +73,16 @@ class MassOrdersUpdateTest extends Injectable
     /**
      * Mass orders update
      *
-     * @param string $ordersStatus
+     * @param string $steps
      * @param int $ordersCount
      * @param string $action
      * @param string $resultStatuses
      * @return array
      */
-    public function test($ordersStatus, $ordersCount, $action, $resultStatuses)
+    public function test($steps, $ordersCount, $action, $resultStatuses)
     {
         // Preconditions
-        $orders = $this->createOrders($ordersCount, $ordersStatus);
+        $orders = $this->createOrders($ordersCount, $steps);
         $items = $this->prepareFilter($orders);
 
         // Steps
@@ -96,34 +96,19 @@ class MassOrdersUpdateTest extends Injectable
      * Create orders
      *
      * @param int $count
-     * @param string $statuses
+     * @param string $steps
      * @return array
      */
-    protected function createOrders($count, $statuses)
+    protected function createOrders($count, $steps)
     {
         $orders = [];
-        $statuses = explode(',', $statuses);
+        $steps = explode('|', $steps);
         for ($i = 0; $i < $count; $i++) {
             /** @var OrderInjectable $order */
             $order = $this->fixtureFactory->createByCode('orderInjectable', ['dataSet' => 'default']);
             $order->persist();
             $orders[$i] = $order;
-
-            switch ($statuses[$i]) {
-                case 'Closed':
-                    $this->processStep('CreateInvoice', ['order' => $order]);
-                    $this->processStep('CreateCreditMemo', ['order' => $order]);
-                    break;
-                case 'Complete':
-                    $this->processStep('CreateInvoice', ['order' => $order, 'data' => ['do_shipment' => 'Yes']]);
-                    break;
-                case 'Processing':
-                    $this->processStep('CreateInvoice', ['order' => $order]);
-                    break;
-                case 'On Hold':
-                    $this->processStep('OnHold', ['order' => $order]);
-                    break;
-            }
+            $this->processSteps($order, $steps[$i]);
         }
 
         return $orders;
@@ -132,14 +117,20 @@ class MassOrdersUpdateTest extends Injectable
     /**
      * Process which step to take for order
      *
-     * @param string $type
-     * @param array $arguments
+     * @param OrderInjectable $order
+     * @param string $steps
      * @return void
      */
-    protected function processStep($type, array $arguments = [])
+    protected function processSteps(OrderInjectable $order, $steps)
     {
-        $processStep = $this->objectManager->create('Magento\Sales\Test\TestStep\\' . $type . 'Step', $arguments);
-        $processStep->run();
+        $steps = array_diff(explode(',', $steps), ['-']);
+        foreach ($steps as $step) {
+            $action = str_replace(' ', '', ucwords($step));
+            $methodAction = (($action != 'OnHold') ? 'Create' : '') . $action . 'Step';
+            $path = 'Magento\Sales\Test\TestStep';
+            $processStep = $this->objectManager->create($path . '\\' . $methodAction, ['order' => $order]);
+            $processStep->run();
+        }
     }
 
     /**
