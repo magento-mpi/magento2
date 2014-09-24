@@ -92,13 +92,6 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 
             $this->_setFieldset($attributes, $fieldset, array('gallery'));
 
-            $urlKey = $form->getElement('url_key');
-            if ($urlKey) {
-                $urlKey->setRenderer(
-                    $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute\Urlkey')
-                );
-            }
-
             $tierPrice = $form->getElement('tier_price');
             if ($tierPrice) {
                 $tierPrice->setRenderer(

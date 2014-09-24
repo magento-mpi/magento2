@@ -41,13 +41,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_options;
 
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp_item';
-
-    /**
      * Catalog product
      *
      * @var \Magento\Catalog\Helper\Product
@@ -215,7 +208,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 }
                 // break the reference with the last element
 
-                $canApplyMAP = false;
                 $bundleOptionPriceAmount = $currentProduct->getPriceInfo()->getPrice('bundle_option')
                     ->getOptionSelectionAmount($selectionItem);
                 $priceInclTax = $bundleOptionPriceAmount->getValue();
@@ -231,7 +223,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'name' => $selectionItem->getName(),
                     'plusDisposition' => 0,
                     'minusDisposition' => 0,
-                    'canApplyMAP' => $canApplyMAP
+                    'canApplyMsrp' => false
                 );
 
                 $selection['price'] = $this->_taxData->displayPriceIncludingTax()
@@ -295,7 +287,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 ->getValue(),
             'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice' => $isFixedPrice,
-            //'isMAPAppliedDirectly' => $this->_catalogData->canApplyMsrp($this->getProduct(), null, false)
         );
 
         $config['finalPrice'] = $this->_taxData->displayPriceIncludingTax()

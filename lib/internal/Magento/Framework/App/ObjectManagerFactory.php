@@ -86,19 +86,20 @@ class ObjectManagerFactory
             $diConfig->extend($configData);
         }
 
-        $this->factory = new \Magento\Framework\ObjectManager\Factory\Factory(
+        $factoryClass = $diConfig->getPreference('Magento\Framework\ObjectManager\Factory\Factory');
+        $this->factory = new $factoryClass(
             $diConfig,
             null,
             $definitions,
             $appArguments->get()
         );
+
         if ($appArguments->get('MAGE_PROFILER') == 2) {
             $this->factory = new \Magento\Framework\ObjectManager\Profiler\FactoryDecorator(
                 $this->factory,
                 \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
             );
         }
-        $className = $this->_locatorClassName;
 
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
@@ -113,6 +114,7 @@ class ObjectManagerFactory
             $configClass => $diConfig
         ];
 
+        $className = $this->_locatorClassName;
         /** @var \Magento\Framework\ObjectManager $objectManager */
         $objectManager = new $className($this->factory, $diConfig, $sharedInstances);
 
