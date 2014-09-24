@@ -31,17 +31,28 @@ class Setup implements SetupInterface
     protected $attributeSetup;
 
     /**
+     * Setup class for products
+     *
+     * @var Setup\Product
+     */
+    protected $productSetup;
+
+    /**
      * Constructor
      *
      * @param Setup\Category $categorySetup
      * @param Setup\Attribute $attributeSetup
+     * @param Setup\Product $productSetup
+
      */
     public function __construct(
         Setup\Category $categorySetup,
-        Setup\Attribute $attributeSetup
+        Setup\Attribute $attributeSetup,
+        Setup\Product $productSetup
     ) {
         $this->categorySetup = $categorySetup;
         $this->attributeSetup = $attributeSetup;
+        $this->productSetup = $productSetup;
     }
 
     /**
@@ -51,5 +62,6 @@ class Setup implements SetupInterface
     {
         $this->attributeSetup->run();
         $this->categorySetup->run();
+        $this->productSetup->run();
     }
 }

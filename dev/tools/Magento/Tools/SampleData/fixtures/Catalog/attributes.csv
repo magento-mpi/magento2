@@ -32,8 +32,7 @@ Duffel
 Messenger
 Laptop
 Exercise
-Tote
-";;style_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
+Tote";;style_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
 Material;multiselect;0;"Burlap
 Canvas
 Cotton
@@ -49,13 +48,20 @@ Material;multiselect;0;"Burlap
 Canvas
 Cotton
 Faux Leather
+Foam
 Leather
 Mesh
+Metal
 Nylon
 Polyester
+Plastic
 Rayon
 Ripstop
-Suede";;material_gear;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gear
+Rubber
+Synthetic
+Stainless Steel
+Suede
+Silicone";;material_gear;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gear
 Color;select;;"Aqua
 Black
 Black/Blue
@@ -161,14 +167,17 @@ Padded
 Shoulder
 Single
 Telescoping";;strap_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
-Features;multiselect;0;"Adjustable
-Cross Body
-Detachable
-Double
-Padded
-Shoulder
-Single
-Telescoping";;strap_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
+Features;multiselect;0;"Audio Pocket
+Wheeled
+Hydration Pocket
+Audio Pocket
+Flapover
+Waterproof
+Lightweight
+TSA Approved
+Reflective
+Laptop Sleeve
+Lockable ";;features_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
 Gender;select;0;"Men
 Women
 Boys
