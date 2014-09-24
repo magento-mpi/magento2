@@ -25,6 +25,20 @@ class Grid extends ParentGrid
     protected $editLink = 'td[class*=col-title]';
 
     /**
+     * Filter button
+     *
+     * @var string
+     */
+    protected $filterButton= '.action.filters-toggle';
+
+    /**
+     * Active class
+     *
+     * @var string
+     */
+    protected $active = '.active';
+
+    /**
      * 'Preview' cms page link
      *
      * @var string
@@ -44,6 +58,20 @@ class Grid extends ParentGrid
     ];
 
     /**
+     * Search item and open it
+     *
+     * @param array $filter
+     * @throws \Exception
+     */
+    public function searchAndOpen(array $filter)
+    {
+        if (!$this->_rootElement->find($this->filterButton . $this->active)->isVisible()) {
+            $this->_rootElement->find($this->filterButton)->click();
+        }
+        parent::searchAndOpen($filter);
+    }
+
+    /**
      * Search item and open it on front
      *
      * @param array $filter
@@ -52,8 +80,11 @@ class Grid extends ParentGrid
      */
     public function searchAndPreview(array $filter)
     {
+        if (!$this->_rootElement->find($this->filterButton . $this->active)->isVisible()) {
+            $this->_rootElement->find($this->filterButton)->click();
+        }
         $this->search($filter);
-        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
+        $rowItem = $this->_rootElement->find($this->rowItem);
         if ($rowItem->isVisible()) {
             $rowItem->find($this->previewCmsPage, Locator::SELECTOR_XPATH)->click();
             $this->waitForElement();
