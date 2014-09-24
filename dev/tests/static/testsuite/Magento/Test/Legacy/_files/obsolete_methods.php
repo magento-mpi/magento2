@@ -466,7 +466,6 @@ return array(
     array('getItemRender', 'Magento\Checkout\Block\Cart\AbstractCart'),
     array('getItemRendererInfo', 'Magento\Checkout\Block\Cart\AbstractCart'),
     array('getKeyList', 'Magento\Framework\DB\Adapter\Pdo\Mysql'),
-    array('getLanguages', 'Magento\Install\Block\Begin'),
     array('getLanguageSelect', 'Magento\Backend\Block\Page\Footer'),
     array('getLayoutFilename', '', 'getFilename'),
     array('getLifeTime', 'Magento\Core\Model\Resource\Session'),

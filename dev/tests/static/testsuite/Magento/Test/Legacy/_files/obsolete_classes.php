@@ -2791,4 +2791,5 @@ return array(
         'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
     ],
     ['\Magento\Sales\Model\Observer'],
+    ['\Magento\Install\Block\Begin'],
 );
