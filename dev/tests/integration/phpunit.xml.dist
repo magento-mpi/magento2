@@ -7,7 +7,11 @@
  * @license     {license_link}
  */
 -->
-<phpunit bootstrap="./framework/bootstrap.php">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         colors="true"
+         bootstrap="./framework/bootstrap.php"
+>
     <!-- Test suites definition -->
     <testsuites>
         <!-- Memory tests run first to prevent influence of other tests on accuracy of memory measurements -->

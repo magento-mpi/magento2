@@ -29,7 +29,7 @@ class PrintLabel extends \Magento\Rma\Controller\Adminhtml\Rma
                     $pdfContent = $labelContent;
                 } else {
                     $pdf = new \Zend_Pdf();
-                    $page = $this->_createPdfPageFromImageString($labelContent);
+                    $page = $this->labelService->createPdfPageFromImageString($labelContent);
                     if (!$page) {
                         $this->messageManager->addError(
                             __(

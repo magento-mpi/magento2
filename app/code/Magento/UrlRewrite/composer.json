@@ -7,6 +7,10 @@
         "magento/module-core": "0.1.0-alpha96",
         "magento/module-store": "0.1.0-alpha96",
         "magento/framework": "0.1.0-alpha96",
+        "magento/module-backend": "0.1.0-alpha96",
+        "magento/module-catalog-url-rewrite": "0.1.0-alpha96",
+        "magento/module-cms": "0.1.0-alpha96",
+        "magento/module-cms-url-rewrite": "0.1.0-alpha96",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
