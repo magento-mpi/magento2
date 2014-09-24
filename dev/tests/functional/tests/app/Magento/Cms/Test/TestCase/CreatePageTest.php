@@ -45,7 +45,7 @@ class CreatePageTest extends Functional
         $cmsPageNewForm->fill($cmsPageFixture);
         $cmsPageNew->getPageMainActions()->save();
         $message = $cmsPageGrid->getMessagesBlock();
-        $message->assertSuccessMessage();
+        $message->waitSuccessMessage();
         $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
         // Select the 'Preview' link for the new page
         $filter = ['title' => $cmsPageFixture->getPageTitle()];
