@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
-use Magento\Framework\Search\QueryResponse;
+use Magento\Framework\Search\Response\QueryResponse;
 
 /**
  * Response Factory
@@ -54,7 +54,7 @@ class ResponseFactory
      * Create Query Response instance
      *
      * @param mixed $rawResponse
-     * @return QueryResponse
+     * @return \Magento\Framework\Search\Response\QueryResponse
      */
     public function create($rawResponse)
     {
@@ -64,10 +64,10 @@ class ResponseFactory
             /** @var \Magento\Framework\Search\Document[] $documents */
             $documents[] = $this->documentFactory->create($rawDocument);
         }
-        /** @var \Magento\Framework\Search\Aggregation $aggregations */
+        /** @var \Magento\Framework\Search\Response\Aggregation $aggregations */
         $aggregations = $this->aggregationFactory->create($rawResponse['aggregations']);
         return $this->objectManager->create(
-            '\Magento\Framework\Search\QueryResponse',
+            '\Magento\Framework\Search\Response\QueryResponse',
             [
                 'documents' => $documents,
                 'aggregations' => $aggregations
