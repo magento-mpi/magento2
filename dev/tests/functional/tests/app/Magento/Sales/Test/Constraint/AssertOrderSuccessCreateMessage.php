@@ -13,7 +13,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 
 /**
  * Class AssertOrderSuccessCreateMessage
- * Assert success Message presents
+ * Assert that after create sales order successful message appears
  */
 class AssertOrderSuccessCreateMessage extends AbstractConstraint
 {

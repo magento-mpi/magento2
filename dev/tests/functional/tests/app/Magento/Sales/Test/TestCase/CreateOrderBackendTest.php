@@ -98,7 +98,7 @@ class CreateOrderBackendTest extends Scenario
                             'next' => 'selectStore'
                         ],
                         'selectStore' => [
-                            'module' => 'Magento_Store',
+                            'module' => 'Magento_Sales',
                             'next' => 'addProducts'
                         ],
                         'addProducts' => [
@@ -119,9 +119,9 @@ class CreateOrderBackendTest extends Scenario
                         ],
                         'selectPaymentMethodForOrder' => [
                             'module' => 'Magento_Sales',
-                            'next' => 'selectShippingMethod'
+                            'next' => 'selectShippingMethodForOrder'
                         ],
-                        'selectShippingMethod' => [
+                        'selectShippingMethodForOrder' => [
                             'module' => 'Magento_Sales',
                             'next' => 'submitOrder'
                         ],

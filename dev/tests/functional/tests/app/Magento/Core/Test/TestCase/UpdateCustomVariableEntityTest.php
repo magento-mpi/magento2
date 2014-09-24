@@ -70,10 +70,7 @@ class UpdateCustomVariableEntityTest extends Injectable
     public function __prepare(FixtureFactory $factory)
     {
         /** @var Store $storeOrigin */
-        $storeOrigin = $factory->createByCode(
-            'store',
-            ['dataSet' => 'custom']
-        );
+        $storeOrigin = $factory->createByCode('store', ['dataSet' => 'custom']);
         $storeOrigin->persist();
         self::$storeName = $storeOrigin->getName();
 
@@ -116,9 +113,7 @@ class UpdateCustomVariableEntityTest extends Injectable
         Store $storeOrigin,
         $saveAction
     ) {
-        $filter = [
-            'code' => $customVariableOrigin->getCode(),
-        ];
+        $filter = ['code' => $customVariableOrigin->getCode()];
 
         // Steps
         $this->systemVariableIndexPage->open();

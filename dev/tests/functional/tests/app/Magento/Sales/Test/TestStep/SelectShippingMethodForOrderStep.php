@@ -12,10 +12,10 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 
 /**
- * Class SelectShippingMethodStep
+ * Class SelectShippingMethodForOrderStep
  * Select Shipping data
  */
-class SelectShippingMethodStep implements TestStepInterface
+class SelectShippingMethodForOrderStep implements TestStepInterface
 {
     /**
      * Sales order create index page

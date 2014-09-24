@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Store\Test\TestStep;
+namespace Magento\Sales\Test\TestStep;
 
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Mtf\TestStep\TestStepInterface;
@@ -14,7 +14,7 @@ use Magento\Store\Test\Fixture\Store;
 
 /**
  * Class SelectStoreStep
- * Creating sales rule
+ * Step for select store
  */
 class SelectStoreStep implements TestStepInterface
 {
@@ -46,7 +46,7 @@ class SelectStoreStep implements TestStepInterface
     }
 
     /**
-     * Create sales rule
+     * Select store on order create page
      *
      * @return array
      */
