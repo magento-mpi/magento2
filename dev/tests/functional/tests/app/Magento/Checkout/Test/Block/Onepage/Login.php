@@ -47,6 +47,13 @@ class Login extends Form
     protected $registerCustomer = '[id="login:register"]';
 
     /**
+     * Selector for loading mask element
+     *
+     * @var string
+     */
+    protected $loadingMask = '.loading-mask';
+
+    /**
      * Select how to perform checkout whether guest or registered customer
      *
      * @param Checkout $fixture
@@ -83,8 +90,6 @@ class Login extends Form
     public function registerCustomer()
     {
         $this->_rootElement->find($this->registerCustomer)->click();
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.loading-mask');
     }
 
     /**
@@ -97,7 +102,7 @@ class Login extends Form
     {
         $this->fill($customer);
         $this->_rootElement->find($this->login)->click();
-        $this->waitForElementNotVisible('.loading-mask');
+        $this->waitForElementNotVisible($this->loadingMask);
     }
 
     /**
@@ -108,6 +113,6 @@ class Login extends Form
     public function clickContinue()
     {
         $this->_rootElement->find($this->continue)->click();
-        $this->waitForElementNotVisible('.loading-mask');
+        $this->waitForElementNotVisible($this->loadingMask);
     }
 }
