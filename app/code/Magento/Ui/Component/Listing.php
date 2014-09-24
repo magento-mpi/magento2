@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\Component\AbstractView;
 use Magento\Ui\Component\Control\ActionPool;
 use Magento\Ui\Component\Listing\RowPool;
 use Magento\Ui\Component\Listing\OptionsFactory;

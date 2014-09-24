@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\Component\AbstractView;
 use Magento\Backend\Helper\Data;
 use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Ui\ContentType\ContentTypeFactory;

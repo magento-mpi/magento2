@@ -60,7 +60,7 @@
                         <item name="sortable" xsi:type="boolean">false</item>
                         <item name="data_type" xsi:type="string">store</item>
                         <item name="filter_type" xsi:type="string">filter_store</item>
-                        <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
+                        <item name="options_provider" xsi:type="string">Magento\Store\Ui\DataProvider\Options</item>
                     </item>
                     <item name="is_active" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Status</item>
@@ -95,7 +95,7 @@
                     <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Page\Row\Actions</item>
                 </item>
                 <item name="store_id" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Ui\DataProvider\Row\Store</item>
+                    <item name="class" xsi:type="string">Magento\Store\Ui\DataProvider\Row</item>
                 </item>
             </argument>
         </arguments>
