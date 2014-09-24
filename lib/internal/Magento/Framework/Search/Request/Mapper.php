@@ -315,8 +315,7 @@ class Mapper
     {
         $buckets = array();
         foreach ($this->aggregations as $bucketData) {
-            $arguments =
-                [
+            $arguments = [
                     'name' => $bucketData['name'],
                     'field' => $bucketData['field'],
                     'metrics' => $this->mapMetrics($bucketData['metric'])

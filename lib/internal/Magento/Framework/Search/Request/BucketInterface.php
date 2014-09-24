@@ -29,6 +29,20 @@ interface BucketInterface
     public function getType();
 
     /**
+     * Get Field
+     *
+     * @return string
+     */
+    public function getField();
+
+    /**
+     * Get Metrics
+     *
+     * @return array
+     */
+    public function getMetrics();
+
+    /**
      * Get Name
      *
      * @return string
