@@ -62,32 +62,65 @@ class AssertCustomVariableInPage extends AbstractConstraint
         );
         $cmsPage->persist();
         $browser->open($_ENV['app_frontend_url'] . $cmsPage->getIdentifier());
+
         $cmsIndex->getStoreSwitcherBlock()->selectStoreView('Default Store View');
 
-        $data = $customVariableOrigin
-            ? array_replace_recursive($customVariableOrigin->getData(), $customVariable->getData())
-            : $customVariable->getData();
-        $fixtureContent = empty($data['html_value']) ? $data['plain_value'] : strip_tags($data['html_value']);
+        $htmlValue = $customVariableOrigin
+            ? $this->getHtmlValue($customVariable, $customVariableOrigin)
+            : strip_tags($customVariable->getHtmlValue());
         $pageContent = $cmsIndex->getCmsPageBlock()->getPageContent();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $fixtureContent,
-            $pageContent,
-            'Wrong content is displayed on frontend page'
-            . "\nExpected: " . $fixtureContent
-            . "\nActual: " . $pageContent
-        );
+        $this->checkVariable($htmlValue, $pageContent);
 
         if ($storeOrigin !== null) {
             $cmsIndex->getStoreSwitcherBlock()->selectStoreView($storeOrigin->getName());
+            $htmlValue = strip_tags($customVariable->getHtmlValue());
+            if ($htmlValue === '') {
+                $htmlValue = strip_tags($variable->getHtmlValue());
+            }
             $pageContent = $cmsIndex->getCmsPageBlock()->getPageContent();
-            \PHPUnit_Framework_Assert::assertEquals(
-                $fixtureContent,
-                $pageContent,
-                'Wrong content is displayed on frontend page'
-                . "\nExpected: " . $fixtureContent
-                . "\nActual: " . $pageContent
-            );
+            $this->checkVariable($htmlValue, $pageContent);
         }
+    }
+
+    /**
+     * Get html value
+     *
+     * @param SystemVariable $customVariable
+     * @param SystemVariable $customVariableOrigin
+     * @return string
+     */
+    protected function getHtmlValue(SystemVariable $customVariable, SystemVariable $customVariableOrigin)
+    {
+        $data = array_merge($customVariableOrigin->getData(), $customVariable->getData());
+        if ($customVariable->getHtmlValue() == "" && $customVariableOrigin->getHtmlValue() == "") {
+            $htmlValue = ($data['plain_value'] == "")
+                ? $customVariableOrigin->getPlainValue()
+                : $data['plain_value'];
+        } else {
+            $htmlValue = ($customVariableOrigin == null)
+                ? $customVariable->getHtmlValue()
+                : $customVariableOrigin->getHtmlValue();
+            $htmlValue = strip_tags($htmlValue);
+        }
+        return $htmlValue;
+    }
+
+    /**
+     * Check Variable on frontend page
+     *
+     * @param string $htmlValue
+     * @param string $pageContent
+     * @return void
+     */
+    protected function checkVariable($htmlValue, $pageContent)
+    {
+        \PHPUnit_Framework_Assert::assertEquals(
+            $htmlValue,
+            $pageContent,
+            'Wrong content is displayed on frontend page'
+            . "\nExpected: " . $htmlValue
+            . "\nActual: " . $pageContent
+        );
     }
 
     /**
