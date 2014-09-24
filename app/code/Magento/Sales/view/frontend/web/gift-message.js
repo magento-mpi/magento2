@@ -57,5 +57,6 @@ define([
             event.preventDefault(); // Prevent event propagation and avoid going to the link's href.
         }
     });
-
+    
+    return $.mage.giftMessage;
 });

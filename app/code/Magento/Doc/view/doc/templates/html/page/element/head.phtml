@@ -17,14 +17,6 @@
 <script src="<?php echo $this->getViewFileUrl('jquery/jquery.js') ?>"></script>
 <script src="<?php echo $this->getViewFileUrl('Magento_Doc::jumly/coffee-script.js') ?>"></script>
 <script src="<?php echo $this->getViewFileUrl('Magento_Doc::jumly/jumly.min.js') ?>"></script>
-<script type="text/javascript">
-    var require = {
-        "baseUrl": "<?php echo $this->getViewFileUrl('/') ?>",
-        "paths": {
-            "jquery/ui": "jquery/jquery-ui"
-        }
-    };
-</script>
 <?php echo $this->getCssJsHtml() ?>
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->getIncludes() ?>

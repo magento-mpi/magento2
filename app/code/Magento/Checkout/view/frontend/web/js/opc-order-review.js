@@ -55,5 +55,6 @@ define([
             }
         }
     });
-
+    
+    return $.mage.opcOrderReview;
 });

@@ -420,4 +420,13 @@ define([
         $('details').details();
         switcherForIe8();
     });
+
+    return {
+        collapsable:        $.mage.collapsable,
+        useDefault:         $.mage.useDefault,
+        loadingPopup:       $.mage.loadingPopup,
+        modalPopup:         $.mage.modalPopup,
+        globalNavigation:   $.mage.globalNavigation,
+        globalSearch:       $.mage.globalSearch
+    };
 });

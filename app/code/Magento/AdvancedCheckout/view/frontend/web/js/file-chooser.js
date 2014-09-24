@@ -9,7 +9,6 @@ define([
     "jquery",
     "jquery/ui"
 ], function($){
-
     "use strict";
 
     /**
@@ -63,5 +62,6 @@ define([
             }
         }
     });
-
+    
+    return $.mage.fileChooser;
 });

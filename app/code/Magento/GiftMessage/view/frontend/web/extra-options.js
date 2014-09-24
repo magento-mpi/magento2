@@ -42,5 +42,6 @@ define([
             });
         }
     });
-
+    
+    return $.mage.extraOptions;
 });

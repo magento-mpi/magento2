@@ -7,11 +7,13 @@
 /*jshint browser:true jquery:true*/
 define([
     "jquery",
+    "Magento_Checkout/js/opc-shipping-info",
     "jquery/ui",
     "jquery/template"
-], function($){
+], function($, opcShippingInfo){
     'use strict';
-    $.widget('mage.opcShippingInfo', $.mage.opcShippingInfo, {
+    
+    $.widget('mage.opcShippingInfo', opcShippingInfo, {
         options: {
             giftRegistry: {
                 radioTemplateSelector: '#gift-registry-billing',
@@ -75,5 +77,6 @@ define([
             }
         }
     });
-
+    
+    return $.mage.opcShippingInfo;
 });

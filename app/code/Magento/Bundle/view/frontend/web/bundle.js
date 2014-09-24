@@ -315,5 +315,5 @@ define([
         }
     });
 
-
+    return $.mage.bundleOption;
 });

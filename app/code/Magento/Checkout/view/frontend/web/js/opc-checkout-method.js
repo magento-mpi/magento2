@@ -280,4 +280,6 @@ define([
             }
         }
     });
+    
+    return $.mage.opcCheckoutMethod;
 });

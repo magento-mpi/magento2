@@ -12,7 +12,8 @@ define([
     "jquery/template",
     "mage/validation"
 ], function($){
-
+    "use strict";
+    
     $.widget('mage.regionUpdater', {
         options: {
             regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>',
@@ -172,5 +173,6 @@ define([
             });
         }
     });
-
+    
+    return $.mage.regionUpdater;
 });

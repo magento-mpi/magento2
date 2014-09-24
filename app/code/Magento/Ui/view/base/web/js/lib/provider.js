@@ -34,10 +34,9 @@ define([
 
     /**
      * Creates new data provider and register it by settings.name 
-     * @param {HTMLElement} el - Element upon which this module was called.
      * @param {Object} settings
      */
-    function init(el, settings) {
+    function init(settings) {
         var name    = settings.name,
             config  = getConfig(settings);
 

@@ -332,4 +332,5 @@ define([
         };
     };
 
+    return $.mage.integration;
 });

@@ -34,4 +34,5 @@ define([
         }
     });
 
+    return $.mage.ordersReturns;
 });

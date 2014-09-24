@@ -38,4 +38,5 @@ define([
         }
     });
 
+    return $.mage.advancedSearch;
 });
