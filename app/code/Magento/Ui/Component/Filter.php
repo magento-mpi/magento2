@@ -8,7 +8,6 @@
 namespace Magento\Ui\Component;
 
 use Magento\Framework\View\Element\UiComponentInterface;
-use Magento\Ui\Component\AbstractView;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\Context;

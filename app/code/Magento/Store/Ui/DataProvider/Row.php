@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\DataProvider\Row;
+namespace Magento\Store\Ui\DataProvider;
 
 use Magento\Framework\Escaper;
 use Magento\Framework\UrlInterface;
@@ -15,7 +15,7 @@ use Magento\Store\Model\System\Store as SystemStore;
 /**
  * Class Store
  */
-class Store implements RowInterface
+class Row implements RowInterface
 {
     /**
      * Escaper

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\DataProvider\Options;
+namespace Magento\Store\Ui\DataProvider;
 
 use Magento\Framework\Escaper;
 use Magento\Ui\Component\Listing\OptionsInterface;
@@ -14,12 +14,12 @@ use Magento\Store\Model\System\Store as SystemStore;
 /**
  * Class Store
  */
-class Store implements OptionsInterface
+class Options implements OptionsInterface
 {
     /**
      * Escaper
      *
-     * @var \Magento\Framework\Escaper
+     * @var Escaper
      */
     protected $escaper;
 

@@ -7,8 +7,6 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\Component\AbstractView;
-
 class Search extends AbstractView
 {
     //

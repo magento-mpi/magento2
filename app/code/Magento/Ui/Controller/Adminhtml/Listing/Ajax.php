@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\Component\Controller\Adminhtml\Listing;
+namespace Magento\Ui\Controller\Adminhtml\Listing;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Element\UiComponentFactory;
