@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Framework\Search\Response;
+
+use Magento\Framework\Search\Document;
+use Magento\Framework\Search\ResponseInterface;
 
 /**
  * Search Response

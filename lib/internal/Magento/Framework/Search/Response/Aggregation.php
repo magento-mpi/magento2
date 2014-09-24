@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Framework\Search\Response;
 
 /**
  * Faceted data
@@ -51,7 +51,7 @@ class Aggregation implements \IteratorAggregate
     /**
      * Get Document field names
      *
-     * @return array
+     * @return string[]
      */
     public function getBucketNames()
     {
