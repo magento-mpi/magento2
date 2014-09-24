@@ -197,8 +197,18 @@ class ServiceArgsSerializer
                 if ($type === TypeProcessor::ANY_TYPE) {
                     continue;
                 }
-                //If custom attribute value is an array then its a data object type
-                $attributeValue = $this->_createFromArray($type, $customAttributeValue);
+
+                $typeStrLen = strlen($type);
+                if (substr($type, $typeStrLen - 2) === "[]") {
+                    $type = substr($type, 0, $typeStrLen - 2);
+                    $attributeValue = [];
+                    foreach ($customAttributeValue as $value) {
+                        $attributeValue[] = $this->_createFromArray($type, $value);
+                    }
+                } else {
+                    //If custom attribute value is an array then its a data object type
+                    $attributeValue = $this->_createFromArray($type, $customAttributeValue);
+                }
             } else {
                 $attributeValue = $this->_convertValue($customAttributeValue, $type);
             }
