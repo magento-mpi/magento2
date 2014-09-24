@@ -36,10 +36,7 @@ class Curl extends AbstractCurl implements AdminUserRoleInterface
         $data = $fixture->getData();
         $data['all'] = ($data['resource_access'] == 'All') ? 1 : 0;
         if (isset($data['roles_resources'])) {
-            $data['roles_resources'] = is_array($data['roles_resources'])
-                ? $data['roles_resources']
-                : [$data['roles_resources']];
-            foreach ($data['roles_resources'] as $resource) {
+            foreach ((array)$data['roles_resources'] as $resource) {
                 $data['resource'][] = $resource;
             }
         }

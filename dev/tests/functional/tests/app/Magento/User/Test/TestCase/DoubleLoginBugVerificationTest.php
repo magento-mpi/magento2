@@ -37,6 +37,7 @@ use Mtf\TestCase\Injectable;
  * 14. Perform assertions
  *
  * @group ACL_(MX)
+ * @ZephyrId MAGETWO-28828
  */
 class DoubleLoginBugVerificationTest extends Injectable
 {
