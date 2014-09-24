@@ -8,11 +8,9 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
-use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -97,47 +95,27 @@ class UpdateShoppingCartTest extends Injectable
     /**
      * Update Shopping Cart
      *
-     * @param string $productData
+     * @param CatalogProductSimple $product
      * @return array
      */
-    public function testUpdateShoppingCart($productData)
+    public function test(CatalogProductSimple $product)
     {
         // Preconditions
-        /** @var CatalogProductSimple $product */
-        $product = $this->prepareProduct($productData);
-        $checkoutData = $product->getCheckoutData();
-        $qty = isset($checkoutData['options']['qty']) ? ($checkoutData['options']['qty']) : 1;
-        $initialQty = 2 * $qty;
+        $product->persist();
+        $this->checkoutCart->getCartBlock()->clearShoppingCart();
 
         // Steps
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-
         $productView = $this->catalogProductView->getViewBlock();
         $productView->fillOptions($product);
-        $productView->setQty($initialQty);
+        $productView->setQty(1);
         $productView->clickAddToCart();
 
+        $qty = $product->getCheckoutData()['options']['qty'];
         $this->checkoutCart->getCartBlock()->getCartItem($product)->setQty($qty);
         $this->checkoutCart->getCartBlock()->updateShoppingCart();
 
         $cart['data']['items'] = ['products' => [$product]];
         return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
-    }
-
-    /**
-     * Create product
-     *
-     * @param string $productData
-     * @return FixtureInterface
-     */
-    protected function prepareProduct($productData)
-    {
-        $addToCartStep = ObjectManager::getInstance()->create(
-            'Magento\Catalog\Test\TestStep\CreateProductsStep',
-            ['products' => $productData]
-        );
-
-        $result = $addToCartStep->run();
-        return reset($result['products']);
     }
 }
