@@ -27,6 +27,10 @@ class DataProvider implements DataProviderInterface
      */
     private $resource;
 
+    /**
+     * @param Config $eavConfig
+     * @param Resource $resource
+     */
     public function __construct(Config $eavConfig, Resource $resource)
     {
         $this->eavConfig = $eavConfig;

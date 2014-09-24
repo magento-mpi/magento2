@@ -17,6 +17,9 @@ class Term implements BucketInterface
      */
     private $metricsBuilder;
 
+    /**
+     * @param Metrics $metricsBuilder
+     */
     public function __construct(Metrics $metricsBuilder)
     {
         $this->metricsBuilder = $metricsBuilder;
