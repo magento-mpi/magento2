@@ -39,7 +39,7 @@ class AssertWishlistIsEmpty extends AbstractConstraint
         $cmsIndex->getLinksBlock()->openLink("My Wish List");
         foreach ($products as $itemProduct) {
             \PHPUnit_Framework_Assert::assertFalse(
-                $wishlistIndex->getItemsBlock()->getItemProductByName($itemProduct->getName())->isVisible(),
+                $wishlistIndex->getItemsBlock()->getItemProduct($itemProduct)->isVisible(),
                 '"' . $itemProduct->getName() . '" product is present in Wishlist.'
             );
         }

@@ -174,7 +174,7 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
     {
         foreach ($products as $product) {
             $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->addToWishlist();
+            $this->catalogProductView->getViewBlock()->addToWishlist($product);
         }
     }
 
@@ -190,11 +190,11 @@ class AddProductsToCartFromCustomerWishlistOnFrontendTest extends Injectable
         foreach ($products as $product) {
             $this->cmsIndex->getLinksBlock()->openLink("My Wish List");
             if ($qty != '-') {
-                $this->wishlistIndex->getItemsBlock()->getItemProductByName($product->getName())
+                $this->wishlistIndex->getItemsBlock()->getItemProduct($product)
                     ->fillProduct(['qty' => $qty]);
                 $this->wishlistIndex->getWishlistBlock()->clickUpdateWishlist();
             }
-            $this->wishlistIndex->getItemsBlock()->getItemProductByName($product->getName())->clickAddToCart();
+            $this->wishlistIndex->getItemsBlock()->getItemProduct($product)->clickAddToCart();
             if (strpos($this->browser->getUrl(), 'checkout/cart/') === false) {
                 $this->catalogProductView->getViewBlock()->addToCart($product);
             }

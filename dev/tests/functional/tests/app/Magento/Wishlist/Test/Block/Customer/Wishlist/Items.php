@@ -12,6 +12,7 @@ use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items
@@ -29,15 +30,27 @@ class Items extends Block
     /**
      * Get item product block
      *
-     * @param string $productName
+     * @param FixtureInterface $product
      * @return Product
      */
-    public function getItemProductByName($productName)
+    public function getItemProduct(FixtureInterface $product)
     {
-        $productBlock = sprintf($this->itemBlock, $productName);
+        $productBlock = sprintf($this->itemBlock, $product->getName());
         return $this->blockFactory->create(
             'Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product',
             ['element' => $this->_rootElement->find($productBlock, Locator::SELECTOR_XPATH)]
         );
+    }
+
+    /**
+     * Check if product is visible
+     *
+     * @param FixtureInterface $product
+     * @return bool
+     */
+    public function isProductVisible(FixtureInterface $product)
+    {
+        $productBlock = sprintf($this->itemBlock, $product->getName());
+        return $this->_rootElement->find($productBlock, Locator::SELECTOR_XPATH)->isVisible();
     }
 }
