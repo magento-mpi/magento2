@@ -63,9 +63,10 @@ class License
      *
      * @return boolean
      */
-    public function checkLicenseFile(){
+    public function checkLicenseFile()
+    {
 
-        if(file_exists($this->licenseFile)) {
+        if (file_exists($this->licenseFile)) {
             return true;
         }
         return false;
