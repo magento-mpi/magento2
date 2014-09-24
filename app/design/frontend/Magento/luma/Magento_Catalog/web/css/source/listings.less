@@ -103,19 +103,35 @@
             .price-label {
                 font-size: @font-size-s;
                 color: @text-color-muted;
+                &:after {
+                    content: ":";
+                }
             }
+        }
 
-        }
-        .special-price,
-        .old-price {
-            display: inline;
-        }
         .old-price {
             color: @text-color-muted;
+            margin: 5px 0;
             .price {
                 font-weight: normal;
             }
         }
+
+        .minimal-price {
+            .price-container {
+                display: block;
+            }
+        }
+
+        .minimal-price-link {
+            margin-top: 5px;
+        }
+
+        .price-from,
+        .price-to {
+            margin: 0;
+        }
+
         .tocompare {
             .icon-font-symbol(
                 @icon-compare-full
@@ -128,6 +144,40 @@
             line-height: 1;
             padding-top: 10px;
             padding-bottom: 10px;
+        }
+    }
+}
+
+.price-container {
+    .price {
+        .font-size(14);
+    }
+
+    .price-including-tax + .price-excluding-tax,
+    .weee {
+        margin-top: 5px;
+    }
+
+    .price-including-tax + .price-excluding-tax,
+    .weee,
+    .price-including-tax + .price-excluding-tax .price,
+    .weee .price,
+    .weee + .price-excluding-tax:before,
+    .weee + .price-excluding-tax .price {
+        .font-size(11);
+    }
+
+    .weee {
+        &:before {
+            content: "("attr(data-label) ": ";
+        }
+        &:after {
+            content: ")";
+        }
+        + .price-excluding-tax {
+            &:before {
+                content: attr(data-label) ": ";
+            }
         }
     }
 }

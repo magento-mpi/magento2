@@ -101,16 +101,9 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects(
             $this->once()
         )->method(
-            'setMsrpEnabled'
-        )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
-        );
-        $this->productMock->expects(
-            $this->once()
-        )->method(
             'setMsrpDisplayActualPriceType'
         )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
 
         $this->model->handle($this->productMock);
@@ -152,16 +145,9 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects(
             $this->once()
         )->method(
-            'setMsrpEnabled'
-        )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
-        );
-        $this->productMock->expects(
-            $this->once()
-        )->method(
             'setMsrpDisplayActualPriceType'
         )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
 
         $this->model->handle($this->productMock);
@@ -179,16 +165,9 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects(
             $this->once()
         )->method(
-            'setMsrpEnabled'
-        )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
-        );
-        $this->productMock->expects(
-            $this->once()
-        )->method(
             'setMsrpDisplayActualPriceType'
         )->with(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
 
         $this->model->handle($this->productMock);

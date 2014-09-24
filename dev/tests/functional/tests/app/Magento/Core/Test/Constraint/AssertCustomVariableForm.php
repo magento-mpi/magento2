@@ -54,29 +54,17 @@ class AssertCustomVariableForm extends AbstractAssertForm
         SystemVariable $customVariableOrigin = null
     ) {
         // Prepare data
-        $data = ($customVariableOrigin === null)
-            ? $customVariable->getData()
-            : array_merge($customVariableOrigin->getData(), $customVariable->getData());
-        if ($customVariableOrigin !== null) {
-            $dataOrigin = $data;
-            $dataOrigin['html_value'] = $customVariableOrigin->getHtmlValue();
-            $dataOrigin['plain_value'] = $customVariableOrigin->getPlainValue();
-        } else {
-            $dataOrigin = $data;
-        }
-        if ($data['html_value'] == '') {
-            $data['html_value'] = $customVariableOrigin->getHtmlValue();
-            $data['use_default_value'] = 'Yes';
-        }
-        $data['plain_value'] = ($data['plain_value'] == '')
-            ? $customVariableOrigin->getPlainValue()
-            : $data['plain_value'];
+        $data = $customVariableOrigin
+            ? array_replace_recursive($customVariableOrigin->getData(), $customVariable->getData())
+            : $customVariable->getData();
+
         // Perform assert
         $systemVariableIndex->open();
         $systemVariableIndex->getSystemVariableGrid()->searchAndOpen(['code' => $data['code']]);
 
+        $data = array_diff_key($data, array_flip($this->skippedFields));
         $formData = $systemVariableNew->getSystemVariableForm()->getData($customVariable);
-        $errors = $this->verifyData($dataOrigin, $formData);
+        $errors = $this->verifyData($data, $formData);
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
 
         if ($storeOrigin !== null) {

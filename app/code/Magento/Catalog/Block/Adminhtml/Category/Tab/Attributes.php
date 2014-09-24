@@ -117,28 +117,6 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
 
         $this->_setFieldset($attributes, $fieldset);
 
-        foreach ($attributes as $attribute) {
-            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-            if ($attribute->getAttributeCode() == 'url_key') {
-                if ($this->getCategory()->getLevel() == 1) {
-                    $fieldset->removeField('url_key');
-                    $fieldset->addField(
-                        'url_key',
-                        'hidden',
-                        array('name' => 'url_key', 'value' => $this->getCategory()->getUrlKey())
-                    );
-                } else {
-                    $form->getElement(
-                        'url_key'
-                    )->setRenderer(
-                        $this->getLayout()->createBlock(
-                            'Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute\Urlkey'
-                        )
-                    );
-                }
-            }
-        }
-
         if ($this->getCategory()->getLevel() == 1) {
             $fieldset->removeField('custom_use_parent_settings');
         } else {
@@ -172,7 +150,6 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
 
         $form->setFieldNameSuffix('general');
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
 

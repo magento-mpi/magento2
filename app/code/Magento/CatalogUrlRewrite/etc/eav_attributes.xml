@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Eav/etc/eav_attributes.xsd">
+    <entity type="catalog_product">
+        <attribute code="url_key">
+            <field code="is_unique" locked="true" />
+        </attribute>
+    </entity>
+</config>

@@ -41,7 +41,7 @@ class CheckoutData implements FixtureInterface
     public function __construct(array $params, array $data = [])
     {
         $this->params = $params;
-        $this->data =  isset($data['preset']) ? $this->getPreset($data['preset']) : [];
+        $this->data = isset($data['preset']) ? $this->getPreset($data['preset']) : [];
 
         if (isset($data['value'])) {
             $this->data = array_replace_recursive($this->data, $data['value']);
@@ -154,20 +154,30 @@ class CheckoutData implements FixtureInterface
             'order_default' => [
                 'options' => [
                     'qty' => 1
+                ],
+                'cartItem' => [
+                    'qty' => 1
                 ]
             ],
             'two_products' => [
                 'options' => [
                     'qty' => 2
+                ],
+                'cartItem' => [
+                    'price' => 100,
+                    'qty' => 2,
+                    'subtotal' => 200
                 ]
             ],
             'order_big_qty' => [
-                'options' => [
-                    'qty' => 2
+                'qty' => 900
+            ],
+            'order_custom_price' => [
+                'checkout_data' => [
+                    'qty' => 3,
+                    'use_custom_price' => "Yes",
+                    'custom_price' => 100,
                 ],
-                'cartItem' => [
-                    'qty' => 2
-                ]
             ]
         ];
         return isset($presets[$name]) ? $presets[$name] : [];

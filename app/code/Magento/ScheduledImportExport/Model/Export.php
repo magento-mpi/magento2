@@ -61,16 +61,6 @@ class Export extends \Magento\ImportExport\Model\Export implements
     }
 
     /**
-     * Date model instance getter
-     *
-     * @return \Magento\Framework\Stdlib\DateTime\DateTime
-     */
-    public function getDateModel()
-    {
-        return $this->_dateModel;
-    }
-
-    /**
      * Run export through cron
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
@@ -117,7 +107,7 @@ class Export extends \Magento\ImportExport\Model\Export implements
     public function getScheduledFileName()
     {
         $runDate = $this->getRunDate() ? $this->getRunDate() : null;
-        return $this->getDateModel()->date(
+        return $this->_dateModel->date(
             'Y-m-d_H-i-s',
             $runDate
         ) . '_' . $this->getOperationType() . '_' . $this->getEntity();

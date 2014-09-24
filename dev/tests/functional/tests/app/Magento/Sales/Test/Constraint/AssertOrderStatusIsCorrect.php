@@ -9,8 +9,8 @@
 namespace Magento\Sales\Test\Constraint;
 
 use Magento\Sales\Test\Page\SalesOrder;
-use Magento\Sales\Test\Page\SalesOrderView;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
 
 /**
  * Class AssertOrderStatusIsCorrect
@@ -31,14 +31,14 @@ class AssertOrderStatusIsCorrect extends AbstractConstraint
      * @param string $orderStatus
      * @param string $orderId
      * @param SalesOrder $salesOrder
-     * @param SalesOrderView $salesOrderView
+     * @param OrderView $salesOrderView
      * @return void
      */
     public function processAssert(
         $orderStatus,
         $orderId,
         SalesOrder $salesOrder,
-        SalesOrderView $salesOrderView
+        OrderView $salesOrderView
     ) {
         $salesOrder->open();
         $salesOrder->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);

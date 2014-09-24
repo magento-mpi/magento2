@@ -1127,7 +1127,7 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
-    'Telephone'
+    'Phone Number'
 )->addColumn(
     'country_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -4388,7 +4388,7 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
-    'Telephone'
+    'Phone Number'
 )->addColumn(
     'fax',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,

@@ -34,8 +34,9 @@ class EndToEndCETests
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleDynamicTest');
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\EditBundleTest');
         // Product configuration
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\ApplyMapTest');
-        $suite->addTestSuite('Magento\ConfigurableProduct\Test\TestCase\ApplyMapConfigurableTest');
+        $suite->addTestSuite('Magento\Msrp\Test\TestCase\ApplyMapTest');
+        $suite->addTestSuite('Magento\Msrp\Test\TestCase\ApplyMapConfigurableTest');
+
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\OutOfStockTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UpsellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');

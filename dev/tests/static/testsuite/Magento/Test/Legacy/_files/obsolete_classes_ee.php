@@ -140,5 +140,6 @@ return array(
     ['Magento\CustomerCustomAttributes\Block\Account\RegisterLink'],
     ['Magento\Invitation\Model\Observer','Magento\Invitation\Model\Logging'],
     ['Magento\Reward\Model\Observer'],
-    ['Magento\WebsiteRestriction\Model\Observer']
+    ['Magento\WebsiteRestriction\Model\Observer'],
+    ['Magento\MultipleWishlist\Block\Rss'],
 );

@@ -26,7 +26,7 @@ class Widget extends \Magento\Widget\Test\Repository\Widget
         $this->_data['add_search'] = [
             'title' => 'Wishlist search %isolation%',
             'store_ids' => [
-                '0' => '0'
+                'dataSet' => 'All Store Views',
             ],
             'widget_instance' => [
                 '0' => [

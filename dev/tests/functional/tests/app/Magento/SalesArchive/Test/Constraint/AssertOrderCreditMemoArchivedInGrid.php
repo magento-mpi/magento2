@@ -35,17 +35,21 @@ class AssertOrderCreditMemoArchivedInGrid extends AbstractConstraint
      */
     public function processAssert(ArchiveCreditMemos $archiveCreditMemos, OrderInjectable $order, array $ids)
     {
-        $data = $order->getData();
-        $filter = [
-            'creditmemo_id' => $ids['creditMemoId'],
-            'order_id' => $data['id'],
-        ];
+        $orderId = $order->getId();
         $archiveCreditMemos->open();
-        $errorMessage = implode(', ', $filter);
-        \PHPUnit_Framework_Assert::assertTrue(
-            $archiveCreditMemos->getCreditMemosGrid()->isRowVisible($filter),
-            'Credit memo with following data \'' . $errorMessage . '\' is absent in archive credit memos grid.'
-        );
+
+        foreach ($ids['creditMemoIds'] as $creditMemoId) {
+            $filter = [
+                'order_id' => $orderId,
+                'creditmemo_id' => $creditMemoId
+            ];
+
+            $errorMessage = implode(', ', $filter);
+            \PHPUnit_Framework_Assert::assertTrue(
+                $archiveCreditMemos->getCreditMemosGrid()->isRowVisible($filter),
+                'Credit memo with following data \'' . $errorMessage . '\' is absent in archive credit memos grid.'
+            );
+        }
     }
 
     /**

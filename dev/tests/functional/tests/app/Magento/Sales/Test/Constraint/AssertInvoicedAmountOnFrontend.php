@@ -33,7 +33,7 @@ class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
      * @param OrderInjectable $order
      * @param OrderView $orderView
      * @param InvoiceView $invoiceView
-     * @param string $invoiceId
+     * @param array $ids
      * @return void
      */
     public function processAssert(
@@ -41,16 +41,17 @@ class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
         OrderInjectable $order,
         OrderView $orderView,
         InvoiceView $invoiceView,
-        $invoiceId
+        array $ids
     ) {
         $this->loginCustomerAndOpenOrderPage($order->getDataFieldConfig('customer_id')['source']->getCustomer());
         $orderHistory->getOrderHistoryBlock()->openOrderById($order->getId());
         $orderView->getOrderViewBlock()->openLinkByName('Invoices');
-
-        \PHPUnit_Framework_Assert::assertEquals(
-            number_format($order->getPrice()['grand_invoice_total'], 2),
-            $invoiceView->getInvoiceBlock()->getItemInvoiceBlock($invoiceId)->getGrandTotal()
-        );
+        foreach ($ids['invoiceIds'] as $invoiceId) {
+            \PHPUnit_Framework_Assert::assertEquals(
+                number_format($order->getPrice()['grand_invoice_total'], 2),
+                $invoiceView->getInvoiceBlock()->getItemInvoiceBlock($invoiceId)->getGrandTotal()
+            );
+        }
     }
 
     /**
