@@ -76,7 +76,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     {
         $this->reindexAll();
 
-        /** @var \Magento\Framework\Search\Request $queryRequest */
+        /** @var \Magento\Framework\Search\Response\QueryResponse $queryRequest */
         $queryRequest = $this->requestBuilder->create();
 
         $queryResponse = $this->adapter->query($queryRequest);

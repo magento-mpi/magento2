@@ -30,7 +30,7 @@ class Bucket
 
     /**
      * @param string $name
-     * @param mixed $values
+     * @param Value[] $values
      */
     public function __construct($name, $values)
     {

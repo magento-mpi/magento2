@@ -20,8 +20,8 @@ class Value
     private $metrics;
 
     /**
-     * @param $value
-     * @param $metrics
+     * @param string|array $value
+     * @param array $metrics
      */
     public function __construct($value, $metrics)
     {
@@ -31,7 +31,8 @@ class Value
 
     /**
      * Get aggregation
-     * return string|array
+     *
+     * @return string|array
      */
     public function getValue()
     {
@@ -39,10 +40,12 @@ class Value
     }
 
     /**
+     * Get metrics
+     *
      * @return array
      */
     public function getMetrics()
     {
         return $this->metrics;
     }
-} 
+}
