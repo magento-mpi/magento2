@@ -10,6 +10,7 @@ namespace Magento\Setup\Model;
 
 use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
 use Magento\Config\ConfigFactory as SystemConfigFactory;
+use Magento\Config\Config as SystemConfig;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Setup\Module\ModuleListInterface;
@@ -17,6 +18,8 @@ use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
 use Magento\Setup\Module\Setup\ConnectionFactory;
 use Zend\Db\Sql\Sql;
+use Magento\Framework\Shell;
+use Magento\Framework\Shell\CommandRenderer;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -65,9 +68,9 @@ class Installer
     /**
      * System configuration factory
      *
-     * @var SystemConfigFactory
+     * @var SystemConfig
      */
-    private $systemConfigFactory;
+    private $systemConfig;
 
     /**
      * Admin account factory
@@ -98,6 +101,20 @@ class Installer
     private $connectionFactory;
 
     /**
+     * Shell executor
+     *
+     * @var Shell
+     */
+    private $shell;
+
+    /**
+     * Shell command renderer
+     *
+     * @var CommandRenderer
+     */
+    private $shellRenderer;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -125,11 +142,13 @@ class Installer
         $this->deploymentConfigFactory = $deploymentConfigFactory;
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList;
-        $this->systemConfigFactory = $systemConfigFactory;
+        $this->systemConfig = $systemConfigFactory->create();
         $this->adminAccountFactory = $adminAccountFactory;
         $this->log = $log;
         $this->random = $random;
         $this->connectionFactory = $connectionFactory;
+        $this->shellRenderer = new CommandRenderer;
+        $this->shell = new Shell($this->shellRenderer);
     }
 
     /**
@@ -167,6 +186,9 @@ class Installer
 
         $this->log->log('Installing admin user...');
         $this->installAdminUser($request);
+
+        $this->log->log('Enabling caches:');
+        $this->enableCaches();
 
         $this->log->logSuccess('Magento installation complete.');
 
@@ -240,15 +262,7 @@ class Installer
      */
     public function installDataFixtures()
     {
-        $systemConfig = $this->systemConfigFactory->create();
-        $phpPath = self::getPhpExecutablePath();
-        $command = $phpPath . 'php -f ' . $systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php 2>&1';
-        $this->log->log($command);
-        exec($command, $output, $exitCode);
-        if ($exitCode !== 0) {
-            $outputMsg = implode(PHP_EOL, $output);
-            throw new \Exception('exec() returned error [' . $exitCode . ']' . PHP_EOL . $outputMsg);
-        }
+        $this->exec('-f %s', [$this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php']);
     }
 
     /**
@@ -341,6 +355,33 @@ class Installer
         $setup = $this->setupFactory->createSetup($this->log);
         $adminAccount = $this->adminAccountFactory->create($setup, (array)$data);
         $adminAccount->save();
+    }
+
+    /**
+     * Enables caches after installing application
+     *
+     * @return void
+     */
+    private function enableCaches()
+    {
+        $args = [$this->systemConfig->getMagentoBasePath() . '/dev/shell/cache.php'];
+        $this->exec('-f %s -- --set=1', $args);
+    }
+
+    /**
+     * Executes a command in CLI
+     *
+     * @param string $command
+     * @param array $args
+     * @return void
+     */
+    private function exec($command, $args)
+    {
+        $command = self::getPhpExecutablePath() . 'php ' . $command;
+        $actualCommand = $this->shellRenderer->render($command, $args);
+        $this->log->log($actualCommand);
+        $output = $this->shell->execute($command, $args);
+        $this->log->log($output);
     }
 
     /**
