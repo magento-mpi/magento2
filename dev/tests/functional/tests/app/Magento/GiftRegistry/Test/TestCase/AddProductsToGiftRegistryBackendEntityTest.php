@@ -22,7 +22,6 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\InjectableFixture;
 
 /**
  * Test Creation for AddProductsToGiftRegistryEntity from Customer Account(Backend)
