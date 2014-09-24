@@ -10,6 +10,7 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 
 use Magento\Framework\App\Resource;
 use Magento\Framework\App\Resource\Config;
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -67,7 +68,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     private $termBuilder;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var DataProviderInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $dataProvider;
 
