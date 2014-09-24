@@ -8,7 +8,6 @@
 namespace Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder;
 
 use Magento\Framework\DB\Select;
-use Magento\Framework\Search\Request;
 use Magento\Framework\Search\Request\BucketInterface as RequestBucketInterface;
 
 class Term implements BucketInterface
