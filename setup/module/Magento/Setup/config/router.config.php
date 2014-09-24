@@ -6,6 +6,8 @@
  * @license   {license_link}
  */
 
+use Magento\Setup\Controller\ConsoleController;
+
 return [
     'route_manager' => [
         'invokables' => [
@@ -40,4 +42,5 @@ return [
             ],
         ],
     ],
+    'console' => ['router' => ['routes' => ConsoleController::getRouterConfig()]],
 ];

@@ -9,6 +9,7 @@ namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -44,6 +45,13 @@ class Login extends Form
      * @var string
      */
     protected $registerCustomer = '[id="login:register"]';
+
+    /**
+     * Selector for loading mask element
+     *
+     * @var string
+     */
+    protected $loadingMask = '.loading-mask';
 
     /**
      * Select how to perform checkout whether guest or registered customer
@@ -94,7 +102,7 @@ class Login extends Form
     {
         $this->fill($customer);
         $this->_rootElement->find($this->login)->click();
-        $this->waitForElementNotVisible('.loading-mask');
+        $this->waitForElementNotVisible($this->loadingMask);
     }
 
     /**
@@ -105,6 +113,6 @@ class Login extends Form
     public function clickContinue()
     {
         $this->_rootElement->find($this->continue)->click();
-        $this->waitForElementNotVisible('.loading-mask');
+        $this->waitForElementNotVisible($this->loadingMask);
     }
 }
