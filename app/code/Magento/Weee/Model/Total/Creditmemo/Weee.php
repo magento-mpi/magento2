@@ -9,6 +9,7 @@
 namespace Magento\Weee\Model\Total\Creditmemo;
 
 use Magento\Sales\Model\Order\Creditmemo;
+use Magento\Weee\Helper\Data as WeeeHelper;
 
 class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
@@ -50,6 +51,9 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
         $totalWeeeAmountInclTax = 0;
         $baseTotalWeeeAmountInclTax = 0;
 
+        $totalTaxAmount = $totalWeeeAmountInclTax - $totalWeeeAmount;
+        $baseTotalTaxAmount = $baseTotalWeeeAmountInclTax - $baseTotalWeeeAmount;
+
         foreach ($creditmemo->getAllItems() as $item) {
             $orderItem = $item->getOrderItem();
             if ($orderItem->isDummy() || $item->getQty() <= 0) {
@@ -58,9 +62,11 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 
             $ratio = $item->getQty() / $orderItem->getQtyOrdered();
 
-            $weeeAmountExclTax = $creditmemo->roundPrice($orderItem->getWeeeTaxAppliedRowAmount() * $ratio);
+            $orderItemWeeeAmountExclTax = $orderItem->getWeeeTaxAppliedRowAmount();
+            $orderItemBaseWeeeAmountExclTax = $orderItem->getBaseWeeeTaxAppliedRowAmnt();
+            $weeeAmountExclTax = $creditmemo->roundPrice($orderItemWeeeAmountExclTax * $ratio);
             $baseWeeeAmountExclTax = $creditmemo->roundPrice(
-                $orderItem->getBaseWeeeTaxAppliedRowAmnt() * $ratio,
+                $orderItemBaseWeeeAmountExclTax * $ratio,
                 'base'
             );
 
@@ -70,12 +76,54 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             $item->setWeeeTaxAppliedRowAmount($weeeAmountExclTax);
             $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeAmountExclTax);
 
-            $weeeAmountInclTax = $creditmemo->roundPrice(
-                $this->_weeeData->getRowWeeeTaxInclTax($orderItem) * $ratio            );
+            $orderItemWeeeAmountInclTax = $this->_weeeData->getRowWeeeTaxInclTax($orderItem);
+            $orderItemBaseWeeeAmountInclTax = $this->_weeeData->getBaseRowWeeeTaxInclTax($orderItem);
+            $weeeAmountInclTax = $creditmemo->roundPrice($orderItemWeeeAmountInclTax * $ratio);
             $baseWeeeAmountInclTax = $creditmemo->roundPrice(
-                $this->_weeeData->getBaseRowWeeeTaxInclTax($orderItem) * $ratio,
+                $orderItemBaseWeeeAmountInclTax * $ratio,
                 'base'
             );
+
+            $orderItemTaxAmount = $orderItemWeeeAmountInclTax - $orderItemWeeeAmountExclTax;
+            $orderItemBaseTaxAmount = $orderItemBaseWeeeAmountInclTax - $baseWeeeAmountInclTax;
+            $itemTaxAmount = $weeeAmountInclTax - $weeeAmountExclTax;
+            $itemBaseTaxAmount = $baseWeeeAmountInclTax - $baseWeeeAmountExclTax;
+
+            $weeeAmountAvailable = $this->_weeeData->getWeeeAmountInvoiced($orderItem) -
+                $this->_weeeData->getWeeeAmountRefunded($orderItem);
+            $baseWeeeAmountAvailable = $this->_weeeData->getBaseWeeeAmountInvoiced($orderItem) -
+                $this->_weeeData->getBaseWeeeAmountRefunded($orderItem);
+            $weeeTaxAmountAvailable = $this->_weeeData->getWeeeTaxAmountInvoiced($orderItem) -
+                $this->_weeeData->getWeeeTaxAmountRefunded($orderItem);
+            $baseWeeeTaxAmountAvailable = $this->_weeeData->getBaseWeeeTaxAmountInvoiced($orderItem) -
+                $this->_weeeData->getBaseWeeeTaxAmountRefunded($orderItem);
+
+            if ($item->isLast()) {
+                $weeeAmountExclTax = $weeeAmountAvailable;
+                $baseWeeeAmountExclTax = $baseWeeeAmountAvailable;
+                $itemTaxAmount = $weeeTaxAmountAvailable;
+                $itemBaseTaxAmount = $baseWeeeTaxAmountAvailable;
+            } else {
+                $weeeAmountExclTax = min($weeeAmountExclTax, $weeeAmountAvailable);
+                $baseWeeeAmountExclTax = min($baseWeeeAmountExclTax, $baseWeeeAmountAvailable);
+                $itemTaxAmount = min($itemTaxAmount, $weeeTaxAmountAvailable);
+                $itemBaseTaxAmount = min($itemBaseTaxAmount, $baseWeeeTaxAmountAvailable);
+            }
+
+
+            $totalTaxAmount += $itemTaxAmount;
+            $baseTotalTaxAmount += $itemBaseTaxAmount;
+
+            //Set the ratio of the tax amount in invoice item compared to tax amount in order item
+            //This information is needed to calculate tax per tax rate later
+            if ($orderItemTaxAmount != 0) {
+                if (!$item->getTaxRatio()) {
+                    $item->setTaxRatio([]);
+                }
+                $taxRatio = $item->getTaxRatio();
+                $taxRatio[\Magento\Weee\Model\Total\Quote\Weee::ITEM_TYPE] = $itemTaxAmount / $orderItemTaxAmount;
+                $item->setTaxRatio($taxRatio);
+            }
 
             $totalWeeeAmountInclTax += $weeeAmountInclTax;
             $baseTotalWeeeAmountInclTax += $baseWeeeAmountInclTax;
@@ -92,6 +140,39 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             }
             $this->_weeeData->setApplied($item, $newApplied);
 
+            // Update order item
+            $newApplied = array();
+            $applied = $this->_weeeData->getApplied($orderItem);
+            foreach ($applied as $one) {
+                if (isset($one[WeeeHelper::KEY_BASE_WEEE_AMOUNT_REFUNDED])) {
+                    $one[WeeeHelper::KEY_BASE_WEEE_AMOUNT_REFUNDED] =
+                        $one[WeeeHelper::KEY_BASE_WEEE_AMOUNT_REFUNDED] + $baseWeeeAmountExclTax;
+                } else {
+                    $one[WeeeHelper::KEY_BASE_WEEE_AMOUNT_REFUNDED] = $baseWeeeAmountExclTax;
+                }
+                if (isset($one[WeeeHelper::KEY_WEEE_AMOUNT_REFUNDED])) {
+                    $one[WeeeHelper::KEY_WEEE_AMOUNT_REFUNDED] =
+                        $one[WeeeHelper::KEY_WEEE_AMOUNT_REFUNDED] + $weeeAmountExclTax;
+                } else {
+                    $one[WeeeHelper::KEY_WEEE_AMOUNT_REFUNDED] = $weeeAmountExclTax;
+                }
+                if (isset($one[WeeeHelper::KEY_BASE_WEEE_TAX_AMOUNT_REFUNDED])) {
+                    $one[WeeeHelper::KEY_BASE_WEEE_TAX_AMOUNT_REFUNDED] =
+                        $one[WeeeHelper::KEY_BASE_WEEE_TAX_AMOUNT_REFUNDED] + $itemBaseTaxAmount;
+                } else {
+                    $one[WeeeHelper::KEY_BASE_WEEE_TAX_AMOUNT_REFUNDED] = $itemBaseTaxAmount;
+                }
+                if (isset($one[WeeeHelper::KEY_WEEE_TAX_AMOUNT_REFUNDED])) {
+                    $one[WeeeHelper::KEY_WEEE_TAX_AMOUNT_REFUNDED] =
+                        $one[WeeeHelper::KEY_WEEE_TAX_AMOUNT_REFUNDED] + $itemTaxAmount;
+                } else {
+                    $one[WeeeHelper::KEY_WEEE_TAX_AMOUNT_REFUNDED] = $itemTaxAmount;
+                }
+
+                $newApplied[] = $one;
+            }
+            $this->_weeeData->setApplied($orderItem, $newApplied);
+
             $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition() * $item->getQty());
             $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition() * $item->getQty());
         }
@@ -101,11 +182,8 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             $creditmemo->setBaseSubtotal($creditmemo->getBaseSubtotal() + $baseTotalWeeeAmount);
         }
 
-        $taxAmount = $totalWeeeAmountInclTax - $totalWeeeAmount;
-        $baseTaxAmount = $baseTotalWeeeAmountInclTax - $baseTotalWeeeAmount;
-
-        $creditmemo->setTaxAmount($creditmemo->getTaxAmount() + $taxAmount);
-        $creditmemo->setBaseTaxAmount($creditmemo->getBaseTaxAmount() + $baseTaxAmount);
+        $creditmemo->setTaxAmount($creditmemo->getTaxAmount() + $totalTaxAmount);
+        $creditmemo->setBaseTaxAmount($creditmemo->getBaseTaxAmount() + $baseTotalTaxAmount);
 
         $creditmemo->setSubtotalInclTax(
             $creditmemo->getSubtotalInclTax() + $totalWeeeAmountInclTax
@@ -114,8 +192,8 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             $creditmemo->getBaseSubtotalInclTax() + $baseTotalWeeeAmountInclTax
         );
 
-        $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $totalWeeeAmountInclTax);
-        $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $baseTotalWeeeAmountInclTax);
+        $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $totalWeeeAmount + $totalTaxAmount);
+        $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $baseTotalWeeeAmount + $baseTotalTaxAmount);
 
         return $this;
     }

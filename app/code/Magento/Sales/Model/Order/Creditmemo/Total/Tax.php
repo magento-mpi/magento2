@@ -139,10 +139,17 @@ class Tax extends AbstractTotal
             $creditmemo->getBaseHiddenTaxAmount();
 
 
-        $totalTax = min($allowedTax, $totalTax);
-        $baseTotalTax = min($allowedBaseTax, $baseTotalTax);
-        $totalHiddenTax = min($allowedHiddenTax, $totalHiddenTax);
-        $baseTotalHiddenTax = min($allowedBaseHiddenTax, $baseTotalHiddenTax);
+        if ($creditmemo->isLast()) {
+            $totalTax = $allowedTax;
+            $baseTotalTax = $allowedBaseTax;
+            $totalHiddenTax = $allowedHiddenTax;
+            $baseTotalHiddenTax = $allowedBaseHiddenTax;
+        } else {
+            $totalTax = min($allowedTax, $totalTax);
+            $baseTotalTax = min($allowedBaseTax, $baseTotalTax);
+            $totalHiddenTax = min($allowedHiddenTax, $totalHiddenTax);
+            $baseTotalHiddenTax = min($allowedBaseHiddenTax, $baseTotalHiddenTax);
+        }
 
         $creditmemo->setTaxAmount($creditmemo->getTaxAmount() + $totalTax);
         $creditmemo->setBaseTaxAmount($creditmemo->getBaseTaxAmount() + $baseTotalTax);
