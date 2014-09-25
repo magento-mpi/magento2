@@ -60,9 +60,10 @@ class ItemRegistryTest extends \PHPUnit_Framework_TestCase
         $productId = 3;
         $times = 1;
 
-        $this->buildStockItem($productId, $times);
-        $this->model->retrieve($productId);
-        $this->model->retrieve($productId);
+        $stockItem = $this->buildStockItem($productId, $times);
+
+        $this->assertEquals($stockItem, $this->model->retrieve($productId));
+        $this->assertEquals($stockItem, $this->model->retrieve($productId));
     }
 
     public function testErase()

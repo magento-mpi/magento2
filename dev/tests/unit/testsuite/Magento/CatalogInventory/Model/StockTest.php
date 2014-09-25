@@ -166,28 +166,34 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $productType = 'simple';
 
         $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->setMethods(
+                [
+                    'loadByProduct',
+                    'getId',
+                    'getCanBackInStock',
+                    'getQty',
+                    'getMinQty',
+                    'setIsInStock',
+                    'setStockStatusChangedAutomaticallyFlag',
+                    'save'
+                ]
+            )
             ->disableOriginalConstructor()
             ->getMock();
+
         $stockItem->expects($this->atLeastOnce())->method('loadByProduct')->with($productId)->will($this->returnSelf());
         $stockItem->expects($this->any())->method('getId')->will($this->returnValue(1));
-
         $this->stockItemFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($stockItem));
-
         $this->getProductType($productId, $productType);
-
         $this->stockItemService->expects($this->once())
             ->method('isQty')
             ->with($productType)
             ->will($this->returnValue(true));
-
         $stockItem->expects($this->once())->method('getCanBackInStock')->will($this->returnValue(true));
-        $stockItem->expects($this->at(4))->method('__call')->with('getQty')->will($this->returnValue('10'));
+        $stockItem->expects($this->once())->method('getQty')->will($this->returnValue('10'));
         $stockItem->expects($this->any())->method('getMinQty')->will($this->returnValue('3'));
-        $stockItem->expects($this->at(6))->method('__call')->with('setIsInStock')->will($this->returnSelf());
-        $stockItem->expects($this->at(7))
-            ->method('__call')
-            ->with('setStockStatusChangedAutomaticallyFlag')
-            ->will($this->returnSelf());
+        $stockItem->expects($this->once())->method('setIsInStock')->will($this->returnSelf());
+        $stockItem->expects($this->once())->method('setStockStatusChangedAutomaticallyFlag')->will($this->returnSelf());
         $stockItem->expects($this->once())->method('save');
 
         $this->assertEquals($this->model, $this->model->backItemQty($productId, $qty));
@@ -214,12 +220,15 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $storeId = 1;
 
         $item = $this->getMockBuilder('\Magento\Framework\Object')
+            ->setMethods(['getProductId', 'getStoreId', 'getQtyOrdered'])
             ->disableOriginalConstructor()
             ->getMock();
-        $item->expects($this->at(0))->method('__call')->with('getProductId')->will($this->returnValue($productId));
         $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->setMethods(['loadByProduct', 'setStoreId', 'checkQty', 'subtractQty', 'save'])
             ->disableOriginalConstructor()
             ->getMock();
+
+        $item->expects($this->once())->method('getProductId')->will($this->returnValue($productId));
         $stockItem->expects($this->any())->method('loadByProduct')->with($productId)->will($this->returnSelf());
         $this->stockItemFactory->expects($this->any())->method('create')->will($this->returnValue($stockItem));
         $this->getProductType($productId, $productType);
@@ -227,12 +236,9 @@ class StockTest extends \PHPUnit_Framework_TestCase
             ->method('isQty')
             ->with($productType)
             ->will($this->returnValue(true));
-
-        $item->expects($this->at(1))->method('__call')->with('getStoreId')->will($this->returnValue($storeId));
-        $item->expects($this->at(2))->method('__call')->with('getStoreId')->will($this->returnValue($storeId));
-        $stockItem->expects($this->at(1))->method('__call')->with('setStoreId', [$storeId])->will($this->returnSelf());
-        $item->expects($this->at(3))->method('__call')->with('getQtyOrdered')->will($this->returnValue($qty));
-        $item->expects($this->at(4))->method('__call')->with('getQtyOrdered')->will($this->returnValue($qty));
+        $item->expects($this->exactly(2))->method('getStoreId')->will($this->returnValue($storeId));
+        $stockItem->expects($this->once())->method('setStoreId')->with($storeId)->will($this->returnSelf());
+        $item->expects($this->exactly(2))->method('getQtyOrdered')->will($this->returnValue($qty));
         $stockItem->expects($this->once())->method('checkQty')->with($qty)->will($this->returnValue(true));
         $stockItem->expects($this->once())->method('subtractQty')->with($qty)->will($this->returnSelf());
         $stockItem->expects($this->once())->method('save')->will($this->returnSelf());;

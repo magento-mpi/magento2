@@ -308,7 +308,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      */
     public function addInStockFilterToCollection($collection)
     {
-        $this->_getResource()->setInStockFilterToCollection($collection);
+        $this->getResource()->setInStockFilterToCollection($collection);
         return $this;
     }
 }

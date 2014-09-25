@@ -693,38 +693,55 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @param bool $getManageStock
-     * @param bool $setFlag
-     * @dataProvider addQtyDataProvider
-     */
-    public function testAddQty($getManageStock, $setFlag)
+    public function testAddQty()
     {
-        $qty = 5.5;
+        $defaultQty = 5.5;
+        $qty = 3.3;
 
-        if ($getManageStock) {
-            $this->setDataArrayValue('manage_stock', 1);
-            $this->scopeConfig
-                ->expects($this->any())
-                ->method('isSetFlag')
-                ->with(
-                    $this->equalTo(Item::XML_PATH_CAN_SUBTRACT),
-                    $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                ->will($this->returnValue($setFlag));
-        }
+        $this->setDataArrayValue('qty', $defaultQty);
+        $this->setDataArrayValue('manage_stock', true);
+
+        $this->scopeConfig->expects($this->once())
+            ->method('isSetFlag')
+            ->with(
+                $this->equalTo(Item::XML_PATH_CAN_SUBTRACT),
+                $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            )
+            ->will($this->returnValue(true));
 
         $this->item->addQty($qty);
+        $this->assertEquals($defaultQty + $qty, $this->item->getQty());
     }
 
-    /**
-     * @return array
-     */
-    public function addQtyDataProvider()
+    public function testAddQtyWithManageStockFalse()
     {
-        return [
-            [false, null],
-            [true, false],
-            [true, true]
-        ];
+        $qty = 1;
+        $defaultQty = 3;
+
+        $this->setDataArrayValue('qty', $defaultQty);
+        $this->setDataArrayValue('manage_stock', false);
+
+        $this->assertEquals($this->item, $this->item->addQty($qty));
+        $this->assertEquals($defaultQty, $this->item->getQty());
     }
+
+    public function testAddQtyWithCannotSubtractConfig()
+    {
+        $qty = 1;
+        $defaultQty = 3;
+
+        $this->setDataArrayValue('qty', $defaultQty);
+        $this->setDataArrayValue('manage_stock', true);
+        $this->scopeConfig->expects($this->once())
+            ->method('isSetFlag')
+            ->with(
+                $this->equalTo(Item::XML_PATH_CAN_SUBTRACT),
+                $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            )
+            ->will($this->returnValue(false));
+
+        $this->assertEquals($this->item, $this->item->addQty($qty));
+        $this->assertEquals($defaultQty, $this->item->getQty());
+    }
+
 }
