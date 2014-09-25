@@ -19,7 +19,7 @@ class Metrics
     private $mapMetrics = ['count', 'sum', 'min', 'max', 'avg'];
 
     /**
-     * Build methics for Select->columns
+     * Build metrics for Select->columns
      *
      * @param RequestBucketInterface $bucket
      * @return string[]
