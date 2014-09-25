@@ -5,10 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\View\Layout\Reader;
+namespace Magento\Framework\View\Layout\Reader\Body;
 
 use Magento\Framework\View\Layout;
+use Magento\Framework\View\Layout\Reader\Context;
 
+/**
+ * Class Container
+ */
 class Container implements Layout\ReaderInterface
 {
     /**#@+

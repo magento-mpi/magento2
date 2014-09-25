@@ -196,12 +196,12 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
     /**
      * Constructor
-     * 
-     * @param Layout\ProcessorFactory $processorFactory
+     *
+     * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param Element\UiComponentFactory $uiComponentFactory
-     * @param Element\BlockFactory $blockFactory
+     * @param \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory
+     * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
      * @param Layout\Argument\Parser $argumentParser
      * @param \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter
@@ -321,18 +321,15 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
         $readerContext = new Layout\Reader\Context($this->_scheduledStructure, $this->_structure, null);
         $this->reader->readStructure($readerContext, $this->getNode());
-        $this->_readStructure($this->getNode());
         $this->_addToOutputRootContainers($this->getNode());
 
         while (false === $this->_scheduledStructure->isStructureEmpty()) {
             $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
         }
         $this->_scheduledStructure->flushPaths();
-
         foreach ($this->_scheduledStructure->getListToMove() as $elementToMove) {
             $this->_moveElementInStructure($elementToMove);
         }
-
         foreach ($this->_scheduledStructure->getListToRemove() as $elementToRemove) {
             $this->_removeElement($elementToRemove);
         }
@@ -357,36 +354,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         }
         \Magento\Framework\Profiler::stop('generate_elements');
         \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
-    }
-
-    /**
-     * Traverse through all elements of specified XML-node and schedule structural elements of it
-     *
-     * @param \Magento\Framework\View\Layout\Element $parent
-     * @return void
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    protected function _readStructure($parent)
-    {
-        foreach ($parent as $node) {
-            /** @var $node \Magento\Framework\View\Layout\Element */
-            switch ($node->getName()) {
-                case Page\Config::ELEMENT_TYPE_HTML:
-                    $this->pageConfigReader->readHtml($node);
-                    break;
-
-                case Page\Config::ELEMENT_TYPE_HEAD:
-                    $this->pageConfigReader->readHead($node);
-                    break;
-
-                case Page\Config::ELEMENT_TYPE_BODY:
-                    $this->pageConfigReader->readBody($node);
-                    break;
-
-                default:
-                    break;
-            }
-        }
     }
 
     /**
@@ -606,7 +573,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         if ($type !== Element::TYPE_BLOCK) {
             throw new \Magento\Framework\Exception("Unexpected element type specified for generating block: {$type}.");
         }
-
 
         $configPath = (string)$node->getAttribute('ifconfig');
         if (!empty($configPath)

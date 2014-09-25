@@ -8,7 +8,7 @@
 namespace Magento\Framework\View\Layout\ScheduledStructure;
 
 use Magento\Framework\View\Layout;
-use \Magento\Framework\Data\Structure;
+use Magento\Framework\Data\Structure;
 
 class Helper
 {

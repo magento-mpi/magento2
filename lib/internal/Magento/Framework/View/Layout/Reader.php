@@ -22,23 +22,35 @@ class Reader
     /**
      * Constructor
      *
-     * @param Reader\Block $blockReader
-     * @param Reader\Container $containerReader
+     * @param Reader\Body\Block $blockReader
+     * @param Reader\Body\Container $containerReader
      * @param Reader\Move $moveReader
      * @param Reader\Remove $removeReader
+     * @param Reader\UiComponent $uiComponent
+     * @param Reader\Html $html
+     * @param Reader\Head $head
+     * @param Reader\Body $body
      * @param array $readers
      */
     public function __construct(
-        Reader\Block $blockReader,
-        Reader\Container $containerReader,
+        Reader\Body\Block $blockReader,
+        Reader\Body\Container $containerReader,
         Reader\Move $moveReader,
         Reader\Remove $removeReader,
+        Reader\UiComponent $uiComponent,
+        Reader\Html $html,
+        Reader\Head $head,
+        Reader\Body $body,
         array $readers = null
     ) {
         $this->readers[] = $blockReader;
         $this->readers[] = $containerReader;
         $this->readers[] = $moveReader;
         $this->readers[] = $removeReader;
+        $this->readers[] = $uiComponent;
+        $this->readers[] = $html;
+        $this->readers[] = $head;
+        $this->readers[] = $body;
         $this->prepareReader();
     }
 

@@ -5,9 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\View\Layout\Reader;
+namespace Magento\Framework\View\Layout\Reader\Body;
 
 use Magento\Framework\View\Layout;
+use Magento\Framework\View\Layout\Reader\Context;
 
 class Block implements Layout\ReaderInterface
 {
@@ -16,6 +17,11 @@ class Block implements Layout\ReaderInterface
      */
     const TYPE_BLOCK = 'block';
     const TYPE_REFERENCE_BLOCK = 'referenceBlock';
+    /**#@-*/
+
+    /**#@+
+     * Supported subtypes for blocks
+     */
     const TYPE_ARGUMENTS = 'arguments';
     const TYPE_ACTION = 'action';
     /**#@-*/
