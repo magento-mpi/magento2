@@ -19,6 +19,8 @@ interface BucketInterface
 
     const TYPE_RANGE = 'rangeBucket';
 
+    const FIELD_VALUE = 'value';
+
     /**#@-*/
 
     /**
@@ -27,6 +29,20 @@ interface BucketInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * Get Field
+     *
+     * @return string
+     */
+    public function getField();
+
+    /**
+     * Get Metrics
+     *
+     * @return array
+     */
+    public function getMetrics();
 
     /**
      * Get Name

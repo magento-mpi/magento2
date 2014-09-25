@@ -7,8 +7,6 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
-use Magento\Framework\Search\Response\QueryResponse;
-
 /**
  * Response Factory
  */
