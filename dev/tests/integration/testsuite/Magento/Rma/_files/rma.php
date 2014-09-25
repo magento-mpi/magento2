@@ -14,6 +14,10 @@ $rma->setOrderId($order->getId());
 $rma->setIncrementId(1);
 $rma->save();
 
+$history = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rma\Model\Rma\Status\History');
+$history->setRma($rma);
+$history->saveComment('Test comment', true, true);
+
 /** @var $trackingNumber \Magento\Rma\Model\Shipping */
 $trackingNumber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rma\Model\Shipping');
 $trackingNumber->setRmaEntityId($rma->getId())->setCarrierTitle('CarrierTitle')->setTrackNumber('TrackNumber');

@@ -68,26 +68,32 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $oAuthClient = $accessCredentials['oauth_client'];
         $urlFormEncoded = false;
         // we're always using JSON
-        $oauthHeader = $oAuthClient->buildOauthHeaderForApiRequest(
-            $this->curlClient->constructResourceUrl($resourcePath),
-            $accessCredentials['key'],
-            $accessCredentials['secret'],
-            ($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded ? $arguments : array(),
-            $httpMethod
-        );
-        $oauthHeader = array_merge($oauthHeader, ['Accept: application/json', 'Content-Type: application/json']);
+        $authHeader = array();
+        $restServiceInfo = $serviceInfo['rest'];
+        if (array_key_exists('token', $restServiceInfo)) {
+            $authHeader = $oAuthClient->buildBearerTokenAuthorizationHeader($restServiceInfo['token']);
+        } else {
+            $authHeader = $oAuthClient->buildOauthAuthorizationHeader(
+                $this->curlClient->constructResourceUrl($resourcePath),
+                $accessCredentials['key'],
+                $accessCredentials['secret'],
+                ($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded ? $arguments : array(),
+                $httpMethod
+            );
+        }
+        $authHeader = array_merge($authHeader, ['Accept: application/json', 'Content-Type: application/json']);
         switch ($httpMethod) {
             case Config::HTTP_METHOD_GET:
-                $response = $this->curlClient->get($resourcePath, array(), $oauthHeader);
+                $response = $this->curlClient->get($resourcePath, array(), $authHeader);
                 break;
             case Config::HTTP_METHOD_POST:
-                $response = $this->curlClient->post($resourcePath, $arguments, $oauthHeader);
+                $response = $this->curlClient->post($resourcePath, $arguments, $authHeader);
                 break;
             case Config::HTTP_METHOD_PUT:
-                $response = $this->curlClient->put($resourcePath, $arguments, $oauthHeader);
+                $response = $this->curlClient->put($resourcePath, $arguments, $authHeader);
                 break;
             case Config::HTTP_METHOD_DELETE:
-                $response = $this->curlClient->delete($resourcePath, $oauthHeader);
+                $response = $this->curlClient->delete($resourcePath, $authHeader);
                 break;
             default:
                 throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");

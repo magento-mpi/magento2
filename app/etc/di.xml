@@ -76,6 +76,7 @@
     <preference for="Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface" type="Magento\Framework\View\Design\FileResolution\Fallback\CacheData\Flat"/>
     <preference for="Magento\Framework\Service\Data\AttributeMetadataBuilderInterface" type="Magento\Framework\Service\Data\AttributeMetadataBuilder"/>
     <preference for="Magento\Framework\Service\Data\MetadataServiceInterface" type="Magento\Framework\Service\Config\MetadataConfig"/>
+    <preference for="Magento\Framework\App\Rss\UrlBuilderInterface" type="Magento\Framework\App\Rss\UrlBuilder"/>
     <type name="Magento\Framework\Model\Context">
         <arguments>
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>

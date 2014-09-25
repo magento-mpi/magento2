@@ -237,7 +237,7 @@ new_admin_role:
                                         marketing-communications-newsletter_subscribers: //*[@data-id='Magento_Newsletter::subscriber']//*[@class='jstree-checkbox']
                                         marketing-seo_search: //*[@data-id='Magento_Adminhtml::marketing_seo']//*[@class='jstree-checkbox']
                                         marketing-seo_search-search_terms: //*[@data-id='Magento_CatalogSearch::search']//*[@class='jstree-checkbox']
-                                        marketing-seo_search-url_redirects: //*[@data-id='Magento_Catalog::urlrewrite']//*[@class='jstree-checkbox']
+                                        marketing-seo_search-url_rewrites: //*[@data-id='Magento_Catalog::urlrewrite']//*[@class='jstree-checkbox']
                                         marketing-seo_search-site_map: //*[@data-id='Magento_Sitemap::sitemap']//*[@class='jstree-checkbox']
                                         marketing-user_content: //*[@data-id='Magento_Adminhtml::marketing_user_content']//*[@class='jstree-checkbox']
                                         marketing-user_content-reviews: //*[@data-id='Magento_Review::reviews_all']//*[@class='jstree-checkbox']

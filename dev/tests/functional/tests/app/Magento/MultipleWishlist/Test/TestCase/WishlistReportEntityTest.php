@@ -40,6 +40,8 @@ use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
  *
  * @group Reports_(MX)
  * @ZephyrId MAGETWO-27346
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class WishlistReportEntityTest extends Injectable
 {
