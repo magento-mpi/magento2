@@ -195,7 +195,9 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
                                     stockAvailabilityField.val(manageStockValue);
                                     stockAssociations.val(manageStockValue);
                                 }
-                                if (parseInt(manageStockField.val()) != manageStockValue && !(event && event.type == 'keyup')) {
+                                if (parseInt(manageStockField.val()) != manageStockValue &&
+                                    !(event && event.type == 'keyup')
+                                ) {
                                     if (useConfigManageStockField.val() == 1) {
                                         useConfigManageStockField.removeAttr('checked').val(0);
                                     }

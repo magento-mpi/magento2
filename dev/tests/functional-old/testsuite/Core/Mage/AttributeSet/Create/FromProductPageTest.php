@@ -141,7 +141,6 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
      */
     public function editProductMetaTab($productSkuDefault)
     {
-        $this->markTestIncomplete('MAGETWO-11394');
         //Data
         $attributeSetName = $this->generate('string', 10, ':alnum:');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
