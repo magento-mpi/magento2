@@ -8,6 +8,7 @@
 namespace Magento\Framework\View;
 
 use Magento\Framework\View\Layout\Element;
+use Magento\Framework\View\Layout\ScheduledStructure;
 
 /**
  * Layout model
@@ -21,31 +22,6 @@ use Magento\Framework\View\Layout\Element;
  */
 class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Framework\View\LayoutInterface
 {
-    /**
-     * Scheduled structure array index for name
-     */
-    const SCHEDULED_STRUCTURE_INDEX_NAME = 0;
-
-    /**
-     * Scheduled structure array index for alias
-     */
-    const SCHEDULED_STRUCTURE_INDEX_ALIAS = 1;
-
-    /**
-     * Scheduled structure array index for parent element name
-     */
-    const SCHEDULED_STRUCTURE_INDEX_PARENT_NAME = 2;
-
-    /**
-     * Scheduled structure array index for sibling element name
-     */
-    const SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME = 3;
-
-    /**
-     * Scheduled structure array index for is after parameter
-     */
-    const SCHEDULED_STRUCTURE_INDEX_IS_AFTER = 4;
-
     /**
      * Scheduled structure array index for layout element object
      */
@@ -199,6 +175,11 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $scopeResolver;
 
     /**
+     * @var Layout\Reader
+     */
+    protected $reader;
+
+    /**
      * @var bool
      */
     protected $cacheable;
@@ -214,23 +195,26 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $pageConfigGenerator;
 
     /**
-     * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
+     * Constructor
+     * 
+     * @param Layout\ProcessorFactory $processorFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\View\Element\UiComponentFactory $uiElementFactory,
-     * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
+     * @param Element\UiComponentFactory $uiComponentFactory
+     * @param Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
-     * @param \Magento\Framework\View\Layout\Argument\Parser $argumentParser
+     * @param Layout\Argument\Parser $argumentParser
      * @param \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter
-     * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
+     * @param ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver
+     * @param Design\Theme\ResolverInterface $themeResolver
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
+     * @param Layout\Reader $reader
      * @param Page\Config\Reader $pageConfigReader
      * @param Page\Config\Generator $pageConfigGenerator
-     * @param string $scopeType
+     * @param $scopeType
      * @param bool $cacheable
      */
     public function __construct(
@@ -248,6 +232,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
+        \Magento\Framework\View\Layout\Reader $reader,
         \Magento\Framework\View\Page\Config\Reader $pageConfigReader,
         \Magento\Framework\View\Page\Config\Generator $pageConfigGenerator,
         $scopeType,
@@ -272,6 +257,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->scopeType = $scopeType;
         $this->themeResolver = $themeResolver;
         $this->scopeResolver = $scopeResolver;
+        $this->reader = $reader;
         $this->cacheable = $cacheable;
         $this->pageConfigReader = $pageConfigReader;
         $this->pageConfigGenerator = $pageConfigGenerator;
@@ -333,6 +319,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
         $this->_scheduledStructure->flushScheduledStructure();
 
+        $readerContext = new Layout\Reader\Context($this->_scheduledStructure, $this->_structure, null);
+        $this->reader->readStructure($readerContext, $this->getNode());
         $this->_readStructure($this->getNode());
         $this->_addToOutputRootContainers($this->getNode());
 
@@ -350,7 +338,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         }
 
         \Magento\Framework\Profiler::stop('build_structure');
-
         \Magento\Framework\Profiler::start('generate_elements');
 
         $this->pageConfigGenerator->process();
@@ -373,20 +360,67 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
-     * Add parent containers to output
+     * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
-     * @param Element $nodeList
-     * @return $this
+     * @param \Magento\Framework\View\Layout\Element $parent
+     * @return void
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _addToOutputRootContainers(Element $nodeList)
+    protected function _readStructure($parent)
     {
-        /** @var $node Element */
-        foreach ($nodeList as $node) {
-            if ($node->getName() === Element::TYPE_CONTAINER) {
-                $this->addOutputElement($node->getElementName());
+        foreach ($parent as $node) {
+            /** @var $node \Magento\Framework\View\Layout\Element */
+            switch ($node->getName()) {
+                case Page\Config::ELEMENT_TYPE_HTML:
+                    $this->pageConfigReader->readHtml($node);
+                    break;
+
+                case Page\Config::ELEMENT_TYPE_HEAD:
+                    $this->pageConfigReader->readHead($node);
+                    break;
+
+                case Page\Config::ELEMENT_TYPE_BODY:
+                    $this->pageConfigReader->readBody($node);
+                    break;
+
+                default:
+                    break;
             }
         }
-        return $this;
+    }
+
+    /**
+     * Parse argument nodes and return their array representation
+     *
+     * @param \Magento\Framework\View\Layout\Element $node
+     * @return array
+     */
+    protected function _parseArguments(\Magento\Framework\View\Layout\Element $node)
+    {
+        $nodeDom = dom_import_simplexml($node);
+        $result = array();
+        foreach ($nodeDom->childNodes as $argumentNode) {
+            if ($argumentNode instanceof \DOMElement && $argumentNode->nodeName == 'argument') {
+                $argumentName = $argumentNode->getAttribute('name');
+                $result[$argumentName] = $this->argumentParser->parse($argumentNode);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Compute and return argument values
+     *
+     * @param array $arguments
+     * @return array
+     */
+    protected function _evaluateArguments(array $arguments)
+    {
+        $result = array();
+        foreach ($arguments as $argumentName => $argumentData) {
+            $result[$argumentName] = $this->argumentInterpreter->evaluate($argumentData);
+        }
+        return $result;
     }
 
     /**
@@ -430,282 +464,22 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
-     * Traverse through all elements of specified XML-node and schedule structural elements of it
+     * Add parent containers to output
      *
-     * @param \Magento\Framework\View\Layout\Element $parent
-     * @return void
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    protected function _readStructure($parent)
-    {
-        foreach ($parent as $node) {
-            /** @var $node \Magento\Framework\View\Layout\Element */
-            switch ($node->getName()) {
-                case Element::TYPE_CONTAINER:
-                    $this->_scheduleStructure($node, $parent);
-                    $this->_mergeContainerAttributes($node);
-                    $this->_readStructure($node);
-                    break;
-
-                case Element::TYPE_BLOCK:
-                    $this->_scheduleStructure($node, $parent);
-                    $this->_readStructure($node);
-                    break;
-
-                case Element::TYPE_UI_COMPONENT:
-                    $this->_scheduleStructure($node, $parent);
-                    break;
-
-                case Element::TYPE_REFERENCE_CONTAINER:
-                    $this->_mergeContainerAttributes($node);
-                    $this->_readStructure($node);
-                    break;
-
-                case Element::TYPE_REFERENCE_BLOCK:
-                    $this->_readStructure($node);
-                    break;
-
-                case Element::TYPE_ACTION:
-                    $referenceName = $parent->getAttribute('name');
-                    $element = $this->_scheduledStructure->getStructureElement($referenceName, array());
-                    $element['actions'][] = array($node, $parent);
-                    $this->_scheduledStructure->setStructureElement($referenceName, $element);
-                    break;
-
-                case Element::TYPE_ARGUMENTS:
-                    $referenceName = $parent->getAttribute('name');
-                    $element = $this->_scheduledStructure->getStructureElement($referenceName, array());
-                    $args = $this->_parseArguments($node);
-                    $element['arguments'] = $this->_mergeArguments($element, $args);
-
-                    $this->_scheduledStructure->setStructureElement($referenceName, $element);
-                    break;
-
-                case Element::TYPE_MOVE:
-                    $this->_scheduleMove($node);
-                    break;
-
-                case Element::TYPE_REMOVE:
-                    $this->_scheduledStructure->setElementToRemoveList((string)$node->getAttribute('name'));
-                    break;
-
-                case Page\Config::ELEMENT_TYPE_HTML:
-                    $this->pageConfigReader->readHtml($node);
-                    break;
-
-                case Page\Config::ELEMENT_TYPE_HEAD:
-                    $this->pageConfigReader->readHead($node);
-                    break;
-
-                case Page\Config::ELEMENT_TYPE_BODY:
-                    $this->pageConfigReader->readBody($node);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Merge Container attributes
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @return void
-     */
-    protected function _mergeContainerAttributes(\Magento\Framework\View\Layout\Element $node)
-    {
-        $containerName = $node->getAttribute('name');
-        $element = $this->_scheduledStructure->getStructureElement($containerName, array());
-
-        if (isset($element['attributes'])) {
-            $keys = array_keys($element['attributes']);
-            foreach ($keys as $key) {
-                if (isset($node[$key])) {
-                    $element['attributes'][$key] = (string)$node[$key];
-                }
-            }
-        } else {
-            $element['attributes'] = array(
-                Element::CONTAINER_OPT_HTML_TAG => (string)$node[Element::CONTAINER_OPT_HTML_TAG],
-                Element::CONTAINER_OPT_HTML_ID => (string)$node[Element::CONTAINER_OPT_HTML_ID],
-                Element::CONTAINER_OPT_HTML_CLASS => (string)$node[Element::CONTAINER_OPT_HTML_CLASS],
-                Element::CONTAINER_OPT_LABEL => (string)$node[Element::CONTAINER_OPT_LABEL]
-            );
-        }
-        $this->_scheduledStructure->setStructureElement($containerName, $element);
-    }
-
-    /**
-     * Merge element arguments
-     *
-     * @param array $element
-     * @param array $arguments
-     * @return array
-     */
-    protected function _mergeArguments(array $element, array $arguments)
-    {
-        $output = $arguments;
-        if (isset($element['arguments'])) {
-            $output = array_replace_recursive($element['arguments'], $arguments);
-        }
-        return $output;
-    }
-
-    /**
-     * Parse argument nodes and return their array representation
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @return array
-     */
-    protected function _parseArguments(\Magento\Framework\View\Layout\Element $node)
-    {
-        $nodeDom = dom_import_simplexml($node);
-        $result = array();
-        foreach ($nodeDom->childNodes as $argumentNode) {
-            if ($argumentNode instanceof \DOMElement && $argumentNode->nodeName == 'argument') {
-                $argumentName = $argumentNode->getAttribute('name');
-                $result[$argumentName] = $this->argumentParser->parse($argumentNode);
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Compute and return argument values
-     *
-     * @param array $arguments
-     * @return array
-     */
-    protected function _evaluateArguments(array $arguments)
-    {
-        $result = array();
-        foreach ($arguments as $argumentName => $argumentData) {
-            $result[$argumentName] = $this->argumentInterpreter->evaluate($argumentData);
-        }
-        return $result;
-    }
-
-    /**
-     * Schedule structural changes for move directive
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @throws \Magento\Framework\Exception
+     * @param Element $nodeList
      * @return $this
      */
-    protected function _scheduleMove($node)
+    protected function _addToOutputRootContainers(Element $nodeList)
     {
-        $elementName = (string)$node->getAttribute('element');
-        $destination = (string)$node->getAttribute('destination');
-        $alias = (string)$node->getAttribute('as') ?: '';
-        if ($elementName && $destination) {
-            list($siblingName, $isAfter) = $this->_beforeAfterToSibling($node);
-            $this->_scheduledStructure->setElementToMove(
-                $elementName,
-                array($destination, $siblingName, $isAfter, $alias)
-            );
-        } else {
-            throw new \Magento\Framework\Exception('Element name and destination must be specified.');
+        /** @var $node Element */
+        foreach ($nodeList as $node) {
+            if ($node->getName() === Element::TYPE_CONTAINER) {
+                $this->addOutputElement($node->getElementName());
+            }
         }
         return $this;
     }
 
-    /**
-     * Populate queue for generating structural elements
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @param \Magento\Framework\View\Layout\Element $parent
-     * @return void
-     * @see _scheduleElement() where the _scheduledStructure is used
-     */
-    protected function _scheduleStructure($node, $parent)
-    {
-        if ((string)$node->getAttribute('name')) {
-            $name = (string)$node->getAttribute('name');
-        } else {
-            $name = $this->_generateAnonymousName($parent->getElementName() . '_schedule_block');
-            $node->addAttribute('name', $name);
-        }
-        $path = $name;
-
-        // type, alias, parentName, siblingName, isAfter, node
-        $row = array(
-            self::SCHEDULED_STRUCTURE_INDEX_NAME => $node->getName(),
-            self::SCHEDULED_STRUCTURE_INDEX_ALIAS => '',
-            self::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME => '',
-            self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME => null,
-            self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER => true,
-            self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT => $node
-        );
-
-        $parentName = $parent->getElementName();
-        if ($parentName) {
-            $row[self::SCHEDULED_STRUCTURE_INDEX_ALIAS] = (string)$node->getAttribute('as');
-            $row[self::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME] = $parentName;
-
-            list($row[self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME],
-                $row[self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER]) = $this->_beforeAfterToSibling(
-                    $node
-                );
-
-            // materialized path for referencing nodes in the plain array of _scheduledStructure
-            if ($this->_scheduledStructure->hasPath($parentName)) {
-                $path = $this->_scheduledStructure->getPath($parentName) . '/' . $path;
-            }
-        }
-
-        $this->_overrideElementWorkaround($name, $path);
-        $this->_scheduledStructure->setPathElement($name, $path);
-        if ($this->_scheduledStructure->hasStructureElement($name)) {
-            // union of arrays
-            $this->_scheduledStructure->setStructureElement(
-                $name,
-                $row + $this->_scheduledStructure->getStructureElement($name)
-            );
-        } else {
-            $this->_scheduledStructure->setStructureElement($name, $row);
-        }
-    }
-
-    /**
-     * Analyze "before" and "after" information in the node and return sibling name and whether "after" or "before"
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @return array
-     */
-    protected function _beforeAfterToSibling($node)
-    {
-        $result = array(null, true);
-        if (isset($node['after'])) {
-            $result[0] = (string)$node['after'];
-        } elseif (isset($node['before'])) {
-            $result[0] = (string)$node['before'];
-            $result[1] = false;
-        }
-        return $result;
-    }
-
-    /**
-     * Destroy previous element with same name and all its children, if new element overrides it
-     *
-     * This is a workaround to handle situation, when an element emerges with name of element that already exists.
-     * In this case we destroy entire structure of the former element and replace with the new one.
-     *
-     * @param string $name
-     * @param string $path
-     * @return void
-     */
-    protected function _overrideElementWorkaround($name, $path)
-    {
-        if ($this->_scheduledStructure->hasStructureElement($name)) {
-            foreach ($this->_scheduledStructure->getPaths() as $potentialChild => $childPath) {
-                if (0 === strpos($childPath, "{$path}/")) {
-                    $this->_scheduledStructure->unsetPathElement($potentialChild);
-                    $this->_scheduledStructure->unsetStructureElement($potentialChild);
-                }
-            }
-        }
-    }
 
     /**
      * Process queue of structural elements and actually add them to structure, and schedule elements for generation
