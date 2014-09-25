@@ -148,11 +148,6 @@ class Adapter implements AdapterInterface
         foreach ($buckets as $bucket) {
             $aggregationBuilder = $this->aggregationContainer->get($bucket->getType());
 
-//            $select2 = $dataProvider->getDataSet($bucket, $request);
-//            $select2->where('main_table.entity_id IN (?)', $productIds);
-//            $select2->columns();
-//            $res = $this->executeQuery($select2);
-
             $select = $dataProvider->getDataSet($bucket, $request);
             $select = $aggregationBuilder->build($select, $bucket, $productIds);
             $aggregations[$bucket->getName()] = $this->executeQuery($select);
