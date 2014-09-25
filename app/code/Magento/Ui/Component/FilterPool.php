@@ -7,16 +7,20 @@
  */
 namespace Magento\Ui\Component;
 
+
 use Magento\Backend\Helper\Data;
-use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\Component\Filter as FilterView;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\Component\Filter as FilterView;
+use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
+/**
+ * Class FilterPool
+ */
 class FilterPool extends AbstractView
 {
     /**
@@ -79,7 +83,7 @@ class FilterPool extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $this->configuration = $this->configurationFactory->create(
+        $configuration = $this->configurationFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
@@ -87,6 +91,8 @@ class FilterPool extends AbstractView
             ]
         );
 
+        $this->setConfiguration($configuration);
+        $this->renderContext->getStorage()->addComponentsData($configuration);
         $this->updateDataCollection();
     }
 

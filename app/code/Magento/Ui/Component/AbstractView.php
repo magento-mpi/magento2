@@ -28,13 +28,6 @@ abstract class AbstractView extends Template implements UiComponentInterface
     protected $configurationBuilder;
 
     /**
-     * Root view component
-     *
-     * @var UiComponentInterface
-     */
-    protected $rootComponent;
-
-    /**
      * View configuration data
      *
      * @var ConfigInterface
@@ -253,6 +246,19 @@ abstract class AbstractView extends Template implements UiComponentInterface
     public function getConfigurationBuilder()
     {
         return $this->configurationBuilder;
+    }
+
+    /**
+     * Set component configuration
+     *
+     * @param ConfigInterface $configuration
+     * @return void
+     */
+    public function setConfiguration(ConfigInterface $configuration)
+    {
+        if (!isset($this->configuration)) {
+            $this->configuration = $configuration;
+        }
     }
 
     /**

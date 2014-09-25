@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
@@ -17,7 +16,7 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 
 /**
- * Class View
+ * Class Filter
  */
 class Filter extends AbstractView
 {
@@ -32,13 +31,6 @@ class Filter extends AbstractView
      * @var FilterPoolProvider
      */
     protected $filterPool;
-
-    /**
-     * Root view component
-     *
-     * @var UiComponentInterface
-     */
-    protected $rootComponent;
 
     /**
      * Constructor
@@ -83,14 +75,15 @@ class Filter extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $this->configuration = $this->configurationFactory->create(
+        $configuration = $this->configurationFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
                 'configuration' => $config
             ]
         );
-        $this->renderContext->getStorage()->addComponentsData($this->configuration);
+        $this->setConfiguration($configuration);
+        $this->renderContext->getStorage()->addComponentsData($configuration);
     }
 
     /**

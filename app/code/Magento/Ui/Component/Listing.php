@@ -7,17 +7,17 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\Component\Control\ActionPool;
 use Magento\Ui\Component\Listing\RowPool;
-use Magento\Ui\Component\Listing\OptionsFactory;
+use Magento\Ui\Component\Control\ActionPool;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Ui\Component\Listing\OptionsFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
- * Class View
+ * Class Listing
  */
 class Listing extends AbstractView
 {
@@ -90,34 +90,36 @@ class Listing extends AbstractView
     public function prepare()
     {
         $meta = $this->getMeta();
-        $config = $this->getDefaultConfiguration();
+        $defaultConfig = $this->getDefaultConfiguration();
 
         if ($this->hasData('configuration')) {
-            $configuration = $this->getData('configuration');
-            if (!empty($configuration['page_actions'])) {
-                foreach ($configuration['page_actions'] as $key => $action) {
-                    $config['page_actions'][$key] = isset($configuration['page_actions'])
-                        ? array_replace($config['page_actions'][$key], $configuration['page_actions'][$key])
-                        : $config['page_actions'][$key];
+            $config = $this->getData('configuration');
+            if (!empty($config['page_actions'])) {
+                foreach ($config['page_actions'] as $key => $action) {
+                    $defaultConfig['page_actions'][$key] = isset($config['page_actions'])
+                        ? array_replace($defaultConfig['page_actions'][$key], $config['page_actions'][$key])
+                        : $defaultConfig['page_actions'][$key];
                 }
             }
-            unset($configuration['page_actions']);
-            $config = array_merge($config, $configuration);
+            unset($config['page_actions']);
+            $defaultConfig = array_merge($defaultConfig, $config);
         }
 
-        foreach ($config['page_actions'] as $key => $action) {
+        foreach ($defaultConfig['page_actions'] as $key => $action) {
             $this->actionPool->add($key, $action, $this);
         }
-        unset($config['page_actions']);
+        unset($defaultConfig['page_actions']);
 
-        $this->configuration = $this->configurationFactory->create(
+        $configuration = $this->configurationFactory->create(
             [
                 'name' => $this->getData('name'),
                 'parentName' => $this->getData('name'),
-                'configuration' => $config
+                'configuration' => $defaultConfig
             ]
         );
-        $this->renderContext->getStorage()->addComponentsData($this->configuration);
+
+        $this->setConfiguration($configuration);
+        $this->renderContext->getStorage()->addComponentsData($configuration);
         $this->renderContext->getStorage()->addMeta($this->getData('name'), $meta);
         $this->renderContext->getStorage()->addDataCollection($this->getData('name'), $this->getData('dataSource'));
     }

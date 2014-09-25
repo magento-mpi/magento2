@@ -15,7 +15,7 @@ class Paging extends AbstractView
     /**
      * Prepare component data
      *
-     * @return $this|void
+     * @return void
      */
     public function prepare()
     {
@@ -24,7 +24,7 @@ class Paging extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $this->configuration = $this->configurationFactory->create(
+        $configuration = $this->configurationFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
@@ -32,7 +32,8 @@ class Paging extends AbstractView
             ]
         );
 
-        $this->renderContext->getStorage()->addComponentsData($this->configuration);
+        $this->setConfiguration($configuration);
+        $this->renderContext->getStorage()->addComponentsData($configuration);
         $this->updateDataCollection();
     }
 
