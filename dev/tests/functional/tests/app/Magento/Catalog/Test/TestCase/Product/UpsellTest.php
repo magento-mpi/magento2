@@ -49,20 +49,20 @@ class UpsellTest extends Functional
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getProductSku()]);
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getSku()]);
         $editProductPage->getProductForm()->fill($assignToSimple1);
         $editProductPage->getFormPageActions()->save();
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->waitSuccessMessage();
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
-            ['sku' => $assignToSimple1->getProduct('configurable')->getProductSku()]
+            ['sku' => $assignToSimple1->getProduct('configurable')->getSku()]
         );
         $assignToSimple1->switchData('add_upsell_product');
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormPageActions()->save();
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->waitSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
     }
