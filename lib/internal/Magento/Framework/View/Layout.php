@@ -340,7 +340,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->pageConfigGenerator->process();
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
-            list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
+            list($type) = current($this->_scheduledStructure->getElements());
             $elementName = key($this->_scheduledStructure->getElements());
 
             if ($type == Element::TYPE_UI_COMPONENT) {
@@ -348,7 +348,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             } else if ($type == Element::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
             } else {
-                $this->_generateContainer($elementName, (string)$node[Element::CONTAINER_OPT_LABEL], $attributes);
+                $this->_generateContainer($elementName);
                 $this->_scheduledStructure->unsetElement($elementName);
             }
         }
@@ -464,6 +464,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         $row = $this->_scheduledStructure->getStructureElement($key);
 
+        // if we have reference container to not existed element
         if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT])) {
             $this->_logger->log("Broken reference: missing declaration of the element '{$key}'.", \Zend_Log::CRIT);
             $this->_scheduledStructure->unsetPathElement($key);
@@ -475,7 +476,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         if ($parentName) {
             // recursively populate parent first
             if ($this->_scheduledStructure->hasStructureElement($parentName)) {
-                $this->_scheduleElement($parentName, $this->_scheduledStructure->getStructureElement($parentName));
+                $this->_scheduleElement($parentName);
             }
             if ($this->_structure->hasElement($parentName)) {
                 try {
@@ -491,6 +492,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
                 );
             }
         }
+
+        // Move from scheduledStructure to scheduledElement
         $this->_scheduledStructure->unsetStructureElement($key);
         $data = array(
             $type,
@@ -526,7 +529,14 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected function _createStructuralElement($name, $type, $class)
     {
         if (empty($name)) {
-            $name = $this->_generateAnonymousName($class);
+            $structure = $this->_structure;
+            $nameGenerator = function($key, &$incrementName) use ($structure) {
+                do {
+                    $name = $key . '_' . $incrementName++;
+                } while ($structure->hasElement($name));
+                return $name;
+            };
+            $name = $this->_generateAnonymousName($class, $nameGenerator);
         }
         $this->_structure->createElement($name, array('type' => $type));
         return $name;
@@ -536,28 +546,18 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * Generate anonymous element name for structure
      *
      * @param string $class
+     * @param callback $nameGenerator
      * @return string
      */
-    protected function _generateAnonymousName($class)
+    protected function _generateAnonymousName($class, $nameGenerator)
     {
         $position = strpos($class, '\\Block\\');
         $key = $position !== false ? substr($class, $position + 7) : $class;
         $key = strtolower(trim($key, '_'));
-
         if (!isset($this->_nameIncrement[$key])) {
             $this->_nameIncrement[$key] = 0;
         }
-
-        if ($this->_nameIncrement[$key] == 0 && !$this->_structure->hasElement($key)) {
-            $this->_nameIncrement[$key]++;
-            return $key;
-        }
-
-        do {
-            $name = $key . '_' . $this->_nameIncrement[$key]++;
-        } while ($this->_structure->hasElement($name));
-
-        return $name;
+        return $nameGenerator($key, $this->_nameIncrement[$key]);
     }
 
     /**
@@ -664,13 +664,14 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * Set container-specific data to structure element
      *
      * @param string $name
-     * @param string $label
-     * @param array $options
      * @return void
      * @throws \Magento\Framework\Exception If any of arguments are invalid
      */
-    protected function _generateContainer($name, $label, array $options)
+    protected function _generateContainer($name)
     {
+        list($type, $node, $actions, $args, $options) = $this->_scheduledStructure->getElement($name);
+        $label = (string)$node[Element::CONTAINER_OPT_LABEL];
+
         $this->_structure->setAttribute($name, Element::CONTAINER_OPT_LABEL, $label);
         unset($options[Element::CONTAINER_OPT_LABEL]);
         unset($options['type']);
