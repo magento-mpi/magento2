@@ -51,7 +51,7 @@ class LicenseController extends AbstractActionController
      */
     public function indexAction()
     {
-        if (!$this->license->checkLicenseFile()) {
+        if (!$this->license->isLicenseAvailable()) {
             $this->view->setTemplate('error/404');
             $this->view->setVariable('message', 'Cannot find license file.');
         }

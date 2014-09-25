@@ -63,9 +63,8 @@ class License
      *
      * @return boolean
      */
-    public function checkLicenseFile()
+    public function isLicenseAvailable()
     {
-
         if (file_exists($this->licenseFile)) {
             return true;
         }
@@ -79,9 +78,6 @@ class License
      */
     public function getContents()
     {
-        $resource = @fopen($this->licenseFile, "r+");
-        $contents = nl2br(fread($resource, filesize($this->licenseFile)));
-        fclose($resource);
-        return $contents;
+        return file_get_contents($this->licenseFile);
     }
 }
