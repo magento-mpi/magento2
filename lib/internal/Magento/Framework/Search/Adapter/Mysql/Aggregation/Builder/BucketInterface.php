@@ -16,7 +16,7 @@ interface BucketInterface
      * @param Select $select
      * @param RequestBucketInterface $bucket
      * @param array $productIds
-     * @return mixed
+     * @return Select
      */
     public function build(Select $select, RequestBucketInterface $bucket, array $productIds);
 }
