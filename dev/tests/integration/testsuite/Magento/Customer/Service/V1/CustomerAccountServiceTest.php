@@ -12,7 +12,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Exception\State\ExpiredException;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -391,15 +391,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $password = 'new_password';
 
         $this->setResetPasswordData($resetToken, 'Y-m-d');
-        $this->_customerAccountService->resetPassword(1, $resetToken, $password);
-        //TODO assert
+        $this->assertTrue($this->_customerAccountService->resetPassword(1, $resetToken, $password));
     }
-
-
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Framework\Exception\State\ExpiredException
      */
     public function testResetPasswordTokenExpired()
     {
@@ -407,7 +403,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $password = 'new_password';
 
         $this->setResetPasswordData($resetToken, '1970-01-01');
-        $this->_customerAccountService->resetPassword(1, $resetToken, $password);
+        try {
+            $this->_customerAccountService->resetPassword(1, $resetToken, $password);
+            $this->fail('Expected exception not thrown.');
+        } catch (ExpiredException $ee) {
+            $this->assertEquals('Reset password token expired.', $ee->getMessage());
+        }
     }
 
     /**
