@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Bundle\Service\V1;
 
 use Magento\Catalog\Service\V1\Data\Product;
 use Magento\TestFramework\TestCase\WebapiAbstract;
