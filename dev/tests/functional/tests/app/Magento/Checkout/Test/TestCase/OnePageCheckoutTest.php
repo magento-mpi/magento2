@@ -94,7 +94,7 @@ class OnePageCheckoutTest extends Scenario
                             'module' => 'Magento_GiftCardAccount',
                             'next' => 'applySalesRule',
                         ],
-                        'applySalesRule' => [
+                        'applySalesRuleOnFrontend' => [
                             'module' => 'Magento_SalesRule',
                             'next' => 'proceedToCheckout',
                         ],

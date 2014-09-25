@@ -7,10 +7,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-/**
- * Catalog Product Abstract Block
- */
-abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
+class AbstractProduct extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var array
@@ -37,13 +34,6 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
      * @var array
      */
     protected $_columnCountLayoutDepend = array();
-
-    /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp';
 
     /**
      * Core registry

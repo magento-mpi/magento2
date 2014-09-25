@@ -39,16 +39,10 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
      *
      * @param CatalogRule $catalogPriceRule
      * @param CatalogProductSimple $product
-     * @param array $price
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function testCreate(
-        CatalogRule $catalogPriceRule,
-        CatalogProductSimple $product,
-        array $price
-    ) {
+    public function testCreate(CatalogRule $catalogPriceRule, CatalogProductSimple $product)
+    {
         // Prepare data
         $replace = [
             'conditions' => [
@@ -74,7 +68,7 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
         // Flush cache
         $this->adminCache->open();
         $this->adminCache->getActionsBlock()->flushMagentoCache();
-        $this->adminCache->getMessagesBlock()->assertSuccessMessage();
+        $this->adminCache->getMessagesBlock()->waitSuccessMessage();
 
         // Prepare data for tear down
         $this->catalogRules[] = $catalogPriceRule;
