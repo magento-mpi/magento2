@@ -51,14 +51,14 @@ class AssertOrderInvoiceArchiveItemsGrid extends AbstractAssertForm
      * - qty
      *
      * @param ArchiveInvoices $archiveInvoices
-     * @param OrderInvoiceView $OrderInvoiceView
+     * @param OrderInvoiceView $orderInvoiceView
      * @param OrderInjectable $order
      * @param array $ids
      * @return void
      */
     public function processAssert(
         ArchiveInvoices $archiveInvoices,
-        OrderInvoiceView $OrderInvoiceView,
+        OrderInvoiceView $orderInvoiceView,
         OrderInjectable $order,
         array $ids
     ) {
@@ -73,7 +73,7 @@ class AssertOrderInvoiceArchiveItemsGrid extends AbstractAssertForm
 
             $archiveInvoices->open();
             $archiveInvoices->getInvoicesGrid()->searchAndOpen($filter);
-            $itemsData = $this->prepareInvoiceItem($OrderInvoiceView->getItemsBlock()->getData());
+            $itemsData = $this->prepareInvoiceItem($orderInvoiceView->getItemsBlock()->getData());
             $error = $this->verifyData($productsData, $itemsData);
             \PHPUnit_Framework_Assert::assertEmpty($error, $error);
         }
@@ -123,6 +123,6 @@ class AssertOrderInvoiceArchiveItemsGrid extends AbstractAssertForm
      */
     public function toString()
     {
-        return 'Invoiced products represented in invoice archive.';
+        return 'Invoiced are products represented in invoice archive.';
     }
 }

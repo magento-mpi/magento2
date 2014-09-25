@@ -21,7 +21,7 @@
         </pageActions>
         <itemsBlock>
             <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Edit\Items</class>
-            <locator>//*[./div[@id="invoice_item_container"]]</locator>
+            <locator>//div[./div[@id="invoice_item_container"]]</locator>
             <strategy>xpath</strategy>
         </itemsBlock>
     </blocks>
