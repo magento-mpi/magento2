@@ -18,6 +18,7 @@ class DocumentFactory
      * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
+
     /**
      * @var \Magento\Framework\Search\EntityMetadata
      */

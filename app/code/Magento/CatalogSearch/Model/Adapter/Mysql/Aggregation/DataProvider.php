@@ -24,10 +24,12 @@ class DataProvider implements DataProviderInterface
      * @var Config
      */
     private $eavConfig;
+
     /**
      * @var Resource
      */
     private $resource;
+
     /**
      * @var StoreManagerInterface
      */
