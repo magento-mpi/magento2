@@ -141,7 +141,7 @@ abstract class AbstractAssertCustomerSegmentPriceRuleApplying extends AbstractCo
         $this->customerSegmentNew = $customerSegmentNew;
 
         $this->cmsIndex->open();
-        $this->login();
+        $this->loginCustomer();
 
         $product->persist();
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
@@ -149,18 +149,20 @@ abstract class AbstractAssertCustomerSegmentPriceRuleApplying extends AbstractCo
         $this->catalogProductView->getViewBlock()->clickAddToCart();
         $this->checkoutCart->getMessagesBlock()->getSuccessMessages();
         $this->assert();
+        $this->customerAccountLogout->open();
     }
 
     /**
-     * LogIn customer
+     * Login customer
      *
      * @return void
      */
-    protected function login()
+    protected function loginCustomer()
     {
-        if ($this->cmsIndex->getLinksBlock()->isLinkVisible('Log In')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($this->customer);
-        }
+        $loginCustomerOnFrontendStep = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $this->customer]
+        );
+        $loginCustomerOnFrontendStep->run();
     }
 }
