@@ -21,7 +21,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  * Class AbstractWishlistOnFrontend
  * Abstract class for wish list on frontend tests
  */
-class AbstractWishlistOnFrontend extends Injectable
+abstract class AbstractWishlistOnFrontend extends Injectable
 {
     /**
      * Object Manager

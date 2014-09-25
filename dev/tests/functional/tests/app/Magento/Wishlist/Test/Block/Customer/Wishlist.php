@@ -95,7 +95,7 @@ class Wishlist extends Block
     }
 
     /**
-     * Empty block visible
+     * Check empty block visible
      *
      * @return bool
      */

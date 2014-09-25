@@ -49,6 +49,20 @@ class DeleteProductsFromWishlistOnFrontendTest extends AbstractWishlistOnFronten
 
         // Steps
         $this->cmsIndex->getLinksBlock()->openLink("My Wish List");
+        $removeProducts = $this->removeProducts($products, $removedProductsIndex);
+
+        return ['products' => $removeProducts, 'customer' => $customer];
+    }
+
+    /**
+     * Remove products from wish list
+     *
+     * @param array $products
+     * @param string $removedProductsIndex
+     * @return array
+     */
+    protected function removeProducts(array $products, $removedProductsIndex)
+    {
         $removeProducts = [];
         if ($removedProductsIndex) {
             $removedProductsIndex = explode(',', $removedProductsIndex);
@@ -61,6 +75,6 @@ class DeleteProductsFromWishlistOnFrontendTest extends AbstractWishlistOnFronten
             $removeProducts = $products;
         }
 
-        return ['products' => $removeProducts, 'customer' => $customer];
+        return $removeProducts;
     }
 }
