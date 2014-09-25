@@ -174,6 +174,7 @@ class CheckoutData implements FixtureInterface
                     'use_custom_price' => "Yes",
                     'custom_price' => 100,
                 ],
+                'cartItem' => []
             ]
         ];
         return isset($presets[$name]) ? $presets[$name] : [];

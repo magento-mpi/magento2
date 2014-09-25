@@ -6,15 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\Block\Customer;
+namespace Magento\GiftRegistry\Test\Block\Adminhtml\Customer;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
 /**
  * Class Wishlist
- * Wishlist main block
+ * Gift registry wishlist main block
  */
 class Wishlist extends Block
 {
@@ -23,7 +22,7 @@ class Wishlist extends Block
      *
      * @var string
      */
-    protected $addGiftRegistry = '.giftregisty-dropdown.add span.action';
+    protected $addGiftRegistry = '.giftregisty.add span.action';
 
     /**
      * Gift registry selector
@@ -45,19 +44,15 @@ class Wishlist extends Block
     }
 
     /**
-     * Check that gift registry available in wishlist
+     * Check that gift registry visible in wishlist
      *
-     * @param GiftRegistry $giftRegistry
+     * @param string $giftRegistry
      * @return bool
      */
-    public function isGiftRegistryAvailable(GiftRegistry $giftRegistry)
+    public function giftRegistryIsVisible($giftRegistry)
     {
-        $addGiftRegistry = $this->_rootElement->find($this->addGiftRegistry);
-        if (!$addGiftRegistry->isVisible()) {
-            return false;
-        }
-        $addGiftRegistry->click();
-        $selector = sprintf($this->giftRegistry, $giftRegistry->getTitle());
+        $this->openGiftRegistry();
+        $selector = sprintf($this->giftRegistry, $giftRegistry);
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 
