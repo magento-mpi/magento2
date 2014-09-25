@@ -37,7 +37,7 @@ class IncludePath
      */
     public function getFilePath($class)
     {
-        return ltrim(str_replace(array('_',self::NS_SEPARATOR), '/', $class), '_') . '.php';
+        return ltrim(str_replace(array('_',self::NS_SEPARATOR), '/', $class), '/') . '.php';
     }
 
     /**
