@@ -8,7 +8,9 @@
 
 namespace Magento\Bundle\Test\TestCase;
 
-use Magento\MultipleWishlist\Test\TestCase\MoveToAnotherWishlistTest;
+use Magento\Bundle\Test\Fixture\BundleProduct;
+use Magento\MultipleWishlist\Test\TestCase\AbstractMoveToAnotherWishlist;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Test Creation for MoveToAnotherWishlistBundleProduct
@@ -30,7 +32,18 @@ use Magento\MultipleWishlist\Test\TestCase\MoveToAnotherWishlistTest;
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-28820
  */
-class MoveToAnotherWishlistBundleProductTest extends MoveToAnotherWishlistTest
+class MoveToAnotherWishlistBundleProductTest extends AbstractMoveToAnotherWishlist
 {
-    //
+    /**
+     * Run Move To Another Wishlist test
+     *
+     * @param MultipleWishlist $multipleWishlist
+     * @param BundleProduct $product
+     * @param string $qtyToMove
+     * @return array
+     */
+    public function test(MultipleWishlist $multipleWishlist, BundleProduct $product, $qtyToMove)
+    {
+        return parent::moveToCustomWishlist($multipleWishlist, $product, $qtyToMove);
+    }
 }
