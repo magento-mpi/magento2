@@ -1,0 +1,38 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Sales\Test\Block\Adminhtml\Invoice;
+
+use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+
+/**
+ * Class Grid
+ * Invoice grid on invoice index page
+ */
+class Grid extends GridInterface
+{
+    /**
+     * Filters array mapping
+     *
+     * @var array
+     */
+    protected $filters = [
+        'id' => [
+            'selector' => 'input[name="increment_id"]'
+        ],
+        'order_id' => [
+            'selector' => 'input[name="order_increment_id"]'
+        ],
+        'grand_total_from' => [
+            'selector' => 'input[name="grand_total[from]"]',
+        ],
+        'grand_total_to' => [
+            'selector' => 'input[name="grand_total[to]"]',
+        ],
+    ];
+}

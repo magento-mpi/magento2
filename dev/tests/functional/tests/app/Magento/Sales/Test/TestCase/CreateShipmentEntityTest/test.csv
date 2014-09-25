@@ -1,0 +1,3 @@
+"description";"order/dataSet";"order/data/entity_id/products";"order/data/total_qty_ordered";"shipment/qty";"shipment/comment";"shipment/tracing/carrier_code";"shipment/tracing/title";"shipment/tracing/number";"constraint"
+"shipment with tracking number";"default";"catalogProductSimple::default";"1";"-";"comments";"Custom Value";"title";"199";"assertShipmentSuccessCreateMessage, assertShipmentInShipmentsTab,assertShipmentInShipmentsGrid, assertNoShipButton, assertShipTotalQuantity"
+"partial shipment";"default";"catalogProductSimple::100_dollar_product";"1";"1";"comments";"-";"-";"-";"assertShipmentSuccessCreateMessage, assertShipmentInShipmentsTab, assertShipmentInShipmentsGrid,  assertShipTotalQuantity"

@@ -9,6 +9,9 @@
 namespace Magento\Shipping\Test\Block\Adminhtml\Create;
 
 use Mtf\Block\Block;
+use Magento\Shipping\Test\Block\Adminhtml\Create\Items\Product;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items
@@ -24,6 +27,20 @@ class Items extends Block
     protected $submitShipment = '[data-ui-id="order-items-submit-button"]';
 
     /**
+     * Shipment comment css selector
+     *
+     * @var string
+     */
+    protected $comment = '[name="shipment[comment_text]"]';
+
+    /**
+     * Item product
+     *
+     * @var string
+     */
+    protected $productItems = '//tr[contains(.,"%s")]';
+
+    /**
      * Click 'Submit Shipment' button
      *
      * @return void
@@ -31,5 +48,31 @@ class Items extends Block
     public function submit()
     {
         $this->_rootElement->find($this->submitShipment)->click();
+    }
+
+    /**
+     * Set shipment comment
+     *
+     * @param string $text
+     * @return void
+     */
+    public function setComment($text)
+    {
+        $this->_rootElement->find($this->comment)->setValue($text);
+    }
+
+    /**
+     * Get item product block
+     *
+     * @param FixtureInterface $product
+     * @return Product
+     */
+    public function getItemProductBlock(FixtureInterface $product)
+    {
+        $selector = sprintf($this->productItems, $product->getSku());
+        return $this->blockFactory->create(
+            'Magento\Shipping\Test\Block\Adminhtml\Create\Items\Product',
+            ['element' => $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)]
+        );
     }
 }

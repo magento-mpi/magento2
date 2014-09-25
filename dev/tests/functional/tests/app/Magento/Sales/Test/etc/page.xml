@@ -55,4 +55,9 @@
         <mca>sales/order/view</mca>
         <class>Magento\Sales\Test\Page\OrderView</class>
     </orderView>
+    <invoiceIndex>
+        <mca>sales/invoice</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\InvoiceIndex</class>
+    </invoiceIndex>
 </page>

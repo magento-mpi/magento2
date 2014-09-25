@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/shipment" module="Magento_Shipping">
+    <blocks>
+        <shipmentGrid>
+            <class>Magento\Shipping\Test\Block\Adminhtml\Shipment\Grid</class>
+            <locator>#sales_shipment_grid</locator>
+            <strategy>css selector</strategy>
+        </shipmentGrid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
+</page>

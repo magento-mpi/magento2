@@ -57,25 +57,35 @@ class CreateShippingStep implements TestStepInterface
     protected $order;
 
     /**
+     * Invoice data
+     *
+     * @var array|null
+     */
+    protected $data;
+
+    /**
      * @construct
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderShipmentNew $orderShipmentNew
      * @param OrderShipmentView $orderShipmentView
      * @param OrderInjectable $order
+     * @param array|null $data [optional]
      */
     public function __construct(
         OrderIndex $orderIndex,
         OrderView $orderView,
         OrderShipmentNew $orderShipmentNew,
         OrderShipmentView $orderShipmentView,
-        OrderInjectable $order
+        OrderInjectable $order,
+        $data = null
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
         $this->orderShipmentNew = $orderShipmentNew;
         $this->orderShipmentView = $orderShipmentView;
         $this->order = $order;
+        $this->data = $data;
     }
 
     /**
@@ -88,9 +98,18 @@ class CreateShippingStep implements TestStepInterface
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->ship();
+        if (!empty($this->data)) {
+            $this->orderShipmentNew->getCreateBlock()->fill($this->data, $this->order->getEntityId()['products']);
+        }
         $this->orderShipmentNew->getShipItemsBlock()->submit();
+        if (!empty($this->data)) {
+            $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
+        }
 
-        return ['shipmentIds' => $this->getShipmentIds()];
+        return [
+            'shipmentIds' => $this->getShipmentIds(),
+            'successMessage' => isset($successMessage) ? $successMessage : null
+        ];
     }
 
     /**

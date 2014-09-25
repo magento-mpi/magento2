@@ -95,7 +95,7 @@ class CreateInvoiceEntityTest extends Injectable
 
         // Steps
         $createInvoice = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateInvoice',
+            'Magento\Sales\Test\TestStep\CreateInvoiceStep',
             ['order' => $order, 'data' => $invoice]
         );
         $data = $createInvoice->run();
