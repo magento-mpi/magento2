@@ -173,14 +173,11 @@ class ConsoleController extends AbstractActionController
         $salesConfig = '[--' . Installer::SALES_ORDER_INCREMENT_PREFIX . '=]';
         return [
             self::CMD_INSTALL => [
-                'route' => self::CMD_INSTALL . ' '
-                    . $deployConfig . ' ' . $userConfig . ' ' . $adminUser . ' ' . $salesConfig
+                'route' => self::CMD_INSTALL
+                    . " {$deployConfig} {$userConfig} {$adminUser} {$salesConfig}"
                     . ' [--' . Installer::CLEANUP_DB . ']',
-                'usage' => $deployConfig . "\n"
-                    . $userConfig . "\n"
-                    . $adminUser . "\n"
-                    . $salesConfig . "\n"
-                    . '[--' . Installer::CLEANUP_DB . ']',
+                'usage' => "{$deployConfig} {$userConfig} {$adminUser} {$salesConfig}"
+                    . ' [--' . Installer::CLEANUP_DB . ']',
                 'usage_short' => self::CMD_INSTALL . ' <options>',
                 'usage_desc' => 'Install Magento application',
             ],
@@ -332,6 +329,8 @@ class ConsoleController extends AbstractActionController
 
     /**
      * Installs user configuration
+     *
+     * @return void
      */
     public function installUserConfigAction()
     {
@@ -342,6 +341,8 @@ class ConsoleController extends AbstractActionController
 
     /**
      * Installs admin user
+     *
+     * @return void
      */
     public function installAdminUserAction()
     {
@@ -370,12 +371,37 @@ class ConsoleController extends AbstractActionController
             default:
                 if (isset($details[$type])) {
                     if ($details[$type]['usage']) {
-                        return "\nAvailable parameters:\n{$details[$type]['usage']}\n";
+                        $formatted = $this->formatCliUsage($details[$type]['usage']);
+                        return "\nAvailable parameters:\n{$formatted}\n";
                     }
                     return "\nThis command has no parameters.\n";
                 }
                 throw new \InvalidArgumentException("Unknown type: {$type}");
         }
+    }
+
+    /**
+     * Formats output of "usage" into more readable format by grouping required/optional parameters and wordwrapping
+     *
+     * @param string $text
+     * @return string
+     */
+    private function formatCliUsage($text)
+    {
+        $result = [];
+        foreach (explode(' ', $text) as  $value) {
+            if (empty($value)) {
+                continue;
+            }
+            if (strpos($value, '[') === 0) {
+                $group = 'optional';
+            } else {
+                $group = 'required';
+            }
+            $result[$group][] = $value;
+        }
+
+        return wordwrap(implode(' ', $result['required']) . "\n" . implode(' ', $result['optional']), 120);
     }
 
     /**
