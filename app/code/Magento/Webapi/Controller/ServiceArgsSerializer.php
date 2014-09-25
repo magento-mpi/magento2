@@ -219,7 +219,8 @@ class ServiceArgsSerializer
      * @param array $customAttributeValue The data object values
      * @return mixed
      */
-    protected function _createDataObjectForTypeAndArrayValue($type, $customAttributeValue) {
+    protected function _createDataObjectForTypeAndArrayValue($type, $customAttributeValue)
+    {
         $typeStrLen = strlen($type);
         if (substr($type, $typeStrLen - 2) === "[]") {
             $type = substr($type, 0, $typeStrLen - 2);
