@@ -14,5 +14,15 @@
             <locator>.giftcard</locator>
             <strategy>css selector</strategy>
         </giftCardAccountBlock>
+        <checkBlock>
+            <class>Magento\GiftCardAccount\Test\Block\Check</class>
+            <locator>.giftcard.info</locator>
+            <strategy>css selector</strategy>
+        </checkBlock>
+        <giftCardDiscountBlock>
+            <class>Magento\GiftCardAccount\Test\Block\Checkout\Cart\Total</class>
+            <locator>.giftcard.totals</locator>
+            <strategy>css selector</strategy>
+        </giftCardDiscountBlock>
     </blocks>
 </page>

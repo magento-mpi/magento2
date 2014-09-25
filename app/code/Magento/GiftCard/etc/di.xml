@@ -68,7 +68,7 @@
                 <item name="tier_price" xsi:type="string">Magento\Catalog\Pricing\Price\TierPrice</item>
                 <item name="group_price" xsi:type="string">Magento\Catalog\Pricing\Price\GroupPrice</item>
                 <item name="special_price" xsi:type="string">Magento\Catalog\Pricing\Price\SpecialPrice</item>
-                <item name="msrp_price" xsi:type="string">Magento\Catalog\Pricing\Price\MsrpPrice</item>
+                <item name="msrp_price" xsi:type="string">Magento\Msrp\Pricing\Price\MsrpPrice</item>
                 <item name="custom_option_price" xsi:type="string">Magento\Catalog\Pricing\Price\CustomOptionPrice</item>
                 <item name="base_price" xsi:type="string">Magento\Catalog\Pricing\Price\BasePrice</item>
                 <item name="configured_price" xsi:type="string">Magento\Catalog\Pricing\Price\ConfiguredPrice</item>
@@ -82,6 +82,15 @@
                 <item name="giftcard" xsi:type="array">
                     <item name="infoClass" xsi:type="string">Magento\Framework\Pricing\PriceInfo\Base</item>
                     <item name="prices" xsi:type="string">Magento\GiftCard\Pricing\Price\Collection</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\SalesRule\Model\Validator\Pool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="discount" xsi:type="array">
+                    <item name="giftcard_validator" xsi:type="object">Magento\GiftCard\Model\Validator\Discount</item>
                 </item>
             </argument>
         </arguments>

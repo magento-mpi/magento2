@@ -13,7 +13,7 @@ namespace Magento\Authorizenet\Helper;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper implements HelperInterface
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -24,12 +24,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         parent::__construct($context);

@@ -43,8 +43,8 @@
     .control {
         border-top: 1px solid @border-color-base;
         clear: both;
-        margin: 0 -10px -1px;
-        padding: 0 20px;
+        margin: 0 -@layout-width-xs-indent -1px;
+        padding: 0 @layout-width-xs-indent;
     }
 
     input {
@@ -67,7 +67,7 @@
     z-index: 3;
     overflow: hidden;
     margin-top: -15px;
-    &:extend(.add-box-sizing all);
+    &:extend(.abstract-add-box-sizing all);
     ul {
         .list-reset-styles();
         &:not(:empty) {

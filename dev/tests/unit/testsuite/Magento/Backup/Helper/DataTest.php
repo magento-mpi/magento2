@@ -8,7 +8,7 @@
 namespace Magento\Backup\Helper;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Framework\App\State\MaintenanceMode;
+use Magento\Framework\App\MaintenanceMode;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,43 +22,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected $filesystem;
 
-    /**
-     * @var \Magento\Index\Model\Resource\Process\CollectionFactory | \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $processFactory;
-
     public function setUp()
     {
         $this->filesystem = $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()
             ->getMock();
-        $this->processFactory = $this->getMockBuilder('Magento\Index\Model\Resource\Process\CollectionFactory')
-            ->setMethods(['create'])->disableOriginalConstructor()->getMock();
 
         $this->helper = (new \Magento\TestFramework\Helper\ObjectManager($this))
             ->getObject('Magento\Backup\Helper\Data', [
                 'filesystem' => $this->filesystem,
-                'processFactory' => $this->processFactory
             ]);
-    }
-
-    public function testInvalidateIndexer()
-    {
-        $process = $this->getMockBuilder('Magento\Index\Model\Process')->disableOriginalConstructor()->getMock();
-        $process->expects(
-            $this->once()
-        )->method(
-                'changeStatus'
-            )->with(
-                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
-            );
-        $iterator = $this->returnValue(new \ArrayIterator([$process]));
-        $collection = $this->getMockBuilder(
-            'Magento\Index\Model\Resource\Process\Collection'
-        )->disableOriginalConstructor()->getMock();
-        $collection->expects($this->at(0))->method('getIterator')->will($iterator);
-        $this->processFactory->expects($this->any())->method('create')->will($this->returnValue($collection));
-
-        $this->helper->invalidateIndexer();
     }
 
     public function testGetBackupIgnorePaths()
@@ -76,7 +48,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             [
                 '.git',
                 '.svn',
-                'var/maintenance.flag',
+                'var/' . MaintenanceMode::FLAG_FILENAME,
                 Filesystem::SESSION_DIR,
                 Filesystem::CACHE_DIR,
                 Filesystem::LOG_DIR,
@@ -103,7 +75,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             [
                 '.svn',
                 '.git',
-                'var/maintenance.flag',
+                'var/' . MaintenanceMode::FLAG_FILENAME,
                 Filesystem::SESSION_DIR,
                 Filesystem::LOG_DIR,
                 Filesystem::VAR_DIR . '/locks',

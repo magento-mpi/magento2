@@ -16,6 +16,7 @@
     <preference for="Magento\Sales\Service\V1\CreditmemoWriteInterface" type="Magento\Sales\Service\V1\CreditmemoWrite"/>
     <preference for="Magento\Sales\Service\V1\ShipmentReadInterface" type="Magento\Sales\Service\V1\ShipmentRead"/>
     <preference for="Magento\Sales\Service\V1\ShipmentWriteInterface" type="Magento\Sales\Service\V1\ShipmentWrite"/>
+    <preference for="Magento\Sales\Service\V1\TransactionReadInterface" type="Magento\Sales\Service\V1\TransactionRead"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
@@ -71,7 +72,19 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sales\Model\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Sales\Model\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Sales\Controller\OrderInterface">
         <plugin name="authentication" type="\Magento\Sales\Controller\Order\Plugin\Authentication"/>
+    </type>
+    <type name="Magento\Framework\App\Rss\RssManagerInterface">
+        <arguments>
+            <argument name="dataProviders" xsi:type="array">
+                <item name="order_status" xsi:type="string">Magento\Sales\Model\Rss\OrderStatus</item>
+            </argument>
+        </arguments>
     </type>
 </config>

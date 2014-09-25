@@ -12,9 +12,7 @@ use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Class AssertGiftCardAccountUsableInCartOnFrontend
@@ -34,27 +32,21 @@ class AssertGiftCardAccountUsableInCartOnFrontend extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
-     * @param Index $index
      * @param FixtureInterface $product
-     * @param GiftCardAccount $giftCardAccount
      * @param Browser $browser
+     * @param string $code
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
-        Index $index,
         FixtureInterface $product,
-        GiftCardAccount $giftCardAccount,
-        Browser $browser
+        Browser $browser,
+        $code
     ) {
-        $index->open();
-        $filter = ['balance' => $giftCardAccount->getBalance()];
-        $value = $index->getGiftCardAccount()->getCode($filter, false);
-
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $catalogProductView->getViewBlock()->clickAddToCart();
-        $checkoutCart->getGiftCardAccountBlock()->addGiftCard($value);
+        $checkoutCart->getGiftCardAccountBlock()->addGiftCard($code);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $checkoutCart->getMessagesBlock()->assertSuccessMessage(),
@@ -64,7 +56,7 @@ class AssertGiftCardAccountUsableInCartOnFrontend extends AbstractConstraint
     }
 
     /**
-     * Success assert that gift card usable in frontend
+     * Returns a string representation of the object
      *
      * @return string
      */

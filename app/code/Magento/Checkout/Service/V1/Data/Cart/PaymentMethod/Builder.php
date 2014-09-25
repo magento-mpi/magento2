@@ -12,9 +12,6 @@ use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod as QuotePaymentMethod;
 use Magento\Sales\Model\Quote;
 use Magento\Framework\Exception\LocalizedException;
 
-/**
- * Class Builder
- */
 class Builder
 {
     /**

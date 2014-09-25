@@ -10,6 +10,7 @@ namespace Magento\User\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Mtf\ObjectManager;
 
 /**
  * Class UserWithRestrictedRole
@@ -22,6 +23,7 @@ class UserWithRestrictedRoleTest extends Functional
      */
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-27660');
         Factory::getApp()->magentoBackendLoginUser();
     }
 
@@ -69,6 +71,15 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
+        /** @var \Mtf\System\Config $systemConfig */
+        $systemConfig = ObjectManager::getInstance()->create('Mtf\System\Config');
+        $superAdminPassword = $systemConfig->getConfigParam('application/backend_user_credentials/password');
+        /** @var \Magento\User\Test\Fixture\User $userFixtureCurrentPasswordOnly */
+        $userFixtureCurrentPasswordOnly = Factory::getObjectManager()->create(
+            'Magento\User\Test\Fixture\User',
+            ['data' => ['current_password' => $superAdminPassword]]
+        );
+        $editForm->fill($userFixtureCurrentPasswordOnly);
         $editForm->openTab('user-role');
         $rolesGrid = $editUser->getRolesGrid();
         $rolesGrid->searchAndSelect(['rolename' => $data['rolename']]);

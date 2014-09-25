@@ -24,11 +24,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     const CONTEXT_STORE = 'store';
 
+    /**#@+
+     * Paths for various config settings
+     */
+    const XML_PATH_DEFAULT_LOCALE = 'general/locale/code';
+    const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
     const XML_PATH_DEFAULT_COUNTRY = 'general/country/default';
-
     const XML_PATH_DEV_ALLOW_IPS = 'dev/restrict/allow_ips';
-
     const XML_PATH_CONNECTION_TYPE = 'global/resources/default_setup/connection/type';
+    /**#@- */
 
     /**
      * Const for correct dividing decimal values
@@ -53,7 +57,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -75,7 +79,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
      * @param PriceCurrencyInterface $priceCurrency
      * @param bool $dbCompatibleMode
@@ -83,7 +87,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
         PriceCurrencyInterface $priceCurrency,
         $dbCompatibleMode = true
@@ -195,7 +199,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $types = array();
         foreach ($this->_cacheConfig->getTypes() as $type => $node) {
-            $types[$type] = $node['label'];
+            if (array_key_exists('label', $node)) {
+                $types[$type] = $node['label'];
+            }
         }
         return $types;
     }

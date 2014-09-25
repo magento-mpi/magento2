@@ -16,12 +16,12 @@
             <module name="Magento_GiftCard"/>
         </sequence>
         <depends>
-            <module name="Magento_Store"/>
             <module name="Magento_Bundle"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Downloadable"/>
             <module name="Magento_GiftCard"/>
             <module name="Magento_Backend"/>
+            <module name="Magento_Msrp"/>
         </depends>
     </module>
 </config>

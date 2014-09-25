@@ -38,7 +38,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     protected $_registry = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     private $_storeManager = null;
 
@@ -86,7 +86,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -102,7 +102,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Framework\Message\ManagerInterface $messageManager

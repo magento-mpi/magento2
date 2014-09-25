@@ -6,13 +6,11 @@
  * @license     {license_link}
  */
 
-/**
- * Custom currency symbol model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\CurrencySymbol\Model\System;
 
+/**
+ * Custom currency symbol model
+ */
 class Currencysymbol
 {
     /**
@@ -53,7 +51,7 @@ class Currencysymbol
      */
     const XML_PATH_CUSTOM_CURRENCY_SYMBOL = 'currency/options/customsymbol';
 
-    const XML_PATH_ALLOWED_CURRENCIES = 'currency/options/allow';
+    const XML_PATH_ALLOWED_CURRENCIES = \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW;
 
     /*
      * Separator used in config in allowed currencies list
@@ -88,7 +86,7 @@ class Currencysymbol
     protected $_systemStore;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -114,7 +112,7 @@ class Currencysymbol
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $coreConfig
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -124,7 +122,7 @@ class Currencysymbol
         \Magento\Framework\App\Config\ReinitableConfigInterface $coreConfig,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Framework\Event\ManagerInterface $eventManager
@@ -137,34 +135,6 @@ class Currencysymbol
         $this->_systemStore = $systemStore;
         $this->_eventManager = $eventManager;
         $this->_scopeConfig = $scopeConfig;
-    }
-
-    /**
-     * Sets store Id
-     *
-     * @param  string|null $storeId
-     * @return $this
-     */
-    public function setStoreId($storeId = null)
-    {
-        $this->_storeId = $storeId;
-        $this->_symbolsData = array();
-
-        return $this;
-    }
-
-    /**
-     * Sets website Id
-     *
-     * @param string|null $websiteId
-     * @return $this
-     */
-    public function setWebsiteId($websiteId = null)
-    {
-        $this->_websiteId = $websiteId;
-        $this->_symbolsData = array();
-
-        return $this;
     }
 
     /**
@@ -291,6 +261,8 @@ class Currencysymbol
         $this->_storeManager->reinitStores();
 
         $this->clearCache();
+        //Reset symbols cache since new data is added
+        $this->_symbolsData = [];
 
         $this->_eventManager->dispatch(
             'admin_system_config_changed_section_currency',
@@ -321,7 +293,7 @@ class Currencysymbol
      *
      * @return $this
      */
-    public function clearCache()
+    protected function clearCache()
     {
         // clear cache for frontend
         foreach ($this->_cacheTypes as $cacheType) {

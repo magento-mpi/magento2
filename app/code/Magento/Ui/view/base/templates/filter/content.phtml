@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Filter\View $this
+ */
+?>
+<fieldset class="field field-<?php echo $this->getData('data_type') ?>">
+    <legend class="label"><?php echo $this->renderElementLabel($this->getData('data_type'), [
+            'title' => $this->getData('title')
+        ]); ?></legend>
+    <div class="control">
+        <?php echo $this->renderElement($this->getData('filter_type'), [
+            'title' => $this->getData('title'),
+            'options' => $this->getData('options')
+        ]); ?>
+    </div>
+</fieldset>

@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model;
 
-class StoreManager implements \Magento\Store\Model\StoreManagerInterface
+class StoreManager implements \Magento\Framework\StoreManagerInterface
 {
     /**
      * Application run code
@@ -104,7 +104,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Get storage instance
      *
-     * @return \Magento\Store\Model\StoreManagerInterface
+     * @return \Magento\Framework\StoreManagerInterface
      */
     protected function _getStorage()
     {
@@ -162,11 +162,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Retrieve application store object
-     *
-     * @param null|string|bool|int|Store $storeId
-     * @return Store
-     * @throws \Magento\Store\Model\Exception
+     * {@inheritdoc}
      */
     public function getStore($storeId = null)
     {
@@ -230,11 +226,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Retrieve application store group object
-     *
-     * @param null|\Magento\Store\Model\Group|string $groupId
-     * @return \Magento\Store\Model\Group
-     * @throws \Magento\Framework\Model\Exception
+     * {@inheritdoc}
      */
     public function getGroup($groupId = null)
     {

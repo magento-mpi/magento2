@@ -88,6 +88,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
         )->setMethods(
             array(
+                'getId',
                 'getAttributeCode',
                 'getFrontendInput',
                 'getInputFilter',
@@ -128,6 +129,11 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getAttribute')
             ->will($this->returnValue($this->attributeEntityMock));
+
+        $this->attributeEntityMock
+            ->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
 
         $this->attributeMetadataConverter
             ->expects($this->any())

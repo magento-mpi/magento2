@@ -65,7 +65,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->jsHelperMock = $this->getMock('Magento\Backend\Helper\Js', array(), array(), '', false);
         $this->storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->websiteMock = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
-        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
 
         $this->stockFilterMock = $this->getMock(
             'Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter',
@@ -134,7 +134,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $productData = array(
             'stock_data' => array('stock_data'),
-            'url_key_create_redirect' => true,
             'options' => array('option1', 'option2')
         );
 
@@ -194,24 +193,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             ->with($productData);
 
         $this->productMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(true));
-
-        $this->productMock->expects($this->once())
             ->method('setWebsiteIds')
             ->with(array($this->websiteId));
-
-        $this->productMock->expects($this->at(6))
-            ->method('setData')
-            ->with('save_rewrites_history', true);
-
-        $this->productMock->expects($this->at(7))
-            ->method('setData')
-            ->with('attributeCode1', false);
-
-        $this->productMock->expects($this->at(8))
-            ->method('setData')
-            ->with('attributeCode2', false);
 
         $this->productMock->expects($this->any())
             ->method('getOptionsReadOnly')

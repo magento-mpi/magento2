@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\Search\Request;
 
-use Magento\Framework\Search\Request\Query\Filter;
 use Magento\Framework\Exception\StateException;
+use Magento\Framework\Search\Request\Query\Filter;
 
 class Mapper
 {
@@ -35,7 +35,7 @@ class Mapper
     /**
      * @var array
      */
-    private $aggregation;
+    private $aggregations;
 
     /**
      * @var \Magento\Framework\ObjectManager
@@ -51,7 +51,7 @@ class Mapper
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param array $queries
      * @param string $rootQueryName
-     * @param array $aggregation
+     * @param array $aggregations
      * @param array $filters
      * @throws \Exception
      * @throws \InvalidArgumentException
@@ -61,23 +61,15 @@ class Mapper
         \Magento\Framework\ObjectManager $objectManager,
         array $queries,
         $rootQueryName,
-        array $aggregation,
+        array $aggregations = [],
         array $filters = []
     ) {
         $this->objectManager = $objectManager;
         $this->queries = $queries;
-        $this->aggregation = $aggregation;
+        $this->aggregations = $aggregations;
         $this->filters = $filters;
 
         $this->rootQuery = $this->get($rootQueryName);
-    }
-
-    /**
-     * @return QueryInterface
-     */
-    public function getRootQuery()
-    {
-        return $this->rootQuery;
     }
 
     /**
@@ -122,6 +114,7 @@ class Mapper
                     'Magento\Framework\Search\Request\Query\Match',
                     [
                         'name' => $query['name'],
+                        'value' => $query['value'],
                         'boost' => isset($query['boost']) ? $query['boost'] : 1,
                         'matches' => $query['match']
                     ]
@@ -164,36 +157,6 @@ class Mapper
     }
 
     /**
-     * Aggregate Queries by clause
-     *
-     * @param array $data
-     * @return array
-     */
-    private function aggregateQueriesByType($data)
-    {
-        $list = [];
-        foreach ($data as $value) {
-            $list[$value['clause']][$value['ref']] = $this->mapQuery($value['ref']);
-        }
-        return $list;
-    }
-
-    /**
-     * Aggregate Filters by clause
-     *
-     * @param array $data
-     * @return array
-     */
-    private function aggregateFiltersByType($data)
-    {
-        $list = [];
-        foreach ($data as $value) {
-            $list[$value['clause']][$value['ref']] = $this->mapFilter($value['ref']);
-        }
-        return $list;
-    }
-
-    /**
      * Convert array to Filter instance
      *
      * @param string $filterName
@@ -229,11 +192,20 @@ class Mapper
                     [
                         'name' => $filter['name'],
                         'field' => $filter['field'],
-                        'from' => $filter['from'],
-                        'to' => $filter['to']
+                        'from' => isset($filter['from']) ? $filter['from'] : null,
+                        'to' => isset($filter['to']) ? $filter['to'] : null
                     ]
                 );
-
+                break;
+            case FilterInterface::TYPE_WILDCARD:
+                $filter = $this->objectManager->create(
+                    'Magento\Framework\Search\Request\Filter\Wildcard',
+                    [
+                        'name' => $filter['name'],
+                        'field' => $filter['field'],
+                        'value' => $filter['value']
+                    ]
+                );
                 break;
             case FilterInterface::TYPE_BOOL:
                 $aggregatedByType = $this->aggregateFiltersByType($filter['filterReference']);
@@ -252,6 +224,36 @@ class Mapper
     }
 
     /**
+     * Aggregate Filters by clause
+     *
+     * @param array $data
+     * @return array
+     */
+    private function aggregateFiltersByType($data)
+    {
+        $list = [];
+        foreach ($data as $value) {
+            $list[$value['clause']][$value['ref']] = $this->mapFilter($value['ref']);
+        }
+        return $list;
+    }
+
+    /**
+     * Aggregate Queries by clause
+     *
+     * @param array $data
+     * @return array
+     */
+    private function aggregateQueriesByType($data)
+    {
+        $list = [];
+        foreach ($data as $value) {
+            $list[$value['clause']][$value['ref']] = $this->mapQuery($value['ref']);
+        }
+        return $list;
+    }
+
+    /**
      * @return void
      * @throws StateException
      */
@@ -267,16 +269,7 @@ class Mapper
      */
     private function validateQueries()
     {
-        $this->validateNotUsed($this->queries, $this->mappedQueries, 'Query %1 not used in request hierarchy');
-    }
-
-    /**
-     * @return void
-     * @throws StateException
-     */
-    private function validateFilters()
-    {
-        $this->validateNotUsed($this->filters, $this->mappedFilters, 'Filter %1 not used in request hierarchy');
+        $this->validateNotUsed($this->queries, $this->mappedQueries, 'Query %1 is not used in request hierarchy');
     }
 
     /**
@@ -296,6 +289,23 @@ class Mapper
     }
 
     /**
+     * @return void
+     * @throws StateException
+     */
+    private function validateFilters()
+    {
+        $this->validateNotUsed($this->filters, $this->mappedFilters, 'Filter %1 is not used in request hierarchy');
+    }
+
+    /**
+     * @return QueryInterface
+     */
+    public function getRootQuery()
+    {
+        return $this->rootQuery;
+    }
+
+    /**
      * Build BucketInterface[] from array
      *
      * @return array
@@ -304,13 +314,13 @@ class Mapper
     public function getBuckets()
     {
         $buckets = array();
-        foreach ($this->aggregation as $bucketData) {
+        foreach ($this->aggregations as $bucketData) {
             $arguments =
-            [
-                'name' => $bucketData['name'],
-                'field' => $bucketData['field'],
-                'metrics' => $this->mapMetrics($bucketData['metric'])
-            ];
+                [
+                    'name' => $bucketData['name'],
+                    'field' => $bucketData['field'],
+                    'metrics' => $this->mapMetrics($bucketData['metric'])
+                ];
             switch ($bucketData['type']) {
                 case BucketInterface::TYPE_TERM:
                     $bucket = $this->objectManager->create(

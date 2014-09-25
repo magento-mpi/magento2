@@ -130,4 +130,7 @@
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
         </require>
     </assertCustomerCustomAttributeNotOnCustomerEditPage>
+    <assertCustomerCustomAttributeErrorSaveMessage module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+    </assertCustomerCustomAttributeErrorSaveMessage>
 </constraint>

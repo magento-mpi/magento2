@@ -24,7 +24,7 @@ class Observer
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -48,13 +48,13 @@ class Observer
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_itemCollectionFactory = $itemCollectionFactory;

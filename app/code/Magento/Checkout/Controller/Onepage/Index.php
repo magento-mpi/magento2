@@ -28,6 +28,7 @@ class Index extends \Magento\Checkout\Controller\Onepage
             return;
         }
 
+        $this->_customerSession->regenerateId();
         $this->_objectManager->get('Magento\Checkout\Model\Session')->setCartWasUpdated(false);
         $currentUrl = $this->_objectManager->create('Magento\Framework\UrlInterface')
             ->getUrl(
@@ -39,7 +40,7 @@ class Index extends \Magento\Checkout\Controller\Onepage
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
-        $layout->getBlock('head')->setTitle(__('Checkout'));
+        $this->_view->getPage()->getConfig()->setTitle(__('Checkout'));
         $this->_view->renderLayout();
     }
 }

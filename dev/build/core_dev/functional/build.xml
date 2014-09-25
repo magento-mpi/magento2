@@ -9,128 +9,23 @@
  * @license    {license_link}
  */
 -->
-<project name="Core Development Functional Tests" basedir="../../../../" default="run">
+<project name="Core Development Functional Tests" basedir="../../../../" default="run-ee">
     <import file="../util.xml"/>
 
-    <target name="run-ee" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
-        <script language="javascript"><![CDATA[
-            if (project.getProperty('env.bamboo_desired_agent')
-                && project.getProperty('env.bamboo_desired_agent') != ''
-                && project.getProperty('env.agent_name')
-                && project.getProperty('env.bamboo_desired_agent') != project.getProperty('env.agent_name')
-            ) {
-                project.setProperty('error_message', 'This plan should be executed on agent "'
-                    + project.getProperty('env.bamboo_desired_agent') + '", while currently it is executed on "'
-                    + project.getProperty('env.agent_name') + '".');
-            }
-        ]]></script>
-        <fail if="error_message" message="${error_message}"/>
-
-        <fail if="max_instances" message="'max_instances' must be not set explicitly, use 'instance_count' instead."/>
-        <script language="javascript"><![CDATA[
-            var errorMessages = [];
-
-            var variables = {
-                build_customization_dir: '',
-                db_host: '',
-                db_name_prefix: '',
-                db_user: '',
-                db_password: '',
-                deploy_directory: '',
-                http_host: ' (e.g. http://myhost.com/mypath/)',
-                https_host: ' (e.g. https://myhost.com/mypath/)',
-                instance_count: '',
-                selenium_browser: ' (e.g. firefox, googlechrome etc; see server.yml.dist)',
-                selenium_host: '',
-                selenium_port: '',
-                selenium_timeout: '',
-            };
-            for (var name in variables) {
-                if (project.getProperty('env.' + name) === null) {
-                    errorMessages.push('Environment variable "' + name + '" must be defined' + variables[name] + '.');
-                }
-            }
-
-            variables = {
-                executer_options: '',
-                instance_count: '',
-                tests_executed: ' (relative path or few paths combined into one mask, for instance testsuite/{dir1/subdir1/*name1,dir2/*subdir2*,dir3/name3*})',
-            };
-            for (name in variables) {
-                if (project.getProperty('env.bamboo_' + name) === null) {
-                    errorMessages.push('Bamboo variable "' + name + '" must be defined' + variables[name] + '.');
-                }
-            }
-
-            if (errorMessages.length > 0) {
-                project.setProperty('error_message', errorMessages.join('\n'));
-            } else {
-                project.setProperty('max_instances', Math.min(project.getProperty('env.instance_count'),
-                    project.getProperty('env.bamboo_instance_count')
-                ));
-                var echo = project.createTask('echo');
-                echo.setMessage('Maximum ' + project.getProperty('env.instance_count')
-                    + ' instances supported by environment, '
-                    + project.getProperty('env.bamboo_instance_count') + ' expected by plan.');
-                echo.execute();
-            }
-        ]]></script>
-
-        <fail if="error_message" message="${error_message}"/>
-
-        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
-        <delete dir="${dir.build_directory}"/>
-
-        <antcall target="_product_edition">
-            <param name="product_edition_code" value="ee"/>
+    <target name="run-ee" depends="_server_info" description="Run functional tests on EE">
+        <antcall>
+            <target name="_enterprise_edition"/>
+            <target name="run"/>
         </antcall>
-
-        <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
-              tofile="${basedir}/dev/tests/functional/composer.json"/>
-
-        <condition property="env.bamboo_mtf_repository" value="git://github.scm.corp.ebay.com/mtf/mtf.git">
-            <not><isset property="env.bamboo_mtf_repository"/></not>
-        </condition>
-        <condition property="env.bamboo_mtf_branch" value="develop">
-            <not><isset property="env.bamboo_mtf_branch"/></not>
-        </condition>
-        <replace file="${basedir}/dev/tests/functional/composer.json">
-            <replacefilter token="{{mtf_repository}}" value="${env.bamboo_mtf_repository}"/>
-            <replacefilter token="{{mtf_branch}}" value="${env.bamboo_mtf_branch}"/>
-        </replace>
-
-        <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="install --prefer-source --no-interaction"/>
-        </exec>
-
-        <script language="javascript"><![CDATA[
-            var parallel = project.createTask('parallel');
-
-            var maxInstances = project.getProperty('max_instances');
-            for (var instanceIndex = 0; instanceIndex < maxInstances; instanceIndex++) {
-                var antcall = project.createTask('antcall');
-                antcall.setTarget('deploy-magento-instance');
-                antcall.setInheritAll(true);
-
-                var param = antcall.createParam();
-                param.setName('instanceIndex');
-                param.setValue(instanceIndex);
-
-                parallel.addTask(antcall);
-            }
-
-            parallel.execute();
-        ]]></script>
-
-        <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
-            <arg line="--log-junit ${basedir}/test-cases-report.xml
-                --bootstrap config/bootstrap-with-cleanup-enabled.php
-                 ${env.bamboo_executer_options}
-                "/>
-        </exec>
+    </target>
+    <target name="run-ce" depends="_server_info" description="Run functional tests on CE">
+        <antcall>
+            <target name="_community_edition"/>
+            <target name="run"/>
+        </antcall>
     </target>
 
-    <target name="run-ce" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
+    <target name="run" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')
                 && project.getProperty('env.bamboo_desired_agent') != ''
@@ -199,10 +94,6 @@
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
-        <antcall target="_product_edition">
-            <param name="product_edition_code" value="ce"/>
-        </antcall>
-
         <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
@@ -222,28 +113,33 @@
         </exec>
 
         <script language="javascript"><![CDATA[
-            var parallel = project.createTask('parallel');
+            var antcall = project.createTask('antcall');
+            antcall.setTarget('deploy-magento-instance');
+            antcall.setInheritAll(true);
+            var param = antcall.createParam();
+            param.setName('instanceIndex');
+            param.setValue(0);
+            antcall.execute();
 
             var maxInstances = project.getProperty('max_instances');
-            for (var instanceIndex = 0; instanceIndex < maxInstances; instanceIndex++) {
-                var antcall = project.createTask('antcall');
-                antcall.setTarget('deploy-magento-instance');
-                antcall.setInheritAll(true);
-
-                var param = antcall.createParam();
-                param.setName('instanceIndex');
-                param.setValue(instanceIndex);
-
-                parallel.addTask(antcall);
+            if (maxInstances > 1) {
+                var parallel = project.createTask('parallel');
+                for (var instanceIndex = 1; instanceIndex < maxInstances; instanceIndex++) {
+                    var antcall = project.createTask('antcall');
+                    antcall.setTarget('deploy-magento-instance');
+                    antcall.setInheritAll(true);
+                    var param = antcall.createParam();
+                    param.setName('instanceIndex');
+                    param.setValue(instanceIndex);
+                    parallel.addTask(antcall);
+                }
+                parallel.execute();
             }
-
-            parallel.execute();
-
         ]]></script>
 
         <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
-                --bootstrap config/bootstrap-with-cleanup-enabled.php
+                --bootstrap config/bootstrap.php
                  ${env.bamboo_executer_options}
                 "/>
         </exec>
@@ -299,6 +195,15 @@
             <replacefilter token="{{tests_configuration}}" value="${env.bamboo_tests_configuration}" />
         </replace>
 
+        <script language="javascript"><![CDATA[
+            var currentInstance = project.getProperty('instanceIndex');
+            if (currentInstance > 0) {
+                self.project.executeTarget('_import_mysql_dump');
+                self.project.executeTarget('_copy_local_xml');
+                self.project.executeTarget('_update_db');
+            }
+        ]]></script>
+
         <!-- Adds the parallelized instances to the phpunit.xml -->
         <script language="javascript"><![CDATA[
             importClass(java.io.File);
@@ -344,7 +249,7 @@
 
         <script language="javascript"><![CDATA[
             var currentInstance = project.getProperty('instanceIndex');
-            if (currentInstance != 0) {
+            if (currentInstance == 0) {
                 self.project.executeTarget( '_install_standalone_application' );
             }
         ]]></script>
@@ -355,9 +260,39 @@
             <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php'/>
         </exec>
     </target>
+
     <target name="_install_standalone_application">
         <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/">
             <arg line="-f standalone-installer.php"/>
+        </exec>
+    </target>
+
+    <target name="_import_mysql_dump">
+        <exec executable="/usr/bin/mysql" input="${dir.build_directory}/instance-0/dev/tests/functional/config/${env.db_name_prefix}0.sql" failonerror="true">
+            <arg value="-u${env.db_user}"/>
+            <arg value="-p${env.db_password}"/>
+            <arg value="-h${env.db_host}"/>
+            <arg value="-D${env.db_name_prefix}${instanceIndex}"/>
+        </exec>
+    </target>
+
+    <target name="_copy_local_xml">
+        <copy file="${dir.build_directory}/instance-0/app/etc/local.xml" failonerror="true" overwrite="true"
+              tofile="${dir.build_directory}/instance-${instanceIndex}/app/etc/local.xml"/>
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/app/etc/local.xml">
+            <replacefilter token="${env.db_name_prefix}0" value="${env.db_name_prefix}${instanceIndex}"/>
+        </replace>
+    </target>
+
+    <target name="_update_db">
+        <exec executable="/usr/bin/mysql" failonerror="true">
+            <arg value="-u${env.db_user}"/>
+            <arg value="-p${env.db_password}"/>
+            <arg value="-h${env.db_host}"/>
+            <arg value="-D${env.db_name_prefix}${instanceIndex}"/>
+            <arg value="-e"/>
+            <arg value="UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/secure/base_url';
+                UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/unsecure/base_url';"/>
         </exec>
     </target>
 </project>

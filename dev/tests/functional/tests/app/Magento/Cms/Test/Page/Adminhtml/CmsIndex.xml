@@ -16,7 +16,7 @@
         </pageActionsBlock>
         <cmsPageGridBlock>
             <class>Magento\Cms\Test\Block\Adminhtml\Page\Grid</class>
-            <locator>#cmsPageGrid</locator>
+            <locator>.grid</locator>
             <strategy>css selector</strategy>
         </cmsPageGridBlock>
         <messagesBlock>

@@ -9,7 +9,8 @@ namespace Magento\Doc\Ui\Widget\Document;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Scheme;
+use Magento\Doc\Document\Outline as DocumentOutline;
+use Magento\Doc\Document\ItemFactory;
 use Magento\Doc\Document\Item;
 use Magento\Doc\Document\Type\Factory;
 use Magento\Doc\Document\Filter;
@@ -17,9 +18,9 @@ use Magento\Doc\Document\Filter;
 class Content extends Template
 {
     /**
-     * @var Scheme
+     * @var DocumentOutline
      */
-    protected $scheme;
+    protected $outline;
 
     /**
      * @var Factory
@@ -44,7 +45,12 @@ class Content extends Template
     /**
      * @var string
      */
-    protected $schemeName;
+    protected $outlineName;
+
+    /**
+     * @var ItemFactory
+     */
+    protected $itemFactory;
 
     /**
      * @var Item
@@ -65,25 +71,28 @@ class Content extends Template
      * Constructor
      *
      * @param Context $context
-     * @param Scheme $scheme
+     * @param DocumentOutline $outline
      * @param Factory $typeFactory
+     * @param ItemFactory $itemFactory
      * @param Filter $filter
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Scheme $scheme,
+        DocumentOutline $outline,
         Factory $typeFactory,
+        ItemFactory $itemFactory,
         Filter $filter,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->scheme = $scheme;
+        $this->outline = $outline;
         $this->typeFactory = $typeFactory;
+        $this->itemFactory = $itemFactory;
         $this->filter = $filter;
-        $this->schemeName = $this->_request->getParam('doc_scheme');
-        $this->document = $this->scheme->get($this->schemeName . '.xml');
-        $this->dictionary = $this->scheme->get('help/dictionary.xml');
+        $this->outlineName = $this->_request->getParam('doc_name');
+        $this->document = $this->outline->get($this->outlineName . '.xml');
+        $this->dictionary = $this->outline->get('help/dictionary.xml');
         $this->itemTemplate = $this->fetchView($this->getTemplateFile('Magento_Doc::html/widget/document/item.phtml'));
         $this->errorTemplate = $this->fetchView($this->getTemplateFile('Magento_Doc::html/widget/document/item.error.phtml'));
     }
@@ -96,17 +105,17 @@ class Content extends Template
     public function renderDocumentHtml()
     {
         $content = '';
-        if ($article = $this->_request->getParam('article')) {
-            $item = $this->findItem($article);
-            if ($item) {
-                $items = [$article => $item];
+        if ($itemName = $this->_request->getParam('item')) {
+            $item = $this->findItem($itemName);
+            if (!empty($item)) {
+                $items = [$itemName => $item];
             } else {
                 $items = [];
             }
         } else {
             $items = isset($this->document['content']['Overview'])
                 ? ['Overview' => $this->document['content']['Overview']]
-            : $this->document['content'];
+            : (isset($this->document['content']) ? $this->document['content'] : []);
         }
 
         foreach ($items as $name => $item) {
@@ -152,14 +161,15 @@ class Content extends Template
      */
     protected function renderItemHtml($name, array $item)
     {
-        $item['scheme'] = $this->schemeName;
-        $this->currentItem = new Item($item);
+        $item['outline'] = $this->outlineName;
+        $this->currentItem = $this->itemFactory->create(['data' => $item]);
         try {
             $content = $this->typeFactory->get($this->currentItem->getData('type'))->getContent($this->currentItem);
             $vars = [
                 'render' => $this,
                 'name' => $name,
-                'content' => $content,
+                'display_content' => $content,
+                'src_content' => $content,
                 'data' => $this->currentItem
             ];
             $this->filter->setVariables($vars);
@@ -186,6 +196,13 @@ class Content extends Template
         return $this->filter->preProcess($content, $this->dictionary);
     }
 
+    /**
+     * Retrieve Document Outline item
+     *
+     * @param string $name
+     * @param array $parent
+     * @return array
+     */
     protected function findItem($name, array $parent = null)
     {
         if ($parent === null) {
@@ -203,6 +220,6 @@ class Content extends Template
                 }
             }
         }
-        return null;
+        return [];
     }
 }

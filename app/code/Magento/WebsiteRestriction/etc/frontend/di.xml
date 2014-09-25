@@ -11,4 +11,9 @@
     <type name="Magento\Customer\Helper\Data">
         <plugin name="websiterestriction_customer_registration_plugin" type="Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration"/>
     </type>
+    <type name="\Magento\WebsiteRestriction\Model\Observer\RestrictWebsite">
+        <arguments>
+            <argument name="restrictor" xsi:type="object">Magento\WebsiteRestriction\Model\Restrictor\Proxy</argument>
+        </arguments>
+    </type>
 </config>

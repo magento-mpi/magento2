@@ -98,6 +98,7 @@ return array(
     array('addCustomerSegmentRelationsToCollection', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_getRuleProductsTable', 'Magento\TargetRule\Model\Resource\Rule'),
     array('getCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
+    array('setCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_saveCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_prepareRuleProducts', 'Magento\TargetRule\Model\Resource\Rule'),
     array('getInetNtoaExpr', 'Magento\Logging\Model\Resource\Helper'),
@@ -229,5 +230,30 @@ return array(
     ['getTierPriceHtml', 'Magento\AdvancedCheckout\Block\Sku\Products\Info'],
     ['sendNewRmaEmail', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::sendNewRmaEmail'],
     ['sendAuthorizeEmail', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::sendAuthorizeEmail'],
-    ['_sendRmaEmailWithItems', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::_sendRmaEmailWithItems']
+    ['_sendRmaEmailWithItems', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::_sendRmaEmailWithItems'],
+    [
+        'beforeRebuildIndex',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull'
+    ],
+    [
+        'afterRebuildIndex',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull'
+    ],
+    [
+        'reindexAll',
+        'Magento\ScheduledImportExport\Model\Import',
+        'Magento\ImportExport\Model\Import::invalidateIndex'
+    ],
+    ['_beforeLoad', 'Magento\Search\Model\Resource\Collection'],
+    ['_afterLoad', 'Magento\Search\Model\Resource\Collection'],
+    ['setEngine', 'Magento\Search\Model\Resource\Collection'],
+    ['customerGroupSaveAfter', 'Magento\Search\Model\Observer'],
+    ['saveStoreIdsBeforeScopeDelete', 'Magento\Search\Model\Observer'],
+    ['clearIndexForStores', 'Magento\Search\Model\Observer'],
+    ['runFulltextReindexAfterPriceReindex', 'Magento\Search\Model\Observer'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Export'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'],
+    ['modifyExpiredQuotesCleanup', 'Magento\PersistentHistory\Model\Observer'],
 );

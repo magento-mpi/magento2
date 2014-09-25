@@ -9,7 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
     <event name="adminhtml_sales_order_create_process_data_before">
-        <observer name="addBySku" instance="Magento\AdvancedCheckout\Model\Observer" method="addBySku" />
-        <observer name="uploadSkuCsv" instance="Magento\AdvancedCheckout\Model\Observer" method="uploadSkuCsv" />
+        <observer name="addBySku" instance="Magento\AdvancedCheckout\Model\Observer\AddBySku" method="execute" />
+        <observer name="uploadSkuCsv" instance="Magento\AdvancedCheckout\Model\Observer\UploadSkuCsv" method="execute" />
     </event>
 </config>

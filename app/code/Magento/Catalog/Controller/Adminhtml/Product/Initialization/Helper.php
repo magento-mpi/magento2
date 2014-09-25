@@ -15,7 +15,7 @@ class Helper
     protected $request;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -36,14 +36,14 @@ class Helper
 
     /**
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param StockDataFilter $stockFilter
      * @param \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $productLinks
      * @param \Magento\Backend\Helper\Js $jsHelper
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         StockDataFilter $stockFilter,
         \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $productLinks,
         \Magento\Backend\Helper\Js $jsHelper
@@ -90,13 +90,6 @@ class Helper
 
         if ($this->storeManager->hasSingleStore()) {
             $product->setWebsiteIds(array($this->storeManager->getStore(true)->getWebsite()->getId()));
-        }
-
-        /**
-         * Create Permanent Redirect for old URL key
-         */
-        if ($product->getId() && isset($productData['url_key_create_redirect'])) {
-            $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
         }
 
         /**
