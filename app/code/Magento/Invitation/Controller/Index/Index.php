@@ -23,10 +23,7 @@ class Index extends \Magento\Invitation\Controller\Index
         if ($block = $this->_view->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('My Invitations'));
-        }
+        $this->_view->getPage()->getConfig()->setTitle(__('My Invitations'));
         $this->_view->renderLayout();
     }
 }
