@@ -45,6 +45,13 @@ class Wishlist extends Block
     protected $updateButton = '.action.update';
 
     /**
+     * Empty block css selector
+     *
+     * @var string
+     */
+    protected $empty = '.message.info.empty';
+
+    /**
      * Click button "Share Wish List"
      *
      * @return void
@@ -85,5 +92,15 @@ class Wishlist extends Block
     public function clickUpdateWishlist()
     {
         $this->_rootElement->find($this->updateButton)->click();
+    }
+
+    /**
+     * Empty block visible
+     *
+     * @return bool
+     */
+    public function isEmptyBlockVisible()
+    {
+        return $this->_rootElement->find($this->empty)->isVisible();
     }
 }
