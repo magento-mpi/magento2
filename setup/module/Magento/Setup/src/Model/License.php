@@ -59,25 +59,15 @@ class License
     }
 
     /**
-     * Checks if license file exists
-     *
-     * @return boolean
-     */
-    public function isLicenseAvailable()
-    {
-        if (file_exists($this->licenseFile)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Returns contents of License file.
      *
      * @return string
      */
     public function getContents()
     {
+        if (!file_exists($this->licenseFile)) {
+            return false;
+        }
         return file_get_contents($this->licenseFile);
     }
 }
