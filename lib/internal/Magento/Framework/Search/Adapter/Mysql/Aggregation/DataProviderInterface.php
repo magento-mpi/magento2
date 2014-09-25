@@ -18,5 +18,5 @@ interface DataProviderInterface
      * @param RequestInterface $request
      * @return Select
      */
-    public function getTermDataSet(BucketInterface $bucket, RequestInterface $request);
+    public function getDataSet(BucketInterface $bucket, RequestInterface $request);
 }

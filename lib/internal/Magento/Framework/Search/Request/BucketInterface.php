@@ -19,6 +19,8 @@ interface BucketInterface
 
     const TYPE_RANGE = 'rangeBucket';
 
+    const FIELD_VALUE = 'value';
+
     /**#@-*/
 
     /**

@@ -9,7 +9,9 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 
 use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container as AggregationContainer;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Term;
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderContainer;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\AdapterInterface;
 use Magento\Framework\Search\Request\BucketInterface;
@@ -47,26 +49,40 @@ class Adapter implements AdapterInterface
      * @var DataProviderInterface
      */
     private $dataProvider;
+    /**
+     * @var DataProviderContainer
+     */
+    private $dataProviderContainer;
+    /**
+     * @var AggregationContainer
+     */
+    private $aggregationContainer;
 
     /**
      * @param Mapper $mapper
      * @param ResponseFactory $responseFactory
      * @param Resource $resource
      * @param Aggregation\Builder\Term $termBuilder
+     * @param DataProviderContainer $dataProviderContainer
      * @param DataProviderInterface $dataProvider
+     * @param AggregationContainer $aggregationContainer
      */
     public function __construct(
         Mapper $mapper,
         ResponseFactory $responseFactory,
         Resource $resource,
         Term $termBuilder,
-        DataProviderInterface $dataProvider
+        DataProviderContainer $dataProviderContainer,
+        DataProviderInterface $dataProvider,
+        AggregationContainer $aggregationContainer
     ) {
         $this->mapper = $mapper;
         $this->responseFactory = $responseFactory;
         $this->resource = $resource;
         $this->termBuilder = $termBuilder;
         $this->dataProvider = $dataProvider;
+        $this->dataProviderContainer = $dataProviderContainer;
+        $this->aggregationContainer = $aggregationContainer;
     }
 
     /**
@@ -128,14 +144,18 @@ class Adapter implements AdapterInterface
     {
         $aggregations = [];
         $buckets = $request->getAggregation();
+        $dataProvider = $this->dataProviderContainer->get($request->getIndex());
         foreach ($buckets as $bucket) {
-            switch ($bucket->getType()) {
-                case BucketInterface::TYPE_TERM:
-                    $select = $this->dataProvider->getTermDataSet($bucket, $request);
-                    $select = $this->termBuilder->build($select, $bucket, $productIds);
-                    $aggregations[$bucket->getName()] = $this->executeQuery($select);
-                    break;
-            }
+            $aggregationBuilder = $this->aggregationContainer->get($bucket->getType());
+
+//            $select2 = $dataProvider->getDataSet($bucket, $request);
+//            $select2->where('main_table.entity_id IN (?)', $productIds);
+//            $select2->columns();
+//            $res = $this->executeQuery($select2);
+
+            $select = $dataProvider->getDataSet($bucket, $request);
+            $select = $aggregationBuilder->build($select, $bucket, $productIds);
+            $aggregations[$bucket->getName()] = $this->executeQuery($select);
         }
         return $aggregations;
     }

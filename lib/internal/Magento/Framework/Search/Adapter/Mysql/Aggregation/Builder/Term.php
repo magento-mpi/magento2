@@ -34,7 +34,7 @@ class Term implements BucketInterface
 
         $select->where('main_table.entity_id IN (?)', $productIds);
         $select->columns($metrics);
-        $select->group('value');
+        $select->group(RequestBucketInterface::FIELD_VALUE);
 
         return $select;
     }

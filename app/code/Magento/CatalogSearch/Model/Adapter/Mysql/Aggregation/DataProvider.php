@@ -15,6 +15,7 @@ use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Framework\Search\RequestInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Store\Model\Store;
 
 class DataProvider implements DataProviderInterface
@@ -27,36 +28,42 @@ class DataProvider implements DataProviderInterface
      * @var Resource
      */
     private $resource;
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
 
     /**
      * @param Config $eavConfig
      * @param Resource $resource
      */
-    public function __construct(Config $eavConfig, Resource $resource)
+    public function __construct(Config $eavConfig, Resource $resource, StoreManagerInterface $storeManager)
     {
         $this->eavConfig = $eavConfig;
         $this->resource = $resource;
+        $this->storeManager = $storeManager;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTermDataSet(BucketInterface $bucket, RequestInterface $request)
+    public function getDataSet(BucketInterface $bucket, RequestInterface $request)
     {
+        $currentStore = $request->getScopeDimension()->getValue();
+        $currentStoreId = $this->storeManager->getStore($currentStore)->getId();
         $attribute = $this->eavConfig->getAttribute(Product::ENTITY, $bucket->getField());
         $table = $attribute->getBackendTable();
-        $currentStore = $this->getConnection()->quote($request->getScopeDimension()->getValue());
+
+        $ifNullCondition = $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value');
 
         $select = $this->getSelect();
         $select->from(['main_table' => $table], null)
             ->joinLeft(
                 ['current_store' => $table],
-                'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentStore,
+                'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentStoreId,
                 null
             )
-            ->columns(
-                ['value' => $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value')]
-            )
+            ->columns([BucketInterface::FIELD_VALUE => $ifNullCondition])
             ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
             ->where('main_table.store_id = ?', Store::DEFAULT_STORE_ID);
 
