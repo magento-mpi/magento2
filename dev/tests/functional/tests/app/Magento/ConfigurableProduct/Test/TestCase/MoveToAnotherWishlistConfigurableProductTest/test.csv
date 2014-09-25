@@ -1,2 +1,2 @@
-"description";"multipleWishlist/dataSet";"product";"qty";"qtyToMove";"constraint"
-"move one product - zero left";"wishlist_public";"configurableProductInjectable::default";"1";"1";"assertProductAbsentInDefaultWishlist, assertProductInCustomWishlist"
+"description";"multipleWishlist/dataSet";"product/dataSet";"product/data/checkout_data/qty";"qtyToMove";"constraint"
+"move one product - zero left";"wishlist_public";"default";"1";"1";"assertProductAbsentInDefaultWishlist, assertProductInCustomWishlist"

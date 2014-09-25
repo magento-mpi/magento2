@@ -8,7 +8,9 @@
 
 namespace Magento\Downloadable\Test\TestCase;
 
-use Magento\MultipleWishlist\Test\TestCase\MoveToAnotherWishlistTest;
+use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
+use Magento\MultipleWishlist\Test\TestCase\AbstractMoveToAnotherWishlist;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Test Creation for MoveToAnotherWishlistDownloadableProduct
@@ -30,7 +32,18 @@ use Magento\MultipleWishlist\Test\TestCase\MoveToAnotherWishlistTest;
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-28820
  */
-class MoveToAnotherWishlistDownloadableProductTest extends MoveToAnotherWishlistTest
+class MoveToAnotherWishlistDownloadableProductTest extends AbstractMoveToAnotherWishlist
 {
-    //
+    /**
+     * Run Move To Another Wishlist test
+     *
+     * @param MultipleWishlist $multipleWishlist
+     * @param DownloadableProductInjectable $product
+     * @param string $qtyToMove
+     * @return array
+     */
+    public function test(MultipleWishlist $multipleWishlist, DownloadableProductInjectable $product, $qtyToMove)
+    {
+        return parent::moveToCustomWishlist($multipleWishlist, $product, $qtyToMove);
+    }
 }

@@ -51,7 +51,11 @@ class AssertProductInDefaultWishlist extends AbstractConstraint
         $actualQuantity = $wishlistIndex->getMultipleItemsBlock()->getItemProduct($product)->getData()['qty'];
         $expectedQuantity = $qty - $qtyToMove;
 
-        \PHPUnit_Framework_Assert::assertEquals($expectedQuantity, $actualQuantity);
+        \PHPUnit_Framework_Assert::assertEquals(
+            $expectedQuantity,
+            $actualQuantity,
+            'Actual quantity of ' . $product->getName() . ' in default wishlist doesn\'t match to expected.'
+        );
     }
 
     /**

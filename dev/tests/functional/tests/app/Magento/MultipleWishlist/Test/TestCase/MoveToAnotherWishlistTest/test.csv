@@ -1,2 +1,2 @@
-"description";"multipleWishlist/dataSet";"product";"qty";"qtyToMove";"constraint";"issue"
-"move one product from two existed";"wishlist_public";"catalogProductSimple::default";"2";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist";"Bug: MAGETWO-28741"
+"description";"multipleWishlist/dataSet";"product/dataSet";"product/data/checkout_data/qty";"qtyToMove";"constraint";"issue"
+"move one product from two existed";"wishlist_public";"default";"2";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist";"Bug: MAGETWO-28741"

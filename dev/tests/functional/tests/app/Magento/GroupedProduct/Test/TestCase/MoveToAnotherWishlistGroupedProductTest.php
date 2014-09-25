@@ -8,7 +8,9 @@
 
 namespace Magento\GroupedProduct\Test\TestCase;
 
-use Magento\MultipleWishlist\Test\TestCase\MoveToAnotherWishlistTest;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Magento\MultipleWishlist\Test\TestCase\AbstractMoveToAnotherWishlist;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Test Creation for MoveToAnotherWishlistGroupedProduct
@@ -30,7 +32,18 @@ use Magento\MultipleWishlist\Test\TestCase\MoveToAnotherWishlistTest;
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-28820
  */
-class MoveToAnotherWishlistGroupedProductTest extends MoveToAnotherWishlistTest
+class MoveToAnotherWishlistGroupedProductTest extends AbstractMoveToAnotherWishlist
 {
-    //
+    /**
+     * Run Move To Another Wishlist test
+     *
+     * @param MultipleWishlist $multipleWishlist
+     * @param GroupedProductInjectable $product
+     * @param string $qtyToMove
+     * @return array
+     */
+    public function test(MultipleWishlist $multipleWishlist, GroupedProductInjectable $product, $qtyToMove)
+    {
+        return parent::moveToCustomWishlist($multipleWishlist, $product, $qtyToMove);
+    }
 }

@@ -431,18 +431,6 @@ class View extends Block
     }
 
     /**
-     * Fill product options and click "Add to Wishlist" button
-     *
-     * @param InjectableFixture|null $product
-     * @return void
-     */
-    public function fillOptionsAndaddToWishlist($product = null)
-    {
-        $this->fillOptions($product);
-        $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
      * Click "Add to Wishlist" button
      *
      * @return void

@@ -8,7 +8,7 @@
 
 namespace Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Items;
 
-use Mtf\Fixture\FixtureInterface;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class Product
@@ -33,10 +33,10 @@ class Product extends \Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Produ
     /**
      * Move product to wishlist
      *
-     * @param FixtureInterface $wishlist
+     * @param MultipleWishlist $wishlist
      * @return void
      */
-    public function moveToWishlist(FixtureInterface $wishlist)
+    public function moveToWishlist(MultipleWishlist $wishlist)
     {
         $this->_rootElement->find($this->moveToWishlist)->click();
         $this->_rootElement->find(sprintf($this->moveToWishlistItem, $wishlist->getName()))->click();

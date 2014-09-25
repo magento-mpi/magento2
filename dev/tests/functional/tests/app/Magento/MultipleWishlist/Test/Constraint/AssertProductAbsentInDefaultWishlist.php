@@ -28,7 +28,7 @@ class AssertProductAbsentInDefaultWishlist extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that product and quantity is present in default wishlist
+     * Assert that product is absent in default wishlist
      *
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountIndex $customerAccountIndex
