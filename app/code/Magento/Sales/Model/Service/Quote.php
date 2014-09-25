@@ -259,8 +259,6 @@ class Quote
         $order->setQuote($quote);
 
         $transaction->addObject($order);
-        $transaction->addCommitCallback(array($order, 'place'));
-        $transaction->addCommitCallback(array($order, 'save'));
 
         /**
          * We can use configuration data for declare new order status
@@ -274,6 +272,7 @@ class Quote
             array('order' => $order, 'quote' => $quote)
         );
         try {
+            $order->place();
             $transaction->save();
             $this->_inactivateQuote();
             $this->_eventManager->dispatch(
