@@ -135,13 +135,6 @@ abstract class Grid extends Block
     protected $option = '[name="status"]';
 
     /**
-     * Selector for action expand Filter
-     *
-     * @var string
-     */
-    protected $filterOpen = '.action.filters-toggle';
-
-    /**
      * Filter button
      *
      * @var string
@@ -263,10 +256,7 @@ abstract class Grid extends Block
      */
     public function resetFilter()
     {
-        $expandFilterButton = $this->_rootElement->find($this->filterOpen, Locator::SELECTOR_CSS);
-        if ($expandFilterButton->isVisible()) {
-            $expandFilterButton->click();
-        }
+        $this->openFilterBlock();
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
         $this->getTemplateBlock()->waitLoader();
         $this->reinitRootElement();

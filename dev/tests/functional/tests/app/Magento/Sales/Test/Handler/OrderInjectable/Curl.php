@@ -188,6 +188,23 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
+     * Prepare data for downloadable product
+     *
+     * @param FixtureInterface $product
+     * @return array
+     */
+    protected function prepareDownloadableData(FixtureInterface $product)
+    {
+        $result = [];
+        $checkoutData = $product->getCheckoutData();
+        $result['qty'] = $checkoutData['options']['qty'];
+        foreach ($checkoutData['options']['links'] as $link) {
+            $result['links'][] = $link['id'];
+        }
+        return $result;
+    }
+
+    /**
      * Prepare data for simple product
      *
      * @param FixtureInterface $product

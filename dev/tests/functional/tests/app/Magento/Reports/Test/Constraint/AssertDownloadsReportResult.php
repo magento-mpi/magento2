@@ -1,0 +1,64 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Reports\Test\Constraint;
+
+use Magento\Reports\Test\Page\Adminhtml\DownloadsReport;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Constraint\AbstractConstraint;
+
+/**
+ * Class AssertDownloadsReportResult
+ * Assert downloads product info in report grid
+ */
+class AssertDownloadsReportResult extends AbstractConstraint
+{
+    /**
+     * Constraint severeness
+     *
+     * @var string
+     */
+    protected $severeness = 'low';
+
+    /**
+     * Assert product info in report: product name, link title, sku, downloads number (Reports> Products> Downloads)
+     *
+     * @param OrderInjectable $order
+     * @param DownloadsReport $downloadsReport
+     * @return void
+     */
+    public function processAssert(OrderInjectable $order, DownloadsReport $downloadsReport)
+    {
+        $downloadsReport->open();
+        foreach ($order->getEntityId()['products'] as $product) {
+            foreach ($product->getDownloadableLinks()['downloadable']['link'] as $link) {
+                $filter = [
+                    'name' => $product->getName(),
+                    'link_title' => $link['title'],
+                    'sku' => $product->getSku(),
+                ];
+                $downloadsReport->getGridBlock()->search($filter);
+                $filter[] = 1;
+                \PHPUnit_Framework_Assert::assertTrue(
+                    $downloadsReport->getGridBlock()->isRowVisible($filter, false),
+                    'Downloads report not in grid.'
+                );
+            }
+        }
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return 'Downloads product into report grid.';
+    }
+}

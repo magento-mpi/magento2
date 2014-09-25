@@ -1,0 +1,4 @@
+"order/dataSet";"downloads";"constraint"
+"downloadable_product";"Yes";"assertDownloadsReportResult"
+"two_downloadable_product";"Yes";"assertDownloadsReportResult"
+"downloadable_product";"No";"assertDownloadsReportResult"
