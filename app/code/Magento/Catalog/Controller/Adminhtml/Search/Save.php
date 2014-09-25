@@ -46,6 +46,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Search
                 $model->addData($data);
                 $model->setIsProcessed(0);
                 $model->save();
+                $this->messageManager->addSuccess(__('You saved the search term.'));
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $hasError = true;
