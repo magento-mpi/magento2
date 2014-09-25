@@ -69,13 +69,13 @@ class Page extends Layout
      */
     public function initLayout()
     {
+        $this->addHandle('default');
+        $this->addHandle($this->getDefaultLayoutHandle());
         $update = $this->getLayout()->getUpdate();
-        $update->addHandle('default');
-        $update->addHandle($this->getDefaultLayoutHandle());
         if ($update->isLayoutDefined()) {
             $update->removeHandle('default');
         }
-        return $this;
+        return parent::initLayout();
     }
 
     /**
@@ -118,26 +118,26 @@ class Page extends Layout
      * @param ResponseInterface $response
      * @return $this
      */
-    public function renderResult(ResponseInterface $response)
+    protected function _renderResult(ResponseInterface $response)
     {
         if ($this->getConfig()->getPageLayout()) {
             $config = $this->getConfig();
 
             $this->addDefaultBodyClasses();
             $this->assign([
-                'requireJs' => $this->_layout->getBlock('require.js')->toHtml(),
+                'requireJs' => $this->getLayout()->getBlock('require.js')->toHtml(),
                 'headContent' => $this->pageConfigRenderer->renderHeadContent(),
                 'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HTML),
                 'headAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HEAD),
                 'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY)
             ]);
 
-            $output = $this->_layout->getOutput();
+            $output = $this->getLayout()->getOutput();
             $this->translateInline->processResponseBody($output);
             $this->assign('layoutContent', $output);
             $response->appendBody($this->toHtml());
         } else {
-            parent::renderResult($response);
+            parent::_renderResult($response);
         }
         return $this;
     }

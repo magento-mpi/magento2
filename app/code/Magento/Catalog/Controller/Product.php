@@ -26,6 +26,8 @@ class Product extends \Magento\Framework\App\Action\Action implements \Magento\C
         $params = new \Magento\Framework\Object();
         $params->setCategoryId($categoryId);
 
-        return $this->_objectManager->get('Magento\Catalog\Helper\Product')->initProduct($productId, $this, $params);
+        /** @var \Magento\Catalog\Helper\Product $product */
+        $product = $this->_objectManager->get('Magento\Catalog\Helper\Product');
+        return $product->initProduct($productId, $this, $params);
     }
 }

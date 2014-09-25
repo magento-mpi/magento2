@@ -38,7 +38,7 @@ class Block implements Layout\ReaderInterface
      */
     public function __construct(
         Layout\ScheduledStructure\Helper $helper,
-        \Magento\Framework\View\Layout\Argument\Parser $argumentParser
+        Layout\Argument\Parser $argumentParser
     ) {
         $this->helper = $helper;
         $this->argumentParser = $argumentParser;
@@ -102,6 +102,8 @@ class Block implements Layout\ReaderInterface
     }
 
     /**
+     * Process arguments
+     *
      * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
      * @param Layout\Element $currentElement
      * @param Layout\Element $parentElement
@@ -119,6 +121,8 @@ class Block implements Layout\ReaderInterface
     }
 
     /**
+     * Process actions
+     *
      * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
      * @param Layout\Element $currentElement
      * @param Layout\Element $parentElement

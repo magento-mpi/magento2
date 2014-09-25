@@ -13,6 +13,7 @@ use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Request\Http as RequestHttp;
 use Magento\Framework\App\Response\Http as ResponseHttp;
 use Magento\Framework\Event;
+use Magento\Framework\Controller\ResultInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -100,6 +101,7 @@ class Http implements \Magento\Framework\AppInterface
     /**
      * Run application
      *
+     * @throws \InvalidArgumentException
      * @return ResponseInterface
      */
     public function launch()
@@ -107,8 +109,16 @@ class Http implements \Magento\Framework\AppInterface
         $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
         $this->_state->setAreaCode($areaCode);
         $this->_objectManager->configure($this->_configLoader->load($areaCode));
-        $this->_response = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface')
+        $result = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface')
             ->dispatch($this->_request);
+        // TODO: Temporary solution till all controllers are returned not ResultInterface (MAGETWO-28359)
+        if ($result instanceof ResultInterface) {
+            $result->renderResult($this->_response);
+        } elseif ($result instanceof ResponseHttp) {
+            $this->_response = $result;
+        } else {
+            throw new \InvalidArgumentException('Invalid return type');
+        }
         // This event gives possibility to launch something before sending output (allow cookie setting)
         $eventParams = array('request' => $this->_request, 'response' => $this->_response);
         $this->_eventManager->dispatch('controller_front_send_response_before', $eventParams);

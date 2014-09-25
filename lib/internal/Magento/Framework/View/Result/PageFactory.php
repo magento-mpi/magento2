@@ -40,6 +40,6 @@ class PageFactory
      */
     public function create()
     {
-        return $this->objectManager->create('\Magento\Framework\View\Result\Page', ['pageType' => 'noroute']);
+        return $this->objectManager->create('\Magento\Framework\View\Result\Page');
     }
 }
