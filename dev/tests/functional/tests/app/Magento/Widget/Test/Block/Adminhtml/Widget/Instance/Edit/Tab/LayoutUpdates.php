@@ -66,7 +66,8 @@ class LayoutUpdates extends Tab
 
             /** @var LayoutForm $layoutForm */
             $layoutForm = $this->blockFactory->create(
-                __NAMESPACE__ . '\LayoutUpdatesType\\' . $this->optionNameConvert($field['page_group']),
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\\' . $this
+                    ->optionNameConvert($field['page_group']),
                 [
                     'element' => $this->_rootElement->find($this->formSelector, Locator::SELECTOR_XPATH)
                 ]

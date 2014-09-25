@@ -42,7 +42,7 @@ class CmsPageLink extends WidgetOptionsForm
 
                 /** @var Grid $cmsPageLinkGrid */
                 $cmsPageLinkGrid = $this->blockFactory->create(
-                    __NAMESPACE__ . '\CmsPageLink\Grid',
+                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid',
                     [
                         'element' => $this->_rootElement
                             ->find($this->cmsPageLinkGrid, Locator::SELECTOR_XPATH)
@@ -50,7 +50,7 @@ class CmsPageLink extends WidgetOptionsForm
                 );
                 $cmsPageLinkGrid->searchAndSelect(['title' => $field['value']['title']]);
             } elseif (!isset($field['value'])) {
-                $this->_fill($field, $context);
+                parent::_fill($field, $context);
             } else {
                 $element = $this->getElement($context, $field);
                 if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {

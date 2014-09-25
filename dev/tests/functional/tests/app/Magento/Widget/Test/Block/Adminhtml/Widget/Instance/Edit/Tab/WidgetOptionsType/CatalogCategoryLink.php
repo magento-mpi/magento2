@@ -48,14 +48,16 @@ class CatalogCategoryLink extends WidgetOptionsForm
                 $this->_rootElement->find($this->selectPage)->click();
                 $this->getTemplateBlock()->waitLoader();
 
-                /** @var Form $catalogCategoryLinkForm  */
+                // @codingStandardsIgnoreStart
+                /** @var Form $catalogCategoryLinkForm */
                 $catalogCategoryLinkForm = $this->blockFactory->create(
-                    __NAMESPACE__ . '\CatalogCategoryLink\Form',
+                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogCategoryLink\Form',
                     [
                         'element' => $this->_rootElement
                             ->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH)
                     ]
                 );
+                // @codingStandardsIgnoreEnd
                 $elementNew = $this->_rootElement->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH);
                 $field['value'] = 'Default Category/' . $field['value']['name'];
                 $categoryFields['entities'] = $field;
@@ -63,7 +65,7 @@ class CatalogCategoryLink extends WidgetOptionsForm
                 $this->getTemplateBlock()->waitLoader();
 
             } elseif (!isset($field['value'])) {
-                $this->_fill($field, $context);
+                parent::_fill($field, $context);
             } else {
                 $element = $this->getElement($context, $field);
                 if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {

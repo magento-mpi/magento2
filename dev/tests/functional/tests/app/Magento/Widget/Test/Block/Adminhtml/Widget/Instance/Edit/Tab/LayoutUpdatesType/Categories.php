@@ -40,7 +40,7 @@ class Categories extends LayoutForm
                 $field['value'] = 'Default Category/' . $field['value']['name'];
             }
             if (!isset($field['value'])) {
-                $this->_fill($field, $context);
+                parent::_fill($field, $context);
             } else {
                 $element = $this->getElement($context, $field);
                 if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {

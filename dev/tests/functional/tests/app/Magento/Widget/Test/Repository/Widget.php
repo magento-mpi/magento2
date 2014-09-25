@@ -26,9 +26,7 @@ class Widget extends AbstractRepository
     {
         $this->_data['default'] = [
             'title' => 'Test Frontend App',
-            'store_ids' => [
-                '0' => 'All Store Views'
-            ],
+            'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',

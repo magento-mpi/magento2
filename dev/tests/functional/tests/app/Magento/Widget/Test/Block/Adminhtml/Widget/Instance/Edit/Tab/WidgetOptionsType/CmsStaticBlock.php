@@ -46,15 +46,16 @@ class CmsStaticBlock extends WidgetOptionsForm
         foreach ($fields as $name => $field) {
             if ($name == 'entities') {
                 $this->_rootElement->find($this->selectBlock)->click();
-
+                // @codingStandardsIgnoreStart
                 /** @var Grid $cmsPageLinkGrid */
                 $cmsPageLinkGrid = $this->blockFactory->create(
-                    __NAMESPACE__ . '\CmsStaticBlock\Grid',
+                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock\Grid',
                     [
                         'element' => $this->_rootElement
                             ->find($this->cmsStaticLinkGrid, Locator::SELECTOR_XPATH)
                     ]
                 );
+                // @codingStandardsIgnoreEnd
                 $cmsPageLinkGrid->searchAndSelect(
                     [
                         'title' => $fields['entities']['value']['title'],
@@ -62,7 +63,7 @@ class CmsStaticBlock extends WidgetOptionsForm
                     ]
                 );
             } elseif (!isset($field['value'])) {
-                $this->_fill($field, $context);
+                parent::_fill($field, $context);
             } else {
                 $element = $this->getElement($context, $field);
                 if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {

@@ -34,6 +34,13 @@ class SalesRules implements FixtureInterface
     protected $salesRules = [];
 
     /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
@@ -52,7 +59,7 @@ class SalesRules implements FixtureInterface
                 $this->salesRules[] = $salesRules;
             }
         } else {
-            $this->data = $data;
+            $this->data[] = $data;
         }
     }
 

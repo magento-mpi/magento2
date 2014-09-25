@@ -40,8 +40,6 @@ class AssertWidgetSuccessSaveMessage extends AbstractConstraint
             self::SUCCESS_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $actualMessage
         );
 
         // Flush cache

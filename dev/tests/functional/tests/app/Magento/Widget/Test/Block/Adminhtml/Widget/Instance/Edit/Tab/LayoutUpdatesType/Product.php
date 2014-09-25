@@ -48,7 +48,7 @@ class Product extends LayoutForm
 
                 /** @var Grid $productGrid */
                 $productGrid = $this->blockFactory->create(
-                    __NAMESPACE__ . '\Product\Grid',
+                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\Product\Grid',
                     [
                         'element' => $this->_rootElement
                             ->find($this->productGrid, Locator::SELECTOR_CSS)
@@ -56,7 +56,7 @@ class Product extends LayoutForm
                 );
                 $productGrid->searchAndSelect(['name' => $field['value']['name']]);
             } elseif (!isset($field['value'])) {
-                $this->_fill($field, $context);
+                parent::_fill($field, $context);
             } else {
                 $element = $this->getElement($context, $field);
                 if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {

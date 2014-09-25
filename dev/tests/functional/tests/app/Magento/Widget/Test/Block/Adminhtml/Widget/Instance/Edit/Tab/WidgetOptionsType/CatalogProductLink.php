@@ -47,17 +47,19 @@ class CatalogProductLink extends WidgetOptionsForm
             if ($name == 'entities') {
                 $this->_rootElement->find($this->selectBlock)->click();
 
+                // @codingStandardsIgnoreStart
                 /** @var Grid $catalogProductLinkGrid */
                 $catalogProductLinkGrid = $this->blockFactory->create(
-                    __NAMESPACE__ . '\CatalogProductLink\Grid',
+                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid',
                     [
                         'element' => $this->_rootElement
                             ->find($this->catalogProductLinkGrid, Locator::SELECTOR_XPATH)
                     ]
                 );
-                $catalogProductLinkGrid->searchAndSelect(['name' => $field['value']]);
+                // @codingStandardsIgnoreEnd
+                $catalogProductLinkGrid->searchAndSelect(['name' => $field['value']['name']]);
             } elseif (!isset($field['value'])) {
-                $this->_fill($field, $context);
+                parent::_fill($field, $context);
             } else {
                 $element = $this->getElement($context, $field);
                 if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {

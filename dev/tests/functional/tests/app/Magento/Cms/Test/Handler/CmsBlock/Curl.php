@@ -68,12 +68,14 @@ class Curl extends AbstractCurl implements CmsBlockInterface
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("CMS Block entity creating by curl handler was not successful! Response: $response");
         }
+        preg_match(
+            '@block_id":"(\d+)","title":"' . $fixture->getTitle() . '@ms',
+            $response,
+            $matches
+        );
+        $id = isset($matches[1]) ? $matches[1] : null;
 
-        $url = 'cms/block/index/sort/creation_time/dir/desc';
-        $regExpPattern = '@^.*block_id\/(\d+)\/.*' . $fixture->getTitle() . '@ms';
-        $extractor = new Extractor($url, $regExpPattern);
-
-        return ['block_id' => $extractor->getData()[1]];
+        return ['block_id' => $id];
     }
 
     /**

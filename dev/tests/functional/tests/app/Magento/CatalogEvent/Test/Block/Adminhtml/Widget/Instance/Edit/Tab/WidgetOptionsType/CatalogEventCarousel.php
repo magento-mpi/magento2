@@ -9,7 +9,6 @@
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType;
 
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
-use Mtf\Client\Element;
 
 /**
  * Class CatalogEventCarousel

@@ -42,13 +42,13 @@ class AssertWidgetOnFrontendInCatalog extends AbstractConstraint
         if (isset($widget->getLayout()[0]['entities'])) {
             $categoryName = $widget->getLayout()[0]['entities']['name'];
         } else {
-            $categoryName = $widget->getWidgetOptions()[0]['entities']['category_id'][1];
+            $categoryName = $widget->getWidgetOptions()[0]['entities']['category_id'][0];
         }
         $widgetCode = $widget->getCode();
         if ($widget->getWidgetOptions()[0]['name'] == 'cmsStaticBlock') {
             $widgetText = $widget->getWidgetOptions()[0]['entities']['content'];
         } else {
-            $widgetText = $widget->getWidgetOptions()[0]['entities'];
+            $widgetText = $widget->getWidgetOptions()[0]['entities']['name'];
         }
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(

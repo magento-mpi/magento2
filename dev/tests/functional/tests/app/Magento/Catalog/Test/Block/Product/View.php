@@ -216,18 +216,6 @@ class View extends Block
     }
 
     /**
-     * Get bundle options block
-     *
-     * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
-     */
-    public function getBundleBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find($this->bundleBlock)
-        );
-    }
-
-    /**
      * This method returns the custom options block.
      *
      * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions

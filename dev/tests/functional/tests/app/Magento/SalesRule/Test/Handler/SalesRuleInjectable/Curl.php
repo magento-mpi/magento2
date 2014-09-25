@@ -119,7 +119,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
      * Post request for creating sales rule
      *
      * @param FixtureInterface $fixture
-     * @return int
+     * @return array
      * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)

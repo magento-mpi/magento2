@@ -36,7 +36,7 @@ class Curl extends AbstractCurl implements CmsHierarchyInterface
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Cms page entity creatingdle//////////r was not successful! Response: $response");
+            throw new \Exception("Cms Hierarchy creating was not successful! Response: $response");
         }
         preg_match(
             '/.*node_id":"(\d+).*' . $fixture->getIdentifier() . '/',

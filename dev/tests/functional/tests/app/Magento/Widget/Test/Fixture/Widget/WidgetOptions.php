@@ -9,7 +9,6 @@
 namespace Magento\Widget\Test\Fixture\Widget;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\CatalogRule\Test\Fixture\CatalogPriceRule;
 use Magento\Cms\Test\Fixture\CmsBlock;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Mtf\Fixture\FixtureInterface;

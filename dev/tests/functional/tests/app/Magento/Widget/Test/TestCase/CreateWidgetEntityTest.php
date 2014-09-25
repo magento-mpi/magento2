@@ -150,26 +150,28 @@ class CreateWidgetEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $filter = ['title' => $this->widget->getTitle()];
-        $this->widgetInstanceIndex->open();
-        $this->widgetInstanceIndex->getWidgetGrid()->searchAndOpen($filter);
-        $this->widgetInstanceEdit->getPageActionsBlock()->delete();
+        if ($this->widget !== null) {
+            $filter = ['title' => $this->widget->getTitle()];
+            $this->widgetInstanceIndex->open();
+            $this->widgetInstanceIndex->getWidgetGrid()->searchAndOpen($filter);
+            $this->widgetInstanceEdit->getPageActionsBlock()->delete();
 
-        if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'])) {
-            $filterCatalogPriceRule = [
-                'rule_id' => $this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'],
-            ];
-            $this->catalogRuleIndex->open();
-            $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filterCatalogPriceRule);
-            $this->catalogRuleNew->getFormPageActions()->delete();
-        }
-        if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'])) {
-            $filter = [
-                'rule_id' => $this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'],
-            ];
-            $this->promoQuoteIndex->open();
-            $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
-            $this->promoQuoteEdit->getFormPageActions()->delete();
+            if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'])) {
+                $filterCatalogPriceRule = [
+                    'rule_id' => $this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'],
+                ];
+                $this->catalogRuleIndex->open();
+                $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filterCatalogPriceRule);
+                $this->catalogRuleNew->getFormPageActions()->delete();
+            }
+            if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'])) {
+                $filter = [
+                    'rule_id' => $this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'],
+                ];
+                $this->promoQuoteIndex->open();
+                $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
+                $this->promoQuoteEdit->getFormPageActions()->delete();
+            }
         }
     }
 }

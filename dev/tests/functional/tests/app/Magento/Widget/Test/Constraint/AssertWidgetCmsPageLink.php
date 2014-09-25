@@ -30,7 +30,6 @@ class AssertWidgetCmsPageLink extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param Widget $widget
-     * @param Widget $widgetEdit
      * @return void
      */
     public function processAssert(
