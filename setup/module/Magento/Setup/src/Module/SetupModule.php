@@ -11,6 +11,7 @@ use Magento\Setup\Module\Setup\ConnectionFactory;
 use Magento\Setup\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Setup\Module\Resource\Resource;
 use Magento\Setup\Model\LoggerInterface;
+use Magento\Setup\Module\Setup\Config;
 
 class SetupModule extends Setup
 {
@@ -28,6 +29,13 @@ class SetupModule extends Setup
     protected $moduleConfig;
 
     /**
+     * Setup File Resolver
+     *
+     * @var SetupFileResolver
+     */
+    protected $fileResolver;
+
+    /**
      * Resource
      *
      * @var ResourceInterface
@@ -38,24 +46,25 @@ class SetupModule extends Setup
      * Constructor
      *
      * @param ConnectionFactory $connectionFactory
-     * @param ModuleListInterface $moduleList
-     * @param SetupFileResolver $setupFileResolver
      * @param LoggerInterface $log
-     * @param string $moduleName
-     * @param array $connectionConfig
+     * @param Config $config
+     * @param ModuleListInterface $moduleList
+     * @param SetupFileResolver $fileResolver
+     * @param $moduleName
      */
     public function __construct(
         ConnectionFactory $connectionFactory,
-        ModuleListInterface $moduleList,
-        SetupFileResolver $setupFileResolver,
         LoggerInterface $log,
-        $moduleName,
-        array $connectionConfig = array()
+        Config $config,
+        ModuleListInterface $moduleList,
+        SetupFileResolver $fileResolver,
+        $moduleName
     ) {
-        parent::__construct($connectionFactory, $setupFileResolver, $log, $connectionConfig);
+        parent::__construct($connectionFactory, $log, $config);
+        $this->fileResolver = $fileResolver;
         $this->moduleConfig = $moduleList->getModule($moduleName);
-        $this->resource = new Resource($this->connection);
-        $this->resourceName = $this->setupFileResolver->getResourceCode($moduleName);
+        $this->resource = new Resource($this->connection, $config->get(Config::KEY_DB_PREFIX));
+        $this->resourceName = $this->fileResolver->getResourceCode($moduleName);
     }
 
     /**
@@ -67,9 +76,9 @@ class SetupModule extends Setup
     public function applyRecurringUpdates()
     {
         $moduleName = (string)$this->moduleConfig['name'];
-        foreach ($this->setupFileResolver->getSqlSetupFiles($moduleName, self::TYPE_DB_RECURRING . '.php') as $file) {
+        foreach ($this->fileResolver->getSqlSetupFiles($moduleName, self::TYPE_DB_RECURRING . '.php') as $file) {
             try {
-                $file = $this->setupFileResolver->getAbsolutePath($file);
+                $file = $this->fileResolver->getAbsolutePath($file);
                 $this->includeFile($file);
             } catch (\Exception $e) {
                 throw new \Exception(sprintf('Error in file: "%s" - %s', $file, $e->getMessage()), 0, $e);
@@ -93,12 +102,12 @@ class SetupModule extends Setup
         $typeFiles = array();
         $regExpDb = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
         $regExpType = sprintf('#%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
-        foreach ($this->setupFileResolver->getSqlSetupFiles($moduleName, '*.{php,sql}') as $file) {
+        foreach ($this->fileResolver->getSqlSetupFiles($moduleName, '*.{php,sql}') as $file) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
-                $dbFiles[$matches[1]] = $this->setupFileResolver->getAbsolutePath($file);
+                $dbFiles[$matches[1]] = $this->fileResolver->getAbsolutePath($file);
             } elseif (preg_match($regExpType, $file, $matches)) {
-                $typeFiles[$matches[1]] = $this->setupFileResolver->getAbsolutePath($file);
+                $typeFiles[$matches[1]] = $this->fileResolver->getAbsolutePath($file);
             }
         }
 
@@ -237,17 +246,5 @@ class SetupModule extends Setup
                 break;
         }
         return $arrRes;
-    }
-
-    /**
-     * Set table prefix
-     *
-     * @param string $tablePrefix
-     * @return void
-     */
-    public function setTablePrefix($tablePrefix)
-    {
-        parent::setTablePrefix($tablePrefix);
-        $this->resource->setTablePrefix($this->tablePrefix);
     }
 }

@@ -9,6 +9,7 @@ namespace Magento\Setup\Controller\Data;
 
 use Magento\Setup\Model\InstallerFactory;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\ResponseInterface as Response;
 use Zend\View\Model\JsonModel;
 use Zend\Json\Json;
 use Magento\Setup\Model\WebLogger;
@@ -20,14 +21,14 @@ class DatabaseController extends AbstractActionController
      *
      * @var JsonModel
      */
-    protected $response;
+    private $jsonResponse;
 
     /**
      * Installer service factory
      *
      * @var \Magento\Setup\Model\InstallerFactory
      */
-    protected $installerFactory;
+    private $installerFactory;
 
     /**
      * Constructor
@@ -37,7 +38,7 @@ class DatabaseController extends AbstractActionController
      */
     public function __construct(JsonModel $response, InstallerFactory $installerFactory)
     {
-        $this->response = $response;
+        $this->jsonResponse = $response;
         $this->installerFactory = $installerFactory;
     }
 
@@ -51,10 +52,11 @@ class DatabaseController extends AbstractActionController
         $params = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
         try {
             $installer = $this->installerFactory->create(new WebLogger);
-            $installer->checkDatabaseConnection($params['name'], $params['host'], $params['user'], $params['password']);
-            return $this->response->setVariables(['success' => true]);
+            $password = isset($params['password']) ? $params['password'] : '';
+            $installer->checkDatabaseConnection($params['name'], $params['host'], $params['user'], $password);
+            return $this->jsonResponse->setVariables(['success' => true]);
         } catch (\Exception $e) {
-            return $this->response->setVariables(['success' => false]);
+            return $this->jsonResponse->setVariables(['success' => false]);
         }
     }
 
