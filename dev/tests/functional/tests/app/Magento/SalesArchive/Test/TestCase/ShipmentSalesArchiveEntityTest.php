@@ -14,6 +14,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
  * Test Creation for ShipmentSalesArchiveEntity
@@ -120,18 +121,18 @@ class ShipmentSalesArchiveEntityTest extends Injectable
     /**
      * Create Shipment SalesArchive Entity
      *
+     * @param OrderInjectable $order
      * @param string $invoice
      * @param array $qty
      * @return array
      */
-    public function test($invoice, array $qty)
+    public function test(OrderInjectable $order, $invoice, array $qty)
     {
-        $this->markTestIncomplete('MAGETWO-28230, MAGETWO-28872');
+        $this->markTestIncomplete('MAGETWO-28872, MAGETWO-28867');
         // Preconditions
-        $order = $this->fixtureFactory->createByCode('orderInjectable', ['dataSet' => 'with_two_products']);
         $order->persist();
         if ($invoice) {
-            $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoice', ['order' => $order])->run();
+            $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoiceStep', ['order' => $order])->run();
         }
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->massaction([['id' => $order->getId()]], 'Move to Archive');
