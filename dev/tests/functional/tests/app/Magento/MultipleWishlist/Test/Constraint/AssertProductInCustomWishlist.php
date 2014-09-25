@@ -51,7 +51,8 @@ class AssertProductInCustomWishlist extends AbstractConstraint
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
         $wishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
-        $actualQuantity = $wishlistIndex->getMultipleItemsBlock()->getItemProduct($product)->getData()['qty'];
+        $formData = $wishlistIndex->getMultipleItemsBlock()->getItemProduct($product)->getData();
+        $actualQuantity = $product instanceof GroupedProductInjectable ? '-' : $formData['qty'];
 
         \PHPUnit_Framework_Assert::assertEquals(
             $qtyToMove,

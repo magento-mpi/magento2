@@ -57,6 +57,6 @@ class AssertProductAbsentInDefaultWishlist extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product with correct quantity is absent in default wishlist';
+        return 'Product is absent in default wishlist';
     }
 }
