@@ -1,2 +1,0 @@
-"user/data/username";"user/data/firstname";"user/data/lastname";"user/data/email";"user/data/password";"user/data/password_confirmation";"user/data/is_active";"role/data/rolename";"role/data/resource_access";"role/data/roles_resources";"updatedRole/data/rolename";"updatedRole/data/resource_access";"constraint"
-"AdminUser%isolation%";"FirstName%isolation%";"LastName%isolation%";"email%isolation%@example.com";"123123q";"123123q";"Active";AdminRole%isolation%;Custom;Sales;UpdatedAdminRole%isolation%;All;"assertUserSuccessLogOut, assertUserSuccessLogin"

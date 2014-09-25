@@ -16,9 +16,10 @@ use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
+use Magento\Backend\Test\Page\Adminhtml\Dashboard;
 
 /**
- * Test for a fix of the bug described in MAGETWO-26919
+ * Test that user can login from the first attempt just after his permissions were changed.
  *
  * Test Flow:
  * 1. Log in as default admin user
@@ -39,14 +40,18 @@ use Mtf\TestCase\Injectable;
  * @group ACL_(MX)
  * @ZephyrId MAGETWO-28828
  */
-class DoubleLoginBugVerificationTest extends Injectable
+class UserLoginAfterChangingPermissionsTest extends Injectable
 {
     /**
+     * User edit page
+     *
      * @var UserRoleIndex
      */
     protected $userRoleIndex;
 
     /**
+     * Role edit page
+     *
      * @var UserRoleEditRole
      */
     protected $userRoleEditRole;
@@ -66,6 +71,13 @@ class DoubleLoginBugVerificationTest extends Injectable
     protected $userEditPage;
 
     /**
+     * Dashboard panel
+     *
+     * @var Dashboard
+     */
+    protected $dashboard;
+
+    /**
      * Factory for Fixtures
      *
      * @var FixtureFactory
@@ -76,12 +88,10 @@ class DoubleLoginBugVerificationTest extends Injectable
      * Preconditions for test
      *
      * @param FixtureFactory $fixtureFactory
-     * @return array
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
         $this->fixtureFactory = $fixtureFactory;
-        return [];
     }
 
     /**
@@ -91,18 +101,21 @@ class DoubleLoginBugVerificationTest extends Injectable
      * @param UserEdit $userEdit
      * @param UserRoleIndex $userRoleIndex
      * @param UserRoleEditRole $userRoleEditRole
+     * @param Dashboard $dashboard
      * @return void
      */
     public function __inject(
         UserIndex $userIndex,
         UserEdit $userEdit,
         UserRoleIndex $userRoleIndex,
-        UserRoleEditRole $userRoleEditRole
+        UserRoleEditRole $userRoleEditRole,
+        Dashboard $dashboard
     ) {
         $this->userIndexPage = $userIndex;
         $this->userEditPage = $userEdit;
         $this->userRoleIndex = $userRoleIndex;
         $this->userRoleEditRole = $userRoleEditRole;
+        $this->dashboard = $dashboard;
     }
 
     /**
@@ -111,7 +124,7 @@ class DoubleLoginBugVerificationTest extends Injectable
      * @param User $user
      * @return void
      */
-    public function testDoubleLoginBug(
+    public function testLoginAfterChangingPermissions(
         AdminUserRole $role,
         AdminUserRole $updatedRole,
         User $user
@@ -131,5 +144,6 @@ class DoubleLoginBugVerificationTest extends Injectable
         $this->userRoleIndex->getRoleGrid()->searchAndOpen($filter);
         $this->userRoleEditRole->getRoleFormTabs()->fill($updatedRole);
         $this->userRoleEditRole->getPageActions()->save();
+        $this->dashboard->getAdminPanelHeader()->logOut();
     }
 }
