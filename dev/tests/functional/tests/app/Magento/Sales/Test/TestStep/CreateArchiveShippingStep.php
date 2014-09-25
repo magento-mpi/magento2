@@ -16,10 +16,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 
 /**
- * Class CreateArchiveShipping
+ * Class CreateArchiveShippingStep
  * Create shipping from archive order on backend
  */
-class CreateArchiveShipping implements TestStepInterface
+class CreateArchiveShippingStep implements TestStepInterface
 {
     /**
      * Orders Page

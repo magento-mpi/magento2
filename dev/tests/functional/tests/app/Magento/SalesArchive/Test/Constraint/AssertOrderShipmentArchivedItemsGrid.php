@@ -27,7 +27,7 @@ class AssertOrderShipmentArchivedItemsGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert shipped product represented on archived shipment page
+     * Assert shipped products represented on archived shipment page
      *
      * @param ArchiveShipments $archiveShipments
      * @param OrderShipmentView $orderShipmentView
@@ -57,7 +57,7 @@ class AssertOrderShipmentArchivedItemsGrid extends AbstractConstraint
 
                 \PHPUnit_Framework_Assert::assertTrue(
                     $orderShipmentView->getProductsBlock()->isRowVisible($filter, false, false),
-                    'Shipped product ' . $productName . ' is absent on archived shipment page'
+                    'Shipped product ' . $productName . ' is absent on archived shipment page.'
                 );
             }
         }
@@ -70,6 +70,6 @@ class AssertOrderShipmentArchivedItemsGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Shipped product is present on archived shipment page';
+        return 'All shipment products are present in archived shipment grid.';
     }
 }
