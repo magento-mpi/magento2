@@ -37,7 +37,7 @@ class File
      * @param ThemeInterface $themeModel
      * @param string $file
      * @param string|null $module
-     * @return string|bool
+     * @return string|false
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {

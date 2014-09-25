@@ -253,5 +253,7 @@ return array(
     ['saveStoreIdsBeforeScopeDelete', 'Magento\Search\Model\Observer'],
     ['clearIndexForStores', 'Magento\Search\Model\Observer'],
     ['runFulltextReindexAfterPriceReindex', 'Magento\Search\Model\Observer'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Export'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'],
     ['modifyExpiredQuotesCleanup', 'Magento\PersistentHistory\Model\Observer'],
 );

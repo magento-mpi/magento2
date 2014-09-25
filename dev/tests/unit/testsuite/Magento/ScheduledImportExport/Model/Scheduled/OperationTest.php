@@ -16,6 +16,8 @@ use PHPUnit_Framework_MockObject_MockObject as Mock;
  */
 class OperationTest extends \PHPUnit_Framework_TestCase
 {
+    const DATE = '2014/01/01';
+
     /**
      * Default date value
      *
@@ -167,8 +169,6 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getHistoryFilePath() method
-     *
      * @dataProvider getHistoryFilePathDataProvider
      */
     public function testGetHistoryFilePath($fileInfo, $lastRunDate, $expectedPath)
@@ -181,13 +181,11 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testGetHistoryFilePath()
-     *
      * @return array
      */
     public function getHistoryFilePathDataProvider()
     {
-        $dir = Operation::LOG_DIRECTORY . date('Y/m/d') . '/' . Operation::FILE_HISTORY_DIRECTORY;
+        $dir = Operation::LOG_DIRECTORY . self::DATE . '/' . Operation::FILE_HISTORY_DIRECTORY;
         return array(
             'empty file name' => array(
                 '$fileInfo' => array('file_format' => 'csv'),
@@ -281,7 +279,9 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         if (!empty($format) && !is_null($input)) {
             return $input;
         }
-
+        if ($format === 'Y/m/d') {
+            return self::DATE;
+        }
         return $this->_date;
     }
 
