@@ -198,17 +198,7 @@ class ServiceArgsSerializer
                     continue;
                 }
 
-                $typeStrLen = strlen($type);
-                if (substr($type, $typeStrLen - 2) === "[]") {
-                    $type = substr($type, 0, $typeStrLen - 2);
-                    $attributeValue = [];
-                    foreach ($customAttributeValue as $value) {
-                        $attributeValue[] = $this->_createFromArray($type, $value);
-                    }
-                } else {
-                    //If custom attribute value is an array then its a data object type
-                    $attributeValue = $this->_createFromArray($type, $customAttributeValue);
-                }
+                $attributeValue = $this->_createDataObjectForTypeAndArrayValue($type, $customAttributeValue);
             } else {
                 $attributeValue = $this->_convertValue($customAttributeValue, $type);
             }
@@ -220,6 +210,29 @@ class ServiceArgsSerializer
         }
 
         return $result;
+    }
+
+    /**
+     * Creates a data object type from a given type name and a PHP array.
+     *
+     * @param string $type The type of data object to create
+     * @param array $customAttributeValue The data object values
+     * @return mixed
+     */
+    protected function _createDataObjectForTypeAndArrayValue($type, $customAttributeValue) {
+        $typeStrLen = strlen($type);
+        if (substr($type, $typeStrLen - 2) === "[]") {
+            $type = substr($type, 0, $typeStrLen - 2);
+            $attributeValue = [];
+            foreach ($customAttributeValue as $value) {
+                $attributeValue[] = $this->_createFromArray($type, $value);
+            }
+        } else {
+            //If custom attribute value is an array then its a data object type
+            $attributeValue = $this->_createFromArray($type, $customAttributeValue);
+        }
+
+        return $attributeValue;
     }
 
     /**

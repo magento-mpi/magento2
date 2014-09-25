@@ -20,19 +20,12 @@ class ProductServiceTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products';
 
-    private function getSimpleProductData()
-    {
-        return [
-            Product::SKU => uniqid('sku-', true),
-            Product::NAME => uniqid('sku-', true),
-            Product::VISIBILITY => 4,
-            Product::TYPE_ID => 'simple',
-            Product::PRICE => 3.62,
-            Product::STATUS => 1,
-            Product::TYPE_ID => 'simple'
-        ];
-    }
-
+    /**
+     * Create product
+     *
+     * @param array $product
+     * @return array the created product data
+     */
     protected function createProduct($product)
     {
         $serviceInfo = [
@@ -48,13 +41,35 @@ class ProductServiceTest extends WebapiAbstract
         return $product;
     }
 
+    /**
+     * Delete Product
+     *
+     * @param string $sku
+     * @return boolean
+     */
+    protected function deleteProduct($sku)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'delete'
+            ]
+        ];
+
+        return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
+            $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     */
     public function testCreateBundle()
     {
-        $simpleProduct = $this->getSimpleProductData();
-        $response = $this->createProduct($simpleProduct);
-        $this->assertArrayHasKey(Product::SKU, $response);
-        $simpleProductSku = $response[Product::SKU];
-
         $product = [
             "sku" => uniqid('sku-', true),
             "name" => uniqid('sku-', true),
@@ -67,7 +82,7 @@ class ProductServiceTest extends WebapiAbstract
                         [
                             "product_links" => [
                                 [
-                                    "sku" => $simpleProductSku
+                                    "sku" => "simple"
                                 ]
                             ]
                         ]
@@ -82,6 +97,7 @@ class ProductServiceTest extends WebapiAbstract
 
         $response = $this->createProduct($product);
         $this->assertArrayHasKey(Product::SKU, $response);
+        $this->deleteProduct($response[Product::SKU]);
     }
 
 }
