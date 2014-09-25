@@ -22,19 +22,18 @@ class AggregationFactory
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(
-        \Magento\Framework\ObjectManager $objectManager
-    ) {
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
+    {
         $this->objectManager = $objectManager;
     }
 
     /**
      * Create Aggregation instance
      *
-     * @param mixed $rawAggregation
+     * @param array $rawAggregation
      * @return \Magento\Framework\Search\Response\Aggregation
      */
-    public function create($rawAggregation)
+    public function create(array $rawAggregation)
     {
         $buckets = array();
         foreach ($rawAggregation as $rawBucketName => $rawBucket) {
