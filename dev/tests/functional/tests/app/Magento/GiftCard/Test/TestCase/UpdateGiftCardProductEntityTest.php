@@ -72,7 +72,7 @@ class UpdateGiftCardProductEntityTest extends Injectable
     {
         $productOriginal->persist();
         $this->productIndex->open();
-        $this->productIndex->getProductGrid()->searchAndOpen(['name' => $productOriginal->getName()]);
+        $this->productIndex->getProductGrid()->searchAndOpen(['sku' => $productOriginal->getSku()]);
         $this->productNew->getProductForm()->fill($product);
         $this->productNew->getFormPageActions()->save();
     }
