@@ -1,0 +1,4 @@
+"description";"invoice";"qty/0";"orderStatus";"constraint"
+"open Archive Order and Ship it";"0";"2";"Processing";"assertShipmentSuccessCreateMessage, assertOrderInSalesArchiveGrid, assertShipmentInShipmentsTab, assertOrderShipmentArchivedInGrid"
+"open Invoiced Archive Order Ship it";"1";"2";"Complete";"assertShipmentSuccessCreateMessage, assertNoShipButton, assertOrderInSalesArchiveGrid, assertShipmentInShipmentsTab, assertOrderShipmentArchivedInGrid"
+"open Archive Order and Ship partially";"0";"1";"Processing";"assertShipmentSuccessCreateMessage, assertOrderInSalesArchiveGrid, assertShipmentInShipmentsTab, assertOrderShipmentArchivedInGrid"

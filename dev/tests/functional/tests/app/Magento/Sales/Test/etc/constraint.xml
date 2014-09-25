@@ -75,4 +75,7 @@
     <assertOrderNotInOrdersGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderNotInOrdersGrid>
+    <assertShipmentSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentSuccessCreateMessage>
 </constraint>

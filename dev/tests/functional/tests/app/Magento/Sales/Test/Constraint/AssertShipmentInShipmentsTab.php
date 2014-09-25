@@ -33,24 +33,33 @@ class AssertShipmentInShipmentsTab extends AbstractConstraint
      * @param OrderIndex $orderIndex
      * @param OrderInjectable $order
      * @param array $ids
+     * @param array $qty [optional]
      * @return void
      */
     public function processAssert(
         OrderView $orderView,
         OrderIndex $orderIndex,
         OrderInjectable $order,
-        array $ids
+        array $ids,
+        array $qty = null
     ) {
         $orderIndex->open();
         $orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $orderView->getOrderForm()->openTab('shipments');
 
         foreach ($ids['shipmentIds'] as $shipmentId) {
-            $qty = $order->getTotalQtyOrdered();
+            $qtyItems = 0;
+            if ($qty) {
+                foreach ($qty as $value) {
+                    $qtyItems = $qtyItems + $value;
+                }
+            } else {
+                $qtyItems = $order->getTotalQtyOrdered();
+            }
             $filter = [
                 'id' => $shipmentId,
-                'qty_from' => $qty,
-                'qty_to' => $qty
+                'qty_from' => $qtyItems,
+                'qty_to' => $qtyItems
             ];
             \PHPUnit_Framework_Assert::assertTrue(
                 $orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->isRowVisible($filter),
