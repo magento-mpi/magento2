@@ -61,33 +61,24 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
 
         $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
 
-        $headBlock = $this->getLayout()->getBlock('head');
         $category = $this->getCurrentCategory();
-        if ($headBlock && $category) {
+        if ($category) {
             $title = $category->getMetaTitle();
             if ($title) {
-                $headBlock->setTitle($title);
+                $this->pageConfig->setTitle($title);
             }
             $description = $category->getMetaDescription();
             if ($description) {
-                $headBlock->setDescription($description);
+                $this->pageConfig->setDescription($description);
             }
             $keywords = $category->getMetaKeywords();
             if ($keywords) {
-                $headBlock->setKeywords($keywords);
+                $this->pageConfig->setKeywords($keywords);
             }
-            //@todo: move canonical link to separate block
-            if ($this->_categoryHelper->canUseCanonicalTag() && !$headBlock->getChildBlock(
-                'magento-page-head-category-canonical-link'
-            )
-            ) {
-                $headBlock->addChild(
-                    'magento-page-head-category-canonical-link',
-                    'Magento\Theme\Block\Html\Head\Link',
-                    array(
-                        'url' => $category->getUrl(),
-                        'properties' => array('attributes' => array('rel' => 'canonical'))
-                    )
+            if ($this->_categoryHelper->canUseCanonicalTag()) {
+                $this->pageConfig->addRemotePageAsset(
+                    $category->getUrl(),
+                    ['attributes' => ['rel' => 'canonical']]
                 );
             }
 

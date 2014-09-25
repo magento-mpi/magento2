@@ -104,6 +104,8 @@ class Layout
             'messageManager' => $objectManager->get('Magento\Framework\Message\ManagerInterface'),
             'themeResolver' => $objectManager->get('Magento\Framework\View\Design\Theme\ResolverInterface'),
             'scopeResolver' => $objectManager->get('Magento\Framework\App\ScopeResolverInterface'),
+            'pageConfigReader' => $objectManager->get('Magento\Framework\View\Page\Config\Reader'),
+            'pageConfigGenerator' => $objectManager->get('Magento\Framework\View\Page\Config\Generator'),
             'scopeType' => \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
         ];
     }
