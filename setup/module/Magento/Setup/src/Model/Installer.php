@@ -161,6 +161,9 @@ class Installer
     {
         $this->log->log('Starting Magento installation:');
 
+        $this->log->log('Enabling Maintenance Mode:');
+        $this->setMaintenanceMode(1);
+
         $this->log->log('File permissions check...');
         $this->checkFilePermissions();
 
@@ -189,6 +192,9 @@ class Installer
 
         $this->log->log('Enabling caches:');
         $this->enableCaches();
+
+        $this->log->log('Disabling Maintenance Mode:');
+        $this->setMaintenanceMode(0);
 
         $this->log->logSuccess('Magento installation complete.');
 
@@ -366,6 +372,17 @@ class Installer
     {
         $args = [$this->systemConfig->getMagentoBasePath() . '/dev/shell/cache.php'];
         $this->exec('-f %s -- --set=1', $args);
+    }
+
+    /**
+     * Enables or disables maintenance mode for Magento application
+     *
+     * @param int $value
+     */
+    private function setMaintenanceMode($value)
+    {
+        $args = [$this->systemConfig->getMagentoBasePath() . '/dev/shell/maintenance.php', $value];
+        $this->exec('-f %s -- --set=%s', $args);
     }
 
     /**
