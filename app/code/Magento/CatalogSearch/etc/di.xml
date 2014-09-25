@@ -61,7 +61,12 @@
     </virtualType>
     <type name="Magento\Framework\Search\Adapter\Mysql\DocumentFactory">
         <arguments>
-            <argument name="entityId" xsi:type="object">Magento\Framework\Search\ProductEntityMetadata</argument>
+            <argument name="entityMetadata" xsi:type="object">Magento\Framework\Search\ProductEntityMetadata</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Search\Adapter\Mysql\Adapter">
+        <arguments>
+            <argument name="entityMetadata" xsi:type="object">Magento\Framework\Search\ProductEntityMetadata</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Search\Request\Config\FilesystemReader">

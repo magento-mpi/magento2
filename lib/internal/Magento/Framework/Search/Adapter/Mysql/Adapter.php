@@ -10,11 +10,9 @@ namespace Magento\Framework\Search\Adapter\Mysql;
 use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container as AggregationContainer;
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Term;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderContainer;
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\AdapterInterface;
-use Magento\Framework\Search\Request\BucketInterface;
+use Magento\Framework\Search\EntityMetadata;
 use Magento\Framework\Search\RequestInterface;
 
 /**
@@ -42,47 +40,42 @@ class Adapter implements AdapterInterface
     private $resource;
 
     /**
-     * @var Aggregation\Builder\Term
-     */
-    private $termBuilder;
-    /**
-     * @var DataProviderInterface
-     */
-    private $dataProvider;
-    /**
      * @var DataProviderContainer
      */
     private $dataProviderContainer;
+
     /**
      * @var AggregationContainer
      */
     private $aggregationContainer;
 
     /**
+     * @var EntityMetadata
+     */
+    private $entityMetadata;
+
+    /**
      * @param Mapper $mapper
      * @param ResponseFactory $responseFactory
      * @param Resource $resource
-     * @param Aggregation\Builder\Term $termBuilder
      * @param DataProviderContainer $dataProviderContainer
-     * @param DataProviderInterface $dataProvider
      * @param AggregationContainer $aggregationContainer
+     * @param EntityMetadata $entityMetadata
      */
     public function __construct(
         Mapper $mapper,
         ResponseFactory $responseFactory,
         Resource $resource,
-        Term $termBuilder,
         DataProviderContainer $dataProviderContainer,
-        DataProviderInterface $dataProvider,
-        AggregationContainer $aggregationContainer
+        AggregationContainer $aggregationContainer,
+        EntityMetadata $entityMetadata
     ) {
         $this->mapper = $mapper;
         $this->responseFactory = $responseFactory;
         $this->resource = $resource;
-        $this->termBuilder = $termBuilder;
-        $this->dataProvider = $dataProvider;
         $this->dataProviderContainer = $dataProviderContainer;
         $this->aggregationContainer = $aggregationContainer;
+        $this->entityMetadata = $entityMetadata;
     }
 
     /**
@@ -128,9 +121,10 @@ class Adapter implements AdapterInterface
      */
     private function getEntityIds($products)
     {
+        $fieldName = $this->entityMetadata->getEntityId();
         $productIds = [];
         foreach ($products as $product) {
-            $productIds[] = $product['product_id'];
+            $productIds[] = $product[$fieldName];
         }
         return $productIds;
     }
