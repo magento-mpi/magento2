@@ -135,7 +135,9 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->aggregationContainer = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container')
+        $this->aggregationContainer = $this->getMockBuilder(
+            'Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container'
+        )
             ->setMethods(['get'])
             ->disableOriginalConstructor()
             ->getMock();
