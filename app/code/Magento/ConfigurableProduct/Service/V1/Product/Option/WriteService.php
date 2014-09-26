@@ -21,7 +21,6 @@ use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Webapi\Exception;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -132,13 +131,13 @@ class WriteService implements WriteServiceInterface
         $configurableAttribute = $this->configurableAttributeFactory->create();
         $configurableAttribute->load($optionId);
         if (!$configurableAttribute->getId() || $configurableAttribute->getProductId() != $product->getId()) {
-            throw new NoSuchEntityException('Option with id "%1" not found', [$optionId]);
+            throw new NoSuchEntityException('Option with id "%option_id" not found', ['option_id' => $optionId]);
         }
         $configurableAttribute = $this->optionConverter->getModelFromData($option, $configurableAttribute);
         try {
             $configurableAttribute->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not update option with id "%1"', [$optionId]);
+            throw new CouldNotSaveException('Could not update option with id "%option_id"', ['option_id' => $optionId]);
         }
 
         return true;
@@ -164,21 +163,19 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
+     * Get product by SKU.
+     *
      * @param string $productSku
      * @return \Magento\Catalog\Model\Product
-     * @throws \Magento\Webapi\Exception
+     * @throws InputException
      */
     private function getProduct($productSku)
     {
         $product = $this->productRepository->get($productSku);
         if (ConfigurableType::TYPE_CODE !== $product->getTypeId()) {
-            throw new Exception(
-                'Product with specified sku: "%1" is not a configurable product',
-                Exception::HTTP_FORBIDDEN,
-                Exception::HTTP_FORBIDDEN,
-                [
-                    $product->getSku()
-                ]
+            throw new InputException(
+                'Product with specified sku: "%sku" is not a configurable product',
+                ['sku' => $product->getSku()]
             );
         }
         return $product;
