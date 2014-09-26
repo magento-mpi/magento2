@@ -378,6 +378,7 @@ class Installer
      * Enables or disables maintenance mode for Magento application
      *
      * @param int $value
+     * @return void
      */
     private function setMaintenanceMode($value)
     {
