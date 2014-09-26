@@ -40,12 +40,12 @@ class Range implements BucketInterface
     /**
      * {@inheritdoc}
      */
-    public function build(Select $baseQuery, RequestBucketInterface $bucket, array $productIds)
+    public function build(Select $baseQuery, RequestBucketInterface $bucket, array $entityIds)
     {
         /** @var RangeBucket $bucket */
         $metrics = $this->metricsBuilder->build($bucket);
 
-        $baseQuery->where('main_table.entity_id IN (?)', $productIds);
+        $baseQuery->where('main_table.entity_id IN (?)', $entityIds);
 
         /** @var Select $fullQuery */
         $fullQuery = $this->getConnection()->select();
