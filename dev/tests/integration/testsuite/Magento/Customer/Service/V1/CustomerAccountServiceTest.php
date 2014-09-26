@@ -407,8 +407,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_customerAccountService->resetPassword(1, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
-        } catch (ExpiredException $ee) {
-            $this->assertEquals('Reset password token expired.', $ee->getMessage());
+        } catch (ExpiredException $e) {
+            $this->assertEquals('Reset password token expired.', $e->getMessage());
         }
     }
 
