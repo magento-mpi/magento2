@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Edit;
+namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice\View;
 
 use Mtf\Block\Block;
 
 /**
  * Class Items
- * Items of invoice block on invoice view page
+ * Invoice Items block on Invoice view page
  */
 class Items extends Block
 {

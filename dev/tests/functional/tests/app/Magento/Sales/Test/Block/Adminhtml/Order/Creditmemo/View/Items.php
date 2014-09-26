@@ -12,7 +12,7 @@ use Mtf\Block\Block;
 
 /**
  * Class Items
- * Items of invoice block on invoice view page
+ * Credit Memo Items block on Credit Memo view page
  */
 class Items extends Block
 {
@@ -125,4 +125,3 @@ class Items extends Block
         return preg_replace('[^0-9\.]', '', $price);
     }
 }
-

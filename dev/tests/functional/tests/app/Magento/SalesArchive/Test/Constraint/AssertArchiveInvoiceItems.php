@@ -15,10 +15,10 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices;
 use Mtf\Constraint\AbstractAssertForm;
 
 /**
- * Class AssertOrderInvoiceArchiveItemsGrid
+ * Class AssertArchiveInvoiceItems
  * Assert invoiced product represented in invoice archive
  */
-class AssertOrderInvoiceArchiveItemsGrid extends AbstractAssertForm
+class AssertArchiveInvoiceItems extends AbstractAssertForm
 {
     /**
      * Key for sort data

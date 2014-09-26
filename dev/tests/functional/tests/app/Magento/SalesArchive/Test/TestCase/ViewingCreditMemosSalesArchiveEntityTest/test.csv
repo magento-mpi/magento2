@@ -1,2 +1,0 @@
-"description";"configArchive";"steps";"order/dataSet";"constraint"
-"View return  Archive order";"salesarchive_all_statuses";"invoice,shipping,creditMemo";"default";"assertCreditMemoArchivedItems"

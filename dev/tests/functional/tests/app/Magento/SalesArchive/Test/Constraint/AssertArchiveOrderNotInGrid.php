@@ -13,10 +13,10 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 
 /**
- * Class AssertOrderInSalesArchiveGrid
- * Assert that order with fixture data is in the Grid
+ * Class AssertArchiveOrderNotInGrid
+ * Assert that order is absent in archive orders grid
  */
-class AssertOrderInSalesArchiveGrid extends AbstractConstraint
+class AssertArchiveOrderNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,7 +26,7 @@ class AssertOrderInSalesArchiveGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that order with fixture data is in archive orders grid
+     * Assert that order is absent in archive orders grid
      *
      * @param OrderInjectable $order
      * @param ArchiveOrders $archiveOrders
@@ -42,9 +42,9 @@ class AssertOrderInSalesArchiveGrid extends AbstractConstraint
         ];
         $archiveOrders->open();
         $errorMessage = implode(', ', $filter);
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $archiveOrders->getSalesOrderGrid()->isRowVisible($filter),
-            'Order with following data \'' . $errorMessage . '\' is absent in archive orders grid.'
+            'Order with following data \'' . $errorMessage . '\' is present in archive orders grid.'
         );
     }
 
@@ -55,6 +55,6 @@ class AssertOrderInSalesArchiveGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order is present in archive orders grid.';
+        return 'Order is absent in archive orders grid.';
     }
 }

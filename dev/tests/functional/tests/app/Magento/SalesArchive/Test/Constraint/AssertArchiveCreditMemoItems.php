@@ -8,18 +8,17 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\Sales\Test\Page\Adminhtml\SalesCreditMemoView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos;
-use Mtf\Constraint\AbstractAssertForm;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class AssertCreditMemoArchivedItems
+ * Class AssertArchiveCreditMemoItems
  * Check that returned product represented on Credit memo page
- *
  */
-class AssertCreditMemoArchivedItems extends AbstractAssertForm
+class AssertArchiveCreditMemoItems extends AbstractAssertForm
 {
     /**
      * Key for sort data
@@ -70,7 +69,7 @@ class AssertCreditMemoArchivedItems extends AbstractAssertForm
             $creditMemos->open();
             $creditMemos->getCreditMemosGrid()->searchAndOpen($filter);
 
-            $itemsData = $this->prepareCreditMemoItem($creditMemoView->getSalesCreditMemoItems()->getData());
+            $itemsData = $this->prepareCreditMemoItem($creditMemoView->getItemsBlock()->getData());
             $error = $this->verifyData($productsData, $itemsData);
             \PHPUnit_Framework_Assert::assertEmpty($error, $error);
         }
