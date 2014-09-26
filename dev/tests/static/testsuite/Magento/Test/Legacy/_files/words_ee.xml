@@ -22,11 +22,9 @@
             <word>Enterprise_Staging</word>
         </item>
         <item>
-            <path>dev/tests/functional-old/testsuite/Enterprise/Mage/GiftWrapping/</path>
             <word>Enterprise_Staging</word>
         </item>
         <item>
-            <path>dev/tests/functional-old/testsuite/Enterprise/Mage/Rollback/RollbackTest.php</path>
             <word>Enterprise_Staging</word>
         </item>
     </whitelist>
