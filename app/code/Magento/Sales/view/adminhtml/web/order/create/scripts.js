@@ -1166,7 +1166,7 @@ AdminOrder.prototype = {
                         } else if (true === response.success) {
                             message = parameters.vatInvalidMessage.replace(/%s/, params.vat);
                         } else {
-                            message = parameters.vatErrorMessage;
+                            message = parameters.vatValidationFailedMessage;
                         }
                     } else {
                         if (true === response.valid) {
