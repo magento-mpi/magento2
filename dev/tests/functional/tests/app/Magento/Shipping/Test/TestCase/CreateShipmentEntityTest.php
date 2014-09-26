@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\TestCase;
+namespace Magento\Shipping\Test\TestCase;
 
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\ObjectManager;
@@ -66,7 +66,7 @@ class CreateShipmentEntityTest extends Injectable
 
         // Steps
         $createShipping = $objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateShippingStep',
+            'Magento\Sales\Test\TestStep\CreateShipmentStep',
             ['order' => $order, 'data' => $shipment]
         );
         $data = $createShipping->run();

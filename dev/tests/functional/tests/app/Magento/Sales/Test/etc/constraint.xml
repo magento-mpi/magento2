@@ -75,12 +75,6 @@
     <assertInvoicedAmountOnFrontend module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoicedAmountOnFrontend>
-    <assertNoShipButton module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertNoShipButton>
-    <assertShipmentInShipmentsTab module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertShipmentInShipmentsTab>
     <assertInvoiceSuccessCreateMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoiceSuccessCreateMessage>

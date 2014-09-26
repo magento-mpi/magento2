@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Constraint;
+namespace Magento\Shipping\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
@@ -36,13 +36,12 @@ class AssertShipmentInShipmentsGrid extends AbstractConstraint
     public function processAssert(ShipmentIndex $shipmentIndex, OrderInjectable $order, array $ids)
     {
         $shipmentIndex->open();
-        $order_id = $order->getId();
+        $orderId = $order->getId();
         $totalQty = $order->getTotalQtyOrdered();
-        $totalQty = is_array($totalQty) ? $totalQty : [$totalQty];
         foreach ($ids['shipmentIds'] as $key => $shipmentIds) {
             $filter = [
                 'id' => $shipmentIds,
-                'order_id' => $order_id,
+                'order_id' => $orderId,
                 'total_qty_from' => $totalQty[$key],
                 'total_qty_to' => $totalQty[$key]
             ];

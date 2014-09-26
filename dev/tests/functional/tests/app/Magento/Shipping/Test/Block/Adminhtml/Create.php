@@ -44,9 +44,12 @@ class Create extends Block
         if (isset($data['comment']) && $data['comment'] != '-') {
             $this->getItemsBlock()->setComment($data['comment']);
         }
-        if (isset($data['qty']) && $data['qty'] !== '-' && $products !== null) {
-            foreach ($products as $product) {
-                $this->getItemsBlock()->getItemProductBlock($product)->setQty($data['qty']);
+        if (isset($data['qty']) && $products !== null) {
+            foreach ($products as $key => $product) {
+                if ($data['qty'][$key] == '-') {
+                    continue;
+                }
+                $this->getItemsBlock()->getItemProductBlock($product)->setQty($data['qty'][$key]);
             }
         }
         if (isset($data['tracing']) && $data['tracing']['number'] != '-') {

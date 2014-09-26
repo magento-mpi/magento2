@@ -46,8 +46,17 @@ class CreateArchiveShipmentStep extends CreateShipmentStep implements TestStepIn
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->ship();
+        if (!empty($this->data)) {
+            $this->orderShipmentNew->getCreateBlock()->fill($this->data, $this->order->getEntityId()['products']);
+        }
         $this->orderShipmentNew->getShipItemsBlock()->submit();
+        if (!empty($this->data)) {
+            $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
+        }
 
-        return ['shipmentIds' => $this->getShipmentIds()];
+        return [
+            'shipmentIds' => $this->getShipmentIds(),
+            'successMessage' => isset($successMessage) ? $successMessage : null
+        ];
     }
 }

@@ -8,13 +8,11 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Invoice;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
-
 /**
  * Class Grid
  * Invoice grid on invoice index page
  */
-class Grid extends GridInterface
+class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * Filters array mapping
