@@ -1,0 +1,160 @@
+<script data-mage-init='{ "Magento_Ui/js/initializer": "" }' type="application/json">
+    {
+        "providers": {
+            "customer_form_data": {
+                "path": "Magento_Ui/js/form/provider",
+                "meta": {
+                    "customer": {
+                        "website": {
+                            "index": "website",
+                            "data_type": "text",
+                            "input_type": "select",
+                            "label": "Associate to Website",
+                            "options": {
+                                "0": "Please select ...",
+                                "1": "Admin"
+                            }
+                        },
+                        "firstname": {
+                            "index": "firstname",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "First Name"
+                        },
+                        "lastname": {
+                            "index": "lastname",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Last Name"
+                        },
+                        "addresses": {
+                            "meta_ref": "address",
+                            "data_type": "collection",
+                            "input_type": "",
+                            "label": "Addresses",
+                            "meta": {
+                                "ref": "address"
+                            }
+                        }
+                    },
+                    "address": {
+                        "prefix": {
+                            "index": "prefix",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Prefix"
+                        }
+                    }
+                },
+                "data": {
+                    "customer": {
+                        "website": 0,
+                        "addresses": {
+                            "prefix": "Mr.",
+                            "suffix": "Sr.",
+                            "firstname": "Misha"
+                        }
+                    }
+                }
+            }
+        },
+
+        "components": {
+            "customer_form_tabs": {
+                "name": "customer_form_tabs",
+                "path": "Magento_Ui/js/tab/group",
+                "source": "customer_form_data",
+                "config": {
+                    "some_form_config": "blabla"
+                }
+            },
+
+            "customer_form_areas_instance": {
+                "name": "customer_form_areas_instance",
+                "path": "Magento_Ui/js/area/group",
+                "source": "customer_form_data",
+            },
+
+            "customer_form_fieldsets": {
+                "name": "customer_form_fieldsets",
+                "path": "Magento_Ui/js/fieldset/group",
+                "source": "customer_form_data",
+            },
+
+            "customer_addresses_form_collection": {
+                "name": "customer_addresses_form_collection",
+                "path": "Magento_Ui/js/form/group",
+                "source": "customer_form_data"
+            },
+
+            "customer_orders_listing_instance": {
+                "name": "customer_orders_listing_instance",
+                "path": "Magento_Ui/js/listing",
+                "source": "customer_form_data",
+                "config": {
+                    //some listing config
+                }
+            }
+        },
+
+        "layout": {
+            {   
+                "customer_form_tabs": {
+                    "items": { // tab groups
+                        'cusomer_info': { // tab group
+                            "label": 'Customer Information',
+                            "items": [ // tabs
+                                {
+                                    "name": 'account', // tab
+                                    "label": 'Account Information'
+                                },
+                                {
+                                    "name": 'addresses', // tab
+                                    "label": 'Addresses Information'
+                                }
+                            ]
+                        }
+                    }
+                },
+                "customer_form_areas_instance": {
+                    "items": {
+                        'account': {
+                            "visible": true
+                            "injections": [
+                                'account_info'
+                            ]
+                        },
+                        'addresses': {
+                            "visible": false,
+                            "injections": [
+                                'account_info',
+                                'product_prices'
+                            ]
+                        }
+                    }
+                },
+                "customer_form_fieldsets": {
+                    "items": {
+                        'account_info': {
+                            "label": 'Account Information',
+                            "collapsible": true,
+                            "injections": [
+                                'customer.website',
+                                'customer.firstname',
+                                'customer.lastname',
+                                'customer_orders_listing_instance'
+                            ]
+                        },
+                        'addresses': {
+                            "label": 'Customer address',
+                            "collapsible": true,
+                            "injections": [
+                                'customer_addresses_form_collection'
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>
