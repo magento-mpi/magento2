@@ -8,6 +8,7 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
@@ -26,24 +27,31 @@ class AssertOrderStatusInArchiveOrders extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert  that status is correct on order page in backend (same with value of orderStatus variable)
+     * Assert that status is correct on order page in backend (same with value of orderStatus variable)
      *
      * @param OrderInjectable $order
      * @param ArchiveOrders $archiveOrders
+     * @param OrderView $orderView
      * @param string $orderStatus
      * @return void
      */
-    public function processAssert(OrderInjectable $order, ArchiveOrders $archiveOrders, $orderStatus)
-    {
+    public function processAssert(
+        OrderInjectable $order,
+        ArchiveOrders $archiveOrders,
+        OrderView $orderView,
+        $orderStatus
+    ) {
         $filter = [
             'id' => $order->getId(),
             'status' => $orderStatus,
         ];
         $archiveOrders->open();
-        $errorMessage = implode(', ', $filter);
-        \PHPUnit_Framework_Assert::assertTrue(
-            $archiveOrders->getSalesOrderGrid()->isRowVisible($filter),
-            "Order with following data '$errorMessage' is absent in archive orders grid."
+        $archiveOrders->getSalesOrderGrid()->searchAndOpen($filter);
+        $actualOrderStatus = $orderView->getOrderInfoBlock()->getOrderStatus();
+        \PHPUnit_Framework_Assert::assertEquals(
+            $orderStatus,
+            $actualOrderStatus,
+            "Order status is not correct on archive orders page backend."
         );
     }
 

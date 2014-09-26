@@ -35,4 +35,31 @@
     <assertOrderButtonsAvailableInArchiveOrders module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertOrderButtonsAvailableInArchiveOrders>
+    <assertArchivedOrdersInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrdersInGrid>
+    <assertArchivedOrderCancelMassActionSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrderCancelMassActionSuccessMessage>
+    <assertArchivedOrderCancelMassActionErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrderCancelMassActionErrorMessage>
+    <assertArchivedOrderOnHoldSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrderOnHoldSuccessMessage>
+    <assertArchivedOrderOnHoldErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrderOnHoldErrorMessage>
+    <assertArchivedOrderReleaseSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrderReleaseSuccessMessage>
+    <assertArchivedOrderReleaseErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrderReleaseErrorMessage>
+    <assertRemoveOrdersFromArchiveSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertRemoveOrdersFromArchiveSuccessMessage>
+    <assertArchivedOrdersCancelMessages module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchivedOrdersCancelMessages>
 </constraint>
