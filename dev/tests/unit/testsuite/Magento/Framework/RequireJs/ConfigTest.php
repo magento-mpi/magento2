@@ -124,12 +124,10 @@ expected;
             ->method('getBaseUrl')
             ->will($this->returnValue('http://base.url/'));
         $expected = <<<expected
-
 require.config({
     "baseUrl": "http://base.url/area/theme/locale",
     "waitSeconds": 0
 });
-
 
 expected;
         $actual = $this->object->getBaseConfig();
