@@ -9,7 +9,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
-    <referenceBlock name="form">
+    <referenceBlock name="tabs">
         <arguments>
             <argument name="name" xsi:type="string">customer_backend_form</argument>
 
@@ -18,9 +18,11 @@
                 <item name="addresses" xsi:type="string">Magento\Customer\Ui\DataProvider\CustomerAddressCollection</item>
             </argument>
 
-            <argument name="decorator_pool" xsi:type="array">
-                <item name="layout" xsi:type="array">
-                    <item name="group_by" xsi:type="string">data_type</item>
+
+            <argument name="layout" xsi:type="array">
+                <item name="class" xsi:type="string">Magento\Ui\Component\Layouts\Tabs</item>
+                <item name="arguments" xsi:type="array">
+                    <item name="group_by" xsi:type="array">data_type</item>
                 </item>
             </argument>
 
@@ -31,6 +33,7 @@
                 </item>
             </argument>
         </arguments>
+
         <block name="dashboard1" class="AS1" />
         <block name="dashboard2" class="AS2" />
         <block name="dashboard3" class="AS3" />

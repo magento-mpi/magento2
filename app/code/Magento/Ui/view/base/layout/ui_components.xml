@@ -119,7 +119,6 @@
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form/default.phtml</argument>
             <argument name="js_component_name" xsi:type="string">ui/form</argument>
-
         </arguments>
     </block>
 
@@ -128,12 +127,5 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::tabs/default.phtml</argument>
         </arguments>
     </block>
-    <refrenceBlock name="form">
-        <argument name="decorator_pool" xsi:type="array">
-            <item name="layout" xsi:type="array">
-                <item name="component" xsi:type="string">tabs</item>
-            </item>
-        </argument>
-    </refrenceBlock>
 
 </layout>

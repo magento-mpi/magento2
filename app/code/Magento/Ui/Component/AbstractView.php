@@ -28,13 +28,6 @@ abstract class AbstractView extends Template implements UiComponentInterface
     protected $configurationBuilder;
 
     /**
-     * Root view component
-     *
-     * @var UiComponentInterface
-     */
-    protected $rootComponent;
-
-    /**
      * View configuration data
      *
      * @var ConfigInterface

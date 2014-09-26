@@ -34,13 +34,6 @@ class Filter extends AbstractView
     protected $filterPool;
 
     /**
-     * Root view component
-     *
-     * @var UiComponentInterface
-     */
-    protected $rootComponent;
-
-    /**
      * Constructor
      *
      * @param TemplateContext $context
