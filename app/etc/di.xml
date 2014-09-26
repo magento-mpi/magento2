@@ -408,6 +408,7 @@
         <arguments>
             <argument name="buckets" xsi:type="array">
                 <item name="termBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Term</item>
+                <item name="rangeBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Range</item>
             </argument>
         </arguments>
     </type>

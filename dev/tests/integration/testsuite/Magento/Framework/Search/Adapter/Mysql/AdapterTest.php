@@ -86,7 +86,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $queryResponse = $this->executeQuery();
 
         $this->assertEquals(2, $queryResponse->count());
-        $this->assertEquals(['weight_bucket'], $queryResponse->getAggregations()->getBucketNames());
+        $this->assertEquals(['weight_bucket', 'price_bucket'], $queryResponse->getAggregations()->getBucketNames());
     }
 
     /**
