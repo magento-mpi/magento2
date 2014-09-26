@@ -26,7 +26,7 @@ class AssertDownloadsReportResult extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert product info in report: product name, link title, sku, downloads number (Reports> Products> Downloads)
+     * Assert product info in report: product name, link title, sku, downloads number (Reports > Products > Downloads)
      *
      * @param OrderInjectable $order
      * @param DownloadsReport $downloadsReport
@@ -47,7 +47,7 @@ class AssertDownloadsReportResult extends AbstractConstraint
                 $filter[] = $downloads;
                 \PHPUnit_Framework_Assert::assertTrue(
                     $downloadsReport->getGridBlock()->isRowVisible($filter, false),
-                    'Downloads report is not present in reports grid.'
+                    "Downloads report link {$link['title']} is not present in reports grid."
                 );
             }
         }

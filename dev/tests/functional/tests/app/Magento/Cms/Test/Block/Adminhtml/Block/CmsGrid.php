@@ -44,9 +44,16 @@ class CmsGrid extends Grid
     ];
 
     /**
-     * An element locator which allows to select first entity in grid
+     * Locator value for 'Search' button
      *
      * @var string
      */
-    protected $editLink = 'td[data-column="title"]';
+    protected $searchButton = '.action-apply';
+
+    /**
+     * Locator value for 'Reset' button
+     *
+     * @var string
+     */
+    protected $resetButton = '.action-reset';
 }

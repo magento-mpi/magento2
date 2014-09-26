@@ -39,11 +39,16 @@ class AssertCmsBlockInGrid extends AbstractConstraint
     {
         $cmsBlockIndex->open();
         $data = $cmsBlock->getData();
+        if (isset($data['stores'])) {
+            $storeId = is_array($data['stores']) ? reset($data['stores']) : $data['stores'];
+            $parts = explode("/", $storeId);
+        }
 
         $filter = [
             'title' => $data['title'],
             'identifier' => $data['identifier'],
             'is_active' => $data['is_active'],
+            'store_id' => end($parts),
         ];
 
         // add creation_time & update_time to filter if there are ones
@@ -59,6 +64,7 @@ class AssertCmsBlockInGrid extends AbstractConstraint
             'CMS Block with '
             . 'title \'' . $filter['title'] . '\', '
             . 'identifier \'' . $filter['identifier'] . '\', '
+            . 'store view \'' . $filter['store_id'] . '\', '
             . 'status \'' . $filter['is_active'] . '\', '
             . (isset($filter['creation_time_from'])
                 ? ('creation_time \'' . $filter['creation_time_from'] . '\', ')

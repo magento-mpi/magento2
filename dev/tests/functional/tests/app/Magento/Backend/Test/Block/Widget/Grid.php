@@ -34,7 +34,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $searchButton = '.action-apply';
+    protected $searchButton = '[title=Search][class*=action]';
 
     /**
      * Locator for 'Sort' link
@@ -48,7 +48,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $resetButton = '.action-reset';
+    protected $resetButton = '[title="Reset Filter"][class*=action]';
 
     /**
      * The first row in grid. For this moment we suggest that we should strictly define what we are going to search

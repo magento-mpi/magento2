@@ -11,6 +11,7 @@ namespace Magento\Reports\Test\TestCase;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Downloadable\Test\Page\DownloadableCustomerProducts;
 use Mtf\TestCase\Injectable;
+use Mtf\Client\Browser;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
@@ -27,7 +28,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  *
  * Steps:
  * 1. Open Backend.
- * 2. Go to Reports> Products> Downloads.
+ * 2. Go to Reports > Products > Downloads.
  * 3. Perform all assertions.
  *
  * @group Reports_(MX)
@@ -35,6 +36,13 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  */
 class DownloadProductsReportEntityTest extends Injectable
 {
+    /**
+     * Browser Interface
+     *
+     * @var Browser
+     */
+    protected $browser;
+
     /**
      * Customer Account index page
      *
@@ -56,10 +64,14 @@ class DownloadProductsReportEntityTest extends Injectable
      * @param DownloadableCustomerProducts $customerProducts
      * @return void
      */
-    public function __inject(CustomerAccountIndex $customerAccount, DownloadableCustomerProducts $customerProducts)
-    {
+    public function __inject(
+        CustomerAccountIndex $customerAccount,
+        DownloadableCustomerProducts $customerProducts,
+        Browser $browser
+    ) {
         $this->customerAccount = $customerAccount;
         $this->customerProducts = $customerProducts;
+        $this->browser = $browser;
     }
 
     /**
@@ -97,6 +109,9 @@ class DownloadProductsReportEntityTest extends Injectable
             foreach ($product->getDownloadableLinks()['downloadable']['link'] as $link) {
                 for ($i = 0; $i < $downloads; $i++) {
                     $this->customerProducts->getMainBlock()->openLink($link['title']);
+                    $this->browser->selectWindow();
+                    $this->browser->closeWindow();
+                    $this->browser->selectWindow();
                 }
             }
         }
