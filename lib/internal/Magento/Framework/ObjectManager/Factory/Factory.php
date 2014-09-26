@@ -103,7 +103,7 @@ class Factory implements \Magento\Framework\ObjectManager\Factory
                 $argument = $paramDefault;
             }
             if ($paramType && $argument !== $paramDefault && !is_object($argument)) {
-                if (!is_array($argument) || !isset($argument['instance'])) {
+                if (!isset($argument['instance']) || !is_array($argument)) {
                     throw new \UnexpectedValueException(
                         'Invalid parameter configuration provided for $' . $paramName . ' argument of ' . $requestedType
                     );
