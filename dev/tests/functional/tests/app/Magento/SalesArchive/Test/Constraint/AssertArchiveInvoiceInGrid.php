@@ -13,10 +13,10 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices;
 
 /**
- * Class AssertOrderInvoiceArchivedInGrid
+ * Class AssertArchiveInvoiceInGrid
  * Invoice with corresponding fixture data is present in Sales Archive Invoices grid
  */
-class AssertOrderInvoiceArchivedInGrid extends AbstractConstraint
+class AssertArchiveInvoiceInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness

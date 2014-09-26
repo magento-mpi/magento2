@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
- * Class AssertOrderArchivedSuccessMessage
+ * Class AssertArchiveOrderSuccessMessage
  * Assert that success message is displayed on "Orders Grid" page
  */
-class AssertOrderArchivedSuccessMessage extends AbstractConstraint
+class AssertArchiveOrderSuccessMessage extends AbstractConstraint
 {
     /**
      * Message displayed after moving order to archive

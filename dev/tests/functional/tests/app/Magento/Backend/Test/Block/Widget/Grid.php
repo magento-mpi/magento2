@@ -135,13 +135,6 @@ abstract class Grid extends Block
     protected $option = '[name="status"]';
 
     /**
-     * Selector for action expand Filter
-     *
-     * @var string
-     */
-    protected $filterOpen = '.action.filters-toggle';
-
-    /**
      * Filter button
      *
      * @var string
@@ -154,6 +147,27 @@ abstract class Grid extends Block
      * @var string
      */
     protected $active = '.active';
+
+    /**
+     * Base part of row locator template for getRow() method
+     *
+     * @var string
+     */
+    protected $location = '//div[@class="grid"]//tr[';
+
+    /**
+     * Secondary part of row locator template for getRow() method
+     *
+     * @var string
+     */
+    protected $rowTemplate = 'td[contains(text(),normalize-space("%s"))]';
+
+    /**
+     * Secondary part of row locator template for getRow() method with strict option
+     *
+     * @var string
+     */
+    protected $rowTemplateStrict = 'td[text()[normalize-space()="%s"]]';
 
     /**
      * Get backend abstract block
@@ -175,7 +189,6 @@ abstract class Grid extends Block
      */
     private function prepareForSearch(array $filters)
     {
-        $this->openFilterBlock();
         foreach ($filters as $key => $value) {
             if (isset($this->filters[$key])) {
                 $selector = $this->filters[$key]['selector'];
@@ -263,10 +276,7 @@ abstract class Grid extends Block
      */
     public function resetFilter()
     {
-        $expandFilterButton = $this->_rootElement->find($this->filterOpen, Locator::SELECTOR_CSS);
-        if ($expandFilterButton->isVisible()) {
-            $expandFilterButton->click();
-        }
+        $this->openFilterBlock();
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
         $this->getTemplateBlock()->waitLoader();
         $this->reinitRootElement();

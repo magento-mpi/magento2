@@ -55,6 +55,11 @@
         <mca>sales/order/view</mca>
         <class>Magento\Sales\Test\Page\OrderView</class>
     </orderView>
+    <salesCreditMemoView>
+        <mca>sales/creditmemo/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\SalesCreditMemoView</class>
+    </salesCreditMemoView>
     <invoiceIndex>
         <mca>sales/invoice</mca>
         <area>adminhtml</area>

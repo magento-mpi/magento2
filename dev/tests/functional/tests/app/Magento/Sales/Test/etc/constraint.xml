@@ -87,9 +87,6 @@
     <assertInvoiceWithShipmentSuccessMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoiceWithShipmentSuccessMessage>
-    <assertShipmentSuccessCreateMessage module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertShipmentSuccessCreateMessage>
     <assertOrderNotInOrdersGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderNotInOrdersGrid>
@@ -111,10 +108,4 @@
     <assertOrderReleaseFailMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderReleaseFailMessage>
-    <assertShipmentInShipmentsGrid module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertShipmentInShipmentsGrid>
-    <assertShipTotalQuantity module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertShipTotalQuantity>
 </constraint>

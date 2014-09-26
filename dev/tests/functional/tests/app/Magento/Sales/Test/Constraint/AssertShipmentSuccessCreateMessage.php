@@ -9,17 +9,18 @@
 namespace Magento\Sales\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
 
 /**
  * Class AssertShipmentSuccessCreateMessage
- * Assert success message presents
+ * Assert that success message is displayed after shipment has been created
  */
 class AssertShipmentSuccessCreateMessage extends AbstractConstraint
 {
     /**
-     * Text value to be checked
+     * Shipment created success message
      */
-    const SUCCESS_CREATE_MESSAGE = 'The shipment has been created.';
+    const SUCCESS_MESSAGE = 'The shipment has been created.';
 
     /**
      * Constraint severeness
@@ -36,7 +37,7 @@ class AssertShipmentSuccessCreateMessage extends AbstractConstraint
      */
     public function processAssert($successMessage)
     {
-        \PHPUnit_Framework_Assert::assertEquals(self::SUCCESS_CREATE_MESSAGE, $successMessage);
+        \PHPUnit_Framework_Assert::assertEquals(self::SUCCESS_MESSAGE, $successMessage);
     }
 
     /**
@@ -46,6 +47,6 @@ class AssertShipmentSuccessCreateMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Success shipment create message is present.';
+        return 'Shipment success create message is present.';
     }
 }

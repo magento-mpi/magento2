@@ -14,8 +14,8 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 
 /**
+ * Class Items
  * Block for items ordered on order page
- *
  */
 class Items extends Block
 {
