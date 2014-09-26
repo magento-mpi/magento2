@@ -88,54 +88,6 @@
             <path>dev/build/publication/extra_files/ce/CHANGELOG.md</path>
         </item>
         <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Enterprise</word>
-            <word>Invitation</word>
-            <word>WebsiteRestriction</word>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>Enterprise</word>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>GiftRegistry</word>
-            <word>Invitation</word>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Enterprise</word>
-            <word>Invitation</word>
-            <word>WebsiteRestriction</word>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-        </item>
-        <item>
-            <!-- License replacement tool does not process *.bat files currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-        </item>
-        <item>
-            <!-- License replacement tool does not process *.sh files currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-        </item>
-        <item>
             <word>Magento/Rma</word>
             <word>Magento\Rma</word>
             <word>Magento_Rma</word>
@@ -273,14 +225,6 @@
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>Reward</word>
             <path>dev/tests/unit/testsuite/Magento/Customer/Model/ImportExport/Import/_files/customer_composite_prepare_row_for_db.csv</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>Reward</word>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>Reward</word>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
