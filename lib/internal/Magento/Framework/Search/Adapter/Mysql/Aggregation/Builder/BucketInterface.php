@@ -13,10 +13,10 @@ use Magento\Framework\Search\Request\BucketInterface as RequestBucketInterface;
 interface BucketInterface
 {
     /**
-     * @param Select $select
+     * @param Select $baseQuery
      * @param RequestBucketInterface $bucket
      * @param array $productIds
      * @return Select
      */
-    public function build(Select $select, RequestBucketInterface $bucket, array $productIds);
+    public function build(Select $baseQuery, RequestBucketInterface $bucket, array $productIds);
 }
