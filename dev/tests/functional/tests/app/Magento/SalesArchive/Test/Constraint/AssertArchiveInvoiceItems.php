@@ -12,32 +12,13 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices;
-use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertArchiveInvoiceItems
  * Assert invoiced product represented in invoice archive
  */
-class AssertArchiveInvoiceItems extends AbstractAssertForm
+class AssertArchiveInvoiceItems extends AbstractAssertArchiveItems
 {
-    /**
-     * Key for sort data
-     *
-     * @var string
-     */
-    protected $sortKey = "::sku";
-
-    /**
-     * List compare fields
-     *
-     * @var array
-     */
-    protected $compareFields = [
-        'product',
-        'sku',
-        'qty'
-    ];
-
     /**
      * Constraint severeness
      *
@@ -73,47 +54,10 @@ class AssertArchiveInvoiceItems extends AbstractAssertForm
 
             $archiveInvoices->open();
             $archiveInvoices->getInvoicesGrid()->searchAndOpen($filter);
-            $itemsData = $this->prepareInvoiceItem($orderInvoiceView->getItemsBlock()->getData());
+            $itemsData = $this->preparePageItems($orderInvoiceView->getItemsBlock()->getData());
             $error = $this->verifyData($productsData, $itemsData);
             \PHPUnit_Framework_Assert::assertEmpty($error, $error);
         }
-    }
-
-    /**
-     * Prepare order products
-     *
-     * @param OrderInjectable $order
-     * @return array
-     */
-    protected function prepareOrderProducts(OrderInjectable $order)
-    {
-        $products = $order->getEntityId()['products'];
-        $productsData = [];
-
-        /** @var CatalogProductSimple $product */
-        foreach ($products as $product) {
-            $productsData[] = [
-                'product' => $product->getName(),
-                'sku' => $product->getSku(),
-                'qty' => $product->getCheckoutData()['options']['qty']
-            ];
-        }
-
-        return $this->sortDataByPath($productsData, $this->sortKey);
-    }
-
-    /**
-     * Prepare invoice data
-     *
-     * @param array $itemsData
-     * @return array
-     */
-    protected function prepareInvoiceItem(array $itemsData)
-    {
-        foreach ($itemsData as $key => $itemData) {
-            $itemsData[$key] = array_intersect_key($itemData, array_flip($this->compareFields));
-        }
-        return $this->sortDataByPath($itemsData, $this->sortKey);
     }
 
     /**

@@ -8,7 +8,6 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Sales\Test\Page\Adminhtml\SalesCreditMemoView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos;
 use Magento\Sales\Test\Fixture\OrderInjectable;
@@ -18,26 +17,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  * Class AssertArchiveCreditMemoItems
  * Check that returned product represented on Credit memo page
  */
-class AssertArchiveCreditMemoItems extends AbstractAssertForm
+class AssertArchiveCreditMemoItems extends AbstractAssertArchiveItems
 {
-    /**
-     * Key for sort data
-     *
-     * @var string
-     */
-    protected $sortKey = "::sku";
-
-    /**
-     * List compare fields
-     *
-     * @var array
-     */
-    protected $compareFields = [
-        'product',
-        'sku',
-        'qty'
-    ];
-
     /**
      * Constraint severeness
      *
@@ -68,48 +49,10 @@ class AssertArchiveCreditMemoItems extends AbstractAssertForm
             $filter = ['creditmemo_id' => $creditMemoIds];
             $creditMemos->open();
             $creditMemos->getCreditMemosGrid()->searchAndOpen($filter);
-
-            $itemsData = $this->prepareCreditMemoItem($creditMemoView->getItemsBlock()->getData());
+            $itemsData = $this->preparePageItems($creditMemoView->getItemsBlock()->getData());
             $error = $this->verifyData($productsData, $itemsData);
             \PHPUnit_Framework_Assert::assertEmpty($error, $error);
         }
-    }
-
-    /**
-     * Prepare order products
-     *
-     * @param OrderInjectable $order
-     * @return array
-     */
-    protected function prepareOrderProducts(OrderInjectable $order)
-    {
-        $products = $order->getEntityId()['products'];
-        $productsData = [];
-
-        /** @var CatalogProductSimple $product */
-        foreach ($products as $product) {
-            $productsData[] = [
-                'product' => $product->getName(),
-                'sku' => $product->getSku(),
-                'qty' => $product->getCheckoutData()['options']['qty']
-            ];
-        }
-
-        return $this->sortDataByPath($productsData, $this->sortKey);
-    }
-
-    /**
-     * Prepare Credit Memo data
-     *
-     * @param array $itemsData
-     * @return array
-     */
-    protected function prepareCreditMemoItem(array $itemsData)
-    {
-        foreach ($itemsData as $key => $itemData) {
-            $itemsData[$key] = array_intersect_key($itemData, array_flip($this->compareFields));
-        }
-        return $this->sortDataByPath($itemsData, $this->sortKey);
     }
 
     /**

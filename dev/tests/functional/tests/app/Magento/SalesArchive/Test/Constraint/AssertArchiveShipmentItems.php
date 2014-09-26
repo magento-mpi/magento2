@@ -9,7 +9,6 @@
 namespace Magento\SalesArchive\Test\Constraint;
 
 use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
 
@@ -17,7 +16,7 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
  * Class AssertArchiveShipmentItems
  * Assert shipped products are represented on archived shipment page
  */
-class AssertArchiveShipmentItems extends AbstractConstraint
+class AssertArchiveShipmentItems extends AbstractAssertArchiveItems
 {
     /**
      * Constraint severeness
@@ -42,24 +41,19 @@ class AssertArchiveShipmentItems extends AbstractConstraint
         array $ids
     ) {
         $orderId = $order->getId();
+        $productsData = $this->prepareOrderProducts($order);
 
-        foreach ($ids['shipmentIds'] as $shipmentId) {
-            $archiveShipments->open();
+        foreach ($ids['shipmentIds'] as $invoiceId) {
             $filter = [
                 'order_id' => $orderId,
-                'shipment_id' => $shipmentId
+                'shipment_id' => $invoiceId
             ];
+
+            $archiveShipments->open();
             $archiveShipments->getShipmentsGrid()->searchAndOpen($filter);
-
-            foreach ($order->getEntityId()['products'] as $product) {
-                $productName = $product->getName();
-                $filter = ['name' => $productName];
-
-                \PHPUnit_Framework_Assert::assertTrue(
-                    $orderShipmentView->getProductsBlock()->isRowVisible($filter, false, false),
-                    'Shipped product ' . $productName . ' is absent on archived shipment page.'
-                );
-            }
+            $itemsData = $this->preparePageItems($orderShipmentView->getItemsBlock()->getData());
+            $error = $this->verifyData($productsData, $itemsData);
+            \PHPUnit_Framework_Assert::assertEmpty($error, $error);
         }
     }
 
@@ -70,6 +64,6 @@ class AssertArchiveShipmentItems extends AbstractConstraint
      */
     public function toString()
     {
-        return 'All shipment products are present in archived shipment grid.';
+        return 'All shipment products are present in archived shipment page.';
     }
 }
