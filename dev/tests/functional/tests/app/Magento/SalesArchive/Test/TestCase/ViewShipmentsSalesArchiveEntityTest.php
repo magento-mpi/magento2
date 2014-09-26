@@ -31,7 +31,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * 4. Open created shipment
  * 5. Perform all assertions
  *
- * @group Order_Management_(CS)
+ * @group Sales_Archive_(CS)
  * @ZephyrId MAGETWO-28870
  */
 class ViewShipmentsSalesArchiveEntityTest extends MoveToArchiveTest

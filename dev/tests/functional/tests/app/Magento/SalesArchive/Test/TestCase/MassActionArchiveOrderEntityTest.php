@@ -34,7 +34,7 @@ use Mtf\TestCase\Injectable;
  * 3. Click 'Submit' button
  * 4. Perform all assertions
  *
- * @group Order_Management_(CS)
+ * @group Sales_Archive_(CS)
  * @ZephyrId MAGETWO-28873
  */
 class MassActionArchiveOrderEntityTest extends Injectable

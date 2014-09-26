@@ -108,4 +108,7 @@
     <assertOrderReleaseFailMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderReleaseFailMessage>
+    <assertShipmentSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentSuccessCreateMessage>
 </constraint>
