@@ -15,62 +15,6 @@ namespace Magento\GiftCard\Model\Resource\Indexer;
 class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
 {
     /**
-     * Register data required by product type process in event object
-     *
-     * @param \Magento\Index\Model\Event $event
-     * @return void
-     */
-    public function registerEvent(\Magento\Index\Model\Event $event)
-    {
-        $attributes = array('allow_open_amount', 'open_amount_min', 'open_amount_max');
-
-        $entity = $event->getEntity();
-        if ($entity == \Magento\Catalog\Model\Product::ENTITY) {
-            switch ($event->getType()) {
-                case \Magento\Index\Model\Event::TYPE_SAVE:
-                    /* @var $product \Magento\Catalog\Model\Product */
-                    $product = $event->getDataObject();
-                    $reindexPrice = $product->getAmountsHasChanged();
-                    foreach ($attributes as $code) {
-                        if ($product->dataHasChangedFor($code)) {
-                            $reindexPrice = true;
-                            break;
-                        }
-                    }
-
-                    if ($reindexPrice) {
-                        $event->addNewData('product_type_id', $product->getTypeId());
-                        $event->addNewData('reindex_price', 1);
-                    }
-
-                    break;
-
-                case \Magento\Index\Model\Event::TYPE_MASS_ACTION:
-                    /* @var $actionObject \Magento\Framework\Object */
-                    $actionObject = $event->getDataObject();
-                    $reindexPrice = false;
-
-                    // check if attributes changed
-                    $attrData = $actionObject->getAttributesData();
-                    if (is_array($attrData)) {
-                        foreach ($attributes as $code) {
-                            if (array_key_exists($code, $attrData)) {
-                                $reindexPrice = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if ($reindexPrice) {
-                        $event->addNewData('reindex_price_product_ids', $actionObject->getProductIds());
-                    }
-
-                    break;
-            }
-        }
-    }
-
-    /**
      * Prepare giftCard products prices in temporary index table
      *
      * @param int|array $entityIds  the entity ids limitation

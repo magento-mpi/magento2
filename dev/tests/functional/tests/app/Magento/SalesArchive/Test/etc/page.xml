@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_SalesArchive">
+    <archiveOrders>
+        <mca>sales/archive/orders</mca>
+        <area>adminhtml</area>
+        <class>Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders</class>
+    </archiveOrders>
+    <archiveInvoices>
+        <mca>sales/archive/invoices</mca>
+        <area>adminhtml</area>
+        <class>Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices</class>
+    </archiveInvoices>
+    <archiveShipments>
+        <mca>sales/archive/shipments</mca>
+        <area>adminhtml</area>
+        <class>Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments</class>
+    </archiveShipments>
+    <archiveCreditMemos>
+        <mca>sales/archive/creditmemos</mca>
+        <area>adminhtml</area>
+        <class>Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos</class>
+    </archiveCreditMemos>
+</page>

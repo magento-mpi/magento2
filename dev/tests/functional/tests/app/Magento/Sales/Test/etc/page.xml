@@ -37,4 +37,22 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew</class>
     </orderInvoiceNew>
+    <orderInvoiceView>
+        <mca>sales/order_invoice/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView</class>
+    </orderInvoiceView>
+    <orderShipmentView>
+        <mca>sales/order_shipment/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderShipmentView</class>
+    </orderShipmentView>
+    <invoiceView>
+        <mca>sales/order/invoice</mca>
+        <class>Magento\Sales\Test\Page\InvoicesView</class>
+    </invoiceView>
+    <orderView>
+        <mca>sales/order/view</mca>
+        <class>Magento\Sales\Test\Page\OrderView</class>
+    </orderView>
 </page>

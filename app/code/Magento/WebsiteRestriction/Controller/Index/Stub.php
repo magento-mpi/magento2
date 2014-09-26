@@ -136,11 +136,7 @@ class Stub extends \Magento\Framework\App\Action\Action
                 $pageConfig->setPageLayout($page->getPageLayout());
             }
 
-            $this->_view->loadLayoutUpdates();
-
-            $this->_view->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
-            $this->_view->generateLayoutXml();
-            $this->_view->generateLayoutBlocks();
+            $this->_view->loadLayout($page->getLayoutUpdateXml());
 
             $this->_view->renderLayout();
 

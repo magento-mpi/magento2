@@ -440,11 +440,11 @@ new_product:
                                         prices_initial_fee: //input[@id='recurring_paymentinit_amount']
                 -
                     meta_information: &metaInformationTab
-                        xpath: //a[@title='Search Optimization']
+                        xpath: //a[@title='Search Engine Optimization']
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: //div[*/*/span='Search Optimization']
+                                    xpath: //div[*/*/span='Search Engine Optimization']
                                     fields:
                                         meta_information_meta_title: //input[@id='meta_title']
                                         meta_information_meta_keywords: //textarea[@id='meta_keyword']

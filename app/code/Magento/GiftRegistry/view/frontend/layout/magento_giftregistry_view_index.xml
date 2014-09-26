@@ -20,5 +20,5 @@
             <block class="Magento\GiftRegistry\Block\Customer\Items" name="giftregistry.view.items" template="view/items.phtml" cacheable="false"/>
         </block>
     </referenceContainer>
-    <update handle="MAP_popup"/>
+    <update handle="msrp_popup"/>
 </page>

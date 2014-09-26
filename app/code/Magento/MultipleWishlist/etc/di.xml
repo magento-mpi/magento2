@@ -30,10 +30,8 @@
             <argument name="wishlistHelper" xsi:type="object">Magento\MultipleWishlist\Helper\Rss</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\MultipleWishlist\Block\Rss">
-        <arguments>
-            <argument name="context" xsi:type="object">Magento\MultipleWishlist\Block\Context</argument>
-        </arguments>
+    <type name="Magento\Wishlist\Model\Rss\Wishlist">
+        <plugin name="aroundGetHeader" type="Magento\MultipleWishlist\Model\Plugin\Rss\Wishlist" />
     </type>
     <type name="Magento\MultipleWishlist\Controller\IndexInterface">
         <plugin name="multiple_enabled_filter" type="Magento\MultipleWishlist\Controller\Index\Plugin" sortOrder="20"/>
