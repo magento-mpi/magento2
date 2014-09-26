@@ -160,6 +160,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $stockItemAfterImport->loadByProduct($productId);
 
             $this->assertEquals($stockItmBeforeImport->getQty(), $stockItemAfterImport->getQty());
+            $this->assertEquals(1, $stockItemAfterImport->getIsInStock());
             unset($stockItemAfterImport);
         }
 
@@ -747,7 +748,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->load($id);
         $this->assertEquals('1', $product->getHasOptions());
 
-        $objectManager->get('Magento\Store\Model\StoreManagerInterface')->setCurrentStore('fixturestore');
+        $objectManager->get('Magento\Framework\StoreManagerInterface')->setCurrentStore('fixturestore');
 
         /** @var \Magento\Catalog\Model\Product $simpleProduct */
         $simpleProduct = $objectManager->create('Magento\Catalog\Model\Product');

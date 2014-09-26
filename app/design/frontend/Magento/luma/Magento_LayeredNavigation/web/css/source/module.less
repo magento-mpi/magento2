@@ -343,7 +343,7 @@
             display: block;
         }
     }
-    .layout-1 {
+    .page-layout-1column {
         .toolbar-products {
             position: absolute;
             top: 0;
@@ -352,7 +352,7 @@
         .products ~ .toolbar-products {
             position: static;
         }
-        .column.main {
+        &.page-with-filter .column.main {
             position: relative;
             z-index: 1;
             padding-top: 45px;
@@ -378,22 +378,22 @@
                         &:hover {
                             z-index: 3;
                         }
-                    }
-                    &:after,
-                    &:before {
-                        content: "";
-                        display: block;
-                        .arrow(up,8px,#000000);
-                        position: absolute;
-                        left: 50%;
-                        bottom: -1px;
-                        z-index: 3;
-                        margin-left: -20px;
-                    }
-                    &:after {
-                        border-bottom-color: #fff;
-                        margin-top:2px;
-                        z-index: 4;
+                        &:after,
+                        &:before {
+                            content: "";
+                            display: block;
+                            .arrow(up,8px,#000000);
+                            position: absolute;
+                            left: 50%;
+                            bottom: -1px;
+                            z-index: 3;
+                            margin-left: -20px;
+                        }
+                        &:after {
+                            border-bottom-color: #fff;
+                            margin-top:2px;
+                            z-index: 4;
+                        }
                     }
                 }
                 &-title {
@@ -428,6 +428,7 @@
             }
             &-current {
                 display: inline;
+                line-height: 35px;
                 &-subtitle {
                     display: inline;
                     padding: 0;
@@ -441,12 +442,16 @@
                 .item,
                 .items {
                     display: inline;
-                    margin-left: @indent-m-base;
+                }
+                .item {
+                    margin-right: @indent-m-base;
+                }
+                .action.remove {
+                    line-height: normal;
                 }
             }
             &-actions {
                 display: inline;
-                margin-left: @indent-m-base;
                 & ~ .filter-options {
                     margin-top: @indent-m-base;
                 }

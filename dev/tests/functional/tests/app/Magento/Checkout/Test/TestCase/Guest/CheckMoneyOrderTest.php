@@ -10,11 +10,13 @@ namespace Magento\Checkout\Test\TestCase\Guest;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\CheckMoneyOrder;
-use Magento\Catalog\Test\Fixture;
+use Magento\Checkout\Test\Block\Cart;
 use Magento\Catalog\Test\Block\Product;
-use Magento\Checkout\Test\Block;
 use Magento\Checkout\Test\Block\Onepage;
+use Magento\Catalog\Test\Fixture\Product as FixtureProduct;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
+use Magento\Bundle\Test\Fixture\Bundle;
+use Magento\Checkout\Test\Fixture\CheckMoneyOrder;
 
 /**
  * Class CheckMoneyOrderTest
@@ -45,21 +47,21 @@ class CheckMoneyOrderTest extends Functional
      * Add products to cart
      *
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function addProducts(CheckMoneyOrder $fixture)
     {
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            $cartPage = Factory::getPageFactory()->getCheckoutCart();
+            $cartPage = Factory::getPageFactory()->getCheckoutCartIndex();
             $cartPage->getMessagesBlock()->assertSuccessMessage();
             $this->checkProductPrice($fixture, $product, $cartPage->getCartBlock());
         }
@@ -69,18 +71,33 @@ class CheckMoneyOrderTest extends Functional
      * Process Magento Checkout
      *
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function checkoutProcess(CheckMoneyOrder $fixture)
     {
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        if ($fixture instanceof \Magento\Shipping\Test\Fixture\Method) {
+            $shippingMethod = $fixture->getData('fields');
+        } else {
+            $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        }
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $reviewBlock = $checkoutOnePage->getReviewBlock();
         $this->verifyOrderOnReview($reviewBlock, $fixture);
         $reviewBlock->placeOrder();
@@ -90,13 +107,14 @@ class CheckMoneyOrderTest extends Functional
      * Check product price in cart
      *
      * @param CheckMoneyOrder $fixture
-     * @param Fixture\Product $product
-     * @param Block\Cart $block
+     * @param FixtureProduct $product
+     * @param Cart $block
+     * @return void
      */
-    protected function checkProductPrice(CheckMoneyOrder $fixture, Fixture\Product $product, Block\Cart $block)
+    protected function checkProductPrice(CheckMoneyOrder $fixture, FixtureProduct $product, Cart $block)
     {
         $expected = $fixture->getProductPriceWithTax($product);
-        $this->assertEquals($expected, $block->getProductPriceByName($product->getName()));
+        $this->assertEquals($expected, $block->getCartItem($product)->getPrice());
     }
 
     /**
@@ -121,13 +139,14 @@ class CheckMoneyOrderTest extends Functional
      *
      * @param string $orderId
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function verifyOrderOnBackend($orderId, CheckMoneyOrder $fixture)
     {
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $orderTotalsBlock = Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock();
         $this->assertContains(
@@ -142,6 +161,7 @@ class CheckMoneyOrderTest extends Functional
      *
      * @param Onepage\Review $block
      * @param CheckMoneyOrder $fixture
+     * @return void
      */
     protected function verifyOrderOnReview(Onepage\Review $block, CheckMoneyOrder $fixture)
     {

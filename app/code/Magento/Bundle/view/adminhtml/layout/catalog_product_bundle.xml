@@ -7,18 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Css" name="magento-bundle-css-bundle-product-css">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Bundle::css/bundle-product.css</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <head>
+        <css src="Magento_Bundle::css/bundle-product.css"/>
+    </head>
     <referenceBlock name="product_tabs">
         <action method="addTab">
             <argument name="name" xsi:type="string">bundle</argument>
             <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle</argument>
         </action>
     </referenceBlock>
-</layout>
+</page>

@@ -26,13 +26,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     const XML_PATH_USE_STORE_ADDRESS = 'sales/magento_rma/use_store_address';
 
     /**
-     * Rma Instance
-     *
-     * @var \Magento\Rma\Model\Rma
-     */
-    protected $_rma;
-
-    /**
      * Rma items collection
      *
      * @var null
@@ -82,7 +75,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -210,7 +203,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
@@ -240,7 +233,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Session\Generic $session,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\ItemFactory $rmaItemFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory,
@@ -452,7 +445,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     {
         // TODO: move errors adding to controller
         $errors = 0;
-
+        $this->messageManager->getMessages(true);
         if ($this->getCustomerCustomEmail()) {
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
@@ -470,7 +463,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         }
 
         $this->save();
-        $this->_rma = $this;
         return $this;
     }
 

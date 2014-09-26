@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,9 +9,9 @@ namespace Magento\Catalog\Service\V1\Product;
 
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ProductRepository;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Data\Product;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
 
 class TierPriceService implements TierPriceServiceInterface
 {
@@ -27,7 +26,7 @@ class TierPriceService implements TierPriceServiceInterface
     protected $priceBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -49,7 +48,7 @@ class TierPriceService implements TierPriceServiceInterface
     /**
      * @param ProductRepository $productRepository
      * @param Product\TierPriceBuilder $priceBuilder
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
@@ -57,7 +56,7 @@ class TierPriceService implements TierPriceServiceInterface
     public function __construct(
         ProductRepository $productRepository,
         Product\TierPriceBuilder $priceBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
@@ -72,14 +71,12 @@ class TierPriceService implements TierPriceServiceInterface
 
     /**
      * {@inheritdoc}
-     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price)
     {
         $product = $this->productRepository->get($productSku, true);
-        $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
 
         $tierPrices = $product->getData('tier_price');
         $websiteId = 0;
@@ -105,7 +102,7 @@ class TierPriceService implements TierPriceServiceInterface
         if (!$found) {
             $mappedCustomerGroupId = 'all' == $customerGroupId
                 ? \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL
-                : $customerGroup->getId();
+                : $this->customerGroupService->getGroup($customerGroupId)->getId();
 
             $tierPrices[] = array(
                 'cust_group' => $mappedCustomerGroupId,
@@ -164,10 +161,12 @@ class TierPriceService implements TierPriceServiceInterface
             if ((is_numeric($customerGroupId) && intval($price['cust_group']) === intval($customerGroupId))
                 || ($customerGroupId === 'all' && $price['all_groups'])
             ) {
-                $this->priceBuilder->populateWithArray(array(
-                    Product\TierPrice::VALUE => $price[$priceKey],
-                    Product\TierPrice::QTY => $price['price_qty']
-                ));
+                $this->priceBuilder->populateWithArray(
+                    array(
+                        Product\TierPrice::VALUE => $price[$priceKey],
+                        Product\TierPrice::QTY => $price['price_qty']
+                    )
+                );
                 $prices[] = $this->priceBuilder->create();
             }
         }

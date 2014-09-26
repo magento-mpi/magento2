@@ -15,8 +15,10 @@
     <property name="product_edition_code" value="${env.magento_edition}"/>
     <property name="magento_instance_base_url" value="${env.http_host}${env.build.key}/build-${env.build.number}"/>
 
-    <target name="run" description="Test Magento Web API.">
+    <target name="run" depends="_server_info" description="Test Magento Web API.">
         <antcall target="_deploy_magento"/>
+        <antcall target="_drop_database" />
+        <antcall target="_create_database"/>
         <antcall target="_run_tests"/>
     </target>
 
@@ -62,6 +64,7 @@
         </condition>
         <copy file="${basedir}/dev/build/core_dev/api-functional/local-${db_vendor_name}.xml"
               todir="${product_root_dir}/dev/tests/api-functional/etc" overwrite="true"/>
+
 
         <property name="db_config_file"
                   value="${product_root_dir}/dev/tests/api-functional/etc/local-${db_vendor_name}.xml"/>

@@ -46,6 +46,13 @@ class Messages extends Block
     protected $noticeMessage = '[data-ui-id$=message-notice]';
 
     /**
+     * Warning message selector.
+     *
+     * @var string
+     */
+    protected $warningMessage = '[data-ui-id$=message-warning]';
+
+    /**
      * Check for success message
      *
      * @return bool
@@ -71,6 +78,24 @@ class Messages extends Block
         }
 
         return count($messages) > 1 ? $messages : $messages[0];
+    }
+
+    /**
+     * Wait for element is visible in the page
+     *
+     * @param string $selector
+     * @param string $strategy
+     * @return bool|null
+     */
+    public function waitForElementVisible($selector, $strategy = Locator::SELECTOR_CSS)
+    {
+        $browser = $this->browser;
+        return $browser->waitUntil(
+            function () use ($browser, $selector, $strategy) {
+                $message = $browser->find($selector, $strategy);
+                return $message->isVisible() ? true : null;
+            }
+        );
     }
 
     /**
@@ -144,5 +169,16 @@ class Messages extends Block
     {
         $this->waitForElementVisible($this->noticeMessage);
         return $this->_rootElement->find($this->noticeMessage)->getText();
+    }
+
+    /**
+     * Get warning message which is present on the page
+     *
+     * @return string
+     */
+    public function getWarningMessages()
+    {
+        $this->waitForElementVisible($this->warningMessage);
+        return $this->_rootElement->find($this->warningMessage)->getText();
     }
 }

@@ -65,7 +65,7 @@ class ArchivalList
      *
      * @param string $entity
      * @param array $arguments
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return \Magento\Sales\Model\Resource\Entity
      * @throws \LogicException
      */
     public function getResource($entity, array $arguments = array())

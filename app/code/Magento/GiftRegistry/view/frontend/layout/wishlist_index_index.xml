@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="customer.wishlist.item.info">
-        <block class="Magento\GiftRegistry\Block\Wishlist\Item\Column\Registry" name="customer.wishlist.item.giftregistry" template="wishlist/item/column/registry.phtml" cacheable="false"/>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceBlock name="customer.wishlist.item.actions">
+        <block class="Magento\GiftRegistry\Block\Wishlist\Item\Column\Registry" name="customer.wishlist.item.giftregistry" template="wishlist/item/column/registry.phtml" cacheable="false" before="customer.wishlist.item.remove"/>
     </referenceBlock>
-</layout>
+</page>

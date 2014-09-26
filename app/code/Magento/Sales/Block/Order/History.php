@@ -74,10 +74,7 @@ class History extends \Magento\Framework\View\Element\Template
         );
 
         $this->setOrders($orders);
-
-        if ($this->_layout->getBlock('root')) {
-            $this->_layout->getBlock('root')->setHeaderTitle(__('My Orders'));
-        }
+        $this->pageConfig->setTitle(__('My Orders'));
     }
 
     /**

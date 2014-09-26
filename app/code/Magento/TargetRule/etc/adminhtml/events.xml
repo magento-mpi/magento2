@@ -8,11 +8,11 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
-    <event name="catalog_product_save_after">
-        <observer name="magento_targetrule" instance="Magento\TargetRule\Model\Observer" method="catalogProductAfterSave" />
-    </event>
     <event name="catalog_product_save_commit_after">
         <observer name="magento_targetrule" instance="Magento\TargetRule\Model\Observer" method="catalogProductSaveCommitAfter" />
+    </event>
+    <event name="catalog_product_delete_commit_after">
+        <observer name="magento_targetrule" instance="Magento\TargetRule\Model\Observer" method="catalogProductDeleteCommitAfter" />
     </event>
     <event name="config_data_save_commit_after">
         <observer name="magento_targetrule" instance="Magento\TargetRule\Model\Observer" method="coreConfigSaveCommitAfter" />

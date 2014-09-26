@@ -10,6 +10,57 @@
     text-align: left;
 }
 
+.page-product-giftcard {
+    .product-info-main {
+        .price-box {
+            .old-price {
+                font-size: 20px;
+            }
+            .price-container.price-final_price {
+                > span {
+                    display: block;
+                    margin-bottom: @indent-xs-base;
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+                .price {
+                    font-size: 22px;
+                    line-height: 22px;
+                    font-weight: @font-weight-semibold;
+                }
+            }
+        }
+        .product-info-stock-sku {
+            display: block;
+        }
+        .product-info-price {
+            float: right;
+            width: auto;
+            display: block;
+            clear: both;
+            white-space: nowrap;
+        }
+        .product-add-form {
+            clear: none;
+            border: 0;
+            padding-top: 0;
+        }
+    }
+    .giftcard-amount {
+        clear: both;
+        margin: 0 0 @indent-m-base;
+    }
+    .giftcard.form {
+        clear: both;
+    }
+
+    .price-box {
+        float: left;
+        clear: left;
+    }
+}
+
 .responsive-smaller(@break) when (@break = @screen-m) {
     .cart-discount {
         .giftcard .content {
@@ -18,6 +69,39 @@
         .actions-toolbar {
             .secondary {
                 bottom: 17px;
+            }
+        }
+    }
+    .field.open-amount {
+        width: 100%;
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .page-product-giftcard {
+        .product-info-main {
+            .price-box {
+                .price-container.price-final_price {
+                    font-size: @font-size-xl;
+                    .price {
+                        font-size: 36px;
+                        line-height: 36px;
+                    }
+                }
+            }
+        }
+        .product-add-form {
+            .field:not(.text) {
+                .form-field(
+                    @_type: block,
+                    @_column: true
+                );
+                &:nth-child(odd) {
+                    padding-right: 25px;
+                }
+                &:nth-child(even) {
+                    padding-right: 0;
+                }
             }
         }
     }

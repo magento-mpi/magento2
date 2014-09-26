@@ -1,6 +1,5 @@
 <?php
 /**
- * Search Request xml converter
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Framework\Search\Request\Config;
 
+/**
+ * Search Request xml converter
+ */
 class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
@@ -26,9 +28,10 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             /** @var \DOMElement $requestNode */
             $name = $requestNode->getAttribute('query');
             $request = $this->mergeAttributes((array)$simpleXmlNode);
+            $request['dimensions'] = $this->convertNodes($simpleXmlNode->dimensions, 'name');
             $request['queries'] = $this->convertNodes($simpleXmlNode->queries, 'name');
             $request['filters'] = $this->convertNodes($simpleXmlNode->filters, 'name');
-            //$request['aggregation'] = $this->convertNodes($simpleXmlNode->aggregation, 'name');
+            $request['aggregations'] = $this->convertNodes($simpleXmlNode->aggregations, 'name');
             $requests[$name] = $request;
         }
         return $requests;
@@ -50,6 +53,34 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     }
 
     /**
+     * Convert nodes to array
+     *
+     * @param \SimpleXMLElement $nodes
+     * @param string $name
+     * @return array
+     */
+    protected function convertNodes(\SimpleXMLElement $nodes, $name)
+    {
+        $list = [];
+        if (!empty($nodes)) {
+            /** @var \SimpleXMLElement $node */
+            foreach ($nodes->children() as $node) {
+                $element = $this->convertToArray($node->attributes());
+                if ($node->count() > 0) {
+                    $element = $this->convertChildNodes($element, $node);
+                }
+                $type = (string)$node->attributes('xsi', true)['type'];
+                if (!empty($type)) {
+                    $element['type'] = $type;
+                }
+
+                $list[$element[$name]] = $element;
+            }
+        }
+        return $list;
+    }
+
+    /**
      * Deep converting simlexml element to array
      *
      * @param \SimpleXMLElement $node
@@ -61,30 +92,21 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     }
 
     /**
-     * Convert nodes to array
+     * Convert child nodes to array
      *
-     * @param \SimpleXMLElement $nodes
-     * @param string $name
+     * @param array $element
+     * @param \SimpleXMLElement $node
      * @return array
      */
-    protected function convertNodes(\SimpleXMLElement $nodes, $name)
+    protected function convertChildNodes(array $element, \SimpleXMLElement $node)
     {
-        $list = [];
-        /** @var \SimpleXMLElement $node */
-        foreach ($nodes->children() as $node) {
-            $element = $this->convertToArray($node->attributes());
-            if (count($node->children()) > 0) {
-                foreach ($node->children() as $child) {
-                    $element[$child->getName()][] = $this->convertToArray($child);
-                }
+        if ($node->count() == 0) {
+            $element[$node->getName()][] = $this->convertToArray($node);
+        } else {
+            foreach ($node->children() as $child) {
+                $element = $this->convertChildNodes($element, $child);
             }
-            $type = (string)$node->attributes('xsi', true)['type'];
-            if (!empty($type)) {
-                $element['type'] = $type;
-            }
-
-            $list[$element[$name]] = $element;
         }
-        return $list;
+        return $element;
     }
 }

@@ -1,0 +1,56 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Ui\FormElement;
+
+use Magento\Ui\AbstractView;
+
+/**
+ * Class AbstractFormElement
+ */
+abstract class AbstractFormElement extends AbstractView implements ElementInterface
+{
+    /**
+     * @return string
+     */
+    public function getHtmlId()
+    {
+        return '';
+    }
+
+    /**
+     * @return string|int
+     */
+    public function getValue()
+    {
+        return $this->getData('value');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormInputName()
+    {
+        return $this->getData('input_name');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsReadonly()
+    {
+        return (bool) $this->getData('readonly');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCssClasses()
+    {
+        return $this->getData('css_classes');
+    }
+}

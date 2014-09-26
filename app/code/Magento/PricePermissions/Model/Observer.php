@@ -126,7 +126,7 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -135,7 +135,7 @@ class Observer
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
@@ -144,7 +144,7 @@ class Observer
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
@@ -416,7 +416,7 @@ class Observer
                     }
                 }
                 break;
-                // Handle MAP functionality for bundle products
+                // Handle Msrp functionality for bundle products
             case 'adminhtml.catalog.product.edit.tab.attributes':
                 if (!$this->_canEditProductPrice) {
                     $block->setCanEditPrice(false);
@@ -453,10 +453,9 @@ class Observer
             $product->lockAttribute('open_amount_min');
             $product->lockAttribute('allow_open_amount');
             $product->lockAttribute('giftcard_amounts');
-            // For MAP fields
-            $product->lockAttribute('msrp_enabled');
-            $product->lockAttribute('msrp_display_actual_price_type');
+            // For Msrp fields
             $product->lockAttribute('msrp');
+            $product->lockAttribute('msrp_display_actual_price_type');
         }
         if (!$this->_canEditProductStatus) {
             $product->lockAttribute('status');
@@ -528,9 +527,8 @@ class Observer
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                'msrp_enabled',
+                'msrp',
                 'msrp_display_actual_price_type',
-                'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -567,9 +565,8 @@ class Observer
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                'msrp_enabled',
+                'msrp',
                 'msrp_display_actual_price_type',
-                'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -613,9 +610,8 @@ class Observer
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                'msrp_enabled',
+                'msrp',
                 'msrp_display_actual_price_type',
-                'msrp'
             );
 
             // Leave price element for bundle product active in order to change/view price type when product is created

@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Service\V1;
 
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
 
 /**
  * Test for \Magento\Catalog\Service\V1\ProductService
@@ -85,8 +85,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->searchResultsBuilderMock = $this->getMockBuilder(
-                'Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder'
-            )->disableOriginalConstructor()
+            'Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder'
+        )->disableOriginalConstructor()
             ->getMock();
 
         $this->metadataServiceMock = $this->getMockBuilder(
@@ -114,7 +114,22 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_productMock->expects($this->at(0))->method('getIdBySku')->will($this->returnValue($productId));
         $this->_productMock->expects($this->at(1))->method('load')->with($productId);
-        $productService = $this->_createService();
+
+        $productData = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->converterMock->expects($this->once())
+            ->method('createProductDataFromModel')
+            ->with($this->_productMock)
+            ->will($this->returnValue($productData));
+
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'productLoader' => $this->_productLoaderMock,
+                'converter' => $this->converterMock,
+            ]
+        );
 
         $this->assertTrue($productService->delete($productSku));
     }
@@ -133,20 +148,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $productService->delete($productSku);
-    }
-
-    /**
-     * @return ProductService
-     */
-    private function _createService()
-    {
-        $productService = $this->_objectManager->getObject(
-            'Magento\Catalog\Service\V1\ProductService',
-            [
-                'productLoader' => $this->_productLoaderMock
-            ]
-        );
-        return $productService;
     }
 
     public function testSearch()
@@ -198,8 +199,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productDataBuilder->setSku('test');
         $productDataBuilder->setStoreId(10);
         $this->converterMock->expects($this->once())
-            ->method('createProductDataFromModel')
-            ->will($this->returnValue($productDataBuilder->create()));
+            ->method('createProductBuilderFromModel')
+            ->will($this->returnValue($productDataBuilder));
 
         $this->searchResultsBuilderMock->expects($this->once())
             ->method('setItems')
@@ -223,21 +224,15 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $filterBuilder = $helper->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField('price')->setValue('10.000')->setConditionType('eq')->create();
         $this->_searchBuilder->addFilter([$filter]);
-        $this->_searchBuilder->addSortOrder('price', \Magento\Framework\Service\V1\Data\SearchCriteria::SORT_ASC);
+        $sortOrderBuilder = $helper->getObject('\Magento\Framework\Service\V1\Data\SortOrderBuilder');
+        $sortOrder = $sortOrderBuilder
+            ->setField('price')
+            ->setDirection(SearchCriteria::SORT_ASC)
+            ->create();
+        $this->_searchBuilder->addSortOrder($sortOrder);
         $this->_searchBuilder->setCurrentPage(1);
         $this->_searchBuilder->setPageSize(10);
         $productService->search($this->_searchBuilder->create());
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $mock
-     * @param array $valueMap
-     */
-    private function _mockReturnValue($mock, $valueMap)
-    {
-        foreach ($valueMap as $method => $value) {
-            $mock->expects($this->any())->method($method)->will($this->returnValue($value));
-        }
     }
 
     public function testGet()
@@ -247,7 +242,13 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_productMock->expects($this->at(0))->method('getIdBySku')->will($this->returnValue($productId));
         $this->_productMock->expects($this->at(1))->method('load')->with($productId);
-        $this->converterMock->expects($this->once())->method('createProductDataFromModel')->with($this->_productMock);
+        $productDataBuilder = $this->getMockBuilder('\Magento\Catalog\Service\V1\Data\ProductBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->converterMock->expects($this->once())
+            ->method('createProductBuilderFromModel')
+            ->with($this->_productMock)
+            ->will($this->returnValue($productDataBuilder));
 
         $productService = $this->_objectManager->getObject(
             'Magento\Catalog\Service\V1\ProductService',
@@ -316,14 +317,123 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
 
         $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
 
-        $productModel->expects($this->once())->method('validate');
-        $productModel->expects($this->once())->method('save');
+        $productModel->expects($this->any())->method('validate');
+        $productModel->expects($this->any())->method('save');
 
         $productSku = 'sku-001';
         $productModel->expects($this->once())->method('getId')->will($this->returnValue(100));
         $productModel->expects($this->once())->method('getSku')->will($this->returnValue($productSku));
 
         $this->assertEquals($productSku, $productService->create($product));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionMessage Unable to save product
+     */
+    public function testCreateStateException()
+    {
+        $initializationHelper = $this
+            ->getMockBuilder('Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productMapper = $this
+            ->getMockBuilder('Magento\Catalog\Service\V1\Data\ProductMapper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productTypeManager = $this
+            ->getMockBuilder('Magento\Catalog\Model\Product\TypeTransitionManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /** @var \Magento\Catalog\Service\V1\ProductService $productService */
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'initializationHelper' => $initializationHelper,
+                'productMapper' => $productMapper,
+                'productTypeManager' => $productTypeManager,
+                'productLoader' => $this->_productLoaderMock,
+            ]
+        );
+
+        $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productMapper->expects($this->once())->method('toModel')->with($product)
+            ->will($this->returnValue($productModel));
+
+        $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
+
+        $productModel->expects($this->once())->method('validate');
+        $productModel->expects($this->once())->method('save');
+
+        $productModel->expects($this->once())->method('getId')->will($this->returnValue(0));
+
+        $productService->create($product);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testCreateInputException()
+    {
+        $initializationHelper = $this
+            ->getMockBuilder('Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productMapper = $this
+            ->getMockBuilder('Magento\Catalog\Service\V1\Data\ProductMapper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productTypeManager = $this
+            ->getMockBuilder('Magento\Catalog\Model\Product\TypeTransitionManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /** @var \Magento\Catalog\Service\V1\ProductService $productService */
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'initializationHelper' => $initializationHelper,
+                'productMapper' => $productMapper,
+                'productTypeManager' => $productTypeManager,
+                'productLoader' => $this->_productLoaderMock,
+            ]
+        );
+
+        $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productMapper->expects($this->once())->method('toModel')->with($product)
+            ->will($this->returnValue($productModel));
+
+        $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
+
+        $productModel->expects($this->once())->method('validate');
+        $productModel->expects($this->once())->method('save')->will(
+            $this->returnCallback(
+                function () {
+                    throw new \Magento\Eav\Model\Entity\Attribute\Exception();
+                }
+            )
+        );
+
+        $productService->create($product);
     }
 
     public function testUpdate()
@@ -376,12 +486,102 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
         $productTypeManager->expects($this->once())->method('processProduct')->with($productModel);
 
-        $productModel->expects($this->once())->method('validate');
-        $productModel->expects($this->once())->method('save');
+        $productModel->expects($this->any())->method('validate');
+        $productModel->expects($this->any())->method('save');
 
         $productSku = 'sku-001';
         $productModel->expects($this->any())->method('getSku')->will($this->returnValue($productSku));
 
         $this->assertEquals($productSku, $productService->update(5, $product));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testUpdateInputException()
+    {
+        $initializationHelper = $this
+            ->getMockBuilder('Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productMapper = $this
+            ->getMockBuilder('Magento\Catalog\Service\V1\Data\ProductMapper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productTypeManager = $this
+            ->getMockBuilder('Magento\Catalog\Model\Product\TypeTransitionManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productLoader = $this
+            ->getMockBuilder('Magento\Catalog\Service\V1\Product\ProductLoader')
+            ->setMethods(['load'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /** @var \Magento\Catalog\Service\V1\ProductService $productService */
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'initializationHelper' => $initializationHelper,
+                'productMapper' => $productMapper,
+                'productTypeManager' => $productTypeManager,
+                'productLoader' => $productLoader,
+            ]
+        );
+
+        $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $productLoader->expects($this->once())->method('load')
+            ->will($this->returnValue($productModel));
+
+        $productMapper->expects($this->once())->method('toModel')->with($product, $productModel)
+            ->will($this->returnValue($productModel));
+
+        $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
+        $productTypeManager->expects($this->once())->method('processProduct')->with($productModel);
+
+        $productModel->expects($this->once())->method('validate');
+        $productModel->expects($this->once())->method('save')->will(
+            $this->returnCallback(
+                function () {
+                    throw new \Magento\Eav\Model\Entity\Attribute\Exception();
+                }
+            )
+        );
+
+        $productService->update(5, $product);
+    }
+
+    /**
+     * @return ProductService
+     */
+    private function _createService()
+    {
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'productLoader' => $this->_productLoaderMock
+            ]
+        );
+        return $productService;
+    }
+
+    /**
+     * @param \PHPUnit_Framework_MockObject_MockObject $mock
+     * @param array $valueMap
+     */
+    private function _mockReturnValue($mock, $valueMap)
+    {
+        foreach ($valueMap as $method => $value) {
+            $mock->expects($this->any())->method($method)->will($this->returnValue($value));
+        }
     }
 }

@@ -1,12 +1,11 @@
 <?php
 /**
- * Integration test for service layer \Magento\Customer\Service\Eav\AttributeMetadataV1
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -22,23 +21,82 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->configure(
+            [
+                'Magento\Framework\Service\Config\Reader' => [
+                    'arguments' => [
+                        'fileResolver' => ['instance' => 'Magento\Customer\Service\V1\FileResolverStub']
+                    ]
+                ]
+            ]
+        );
         $this->_customerAccountService = $objectManager->create(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
         $this->_service = $objectManager->create('Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
     }
 
-    public function testGetAttributeMetadataNoSuchEntity()
+    public function testGetCustomAttributesMetadata()
     {
-        try {
-            $this->_service->getAttributeMetadata('customer_address', '1');
-            $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $e) {
-            $this->assertEquals(
-                'No such entity with entityType = customer_address, attributeCode = 1',
-                $e->getMessage()
-            );
+        $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
+        $this->assertCount(3, $customAttributesMetadata, "Invalid number of attributes returned.");
+        $configAttributeCode = 'customer_attribute_1';
+        $configAttributeFound = false;
+        foreach ($customAttributesMetadata as $attribute) {
+            if ($attribute->getAttributeCode() == $configAttributeCode) {
+                $configAttributeFound = true;
+                break;
+            }
         }
+        if (!$configAttributeFound) {
+            $this->fail("Custom attribute declared in the config not found.");
+        }
+    }
+
+    public function testGetNestedOptionsCustomAttributesMetadata()
+    {
+        $nestedOptionsAttribute = 'store_id';
+        $customAttributesMetadata = $this->_service->getAttributeMetadata($nestedOptionsAttribute);
+        $options = $customAttributesMetadata->getOptions();
+        $nestedOptionExists = false;
+        foreach ($options as $option) {
+            if (strpos($option->getLabel(), 'Main Website Store') !== false) {
+                $this->assertNotEmpty($option->getOptions());
+                //Check nested option
+                $this->assertTrue(strpos($option->getOptions()[0]->getLabel(), 'Default Store View') !== false);
+                $nestedOptionExists = true;
+            }
+        }
+        if (!$nestedOptionExists) {
+            $this->fail('Nested attribute options were expected.');
+        }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_custom_attribute.php
+     */
+    public function testGetCustomAttributesMetadataWithAttributeNamedCustomAttribute()
+    {
+        $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
+        $customAttributeCode = 'custom_attribute';
+        $customAttributeFound = false;
+        $customAttributesCode = 'custom_attributes';
+        $customAttributesFound = false;
+        foreach ($customAttributesMetadata as $attribute) {
+            if ($attribute->getAttributeCode() == $customAttributeCode) {
+                $customAttributeFound = true;
+            }
+            if ($attribute->getAttributeCode() == $customAttributesCode) {
+                $customAttributesFound = true;
+            }
+        }
+        if (!$customAttributeFound) {
+            $this->fail("Custom attribute declared in the config not found.");
+        }
+        if (!$customAttributesFound) {
+            $this->fail("Custom attributes declared in the config not found.");
+        }
+        $this->assertCount(5, $customAttributesMetadata, "Invalid number of attributes returned.");
     }
 
     /**
@@ -66,13 +124,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->assertNotNull($customer);
 
-        $attributes = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer);
+        $attributes = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
         $this->assertNotEmpty($attributes);
 
         foreach ($attributes as $attributeCode => $attributeValue) {
             $this->assertNotNull($attributeCode);
             $this->assertNotNull($attributeValue);
-            $attributeMetadata = $this->_service->getCustomerAttributeMetadata($attributeCode);
+            $attributeMetadata = $this->_service->getAttributeMetadata($attributeCode);
             $attrMetadataCode = $attributeMetadata->getAttributeCode();
             $this->assertSame($attributeCode, $attrMetadataCode);
             if (($key = array_search($attrMetadataCode, $expectAttrsWOutVals)) !== false) {
@@ -94,33 +152,24 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomerAttributeMetadataNoSuchEntity()
     {
         try {
-            $this->_service->getCustomerAttributeMetadata('20');
+            $this->_service->getAttributeMetadata('20');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals('No such entity with entityType = customer, attributeCode = 20', $e->getMessage());
         }
     }
 
-    public function testGetAddressAttributeMetadata()
+    public function testGetAttributes()
     {
-        $vatValidMetadata = $this->_service->getAddressAttributeMetadata('vat_is_valid');
+        $formAttributesMetadata = $this->_service->getAttributes('adminhtml_customer');
+        $this->assertCount(14, $formAttributesMetadata, "Invalid number of attributes for the specified form.");
 
-        $this->assertNotNull($vatValidMetadata);
-        $this->assertEquals('vat_is_valid', $vatValidMetadata->getAttributeCode());
-        $this->assertEquals('text', $vatValidMetadata->getFrontendInput());
-        $this->assertEquals('VAT number validity', $vatValidMetadata->getStoreLabel());
-    }
-
-    public function testGetAddressAttributeMetadataNoSuchEntity()
-    {
-        try {
-            $this->_service->getAddressAttributeMetadata('1');
-            $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $e) {
-            $this->assertEquals(
-                'No such entity with entityType = customer_address, attributeCode = 1',
-                $e->getMessage()
-            );
-        }
+        /** Check some fields of one attribute metadata */
+        $attributeMetadata = $formAttributesMetadata['firstname'];
+        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', $attributeMetadata);
+        $this->assertEquals('firstname', $attributeMetadata->getAttributeCode(), 'Attribute code is invalid');
+        $this->assertNotEmpty($attributeMetadata->getValidationRules(), 'Validation rules are not set');
+        $this->assertEquals('1', $attributeMetadata->isSystem(), '"Is system" field value is invalid');
+        $this->assertEquals('40', $attributeMetadata->getSortOrder(), 'Sort order is invalid');
     }
 }

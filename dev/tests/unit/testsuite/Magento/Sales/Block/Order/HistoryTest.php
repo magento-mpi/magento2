@@ -34,45 +34,30 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $orderConfig;
 
+    /**
+     * @var \Magento\Framework\View\Page\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageConfig;
+
     public function setUp()
     {
         $this->context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false, false);
-        $this->orderCollectionFactory = $this->getMock(
-            'Magento\Sales\Model\Resource\Order\CollectionFactory',
-            ['create'],
-            [],
-            '',
-            false,
-            false
-        );
-        $this->customerSession = $this->getMock(
-            'Magento\Customer\Model\Session',
-            ['getCustomerId'],
-            [],
-            '',
-            false,
-            false
-        );
-        $this->orderConfig = $this->getMock(
-            'Magento\Sales\Model\Order\Config',
-            ['getVisibleOnFrontStatuses'],
-            [],
-            '',
-            false,
-            false
-        );
+        $this->orderCollectionFactory = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\CollectionFactory')
+            ->disableOriginalConstructor()->setMethods(['create'])->getMock();
+
+        $this->customerSession = $this->getMockBuilder('Magento\Customer\Model\Session')
+            ->setMethods(['getCustomerId'])->disableOriginalConstructor()->getMock();
+
+        $this->orderConfig = $this->getMockBuilder('Magento\Sales\Model\Order\Config')
+            ->setMethods(['getVisibleOnFrontStatuses'])->disableOriginalConstructor()->getMock();
+
+        $this->pageConfig = $this->getMockBuilder('Magento\Framework\View\Page\Config')->setMethods(['setTitle'])
+            ->disableOriginalConstructor()->getMock();
     }
 
     public function testConstructMethod()
     {
         $data = [];
-        $layout = $this->getMock('Magento\Core\Model\Layout', ['getBlock'], [], '', false, false);
-        $this->context->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layout));
-        $layout->expects($this->once())
-            ->method('getBlock')
-            ->will($this->returnValue(false));
 
         $customerId = 25;
         $this->customerSession->expects($this->once())
@@ -92,6 +77,14 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
+        $this->pageConfig->expects($this->any())
+            ->method('setTitle')
+            ->will($this->returnSelf());
+
+        $this->context->expects($this->any())
+            ->method('getPageConfig')
+            ->will($this->returnValue($this->pageConfig));
+
         $orderCollection->expects($this->at(0))
             ->method('addFieldToSelect')
             ->with($this->equalTo('*'))

@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="creditmemo_totals">
         <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/customerbalance.phtml" after="-"/>
     </referenceBlock>
     <referenceContainer name="submit_before">
         <block class="Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo\Controls" name="customerbalance.creditmemo" template="sales/creditmemo/refund.phtml"/>
     </referenceContainer>
-</layout>
+</page>

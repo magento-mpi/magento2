@@ -17,7 +17,7 @@ $anchorStep = 2;
 
 $nestingLevel = 1;
 $parentCategoryId = $defaultParentCategoryId = $this->getObjectManager()->get(
-    'Magento\Store\Model\StoreManagerInterface'
+    'Magento\Framework\StoreManagerInterface'
 )->getStore()->getRootCategoryId();
 $nestingPath = "1/{$parentCategoryId}";
 $categoryPath = '';
@@ -80,7 +80,7 @@ $pattern = array(
     'price' => 10,
     'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
     'status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED,
-    'tax_class_id' => 0,
+    'tax_class_id' => 2,
     'is_in_stock' => 1,
     'qty' => 100500,
     'use_config_min_qty' => '1',

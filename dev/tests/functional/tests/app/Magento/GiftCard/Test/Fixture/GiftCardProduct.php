@@ -48,6 +48,7 @@ class GiftCardProduct extends CatalogProductSimple
     ];
 
     protected $dataConfig = [
+        'type_id' => 'giftcard',
         'create_url_params' => [
             'type' => 'giftcard',
             'set' => '4',
@@ -227,6 +228,13 @@ class GiftCardProduct extends CatalogProductSimple
         'source' => 'Magento\GiftCard\Test\Fixture\GiftCardProduct\Price',
     ];
 
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'group' => null,
+        'source' => 'Magento\GiftCard\Test\Fixture\GiftCardProduct\CheckoutData',
+    ];
+
     public function getAllowMessage()
     {
         return $this->getData('allow_message');
@@ -320,5 +328,10 @@ class GiftCardProduct extends CatalogProductSimple
     public function getUseConfigLifetime()
     {
         return $this->getData('use_config_lifetime');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
     }
 }

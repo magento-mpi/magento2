@@ -33,9 +33,9 @@ abstract class AbstractCreditCard extends Checkout
         $simple->switchData($this->getProductTypeName());
         $simple->persist();
 
-        $this->products = array(
+        $this->products = [
             $simple
-        );
+        ];
 
         //Customer
         if ($this->getCustomerName()) {
@@ -45,8 +45,11 @@ abstract class AbstractCreditCard extends Checkout
 
         //Checkout data
         if ($this->getBillingAddressName()) {
-            $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-            $this->billingAddress->switchData($this->getBillingAddressName());
+            $objectManager = Factory::getObjectManager();
+            $this->billingAddress = $objectManager->create(
+                '\Magento\Customer\Test\Fixture\AddressInjectable',
+                ['dataSet' => $this->getBillingAddressName()]
+            );
         }
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();

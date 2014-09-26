@@ -1,0 +1,15 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var \Magento\Weee\Block\Adminhtml\Items\Price\Renderer $this */
+
+$_item = $this->getItem();
+?>
+
+<?php echo $this->displayPrices($this->getBaseTotalAmount($_item), $this->getTotalAmount($_item)) ?>

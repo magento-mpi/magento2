@@ -9,9 +9,7 @@
 namespace Magento\Tax\Test\Block\Adminhtml\Rule\Edit;
 
 use Magento\Tax\Test\Fixture\TaxRule;
-use Mtf\Block\BlockFactory;
 use Mtf\Block\Form as FormInterface;
-use Mtf\Block\Mapper;
 use Mtf\Client\Browser;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
@@ -94,19 +92,6 @@ class Form extends FormInterface
     protected $saveButton = '.mselect-save';
 
     /**
-     * @constructor
-     * @param Element $element
-     * @param BlockFactory $blockFactory
-     * @param Mapper $mapper
-     * @param Browser $browser
-     */
-    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser)
-    {
-        parent::__construct($element, $blockFactory, $mapper);
-        $this->browser = $browser;
-    }
-
-    /**
      * Fill the root form
      *
      * @param FixtureInterface $fixture
@@ -148,6 +133,7 @@ class Form extends FormInterface
      */
     protected function addNewTaxRates($taxRule)
     {
+        $this->waitForElementVisible($this->taxRateBlock);
         $taxRateBlock = $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS, 'multiselectlist');
         /** @var \Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate $taxRateForm */
         $taxRateForm = $this->blockFactory->create(

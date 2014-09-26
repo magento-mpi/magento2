@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_create/index" module="Magento_Sales">
+    <blocks>
+        <customerBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Create\Customer</class>
+            <locator>#order-customer-selector</locator>
+            <strategy>css selector</strategy>
+        </customerBlock>
+        <storeBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Create\Store</class>
+            <locator>#order-store-selector</locator>
+            <strategy>css selector</strategy>
+        </storeBlock>
+        <createBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Create</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </createBlock>
+        <actionsBlock>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </actionsBlock>
+        <customerActivitiesBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities</class>
+            <locator>.customer-current-activity</locator>
+            <strategy>css selector</strategy>
+        </customerActivitiesBlock>
+    </blocks>
+</page>

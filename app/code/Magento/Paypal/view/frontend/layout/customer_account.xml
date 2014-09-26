@@ -7,12 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <action method="setTitle">
-            <argument translate="true" name="title" xsi:type="string">Billing Agreements</argument>
-        </action>
-    </referenceBlock>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <head>
+        <title>Billing Agreements</title>
+    </head>
     <referenceBlock name="customer_account_navigation">
         <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-billing-agreements-link">
             <arguments>
@@ -21,4 +19,4 @@
             </arguments>
         </block>
     </referenceBlock>
-</layout>
+</page>

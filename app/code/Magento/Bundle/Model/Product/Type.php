@@ -7,6 +7,8 @@
  */
 namespace Magento\Bundle\Model\Product;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Bundle Type Model
  */
@@ -83,7 +85,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_catalogProduct = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -118,8 +120,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_bundleModelSelection;
 
     /**
-     * Construct
-     *
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -138,7 +143,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -162,7 +168,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Model\Config $config,
         \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Bundle\Model\OptionFactory $bundleOption,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -174,6 +181,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleCollection = $bundleCollection;
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -334,13 +342,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         }
 
         if ($product->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
-            $product->setData(
-                'msrp_enabled',
-                \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_NO
-            );
-            $product->unsetData('msrp');
-            $product->unsetData('msrp_display_actual_price_type');
-
             /** unset product custom options for dynamic price */
             if ($product->hasData('product_options')) {
                 $product->unsetData('product_options');
@@ -755,7 +756,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                  */
                 $price = $product->getPriceModel()->getSelectionFinalTotalPrice($product, $selection, 0, $qty);
                 $attributes = array(
-                    'price' => $this->_storeManager->getStore()->convertPrice($price),
+                    'price' => $this->priceCurrency->convert($price),
                     'qty' => $qty,
                     'option_label' => $selection->getOption()->getTitle(),
                     'option_id' => $selection->getOption()->getId()
@@ -914,7 +915,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                         $bundleOptions[$option->getId()]['value'][] = array(
                             'title' => $selection->getName(),
                             'qty' => $selectionQty->getValue(),
-                            'price' => $this->_storeManager->getStore()->convertPrice($price)
+                            'price' => $this->priceCurrency->convert($price)
                         );
                     }
                 }
@@ -1120,55 +1121,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         return $product instanceof \Magento\Catalog\Model\Product && $product->isAvailable() && parent::canConfigure(
             $product
         );
-    }
-
-    /**
-     * Check if Minimum Advertise Price is enabled at least in one option
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param int $visibility
-     * @return bool|null
-     */
-    public function isMapEnabledInOptions($product, $visibility = null)
-    {
-        /**
-         * @TODO: In order to clarify is MAP enabled for product we can check associated products.
-         * Commented for future improvements.
-         */
-        /*
-        $collection = $this->getUsedProductCollection($product);
-        $helper = $this->_catalogData;
-
-        $result = null;
-        $parentVisibility = $product->getMsrpDisplayActualPriceType();
-        if ($parentVisibility === null) {
-            $parentVisibility = $helper->getMsrpDisplayActualPriceType();
-        }
-        $visibilities = array($parentVisibility);
-        foreach ($collection as $item) {
-            if ($helper->canApplyMsrp($item)) {
-                $productVisibility = $item->getMsrpDisplayActualPriceType();
-                if ($productVisibility === null) {
-                    $productVisibility = $helper->getMsrpDisplayActualPriceType();
-                }
-                $visibilities[] = $productVisibility;
-                $result = true;
-            }
-        }
-
-        if ($result && $visibility !== null) {
-            if ($visibilities) {
-                $maxVisibility = max($visibilities);
-                $result = $result && $maxVisibility == $visibility;
-            } else {
-                $result = false;
-            }
-        }
-
-        return $result;
-        */
-
-        return null;
     }
 
     /**

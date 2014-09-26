@@ -23,4 +23,16 @@
     <type name="Magento\Wishlist\Controller\IndexInterface">
         <plugin name="authentication" type="\Magento\Wishlist\Controller\Index\Plugin" sortOrder="10"/>
     </type>
+    <virtualType name="Magento\Wishlist\Block\Context" type="Magento\Catalog\Block\Product\Context">
+        <arguments>
+            <argument name="wishlistHelper" xsi:type="object">Magento\Wishlist\Helper\Rss</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\App\Rss\RssManagerInterface">
+        <arguments>
+            <argument name="dataProviders" xsi:type="array">
+                <item name="wishlist" xsi:type="string">Magento\Wishlist\Model\Rss\Wishlist</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

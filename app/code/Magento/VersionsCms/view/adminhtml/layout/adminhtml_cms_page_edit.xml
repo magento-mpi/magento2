@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="cms_page_edit"/>
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
@@ -20,9 +20,4 @@
             <argument name="block" xsi:type="string">cms_page_edit_tab_hierarchy</argument>
         </action>
     </referenceBlock>
-    <referenceBlock name="head">
-        <action method="setCanLoadExtJs">
-            <argument name="flag" xsi:type="string">1</argument>
-        </action>
-    </referenceBlock>
-</layout>
+</page>

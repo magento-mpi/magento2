@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="customer_custom_attributes/customer/account/edit" >
-    <block>
-        <name>accountInfoForm</name>
-        <class>Magento\CustomerCustomAttributes\Test\Block\Form\CustomerForm</class>
-        <locator>#form-validate</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="customer/account/edit">
+    <blocks>
+        <accountInfoForm>
+            <class>Magento\CustomerCustomAttributes\Test\Block\Form\CustomerForm</class>
+            <locator>#form-validate</locator>
+            <strategy>css selector</strategy>
+        </accountInfoForm>
+    </blocks>
 </page>

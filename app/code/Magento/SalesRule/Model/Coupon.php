@@ -32,13 +32,6 @@ namespace Magento\SalesRule\Model;
 class Coupon extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * Coupon's owner rule instance
-     *
-     * @var \Magento\SalesRule\Model\Rule
-     */
-    protected $_rule;
-
-    /**
      * Constructor
      *
      * @return void
@@ -50,19 +43,6 @@ class Coupon extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Processing object before save data
-     *
-     * @return $this
-     */
-    protected function _beforeSave()
-    {
-        if (!$this->getRuleId() && $this->_rule instanceof \Magento\SalesRule\Model\Rule) {
-            $this->setRuleId($this->_rule->getId());
-        }
-        return parent::_beforeSave();
-    }
-
-    /**
      * Set rule instance
      *
      * @param \Magento\SalesRule\Model\Rule $rule
@@ -70,7 +50,7 @@ class Coupon extends \Magento\Framework\Model\AbstractModel
      */
     public function setRule(\Magento\SalesRule\Model\Rule $rule)
     {
-        $this->_rule = $rule;
+        $this->setRuleId($rule->getId());
         return $this;
     }
 

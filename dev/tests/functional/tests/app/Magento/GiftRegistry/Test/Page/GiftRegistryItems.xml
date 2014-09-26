@@ -7,11 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/index/items" >
-    <block>
-        <name>giftRegistryItemsBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Items</class>
-        <locator>#shopping-cart-table</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="giftregistry/index/items" module="Magento_GiftRegistry">
+    <blocks>
+        <giftRegistryItemsBlock>
+            <class>Magento\GiftRegistry\Test\Block\Items</class>
+            <locator>.column.main</locator>
+            <strategy>css selector</strategy>
+        </giftRegistryItemsBlock>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.page.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="page.main.actions">
         <block class="Magento\Backend\Block\Store\Switcher"
                name="adminhtml.report.grid.store_switcher"
@@ -68,4 +68,4 @@
             </block>
         </block>
     </referenceBlock>
-</layout>
+</page>

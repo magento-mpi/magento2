@@ -1,3 +1,237 @@
+0.1.0-alpha96
+=============
+ * Framework improvements:
+   * Increased unit tests code coverage for Magento_Persistent, Magento_GiftMessage, Magento_Checkout modules
+ * Modularity:
+   * Removed module dependency on the Weee module
+ * Fixed Bugs:
+   * Fixed an issue in composer installation where Magento/Framework marshaling did not work
+   * Fixed an issue where shipping tax was included twice in tax details
+   * Renamed the getDistinct method in Tax Model
+   * Fixed an issue where it was impossible to reorder and create a new order in the Admin panel if some fields of the order were specified incorrectly and the page was reloaded
+   * Fixed an issue where the Configure link was not displayed in the Product Requiring Attention section
+   * Fixed an issue where Magento could only be installed in the host root directory
+   * Fixed an issue where no proper error message was displayed if vendor directory did not exist in the setup tool
+   * Fixed an issue where a fatal error was thrown during checkout with multiple addresses
+   * Fixed an issue where integration tests failed if prefixes for tables were used
+ * Checkout API:
+   * Created Customer Shopping Cart Service
+ * Price template refactoring
+   * Introduced a single interface for price and tax calculation logic
+ * Functional tests:
+   * Add products to shopping cart
+   * Bestseller products report
+   * Cancel created order
+   * Delete customer address
+   * Hold created order
+   * Ordered products report
+   * Sales coupon report
+ * GitHub requests:
+   * [#662] (https://github.com/magento/magento2/issues/662) -- Composer Installation
+
+0.1.0-alpha95
+=============
+ * Modularity
+   * Log module became switchable
+   * New switchable module TaxImportExport was created
+ * Sales module improvement: 
+   * Performance was improved
+   * Complexity of the order persistence logic was reduced
+ * Unit tests coverage for modules was increased:
+   * Magento\Rule
+   * Magento\Contact
+ * Framework:
+   * Composite and bundle save/load processors were added
+   * Support for the complex custom attributes were added
+   * Generic abstract data objects, that is simple and extensible (supports custom attributes), were created  
+ * Search Library:
+   * Approach of matching the fields to table names was implemented
+   * MySQL Adapter Library for Match and Filtered query types was added
+   * Ability to filter queries was added
+   * Response handler for MySQL adapter was added
+   * XML declarations for full-text search were added
+ * Functional tests:
+   * Add Products to Order from Last Ordered Products Section
+   * Add Products to Order from Products in Comparison List Section
+   * Add Products to Order from Recently Compared Products Section
+   * Create Configurable Product
+   * Create Store
+   * Create Website
+   * Delete Product From Customer Wishlist On Backend
+   * Delete Store
+   * Delete Website
+   * Viewed Products Report
+   * Products In Cart Report
+   * Manage Product Review from Customer Page
+   * Mass Assign Customer Group
+   * New Account Report
+   * Update Product Review From Product Page
+   * Update Store
+   * Manage Product Review From Customer Page
+ * Other:
+   * Session.name ini set
+   * Calls to setPublicCookie became more secured
+   * Generating the session ID for sensitive data was added
+ *  Fixed bugs:
+   * Placing the order from backend
+   * Redirecting the customer to empty shopping cart instead of displaying credit card iFrame on checkout with for PayPal Payflow Link
+   * Showing the  message for multiple shipping address checkout in Authorize partial approval flow
+   * Mess detector failure
+   * flv_player security vulnerability
+   * Calling the inexistent method in cart with shopping cart price rules
+   * Overriding a non-empty custom attribute value with empty value in store view scope
+   * Editing  in 'WYSIWYG editor' by clicking "Use Default" checkbox when switched to store view scope
+   * RSS list page vulnerability
+   * Applying the store View title on frontend for configurable attributes
+   * Viewing the uploaded sample in downloadable product
+   * Google Shopping: Problem with publishing products if change value for option 'Update Google Shopping Item when Product is Updated'
+   * Configuration scope of items' InStock status on order cancellation
+   * Creating the new customer in admin
+ * GitHub requests:
+   * [#621] (https://github.com/magento/magento2/issues/621) -- Parse error: syntax error, unexpected T_OBJECT_OPERATOR
+   * [#651] (https://github.com/magento/magento2/issues/651) -- Multishipping checkout add/edit address page issue
+
+0.1.0-alpha94
+=============
+ * Implemented API services:
+   * Sales transactions
+ * Added the following functional tests:
+   * Create Store Group
+   * Customer Review Report
+   * Delete Store Group
+   * Update Store Group
+ * Improved error reporting when ini_set fails
+ * Increased unit test coverage for the following modules:
+   * SalesRule
+   * Payment
+ * Checkout API:
+   * Create Shopping Cart Gift Message service
+   * Create Shopping Cart Totals service
+ * Fixed bugs:
+   * Fixed an issue where selecting a shipping method in PayPal Express Checkout resulted in a fatal error
+   * Fixed an issue where the information displayed on the Payment Information step of Zero Subtotal Checkout was confusing
+   * Fixed a JavaScript error in shipping label
+   * Fixed an issue with wrong layout of the storefront pages
+   * Fixed an issue where the price including tax value was incorrect on catalog pages when customer tax rate is different from store tax rate
+   * Fixed an issue where fixed product tax (FPT) was not included in the Grand total when 'Include FPT in Subtotal' was set to Yes
+   * Fixed an issue where Shipping Incl. Tax amount was not updated when changing shipping method
+   * Fixed an issue where the store tax configuration was ignored during backend order creation
+   * Fixed an issue where taxes were not applied in the shopping cart after registering customer on the storefront
+   * Fixed an issue where the wrong html markup was generated on My order pages for the WEEE tax
+   * Fixed an issue where the built-in caching did not work on product pages
+   * Removed the stream resource usage to avoid errors when the allow_url_fopen PHP option is set to Off
+   * Fixed the New Return page layout on the backend
+   * Fixed an issue where it was impossible to apply a specific coupon code when the Apply to Shipping Amount option of the Shopping Cart Rule was set to Yes
+   * Removed file paths/content from test case names in data-driven tests
+   * Fixed an issue where pagination was absent in the Order Status grid
+   * Fixed an issue where after applying a discount coupon and changing the currency the discount value was incorrect
+   * Fixed an issue where trying to a new rating resulted in a fatal error
+   * Fixed an issue where the minimum order amount was compared with subtotal without taxes
+   * Fixed an issue where it was impossible to open the previous step during Onepage Checkout
+   * Fixed an issue with Persistent Shopping Cart where an unexpected message was displayed during checkout if a user started the checkout after the short-term cookie had expired
+   * Fixed an issue where a customer was redirected to the shopping cart after selecting shipping method during checkout with a payment method using 3D Secure
+   * Fixed an issue where the Cart Item service used itemSku instead itemId
+   * Fixed an issue where gift messages for individual items were not saved during backend order creation
+   * Fixed an issue where the Purchase Order Number input field was not displayed in Onepage Checkout if only one payment method was enabled
+ * GitHub requests:
+   * [#446] (https://github.com/magento/magento2/issues/446) -- Rounding different in order to original quote calculation
+
+0.1.0-alpha93
+=============
+ * Price template refactoring
+   * Refactored order item templates in the Sales, Bundle and Downloadable modules
+   * Eliminated the unused PHTML templates and removed the direct dependencies on the TaxHelper module in the Catalog module
+ * Service layer implementation:
+   * Created service layer for Order creation
+   * Created service layer for Invoice
+   * Created service layer for Credit Memo
+   * Created service layer for Shipment
+ * Introduce the Search library:
+   * Created adapter interfaces for the Search library
+   * Created response structure
+   * Created parsing of XML declaration and creation of library objects (Queries, Filters, Aggregations)
+ * Refactored Framework\Stdlib\Cookie to use CookieManager
+ * Added the ability to prevent the backend cookie from going to the storefront
+ * Fixed bugs:
+   * Fixed an issue where taxes  were  not added in some orders
+   * Fixed an issue were the Add New Address button did not work if the default address was already set
+   * Fixed a Google Chrome and Internet Explorer specific issue when a JavaScript error made it impossible to register   during checkout downloadable product
+   * Fixed an issue when the credit card iframe (PayPal or 3D secure)  was absent on the Order Review step during Onepage Checkout
+   * Fixed an issue with the   Tax Rate, Customer Tax Class and Product Tax Class multiselects on the Tax Rule Information page
+   * Fixed JavaScript issues which prevented saving a newsletter template.
+   * Modified the Button component behavior
+   * Fixed an issue where it was impossible for a guest customer to register during Onepage checkout when the Require Customer To Be Logged In To Checkout option was set to Yes
+   * Fixed an issue where the Calendar icons were not displayed on the storefront
+   * Fixed an  AJAX loader issue in the Admin panel
+   * Fixed an issue where it was impossible to upload images for  variations of a configurable product on product form
+   * Fixed an issue where clicking on a row in the Search Terms Report Grid leads to 404 page
+   * Fixed an issue where configurable products fixture creates out of stock products
+   * Fixed an issue where Magento crashed when invalid cookie domain was set
+   * Fixed an issue where the Change checkbox label overlapped the text message for a recurring profile attribute on the attribute mass update page
+   * Fixed an issue where integrity test determined normal dependencies as redundant
+   * Fixed an issue where Catalog\Service\V1\Product\Attribute\ReadService::search returned an error
+   * Fixed an issue where Magento\Catalog\Service\V1\Category\Attribute\ReadService::options returned empty results
+ * GitHub requests:
+  * [#160] (https://github.com/magento/bugathon_march_2013/issues/160) -- Wrong default value for memory_limit in .htaccess.sample
+  * [#480] (https://github.com/magento/magento2/pull/480) -- Provide instructions on adding memcache support for Magento 2
+  * [#612] (https://github.com/magento/magento2/issues/612) -- Category Layered Navigation : Selection of disabled entity
+  * [#626] (https://github.com/magento/magento2/issues/626) -- Unable to install under IIS / FastCGI
+
+0.1.0-alpha92
+=============
+ * Implemented API services:
+   * Shopping Cart Payment
+   * Shopping Cart Shipping
+   * Shopping Cart Coupon
+   * Shopping Cart License Agreements
+ * Indexer for Fulltext Search
+ * RSS Module become removable
+ * Framework Improvements:
+   * Ability to drop/regenerate access for native mobile apps
+   * Ability to support extensible service data objects
+   * No Code Duplication in Root Templates
+ * Fixed bugs:
+   * Persistance session application. Loggin out the customer
+   * Placing the order with two terms and conditions
+   * Saving of custom option by service catalogProductCustomOptionsWriteServiceV1
+   * Placing the order on frontend if enter in the street address line 1 and 2 255 symbols
+   * Using  @357.farm domain emails in registration form
+   * Validation for country_id/region_id and percentage_rate during Tax Rate creation
+   * Declaration of getSortOrders in Magento\Framework\Service\V1\Data\SearchCriteria
+   * Order cancellation for online payment methods
+   * Order online processing for Authorize.net Direct Post
+   * Backend grids while search
+   * Adding of downlodable sample block on product page
+   * Variations on duplicated configurable product
+ * Added functional tests:
+   * Product Review Report
+   * Share Wishlist
+
+0.1.0-alpha91
+=============
+ * Added the following functional tests:
+   * Action Newsletter Template
+   * Import Custom Options
+   * Low Stock Products Report
+   * Search Terms Report
+ * Catalog:
+   * Removed the unused old pricing .phtml templates
+   * Removed direct dependencies on the Weee and Tax modules
+ * Tax:
+   * Added new price renderers for the Weee and Tax modules
+ * Fixed the @covers annotation in Integration tests
+ * Fixed bugs:
+   * Fixed an issue with FPT total line on the Shopping Cart page
+   * Fixed the Inline translation functionality both in the backend and the storefront
+   * Fixed an issue with the Translation dialog layout on the storefront
+   * Fixed an issue where only the first Tier Price row was saved during simple product creation
+   * Fixed an issue where it was impossible to save more than one group price
+   * Fixed an issue where it was impossible to create a shipping label
+   * Fixed an issue where Google Items synchronization resulted in a blank page
+   * Fixed an issue where a Shopping Cart with a lot of entries did not fit the page
+   * Fixed an issue where a JavaScript error blocked the checkout with credit cards type “Other” in online payment methods
+   * Fixed JavaScript error on the Payment Methods tab in System Configuration
+
 0.1.0-alpha90
 =============
  * Service layer implementation:

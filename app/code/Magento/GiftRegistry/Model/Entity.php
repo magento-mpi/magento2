@@ -154,19 +154,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $dateFactory;
 
     /**
-     * @var \Magento\Logging\Model\Event\ChangesFactory
-     */
-    protected $changesFactory;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
-
-    /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $request;
 
     /**
      * @var \Magento\Framework\Escaper
@@ -192,7 +182,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
@@ -206,8 +196,6 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
-     * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
-     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -220,7 +208,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
@@ -234,8 +222,6 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
-        \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
-        \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -259,8 +245,6 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $this->addressFactory = $addressFactory;
         $this->productFactory = $productFactory;
         $this->dateFactory = $dateFactory;
-        $this->changesFactory = $changesFactory;
-        $this->request = $request;
         $this->storeManager = $storeManager;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
@@ -1040,47 +1024,6 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             $this->_dateFields = $dateFields;
         }
         return $this->_dateFields;
-    }
-
-    /**
-     * Custom handler for giftregistry share email action
-     *
-     * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @param \Magento\Logging\Model\Processor $processor
-     * @return \Magento\Logging\Model\Event
-     */
-    public function postDispatchShare($config, $eventModel, $processor)
-    {
-        $change = $this->changesFactory->create();
-
-        $emails = $this->request->getParam('emails', '');
-        if ($emails) {
-            $processor->addEventChanges(
-                clone $change->setSourceName(
-                    'share'
-                )->setOriginalData(
-                    array()
-                )->setResultData(
-                    array('emails' => $emails)
-                )
-            );
-        }
-
-        $message = $this->request->getParam('message', '');
-        if ($emails) {
-            $processor->addEventChanges(
-                clone $change->setSourceName(
-                    'share'
-                )->setOriginalData(
-                    array()
-                )->setResultData(
-                    array('message' => $message)
-                )
-            );
-        }
-
-        return $eventModel;
     }
 
     /**

@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_UrlRewrite">
+    <urlRewriteIndex>
+        <mca>admin/url_rewrite/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex</class>
+    </urlRewriteIndex>
+    <urlRewriteEdit>
+        <mca>admin/url_rewrite/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit</class>
+    </urlRewriteEdit>
+</page>

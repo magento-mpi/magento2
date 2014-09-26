@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-/** @var $config \Magento\TestFramework\Performance\Config */
-$config = require_once __DIR__ . '/framework/bootstrap.php';
+/** @var $bootstrap \Magento\TestFramework\Performance\Bootstrap */
+$bootstrap = require_once __DIR__ . '/framework/bootstrap.php';
 
 $shell = new Zend_Console_Getopt(
     array(
@@ -45,23 +45,8 @@ $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new \Zend_Log($logWriter);
 
 $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger);
-$scenarioHandler = new \Magento\TestFramework\Performance\Scenario\Handler\FileFormat();
-$scenarioHandler->register(
-    'jmx',
-    new \Magento\TestFramework\Performance\Scenario\Handler\Jmeter($shell)
-)->register(
-    'php',
-    new \Magento\TestFramework\Performance\Scenario\Handler\Php($shell)
-);
 
-$testsuite = new \Magento\TestFramework\Performance\Testsuite(
-    $config,
-    new \Magento\TestFramework\Application($config, $shell),
-    $scenarioHandler
-);
-
-$testsuite->getApplication()->bootstrap();
-
+$application = $bootstrap->createApplication($shell);
 foreach ($files as $fixture) {
-    $testsuite->getApplication()->applyFixture($fixture);
+    $application->applyFixture($fixture);
 }

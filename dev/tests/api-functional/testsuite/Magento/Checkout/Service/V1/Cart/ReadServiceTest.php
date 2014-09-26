@@ -28,6 +28,11 @@ class ReadServiceTest extends WebapiAbstract
     private $searchBuilder;
 
     /**
+     * @var SortOrderBuilder
+     */
+    private $sortOrderBuilder;
+
+    /**
      * @var FilterBuilder
      */
     private $filterBuilder;
@@ -35,12 +40,26 @@ class ReadServiceTest extends WebapiAbstract
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->searchBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
-        );
         $this->filterBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'
         );
+        $this->sortOrderBuilder = $this->objectManager->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
+        $this->searchBuilder = $this->objectManager->create(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+        );
+    }
+
+    protected function tearDown()
+    {
+        try {
+            $cart = $this->getCart('test01');
+            $cart->delete();
+        } catch (\InvalidArgumentException $e) {
+            // Do nothing if cart fixture was not used
+        }
+        parent::tearDown();
     }
 
     /**
@@ -111,7 +130,7 @@ class ReadServiceTest extends WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage There is no cart with provided ID.
+     * @expectedExceptionMessage No such entity with
      */
     public function testGetCartThrowsExceptionIfThereIsNoCartWithProvidedId()
     {
@@ -131,6 +150,54 @@ class ReadServiceTest extends WebapiAbstract
 
         $requestData = array('cartId' => $cartId);
         $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Sales/_files/quote_with_customer.php
+     */
+    public function testGetCartForCustomer()
+    {
+        $cart = $this->getCart('test01');
+        $customerId = $cart->getCustomer()->getId();
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/customer/' . $customerId . '/cart',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ),
+            'soap' => array(
+                'service' => 'checkoutCartReadServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'checkoutCartReadServiceV1GetCartForCustomer',
+            ),
+        );
+
+        $requestData = array('customerId' => $customerId);
+        $cartData = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($cart->getId(), $cartData['id']);
+        $this->assertEquals($cart->getCreatedAt(), $cartData['created_at']);
+        $this->assertEquals($cart->getUpdatedAt(), $cartData['updated_at']);
+        $this->assertEquals($cart->getStoreId(), $cartData['store_id']);
+        $this->assertEquals($cart->getIsActive(), $cartData['is_active']);
+        $this->assertEquals($cart->getIsVirtual(), $cartData['is_virtual']);
+        $this->assertEquals($cart->getOrigOrderId(), $cartData['orig_order_id']);
+        $this->assertEquals($cart->getItemsCount(), $cartData['items_count']);
+        $this->assertEquals($cart->getItemsQty(), $cartData['items_qty']);
+
+        $this->assertContains('customer', $cartData);
+        $this->assertEquals(0, $cartData['customer']['is_guest']);
+        $this->assertContains('totals', $cartData);
+        $this->assertEquals($cart->getSubtotal(), $cartData['totals']['subtotal']);
+        $this->assertEquals($cart->getGrandTotal(), $cartData['totals']['grand_total']);
+        $this->assertContains('currency', $cartData);
+        $this->assertEquals($cart->getGlobalCurrencyCode(), $cartData['currency']['global_currency_code']);
+        $this->assertEquals($cart->getBaseCurrencyCode(), $cartData['currency']['base_currency_code']);
+        $this->assertEquals($cart->getQuoteCurrencyCode(), $cartData['currency']['quote_currency_code']);
+        $this->assertEquals($cart->getStoreCurrencyCode(), $cartData['currency']['store_currency_code']);
+        $this->assertEquals($cart->getBaseToGlobalRate(), $cartData['currency']['base_to_global_rate']);
+        $this->assertEquals($cart->getBaseToQuoteRate(), $cartData['currency']['base_to_quote_rate']);
+        $this->assertEquals($cart->getStoreToBaseRate(), $cartData['currency']['store_to_base_rate']);
+        $this->assertEquals($cart->getStoreToQuoteRate(), $cartData['currency']['store_to_quote_rate']);
     }
 
     /**
@@ -176,7 +243,9 @@ class ReadServiceTest extends WebapiAbstract
         $this->searchBuilder->addFilter(array($grandTotalFilter, $subtotalFilter));
         $this->searchBuilder->addFilter(array($minCreatedAtFilter));
         $this->searchBuilder->addFilter(array($maxCreatedAtFilter));
-        $this->searchBuilder->setSortOrders(array('subtotal' => SearchCriteria::SORT_ASC));
+        /** @var SortOrder $sortOrder */
+        $sortOrder = $this->sortOrderBuilder->setField('subtotal')->setDirection(SearchCriteria::SORT_ASC)->create();
+        $this->searchBuilder->setSortOrders([$sortOrder]);
         $searchCriteria = $this->searchBuilder->create()->__toArray();
 
         $requestData = array('searchCriteria' => $searchCriteria);

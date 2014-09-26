@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <update handle="formkey"/>
-    <container name="root" label="Root" output="1">
+    <container name="root" label="Root">
         <block class="Magento\Catalog\Block\Adminhtml\Product\Grid" name="admin.product.grid"/>
     </container>
 </layout>

@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="checkout.onepage.payment.methods.scripts">
         <block class="Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional" template="onepage/payment/scripts.phtml" name="giftcardaccount_scripts" cacheable="false"/>
     </referenceBlock>
     <referenceBlock name="checkout.onepage.payment.methods.additional">
         <block class="Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional" template="onepage/payment/additional.phtml" name="giftcardaccount_additional" cacheable="false"/>
     </referenceBlock>
-</layout>
+</page>

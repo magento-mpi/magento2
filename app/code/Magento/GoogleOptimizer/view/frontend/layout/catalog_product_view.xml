@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceContainer name="after.body.start">
         <block class="Magento\GoogleOptimizer\Block\Code\Product" before="-" name="googleoptimizer.experiment.script"/>
-    </referenceBlock>
-</layout>
+    </referenceContainer>
+</page>

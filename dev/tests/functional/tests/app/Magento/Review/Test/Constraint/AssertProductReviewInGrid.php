@@ -8,13 +8,14 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
-use Magento\Review\Test\Fixture\ReviewInjectable;
-use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 
 /**
  * Class AssertProductReviewInGrid
+ * Check that review is displayed in grid
  */
 class AssertProductReviewInGrid extends AbstractConstraint
 {
@@ -46,28 +47,25 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * Assert that review is displayed in grid
      *
      * @param ReviewIndex $reviewIndex
-     * @param ReviewInjectable $review
+     * @param ReviewInjectable $review ,
+     * @param FixtureInterface $product
      * @param string $gridStatus
-     * @param ReviewInjectable $reviewInitial
      * @return void
      */
     public function processAssert(
         ReviewIndex $reviewIndex,
         ReviewInjectable $review,
-        $gridStatus = '',
-        ReviewInjectable $reviewInitial = null
+        FixtureInterface $product,
+        $gridStatus = ''
     ) {
-        $product = $reviewInitial === null
-            ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
-            : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
-        $filter = $this->prepareFilter($product, $review, $gridStatus);
+        $filter = $this->prepareFilter($product, $review->getData(), $gridStatus);
 
         $reviewIndex->open();
         $reviewIndex->getReviewGrid()->search($filter);
         unset($filter['visible_in']);
         \PHPUnit_Framework_Assert::assertTrue(
             $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
-            'Review with is absent in Review grid.'
+            'Review is absent in Review grid.'
         );
     }
 
@@ -75,11 +73,13 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * Prepare filter for assert
      *
      * @param FixtureInterface $product
-     * @param ReviewInjectable $review
-     * @param string $gridStatus
+     * @param array $review
+     * @param string $gridStatus [optional]
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
+    public function prepareFilter(FixtureInterface $product, array $review, $gridStatus = '')
     {
         $filter = [];
         foreach ($this->filter as $key => $item) {
@@ -93,13 +93,13 @@ class AssertProductReviewInGrid extends AbstractConstraint
                     $value = $product->getData($param);
                     break;
                 case 'select_stores':
-                    $value = $review->getData($param)[0];
+                    $value = isset($review[$param]) ? $review[$param][0] : null;
                     break;
                 case 'status_id':
-                    $value = $gridStatus != '' ? $gridStatus : $review->getData($param);
+                    $value = $gridStatus != '' ? $gridStatus : (isset($review[$param]) ? $review[$param] : null);
                     break;
                 default:
-                    $value = $review->getData($param);
+                    $value = isset($review[$param]) ? $review[$param] : null;
                     break;
             }
             if ($value !== null) {

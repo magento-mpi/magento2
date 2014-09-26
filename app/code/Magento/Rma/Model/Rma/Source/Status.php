@@ -178,8 +178,6 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
             return self::STATE_PROCESSED_CLOSED;
         } elseif ($rmaBitMaskStatus > 48) {
             return self::STATE_APPROVED_ON_ITEM;
-        } else {
-            return self::STATE_PENDING;
         }
     }
 

@@ -27,83 +27,74 @@
 
 <?php if ($this->getRenderForm()): ?>
     <?php if ($this->isRegularPrice()): ?>
-        <div class="price-box">
-            <span class="regular-price">
-                <span class="price" id="product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $this->convertAndFormatCurrency($this->getRegularPrice(), false) ?>
+        <div class="price-box price-final_price">
+            <span class="price-container price-final_price">
+                <span class="price-wrapper" id="product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
+                    <span class="price"><?php echo $this->convertAndFormatCurrency($this->getRegularPrice(), false) ?></span>
                 </span>
             </span>
         </div>
     <?php else: ?>
         <fieldset class="fieldset giftcard-amount">
-            <div class="field required amount">
-                <?php if ($this->isAmountAvailable()): ?>
+            <?php if ($this->isAmountAvailable()): ?>
+                <div class="field required amount">
                     <label for="giftcard-amount" id="amount-label-select" class="label">
                         <span><?php echo __('Amount'); ?></span>
                     </label>
-                <?php endif; ?>
-                <?php if ($this->isOpenAmountAvailable()): ?>
+                    <?php $configValue = $this->getDefaultValue('giftcard_amount'); ?>
+                    <div class="control">
+                        <select name="giftcard_amount" id="giftcard-amount" data-mage-init='{"toggleGiftCard":{"amountLabelSelector" : null}}' class="required-entry giftcard-amount-entry">
+                            <option value=""><?php echo __('Choose an Amount...') ?></option>
+                            <?php foreach ($this->getAmounts() as $value): ?>
+                                <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>>
+                                    <?php echo $this->convertAndFormatCurrency($value, false); ?>
+                                </option>
+                            <?php endforeach; ?>
+
+                            <?php if ($this->isOpenAmountAvailable()): ?>
+                                <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo __('Other Amount...') ?></option>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($this->isOpenAmountAvailable()): ?>
+                <div id="giftcard-amount-box" class="field required open-amount">
                     <label for="giftcard-amount-input" id="amount-label-input" class="label">
                         <span><?php echo __('Amount in %1', $this->getCurrentCurrency()); ?></span>
                     </label>
-                <?php endif; ?>
+                    <div class="control">
+                        <input type="text" id="giftcard-amount-input" name="custom_giftcard_amount" class="input-text"
+                               data-validate="{number: true,required: true
+                                <?php if ($this->getOpenAmountMin()) {
+                                   echo ',min: ';
+                                   echo $this->convertAndFormatCurrency($this->getOpenAmountMin(), false);
+                               }
+                               if ($this->getOpenAmountMax()) {
+                                   echo ',max: ';
+                                   echo $this->convertCurrency($this->getOpenAmountMin());
+                               }
+                               ?>
+                                }" value="<?php echo $this->escapeHtml($this->getDefaultValue('custom_giftcard_amount')) ?>" />
 
-                <div class="control">
-                    <?php if ($this->isOpenAmountAvailable()): ?>
-                        <div id="giftcard-amount-box" class="nested custom">
-                            <div class="control">
-                                <input type="text" id="giftcard-amount-input" name="custom_giftcard_amount" class="input-text"
-                                       data-validate="{number: true,required: true
-                                        <?php if ($this->getOpenAmountMin()) {
-                                           echo ',min: ';
-                                           echo $this->convertAndFormatCurrency($this->getOpenAmountMin(), false);
-                                       }
-                                       if ($this->getOpenAmountMax()) {
-                                           echo ',max: ';
-                                           echo $this->convertCurrency($this->getOpenAmountMin());
-                                       }
-                                       ?>
-                                        }" value="<?php echo $this->escapeHtml($this->getDefaultValue('custom_giftcard_amount')) ?>" />
-
-                                <?php if ($this->getOpenAmountMin() || $this->getOpenAmountMax()): ?>
-                                    <?php $min = $this->convertAndFormatCurrency($this->getOpenAmountMin(), false); ?>
-                                    <?php $max = $this->convertAndFormatCurrency($this->getOpenAmountMax(), false); ?>
-                                    <p class="note">
-                                        <?php if ($this->getOpenAmountMax() && $this->getOpenAmountMin()): ?>
-                                            <span><?php echo __('Minimum: %1', $min); ?></span>
-                                            <span><?php echo __('Maximum: %1', $max); ?></span>
-                                        <?php elseif ($this->getOpenAmountMin()): ?>
-                                            <span><?php echo __('Minimum: %1', $min); ?></span>
-                                        <?php elseif ($this->getOpenAmountMax()): ?>
-                                            <span><?php echo __('Maximum: %1', $max); ?></span>
-                                        <?php endif; ?>
-                                    </p>
+                        <?php if ($this->getOpenAmountMin() || $this->getOpenAmountMax()): ?>
+                            <?php $min = $this->convertAndFormatCurrency($this->getOpenAmountMin(), false); ?>
+                            <?php $max = $this->convertAndFormatCurrency($this->getOpenAmountMax(), false); ?>
+                            <p class="note">
+                                <?php if ($this->getOpenAmountMax() && $this->getOpenAmountMin()): ?>
+                                    <span><?php echo __('Minimum: %1', $min); ?></span>
+                                    <span><?php echo __('Maximum: %1', $max); ?></span>
+                                <?php elseif ($this->getOpenAmountMin()): ?>
+                                    <span><?php echo __('Minimum: %1', $min); ?></span>
+                                <?php elseif ($this->getOpenAmountMax()): ?>
+                                    <span><?php echo __('Maximum: %1', $max); ?></span>
                                 <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
-                    <?php if ($this->isAmountAvailable()): ?>
-                        <?php $configValue = $this->getDefaultValue('giftcard_amount'); ?>
-                        <div class="nested amounts">
-                            <div class="control">
-                                <select name="giftcard_amount" id="giftcard-amount" data-mage-init='{"toggleGiftCard":{}}' class="required-entry giftcard-amount-entry">
-                                    <option value=""><?php echo __('Choose an Amount...') ?></option>
-                                    <?php foreach ($this->getAmounts() as $value): ?>
-                                        <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>>
-                                            <?php echo $this->convertAndFormatCurrency($value, false); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-
-                                    <?php if ($this->isOpenAmountAvailable()): ?>
-                                        <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo __('Other Amount...') ?></option>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                            </p>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </fieldset>
     <?php endif; ?>
 <?php endif; ?>

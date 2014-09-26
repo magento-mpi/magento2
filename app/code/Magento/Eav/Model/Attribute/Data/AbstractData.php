@@ -22,7 +22,7 @@ abstract class AbstractData
      *
      * @var \Magento\Eav\Model\Attribute
      */
-    protected $_attribite;
+    protected $_attribute;
 
     /**
      * Entity instance
@@ -105,7 +105,7 @@ abstract class AbstractData
      */
     public function setAttribute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
     {
-        $this->_attribite = $attribute;
+        $this->_attribute = $attribute;
         return $this;
     }
 
@@ -117,10 +117,10 @@ abstract class AbstractData
      */
     public function getAttribute()
     {
-        if (!$this->_attribite) {
+        if (!$this->_attribute) {
             throw new CoreException(__('Attribute object is undefined'));
         }
-        return $this->_attribite;
+        return $this->_attribute;
     }
 
     /**
@@ -353,7 +353,9 @@ abstract class AbstractData
                     __("'%value%' appears to be a DNS hostname but cannot extract TLD part")
                     __("'%value%' appears to be a DNS hostname but cannot match TLD against known list")
                     */
-                    $validator = new \Zend_Validate_EmailAddress();
+                    $validator = new \Zend_Validate_EmailAddress(
+                        ['allow' => ['allow'=> \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
+                    );
                     $validator->setMessage(
                         __('"%1" invalid type entered.', $label),
                         \Zend_Validate_EmailAddress::INVALID

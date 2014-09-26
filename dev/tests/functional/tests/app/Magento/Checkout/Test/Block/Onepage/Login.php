@@ -8,8 +8,9 @@
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Login
@@ -46,6 +47,13 @@ class Login extends Form
     protected $registerCustomer = '[id="login:register"]';
 
     /**
+     * Selector for loading mask element
+     *
+     * @var string
+     */
+    protected $loadingMask = '.loading-mask';
+
+    /**
      * Select how to perform checkout whether guest or registered customer
      *
      * @param Checkout $fixture
@@ -54,11 +62,13 @@ class Login extends Form
     public function checkoutMethod(Checkout $fixture)
     {
         if ($fixture->isRegisteredCustomer()) {
-            $this->loginCustomer($fixture);
+            $this->loginCustomer($fixture->getCustomer());
         } elseif ($fixture->getCustomer()) {
             $this->registerCustomer();
+            $this->clickContinue();
         } else {
             $this->guestCheckout();
+            $this->clickContinue();
         }
     }
 
@@ -69,9 +79,7 @@ class Login extends Form
      */
     public function guestCheckout()
     {
-        $this->_rootElement->find($this->guestCheckout, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.loading-mask');
+        $this->_rootElement->find($this->guestCheckout)->click();
     }
 
     /**
@@ -81,22 +89,30 @@ class Login extends Form
      */
     public function registerCustomer()
     {
-        $this->_rootElement->find($this->registerCustomer, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.loading-mask');
+        $this->_rootElement->find($this->registerCustomer)->click();
     }
 
     /**
      * Login customer during checkout
      *
-     * @param Checkout $fixture
+     * @param FixtureInterface $customer
      * @return void
      */
-    private function loginCustomer(Checkout $fixture)
+    public function loginCustomer(FixtureInterface $customer)
     {
-        $customer = $fixture->getCustomer();
         $this->fill($customer);
-        $this->_rootElement->find($this->login, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.loading-mask');
+        $this->_rootElement->find($this->login)->click();
+        $this->waitForElementNotVisible($this->loadingMask);
+    }
+
+    /**
+     * Click continue on checkout method block
+     *
+     * @return void
+     */
+    public function clickContinue()
+    {
+        $this->_rootElement->find($this->continue)->click();
+        $this->waitForElementNotVisible($this->loadingMask);
     }
 }

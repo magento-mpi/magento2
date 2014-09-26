@@ -7,11 +7,21 @@
  * @license     {license_link}
  */
 -->
-<page mca="configurable/catalog/product/new">
-    <block>
-        <name>form</name>
-        <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm</class>
-        <locator>[id="page:main-container"]</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="catalog/product/new">
+    <blocks>
+        <formPageActions>
+            <renders>
+                <configurable>
+                    <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\FormPageActions</class>
+                </configurable>
+            </renders>
+        </formPageActions>
+        <productForm>
+            <renders>
+                <configurable>
+                    <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm</class>
+                </configurable>
+            </renders>
+        </productForm>
+    </blocks>
 </page>

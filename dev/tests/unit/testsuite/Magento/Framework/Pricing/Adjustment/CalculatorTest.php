@@ -71,6 +71,10 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             ->method('extractAdjustment')
             ->with($this->equalTo($amount), $this->equalTo($productMock))
             ->will($this->returnValue($adjustment));
+        $taxAdjustmentMock->expects($this->once())
+            ->method('applyAdjustment')
+            ->with($this->equalTo($fullAmount), $this->equalTo($productMock))
+            ->will($this->returnValue($amount));
 
         $weeeAdjustmentMock = $this->getMockBuilder('Magento\Weee\Pricing\Adjustment')
             ->disableOriginalConstructor()
@@ -118,6 +122,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     public function testGetAmountExclude()
     {
         $amount = 10;
+        $fullamount = 10;
         $taxAdjustmentCode = 'tax';
         $weeeAdjustmentCode = 'weee';
         $adjustment = 5;
@@ -141,6 +146,10 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             ->method('extractAdjustment')
             ->with($this->equalTo($amount), $this->equalTo($productMock))
             ->will($this->returnValue($adjustment));
+        $taxAdjustmentMock->expects($this->once())
+            ->method('applyAdjustment')
+            ->with($this->equalTo($fullamount), $this->equalTo($productMock))
+            ->will($this->returnValue($amount));
 
         $weeeAdjustmentMock = $this->getMockBuilder('Magento\Weee\Pricing\Adjustment')
             ->disableOriginalConstructor()

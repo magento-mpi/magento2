@@ -40,12 +40,11 @@ class CreateVirtualTest extends Functional
         $product->switchData('virtual');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
+        $createProductPage->open(['type' => 'virtual', 'set' => 4]);
         $productForm = $createProductPage->getProductForm();
         //Steps
-        $createProductPage->open();
         $productForm->fill($product);
-        $createProductPage->getFormAction()->save();
+        $createProductPage->getFormPageActions()->save();
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache
@@ -70,7 +69,7 @@ class CreateVirtualTest extends Functional
         $productGridPage->open();
         /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Grid $gridBlock */
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getProductSku()]));
     }
 
     /**
@@ -95,7 +94,7 @@ class CreateVirtualTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getName(), $productViewBlock->getProductName());
-        $price = $productViewBlock->getProductPrice();
-        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
+        $price = $productViewBlock->getPriceBlock()->getPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price);
     }
 }

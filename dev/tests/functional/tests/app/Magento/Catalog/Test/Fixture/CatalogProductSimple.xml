@@ -151,7 +151,7 @@
             <backend_type>varchar</backend_type>
             <is_required>0</is_required>
             <default_value></default_value>
-            <group>search-optimization</group>
+            <group>search-engine-optimization</group>
             <input>textarea</input>
         </meta_description>
         <meta_keyword>
@@ -159,7 +159,7 @@
             <backend_type>text</backend_type>
             <is_required>0</is_required>
             <default_value></default_value>
-            <group>search-optimization</group>
+            <group>search-engine-optimization</group>
             <input>textarea</input>
         </meta_keyword>
         <meta_title>
@@ -167,7 +167,7 @@
             <backend_type>varchar</backend_type>
             <is_required>0</is_required>
             <default_value></default_value>
-            <group>search-optimization</group>
+            <group>search-engine-optimization</group>
             <input>text</input>
         </meta_title>
         <minimal_price>
@@ -191,13 +191,6 @@
             <default_value>Use config</default_value>
             <input>select</input>
         </msrp_display_actual_price_type>
-        <msrp_enabled>
-            <attribute_code>msrp_enabled</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value>In Cart</default_value>
-            <input>select</input>
-        </msrp_enabled>
         <name>
             <attribute_code>name</attribute_code>
             <backend_type>varchar</backend_type>
@@ -416,6 +409,11 @@
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId</source>
             <group>product-details</group>
         </attribute_set_id>
+        <attributes>
+            <attribute_code>attributes</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>product-details</group>
+        </attributes>
         <custom_options>
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>
@@ -443,6 +441,12 @@
             <backend_type>virtual</backend_type>
             <group>advanced-inventory</group>
         </stock_data>
+        <checkout_data>
+            <attribute_code>checkout_data</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group />
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData</source>
+        </checkout_data>
     </fields>
     <data_set>
         <sku></sku>

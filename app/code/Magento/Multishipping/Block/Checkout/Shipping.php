@@ -7,6 +7,7 @@
  */
 namespace Magento\Multishipping\Block\Checkout;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Quote\Address;
 
 /**
@@ -27,10 +28,16 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     protected $_taxHelper;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
@@ -38,8 +45,10 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Framework\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Tax\Helper\Data $taxHelper,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_taxHelper = $taxHelper;
         $this->_filterGridFactory = $filterGridFactory;
         $this->_multishipping = $multishipping;
@@ -62,9 +71,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      */
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
-        }
+        $this->pageConfig->setTitle(__('Shipping Methods') . ' - ' . $this->pageConfig->getDefaultTitle());
         return parent::_prepareLayout();
     }
 
@@ -184,9 +191,11 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getShippingPrice($address, $price, $flag)
     {
-        return $address->getQuote()->getStore()->convertPrice(
+        return $this->priceCurrency->convertAndFormat(
             $this->_taxHelper->getShippingPrice($price, $flag, $address),
-            true
+            true,
+            PriceCurrencyInterface::DEFAULT_PRECISION,
+            $address->getQuote()->getStore()
         );
     }
 

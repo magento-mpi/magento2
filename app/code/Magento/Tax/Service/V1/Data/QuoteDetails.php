@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-class QuoteDetails extends \Magento\Framework\Service\Data\AbstractObject
+class QuoteDetails extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -20,6 +20,8 @@ class QuoteDetails extends \Magento\Framework\Service\Data\AbstractObject
     const KEY_CUSTOMER_TAX_CLASS_KEY = 'customer_tax_class_key';
 
     const KEY_ITEMS = 'items';
+
+    const CUSTOMER_TAX_CLASS_ID = 'customer_tax_class_id';
 
     const KEY_CUSTOMER_ID = 'customer_id';
     /**#@-*/
@@ -72,5 +74,15 @@ class QuoteDetails extends \Magento\Framework\Service\Data\AbstractObject
     public function getItems()
     {
         return $this->_get(self::KEY_ITEMS);
+    }
+
+    /**
+     * Get customer tax class id
+     *
+     * @return int
+     */
+    public function getCustomerTaxClassId()
+    {
+        return $this->_get(self::CUSTOMER_TAX_CLASS_ID);
     }
 }

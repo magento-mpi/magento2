@@ -7,25 +7,25 @@
  */
 return array(
     'options without model attribute' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="options" />
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'argument': The attribute 'model' is required but missing.")),
     'url without path attribute' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="url" />
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'argument': The attribute 'path' is required but missing.")),
     'url without param name' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="url" path="module/controller/action">
@@ -33,10 +33,10 @@ return array(
                     </argument>
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'param': The attribute 'name' is required but missing.")),
     'url with forbidden param attribute' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="url" path="module/controller/action">
@@ -44,10 +44,10 @@ return array(
                     </argument>
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'param', attribute 'forbidden': The attribute 'forbidden' is not allowed.")),
     'url with forbidden param sub-element' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="url" path="module/controller/action">
@@ -55,19 +55,19 @@ return array(
                     </argument>
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'forbidden': This element is not expected.")),
     'helper without helper attribute' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="helper" />
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'argument': The attribute 'helper' is required but missing.")),
     'helper without param name' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="helper"
@@ -76,10 +76,10 @@ return array(
                     </argument>
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'param': The attribute 'name' is required but missing.")),
     'helper with forbidden param attribute' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="helper"
@@ -88,10 +88,10 @@ return array(
                     </argument>
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'param', attribute 'forbidden': The attribute 'forbidden' is not allowed.")),
     'helper with forbidden param sub-element' => array(
-        '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <block class="Magento\Test\Block" name="test.block">
                 <arguments>
                     <argument name="argumentName" xsi:type="helper"
@@ -100,17 +100,17 @@ return array(
                     </argument>
                 </arguments>
             </block>
-        </layout>',
+        </page>',
         array("Element 'forbidden': This element is not expected.")),
     'action with doubled arguments' => array(
-            '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            '<?xml version="1.0"?><page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <block class="Magento\Test\Block" name="test.block">
                     <action method="testAction">
                         <argument name="string" xsi:type="string">string1</argument>
                         <argument name="string" xsi:type="string">string2</argument>
                     </action>
                 </block>
-            </layout>',
+            </page>',
         array(
             "Element 'argument': Duplicate key-sequence ['string'] in key identity-constraint 'actionArgumentName'."
         )),

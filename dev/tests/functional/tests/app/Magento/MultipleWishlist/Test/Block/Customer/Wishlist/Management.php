@@ -10,6 +10,7 @@ namespace Magento\MultipleWishlist\Test\Block\Customer\Wishlist;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class Management
@@ -36,21 +37,35 @@ class Management extends Block
      *
      * @var string
      */
-    protected $wishlistOptions = '.items.dropdown';
+    protected $wishlistOptions = '.wishlist-select-items';
 
     /**
      * Item wish list
      *
      * @var string
      */
-    protected $wishlistItem = '//a[.="%s"]';
+    protected $wishlistItem = './/a[.="%s"]';
 
     /**
-     * Notice message selector
+     * Notice type selector
      *
      * @var string
      */
-    protected $noticeMessage = '.message.notice';
+    protected $noticeType = '.wishlist-notice';
+
+    /**
+     * Button 'Delete Wishlist' css selector
+     *
+     * @var string
+     */
+    protected $removeButton = 'button.remove';
+
+    /**
+     * Button 'Edit' css selector
+     *
+     * @var string
+     */
+    protected $editButton = '.action.edit';
 
     /**
      * Create new wish list
@@ -63,32 +78,6 @@ class Management extends Block
     }
 
     /**
-     * Get wish lists
-     *
-     * @return array
-     */
-    public function getWishlists()
-    {
-        $this->clickMultipleWishlistSelect();
-        $options = trim($this->_rootElement->find($this->wishlistOptions)->getText());
-        $options = explode("\n", $options);
-        if (in_array('Create New Wish List', $options)) {
-            array_pop($options);
-        }
-        return $options;
-    }
-
-    /**
-     * Click wish list select
-     *
-     * @return void
-     */
-    protected function clickMultipleWishlistSelect()
-    {
-        $this->_rootElement->find($this->wishlistSelect)->click();
-    }
-
-    /**
      * Selected item wish list by name
      *
      * @param string $wishlistName
@@ -96,7 +85,6 @@ class Management extends Block
      */
     public function selectedWishlistByName($wishlistName)
     {
-        $this->clickMultipleWishlistSelect();
         $this->_rootElement->find(sprintf($this->wishlistItem, $wishlistName), Locator::SELECTOR_XPATH)->click();
     }
 
@@ -108,16 +96,49 @@ class Management extends Block
      */
     public function isWishlistVisible($wishlistName)
     {
-        return in_array($wishlistName, $this->getWishlists());
+        return $this->_rootElement->find(sprintf($this->wishlistItem, $wishlistName), Locator::SELECTOR_XPATH)
+            ->isVisible();
     }
 
     /**
-     * Get notice message
+     * Notice type visibility
      *
-     * @return string
+     * @param string $type
+     * @return bool
      */
-    public function getNoticeMessage()
+    public function isNoticeTypeVisible($type)
     {
-        return trim($this->_rootElement->find($this->noticeMessage)->getText());
+        return $this->_rootElement->find($this->noticeType . '.' . $type)->isVisible();
+    }
+
+    /**
+     * Delete wish list
+     *
+     * @return void
+     */
+    public function removeWishlist()
+    {
+        $this->_rootElement->find($this->removeButton)->click();
+        $this->_rootElement->acceptAlert();
+    }
+
+    /**
+     * Remove button is visible
+     *
+     * @return bool
+     */
+    public function isRemoveButtonVisible()
+    {
+        return $this->_rootElement->find($this->removeButton)->isVisible();
+    }
+
+    /**
+     * Click Edit wish list button
+     *
+     * @return void
+     */
+    public function editWishlist()
+    {
+        $this->_rootElement->find($this->editButton)->click();
     }
 }

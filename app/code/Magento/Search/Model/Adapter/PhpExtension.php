@@ -21,19 +21,11 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
     protected $_clientDocObjectName = 'SolrInputDocument';
 
     /**
-     * Catalog inventory data
-     *
-     * @var \Magento\CatalogInventory\Helper\Data
-     */
-    protected $_ctlgInventData;
-
-    /**
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
@@ -43,16 +35,15 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param array $options
+     * @throws \Magento\Framework\Model\Exception
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Search\Model\Resource\Index $resourceIndex,
-        \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Framework\Logger $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
@@ -62,18 +53,14 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         $options = array()
     ) {
-        $this->_ctlgInventData = $ctlgInventData;
         if (!extension_loaded('solr')) {
             throw new \Magento\Framework\Model\Exception('Solr extension not enabled!');
         }
-        $this->_ctlgInventData = $ctlgInventData;
         parent::__construct(
             $customerSession,
             $resourceIndex,
-            $resourceFulltext,
             $attributeCollection,
             $logger,
             $storeManager,
@@ -247,9 +234,6 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
          */
         if ($_params['store_id'] > 0) {
             $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
-        }
-        if (!$this->_ctlgInventData->isShowOutOfStock()) {
-            $solrQuery->addFilterQuery('in_stock:true');
         }
 
         try {

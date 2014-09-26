@@ -8,10 +8,11 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\GiftRegistry\Test\Page\CheckoutCart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
 /**
@@ -27,16 +28,18 @@ class AssertGiftRegistryInactiveNotInShoppingCart extends AbstractConstraint
      * @param CheckoutCart $checkoutCart
      * @param CatalogProductSimple $product
      * @param GiftRegistry $giftRegistry
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         CatalogProductSimple $product,
-        GiftRegistry $giftRegistry
+        GiftRegistry $giftRegistry,
+        Browser $browser
     ) {
-        $catalogProductView->init($product);
-        $catalogProductView->open()->getViewBlock()->clickAddToCart();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $catalogProductView->getViewBlock()->clickAddToCart();
         \PHPUnit_Framework_Assert::assertFalse(
             $checkoutCart->getGiftRegistryCart()->isGiftRegistryAvailable($giftRegistry),
             'Product can be added to inactive gift registry \'' . $giftRegistry->getTitle() . '\' from Shopping Cart.'

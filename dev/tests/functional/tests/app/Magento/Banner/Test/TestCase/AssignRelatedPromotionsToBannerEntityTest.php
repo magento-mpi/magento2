@@ -274,7 +274,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     /**
      * Logout customer from frontend account
      *
-     * return void
+     * @return void
      */
     public function tearDown()
     {

@@ -7,16 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <update handle="page_two_columns_left"/>
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <body>
+        <attribute name="class" value="page-products"/>
+    </body>
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
             <argument translate="true" name="title" xsi:type="string">Catalog Advanced Search</argument>
-        </action>
-    </referenceBlock>
-    <referenceBlock name="root">
-        <action method="addBodyClass">
-            <argument name="class" xsi:type="string">page-products</argument>
         </action>
     </referenceBlock>
     <referenceContainer name="content">
@@ -34,4 +31,4 @@
             <action method="setListCollection"/>
         </block>
     </referenceContainer>
-</layout>
+</page>

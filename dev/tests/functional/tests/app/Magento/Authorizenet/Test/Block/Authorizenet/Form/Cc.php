@@ -16,4 +16,5 @@ use Magento\Payment\Test\Block\Form\Cc as CreditCard;
  */
 class Cc extends CreditCard
 {
+    //
 }

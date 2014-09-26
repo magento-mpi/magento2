@@ -7,6 +7,8 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Shipping Method Block at RMA page
  */
@@ -50,11 +52,17 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
     protected $_shippingFactory;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Rma\Model\ShippingFactory $shippingFactory
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
@@ -63,8 +71,10 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Rma\Model\ShippingFactory $shippingFactory,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_taxData = $taxData;
         $this->_rmaData = $rmaData;
         $this->_shippingFactory = $shippingFactory;
@@ -135,12 +145,11 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
      */
     public function getShippingPrice($price)
     {
-        return $this->_storeManager->getStore(
-            $this->getRma()->getStoreId()
-        )->convertPrice(
+        return $this->priceCurrency->convertAndFormat(
             $this->_taxData->getShippingPrice($price),
             true,
-            false
+            PriceCurrencyInterface::DEFAULT_PRECISION,
+            $this->_storeManager->getStore($this->getRma()->getStoreId())
         );
     }
 
@@ -151,7 +160,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
      */
     public function getPackages()
     {
-        return $this->getShipment()->getPackages() ?: [];
+        return unserialize($this->getShipment()->getPackages()) ?: [];
     }
 
     /**

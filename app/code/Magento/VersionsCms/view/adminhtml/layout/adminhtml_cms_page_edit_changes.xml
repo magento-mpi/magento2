@@ -7,14 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-cms-js-bootstrap-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_VersionsCms::js/bootstrap.js</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <head>
+        <link src="Magento_VersionsCms::js/bootstrap.js"/>
+    </head>
     <referenceBlock name="cms_page_edit_tabs">
         <action method="removeTab">
             <argument name="name" xsi:type="string">content_section</argument>
@@ -31,4 +27,4 @@
             <argument name="block" xsi:type="string">cms_page_edit_tab_versions</argument>
         </action>
     </referenceBlock>
-</layout>
+</page>

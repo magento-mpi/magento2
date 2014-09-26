@@ -75,8 +75,7 @@ return array(
                 ),
             ),
             'Product Prices Indexer' => array(
-                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
-                'file' => '/../../shell/newindexer.php',
+                'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
@@ -85,18 +84,8 @@ return array(
                     'reindex' => 'catalog_product_price',
                 ),
             ),
-            'Catalog URL Rewrites Indexer' => array(
-                'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
-                ),
-                'arguments' => array(
-                    'reindex' => 'catalog_url',
-                ),
-            ),
             'Product Flat Data Indexer' => array(
-                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
-                'file' => '/../../shell/newindexer.php',
+                'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                     'testsuite/fixtures/catalog_product_flat_enabled.php',
@@ -106,8 +95,7 @@ return array(
                 ),
             ),
             'Category Flat Data Indexer' => array(
-                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
-                'file' => '/../../shell/newindexer.php',
+                'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                     'testsuite/fixtures/catalog_category_flat_enabled.php',
@@ -118,8 +106,7 @@ return array(
                 ),
             ),
             'Category Products Indexer' => array(
-                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
-                'file' => '/../../shell/newindexer.php',
+                'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="creditmemo_totals">
         <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/creditmemo/totals/giftcardaccount.phtml" after="-">
             <action method="setBeforeCondition">
@@ -15,4 +15,4 @@
             </action>
         </block>
     </referenceBlock>
-</layout>
+</page>

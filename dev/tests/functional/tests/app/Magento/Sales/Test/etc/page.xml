@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Sales">
+    <orderStatusIndex>
+        <mca>sales/order_status/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex</class>
+    </orderStatusIndex>
+    <orderStatusNew>
+        <mca>sales/order_status/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusNew</class>
+    </orderStatusNew>
+    <orderIndex>
+        <mca>sales/order/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OderIndex</class>
+    </orderIndex>
+    <orderView>
+        <mca>sales/order/view/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderView</class>
+    </orderView>
+    <orderHistory>
+        <mca>sales/order/history</mca>
+        <class>Magento\Sales\Test\Page\OrderHistory</class>
+    </orderHistory>
+    <orderInvoiceNew>
+        <mca>sales/order_invoice/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew</class>
+    </orderInvoiceNew>
+    <orderInvoiceView>
+        <mca>sales/order_invoice/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView</class>
+    </orderInvoiceView>
+    <orderShipmentView>
+        <mca>sales/order_shipment/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderShipmentView</class>
+    </orderShipmentView>
+    <invoiceView>
+        <mca>sales/order/invoice</mca>
+        <class>Magento\Sales\Test\Page\InvoicesView</class>
+    </invoiceView>
+    <orderView>
+        <mca>sales/order/view</mca>
+        <class>Magento\Sales\Test\Page\OrderView</class>
+    </orderView>
+</page>

@@ -9,10 +9,13 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableSample\Data;
 
-use \Magento\Framework\Service\Data\AbstractObjectBuilder;
+use \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use \Magento\Downloadable\Service\V1\Data\FileContent;
 
-class DownloadableSampleContentBuilder extends AbstractObjectBuilder
+/**
+ * @codeCoverageIgnore
+ */
+class DownloadableSampleContentBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * Set link title
