@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+    <module name="Magento_Search" schema_version="1.11.0.0" active="true">
+        <sequence>
+            <module name="Magento_CatalogSearch"/>
+        </sequence>
+        <depends>
+            <module name="Magento_CatalogSearch"/>
+        </depends>
+    </module>
+</config>

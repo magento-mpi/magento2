@@ -77,7 +77,9 @@ class Recommendations
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            return $this->_recommendationsFactory->create()->getRecommendationsByQuery(
+            /** @var \Magento\Solr\Model\Resource\Recommendations $recommendations */
+            $recommendations = $this->_recommendationsFactory->create();
+            return $recommendations->getRecommendationsByQuery(
                 $searchQueryText,
                 $params,
                 $searchRecommendationsCount

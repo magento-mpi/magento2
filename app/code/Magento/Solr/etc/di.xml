@@ -9,12 +9,14 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Solr\Helper\ClientInterface" type="Magento\Solr\Helper\Data" />
+    <preference for="Magento\Search\Model\RecommendationsInterface" type="Magento\Solr\Adapter\Recommendations" />
+    <preference for="Magento\Search\Model\SuggestionsInterface" type="Magento\Solr\Adapter\Suggestions" />
     <type name="Magento\CatalogSearch\Model\Indexer\Fulltext">
         <plugin name="fulltextIndexRebuild" type="Magento\Solr\Model\Plugin\FulltextIndexRebuild" />
     </type>
     <type name="Magento\Solr\Block\Suggestions">
         <arguments>
-            <argument name="suggestions" xsi:type="object">Magento\Solr\Model\Suggestions\Proxy</argument>
+            <argument name="recommendations" xsi:type="object">Magento\Solr\Model\Suggestions\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Solr\Model\Layer\Category\Filter\Price">
