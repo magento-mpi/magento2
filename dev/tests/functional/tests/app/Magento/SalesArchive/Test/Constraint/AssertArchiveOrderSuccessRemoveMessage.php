@@ -13,8 +13,9 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertRemoveOrdersFromArchiveSuccessMessage
+ * Assert that after removed orders success message presents
  */
-class AssertRemoveOrdersFromArchiveSuccessMessage extends AbstractConstraint
+class AssertArchiveOrderSuccessRemoveMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked
@@ -29,7 +30,7 @@ class AssertRemoveOrdersFromArchiveSuccessMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert message presents "We removed X order(s) from the archive."
+     * Assert that after removed orders success message presents
      *
      * @param ArchiveOrders $archiveOrder
      * @param int $successMassActions

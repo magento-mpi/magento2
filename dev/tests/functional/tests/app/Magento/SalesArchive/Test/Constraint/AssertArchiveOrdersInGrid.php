@@ -25,7 +25,7 @@ class AssertArchiveOrdersInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that orders with fixture data is in archive orders grid
+     * Assert that orders with specified id and status is in archive orders grid
      *
      * @param ArchiveOrders $archiveOrders
      * @param AssertArchiveOrderInGrid $assert

@@ -12,10 +12,10 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertArchiveOrderCancelMassActionErrorMessage
+ * Class AssertArchiveOrdersCancelMassActionsMessages
  * Assert that error and success messages are displayed on "Archived Orders Grid" page
  */
-class AssertArchiveOrdersCancelMessages extends AbstractConstraint
+class AssertArchiveOrdersCancelMassActionsMessages extends AbstractConstraint
 {
     /**
      * Message displayed after cancel order from archive
@@ -66,6 +66,6 @@ class AssertArchiveOrdersCancelMessages extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Messages are present on archived orders grid.';
+        return 'Success and error messages are present on archived orders grid.';
     }
 }

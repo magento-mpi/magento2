@@ -65,10 +65,10 @@
     <assertArchiveOrderReleaseErrorMessage module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertArchiveOrderReleaseErrorMessage>
-    <assertRemoveOrdersFromArchiveSuccessMessage module="Magento_SalesArchive">
+    <assertArchiveOrderSuccessRemoveMessage module="Magento_SalesArchive">
         <severeness>low</severeness>
-    </assertRemoveOrdersFromArchiveSuccessMessage>
-    <assertArchiveOrdersCancelMessages module="Magento_SalesArchive">
+    </assertArchiveOrderSuccessRemoveMessage>
+    <assertArchiveOrdersCancelMassActionsMessages module="Magento_SalesArchive">
         <severeness>low</severeness>
-    </assertArchiveOrdersCancelMessages>
+    </assertArchiveOrdersCancelMassActionsMessages>
 </constraint>

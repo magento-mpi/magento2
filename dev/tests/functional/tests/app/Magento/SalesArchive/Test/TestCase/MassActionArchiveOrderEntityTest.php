@@ -15,7 +15,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for OrderMassActionsSalesArchiveEntity
+ * Test Creation for MassActionArchiveOrderEntityTest
  *
  * Test Flow:
  *
@@ -37,7 +37,7 @@ use Mtf\TestCase\Injectable;
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-28873
  */
-class OrderMassActionsSalesArchiveEntityTest extends Injectable
+class MassActionArchiveOrderEntityTest extends Injectable
 {
     /**
      * Orders Page
@@ -61,7 +61,7 @@ class OrderMassActionsSalesArchiveEntityTest extends Injectable
     protected $fixtureFactory;
 
     /**
-     * Enable Check/Money Order", "Flat Rate" in configuration
+     * Enable "Check/Money Order", "Flat Rate", "Sales Archive" in configuration
      *
      * @param FixtureFactory $fixtureFactory
      * @return void
@@ -69,12 +69,11 @@ class OrderMassActionsSalesArchiveEntityTest extends Injectable
     public function __prepare(FixtureFactory $fixtureFactory)
     {
         $this->fixtureFactory = $fixtureFactory;
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
-        $configPayment->persist();
-        $configShipping = $fixtureFactory->createByCode('configData', ['dataSet' => 'flatrate']);
-        $configShipping->persist();
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'salesarchive_all_statuses']);
-        $configPayment->persist();
+        $processStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'checkmo, flatrate, salesarchive_all_statuses']
+        );
+        $processStep->run();
     }
 
     /**
@@ -101,28 +100,20 @@ class OrderMassActionsSalesArchiveEntityTest extends Injectable
     public function test($steps, $ordersQty, $massAction)
     {
         // Preconditions
-        $orders = [];
-        $ordersIds = [];
-        for (; $ordersQty > 0; $ordersQty--) {
-            /** @var OrderInjectable $order */
-            $order = $this->fixtureFactory->createByCode('orderInjectable');
-            $order->persist();
-            $orders[] = $order;
-            $ordersIds[] = ['id' => $order->getId()];
-        }
+        $orders = $this->prepareOrders($ordersQty);
 
         // Steps
         $steps = explode(';', $steps);
         $this->orderIndex->open();
-        foreach ($orders as $key => $order) {
+        foreach ($orders['orders'] as $key => $order) {
             $this->processSteps($order, trim($steps[$key]));
         }
         $this->orderIndex->open();
-        $this->orderIndex->getSalesOrderGrid()->massaction($ordersIds, 'Move to Archive');
+        $this->orderIndex->getSalesOrderGrid()->massaction($orders['ordersIds'], 'Move to Archive');
         $this->archiveOrders->open();
-        $this->archiveOrders->getSalesOrderGrid()->massaction($ordersIds, $massAction);
+        $this->archiveOrders->getSalesOrderGrid()->massaction($orders['ordersIds'], $massAction);
 
-        return ['orders' => $orders];
+        return $orders;
     }
 
     /**
@@ -137,10 +128,32 @@ class OrderMassActionsSalesArchiveEntityTest extends Injectable
         $steps = array_diff(explode(',', $steps), ['-']);
         foreach ($steps as $step) {
             $action = str_replace(' ', '', ucwords($step));
-            $methodAction = 'Create' . $action . 'Step';
+            $methodAction = $action === 'Hold' ? 'On' : 'Create';
+            $methodAction .= $action . 'Step';
             $path = 'Magento\Sales\Test\TestStep';
             $processStep = $this->objectManager->create($path . '\\' . $methodAction, ['order' => $order]);
             $processStep->run();
         }
+    }
+
+    /**
+     * Prepare orders for test
+     *
+     * @param int $ordersQty
+     * @return array
+     */
+    protected function prepareOrders($ordersQty)
+    {
+        $result = [];
+
+        for (; $ordersQty > 0; $ordersQty--) {
+            /** @var OrderInjectable $order */
+            $order = $this->fixtureFactory->createByCode('orderInjectable');
+            $order->persist();
+            $result['orders'][] = $order;
+            $result['ordersIds'][] = ['id' => $order->getId()];
+        }
+
+        return $result;
     }
 }
