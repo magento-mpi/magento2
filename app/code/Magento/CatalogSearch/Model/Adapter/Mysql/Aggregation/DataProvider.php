@@ -38,6 +38,7 @@ class DataProvider implements DataProviderInterface
     /**
      * @param Config $eavConfig
      * @param Resource $resource
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(Config $eavConfig, Resource $resource, StoreManagerInterface $storeManager)
     {
