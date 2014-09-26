@@ -2,9 +2,3 @@ frontend_label;frontend_input;is_required;option;default;attribute_code;is_globa
 Purpose;select;0;"Products
 Video Streaming
 All-Purpose";;purpose;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gift Card
-Amount;select;0;"$25.00
-$50.00
-$100.00
-$200.00
-Custom 
-";;amount;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gift Card
