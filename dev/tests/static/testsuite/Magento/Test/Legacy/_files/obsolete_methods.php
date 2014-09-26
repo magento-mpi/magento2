@@ -1900,4 +1900,8 @@ return array(
     ['_addHeader', 'Magento\Rss\Model\Rss'],
     ['_addEntries', 'Magento\Rss\Model\Rss'],
     ['_addEntry', 'Magento\Rss\Model\Rss'],
+    ['_welcomeCustomer', 'Magento\Customer\Controller\Account'],
+    ['_addWelcomeMessage', 'Magento\Customer\Controller\Account'],
+    ['_isVatValidationEnabled', 'Magento\Customer\Controller\Account'],
+    ['_createUrl', 'Magento\Customer\Controller\Account'],
 );

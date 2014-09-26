@@ -8,8 +8,13 @@
  */
 namespace Magento\Invitation\Controller\Customer\Account;
 
-use Magento\Customer\Controller\Account;
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Helper\Address;
+use Magento\Framework\UrlFactory;
 
 class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
 {
@@ -19,13 +24,13 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     protected $invitationProvider;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Framework\UrlFactory $urlFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param Context $context
+     * @param Session $customerSession
+     * @param ScopeConfigInterface $scopeConfig
+     * @param StoreManagerInterface $storeManager
      * @param CustomerAccountServiceInterface $customerAccountService
+     * @param Address $addressHelper
+     * @param UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
@@ -37,13 +42,13 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      * @param \Magento\Invitation\Model\InvitationProvider $invitationProvider
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        Context $context,
+        Session $customerSession,
+        ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
         CustomerAccountServiceInterface $customerAccountService,
+        Address $addressHelper,
+        UrlFactory $urlFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
@@ -58,11 +63,11 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
         parent::__construct(
             $context,
             $customerSession,
+            $scopeConfig,
+            $storeManager,
+            $customerAccountService,
             $addressHelper,
             $urlFactory,
-            $storeManager,
-            $scopeConfig,
-            $customerAccountService,
             $formFactory,
             $subscriberFactory,
             $regionBuilder,
@@ -98,7 +103,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
 
             $customerId = $this->_getSession()->getCustomerId();
             if ($customerId) {
-                $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
+                $invitation->accept($this->storeManager->getWebsite()->getId(), $customerId);
             }
 
             $this->_redirect('customer/account/');
@@ -119,7 +124,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
                     $this->messageManager->addError(
                         __(
                             'Your invitation is not valid. Please contact us at %1.',
-                            $this->_scopeConfig->getValue(
+                            $this->scopeConfig->getValue(
                                 'trans_email/ident_support/email',
                                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                             )

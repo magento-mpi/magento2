@@ -8,10 +8,41 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Framework\StoreManagerInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\State\InvalidTransitionException;
 
 class Confirmation extends \Magento\Customer\Controller\Account
 {
+    /** @var StoreManagerInterface */
+    protected $storeManager;
+
+    /** @var CustomerAccountServiceInterface  */
+    protected $customerAccountService;
+
+    /** @var \Magento\Framework\UrlInterface */
+    protected $urlModel;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param StoreManagerInterface $storeManager
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Framework\UrlFactory $urlFactory
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        StoreManagerInterface $storeManager,
+        CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Framework\UrlFactory $urlFactory
+    ) {
+        $this->storeManager = $storeManager;
+        $this->customerAccountService = $customerAccountService;
+        $this->urlModel = $urlFactory->create();
+        parent::__construct($context, $customerSession);
+    }
+
     /**
      * Send confirmation link to specified email
      *
@@ -28,9 +59,9 @@ class Confirmation extends \Magento\Customer\Controller\Account
         $email = $this->getRequest()->getPost('email');
         if ($email) {
             try {
-                $this->_customerAccountService->resendConfirmation(
+                $this->customerAccountService->resendConfirmation(
                     $email,
-                    $this->_storeManager->getStore()->getWebsiteId()
+                    $this->storeManager->getStore()->getWebsiteId()
                 );
                 $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } catch (InvalidTransitionException $e) {
@@ -38,12 +69,12 @@ class Confirmation extends \Magento\Customer\Controller\Account
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Wrong email.'));
                 $this->getResponse()->setRedirect(
-                    $this->_createUrl()->getUrl('*/*/*', array('email' => $email, '_secure' => true))
+                    $this->urlModel->getUrl('*/*/*', array('email' => $email, '_secure' => true))
                 );
                 return;
             }
             $this->_getSession()->setUsername($email);
-            $this->getResponse()->setRedirect($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
+            $this->getResponse()->setRedirect($this->urlModel->getUrl('*/*/index', array('_secure' => true)));
             return;
         }
 

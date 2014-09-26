@@ -326,4 +326,9 @@ return array(
     ['_skipModuleUpdate', '\Magento\Framework\Module\Updater'],
     ['_factory', 'Magento\Framework\Module\Updater'],
     ['_resourceList', 'Magento\Framework\Module\Updater'],
+    ['_storeManager', 'Magento\Customer\Controller\Account'],
+    ['_urlFactory', 'Magento\Customer\Controller\Account'],
+    ['_addressHelper', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account\Confirm::$addressHelper'],
+    ['_scopeConfig', 'Magento\Customer\Controller\Account'],
+    ['_customerAccountService', 'Magento\Customer\Controller\Account'],
 );

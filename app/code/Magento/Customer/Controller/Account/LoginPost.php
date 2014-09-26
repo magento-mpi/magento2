@@ -8,15 +8,26 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class LoginPost extends \Magento\Customer\Controller\Account
 {
+    /** @var ScopeConfigInterface */
+    protected $scopeConfig;
+
+    /** @var StoreManagerInterface */
+    protected $storeManager;
+
+    /** @var CustomerAccountServiceInterface  */
+    protected $customerAccountService;
+
     /** @var \Magento\Core\Helper\Data */
     protected $coreHelperData;
 
@@ -29,10 +40,8 @@ class LoginPost extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Framework\UrlFactory $urlFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
+     * @param StoreManagerInterface $storeManager
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Customer\Helper\Data $customerHelperData
@@ -43,27 +52,20 @@ class LoginPost extends \Magento\Customer\Controller\Account
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Customer\Helper\Data $customerHelperData,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
+        $this->scopeConfig = $scopeConfig;
+        $this->storeManager = $storeManager;
+        $this->customerAccountService = $customerAccountService;
         $this->coreHelperData = $coreHelperData;
         $this->_customerHelperData = $customerHelperData;
         $this->_formKeyValidator = $formKeyValidator;
-        parent::__construct(
-            $context,
-            $customerSession,
-            $addressHelper,
-            $urlFactory,
-            $storeManager,
-            $scopeConfig,
-            $customerAccountService
-        );
+        parent::__construct($context, $customerSession);
     }
 
     /**
@@ -82,13 +84,13 @@ class LoginPost extends \Magento\Customer\Controller\Account
             $this->_getSession()->unsBeforeAuthUrl()->setLastCustomerId($this->_getSession()->getId());
         }
         if (!$this->_getSession()->getBeforeAuthUrl() ||
-            $this->_getSession()->getBeforeAuthUrl() == $this->_storeManager->getStore()->getBaseUrl()
+            $this->_getSession()->getBeforeAuthUrl() == $this->storeManager->getStore()->getBaseUrl()
         ) {
             // Set default URL to redirect customer to
             $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($this->_getSession()->isLoggedIn()) {
-                if (!$this->_scopeConfig->isSetFlag(
+                if (!$this->scopeConfig->isSetFlag(
                     \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
@@ -136,7 +138,7 @@ class LoginPost extends \Magento\Customer\Controller\Account
             $login = $this->getRequest()->getPost('login');
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
-                    $customer = $this->_customerAccountService->authenticate($login['username'], $login['password']);
+                    $customer = $this->customerAccountService->authenticate($login['username'], $login['password']);
                     $this->_getSession()->setCustomerDataAsLoggedIn($customer);
                     $this->_getSession()->regenerateId();
                 } catch (EmailNotConfirmedException $e) {

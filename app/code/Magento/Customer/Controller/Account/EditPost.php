@@ -17,6 +17,9 @@ use Magento\Framework\Exception\AuthenticationException;
  */
 class EditPost extends \Magento\Customer\Controller\Account
 {
+    /** @var CustomerAccountServiceInterface  */
+    protected $customerAccountService;
+
     /** @var \Magento\Customer\Model\CustomerExtractor */
     protected $customerExtractor;
 
@@ -32,10 +35,6 @@ class EditPost extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Framework\UrlFactory $urlFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
@@ -47,29 +46,18 @@ class EditPost extends \Magento\Customer\Controller\Account
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Model\CustomerExtractor $customerExtractor
     ) {
+        $this->customerAccountService = $customerAccountService;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_formKeyValidator = $formKeyValidator;
         $this->_customerBuilder = $customerBuilder;
         $this->customerExtractor = $customerExtractor;
-        parent::__construct(
-            $context,
-            $customerSession,
-            $addressHelper,
-            $urlFactory,
-            $storeManager,
-            $scopeConfig,
-            $customerAccountService
-        );
+        parent::__construct($context, $customerSession);
     }
 
     /**
@@ -100,7 +88,7 @@ class EditPost extends \Magento\Customer\Controller\Account
                 if (strlen($newPass)) {
                     if ($newPass == $confPass) {
                         try {
-                            $this->_customerAccountService->changePassword($customerId, $currPass, $newPass);
+                            $this->customerAccountService->changePassword($customerId, $currPass, $newPass);
                         } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {
@@ -119,7 +107,7 @@ class EditPost extends \Magento\Customer\Controller\Account
 
             try {
                 $this->_customerDetailsBuilder->setCustomer($customer);
-                $this->_customerAccountService->updateCustomer($customerId, $this->_customerDetailsBuilder->create());
+                $this->customerAccountService->updateCustomer($customerId, $this->_customerDetailsBuilder->create());
             } catch (AuthenticationException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (InputException $e) {

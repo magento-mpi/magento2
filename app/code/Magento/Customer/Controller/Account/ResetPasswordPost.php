@@ -8,8 +8,27 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+
 class ResetPasswordPost extends \Magento\Customer\Controller\Account
 {
+    /** @var CustomerAccountServiceInterface  */
+    protected $customerAccountService;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param CustomerAccountServiceInterface $customerAccountService
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        CustomerAccountServiceInterface $customerAccountService
+    ) {
+        $this->customerAccountService = $customerAccountService;
+        parent::__construct($context, $customerSession);
+    }
+
     /**
      * Reset forgotten password
      *
@@ -35,7 +54,7 @@ class ResetPasswordPost extends \Magento\Customer\Controller\Account
         }
 
         try {
-            $this->_customerAccountService->resetPassword($customerId, $resetPasswordToken, $password);
+            $this->customerAccountService->resetPassword($customerId, $resetPasswordToken, $password);
             $this->messageManager->addSuccess(__('Your password has been updated.'));
             $this->_redirect('*/*/login');
             return;
