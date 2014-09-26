@@ -1886,6 +1886,7 @@ return array(
         'updateCategoryIndex',
         'Magento\CatalogSearch\Model\Resource\Fulltext',
     ],
+    ['_getRestrictedStoresList', 'Magento\UrlRewrite\Block\Edit\Form'],
     ['removeTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],
