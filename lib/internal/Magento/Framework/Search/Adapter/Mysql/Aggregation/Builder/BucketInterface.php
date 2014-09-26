@@ -15,8 +15,8 @@ interface BucketInterface
     /**
      * @param Select $baseQuery
      * @param RequestBucketInterface $bucket
-     * @param array $productIds
+     * @param array $entityIds
      * @return Select
      */
-    public function build(Select $baseQuery, RequestBucketInterface $bucket, array $productIds);
+    public function build(Select $baseQuery, RequestBucketInterface $bucket, array $entityIds);
 }

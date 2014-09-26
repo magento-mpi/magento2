@@ -28,11 +28,11 @@ class Term implements BucketInterface
     /**
      * {@inheritdoc}
      */
-    public function build(Select $baseQuery, RequestBucketInterface $bucket, array $productIds)
+    public function build(Select $baseQuery, RequestBucketInterface $bucket, array $entityIds)
     {
         $metrics = $this->metricsBuilder->build($bucket);
 
-        $baseQuery->where('main_table.entity_id IN (?)', $productIds);
+        $baseQuery->where('main_table.entity_id IN (?)', $entityIds);
         $baseQuery->columns($metrics);
         $baseQuery->group(RequestBucketInterface::FIELD_VALUE);
 
