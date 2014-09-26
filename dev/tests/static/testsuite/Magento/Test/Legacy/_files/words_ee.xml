@@ -21,11 +21,5 @@
             <path>app/code/Magento/Enterprise/data/enterprise_setup/data-upgrade-1.11.0.1-1.11.0.2.php</path>
             <word>Enterprise_Staging</word>
         </item>
-        <item>
-            <word>Enterprise_Staging</word>
-        </item>
-        <item>
-            <word>Enterprise_Staging</word>
-        </item>
     </whitelist>
 </config>
