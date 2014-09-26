@@ -55,8 +55,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
 
     const XML_PATH_GENERATE_HUMAN_FRIENDLY_ID = 'customer/create_account/generate_human_friendly_id';
 
-    const XML_PATH_CUSTOMER_DEFAULT_GROUP_ID = 'customer/create_account/default_group';
-
     /**
      * Codes of exceptions related to customer model
      */
@@ -853,7 +851,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : $this->_storeManager->getStore()->getId();
             $groupId = $this->_scopeConfig->getValue(
-                self::XML_PATH_CUSTOMER_DEFAULT_GROUP_ID,
+                \Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
