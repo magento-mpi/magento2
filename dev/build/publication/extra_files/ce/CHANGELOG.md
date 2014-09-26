@@ -1,19 +1,21 @@
 0.1.0-alpha97
 =============
- * Implemented a general way of using RSS module
- * Created a cron job in the Customer module for cleaning the customer_visitor table
- * Add a warning message to the Use HTTP Only option in the Admin panel
- * Implemented the Grid component in Magento UI Library
- * Framework Improvements:
+ * Various improvements:
+   * Implemented a general way of using RSS module
+   * Created a cron job in the Customer module for cleaning the customer_visitor table
+   * Added a warning message to the Use HTTP Only option in the Admin panel
+   * Implemented the Grid component in the Magento UI Library
+   * Reimplemented the URL Rewrites functionality in the new UrlRedirect module
+ * Framework improvements:
    * Added the ability to install Magento 2 using CLI
    * Aggregated Magento installation and upgrade into one tool
    * Refactored CustomerService REST WebApi to be more RESTful
    * Increased unit and integration test coverage
    * Moved page asset management to page configuration API, and eliminated the \Magento\Theme\Block\Html\Head block
    * Eliminated the Root, Html and Title blocks
- * Theme Update:
+ * Themes update:
    * Removed widgets from the default Magento installation
- * Fixed Bugs:
+ * Fixed bugs:
    * Fixed an issue with wishlist creation for non-registered customer
    * Fixed an issue with Google Mapping where Condition did not show correct value
    * Fixed an issue  where there were too many notifications for admin user by default
@@ -38,21 +40,20 @@
    * Fixed an issue where categories layout for widgets did not work
    * Fixed an issue where opening a page restricted by ACL lead to blank page instead of the Access Denied page
    * Fixed an issue where a blank page was displayed instead of the using the Advanced Search result
-   * Fixed an issue where the "Please wait" spinner was absent on Ajax requests for order creation in the Admin
-   * Fixed an issue where main navigation menu location on the page
- * New implementation of URL Rewrites functionality in new UrlRedirect module
+   * Fixed an issue where the "Please wait" spinner was absent on Ajax requests for order creation in the Admin panel
+   * Fixed an issue with the main navigation menu location on the page
  * Modularity:
    * Implemented the automatic applying of the MAP policy
  * Indexers:
    * Eliminated the old Magento_Index module
- * Search Library
+ * Search library
    * Added wildcards filter
    * Eliminated unused queries and filters
    * Added IN to Term filter
    * Moved the "value" attribute from <match> to <query> for the Match query
    * Refactored the usage of negation
    * Implemented Request Builder
- * CatalogSearch Adapter
+ * CatalogSearch adapter
    * Pluginized adding attribute to search index
    * Merged base declaration with searchable attributes
  * Added the following “Setup CLI tools” in the setup folder
@@ -95,7 +96,7 @@
    * Increased unit tests code coverage for Magento_Persistent, Magento_GiftMessage, Magento_Checkout modules
  * Modularity:
    * Removed module dependency on the Weee module
- * Fixed Bugs:
+ * Fixed bugs:
    * Fixed an issue in composer installation where Magento/Framework marshaling did not work
    * Fixed an issue where shipping tax was included twice in tax details
    * Renamed the getDistinct method in Tax Model
