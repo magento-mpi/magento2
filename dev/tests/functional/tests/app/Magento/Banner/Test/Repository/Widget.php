@@ -27,9 +27,7 @@ class Widget extends ParentWidget
         $this->_data['banner_rotator_non_anchor_categories'] = [
             'code' => 'magento_banner',
             'title' => 'Banner Rotator %isolation%',
-            'store_ids' => [
-                '0' => 'All Store Views'
-            ],
+            'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'notanchor_categories',
@@ -73,9 +71,7 @@ class Widget extends ParentWidget
         $this->_data['banner_rotator'] = [
             'code' => 'magento_banner',
             'title' => 'Banner Rotator %isolation%',
-            'store_ids' => [
-                '0' => 'All Store Views'
-            ],
+            'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',

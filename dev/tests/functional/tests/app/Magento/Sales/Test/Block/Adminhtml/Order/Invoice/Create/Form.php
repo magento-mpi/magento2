@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Form
  * Invoice form block
- *
  */
 class Form extends Block
 {
@@ -23,10 +22,12 @@ class Form extends Block
      *
      * @var string
      */
-    protected $createShipmentCheckbox = '[data-ui-id="order-items-submit-button"]';
+    protected $createShipmentCheckbox = '[name="invoice[do_shipment]"]';
 
     /**
      * Ship order
+     *
+     * @return void
      */
     public function createShipment()
     {

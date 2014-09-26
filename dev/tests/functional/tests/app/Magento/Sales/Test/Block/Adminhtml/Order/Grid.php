@@ -50,10 +50,10 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'id' => [
-            'selector' => '#sales_order_grid_filter_real_order_id'
+            'selector' => 'input[name="real_order_id"]'
         ],
         'status' => [
-            'selector' => '#sales_order_grid_filter_status',
+            'selector' => 'select[name="status"]',
             'input' => 'select'
         ],
     ];
