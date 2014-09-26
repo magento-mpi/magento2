@@ -1,4 +1,4 @@
-"description";"order/dataSet";"order/data/entity_id/products";"invoice";"qty/0";"orderStatus";"constraint"
-"open Archive Order and Ship it";"default";"catalogProductSimple::100_dollar_product";"0";"2";"Processing";"assertShipmentSuccessCreateMessage, assertOrderInSalesArchiveGrid, assertShipmentInShipmentsTab, assertOrderShipmentArchivedInGrid"
-"open Invoiced Archive Order Ship it";"default";"catalogProductSimple::100_dollar_product";"1";"2";"Complete";"assertShipmentSuccessCreateMessage, assertNoShipButton, assertOrderInSalesArchiveGrid, assertShipmentInShipmentsTab, assertOrderShipmentArchivedInGrid"
-"open Archive Order and Ship partially";"default";"catalogProductSimple::100_dollar_product";"0";"1";"Processing";"assertShipmentSuccessCreateMessage, assertOrderInSalesArchiveGrid, assertShipmentInShipmentsTab, assertOrderShipmentArchivedInGrid"
+"order/dataSet";"order/data/entity_id/products";"invoice";"qty/0";"orderStatus";"constraint"
+"default";"catalogProductSimple::100_dollar_product";"0";"2";"Processing";"assertShipmentSuccessCreateMessage, assertArchiveOrderInGrid, assertShipmentInShipmentsTab, assertArchiveShipmentItems, assertArchiveShipmentInGrid"
+"default";"catalogProductSimple::100_dollar_product";"1";"2";"Complete";"assertShipmentSuccessCreateMessage, assertNoShipButton, assertArchiveOrderInGrid, assertShipmentInShipmentsTab, assertArchiveShipmentItems, assertArchiveShipmentInGrid"
+"default";"catalogProductSimple::100_dollar_product";"0";"1";"Processing";"assertShipmentSuccessCreateMessage, assertArchiveOrderInGrid, assertShipmentInShipmentsTab, assertArchiveShipmentItems, assertArchiveShipmentInGrid"

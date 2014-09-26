@@ -9,7 +9,6 @@
 namespace Magento\SalesArchive\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
@@ -49,13 +48,6 @@ class ShipmentSalesArchiveEntityTest extends Injectable
     protected $orderIndex;
 
     /**
-     * Fixture Factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
      * Archive orders page
      *
      * @var ArchiveOrders
@@ -79,26 +71,21 @@ class ShipmentSalesArchiveEntityTest extends Injectable
     /**
      * Enable "Check/Money Order", "Flat Rate" and archiving for all statuses in configuration
      *
-     * @param FixtureFactory $fixtureFactory
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare()
     {
-        $configArchive = $fixtureFactory->createByCode('configData', ['dataSet' => 'salesarchive_all_statuses']);
-        $configArchive->persist();
-
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
-        $configPayment->persist();
-
-        $configShipping = $fixtureFactory->createByCode('configData', ['dataSet' => 'flatrate']);
-        $configShipping->persist();
+        $setupConfig = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'salesarchive_all_statuses, checkmo, flatrate']
+        );
+        $setupConfig->run();
     }
 
     /**
      * Injection data
      *
      * @param OrderIndex $orderIndex
-     * @param FixtureFactory $fixtureFactory
      * @param ArchiveOrders $archiveOrders
      * @param OrderView $orderView
      * @param OrderShipmentNew $orderShipmentNew
@@ -106,13 +93,11 @@ class ShipmentSalesArchiveEntityTest extends Injectable
      */
     public function __inject(
         OrderIndex $orderIndex,
-        FixtureFactory $fixtureFactory,
         ArchiveOrders $archiveOrders,
         OrderView $orderView,
         OrderShipmentNew $orderShipmentNew
     ) {
         $this->orderIndex = $orderIndex;
-        $this->fixtureFactory = $fixtureFactory;
         $this->archiveOrders = $archiveOrders;
         $this->orderView = $orderView;
         $this->orderShipmentNew = $orderShipmentNew;

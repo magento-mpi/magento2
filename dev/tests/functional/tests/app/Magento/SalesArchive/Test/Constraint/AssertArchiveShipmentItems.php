@@ -42,11 +42,10 @@ class AssertArchiveShipmentItems extends AbstractAssertArchiveItems
     ) {
         $orderId = $order->getId();
         $productsData = $this->prepareOrderProducts($order);
-
-        foreach ($ids['shipmentIds'] as $invoiceId) {
+        foreach ($ids['shipmentIds'] as $shipmentId) {
             $filter = [
                 'order_id' => $orderId,
-                'shipment_id' => $invoiceId
+                'shipment_id' => $shipmentId
             ];
 
             $archiveShipments->open();
