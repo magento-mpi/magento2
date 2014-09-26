@@ -27,6 +27,7 @@ abstract class AbstractFormElement extends AbstractView implements ElementInterf
      */
     public function getValue()
     {
+
         return $this->getData('value');
     }
 

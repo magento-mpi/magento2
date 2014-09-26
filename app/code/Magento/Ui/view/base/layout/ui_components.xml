@@ -49,7 +49,7 @@
 
     <block class="Magento\Ui\Component\Form\Element\Input" name="input">
         <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/content.phtml</argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Element\Select" name="select">
@@ -112,6 +112,17 @@
                     <item name="filter_range" xsi:type="array"/>
                 </item>
             </argument>
+        </arguments>
+    </block>
+
+    <block class="Magento\Ui\Component\Layout\Tabs" name="tabs">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Container\Content" name="content">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>
         </arguments>
     </block>
 </layout>
