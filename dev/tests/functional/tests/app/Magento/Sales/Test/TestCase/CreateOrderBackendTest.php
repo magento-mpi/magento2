@@ -187,10 +187,14 @@ class CreateOrderBackendTest extends Scenario
     {
         $prefix = ($rollback == false) ? '' : '_rollback';
         $dataSets = explode(',', $this->configuration);
-        foreach ($dataSets as $dataSet) {
-            $dataSet = trim($dataSet) . $prefix;
-            $configuration = $this->fixtureFactory->createByCode('configData', ['dataSet' => $dataSet]);
-            $configuration->persist();
+
+        foreach ($dataSets as $key => $dataSet) {
+            $dataSets[$key] = trim($dataSet) . $prefix;
         }
+        $setConfigStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => implode(',', $dataSets)]
+        );
+        $setConfigStep->run();
     }
 }
