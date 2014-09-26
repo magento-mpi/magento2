@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Form $this
+ */
+
+?>
+
+<div class="form">
+    <form class="">
+    <?php echo $this->getChildHtml('before_form'); ?>
+    <?php foreach ($this->getMeta() as $field): ?>
+        <?php echo $this->renderElement($field['input_type'], $field); ?>
+    <?php endforeach; ?>
+    <?php echo $this->getChildHtml('after_form'); ?>
+    </form>
+</div>

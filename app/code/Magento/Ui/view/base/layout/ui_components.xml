@@ -49,7 +49,7 @@
 
     <block class="Magento\Ui\Component\Form\Element\Input" name="input">
         <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/content.phtml</argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Element\Select" name="select">
@@ -114,5 +114,26 @@
             </argument>
         </arguments>
     </block>
+
+    <block class="Magento\Ui\Component\Form" name="form">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form/default.phtml</argument>
+            <argument name="js_component_name" xsi:type="string">ui/form</argument>
+
+        </arguments>
+    </block>
+
+    <block class="Magento\Ui\Component\Tabs" name="tabs">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::tabs/default.phtml</argument>
+        </arguments>
+    </block>
+    <refrenceBlock name="form">
+        <argument name="decorator_pool" xsi:type="array">
+            <item name="layout" xsi:type="array">
+                <item name="component" xsi:type="string">tabs</item>
+            </item>
+        </argument>
+    </refrenceBlock>
 
 </layout>

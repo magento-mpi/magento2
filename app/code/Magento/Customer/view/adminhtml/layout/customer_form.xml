@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <referenceBlock name="form">
+        <arguments>
+            <argument name="name" xsi:type="string">customer_backend_form</argument>
+
+            <argument name="data_provider_pool" xsi:type="array">
+                <item name="customer" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
+                <item name="addresses" xsi:type="string">Magento\Customer\Ui\DataProvider\CustomerAddressCollection</item>
+            </argument>
+
+            <argument name="decorator_pool" xsi:type="array">
+                <item name="layout" xsi:type="array">
+                    <item name="group_by" xsi:type="string">data_type</item>
+                </item>
+            </argument>
+
+            <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+            <argument name="config" xsi:type="array">
+                <item name="css_class" xsi:type="array">
+                    <item name="default" xsi:type="string">form</item>
+                </item>
+            </argument>
+        </arguments>
+        <block name="dashboard1" class="AS1" />
+        <block name="dashboard2" class="AS2" />
+        <block name="dashboard3" class="AS3" />
+        <block name="dashboard4" class="AS4" />
+    </referenceBlock>
+</page>

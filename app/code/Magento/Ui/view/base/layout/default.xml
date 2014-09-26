@@ -15,4 +15,5 @@
             </arguments>
         </block>
     </referenceContainer>
+    <block  class="Magento\Ui\Context\DataProvider" name="ui.global.data" after="-"></block>
 </page>
