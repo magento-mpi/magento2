@@ -43,6 +43,16 @@
                     <metric type="count"/>
                 </metrics>
             </bucket>
+            <bucket xsi:type="rangeBucket" name="price_bucket" field="price">
+                <metrics>
+                    <metric type="count"/>
+                </metrics>
+                <ranges>
+                    <range from="" to="14"/>
+                    <range from="14" to="18"/>
+                    <range from="18" to=""/>
+                </ranges>
+            </bucket>
         </aggregations>
         <from>10</from>
         <size>10</size>
