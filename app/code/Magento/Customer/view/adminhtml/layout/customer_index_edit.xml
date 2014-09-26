@@ -28,6 +28,6 @@
         <!--<block class="Magento\Backend\Block\Template" template="Magento_Customer::edit/js.phtml" name="customer.edit.js" as="customer_edit_js"/>-->
     <!--</referenceContainer>-->
     <referenceContainer name="content">
-        <ui_component name="customer_form" component="form" />
+        <ui_component name="customer_backend_tabs" component="tabs" />
     </referenceContainer>
 </page>

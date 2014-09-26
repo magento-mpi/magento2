@@ -24,6 +24,30 @@ class Content extends AbstractView implements ContextBehaviorInterface
     protected $context;
 
     /**
+     * Prepare component data
+     *
+     * @return $this|void
+     */
+    public function prepare()
+    {
+        $config = $this->getDefaultConfiguration();
+        if ($this->hasData('config')) {
+            $config = array_merge($config, $this->getData('config'));
+        }
+
+        $configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->renderContext->getNamespace(),
+                'configuration' => $config
+            ]
+        );
+
+        $this->setConfiguration($configuration);
+        $this->renderContext->getStorage()->addComponentsData($configuration);
+    }
+
+    /**
      * Set context component
      *
      * @param UiComponentInterface $component

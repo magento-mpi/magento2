@@ -24,6 +24,37 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
     protected $context;
 
     /**
+     * Flag if changed object
+     *
+     * @var bool
+     */
+    protected $isChanged = true;
+
+    /**
+     * Prepare component data
+     *
+     * @return $this|void
+     */
+    public function prepare()
+    {
+        $config = $this->getDefaultConfiguration();
+        if ($this->hasData('config')) {
+            $config = array_merge($config, $this->getData('config'));
+        }
+
+        $configuration = $this->configurationFactory->create(
+            [
+                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
+                'parentName' => $this->renderContext->getNamespace(),
+                'configuration' => $config
+            ]
+        );
+
+        $this->setConfiguration($configuration);
+        $this->renderContext->getStorage()->addComponentsData($configuration);
+    }
+
+    /**
      * Set context component
      *
      * @param UiComponentInterface $component
@@ -42,5 +73,25 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
     public function getContext()
     {
         return isset($this->context) ? $this->context : $this;
+    }
+
+    /**
+     * Begin render container
+     *
+     * @return string
+     */
+    public function begin()
+    {
+        return sprintf('<div id="%s">', $this->getName());
+    }
+
+    /**
+     * End render container
+     *
+     * @return string
+     */
+    public function end()
+    {
+        return '</div>';
     }
 }

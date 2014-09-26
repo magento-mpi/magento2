@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Layout\Tabs $this
+ */
+?>
+<?php echo $this->begin(); ?>
+    <div class="">
+        <h3>
+            <span>Basic Settings</span>
+        </h3>
+        <ul>
+            <?php for($i = 10; --$i;): ?>
+                <h4>Product Details</h4>
+            <?php endfor; ?>
+        </ul>
+    </div>
+    <div class="">
+        <?php for($i = 10; --$i;): ?>
+            <div class="fieldset-wrapper customer-information">
+                <p>Tabs content</p>
+            </div>
+        <?php endfor; ?>
+    </div>
+<?php echo $this->begin(); ?>

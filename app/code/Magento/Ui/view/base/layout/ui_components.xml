@@ -115,16 +115,14 @@
         </arguments>
     </block>
 
-    <block class="Magento\Ui\Component\Form" name="form">
+    <block class="Magento\Ui\Component\Layout\Tabs" name="tabs">
         <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::form/default.phtml</argument>
-            <argument name="js_component_name" xsi:type="string">ui/form</argument>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
         </arguments>
     </block>
-
-    <block class="Magento\Ui\Component\Tabs" name="tabs">
+    <block class="Magento\Ui\Component\Container\Content" name="content">
         <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::tabs/default.phtml</argument>
+            <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>
         </arguments>
     </block>
 </layout>

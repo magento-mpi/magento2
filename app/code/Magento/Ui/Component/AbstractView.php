@@ -116,9 +116,8 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function render()
     {
-        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())
+        return $this->contentTypeFactory->get($this->renderContext->getAcceptType())
             ->render($this, $this->getContentTemplate());
-        return $result;
     }
 
     /**
@@ -145,7 +144,6 @@ abstract class AbstractView extends Template implements UiComponentInterface
         $element = $this->renderContext->getRender()->createUiComponent($elementName);
         $prevData = $element->getData();
         $element->update($arguments);
-//        $element->setData('root', $this);
         $result = $element->render();
         $element->setData($prevData);
         return $result;
