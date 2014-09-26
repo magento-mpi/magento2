@@ -142,6 +142,41 @@ abstract class Grid extends Block
     protected $filterOpen = '.action.filters-toggle';
 
     /**
+     * Filter button
+     *
+     * @var string
+     */
+    protected $filterButton = '.action.filters-toggle';
+
+    /**
+     * Active class
+     *
+     * @var string
+     */
+    protected $active = '.active';
+
+    /**
+     * Base part of row locator template for getRow() method
+     *
+     * @var string
+     */
+    protected $location = '//div[@class="grid"]//tr[';
+
+    /**
+     * Secondary part of row locator template for getRow() method
+     *
+     * @var string
+     */
+    protected $rowTemplate = 'td[contains(text(),normalize-space("%s"))]';
+
+    /**
+     * Secondary part of row locator template for getRow() method with strict option
+     *
+     * @var string
+     */
+    protected $rowTemplateStrict = 'td[text()[normalize-space()="%s"]]';
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -184,6 +219,7 @@ abstract class Grid extends Block
      */
     public function search(array $filter)
     {
+        $this->openFilterBlock();
         $this->resetFilter();
         $this->prepareForSearch($filter);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
@@ -199,6 +235,7 @@ abstract class Grid extends Block
      */
     public function searchAndOpen(array $filter)
     {
+        $this->openFilterBlock();
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
@@ -231,6 +268,7 @@ abstract class Grid extends Block
      */
     public function searchAndSelect(array $filter)
     {
+        $this->openFilterBlock();
         $this->search($filter);
         $selectItem = $this->_rootElement->find($this->selectItem);
         if ($selectItem->isVisible()) {
@@ -307,6 +345,7 @@ abstract class Grid extends Block
      */
     protected function getRow(array $filter, $isSearchable = true, $isStrict = true)
     {
+        $this->openFilterBlock();
         if ($isSearchable) {
             $this->search($filter);
         }
@@ -333,6 +372,7 @@ abstract class Grid extends Block
      */
     public function isRowVisible(array $filter, $isSearchable = true, $isStrict = true)
     {
+        $this->openFilterBlock();
         return $this->getRow($filter, $isSearchable, $isStrict)->isVisible();
     }
 
@@ -344,11 +384,25 @@ abstract class Grid extends Block
      */
     public function sortGridByField($field, $sort = "desc")
     {
+        $this->openFilterBlock();
         $sortBlock = $this->_rootElement->find(sprintf($this->sortLink, $field, $sort));
         if ($sortBlock->isVisible()) {
             $sortBlock->click();
             $this->getTemplateBlock()->waitLoader();
         }
         $this->reinitRootElement();
+    }
+
+    /**
+     * Open Filter Block
+     *
+     * @return void
+     */
+    protected function openFilterBlock()
+    {
+        $button = $this->_rootElement->find($this->filterButton);
+        if ($button->isVisible() && !$this->_rootElement->find($this->filterButton . $this->active)->isVisible()) {
+            $button->click();
+        }
     }
 }

@@ -490,7 +490,7 @@ class ConfigData extends AbstractRepository
                     'path' => 'carriers/ups/allowed_methods',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => ['11','12','14','54','59','65','01','02','03','07','08'],
+                    'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08'],
                 ],
                 [
                     'path' => 'carriers/ups/sallowspecific',
@@ -962,7 +962,6 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
-
 
         $this->_data['salesarchive_complete'] = [
             'section' => [

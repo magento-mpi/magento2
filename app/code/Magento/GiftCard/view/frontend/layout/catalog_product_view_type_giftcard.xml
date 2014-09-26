@@ -8,12 +8,10 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <body>
+        <attribute name="class" value="page-product-giftcard"/>
+    </body>
     <move element="product.price.final" destination="product.info.form.options" before="product.info.giftcard"/>
-    <referenceBlock name="body.class">
-        <action method="addBodyClass">
-            <argument name="class" xsi:type="string">page-product-giftcard</argument>
-        </action>
-    </referenceBlock>
     <referenceBlock name="product.price.final">
         <arguments>
             <argument name="render_form" xsi:type="string">1</argument>
