@@ -28,7 +28,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * 1. Go to Admin > Sales > Archive > Orders
  * 2. Create Shipment
  * 3. Go to Admin > Sales > Archive > Shipments
- * 4. Spen created shipment
+ * 4. Open created shipment
  * 5. Perform all assertions
  *
  * @group Order_Management_(CS)
@@ -49,6 +49,6 @@ class ViewShipmentsSalesArchiveEntityTest extends MoveToArchiveTest
         // Preconditions:
         parent::test($order, $steps, $configArchive);
         // Steps:
-        return $this->processSteps($order, 'ArchiveShipping');
+        return $this->processSteps($order, 'ArchiveShipment', 'SalesArchive');
     }
 }

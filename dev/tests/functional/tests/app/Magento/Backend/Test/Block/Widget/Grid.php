@@ -156,6 +156,27 @@ abstract class Grid extends Block
     protected $active = '.active';
 
     /**
+     * Base part of row locator template for getRow() method
+     *
+     * @var string
+     */
+    protected $location = '//div[@class="grid"]//tr[';
+
+    /**
+     * Secondary part of row locator template for getRow() method
+     *
+     * @var string
+     */
+    protected $rowTemplate = 'td[contains(text(),normalize-space("%s"))]';
+
+    /**
+     * Secondary part of row locator template for getRow() method with strict option
+     *
+     * @var string
+     */
+    protected $rowTemplateStrict = 'td[text()[normalize-space()="%s"]]';
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -175,7 +196,6 @@ abstract class Grid extends Block
      */
     private function prepareForSearch(array $filters)
     {
-        $this->openFilterBlock();
         foreach ($filters as $key => $value) {
             if (isset($this->filters[$key])) {
                 $selector = $this->filters[$key]['selector'];

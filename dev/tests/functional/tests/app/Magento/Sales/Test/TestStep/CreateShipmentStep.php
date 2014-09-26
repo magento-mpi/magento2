@@ -11,22 +11,22 @@ namespace Magento\Sales\Test\TestStep;
 use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
-use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 
 /**
- * Class CreateArchiveShippingStep
- * Create shipping from archive order on backend
+ * Class CreateShipmentStep
+ * Create shipping from order on backend
  */
-class CreateArchiveShippingStep implements TestStepInterface
+class CreateShipmentStep implements TestStepInterface
 {
     /**
      * Orders Page
      *
-     * @var ArchiveOrders
+     * @var OrderIndex
      */
-    protected $archiveOrders;
+    protected $orderIndex;
 
     /**
      * Order View Page
@@ -58,20 +58,20 @@ class CreateArchiveShippingStep implements TestStepInterface
 
     /**
      * @construct
-     * @param ArchiveOrders $archiveOrders
+     * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderShipmentNew $orderShipmentNew
      * @param OrderShipmentView $orderShipmentView
      * @param OrderInjectable $order
      */
     public function __construct(
-        ArchiveOrders $archiveOrders,
+        OrderIndex $orderIndex,
         OrderView $orderView,
         OrderShipmentNew $orderShipmentNew,
         OrderShipmentView $orderShipmentView,
         OrderInjectable $order
     ) {
-        $this->archiveOrders = $archiveOrders;
+        $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
         $this->orderShipmentNew = $orderShipmentNew;
         $this->orderShipmentView = $orderShipmentView;
@@ -79,14 +79,14 @@ class CreateArchiveShippingStep implements TestStepInterface
     }
 
     /**
-     * Create shipping for archive order on backend
+     * Create shipping for order on backend
      *
      * @return array
      */
     public function run()
     {
-        $this->archiveOrders->open();
-        $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
+        $this->orderIndex->open();
+        $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->ship();
         $this->orderShipmentNew->getShipItemsBlock()->submit();
 

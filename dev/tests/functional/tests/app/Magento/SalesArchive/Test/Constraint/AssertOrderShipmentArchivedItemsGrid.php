@@ -15,7 +15,7 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
 
 /**
  * Class AssertOrderShipmentArchivedItemsGrid
- * Assert shipped product represented on archived shipment page
+ * Assert shipped products are represented on archived shipment page
  */
 class AssertOrderShipmentArchivedItemsGrid extends AbstractConstraint
 {
@@ -27,7 +27,7 @@ class AssertOrderShipmentArchivedItemsGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert shipped products represented on archived shipment page
+     * Assert shipped products are represented on archived shipment page
      *
      * @param ArchiveShipments $archiveShipments
      * @param OrderShipmentView $orderShipmentView
@@ -42,9 +42,9 @@ class AssertOrderShipmentArchivedItemsGrid extends AbstractConstraint
         array $ids
     ) {
         $orderId = $order->getId();
-        $archiveShipments->open();
 
         foreach ($ids['shipmentIds'] as $shipmentId) {
+            $archiveShipments->open();
             $filter = [
                 'order_id' => $orderId,
                 'shipment_id' => $shipmentId
