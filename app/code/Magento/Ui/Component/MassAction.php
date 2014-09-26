@@ -8,7 +8,7 @@
 namespace Magento\Ui\Component;
 
 /**
- * Class View
+ * Class MassAction
  */
 class MassAction extends AbstractView
 {
@@ -33,7 +33,7 @@ class MassAction extends AbstractView
             $this
         );
 
-        $this->configuration = $this->configurationFactory->create(
+        $configuration = $this->configurationFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
@@ -41,7 +41,8 @@ class MassAction extends AbstractView
             ]
         );
 
-        $this->renderContext->getStorage()->addComponentsData($this->configuration);
+        $this->setConfiguration($configuration);
+        $this->renderContext->getStorage()->addComponentsData($configuration);
     }
 
     /**

@@ -23,7 +23,7 @@ interface UiComponentInterface extends BlockInterface
     /**
      * Prepare component data
      *
-     * @return string
+     * @return void
      */
     public function prepare();
 

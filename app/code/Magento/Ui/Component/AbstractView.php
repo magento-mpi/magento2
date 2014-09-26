@@ -250,6 +250,19 @@ abstract class AbstractView extends Template implements UiComponentInterface
     }
 
     /**
+     * Set component configuration
+     *
+     * @param ConfigInterface $configuration
+     * @return void
+     */
+    public function setConfiguration(ConfigInterface $configuration)
+    {
+        if (!isset($this->configuration)) {
+            $this->configuration = $configuration;
+        }
+    }
+
+    /**
      * Get component configuration
      *
      * @return ConfigInterface

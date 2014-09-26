@@ -127,5 +127,4 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::tabs/default.phtml</argument>
         </arguments>
     </block>
-
 </layout>
