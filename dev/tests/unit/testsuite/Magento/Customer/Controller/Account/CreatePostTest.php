@@ -69,9 +69,12 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
         $this->urlFactoryMock = $this->getMockBuilder('\Magento\Framework\UrlFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->urlMock = $this->getMockBuilder('\Magento\Backend\Model\Url')
+        $this->urlMock = $this->getMockBuilder('\Magento\Framework\Url')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->urlFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->urlMock));
         $this->object = $objectManager->getObject('Magento\Customer\Controller\Account\CreatePost',
             [
                 'response' => $this->response,
@@ -123,9 +126,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
         $this->request->expects($this->once())
             ->method('isPost')
             ->will($this->returnValue(true));
-        $this->urlFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->urlMock));
+
         $this->object->execute();
     }
 }

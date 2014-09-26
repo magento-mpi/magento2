@@ -33,6 +33,7 @@ class ForgotPasswordPost extends \Magento\Customer\Controller\Account
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\Escaper $escaper
     ) {
+        $this->customerAccountService = $customerAccountService;
         $this->escaper = $escaper;
         parent::__construct($context, $customerSession);
     }

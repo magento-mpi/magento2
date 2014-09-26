@@ -32,6 +32,7 @@ class Edit extends \Magento\Customer\Controller\Account
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
     ) {
+        $this->customerAccountService = $customerAccountService;
         $this->_customerBuilder = $customerBuilder;
         parent::__construct($context, $customerSession);
     }
