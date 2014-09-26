@@ -184,8 +184,10 @@ class Installer
         $this->log->log('Installing data fixtures:');
         $this->installDataFixtures();
 
-        $this->log->log('Creating store order increment prefix configuration:');
-        $this->installOrderIncrementPrefix($request[self::SALES_ORDER_INCREMENT_PREFIX]);
+        if (!empty($request[self::SALES_ORDER_INCREMENT_PREFIX])) {
+            $this->log->log('Creating sales order increment prefix...');
+            $this->installOrderIncrementPrefix($request[self::SALES_ORDER_INCREMENT_PREFIX]);
+        }
 
         $this->log->log('Installing admin user...');
         $this->installAdminUser($request);
@@ -321,25 +323,39 @@ class Installer
     /**
      * Creates store order increment prefix configuration
      *
-     * @param string|null $orderIncrementPrefix If not null, value to use for order increment prefix
+     * @param string $orderIncrementPrefix Value to use for order increment prefix
      * @return void
      */
     private function installOrderIncrementPrefix($orderIncrementPrefix)
     {
-        if (isset($orderIncrementPrefix)) {
-            $setup = $this->setupFactory->createSetup($this->log);
-            $dbConnection = $setup->getConnection();
+        $setup = $this->setupFactory->createSetup($this->log);
+        $dbConnection = $setup->getConnection();
 
-            // get entity_type_id for order
-            $select = $dbConnection->select()
-                ->from($setup->getTable('eav_entity_type'))
-                ->where('entity_type_code = \'order\'');
-            $sql = new Sql($dbConnection);
-            $selectString = $sql->getSqlStringForSqlObject($select, $dbConnection->getPlatform());
-            $statement = $dbConnection->getDriver()->createStatement($selectString);
-            $selectResult = $statement->execute();
-            $entityTypeId = $selectResult->current()['entity_type_id'];
+        // get entity_type_id for order
+        $select = $dbConnection->select()
+            ->from($setup->getTable('eav_entity_type'))
+            ->where('entity_type_code = \'order\'');
+        $sql = new Sql($dbConnection);
+        $selectString = $sql->getSqlStringForSqlObject($select, $dbConnection->getPlatform());
+        $statement = $dbConnection->getDriver()->createStatement($selectString);
+        $selectResult = $statement->execute();
+        $entityTypeId = $selectResult->current()['entity_type_id'];
 
+        // See if row already exists
+        $resultSet = $dbConnection->query(
+            'SELECT * FROM ' . $setup->getTable('eav_entity_store') . ' WHERE entity_type_id = ? AND store_id = ?',
+            [$entityTypeId, Store::DISTRO_STORE_ID]
+        );
+
+        if ($resultSet->count() > 0) {
+            // row exists, update it
+            $entityStoreId = $resultSet->current()->entity_store_id;
+            $dbConnection->update(
+                $setup->getTable('eav_entity_store'),
+                ['increment_prefix' => $orderIncrementPrefix],
+                ['entity_store_id' => $entityStoreId]
+            );
+        } else {
             // add a row to the store's eav table, setting the increment_prefix
             $rowData = [
                 'entity_type_id' => $entityTypeId,
