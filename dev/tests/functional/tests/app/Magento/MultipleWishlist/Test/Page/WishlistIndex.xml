@@ -24,11 +24,11 @@
             <locator>.page.messages .messages</locator>
             <strategy>css selector</strategy>
         </messagesBlock>
-        <itemsBlock>
-            <class>Magento\Wishlist\Test\Block\Customer\Wishlist\Items</class>
+        <multipleItemsBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Items</class>
             <locator>.products-grid.wishlist</locator>
             <strategy>css selector</strategy>
-        </itemsBlock>
+        </multipleItemsBlock>
         <wishlistBlock>
             <class>Magento\Wishlist\Test\Block\Customer\Wishlist</class>
             <locator>#wishlist-view-form</locator>

@@ -8,11 +8,6 @@
  */
 -->
 <page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="head">
-        <action method="setCanLoadExtJs">
-            <argument name="flag" xsi:type="string">1</argument>
-        </action>
-    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit" name="magento_customercustomattributes_formtype_edit"/>
     </referenceContainer>

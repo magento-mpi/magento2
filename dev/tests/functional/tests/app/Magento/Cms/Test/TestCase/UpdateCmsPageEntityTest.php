@@ -11,6 +11,7 @@ namespace Magento\Cms\Test\TestCase;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\Cms\Test\Fixture\CmsPage;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -49,18 +50,27 @@ class UpdateCmsPageEntityTest extends Injectable
     protected $cmsNew;
 
     /**
+     * Fixture Factory
+     *
+     * @var FixtureFactory
+     */
+    protected $factory;
+
+    /**
      * Inject page
      *
      * @param CmsIndex $cmsIndex
      * @param CmsNew $cmsNew
      * @param CmsPage $cmsOriginal
+     * @param FixtureFactory $factory
      * @return array
      */
-    public function __inject(CmsIndex $cmsIndex, CmsNew $cmsNew, CmsPage $cmsOriginal)
+    public function __inject(CmsIndex $cmsIndex, CmsNew $cmsNew, CmsPage $cmsOriginal, FixtureFactory $factory)
     {
         $cmsOriginal->persist();
         $this->cmsIndex = $cmsIndex;
         $this->cmsNew = $cmsNew;
+        $this->factory = $factory;
         return ['cmsOriginal' => $cmsOriginal];
     }
 
@@ -69,7 +79,7 @@ class UpdateCmsPageEntityTest extends Injectable
      *
      * @param CmsPage $cms
      * @param CmsPage $cmsOriginal
-     * @return void
+     * @return array
      */
     public function test(CmsPage $cms, CmsPage $cmsOriginal)
     {
@@ -78,5 +88,12 @@ class UpdateCmsPageEntityTest extends Injectable
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
         $this->cmsNew->getPageForm()->fill($cms);
         $this->cmsNew->getPageMainActions()->save();
+
+        return [
+            'cms' => $this->factory->createByCode(
+                'cmsPage',
+                ['data' => array_merge($cmsOriginal->getData(), $cms->getData())]
+            )
+        ];
     }
 }

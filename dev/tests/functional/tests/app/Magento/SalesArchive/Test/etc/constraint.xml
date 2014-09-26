@@ -38,4 +38,7 @@
     <assertCreditMemoArchivedItems module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertCreditMemoArchivedItems>
+    <assertOrderInvoiceArchiveItemsGrid module="Magento_SalesArchive">
+        <severeness>medium</severeness>
+    </assertOrderInvoiceArchiveItemsGrid>
 </constraint>

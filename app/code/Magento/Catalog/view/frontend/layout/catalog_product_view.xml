@@ -22,13 +22,9 @@
             <argument name="add_attribute" xsi:type="string">itemscope itemtype="http://schema.org/Product"</argument>
         </arguments>
     </referenceBlock>
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Css" name="mage-gallery-css">
-            <arguments>
-                <argument name="file" xsi:type="string">mage/gallery.css</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+    <head>
+        <css src="mage/gallery.css"/>
+    </head>
     <update handle="page_calendar"/>
     <referenceContainer name="content">
         <container name="product.info.main" label="invisible" htmlTag="div" htmlClass="product-info-main" before="-">

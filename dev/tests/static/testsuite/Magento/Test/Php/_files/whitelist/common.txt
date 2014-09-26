@@ -87,7 +87,6 @@ app/code/Magento/Log/Model/Resource/Shell.php
 app/code/Magento/Log/Model/Shell.php
 app/code/Magento/Log/Model/Shell
 app/code/Magento/Msrp
-app/code/Magento/Theme/Block/Html/Head
 app/code/Magento/ProductAlert/Block/Product/View
 app/code/Magento/RecurringPayment
 app/code/Magento/Reports/Block/Adminhtml/Customer
