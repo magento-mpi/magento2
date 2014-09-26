@@ -87,6 +87,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $expected = <<<expected
 (function(require){
+
 (function() {
 relative/file_one.js content
 require.config(config);
@@ -96,10 +97,12 @@ relative/file_two.js content
 require.config(config);
 })();
 
+
 require.config({
     "baseUrl": "",
     "waitSeconds": 0
 });
+
 })(require);
 expected;
 
@@ -121,10 +124,12 @@ expected;
             ->method('getBaseUrl')
             ->will($this->returnValue('http://base.url/'));
         $expected = <<<expected
+
 require.config({
     "baseUrl": "http://base.url/area/theme/locale",
     "waitSeconds": 0
 });
+
 
 expected;
         $actual = $this->object->getBaseConfig();
