@@ -97,7 +97,7 @@ class Curl extends ProductCurl implements DownloadableProductInjectableInterface
      *
      * @param array $data
      * @param array $config
-     * @return int|null
+     * @return array
      * @throws \Exception
      */
     protected function createProduct(array $data, array $config)

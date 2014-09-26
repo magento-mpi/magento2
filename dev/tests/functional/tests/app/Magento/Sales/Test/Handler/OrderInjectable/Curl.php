@@ -201,6 +201,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         foreach ($checkoutData['options']['links'] as $link) {
             $result['links'][] = $link['id'];
         }
+
         return $result;
     }
 

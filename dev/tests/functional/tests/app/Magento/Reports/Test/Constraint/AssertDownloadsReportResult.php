@@ -30,9 +30,10 @@ class AssertDownloadsReportResult extends AbstractConstraint
      *
      * @param OrderInjectable $order
      * @param DownloadsReport $downloadsReport
+     * @param int $downloads
      * @return void
      */
-    public function processAssert(OrderInjectable $order, DownloadsReport $downloadsReport)
+    public function processAssert(OrderInjectable $order, DownloadsReport $downloadsReport, $downloads)
     {
         $downloadsReport->open();
         foreach ($order->getEntityId()['products'] as $product) {
@@ -43,22 +44,22 @@ class AssertDownloadsReportResult extends AbstractConstraint
                     'sku' => $product->getSku(),
                 ];
                 $downloadsReport->getGridBlock()->search($filter);
-                $filter[] = 1;
+                $filter[] = $downloads;
                 \PHPUnit_Framework_Assert::assertTrue(
                     $downloadsReport->getGridBlock()->isRowVisible($filter, false),
-                    'Downloads report not in grid.'
+                    'Downloads report is not present in reports grid.'
                 );
             }
         }
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'Downloads product into report grid.';
+        return 'Downloads report is present in reports grid.';
     }
 }

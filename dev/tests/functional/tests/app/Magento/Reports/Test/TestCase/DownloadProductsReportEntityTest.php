@@ -28,8 +28,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * Steps:
  * 1. Open Backend.
  * 2. Go to Reports> Products> Downloads.
- * 3. Find product in grid.
- * 4. Perform all assertions.
+ * 3. Perform all assertions.
  *
  * @group Reports_(MX)
  * @ZephyrId MAGETWO-28823
@@ -51,7 +50,7 @@ class DownloadProductsReportEntityTest extends Injectable
     protected $customerProducts;
 
     /**
-     * Inject page
+     * Inject pages
      *
      * @param CustomerAccountIndex $customerAccount
      * @param DownloadableCustomerProducts $customerProducts
@@ -74,34 +73,31 @@ class DownloadProductsReportEntityTest extends Injectable
     {
         // Preconditions
         $order->persist();
-        $invoice = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateInvoiceStep',
-            ['order' => $order]
-        );
+        $invoice = $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoiceStep', ['order' => $order]);
         $invoice->run();
-        $this->openDownloadableLink($order, $downloads);
+        $this->openDownloadableLink($order, (int)$downloads);
     }
 
     /**
      * Open Downloadable Link
      *
      * @param OrderInjectable $order
-     * @param $downloads
+     * @param int $downloads
+     * @return void
      */
     protected function openDownloadableLink(OrderInjectable $order, $downloads)
     {
-        if ($downloads === "No") {
-            return;
-        }
-        $invoice = $this->objectManager->create(
+        $customerLogin = $this->objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
             ['customer' => $order->getDataFieldConfig('customer_id')['source']->getCustomer()]
         );
-        $invoice->run();
+        $customerLogin->run();
         $this->customerAccount->getAccountMenuBlock()->openMenuItem('My Downloadable Products');
         foreach ($order->getEntityId()['products'] as $product) {
             foreach ($product->getDownloadableLinks()['downloadable']['link'] as $link) {
-                $this->customerProducts->getMainBlock()->openLink($link['title']);
+                for ($i = 0; $i < $downloads; $i++) {
+                    $this->customerProducts->getMainBlock()->openLink($link['title']);
+                }
             }
         }
     }
