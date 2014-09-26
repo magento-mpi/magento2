@@ -1,113 +1,93 @@
 0.1.0-alpha97
 =============
- * Implemented universal way of using RSS module (MAGETWO-27513)
- * Created a cron job in Customer module for cleaning customer_visitor table (MAGETWO-28239)
- * Add warning hint to the 'Use HTTP Only' option in the backend (MAGETWO-27789)
- * Unit and Integration Test Coverage (MAGETWO-26211)
- * use of registry in Magento\Tax\Helper\Data (MAGETWO-18667)
- * Implemented Grid Component in Magento UI Library (MAGETWO-920)
- * Implemented universal way of using RSS module (MAGETWO-27513)
- * Created a cron job in Customer module for cleaning customer_visitor table (MAGETWO-28239)
+ * Implemented a general way of using RSS module
+ * Created a cron job in the Customer module for cleaning the customer_visitor table
+ * Add a warning message to the Use HTTP Only option in the Admin panel
+ * Implemented the Grid component in Magento UI Library
  * Framework Improvements:
-   * (MAGETWO-26159 and MAGETWO-27629)
-   * Refactored CustomerService REST WebApi to be more RESTful (MAGETWO-22130)
-   * Added unit and integration test coverage (MAGETWO-26210)
-   * HEAD Block Refactoring - Page Assets (MAGETWO-26279)
-   * Other "Special Case" Block Refactoring(MAGETWO-26281)
+   * Added the ability to install Magento 2 using CLI
+   * Aggregated Magento installation and upgrade into one tool
+   * Refactored CustomerService REST WebApi to be more RESTful
+   * Increased unit and integration test coverage
+   * Moved page asset management to page configuration API, and eliminated the \Magento\Theme\Block\Html\Head block
+   * Eliminated the Root, Html and Title blocks
  * Theme Update:
-   * Removed widgets from default Magento installation (MAGETWO-23894)
+   * Removed widgets from the default Magento installation
  * Fixed Bugs:
-   * Fixed bug with wishlist creation for non-registered customer (MAGETWO-28117)
-   * Fixed an issue with Google Mapping where Condition does not show correct value (MAGETWO-18314)
-   * Fixed an issue with Admin user that have incredible qty of notifications by default (MAGETWO-27585)
-   * session.save_path not valid (MAGETWO-28338)
-   * RSS global setting (MAGETWO-28270)
-   * Recently viewed products sidebar issue (MAGETWO-28269)
-   * Daylight Savings Time calculation error (MAGETWO-28144)
-   * Default cookie path and lifetime are not validated prior to saving (MAGETWO-27550)
-   * Use info as object in checkout_cart_update_items_before (MAGETWO-27000)
-   * Fixed an issue where current admin password was not required for resetting admin password (MAGETWO-11347)
-   * Fixed an issue where custom customer or customer address attribute was not accessible when ‘custom_attribute’ is used as the attribute code (MAGETWO-24033)
-   * Fixed an issue where integration entity couldn’t be deleted after being searched in grid (MAGETWO-26038)
-   * Fixed an issue where invalid parameter value was shown in SOAP (MAGETWO-26847)
-   * Fixed an issue where exception was thrown for Array to String conversion in SOAP (MAGETWO-27788)
-   * Fixed an issue where exception was thrown due to invalid argument supplied for foreach() statement in REST (MAGETWO-28264)
-   * Admin tax notifications do not appear correctly on the System Messages dialog box (MAGETWO-25121)
-   * [BUG] Tax details missing when viewing order from backend (MAGETWO-27169)
-   * Styles for frontend store selector is absent (MAGETWO-27726)
-   * Customer get 404 page when switching store view on product with different url keys (MAGETWO-24151)
-   * [MAP] Add To Cart button in Pop-Up does not work for configurable and bundle products (MAGETWO-24821)
-   * Notice message for specifying options for configurable product is absent after adding product from MAP pop up (MAGETWO-27999)
-   * Fixed 'Fatal error: Call to a member function setQuote() on a non-object' after selecting shipping method on PayPal Express Checkout (MAGETWO-27945)
-   * Error on sending invoice email (MAGETWO-28570)
-   * Integration tests fail with fatall error (MAGETWO-28678)
-   * Credit memo entry isn't created after performing refund for an order (MAGETWO-28230)
-   * Widget wiht layout Categories does not work (MAGETWO-27979)
-   * Opening a page which is restricted by ACL leads to blank page instead of "Access Denied" page (MAGETWO-27660)
-   * Blank page is displayed while searching using Advanced Search functionality (MAGETWO-27664)
-   * Please wait spinner is absent on Ajax requests while order creation on Backend (MAGETWO-28061)
-   * Main navigation menu displayed in the top of the page, under all other menus(CE) (MAGETWO-28185)
- * Indexer-less implementation of URL Rewrites functionality in new UrlRedirect module:
-   * [Implement URL Rewrites] Eliminate old Url Rewrite module, part 1 (MAGETWO-25952)
-   * [Implement URL Rewrites] Eliminate old Url Rewrite module, part 2 (MAGETWO-26345)
+   * Fixed an issue with wishlist creation for non-registered customer
+   * Fixed an issue with Google Mapping where Condition did not show correct value
+   * Fixed an issue  where there were too many notifications for admin user by default
+   * Fixed a Daylight Savings Time calculation error
+   * Fixed an issue where default cookie path and lifetime were not validated prior to saving
+   * Fixed an issue where current admin password was not required for resetting admin password
+   * Fixed an issue where custom customer attribute or customer address attribute was not accessible when ‘custom_attribute’ is used as the attribute code
+   * Fixed an issue where integration entity could not be deleted after being searched in grid
+   * Fixed an issue where invalid parameter value was shown in SOAP
+   * Fixed an issue where exception was thrown for Array to String conversion in SOAP
+   * Fixed an issue where exception was thrown due to invalid argument supplied for foreach() statement in REST
+   * Fixed an issue where admin tax notifications did not appear correctly in the System Messages dialog box
+   * Fixed an issue where tax details were missing when viewing order in the Admin panel
+   * Fixed an issue where styles for the storefront store selector were absent
+   * Fixed an issue where customer got 404 page when switching store views on the product page of a product with different URL keys in different store views
+   * Fixed an issue where the Add To Cart button in the MAP pop-up did not work for configurable and bundle products
+   * Fixed an issue where for specifying options for configurable product was absent after adding a product from the MAP pop-up
+   * Fixed an issue where a fatal error was thrown after selecting shipping method on PayPal Express Checkout
+   * Fixed an issue with sending invoice email
+   * Fixed an issue where integration tests failed with a fatal error
+   * Fixed an issue where credit memo entry was not created after performing a refund for an order
+   * Fixed an issue where categories layout for widgets did not work
+   * Fixed an issue where opening a page restricted by ACL lead to blank page instead of the Access Denied page
+   * Fixed an issue where a blank page was displayed instead of the using the Advanced Search result
+   * Fixed an issue where the "Please wait" spinner was absent on Ajax requests for order creation in the Admin
+   * Fixed an issue where main navigation menu location on the page
+ * New implementation of URL Rewrites functionality in new UrlRedirect module
  * Modularity:
-   * Enable Automatic MAP (MAGETWO-25374)
+   * Implemented the automatic applying of the MAP policy
  * Indexers:
-   * Remove old indexers (MAGETWO-18168)
+   * Eliminated the old Magento_Index module
  * Search Library
-   * Added wildcards filter (MAGETWO-27919)
-   * Implemented class from removing unused request parts (MAGETWO-27917)
-   * Added IN to Term filter (MAGETWO-27919)
-   * Moved attribute "value" from "match" to matchQuery (MAGETWO-27944)
-   * Refactored negation usage (MAGETWO-27955)
-   * Implemented Request Builder (MAGETWO-28062)
+   * Added wildcards filter
+   * Eliminated unused queries and filters
+   * Added IN to Term filter
+   * Moved the "value" attribute from <match> to <query> for the Match query
+   * Refactored the usage of negation
+   * Implemented Request Builder
  * CatalogSearch Adapter
-   * Pluginized adding attribute to search index (MAGETWO-28070)
-   * Merged base declaration with searchable attributes (MAGETWO-28071)
+   * Pluginized adding attribute to search index
+   * Merged base declaration with searchable attributes
  * Added the following “Setup CLI tools” in the setup folder
    * Deployment Configuration Tool
-     * Generates deployment configuration
-     * Usage: php -f index.php install-configuration [--<option_name> <option_value>, …]
    * Schema Setup and Update Tool
-     * Schema creation and update
-     * usage: php -f index.php install-schema
    * DB Data Update Tool
-     * Data install and upgrade
-     * usage: php -f index.php install-data
    * Admin User Setup Tool
-     * Creates new admin user
-     * usage: php -f index.php install-admin-user [--<option_name> <option_value>, …]
    * User Configuration Tool
-     * Sets user configuration such as currency and timezone
-     * usage: php -f index.php install-user-configuration [--<option_name> <option_value>, …]
    * Installation Tool
-     * Installs Magento application. Performs all of the above in a single command.
-     * usage: php -f index.php install [--<option_name> <option_value>, …]
    * Update Tool
-     * Applies schema and data updates, if any.
-     * usage: php -f index.php update
-   * Full list of commands
-     * php -f index.php help
  * GitHub requests:
-   * [#646] Fixed flat category indexer bug (MAGETWO-27982)
+   * [#615] Use info as object in checkout_cart_update_items_before
+   * [#659] Recently viewed products sidebar issue
+   * [#660] RSS global setting
+   * [#663] session.save_path not valid
+   * [#445] use of registry in Magento\Tax\Helper\Data
+   * [#646] Fixed flat category indexer bug
    * [#643] Configurable Products Performance
    * [#640] [Insight] Files should not be executable
    * [#667] Tiny improvement on render() method in Column/Renderer/Concat
    * [#288] Add Cell Phone to Customer Address Form
-   * [#607] sitemap.xml filename is not variable (MAGETWO-26779)
-   * [#633] Fixed Typo ($_attribite -> $_attribute) (MAGETWO-27584)
-   * [#634] README.md contains broken link to X.commerce Agreement (MAGETWO-27589)
-   * [#569] ObjectManager's Factory should be replaceable depending on service (MAGETWO-24408)
-   * [#654] Demo notice overlapping (MAGETWO-28210)
+   * [#607] sitemap.xml filename is not variable
+   * [#633] Fixed Typo ($_attribite -> $_attribute)
+   * [#634] README.md contains broken link to X.commerce Agreement
+   * [#569] ObjectManager's Factory should be replaceable depending on service
+   * [#654] Demo notice overlapping
  * Functional tests:
-   * Abandoned carts report (MTA-282)
-   * Adding products from wishlist to cart (MTA-125)
-   * Create invoice for offline payment methods (MTA-7)
-   * Delete products from shopping cart (MTA-59)
-   * Delete widget (MTA-297)
-   * Global search (MTA-349)
-   * Order count report (MTA-414)
-   * Order total report (MTA-270)
+   * Abandoned carts report
+   * Adding products from wishlist to cart
+   * Create invoice for offline payment methods
+   * Delete products from shopping cart
+   * Delete widget
+   * Global search
+   * Order count report
+   * Order total report
 
 0.1.0-alpha96
 =============
