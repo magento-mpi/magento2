@@ -45,21 +45,6 @@
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
             <word>enterprise</word>
             <path>dev/tests/unit/testsuite/Magento/Framework/Cache/Backend/_files/MongoBinData.txt</path>
         </item>
