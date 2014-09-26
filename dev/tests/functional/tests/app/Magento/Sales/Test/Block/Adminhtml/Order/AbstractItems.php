@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Edit;
+namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
 use Mtf\Block\Block;
 
 /**
- * Class Items
- * Items of invoice block on invoice view page
+ * Class AbstractItems
+ * Base Items block on Credit Memo, Invoice, Shipment view page
  */
-class Items extends Block
+class AbstractItems extends Block
 {
     /**
      * Locator for row item

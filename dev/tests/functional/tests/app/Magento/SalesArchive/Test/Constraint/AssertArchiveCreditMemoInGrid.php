@@ -13,10 +13,10 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos;
 
 /**
- * Class AssertOrderCreditMemoArchivedInGrid
+ * Class AssertArchiveCreditMemoInGrid
  * Refund with corresponding fixture data is present in Archive Credit Memos grid
  */
-class AssertOrderCreditMemoArchivedInGrid extends AbstractConstraint
+class AssertArchiveCreditMemoInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness

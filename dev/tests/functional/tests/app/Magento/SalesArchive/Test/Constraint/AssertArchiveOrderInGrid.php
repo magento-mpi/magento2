@@ -13,20 +13,20 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 
 /**
- * Class AssertOrderStatusInArchiveOrders
- * Assert that status is correct on order page in backend
+ * Class AssertArchiveOrderInGrid
+ * Assert that order with fixture data is in the Grid
  */
-class AssertOrderStatusInArchiveOrders extends AbstractConstraint
+class AssertArchiveOrderInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
-     * Assert  that status is correct on order page in backend (same with value of orderStatus variable)
+     * Assert that order with fixture data is in archive orders grid
      *
      * @param OrderInjectable $order
      * @param ArchiveOrders $archiveOrders
@@ -35,15 +35,16 @@ class AssertOrderStatusInArchiveOrders extends AbstractConstraint
      */
     public function processAssert(OrderInjectable $order, ArchiveOrders $archiveOrders, $orderStatus)
     {
+        $data = $order->getData();
         $filter = [
-            'id' => $order->getId(),
+            'id' => $data['id'],
             'status' => $orderStatus,
         ];
         $archiveOrders->open();
         $errorMessage = implode(', ', $filter);
         \PHPUnit_Framework_Assert::assertTrue(
             $archiveOrders->getSalesOrderGrid()->isRowVisible($filter),
-            "Order with following data '$errorMessage' is absent in archive orders grid."
+            'Order with following data \'' . $errorMessage . '\' is absent in archive orders grid.'
         );
     }
 
@@ -54,6 +55,6 @@ class AssertOrderStatusInArchiveOrders extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order status is correct on archive orders page backend.';
+        return 'Order is present in archive orders grid.';
     }
 }

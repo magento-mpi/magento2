@@ -14,10 +14,10 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 
 /**
- * Class AssertOrderButtonsAvailableInArchiveOrders
- * Assert that specified in data set buttons exist on archive order page in backend
+ * Class AssertArchiveOrderAvailableButtons
+ * Assert that specified in data set buttons exist on archived order page in backend
  */
-class AssertOrderButtonsAvailableInArchiveOrders extends AbstractConstraint
+class AssertArchiveOrderAvailableButtons extends AbstractConstraint
 {
     /**
      * Constraint severeness

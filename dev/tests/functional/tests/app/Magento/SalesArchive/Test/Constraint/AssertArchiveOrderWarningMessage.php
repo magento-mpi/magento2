@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
- * Class AssertOrderArchiveWarningMessage
+ * Class AssertArchiveOrderWarningMessage
  * Assert that warning message present on order grid page
  */
-class AssertOrderArchiveWarningMessage extends AbstractConstraint
+class AssertArchiveOrderWarningMessage extends AbstractConstraint
 {
     /**
      * Message displayed after cancel sales order

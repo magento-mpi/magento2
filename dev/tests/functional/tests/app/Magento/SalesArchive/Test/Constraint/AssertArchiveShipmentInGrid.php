@@ -13,10 +13,10 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
 
 /**
- * Class AssertOrderShipmentArchivedInGrid
+ * Class AssertArchiveShipmentInGrid
  * Shipment with corresponding fixture data is present in Sales Archive Shipments grid
  */
-class AssertOrderShipmentArchivedInGrid extends AbstractConstraint
+class AssertArchiveShipmentInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
