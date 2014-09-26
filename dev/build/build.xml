@@ -101,13 +101,6 @@
         <antcall target="prepare-installation" inheritAll="true" />
     </target>
 
-    <target name="functional-tests-with-deploy-ee" depends="functional-tests-with-deploy,prepare-ee">
-        <replace file="${dir.build_directory}/dev/tests/functional-old/config/config.yml">
-            <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/backend/admin"/>
-            <replacefilter token="{{enterprise_url}}" value="${env.http_host}${env.build.key}/"/>
-        </replace>
-    </target>
-
     <target name="init-build-directory" unless="build.directory.initialized">
         <fail unless="env.deploy_directory" message="Bamboo variable 'deploy_directory' must be defined."/>
         <fail unless="env.build_number" message="Bamboo variable 'build_number' must be defined."/>
