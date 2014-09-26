@@ -64,21 +64,21 @@
    * Installation Tool
    * Update Tool
  * GitHub requests:
-   * [#615] Use info as object in checkout_cart_update_items_before
-   * [#659] Recently viewed products sidebar issue
-   * [#660] RSS global setting
-   * [#663] session.save_path not valid
-   * [#445] use of registry in Magento\Tax\Helper\Data
-   * [#646] Fixed flat category indexer bug
-   * [#643] Configurable Products Performance
-   * [#640] [Insight] Files should not be executable
-   * [#667] Tiny improvement on render() method in Column/Renderer/Concat
-   * [#288] Add Cell Phone to Customer Address Form
-   * [#607] sitemap.xml filename is not variable
-   * [#633] Fixed Typo ($_attribite -> $_attribute)
-   * [#634] README.md contains broken link to X.commerce Agreement
-   * [#569] ObjectManager's Factory should be replaceable depending on service
-   * [#654] Demo notice overlapping
+   * [#615] (https://github.com/magento/magento2/issues/615) -- Use info as object in checkout_cart_update_items_before
+   * [#659] (https://github.com/magento/magento2/issues/659) -- Recently viewed products sidebar issue
+   * [#660] (https://github.com/magento/magento2/issues/660) -- RSS global setting
+   * [#663] (https://github.com/magento/magento2/issues/663) -- session.save_path not valid
+   * [#445] (https://github.com/magento/magento2/issues/445) -- use of registry in Magento\Tax\Helper\Data
+   * [#646] (https://github.com/magento/magento2/issues/646) -- Fixed flat category indexer bug
+   * [#643] (https://github.com/magento/magento2/issues/643) -- Configurable Products Performance
+   * [#640] (https://github.com/magento/magento2/issues/640) -- [Insight] Files should not be executable
+   * [#667] (https://github.com/magento/magento2/pull/667) -- Tiny improvement on render() method in Column/Renderer/Concat
+   * [#288] (https://github.com/magento/magento2/issues/288) -- Add Cell Phone to Customer Address Form
+   * [#607] (https://github.com/magento/magento2/issues/607) -- sitemap.xml filename is not variable
+   * [#633] (https://github.com/magento/magento2/pull/633) -- Fixed Typo ($_attribite -> $_attribute)
+   * [#634] (https://github.com/magento/magento2/issues/634) -- README.md contains broken link to X.commerce Agreement
+   * [#569] (https://github.com/magento/magento2/issues/569) -- ObjectManager's Factory should be replaceable depending on service
+   * [#654] (https://github.com/magento/magento2/issues/654) -- Demo notice overlapping
  * Functional tests:
    * Abandoned carts report
    * Adding products from wishlist to cart
