@@ -8,13 +8,14 @@
 namespace Magento\Ui\Component\Filter\Type;
 
 use\Magento\Ui\Component\Filter;
-use Magento\Ui\Component\Filter\FilterPool;
 use Magento\Framework\LocaleInterface;
+use Magento\Ui\Component\Filter\FilterPool;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\Locale\ResolverInterface;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -53,6 +54,7 @@ class Date extends Filter
      * @param ConfigBuilderInterface $configBuilder
      * @param FilterPool $filterPool
      * @param ResolverInterface $localeResolver
+     * @param DataProviderFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -63,6 +65,7 @@ class Date extends Filter
         ConfigBuilderInterface $configBuilder,
         FilterPool $filterPool,
         ResolverInterface $localeResolver,
+        DataProviderFactory $dataProviderFactory,
         array $data = []
     ) {
         $this->localeDate = $context->getLocaleDate();
@@ -75,6 +78,7 @@ class Date extends Filter
             $configFactory,
             $configBuilder,
             $filterPool,
+            $dataProviderFactory,
             $data
         );
     }

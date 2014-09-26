@@ -3,6 +3,9 @@ namespace Magento\Ui\DataProvider;
 
 use Magento\Framework\ObjectManager;
 
+/**
+ * Class Factory
+ */
 class Factory
 {
     /**
@@ -21,11 +24,14 @@ class Factory
     }
 
     /**
+     * Create data provider
+     *
      * @param $providerClass
-     * @return mixed
+     * @param array $arguments
+     * @return DataProviderInterface
      */
-    public function get($providerClass)
+    public function create($providerClass, array $arguments = [])
     {
-        return $this->objectManager->get($providerClass);
+        return $this->objectManager->create($providerClass, $arguments);
     }
 }

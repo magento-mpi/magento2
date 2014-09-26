@@ -33,7 +33,7 @@ class MassAction extends AbstractView
             $this
         );
 
-        $configuration = $this->configurationFactory->create(
+        $configuration = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),

@@ -7,6 +7,7 @@
  */
 namespace Magento\Ui\Component;
 
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
@@ -41,6 +42,7 @@ class Filter extends AbstractView
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
      * @param FilterPoolProvider $filterPool
+     * @param DataProviderFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -50,6 +52,7 @@ class Filter extends AbstractView
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
         FilterPoolProvider $filterPool,
+        DataProviderFactory $dataProviderFactory,
         array $data = []
     ) {
         $this->filterPool = $filterPool;
@@ -59,6 +62,7 @@ class Filter extends AbstractView
             $contentTypeFactory,
             $configFactory,
             $configBuilder,
+            $dataProviderFactory,
             $data
         );
     }
@@ -75,7 +79,7 @@ class Filter extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $configuration = $this->configurationFactory->create(
+        $configuration = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),

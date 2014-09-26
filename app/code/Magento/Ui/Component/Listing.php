@@ -14,6 +14,7 @@ use Magento\Ui\Component\Listing\OptionsFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -51,11 +52,12 @@ class Listing extends AbstractView
      * @param TemplateContext $context
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigFactory $configFactory
+     * @param ConfigBuilderInterface $configBuilder
      * @param OptionsFactory $optionsFactory
      * @param ActionPool $actionPool
      * @param RowPool $dataProviderRowPool
-     * @param ConfigFactory $configFactory
-     * @param ConfigBuilderInterface $configBuilder
+     * @param DataProviderFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -67,6 +69,7 @@ class Listing extends AbstractView
         OptionsFactory $optionsFactory,
         ActionPool $actionPool,
         RowPool $dataProviderRowPool,
+        DataProviderFactory $dataProviderFactory,
         array $data = []
     ) {
         $this->actionPool = $actionPool;
@@ -78,6 +81,7 @@ class Listing extends AbstractView
             $contentTypeFactory,
             $configFactory,
             $configBuilder,
+            $dataProviderFactory,
             $data
         );
     }
@@ -110,7 +114,7 @@ class Listing extends AbstractView
         }
         unset($defaultConfig['page_actions']);
 
-        $configuration = $this->configurationFactory->create(
+        $configuration = $this->configFactory->create(
             [
                 'name' => $this->getData('name'),
                 'parentName' => $this->getData('name'),

@@ -15,6 +15,7 @@ use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Ui\Component\Filter as FilterView;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
@@ -47,6 +48,7 @@ class FilterPool extends AbstractView
      * @param ConfigBuilderInterface $configBuilder
      * @param Data $dataHelper
      * @param FilterPoolProvider $filterPool
+     * @param DataProviderFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -57,6 +59,7 @@ class FilterPool extends AbstractView
         ConfigBuilderInterface $configBuilder,
         Data $dataHelper,
         FilterPoolProvider $filterPool,
+        DataProviderFactory $dataProviderFactory,
         array $data = []
     ) {
         $this->dataHelper = $dataHelper;
@@ -67,6 +70,7 @@ class FilterPool extends AbstractView
             $contentTypeFactory,
             $configFactory,
             $configBuilder,
+            $dataProviderFactory,
             $data
         );
     }
@@ -83,7 +87,7 @@ class FilterPool extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $configuration = $this->configurationFactory->create(
+        $configuration = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),

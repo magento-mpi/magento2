@@ -24,7 +24,7 @@ class Sorting extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $configuration = $this->configurationFactory->create(
+        $configuration = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
@@ -44,8 +44,8 @@ class Sorting extends AbstractView
      */
     protected function updateDataCollection()
     {
-        $field = $this->configuration->getData('field');
-        $direction = $this->configuration->getData('direction');
+        $field = $this->config->getData('field');
+        $direction = $this->config->getData('direction');
         if (!empty($field) && !empty($direction)) {
             $this->renderContext->getStorage()->getDataCollection($this->getParentName())->setOrder(
                 $this->renderContext->getRequestParam('sort', $field),

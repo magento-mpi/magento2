@@ -24,7 +24,7 @@ class Paging extends AbstractView
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $configuration = $this->configurationFactory->create(
+        $configuration = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
@@ -45,8 +45,8 @@ class Paging extends AbstractView
     protected function updateDataCollection()
     {
         $this->renderContext->getStorage()->getDataCollection($this->getParentName())
-            ->setCurPage($this->renderContext->getRequestParam('page', $this->configuration->getData('current')))
-            ->setPageSize($this->renderContext->getRequestParam('limit', $this->configuration->getData('pageSize')));
+            ->setCurPage($this->renderContext->getRequestParam('page', $this->config->getData('current')))
+            ->setPageSize($this->renderContext->getRequestParam('limit', $this->config->getData('pageSize')));
     }
 
     /**

@@ -42,13 +42,14 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
             $config = array_merge($config, $this->getData('config'));
         }
 
-        $configuration = $this->configurationFactory->create(
+        $configuration = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
                 'configuration' => $config
             ]
         );
+        $this->createDataProvider();
 
         $this->setConfiguration($configuration);
         $this->renderContext->getStorage()->addComponentsData($configuration);

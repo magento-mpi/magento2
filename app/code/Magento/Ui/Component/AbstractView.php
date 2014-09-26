@@ -7,14 +7,15 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigInterface;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponentInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
@@ -32,7 +33,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      *
      * @var ConfigInterface
      */
-    protected $configuration;
+    protected $config;
 
     /**
      * Render context
@@ -44,7 +45,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * @var ConfigFactory
      */
-    protected $configurationFactory;
+    protected $configFactory;
 
     /**
      * Content type factory
@@ -61,6 +62,13 @@ abstract class AbstractView extends Template implements UiComponentInterface
     protected $assetRepo;
 
     /**
+     * Data provider factory
+     *
+     * @var DataProviderFactory
+     */
+    protected $dataProviderFactory;
+
+    /**
      * Constructor
      *
      * @param TemplateContext $context
@@ -68,6 +76,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
+     * @param DataProviderFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -76,13 +85,15 @@ abstract class AbstractView extends Template implements UiComponentInterface
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
+        DataProviderFactory $dataProviderFactory,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
         $this->contentTypeFactory = $contentTypeFactory;
         $this->assetRepo = $context->getAssetRepository();
-        $this->configurationFactory = $configFactory;
+        $this->configFactory = $configFactory;
         $this->configurationBuilder = $configBuilder;
+        $this->dataProviderFactory = $dataProviderFactory;
         parent::__construct($context, $data);
     }
 
@@ -198,33 +209,13 @@ abstract class AbstractView extends Template implements UiComponentInterface
     }
 
     /**
-     * Get default parameters
-     *
-     * @return array
-     */
-    protected function getDefaultConfiguration()
-    {
-        return [];
-    }
-
-    /**
-     * Get render engine
-     *
-     * @return \Magento\Ui\ContentType\ContentTypeInterface
-     */
-    protected function getRenderEngine()
-    {
-        return $this->contentTypeFactory->get($this->renderContext->getAcceptType());
-    }
-
-    /**
      * Get name component instance
      *
      * @return string
      */
     public function getName()
     {
-        return $this->configuration->getName();
+        return $this->config->getName();
     }
 
     /**
@@ -234,7 +225,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function getParentName()
     {
-        return $this->configuration->getParentName();
+        return $this->config->getParentName();
     }
 
     /**
@@ -256,7 +247,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
     public function setConfiguration(ConfigInterface $configuration)
     {
         if (!isset($this->configuration)) {
-            $this->configuration = $configuration;
+            $this->config = $configuration;
         }
     }
 
@@ -278,5 +269,44 @@ abstract class AbstractView extends Template implements UiComponentInterface
     public function getRenderContext()
     {
         return $this->renderContext;
+    }
+
+    /**
+     * Get default parameters
+     *
+     * @return array
+     */
+    protected function getDefaultConfiguration()
+    {
+        return [];
+    }
+
+    /**
+     * Get render engine
+     *
+     * @return \Magento\Ui\ContentType\ContentTypeInterface
+     */
+    protected function getRenderEngine()
+    {
+        return $this->contentTypeFactory->get($this->renderContext->getAcceptType());
+    }
+
+    /**
+     * Create
+     */
+    protected function createDataProvider()
+    {
+        if ($this->hasData('data_provider_pool')) {
+            foreach ($this->getData('data_provider_pool') as $name => $dataProviderConfig) {
+                $dataProviderConfig['arguments'] = empty($dataProviderConfig['arguments'])
+                    ? []
+                    : $dataProviderConfig['arguments'];
+                $meta = $this->dataProviderFactory->create(
+                    $dataProviderConfig['class'],
+                    $dataProviderConfig['arguments']
+                )->getMeta();
+                $this->renderContext->getStorage()->addMeta($name, $meta);
+            }
+        }
     }
 }

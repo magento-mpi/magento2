@@ -7,26 +7,25 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
+/**
+ * Class Form
+ */
 class Form extends AbstractView
 {
-    /**
-     * @var \Magento\Ui\DataProvider\Factory
-     */
-    protected $factoryProvider;
-
     /**
      * @param TemplateContext $context
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
-     * @param \Magento\Ui\DataProvider\Factory $factoryProvider
+     * @param DataProviderFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -35,17 +34,23 @@ class Form extends AbstractView
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
-        \Magento\Ui\DataProvider\Factory $factoryProvider,
+        DataProviderFactory $dataProviderFactory,
         array $data = []
     ) {
-        $this->factoryProvider = $factoryProvider;
-        parent::__construct($context, $renderContext, $contentTypeFactory, $configFactory, $configBuilder,
-            $data);
+        parent::__construct(
+            $context,
+            $renderContext,
+            $contentTypeFactory,
+            $configFactory,
+            $configBuilder,
+            $dataProviderFactory,
+            $data
+        );
     }
 
     public function prepare()
     {
-        $this->configuration = $this->configurationFactory->create(
+        $this->config = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
