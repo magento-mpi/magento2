@@ -16,10 +16,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 
 /**
- * Class CreateShippingStep
+ * Class CreateShipmentStep
  * Create shipping from order on backend
  */
-class CreateShippingStep implements TestStepInterface
+class CreateShipmentStep implements TestStepInterface
 {
     /**
      * Orders Page

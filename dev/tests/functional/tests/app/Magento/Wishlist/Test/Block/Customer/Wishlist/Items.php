@@ -13,7 +13,6 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items

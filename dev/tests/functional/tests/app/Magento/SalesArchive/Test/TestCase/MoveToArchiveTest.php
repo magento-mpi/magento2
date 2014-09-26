@@ -117,16 +117,17 @@ class MoveToArchiveTest extends Injectable
      *
      * @param OrderInjectable $order
      * @param string $steps
+     * @param string $module
      * @return array
      */
-    protected function processSteps(OrderInjectable $order, $steps)
+    protected function processSteps(OrderInjectable $order, $steps, $module = 'Sales')
     {
         $steps = array_diff(explode(',', $steps), ['-']);
         $ids = [];
         foreach ($steps as $step) {
             $action = str_replace(' ', '', ucwords($step));
             $methodAction = 'Create' . $action . 'Step';
-            $path = 'Magento\Sales\Test\TestStep';
+            $path = 'Magento\\' . $module . '\Test\TestStep';
             $processStep = $this->objectManager->create($path . '\\' . $methodAction, ['order' => $order]);
             $ids = array_replace($ids, $processStep->run());
         }

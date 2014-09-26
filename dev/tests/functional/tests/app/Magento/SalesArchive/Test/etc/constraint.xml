@@ -41,4 +41,7 @@
     <assertArchiveInvoiceItems module="Magento_SalesArchive">
         <severeness>medium</severeness>
     </assertArchiveInvoiceItems>
+    <AssertArchiveShipmentItems module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </AssertArchiveShipmentItems>
 </constraint>
