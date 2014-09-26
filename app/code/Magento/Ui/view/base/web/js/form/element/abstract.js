@@ -5,8 +5,9 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/lib/ko/scope'
-], function (Scope) {
+    'Magento_Ui/js/lib/ko/scope',
+    'Magento_Ui/js/lib/registry/registry'
+], function (Scope, registry) {
     'use strict';
 
     /**
@@ -30,15 +31,37 @@ define([
     };
 
     return Scope.extend({
-        initialize: function (config) {
+
+        /**
+         * Invokes initialize method of parent class and initializes properties of instance.
+         * @param {Object} config - form element configuration
+         * @param {Number|String} value - initial value of form element
+         */
+        initialize: function (config, value, path) {
             _.extend(this, config);
 
             this.uid     = uniqueid();
-            this.module  = config.module     || 'ui';
-            this.tooltip = this.tooltip      || null;
-            this.label   = this.config.label || '';
+            this.module  = this.module   || 'ui';
+            this.tooltip = this.tooltip  || null;
+            this.label   = this.label    || '';
+
+            this.observe('value', this.value || '');
+            this.value.subscribe(this.store.bind(this, path));
         },
 
+        /**
+         * Stores element's value to registry by element's path value
+         * @param  {String} path
+         * @param  {*} value - current value of form element
+         */
+        store: function (path, value) {
+            registry.set(value, this.path);
+        },
+
+        /**
+         * Returns string path for element's template
+         * @return {String}
+         */
         getTemplate: function () {
             return this.module + '/form/element/' + this.type;
         }

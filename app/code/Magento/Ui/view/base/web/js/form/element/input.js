@@ -7,15 +7,17 @@
 define([
     './abstract',
     'Magento_Ui/js/lib/component',
-    'underscore'
+    'underscore',
 ], function (AbstractElement, Component, _) {
     'use strict';
 
     var InputElement = AbstractElement.extend({
-        initialize: function (config, value) {
-            this._super();
 
-            this.observe('value', value);
+        /**
+         * Invokes initialize method of parent class.
+         */
+        initialize: function () {
+            this._super();
         }
     });
 
