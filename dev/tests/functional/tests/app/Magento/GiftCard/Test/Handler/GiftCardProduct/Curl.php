@@ -80,9 +80,11 @@ class Curl extends ProductCurl implements GiftCardProductInterface
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
         $data = parent::prepareData($fixture, $prefix);
-        foreach ($data[$prefix]['giftcard_amounts'] as $key => $amounts) {
-            if (!isset($amounts['website_id'])) {
-                $data[$prefix]['giftcard_amounts'][$key]['website_id'] = 0;
+        if (isset($data[$prefix]['giftcard_amounts'])) {
+            foreach ($data[$prefix]['giftcard_amounts'] as $key => $amounts) {
+                if (!isset($amounts['website_id'])) {
+                    $data[$prefix]['giftcard_amounts'][$key]['website_id'] = 0;
+                }
             }
         }
 

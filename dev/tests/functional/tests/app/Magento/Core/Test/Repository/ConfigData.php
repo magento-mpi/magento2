@@ -963,7 +963,6 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-
         $this->_data['salesarchive_complete'] = [
             'section' => [
                 [

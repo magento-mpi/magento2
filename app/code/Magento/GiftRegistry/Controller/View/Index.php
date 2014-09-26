@@ -32,10 +32,7 @@ class Index extends \Magento\GiftRegistry\Controller\View
 
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Gift Registry Info'));
-        }
+        $this->_view->getPage()->getConfig()->setTitle(__('Gift Registry Info'));
         $this->_view->renderLayout();
     }
 }

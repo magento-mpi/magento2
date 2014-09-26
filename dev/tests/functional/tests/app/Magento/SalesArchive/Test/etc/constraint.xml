@@ -35,4 +35,10 @@
     <assertOrderButtonsAvailableInArchiveOrders module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertOrderButtonsAvailableInArchiveOrders>
+    <assertOrderInvoiceArchiveItemsGrid module="Magento_SalesArchive">
+        <severeness>medium</severeness>
+    </assertOrderInvoiceArchiveItemsGrid>
+    <assertOrderShipmentArchivedItemsGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertOrderShipmentArchivedItemsGrid>
 </constraint>
