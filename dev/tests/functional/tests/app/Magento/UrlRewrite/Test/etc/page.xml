@@ -8,14 +8,14 @@
  */
 -->
 <page module="Magento_UrlRewrite">
-    <urlrewriteIndex>
+    <urlRewriteIndex>
         <mca>admin/url_rewrite/index</mca>
         <area>adminhtml</area>
         <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex</class>
-    </urlrewriteIndex>
-    <urlrewriteEdit>
+    </urlRewriteIndex>
+    <urlRewriteEdit>
         <mca>admin/url_rewrite/edit</mca>
         <area>adminhtml</area>
         <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit</class>
-    </urlrewriteEdit>
+    </urlRewriteEdit>
 </page>

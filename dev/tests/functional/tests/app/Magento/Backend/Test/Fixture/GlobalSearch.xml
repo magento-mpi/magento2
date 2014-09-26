@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Backend\Test\Fixture\Search">
+    <module>Magento_Backend</module>
+    <fields>
+        <query>
+            <attribute_code>query</attribute_code>
+            <backend_type>virtual</backend_type>
+            <fixture>Magento\Backend\Test\Fixture\Search\Query</fixture>
+        </query>
+    </fields>
+</fixture>

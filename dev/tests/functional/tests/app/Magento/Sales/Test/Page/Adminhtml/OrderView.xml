@@ -19,5 +19,10 @@
             <locator>#messages</locator>
             <strategy>css selector</strategy>
         </messagesBlock>
+        <orderForm>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\View\OrderForm</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </orderForm>
     </blocks>
 </page>
