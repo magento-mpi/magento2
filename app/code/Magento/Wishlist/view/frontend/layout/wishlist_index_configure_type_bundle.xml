@@ -29,6 +29,9 @@
     <referenceBlock name="product.info.options.wrapper">
         <block class="Magento\Catalog\Block\Product\View" name="bundle.product.view.options.notice" template="Magento_Bundle::catalog/product/view/options/notice.phtml"/>
         <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle.options" as="type_bundle_options" template="catalog/product/view/type/bundle/options.phtml" before="-">
+            <container name="product.info.bundle.options.top" as="product_info_bundle_options_top">
+                <block class="Magento\Catalog\Block\Product\View" name="bundle.back.button" as="backButton" before="-" template="Magento_Bundle::catalog/product/view/backbutton.phtml"/>
+            </container>
             <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select" name="product.info.bundle.options.select" as="select"/>
             <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi" name="product.info.bundle.options.multi" as="multi"/>
             <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio" name="product.info.bundle.options.radio" as="radio"/>
@@ -38,7 +41,6 @@
     <move element="product.price.tier" destination="product.info.options.wrapper.bottom" before="-" />
     <referenceBlock name="product.info.options.wrapper.bottom">
         <block class="Magento\CatalogInventory\Block\Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
-        <block class="Magento\Catalog\Block\Product\View" name="bundle.back.button" as="backButton" after="-" template="Magento_Bundle::catalog/product/view/backbutton.phtml"/>
         <action method="unsetChild">
             <argument name="block" xsi:type="string">product.info.addtocart</argument>
         </action>

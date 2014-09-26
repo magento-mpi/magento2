@@ -85,7 +85,6 @@
     }
     .column.main {
         margin-bottom: @indent-l-base;
-        position: relative;
         h2 {
             margin-top: 0;
         }
@@ -388,9 +387,9 @@
         .dashboard-welcome-toggler {
             display: block;
             cursor: pointer;
-            float: right;
-            margin: -55px 10px 0 0;
-            position: relative;
+            position: absolute;
+            top: 0;
+            right: 0;
             > span {
                 .icon-font(
                     @icon-info,
@@ -402,41 +401,40 @@
                     @_icon-font-position: after
                 );
             }
-
-            &.active {
-                &:before,
-                &:after {
-                    content: "";
-                    width: 0;
-                    height: 0;
-                    border-style: solid;
-                    border-width: 0 10px 11px 10px;
-                    border-color: transparent transparent @page-bg-color transparent;
-                    position: absolute;
-                    top: 33px;
-                    left: -3px;
-                    z-index: 6;
-                }
-                &:after {
-                    border-color: transparent transparent @border-color-base transparent;
-                    border-width: 0 11px 12px 11px;
-                    top: 31px;
-                    left: -4px;
-                    z-index: 5;
-                }
-            }
         }
 
         .block-dashboard-welcome {
             background: @page-bg-color;
             border: @border-width-base solid @border-color-base;
             .css(box-shadow, @dropdown-list-shadow);
-            margin: -12px 0 0;
+            margin: -12px 10px 0;
             padding: 15px 20px 20px;
+            left: 0;
+            right: 0;
             position: absolute;
             z-index: 3;
             &.toggled {
                 display: none;
+            }
+            &:before,
+            &:after {
+                content: "";
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 10px 11px 10px;
+                border-color: transparent transparent @page-bg-color transparent;
+                position: absolute;
+                top: -11px;
+                right: 10px;
+                z-index: 6;
+            }
+            &:after {
+                border-color: transparent transparent @border-color-base transparent;
+                border-width: 0 11px 12px 11px;
+                top: -12px;
+                right: 9px;
+                z-index: 5;
             }
         }
     }
@@ -444,6 +442,11 @@
         .captcha-img {
             display: block;
             .css(margin-bottom, @indent-s-base);
+        }
+    }
+    .customer-account-index {
+        .page-title {
+            position: relative;
         }
     }
 }

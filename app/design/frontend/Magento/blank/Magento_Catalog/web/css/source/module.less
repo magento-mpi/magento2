@@ -230,7 +230,12 @@
             }
         }
     }
-
+    .product-reviews-summary .reviews-actions {
+        .font-size(@font-size-base);
+    }
+}
+.product-info-main,
+.product-options-bottom {
     .box-tocart {
         margin: @indent-base 0;
         .field.qty {
@@ -257,9 +262,6 @@
     .action.tocompare {
         &:extend(.abstract-action-addto-product all);
         vertical-align: top;
-    }
-    .product-reviews-summary .reviews-actions {
-        .font-size(@font-size-base);
     }
 }
 
@@ -303,7 +305,8 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .product-info-main {
+    .product-info-main,
+    .product-options-bottom {
         .box-tocart {
             display: table;
             .field.qty {

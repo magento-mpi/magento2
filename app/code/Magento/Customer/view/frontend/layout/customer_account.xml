@@ -35,4 +35,5 @@
             </block>
         </block>
     </referenceContainer>
+    <move element="page.main.title" destination="content.top" before="-"/>
 </page>
