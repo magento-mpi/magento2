@@ -66,17 +66,17 @@ class Builder
     }
 
     /**
-     * @param array $products
+     * @param array $documents
      * @return int[]
      */
-    private function getEntityIds($products)
+    private function getEntityIds($documents)
     {
         $fieldName = $this->entityMetadata->getEntityId();
-        $productIds = [];
-        foreach ($products as $product) {
-            $productIds[] = $product[$fieldName];
+        $entityIds = [];
+        foreach ($documents as $document) {
+            $entityIds[] = $document[$fieldName];
         }
-        return $productIds;
+        return $entityIds;
     }
 
     /**
