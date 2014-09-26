@@ -87,17 +87,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $expected = <<<expected
 (function(require){
-relative/%s/paths-updater.js content
-
 (function() {
 relative/file_one.js content
-require.config(config)
+require.config(config);
 })();
 (function() {
 relative/file_two.js content
-require.config(config)
+require.config(config);
 })();
 
+require.config({
+    "baseUrl": "",
+    "waitSeconds": 0
+});
 })(require);
 expected;
 
@@ -121,9 +123,6 @@ expected;
         $expected = <<<expected
 require.config({
     "baseUrl": "http://base.url/area/theme/locale",
-    "paths": {
-        "magento": "mage/requirejs/plugin/id-normalizer"
-    },
     "waitSeconds": 0
 });
 
