@@ -60,7 +60,11 @@ class CartProviderTest extends \PHPUnit_Framework_TestCase
         $this->sessionMock =
             $this->getMock('Magento\Checkout\Model\Session', ['getStoreId', '_wakeup'], [], '', false);
 
-        $this->model = new CartProvider($this->cartMock);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManager->getObject(
+            '\Magento\AdvancedCheckout\Model\Observer\CartProvider',
+            ['cart' => $this->cartMock]
+        );
     }
 
     public function testGetStoreIdFromSession()
@@ -75,8 +79,11 @@ class CartProviderTest extends \PHPUnit_Framework_TestCase
         $this->cartMock->expects($this->once())->method('setSession')
             ->with($this->sessionMock)->will($this->returnValue($this->cartMock));
         $this->cartMock->expects($this->once())->method('setContext')
-            ->with(Cart::CONTEXT_ADMIN_ORDER)->will($this->returnValue($this->cartMock));
-        $this->cartMock->expects($this->once())->method('setCurrentStore')->with($this->soreId);
+            ->with(Cart::CONTEXT_ADMIN_ORDER)->will($this->returnSelf());
+        $this->cartMock->expects($this->once())
+            ->method('setCurrentStore')
+            ->with($this->soreId)
+            ->will($this->returnSelf());
 
         $this->model->get($this->observerMock);
     }
