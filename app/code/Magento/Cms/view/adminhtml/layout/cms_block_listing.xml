@@ -83,6 +83,14 @@
                         <item name="data_type" xsi:type="string">date</item>
                         <item name="filter_type" xsi:type="string">filter_date</item>
                     </item>
+                    <item name="actions" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Action</item>
+                        <item name="align" xsi:type="string">left</item>
+                        <item name="data_type" xsi:type="string">actions</item>
+                        <item name="filterable" xsi:type="boolean">false</item>
+                        <item name="sortable" xsi:type="boolean">false</item>
+                        <item name="visible" xsi:type="boolean">false</item>
+                    </item>
                 </item>
             </argument>
             <argument name="row_data_provider" xsi:type="array">
