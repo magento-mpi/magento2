@@ -8,7 +8,7 @@
  */
 namespace Magento\Ui\Controller\Adminhtml\Form;
 
-class Save extends \Magento\Backend\App\Action
+class Validate extends \Magento\Backend\App\Action
 {
     /**
      * Action for AJAX request
