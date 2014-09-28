@@ -246,9 +246,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function setConfiguration(ConfigInterface $configuration)
     {
-        if (!isset($this->configuration)) {
-            $this->config = $configuration;
-        }
+        $this->config = $configuration;
     }
 
     /**
@@ -258,7 +256,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function getConfiguration()
     {
-        return $this->configuration;
+        return $this->config;
     }
 
     /**

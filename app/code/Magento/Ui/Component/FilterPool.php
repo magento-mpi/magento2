@@ -7,14 +7,13 @@
  */
 namespace Magento\Ui\Component;
 
-
 use Magento\Backend\Helper\Data;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Ui\Component\Filter as FilterView;
+use Magento\Ui\Component\Filter\FilterAbstract;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
@@ -112,7 +111,7 @@ class FilterPool extends AbstractView
         $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $metaData = $metaData['fields'];
         $filterData = $this->dataHelper->prepareFilterString(
-            $this->renderContext->getRequestParam(FilterView::FILTER_VAR)
+            $this->renderContext->getRequestParam(FilterAbstract::FILTER_VAR)
         );
         foreach ($filterData as $field => $value) {
             if (!isset($metaData[$field]['filter_type'])) {
@@ -171,7 +170,7 @@ class FilterPool extends AbstractView
         $metaData = $metaData['fields'];
         $filters = [];
         $filterData = $this->dataHelper->prepareFilterString(
-            $this->renderContext->getRequestParam(FilterView::FILTER_VAR)
+            $this->renderContext->getRequestParam(FilterAbstract::FILTER_VAR)
         );
         foreach ($filterData as $field => $value) {
             if (isset($metaData[$field]['filter_type'])) {

@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\Component;
+namespace Magento\Ui\Component\Filter;
 
+use Magento\Ui\Component\AbstractView;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
@@ -19,7 +20,7 @@ use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 /**
  * Class Filter
  */
-class Filter extends AbstractView
+abstract class FilterAbstract extends AbstractView implements FilterInterface
 {
     /**
      * Filter variable name
@@ -88,16 +89,5 @@ class Filter extends AbstractView
         );
         $this->setConfiguration($configuration);
         $this->renderContext->getStorage()->addComponentsData($configuration);
-    }
-
-    /**
-     * Get condition by data type
-     *
-     * @param string|array $value
-     * @return array|null
-     */
-    public function getCondition($value)
-    {
-        return $this->filterPool->getFilter($this->getData('data_type'))->getCondition($value);
     }
 }

@@ -7,13 +7,23 @@
  */
 namespace Magento\Ui\Component\Filter\Type;
 
-use Magento\Ui\Component\Filter\FilterInterface;
+use Magento\Ui\Component\Filter\FilterAbstract;
 
 /**
  * Class Store
  */
-class Store implements FilterInterface
+class Store extends FilterAbstract
 {
+    /**
+     * Prepare component data
+     *
+     * @return void
+     */
+    public function prepare()
+    {
+        // no preparation is needed
+    }
+
     /**
      * Get condition by data type
      *

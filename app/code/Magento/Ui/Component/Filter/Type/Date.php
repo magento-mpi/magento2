@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\Component\Filter\Type;
 
-use\Magento\Ui\Component\Filter;
+use Magento\Ui\Component\Filter\FilterAbstract;
 use Magento\Framework\LocaleInterface;
 use Magento\Ui\Component\Filter\FilterPool;
 use Magento\Ui\ContentType\ContentTypeFactory;
@@ -21,7 +21,7 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 /**
  * Class Date
  */
-class Date extends Filter
+class Date extends FilterAbstract
 {
     /**
      * Timezone library

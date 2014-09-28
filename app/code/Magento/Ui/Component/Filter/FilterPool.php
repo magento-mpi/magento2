@@ -19,13 +19,7 @@ class FilterPool
      *
      * @var array
      */
-    protected $filterTypes = [
-        'filter_input' => 'Magento\Ui\Component\Filter\Type\Input',
-        'filter_select' => 'Magento\Ui\Component\Filter\Type\Select',
-        'filter_range' => 'Magento\Ui\Component\Filter\Type\Range',
-        'filter_date' => 'Magento\Ui\Component\Filter\Type\Date',
-        'filter_store' => 'Magento\Ui\Component\Filter\Type\Store'
-    ];
+    protected $filterTypes = [];
 
     /**
      * Filters poll
@@ -43,28 +37,30 @@ class FilterPool
      * Constructor
      *
      * @param ObjectManager $objectManager
+     * @param array $filters
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, array $filters = [])
     {
         $this->objectManager = $objectManager;
+        $this->filterTypes = $filters;
     }
 
     /**
      * Get filter by type
      *
-     * @param string $dataType
+     * @param string $filterName
      * @return FilterInterface
      * @throws \InvalidArgumentException
      */
-    public function getFilter($dataType)
+    public function getFilter($filterName)
     {
-        if (!isset($this->filters[$dataType])) {
-            if (!isset($this->filterTypes[$dataType])) {
-                throw new \InvalidArgumentException(sprintf('Unknown filter type "%s"', $dataType));
+        if (!isset($this->filters[$filterName])) {
+            if (!isset($this->filterTypes[$filterName])) {
+                throw new \InvalidArgumentException(sprintf('Unknown filter type "%s"', $filterName));
             }
-            $this->filters[$dataType] = $this->objectManager->create($this->filterTypes[$dataType]);
+            $this->filters[$filterName] = $this->objectManager->create($this->filterTypes[$filterName]);
         }
 
-        return $this->filters[$dataType];
+        return $this->filters[$filterName];
     }
 }

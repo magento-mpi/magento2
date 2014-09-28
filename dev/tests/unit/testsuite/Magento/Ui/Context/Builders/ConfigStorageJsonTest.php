@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\Context\Builders;
+namespace Magento\Ui\ContentType\Builder;
 
 /**
  * Class ConfigStorageJsonTest

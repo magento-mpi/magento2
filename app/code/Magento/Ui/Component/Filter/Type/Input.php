@@ -7,12 +7,12 @@
  */
 namespace Magento\Ui\Component\Filter\Type;
 
-use \Magento\Ui\Component\Filter;
+use Magento\Ui\Component\Filter\FilterAbstract;
 
 /**
  * Class Input
  */
-class Input extends Filter
+class Input extends FilterAbstract
 {
     /**
      * Get condition by data type
