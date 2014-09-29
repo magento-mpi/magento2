@@ -502,9 +502,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\InputException
      */
-    public function testRemoveWebApiException()
+    public function testRemoveInputException()
     {
         $productSku = 'productSku';
 
