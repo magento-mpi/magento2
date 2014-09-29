@@ -85,14 +85,14 @@
 //
 //    Product options list
 //--------------------------------------
-.product-options-list {
-    dt:after {
-        content: ': ';
-    }
+.abstract-product-options-list {
     dt {
         float: left;
         clear: left;
         margin: 0 10px 5px 0;
+        &:after {
+            content: ': ';
+        }
     }
     dd {
         float: left;
@@ -340,22 +340,30 @@
 //
 //    Visually hidden / show visually hidden
 //--------------------------------------
-.visually-hidden {
+.abstract-visually-hidden {
     .visually-hidden();
 }
 
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .visually-hidden-mobile {
+    .abstract-visually-hidden-mobile {
         .visually-hidden();
     }
 }
+
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .visually-hidden-mobile-m {
+    .abstract-visually-hidden-mobile-m {
         .visually-hidden();
     }
 }
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-visually-hidden-desktop-s {
+        .visually-hidden();
+    }
+}
+
 .responsive(@break) when (@break = @screen-m) {
-    .visually-hidden-desktop {
+    .abstract-visually-hidden-desktop {
         .visually-hidden();
     }
 }
@@ -363,24 +371,24 @@
 //
 //    Clearfix
 //--------------------------------------
-.add-clearfix {
+.abstract-add-clearfix {
     .clearfix();
 }
 
 .responsive(@break) when (@break = @screen-m) {
-    .add-clearfix-desktop {
+    .abstract-add-clearfix-desktop {
         .clearfix();
     }
 }
 
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .add-clearfix-mobile {
+    .abstract-add-clearfix-mobile {
         .clearfix();
     }
 }
 
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .add-clearfix-mobile-m {
+    .abstract-add-clearfix-mobile-m {
         .clearfix();
     }
 }
@@ -531,7 +539,7 @@
 //    Vertical Table
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .table-vertical-mobile {
+    .abstract-table-vertical-mobile {
         .table-responsive();
     }
 }

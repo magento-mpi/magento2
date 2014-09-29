@@ -114,24 +114,26 @@
                 <a href="<?php echo $this->getVirtualProductEditUrl() ?>" class="action edit"><span><?php echo __('Edit Items') ?></span></a>
             </strong>
             <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
-            <table class="items data table order review" id="virtual-overview-table">
-                <thead>
-                    <tr>
-                        <th class="col item"><?php echo __('Product Name') ?></th>
-                        <th class="col price"><?php echo __('Price') ?></th>
-                        <th class="col qty"><?php echo __('Qty') ?></th>
-                        <th class="col subtotal"><?php echo __('Subtotal') ?></th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <?php echo $this->renderTotals($this->getBillinAddressTotals()); ?>
-                </tfoot>
-                <tbody>
-                    <?php foreach ($this->getVirtualItems() as $_item): ?>
-                        <?php echo $this->getRowItemHtml($_item); ?>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table class="items data table order review" id="virtual-overview-table">
+                    <thead>
+                        <tr>
+                            <th class="col item"><?php echo __('Product Name') ?></th>
+                            <th class="col price"><?php echo __('Price') ?></th>
+                            <th class="col qty"><?php echo __('Qty') ?></th>
+                            <th class="col subtotal"><?php echo __('Subtotal') ?></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <?php echo $this->renderTotals($this->getBillinAddressTotals()); ?>
+                    </tfoot>
+                    <tbody>
+                        <?php foreach ($this->getVirtualItems() as $_item): ?>
+                            <?php echo $this->getRowItemHtml($_item); ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <?php endif; ?>

@@ -307,6 +307,15 @@
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
+    .checkout-onepage-index {
+        .nav-toggle {
+            display: none;
+        }
+        .logo {
+            margin-left: 0;
+        }
+    }
+
     .opc-wrapper {
         .data.table {
             &:extend(.abstract-table-vertical-mobile all);

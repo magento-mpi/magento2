@@ -319,8 +319,8 @@
         //  Product options
         .item-options {
             margin: 20px 0 0;
-            &:extend(.product-options-list all);
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-product-options-list all);
+            &:extend(.abstract-add-clearfix all);
         }
 
         .cart-tax-total {
@@ -471,7 +471,7 @@
     .cart {
         // Cart container
         &-container {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .form.cart {
                 .layout-column(2, 1, @layout-column-checkout-main-width);
                 &:extend(.abstract-add-box-sizing-desktop all);

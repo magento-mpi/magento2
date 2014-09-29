@@ -44,6 +44,7 @@ body {
     &.content {
         padding-top: 10px;
         position: relative;
+        &:extend(.abstract-add-clearfix all);
     }
 }
 
@@ -110,9 +111,9 @@ body {
 @footer-bg-color: false;
 
 .page-footer {
-        margin-top: 25px;
-        .css(background-color, @footer-bg-color);
-    }
+    margin-top: 25px;
+    .css(background-color, @footer-bg-color);
+}
 
 .footer {
     &.content {

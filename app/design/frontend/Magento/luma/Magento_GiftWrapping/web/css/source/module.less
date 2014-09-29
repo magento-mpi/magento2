@@ -19,7 +19,7 @@
             margin: 0 0 10px;
         }
         .nested {
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-add-clearfix all);
             margin: 20px 0;
             img {
                 max-width: 100px;
@@ -39,7 +39,7 @@
             float: none;
         }
         .content {
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-add-clearfix all);
             margin: 0;
             > img {
                 float: left;
@@ -57,7 +57,7 @@
             .gift-wrapping {
                 .nested,
                 .content {
-                    &:extend(.add-clearfix-desktop all);
+                    &:extend(.abstract-add-clearfix-desktop all);
                 }
             }
         }

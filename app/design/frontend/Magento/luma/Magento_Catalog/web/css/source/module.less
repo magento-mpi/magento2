@@ -46,7 +46,7 @@
 
 .special-price {
     .price-label {
-        &:extend(.visually-hidden all);
+        &:extend(.abstract-visually-hidden all);
     }
 }
 
@@ -492,7 +492,7 @@
     }
 
     .map.add.form {
-        &:extend(.add-clearfix all);
+        &:extend(.abstract-add-clearfix all);
         margin: 0 0 20px;
         .price-box {
             float: left;
@@ -560,7 +560,7 @@ body.catalog-product-compare-index {
     .cell.label.remove,
     .cell.label.product {
         span {
-            .visually-hidden();
+            &:extend(.abstract-visually-hidden all);
         }
     }
 
@@ -731,7 +731,7 @@ body.catalog-product-compare-index {
         top: 2px;
         left: 0;
         .label {
-            &:extend(.visually-hidden all);
+            &:extend(.abstract-visually-hidden all);
         }
     }
 }

@@ -170,7 +170,7 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .login.container {
-        &:extend(.add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop all);
         .block {
             &:extend(.blocks-2columns all);
             &.login {
@@ -219,7 +219,7 @@
 
     .account {
         .page-title {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             h1 {
                 margin-bottom: @indent-xl-base;
             }
@@ -227,7 +227,7 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.add-clearfix-desktop all);
+                    &:extend(.abstract-add-clearfix-desktop all);
                     .box {
                         &:extend(.blocks-2columns all);
                     }
@@ -271,7 +271,7 @@
 
     .block-addresses-list {
         .items.addresses {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             > .item {
                 &:extend(.blocks-2columns all);
                 margin-bottom: @indent-base;
@@ -318,7 +318,7 @@
     //    Welcome block
     //--------------------------------------
     .dashboard-welcome-toggler {
-        &:extend(.visually-hidden-desktop all);
+        &:extend(.abstract-visually-hidden-desktop all);
     }
 
     .control.captcha-image {
@@ -341,7 +341,7 @@
             margin-top: -21px;
         }
         .data.table {
-            &:extend(.table-vertical-mobile-m all);
+            &:extend(.abstract-table-vertical-mobile-m all);
             td {
                 &:first-child {
                     padding-top: 15px;
@@ -354,7 +354,7 @@
         .column.main {
             .block:not(.widget) {
                 .block-title {
-                    &:extend(.add-clearfix-mobile-m all);
+                    &:extend(.abstract-add-clearfix-mobile-m all);
                     > .action {
                         float: right;
                         .css(margin-top, @indent-xs-base);

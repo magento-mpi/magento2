@@ -27,7 +27,7 @@
                 <th class="col product"><?php echo __('Product') ?></th>
                 <th class="col qty"><?php echo __('Qty') ?></th>
                 <th class="col address"><?php echo __('Send To') ?></th>
-                <th class="col delete">&nbsp;</th>
+                <th class="col actions">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
@@ -49,7 +49,7 @@
                                 </div>
                             <?php endif; ?>
                         </td>
-                        <td class="col delete" data-th="">
+                        <td class="col actions" data-th="">
                             <a href="<?php echo $this->getItemDeleteUrl($_item) ?>" title="<?php echo __('Remove Item') ?>" class="action delete">
                                 <span><?php echo __('Remove item') ?></span>
                             </a>

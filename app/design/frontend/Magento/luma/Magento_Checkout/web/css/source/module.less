@@ -257,7 +257,7 @@
 
     // Order review
     .data.table {
-        &:extend(.product-options-list all);
+        &:extend(.abstract-product-options-list all);
         .table-caption(@_table-caption-hide: true);
         thead tr:first-child th {
             padding-top: 0;
@@ -293,7 +293,7 @@
         }
         .item-options {
             margin: 20px 0 0;
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-add-clearfix all);
             .price {
                 font-weight: @font-weight-bold;
             }
@@ -468,7 +468,7 @@
     }
     .opc-wrapper {
         .data.table {
-            &:extend(.table-vertical-mobile all);
+            &:extend(.abstract-table-vertical-mobile all);
             tbody tr {
                 td:not(:last-child) {
                     border: none;
@@ -513,7 +513,7 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .checkout-onepage-index .column.main {
-        &:extend(.add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop all);
     }
 
     .opc-wrapper {
@@ -556,7 +556,7 @@
         // Login or register
         .login-wrapper {
             display: block;
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .block {
                 &:extend(.blocks-2columns-reverse all);
                 margin-bottom: 0;
