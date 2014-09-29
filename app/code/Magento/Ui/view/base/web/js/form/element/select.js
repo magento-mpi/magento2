@@ -19,7 +19,7 @@ define([
          * @param {Number|String} value - initial value of form element
          */
         initialize: function (config, value) {
-            this._super();
+            this.constructor.__super__.initialize.apply(this, arguments);
 
             this.caption = this.caption || t('Select...');
             this.options = this.options ? this.formatOptions() : [];
