@@ -76,16 +76,12 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
             $itemBaseWeeeTax = $baseWeeeAmountInclTax - $baseWeeeAmount;
 
             if ($item->isLast()) {
-                $weeeAmountAvailable = $orderItemWeeeAmount - $this->_weeeData->getWeeeAmountInvoiced($orderItem);
-                $baseWeeeAmountAvailable =
+                $weeeAmount = $orderItemWeeeAmount - $this->_weeeData->getWeeeAmountInvoiced($orderItem);
+                $baseWeeeAmount =
                     $orderItemBaseWeeeAmount - $this->_weeeData->getBaseWeeeAmountInvoiced($orderItem);
-                $weeeTaxAmountAvailable = $orderItemWeeeTax - $this->_weeeData->getWeeeTaxAmountInvoiced($orderItem);
-                $baseWeeeTaxAmountAvailable =
+                $itemWeeeTax = $orderItemWeeeTax - $this->_weeeData->getWeeeTaxAmountInvoiced($orderItem);
+                $itemBaseWeeeTax =
                     $orderItemWeeeTax - $this->_weeeData->getBaseWeeeTaxAmountInvoiced($orderItem);
-                $weeeAmount = $weeeAmountAvailable;
-                $baseWeeeAmount = $baseWeeeAmountAvailable;
-                $itemWeeeTax = $weeeTaxAmountAvailable;
-                $itemBaseWeeeTax = $baseWeeeTaxAmountAvailable;
             }
 
             $totalWeeeTaxAmount += $itemWeeeTax;
