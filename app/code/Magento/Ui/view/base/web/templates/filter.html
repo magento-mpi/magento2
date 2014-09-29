@@ -16,7 +16,7 @@
                 <span data-bind="text: $t('Advanced filter')"></span>
             </legend><br />
             <!-- ko foreach: { data: filters, as: 'item' } -->
-            <!-- ko template: $parent.getTemplateFor(item) --><!-- /ko -->
+            <!-- ko template: item.getTemplate() --><!-- /ko -->
             <!-- /ko -->
         </fieldset>
         <div class="actions filters-actions">

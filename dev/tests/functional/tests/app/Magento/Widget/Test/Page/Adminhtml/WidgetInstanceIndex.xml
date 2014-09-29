@@ -15,9 +15,14 @@
             <strategy>css selector</strategy>
         </pageActionsBlock>
         <widgetGrid>
-            <class>Magento\Backend\Test\Block\Widget\Grid</class>
+            <class>Magento\Widget\Test\Block\Adminhtml\Widget\WidgetGrid</class>
             <locator>#widgetInstanceGrid</locator>
             <strategy>css selector</strategy>
         </widgetGrid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
     </blocks>
 </page>

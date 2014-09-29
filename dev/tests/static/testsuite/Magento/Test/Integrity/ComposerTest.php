@@ -291,6 +291,9 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertModuleDependenciesInSync(\SimpleXMLElement $xml, \StdClass $json)
     {
         $packages = [];
+        if (empty($xml->module->depends)) {
+            return;
+        }
         /** @var \SimpleXMLElement $node */
         foreach ($xml->module->depends->children() as $node) {
             if ('module' === $node->getName()) {

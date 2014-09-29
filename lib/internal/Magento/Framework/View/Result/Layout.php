@@ -81,9 +81,7 @@ class Layout extends View\Element\Template
      */
     public function renderResult(ResponseInterface $response)
     {
-        $layout = $this->getLayout();
-        $output = $layout->getOutput();
-        $response->appendBody($output);
+        $response->appendBody($this->_layout->getOutput());
         return $this;
     }
 }
