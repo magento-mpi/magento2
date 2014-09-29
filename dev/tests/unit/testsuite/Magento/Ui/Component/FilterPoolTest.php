@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\Component;
 
-
 use Magento\Backend\Helper\Data;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
@@ -17,7 +16,6 @@ use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Ui\Component\Filter as FilterView;
 use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
-
 
 /**
  * Class ViewTest

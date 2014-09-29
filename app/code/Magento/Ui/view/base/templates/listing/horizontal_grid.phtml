@@ -20,12 +20,12 @@
     <script data-mage-apply='{"Magento_Ui/js/listing/utils/provider": ""}' type="application/json">
         <?php
             echo $this->getRenderContext()
-                ->getConfigurationBuilder()
+                ->getConfigBuilder()
                     ->toJson($this->getRenderContext()->getStorage(), $this->getName());
         ?>
     </script>
     <script data-mage-apply='{"Magento_Ui/js/listing/grid": ""}' type="application/json">
-        <?php echo $this->getConfigurationBuilder()->toJson($this->getConfiguration()); ?>
+        <?php echo $this->getConfigBuilder()->toJson($this->getConfig()); ?>
     </script>
     <?php echo $this->getChildHtml('listing_head'); ?>
     <div class="grid">

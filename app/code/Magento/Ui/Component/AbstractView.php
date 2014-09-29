@@ -26,7 +26,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * @var ConfigBuilderInterface
      */
-    protected $configurationBuilder;
+    protected $configBuilder;
 
     /**
      * View configuration data
@@ -92,7 +92,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
         $this->contentTypeFactory = $contentTypeFactory;
         $this->assetRepo = $context->getAssetRepository();
         $this->configFactory = $configFactory;
-        $this->configurationBuilder = $configBuilder;
+        $this->configBuilder = $configBuilder;
         $this->dataProviderFactory = $dataProviderFactory;
         parent::__construct($context, $data);
     }
@@ -233,9 +233,9 @@ abstract class AbstractView extends Template implements UiComponentInterface
      *
      * @return ConfigBuilderInterface
      */
-    public function getConfigurationBuilder()
+    public function getConfigBuilder()
     {
-        return $this->configurationBuilder;
+        return $this->configBuilder;
     }
 
     /**
