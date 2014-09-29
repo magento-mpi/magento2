@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tools\SampleData\Module\Catalog\Setup;
+
+namespace Magento\Tools\SampleData\Module\Bundle\Setup;
 
 use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
+/**
+ * Setup bundle product
+ */
 class Product implements SetupInterface
 {
     /**
@@ -44,36 +48,24 @@ class Product implements SetupInterface
     protected $csvReaderFactory;
 
     /**
-     * @var \Magento\Framework\File\Csv\ReaderFactory
-     */
-    protected $fixtures;
-
-    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
-     * @param array $fixtures
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory,
-        array $fixtures = array(
-            'Catalog/SimpleProduct/products_gear_bags.csv',
-            'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
-            'Catalog/SimpleProduct/products_gear_watches.csv',
-        )
+        CsvReaderFactory $csvReaderFactory
     ) {
         $this->productFactory = $productFactory;
         $this->catalogConfig = $catalogConfig;
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
-        $this->fixtures = $fixtures;
     }
 
     /**
@@ -81,11 +73,15 @@ class Product implements SetupInterface
      */
     public function run()
     {
-        echo "Installing simple products\n";
+        echo "Installing bundle products\n";
 
         $product = $this->productFactory->create();
 
-        foreach ($this->fixtures as $file) {
+        $files = [
+            'Bundle/yoga_bundle.csv',
+        ];
+
+        foreach ($files as $file) {
             /** @var \Magento\Framework\File\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
@@ -100,32 +96,21 @@ class Product implements SetupInterface
                 $product->unsetData();
                 $product->setData($data);
                 $product
-                    ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
+                    ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
                     ->setAttributeSetId($attributeSetId)
                     ->setWebsiteIds(array(1))
+                    ->setStoreId(0)
+                    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0));
 
-                if (empty($data['visibility'])) {
-                    $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-                }
+                $product->setCanSaveBundleSelections(true);
+                $product->setCanSaveConfigurableAttributes(true);
 
                 $product->save();
                 echo '.';
             }
         }
         echo "\n";
-    }
-
-    /**
-     * Set fixtures
-     *
-     * @param array $fixtures
-     * @return $this
-     */
-    public function setFixtures(array $fixtures)
-    {
-        $this->fixtures = $fixtures;
-        return $this;
     }
 }
