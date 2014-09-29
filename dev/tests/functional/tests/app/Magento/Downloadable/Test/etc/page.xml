@@ -8,8 +8,8 @@
  */
 -->
 <page module="Magento_Downloadable">
-    <catalogProductCompare>
+    <downloadableCustomerProducts>
         <mca>downloadable/customer/products</mca>
         <class>Magento\Downloadable\Test\Page\DownloadableCustomerProducts</class>
-    </catalogProductCompare>
+    </downloadableCustomerProducts>
 </page>
