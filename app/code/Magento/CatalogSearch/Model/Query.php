@@ -19,6 +19,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Data\Collection\Db;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+use Magento\Search\Model\QueryInterface;
 
 /**
  * Catalog search query model
@@ -44,7 +45,7 @@ use Magento\Eav\Model\Entity\Collection\AbstractCollection;
  * @method string getUpdatedAt()
  * @method \Magento\CatalogSearch\Model\Query setUpdatedAt(string $value)
  */
-class Query extends AbstractModel
+class Query extends AbstractModel implements QueryInterface
 {
     /**
      * Event prefix

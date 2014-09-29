@@ -19,11 +19,12 @@ use Magento\Framework\Escaper;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Stdlib\String;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Search\Model\QueryManagerInterface;
 
 /**
  * Catalog search helper
  */
-class Data extends AbstractHelper
+class Data extends AbstractHelper implements QueryManagerInterface
 {
     /**
      * @var array

@@ -11,26 +11,25 @@ namespace Magento\Search\Block;
 use Magento\TestFramework\Helper\ObjectManager;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-class SuggestionsTest extends \PHPUnit_Framework_TestCase
+class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @var \Magento\Search\Model\QueryManagerInterface|MockObject
+     */
+    private $queryManager;
 
     /**
      * @var \Magento\CatalogSearch\Model\Query|MockObject
      */
-    private $catalogSearchQuery;
-
+    private $searchQuery;
     /**
-     * @var \Magento\CatalogSearch\Helper\Data|MockObject
+     * @var \Magento\Search\Model\AdditionalInfoDataProviderInterface|MockObject
      */
-    private $catalogSearchData;
+    private $additionalInfoDataProvider;
 
     /**
-     * @var \Magento\Search\Model\SuggestionsInterface|MockObject
-     */
-    private $suggestions;
-
-    /**
-     * @var \Magento\Search\Block\Suggestions
+     * @var \Magento\Search\Block\AdditionalInfo
      */
     private $block;
 
@@ -38,26 +37,27 @@ class SuggestionsTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
 
-        $this->suggestions = $this->getMockBuilder('\Magento\Search\Model\SuggestionsInterface')
+        $this->additionalInfoDataProvider = $this->getMockBuilder('\Magento\Search\Model\AdditionalInfoDataProviderInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['getSuggestions', 'isCountResultsEnabled'])
+            ->setMethods(['getSearchResult', 'isCountResultsEnabled'])
             ->getMockForAbstractClass();
 
-        $this->catalogSearchData = $this->getMockBuilder('\Magento\CatalogSearch\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(['getQuery'])
-            ->getMock();
-
-        $this->catalogSearchQuery = $this->getMockBuilder('\Magento\CatalogSearch\Model\Query')
+        $this->searchQuery = $this->getMockBuilder('\Magento\Search\Model\QueryInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getQueryText'])
-            ->getMock();
-
+            ->getMockForAbstractClass();
+        $this->queryManager = $this->getMockBuilder('\Magento\Search\Model\QueryManagerInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getQuery'])
+            ->getMockForAbstractClass();
+        $this->queryManager->expects($this->once())
+            ->method('getQuery')
+            ->will($this->returnValue($this->searchQuery));
         $this->block = $objectManager->getObject(
-            '\Magento\Search\Block\Suggestions',
+            '\Magento\Search\Block\AdditionalInfo',
             [
-                'suggestions' => $this->suggestions,
-                'catalogSearchData' => $this->catalogSearchData,
+                'additionalInfoDataProvider' => $this->additionalInfoDataProvider,
+                'queryManager' => $this->queryManager,
             ]
         );
     }
@@ -66,18 +66,15 @@ class SuggestionsTest extends \PHPUnit_Framework_TestCase
     {
         $searchQuery = 'Some test search query';
         $value = [1, 2, 3, 100500,];
-        $this->catalogSearchData->expects($this->once())
-            ->method('getQuery')
-            ->will($this->returnValue($this->catalogSearchQuery));
-        $this->catalogSearchQuery->expects($this->once())
+        $this->searchQuery->expects($this->once())
             ->method('getQueryText')
             ->will($this->returnValue($searchQuery));
 
-        $this->suggestions->expects($this->once())
-            ->method('getSuggestions')
+        $this->additionalInfoDataProvider->expects($this->once())
+            ->method('getSearchResult')
             ->with($searchQuery)
             ->will($this->returnValue($value));
-        $actualValue = $this->block->getSuggestions();
+        $actualValue = $this->block->getAdditionalInfo();
         $this->assertEquals($value, $actualValue);
     }
 
@@ -92,7 +89,7 @@ class SuggestionsTest extends \PHPUnit_Framework_TestCase
     public function testIsCountResultsEnabled()
     {
         $value = 'qwertyasdfzxcv';
-        $this->suggestions->expects($this->once())
+        $this->additionalInfoDataProvider->expects($this->once())
             ->method('isCountResultsEnabled')
             ->will($this->returnValue($value));
         $this->assertEquals($value, $this->block->isCountResultsEnabled());

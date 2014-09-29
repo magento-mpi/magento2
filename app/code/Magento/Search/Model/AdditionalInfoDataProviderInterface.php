@@ -7,7 +7,7 @@
  */
 namespace Magento\Search\Model;
 
-interface RecommendationsInterface
+interface AdditionalInfoDataProviderInterface
 {
     /**
      * @param string $searchQueryText
@@ -15,7 +15,7 @@ interface RecommendationsInterface
      * @param array $additionalFilters
      * @return \Magento\Search\Model\QueryResult[]
      */
-    public function getRecommendations($searchQueryText, $limit = null, $additionalFilters = array());
+    public function getSearchResult($searchQueryText, $limit = null, $additionalFilters = array());
 
     /**
      * @return bool

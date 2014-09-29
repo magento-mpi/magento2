@@ -13,10 +13,10 @@
         <container name="additional" label="Additional Info" after="product_list_toolbar">
             <block class="Magento\Search\Block\Suggestions"
                    name="search_suggestions"
-                   template="recommendations.phtml"/>
+                   template="additional_products.phtml"/>
             <block class="Magento\Search\Block\Recommendations"
                    name="search_recommendations"
-                   template="recommendations.phtml"/>
+                   template="additional_products.phtml"/>
         </container>
     </referenceBlock>
 </page>

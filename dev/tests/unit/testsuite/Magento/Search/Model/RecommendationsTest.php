@@ -25,15 +25,15 @@ class RecommendationsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRecommendations()
     {
-        /** @var \Magento\Search\Model\Recommendations $recommendations */
-        $recommendations = $this->objectManager->getObject('\Magento\Search\Model\Recommendations');
-        $this->assertEquals([], $recommendations->getRecommendations('some text'));
+        /** @var \Magento\Search\Model\AdditionalInfoDataProvider $recommendations */
+        $additionalInfoDataProvider = $this->objectManager->getObject('\Magento\Search\Model\AdditionalInfoDataProvider');
+        $this->assertEquals([], $additionalInfoDataProvider->getSearchResult('some text'));
     }
 
     public function testIsCountResultsEnabled()
     {
-        /** @var \Magento\Search\Model\Recommendations $recommendations */
-        $recommendations = $this->objectManager->getObject('\Magento\Search\Model\Recommendations');
-        $this->assertFalse($recommendations->isCountResultsEnabled());
+        /** @var \Magento\Search\Model\AdditionalInfoDataProvider $additionalInfoDataProvider */
+        $additionalInfoDataProvider = $this->objectManager->getObject('\Magento\Search\Model\AdditionalInfoDataProvider');
+        $this->assertFalse($additionalInfoDataProvider->isCountResultsEnabled());
     }
 }

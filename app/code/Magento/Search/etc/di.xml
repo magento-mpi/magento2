@@ -9,6 +9,21 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Search\Model\RecommendationsInterface" type="Magento\Search\Model\Recommendations"/>
-    <preference for="Magento\Search\Model\SuggestionsInterface" type="Magento\Search\Model\Suggestions"/>
+    <!--<preference for="Magento\Search\Model\SuggestionsInterface" type="suggestionProvider"/>-->
+    <virtualType name="Magento\Search\Block\Recommendations" type="Magento\Search\Block\AdditionalInfo">
+        <arguments>
+            <argument name="title" xsi:type="string">Related search terms</argument>
+            <argument name="additionalInfoProvider" xsi:type="object">
+                Magento\Search\Model\AdditionalInfoProvider
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Search\Block\Suggestions" type="Magento\Search\Block\AdditionalInfo">
+        <arguments>
+            <argument name="title" xsi:type="string">Did you mean</argument>
+            <argument name="additionalInfoProvider" xsi:type="object">
+                Magento\Search\Model\AdditionalInfoProvider
+            </argument>
+        </arguments>
+    </virtualType>
 </config>

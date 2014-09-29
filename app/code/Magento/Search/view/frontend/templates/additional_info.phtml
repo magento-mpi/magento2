@@ -8,12 +8,12 @@
 ?>
 <?php
 /**
- * @var \Magento\Search\Block\Recommendations $this
+ * @var \Magento\Search\Block\AdditionalInfoInterface $this
  */
 ?>
 <?php
 /** @var \Magento\Search\Model\QueryResult[] $recommendations */
-$recommendations = $this->getRecommendations();
+$recommendations = $this->getAdditionalInfo();
 if (count($recommendations)):?>
     <dl class="block recommendations">
         <dt class="title"><?php echo __('Related search terms'); ?></dt>

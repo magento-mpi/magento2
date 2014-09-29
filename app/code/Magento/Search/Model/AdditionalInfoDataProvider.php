@@ -7,12 +7,12 @@
  */
 namespace Magento\Search\Model;
 
-class Recommendations implements RecommendationsInterface
+class AdditionalInfoDataProvider implements AdditionalInfoDataProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getRecommendations($searchQueryText, $limit = null, $additionalFilters = array())
+    public function getSearchResult($searchQueryText, $limit = null, $additionalFilters = array())
     {
         return [];
     }
