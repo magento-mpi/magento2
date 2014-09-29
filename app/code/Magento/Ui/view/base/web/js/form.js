@@ -15,9 +15,9 @@ define(function (require) {
         _           = require('underscore'),
         Fieldset    = require('Magento_Ui/js/form/fieldset');
 
-    function getConstructorFor(type) {
-        return type === 'fieldset' ? Fieldset : elements[type];
-    }
+    elements = _.extend({}, elements, {
+        fieldset: Fieldset
+    });
 
     function incrementPath(path, subpath) {
         return path + '.' + subpath;
@@ -34,10 +34,13 @@ define(function (require) {
 
             this.refs = refs;
 
-            this.initElements(
+            this.initElements = this.initElements.bind(
+                this, 
                 refs.provider.meta.get(),
                 refs.provider.data.get()
             );
+
+            this.initElements();
         },
 
         initElements: function (meta, data, initial, basePath) {
@@ -45,7 +48,6 @@ define(function (require) {
                 reference,
                 config,
                 value,
-                constr,
                 path;
 
             initial = initial || meta;
@@ -62,17 +64,26 @@ define(function (require) {
                         delete target['meta_ref'];
                     }
 
-                    constr   = getConstructorFor(target['input_type']);    
-                    config   = target;
-                    value    = utils.byPath(data, path);
+                    config  = _.extend(target, { name: path });
+                    value   = utils.byPath(data, path);
 
-                    config.name = path;
-
-                    registry.set(path, new constr(config, value, this.refs));
+                    this.initElement(config, value);
                 } else {
-                    this.initElements(meta, data, target, path);            
+                    this.initElements(target, path);            
                 }
             }
+        },
+
+        initElement: function (config, value) {
+            var type    = config['input_type'],
+                constr  = elements[type],
+                element = new constr(config, value, this.refs);
+
+            this.register(element);
+        },
+
+        register: function (element) {
+            registry.set(element.name, element);
         },
 
         isMetaDescriptor: function (obj) {
