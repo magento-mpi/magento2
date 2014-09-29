@@ -18,22 +18,21 @@ define([
      * @param {Number} id - Id of request.
      */
     function clear(id) {
-        var ei,
-            elems,
+        var elems,
             index,
             handlers;
 
         elems = requests[id].deps;
 
-        for (ei = elems.length; ei--;) {
-            handlers = map[elems[ei]];
+        elems.forEach(function(elem){
+            handlers = map[elem];
 
             index = handlers.indexOf(id);
 
             if (~index) {
                 handlers.splice(index, 1);
             }
-        }
+        });
 
         delete requests[id];
     }
@@ -45,9 +44,9 @@ define([
      * @returns {Boolean} Whether specified request was successfully resolved.
      */
     function resolve(id) {
-        var request = requests[id],
-            elems = request.deps,
-            callback = request.callback,
+        var request     = requests[id],
+            elems       = request.deps,
+            callback    = request.callback,
             isResolved;
 
         isResolved = storage.has(elems);
