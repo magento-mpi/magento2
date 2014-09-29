@@ -6,12 +6,8 @@
  * @license     {license_link}
  */
 -->
-<div class="field" data-bind="css: { 'required': required }">
-    <label class="label" data-bind="attr: { for: uid }">
-        <span data-bind="text: label"></span>
-    </label>
-    <div class="control">
-        <select class="select" data-bind="attr: { id: uid }, options: options, value: selected, optionsText: 'label', optionsCaption: caption">
+<div data-template-extend="ui/form/element/input">
+    <div data-part-replace="control">
+        <select class="select" data-bind="attr: { id: uid }, options: options, value: selected, optionsText: 'label', optionsCaption: caption">    
     </div>
-    <!-- ko template: 'ui/form/element/helper/tooltip', if: tooltip, data: tooltip --><!-- /ko -->
 </div>
