@@ -22,7 +22,7 @@ class Info extends \Magento\Reward\Controller\Customer
         )->setCustomer(
             $this->_getCustomer()
         )->setWebsiteId(
-            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+            $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getWebsiteId()
         )->loadByCustomer();
         return $reward;
     }
@@ -37,10 +37,7 @@ class Info extends \Magento\Reward\Controller\Customer
         $this->_coreRegistry->register('current_reward', $this->_getReward());
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Reward Points'));
-        }
+        $this->_view->getPage()->getConfig()->setTitle(__('Reward Points'));
         $this->_view->renderLayout();
     }
 }

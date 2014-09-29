@@ -18,6 +18,9 @@ class CookieMetadata
      */
     const KEY_DOMAIN = 'domain';
     const KEY_PATH = 'path';
+    const KEY_SECURE = 'secure';
+    const KEY_HTTP_ONLY = 'http_only';
+    const KEY_DURATION = 'duration';
     /**#@-*/
     
     /**
@@ -117,5 +120,25 @@ class CookieMetadata
     {
         $this->metadata[$name] = $value;
         return $this;
+    }
+
+    /**
+     * Get HTTP Only flag
+     *
+     * @return bool|null
+     */
+    public function getHttpOnly()
+    {
+        return $this->get(self::KEY_HTTP_ONLY);
+    }
+
+    /**
+     * Get whether the cookie is only available under HTTPS
+     *
+     * @return bool|null
+     */
+    public function getSecure()
+    {
+        return $this->get(self::KEY_SECURE);
     }
 }

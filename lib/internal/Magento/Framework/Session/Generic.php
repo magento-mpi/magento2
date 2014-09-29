@@ -20,7 +20,6 @@ class Generic extends SessionManager
      * @param StorageInterface $storage
      * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
-     * @param null $sessionName
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -30,8 +29,7 @@ class Generic extends SessionManager
         ValidatorInterface $validator,
         StorageInterface $storage,
         \Magento\Framework\Stdlib\CookieManager $cookieManager,
-        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        $sessionName = null
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
     ) {
         parent::__construct(
             $request,
@@ -43,6 +41,6 @@ class Generic extends SessionManager
             $cookieManager,
             $cookieMetadataFactory
         );
-        $this->start($sessionName);
+        $this->start();
     }
 }

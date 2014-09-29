@@ -9,6 +9,7 @@ namespace Magento\Customer\Helper;
 
 use Magento\Directory\Model\Country\Format;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Customer address helper
@@ -66,7 +67,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     /** @var \Magento\Framework\View\Element\BlockFactory */
     protected $_blockFactory;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface */
+    /** @var \Magento\Framework\StoreManagerInterface */
     protected $_storeManager;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
@@ -84,7 +85,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
@@ -93,7 +94,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
         \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
@@ -240,22 +241,28 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAttributeValidationClass($attributeCode)
     {
-        /** @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
-        $attribute = isset($this->_attributes[$attributeCode])
-            ? $this->_attributes[$attributeCode]
-            : $this->_addressMetadataService->getAttributeMetadata($attributeCode);
-        $class = $attribute ? $attribute->getFrontendClass() : '';
-        if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
-            if ($class && !$attribute->isVisible()) {
-                // address attribute is not visible thus its validation rules are not applied
-                $class = '';
-            }
+        $class = '';
 
-            /** @var $customerAttribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
-            $customerAttribute = $this->_customerMetadataService->getAttributeMetadata($attributeCode);
-            $class .= $customerAttribute &&
-                $customerAttribute->isVisible() ? $customerAttribute->getFrontendClass() : '';
-            $class = implode(' ', array_unique(array_filter(explode(' ', $class))));
+        try {
+            /** @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
+            $attribute = isset($this->_attributes[$attributeCode])
+                ? $this->_attributes[$attributeCode]
+                : $this->_addressMetadataService->getAttributeMetadata($attributeCode);
+            $class = $attribute ? $attribute->getFrontendClass() : '';
+            if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
+                if ($class && !$attribute->isVisible()) {
+                    // address attribute is not visible thus its validation rules are not applied
+                    $class = '';
+                }
+
+                /** @var $customerAttribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
+                $customerAttribute = $this->_customerMetadataService->getAttributeMetadata($attributeCode);
+                $class .= $customerAttribute &&
+                    $customerAttribute->isVisible() ? $customerAttribute->getFrontendClass() : '';
+                $class = implode(' ', array_unique(array_filter(explode(' ', $class))));
+            }
+        } catch (NoSuchEntityException $e) {
+            // the attribute does not exist so just return an empty string
         }
 
         return $class;

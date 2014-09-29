@@ -7,7 +7,6 @@ dev/tools/Magento/Tools/Formatter
 dev/tools/PHP-Parser
 dev/tests/unit/testsuite/Magento/Test/Tools/Formatter
 
-dev/tests/static/framework/PHP
 dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/dev_build.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/{whitelist,blacklist}/dev_build.txt
 

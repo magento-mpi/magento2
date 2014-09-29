@@ -48,7 +48,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 if (!$parentId) {
                     if ($storeId) {
                         $parentId = $this->_objectManager->get(
-                            'Magento\Store\Model\StoreManagerInterface'
+                            'Magento\Framework\StoreManagerInterface'
                         )->getStore(
                             $storeId
                         )->getRootCategoryId();
@@ -58,6 +58,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 }
                 $parentCategory = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($parentId);
                 $category->setPath($parentCategory->getPath());
+                $category->setParentId($parentId);
             }
 
             /**
@@ -68,14 +69,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 foreach ($useConfig as $attributeCode) {
                     $category->setData($attributeCode, null);
                 }
-            }
-
-            /**
-             * Create Permanent Redirect for old URL key
-             */
-            // && $category->getOrigData('url_key') != $category->getData('url_key')
-            if ($category->getId() && isset($data['general']['url_key_create_redirect'])) {
-                $category->setData('save_rewrites_history', (bool)$data['general']['url_key_create_redirect']);
             }
 
             $category->setAttributeSetId($category->getDefaultAttributeSetId());

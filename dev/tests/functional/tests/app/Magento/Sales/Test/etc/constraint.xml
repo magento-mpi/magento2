@@ -36,4 +36,43 @@
     <assertOrderStatusIsCorrect module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderStatusIsCorrect>
+    <assertProductInItemsOrderedGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertProductInItemsOrderedGrid>
+    <assertOrderCancelSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderCancelSuccessMessage>
+    <assertOrderInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGrid>
+    <assertOrderInOrdersGridOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGridOnFrontend>
+    <assertNoInvoiceButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertNoInvoiceButton>
+    <assertInvoiceInInvoicesTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceInInvoicesTab>
+    <assertInvoiceInInvoicesGridOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceInInvoicesGridOnFrontend>
+    <assertInvoicedAmountOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoicedAmountOnFrontend>
+    <assertNoShipButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertNoShipButton>
+    <assertShipmentInShipmentsTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentInShipmentsTab>
+    <assertInvoiceSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceSuccessCreateMessage>
+    <assertInvoiceWithShipmentSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceWithShipmentSuccessMessage>
+    <assertOrderNotInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderNotInOrdersGrid>
 </constraint>

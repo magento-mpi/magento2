@@ -9,7 +9,7 @@
 namespace Magento\MultipleWishlist\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Class AssertDeleteMultipleWishlistButtonIsAbsent
@@ -27,14 +27,14 @@ class AssertDeleteMultipleWishlistButtonIsAbsent extends AbstractConstraint
     /**
      * Assert that there is no "Delete Wishlist" button for Customer
      *
-     * @param MultipleWishlistIndex $multipleWishlistIndex
+     * @param WishlistIndex $wishlistIndex
      * @return void
      */
-    public function processAssert(MultipleWishlistIndex $multipleWishlistIndex)
+    public function processAssert(WishlistIndex $wishlistIndex)
     {
-        $multipleWishlistIndex->open();
+        $wishlistIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(
-            $multipleWishlistIndex->getManagementBlock()->isRemoveButtonVisible(),
+            $wishlistIndex->getManagementBlock()->isRemoveButtonVisible(),
             '"Delete Wishlist" button is visible for Customer.'
         );
     }

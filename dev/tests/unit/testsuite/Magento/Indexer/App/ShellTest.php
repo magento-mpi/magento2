@@ -10,7 +10,7 @@ namespace Magento\Indexer\App;
 class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Index\App\Shell
+     * @var \Magento\Indexer\App\Shell
      */
     protected $entryPoint;
 
@@ -61,5 +61,11 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function processRequestDataProvider()
     {
         return array(array(true), array(false));
+    }
+
+    public function testCatchException()
+    {
+        $bootstrap = $this->getMock('Magento\Framework\App\Bootstrap', array(), array(), '', false);
+        $this->assertFalse($this->entryPoint->catchException($bootstrap, new \Exception));
     }
 }

@@ -25,7 +25,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -47,7 +47,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
@@ -56,7 +56,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
         \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Framework\View\Page\Config $pageConfig,
         array $data = array()
@@ -125,13 +125,9 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
         }
 
         $this->pageConfig->addBodyClass('cms-' . $page->getIdentifier());
-
-        $head = $this->getLayout()->getBlock('head');
-        if ($head) {
-            $head->setTitle($page->getTitle());
-            $head->setKeywords($page->getMetaKeywords());
-            $head->setDescription($page->getMetaDescription());
-        }
+        $this->pageConfig->setTitle($page->getTitle());
+        $this->pageConfig->setKeywords($page->getMetaKeywords());
+        $this->pageConfig->setDescription($page->getMetaDescription());
 
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {

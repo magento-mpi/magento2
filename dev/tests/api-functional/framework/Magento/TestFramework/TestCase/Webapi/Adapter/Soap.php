@@ -83,7 +83,8 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         );
         /** Check if there is SOAP client initialized with requested WSDL available */
         if (!isset($this->_soapClients[$wsdlUrl])) {
-            $this->_soapClients[$wsdlUrl] = $this->instantiateSoapClient($wsdlUrl);
+            $token = isset($serviceInfo['soap']['token']) ? $serviceInfo['soap']['token'] : null;
+            $this->_soapClients[$wsdlUrl] = $this->instantiateSoapClient($wsdlUrl, $token);
         }
         return $this->_soapClients[$wsdlUrl];
     }
@@ -92,12 +93,15 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      * Create SOAP client instance and initialize it with provided WSDL URL.
      *
      * @param string $wsdlUrl
+     * @param string $token Authentication token
      * @return \Zend\Soap\Client
      */
-    public function instantiateSoapClient($wsdlUrl)
+    public function instantiateSoapClient($wsdlUrl, $token = null)
     {
-        $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
-        $opts = array('http' => array('header' => "Authorization: Bearer " . $accessCredentials['key']));
+        $accessCredentials = $token
+            ? $token
+            : \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials()['key'];
+        $opts = array('http' => array('header' => "Authorization: Bearer " . $accessCredentials));
         $context = stream_context_create($opts);
         $soapClient = new \Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
@@ -123,8 +127,8 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         /** Sort list of services to avoid having different WSDL URLs for the identical lists of services. */
         //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
         ksort($services);
-        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
+        /** @var \Magento\Framework\StoreManagerInterface $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface');
         $storeCode = $storeManager->getStore()->getCode();
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
         $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BASE_PATH . '/' . $storeCode . '?wsdl=1&services=';

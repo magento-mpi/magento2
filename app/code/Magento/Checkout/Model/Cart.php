@@ -43,7 +43,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -81,7 +81,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
      * @param Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -93,7 +93,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Resource\Cart $resourceCart,
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
@@ -450,7 +450,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function updateItems($data)
     {
-        $this->_eventManager->dispatch('checkout_cart_update_items_before', array('cart' => $this, 'info' => $data));
+        $infoDataObject = new \Magento\Framework\Object($data);
+        $this->_eventManager->dispatch(
+            'checkout_cart_update_items_before',
+            ['cart' => $this, 'info' => $infoDataObject]
+        );
 
         $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
@@ -490,7 +494,10 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             );
         }
 
-        $this->_eventManager->dispatch('checkout_cart_update_items_after', array('cart' => $this, 'info' => $data));
+        $this->_eventManager->dispatch(
+            'checkout_cart_update_items_after',
+            ['cart' => $this, 'info' => $infoDataObject]
+        );
         return $this;
     }
 

@@ -20,7 +20,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_filterItemFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
@@ -98,7 +98,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         );
         $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManager = $this->getMock(
-            '\Magento\Store\Model\StoreManagerInterface',
+            '\Magento\Framework\StoreManagerInterface',
             array(),
             array(),
             '',

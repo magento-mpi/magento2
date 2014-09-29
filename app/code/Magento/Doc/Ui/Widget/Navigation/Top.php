@@ -106,11 +106,17 @@ class Top extends Template
                         'path' => 'api/reference',
                         'position' => 10
                     ],
+                    'framework' => [
+                        'id' => 'framework',
+                        'label' => 'Framework API',
+                        'path' => 'api/framework',
+                        'position' => 20
+                    ],
                     'module' => [
                         'id' => 'module',
                         'label' => 'Modules API',
                         'path' => 'api/module',
-                        'position' => 20
+                        'position' => 30
                     ]
                 ]
             ],
@@ -183,25 +189,18 @@ class Top extends Template
                 'label' => 'Help',
                 'position' => 50,
                 'children' => [
-                    'howto' => [
-                        'id' => 'howto',
-                        'label' => 'How-to',
-                        'path' => 'help/howto',
-                        'position' => 10
-                    ],
                     'dictionary' => [
                         'id' => 'dictionary',
                         'label' => 'Dictionary',
                         'path' => 'help/dictionary',
+                        'position' => 10
+                    ],
+                    'howto' => [
+                        'id' => 'howto',
+                        'label' => 'How-to',
+                        'path' => 'help/howto',
                         'position' => 20
-                    ],
-
-                    'example' => [
-                        'id' => 'example',
-                        'label' => 'Examples',
-                        'path' => 'help/example',
-                        'position' => 30
-                    ],
+                    ]
                 ]
             ],
         ];

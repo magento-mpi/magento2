@@ -17,12 +17,12 @@
      readmode="{{var data.readonly}}">
     <span class="label">{{var data.label}}</span>
 
-    <div data-type="{{var data.type}}" data-role="doc-item-content" module="{{var data.module}}">
-        {{var content}}
+    <div data-type="{{var data.type}}" data-role="doc-item-content" module="{{var data.module}}" collapsed="{{var data.collapsed}}">
+        {{var display_content}}
     </div>
-    <textarea data-role="doc-item-content-src" spellcheck="false" wrap="off" scheme="{{var data.scheme}}"
+    <textarea data-role="doc-item-content-src" spellcheck="false" wrap="off" outline="{{var data.outline}}"
               doc-name="{{var name}}"
-              module="{{var data.module}}">{{var content}}</textarea>
+              module="{{var data.module}}">{{var src_content}}</textarea>
 
     <div class="items">{{var render.renderItemsHtml()}}</div>
 </div>

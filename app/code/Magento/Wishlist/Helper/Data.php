@@ -86,7 +86,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_wishlistFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -112,7 +112,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param WishlistProviderInterface $wishlistProvider
@@ -124,7 +124,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         WishlistProviderInterface $wishlistProvider
@@ -197,12 +197,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $this->_wishlist = $this->_coreRegistry->registry('shared_wishlist');
             } else {
                 $this->_wishlist = $this->wishlistProvider->getWishlist();
-                if (!$this->_wishlist) {
-                    $this->_wishlist = $this->_wishlistFactory->create();
-                    if ($this->getCustomer()) {
-                        $this->_wishlist->loadByCustomerId($this->getCustomer()->getId());
-                    }
-                }
             }
         }
         return $this->_wishlist;

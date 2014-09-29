@@ -23,6 +23,7 @@ class Reader
      */
     protected $idAttributes = [
         '*' => 'id',
+        'div' => 'module',
         'img' => 'src'
     ];
 
@@ -55,11 +56,11 @@ class Reader
     protected $perFileSchema;
 
     /**
-     * Class of dom configuration document used for merge
+     * Dom Interface Factory
      *
-     * @var string
+     * @var DomFactory
      */
-    protected $domDocumentClass;
+    protected $domFactory;
 
     /**
      * Should configuration be validated
@@ -69,26 +70,28 @@ class Reader
     protected $isValidated;
 
     /**
+     * Constructor
+     *
      * @param FileResolver $fileResolver
      * @param SchemaLocator $schemaLocator
      * @param ValidationState $validationState
+     * @param DomFactory $domFactory
      * @param array $idAttributes
-     * @param string $domDocumentClass
      */
     public function __construct(
         FileResolver $fileResolver,
         SchemaLocator $schemaLocator,
         ValidationState $validationState,
-        $idAttributes = [],
-        $domDocumentClass = 'Magento\Doc\Document\Content\Dom'
+        DomFactory $domFactory,
+        $idAttributes = []
     ) {
         $this->fileResolver = $fileResolver;
-        $this->idAttributes = array_replace($this->idAttributes, $idAttributes);
         $this->schemaFile = $schemaLocator->getSchema();
-        $this->isValidated = $validationState->isValidated();
         $this->perFileSchema = $schemaLocator->getPerFileSchema() &&
         $this->isValidated ? $schemaLocator->getPerFileSchema() : null;
-        $this->domDocumentClass = $domDocumentClass;
+        $this->isValidated = $validationState->isValidated();
+        $this->domFactory = $domFactory;
+        $this->idAttributes = array_replace($this->idAttributes, $idAttributes);
     }
 
     /**
@@ -110,25 +113,27 @@ class Reader
     /**
      * Merge document fragments
      *
-     * @param array $fragments
+     * @param \Magento\Framework\View\File[] $fragments
      * @return string
      * @throws \Magento\Framework\Exception
      */
-    protected function mergeDocumentFragments($fragments)
+    protected function mergeDocumentFragments(array $fragments)
     {
         /** @var \Magento\Framework\Config\Dom $merger */
-        $merger = null;
         $html = '';
+        $merger = $this->domFactory->create(
+            [
+                'xml' => '<div id="root"></div>',
+                'idAttributes' => $this->idAttributes,
+                'typeAttributeName' => self::TYPE_ATTRIBUTE,
+                'schemaFile' => $this->perFileSchema
+            ]
+        );
         foreach ($fragments as $key => $fragment) {
-            if (!$fragment) {
-                continue;
-            }
+            /** @var \Magento\Framework\View\File $fragment */
             try {
-                if (!$merger) {
-                    $merger = $this->createConfigMerger($this->domDocumentClass, $fragment);
-                } else {
-                    $merger->merge($fragment);
-                }
+                $content = '<div module="'.$fragment->getModule().'">' . file_get_contents($fragment->getFilename()) . '</div>';
+                $merger->merge($content);
             } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
                 throw new \Magento\Framework\Exception("Invalid XML in file " . $key . ":\n" . $e->getMessage());
             }
@@ -148,15 +153,5 @@ class Reader
             }
         }
         return $html;
-    }
-
-    /**
-     * Create and return a template merger instance
-     *
-     * {@inheritdoc}
-     */
-    protected function createConfigMerger($mergerClass, $initialContents)
-    {
-        return new $mergerClass($initialContents, $this->idAttributes, self::TYPE_ATTRIBUTE, $this->perFileSchema);
     }
 }

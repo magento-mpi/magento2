@@ -14,7 +14,7 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order;
 
-class TransactionListTest extends WebapiAbstract
+class TransactionReadTest extends WebapiAbstract
 {
     /**
      * Service read name
@@ -94,11 +94,6 @@ class TransactionListTest extends WebapiAbstract
 
         $childTransaction = $transaction->getChildTransactions()[2];
 
-        $expectedData = [
-            $this->getPreparedTransactionData($transaction),
-            $this->getPreparedTransactionData($childTransaction)
-        ];
-
         /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
@@ -123,6 +118,12 @@ class TransactionListTest extends WebapiAbstract
         $result = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertArrayHasKey('items', $result);
+
+        $expectedData = [
+            $this->getPreparedTransactionData($transaction),
+            $this->getPreparedTransactionData($childTransaction)
+        ];
+
         $this->assertEquals($expectedData, $result['items']);
     }
 
@@ -134,27 +135,38 @@ class TransactionListTest extends WebapiAbstract
     {
         $additionalInfo = [];
         foreach ($transaction->getAdditionalInformation() as $key => $value) {
-            $additionalInfo[] = [
-                'key' => $key,
-                'value' => $value
-            ];
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $additionalInfo[$key] = $value;
+            } else {
+                $additionalInfo[] = [
+                    'key' => $key,
+                    'value' => $value
+                ];
+            }
         }
 
         $expectedData = [
-            'transaction_id' => $transaction->getId(),
-            'parent_id' => $transaction->getParentId(),
-            'order_id' => $transaction->getOrderId(),
-            'payment_id' => $transaction->getPaymentId(),
+            'transaction_id' => (int)$transaction->getId(),
+            'order_id' => (int)$transaction->getOrderId(),
+            'payment_id' => (int)$transaction->getPaymentId(),
             'txn_id' => $transaction->getTxnId(),
-            'parent_txn_id' => $transaction->getParentTxnId(),
+            'parent_txn_id' => ($transaction->getParentTxnId() ? (string)$transaction->getParentTxnId() : ''),
             'txn_type' => $transaction->getTxnType(),
-            'is_closed' => $transaction->getIsClosed(),
+            'is_closed' => (int)$transaction->getIsClosed(),
             'additional_information' => $additionalInfo,
             'created_at' => $transaction->getCreatedAt(),
             'increment_id' => '100000006',
             'child_transactions' => [],
             'method' => 'checkmo'
         ];
+
+        if (!is_null($transaction->getParentId())) {
+            $expectedData['parent_id'] = (int)$transaction->getParentId();
+        } else {
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+                $expectedData['parent_id'] = null;
+            }
+        }
 
         return $expectedData;
     }

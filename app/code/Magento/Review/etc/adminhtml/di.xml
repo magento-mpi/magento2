@@ -16,7 +16,6 @@
     <virtualType name="Magento\Review\Model\Session" type="Magento\Framework\Session\Generic">
         <arguments>
             <argument name="storage" xsi:type="object">Magento\Review\Model\Session\Storage</argument>
-            <argument name="sessionName" xsi:type="string">adminhtml</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Review\Block\Form">
@@ -27,6 +26,13 @@
     <type name="Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Backend\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\App\Rss\RssManagerInterface">
+        <arguments>
+            <argument name="dataProviders" xsi:type="array">
+                <item name="review" xsi:type="string">Magento\Review\Block\Adminhtml\Rss</item>
+            </argument>
         </arguments>
     </type>
 </config>

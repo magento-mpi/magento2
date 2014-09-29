@@ -7,8 +7,7 @@
  */
 namespace Magento\Tax\Block\Checkout\Shipping;
 
-use Magento\Sales\Model\Quote\Address\Rate;
-use Magento\Checkout\Block\Cart\AbstractCart;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class Price extends \Magento\Checkout\Block\Shipping\Price
 {
@@ -19,26 +18,26 @@ class Price extends \Magento\Checkout\Block\Shipping\Price
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Tax\Helper\Data $taxHelper,
         array $data = array()
     ) {
         $this->taxHelper = $taxHelper;
         parent::__construct(
             $context,
-            $catalogData,
             $customerSession,
             $checkoutSession,
+            $priceCurrency,
             $data
         );
     }
@@ -58,7 +57,12 @@ class Price extends \Magento\Checkout\Block\Shipping\Price
             $this->getQuote()->getCustomerTaxClassId()
         );
 
-        return $this->getQuote()->getStore()->convertPrice($price, true);
+        return $this->priceCurrency->convertAndFormat(
+            $price,
+            true,
+            PriceCurrencyInterface::DEFAULT_PRECISION,
+            $this->getQuote()->getStore()
+        );
     }
 
     /**
@@ -89,6 +93,16 @@ class Price extends \Magento\Checkout\Block\Shipping\Price
     public function displayShippingPriceInclTax()
     {
         return $this->taxHelper->displayShippingPriceIncludingTax();
+    }
+
+    /**
+     * Return flag whether to display shipping price excluding tax
+     *
+     * @return bool
+     */
+    public function displayShippingPriceExclTax()
+    {
+        return $this->taxHelper->displayShippingPriceExcludingTax();
     }
 
     /**

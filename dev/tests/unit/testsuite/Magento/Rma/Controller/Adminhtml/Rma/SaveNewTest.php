@@ -18,12 +18,12 @@ class SaveNewTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $commentText = 'some comment';
         $visibleOnFront = true;
 
-        $this->initRequestData($commentText, $visibleOnFront);
+        $expectedPost = $this->initRequestData($commentText, $visibleOnFront);
 
-        $this->objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with('Magento\Framework\Stdlib\DateTime\DateTime')
-            ->will($this->returnValue($dateTimeModelMock));
+        $this->rmaDataMapperMock->expects($this->once())->method('filterRmaSaveRequest')
+            ->with($expectedPost)
+            ->will($this->returnValue($expectedPost));
+
         $this->coreRegistryMock->expects($this->once())
             ->method('registry')
             ->with('current_order')
