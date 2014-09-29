@@ -54,13 +54,13 @@ class ConfigurationStorage implements ConfigStorageInterface
     /**
      * Add components configuration
      *
-     * @param ConfigInterface $configuration
+     * @param ConfigInterface $config
      * @return void
      */
-    public function addComponentsData(ConfigInterface $configuration)
+    public function addComponentsData(ConfigInterface $config)
     {
-        if (!isset($this->componentStorage[$configuration->getName()])) {
-            $this->componentStorage[$configuration->getName()] = $configuration;
+        if (!isset($this->componentStorage[$config->getName()])) {
+            $this->componentStorage[$config->getName()] = $config;
         }
     }
 

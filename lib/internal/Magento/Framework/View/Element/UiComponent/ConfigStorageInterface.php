@@ -17,10 +17,10 @@ interface ConfigStorageInterface
     /**
      * Add components configuration
      *
-     * @param ConfigInterface $configuration
+     * @param ConfigInterface $config
      * @return void
      */
-    public function addComponentsData(ConfigInterface $configuration);
+    public function addComponentsData(ConfigInterface $config);
 
     /**
      * Remove components configuration

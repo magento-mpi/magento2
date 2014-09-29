@@ -62,7 +62,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /**
      * @var FilterPoolProvider|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $filterPoolMock;
+    protected $filterPoolProviderMock;
+
+    /**
+     * @var \Magento\Ui\DataProvider\Factory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dataProviderFactoryMock;
 
     /**
      * @var FilterPool
@@ -117,9 +122,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->filterPoolMock = $this->getMock(
+        $this->filterPoolProviderMock = $this->getMock(
             'Magento\Ui\Component\Filter\FilterPool',
             ['getFilter'],
+            [],
+            '',
+            false
+        );
+        $this->dataProviderFactoryMock = $this->getMock(
+            'Magento\Ui\DataProvider\Factory',
+            [],
             [],
             '',
             false
@@ -132,7 +144,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             $this->configFactoryMock,
             $this->configBuilderMock,
             $this->dataHelperMock,
-            $this->filterPoolMock
+            $this->filterPoolProviderMock,
+            $this->dataProviderFactoryMock
         );
     }
 
@@ -226,7 +239,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->filterPoolMock->expects($this->any())
+        $this->filterPoolProviderMock->expects($this->any())
             ->method('getFilter')
             ->will($this->returnValue($filterMock));
         $filterMock->expects($this->any())
@@ -262,7 +275,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Framework\View\Element\UiComponent\ConfigInterface
          * |\PHPUnit_Framework_MockObject_MockObject $configurationMock
          */
-        $configurationMock = $this->getMockForAbstractClass(
+        $configMock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\UiComponent\ConfigInterface',
             [],
             '',
@@ -279,7 +292,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->filterPool->setConfiguration($configurationMock);
+        $this->filterPool->setConfig($configMock);
 
         $this->renderContextMock->expects($this->any())
             ->method('getStorage')
@@ -347,7 +360,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Framework\View\Element\UiComponent\ConfigInterface
          * |\PHPUnit_Framework_MockObject_MockObject $configurationMock
          */
-        $configurationMock = $this->getMockForAbstractClass(
+        $configMock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\UiComponent\ConfigInterface',
             [],
             '',
@@ -364,7 +377,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->filterPool->setConfiguration($configurationMock);
+        $this->filterPool->setConfig($configMock);
 
         $this->renderContextMock->expects($this->any())
             ->method('getStorage')

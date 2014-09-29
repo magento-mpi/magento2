@@ -50,14 +50,15 @@ class Form extends AbstractView
 
     public function prepare()
     {
-        $this->config = $this->configFactory->create(
+        $config = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
             ]
         );
 
-        $this->renderContext->getStorage()->addComponentsData($this->configuration);
+        $this->setConfig($config);
+        $this->renderContext->getStorage()->addComponentsData($config);
 
         $provider = $this->factoryProvider->get($this->getData('dataProvider'));
 
