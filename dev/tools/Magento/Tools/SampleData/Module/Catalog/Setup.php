@@ -12,7 +12,6 @@ use Magento\Tools\SampleData\SetupInterface;
 /**
  * Class Setup
  * Launches setup of sample data for catalog module
- * @package Magento\Tools\SampleData\Module\Catalog
  */
 class Setup implements SetupInterface
 {
@@ -38,12 +37,9 @@ class Setup implements SetupInterface
     protected $productSetup;
 
     /**
-     * Constructor
-     *
      * @param Setup\Category $categorySetup
      * @param Setup\Attribute $attributeSetup
      * @param Setup\Product $productSetup
-
      */
     public function __construct(
         Setup\Category $categorySetup,
