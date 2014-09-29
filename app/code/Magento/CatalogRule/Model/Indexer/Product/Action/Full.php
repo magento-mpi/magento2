@@ -7,8 +7,12 @@
  */
 namespace Magento\CatalogRule\Model\Indexer\Product\Action;
 
-class Full
+class Full extends AbstractAction
 {
+    /**
+     * TODO: think about single interface
+     * Full Row reindex
+     */
     public function execute()
     {
 

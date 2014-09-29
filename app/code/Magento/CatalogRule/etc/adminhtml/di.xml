@@ -16,4 +16,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="apply_catalog_rules_after_product_save" type="Magento\CatalogRule\Model\Indexer\Product\Plugin\Save\ApplyRules"/>
+    </type>
 </config>
