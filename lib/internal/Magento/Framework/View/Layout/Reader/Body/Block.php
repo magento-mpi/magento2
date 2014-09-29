@@ -9,6 +9,7 @@ namespace Magento\Framework\View\Layout\Reader\Body;
 
 use Magento\Framework\View\Layout;
 use Magento\Framework\View\Layout\Reader\Context;
+use Magento\Framework\App;
 
 class Block implements Layout\ReaderInterface
 {
@@ -27,6 +28,11 @@ class Block implements Layout\ReaderInterface
     /**#@-*/
 
     /**
+     * @var array
+     */
+    protected $attributes = ['group', 'class', 'template', 'ttl'];
+
+    /**
      * @var \Magento\Framework\View\Layout\ScheduledStructure\Helper
      */
     protected $helper;
@@ -37,17 +43,40 @@ class Block implements Layout\ReaderInterface
     protected $argumentParser;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
+     * @var \Magento\Framework\App\ScopeResolverInterface
+     */
+    protected $scopeResolver;
+
+    /**
+     * @var string
+     */
+    protected $scopeType;
+
+    /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Layout\ScheduledStructure\Helper $helper
-     * @param \Magento\Framework\View\Layout\Argument\Parser $argumentParser
+     * @param Layout\ScheduledStructure\Helper $helper
+     * @param Layout\Argument\Parser $argumentParser
+     * @param App\Config\ScopeConfigInterface $scopeConfig
+     * @param App\ScopeResolverInterface $scopeResolver
      */
     public function __construct(
         Layout\ScheduledStructure\Helper $helper,
-        Layout\Argument\Parser $argumentParser
+        Layout\Argument\Parser $argumentParser,
+        App\Config\ScopeConfigInterface $scopeConfig,
+        App\ScopeResolverInterface $scopeResolver
     ) {
         $this->helper = $helper;
         $this->argumentParser = $argumentParser;
+        $this->scopeConfig = $scopeConfig;
+        $this->scopeResolver = $scopeResolver;
+        // TODO: Must be included through DI configuration
+        $this->scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
     }
 
     /**
@@ -69,28 +98,66 @@ class Block implements Layout\ReaderInterface
     public function process(Context $readerContext, Layout\Element $currentElement, Layout\Element $parentElement)
     {
         $isChildProcessed = false;
+        $scheduledStructure = $readerContext->getScheduledStructure();
         switch ($currentElement->getName()) {
             case self::TYPE_BLOCK:
-                $this->helper->scheduleStructure(
-                    $readerContext->getScheduledStructure(),
-                    $currentElement,
-                    $parentElement
-                );
+                $this->processBlock($scheduledStructure, $currentElement, $parentElement);
+                $this->processChildren($readerContext->getScheduledStructure(), $currentElement);
                 $isChildProcessed = true;
                 break;
 
             case self::TYPE_REFERENCE_BLOCK:
+                $this->processChildren($readerContext->getScheduledStructure(), $currentElement);
                 $isChildProcessed = true;
                 break;
 
             default:
                 break;
         }
-        $this->processChildren($readerContext->getScheduledStructure(), $currentElement);
         return $isChildProcessed;
     }
 
     /**
+     * @param Layout\ScheduledStructure $scheduledStructure
+     * @param Layout\Element $currentElement
+     * @param Layout\Element $parentElement
+     */
+    protected function processBlock(
+        Layout\ScheduledStructure $scheduledStructure,
+        Layout\Element $currentElement,
+        Layout\Element $parentElement
+    ) {
+        $referenceName = $this->helper->scheduleStructure($scheduledStructure, $currentElement, $parentElement);
+        $element = $scheduledStructure->getStructureElement($referenceName, array());
+        $element['attributes'] = $this->processAttributes($currentElement);
+        $scheduledStructure->setStructureElement($referenceName, $element);
+
+        $configPath = (string)$currentElement->getAttribute('ifconfig');
+        if (!empty($configPath)
+            && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
+        ) {
+            $scheduledStructure->setElementToRemoveList($referenceName);
+        }
+    }
+
+    /**
+     * Process block attributes
+     *
+     * @param Layout\Element $blockElement
+     * @return array
+     */
+    protected function processAttributes(Layout\Element $blockElement)
+    {
+        $attributes = [];
+        foreach ($this->attributes as $attributeName) {
+            $attributes[$attributeName] = (string)$blockElement->getAttribute($attributeName);
+        }
+        return $attributes;
+    }
+
+    /**
+     * Process children
+     *
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param Layout\Element $blockElement
      * @return void
@@ -99,10 +166,17 @@ class Block implements Layout\ReaderInterface
     {
         /** @var $childElement Layout\Element */
         foreach ($blockElement as $childElement) {
-            if ($childElement->getName() === self::TYPE_ARGUMENTS) {
-                $this->_processArguments($scheduledStructure, $childElement, $blockElement);
-            } elseif ($childElement->getName() === self::TYPE_ACTION) {
-                $this->_processActions($scheduledStructure, $childElement, $blockElement);
+            switch ($childElement->getName()) {
+                case self::TYPE_ARGUMENTS:
+                    $this->_processArguments($scheduledStructure, $childElement, $blockElement);
+                    break;
+
+                case self::TYPE_ACTION:
+                    $this->_processActions($scheduledStructure, $childElement, $blockElement);
+                    break;
+
+                default:
+                    break;
             }
         }
     }
@@ -138,9 +212,18 @@ class Block implements Layout\ReaderInterface
         Layout\Element $currentElement,
         Layout\Element $parentElement
     ) {
+        $configPath = $currentElement->getAttribute('ifconfig');
+        if ($configPath
+            && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
+        ) {
+            return;
+        }
+
         $referenceName = $parentElement->getAttribute('name');
         $element = $scheduledStructure->getStructureElement($referenceName, array());
-        $element['actions'][] = array($currentElement, $parentElement);
+        $methodName = $currentElement->getAttribute('method');
+        $actionArguments = $this->_parseArguments($currentElement);
+        $element['actions'][] = [$methodName, $actionArguments];
         $scheduledStructure->setStructureElement($referenceName, $element);
     }
 

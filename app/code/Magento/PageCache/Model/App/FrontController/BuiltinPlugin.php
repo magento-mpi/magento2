@@ -7,6 +7,8 @@
  */
 namespace Magento\PageCache\Model\App\FrontController;
 
+use Magento\Framework\App\Response\Http as ResponseHttp;
+
 /**
  * Plugin for processing builtin cache
  */
@@ -63,31 +65,33 @@ class BuiltinPlugin
     ) {
         if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->config->isEnabled()) {
             $this->version->process();
-            $response = $this->kernel->load();
-            if ($response === false) {
-                $response = $proceed($request);
-                $cacheControl = $response->getHeader('Cache-Control')['value'];
-                $this->addDebugHeader($response, 'X-Magento-Cache-Control', $cacheControl);
-                $this->kernel->process($response);
-                $this->addDebugHeader($response, 'X-Magento-Cache-Debug', 'MISS');
+            $result = $this->kernel->load();
+            if ($result === false) {
+                $result = $proceed($request);
+                if ($result instanceof ResponseHttp) {
+                    $cacheControl = $result->getHeader('Cache-Control')['value'];
+                    $this->addDebugHeader($result, 'X-Magento-Cache-Control', $cacheControl);
+                    $this->kernel->process($result);
+                    $this->addDebugHeader($result, 'X-Magento-Cache-Debug', 'MISS');
+                }
             } else {
-                $this->addDebugHeader($response, 'X-Magento-Cache-Debug', 'HIT');
+                $this->addDebugHeader($result, 'X-Magento-Cache-Debug', 'HIT');
             }
         } else {
-            return $response = $proceed($request);
+            return $result = $proceed($request);
         }
-        return $response;
+        return $result;
     }
 
     /**
      * Add additional header for debug purpose
      *
-     * @param \Magento\Framework\App\Response\Http $response
+     * @param ResponseHttp $response
      * @param string $name
      * @param string $value
      * @return void
      */
-    protected function addDebugHeader(\Magento\Framework\App\Response\Http $response, $name, $value)
+    protected function addDebugHeader(ResponseHttp $response, $name, $value)
     {
         if ($this->state->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
             $response->setHeader($name, $value);

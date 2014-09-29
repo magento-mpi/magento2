@@ -142,8 +142,8 @@ class Block
 
         // execute block methods
         foreach ($actions as $action) {
-            list($actionNode, $parent) = $action;
-            $this->_generateAction($block, $actionNode, $parent);
+            list($methodName, $actionArguments) = $action;
+            $this->_generateAction($block, $methodName, $actionArguments);
         }
 
         return $block;
@@ -198,33 +198,16 @@ class Block
      * Run action defined in layout update
      *
      * @param \Magento\Framework\View\Element\AbstractBlock $block
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @param \Magento\Framework\View\Layout\Element $parent
+     * @param string $methodName
+     * @param array $actionArguments
      * @return void
      */
-    protected function _generateAction($block, $node, $parent)
+    protected function _generateAction($block, $methodName, $actionArguments)
     {
-        $configPath = $node->getAttribute('ifconfig');
-        if ($configPath
-            && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
-        ) {
-            return;
-        }
-
-        $method = $node->getAttribute('method');
-        $parentName = $node->getAttribute('block');
-        if (empty($parentName)) {
-            $parentName = $parent->getElementName();
-        }
-
-        $profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
+        $profilerKey = 'BLOCK_ACTION:' . $block->getNameInLayout() . '>' . $methodName;
         \Magento\Framework\Profiler::start($profilerKey);
-        $parentBlock = $block->getParentBlock();
-        if (!empty($parentBlock)) {
-            $args = $this->_parseArguments($node);
-            $args = $this->_evaluateArguments($args);
-            call_user_func_array(array($parentBlock, $method), $args);
-        }
+        $args = $this->_evaluateArguments($actionArguments);
+        call_user_func_array(array($block, $methodName), $args);
         \Magento\Framework\Profiler::stop($profilerKey);
     }
 
@@ -239,25 +222,6 @@ class Block
         $result = array();
         foreach ($arguments as $argumentName => $argumentData) {
             $result[$argumentName] = $this->argumentInterpreter->evaluate($argumentData);
-        }
-        return $result;
-    }
-
-    /**
-     * Parse argument nodes and return their array representation
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @return array
-     */
-    protected function _parseArguments(\Magento\Framework\View\Layout\Element $node)
-    {
-        $nodeDom = dom_import_simplexml($node);
-        $result = array();
-        foreach ($nodeDom->childNodes as $argumentNode) {
-            if ($argumentNode instanceof \DOMElement && $argumentNode->nodeName == 'argument') {
-                $argumentName = $argumentNode->getAttribute('name');
-                $result[$argumentName] = $this->argumentParser->parse($argumentNode);
-            }
         }
         return $result;
     }

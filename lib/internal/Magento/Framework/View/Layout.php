@@ -309,31 +309,18 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     /**
      * Create structure of elements from the loaded XML configuration
      *
+     * @throws \Magento\Framework\Exception
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function generateElements()
     {
         \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
         \Magento\Framework\Profiler::start('build_structure');
-
         $this->_scheduledStructure->flushScheduledStructure();
-
         $readerContext = new Layout\Reader\Context($this->_scheduledStructure, $this->_structure, null);
         $this->reader->readStructure($readerContext, $this->getNode());
         $this->_addToOutputRootContainers($this->getNode());
-
-        while (false === $this->_scheduledStructure->isStructureEmpty()) {
-            $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
-        }
-        $this->_scheduledStructure->flushPaths();
-        foreach ($this->_scheduledStructure->getListToMove() as $elementToMove) {
-            $this->_moveElementInStructure($elementToMove);
-        }
-        foreach ($this->_scheduledStructure->getListToRemove() as $elementToRemove) {
-            $this->_removeElement($elementToRemove);
-        }
-
+        $this->buildStructure();
         \Magento\Framework\Profiler::stop('build_structure');
         \Magento\Framework\Profiler::start('generate_elements');
 
@@ -345,35 +332,35 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
             if ($type == Element::TYPE_UI_COMPONENT) {
                 $this->_generateUiComponent($elementName);
-            } else if ($type == Element::TYPE_BLOCK) {
+            } elseif ($type == Element::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
-            } else {
+            } elseif ($type == Element::TYPE_CONTAINER) {
                 $this->_generateContainer($elementName);
                 $this->_scheduledStructure->unsetElement($elementName);
+            } else {
+                throw new \Magento\Framework\Exception(
+                    "Unexpected element type specified for generating: {$type}."
+                );
             }
         }
         \Magento\Framework\Profiler::stop('generate_elements');
         \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
 
-    /**
-     * Parse argument nodes and return their array representation
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @return array
-     */
-    protected function _parseArguments(\Magento\Framework\View\Layout\Element $node)
+    protected function buildStructure()
     {
-        $nodeDom = dom_import_simplexml($node);
-        $result = array();
-        foreach ($nodeDom->childNodes as $argumentNode) {
-            if ($argumentNode instanceof \DOMElement && $argumentNode->nodeName == 'argument') {
-                $argumentName = $argumentNode->getAttribute('name');
-                $result[$argumentName] = $this->argumentParser->parse($argumentNode);
-            }
+        while (false === $this->_scheduledStructure->isStructureEmpty()) {
+            $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
         }
-        return $result;
+        $this->_scheduledStructure->flushPaths();
+        foreach ($this->_scheduledStructure->getListToMove() as $elementToMove) {
+            $this->_moveElementInStructure($elementToMove);
+        }
+        foreach ($this->_scheduledStructure->getListToRemove() as $elementToRemove) {
+            $this->_removeElement($elementToRemove);
+        }
     }
+
 
     /**
      * Compute and return argument values
@@ -471,7 +458,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             $this->_scheduledStructure->unsetStructureElement($key);
             return;
         }
-        list($type, $alias, $parentName, $siblingName, $isAfter, $node) = $row;
+        // TODO: $data there
+        list($type, $alias, $parentName, $siblingName, $isAfter) = $row;
         $name = $this->_createStructuralElement($key, $type, $parentName . $alias);
         if ($parentName) {
             // recursively populate parent first
@@ -497,7 +485,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->_scheduledStructure->unsetStructureElement($key);
         $data = array(
             $type,
-            $node,
             isset($row['actions']) ? $row['actions'] : array(),
             isset($row['arguments']) ? $row['arguments'] : array(),
             isset($row['attributes']) ? $row['attributes'] : array()
@@ -565,42 +552,27 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @param string $elementName
      * @return \Magento\Framework\View\Element\AbstractBlock|void
-     * @throws \Magento\Framework\Exception
      */
     protected function _generateBlock($elementName)
     {
-        list($type, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
-        if ($type !== Element::TYPE_BLOCK) {
-            throw new \Magento\Framework\Exception("Unexpected element type specified for generating block: {$type}.");
-        }
+        $row = $this->_scheduledStructure->getElement($elementName);
+        /** @var $node Element */
+        list($type, $actions, $args, $attributes) = $row;
 
-        $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath)
-            && !$this->_scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
-        ) {
-            $this->_scheduledStructure->unsetElement($elementName);
-            return;
-        }
-
-        $group = (string)$node->getAttribute('group');
-        if (!empty($group)) {
-            $this->_structure->addToParentGroup($elementName, $group);
+        if (!empty($attributes['group'])) {
+            $this->_structure->addToParentGroup($elementName, $attributes['group']);
         }
 
         // create block
-        $className = (string)$node['class'];
-
+        $className = $attributes['class'];
         $arguments = $this->_evaluateArguments($args);
-
         $block = $this->_createBlock($className, $elementName, array('data' => $arguments));
 
-        if (!empty($node['template'])) {
-            $templateFileName = (string)$node['template'];
-            $block->setTemplate($templateFileName);
+        if (!empty($attributes['template'])) {
+            $block->setTemplate($attributes['template']);
         }
-
-        if (!empty($node['ttl'])) {
-            $ttl = (int)$node['ttl'];
+        if (!empty($attributes['ttl'])) {
+            $ttl = (int)$attributes['ttl'];
             $block->setTtl($ttl);
         }
 
@@ -608,11 +580,28 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
         // execute block methods
         foreach ($actions as $action) {
-            list($actionNode, $parent) = $action;
-            $this->_generateAction($actionNode, $parent);
+            list($methodName, $actionArguments) = $action;
+            $this->_generateAction($block, $methodName, $actionArguments);
         }
 
         return $block;
+    }
+
+    /**
+     * Run action defined in layout update
+     *
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
+     * @param string $methodName
+     * @param array $actionArguments
+     * @return void
+     */
+    protected function _generateAction($block, $methodName, $actionArguments)
+    {
+        $profilerKey = 'BLOCK_ACTION:' . $block->getNameInLayout() . '>' . $methodName;
+        \Magento\Framework\Profiler::start($profilerKey);
+        $args = $this->_evaluateArguments($actionArguments);
+        call_user_func_array(array($block, $methodName), $args);
+        \Magento\Framework\Profiler::stop($profilerKey);
     }
 
     /**
@@ -620,19 +609,13 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @param string $elementName
      * @return \Magento\Framework\View\Element\AbstractBlock|void
-     * @throws \Magento\Framework\Exception
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _generateUiComponent($elementName)
     {
+        // TODO: Eliminate $node
         list($type, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
-        if ($type !== Element::TYPE_UI_COMPONENT) {
-            throw new \Magento\Framework\Exception(
-                "Unexpected element type specified for generating UI Component: {$type}."
-            );
-        }
-
         $configPath = (string)$node->getAttribute('ifconfig');
         if (!empty($configPath)
             && !$this->_scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
@@ -669,10 +652,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     protected function _generateContainer($name)
     {
-        list($type, $node, $actions, $args, $options) = $this->_scheduledStructure->getElement($name);
-        $label = (string)$node[Element::CONTAINER_OPT_LABEL];
-
-        $this->_structure->setAttribute($name, Element::CONTAINER_OPT_LABEL, $label);
+        list($type, $actions, $args, $options) = $this->_scheduledStructure->getElement($name);
+        $this->_structure->setAttribute($name, Element::CONTAINER_OPT_LABEL, $options[Element::CONTAINER_OPT_LABEL]);
         unset($options[Element::CONTAINER_OPT_LABEL]);
         unset($options['type']);
         $allowedTags = array(
@@ -713,41 +694,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         foreach ($options as $key => $value) {
             $this->_structure->setAttribute($name, $key, $value);
         }
-    }
-
-    /**
-     * Run action defined in layout update
-     *
-     * @param \Magento\Framework\View\Layout\Element $node
-     * @param \Magento\Framework\View\Layout\Element $parent
-     * @return void
-     */
-    protected function _generateAction($node, $parent)
-    {
-        $configPath = $node->getAttribute('ifconfig');
-        if ($configPath
-            && !$this->_scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
-        ) {
-            return;
-        }
-
-        $method = $node->getAttribute('method');
-        $parentName = $node->getAttribute('block');
-        if (empty($parentName)) {
-            $parentName = $parent->getElementName();
-        }
-
-        $profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
-        \Magento\Framework\Profiler::start($profilerKey);
-
-        $block = $this->getBlock($parentName);
-        if (!empty($block)) {
-            $args = $this->_parseArguments($node);
-            $args = $this->_evaluateArguments($args);
-            call_user_func_array(array($block, $method), $args);
-        }
-
-        \Magento\Framework\Profiler::stop($profilerKey);
     }
 
     /**
@@ -1191,6 +1137,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '')
     {
         $name = $this->_createStructuralElement($name, Element::TYPE_CONTAINER, $alias);
+        // TODO: eliminate options
         $this->_generateContainer($name, $label, $options);
         if ($parent) {
             $this->_structure->setAsChild($name, $parent, $alias);

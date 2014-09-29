@@ -81,7 +81,7 @@ class Helper
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\View\Layout\Element $currentNode
      * @param \Magento\Framework\View\Layout\Element $parentNode
-     * @return void
+     * @return string
      * @see scheduleElement() where the scheduledStructure is used
      */
     public function scheduleStructure(
@@ -134,6 +134,7 @@ class Helper
         } else {
             $scheduledStructure->setStructureElement($name, $row);
         }
+        return $name;
     }
 
     /**
