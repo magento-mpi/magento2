@@ -45,24 +45,6 @@
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <path>dev/tests/functional-old/config/config.yml.dist</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>dev/tests/functional-old/runtests.bat</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>dev/tests/functional-old/runtests.sh</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
             <word>enterprise</word>
             <path>dev/tests/unit/testsuite/Magento/Framework/Cache/Backend/_files/MongoBinData.txt</path>
         </item>
