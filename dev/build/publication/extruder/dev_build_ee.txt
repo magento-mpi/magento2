@@ -1,3 +1,3 @@
 # Special case for EE edition in build mode: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
-~dev/tests/functional-old
+
