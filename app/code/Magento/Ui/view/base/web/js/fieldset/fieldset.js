@@ -22,24 +22,22 @@ define([
         initialize: function(config) {
             _.extend(this, defaults, config);
 
-            if(!this.collapsible){
-                this.opened = true;
-            }
-
             this.initObservable()
-                .initProvider();
+                .waitElements();
         },
 
         initObservable: function(){
             this.observe({
-                'elems':    this.injections || [],
+                'elems':    [],
                 'opened':   this.opened
             });
 
             return this;
         },
 
-        initProvider: function(){
+        initElements: function(elems){
+            this.elems.push(elems);
+            
             return this;
         },
 
@@ -49,6 +47,13 @@ define([
             if(this.collapsible){
                 opened(!opened());
             }
+        },
+
+        waitElements: function(){
+            registry.get(
+                this.injections,
+                this.initElements.bind(this)
+            );
         }
     });
 

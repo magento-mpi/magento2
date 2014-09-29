@@ -22,16 +22,21 @@ define([
 
             this.initObservable()
                 .initProvider()
-                .pullParams();
+                .pullParams()
+                .waitElements();
         },
 
         initObservable: function() {
             this.observe({
-                'elems':    this.injections,
+                'elems':    [],
                 'visible':  this.visible
             });
 
             return this;
+        },
+
+        initElements: function(elems){
+            this.elems.push(elems);
         },
 
         initProvider: function() {
@@ -47,6 +52,17 @@ define([
                 area    = params.get('activeTab');
 
             this.visible(area === this.name);
+
+            return this;
+        },
+
+        waitElements: function(){
+            registry.get(
+                this.injections,
+                this.initElements.bind(this)
+            );
+
+            return this;
         }
     });
 
