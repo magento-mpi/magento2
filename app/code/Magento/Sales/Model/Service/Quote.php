@@ -264,10 +264,6 @@ class Quote
          * We can use configuration data for declare new order status
          */
         $this->_eventManager->dispatch(
-            'checkout_type_onepage_save_order',
-            array('order' => $order, 'quote' => $quote)
-        );
-        $this->_eventManager->dispatch(
             'sales_model_service_quote_submit_before',
             array('order' => $order, 'quote' => $quote)
         );
