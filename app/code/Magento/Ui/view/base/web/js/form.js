@@ -4,48 +4,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define([
-    'Magento_Ui/js/form/elements'
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/component',
-    'underscore',
-], function (elements, Scope, Component, _) {
+define(function (require) {
     'use strict';
+
+    var Scope       = require('Magento_Ui/js/lib/ko/scope'),
+        Component   = require('Magento_Ui/js/lib/component'),
+        registry    = require('Magento_Ui/js/lib/registry/registry'),
+        elements    = require('Magento_Ui/js/form/elements'),
+        utils       = require('mage/utils'),
+        _           = require('underscore');
 
     function getConstructorFor(type) {
         return elements[type];
     }
 
-    function isMetaDescriptor(obj) {
-        return ('meta_ref' in obj) || ('input_type' in obj);
-    }
-
-    function formatMeta(obj, meta) {
-        var result = {},
-            initial,
-            intermediate,
-            reference;
-
-        for (var name in obj) {
-            initial = obj[name];
-
-            if (isMetaDescriptor(initial)) {
-                intermediate = result[name] = {};
-
-                if (reference = initial['meta_ref']) {
-                    _.extend(initial, meta[reference]);
-                    delete initial['meta_ref'];
-                }
-
-                intermediate['constr'] = getConstructorFor(initial['input_type']);    
-                intermediate['meta']   = initial;
-                result[name]           = intermediate;    
-            } else {
-                result[name] = formatMeta(initial, meta);            
-            }
-        }
-
-        return result;
+    function incrementPath(path, subpath) {
+        return path + '.' + subpath;
     }
 
     var Form = Scope.extend({
@@ -59,13 +33,52 @@ define([
 
             this.provider = provider;
 
-            this.initFields();
+            this.initElements();
         },
 
-        initFields: function () {
-            var meta = this.provider.meta.get();
+        initElements: function () {
+            var meta = this.provider.meta.get(),
+                data = this.provider.data.get();
 
-            this.fields = formatMeta(meta, meta);
+            this._initElements(meta, data);
+
+            return this;
+        },
+
+        _initElements: function (meta, data, initial, path) {
+            var target,
+                reference,
+                config,
+                value,
+                constr;
+
+            initial = initial || meta;
+            path    = path    || '';
+
+            for (var name in initial) {
+                target = initial[name];
+                path   = path + '.' + name;
+
+                if (this.isMetaDescriptor(target)) {
+
+                    if (reference = target['meta_ref']) {
+                        _.extend(target, meta[reference]);
+                        delete target['meta_ref'];
+                    }
+
+                    constr   = getConstructorFor(target['input_type']);    
+                    config   = target;
+                    value    = utils.byPath(data, path);
+
+                    registry.set(path, new constr(config, value));
+                } else {
+                    this._initElements(meta, data, target, path);            
+                }
+            }
+        },
+
+        isMetaDescriptor: function (obj) {
+            return ('meta_ref' in obj) || ('input_type' in obj);
         }
     });
 
