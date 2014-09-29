@@ -76,4 +76,4 @@ class Suggestions implements SuggestionsInterface
     {
         return (bool)$this->searchData->getSolrConfigData(self::CONFIG_SUGGESTION_COUNT_RESULTS_ENABLED);
     }
-} 
+}
