@@ -11,7 +11,7 @@ define([
 ], function (AbstractElement, Component, _) {
     'use strict';
 
-    var InputElement = AbstractElement.extend({
+    return AbstractElement.extend({
 
         /**
          * Invokes initialize method of parent class.
@@ -19,9 +19,5 @@ define([
         initialize: function () {
             this._super();
         }
-    });
-
-    return Component({
-        constr: InputElement
     });
 });
