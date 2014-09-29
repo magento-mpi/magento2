@@ -8,11 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
-    <block class="Magento\Ui\Component\Layout\Tabs" name="tabs">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
-        </arguments>
-    </block>
     <block class="Magento\Ui\Component\Listing" name="listing">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::listing/horizontal_grid.phtml</argument>
@@ -120,6 +115,11 @@
         </arguments>
     </block>
 
+    <block class="Magento\Ui\Component\Layout\Tabs" name="tabs">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
+        </arguments>
+    </block>
     <block class="Magento\Ui\Component\Container\Content" name="content">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>

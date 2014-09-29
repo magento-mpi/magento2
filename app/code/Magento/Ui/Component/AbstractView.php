@@ -292,17 +292,12 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * Create
      */
-    protected function createDataProvider()
+    protected function createDataProviders()
     {
         if ($this->hasData('data_provider_pool')) {
-            foreach ($this->getData('data_provider_pool') as $name => $dataProviderConfig) {
-                $dataProviderConfig['arguments'] = empty($dataProviderConfig['arguments'])
-                    ? []
-                    : $dataProviderConfig['arguments'];
-                $meta = $this->dataProviderFactory->create(
-                    $dataProviderConfig['class'],
-                    $dataProviderConfig['arguments']
-                )->getMeta();
+            foreach ($this->getData('data_provider_pool') as $name => $config) {
+                $config['arguments'] = empty($config['arguments']) ? [] : $config['arguments'];
+                $meta = $this->dataProviderFactory->create($config['class'], $config['arguments'])->getMeta();
                 $this->renderContext->getStorage()->addMeta($name, $meta);
             }
         }

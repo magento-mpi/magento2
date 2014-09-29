@@ -49,7 +49,7 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
                 'configuration' => $config
             ]
         );
-        $this->createDataProvider();
+        $this->createDataProviders();
 
         $this->setConfiguration($configuration);
         $this->renderContext->getStorage()->addComponentsData($configuration);

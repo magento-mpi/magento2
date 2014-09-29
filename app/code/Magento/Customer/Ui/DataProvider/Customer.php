@@ -48,15 +48,12 @@ class Customer implements DataProviderInterface
      */
     public function getMeta()
     {
-        // TODO fix create this object
-        $meta = $this->customerMeta->getAttributes($this->getArguments('form_code'));
-        return [
-            [
-                'email' => [
-                    'title' => 'Email'
-                ]
-            ]
-        ];
+        $metaResult = [];
+        foreach ($this->customerMeta->getAttributes($this->getArguments('form_code')) as $name => $dataObject) {
+            $metaResult[$name] = $dataObject->__toArray();
+        }
+
+        return $metaResult;
     }
 
     /**

@@ -32,6 +32,6 @@ class Factory
      */
     public function create($providerClass, array $arguments = [])
     {
-        return $this->objectManager->create($providerClass, $arguments);
+        return $this->objectManager->create($providerClass, ['arguments' => $arguments]);
     }
 }
