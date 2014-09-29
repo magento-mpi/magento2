@@ -66,8 +66,6 @@ define([], function(){
          * @returns {Boolean}
          */
         has: function(elems) {
-            elems = elems || [];
-
             return elems.every(function(elem) {
                 return typeof data[elem] !== 'undefined';
             });

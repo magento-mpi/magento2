@@ -22,12 +22,13 @@ define([
 
             this.initObservable()
                 .initProvider()
-                .pullParams();
+                .pullParams()
+                .waitElements();
         },
 
         initObservable: function() {
             this.observe({
-                'elems':    this.injections,
+                'elems':    [],
                 'visible':  this.visible
             });
 
@@ -42,11 +43,30 @@ define([
             return this;
         },
 
+        initElements: function(){
+            var elems = this.elems;
+
+            elems.push.apply(elems, arguments);
+
+            return this;
+        },
+
         pullParams: function() {
             var params  = this.provider.params,
                 area    = params.get('activeTab');
 
             this.visible(area === this.name);
+
+            return this;
+        },
+
+        waitElements: function(){
+            registry.get(
+                this.injections,
+                this.initElements.bind(this)
+            );
+
+            return this;
         }
     });
 

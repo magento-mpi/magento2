@@ -16,7 +16,8 @@ define([
             _.extend(this, config);
 
             this.initObservable()
-                .initProvider();
+                .initProvider()
+                .pushParams()
         },
 
         initObservable: function() {
@@ -28,33 +29,32 @@ define([
         },
 
         initProvider: function() {
-            this.provider.params.on('update:activeTab', this.pullParams.bind(this));
+            var params = this.provider.params;
 
-            if (this.active()) {
-                this.pushParams();
-            }
+            params.on('update:activeTab', this.pullParams.bind(this));
 
             return this;
         },
 
         setActive: function() {
-            var active = this.active();
-
             this.active(true)
 
-            if (!active) {
-                this.pushParams();
-            }
+            this.pushParams();
         },
 
         pushParams: function() {
-            this.provider.params.set('activeTab', this.name);
+            var params = this.provider.params;
+
+            if(this.active()){
+                params.set('activeTab', this.name);
+            }
         },
 
-        pullParams: function(tab) {
-            if (this.name !== tab) {
-                this.active(false);
-            }
+        pullParams: function() {
+            var params  = this.provider.params,
+                tab     = params.get('activeTab');
+
+            this.active(this.name === tab);
         }
     });
 

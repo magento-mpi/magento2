@@ -89,7 +89,7 @@ define([
          */
         wait: function(elems, callback) {
             if (storage.has(elems)) {
-                return callback.apply(window, storage.get(elems));
+                return callback.apply(null, storage.get(elems));
             }
 
             elems.forEach(function(elem) {
@@ -97,8 +97,8 @@ define([
             });
 
             requests[id++] = {
-                callback: callback,
-                deps: elems
+                callback:   callback,
+                deps:       elems
             };
 
             return this;

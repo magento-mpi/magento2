@@ -65,7 +65,7 @@ define(function (require) {
                     }
 
                     config  = _.extend(target, { name: path });
-                    value   = utils.byPath(data, path);
+                    value   = utils.nested(data, path);
 
                     this.initElement(config, value);
                 } else {
