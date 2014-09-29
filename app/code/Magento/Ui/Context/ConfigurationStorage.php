@@ -10,6 +10,7 @@ namespace Magento\Ui\Context;
 use Magento\Framework\Data\Collection as DataCollection;
 use Magento\Framework\View\Element\UiComponent\ConfigInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigStorageInterface;
+use Magento\Ui\DataProvider\DataProviderInterface;
 
 /**
  * Class ConfigurationStorage
@@ -50,6 +51,13 @@ class ConfigurationStorage implements ConfigStorageInterface
      * @var array
      */
     protected $globalDataStorage = [];
+
+    /**
+     * Data provider storage
+     *
+     * @var array
+     */
+    protected $dataProviderStorage = [];
 
     /**
      * Add components configuration
@@ -274,5 +282,52 @@ class ConfigurationStorage implements ConfigStorageInterface
             return $this->globalDataStorage;
         }
         return isset($this->globalDataStorage[$key]) ? $this->globalDataStorage[$key] : null;
+    }
+
+    /**
+     * @param string $key
+     * @param DataProviderInterface $dataProvider
+     * @return void
+     */
+    public function addDataProvider($key, DataProviderInterface $dataProvider)
+    {
+        if (!isset($this->dataProviderStorage[$key])) {
+            $this->dataProviderStorage[$key] = $dataProvider;
+        }
+    }
+
+    /**
+     * @param string $key
+     * @return void
+     */
+    public function removeDataProvider($key)
+    {
+        if (isset($this->dataProviderStorage[$key])) {
+            unset($this->dataProviderStorage[$key]);
+        }
+    }
+
+    /**
+     * @param null $key
+     * @return DataProviderInterface[]|DataProviderInterface|null
+     */
+    public function getDataProvider($key = null)
+    {
+        if ($key === null) {
+            return $this->dataProviderStorage;
+        }
+        return isset($this->dataProviderStorage[$key]) ? $this->dataProviderStorage[$key] : null;
+    }
+
+    /**
+     * @param string $key
+     * @param DataProviderInterface $dataProvider
+     * @return void
+     */
+    public function updateDataProvider($key, DataProviderInterface $dataProvider)
+    {
+        if (isset($this->dataProviderStorage[$key])) {
+            $this->dataProviderStorage[$key] = $dataProvider;
+        }
     }
 }

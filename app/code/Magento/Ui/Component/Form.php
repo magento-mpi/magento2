@@ -7,47 +7,11 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Ui\DataProvider\Factory as DataProviderFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
-
 /**
  * Class Form
  */
 class Form extends AbstractView
 {
-    /**
-     * @param TemplateContext $context
-     * @param Context $renderContext
-     * @param ContentTypeFactory $contentTypeFactory
-     * @param ConfigFactory $configFactory
-     * @param ConfigBuilderInterface $configBuilder
-     * @param DataProviderFactory $dataProviderFactory
-     * @param array $data
-     */
-    public function __construct(
-        TemplateContext $context,
-        Context $renderContext,
-        ContentTypeFactory $contentTypeFactory,
-        ConfigFactory $configFactory,
-        ConfigBuilderInterface $configBuilder,
-        DataProviderFactory $dataProviderFactory,
-        array $data = []
-    ) {
-        parent::__construct(
-            $context,
-            $renderContext,
-            $contentTypeFactory,
-            $configFactory,
-            $configBuilder,
-            $dataProviderFactory,
-            $data
-        );
-    }
-
     public function prepare()
     {
         $this->config = $this->configFactory->create(
@@ -57,18 +21,14 @@ class Form extends AbstractView
             ]
         );
 
-        $this->renderContext->getStorage()->addComponentsData($this->configuration);
+        $this->renderContext->getStorage()->addComponentsData($this->config);
 
-        $provider = $this->factoryProvider->get($this->getData('dataProvider'));
-
+        $this->createDataProviders();
         $this->renderContext->getStorage()->addMeta($this->getName(), $this->getData('meta'));
-        $this->renderContext->getStorage()->addData($this->getName(), $provider->getData());
         parent::prepare();
     }
 
     /**
-     * @TODO Fix it
-     *
      * @return array|null
      */
     public function getMeta()
@@ -77,17 +37,17 @@ class Form extends AbstractView
     }
 
     /**
-     * @TODO Fix it
-     *
-     * @return array|null
+     * @param array $fieldData
+     * @return string
      */
-    public function getProviderData()
+    public function getFieldType(array $fieldData)
     {
-        return $this->renderContext->getStorage()->getData($this->getParentName());
-    }
-
-    public function getCssClass()
-    {
-
+        $type = '';
+        if (isset($fieldData['data_type'])) {
+            $type = $fieldData['data_type'];
+        } else if (isset($fieldData['frontend_input'])) {
+            $type = $fieldData['frontend_input'];
+        }
+        return $type;
     }
 }

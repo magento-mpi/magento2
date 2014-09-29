@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <referenceBlock name="form">
+        <arguments>
+            <argument name="meta" xsi:type="array">
+                <item name="defaults" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <argument name="name" xsi:type="string">customer_form</argument>
+            <argument name="data_provider_pool" xsi:type="array">
+
+                <!-- customer info -->
+                <item name="customer_info" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
+                    <item name="arguments" xsi:type="array">
+                        <!--<item name="form_code" xsi:type="string">adminhtml_customer</item>-->
+                        <item name="meta" xsi:type="array">
+                            <item name="custom_field" xsi:type="array">
+                                <item name="data_type" xsi:type="string">text</item>
+                                <item name="required" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+
+                    </item>
+
+                </item>
+
+                <!-- address info -->
+                <item name="address_info" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
+                    <item name="arguments" xsi:type="array">
+                        <!--<item name="form_code" xsi:type="string">customer_form</item>-->
+                        <item name="meta" xsi:type="array">
+                            <item name="custom_field2" xsi:type="array">
+                                <item name="data_type" xsi:type="string">text</item>
+                                <item name="required" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+
+                    </item>
+
+                </item>
+
+            </argument>
+        </arguments>
+    </referenceBlock>
+</page>
