@@ -107,6 +107,7 @@
         "magento/module-sales": "self.version",
         "magento/module-sales-archive": "self.version",
         "magento/module-sales-rule": "self.version",
+        "magento/module-search": "self.version",
         "magento/module-scheduled-import-export": "self.version",
         "magento/module-solr": "self.version",
         "magento/module-sendfriend": "self.version",
