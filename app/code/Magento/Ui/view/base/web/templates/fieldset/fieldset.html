@@ -5,6 +5,8 @@
         </strong>
     </div>
     <div class="fieldset-wrapper-content" data-bind="visible: opened">
-        THIS IS MY DATA
+        <!-- ko foreach: { data: elems, as: 'element' } -->
+            <!-- ko template: element.getTemplate() --><!-- /ko -->
+        <!-- /ko -->
     </div>
 </div>
