@@ -50,6 +50,11 @@
         margin-bottom: @indent-m-base;
         &:extend(.abstract-add-clearfix all);
     }
+    .product-options-bottom {
+        .field.qty {
+            display: none!important;
+        }
+    }
 }
 
 //
@@ -67,6 +72,11 @@
         .product-options-bottom {
             float: right;
             width: 40%;
+            .field.qty {
+                & + .actions {
+                    padding-top: 0;
+                }
+            }
         }
     }
 }
