@@ -8,25 +8,27 @@
 ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="review-order-form" data-mage-init='{"orderOverview": {}}' class="form multicheckout overview">
     <?php echo $this->getBlockHtml('formkey'); ?>
-    <div class="block billing">
-        <div class="title"><strong><?php echo __('Billing Information') ?></strong></div>
-        <div class="content">
-            <div class="box address">
+    <div class="block block-billing">
+        <div class="block-title"><strong><?php echo __('Billing Information') ?></strong></div>
+        <div class="block-content">
+            <div class="box box-address-billing">
                 <?php $_address=$this->getBillingAddress() ?>
-                <strong class="subtitle">
+                <strong class="box-title">
                     <span><?php echo __('Billing Address') ?></span>
                     <a href="<?php echo $this->getEditBillingAddressUrl($_address) ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
                 </strong>
-                <address>
-                    <?php echo $_address->format('html') ?>
-                </address>
+                <div class="box-content">
+                    <address>
+                        <?php echo $_address->format('html') ?>
+                    </address>
+                </div>
             </div>
-            <div class="box method">
-                <strong class="subtitle">
+            <div class="box box-method-billing">
+                <strong class="block-title">
                     <span><?php echo __('Payment Method') ?></span>
                     <a href="<?php echo $this->getEditBillingUrl() ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
                 </strong>
-                <div class="content">
+                <div class="box-content">
                     <input type="hidden" name="payment[cc_number]" value="<?php echo $this->escapeHtml($this->getPayment()->getCcNumber())?>" />
                     <input type="hidden" name="payment[cc_cid]" value="<?php echo $this->escapeHtml($this->getPayment()->getCcCid())?>" />
                     <?php echo $this->getPaymentHtml() ?>
@@ -34,15 +36,15 @@
             </div>
         </div>
     </div>
-    <div class="block shipping">
-        <div class="title"><strong><?php echo __('Shipping Information') ?></strong></div>
+    <div class="block block-shipping">
+        <div class="block-title"><strong><?php echo __('Shipping Information') ?></strong></div>
         <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
         <?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
-            <div class="content">
+            <div class="block-content">
             <div class="title">
                 <strong><?php echo __('Address %1 of %2', ($_index+1), $this->getShippingAddressCount()) ?></strong>
             </div>
-            <div class="box address">
+            <div class="box box-address">
                 <strong class="subtitle">
                     <span><?php echo __('Shipping To') ?></span>
                     <a href="<?php echo $this->getEditShippingAddressUrl($_address) ?>" class="action edit"><span><?php echo __('Change') ?></span></a>

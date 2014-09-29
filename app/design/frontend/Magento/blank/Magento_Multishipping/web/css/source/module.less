@@ -44,6 +44,32 @@
         &:extend(.abstract-product-options-list all);
         &:extend(.abstract-add-clearfix all);
     }
+    
+    &:extend(.abstract-account-blocks all);
+    .block {
+        &:extend(.abstract-add-clearfix all);
+    }
+    .block-title {
+        border-bottom: @border-width-base solid @border-color-base;
+        strong {
+            font-weight: @font-weight-base;
+            span {
+                color: @color-primary-lighter;
+            }
+        }
+    }
+    .block-shipping {
+        .box {
+            &:extend(.abstract-add-box-sizing all);
+            float: left;
+            width: 30%;
+        }
+        .box-order-shipping-method {
+            padding-right: @indent-m-base;
+            padding-left: @indent-m-base;
+            width: 40%;
+        }
+    }
 }
 
 .responsive-smaller(@break) when (@break = @screen-m) {
