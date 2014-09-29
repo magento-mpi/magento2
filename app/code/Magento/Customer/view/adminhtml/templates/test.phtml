@@ -1,8 +1,8 @@
-<script data-mage-init='{ "Magento_Ui/js/initializer": "" }' type="application/json">
+<script data-mage-init='{ "Magento_Ui/js/initializer/main": "" }' type="application/json">
     {
         "providers": {
             "customer_form_data": {
-                "path": "Magento_Ui/js/form/provider",
+                "path": "Magento_Ui/js/form/provider/provider",
                 "meta": {
                     "customer": {
                         "website": {
@@ -68,93 +68,108 @@
                     "some_form_config": "blabla"
                 }
             },
-
-            "customer_form_areas_instance": {
-                "name": "customer_form_areas_instance",
-                "path": "Magento_Ui/js/area/group",
-                "source": "customer_form_data",
-            },
-
-            "customer_form_fieldsets": {
-                "name": "customer_form_fieldsets",
-                "path": "Magento_Ui/js/fieldset/group",
-                "source": "customer_form_data",
-            },
-
-            "customer_addresses_form_collection": {
-                "name": "customer_addresses_form_collection",
-                "path": "Magento_Ui/js/form/group",
-                "source": "customer_form_data"
-            },
-
-            "customer_orders_listing_instance": {
-                "name": "customer_orders_listing_instance",
-                "path": "Magento_Ui/js/listing",
+            "customer_form_areas": {
+                "name": "customer_form_areas",
+                "path": "Magento_Ui/js/area/area",
                 "source": "customer_form_data",
                 "config": {
-                    //some listing config
+                    "some_form_config": "blabla"
+                }
+            },
+            "customer_form_fieldsets": {
+                "name": "customer_form_fieldsets",
+                "path": "Magento_Ui/js/fieldset/fieldset",
+                "source": "customer_form_data",
+                "config": {
+                    "some_form_config": "blabla"
                 }
             }
         },
 
-        "layout": {
-            {   
-                "customer_form_tabs": {
-                    "items": { // tab groups
-                        'cusomer_info': { // tab group
-                            "label": 'Customer Information',
-                            "items": [ // tabs
-                                {
-                                    "name": 'account', // tab
-                                    "label": 'Account Information'
-                                },
-                                {
-                                    "name": 'addresses', // tab
-                                    "label": 'Addresses Information'
-                                }
-                            ]
-                        }
+        "layout": { 
+            "customer_form_tabs": {
+                "items": {
+                    "cusomer_info": {
+                        "label": "Customer Information",
+                        "items": [
+                            {
+                                "name": "account_info",
+                                "active": true,
+                                "label": "Account Information"
+                            },
+                            {
+                                "name": "customer_addresses",
+                                "label": "Addresses"
+                            }
+                        ]
+                    },
+                    "col_group": {
+                        "label": "Collapsible group",
+                        "collapsible": true,
+                        "items": [
+                            {
+                                "name": "prod_details",
+                                "label": "Advanced Pricing"
+                            },
+                            {
+                                "name": "col_options",
+                                "label": "Custom Options"
+                            },
+                            {
+                                "name": "auto_settings",
+                                "label": "Autosettings"
+                            }
+                        ]
                     }
-                },
-                "customer_form_areas_instance": {
-                    "items": {
-                        'account': {
-                            "visible": true
-                            "injections": [
-                                'account_info'
-                            ]
-                        },
-                        'addresses': {
-                            "visible": false,
-                            "injections": [
-                                'account_info',
-                                'product_prices'
-                            ]
-                        }
+                }
+            },
+            "customer_form_areas": {
+                "items": {
+                    "account_info": {
+                        "injections": [
+                            "customer_form_fieldsets.account_info"
+                        ]
+                    },
+                    "customer_addresses": {
+                        "injections": [
+                            "customer_form_fieldsets.customer_addresses"
+                        ]
                     }
-                },
-                "customer_form_fieldsets": {
-                    "items": {
-                        'account_info': {
-                            "label": 'Account Information',
-                            "collapsible": true,
-                            "injections": [
-                                'customer.website',
-                                'customer.firstname',
-                                'customer.lastname',
-                                'customer_orders_listing_instance'
-                            ]
-                        },
-                        'addresses': {
-                            "label": 'Customer address',
-                            "collapsible": true,
-                            "injections": [
-                                'customer_addresses_form_collection'
-                            ]
-                        }
+                }
+            },
+            "customer_form_fieldsets": {
+                "items": {
+                    "account_info": {
+                        "label": "Account Information",
+                        "collapsible": false,
+                        "opened": false
+                    },
+                    "customer_addresses": {
+                        "label": "Customer Addresses",
+                        "collapsible": true,
+                        "opened": false
                     }
                 }
             }
         }
     }
 </script>
+<script>
+    var allowLocalCache = true;
+</script>
+
+<div data-bind="scope: 'customer_form_areas' " class="entry-edit form-inline">
+    <form action="" method="post">
+        
+        <!-- ko foreach: elems -->
+        <div data-bind="visible: visible">
+            
+            <!-- ko foreach: elems -->
+                <!-- ko template: template --><!-- /ko -->
+            <!-- /ko -->
+
+        </div>
+        <!-- /ko -->
+
+    </form>
+</div>

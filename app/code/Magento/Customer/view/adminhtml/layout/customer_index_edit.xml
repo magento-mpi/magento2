@@ -13,6 +13,8 @@
         <block class="Magento\Customer\Block\Adminhtml\Edit" name="customer_edit"/>
     </referenceContainer>
     <referenceContainer name="left">
+        <block class="Magento\Backend\Block\Template" template="Magento_Customer::tabs.phtml" name="customer.tabs" as="customer_tabs"/>
+        <!--
         <block class="Magento\Customer\Block\Adminhtml\Edit\Tabs" name="customer_edit_tabs">
             <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View" name="customer_edit_tab_view" template="tab/view.phtml">
                 <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View\PersonalInfo" name="personal_info" template="tab/view/personal_info.phtml"/>
@@ -23,9 +25,11 @@
                 <argument name="name" xsi:type="string">customer_edit_tab_view</argument>
                 <argument name="block" xsi:type="string">customer_edit_tab_view</argument>
             </action>
-        </block>
+        </block> -->
     </referenceContainer>
+    <!--
     <referenceContainer name="js">
         <block class="Magento\Backend\Block\Template" template="Magento_Customer::edit/js.phtml" name="customer.edit.js" as="customer_edit_js"/>
     </referenceContainer>
+    -->
 </page>

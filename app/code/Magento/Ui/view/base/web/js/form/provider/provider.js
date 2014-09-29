@@ -7,10 +7,10 @@
 define([
     'underscore',
     '../storage/index',
-    './component'
+    './component',
     'Magento_Ui/js/lib/class',
-    'Magento_Ui/js/lib/events',
-], function(_, Component, storages, Class, EventsBus)[
+    'Magento_Ui/js/lib/events'
+], function(_, storages, Component, Class, EventsBus){
     'use strict';
     
     var defaults = {
@@ -45,9 +45,9 @@ define([
 
             return this;
         }
-    });
+    }, EventsBus);
 
     return Component({
         constr: Provider
     });
-]);
+});

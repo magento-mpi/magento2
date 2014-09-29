@@ -26,11 +26,13 @@ define([
         },
 
         get: function(name){
-            return name ? this.data[name] || this.data;
+            return name ? this.data[name] : this.data;
         },
 
         set: function(data){
             this.data = data;
+
+            return this;
         },
 
         register: function () {
@@ -43,7 +45,9 @@ define([
             var data = this.data;
 
             _.each(data.providers,   load);
-            _.each(data.components,  load);   
+            _.each(data.components,  load);
+
+            return this; 
         }
     };
 
