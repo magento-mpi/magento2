@@ -192,7 +192,12 @@
             margin: @indent-s-base 0;
         }
     }
-
+    .product-reviews-summary .reviews-actions {
+        .font-size(@font-size-base);
+    }
+}
+.product-info-main,
+.product-options-bottom {
     .price-box {
         .price-including-tax + .price-excluding-tax,
         .weee + .price-excluding-tax,
@@ -210,7 +215,6 @@
             font-weight: @font-weight-bold;
         }
     }
-
     .special-price {
         display: block;
         margin: @indent-s-base 0;
@@ -221,7 +225,6 @@
             display: inline-block;
         }
     }
-
     .old-price,
     .special-price {
         .price-label {
@@ -230,12 +233,6 @@
             }
         }
     }
-    .product-reviews-summary .reviews-actions {
-        .font-size(@font-size-base);
-    }
-}
-.product-info-main,
-.product-options-bottom {
     .box-tocart {
         margin: @indent-base 0;
         .field.qty {

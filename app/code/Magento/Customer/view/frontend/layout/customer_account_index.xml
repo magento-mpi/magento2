@@ -13,7 +13,6 @@
         <action method="setPageTitle">
             <argument translate="true" name="title" xsi:type="string">My Dashboard</argument>
         </action>
-        <block class="Magento\Customer\Block\Account\Dashboard\Hello" name="customer_account_dashboard_toggle_hello" as="toggle_hello" template="account/dashboard/toggle_hello.phtml" before="-"/>
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Customer\Block\Account\Dashboard\Hello" name="customer_account_dashboard_hello" as="hello" template="account/dashboard/hello.phtml"/>

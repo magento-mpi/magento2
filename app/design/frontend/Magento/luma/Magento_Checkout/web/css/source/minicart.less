@@ -125,13 +125,6 @@
             white-space: normal;
         }
     }
-    .ui-dialog {
-        .action.close {
-            right: 11px;
-            top: 53px;
-            z-index: 100;
-        }
-    }
 }
 
 .minilist {
@@ -227,16 +220,9 @@
 .responsive(@break) when (@break = @screen-m) {
     .minicart-wrapper {
         margin-left: 13px;
-        .block.minicart {
+        .block-minicart {
             right: -15px;
             width: 390px;
-        }
-        .ui-dialog {
-            position: relative;
-            .action.close {
-                right: 0;
-                top: 18px;
-            }
         }
     }
     .minilist .action.delete,

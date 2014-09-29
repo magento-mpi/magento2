@@ -29,7 +29,10 @@
         .form.cart {
             margin-bottom: 20px;
             .actions.main {
-                text-align: center;
+                .continue,
+                .clear {
+                    display: none;
+                }
             }
         }
     }
@@ -395,6 +398,15 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .cart {
+        // Cart container
+        &-container {
+            .form.cart {
+                .actions.main {
+                    text-align: center;
+                }
+            }
+        }
+
         &-discount {
             border-bottom: @border-width-base solid @border-color-base;
         }
