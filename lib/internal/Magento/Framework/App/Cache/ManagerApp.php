@@ -90,6 +90,7 @@ class ManagerApp implements AppInterface
      */
     public function launch()
     {
+        $this->response->terminateOnSend(false);
         $types = $this->getRequestedTypes();
         $queue = $this->updateStatus($types);
         $this->clean($queue, $types);
