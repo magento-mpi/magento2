@@ -8,11 +8,11 @@ define([
     './abstract',
     'Magento_Ui/js/lib/component',
     'underscore',
-    'i18n'
+    'Magento_Ui/js/lib/i18n'
 ], function (AbstractElement, Component, _, t) {
     'use strict';
 
-    var SelectElement = AbstractElement.extend({
+    return AbstractElement.extend({
 
         /**
          * Invokes initialize method of parent class and initializes properties of instance.
@@ -44,10 +44,6 @@ define([
          */
         store: function (path, selected) {
             registry.set(selected.value, path);
-        },
-    });
-
-    return Component({
-        constr: SelectElement
+        }
     });
 });
