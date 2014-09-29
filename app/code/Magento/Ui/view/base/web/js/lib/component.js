@@ -32,7 +32,7 @@ define([
      * @param {Object} base -
             Basic configuration.
      */
-    function init(data, base ) {
+    function init(data, base) {
         var providerName    = base.parent_name,
             component       = providerName + ':' + base.name;
 

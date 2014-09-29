@@ -6,14 +6,12 @@
  */
 define([
     './element/input',
-    './element/select',
-    './element/fieldset'
-], function (Input, Select, Fieldset) {
+    './element/select'
+], function (Input, Select) {
     'use strict';
 
     return {
         input: Input,
-        select: Select,
-        fieldset: Fieldset
+        select: Select
     }
 });

@@ -6,11 +6,19 @@
  */
 define([
     'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/registry/registry',
     'underscore',
     'mage/utils'
-], function (Scope, registry, _, utils) {
+], function (Scope, _, utils) {
     'use strict';
+
+    var defaults = {
+        module: 'ui',
+        tooltip: null,
+        label: '',
+        type: 'input',
+        required: false,
+        value: ''
+    };
 
     return Scope.extend({
 
@@ -18,18 +26,14 @@ define([
          * Invokes initialize method of parent class and initializes properties of instance.
          * @param {Object} config - form element configuration
          * @param {Number|String} value - initial value of form element
-         * @param {String} path - element instance's path to store value to
+         * @param {Object} refs - references to provider and globalStorage
          */
-        initialize: function (config, value, path) {
-            _.extend(this, config);
+        initialize: function (config, value, refs) {
+            _.extend(this, defaults, config, refs);
 
-            this.uid     = utils.uniqueid();
-            this.module  = this.module   || 'ui';
-            this.tooltip = this.tooltip  || null;
-            this.label   = this.label    || '';
-
-            this.observe('value', this.value || '');
-            this.value.subscribe(this.store.bind(this, path));
+            this.uid = utils.uniqueid();
+            this.observe('value', value);
+            this.value.subscribe(this.store, this);
         },
 
         /**
@@ -37,8 +41,8 @@ define([
          * @param  {String} path
          * @param  {*} value - current value of form element
          */
-        store: function (path, value) {
-            registry.set(value, this.path);
+        store: function (value) {
+            this.provider.data.set(this.name, value);
         },
 
         /**

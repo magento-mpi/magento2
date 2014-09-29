@@ -28,13 +28,10 @@
                             "label": "Last Name"
                         },
                         "addresses": {
-                            "meta_ref": "address",
                             "data_type": "collection",
-                            "input_type": "",
+                            "input_type": "fieldset",
                             "label": "Addresses",
-                            "meta": {
-                                "ref": "address"
-                            }
+                            "meta_ref": "address"
                         }
                     },
                     "address": {
@@ -43,6 +40,18 @@
                             "data_type": "text",
                             "input_type": "input",
                             "label": "Prefix"
+                        },
+                        "suffix": {
+                            "index": "suffix",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Suffix"
+                        },
+                        "firstname": {
+                            "index": "firstname",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "First name"
                         }
                     }
                 },
@@ -83,6 +92,11 @@
                 "config": {
                     "some_form_config": "blabla"
                 }
+            },
+            "customer_form_form": {
+                "name": "customer_form_form",
+                "path": "Magento_Ui/js/form",
+                "source": "customer_form_data"
             }
         },
 
@@ -141,7 +155,9 @@
                 "items": {
                     "account_info": {
                         "label": "Account Information",
-                        "collapsible": false
+                        "injections": [
+                            "customer.website"
+                        ]
                     },
                     "customer_addresses": {
                         "label": "Customer Addresses",

@@ -12,10 +12,11 @@ define(function (require) {
         registry    = require('Magento_Ui/js/lib/registry/registry'),
         elements    = require('Magento_Ui/js/form/elements'),
         utils       = require('mage/utils'),
-        _           = require('underscore');
+        _           = require('underscore'),
+        Fieldset    = require('Magento_Ui/js/form/fieldset');
 
     function getConstructorFor(type) {
-        return elements[type];
+        return type === 'fieldset' ? Fieldset : elements[type];
     }
 
     function incrementPath(path, subpath) {
@@ -28,36 +29,31 @@ define(function (require) {
          * Extends instance with defaults and config, initializes observable properties.
          * @param  {Object} config
          */
-        initialize: function (config, provider) {
+        initialize: function (config, refs) {
             _.extend(this, config);
 
-            this.provider = provider;
+            this.refs = refs;
 
-            this.initElements();
+            this.initElements(
+                refs.provider.meta.get(),
+                refs.provider.data.get()
+            );
         },
 
-        initElements: function () {
-            var meta = this.provider.meta.get(),
-                data = this.provider.data.get();
-
-            this._initElements(meta, data);
-
-            return this;
-        },
-
-        _initElements: function (meta, data, initial, path) {
+        initElements: function (meta, data, initial, basePath) {
             var target,
                 reference,
                 config,
                 value,
-                constr;
+                constr,
+                path;
 
             initial = initial || meta;
-            path    = path    || '';
+            path    = basePath;
 
             for (var name in initial) {
                 target = initial[name];
-                path   = path + '.' + name;
+                path   = path ? basePath + '.' + name : name;
 
                 if (this.isMetaDescriptor(target)) {
 
@@ -68,11 +64,13 @@ define(function (require) {
 
                     constr   = getConstructorFor(target['input_type']);    
                     config   = target;
-                    value    = utils.byPath(data, path);
+                    value    = utils.nested(data, path);
 
-                    registry.set(path, new constr(config, value));
+                    config.name = path;
+
+                    registry.set(path, new constr(config, value, this.refs));
                 } else {
-                    this._initElements(meta, data, target, path);            
+                    this.initElements(meta, data, target, path);            
                 }
             }
         },
@@ -82,7 +80,13 @@ define(function (require) {
         }
     });
 
-    return Component({
-        constr: Form
-    });
+    return function (config) {
+        registry.get([config.source, 'globalStorage'], function (provider, globalStorage) {
+
+            registry.set(config.name, new Form(config, {
+                provider: provider,
+                globalStorage: globalStorage
+            }));
+        });
+    };
 });

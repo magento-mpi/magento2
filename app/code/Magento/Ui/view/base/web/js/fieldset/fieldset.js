@@ -35,9 +35,11 @@ define([
             return this;
         },
 
-        initElements: function(elems){
-            this.elems.push(elems);
-            
+        initElements: function(){
+            var elems = this.elems;
+
+            elems.push.apply(elems, arguments);
+
             return this;
         },
 
@@ -54,6 +56,8 @@ define([
                 this.injections,
                 this.initElements.bind(this)
             );
+            
+            return this;
         }
     });
 

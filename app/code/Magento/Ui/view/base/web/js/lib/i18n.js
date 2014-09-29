@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 define([
-    'jquery'
+    'jquery',
     'mage/translate'
 ], function ($) {
     'use strict';

@@ -16,7 +16,7 @@ define([
         initialize: function (config) {
             _.extend(this, config);
 
-            this.initObservable()
+            this.initObservable();
             
             _.each(this.layout.items, this.initItem.bind(this));
         },

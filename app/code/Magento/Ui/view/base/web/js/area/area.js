@@ -35,14 +35,18 @@ define([
             return this;
         },
 
-        initElements: function(elems){
-            this.elems.push(elems);
-        },
-
         initProvider: function() {
             var params = this.provider.params;
 
             params.on('update:activeTab', this.pullParams.bind(this));
+
+            return this;
+        },
+
+        initElements: function(){
+            var elems = this.elems;
+
+            elems.push.apply(elems, arguments);
 
             return this;
         },
