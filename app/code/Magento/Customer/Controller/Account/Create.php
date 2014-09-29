@@ -8,20 +8,24 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
+use Magento\Customer\Helper\Data as CustomerHelper;
+
 class Create extends \Magento\Customer\Controller\Account
 {
-    /** @var \Magento\Customer\Helper\Data */
+    /** @var CustomerHelper */
     protected $customerHelper;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param Context $context
+     * @param Session $customerSession
+     * @param CustomerHelper $customerHelper
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Data $customerHelper
+        Context $context,
+        Session $customerSession,
+        CustomerHelper $customerHelper
     ) {
         $this->customerHelper = $customerHelper;
         parent::__construct($context, $customerSession);

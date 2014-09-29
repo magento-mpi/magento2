@@ -8,6 +8,8 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 class CreatePassword extends \Magento\Customer\Controller\Account
@@ -16,13 +18,13 @@ class CreatePassword extends \Magento\Customer\Controller\Account
     protected $customerAccountService;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param Context $context
+     * @param Session $customerSession
      * @param CustomerAccountServiceInterface $customerAccountService
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        Context $context,
+        Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->customerAccountService = $customerAccountService;

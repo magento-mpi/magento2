@@ -11,29 +11,30 @@ namespace Magento\Customer\Controller\Account;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 class Edit extends \Magento\Customer\Controller\Account
 {
     /** @var CustomerAccountServiceInterface  */
     protected $customerAccountService;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
-    protected $_customerBuilder;
+    /** @var CustomerBuilder */
+    protected $customerBuilder;
 
     /**
      * @param Context $context
      * @param Session $customerSession
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param CustomerBuilder $customerBuilder
      */
     public function __construct(
         Context $context,
         Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+        CustomerBuilder $customerBuilder
     ) {
         $this->customerAccountService = $customerAccountService;
-        $this->_customerBuilder = $customerBuilder;
+        $this->customerBuilder = $customerBuilder;
         parent::__construct($context, $customerSession);
     }
 
@@ -56,7 +57,7 @@ class Edit extends \Magento\Customer\Controller\Account
         $customerId = $this->_getSession()->getCustomerId();
         $customerDataObject = $this->customerAccountService->getCustomer($customerId);
         if (!empty($data)) {
-            $customerDataObject = $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data);
+            $customerDataObject = $this->customerBuilder->mergeDataObjectWithArray($customerDataObject, $data);
         }
         $this->_getSession()->setCustomerData($customerDataObject);
         $this->_getSession()->setChangePassword($this->getRequest()->getParam('changepass') == 1);

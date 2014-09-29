@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Controller;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
 
 /**
@@ -22,7 +24,7 @@ class Account extends \Magento\Framework\App\Action\Action
      *
      * @var string[]
      */
-    protected $_openActions = array(
+    protected $openActions = array(
         'create',
         'login',
         'logoutsuccess',
@@ -37,29 +39,29 @@ class Account extends \Magento\Framework\App\Action\Action
         'loginpost'
     );
 
-    /** @var \Magento\Customer\Model\Session */
-    protected $_session;
+    /** @var Session */
+    protected $session;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param Context $context
+     * @param Session $customerSession
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession
+        Context $context,
+        Session $customerSession
     ) {
-        $this->_session = $customerSession;
+        $this->session = $customerSession;
         parent::__construct($context);
     }
 
     /**
      * Retrieve customer session model object
      *
-     * @return \Magento\Customer\Model\Session
+     * @return Session
      */
     protected function _getSession()
     {
-        return $this->_session;
+        return $this->session;
     }
 
     /**
@@ -67,9 +69,9 @@ class Account extends \Magento\Framework\App\Action\Action
      *
      * @return string[]
      */
-    protected function _getAllowedActions()
+    protected function getAllowedActions()
     {
-        return $this->_openActions;
+        return $this->openActions;
     }
 
     /**
@@ -85,7 +87,7 @@ class Account extends \Magento\Framework\App\Action\Action
         }
 
         $action = strtolower($this->getRequest()->getActionName());
-        $pattern = '/^(' . implode('|', $this->_getAllowedActions()) . ')$/i';
+        $pattern = '/^(' . implode('|', $this->getAllowedActions()) . ')$/i';
 
         if (!preg_match($pattern, $action)) {
             if (!$this->_getSession()->authenticate($this)) {

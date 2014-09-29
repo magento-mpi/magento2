@@ -11,6 +11,7 @@ namespace Magento\Customer\Controller\Account;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Framework\Escaper;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class ForgotPasswordPost extends \Magento\Customer\Controller\Account
@@ -18,20 +19,20 @@ class ForgotPasswordPost extends \Magento\Customer\Controller\Account
     /** @var CustomerAccountServiceInterface  */
     protected $customerAccountService;
 
-    /** @var \Magento\Framework\Escaper */
+    /** @var Escaper */
     protected $escaper;
 
     /**
      * @param Context $context
      * @param Session $customerSession
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Framework\Escaper $escaper
+     * @param Escaper $escaper
      */
     public function __construct(
         Context $context,
         Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Framework\Escaper $escaper
+        Escaper $escaper
     ) {
         $this->customerAccountService = $customerAccountService;
         $this->escaper = $escaper;

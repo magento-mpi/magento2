@@ -8,7 +8,13 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Core\App\Action\FormKeyValidator;
+use Magento\Customer\Model\CustomerExtractor;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\AuthenticationException;
 
@@ -20,42 +26,42 @@ class EditPost extends \Magento\Customer\Controller\Account
     /** @var CustomerAccountServiceInterface  */
     protected $customerAccountService;
 
-    /** @var \Magento\Customer\Model\CustomerExtractor */
+    /** @var CustomerBuilder */
+    protected $customerBuilder;
+
+    /** @var CustomerDetailsBuilder */
+    protected $customerDetailsBuilder;
+
+    /** @var FormKeyValidator */
+    protected $formKeyValidator;
+
+    /** @var CustomerExtractor */
     protected $customerExtractor;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder */
-    protected $_customerDetailsBuilder;
-
-    /** @var \Magento\Core\App\Action\FormKeyValidator */
-    protected $_formKeyValidator;
-
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
-    protected $_customerBuilder;
-
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param Context $context
+     * @param Session $customerSession
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
-     * @param \Magento\Customer\Model\CustomerExtractor $customerExtractor
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
+     * @param FormKeyValidator $formKeyValidator
+     * @param CustomerBuilder $customerBuilder
+     * @param CustomerExtractor $customerExtractor
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        Context $context,
+        Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
-        \Magento\Customer\Model\CustomerExtractor $customerExtractor
+        CustomerBuilder $customerBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder,
+        FormKeyValidator $formKeyValidator,
+        CustomerExtractor $customerExtractor
     ) {
         $this->customerAccountService = $customerAccountService;
-        $this->_customerDetailsBuilder = $customerDetailsBuilder;
-        $this->_formKeyValidator = $formKeyValidator;
-        $this->_customerBuilder = $customerBuilder;
+        $this->customerBuilder = $customerBuilder;
+        $this->customerDetailsBuilder = $customerDetailsBuilder;
+        $this->formKeyValidator = $formKeyValidator;
         $this->customerExtractor = $customerExtractor;
         parent::__construct($context, $customerSession);
     }
@@ -68,7 +74,7 @@ class EditPost extends \Magento\Customer\Controller\Account
      */
     public function execute()
     {
-        if (!$this->_formKeyValidator->validate($this->getRequest())) {
+        if (!$this->formKeyValidator->validate($this->getRequest())) {
             $this->_redirect('*/*/edit');
             return;
         }
@@ -76,9 +82,9 @@ class EditPost extends \Magento\Customer\Controller\Account
         if ($this->getRequest()->isPost()) {
             $customerId = $this->_getSession()->getCustomerId();
             $customer = $this->customerExtractor->extract('customer_account_edit', $this->_request);
-            $this->_customerBuilder->populate($customer);
-            $this->_customerBuilder->setId($customerId);
-            $customer = $this->_customerBuilder->create();
+            $this->customerBuilder->populate($customer);
+            $this->customerBuilder->setId($customerId);
+            $customer = $this->customerBuilder->create();
 
             if ($this->getRequest()->getParam('change_password')) {
                 $currPass = $this->getRequest()->getPost('current_password');
@@ -106,8 +112,8 @@ class EditPost extends \Magento\Customer\Controller\Account
             }
 
             try {
-                $this->_customerDetailsBuilder->setCustomer($customer);
-                $this->customerAccountService->updateCustomer($customerId, $this->_customerDetailsBuilder->create());
+                $this->customerDetailsBuilder->setCustomer($customer);
+                $this->customerAccountService->updateCustomer($customerId, $this->customerDetailsBuilder->create());
             } catch (AuthenticationException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (InputException $e) {

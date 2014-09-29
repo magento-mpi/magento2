@@ -8,11 +8,16 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Core\Helper\Data as CoreHelper;
+use Magento\Customer\Helper\Data as CustomerHelper;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\AuthenticationException;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Core\App\Action\FormKeyValidator;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -28,43 +33,43 @@ class LoginPost extends \Magento\Customer\Controller\Account
     /** @var CustomerAccountServiceInterface  */
     protected $customerAccountService;
 
-    /** @var \Magento\Core\Helper\Data */
+    /** @var CoreHelper */
     protected $coreHelperData;
 
-    /** @var \Magento\Customer\Helper\Data */
-    protected $_customerHelperData;
+    /** @var CustomerHelper */
+    protected $customerHelperData;
 
-    /** @var \Magento\Core\App\Action\FormKeyValidator */
-    protected $_formKeyValidator;
+    /** @var FormKeyValidator */
+    protected $formKeyValidator;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param Context $context
+     * @param Session $customerSession
      * @param ScopeConfigInterface $scopeConfig
      * @param StoreManagerInterface $storeManager
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Core\Helper\Data $coreHelperData
-     * @param \Magento\Customer\Helper\Data $customerHelperData
-     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param CoreHelper $coreHelperData
+     * @param CustomerHelper $customerHelperData
+     * @param FormKeyValidator $formKeyValidator
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        Context $context,
+        Session $customerSession,
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Core\Helper\Data $coreHelperData,
-        \Magento\Customer\Helper\Data $customerHelperData,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+        CoreHelper $coreHelperData,
+        CustomerHelper $customerHelperData,
+        FormKeyValidator $formKeyValidator
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
         $this->customerAccountService = $customerAccountService;
         $this->coreHelperData = $coreHelperData;
-        $this->_customerHelperData = $customerHelperData;
-        $this->_formKeyValidator = $formKeyValidator;
+        $this->customerHelperData = $customerHelperData;
+        $this->formKeyValidator = $formKeyValidator;
         parent::__construct($context, $customerSession);
     }
 
@@ -74,7 +79,7 @@ class LoginPost extends \Magento\Customer\Controller\Account
      * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _loginPostRedirect()
+    protected function loginPostRedirect()
     {
         $lastCustomerId = $this->_getSession()->getLastCustomerId();
         if (isset(
@@ -87,15 +92,15 @@ class LoginPost extends \Magento\Customer\Controller\Account
             $this->_getSession()->getBeforeAuthUrl() == $this->storeManager->getStore()->getBaseUrl()
         ) {
             // Set default URL to redirect customer to
-            $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getAccountUrl());
+            $this->_getSession()->setBeforeAuthUrl($this->customerHelperData->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($this->_getSession()->isLoggedIn()) {
                 if (!$this->scopeConfig->isSetFlag(
-                    \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                    CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
                 ) {
-                    $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
+                    $referer = $this->getRequest()->getParam(CustomerHelper::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
                         $referer = $this->coreHelperData->urlDecode($referer);
                         if ($this->_url->isOwnOriginUrl()) {
@@ -106,10 +111,10 @@ class LoginPost extends \Magento\Customer\Controller\Account
                     $this->_getSession()->setBeforeAuthUrl($this->_getSession()->getAfterAuthUrl(true));
                 }
             } else {
-                $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getLoginUrl());
+                $this->_getSession()->setBeforeAuthUrl($this->customerHelperData->getLoginUrl());
             }
-        } elseif ($this->_getSession()->getBeforeAuthUrl() == $this->_customerHelperData->getLogoutUrl()) {
-            $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getDashboardUrl());
+        } elseif ($this->_getSession()->getBeforeAuthUrl() == $this->customerHelperData->getLogoutUrl()) {
+            $this->_getSession()->setBeforeAuthUrl($this->customerHelperData->getDashboardUrl());
         } else {
             if (!$this->_getSession()->getAfterAuthUrl()) {
                 $this->_getSession()->setAfterAuthUrl($this->_getSession()->getBeforeAuthUrl());
@@ -129,7 +134,7 @@ class LoginPost extends \Magento\Customer\Controller\Account
      */
     public function execute()
     {
-        if ($this->_getSession()->isLoggedIn() || !$this->_formKeyValidator->validate($this->getRequest())) {
+        if ($this->_getSession()->isLoggedIn() || !$this->formKeyValidator->validate($this->getRequest())) {
             $this->_redirect('*/*/');
             return;
         }
@@ -142,7 +147,7 @@ class LoginPost extends \Magento\Customer\Controller\Account
                     $this->_getSession()->setCustomerDataAsLoggedIn($customer);
                     $this->_getSession()->regenerateId();
                 } catch (EmailNotConfirmedException $e) {
-                    $value = $this->_customerHelperData->getEmailConfirmationUrl($login['username']);
+                    $value = $this->customerHelperData->getEmailConfirmationUrl($login['username']);
                     $message = __(
                         'This account is not confirmed.' .
                         ' <a href="%1">Click here</a> to resend confirmation email.',
@@ -165,6 +170,6 @@ class LoginPost extends \Magento\Customer\Controller\Account
             }
         }
 
-        $this->_loginPostRedirect();
+        $this->loginPostRedirect();
     }
 }

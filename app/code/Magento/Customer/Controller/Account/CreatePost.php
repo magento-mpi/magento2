@@ -16,8 +16,16 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Helper\Address;
 use Magento\Framework\UrlFactory;
 use Magento\Customer\Model\Metadata\FormFactory;
+use Magento\Newsletter\Model\SubscriberFactory;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Helper\Data as CustomerHelper;
+use Magento\Framework\Escaper;
+use Magento\Customer\Model\CustomerExtractor;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\InputException;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -36,29 +44,29 @@ class CreatePost extends \Magento\Customer\Controller\Account
     /** @var Address */
     protected $addressHelper;
 
-    /** @var \Magento\Customer\Model\CustomerExtractor */
-    protected $customerExtractor;
-
     /** @var FormFactory */
-    protected $_formFactory;
+    protected $formFactory;
 
-    /** @var \Magento\Newsletter\Model\SubscriberFactory */
-    protected $_subscriberFactory;
+    /** @var SubscriberFactory */
+    protected $subscriberFactory;
 
-    /** @var \Magento\Customer\Service\V1\Data\RegionBuilder */
-    protected $_regionBuilder;
+    /** @var RegionBuilder */
+    protected $regionBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
-    protected $_addressBuilder;
+    /** @var AddressBuilder */
+    protected $addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder */
-    protected $_customerDetailsBuilder;
+    /** @var CustomerDetailsBuilder */
+    protected $customerDetailsBuilder;
 
-    /** @var \Magento\Customer\Helper\Data */
-    protected $_customerHelperData;
+    /** @var CustomerHelper */
+    protected $customerHelperData;
 
-    /** @var \Magento\Framework\Escaper */
+    /** @var Escaper */
     protected $escaper;
+
+    /** @var CustomerExtractor */
+    protected $customerExtractor;
 
     /** @var \Magento\Framework\UrlInterface */
     protected $urlModel;
@@ -72,13 +80,13 @@ class CreatePost extends \Magento\Customer\Controller\Account
      * @param Address $addressHelper
      * @param UrlFactory $urlFactory
      * @param FormFactory $formFactory
-     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param \Magento\Customer\Helper\Data $customerHelperData
-     * @param \Magento\Framework\Escaper $escaper
-     * @param \Magento\Customer\Model\CustomerExtractor $customerExtractor
+     * @param SubscriberFactory $subscriberFactory
+     * @param RegionBuilder $regionBuilder
+     * @param AddressBuilder $addressBuilder
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
+     * @param CustomerHelper $customerHelperData
+     * @param Escaper $escaper
+     * @param CustomerExtractor $customerExtractor
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -91,24 +99,24 @@ class CreatePost extends \Magento\Customer\Controller\Account
         Address $addressHelper,
         UrlFactory $urlFactory,
         FormFactory $formFactory,
-        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
-        \Magento\Customer\Helper\Data $customerHelperData,
-        \Magento\Framework\Escaper $escaper,
-        \Magento\Customer\Model\CustomerExtractor $customerExtractor
+        SubscriberFactory $subscriberFactory,
+        RegionBuilder $regionBuilder,
+        AddressBuilder $addressBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder,
+        CustomerHelper $customerHelperData,
+        Escaper $escaper,
+        CustomerExtractor $customerExtractor
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
         $this->customerAccountService = $customerAccountService;
         $this->addressHelper = $addressHelper;
-        $this->_formFactory = $formFactory;
-        $this->_subscriberFactory = $subscriberFactory;
-        $this->_regionBuilder = $regionBuilder;
-        $this->_addressBuilder = $addressBuilder;
-        $this->_customerDetailsBuilder = $customerDetailsBuilder;
-        $this->_customerHelperData = $customerHelperData;
+        $this->formFactory = $formFactory;
+        $this->subscriberFactory = $subscriberFactory;
+        $this->regionBuilder = $regionBuilder;
+        $this->addressBuilder = $addressBuilder;
+        $this->customerDetailsBuilder = $customerDetailsBuilder;
+        $this->customerHelperData = $customerHelperData;
         $this->escaper = $escaper;
         $this->customerExtractor = $customerExtractor;
         $this->urlModel = $urlFactory->create();
@@ -120,13 +128,13 @@ class CreatePost extends \Magento\Customer\Controller\Account
      *
      * @return \Magento\Customer\Service\V1\Data\Address|null
      */
-    protected function _extractAddress()
+    protected function extractAddress()
     {
         if (!$this->getRequest()->getPost('create_address')) {
             return null;
         }
 
-        $addressForm = $this->_formFactory->create('customer_address', 'customer_register_address');
+        $addressForm = $this->formFactory->create('customer_address', 'customer_register_address');
         $allowedAttributes = $addressForm->getAllowedAttributes();
 
         $addressData = array();
@@ -139,24 +147,24 @@ class CreatePost extends \Magento\Customer\Controller\Account
             }
             switch ($attributeCode) {
                 case 'region_id':
-                    $this->_regionBuilder->setRegionId($value);
+                    $this->regionBuilder->setRegionId($value);
                     break;
                 case 'region':
-                    $this->_regionBuilder->setRegion($value);
+                    $this->regionBuilder->setRegion($value);
                     break;
                 default:
                     $addressData[$attributeCode] = $value;
             }
         }
-        $this->_addressBuilder->populateWithArray($addressData);
-        $this->_addressBuilder->setRegion($this->_regionBuilder->create());
+        $this->addressBuilder->populateWithArray($addressData);
+        $this->addressBuilder->setRegion($this->regionBuilder->create());
 
-        $this->_addressBuilder->setDefaultBilling(
+        $this->addressBuilder->setDefaultBilling(
             $this->getRequest()->getParam('default_billing', false)
         )->setDefaultShipping(
             $this->getRequest()->getParam('default_shipping', false)
         );
-        return $this->_addressBuilder->create();
+        return $this->addressBuilder->create();
     }
 
     /**
@@ -166,7 +174,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
      */
     protected function isRegistrationAllowed()
     {
-        return $this->_customerHelperData->isRegistrationAllowed();
+        return $this->customerHelperData->isRegistrationAllowed();
     }
 
     /**
@@ -188,22 +196,22 @@ class CreatePost extends \Magento\Customer\Controller\Account
             return;
         }
 
-        $this->_session->regenerateId();
+        $this->_getSession()->regenerateId();
 
         try {
             $customer = $this->customerExtractor->extract('customer_account_create', $this->_request);
-            $address = $this->_extractAddress();
+            $address = $this->extractAddress();
             $addresses = is_null($address) ? array() : array($address);
             $password = $this->getRequest()->getParam('password');
             $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
-            $customerDetails = $this->_customerDetailsBuilder
+            $customerDetails = $this->customerDetailsBuilder
                 ->setCustomer($customer)
                 ->setAddresses($addresses)
                 ->create();
             $customer = $this->customerAccountService->createCustomer($customerDetails, $password, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
-                $this->_subscriberFactory->create()->subscribeCustomerById($customer->getId());
+                $this->subscriberFactory->create()->subscribeCustomerById($customer->getId());
             }
 
             $this->_eventManager->dispatch(
@@ -213,7 +221,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
 
             $confirmationStatus = $this->customerAccountService->getConfirmationStatus($customer->getId());
             if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
-                $email = $this->_customerHelperData->getEmailConfirmationUrl($customer->getEmail());
+                $email = $this->customerHelperData->getEmailConfirmationUrl($customer->getEmail());
                 // @codingStandardsIgnoreStart
                 $this->messageManager->addSuccess(
                     __(
@@ -291,8 +299,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
     protected function getSuccessRedirect()
     {
         if (!$this->scopeConfig->isSetFlag(
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                ScopeInterface::SCOPE_STORE
             ) && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
