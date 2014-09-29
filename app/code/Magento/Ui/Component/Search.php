@@ -7,6 +7,9 @@
  */
 namespace Magento\Ui\Component;
 
+/**
+ * Class Search
+ */
 class Search extends AbstractView
 {
     //

@@ -10,7 +10,7 @@
  */
 ?>
 <?php echo $this->begin(); ?>
-    <div class="">
+    <div class="tab-switcher" style="float: left; width: 20%;">
         <h3>
             <span>Basic Settings</span>
         </h3>
@@ -20,11 +20,12 @@
             <?php endfor; ?>
         </ul>
     </div>
-    <div class="">
+    <div class="tabs-content" style="width: 80%; float: right;">
         <?php for($i = 10; --$i;): ?>
             <div class="fieldset-wrapper customer-information">
                 <p>Tabs content</p>
             </div>
         <?php endfor; ?>
     </div>
+<div style="clear: both"></div>
 <?php echo $this->begin(); ?>

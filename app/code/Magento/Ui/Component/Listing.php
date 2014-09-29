@@ -94,36 +94,36 @@ class Listing extends AbstractView
     public function prepare()
     {
         $meta = $this->getMeta();
-        $defaultConfig = $this->getDefaultConfiguration();
+        $defaultConfigData = $this->getDefaultConfiguration();
 
         if ($this->hasData('configuration')) {
-            $config = $this->getData('configuration');
-            if (!empty($config['page_actions'])) {
-                foreach ($config['page_actions'] as $key => $action) {
-                    $defaultConfig['page_actions'][$key] = isset($config['page_actions'])
-                        ? array_replace($defaultConfig['page_actions'][$key], $config['page_actions'][$key])
-                        : $defaultConfig['page_actions'][$key];
+            $configData = $this->getData('configuration');
+            if (!empty($configData['page_actions'])) {
+                foreach ($configData['page_actions'] as $key => $action) {
+                    $defaultConfigData['page_actions'][$key] = isset($configData['page_actions'])
+                        ? array_replace($defaultConfigData['page_actions'][$key], $configData['page_actions'][$key])
+                        : $defaultConfigData['page_actions'][$key];
                 }
             }
-            unset($config['page_actions']);
-            $defaultConfig = array_merge($defaultConfig, $config);
+            unset($configData['page_actions']);
+            $defaultConfigData = array_merge($defaultConfigData, $configData);
         }
 
-        foreach ($defaultConfig['page_actions'] as $key => $action) {
+        foreach ($defaultConfigData['page_actions'] as $key => $action) {
             $this->actionPool->add($key, $action, $this);
         }
-        unset($defaultConfig['page_actions']);
+        unset($defaultConfigData['page_actions']);
 
-        $configuration = $this->configFactory->create(
+        $config = $this->configFactory->create(
             [
                 'name' => $this->getData('name'),
                 'parentName' => $this->getData('name'),
-                'configuration' => $defaultConfig
+                'configuration' => $defaultConfigData
             ]
         );
 
-        $this->setConfiguration($configuration);
-        $this->renderContext->getStorage()->addComponentsData($configuration);
+        $this->setConfig($config);
+        $this->renderContext->getStorage()->addComponentsData($config);
         $this->renderContext->getStorage()->addMeta($this->getData('name'), $meta);
         $this->renderContext->getStorage()->addDataCollection($this->getData('name'), $this->getData('dataSource'));
     }

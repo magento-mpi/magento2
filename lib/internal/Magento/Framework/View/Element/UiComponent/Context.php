@@ -207,7 +207,7 @@ class Context extends Registry
      *
      * @return ConfigStorageBuilderInterface
      */
-    public function getConfigurationBuilder()
+    public function getConfigBuilder()
     {
         return $this->configStorageBuilder;
     }

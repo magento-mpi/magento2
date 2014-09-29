@@ -75,19 +75,19 @@ abstract class FilterAbstract extends AbstractView implements FilterInterface
      */
     public function prepare()
     {
-        $config = $this->getDefaultConfiguration();
+        $configData = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
-            $config = array_merge($config, $this->getData('config'));
+            $configData = array_merge($configData, $this->getData('config'));
         }
 
-        $configuration = $this->configFactory->create(
+        $config = $this->configFactory->create(
             [
                 'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
                 'parentName' => $this->renderContext->getNamespace(),
-                'configuration' => $config
+                'configuration' => $configData
             ]
         );
-        $this->setConfiguration($configuration);
-        $this->renderContext->getStorage()->addComponentsData($configuration);
+        $this->setConfig($config);
+        $this->renderContext->getStorage()->addComponentsData($config);
     }
 }
