@@ -18,6 +18,7 @@ define([
          * Invokes initialize method of parent class and initializes properties of instance.
          * @param {Object} config - form element configuration
          * @param {Number|String} value - initial value of form element
+         * @param {String} path - element instance's path to store value to
          */
         initialize: function (config, value, path) {
             _.extend(this, config);
