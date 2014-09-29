@@ -11,12 +11,12 @@ namespace Magento\SalesArchive\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
 
 /**
- * Test Creation for ShipmentSalesArchiveEntity
+ * Test Creation for InvoiceSalesArchiveEntity
  *
  * Test Flow:
  *
@@ -25,23 +25,22 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * 2. Enable payment method "Check/Money Order"
  * 3. Enable shipping method Flat Rate
  * 4. Place order with product qty = 2
- * 5. Invoice order with 2 products
- * 6. Move orders to Archive
+ * 5. Move order to Archive
  *
  * Steps:
  * 1. Go to Admin > Sales > Archive > Orders
- * 2. Select orders and do Shipment
+ * 2. Select orders and do Invoice
  * 3. Fill data from dataSet
  * 4. Click 'Submit' button
  * 5. Perform all assertions
  *
- * @group OrderManagement_(CS)
- * @ZephyrId MAGETWO-28781
+ * @group Order_Management_(CS)
+ * @ZephyrId MAGETWO-28947
  */
-class ShipmentSalesArchiveEntityTest extends Injectable
+class InvoiceSalesArchiveEntityTest extends Injectable
 {
     /**
-     * Orders Page
+     * Orders page
      *
      * @var OrderIndex
      */
@@ -55,18 +54,18 @@ class ShipmentSalesArchiveEntityTest extends Injectable
     protected $archiveOrders;
 
     /**
-     * Order View Page
+     * Order view page
      *
      * @var OrderView
      */
     protected $orderView;
 
     /**
-     * New Order Shipment Page
+     * Order new invoice page
      *
-     * @var OrderShipmentNew
+     * @var OrderInvoiceNew
      */
-    protected $orderShipmentNew;
+    protected $orderInvoiceNew;
 
     /**
      * Enable "Check/Money Order", "Flat Rate" and archiving for all statuses in configuration
@@ -88,54 +87,51 @@ class ShipmentSalesArchiveEntityTest extends Injectable
      * @param OrderIndex $orderIndex
      * @param ArchiveOrders $archiveOrders
      * @param OrderView $orderView
-     * @param OrderShipmentNew $orderShipmentNew
+     * @param OrderInvoiceNew $orderInvoiceNew
      * @return void
      */
     public function __inject(
         OrderIndex $orderIndex,
         ArchiveOrders $archiveOrders,
         OrderView $orderView,
-        OrderShipmentNew $orderShipmentNew
+        OrderInvoiceNew $orderInvoiceNew
     ) {
         $this->orderIndex = $orderIndex;
         $this->archiveOrders = $archiveOrders;
         $this->orderView = $orderView;
-        $this->orderShipmentNew = $orderShipmentNew;
+        $this->orderInvoiceNew = $orderInvoiceNew;
     }
 
     /**
-     * Create Shipment SalesArchive Entity
+     * Create Invoice SalesArchive Entity
      *
      * @param OrderInjectable $order
-     * @param string $invoice
-     * @param array $qty
+     * @param array $invoice
      * @return array
      */
-    public function test(OrderInjectable $order, $invoice, array $qty)
+    public function test(OrderInjectable $order, array $invoice)
     {
         $this->markTestIncomplete('MAGETWO-28872, MAGETWO-28867');
         // Preconditions
         $order->persist();
-        if ($invoice) {
-            $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoiceStep', ['order' => $order])->run();
-        }
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->massaction([['id' => $order->getId()]], 'Move to Archive');
 
         // Steps
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        $this->orderView->getPageActions()->ship();
-        $this->orderShipmentNew->getShipItemsBlock()->setProductQty($order->getEntityId()['products'], $qty);
-        $this->orderShipmentNew->getShipItemsBlock()->submit();
+        $this->orderView->getPageActions()->invoice();
+        $this->orderInvoiceNew->getCreateBlock()->fill($invoice, $order->getEntityId()['products']);
+        $this->orderInvoiceNew->getTotalsBlock()->submit();
 
-        $this->orderView->getOrderForm()->openTab('shipments');
+        $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
+        $this->orderView->getOrderForm()->openTab('invoices');
 
         return [
+            'successMessage' => $successMessage,
             'ids' => [
-                'shipmentIds' => $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->getIds(),
+                'invoiceIds' => $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->getIds(),
             ],
-            'order' => $order
         ];
     }
 }

@@ -23,7 +23,6 @@ class UserWithRestrictedRoleTest extends Functional
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-27660');
         Factory::getApp()->magentoBackendLoginUser();
     }
 
