@@ -10,7 +10,6 @@ namespace Magento\MultipleWishlist\Test\TestCase;
 
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\Wishlist\Test\Page\WishlistShare;
@@ -26,8 +25,8 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
  *
  * Preconditions:
  * 1. Create Customer Account
- * 3. Create custom wishlist
- * 4. Create product
+ * 2. Create custom wishlist
+ * 3. Create product
  *
  * Steps:
  * 1. Log in to Frontend as a Customer
@@ -87,13 +86,15 @@ class ShareMultipleWishlistTest extends Injectable
     /**
      * Enable Multiple wishlist in configuration
      *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare()
     {
-        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'multiple_wishlist_default']);
-        $config->persist();
+        $setupConfig = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'multiple_wishlist_default']
+        );
+        $setupConfig->run();
     }
 
     /**
