@@ -6,10 +6,9 @@
  */
 define([
     './abstract',
-    'Magento_Ui/js/lib/component',
     'underscore',
     'Magento_Ui/js/lib/i18n'
-], function (AbstractElement, Component, _, t) {
+], function (AbstractElement, _, t) {
     'use strict';
 
     return AbstractElement.extend({
