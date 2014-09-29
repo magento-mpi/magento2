@@ -11,5 +11,7 @@
         <span data-bind="text: label"></span>
     </label>
     <div class="control" data-part="control"></div>
-    <!-- ko template: 'ui/form/element/helper/tooltip', if: tooltip, data: tooltip --><!-- /ko -->
+    <!-- ko if: tooltip -->
+    <!-- ko template: 'ui/form/element/helper/tooltip', data: tooltip --><!-- /ko -->
+    <!-- /ko -->
 </div>

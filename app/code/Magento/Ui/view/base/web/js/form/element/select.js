@@ -7,9 +7,13 @@
 define([
     './abstract',
     'underscore',
-    'Magento_Ui/js/lib/i18n'
+    'i18n'
 ], function (AbstractElement, _, t) {
     'use strict';
+
+    var defaults = {
+        caption: t('Select...')
+    };
 
     return AbstractElement.extend({
 
@@ -19,9 +23,10 @@ define([
          * @param {Number|String} value - initial value of form element
          */
         initialize: function (config, value) {
+            _.extend(this, defaults);
+
             this.constructor.__super__.initialize.apply(this, arguments);
 
-            this.caption = this.caption || t('Select...');
             this.options = this.options ? this.formatOptions() : [];
         },
 
@@ -34,15 +39,6 @@ define([
             return _.map(this.options, function (value, key) {
                 return { value: key, label: value  };
             });
-        },
-
-        /**
-         * Stores element's value to registry by element's path value
-         * @param  {String} path
-         * @param  {Object} value - selected object
-         */
-        store: function (path, selected) {
-            registry.set(selected.value, path);
         }
     });
 });
