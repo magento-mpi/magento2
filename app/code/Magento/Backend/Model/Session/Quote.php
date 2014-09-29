@@ -134,7 +134,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
                 $this->_quote->setStoreId($this->getStoreId())->load($this->getQuoteId());
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
                 $customerGroupId = $this->_scopeConfig->getValue(
-                    \Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID,
+                    \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 $this->_quote

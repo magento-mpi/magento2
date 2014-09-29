@@ -851,7 +851,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : $this->_storeManager->getStore()->getId();
             $groupId = $this->_scopeConfig->getValue(
-                \Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID,
+                \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
