@@ -21,7 +21,7 @@
         </gridPageActions>
         <cmsBlockGrid>
             <class>Magento\Cms\Test\Block\Adminhtml\Block\CmsGrid</class>
-            <locator>#cmsBlockGrid</locator>
+            <locator>.grid</locator>
             <strategy>css selector</strategy>
         </cmsBlockGrid>
     </blocks>

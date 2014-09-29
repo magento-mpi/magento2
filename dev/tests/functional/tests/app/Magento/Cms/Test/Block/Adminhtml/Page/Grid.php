@@ -53,7 +53,7 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'title' => [
-            'selector' => 'input[name="title"]'
+            'selector' => '#title'
         ],
     ];
 
@@ -67,7 +67,7 @@ class Grid extends ParentGrid
     public function searchAndPreview(array $filter)
     {
         $this->search($filter);
-        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
+        $rowItem = $this->_rootElement->find($this->rowItem);
         if ($rowItem->isVisible()) {
             $rowItem->find($this->previewCmsPage, Locator::SELECTOR_XPATH)->click();
             $this->waitForElement();

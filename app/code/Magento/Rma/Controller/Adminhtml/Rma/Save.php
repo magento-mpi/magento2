@@ -10,38 +10,6 @@ namespace Magento\Rma\Controller\Adminhtml\Rma;
 
 class Save extends SaveNew
 {
-
-    /**
-     * Combine item statuses from POST request items and original RMA items
-     *
-     * @param array $requestedItems
-     * @param int $rmaId
-     * @return array
-     */
-    protected function _combineItemStatuses(array $requestedItems, $rmaId)
-    {
-        $statuses = array();
-        foreach ($requestedItems as $requestedItem) {
-            if (isset($requestedItem['status'])) {
-                $statuses[] = $requestedItem['status'];
-            }
-        }
-        /* Merge RMA Items status with POST data*/
-        /** @var $rmaItems \Magento\Rma\Model\Resource\Item\Collection */
-        $rmaItems = $this->_objectManager->create(
-            'Magento\Rma\Model\Resource\Item\Collection'
-        )->addAttributeToFilter(
-            'rma_entity_id',
-            $rmaId
-        );
-        foreach ($rmaItems as $rmaItem) {
-            if (!isset($requestedItems[$rmaItem->getId()])) {
-                $statuses[] = $rmaItem->getStatus();
-            }
-        }
-        return $statuses;
-    }
-
     /**
      * Save RMA request
      *
@@ -60,8 +28,8 @@ class Save extends SaveNew
             return;
         }
         try {
-            $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
-            $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
+            $saveRequest = $this->rmaDataMapper->filterRmaSaveRequest($this->getRequest()->getPost());
+            $itemStatuses = $this->rmaDataMapper->combineItemStatuses($saveRequest['items'], $rmaId);
             $model = $this->_initModel('rma_id');
             /** @var $sourceStatus \Magento\Rma\Model\Rma\Source\Status */
             $sourceStatus = $this->_objectManager->create('Magento\Rma\Model\Rma\Source\Status');

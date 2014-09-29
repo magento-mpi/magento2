@@ -10,9 +10,11 @@
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Price\Data as PriceData;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -61,9 +63,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Price values cache
      *
-     * @var array
+     * @var PriceData
      */
-    protected static $priceValues;
+    protected $priceData;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -74,7 +76,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $catalogProductTypeConfigurable
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute $resource
+     * @param PriceData $priceData
      * @param \Zend_Db_Adapter_Abstract $connection
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -85,11 +89,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $catalogProductTypeConfigurable,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute $resource,
+        PriceData $priceData,
         $connection = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_productTypeConfigurable = $catalogProductTypeConfigurable;
         $this->_catalogData = $catalogData;
+        $this->priceData = $priceData;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
@@ -275,9 +281,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function getPriceValues()
     {
-        if (isset(self::$priceValues[$this->getProduct()->getId()])) {
-            return self::$priceValues[$this->getProduct()->getId()];
+        $cachedPriceData = $this->priceData->getProductPrice($this->getProduct()->getId());
+        if (false !== $cachedPriceData) {
+            return $cachedPriceData;
         }
+
         $pricings = array(0 => array());
 
         if ($this->_catalogData->isPriceGlobal()) {
@@ -362,7 +370,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             }
         }
 
-        self::$priceValues[$this->getProduct()->getId()] = $values;
+        $this->priceData->setProductPrice($this->getProduct()->getId(), $values);
 
         return $values;
     }

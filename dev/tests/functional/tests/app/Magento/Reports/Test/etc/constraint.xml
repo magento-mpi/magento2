@@ -65,4 +65,7 @@
     <assertTaxReportNotInGrid module="Magento_Reports">
         <severeness>low</severeness>
     </assertTaxReportNotInGrid>
+    <assertDownloadsReportResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertDownloadsReportResult>
 </constraint>

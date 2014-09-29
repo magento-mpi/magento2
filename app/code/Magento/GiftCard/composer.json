@@ -12,7 +12,6 @@
         "magento/module-sales": "0.1.0-alpha96",
         "magento/module-checkout": "0.1.0-alpha96",
         "magento/module-eav": "0.1.0-alpha96",
-        "magento/module-theme": "0.1.0-alpha96",
         "magento/module-catalog-inventory": "0.1.0-alpha96",
         "magento/framework": "0.1.0-alpha96",
         "magento/magento-composer-installer": "*"

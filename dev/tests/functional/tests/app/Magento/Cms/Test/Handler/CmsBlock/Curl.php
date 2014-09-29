@@ -12,7 +12,6 @@ use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Magento\Backend\Test\Handler\Extractor;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\Handler\Curl as AbstractCurl;
 
@@ -27,7 +26,7 @@ class Curl extends AbstractCurl implements CmsBlockInterface
      *
      * @var string
      */
-    protected $saveUrl = 'cms/block/save';
+    protected $saveUrl = 'cms/block/save/back/edit/';
 
     /**
      * Mapping values for data
@@ -68,11 +67,8 @@ class Curl extends AbstractCurl implements CmsBlockInterface
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("CMS Block entity creating by curl handler was not successful! Response: $response");
         }
-        preg_match(
-            '@block_id":"(\d+)","title":"' . $fixture->getTitle() . '@ms',
-            $response,
-            $matches
-        );
+
+        preg_match("`block_id\/(\d*?)\/`", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
 
         return ['block_id' => $id];
