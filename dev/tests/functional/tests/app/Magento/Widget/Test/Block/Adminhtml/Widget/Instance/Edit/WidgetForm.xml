@@ -28,7 +28,7 @@
         <fields>
             <title />
             <store_ids>
-                <input>select</input>
+                <input>multiselectgrouplist</input>
                 <selector>[id="store_ids"]</selector>
             </store_ids>
         </fields>

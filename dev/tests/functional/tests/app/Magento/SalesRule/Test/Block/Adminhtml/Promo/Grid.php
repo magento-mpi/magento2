@@ -28,6 +28,13 @@ class Grid extends AbstractGrid
      * @var string
      */
     protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
+
+    /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '//tr[1]/td[@data-column="name"]';
     
     /**
      * Filters array mapping
@@ -67,5 +74,25 @@ class Grid extends AbstractGrid
             $rid = $idElement->getText();
         }
         return $rid;
+    }
+
+    /**
+     * Check whether first row is visible
+     *
+     * @return bool
+     */
+    public function isFirstRowVisible()
+    {
+        return $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Open first item in grid
+     *
+     * @return void
+     */
+    public function openFirstRow()
+    {
+        $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->click();
     }
 }

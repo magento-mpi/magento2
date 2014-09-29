@@ -54,7 +54,7 @@ class CatalogRules implements FixtureInterface
                 $catalogRule = $fixtureFactory->createByCode('catalogRule', ['dataSet' => $preset]);
                 $catalogRule->persist();
 
-                $this->data = $catalogRule->getId();
+                $this->data[] = $catalogRule->getId();
                 $this->catalogRule[] = $catalogRule;
             }
         } else {

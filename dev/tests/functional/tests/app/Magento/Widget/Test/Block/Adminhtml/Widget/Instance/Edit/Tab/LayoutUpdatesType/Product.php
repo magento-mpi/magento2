@@ -55,14 +55,8 @@ class Product extends LayoutForm
                     ]
                 );
                 $productGrid->searchAndSelect(['name' => $field['value']['name']]);
-            } elseif (!isset($field['value'])) {
-                parent::_fill($field, $context);
             } else {
-                $element = $this->getElement($context, $field);
-                if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {
-                    $element->setValue($field['value']);
-                    $this->setFields[$name] = $field['value'];
-                }
+                parent::_fill([$name => $field], $context);
             }
         }
     }

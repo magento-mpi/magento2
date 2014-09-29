@@ -45,7 +45,7 @@ class AssertWidgetSuccessSaveMessage extends AbstractConstraint
         // Flush cache
         $adminCache->open();
         $adminCache->getActionsBlock()->flushMagentoCache();
-        $adminCache->getMessagesBlock()->assertSuccessMessage();
+        $adminCache->getMessagesBlock()->waitSuccessMessage();
     }
 
     /**

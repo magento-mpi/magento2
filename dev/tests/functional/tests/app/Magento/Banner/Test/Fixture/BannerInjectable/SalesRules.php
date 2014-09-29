@@ -55,7 +55,7 @@ class SalesRules implements FixtureInterface
                 $salesRules = $fixtureFactory->createByCode('salesRuleInjectable', ['dataSet' => $preset]);
                 $salesRules->persist();
 
-                $this->data = $salesRules->getId();
+                $this->data[] = $salesRules->getId();
                 $this->salesRules[] = $salesRules;
             }
         } else {

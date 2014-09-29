@@ -63,14 +63,8 @@ class HierarchyNodeLink extends WidgetOptionsForm
                 $hierarchyNodeLinkForm->_fill($hierarchyFields, $elementNew);
                 $this->getTemplateBlock()->waitLoader();
 
-            } elseif (!isset($field['value'])) {
-                parent::_fill($field, $context);
             } else {
-                $element = $this->getElement($context, $field);
-                if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {
-                    $element->setValue($field['value']);
-                    $this->setFields[$name] = $field['value'];
-                }
+                parent::_fill([$name => $field], $context);
             }
         }
     }

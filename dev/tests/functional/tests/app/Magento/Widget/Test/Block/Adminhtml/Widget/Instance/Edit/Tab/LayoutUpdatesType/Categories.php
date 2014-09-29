@@ -38,15 +38,8 @@ class Categories extends LayoutForm
                 $this->_rootElement->find($this->chooser)->click();
                 $this->getTemplateBlock()->waitLoader();
                 $field['value'] = 'Default Category/' . $field['value']['name'];
-            }
-            if (!isset($field['value'])) {
-                parent::_fill($field, $context);
             } else {
-                $element = $this->getElement($context, $field);
-                if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {
-                    $element->setValue($field['value']);
-                    $this->setFields[$name] = $field['value'];
-                }
+                parent::_fill([$name => $field], $context);
             }
         }
     }

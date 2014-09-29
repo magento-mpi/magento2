@@ -157,20 +157,14 @@ class CreateWidgetEntityTest extends Injectable
             $this->widgetInstanceEdit->getPageActionsBlock()->delete();
 
             if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'])) {
-                $filterCatalogPriceRule = [
-                    'rule_id' => $this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'],
-                ];
-                $this->catalogRuleIndex->open();
-                $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filterCatalogPriceRule);
-                $this->catalogRuleNew->getFormPageActions()->delete();
+                $deleteCatalogRule = $this->objectManager
+                    ->create('Magento\CatalogRule\Test\TestStep\DeleteAllCatalogRulesStep');
+                $deleteCatalogRule->run();
             }
             if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'])) {
-                $filter = [
-                    'rule_id' => $this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'],
-                ];
-                $this->promoQuoteIndex->open();
-                $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
-                $this->promoQuoteEdit->getFormPageActions()->delete();
+                $deleteSalesRule = $this->objectManager
+                    ->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep');
+                $deleteSalesRule->run();
             }
         }
     }

@@ -56,7 +56,7 @@ class StoreIds implements FixtureInterface
                     $store->persist();
                 }
                 $this->store[] = $store;
-                $this->data = $store->getName();
+                $this->data[] = $store->getName();
             }
         } else {
             $this->data[] = null;
