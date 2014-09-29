@@ -53,7 +53,6 @@ define([
     }
 
     Class.prototype.initialize = function(){};
-    Class.prototype._super = Class.__super__.initialize;
 
     Class.extend = extend;
 

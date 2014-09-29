@@ -15,7 +15,7 @@ define([
          * Invokes initialize method of parent class.
          */
         initialize: function () {
-            this._super();
+            this.constructor.__super__.initialize.apply(this, arguments);
         }
     });
 });
