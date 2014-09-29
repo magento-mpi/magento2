@@ -175,7 +175,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
                     'getMinQty',
                     'setIsInStock',
                     'setStockStatusChangedAutomaticallyFlag',
-                    'save'
+                    'save',
+                    '__wakeup',
                 ]
             )
             ->disableOriginalConstructor()
@@ -224,7 +225,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
-            ->setMethods(['loadByProduct', 'setStoreId', 'checkQty', 'subtractQty', 'save'])
+            ->setMethods(['loadByProduct', 'setStoreId', 'checkQty', 'subtractQty', 'save', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
