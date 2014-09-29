@@ -37,6 +37,13 @@ class Installer
      */
     const SALES_ORDER_INCREMENT_PREFIX = 'sales_order_increment_prefix';
 
+    /**#@+
+     * Formatting for progress log
+     */
+    const PROGRESS_LOG_RENDER = '[Progress: %d / %d]';
+    const PROGRESS_LOG_REGEX = '/\[Progress: (\d+) \/ (\d+)\]/s';
+    /**#@- */
+
     /**
      * File permissions checker
      *
@@ -115,6 +122,20 @@ class Installer
     private $shellRenderer;
 
     /**
+     * Progress indicator
+     *
+     * @var Installer\Progress
+     */
+    private $progress;
+
+    /**
+     * Progress indicator factory
+     *
+     * @var Installer\ProgressFactory
+     */
+    private $progressFactory;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -126,6 +147,7 @@ class Installer
      * @param LoggerInterface $log
      * @param Random $random
      * @param ConnectionFactory $connectionFactory
+     * @param Installer\ProgressFactory $progressFactory
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -136,7 +158,8 @@ class Installer
         AdminAccountFactory $adminAccountFactory,
         LoggerInterface $log,
         Random $random,
-        ConnectionFactory $connectionFactory
+        ConnectionFactory $connectionFactory,
+        Installer\ProgressFactory $progressFactory
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -149,6 +172,7 @@ class Installer
         $this->connectionFactory = $connectionFactory;
         $this->shellRenderer = new CommandRenderer;
         $this->shell = new Shell($this->shellRenderer);
+        $this->progressFactory = $progressFactory;
     }
 
     /**
@@ -159,48 +183,81 @@ class Installer
      */
     public function install($request)
     {
+        $modulesQty = count($this->moduleList->getModules());
+        $this->progress = $this->progressFactory->create([
+            10,
+            (int)!empty($request[self::CLEANUP_DB]),
+            (int)!empty($request[self::SALES_ORDER_INCREMENT_PREFIX]),
+            $modulesQty + 1,
+        ]);
         $this->log->log('Starting Magento installation:');
 
         $this->log->log('Enabling Maintenance Mode:');
         $this->setMaintenanceMode(1);
+        $this->logProgress();
 
         $this->log->log('File permissions check...');
         $this->checkFilePermissions();
+        $this->logProgress();
 
         $this->log->log('Installing deployment configuration...');
         $deploymentConfig = $this->installDeploymentConfig($request);
+        $this->logProgress();
 
         if (!empty($request[self::CLEANUP_DB])) {
             $this->log->log('Cleaning up database...');
             $this->cleanupDb($request);
+            $this->logProgress();
         }
 
         $this->log->log('Installing database schema:');
         $this->installSchema();
+        $this->logProgress();
 
         $this->log->log('Installing user configuration...');
         $this->installUserConfig($request);
+        $this->logProgress();
 
         $this->log->log('Installing data fixtures:');
         $this->installDataFixtures();
+        $this->logProgress();
 
         if (!empty($request[self::SALES_ORDER_INCREMENT_PREFIX])) {
             $this->log->log('Creating sales order increment prefix...');
             $this->installOrderIncrementPrefix($request[self::SALES_ORDER_INCREMENT_PREFIX]);
+            $this->logProgress();
         }
 
         $this->log->log('Installing admin user...');
         $this->installAdminUser($request);
+        $this->logProgress();
 
         $this->log->log('Enabling caches:');
         $this->enableCaches();
+        $this->logProgress();
 
         $this->log->log('Disabling Maintenance Mode:');
         $this->setMaintenanceMode(0);
+        $this->logProgress();
 
         $this->log->logSuccess('Magento installation complete.');
+        $this->logProgress();
+        $this->progress->validateFinished();
 
         return $deploymentConfig;
+    }
+
+    /**
+     * Logs progress
+     *
+     * @return void
+     */
+    private function logProgress()
+    {
+        $this->progress->setNext();
+        $this->log->logMeta(
+            sprintf(self::PROGRESS_LOG_RENDER, $this->progress->getCurrent(), $this->progress->getTotal())
+        );
     }
 
     /**
@@ -252,6 +309,7 @@ class Installer
             $this->log->log("Module '{$moduleName}':");
             $setup = $this->setupFactory->createSetupModule($this->log, $moduleName);
             $setup->applyUpdates();
+            $this->logProgress();
         }
 
         $this->log->log('Schema post-updates:');
@@ -260,6 +318,7 @@ class Installer
             $setup = $this->setupFactory->createSetupModule($this->log, $moduleName);
             $setup->applyRecurringUpdates();
         }
+        $this->logProgress(); // only once, because this feature is rarely used by any of modules
     }
 
     /**

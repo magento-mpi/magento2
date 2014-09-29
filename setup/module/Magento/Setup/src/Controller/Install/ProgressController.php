@@ -7,70 +7,71 @@
  */
 namespace Magento\Setup\Controller\Install;
 
-use Magento\Setup\Module\ModuleListInterface;
+use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\WebLogger;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Magento\Setup\Model\Installer\ProgressFactory;
 
 class ProgressController extends AbstractActionController
 {
     /**
-     * How many times installer will loop through the list of modules
-     */
-    const MODULE_LOOPS_COUNT = 2;
-
-    /**
-     * The number of additional log messages in the code
-     */
-    const ADDITIONAL_LOG_MESSAGE_COUNT = 15;
-
-    /**
+     * JSON response
+     *
      * @var \Zend\View\Model\JsonModel
      */
     protected $json;
 
     /**
+     * Web logger
+     *
      * @var WebLogger
      */
     protected $logger;
 
-    protected $moduleList;
+    /**
+     * Progress indicator factory
+     *
+     * @var ProgressFactory
+     */
+    protected $progressFactory;
 
     /**
+     * Constructor
+     *
      * @param JsonModel $view
-     * @param ModuleListInterface $moduleList
      * @param WebLogger $logger
+     * @param ProgressFactory $progressFactory
      */
     public function __construct(
         JsonModel $view,
-        ModuleListInterface $moduleList,
-        WebLogger $logger
+        WebLogger $logger,
+        ProgressFactory $progressFactory
     ) {
-        $this->moduleList = $moduleList;
         $this->logger = $logger;
         $this->json = $view;
+        $this->progressFactory = $progressFactory;
     }
 
     /**
+     * Checks progress of installation
+     *
      * @return JsonModel
      */
     public function indexAction()
     {
-        $moduleCount = count($this->moduleList->getModules());
-        $log = $this->logger->get();
-        $progress = 0;
-        if (!empty($log)) {
-            $progress = round(
-                (count($log) * 100)/($moduleCount * self::MODULE_LOOPS_COUNT + self::ADDITIONAL_LOG_MESSAGE_COUNT)
-            );
+        $percent = 0;
+        $isError = true;
+        try {
+            $log = $this->logger->get();
+            $isError = $this->logger->hasError();
+            if (!empty($log)) {
+                $progress = $this->progressFactory->createFromLog(implode('', $log), Installer::PROGRESS_LOG_REGEX);
+                $percent = sprintf('%01.2F', $progress->getRatio() * 100);
+            }
+        } catch(\Exception $e) {
+            $log = [(string)$e];
         }
-
-        return $this->json->setVariables(
-            array(
-                'progress' => $progress,
-                'success' => !$this->logger->hasError(),
-                'console' => $log
-            )
-        );
+        return $this->json->setVariables(['progress' => $percent, 'success' => !$isError, 'console' => $log]);
     }
 }
