@@ -5,10 +5,8 @@
  * @license     {license_link}
  */
 define([
-    './abstract',
-    'Magento_Ui/js/lib/component',
-    'underscore',
-], function (AbstractElement, Component, _) {
+    './abstract'
+], function (AbstractElement) {
     'use strict';
 
     return AbstractElement.extend({

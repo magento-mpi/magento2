@@ -6,29 +6,11 @@
  */
 define([
     'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/registry/registry'
-], function (Scope, registry) {
+    'Magento_Ui/js/lib/registry/registry',
+    'underscore',
+    'mage/utils'
+], function (Scope, registry, _, utils) {
     'use strict';
-
-    /**
-     * Generates a unique identifier.
-     * @returns {String}
-     * @private
-     */
-    function uniqueid() {
-        var idstr = String.fromCharCode((Math.random() * 25 + 65) | 0),
-            ascicode;
-
-        while (idstr.length < 10) {
-            ascicode = Math.floor((Math.random() * 42) + 48);
-
-            if (ascicode < 58 || ascicode > 64) {
-                idstr += String.fromCharCode(ascicode);
-            }
-        }
-
-        return idstr;
-    };
 
     return Scope.extend({
 
@@ -40,7 +22,7 @@ define([
         initialize: function (config, value, path) {
             _.extend(this, config);
 
-            this.uid     = uniqueid();
+            this.uid     = utils.uniqueid();
             this.module  = this.module   || 'ui';
             this.tooltip = this.tooltip  || null;
             this.label   = this.label    || '';
