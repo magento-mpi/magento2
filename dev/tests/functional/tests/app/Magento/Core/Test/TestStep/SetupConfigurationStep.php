@@ -32,16 +32,25 @@ class SetupConfigurationStep implements TestStepInterface
     protected $configData;
 
     /**
+     * Rollback data
+     *
+     * @var string
+     */
+    protected $rollback;
+
+    /**
      * Preparing step properties
      *
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param string $configData
+     * @param bool $rollback
      */
-    public function __construct(FixtureFactory $fixtureFactory, $configData)
+    public function __construct(FixtureFactory $fixtureFactory, $configData, $rollback = false)
     {
         $this->fixtureFactory = $fixtureFactory;
         $this->configData = $configData;
+        $this->rollback = $rollback;
     }
 
     /**
@@ -51,11 +60,16 @@ class SetupConfigurationStep implements TestStepInterface
      */
     public function run()
     {
+        if ($this->configData === '-') {
+            return [];
+        }
+        $prefix = ($this->rollback == false) ? '' : '_rollback';
+
         $configData = array_map('trim', explode(',', $this->configData));
         $result = [];
 
         foreach ($configData as $configDataSet) {
-            $config = $this->fixtureFactory->createByCode('configData', ['dataSet' => $configDataSet]);
+            $config = $this->fixtureFactory->createByCode('configData', ['dataSet' => $configDataSet . $prefix]);
             $config->persist();
 
             $result[] = $config;

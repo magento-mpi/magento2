@@ -66,7 +66,6 @@ class Actions extends Block
      */
     protected $invoice = '#order_invoice';
 
-
     /**
      * 'Reorder' button
      *

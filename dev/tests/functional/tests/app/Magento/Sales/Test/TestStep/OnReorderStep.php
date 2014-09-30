@@ -12,12 +12,11 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 
 /**
- * Class ClickReorderStep
+ * Class OnReorderStep
  * Click reorder from order on backend
  */
-class ClickReorderStep implements TestStepInterface
+class OnReorderStep implements TestStepInterface
 {
-
     /**
      * Order View Page
      *

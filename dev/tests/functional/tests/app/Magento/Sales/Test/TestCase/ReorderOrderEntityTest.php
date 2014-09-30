@@ -12,19 +12,17 @@ use Mtf\TestCase\Scenario;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
- * Test Creation for ReorderCreatedOrder
+ * Test Creation for ReorderOrderEntityTest
  *
  * Test Flow:
- * Precondtions:
- * 1. Enable payment method "Check/Money Order"
- * 2. Enable shipping method one of "Flat Rate"
- * 3. Create two products
- * 4. Create a customer
- * 5. Create order
+ * Preconditions:
+ * 1. Create two products
+ * 2. Create a customer
+ * 3. Create order
  *
  * Steps:
- * 1. Go to Admin
- * 2. Sales > Orders
+ * 1. Go to backend
+ * 2. Open Sales > Orders
  * 3. Open the created order
  * 4. Do 'Reorder' for placed order
  * 5. Perform all assertions
@@ -32,7 +30,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-29007
  */
-class ReorderCreatedOrderTest extends Scenario
+class ReorderOrderEntityTest extends Scenario
 {
     /**
      * Configuration data set name
@@ -47,19 +45,27 @@ class ReorderCreatedOrderTest extends Scenario
      * @var array
      */
     protected $scenario = [
-        'ReorderCreatedOrderTest' => [
+        'ReorderOrderEntityTest' => [
             'methods' => [
                 'test' => [
                     'scenario' => [
+                        'setupConfiguration' => [
+                            'module' => 'Magento_Core',
+                            'next' => 'createSalesRule'
+                        ],
                         'createSalesRule' => [
                             'module' => 'Magento_SalesRule',
+                            'next' => 'createOrder'
+                        ],
+                        'createOrder' => [
+                            'module' => 'Magento_Sales',
                             'next' => 'openOrder'
                         ],
                         'openOrder' => [
                             'module' => 'Magento_Sales',
-                            'next' => 'clickReorder'
+                            'next' => 'onReorder'
                         ],
-                        'clickReorder' => [
+                        'onReorder' => [
                             'module' => 'Magento_Sales',
                             'next' => 'applySalesRuleOnBackend'
                         ],
@@ -89,19 +95,14 @@ class ReorderCreatedOrderTest extends Scenario
     ];
 
     /**
-     * Reorder created product
+     * Reorder created order
      *
-     * @param OrderInjectable $order
-     * @param string $config
+     * @param string $configData
      * @return void
      */
-    public function test(OrderInjectable $order, $config)
+    public function test($configData)
     {
-        $this->configuration = $config;
-        $order->persist();
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration();
-        }
+        $this->configuration = $configData;
         $this->executeScenario($this->scenario);
     }
 
@@ -112,28 +113,9 @@ class ReorderCreatedOrderTest extends Scenario
      */
     public function tearDown()
     {
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration(true);
-        }
-    }
-
-    /**
-     * Setup configuration
-     *
-     * @param bool $rollback
-     * @return void
-     */
-    protected function setupConfiguration($rollback = false)
-    {
-        $prefix = ($rollback == false) ? '' : '_rollback';
-        $dataSets = explode(',', $this->configuration);
-
-        foreach ($dataSets as $key => $dataSet) {
-            $dataSets[$key] = trim($dataSet) . $prefix;
-        }
         $setConfigStep = $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => implode(',', $dataSets)]
+            ['configData' => $this->configuration, 'rollback' => true]
         );
         $setConfigStep->run();
     }
