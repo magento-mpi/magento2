@@ -304,7 +304,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
                 $metaData = $dataProvider->getMeta();
                 $metaData += empty($config['arguments']['meta']) ? [] : $config['arguments']['meta'];
                 $meta[$name] = $metaData;
-                $this->renderContext->getStorage()->addDataProvider($this->getName() . '_' .$name, $dataProvider);
+                $this->renderContext->getStorage()->addDataProvider($name, $dataProvider);
             }
             $this->renderContext->getStorage()->addMeta($this->getName(), $meta);
         }
