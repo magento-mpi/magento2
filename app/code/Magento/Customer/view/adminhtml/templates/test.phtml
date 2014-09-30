@@ -10,9 +10,9 @@
                             "data_type": "text",
                             "input_type": "select",
                             "label": "Associate to Website",
+                            "caption": "Please select ...",
                             "options": {
-                                "0": "Please select ...",
-                                "1": "Admin"
+                                "0": "Admin"
                             }
                         },
                         "firstname": {
@@ -28,13 +28,14 @@
                             "label": "Last Name"
                         },
                         "addresses": {
-                            "data_type": "collection",
-                            "input_type": "fieldset",
-                            "label": "Addresses",
                             "meta_ref": "address"
                         }
                     },
                     "address": {
+                        "template": "customer/form/address",
+                        "input_type": "collection",
+                        "title": "Edit Customer's Address",
+                        "label": "New Customer Address",
                         "prefix": {
                             "index": "prefix",
                             "data_type": "text",
@@ -58,11 +59,18 @@
                 "data": {
                     "customer": {
                         "website": 0,
-                        "addresses": {
-                            "prefix": "Mr.",
-                            "suffix": "Sr.",
-                            "firstname": "Misha"
-                        }
+                        "addresses": [
+                            {
+                                "prefix": "Mr.",
+                                "suffix": "Sr.",
+                                "firstname": "Misha"
+                            },
+                            {
+                                "prefix": "Mr.",
+                                "suffix": "Jr.",
+                                "firstname": "Sasha"
+                            }
+                        ]
                     }
                 }
             }
@@ -156,8 +164,7 @@
                     "account_info": {
                         "label": "Account Information",
                         "injections": [
-                            "customer.website",
-                            "customer.addresses"
+                            "customer.website"
                         ]
                     },
                     "customer_addresses": {
@@ -173,7 +180,7 @@
     }
 </script>
 <script>
-    var allowLocalCache = true;
+    var allowLocalCache = false;
 </script>
 
 <div data-bind="scope: 'customer_form_areas' " class="entry-edit form-inline">
