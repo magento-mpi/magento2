@@ -69,12 +69,12 @@
     </type>
     <type name="Magento\Search\Block\Recommendations">
         <arguments>
-            <argument name="additionalInfoProvider" xsi:type="object">Magento\Solr\Adapter\Recommendations</argument>
+            <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Solr\Adapter\Recommendations</argument>
         </arguments>
     </type>
     <type name="Magento\Search\Block\\Suggestions">
         <arguments>
-            <argument name="additionalInfoProvider" xsi:type="object">Magento\Solr\Adapter\Suggestions</argument>
+            <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Solr\Adapter\Suggestions</argument>
         </arguments>
     </type>
 </config>
