@@ -96,7 +96,16 @@ class Addresses extends Tab
                 $this->_fill($this->dataMapping(['country_id' => $countryId]));
                 $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
             }
-            $this->fillFormTab($address->getData(), $this->_rootElement);
+            $defaultAddress = ['default_billing' => 'No', 'default_shipping' => 'No'];
+            $addressData = $address->getData();
+            foreach ($defaultAddress as $key => $value) {
+                if (isset($addressData[$key])) {
+                    $defaultAddress[$key] = $value;
+                }
+            }
+            $this->_fill($this->dataMapping($defaultAddress));
+
+            $this->fillFormTab(array_diff($addressData, $defaultAddress), $this->_rootElement);
         }
 
         return $this;
