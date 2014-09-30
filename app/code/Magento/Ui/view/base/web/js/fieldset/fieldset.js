@@ -7,8 +7,9 @@
 define([
     'underscore',
     'Magento_Ui/js/lib/collection',
-    'Magento_Ui/js/lib/ko/scope'
-], function(_, Collection, Scope) {
+    'Magento_Ui/js/lib/ko/scope',
+    'Magento_Ui/js/lib/events'
+], function(_, Collection, Scope, EventsBus) {
     'use strict';
 
     var defaults = {
@@ -34,6 +35,18 @@ define([
             return this;
         },
 
+        initElements: function(){
+            var elems = this.elems;
+
+            elems.push.apply(elems, arguments);
+
+            elems().forEach(function(elem){
+                if(elem.on){
+                    elem.on('change', this.trigger.bind(this, 'change'));
+                }
+            }, this);
+        },
+
         toggle: function() {
             var opened = this.opened;
 
@@ -47,7 +60,7 @@ define([
         getTemplate: function(){
             return this.template;
         }
-    });
+    }, EventsBus);
 
     return Collection(Fieldset);
 });

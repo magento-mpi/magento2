@@ -24,6 +24,7 @@ define([
         initObservable: function() {
             this.observe({
                 'active': this.active,
+                'changed': false
             });
 
             return this;
@@ -32,7 +33,10 @@ define([
         initListeners: function() {
             var params = this.provider.params;
 
-            params.on('update:activeTab', this.pullParams.bind(this));
+            params.on({
+                'update:activeTab':     this.pullParams.bind(this),
+                'update:changedAreas':  this.onAreasChange.bind(this)
+            });
 
             return this;
         },
@@ -56,6 +60,10 @@ define([
                 tab     = params.get('activeTab');
 
             this.active(this.name === tab);
+        },
+
+        onAreasChange: function(changed){
+            this.changed( !!~changed.indexOf(this.name) );
         }
     });
 

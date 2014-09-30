@@ -89,7 +89,7 @@ define([
                 .provider.refresh();
         },
 
-        pushElements: function(){
+        initElements: function(){
             var elems = this.elems;
 
             elems.push.apply(elems, arguments);
@@ -100,7 +100,7 @@ define([
         waitElements: function(){
             registry.get(
                 this.injections,
-                this.pushElements.bind(this)
+                this.initElements.bind(this)
             );
             
             return this;

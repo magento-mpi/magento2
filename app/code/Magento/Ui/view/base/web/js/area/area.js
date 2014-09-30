@@ -34,6 +34,18 @@ define([
             return this;
         },
 
+        initElements: function(){
+            var elems = this.elems;
+
+            elems.push.apply(elems, arguments);
+
+            elems().forEach(function(elem){
+                elem.on('change', this.onChange.bind(this))
+            }, this);
+
+            return this;
+        },
+
         initListeners: function() {
             var params = this.provider.params;
 
@@ -48,6 +60,19 @@ define([
 
             this.visible(area === this.name);
 
+            return this;
+        },
+
+        onChange: function(){
+            var params  = this.provider.params,
+                changed = params.get('changedAreas') || [];
+
+            if( !~changed.indexOf(this.name) ){
+                changed.push(this.name);
+
+                params.set('changedAreas', changed);
+            }
+            
             return this;
         }
     });
