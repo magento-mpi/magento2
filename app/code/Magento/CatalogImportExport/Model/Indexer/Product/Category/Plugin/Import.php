@@ -12,14 +12,14 @@ class Import
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Category\Processor
      */
-    protected $_indexerEavProcessor;
+    protected $_indexerProductCategoryProcessor;
 
     /**
-     * @param \Magento\Catalog\Model\Indexer\Product\Category\Processor $indexerEavProcessor
+     * @param \Magento\Catalog\Model\Indexer\Product\Category\Processor $indexerProductCategoryProcessor
      */
-    public function __construct(\Magento\Catalog\Model\Indexer\Product\Category\Processor $indexerEavProcessor)
+    public function __construct(\Magento\Catalog\Model\Indexer\Product\Category\Processor $indexerProductCategoryProcessor)
     {
-        $this->_indexerEavProcessor = $indexerEavProcessor;
+        $this->_indexerProductCategoryProcessor = $indexerProductCategoryProcessor;
     }
 
     /**
@@ -33,7 +33,7 @@ class Import
      */
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {
-        $this->_indexerEavProcessor->markIndexerAsInvalid();
+        $this->_indexerProductCategoryProcessor->markIndexerAsInvalid();
         return $import;
     }
 }
