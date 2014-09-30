@@ -7,18 +7,23 @@
 define([
     'Magento_Ui/js/form/elements',
     'Magento_Ui/js/lib/ko/scope',
-    'underscore'
-], function (controls, Scope, _) {
+    'underscore',
+    'jquery',
+    'ko'
+], function (controls, Scope, _, $, ko) {
     'use strict';
 
     var defaults = {
-        title: ''
-    }
+        meta: {
+            title: '',
+            template: 'ui/form/collection'
+        }
+    };
 
     return Scope.extend({
 
         initialize: function (config, refs) {
-            _.extend(this, defaults, config, { refs: refs });
+            $.extend(true, this, defaults, config, { refs: refs });
 
             this.initItems();
         },
@@ -28,10 +33,14 @@ define([
             delete this.value;
 
             this.observe('items', this.items.map(this.initItem, this));
+
+            return this;
         },
 
         initItem: function (item, idx) {
-            return _.map(item, this.initElement, this);
+            var elements = _.map(item.elements, this.initElement, this);
+
+            return _.extend(item, { elements: elements });
         },
 
         initElement: function (value, name) {
@@ -49,7 +58,7 @@ define([
         },
 
         getTemplate: function () {
-            return 'ui/form/collection';
+            return this.meta.template;
         }
     });
 });
