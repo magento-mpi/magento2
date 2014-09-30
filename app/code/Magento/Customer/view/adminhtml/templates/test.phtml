@@ -10,7 +10,6 @@
                             "data_type": "text",
                             "input_type": "select",
                             "label": "Associate to Website",
-                            "required": true,
                             "options": {
                                 "0": "Please select ...",
                                 "1": "Admin"
@@ -20,15 +19,13 @@
                             "index": "firstname",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "First Name",
-                            "required": true
+                            "label": "First Name"
                         },
                         "lastname": {
                             "index": "lastname",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "Last Name",
-                            "required": true
+                            "label": "Last Name"
                         },
                         "addresses": {
                             "data_type": "collection",
@@ -123,7 +120,6 @@
                     "col_group": {
                         "label": "Collapsible group",
                         "collapsible": true,
-                        "opened": false,
                         "items": [
                             {
                                 "name": "prod_details",
@@ -161,13 +157,15 @@
                         "label": "Account Information",
                         "injections": [
                             "customer.website",
-                            "customer.firstname",
-                            "customer.lastname"
+                            "customer.addresses"
                         ]
                     },
                     "customer_addresses": {
                         "label": "Customer Addresses",
-                        "collapsible": true
+                        "collapsible": true,
+                        "injections": [
+                            "customer.addresses"
+                        ]
                     }
                 }
             }
@@ -185,7 +183,7 @@
         <div data-bind="visible: visible">
             
             <!-- ko foreach: elems -->
-                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- ko template: template --><!-- /ko -->
             <!-- /ko -->
 
         </div>

@@ -41,7 +41,7 @@ define([
         when: function (name, callback) {
             var storage   = events[name]      = getStorage(name),
                 callbacks = storage.callbacks = getCallbacks(name),
-                promise   = storage.promise   = storage.promise   || $.Deferred(),
+                promise   = storage.promise   = storage.promise || $.Deferred(),
                 args      = toArray(arguments),
                 resolveArgs;
 
@@ -65,8 +65,8 @@ define([
 
         resolve: function (name) {
             var args    = toArray(arguments, 1),
-                storage = getStorage(name),
-                promise = storage.promise;
+                storage = events[name]    = getStorage(name),
+                promise = storage.promise = storage.promise || $.Deferred();
 
             if (isResolved(promise)) {
                 return trigger.bind(this, name).apply(this, args);
