@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertConfigurableProductInCart module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+    </assertConfigurableProductInCart>
+    <assertConfigurableProductDuplicateForm module="Magento_ConfigurableProduct">
+        <severeness>high</severeness>
+    </assertConfigurableProductDuplicateForm>
+    <assertChildProductIsNotDisplayedSeparately module="Magento_ConfigurableProduct">
+        <severeness>middle</severeness>
+    </assertChildProductIsNotDisplayedSeparately>
+    <assertChildProductsInGrid module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+    </assertChildProductsInGrid>
+    <assertConfigurableProductForm module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+    </assertConfigurableProductForm>
+    <assertConfigurableProductInItemsOrderedGrid module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+    </assertConfigurableProductInItemsOrderedGrid>
+    <assertConfigurableProductPage module="Magento_ConfigurableProduct">
+        <severeness>high</severeness>
+    </assertConfigurableProductPage>
+    <assertProductAttributeAbsenceInVariationsSearch module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+    </assertProductAttributeAbsenceInVariationsSearch>
+    <assertProductAttributeIsConfigurable module="Magento_ConfigurableProduct">
+        <severeness>high</severeness>
+    </assertProductAttributeIsConfigurable>
+</constraint>

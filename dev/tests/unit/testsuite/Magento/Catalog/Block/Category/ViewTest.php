@@ -14,10 +14,15 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $block;
 
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $scopeConfigMock;
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->block = $objectManager->getObject('Magento\Catalog\Block\Category\View');
+        $this->block = $objectManager->getObject('Magento\Catalog\Block\Category\View', []);
     }
 
     protected function tearDown()
@@ -34,3 +39,4 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($categoryTag, $this->block->getIdentities());
     }
 }
+

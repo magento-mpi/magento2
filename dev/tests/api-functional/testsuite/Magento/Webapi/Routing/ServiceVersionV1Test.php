@@ -11,7 +11,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-use Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\AttributeValue;
 use Magento\TestFramework\Authentication\OauthHelper;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -32,7 +32,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     protected $_soapService = 'testModule1AllSoapAndRest';
 
-    /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
+    /** @var \Magento\Framework\Service\Data\AttributeValueBuilder */
     protected $valueBuilder;
 
     /** @var ItemBuilder */
@@ -45,7 +45,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
 
         $this->valueBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\Data\Eav\AttributeValueBuilder'
+            'Magento\Framework\Service\Data\AttributeValueBuilder'
         );
 
         $this->itemBuilder = Bootstrap::getObjectManager()->create(
@@ -116,7 +116,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
         ];
         $requestData = $item->__toArray();
-        $item = $this->_webApiCall($serviceInfo, ['item' => $requestData]);
+        $item = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
         $this->assertSame(
             $attributeValue1->getValue(),
@@ -204,9 +204,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update']
         ];
-        $requestData = ['item' => ['itemId' => $itemId, 'name' => 'testName']];
+        $requestData = ['entityItem' => ['itemId' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
+        $this->assertEquals('Updated' . $requestData['entityItem']['name'], $item['name'], 'Item update failed');
     }
 
     /**

@@ -27,16 +27,15 @@ class RecurringPaymentTest extends Functional
         $product->persist();
 
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productPage->getViewBlock()->addToCart($product);
-        $checkoutCart = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCart = Factory::getPageFactory()->getCheckoutCartIndex();
 
         $expectedProductOptions = "Start Date\n"
             . "%s\nBilling Period\n"
             . "$billingCycle Month cycle.\n"
             . "Repeats until suspended or canceled.";
-        $actualProductOptions = $checkoutCart->getCartBlock()->getCartItemOptions($product);
+        $actualProductOptions = $checkoutCart->getCartBlock()->getCartItem($product)->getOptions();
         $this->assertStringMatchesFormat($expectedProductOptions, $actualProductOptions);
     }
 }

@@ -9,7 +9,7 @@
 namespace Magento\Reward\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
@@ -91,8 +91,8 @@ class UpdateExchangeRateForRewardPointsEntityTest extends Injectable
     /**
      * Run update exchange rate reward points entity test
      *
-     * @param Reward $originalRate
-     * @param Reward $updateRate
+     * @param RewardRate $originalRate
+     * @param RewardRate $updateRate
      * @param CustomerInjectable $customer
      * @param ConfigData $config
      * @param ConfigData $configRollback
@@ -103,8 +103,8 @@ class UpdateExchangeRateForRewardPointsEntityTest extends Injectable
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(
-        Reward $originalRate,
-        Reward $updateRate,
+        RewardRate $originalRate,
+        RewardRate $updateRate,
         CustomerInjectable $customer,
         ConfigData $config,
         ConfigData $configRollback,

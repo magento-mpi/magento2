@@ -20,20 +20,20 @@ class GuestPayPalPayflowProInvalidCc extends AbstractCreditCard
     protected function _initData()
     {
         parent::_initData();
-        $this->_data = array(
+        $this->_data = [
             'product_type' => 'simple_required',
-            'checkout_data' => array(
+            'checkout_data' => [
                 'billing_address' => 'address_US_1',
                 'shipping_methods' => 'free_shipping',
                 'payment_method' => 'paypal_payflow_pro',
                 'credit_card' => 'visa_3d_secure_invalid',
-            ),
-            'configuration' => array(
+            ],
+            'configuration' => [
                 'free_shipping',
                 'paypal_disabled_all_methods',
                 'paypal_payflow_pro_3d_secure',
                 '3d_secure_credit_card_validation',
-            ),
-        );
+            ],
+        ];
     }
 }

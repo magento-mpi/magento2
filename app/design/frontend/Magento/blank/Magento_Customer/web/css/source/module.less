@@ -6,13 +6,6 @@
 //  * @license     {license_link}
 //  */
 
-@account-nav-background: #e8e8e8;
-@account-nav-color: false;
-@account-nav-current-color: false;
-@account-nav-current-font-weight: @font-weight-base;
-@account-nav-current-border: 3px solid transparent;
-@account-nav-current-border-color: #ff5501;
-
 .login.container {
     .block {
         &.new {
@@ -21,7 +14,7 @@
             }
         }
         .title {
-            &:extend(.login-block-title all);
+            &:extend(.abstract-login-block-title all);
         }
     }
     .fieldset {
@@ -82,78 +75,11 @@
             }
         }
         .block:not(.widget) {
-            .block-title {
-                > strong {
-                    .heading(h3);
-                }
-                margin-bottom: 15px;
-                > .action {
-                    margin-left: 15px;
-                }
-            }
-            .box-title {
-                > span {
-                    .heading(h4);
-                }
-                display: inline-block;
-                margin: 0 0 5px;
-                > .action {
-                    font-weight: 400;
-                    margin-left: 15px;
-                }
-            }
-            .block-content {
-                p:last-child {
-                    margin-bottom: 0;
-                }
-                .box {
-                    margin-bottom: @indent-base;
-                }
-            }
+            &:extend(.abstract-account-blocks all);
         }
     }
-    .sidebar .block-account-nav {
-        .css(background, @sidebar-background);
-        margin: 0 0 40px;
-    }
-    .block-account-nav {
-        .title {
-            display: none;
-        }
-        .content {
-            padding: 15px 0;
-        }
-        .nav.items {
-            padding: 0;
-            margin: 0;
-            .nav.item {
-                margin: 3px 0 0;
-                &:first-child {
-                    margin-top: 0;
-                }
-                a,
-                strong {
-                    display: block;
-                    padding: 5px 18px 5px 15px;
-                    border-left: 3px solid transparent;
-                }
-                a {
-                    .css(color, @account-nav-color);
-                    text-decoration: none;
-                    &:hover {
-                        .css(background, @account-nav-background);
-                    }
-                }
-                &.current {
-                    a,
-                    strong {
-                        .css(color, @account-nav-current-color);
-                        .css(border-color, @account-nav-current-border-color);
-                        font-weight: normal;
-                    }
-                }
-            }
-        }
+    .sidebar-additional {
+        margin-top: 40px;
     }
     .table-wrapper {
         margin-bottom: @indent-base;
@@ -178,7 +104,7 @@
 //    Blocks & Widgets
 //--------------------------------------
 .block {
-    &:extend(.margin-for-blocks-and-widgets all);
+    &:extend(.abstract-margin-for-blocks-and-widgets all);
     &:last-child {
         margin-bottom: 0;
     }
@@ -217,13 +143,16 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .account {
+        .page.messages {
+            margin-bottom: 40px;
+        }
         .data.table {
-            &:extend(.table-vertical-mobile all);
+            &:extend(.abstract-table-vertical-mobile all);
             .col.actions {
                 padding-top: 9px;
                 padding-bottom: 15px;
                 &:before {
-                    &:extend(.visually-hidden-mobile all);
+                    &:extend(.abstract-visually-hidden-mobile all);
                 }
             }
         }
@@ -232,47 +161,6 @@
             .limiter,
             .pages {
                 margin-bottom: 25px;
-            }
-        }
-        .block-account-nav {
-            margin-left: -@layout-width-xs-indent;
-            margin-right: -@layout-width-xs-indent;
-            margin-top: -(@indent-base + 1);
-            .title {
-                .icon-font(
-                    @_icon-font-content: @icon-down,
-                    @_icon-font-size: 30px,
-                    @_icon-font-position: after
-                );
-                border-top: @border-width-base solid @border-color-base;
-                border-bottom: @border-width-base solid @border-color-base;
-                cursor: pointer;
-                display: block;
-                font-weight: @font-weight-semibold;
-                margin-bottom: 0;
-                overflow: hidden;
-                padding: 7px 20px;
-                position: relative;
-                &:after {
-                    position: absolute;
-                    right: 0;
-                    top: -5px;
-                }
-                strong {
-                    margin: 0;
-                }
-                &.active {
-                    .icon-font-symbol(
-                        @_icon-font-content: @icon-prev,
-                        @_icon-font-position: after
-                    );
-                }
-            }
-            .content {
-                display: none;
-                &.active {
-                    display: block;
-                }
             }
         }
     }
@@ -289,9 +177,9 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .login.container {
-        &:extend(.add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop all);
         .block {
-            &:extend(.blocks-2columns all);
+            &:extend(.abstract-blocks-2columns all);
             &.login {
                 .actions-toolbar {
                     > .primary {
@@ -306,7 +194,7 @@
         }
         .fieldset {
             &:after {
-                &:extend(.margin-for-forms-desktop all);
+                &:extend(.abstract-margin-for-forms-desktop all);
                 text-align: left;
             }
             > .field {
@@ -326,7 +214,7 @@
     }
 
     // My account
-    .account.page-layout-2column-left {
+    .account.page-layout-2columns-left {
         .sidebar-main,
         .sidebar-additional {
             width: 22.3%;
@@ -340,9 +228,9 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.add-clearfix-desktop all);
+                    &:extend(.abstract-add-clearfix-desktop all);
                     .box {
-                        &:extend(.blocks-2columns all);
+                        &:extend(.abstract-blocks-2columns all);
                     }
                 }
             }
@@ -357,7 +245,7 @@
         .toolbar {
             position: relative;
             margin-bottom: @indent-base;
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .limiter {
                 float: right;
                 position: relative;
@@ -380,9 +268,9 @@
 
     .block-addresses-list {
         .items.addresses {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             > .item {
-                &:extend(.blocks-2columns all);
+                &:extend(.abstract-blocks-2columns all);
                 margin-bottom: @indent-base;
                 &:nth-last-child(1),
                 &:nth-last-child(2) {

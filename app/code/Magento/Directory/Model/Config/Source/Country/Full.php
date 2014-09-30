@@ -7,6 +7,9 @@
  */
 namespace Magento\Directory\Model\Config\Source\Country;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Full extends \Magento\Directory\Model\Config\Source\Country implements \Magento\Framework\Option\ArrayInterface
 {
     /**

@@ -41,7 +41,7 @@ class Article extends AbstractType implements ArticleInterface
      */
     public function getContent(Item $item)
     {
-        $filePath = $item->getData('scheme') . '/' . $item->getData('name') . '.xhtml';
+        $filePath = $this->getFilePath($item);
         return $this->content->get($filePath);
     }
 }

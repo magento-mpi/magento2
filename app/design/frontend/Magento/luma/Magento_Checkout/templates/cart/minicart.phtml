@@ -36,26 +36,7 @@
                     </div>
                     <?php $isPossibleOnepageCheckout = $_cartQty && $this->isPossibleOnepageCheckout() ?>
                     <?php if ($isPossibleOnepageCheckout): ?>
-                        <div class="subtotal">
-                            <?php if ($this->canApplyMsrp()): ?>
-                                <span class="mark msrp">
-                                <?php echo __('Order total will be displayed before you submit the order'); ?>
-                            </span>
-                            <?php else: ?>
-                                <span class="mark">
-                                    <?php echo __('Cart Subtotal') ?>
-                                </span>
-                                <div class="amount">
-                                    <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotal()) ?>
-                                    <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
-                                        <span class="amount incl tax">
-                                            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_subtotalInclTax) ?>
-                                            <?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcText(true) ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
-                        </div>
+                        <?php echo $this->getChildHtml('subtotal'); ?>
                     <?php endif ?>
                     <?php echo $this->getChildHtml('minicart_info') ?>
                     <div class="actions">

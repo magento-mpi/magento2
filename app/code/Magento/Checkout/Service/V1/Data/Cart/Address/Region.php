@@ -8,18 +8,18 @@
 namespace Magento\Checkout\Service\V1\Data\Cart\Address;
 
 /**
- * Data Object for Address Region
+ * @codeCoverageIgnore
  */
-class Region extends \Magento\Framework\Service\Data\AbstractObject
+class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**#@+
      * Array keys
      */
-    const KEY_REGION_CODE = 'region_code';
+    const REGION_CODE = 'region_code';
 
-    const KEY_REGION = 'region';
+    const REGION = 'region';
 
-    const KEY_REGION_ID = 'region_id';
+    const REGION_ID = 'region_id';
 
     /**#@-*/
 
@@ -30,7 +30,7 @@ class Region extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getRegionCode()
     {
-        return $this->_get(self::KEY_REGION_CODE);
+        return $this->_get(self::REGION_CODE);
     }
 
     /**
@@ -40,7 +40,7 @@ class Region extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getRegion()
     {
-        return $this->_get(self::KEY_REGION);
+        return $this->_get(self::REGION);
     }
 
     /**
@@ -50,6 +50,6 @@ class Region extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getRegionId()
     {
-        return $this->_get(self::KEY_REGION_ID);
+        return $this->_get(self::REGION_ID);
     }
 }

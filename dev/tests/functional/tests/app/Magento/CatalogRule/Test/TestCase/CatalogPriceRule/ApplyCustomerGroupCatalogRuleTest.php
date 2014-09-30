@@ -66,7 +66,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Edit Customer just created
         $customerGridPage->open();
         $customerGrid = $customerGridPage->getCustomerGridBlock();
-        $customerGrid->searchAndOpen(array('email' => $customerFixture->getEmail()));
+        $customerGrid->searchAndOpen(['email' => $customerFixture->getEmail()]);
         $customerEditPage = Factory::getPageFactory()->getCustomerIndexEdit();
         $editCustomerForm = $customerEditPage->getCustomerForm();
         // Set group to Retailer
@@ -143,18 +143,17 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         );
         // Verify product detail
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productViewBlock = $productPage->getViewBlock();
-        $productPriceBlock = $productViewBlock->getProductPriceBlock();
+        $productPriceBlock = $productViewBlock->getPriceBlock();
         // verify special price is not applied
         $this->assertFalse($productPriceBlock->isSpecialPriceVisible(), 'Special price is visible adn not expected.');
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getEffectivePrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
         $this->assertContains(
             $product->getProductPrice(),
             (string)$unitPrice,
@@ -197,26 +196,25 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
             'Displayed regular price does not match expected price.'
         );
         // Verify product and cart page prices
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
         // Verify category detail page price
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productViewBlock = $productPage->getViewBlock();
-        $productPriceBlock = $productViewBlock->getProductPriceBlock();
+        $productPriceBlock = $productViewBlock->getPriceBlock();
         $this->assertContains(
             (string)($product->getProductPrice() * $this->discountDecimal),
             $productPriceBlock->getSpecialPrice()
         );
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
             (string)($product->getProductPrice() * $this->discountDecimal),
-            (string)$checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
+            (string)$checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice(),
             "Discount was not correctly applied"
         );
     }

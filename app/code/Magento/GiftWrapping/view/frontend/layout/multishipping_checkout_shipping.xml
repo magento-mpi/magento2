@@ -11,7 +11,7 @@
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="giftwrapping_multishipping_checkout_head_components" template="Magento_GiftWrapping::js/components.phtml"/>
     </referenceBlock>
-    <referenceContainer name="before_body_end">
+    <referenceContainer name="before.body.end">
         <block class="Magento\GiftWrapping\Block\Checkout\Options" name="checkout.options" template="checkout/options.phtml"/>
     </referenceContainer>
 </page>

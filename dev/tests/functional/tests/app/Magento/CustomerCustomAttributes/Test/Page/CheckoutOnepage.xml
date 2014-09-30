@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="checkout/onepage/index" >
-    <block>
-        <name>billingBlock</name>
-        <class>Magento\CustomerCustomAttributes\Test\Block\Onepage\Billing</class>
-        <locator>#checkout-step-billing</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="checkout/onepage">
+    <blocks>
+        <customerAttributeBillingBlock>
+            <class>Magento\CustomerCustomAttributes\Test\Block\Onepage\Billing</class>
+            <locator>#checkout-step-billing</locator>
+            <strategy>css selector</strategy>
+        </customerAttributeBillingBlock>
+    </blocks>
 </page>

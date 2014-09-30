@@ -40,12 +40,14 @@ class CreateTest extends Functional
         $product->switchData('simple');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
         $productForm = $createProductPage->getProductForm();
         //Steps
-        $createProductPage->open();
+        $createProductPage->open([
+                'type' => $product->getDataConfig()['create_url_params']['type'],
+                'set' => $product->getDataConfig()['create_url_params']['set']
+            ]);
         $productForm->fill($product);
-        $createProductPage->getFormAction()->save();
+        $createProductPage->getFormPageActions()->save();
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache
@@ -70,7 +72,7 @@ class CreateTest extends Functional
         $productGridPage->open();
         /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Grid $gridBlock */
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getProductSku()]));
     }
 
     /**
@@ -95,7 +97,7 @@ class CreateTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getName(), $productViewBlock->getProductName());
-        $price = $productViewBlock->getProductPrice();
-        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
+        $price = $productViewBlock->getPriceBlock()->getPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price);
     }
 }

@@ -13,6 +13,8 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 class Content extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info
 {
     /**
@@ -24,6 +26,7 @@ class Content extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
@@ -34,6 +37,7 @@ class Content extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
@@ -45,6 +49,7 @@ class Content extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info
             $context,
             $sessionQuote,
             $orderCreate,
+            $priceCurrency,
             $coreData,
             $giftWrappingData,
             $wrappingCollectionFactory,

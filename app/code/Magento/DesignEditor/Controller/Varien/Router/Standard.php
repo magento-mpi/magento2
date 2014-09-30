@@ -14,11 +14,6 @@ namespace Magento\DesignEditor\Controller\Varien\Router;
 class Standard extends \Magento\Core\App\Router\Base
 {
     /**
-     * @var \Magento\Framework\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * Routers that must not been matched
      *
      * @var string[]
@@ -31,11 +26,6 @@ class Standard extends \Magento\Core\App\Router\Base
      * @var \Magento\Framework\App\RouterListInterface
      */
     protected $_routerList;
-
-    /**
-     * @var \Magento\UrlRewrite\App\Request\RewriteService
-     */
-    protected $_urlRewriteService;
 
     /**
      * @var \Magento\DesignEditor\Helper\Data
@@ -58,15 +48,13 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
      * @param \Magento\Framework\App\Route\Config $routeConfig
-     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @param \Magento\Framework\App\RouterListInterface $routerList
-     * @param \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService
      * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
      * @param \Magento\DesignEditor\Model\State $designEditorState
      * @param \Magento\Backend\Model\Auth\Session $session
@@ -79,15 +67,13 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Framework\App\ResponseFactory $responseFactory,
         \Magento\Framework\App\Route\Config $routeConfig,
-        \Magento\Framework\App\State $appState,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \Magento\Framework\App\RouterListInterface $routerList,
-        \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService,
         \Magento\DesignEditor\Helper\Data $designEditorHelper,
         \Magento\DesignEditor\Model\State $designEditorState,
         \Magento\Backend\Model\Auth\Session $session
@@ -98,7 +84,6 @@ class Standard extends \Magento\Core\App\Router\Base
             $defaultPath,
             $responseFactory,
             $routeConfig,
-            $appState,
             $url,
             $storeManager,
             $scopeConfig,
@@ -106,7 +91,6 @@ class Standard extends \Magento\Core\App\Router\Base
             $routerId,
             $nameBuilder
         );
-        $this->_urlRewriteService = $urlRewriteService;
         $this->_routerList = $routerList;
         $this->_designEditorHelper = $designEditorHelper;
         $this->_state = $designEditorState;
@@ -133,9 +117,10 @@ class Standard extends \Magento\Core\App\Router\Base
 
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
-
-        // apply rewrites
-        $this->_urlRewriteService->applyRewrites($request);
+        /**
+         * Deprecated line of code was here which should be adopted if needed:
+         * $this->_urlRewriteService->applyRewrites($request);
+         */
 
         // match routers
         $controller = null;

@@ -20,7 +20,7 @@ class ShippingmethodTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $rmaShippinFactorygMock;
+    protected $rmaShippingFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -32,33 +32,31 @@ class ShippingmethodTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->registryMock = $this->getMockBuilder('Magento\Framework\Registry')
             ->disableOriginalConstructor()
-            ->setMethods([])
             ->getMock();
-        $this->rmaShippinFactorygMock = $this->getMockBuilder('Magento\Rma\Model\ShippingFactory')
+        $this->rmaShippingFactoryMock = $this->getMockBuilder('Magento\Rma\Model\ShippingFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
         $this->shippingmethod = $objectManager->getObject(
             'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod',
             [
-                'shippingFactory' => $this->rmaShippinFactorygMock,
+                'shippingFactory' => $this->rmaShippingFactoryMock,
                 'registry' => $this->registryMock
             ]
         );
     }
 
     /**
-     * @param array $expected
-     * @param array $actual
+     * @param array $packages
      * @dataProvider packageProvider
      */
-    public function testGetPackages($expected, $actual)
+    public function testGetPackages($packages)
     {
         $rmaShippingMock = $this->getMockBuilder('Magento\Rma\Model\Shipping')
             ->disableOriginalConstructor()
             ->setMethods(['getPackages', 'getShippingLabelByRma', '__wakeup'])
             ->getMock();
-        $this->rmaShippinFactorygMock->expects($this->once())
+        $this->rmaShippingFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($rmaShippingMock));
 
@@ -73,21 +71,22 @@ class ShippingmethodTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $rmaShippingMock->expects($this->once())
             ->method('getPackages')
-            ->will($this->returnValue($expected));
+            ->will($this->returnValue(serialize($packages)));
 
         $this->registryMock->expects($this->once())
             ->method('registry')
             ->with('current_rma')
             ->will($this->returnValue($rmaMock));
 
-        $this->assertEquals($actual, $this->shippingmethod->getPackages());
+        $this->assertEquals($packages, $this->shippingmethod->getPackages());
     }
 
     public function packageProvider()
     {
         return [
-            [[], []],
-            [['test'], ['test']]
+            [[]],
+            [['test']],
+            [['package' => ['test']]]
         ];
     }
 }

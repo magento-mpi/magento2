@@ -1,9 +1,5 @@
 # Files included in testing builds, but nor ready/approved for publication (EE)
 
-dev/tests/functional-old/fixture/_testFiles/Enterprise*
-dev/tests/functional-old/fixture/enterprise*
-dev/tests/functional-old/testsuite/Enterprise
-
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProductEntityTest
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProductEntityTest.php
 dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchEntityResultsTest

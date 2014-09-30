@@ -39,10 +39,10 @@
 @font-rem-ratio: unit(@font-size-root * 16/100);
 //base font size value in <b>px</b>:
 @font-size-base: unit((@font-size-root / 100) * 16 * @font-size-base-ratio, px); // Also used in: @loader-text-font-size
-@font-size-xl: ceil(1.5 * @font-size-base);  // 21px
-@font-size-l: ceil(1.25 * @font-size-base);
-@font-size-s: ceil(0.85 * @font-size-base);  // Also used in: Breadcrumbs and in Small button
-@font-size-xs: floor(0.75 * @font-size-base);
+@font-size-xl: ceil(1.5 * @font-size-base);  // 21
+@font-size-l: ceil(1.25 * @font-size-base);  // 18
+@font-size-s: ceil(0.85 * @font-size-base);  // 12 Also used in: Breadcrumbs and in Small button
+@font-size-xs: floor(0.75 * @font-size-base);  // 11
 
 @font-weight-base: 400;
 @font-weight-light: 300;
@@ -136,7 +136,7 @@
 @h3-font-weight: @font-weight-semibold;
 @h3-font-style: @heading-font-style-base;
 @h3-line-height: @heading-line-height-base;
-@h3-margin-top: @indent-base * 0.75;
+@h3-margin-top: @indent-base;
 @h3-margin-bottom: @indent-s-base;
 
 @h4-font-size: @font-size-base; // 14px
@@ -267,7 +267,7 @@
 @layout-width: ''; // for the fixed width layout
 @layout-max-width: 1280px;
 @layout-indent: 20px;
-@layout-width-xs-indent: 10px;
+@layout-width-xs-indent: 15px;
 
 // Classnames defining different layouts
 @layout-class-1column: page-layout-1column;
@@ -661,7 +661,7 @@
 @icon-print: '\e624';
 @icon-star-empty: '\e625';
 @icon-download: '\e626';
-
+@icon-private: '\e629';
 //
 //    Messages variables
 //--------------------------------------
@@ -1072,7 +1072,7 @@
 @form-field-note-padding: 0;
 
 // Form field note icon
-@form-field-note-icon-font-content: @icon-pointer-up;
+@form-field-note-icon-font-content: false;
 @form-field-note-icon-font: @icon-font;
 @form-field-note-icon-font-size: @form-field-note-font-size * 2;
 @form-field-note-icon-font-line-height: @form-field-note-font-size;
@@ -1241,10 +1241,10 @@
 @dropdown-list-shadow: 0 3px 3px rgba(0,0,0,.15); // '' | none
 @dropdown-list-z-index: 100;
 
-@dropdown-toggle-icon-content: @icon-pointer-down;
-@dropdown-toggle-active-icon-content: @icon-pointer-up;
+@dropdown-toggle-icon-content: @icon-down;
+@dropdown-toggle-active-icon-content: @icon-up;
 @dropdown-toggle-icon-font: @button-icon-font;
-@dropdown-toggle-icon-font-size: @button-icon-font-size;
+@dropdown-toggle-icon-font-size: 12px;
 @dropdown-toggle-icon-font-line-height: @button-icon-font-line-height;
 @dropdown-toggle-icon-font-color: @button-icon-font-color;
 @dropdown-toggle-icon-font-color-hover: @button-icon-font-color-hover;
@@ -1308,7 +1308,7 @@
 @actions-toolbar-secondary-actions-margin: false; // Also used in: @popup-actions-toolbar-secondary-actions-margin
 @actions-toolbar-actions-links-margin-top: false; // Also used in: @popup-actions-toolbar-actions-links-margin-top
 @actions-toolbar-primary-actions-links-margin-top: false; // Also used in: @popup-actions-primary-toolbar-actions-links-margin-top
-@actions-toolbar-secondary-actions-links-margin-top: 17px; // Also used in: @popup-actions-secondary-toolbar-actions-links-margin-top
+@actions-toolbar-secondary-actions-links-margin-top: 6px; // Also used in: @popup-actions-secondary-toolbar-actions-links-margin-top
 
 //
 //    Breadcrumbs variables

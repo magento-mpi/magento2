@@ -29,7 +29,7 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -55,7 +55,7 @@ class Observer
      * @param \Magento\Checkout\Model\Type\Onepage $onePageCheckout
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Converter $customerConverter
@@ -64,7 +64,7 @@ class Observer
         \Magento\Checkout\Model\Type\Onepage $onePageCheckout,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Converter $customerConverter
@@ -497,10 +497,9 @@ class Observer
      */
     public function creditmemoDataImport(\Magento\Framework\Event\Observer $observer)
     {
-        $request = $observer->getEvent()->getRequest();
         $creditmemo = $observer->getEvent()->getCreditmemo();
 
-        $input = $request->getParam('creditmemo');
+        $input = $observer->getEvent()->getInput();
 
         if (isset($input['refund_customerbalance_return']) && isset($input['refund_customerbalance_return_enable'])) {
             $enable = $input['refund_customerbalance_return_enable'];

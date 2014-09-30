@@ -11,6 +11,7 @@
     <module name="Magento_GiftRegistry" schema_version="1.11.0.0.1" active="false">
         <sequence>
             <module name="Magento_Sales"/>
+            <module name="Magento_Wishlist"/>
         </sequence>
         <depends>
             <module name="Magento_Store"/>

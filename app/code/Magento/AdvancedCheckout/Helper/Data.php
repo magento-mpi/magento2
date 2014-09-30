@@ -185,14 +185,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_importFactory = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManager = null;
-
-    /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
+
+    /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /** @var \Magento\Msrp\Helper\Data */
+    protected $msrpData;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -210,8 +213,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Msrp\Helper\Data $msrpData
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -229,9 +234,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Msrp\Helper\Data $msrpData
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->_cart = $cart;
         $this->_products = $products;
         $this->_catalogConfig = $catalogConfig;
@@ -247,8 +254,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->stockStatusService = $stockStatusService;
         $this->_productFactory = $productFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
-        $this->_storeManager = $storeManager;
         $this->messageManager = $messageManager;
+        $this->msrpData = $msrpData;
     }
 
     /**
@@ -458,16 +465,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if ($this->_catalogData->canApplyMsrp($itemProduct)) {
+                        if ($this->msrpData->canApplyMsrp($itemProduct)
+                            && $this->msrpData->isMinimalPriceLessMsrp($itemProduct)
+                        ) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                $this->_storeManager->getStore()->formatPrice(
-                                    $this->_storeManager->getStore()->convertPrice(
-                                        $this->_catalogData->getTaxPrice(
-                                            $itemProduct,
-                                            $itemProduct->getFinalPrice(),
-                                            true
-                                        )
+                                $this->priceCurrency->convertAndFormat(
+                                    $this->_catalogData->getTaxPrice(
+                                        $itemProduct,
+                                        $itemProduct->getFinalPrice(),
+                                        true
                                     )
                                 )
                             );

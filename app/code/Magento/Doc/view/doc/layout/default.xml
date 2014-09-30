@@ -7,24 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
-    <container name="root">
-        <block class="Magento\Doc\Ui\Page" name="root" template="Magento_Doc::html/page/default.xhtml">
-            <block class="Magento\Theme\Block\Html\Head" name="head" as="head" template="Magento_Doc::html/page/element/head.phtml">
-                <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-css">
-                    <arguments>
-                        <argument name="file" xsi:type="string">css/styles.css</argument>
-                    </arguments>
-                </block>
-            </block>
-            <container name="page.header" as="header" label="Page Header">
-                <block class="Magento\Doc\Ui\Widget\Navigation\Top" name="main_navigation" template="Magento_Doc::html/widget/navigation/top.phtml" ttl="3600"/>
-            </container>
-            <container name="column.toolbar" as="toolbar" label="Toolbar" htmlTag="div" htmlClass="column-toolbar"/>
-            <container name="column.main" as="content" label="Main Content" htmlTag="div" htmlClass="column-main"/>
-            <container name="column.sidebar" as="sidebar" label="Sidebar" htmlTag="div" htmlClass="column-sidebar"/>
-        </block>
-    </container>
+<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceContainer name="page.header">
+        <block class="Magento\Doc\Ui\Widget\Navigation\Top" name="main_navigation" template="Magento_Doc::html/widget/navigation/top.phtml" ttl="3600"/>
+    </referenceContainer>
+    <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Doc::html/page/element/require_js.phtml" />
     <update handle="default_head_blocks"/>
-</layout>
+</page>

@@ -24,7 +24,7 @@ $objectManager->get('Magento\Framework\Registry')->register($registerKey, $custo
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customer->save();
@@ -37,7 +37,7 @@ $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customerBalance->save();
@@ -48,7 +48,7 @@ $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $rewardPoints->save();
@@ -64,7 +64,7 @@ $objectManager->get('Magento\Framework\Registry')->register($registerKey, $custo
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customer->save();
@@ -75,7 +75,7 @@ $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $rewardPoints->save();
@@ -91,7 +91,7 @@ $objectManager->get('Magento\Framework\Registry')->register($registerKey, $custo
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customer->save();
@@ -104,7 +104,7 @@ $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customerBalance->save();
@@ -120,7 +120,7 @@ $objectManager->get('Magento\Framework\Registry')->register($registerKey, $custo
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Store\Model\StoreManagerInterface'
+        'Magento\Framework\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customer->save();

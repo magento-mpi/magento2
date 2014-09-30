@@ -39,7 +39,7 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AbstractAssertCustome
         $customerSegmentGrid = $formTabs->getMatchedCustomers()->getCustomersGrid();
         $formTabs->openTab('matched_customers');
 
-        if (!$customerSegmentGrid->isRowVisible(['email' => $this->customer->getEmail()])) {
+        if (!$customerSegmentGrid->isRowVisible(['grid_email' => $this->customer->getEmail()])) {
             $errors .= "Customer is absent in grid.\n";
         }
 

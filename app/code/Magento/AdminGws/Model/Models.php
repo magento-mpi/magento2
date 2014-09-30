@@ -29,7 +29,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     protected $_categoryFactory = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -37,13 +37,13 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Helper\Data $adminGwsData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         parent::__construct($role);
         $this->_adminGwsData = $adminGwsData;
@@ -898,7 +898,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
      * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return void
      */
-    public function coreUrlRewriteLoadAfter($model)
+    public function urlRewriteLoadAfter($model)
     {
         if (!$model->getId()) {
             return;

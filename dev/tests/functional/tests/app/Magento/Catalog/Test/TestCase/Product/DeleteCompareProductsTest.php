@@ -68,6 +68,7 @@ class DeleteCompareProductsTest extends AbstractCompareProductsTest
         $isCustomerLoggedIn,
         CatalogProductCompare $catalogProductCompare
     ) {
+        $this->markTestIncomplete('MAGETWO-26865');
         //Steps
         $this->catalogProductCompare = $catalogProductCompare;
         $this->cmsIndex->open();

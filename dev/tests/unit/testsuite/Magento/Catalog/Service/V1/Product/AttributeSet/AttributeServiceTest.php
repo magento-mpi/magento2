@@ -163,7 +163,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     public function testAddAttributeWithAttributeSetOfOtherEntityType()
     {
         $builder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeSet\AttributeBuilder');
-        $attributeDataObject = $builder->populateWithArray(['attribute_group'])->create();
+        $attributeDataObject = $builder->populateWithArray(['attribute_group' => 0])->create();
 
         $attributeSetMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
         $attributeSetMock->expects($this->any())->method('getId')->will($this->returnValue(1));
@@ -183,7 +183,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     public function testAddAttributeWithWrongAttributeGroup()
     {
         $builder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeSet\AttributeBuilder');
-        $attributeDataObject = $builder->populateWithArray(['attribute_group'])->create();
+        $attributeDataObject = $builder->populateWithArray(['attribute_group' => 0])->create();
 
         $attributeSetMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
         $attributeSetMock->expects($this->any())->method('getId')->will($this->returnValue(1));
@@ -209,7 +209,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     public function testAddAttributeWithWrongAttribute()
     {
         $builder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeSet\AttributeBuilder');
-        $attributeDataObject = $builder->populateWithArray(['attribute_group'])->create();
+        $attributeDataObject = $builder->populateWithArray(['attribute_group' => 0])->create();
 
         $objectMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
         $objectMock->expects($this->any())->method('getId')->will($this->returnValue(1));

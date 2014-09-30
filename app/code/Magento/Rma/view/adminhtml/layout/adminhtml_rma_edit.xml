@@ -36,7 +36,7 @@
             </action>
         </block>
     </referenceContainer>
-    <referenceContainer name="before_body_end">
+    <referenceContainer name="before.body.end">
         <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/reason.phtml" />
         <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Js" template="edit/js.phtml" name="magento_rma_js_create"/>

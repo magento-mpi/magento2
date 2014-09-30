@@ -13,7 +13,23 @@
     <property environment="env"/>
     <property name="phpunit" value="phpunit"/>
 
-    <target name="_server_info" description="Output server information">
+    <target name="_get_php_version">
+        <condition property="input_php_version" value="${env.bamboo_php_version}" else="">
+            <isset property="env.bamboo_php_version"/>
+        </condition>
+        <condition property="php_version" value="${input_php_version}">
+            <not><equals arg1="${input_php_version}" arg2="" /></not>
+        </condition>		
+    </target>
+
+    <target name="_set_php_version" depends="_get_php_version" description="Set php version" if="php_version">
+        <exec dir="${basedir}" executable="/opt/bamboo/.phpenv/bin/phpenv" failonerror="true">
+            <arg value="local"/>
+            <arg value="${php_version}"/>
+        </exec>
+    </target>
+
+    <target name="_server_info" depends="_set_php_version" description="Output server information">
         <exec executable="php" failonerror="false">
             <arg value="-r"/>
             <arg value="echo 'PHP version: ', PHP_VERSION, PHP_EOL;"/>
@@ -123,6 +139,30 @@
             <replacefilter token="--coverage_clover_placeholder" value="-- --&gt;"/>
             <replacefilter token="coverage_clover_placeholder--" value="&lt;!-- --"/>
         </replace>
+    </target>
+
+    <target name="_drop_database" description="Drops Database" >
+        <property name="file.drop_database" location="${product_root_dir}/dev/build/bin/drop-database.sh"/>
+        <chmod file="${file.drop_database}" perm="ugo+rx"/>
+
+        <exec executable="${file.drop_database}" failonerror="true">
+            <arg value="${env.db_host}"/>
+            <arg value="${env.db_name}"/>
+            <arg value="${env.db_user}"/>
+            <arg value="${env.db_password}"/>
+        </exec>
+    </target>
+
+    <target name="_create_database" description="Creates Database">
+        <property name="file.create_database" location="${product_root_dir}/dev/build/bin/create-database.sh"/>
+        <chmod file="${file.create_database}" perm="ugo+rx"/>
+
+        <exec executable="${file.create_database}" failonerror="true">
+            <arg value="${env.db_host}"/>
+            <arg value="${env.db_name}"/>
+            <arg value="${env.db_user}"/>
+            <arg value="${env.db_password}"/>
+        </exec>
     </target>
 
 </project>

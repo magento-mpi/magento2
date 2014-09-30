@@ -58,7 +58,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->urlBuilderMock = $this->getMock('\Magento\Framework\UrlInterface');
         $this->requestMock = $this->getMock(
             '\Magento\Framework\App\RequestInterface',
-            array(
+            [
                 'getRouteName',
                 'getControllerName',
                 'getParam',
@@ -66,12 +66,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
                 'getActionName',
                 'setModuleName',
                 'getModuleName',
-            )
+                'getCookie'
+            ]
         );
         $contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $contextMock->expects($this->any())->method('getUrlBuilder')->will($this->returnValue($this->urlBuilderMock));
         $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->requestMock));
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->coreHelperMock = $this->getMock('\Magento\Core\Helper\Data', [], [], '', false);
         $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->cartMock = $this->getMock('\Magento\Checkout\Model\Cart', [], [], '', false);
@@ -100,17 +101,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $quoteItemMock->expects($this->any())->method('getId')->will($this->returnValue($quoteItemId));
         $currentUrl = 'http://www.example.com/';
         $this->urlBuilderMock->expects($this->any())->method('getCurrentUrl')->will($this->returnValue($currentUrl));
-        $params = array(
+        $params = [
             'id' => $quoteItemId,
             Action::PARAM_NAME_BASE64_URL => strtr(base64_encode($currentUrl), '+/=', '-_,'),
-        );
+        ];
         $this->urlBuilderMock->expects($this->once())->method('getUrl')->with('checkout/cart/delete', $params);
         $this->helper->getRemoveUrl($quoteItemMock);
     }
 
     public function testGetCartUrl()
     {
-        $this->urlBuilderMock->expects($this->once())->method('getUrl')->with('checkout/cart', array());
+        $this->urlBuilderMock->expects($this->once())->method('getUrl')->with('checkout/cart', []);
         $this->helper->getCartUrl();
     }
 
@@ -169,7 +170,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->any())->method('getEntityId')->will($this->returnValue($productEntityId));
         $productMock->expects($this->any())->method('hasUrlDataObject')->will($this->returnValue(true));
         $productMock->expects($this->any())->method('getUrlDataObject')
-            ->will($this->returnValue(new Object(array('store_id' => $storeId))));
+            ->will($this->returnValue(new Object(['store_id' => $storeId])));
 
         $currentUrl = 'http://www.example.com/';
         $this->urlBuilderMock->expects($this->any())->method('getCurrentUrl')->will($this->returnValue($currentUrl));
@@ -179,17 +180,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->requestMock->expects($this->any())->method('getRouteName')->will($this->returnValue('checkout'));
         $this->requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue('cart'));
 
-        $params = array(
+        $params = [
             Action::PARAM_NAME_URL_ENCODED => $currentUrl,
             'product' => $productEntityId,
             'custom_param' => 'value',
             '_scope' => $storeId,
             '_scope_to_url' => true,
             'in_cart' => 1,
-        );
+        ];
 
         $this->urlBuilderMock->expects($this->once())->method('getUrl')->with('checkout/cart/add', $params);
-        $this->helper->getAddUrl($productMock, array('custom_param' => 'value'));
+        $this->helper->getAddUrl($productMock, ['custom_param' => 'value']);
     }
 
     /**
@@ -202,21 +203,21 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDeletePostJson($id, $url, $isAjax, $expectedPostData)
     {
-        $storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
-        $coreData = $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false);
+        $storeManager = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $coreData = $this->getMock('\Magento\Core\Helper\Data', [], [], '', false);
         $scopeConfig = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $checkoutCart = $this->getMock('\Magento\Checkout\Model\Cart', array(), array(), '', false);
-        $checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
+        $checkoutCart = $this->getMock('\Magento\Checkout\Model\Cart', [], [], '', false);
+        $checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', [], [], '', false);
 
-        $context = $this->getMock('\Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $urlBuilder = $this->getMock('Magento\Framework\UrlInterface');
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($urlBuilder));
 
 
-        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
-        $request = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
+        $request = $this->getMock('\Magento\Framework\App\Request\Http', [], [], '', false);
         $context->expects($this->once())
             ->method('getRequest')
             ->will($this->returnValue($request));
@@ -259,21 +260,21 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $uenc = strtr(base64_encode($url), '+/=', '-_,');
         $id = 1;
         $expectedPostData1 = json_encode(
-            array(
+            [
                 'action' => $url,
-                'data' => array('id' => $id, 'uenc' => $uenc)
-            )
+                'data' => ['id' => $id, 'uenc' => $uenc]
+            ]
         );
         $expectedPostData2 = json_encode(
-            array(
+            [
                 'action' => $url,
-                'data' => array('id' => $id)
-            )
+                'data' => ['id' => $id]
+            ]
         );
 
-        return array(
-            array($id, $url, false, $expectedPostData1),
-            array($id, $url, true, $expectedPostData2),
-        );
+        return [
+            [$id, $url, false, $expectedPostData1],
+            [$id, $url, true, $expectedPostData2],
+        ];
     }
 }

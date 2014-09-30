@@ -20,6 +20,11 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     protected $_statusFactory;
 
     /**
+     * @var string
+     */
+    protected $statusLabel;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
@@ -51,35 +56,17 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get available states keys for items
-     *
-     * @return string[]
-     */
-    protected function _getAvailableStates()
-    {
-        return array(
-            self::STATE_PENDING,
-            self::STATE_AUTHORIZED,
-            self::STATE_RECEIVED,
-            self::STATE_APPROVED,
-            self::STATE_DENIED,
-            self::STATE_REJECTED,
-            self::STATE_CLOSED
-        );
-    }
-
-    /**
      * Get RMA's status label
      *
      * @return string
      */
     public function getStatusLabel()
     {
-        if (is_null(parent::getStatusLabel())) {
+        if (!$this->statusLabel) {
             /** @var $sourceStatus \Magento\Rma\Model\Rma\Source\Status */
             $sourceStatus = $this->_statusFactory->create();
-            $this->setStatusLabel($sourceStatus->getItemLabel($this->getStatus()));
+            $this->statusLabel = $sourceStatus->getItemLabel($this->getStatus());
         }
-        return parent::getStatusLabel();
+        return $this->statusLabel;
     }
 }

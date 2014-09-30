@@ -98,6 +98,7 @@ return array(
     array('addCustomerSegmentRelationsToCollection', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_getRuleProductsTable', 'Magento\TargetRule\Model\Resource\Rule'),
     array('getCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
+    array('setCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_saveCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_prepareRuleProducts', 'Magento\TargetRule\Model\Resource\Rule'),
     array('getInetNtoaExpr', 'Magento\Logging\Model\Resource\Helper'),
@@ -252,4 +253,7 @@ return array(
     ['saveStoreIdsBeforeScopeDelete', 'Magento\Search\Model\Observer'],
     ['clearIndexForStores', 'Magento\Search\Model\Observer'],
     ['runFulltextReindexAfterPriceReindex', 'Magento\Search\Model\Observer'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Export'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'],
+    ['modifyExpiredQuotesCleanup', 'Magento\PersistentHistory\Model\Observer'],
 );

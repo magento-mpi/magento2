@@ -11,7 +11,12 @@ namespace Magento\Store\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Store\Test\Fixture\Store;
 
+/**
+ * Class Switcher
+ * Store switcher block
+ */
 class Switcher extends Block
 {
     /**
@@ -22,9 +27,17 @@ class Switcher extends Block
     protected $dropDownButton = '#switcher-language-trigger';
 
     /**
+     * StoreView selector
+     *
+     * @var string
+     */
+    protected $storeViewSelector = 'li.view-%s';
+
+    /**
      * Select store
      *
      * @param string $name
+     * @return void
      */
     public function selectStoreView($name)
     {
@@ -42,5 +55,32 @@ class Switcher extends Block
     public function getStoreView()
     {
         return $this->_rootElement->find($this->dropDownButton)->getText();
+    }
+
+    /**
+     * Check is Store View Visible
+     *
+     * @param Store $store
+     * @return bool
+     */
+    public function isStoreViewVisible($store)
+    {
+        $storeViewDropdown = $this->_rootElement->find($this->dropDownButton);
+
+        $storeViewDropdown->click();
+        $isStoreViewVisible = $this->_rootElement->find(sprintf($this->storeViewSelector, $store->getCode()))
+            ->isVisible();
+        $storeViewDropdown->click();
+        return $isStoreViewVisible;
+    }
+
+    /**
+     * Check if StoreView dropdown is visible
+     *
+     * @return bool
+     */
+    public function isStoreViewDropdownVisible()
+    {
+        return $this->_rootElement->find($this->dropDownButton)->isVisible();
     }
 }

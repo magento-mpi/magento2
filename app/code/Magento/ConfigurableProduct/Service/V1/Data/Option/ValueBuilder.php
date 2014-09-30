@@ -7,9 +7,12 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data\Option;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class ValueBuilder extends AbstractObjectBuilder
+/**
+ * @codeCoverageIgnore
+ */
+class ValueBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * @param float $value 

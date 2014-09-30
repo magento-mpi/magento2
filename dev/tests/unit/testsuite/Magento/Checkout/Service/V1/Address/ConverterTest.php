@@ -11,7 +11,7 @@ namespace Magento\Checkout\Service\V1\Address;
 
 use \Magento\Checkout\Service\V1\Data\Cart\Address;
 use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
-use \Magento\Framework\Service\Data\Eav\AttributeValue;
+use \Magento\Framework\Service\Data\AttributeValue;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -81,9 +81,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             Address::KEY_ID => 2,
             Address::KEY_CUSTOMER_ID => 3,
             Address::KEY_REGION => [
-                Region::KEY_REGION => 'Alabama',
-                Region::KEY_REGION_ID => 4,
-                Region::KEY_REGION_CODE => 'aa',
+                Region::REGION => 'Alabama',
+                Region::REGION_ID => 4,
+                Region::REGION_CODE => 'aa',
             ],
             Address::KEY_STREET => 'street',
             Address::KEY_COMPANY => 'company',
@@ -121,7 +121,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $dataObjectMock = $this->getMock('Magento\Checkout\Service\V1\Data\Cart\Address', [], [], '', false);
         $methods = ['setData', 'setStreet', 'setRegionId', 'setRegion', '__wakeUp'];
         $addressMock = $this->getMock('Magento\Sales\Model\Quote\Address', $methods, [], '', false);
-        $attributeValueMock = $this->getMock('\Magento\Framework\Service\Data\Eav\AttributeValue', [], [], '', false);
+        $attributeValueMock = $this->getMock('\Magento\Framework\Service\Data\AttributeValue', [], [], '', false);
         $attributeValueMock->expects($this->once())->method('getAttributeCode')->will($this->returnValue('value_code'));
         $attributeValueMock->expects($this->once())->method('getValue')->will($this->returnValue('value'));
 

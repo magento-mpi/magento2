@@ -76,7 +76,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -121,7 +121,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
@@ -137,7 +137,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
@@ -341,34 +341,6 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         }
 
         return $label;
-    }
-
-    /**
-     * Create \Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
-     *
-     * @param string $imageString
-     * @return \Zend_Pdf_Page|bool
-     */
-    public function createPdfPageFromImageString($imageString)
-    {
-        $image = imagecreatefromstring($imageString);
-        if (!$image) {
-            return false;
-        }
-
-        $xSize = imagesx($image);
-        $ySize = imagesy($image);
-        $page = new \Zend_Pdf_Page($xSize, $ySize);
-
-        imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
-        $tmpFileName = 'shipping_labels_' . uniqid(\Magento\Framework\Math\Random::getRandomNumber()) . time() . '.png';
-        $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
-        imagepng($image, $tmpFilePath);
-        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFilePath);
-        $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        $dir->delete($tmpFileName);
-        return $page;
     }
 
     /**

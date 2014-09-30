@@ -13,8 +13,8 @@ use Magento\Cms\Test\Fixture\UrlRewrite;
 use Magento\Backend\Test\Page\Adminhtml\StoreNew;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
-use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
-use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
+use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
+use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
 
 /**
  * Test Creation for UpdateCmsPageRewriteEntity
@@ -41,14 +41,14 @@ class UpdateCmsPageRewriteEntityTest extends Injectable
     /**
      * Url rewrite index page
      *
-     * @var UrlrewriteIndex
+     * @var UrlRewriteIndex
      */
     protected $urlRewriteIndex;
 
     /**
      * Url rewrite edit page
      *
-     * @var UrlrewriteEdit
+     * @var UrlRewriteEdit
      */
     protected $urlRewriteEdit;
 
@@ -92,16 +92,16 @@ class UpdateCmsPageRewriteEntityTest extends Injectable
     /**
      * Inject pages
      *
-     * @param UrlrewriteIndex $urlRewriteIndex
-     * @param UrlrewriteEdit $urlRewriteEdit
+     * @param UrlRewriteIndex $urlRewriteIndex
+     * @param UrlRewriteEdit $urlRewriteEdit
      * @param StoreIndex $storeIndex
      * @param StoreNew $storeNew
      * @param StoreDelete $storeDelete
      * @return void
      */
     public function __inject(
-        UrlrewriteIndex $urlRewriteIndex,
-        UrlrewriteEdit $urlRewriteEdit,
+        UrlRewriteIndex $urlRewriteIndex,
+        UrlRewriteEdit $urlRewriteEdit,
         StoreIndex $storeIndex,
         StoreNew $storeNew,
         StoreDelete $storeDelete
@@ -152,6 +152,6 @@ class UpdateCmsPageRewriteEntityTest extends Injectable
         $this->storeIndex->getStoreGrid()->searchAndOpen($filter);
         $this->storeNew->getFormPageActions()->delete();
         $this->storeDelete->getStoreForm()->fillForm(['create_backup' => 'No']);
-        $this->storeDelete->getFormPageActions()->delete();
+        $this->storeDelete->getFormPageFooterActions()->delete();
     }
 }

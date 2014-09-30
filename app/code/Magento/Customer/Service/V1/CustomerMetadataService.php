@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataDataProvider;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\Config\MetadataConfig;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 
 /**
  * Service to fetch customer related custom attributes
@@ -69,6 +70,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             $attributes[$attribute->getAttributeCode()] = $this->attributeMetadataConverter
                 ->createMetadataAttribute($attribute);
         }
+        if (empty($attributes)) {
+            throw NoSuchEntityException::singleField('formCode', $formCode);
+        }
         return $attributes;
     }
 
@@ -79,7 +83,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         /** @var AbstractAttribute $attribute */
         $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE_CUSTOMER, $attributeCode);
-        if ($attribute) {
+        if ($attribute && ($attributeCode === 'id' || !is_null($attribute->getId()))) {
             $attributeMetadata = $this->attributeMetadataConverter->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
@@ -126,11 +130,15 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         $customAttributes = [];
         if (!$this->customerDataObjectMethods) {
-            $this->customerDataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
+            $dataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
+            $baseClassDataObjectMethods = array_flip(
+                get_class_methods('Magento\Framework\Service\Data\AbstractExtensibleObject')
+            );
+            $this->customerDataObjectMethods = array_diff_key($dataObjectMethods, $baseClassDataObjectMethods);
         }
         foreach ($this->getAllAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
-            $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $camelCaseKey = SimpleDataObjectConverter::snakeCaseToUpperCamelCase($attributeCode);
             $isDataObjectMethod = isset($this->customerDataObjectMethods['get' . $camelCaseKey])
                 || isset($this->customerDataObjectMethods['is' . $camelCaseKey]);
 

@@ -9,9 +9,9 @@
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
+use Magento\ConfigurableProduct\Test\Repository\ConfigurableProduct as Repository;
 use Magento\Catalog\Test\Repository\SimpleProduct;
 use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Magento\Checkout\Test\Fixture\CheckMoneyOrderFlat;
@@ -20,7 +20,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class ApplyCatalogPriceRule
- *
  */
 class ApplyCatalogPriceRuleTest extends Functional
 {
@@ -51,7 +50,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $simple->persist();
 
         // Create Configurable Product with same category
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct(
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct(
             ['categories' => $simple->getCategories()]
         );
         $configurable->switchData(Repository::CONFIGURABLE);
@@ -164,38 +163,52 @@ class ApplyCatalogPriceRuleTest extends Functional
     protected function verifyAddProducts(array $products)
     {
         // Get empty cart
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         foreach ($products as $product) {
             // Open Product page
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productViewBlock = $productPage->getViewBlock();
 
             // Verify Product page price
             $appliedRulePrice = $product->getProductPrice() * $this->discountRate;
             if ($product instanceof ConfigurableProduct) {
                 // Select option
-                $optionsBlock = $productPage->getCustomOptionsBlock();
-                $productOptions = $product->getProductOptions();
-                if (!empty($productOptions)) {
-                    $optionsBlock->fillProductOptions($productOptions);
+                $optionsBlock = $productPage->getViewBlock()->getCustomOptionsBlock();
+                $configurableOptions = [];
+                $checkoutData = [];
+
+                foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
+                    $configurableOptions[] = [
+                        'type' => 'dropdown',
+                        'title' => $attributeLabel,
+                        'value' => $options
+                    ];
                 }
+                foreach ($product->getCheckoutData()['options']['configurable_options'] as $checkoutOption) {
+                    $checkoutData[] = [
+                        'type' => $configurableOptions[$checkoutOption['title']]['type'],
+                        'title' => $configurableOptions[$checkoutOption['title']]['title'],
+                        'value' => $configurableOptions[$checkoutOption['title']]['value'][$checkoutOption['value']],
+                    ];
+                }
+
+                $optionsBlock->fillCustomOptions($checkoutData);
                 $appliedRulePrice += $product->getProductOptionsPrice();
             }
-            $productPriceBlock = $productViewBlock->getProductPriceBlock();
+            $productPriceBlock = $productViewBlock->getPriceBlock();
             $this->assertContains((string)$appliedRulePrice, $productPriceBlock->getSpecialPrice());
 
             // Add to Cart
             $productViewBlock->clickAddToCart();
-            $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+            $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
             $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
 
             // Verify Cart page price
-            $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+            $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
             $this->assertEquals(
                 $appliedRulePrice,
                 $unitPrice,
@@ -212,18 +225,28 @@ class ApplyCatalogPriceRuleTest extends Functional
      */
     protected function checkoutProcess(CheckMoneyOrderFlat $fixture)
     {
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $reviewBlock = $checkoutOnePage->getReviewBlock();
 
-        $this->assertContains($fixture->getGrandTotal(), $reviewBlock->getGrandTotal(), 'Incorrect Grand Total');
+        $this->assertContains($fixture->getGrandTotal(), '$' . $reviewBlock->getGrandTotal(), 'Incorrect Grand Total');
         $reviewBlock->placeOrder();
     }
 
@@ -236,7 +259,7 @@ class ApplyCatalogPriceRuleTest extends Functional
     protected function verifyPriceRules(array $products)
     {
         // Verify Banner on the front end store home page
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexBanner();
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
         $bannerBlock = $frontendHomePage->getBannersBlock();
         $this->assertNotEmpty($bannerBlock->getBannerText(), "Banner is empty.");

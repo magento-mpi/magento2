@@ -8,11 +8,12 @@
 
 namespace Magento\Checkout\Service\V1\Address;
 
-use \Magento\Checkout\Service\V1\Data\Cart\Address;
-use \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder;
-use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use Magento\Checkout\Service\V1\Data\Cart\Address;
+use Magento\Checkout\Service\V1\Data\Cart\AddressBuilder;
+use Magento\Checkout\Service\V1\Data\Cart\Address\Region;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use \Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 
 class Converter
 {
@@ -47,9 +48,9 @@ class Converter
             Address::KEY_ID => $address->getId(),
             Address::KEY_CUSTOMER_ID => $address->getCustomerId(),
             Address::KEY_REGION => array(
-                Region::KEY_REGION => $address->getRegion(),
-                Region::KEY_REGION_ID => $address->getRegionId(),
-                Region::KEY_REGION_CODE => $address->getRegionCode()
+                Region::REGION => $address->getRegion(),
+                Region::REGION_ID => $address->getRegionId(),
+                Region::REGION_CODE => $address->getRegionCode()
             ),
             Address::KEY_STREET => $address->getStreet(),
             Address::KEY_COMPANY => $address->getCompany(),
@@ -68,7 +69,7 @@ class Converter
 
         foreach ($this->metadataService->getCustomAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
-            $method = 'get' . \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $method = 'get' . SimpleDataObjectConverter::snakeCaseToUpperCamelCase($attributeCode);
             $data[Address::CUSTOM_ATTRIBUTES_KEY][] =
                 [AttributeValue::ATTRIBUTE_CODE => $attributeCode, AttributeValue::VALUE => $address->$method()];
         }
@@ -89,7 +90,7 @@ class Converter
 
         //set custom attributes
         $customAttributes = $dataObject->getCustomAttributes();
-        /** @var \Magento\Framework\Service\Data\Eav\AttributeValue $attributeData */
+        /** @var \Magento\Framework\Service\Data\AttributeValue $attributeData */
         foreach ($customAttributes as $attributeData) {
             $address->setData($attributeData->getAttributeCode(), $attributeData->getValue());
         }

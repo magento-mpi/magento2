@@ -7,16 +7,17 @@
  */
 namespace Magento\Tax\Helper;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
 use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Tax\Service\V1\OrderTaxServiceInterface;
 
 /**
  * Catalog data helper
@@ -69,7 +70,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -146,12 +147,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $catalogHelper;
 
     /**
+     * @var \Magento\Tax\Service\V1\OrderTaxServiceInterface
+     */
+    protected $orderTaxService;
+
+    /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
@@ -164,6 +175,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
+     * @param OrderTaxServiceInterface $orderTaxService
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -171,7 +184,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Config $taxConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory,
@@ -183,9 +196,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         TaxCalculationServiceInterface $taxCalculationService,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
-        \Magento\Catalog\Helper\Data $catalogHelper
+        \Magento\Catalog\Helper\Data $catalogHelper,
+        OrderTaxServiceInterface $orderTaxService,
+        PriceCurrencyInterface $priceCurrency
     ) {
         parent::__construct($context);
+        $this->priceCurrency = $priceCurrency;
         $this->_scopeConfig = $scopeConfig;
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
@@ -203,6 +219,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerSession = $customerSession;
         $this->addressConverter = $addressConverter;
         $this->catalogHelper = $catalogHelper;
+        $this->orderTaxService = $orderTaxService;
     }
 
     /**
@@ -241,7 +258,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         try {
             $value = $product->getPrice();
-            $value = $this->_storeManager->getStore()->convertPrice($value, $format);
+            $value = $format ? $this->priceCurrency->convertAndFormat($value) : $this->priceCurrency->convert($value);
         } catch (\Exception $e) {
             $value = $e->getMessage();
         }
@@ -683,89 +700,124 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *  $index => array(
      *      'tax_amount'        => $taxAmount,
      *      'base_tax_amount'   => $baseTaxAmount,
-     *      'hidden_tax_amount' => $hiddenTaxAmount,
      *      'title'             => $title,
      *      'percent'           => $percent
      *  )
      * )
      *
-     * @param \Magento\Sales\Model\Order $source
+     * @param \Magento\Sales\Model\Order|\Magento\Sales\Model\Order\Invoice|\Magento\Sales\Model\Order\Creditmemo $source
      * @return array
      */
     public function getCalculatedTaxes($source)
     {
-        if ($this->_coreRegistry->registry('current_invoice')) {
-            $current = $this->_coreRegistry->registry('current_invoice');
-        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
-            $current = $this->_coreRegistry->registry('current_creditmemo');
-        } else {
-            $current = $source;
+        $taxClassAmount = [];
+        if (empty($source)) {
+            return $taxClassAmount;
         }
+        $current = $source;
+        if ($source instanceof \Magento\Sales\Model\Order\Invoice
+            || $source instanceof \Magento\Sales\Model\Order\Creditmemo
+        ) {
+            $source = $current->getOrder();
+        }
+        if ($current == $source) {
+            $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($current->getId());
+            $appliedTaxes = $orderTaxDetails->getAppliedTaxes();
+            foreach ($appliedTaxes as $appliedTax) {
+                $taxCode = $appliedTax->getCode();
+                $taxClassAmount[$taxCode]['tax_amount'] = $appliedTax->getAmount();
+                $taxClassAmount[$taxCode]['base_tax_amount'] = $appliedTax->getBaseAmount();
+                $taxClassAmount[$taxCode]['title'] = $appliedTax->getTitle();
+                $taxClassAmount[$taxCode]['percent'] = $appliedTax->getPercent();
+            }
+        } else {
+            $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($source->getId());
 
-        $taxClassAmount = array();
-        if ($current && $source) {
-            if ($current == $source) {
-                // use the actuals
-                $rates = $this->_getTaxRateSubtotals($source);
-                foreach ($rates['items'] as $rate) {
-                    $taxClassId = $rate['tax_id'];
-                    $taxClassAmount[$taxClassId]['tax_amount'] = $rate['amount'];
-                    $taxClassAmount[$taxClassId]['base_tax_amount'] = $rate['base_amount'];
-                    $taxClassAmount[$taxClassId]['title'] = $rate['title'];
-                    $taxClassAmount[$taxClassId]['percent'] = $rate['percent'];
-                }
-            } else {
-                // regenerate tax subtotals
-                // Calculate taxes for shipping
-                $shippingTaxAmount = $current->getShippingTaxAmount();
-                if ($shippingTaxAmount) {
-                    $shippingTax    = $this->getShippingTax($current);
-                    $taxClassAmount = array_merge($taxClassAmount, $shippingTax);
-                }
-
-                /** @var $item \Magento\Sales\Model\Order\Item */
-                foreach ($current->getItemsCollection() as $item) {
-                    /** @var $taxCollection \Magento\Tax\Model\Resource\Sales\Order\Tax\Item */
-                    $taxCollection = $this->_taxItemFactory->create();
-                    $taxCollection->getTaxItemsByItemId(
-                        $item->getOrderItemId() ? $item->getOrderItemId() : $item->getItemId()
-                    );
-
-                    foreach ($taxCollection as $tax) {
-                        $taxClassId = $tax['tax_id'];
-                        $percent = $tax['tax_percent'];
-
-                        $price = $item->getRowTotal();
-                        $basePrice = $item->getBaseRowTotal();
-                        if ($this->applyTaxAfterDiscount($item->getStoreId())) {
-                            $price = $price - $item->getDiscountAmount() + $item->getHiddenTaxAmount();
-                            $basePrice = $basePrice - $item->getBaseDiscountAmount() + $item->getBaseHiddenTaxAmount();
-                        }
-                        $taxAmount = $price * $percent / 100;
-                        $baseTaxAmount = $basePrice * $percent / 100;
-
-                        if (isset($taxClassAmount[$taxClassId])) {
-                            $taxClassAmount[$taxClassId]['tax_amount'] += $taxAmount;
-                            $taxClassAmount[$taxClassId]['base_tax_amount'] += $baseTaxAmount;
-                        } else {
-                            $taxClassAmount[$taxClassId]['tax_amount'] = $taxAmount;
-                            $taxClassAmount[$taxClassId]['base_tax_amount'] = $baseTaxAmount;
-                            $taxClassAmount[$taxClassId]['title'] = $tax['title'];
-                            $taxClassAmount[$taxClassId]['percent'] = $tax['percent'];
-                        }
+            // Apply any taxes for shipping
+            $shippingTaxAmount = $current->getShippingTaxAmount();
+            $originalShippingTaxAmount = $source->getShippingTaxAmount();
+            if ($shippingTaxAmount && $originalShippingTaxAmount &&
+                $shippingTaxAmount != 0 && $originalShippingTaxAmount != 0) {
+                //An invoice or credit memo can have a different qty than its order
+                $shippingRatio = $shippingTaxAmount / $originalShippingTaxAmount;
+                $itemTaxDetails = $orderTaxDetails->getItems();
+                foreach ($itemTaxDetails as $itemTaxDetail) {
+                    //Aggregate taxable items associated with shipping
+                    if ($itemTaxDetail->getType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING) {
+                        $taxClassAmount = $this->_aggregateTaxes($taxClassAmount, $itemTaxDetail, $shippingRatio);
                     }
                 }
             }
 
-            foreach ($taxClassAmount as $key => $tax) {
-                if ($tax['tax_amount'] == 0 && $tax['base_tax_amount'] == 0) {
-                    unset($taxClassAmount[$key]);
+            // Apply any taxes for the items
+            /** @var $item \Magento\Sales\Model\Order\Invoice\Item|\Magento\Sales\Model\Order\Creditmemo\Item */
+            foreach ($current->getItemsCollection() as $item) {
+                $orderItem = $item->getOrderItem();
+                $orderItemId = $orderItem->getId();
+                $orderItemTax = $orderItem->getTaxAmount();
+                $itemTax = $item->getTaxAmount();
+                if (!$itemTax || !$orderItemTax) {
+                    continue;
+                }
+                //An invoiced item or credit memo item can have a different qty than its order item qty
+                $itemRatio = $itemTax / $orderItemTax;
+                $itemTaxDetails = $orderTaxDetails->getItems();
+                foreach ($itemTaxDetails as $itemTaxDetail) {
+                    //Aggregate taxable items associated with an item
+                    if ($itemTaxDetail->getItemId() == $orderItemId
+                        || $itemTaxDetail->getAssociatedItemId() == $orderItemId) {
+                        $taxClassAmount = $this->_aggregateTaxes($taxClassAmount, $itemTaxDetail, $itemRatio);
+                    }
                 }
             }
-
-            $taxClassAmount = array_values($taxClassAmount);
         }
 
+        // Finish
+        foreach ($taxClassAmount as $key => $tax) {
+            if ($tax['tax_amount'] == 0 && $tax['base_tax_amount'] == 0) {
+                unset($taxClassAmount[$key]);
+            } else {
+                $taxClassAmount[$key]['tax_amount'] = $this->priceCurrency->round($tax['tax_amount']);
+                $taxClassAmount[$key]['base_tax_amount'] = $this->priceCurrency->round($tax['base_tax_amount']);
+            }
+        }
+
+        return array_values($taxClassAmount);
+    }
+
+    /**
+     * Accumulates the pre-calculated taxes for each tax class
+     *
+     * This method accepts and returns the 'taxClassAmount' array with format:
+     * array(
+     *  $index => array(
+     *      'tax_amount'        => $taxAmount,
+     *      'base_tax_amount'   => $baseTaxAmount,
+     *      'title'             => $title,
+     *      'percent'           => $percent
+     *  )
+     * )
+     *
+     * @param array $taxClassAmount
+     * @param array $itemTaxDetail
+     * @param float $ratio
+     * @return array
+     */
+    private function _aggregateTaxes($taxClassAmount, $itemTaxDetail, $ratio)
+    {
+        $itemAppliedTaxes = $itemTaxDetail->getAppliedTaxes();
+        foreach ($itemAppliedTaxes as $itemAppliedTax) {
+            $taxCode = $itemAppliedTax->getCode();
+            if (!isset($taxClassAmount[$taxCode])) {
+                $taxClassAmount[$taxCode]['title'] = $itemAppliedTax->getTitle();
+                $taxClassAmount[$taxCode]['percent'] = $itemAppliedTax->getPercent();
+                $taxClassAmount[$taxCode]['tax_amount'] = $itemAppliedTax->getAmount() * $ratio;
+                $taxClassAmount[$taxCode]['base_tax_amount'] = $itemAppliedTax->getBaseAmount() * $ratio;
+            } else {
+                $taxClassAmount[$taxCode]['tax_amount'] += $itemAppliedTax->getAmount() * $ratio;
+                $taxClassAmount[$taxCode]['base_tax_amount'] += $itemAppliedTax->getBaseAmount() * $ratio;
+            }
+        }
         return $taxClassAmount;
     }
 
@@ -778,48 +830,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getTaxRateSubtotals($order)
     {
         return $this->_orderTaxCollectionFactory->create()->loadByOrder($order)->toArray();
-    }
-
-    /**
-     * Get calculated Shipping & Handling Tax
-     *
-     * This method returns array with format:
-     * array(
-     *  $index => array(
-     *      'tax_amount'        => $taxAmount,
-     *      'base_tax_amount'   => $baseTaxAmount,
-     *      'hidden_tax_amount' => $hiddenTaxAmount
-     *      'title'             => $title
-     *      'percent'           => $percent
-     *  )
-     * )
-     *
-     * @param \Magento\Sales\Model\Order $source
-     * @return array
-     */
-    public function getShippingTax($source)
-    {
-        if ($this->_coreRegistry->registry('current_invoice')) {
-            $current = $this->_coreRegistry->registry('current_invoice');
-        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
-            $current = $this->_coreRegistry->registry('current_creditmemo');
-        } else {
-            $current = $source;
-        }
-
-        $taxClassAmount = array();
-        if ($current && $source) {
-            if ($current->getShippingTaxAmount() != 0 && $current->getBaseShippingTaxAmount() != 0) {
-                $taxClassAmount[0]['tax_amount'] = $current->getShippingTaxAmount();
-                $taxClassAmount[0]['base_tax_amount'] = $current->getBaseShippingTaxAmount();
-                if ($current->getShippingHiddenTaxAmount() > 0) {
-                    $taxClassAmount[0]['hidden_tax_amount'] = $current->getShippingHiddenTaxAmount();
-                }
-                $taxClassAmount[0]['title'] = __('Shipping & Handling Tax');
-                $taxClassAmount[0]['percent'] = null;
-            }
-        }
-        return $taxClassAmount;
     }
 
     /**

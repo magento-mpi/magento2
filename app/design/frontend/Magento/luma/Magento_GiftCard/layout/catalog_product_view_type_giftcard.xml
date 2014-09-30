@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <referenceContainer name="product.info.price">
         <container name="product.info.price.giftcard" label="Product info auxiliary container" htmlTag="div" htmlClass="product-info-price-giftcard" before="-">
         </container>
     </referenceContainer>
     <move element="product.price.final" destination="product.info.price.giftcard"/>
     <move element="product.info.giftcard" destination="product.info.price.giftcard"/>
-</page>
+</layout>

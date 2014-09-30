@@ -13,11 +13,10 @@
     <preference for="Magento\Framework\App\ResponseInterface" type="Magento\Framework\App\Response\Http" />
     <preference for="Magento\Framework\App\RouterListInterface" type="Magento\Framework\App\RouterList" />
     <preference for="Magento\Framework\App\FrontControllerInterface" type="Magento\Framework\App\FrontController" />
-    <preference for="Magento\Framework\Module\UpdaterInterface" type="Magento\Framework\Module\Updater" />
     <preference for="Magento\Framework\App\CacheInterface" type="Magento\Framework\App\Cache\Proxy" />
     <preference for="Magento\Framework\App\Cache\StateInterface" type="Magento\Framework\App\Cache\State" />
     <preference for="Magento\Framework\App\Cache\TypeListInterface" type="Magento\Framework\App\Cache\TypeList" />
-    <preference for="Magento\Store\Model\StoreManagerInterface" type="Magento\Store\Model\StoreManager" />
+    <preference for="Magento\Framework\StoreManagerInterface" type="Magento\Store\Model\StoreManager" />
     <preference for="Magento\Framework\View\DesignInterface" type="Magento\Core\Model\View\Design\Proxy" />
     <preference for="Magento\Framework\View\Design\ThemeInterface" type="Magento\Core\Model\Theme" />
     <preference for="Magento\Framework\View\Design\Theme\ResolverInterface" type="Magento\Core\Model\Theme\Resolver" />
@@ -63,6 +62,8 @@
     <preference for="Magento\Framework\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\Framework\Session\Config\ConfigInterface" type="Magento\Framework\Session\Config" />
     <preference for="Magento\Framework\Session\SidResolverInterface" type="Magento\Framework\Session\SidResolver\Proxy" />
+    <preference for="Magento\Framework\Stdlib\Cookie\CookieScopeInterface" type="\Magento\Framework\Stdlib\Cookie\CookieScope" />
+    <preference for="Magento\Framework\Stdlib\CookieManager" type="Magento\Framework\Stdlib\Cookie\PhpCookieManager" />
     <preference for="Magento\Framework\TranslateInterface" type="Magento\Framework\Translate" />
     <preference for="Magento\Framework\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\Framework\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
@@ -74,6 +75,8 @@
     <preference for="Magento\Framework\Mview\View\ChangelogInterface" type="Magento\Framework\Mview\View\Changelog" />
     <preference for="Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface" type="Magento\Framework\View\Design\FileResolution\Fallback\CacheData\Flat"/>
     <preference for="Magento\Framework\Service\Data\AttributeMetadataBuilderInterface" type="Magento\Framework\Service\Data\AttributeMetadataBuilder"/>
+    <preference for="Magento\Framework\Service\Data\MetadataServiceInterface" type="Magento\Framework\Service\Config\MetadataConfig"/>
+    <preference for="Magento\Framework\App\Rss\UrlBuilderInterface" type="Magento\Framework\App\Rss\UrlBuilder"/>
     <type name="Magento\Framework\Model\Context">
         <arguments>
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>
@@ -81,7 +84,7 @@
     </type>
     <type name="Magento\Framework\Service\V1\Data\FilterBuilder" shared="false" />
     <type name="Magento\Framework\Service\V1\Data\SearchCriteriaBuilder" shared="false" />
-    <type name="Magento\Framework\Service\Data\Eav\AttributeValueBuilder" shared="false" />
+    <type name="Magento\Framework\Service\Data\AttributeValueBuilder" shared="false" />
     <type name="Magento\Framework\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Framework\Message\Session\Proxy</argument>
@@ -93,7 +96,6 @@
             <argument name="pathInfoProcessor" xsi:type="object">Magento\Store\App\Request\PathInfoProcessor\Proxy</argument>
         </arguments>
     </type>
-    <preference for="Magento\Framework\Error\HandlerInterface" type="Magento\Framework\App\Error\Handler" />
     <preference for="Magento\Framework\Session\SaveHandlerInterface" type="Magento\Framework\Session\SaveHandler" />
     <type name="Magento\Framework\Session\SaveHandler">
         <arguments>
@@ -116,11 +118,6 @@
         <arguments>
             <argument name="installDate" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_INSTALL_DATE</argument>
             <argument name="mode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Framework\Module\FrontController\Plugin\Install">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Arguments\ValidationState">
@@ -191,6 +188,7 @@
     <type name="Magento\Framework\App\ObjectManager\ConfigLoader">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\ObjectManager\Config\Reader\Dom\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\ObjectManager\ConfigCache">
@@ -206,19 +204,20 @@
     <type name="Magento\Framework\Cache\Config\Data">
         <arguments>
             <argument name="cacheId" xsi:type="string">config_cache</argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\Cache\Config\Reader\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Interception\Config\Config">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
-            <argument name="reader" xsi:type="object">Magento\Framework\ObjectManager\Config\Reader\Dom</argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\ObjectManager\Config\Reader\Dom\Proxy</argument>
             <argument name="cacheId" xsi:type="string">interception</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Interception\PluginList\PluginList">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
-            <argument name="reader" xsi:type="object">Magento\Framework\ObjectManager\Config\Reader\Dom</argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\ObjectManager\Config\Reader\Dom\Proxy</argument>
             <argument name="cacheId" xsi:type="string">plugin-list</argument>
             <argument name="scopePriorityScheme" xsi:type="array">
                 <item name="first" xsi:type="string">global</item>
@@ -232,6 +231,7 @@
     </type>
     <type name="Magento\Framework\App\Resource\Config">
         <arguments>
+            <argument name="reader" xsi:type="object">Magento\Framework\App\Resource\Config\Reader\Proxy</argument>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config\Proxy</argument>
             <argument name="initialResources" xsi:type="init_parameter">Magento\Framework\App\Resource\Config::PARAM_INITIAL_RESOURCES</argument>
         </arguments>
@@ -372,6 +372,7 @@
                 <item name="proxy" xsi:type="string">\Magento\Framework\ObjectManager\Code\Generator\Proxy</item>
                 <item name="interceptor" xsi:type="string">\Magento\Framework\Interception\Code\Generator\Interceptor</item>
                 <item name="decorator" xsi:type="string">\Magento\Framework\Interception\Code\Generator\Decorator</item>
+                <item name="logger" xsi:type="string">\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger</item>
             </argument>
         </arguments>
     </type>
@@ -399,25 +400,15 @@
         </arguments>
     </type>
     <type name="Magento\Framework\View\Layout\ScheduledStructure" shared="false" />
-
-
-    <virtualType name="Magento\Framework\Search\Config\Reader\Filesystem" type="Magento\Framework\Config\Reader\Filesystem">
+    <type name="Magento\Framework\Module\ModuleList">
         <arguments>
-            <argument name="fileName" xsi:type="string">search_request.xml</argument>
-            <argument name="schemaLocator" xsi:type="object">Magento\Framework\Search\Request\Config\SchemaLocator</argument>
-            <argument name="converter" xsi:type="object">Magento\Framework\Search\Request\Config\Converter</argument>
-            <argument name="idAttributes" xsi:type="array">
-                <item name="/requests/request" xsi:type="string">@name</item>
-                <item name="/requests/request/queries/query" xsi:type="string">@name</item>
-                <item name="/requests/request/filters/filter" xsi:type="string">@name</item>
-                <item name="/requests/request/aggregation/bucket" xsi:type="string">@name</item>
-            </argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\Module\Declaration\Reader\Filesystem\Proxy</argument>
         </arguments>
-    </virtualType>
+    </type>
 
-    <type name="Magento\Framework\Search\Request\Config">
+    <type name="Magento\Framework\View\Result\Page">
         <arguments>
-            <argument name="reader" xsi:type="object">Magento\Framework\Search\Config\Reader\Filesystem</argument>
+            <argument name="template" xsi:type="string">Magento_Theme::root.phtml</argument>
         </arguments>
     </type>
 </config>

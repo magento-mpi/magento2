@@ -17,7 +17,7 @@ namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Grid\Column\Renderer;
 class Rate extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -28,13 +28,13 @@ class Rate extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward\Rate $rate
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward\Rate $rate,
         array $data = array()
     ) {

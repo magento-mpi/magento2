@@ -56,9 +56,17 @@ class AttributeMetadataConverter
         $options = [];
         if ($attribute->usesSource()) {
             foreach ($attribute->getSource()->getAllOptions() as $option) {
-                $options[] = $this->_optionBuilder->setLabel($option['label'])
-                    ->setValue($option['value'])
-                    ->create();
+                if (!is_array($option['value'])) {
+                    $this->_optionBuilder->setValue($option['value']);
+                } else {
+                    $optionArray = [];
+                    foreach ($option['value'] as $optionArrayValues) {
+                        $optionArray[] = $this->_optionBuilder->populateWithArray($optionArrayValues)->create();
+                    }
+                    $this->_optionBuilder->setOptions($optionArray);
+                }
+                $this->_optionBuilder->setLabel($option['label']);
+                $options[] = $this->_optionBuilder->create();
             }
         }
         $validationRules = [];
@@ -70,21 +78,21 @@ class AttributeMetadataConverter
 
         $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
             ->setFrontendInput($attribute->getFrontendInput())
-            ->setInputFilter($attribute->getInputFilter())
+            ->setInputFilter((string)$attribute->getInputFilter())
             ->setStoreLabel($attribute->getStoreLabel())
             ->setValidationRules($validationRules)
-            ->setVisible($attribute->getIsVisible())
-            ->setRequired($attribute->getIsRequired())
-            ->setMultilineCount($attribute->getMultilineCount())
-            ->setDataModel($attribute->getDataModel())
+            ->setVisible((boolean)$attribute->getIsVisible())
+            ->setRequired((boolean)$attribute->getIsRequired())
+            ->setMultilineCount((int)$attribute->getMultilineCount())
+            ->setDataModel((string)$attribute->getDataModel())
             ->setOptions($options)
             ->setFrontendClass($attribute->getFrontend()->getClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
+            ->setNote((string)$attribute->getNote())
+            ->setIsSystem((boolean)$attribute->getIsSystem())
+            ->setIsUserDefined((boolean)$attribute->getIsUserDefined())
             ->setBackendType($attribute->getBackendType())
-            ->setNote($attribute->getNote())
-            ->setIsSystem($attribute->getIsSystem())
-            ->setIsUserDefined($attribute->getIsUserDefined())
-            ->setSortOrder($attribute->getSortOrder());
+            ->setSortOrder((int)$attribute->getSortOrder());
 
         return $this->_attributeMetadataBuilder->create();
     }

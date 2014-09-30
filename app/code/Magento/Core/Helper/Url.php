@@ -16,17 +16,17 @@ namespace Magento\Core\Helper;
 class Url extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_storeManager = $storeManager;
@@ -65,19 +65,6 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param string $string
-     * @return string
-     */
-    protected function _prepareString($string)
-    {
-        $string = preg_replace('#[^0-9a-z]+#i', '-', $string);
-        $string = strtolower($string);
-        $string = trim($string, '-');
-
-        return $string;
-    }
-
-    /**
      * Add request parameter into url
      *
      * @param  string $url
@@ -103,7 +90,9 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
                 $arrQueryParams[] = $key . '=' . $value;
             }
         }
-        $url .= $startDelimiter . implode('&', $arrQueryParams);
+        if (!empty($arrQueryParams)) {
+            $url .= $startDelimiter . implode('&', $arrQueryParams);
+        }
 
         return $url;
     }

@@ -65,6 +65,8 @@
     <preference for="Magento\Framework\App\Config\Resource\ConfigInterface" type="Magento\Core\Model\Resource\Config" />
     <preference for="Magento\Framework\App\DesignInterface" type="Magento\Core\Model\Design" />
     <preference for="Magento\Framework\Pricing\Amount\AmountInterface" type="Magento\Framework\Pricing\Amount\Base" />
+    <preference for="Magento\Framework\Stdlib\CookieManager" type="Magento\Framework\Stdlib\Cookie\PhpCookieManager" />
+    <preference for="Magento\Framework\View\Page\FaviconInterface" type="Magento\Theme\Model\Favicon\Favicon" />
     <type name="Magento\Framework\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
@@ -93,6 +95,11 @@
             <argument name="cacheLifetime" xsi:type="string">86400</argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\Event\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Framework\Event\Config\Reader\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\Acl\Cache">
         <arguments>
             <argument name="cacheKey" xsi:type="string">global_acl_resources</argument>
@@ -102,7 +109,7 @@
     <type name="Magento\Core\Model\Theme\Collection" shared="false" />
     <type name="Magento\Core\Model\Layout\Merge">
         <arguments>
-            <argument name="fileSource" xsi:type="object">Magento\Framework\View\Layout\File\Collector\Aggregated</argument>
+            <argument name="fileSource" xsi:type="object">Magento\Framework\View\Layout\File\Collector\Aggregated\Proxy</argument>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Layout</argument>
         </arguments>
     </type>
@@ -260,6 +267,11 @@
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\App\Config\Initial">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Framework\App\Config\Initial\Reader\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\App\Config\Initial\SchemaLocator">
         <arguments>
             <argument name="moduleName" xsi:type="string">Magento_Core</argument>
@@ -268,6 +280,11 @@
     <type name="Magento\Framework\App\Config\Initial\Reader">
         <arguments>
             <argument name="converter" xsi:type="object">Magento\Framework\App\Config\Initial\Converter</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\App\Route\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Framework\App\Route\Config\Reader\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Core\App\Router\Base">
@@ -316,7 +333,7 @@
     </type>
     <type name="Magento\Framework\Object\Copy\Config\Data">
         <arguments>
-            <argument name="reader" xsi:type="object">Magento\Framework\Object\Copy\Config\Reader</argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\Object\Copy\Config\Reader\Proxy</argument>
             <argument name="cacheId" xsi:type="string">fieldset_config</argument>
         </arguments>
     </type>
@@ -400,7 +417,12 @@
         </arguments>
     </type>
     <type name="Magento\Framework\App\FrontController">
-        <plugin name="install" type="Magento\Framework\Module\FrontController\Plugin\Install" sortOrder="40"/>
+        <plugin name="install" type="Magento\Framework\Module\Plugin\DbStatusValidator" sortOrder="40"/>
+    </type>
+    <type name="Magento\Framework\Module\Plugin\DbStatusValidator">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
+        </arguments>
     </type>
     <type name="Magento\Framework\App\Action\Action">
         <plugin name="storeCheck" type="Magento\Store\App\Action\Plugin\StoreCheck" sortOrder="10"/>
@@ -487,7 +509,7 @@
     </type>
     <type name="Magento\Framework\Stdlib\DateTime\Timezone">
         <arguments>
-            <argument name="defaultTimezonePath" xsi:type="string">general/locale/timezone</argument>
+            <argument name="defaultTimezonePath" xsi:type="const">Magento\Core\Helper\Data::XML_PATH_DEFAULT_TIMEZONE</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
@@ -499,7 +521,7 @@
     <type name="Magento\Framework\Locale\Resolver">
         <plugin name="initLocale" type="Magento\Framework\Translate\Locale\Resolver\Plugin" sortOrder="10"/>
         <arguments>
-            <argument name="defaultLocalePath" xsi:type="string">general/locale/code</argument>
+            <argument name="defaultLocalePath" xsi:type="const">Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>

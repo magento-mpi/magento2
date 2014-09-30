@@ -38,7 +38,7 @@ class Layer extends \Magento\Framework\Object
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,7 +91,7 @@ class Layer extends \Magento\Framework\Object
      * @param CategoryFactory $categoryFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
@@ -101,7 +101,7 @@ class Layer extends \Magento\Framework\Object
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -157,6 +157,8 @@ class Layer extends \Magento\Framework\Object
     public function prepareProductCollection($collection)
     {
         $this->collectionFilter->filter($collection, $this->getCurrentCategory());
+
+        return $this;
     }
 
     /**
@@ -257,15 +259,5 @@ class Layer extends \Magento\Framework\Object
         }
 
         return $state;
-    }
-
-    /**
-     * Get attribute sets identifiers of current product set
-     *
-     * @return array
-     */
-    protected function _getSetIds()
-    {
-        return $this->getProductCollection()->getSetIds();
     }
 }

@@ -22,6 +22,7 @@ namespace Magento\Review\Model\Rating;
  * @method \Magento\Review\Model\Rating\Option setPosition(int $value)
  *
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @codeCoverageIgnore
  */
 class Option extends \Magento\Framework\Model\AbstractModel
 {

@@ -11,7 +11,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
@@ -79,7 +79,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\StoreManagerInterface
      */
     private $_storeManagerMock;
 
@@ -833,7 +833,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private function _setupStoreMock()
     {
         $this->_storeManagerMock = $this->getMockBuilder(
-            '\Magento\Store\Model\StoreManagerInterface'
+            '\Magento\Framework\StoreManagerInterface'
         )->disableOriginalConstructor()->getMock();
 
         $this->_storeMock = $this->getMockBuilder(

@@ -8,34 +8,20 @@
 namespace Magento\Checkout\Service\V1\Cart;
 
 use \Magento\Framework\Service\V1\Data\SearchCriteria;
-use \Magento\Sales\Model\QuoteFactory;
 use \Magento\Sales\Model\Quote;
+use \Magento\Sales\Model\QuoteRepository;
 use \Magento\Sales\Model\Resource\Quote\Collection as QuoteCollection;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Service\V1\Data\Search\FilterGroup;
-use \Magento\Checkout\Service\V1\Data\CartBuilder;
-use \Magento\Checkout\Service\V1\Data\CartSearchResultsBuilder;
-use \Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder;
-use \Magento\Checkout\Service\V1\Data\Cart\CustomerBuilder;
-use \Magento\Checkout\Service\V1\Data\Cart\CurrencyBuilder;
-use \Magento\Checkout\Service\V1\Data\Cart;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals;
-use \Magento\Checkout\Service\V1\Data\Cart\Customer;
-use \Magento\Checkout\Service\V1\Data\Cart\Currency;
+use \Magento\Checkout\Service\V1\Data;
 
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var QuoteFactory
+     * @var QuoteRepository
      */
-    private $quoteFactory;
-
-    /**
-     * @var CartBuilder
-     */
-    private $cartBuilder;
+    private $quoteRepository;
 
     /**
      * @var QuoteCollection
@@ -43,24 +29,14 @@ class ReadService implements ReadServiceInterface
     private $quoteCollection;
 
     /**
-     * @var CartSearchResultsBuilder
+     * @var Data\CartSearchResultsBuilder
      */
     private $searchResultsBuilder;
 
     /**
-     * @var CustomerBuilder
+     * @var Data\CartMapper
      */
-    private $customerBuilder;
-
-    /**
-     * @var TotalsBuilder
-     */
-    private $totalsBuilder;
-
-    /**
-     * @var CurrencyBuilder;
-     */
-    private $currencyBuilder;
+    private $cartMapper;
 
     /**
      * @var array
@@ -84,30 +60,21 @@ class ReadService implements ReadServiceInterface
     );
 
     /**
-     * @param QuoteFactory $quoteFactory
+     * @param QuoteRepository $quoteRepository
      * @param QuoteCollection $quoteCollection
-     * @param CartBuilder $cartBuilder
-     * @param CartSearchResultsBuilder $searchResultsBuilder
-     * @param TotalsBuilder $totalsBuilder
-     * @param CustomerBuilder $customerBuilder
-     * @param CurrencyBuilder $currencyBuilder
+     * @param Data\CartSearchResultsBuilder $searchResultsBuilder
+     * @param Data\CartMapper $cartMapper
      */
     public function __construct(
-        QuoteFactory $quoteFactory,
+        QuoteRepository $quoteRepository,
         QuoteCollection $quoteCollection,
-        CartBuilder $cartBuilder,
-        CartSearchResultsBuilder $searchResultsBuilder,
-        TotalsBuilder $totalsBuilder,
-        CustomerBuilder $customerBuilder,
-        CurrencyBuilder $currencyBuilder
+        Data\CartSearchResultsBuilder $searchResultsBuilder,
+        Data\CartMapper $cartMapper
     ) {
-        $this->quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->quoteCollection = $quoteCollection;
-        $this->cartBuilder = $cartBuilder;
         $this->searchResultsBuilder = $searchResultsBuilder;
-        $this->totalsBuilder = $totalsBuilder;
-        $this->customerBuilder = $customerBuilder;
-        $this->currencyBuilder = $currencyBuilder;
+        $this->cartMapper = $cartMapper;
     }
 
     /**
@@ -115,11 +82,17 @@ class ReadService implements ReadServiceInterface
      */
     public function getCart($cartId)
     {
-        $quote = $this->quoteFactory->create()->load($cartId);
-        if ($quote->getId() != $cartId) {
-            throw new NoSuchEntityException('There is no cart with provided ID.');
-        }
-        return $this->createCartDataObject($quote);
+        $quote = $this->quoteRepository->get($cartId);
+        return $this->cartMapper->map($quote);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCartForCustomer($customerId)
+    {
+        $quote = $this->quoteRepository->getForCustomer($customerId);
+        return $this->cartMapper->map($quote);
     }
 
     /**
@@ -136,10 +109,10 @@ class ReadService implements ReadServiceInterface
         $this->searchResultsBuilder->setTotalCount($this->quoteCollection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
-            foreach ($sortOrders as $field => $direction) {
+            foreach ($sortOrders as $sortOrder) {
                 $this->quoteCollection->addOrder(
-                    $this->getQuoteSearchField($field),
-                    $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                    $this->getQuoteSearchField($sortOrder->getField()),
+                    $sortOrder->getDirection() == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
                 );
             }
         }
@@ -149,78 +122,11 @@ class ReadService implements ReadServiceInterface
         $cartList = [];
         /** @var Quote $quote */
         foreach ($this->quoteCollection as $quote) {
-            $cartList[] = $this->createCartDataObject($quote);
+            $cartList[] = $this->cartMapper->map($quote);
         }
         $this->searchResultsBuilder->setItems($cartList);
 
         return $this->searchResultsBuilder->create();
-    }
-
-    /**
-     * Create cart data object based on given quote
-     *
-     * @param Quote $quote
-     * @return Cart
-     */
-    protected function createCartDataObject(Quote $quote)
-    {
-        $this->cartBuilder->populateWithArray(array(
-            Cart::ID => $quote->getId(),
-            Cart::STORE_ID  => $quote->getStoreId(),
-            Cart::CREATED_AT  => $quote->getCreatedAt(),
-            Cart::UPDATED_AT  => $quote->getUpdatedAt(),
-            Cart::CONVERTED_AT => $quote->getConvertedAt(),
-            Cart::IS_ACTIVE => $quote->getIsActive(),
-            Cart::IS_VIRTUAL => $quote->getIsVirtual(),
-            Cart::ITEMS_COUNT => $quote->getItemsCount(),
-            Cart::ITEMS_QUANTITY => $quote->getItemsQty(),
-            Cart::CHECKOUT_METHOD => $quote->getCheckoutMethod(),
-            Cart::RESERVED_ORDER_ID => $quote->getReservedOrderId(),
-            Cart::ORIG_ORDER_ID => $quote->getOrigOrderId(),
-        ));
-
-        $this->totalsBuilder->populateWithArray(array(
-            Totals::BASE_GRAND_TOTAL => $quote->getBaseGrandTotal(),
-            Totals::GRAND_TOTAL => $quote->getGrandTotal(),
-            Totals::BASE_SUBTOTAL => $quote->getBaseSubtotal(),
-            Totals::SUBTOTAL => $quote->getSubtotal(),
-            Totals::BASE_SUBTOTAL_WITH_DISCOUNT => $quote->getBaseSubtotalWithDiscount(),
-            Totals::SUBTOTAL_WITH_DISCOUNT => $quote->getSubtotalWithDiscount(),
-        ));
-
-        $this->customerBuilder->populateWithArray(array(
-            Customer::ID => $quote->getCustomerId(),
-            Customer::EMAIL => $quote->getCustomerEmail(),
-            Customer::GROUP_ID => $quote->getCustomerGroupId(),
-            Customer::TAX_CLASS_ID => $quote->getCustomerTaxClassId(),
-            Customer::PREFIX => $quote->getCustomerPrefix(),
-            Customer::FIRST_NAME => $quote->getCustomerFirstname(),
-            Customer::MIDDLE_NAME => $quote->getCustomerMiddlename(),
-            Customer::LAST_NAME => $quote->getCustomerLastname(),
-            Customer::SUFFIX => $quote->getCustomerSuffix(),
-            Customer::DOB => $quote->getCustomerDob(),
-            Customer::NOTE => $quote->getCustomerNote(),
-            Customer::NOTE_NOTIFY => $quote->getCustomerNoteNotify(),
-            Customer::IS_GUEST => $quote->getCustomerIsGuest(),
-            Customer::GENDER => $quote->getCustomerGender(),
-            Customer::TAXVAT => $quote->getCustomerTaxvat(),
-        ));
-
-        $this->currencyBuilder->populateWithArray(array(
-            Currency::GLOBAL_CURRENCY_CODE => $quote->getGlobalCurrencyCode(),
-            Currency::BASE_CURRENCY_CODE => $quote->getBaseCurrencyCode(),
-            Currency::STORE_CURRENCY_CODE => $quote->getStoreCurrencyCode(),
-            Currency::QUOTE_CURRENCY_CODE => $quote->getQuoteCurrencyCode(),
-            Currency::STORE_TO_BASE_RATE => $quote->getStoreToBaseRate(),
-            Currency::STORE_TO_QUOTE_RATE => $quote->getStoreToQuoteRate(),
-            Currency::BASE_TO_GLOBAL_RATE => $quote->getBaseToGlobalRate(),
-            Currency::BASE_TO_QUOTE_RATE => $quote->getBaseToQuoteRate(),
-        ));
-
-        $this->cartBuilder->setCustomer($this->customerBuilder->create());
-        $this->cartBuilder->setTotals($this->totalsBuilder->create());
-        $this->cartBuilder->setCurrency($this->currencyBuilder->create());
-        return $this->cartBuilder->create();
     }
 
     /**
