@@ -25,17 +25,17 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     const STORE_ID = 'store_id';
 
     /**
-     * Cart creation time and date.
+     * Cart creation date and time.
      */
     const CREATED_AT = 'created_at';
 
     /**
-     * Cart update time and date.
+     * Cart last update date and time.
      */
     const UPDATED_AT = 'updated_at';
 
     /**
-     * Cart conversion time and date.
+     * Cart conversion date and time.
      */
     const CONVERTED_AT = 'converted_at';
 
@@ -45,7 +45,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     const IS_ACTIVE = 'is_active';
 
     /**
-     * Flag that shows whether the cart is virtual.
+     * Flag that shows whether the cart is virtual. A virtual cart contains virtual items.
      */
     const IS_VIRTUAL = 'is_virtual';
 
@@ -60,7 +60,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     const ITEMS_COUNT = 'items_count';
 
     /**
-     * Total number of all cart items.
+     * Total quantity of all cart items.
      */
     const ITEMS_QUANTITY = 'items_qty';
 
@@ -115,9 +115,9 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Returns the store ID.
+     * Returns the store ID for the store where the cart was created.
      *
-     * @return int Store ID.
+     * @return int|null Store ID. Otherwise, null.
      */
     public function getStoreId()
     {
@@ -127,7 +127,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**
      * Returns the cart creation date and time.
      *
-     * @return string Cart creation date and time.
+     * @return string|null Cart creation date and time. Otherwise, null.
      */
     public function getCreatedAt()
     {
@@ -137,7 +137,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**
      * Returns the cart last update date and time.
      *
-     * @return string Cart last update date and time.
+     * @return string|null Cart last update date and time. Otherwise, null.
      */
     public function getUpdatedAt()
     {
@@ -155,7 +155,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Returns the active status flag value.
+     * Determines whether the cart is still active.
      *
      * @return bool|null Active status flag value. Otherwise, null.
      */
@@ -170,7 +170,9 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Returns the virtual flag value, which indicates whether the cart contains virtual products.
+     * Determines whether the cart is a virtual cart.
+     *
+     * A virtual cart contains virtual items.
      *
      * @return bool|null Virtual flag value. Otherwise, null.
      */
@@ -185,9 +187,9 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Returns the cart items.
+     * Lists items in the cart.
      *
-     * @return \Magento\Checkout\Service\V1\Data\Cart\Item[]|null Array of cart items. Otherwise, null.
+     * @return \Magento\Checkout\Service\V1\Data\Cart\Item[]|null Array of items. Otherwise, null.
      */
     public function getItems()
     {
@@ -207,7 +209,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**
      * Returns the total quantity of all cart items.
      *
-     * @return float|null Total quantity. Otherwise, null.
+     * @return float|null Total quantity of all cart items. Otherwise, null.
      */
     public function getItemsQty()
     {
@@ -217,7 +219,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**
      * Returns information about the customer who is assigned to the cart.
      *
-     * @return \Magento\Checkout\Service\V1\Data\Cart\Customer Customer information.
+     * @return \Magento\Checkout\Service\V1\Data\Cart\Customer Information about the customer who is assigned to the cart.
      */
     public function getCustomer()
     {
@@ -257,7 +259,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**
      * Returns information about cart totals.
      *
-     * @return \Magento\Checkout\Service\V1\Data\Cart\Totals|null Cart totals information. Otherwise, null.
+     * @return \Magento\Checkout\Service\V1\Data\Cart\Totals|null Information about cart totals. Otherwise, null.
      */
     public function getTotals()
     {
@@ -265,7 +267,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Returns the reserved order ID.
+     * Returns the reserved order ID for the cart.
      *
      * @return string|null Reserved order ID. Otherwise, null.
      */
@@ -275,7 +277,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Returns the original order ID.
+     * Returns the original order ID for the cart.
      *
      * @return string|null Original order ID. Otherwise, null.
      */
