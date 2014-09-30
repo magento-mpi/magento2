@@ -10,5 +10,8 @@ namespace Magento\Search\Model;
 
 interface QueryManagerInterface
 {
+    /**
+     * @return QueryInterface
+     */
     public function getQuery();
-} 
+}

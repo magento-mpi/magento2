@@ -10,5 +10,8 @@ namespace Magento\Search\Model;
 
 interface QueryInterface
 {
+    /**
+     * @return string
+     */
     public function getQueryText();
-} 
+}

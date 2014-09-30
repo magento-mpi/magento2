@@ -26,7 +26,7 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Search\Model\AdditionalInfoDataProviderInterface|MockObject
      */
-    private $additionalInfoDataProvider;
+    private $dataProvider;
 
     /**
      * @var \Magento\Search\Block\AdditionalInfo
@@ -37,7 +37,7 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
 
-        $this->additionalInfoDataProvider = $this->getMockBuilder('\Magento\Search\Model\AdditionalInfoDataProviderInterface')
+        $this->dataProvider = $this->getMockBuilder('\Magento\Search\Model\AdditionalInfoDataProviderInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getSearchResult', 'isCountResultsEnabled'])
             ->getMockForAbstractClass();
@@ -56,7 +56,7 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
         $this->block = $objectManager->getObject(
             '\Magento\Search\Block\AdditionalInfo',
             [
-                'additionalInfoDataProvider' => $this->additionalInfoDataProvider,
+                'additionalInfoDataProvider' => $this->dataProvider,
                 'queryManager' => $this->queryManager,
             ]
         );
@@ -70,7 +70,7 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
             ->method('getQueryText')
             ->will($this->returnValue($searchQuery));
 
-        $this->additionalInfoDataProvider->expects($this->once())
+        $this->dataProvider->expects($this->once())
             ->method('getSearchResult')
             ->with($searchQuery)
             ->will($this->returnValue($value));
@@ -89,7 +89,7 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
     public function testIsCountResultsEnabled()
     {
         $value = 'qwertyasdfzxcv';
-        $this->additionalInfoDataProvider->expects($this->once())
+        $this->dataProvider->expects($this->once())
             ->method('isCountResultsEnabled')
             ->will($this->returnValue($value));
         $this->assertEquals($value, $this->block->isCountResultsEnabled());

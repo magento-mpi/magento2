@@ -304,6 +304,6 @@ class Query extends AbstractModel implements QueryInterface
      */
     public function getQueryText()
     {
-        return $this->getDataByKey('QueryText');
+        return $this->getDataByKey('query_text');
     }
 }
