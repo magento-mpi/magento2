@@ -31,6 +31,8 @@ class Container implements Layout\ReaderInterface
     const CONTAINER_OPT_LABEL = 'label';
     /**#@-*/
 
+    const STRUCTURE_INDEX_DATA = Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA;
+
     /**
      * @var \Magento\Framework\View\Layout\ScheduledStructure\Helper
      */
@@ -98,15 +100,15 @@ class Container implements Layout\ReaderInterface
         $containerName = $currentElement->getAttribute('name');
         $element = $scheduledStructure->getStructureElement($containerName, array());
 
-        if (isset($element['attributes'])) {
-            $keys = array_keys($element['attributes']);
+        if (isset($element[self::STRUCTURE_INDEX_DATA]['attributes'])) {
+            $keys = array_keys($element[self::STRUCTURE_INDEX_DATA]['attributes']);
             foreach ($keys as $key) {
                 if (isset($currentElement[$key])) {
-                    $element['attributes'][$key] = (string)$currentElement[$key];
+                    $element[self::STRUCTURE_INDEX_DATA]['attributes'][$key] = (string)$currentElement[$key];
                 }
             }
         } else {
-            $element['attributes'] = [
+            $element[self::STRUCTURE_INDEX_DATA]['attributes'] = [
                 self::CONTAINER_OPT_HTML_TAG   => (string)$currentElement[self::CONTAINER_OPT_HTML_TAG],
                 self::CONTAINER_OPT_HTML_ID    => (string)$currentElement[self::CONTAINER_OPT_HTML_ID],
                 self::CONTAINER_OPT_HTML_CLASS => (string)$currentElement[self::CONTAINER_OPT_HTML_CLASS],

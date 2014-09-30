@@ -12,35 +12,16 @@ use Magento\Framework\Data\Structure;
 
 class Helper
 {
-    /**
-     * Scheduled structure array index for name
+    /**#@+
+     * Scheduled structure array indexes
      */
     const SCHEDULED_STRUCTURE_INDEX_NAME = 0;
-
-    /**
-     * Scheduled structure array index for alias
-     */
     const SCHEDULED_STRUCTURE_INDEX_ALIAS = 1;
-
-    /**
-     * Scheduled structure array index for parent element name
-     */
     const SCHEDULED_STRUCTURE_INDEX_PARENT_NAME = 2;
-
-    /**
-     * Scheduled structure array index for sibling element name
-     */
     const SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME = 3;
-
-    /**
-     * Scheduled structure array index for is after parameter
-     */
     const SCHEDULED_STRUCTURE_INDEX_IS_AFTER = 4;
-
-    /**
-     * Scheduled structure array index for layout element object
-     */
-    const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
+    const SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA = 5;
+    /**#@-*/
 
     protected $counter = 1;
 
@@ -81,13 +62,15 @@ class Helper
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\View\Layout\Element $currentNode
      * @param \Magento\Framework\View\Layout\Element $parentNode
+     * @param array $data
      * @return string
      * @see scheduleElement() where the scheduledStructure is used
      */
     public function scheduleStructure(
         Layout\ScheduledStructure $scheduledStructure,
         Layout\Element $currentNode,
-        Layout\Element $parentNode
+        Layout\Element $parentNode,
+        array $data = []
     ) {
         // if it hasn't a name it must be generated
         if ((string)$currentNode->getAttribute('name')) {
@@ -105,7 +88,7 @@ class Helper
             self::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME    => '',
             self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME   => null,
             self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER       => true,
-            self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT => $currentNode
+            self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA    => $data
         ];
 
         $parentName = $parentNode->getElementName();
@@ -186,8 +169,6 @@ class Helper
      * Since layout updates could come in arbitrary order, a case is possible where an element is declared in reference,
      * while referenced element itself is not declared yet.
      *
-     * TODO: If generation isn't implemented, this method should be deleted (and all related to it)
-     *
      * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\Data\Structure $structure
      * @param string $key in _scheduledStructure represent element name
@@ -201,14 +182,14 @@ class Helper
         $key
     ) {
         $row = $scheduledStructure->getStructureElement($key);
-
-        if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT])) {
+        // if we have reference container to not existed element
+        if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_NAME])) {
             $this->logger->log("Broken reference: missing declaration of the element '{$key}'.", \Zend_Log::CRIT);
             $scheduledStructure->unsetPathElement($key);
             $scheduledStructure->unsetStructureElement($key);
             return;
         }
-        list($type, $alias, $parentName, $siblingName, $isAfter, $node) = $row;
+        list($type, $alias, $parentName, $siblingName, $isAfter, $data) = $row;
         $name = $this->_createStructuralElement($structure, $key, $type, $parentName . $alias);
         if ($parentName) {
             // recursively populate parent first
@@ -229,16 +210,10 @@ class Helper
                 );
             }
         }
-        // TODO: This elements must be hidden in this realization
+
+        // Move from scheduledStructure to scheduledElement
         $scheduledStructure->unsetStructureElement($key);
-        $data = array(
-            $type,
-            $node,
-            isset($row['actions']) ? $row['actions'] : array(),
-            isset($row['arguments']) ? $row['arguments'] : array(),
-            isset($row['attributes']) ? $row['attributes'] : array()
-        );
-        $scheduledStructure->setElement($name, $data);
+        $scheduledStructure->setElement($name, [$type, $data]);
 
         /**
          * Some elements provide info "after" or "before" which sibling they are supposed to go

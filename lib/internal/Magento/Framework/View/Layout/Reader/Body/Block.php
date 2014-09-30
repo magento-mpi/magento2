@@ -27,6 +27,8 @@ class Block implements Layout\ReaderInterface
     const TYPE_ACTION = 'action';
     /**#@-*/
 
+    const STRUCTURE_INDEX_DATA = Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA;
+
     /**
      * @var array
      */
@@ -101,13 +103,12 @@ class Block implements Layout\ReaderInterface
         $scheduledStructure = $readerContext->getScheduledStructure();
         switch ($currentElement->getName()) {
             case self::TYPE_BLOCK:
-                $this->processBlock($scheduledStructure, $currentElement, $parentElement);
-                $this->processChildren($readerContext->getScheduledStructure(), $currentElement);
+                $this->scheduleBlock($scheduledStructure, $currentElement, $parentElement);
                 $isChildProcessed = true;
                 break;
 
             case self::TYPE_REFERENCE_BLOCK:
-                $this->processChildren($readerContext->getScheduledStructure(), $currentElement);
+                $this->scheduleReference($scheduledStructure, $currentElement);
                 $isChildProcessed = true;
                 break;
 
@@ -118,20 +119,22 @@ class Block implements Layout\ReaderInterface
     }
 
     /**
+     * Process block element their attributes and children
+     *
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param Layout\Element $currentElement
      * @param Layout\Element $parentElement
      */
-    protected function processBlock(
+    protected function scheduleBlock(
         Layout\ScheduledStructure $scheduledStructure,
         Layout\Element $currentElement,
         Layout\Element $parentElement
     ) {
-        $referenceName = $this->helper->scheduleStructure($scheduledStructure, $currentElement, $parentElement);
-        $element = $scheduledStructure->getStructureElement($referenceName, array());
-        $element['attributes'] = $this->processAttributes($currentElement);
-        $scheduledStructure->setStructureElement($referenceName, $element);
-
+        $referenceName = $this->helper->scheduleStructure($scheduledStructure, $currentElement, $parentElement, [
+            'attributes' => $this->getAttributes($currentElement),
+            'actions'    => $this->getActions($currentElement),
+            'arguments'  => $this->getArguments($currentElement)
+        ]);
         $configPath = (string)$currentElement->getAttribute('ifconfig');
         if (!empty($configPath)
             && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
@@ -141,12 +144,38 @@ class Block implements Layout\ReaderInterface
     }
 
     /**
-     * Process block attributes
+     * Schedule reference data for block
+     *
+     * @param Layout\ScheduledStructure $scheduledStructure
+     * @param Layout\Element $blockElement
+     */
+    protected function scheduleReference(
+        Layout\ScheduledStructure $scheduledStructure,
+        Layout\Element $blockElement
+    ) {
+        $referenceName = $blockElement->getAttribute('name');
+        $element = $scheduledStructure->getStructureElement($referenceName, array());
+
+        $actions = $this->getActions($blockElement);
+        $arguments = $this->getArguments($blockElement);
+        $data = &$element[self::STRUCTURE_INDEX_DATA];
+        $data['actions'] = isset($data['actions'])
+            ? array_merge($data['actions'], $actions)
+            : $actions;
+        $data['arguments'] = isset($data['arguments'])
+            ? array_replace_recursive($data['arguments'], $arguments)
+            : $arguments;
+
+        $scheduledStructure->setStructureElement($referenceName, $element);
+    }
+
+    /**
+     * Get block attributes
      *
      * @param Layout\Element $blockElement
      * @return array
      */
-    protected function processAttributes(Layout\Element $blockElement)
+    protected function getAttributes(Layout\Element $blockElement)
     {
         $attributes = [];
         foreach ($this->attributes as $attributeName) {
@@ -156,75 +185,60 @@ class Block implements Layout\ReaderInterface
     }
 
     /**
-     * Process children
+     * Get actions for block element
      *
-     * @param Layout\ScheduledStructure $scheduledStructure
      * @param Layout\Element $blockElement
-     * @return void
+     * @return array[]
      */
-    protected function processChildren(Layout\ScheduledStructure $scheduledStructure, Layout\Element $blockElement)
+    protected function getActions(Layout\Element $blockElement)
     {
+        $actions = [];
+        /** @var $actionElement Layout\Element */
+        foreach ($this->getElementsByType($blockElement, self::TYPE_ACTION) as $actionElement) {
+            $configPath = $actionElement->getAttribute('ifconfig');
+            if ($configPath
+                && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
+            ) {
+                continue;
+            }
+            $methodName = $actionElement->getAttribute('method');
+            $actionArguments = $this->_parseArguments($actionElement);
+            $actions[] = [$methodName, $actionArguments];
+        }
+        return $actions;
+    }
+
+    /**
+     * Get block arguments
+     *
+     * @param Layout\Element $blockElement
+     * @return array
+     */
+    protected function getArguments(Layout\Element $blockElement)
+    {
+        $arguments = $this->getElementsByType($blockElement, self::TYPE_ARGUMENTS);
+        // We have only one declaration of <arguments> node in block or it's reference
+        $argumentElement = reset($arguments);
+        return $argumentElement ? $this->_parseArguments($argumentElement) : [];
+    }
+
+    /**
+     * Get elements by type
+     *
+     * @param Layout\Element $element
+     * @param string $type
+     * @return array
+     */
+    protected function getElementsByType(Layout\Element $element, $type)
+    {
+        $elements = [];
         /** @var $childElement Layout\Element */
-        foreach ($blockElement as $childElement) {
-            switch ($childElement->getName()) {
-                case self::TYPE_ARGUMENTS:
-                    $this->_processArguments($scheduledStructure, $childElement, $blockElement);
-                    break;
-
-                case self::TYPE_ACTION:
-                    $this->_processActions($scheduledStructure, $childElement, $blockElement);
-                    break;
-
-                default:
-                    break;
+        foreach ($element as $childElement) {
+            if ($childElement->getName() === $type) {
+                $elements[] = $childElement;
             }
         }
-    }
-
-    /**
-     * Process arguments
-     *
-     * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
-     * @param Layout\Element $currentElement
-     * @param Layout\Element $parentElement
-     */
-    protected function _processArguments(
-        Layout\ScheduledStructure $scheduledStructure,
-        Layout\Element $currentElement,
-        Layout\Element $parentElement
-    ) {
-        $referenceName = $parentElement->getAttribute('name');
-        $element = $scheduledStructure->getStructureElement($referenceName, array());
-        $args = $this->_parseArguments($currentElement);
-        $element['arguments'] = $this->_mergeArguments($element, $args);
-        $scheduledStructure->setStructureElement($referenceName, $element);
-    }
-
-    /**
-     * Process actions
-     *
-     * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
-     * @param Layout\Element $currentElement
-     * @param Layout\Element $parentElement
-     */
-    protected function _processActions(
-        Layout\ScheduledStructure $scheduledStructure,
-        Layout\Element $currentElement,
-        Layout\Element $parentElement
-    ) {
-        $configPath = $currentElement->getAttribute('ifconfig');
-        if ($configPath
-            && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
-        ) {
-            return;
-        }
-
-        $referenceName = $parentElement->getAttribute('name');
-        $element = $scheduledStructure->getStructureElement($referenceName, array());
-        $methodName = $currentElement->getAttribute('method');
-        $actionArguments = $this->_parseArguments($currentElement);
-        $element['actions'][] = [$methodName, $actionArguments];
-        $scheduledStructure->setStructureElement($referenceName, $element);
+        return $elements;
     }
 
     /**
@@ -244,21 +258,5 @@ class Block implements Layout\ReaderInterface
             }
         }
         return $result;
-    }
-
-    /**
-     * Merge element arguments
-     *
-     * @param array $element
-     * @param array $arguments
-     * @return array
-     */
-    protected function _mergeArguments(array $element, array $arguments)
-    {
-        $output = $arguments;
-        if (isset($element['arguments'])) {
-            $output = array_replace_recursive($element['arguments'], $arguments);
-        }
-        return $output;
     }
 }

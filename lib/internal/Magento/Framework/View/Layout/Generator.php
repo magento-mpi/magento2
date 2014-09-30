@@ -10,6 +10,11 @@ namespace Magento\Framework\View\Layout;
 class Generator
 {
     /**
+     * @var ScheduledStructure\Helper
+     */
+    protected $helper;
+
+    /**
      * @var GeneratorInterface[]
      */
     protected $generators = [];
@@ -17,11 +22,14 @@ class Generator
     /**
      * Constructor
      *
+     * @param ScheduledStructure\Helper $helper
      * @param array $generators
      */
     public function __construct(
+        ScheduledStructure\Helper $helper,
         array $generators = null
     ) {
+        $this->helper = $helper;
         $this->generators = $generators;
     }
 
@@ -33,34 +41,36 @@ class Generator
      */
     public function generate(Reader\Context $readerContext)
     {
+        $scheduledStructure = $readerContext->getScheduledStructure();
+        $structure = $readerContext->getStructure();
+        while (false === $scheduledStructure->isStructureEmpty()) {
+            $this->helper->scheduleElement(
+                $scheduledStructure,
+                $structure,
+                key($scheduledStructure->getStructure())
+            );
+        }
         return $this;
     }
 
     protected function _generateScheduledStructure(ScheduledStructure $scheduledStructure)
     {
-        while (false === $scheduledStructure->isStructureEmpty()) {
-            $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
-        }
-        $scheduledStructure->flushPaths();
-
-        foreach ($scheduledStructure->getListToMove() as $elementToMove) {
-            $this->_moveElementInStructure($elementToMove);
-        }
-
-        foreach ($scheduledStructure->getListToRemove() as $elementToRemove) {
-            $this->_removeElement($elementToRemove);
-        }
 
         while (false === $scheduledStructure->isElementsEmpty()) {
-            // list($type, $node, $actions, $args, $attributes)
-            list($type, $node, , , $attributes) = current($scheduledStructure->getElements());
+            list($type) = current($scheduledStructure->getElements());
             $elementName = key($scheduledStructure->getElements());
 
-            if ($type == Element::TYPE_BLOCK) {
+            if ($type == Element::TYPE_UI_COMPONENT) {
+                $this->_generateUiComponent($elementName);
+            } elseif ($type == Element::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
-            } else {
-                $this->_generateContainer($elementName, (string)$node[Element::CONTAINER_OPT_LABEL], $attributes);
+            } elseif ($type == Element::TYPE_CONTAINER) {
+                $this->_generateContainer($elementName);
                 $scheduledStructure->unsetElement($elementName);
+            } else {
+                throw new \Magento\Framework\Exception(
+                    "Unexpected element type specified for generating: {$type}."
+                );
             }
         }
     }
