@@ -6,11 +6,8 @@
  * @license     {license_link}
  */
 -->
-<legend class="legend">
-    <span data-bind="text: title"></span>
-</legend>
-<fieldset class="fieldset" data-bind="foreach: { data: items, as: 'item' }">
+<!-- ko foreach:  { data: items, as: 'item' }-->
     <!-- ko foreach: { data: item, as: 'element' } -->
         <!-- ko template: element.getTemplate() --><!-- /ko -->
     <!-- /ko -->
-</fieldset>
+<!-- /ko -->

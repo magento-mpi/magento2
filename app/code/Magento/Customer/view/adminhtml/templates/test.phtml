@@ -11,21 +11,56 @@
                             "input_type": "select",
                             "label": "Associate to Website",
                             "caption": "Please select ...",
+                            "required": true,
                             "options": {
-                                "0": "Admin"
+                                "0": "Admin",
+                                "1": "Main Website"
                             }
+                        },
+                        "prefix": {
+                            "index": "prefix",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Prefix"
                         },
                         "firstname": {
                             "index": "firstname",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "First Name"
+                            "label": "First Name",
+                            "required": true
+                        },
+                        "middle_name": {
+                            "index": "middle_name",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Middle Name/Initial"
                         },
                         "lastname": {
                             "index": "lastname",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "Last Name"
+                            "label": "Last Name",
+                            "required": true
+                        },
+                        "suffix": {
+                            "index": "suffix",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Suffix"
+                        },
+                        "email": {
+                            "index": "email",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Email",
+                            "required": true
+                        },
+                        "taxvat": {
+                            "index": "taxvat",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Tax/VAT Number"
                         },
                         "addresses": {
                             "meta_ref": "address"
@@ -170,7 +205,14 @@
                     "account_info": {
                         "label": "Account Information",
                         "injections": [
-                            "customer.website"
+                            "customer.website",
+                            "customer.prefix",
+                            "customer.firstname",
+                            "customer.middle_name",
+                            "customer.lastname",
+                            "customer.suffix",
+                            "customer.email",
+                            "customer.taxvat"
                         ]
                     },
                     "customer_addresses": {
