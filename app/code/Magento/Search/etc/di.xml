@@ -26,4 +26,11 @@
             </argument>
         </arguments>
     </virtualType>
+    <type name="Magento\Search\Block\AdditionalInfo">
+        <arguments>
+            <argument name="additionalInfoProvider" xsi:type="object">
+                Magento\Search\Model\AdditionalInfoProvider
+            </argument>
+        </arguments>
+    </type>
 </config>
