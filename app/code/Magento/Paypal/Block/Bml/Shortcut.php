@@ -77,7 +77,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      * @param string $startAction
      * @param string $alias
      * @param string $bmlMethodCode
-     * @param $shortcutTemplate
+     * @param string $shortcutTemplate
      * @param array $data
      */
     public function __construct
