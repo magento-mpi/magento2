@@ -13,7 +13,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var /Magento\Sales\Block\Adminhtml\Order\View\Info
+     * @var \Magento\Sales\Block\Adminhtml\Order\View\Info
      */
     protected $block;
 
@@ -90,7 +90,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($block->getAddressEditLink($address));
     }
 
-    public function testGetCustomerGroupName()
+    public function testGetCustomerGroupNameWhenGroupIsNotExist()
     {
         $this->coreRegistryMock
             ->expects($this->any())
@@ -107,7 +107,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $this->block->getCustomerGroupName());
     }
 
-    public function testGetCustomerWithoutGroupName()
+    public function testGetCustomerGroupNameWhenGroupExists()
     {
         $this->coreRegistryMock
             ->expects($this->any())
