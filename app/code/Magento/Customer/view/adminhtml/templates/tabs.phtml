@@ -2,10 +2,10 @@
     <!-- ko foreach: elems -->
         <div>
             <h3 data-bind="text: label, css: {'ui-accordion-header': collapsible}, click: toggle"></h3>
-            <ul class="tabs" data-bind="visible: visible">
+            <ul class="tabs" data-bind="visible: opened">
                 <!-- ko foreach: elems -->
                     <li data-bind="css: { 'ui-state-active': active }, click: setActive">
-                        <a href="#name" data-bind="text: label"></a>
+                        <a class="tab-item-link" href="#name" data-bind="text: label, css: {changed: changed}"></a>
                     </li>
                 <!-- /ko -->
             </ul>

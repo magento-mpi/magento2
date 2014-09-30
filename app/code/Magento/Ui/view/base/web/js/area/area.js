@@ -7,9 +7,8 @@
 define([
     'underscore',
     'Magento_Ui/js/lib/collection',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, Collection, Scope, registry) {
+    'Magento_Ui/js/lib/ko/scope'
+], function(_, Collection, Scope) {
     'use strict';
 
     var defaults = {
@@ -21,7 +20,7 @@ define([
             _.extend(this, defaults, config);
 
             this.initObservable()
-                .initProvider()
+                .initListeners()
                 .pullParams()
                 .waitElements();
         },
@@ -35,18 +34,22 @@ define([
             return this;
         },
 
-        initProvider: function() {
-            var params = this.provider.params;
-
-            params.on('update:activeTab', this.pullParams.bind(this));
-
-            return this;
-        },
-
         initElements: function(){
             var elems = this.elems;
 
             elems.push.apply(elems, arguments);
+
+            elems().forEach(function(elem){
+                elem.on('change', this.onChange.bind(this))
+            }, this);
+
+            return this;
+        },
+
+        initListeners: function() {
+            var params = this.provider.params;
+
+            params.on('update:activeTab', this.pullParams.bind(this));
 
             return this;
         },
@@ -60,12 +63,16 @@ define([
             return this;
         },
 
-        waitElements: function(){
-            registry.get(
-                this.injections,
-                this.initElements.bind(this)
-            );
+        onChange: function(){
+            var params  = this.provider.params,
+                changed = params.get('changedAreas') || [];
 
+            if( !~changed.indexOf(this.name) ){
+                changed.push(this.name);
+
+                params.set('changedAreas', changed);
+            }
+            
             return this;
         }
     });

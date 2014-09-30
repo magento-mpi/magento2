@@ -6,32 +6,37 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, Scope, registry) {
+    'Magento_Ui/js/lib/ko/scope'
+], function(_, Scope) {
     'use strict';
 
     var Tab = Scope.extend({
-        initialize: function(config) {
+        initialize: function(config, provider) {
             _.extend(this, config);
 
+            this.provider = provider;
+
             this.initObservable()
-                .initProvider()
+                .initListeners()
                 .pushParams()
         },
 
         initObservable: function() {
             this.observe({
                 'active': this.active,
+                'changed': false
             });
 
             return this;
         },
 
-        initProvider: function() {
+        initListeners: function() {
             var params = this.provider.params;
 
-            params.on('update:activeTab', this.pullParams.bind(this));
+            params.on({
+                'update:activeTab':     this.pullParams.bind(this),
+                'update:changedAreas':  this.onAreasChange.bind(this)
+            });
 
             return this;
         },
@@ -55,6 +60,10 @@ define([
                 tab     = params.get('activeTab');
 
             this.active(this.name === tab);
+        },
+
+        onAreasChange: function(changed){
+            this.changed( !!~changed.indexOf(this.name) );
         }
     });
 

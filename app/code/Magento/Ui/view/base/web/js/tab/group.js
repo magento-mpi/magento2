@@ -14,18 +14,13 @@ define([
     'use strict';
 
     var defaults = {
-        collapsible: false,
-        visible: false
+        collapsible:    false,
+        opened:        true
     };
 
     var TabsGroup = Scope.extend({
-
         initialize: function(config) {
             _.extend(this, defaults, config);
-
-            if(!this.collapsible){
-                this.visible = true;
-            }
 
             this.initObservable()
                 .initTabs();
@@ -34,7 +29,7 @@ define([
         initObservable: function(){
             this.observe({
                 'elems': [],
-                'visible': this.visible
+                'opened': this.opened
             });
 
             return this;
@@ -47,35 +42,24 @@ define([
             _.each(this.items, function(config) {
                 fullName = '.' + this.fullName + '.' + config.name;
 
-                _.extend(config, {
-                    fullName: fullName,
-                    provider: this.provider
-                });
-
-                item = new Tab(config);
-
-                this.elems.push(item)
+                item = new Tab(config, this.provider);
 
                 registry.set(fullName, item);
+
+                this.elems.push(item);
             }, this);
 
             return this;
         },
 
-        isVisible: function(){
-            return this.collapsible ? this.visible() : true
-        },
-
         toggle: function() {
-            var visible;
+            var opened = this.opened;
 
-            if (!this.collapsible) {
-                return;
+            if (this.collapsible) {
+                opened(!opened());
             }
 
-            visible = this.visible;
-
-            visible(!visible());
+            return this;
         }
     });
     

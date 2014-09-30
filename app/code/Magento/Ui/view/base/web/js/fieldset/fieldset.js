@@ -8,8 +8,8 @@ define([
     'underscore',
     'Magento_Ui/js/lib/collection',
     'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, Collection, Scope, registry) {
+    'Magento_Ui/js/lib/events'
+], function(_, Collection, Scope, EventsBus) {
     'use strict';
 
     var defaults = {
@@ -40,7 +40,11 @@ define([
 
             elems.push.apply(elems, arguments);
 
-            return this;
+            elems().forEach(function(elem){
+                if(elem.on){
+                    elem.on('change', this.trigger.bind(this, 'change'));
+                }
+            }, this);
         },
 
         toggle: function() {
@@ -49,17 +53,14 @@ define([
             if(this.collapsible){
                 opened(!opened());
             }
+
+            return this;
         },
 
-        waitElements: function(){
-            registry.get(
-                this.injections,
-                this.initElements.bind(this)
-            );
-            
-            return this;
+        getTemplate: function(){
+            return this.template;
         }
-    });
+    }, EventsBus);
 
     return Collection(Fieldset);
 });
