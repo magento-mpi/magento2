@@ -8,7 +8,7 @@
 namespace Magento\Search\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Search\Model\AdditionalInfoDataProviderInterface;
+use Magento\Search\Model\AdditionalInfoDataProvider;
 use Magento\Search\Model\QueryInterface;
 use Magento\Search\Model\QueryManagerInterface;
 
@@ -26,20 +26,20 @@ class AdditionalInfo extends Template implements AdditionalInfoInterface
     private $title;
 
     /**
-     * @var AdditionalInfoDataProviderInterface
+     * @var AdditionalInfoDataProvider
      */
     private $additionalInfoDataProvider;
 
     /**
      * @param Template\Context $context
-     * @param AdditionalInfoDataProviderInterface $additionalInfoDataProvider
+     * @param AdditionalInfoDataProvider $additionalInfoDataProvider
      * @param QueryManagerInterface $queryManager
      * @param string $title
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        AdditionalInfoDataProviderInterface $additionalInfoDataProvider,
+        AdditionalInfoDataProvider $additionalInfoDataProvider,
         QueryManagerInterface $queryManager,
         $title,
         array $data = array()
