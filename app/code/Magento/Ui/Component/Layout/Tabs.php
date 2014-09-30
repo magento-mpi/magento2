@@ -8,8 +8,8 @@
 namespace Magento\Ui\Component\Layout;
 
 use Magento\Ui\Component\AbstractView;
+use Magento\Framework\View\Element\Template;
 use Magento\Ui\Component\ContextBehaviorInterface;
-use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Class Tabs
@@ -17,11 +17,23 @@ use Magento\Framework\View\Element\UiComponentInterface;
 class Tabs extends AbstractView implements ContextBehaviorInterface
 {
     /**
+     * Other tabs key
+     */
+    const OTHER_TABS_KEY = 'other_tabs';
+
+    /**
+     * Other blocks tabs
+     *
+     * @var Template[]
+     */
+    protected $otherBlocks = [];
+
+    /**
      * Context component
      *
-     * @var UiComponentInterface
+     * @var ContextBehaviorInterface
      */
-    protected $context;
+    protected $contextComponent;
 
     /**
      * Flag if changed object
@@ -37,6 +49,7 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
      */
     public function prepare()
     {
+        parent::prepare();
         $configData = $this->getDefaultConfiguration();
         if ($this->hasData('config')) {
             $configData = array_merge($configData, $this->getData('config'));
@@ -49,50 +62,67 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
                 'configuration' => $configData
             ]
         );
-        $this->createDataProviders();
-
         $this->setConfig($config);
         $this->renderContext->getStorage()->addComponentsData($config);
+
+        $this->createDataProviders();
+        $this->setOtherTabs();
     }
 
     /**
      * Set context component
      *
-     * @param UiComponentInterface $component
+     * @param ContextBehaviorInterface $component
      * @return mixed
      */
-    public function setContext(UiComponentInterface $component)
+    public function setContext(ContextBehaviorInterface $component)
     {
-        $this->context = $component;
+        $this->contextComponent = $component;
     }
 
     /**
      * Get context component
      *
-     * @return UiComponentInterface
+     * @return ContextBehaviorInterface
      */
     public function getContext()
     {
-        return isset($this->context) ? $this->context : $this;
+        return isset($this->contextComponent) ? $this->contextComponent : $this;
     }
 
     /**
-     * Begin render container
+     * Get other tabs from config
      *
-     * @return string
+     * @return array
      */
-    public function begin()
+    public function getOtherTabsConfig()
     {
-        return sprintf('<div id="%s">', $this->getName());
+        return $this->hasData(static::OTHER_TABS_KEY) ? $this->getData('other_tabs') : [];
     }
 
     /**
-     * End render container
+     * Set other blocks tabs
      *
+     * @return void
+     */
+    protected function setOtherTabs()
+    {
+        $names = $this->getLayout()->getChildNames(static::OTHER_TABS_KEY);
+        if (!empty($names)) {
+            foreach ($names as $name) {
+                $this->otherBlocks[$name] = $this->getLayout()->getBlock($name);
+            }
+        }
+    }
+
+    /**
+     * Render other tab by name
+     *
+     * @param $tabName
      * @return string
      */
-    public function end()
+    public function renderOtherTabs($tabName)
     {
-        return '</div>';
+        return isset($this->otherBlocks[$tabName]) ? $this->otherBlocks[$tabName]->toHtml() : '';
     }
 }

@@ -24,6 +24,8 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 abstract class AbstractView extends Template implements UiComponentInterface
 {
     /**
+     * Config builder
+     *
      * @var ConfigBuilderInterface
      */
     protected $configBuilder;
@@ -43,6 +45,8 @@ abstract class AbstractView extends Template implements UiComponentInterface
     protected $renderContext;
 
     /**
+     * Config factory
+     *
      * @var ConfigFactory
      */
     protected $configFactory;
@@ -105,8 +109,8 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function update(array $arguments = [])
     {
-        if ($arguments) {
-            $this->_data = array_merge_recursive($this->_data, $arguments);
+        if (!empty($arguments)) {
+            $this->_data = array_merge($this->_data, $arguments);
         }
     }
 
@@ -128,7 +132,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
     public function render()
     {
         return $this->contentTypeFactory->get($this->renderContext->getAcceptType())
-            ->render($this, $this->getContentTemplate());
+                ->render($this, $this->getContentTemplate());
     }
 
     /**
@@ -157,6 +161,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
         $element->update($arguments);
         $result = $element->render();
         $element->setData($prevData);
+
         return $result;
     }
 
@@ -174,6 +179,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
         $element->update($arguments);
         $result = $element->renderLabel();
         $element->setData($prevData);
+
         return $result;
     }
 
@@ -290,10 +296,13 @@ abstract class AbstractView extends Template implements UiComponentInterface
     }
 
     /**
-     * Create
+     * Create data provider
+     *
+     * @return void
      */
     protected function createDataProviders()
     {
+        // TODO fix this
         if ($this->hasData('data_provider_pool')) {
             $meta = [];
             foreach ($this->getData('data_provider_pool') as $name => $config) {

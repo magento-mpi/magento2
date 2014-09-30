@@ -9,7 +9,10 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
-        <ui_component name="customer_form" component="form" />
+        <ui_component name="customer_form" component="form"/>
         <ui_component name="customer_form_tab" component="tabs" />
+    </referenceContainer>
+    <referenceContainer name="js">
+        <block class="Magento\Backend\Block\Template" template="Magento_Customer::edit/js.phtml" name="customer.edit.js" as="customer_edit_js"/>
     </referenceContainer>
 </page>

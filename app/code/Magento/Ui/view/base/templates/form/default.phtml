@@ -14,12 +14,14 @@
 <div class="form">
     <form class="">
         <?php foreach ($this->getMeta() as $formProviderKey => $formProviders): ?>
-            <div><?php echo $formProviderKey ?>
-                <?php foreach ($formProviders as $field): ?>
-                    <?php $t = $this->getFieldType($field) ?>
-                    <?php echo $this->renderElement($this->getFieldType($field), $field); ?>
-                <?php endforeach; ?>
-            </div>
+            <fieldset>
+                <div>
+                    <?php echo $formProviderKey ?>
+                    <?php foreach ($formProviders as $field): ?>
+                        <?php echo $this->renderElement($this->getFieldType($field), $field); ?>
+                    <?php endforeach; ?>
+                </div>
+            </fieldset>
         <?php endforeach; ?>
     </form>
 </div>

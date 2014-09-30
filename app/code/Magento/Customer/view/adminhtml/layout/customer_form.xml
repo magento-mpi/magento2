@@ -16,6 +16,7 @@
                 </item>
             </argument>
             <argument name="name" xsi:type="string">customer_form</argument>
+            <argument name="layout" xsi:type="string">tabs</argument>
             <argument name="data_provider_pool" xsi:type="array">
 
                 <!-- customer info -->
@@ -45,12 +46,44 @@
                                 <item name="required" xsi:type="boolean">true</item>
                             </item>
                         </item>
-
                     </item>
-
                 </item>
 
             </argument>
         </arguments>
+
+    </referenceBlock>
+
+    <!-- Configuration layout -->
+    <referenceBlock name="tabs">
+        <arguments>
+            <argument name="name" xsi:type="string">customer_form_tab</argument>
+            <argument name="data_provider_pool" xsi:type="array">
+                <item name="customer" xsi:type="array">
+                    <item name="arguments" xsi:type="array">
+                        <item name="form_code" xsi:type="string">adminhtml_customer</item>
+                    </item>
+                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
+                </item>
+            </argument>
+            <argument name="other_tabs" xsi:type="array">
+                <item name="customerbalance_balance" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Customer Balance</item>
+                    <item name="index" xsi:type="string">customerbalance_balance</item>
+                </item>
+                <item name="view_customer_status" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Customer Status</item>
+                    <item name="index" xsi:type="string">view_customer_status</item>
+                </item>
+                <item name="giftregistry" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Gift Registry</item>
+                    <item name="index" xsi:type="string">giftregistry</item>
+                </item>
+            </argument>
+        </arguments>
+        <referenceContainer label="Static Content" name="other_tabs">
+            <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance" name="customerbalance_balance" template="balance.phtml" before="sales"/>
+            <block class="Magento\Log\Block\Adminhtml\Customer\Edit\Tab\View\Status" name="view_customer_status" template="customer/status.phtml"/>
+        </referenceContainer>
     </referenceBlock>
 </page>

@@ -12,20 +12,20 @@ use Magento\Framework\View\Element\UiComponentInterface;
 /**
  * Interface ContextBehaviorInterface
  */
-interface ContextBehaviorInterface
+interface ContextBehaviorInterface extends UiComponentInterface
 {
     /**
      * Set context component
      *
-     * @param UiComponentInterface $component
+     * @param ContextBehaviorInterface $component
      * @return mixed
      */
-    public function setContext(UiComponentInterface $component);
+    public function setContext(ContextBehaviorInterface $component);
 
     /**
      * Get context component
      *
-     * @return UiComponentInterface
+     * @return ContextBehaviorInterface
      */
     public function getContext();
 }

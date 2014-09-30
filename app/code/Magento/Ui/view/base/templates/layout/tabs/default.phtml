@@ -8,24 +8,35 @@
 /**
  * @var \Magento\Ui\Component\Layout\Tabs $this
  */
+
+$otherTabsConfig = $this->getOtherTabsConfig();
+
 ?>
-<?php echo $this->begin(); ?>
+<div id="<?php echo $this->getName(); ?>">
     <div class="tab-switcher" style="float: left; width: 20%;">
         <h3>
             <span>Basic Settings</span>
         </h3>
         <ul>
-            <?php for($i = 10; --$i;): ?>
-                <h4>Product Details</h4>
+            <?php for($i = 2; --$i;): ?>
+                <li><h4>Product Details</h4></li>
             <?php endfor; ?>
+            <?php foreach ($otherTabsConfig as $tab): ?>
+                <li><h4><?php echo $tab['label']; ?></h4></li>
+            <?php endforeach; ?>
         </ul>
     </div>
     <div class="tabs-content" style="width: 80%; float: right;">
-        <?php for($i = 10; --$i;): ?>
+        <?php for($i = 2; --$i;): ?>
             <div class="fieldset-wrapper customer-information">
                 <p>Tabs content</p>
             </div>
+            <?php foreach ($otherTabsConfig as $tab): ?>
+                <div class="fieldset-wrapper <?php echo $tab['index']; ?>">
+                    <p><?php echo $this->renderOtherTabs($tab['index']); ?></p>
+                </div>
+            <?php endforeach; ?>
         <?php endfor; ?>
     </div>
-<div style="clear: both"></div>
-<?php echo $this->begin(); ?>
+    <div style="clear: both"></div>
+</div>

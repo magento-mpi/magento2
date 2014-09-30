@@ -50,10 +50,10 @@ class Content extends AbstractView implements ContextBehaviorInterface
     /**
      * Set context component
      *
-     * @param UiComponentInterface $component
+     * @param ContextBehaviorInterface $component
      * @return mixed
      */
-    public function setContext(UiComponentInterface $component)
+    public function setContext(ContextBehaviorInterface $component)
     {
         $this->context = $component;
     }
@@ -61,7 +61,7 @@ class Content extends AbstractView implements ContextBehaviorInterface
     /**
      * Get context component
      *
-     * @return UiComponentInterface
+     * @return ContextBehaviorInterface
      */
     public function getContext()
     {
