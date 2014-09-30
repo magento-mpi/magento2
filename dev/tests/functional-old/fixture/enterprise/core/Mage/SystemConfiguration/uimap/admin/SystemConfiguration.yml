@@ -597,7 +597,7 @@ system_configuration:
                                         magento_rma: //select[@id='Magento_Rma']
                                         magento_salesarchive: //select[@id='Magento_SalesArchive']
                                         magento_scheduledimportexport: //select[@id='Magento_ScheduledImportExport']
-                                        magento_search: //select[@id='Magento_Search']
+                                        magento_solr: //select[@id='Magento_Solr']
                                         magento_targetrule: //select[@id='Magento_TargetRule']
                                         magento_versionscms: //select[@id='Magento_VersionsCms']
                                         magento_websiterestriction: //select[@id='Magento_WebsiteRestriction']
