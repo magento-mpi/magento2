@@ -24,15 +24,6 @@
     </words>
     <whitelist>
         <item>
-            <path>dev/tests/functional-old/fixture/default</path>
-        </item>
-        <item>
-            <path>dev/tests/functional-old/fixture/enterprise</path>
-        </item>
-        <item>
-            <path>dev/tests/functional-old/testsuite/Enterprise</path>
-        </item>
-        <item>
             <path>lib/internal/Symfony</path>
             <word>twig</word>
         </item>
