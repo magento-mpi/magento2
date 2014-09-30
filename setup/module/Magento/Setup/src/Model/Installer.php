@@ -20,6 +20,7 @@ use Magento\Setup\Module\Setup\ConnectionFactory;
 use Zend\Db\Sql\Sql;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
+use Symfony\Component\Process\PhpExecutableFinder;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -333,40 +334,6 @@ class Installer
     }
 
     /**
-     * Finds the executable path for PHP
-     *
-     * @return string
-     * @throws \Exception
-     */
-    private static function getPhpExecutablePath()
-    {
-        $result = '';
-        $iniFile = fopen(php_ini_loaded_file(), 'r');
-        while ($line = fgets($iniFile)) {
-            if ((strpos($line, 'extension_dir') !== false) && (strrpos($line, ";") !==0)) {
-                $extPath = explode("=", $line);
-                $pathFull = explode("\"", $extPath[1]);
-                $pathParts = str_replace('\\', '/', $pathFull[1]);
-                foreach (explode('/', $pathParts) as $piece) {
-                    if ((file_exists($result . 'php') && !is_dir($result . 'php'))
-                        || (file_exists($result . 'php.exe') && !is_dir($result . 'php.exe'))) {
-                        break;
-                    } elseif ((file_exists($result . 'bin/php') && !is_dir($result . 'bin/php'))
-                        || (file_exists($result . 'bin/php.exe') && !is_dir($result . 'bin/php.exe'))) {
-                        $result .= 'bin' . '/';
-                        break;
-                    } else {
-                        $result .= $piece . '/';
-                    }
-                }
-                break;
-            }
-        }
-        fclose($iniFile);
-        return $result;
-    }
-
-    /**
      * Installs user configuration
      *
      * @param \ArrayObject|array $data
@@ -467,10 +434,16 @@ class Installer
      * @param string $command
      * @param array $args
      * @return void
+     * @throws \Exception
      */
     private function exec($command, $args)
     {
-        $command = self::getPhpExecutablePath() . 'php ' . $command;
+        $phpFinder = new PhpExecutableFinder();
+        $phpPath = $phpFinder->find();
+        if (!$phpPath) {
+            throw new \Exception('Cannot find PHP executable path.');
+        }
+        $command = $phpPath . ' ' . $command;
         $actualCommand = $this->shellRenderer->render($command, $args);
         $this->log->log($actualCommand);
         $output = $this->shell->execute($command, $args);
