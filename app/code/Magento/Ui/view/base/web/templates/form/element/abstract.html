@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 -->
-<div class="field" data-bind="css: { 'required': required }">
+<div class="field" data-bind="css: { 'required': meta.required }">
     <label class="label" data-bind="attr: { for: uid }">
-        <span data-bind="text: label"></span>
+        <span data-bind="text: meta.label"></span>
     </label>
     <div class="control" data-part="control"></div>
-    <!-- ko if: tooltip -->
-    <!-- ko template: 'ui/form/element/helper/tooltip', data: tooltip --><!-- /ko -->
+    <!-- ko if: meta.tooltip -->
+    <!-- ko template: 'ui/form/element/helper/tooltip', data: meta.tooltip --><!-- /ko -->
     <!-- /ko -->
 </div>

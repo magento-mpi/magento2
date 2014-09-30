@@ -7,16 +7,19 @@
 define([
     'Magento_Ui/js/lib/ko/scope',
     'underscore',
-    'mage/utils'
-], function (Scope, _, utils) {
+    'mage/utils',
+    'jquery'
+], function (Scope, _, utils, $) {
     'use strict';
 
     var defaults = {
-        module: 'ui',
-        tooltip: null,
-        label: '',
+        meta: {
+            tooltip: null,
+            label: '',
+            required: false,
+            module: 'ui'
+        },
         type: 'input',
-        required: false,
         value: ''
     };
 
@@ -25,14 +28,13 @@ define([
         /**
          * Invokes initialize method of parent class and initializes properties of instance.
          * @param {Object} config - form element configuration
-         * @param {Number|String} value - initial value of form element
          * @param {Object} refs - references to provider and globalStorage
          */
-        initialize: function (config, value, refs) {
-            _.extend(this, defaults, config, refs);
+        initialize: function (config, refs) {
+            $.extend(true, this, defaults, config, refs);
 
             this.uid = utils.uniqueid();
-            this.observe('value', value);
+            this.observe('value', this.value);
             this.value.subscribe(this.store, this);
         },
 
@@ -50,7 +52,7 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.module + '/form/element/' + this.type;
+            return this.meta.module + '/form/element/' + this.type;
         }
     });
 });
