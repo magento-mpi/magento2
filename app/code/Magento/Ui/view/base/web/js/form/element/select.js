@@ -24,7 +24,7 @@ define([
          * @param {Object} config - form element configuration
          */
         initialize: function (config) {
-            _.extend(this, defaults);
+            _.extend(config, defaults.meta);
 
             this.constructor.__super__.initialize.apply(this, arguments);
 
