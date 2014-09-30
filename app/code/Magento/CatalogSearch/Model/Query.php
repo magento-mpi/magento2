@@ -26,7 +26,6 @@ use Magento\Search\Model\QueryInterface;
  *
  * @method \Magento\CatalogSearch\Model\Resource\Query _getResource()
  * @method \Magento\CatalogSearch\Model\Resource\Query getResource()
- * @method string getQueryText()
  * @method \Magento\CatalogSearch\Model\Query setQueryText(string $value)
  * @method int getNumResults()
  * @method \Magento\CatalogSearch\Model\Query setNumResults(int $value)
@@ -298,5 +297,13 @@ class Query extends AbstractModel implements QueryInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStoreId()
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getQueryText()
+    {
+        return $this->getDataByKey('QueryText');
     }
 }
