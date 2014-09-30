@@ -9,7 +9,7 @@ namespace Magento\Solr\Adapter;
 
 use Magento\Search\Model\AdditionalInfoDataProviderInterface;
 
-class AdditionalInfoDataProvider implements AdditionalInfoDataProviderInterface
+class Recommendations implements AdditionalInfoDataProviderInterface
 {
     const CONFIG_SEARCH_RECOMMENDATIONS_ENABLED = 'search_recommendations_enabled';
     const CONFIG_SEARCH_RECOMMENDATIONS_COUNT_RESULTS_ENABLED = 'search_recommendations_count_results_enabled';

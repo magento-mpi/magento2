@@ -12,6 +12,7 @@
     <type name="Magento\Search\Block\AdditionalInfo">
         <arguments>
             <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Search\Model\AdditionalInfoDataProvider</argument>
+            <argument name="title" xsi:type="string">Additional search information</argument>
         </arguments>
     </type>
     <virtualType name="Magento\Search\Block\Recommendations" type="Magento\Search\Block\AdditionalInfo">
