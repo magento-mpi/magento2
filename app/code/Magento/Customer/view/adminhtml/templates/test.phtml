@@ -17,6 +17,18 @@
                                 "1": "Main Website"
                             }
                         },
+                        "gender": {
+                            "index": "gender",
+                            "data_type": "text",
+                            "input_type": "select",
+                            "label": "Gender",
+                            "caption": "Please select ...",
+                            "required": true,
+                            "options": {
+                                "0": "Male",
+                                "1": "Female"
+                            }
+                        },
                         "prefix": {
                             "index": "prefix",
                             "data_type": "text",
@@ -94,6 +106,7 @@
                 "data": {
                     "customer": {
                         "website": 0,
+                        "gender": 0,
                         "addresses": [
                             {
                                 "active": true,
@@ -212,7 +225,8 @@
                             "customer.lastname",
                             "customer.suffix",
                             "customer.email",
-                            "customer.taxvat"
+                            "customer.taxvat",
+                            "customer.gender"
                         ]
                     },
                     "customer_addresses": {
