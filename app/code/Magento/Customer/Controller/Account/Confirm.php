@@ -16,6 +16,8 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Helper\Address;
 use Magento\Framework\UrlFactory;
 use Magento\Framework\Exception\StateException;
+use Magento\Customer\Helper\Data as CustomerData;
+use Magento\Store\Model\ScopeInterface;
 
 class Confirm extends \Magento\Customer\Controller\Account
 {
@@ -134,8 +136,8 @@ class Confirm extends \Magento\Customer\Controller\Account
     {
         $backUrl = $this->getRequest()->getParam('back_url', false);
         if (!$this->scopeConfig->isSetFlag(
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                CustomerData::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                ScopeInterface::SCOPE_STORE
             ) && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);

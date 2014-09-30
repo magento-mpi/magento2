@@ -168,16 +168,6 @@ class CreatePost extends \Magento\Customer\Controller\Account
     }
 
     /**
-     * Is registration allowed
-     *
-     * @return bool
-     */
-    protected function isRegistrationAllowed()
-    {
-        return $this->customerHelperData->isRegistrationAllowed();
-    }
-
-    /**
      * Create customer account action
      *
      * @return void
@@ -185,7 +175,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
      */
     public function execute()
     {
-        if ($this->_getSession()->isLoggedIn() || !$this->isRegistrationAllowed()) {
+        if ($this->_getSession()->isLoggedIn() || !$this->customerHelperData->isRegistrationAllowed()) {
             $this->_redirect('*/*/');
             return;
         }
