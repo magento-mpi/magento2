@@ -51,7 +51,7 @@ class Builder
     {
         return $this->objectManager->create(
             'Magento\Framework\View\PageLayout\Config',
-            array('configFiles' => $this->getConfigFiles())
+            ['configFiles' => $this->getConfigFiles()]
         );
     }
 

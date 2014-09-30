@@ -36,7 +36,7 @@ class Grid extends ParentGrid
      *
      * @var string
      */
-    protected $editLink = 'td[class*=col-title]';
+    protected $editLink = 'td[data-part="body.row.cell"]';
 
     /**
      * 'Preview' cms page link

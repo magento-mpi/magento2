@@ -13,7 +13,7 @@
             <block class="Magento\Rma\Block\Form\Renderer\Image" name="magento_rma_item_form_template_image" as="image" template="form/view/image.phtml"/>
         </block>
     </referenceContainer>
-    <referenceBlock name="head">
+    <referenceContainer name="after.body.start">
         <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Rma::js/components.phtml"/>
-    </referenceBlock>
+    </referenceContainer>
 </page>

@@ -30,7 +30,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
      *
      * @var string
      */
-    protected $blockDownloadableSamples = '.downloadable.samples';
+    protected $blockDownloadableSamples = '.items.samples';
 
     /**
      * Get downloadable link block

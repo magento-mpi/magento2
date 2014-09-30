@@ -18,27 +18,35 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
      *
      * @var \Magento\Framework\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\VersionsCms\Helper\Hierarchy|null
      */
-    protected $_cmsHierarchy = null;
+    protected $_cmsHierarchy;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
 
     /**
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\View\Page\Config $pageConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
+        $this->pageConfig = $pageConfig;
         parent::__construct($context, $data);
     }
 
@@ -51,10 +59,7 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
     {
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
-        /* @var $head \Magento\Theme\Block\Html\Head */
-        $head = $this->getLayout()->getBlock('head');
-
-        if ($this->_cmsHierarchy->isMetadataEnabled() && $node && $head) {
+        if ($this->_cmsHierarchy->isMetadataEnabled() && $node) {
             $treeMetaData = $node->getTreeMetaData();
             if (is_array($treeMetaData)) {
                 /* @var $linkNode \Magento\VersionsCms\Model\Hierarchy\Node */
@@ -64,17 +69,13 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
                     );
                     if ($linkNode->getId()) {
-                        $head->addChild(
-                            'magento-page-head-chapter-link',
-                            'Magento\Theme\Block\Html\Head\Link',
-                            array(
-                                'url' => $linkNode->getUrl(),
-                                'properties' => array(
-                                    'attributes' => array(
-                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
-                                    )
-                                )
-                            )
+                        $this->pageConfig->addRemotePageAsset(
+                            $linkNode->getUrl(),
+                            [
+                                'attributes' => [
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
+                                ]
+                            ]
                         );
                     }
 
@@ -82,17 +83,13 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
                     );
                     if ($linkNode->getId()) {
-                        $head->addChild(
-                            'magento-page-head-section-link',
-                            'Magento\Theme\Block\Html\Head\Link',
-                            array(
-                                'url' => $linkNode->getUrl(),
-                                'properties' => array(
-                                    'attributes' => array(
-                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
-                                    )
+                        $this->pageConfig->addRemotePageAsset(
+                            $linkNode->getUrl(),
+                            [
+                                'attributes' => array(
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
                                 )
-                            )
+                            ]
                         );
                     }
                 }
@@ -102,17 +99,13 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
                     );
                     if ($linkNode->getId()) {
-                        $head->addChild(
-                            'magento-page-head-next-link',
-                            'Magento\Theme\Block\Html\Head\Link',
-                            array(
-                                'url' => $linkNode->getUrl(),
-                                'properties' => array(
-                                    'attributes' => array(
-                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
-                                    )
+                        $this->pageConfig->addRemotePageAsset(
+                            $linkNode->getUrl(),
+                            [
+                                'attributes' => array(
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
                                 )
-                            )
+                            ]
                         );
                     }
 
@@ -120,17 +113,14 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
                     );
                     if ($linkNode->getId()) {
-                        $head->addChild(
-                            'magento-page-head-previous-link',
-                            'Magento\Theme\Block\Html\Head\Link',
-                            array(
-                                'url' => $linkNode->getUrl(),
-                                'properties' => array(
-                                    'attributes' => array(
-                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
-                                    )
+
+                        $this->pageConfig->addRemotePageAsset(
+                            $linkNode->getUrl(),
+                            [
+                                'attributes' => array(
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
                                 )
-                            )
+                            ]
                         );
                     }
                 }
@@ -140,17 +130,13 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
                     );
                     if ($linkNode->getId()) {
-                        $head->addChild(
-                            'magento-page-head-first-link',
-                            'Magento\Theme\Block\Html\Head\Link',
-                            array(
-                                'url' => $linkNode->getUrl(),
-                                'properties' => array(
-                                    'attributes' => array(
-                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
-                                    )
+                        $this->pageConfig->addRemotePageAsset(
+                            $linkNode->getUrl(),
+                            [
+                                'attributes' => array(
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
                                 )
-                            )
+                            ]
                         );
                     }
                 }
