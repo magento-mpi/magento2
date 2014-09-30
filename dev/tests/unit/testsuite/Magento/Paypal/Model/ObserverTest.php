@@ -77,6 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             array('createBlock')
         )->disableOriginalConstructor()->getMock();
         $blocks = [
+            'Magento\Paypal\Block\Express\ShortcutContainer' => 'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\Express\Shortcut' => 'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\PayflowExpress\Shortcut' => 'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\Bml\Shortcut' => 'Magento\Paypal\Block\Bml\Shortcut',
@@ -111,10 +112,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
         $this->_event->setContainer($shortcutButtonsMock);
         $this->_model->addPaypalShortcuts($this->_observer);
-
-        foreach ($blockInstances as $instance) {
-            $this->assertEquals(\Magento\Paypal\Model\Observer::SHORTCUT_TEMPLATE, $instance->getTemplate());
-        }
     }
 
     public function testAddBillingAgreementToSessionNoData()
