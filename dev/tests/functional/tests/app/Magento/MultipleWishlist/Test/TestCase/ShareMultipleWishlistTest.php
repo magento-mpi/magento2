@@ -137,8 +137,6 @@ class ShareMultipleWishlistTest extends Injectable
         MultipleWishlist $multipleWishlist,
         array $sharingInfo
     ) {
-        $this->markTestIncomplete('MAGETWO-28924');
-
         // Preconditions
         $multipleWishlist->persist();
         $product->persist();
@@ -153,5 +151,19 @@ class ShareMultipleWishlistTest extends Injectable
         $this->wishlistIndex->getWishlistBlock()->clickShareWishList();
         $this->wishlistShare->getSharingInfoForm()->fillForm($sharingInfo);
         $this->wishlistShare->getSharingInfoForm()->shareWishlist();
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $setupConfig = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'disabled_multiple_wishlist_default']
+        );
+        $setupConfig->run();
     }
 }
