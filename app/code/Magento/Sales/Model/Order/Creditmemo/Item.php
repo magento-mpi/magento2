@@ -294,9 +294,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     public function isLast()
     {
         $orderItem = $this->getOrderItem();
-        if ((string)(double)$this->getQty() == (string)(double)$orderItem->getQtyToRefund() &&
-            !$orderItem->getQtyToInvoice()
-        ) {
+        if ((string)(double)$this->getQty() == (string)(double)$orderItem->getQtyToRefund()) {
             return true;
         }
         return false;

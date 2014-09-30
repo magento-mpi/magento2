@@ -70,12 +70,6 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
                 'base'
             );
 
-            $totalWeeeAmount += $weeeAmountExclTax;
-            $baseTotalWeeeAmount += $baseWeeeAmountExclTax;
-
-            $item->setWeeeTaxAppliedRowAmount($weeeAmountExclTax);
-            $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeAmountExclTax);
-
             $orderItemWeeeAmountInclTax = $this->_weeeData->getRowWeeeTaxInclTax($orderItem);
             $orderItemBaseWeeeAmountInclTax = $this->_weeeData->getBaseRowWeeeTaxInclTax($orderItem);
             $weeeAmountInclTax = $creditmemo->roundPrice($orderItemWeeeAmountInclTax * $ratio);
@@ -110,6 +104,11 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
                 $itemBaseTaxAmount = min($itemBaseTaxAmount, $baseWeeeTaxAmountAvailable);
             }
 
+            $totalWeeeAmount += $weeeAmountExclTax;
+            $baseTotalWeeeAmount += $baseWeeeAmountExclTax;
+
+            $item->setWeeeTaxAppliedRowAmount($weeeAmountExclTax);
+            $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeAmountExclTax);
 
             $totalTaxAmount += $itemTaxAmount;
             $baseTotalTaxAmount += $itemBaseTaxAmount;
