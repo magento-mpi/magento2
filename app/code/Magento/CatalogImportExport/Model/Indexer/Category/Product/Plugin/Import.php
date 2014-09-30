@@ -10,29 +10,16 @@ namespace Magento\CatalogImportExport\Model\Indexer\Category\Product\Plugin;
 class Import
 {
     /**
-     * @var \Magento\Indexer\Model\IndexerInterface
+     * @var \Magento\Catalog\Model\Indexer\Category\Product\Processor
      */
-    protected $indexer;
+    protected $_indexerEavProcessor;
 
     /**
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Catalog\Model\Indexer\Category\Product\Processor $indexerEavProcessor
      */
-    public function __construct(\Magento\Indexer\Model\IndexerInterface $indexer)
+    public function __construct(\Magento\Catalog\Model\Indexer\Category\Product\Processor $indexerEavProcessor)
     {
-        $this->indexer = $indexer;
-    }
-
-    /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getIndexer()
-    {
-        if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID);
-        }
-        return $this->indexer;
+        $this->_indexerEavProcessor = $indexerEavProcessor;
     }
 
     /**
@@ -46,7 +33,7 @@ class Import
      */
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {
-        $this->getIndexer()->invalidate();
+        $this->_indexerEavProcessor->markIndexerAsInvalid();
         return $import;
     }
 }
