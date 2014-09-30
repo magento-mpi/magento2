@@ -8,3 +8,4 @@ dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProdu
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProductEntityTest.php
 dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchEntityResultsTest
 dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchEntityResultsTest.php
+dev/tests/functional/tests/app/Magento/MultipleWishlist
