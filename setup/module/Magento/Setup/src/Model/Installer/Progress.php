@@ -101,24 +101,11 @@ class Progress
      */
     private function validate($total, $current)
     {
-        if (0 == $total) {
-            throw new \LogicException('Total number cannot be zero.');
+        if (empty($total) || 0 >= $total) {
+            throw new \LogicException('Total number must be more than zero.');
         }
         if ($current > $total) {
             throw new \LogicException('Current cannot exceed total number.');
-        }
-    }
-
-    /**
-     * Asserts that current counter has become to an end
-     *
-     * @return void
-     * @throws \LogicException
-     */
-    public function validateFinished()
-    {
-        if ($this->total != $this->current) {
-            throw new \LogicException('The progress did not finish properly.');
         }
     }
 }

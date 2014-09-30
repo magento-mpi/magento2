@@ -7,7 +7,6 @@
  */
 namespace Magento\Setup\Controller\Install;
 
-use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\WebLogger;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -61,17 +60,15 @@ class ProgressController extends AbstractActionController
     public function indexAction()
     {
         $percent = 0;
-        $isError = true;
+        $success = false;
         try {
-            $log = $this->logger->get();
-            $isError = $this->logger->hasError();
-            if (!empty($log)) {
-                $progress = $this->progressFactory->createFromLog(implode('', $log), Installer::PROGRESS_LOG_REGEX);
-                $percent = sprintf('%01.2F', $progress->getRatio() * 100);
-            }
-        } catch(\Exception $e) {
-            $log = [(string)$e];
+            $progress = $this->progressFactory->createFromLog($this->logger);
+            $percent = sprintf('%d', $progress->getRatio() * 100);
+            $success = true;
+            $contents = $this->logger->get();
+        } catch (\Exception $e) {
+            $contents = [(string)$e];
         }
-        return $this->json->setVariables(['progress' => $percent, 'success' => !$isError, 'console' => $log]);
+        return $this->json->setVariables(['progress' => $percent, 'success' => $success, 'console' => $contents]);
     }
 }

@@ -130,13 +130,6 @@ class Installer
     private $progress;
 
     /**
-     * Progress indicator factory
-     *
-     * @var Installer\ProgressFactory
-     */
-    private $progressFactory;
-
-    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -148,7 +141,6 @@ class Installer
      * @param LoggerInterface $log
      * @param Random $random
      * @param ConnectionFactory $connectionFactory
-     * @param Installer\ProgressFactory $progressFactory
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -159,8 +151,7 @@ class Installer
         AdminAccountFactory $adminAccountFactory,
         LoggerInterface $log,
         Random $random,
-        ConnectionFactory $connectionFactory,
-        Installer\ProgressFactory $progressFactory
+        ConnectionFactory $connectionFactory
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -173,79 +164,53 @@ class Installer
         $this->connectionFactory = $connectionFactory;
         $this->shellRenderer = new CommandRenderer;
         $this->shell = new Shell($this->shellRenderer);
-        $this->progressFactory = $progressFactory;
     }
 
     /**
      * Install Magento application
      *
      * @param \ArrayObject|array $request
-     * @return Config
+     * @return void
+     * @throws \LogicException
      */
     public function install($request)
     {
-        $modulesQty = count($this->moduleList->getModules());
-        $this->progress = $this->progressFactory->create([
-            10,
-            (int)!empty($request[self::CLEANUP_DB]),
-            (int)!empty($request[self::SALES_ORDER_INCREMENT_PREFIX]),
-            $modulesQty + 1,
-        ]);
+        $script[] = ['Enabling Maintenance Mode:', 'setMaintenanceMode', [1]];
+        $script[] = ['File permissions check...', 'checkFilePermissions', []];
+        $script[] = ['Installing deployment configuration...', 'installDeploymentConfig', [$request]];
+        if (!empty($request[self::CLEANUP_DB])) {
+            $script[] = ['Cleaning up database...', 'cleanupDb', [$request]];
+        }
+        $script[] = ['Installing database schema:', 'installSchema', []];
+        $script[] = ['Installing user configuration...', 'installUserConfig', [$request]];
+        $script[] = ['Installing data fixtures:', 'installDataFixtures', []];
+        if (!empty($request[self::SALES_ORDER_INCREMENT_PREFIX])) {
+            $script[] = [
+                'Creating sales order increment prefix...',
+                'installOrderIncrementPrefix',
+                [$request[self::SALES_ORDER_INCREMENT_PREFIX]]
+            ];
+        }
+        $script[] = ['Installing admin user...', 'installAdminUser', [$request]];
+        $script[] = ['Enabling caches:', 'enableCaches', []];
+        $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
+
+        $total = count($script) + count($this->moduleList->getModules());
+        $this->progress = new Installer\Progress($total, 0);
+
         $this->log->log('Starting Magento installation:');
 
-        $this->log->log('Enabling Maintenance Mode:');
-        $this->setMaintenanceMode(1);
-        $this->logProgress();
-
-        $this->log->log('File permissions check...');
-        $this->checkFilePermissions();
-        $this->logProgress();
-
-        $this->log->log('Installing deployment configuration...');
-        $deploymentConfig = $this->installDeploymentConfig($request);
-        $this->logProgress();
-
-        if (!empty($request[self::CLEANUP_DB])) {
-            $this->log->log('Cleaning up database...');
-            $this->cleanupDb($request);
+        while (list(, list($message, $method, $params)) = each($script)) {
+            $this->log->log($message);
+            call_user_func_array([$this, $method], $params);
             $this->logProgress();
         }
-
-        $this->log->log('Installing database schema:');
-        $this->installSchema();
-        $this->logProgress();
-
-        $this->log->log('Installing user configuration...');
-        $this->installUserConfig($request);
-        $this->logProgress();
-
-        $this->log->log('Installing data fixtures:');
-        $this->installDataFixtures();
-        $this->logProgress();
-
-        if (!empty($request[self::SALES_ORDER_INCREMENT_PREFIX])) {
-            $this->log->log('Creating sales order increment prefix...');
-            $this->installOrderIncrementPrefix($request[self::SALES_ORDER_INCREMENT_PREFIX]);
-            $this->logProgress();
-        }
-
-        $this->log->log('Installing admin user...');
-        $this->installAdminUser($request);
-        $this->logProgress();
-
-        $this->log->log('Enabling caches:');
-        $this->enableCaches();
-        $this->logProgress();
-
-        $this->log->log('Disabling Maintenance Mode:');
-        $this->setMaintenanceMode(0);
-        $this->logProgress();
 
         $this->log->logSuccess('Magento installation complete.');
-        $this->logProgress();
-        $this->progress->validateFinished();
 
-        return $deploymentConfig;
+        if ($this->progress->getCurrent() != $this->progress->getTotal()) {
+            throw new \LogicException('Installation progress did not finish properly.');
+        }
     }
 
     /**
@@ -255,6 +220,9 @@ class Installer
      */
     private function logProgress()
     {
+        if (!$this->progress) {
+            return;
+        }
         $this->progress->setNext();
         $this->log->logMeta(
             sprintf(self::PROGRESS_LOG_RENDER, $this->progress->getCurrent(), $this->progress->getTotal())
@@ -319,7 +287,6 @@ class Installer
             $setup = $this->setupFactory->createSetupModule($this->log, $moduleName);
             $setup->applyRecurringUpdates();
         }
-        $this->logProgress(); // only once, because this feature is rarely used by any of modules
     }
 
     /**

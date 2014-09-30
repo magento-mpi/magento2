@@ -57,8 +57,8 @@ angular.module('install', ['ngStorage'])
                     $scope.displayFailure();
                 }
             });
-            progress.clear(function () {
-                    $scope.checkProgress();
+            progress.get(function () {
+                $scope.checkProgress();
             });
         };
         $scope.displayProgress = function() {
@@ -79,9 +79,6 @@ angular.module('install', ['ngStorage'])
             },
             post: function (data, callback) {
                 $http.post('install/start', data).success(callback);
-            },
-            clear: function (callback) {
-                $http.get('install/progress').then(callback);
             }
         };
     }]);

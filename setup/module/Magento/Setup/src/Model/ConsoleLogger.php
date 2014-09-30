@@ -63,6 +63,6 @@ class ConsoleLogger implements LoggerInterface
      */
     public function logMeta($message)
     {
-        $this->log($message, ColorInterface::GRAY);
+        $this->console->writeLine($message, ColorInterface::GRAY);
     }
 }
