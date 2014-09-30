@@ -8,9 +8,9 @@
 namespace Magento\Ui\DataProvider;
 
 /**
- * Interface DataProviderEntityInterface
+ * Interface DataProviderCollectionInterface
  */
-interface DataProviderEntityInterface
+interface DataProviderCollectionInterface
 {
     /**
      * Get meta data

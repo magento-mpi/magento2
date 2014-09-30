@@ -7,6 +7,8 @@
  */
 namespace Magento\Ui\Component;
 
+use Magento\Ui\DataProvider\DataProviderInterface;
+
 /**
  * Class Form
  */
@@ -119,6 +121,24 @@ class Form extends AbstractView implements ContextBehaviorInterface
     protected function getRenderLayout()
     {
         return isset($this->renderLayout) ? $this->renderLayout : $this;
+    }
+
+    /**
+     * @return DataProviderInterface[]
+     */
+    public function getProviders()
+    {
+        $providers = [];
+        if ($this->hasData('data_provider_pool')) {
+            foreach ($this->getData('data_provider_pool') as $name => $config) {
+                $provider = $this->renderContext->getStorage()->getDataProvider($name);
+                $data = $provider->getData();
+                if ($provider) {
+                    $providers[] = $provider;
+                }
+            }
+        }
+        return $providers;
     }
 
     /**
