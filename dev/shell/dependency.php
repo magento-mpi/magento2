@@ -28,8 +28,8 @@ $componentsByName = [];
 
 define(
 'USAGE',
-"Usage: php -f dependency.php [--list] [--component-dependencies component_name] [--component-dependents component_name]
-    [--module-dependencies module-name] [--module-dependents module-name]
+"Usage: php -f dependency.php -- [--list] [--component-dependencies component_name] [--component-dependents component_name]
+    [--module-dependencies module-name] [--module-dependents module-name] [--direct-dependency-only]
     --help - print usage message
     --list-modules - list all modules in order of module dependency
     --list-components - list all components in order or dependency, a component consists of circular dependent modules
@@ -37,6 +37,7 @@ define(
     --list-component-dependents - list components that depends on the specified components
     --list-module-dependencies - list modules that the specified module depends on
     --list-module-dependents - list modules that depends on the specified module
+    --direct-dependency-only - only return direct dependencies
     \n"
 );
 $opt = getopt(
@@ -45,6 +46,7 @@ $opt = getopt(
         'help',
         'list-modules',
         'list-components',
+        'direct-dependency-only',
         'list-component-dependencies:',
         'list-component-dependents:',
         'list-module-dependencies:',
@@ -57,6 +59,7 @@ if (empty($opt) || isset($opt['help'])) {
 }
 
 initialize();
+$directDependenciesOnly = isset($opt['direct-dependency-only']) ? true : false;
 
 if (isset($opt['list-modules'])) {
     $sortedComponents = topologicalSort($componentsByName);
@@ -84,7 +87,11 @@ if (isset($opt['list-modules'])) {
     if (!isset($componentsByName[$targetComponent])) {
         die("Can't find specified component: " . $targetComponent . "\n");
     }
-    $dependencies = getComponentDependency($targetComponent, KEY_COMPONENT_DEPENDENCIES);
+    if ($directDependenciesOnly) {
+        $dependencies = $componentsByName[$targetComponent][KEY_COMPONENT_DEPENDENCIES];
+    } else {
+        $dependencies = getComponentDependency($targetComponent, KEY_COMPONENT_DEPENDENCIES);
+    }
     echo json_encode($dependencies, JSON_PRETTY_PRINT);
 } elseif (isset($opt['list-component-dependents'])) {
     //Get components that depends on the specified component, directly or indirectly
@@ -92,7 +99,11 @@ if (isset($opt['list-modules'])) {
     if (!isset($componentsByName[$targetComponent])) {
         die("Can't find specified component: " . $targetComponent . "\n");
     }
-    $dependencies = getComponentDependency($targetComponent, KEY_COMPONENT_DEPENDENTS);
+    if ($directDependenciesOnly) {
+        $dependencies = $componentsByName[$targetComponent][KEY_COMPONENT_DEPENDENTS];
+    } else {
+        $dependencies = getComponentDependency($targetComponent, KEY_COMPONENT_DEPENDENTS);
+    }
     echo json_encode($dependencies, JSON_PRETTY_PRINT);
 } elseif (isset($opt['list-module-dependents'])) {
     //Get modules that depends on the specified module, directly or indirectly
@@ -102,21 +113,29 @@ if (isset($opt['list-modules'])) {
         die("Can't find specified module: " . $targetModule . "\n");
     }
 
-    $selfComponentName = $modules[$targetModule][KEY_MODULE_COMPONENT];
-    foreach($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
-        if ($module != $targetModule) {
-            $dependencies[] = $module;
+    if ($directDependenciesOnly) {
+        foreach ($modules as $module) {
+            if (in_array($targetModule, $module[KEY_MODULE_DEPENDENT_MODULES])) {
+                $dependencies[] = $module[KEY_MODULE_NAME];
+            }
         }
-    }
-
-    $componentDependencies = getComponentDependency(
-        $selfComponentName,
-        KEY_COMPONENT_DEPENDENTS
-    );
-    foreach ($componentDependencies as $component) {
-        foreach ($componentsByName[$component][KEY_COMPONENT_MODULES] as $module) {
-            if (!in_array($module, $dependencies)) {
+    } else {
+        $selfComponentName = $modules[$targetModule][KEY_MODULE_COMPONENT];
+        foreach($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
+            if ($module != $targetModule) {
                 $dependencies[] = $module;
+            }
+        }
+
+        $componentDependencies = getComponentDependency(
+            $selfComponentName,
+            KEY_COMPONENT_DEPENDENTS
+        );
+        foreach ($componentDependencies as $component) {
+            foreach ($componentsByName[$component][KEY_COMPONENT_MODULES] as $module) {
+                if (!in_array($module, $dependencies)) {
+                    $dependencies[] = $module;
+                }
             }
         }
     }
@@ -129,21 +148,26 @@ if (isset($opt['list-modules'])) {
         die("Can't find specified module: " . $targetModule . "\n");
     }
 
-    $selfComponentName = $modules[$targetModule][KEY_MODULE_COMPONENT];
-    foreach($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
-        if ($module != $targetModule) {
-            $dependencies[] = $module;
-        }
-    }
-
-    $componentDependencies = getComponentDependency(
-        $selfComponentName,
-        KEY_COMPONENT_DEPENDENCIES
-    );
-    foreach ($componentDependencies as $component) {
-        foreach ($componentsByName[$component][KEY_COMPONENT_MODULES] as $module) {
-            if (!in_array($module, $dependencies)) {
+    if ($directDependenciesOnly) {
+        $module = $modules[$targetModule];
+        $dependencies = $module[KEY_MODULE_DEPENDENT_MODULES];
+    } else {
+        $selfComponentName = $modules[$targetModule][KEY_MODULE_COMPONENT];
+        foreach($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
+            if ($module != $targetModule) {
                 $dependencies[] = $module;
+            }
+        }
+
+        $componentDependencies = getComponentDependency(
+            $selfComponentName,
+            KEY_COMPONENT_DEPENDENCIES
+        );
+        foreach ($componentDependencies as $component) {
+            foreach ($componentsByName[$component][KEY_COMPONENT_MODULES] as $module) {
+                if (!in_array($module, $dependencies)) {
+                    $dependencies[] = $module;
+                }
             }
         }
     }
