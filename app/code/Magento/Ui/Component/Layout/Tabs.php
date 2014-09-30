@@ -9,31 +9,16 @@ namespace Magento\Ui\Component\Layout;
 
 use Magento\Ui\Component\AbstractView;
 use Magento\Framework\View\Element\Template;
-use Magento\Ui\Component\ContextBehaviorInterface;
 
 /**
  * Class Tabs
  */
-class Tabs extends AbstractView implements ContextBehaviorInterface
+class Tabs extends AbstractView
 {
     /**
      * Other tabs key
      */
     const OTHER_TABS_KEY = 'other_tabs';
-
-    /**
-     * Other blocks tabs
-     *
-     * @var Template[]
-     */
-    protected $otherBlocks = [];
-
-    /**
-     * Context component
-     *
-     * @var ContextBehaviorInterface
-     */
-    protected $contextComponent;
 
     /**
      * Tabs
@@ -75,47 +60,6 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
         $this->renderContext->getStorage()->addComponentsData($config);
 
         $this->createDataProviders();
-    }
-
-    /**
-     * Set context component
-     *
-     * @param ContextBehaviorInterface $component
-     * @return void
-     */
-    public function setContext(ContextBehaviorInterface $component)
-    {
-        $this->contextComponent = $component;
-    }
-
-    /**
-     * Get context component
-     *
-     * @return ContextBehaviorInterface
-     */
-    public function getContext()
-    {
-        return isset($this->contextComponent) ? $this->contextComponent : $this;
-    }
-
-    /**
-     * Shortcut for rendering as HTML
-     *
-     * @return string
-     */
-    public function toHtml()
-    {
-        return $this->isContext() ? '' : $this->render();
-    }
-
-    /**
-     * Is the object context
-     *
-     * @return bool
-     */
-    public function isContext()
-    {
-        return isset($this->contextComponent);
     }
 
     /**
@@ -173,7 +117,7 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
         foreach ($tabsConfig as $name => $tab) {
             $block = $this->getLayout()->getBlock($name);
             if ($block !== false) {
-                $tab['content'] = $block->toHtml();
+                $tab['elements'] = [$block];
                 $tabs[$name] = $tab;
             }
         }

@@ -8,21 +8,12 @@
 namespace Magento\Ui\Component\Container;
 
 use Magento\Ui\Component\AbstractView;
-use Magento\Ui\Component\ContextBehaviorInterface;
-use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Class Content
  */
-class Content extends AbstractView implements ContextBehaviorInterface
+class Content extends AbstractView
 {
-    /**
-     * Context component
-     *
-     * @var UiComponentInterface
-     */
-    protected $context;
-
     /**
      * Prepare component data
      *
@@ -45,36 +36,5 @@ class Content extends AbstractView implements ContextBehaviorInterface
 
         $this->setConfig($config);
         $this->renderContext->getStorage()->addComponentsData($config);
-    }
-
-    /**
-     * Set context component
-     *
-     * @param ContextBehaviorInterface $component
-     * @return mixed
-     */
-    public function setContext(ContextBehaviorInterface $component)
-    {
-        $this->context = $component;
-    }
-
-    /**
-     * Get context component
-     *
-     * @return ContextBehaviorInterface
-     */
-    public function getContext()
-    {
-        return isset($this->context) ? $this->context : $this;
-    }
-
-    /**
-     * Is the object context
-     *
-     * @return bool
-     */
-    public function isContext()
-    {
-        return isset($this->context);
     }
 }

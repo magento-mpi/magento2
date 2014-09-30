@@ -73,6 +73,13 @@ abstract class AbstractView extends Template implements UiComponentInterface
     protected $dataProviderFactory;
 
     /**
+     * Children elements
+     *
+     * @var UiComponentInterface[]
+     */
+    protected $elements = [];
+
+    /**
      * Constructor
      *
      * @param TemplateContext $context
@@ -273,6 +280,26 @@ abstract class AbstractView extends Template implements UiComponentInterface
     public function getRenderContext()
     {
         return $this->renderContext;
+    }
+
+    /**
+     * Get elements
+     *
+     * @return UiComponentInterface[]
+     */
+    public function getElements()
+    {
+        return $this->elements;
+    }
+
+    /**
+     * Set elements
+     *
+     * @param array $elements
+     */
+    public function setElements(array $elements)
+    {
+        $this->elements = $elements;
     }
 
     /**

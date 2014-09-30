@@ -70,7 +70,23 @@ interface UiComponentInterface extends BlockInterface
     public function getParentName();
 
     /**
-     * @return mixed
+     * Get render context
+     *
+     * @return Context
      */
     public function getRenderContext();
+
+    /**
+     * Get elements
+     *
+     * @return UiComponentInterface[]
+     */
+    public function getElements();
+
+    /**
+     * Set elements
+     *
+     * @param array $elements
+     */
+    public function setElements(array $elements);
 }

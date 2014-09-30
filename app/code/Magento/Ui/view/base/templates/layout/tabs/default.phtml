@@ -25,7 +25,9 @@ $tabs = $this->getTabs();
     <div class="tabs-content" style="width: 80%; float: right;">
         <?php foreach ($tabs as $tab): ?>
             <div class="fieldset-wrapper <?php echo $tab['index']; ?>">
-                <p><?php echo $tab['content']; ?></p>
+                <?php foreach ($tab['elements'] as $element): ?>
+                    <p><?php echo $element->toHtml(); ?></p>
+                <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
     </div>

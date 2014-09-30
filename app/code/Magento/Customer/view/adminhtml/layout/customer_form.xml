@@ -66,14 +66,6 @@
     <referenceBlock name="tabs">
         <arguments>
             <argument name="name" xsi:type="string">customer_form_tab</argument>
-            <argument name="data_provider_pool" xsi:type="array">
-                <item name="customer" xsi:type="array">
-                    <item name="arguments" xsi:type="array">
-                        <item name="form_code" xsi:type="string">adminhtml_customer</item>
-                    </item>
-                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
-                </item>
-            </argument>
             <argument name="other_tabs" xsi:type="array">
                 <item name="customerbalance_balance" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Customer Balance</item>

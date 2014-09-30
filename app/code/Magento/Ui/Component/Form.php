@@ -12,15 +12,8 @@ use Magento\Ui\DataProvider\DataProviderInterface;
 /**
  * Class Form
  */
-class Form extends AbstractView implements ContextBehaviorInterface
+class Form extends AbstractView
 {
-    /**
-     * Render layout
-     *
-     * @var ContextBehaviorInterface|null
-     */
-    protected $renderLayout;
-
     /**
      * Prepare component data
      *
@@ -37,11 +30,11 @@ class Form extends AbstractView implements ContextBehaviorInterface
         );
 
         $this->setConfig($config);
-        $this->setRenderLayout();
         $this->renderContext->getStorage()->addComponentsData($config);
 
         $this->createDataProviders();
         $this->renderContext->getStorage()->addMeta($this->getName(), $this->getData('meta'));
+        $this->setRenderLayout();
     }
 
     /**
@@ -69,27 +62,6 @@ class Form extends AbstractView implements ContextBehaviorInterface
     }
 
     /**
-     * Set context component
-     *
-     * @param ContextBehaviorInterface $component
-     * @return mixed
-     */
-    public function setContext(ContextBehaviorInterface $component)
-    {
-        // TODO: Implement setContext() method.
-    }
-
-    /**
-     * Get context component
-     *
-     * @return ContextBehaviorInterface
-     */
-    public function getContext()
-    {
-        // TODO: Implement getContext() method.
-    }
-
-    /**
      * Render content
      *
      * @return string
@@ -97,30 +69,7 @@ class Form extends AbstractView implements ContextBehaviorInterface
     public function render()
     {
         return $this->contentTypeFactory->get($this->renderContext->getAcceptType())
-            ->render($this->getRenderLayout(), $this->getRenderLayout()->getContentTemplate());
-    }
-
-    /**
-     * Set render layout
-     *
-     * @return void
-     */
-    protected function setRenderLayout()
-    {
-        if ($this->hasData('layout')) {
-            $this->renderLayout = $this->getLayout()->getBlock($this->getData('layout'));
-            $this->renderLayout->setContext($this);
-        }
-    }
-
-    /**
-     * Get render layout
-     *
-     * @return ContextBehaviorInterface
-     */
-    protected function getRenderLayout()
-    {
-        return isset($this->renderLayout) ? $this->renderLayout : $this;
+            ->render($this, $this->getContentTemplate());
     }
 
     /**
@@ -142,12 +91,20 @@ class Form extends AbstractView implements ContextBehaviorInterface
     }
 
     /**
-     * Is the object context
+     * Set render layout
      *
-     * @return bool
+     * @return void
      */
-    public function isContext()
+    protected function setRenderLayout()
     {
-        return false;
+        if ($this->hasData('layout')) {
+            $layoutElement = $this->getLayout()->getBlock($this->getData('layout'));
+            if ($layoutElement !== false) {
+                /** @var RenderLayoutInterface $layoutElement */
+                $layoutElement->prepare();
+                $layoutElement->setElements($this->getElements());
+                $this->setElements([$layoutElement]);
+            }
+        }
     }
 }
