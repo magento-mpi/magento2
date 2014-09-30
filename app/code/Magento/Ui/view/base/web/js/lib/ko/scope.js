@@ -7,8 +7,9 @@
 define([
     'ko',
     '../class',
+    'Magento_Ui/js/lib/registry/registry',
     './initialize'
-], function(ko, Class) {
+], function(ko, Class, registry) {
     'use strict';
 
     /**
@@ -86,6 +87,23 @@ define([
         reload: function() {
             this.pushParams()
                 .provider.refresh();
+        },
+
+        pushElements: function(){
+            var elems = this.elems;
+
+            elems.push.apply(elems, arguments);
+
+            return this;
+        },
+
+        waitElements: function(){
+            registry.get(
+                this.injections,
+                this.pushElements.bind(this)
+            );
+            
+            return this;
         }
     });
 });

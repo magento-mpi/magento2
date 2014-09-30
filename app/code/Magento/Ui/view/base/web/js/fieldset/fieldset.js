@@ -7,9 +7,8 @@
 define([
     'underscore',
     'Magento_Ui/js/lib/collection',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, Collection, Scope, registry) {
+    'Magento_Ui/js/lib/ko/scope'
+], function(_, Collection, Scope) {
     'use strict';
 
     var defaults = {
@@ -35,29 +34,18 @@ define([
             return this;
         },
 
-        initElements: function(){
-            var elems = this.elems;
-
-            elems.push.apply(elems, arguments);
-
-            return this;
-        },
-
         toggle: function() {
             var opened = this.opened;
 
             if(this.collapsible){
                 opened(!opened());
             }
+
+            return this;
         },
 
-        waitElements: function(){
-            registry.get(
-                this.injections,
-                this.initElements.bind(this)
-            );
-            
-            return this;
+        getTemplate: function(){
+            return this.template;
         }
     });
 

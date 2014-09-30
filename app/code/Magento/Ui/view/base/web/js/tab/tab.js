@@ -6,17 +6,18 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, Scope, registry) {
+    'Magento_Ui/js/lib/ko/scope'
+], function(_, Scope) {
     'use strict';
 
     var Tab = Scope.extend({
-        initialize: function(config) {
+        initialize: function(config, provider) {
             _.extend(this, config);
 
+            this.provider = provider;
+
             this.initObservable()
-                .initProvider()
+                .initListeners()
                 .pushParams()
         },
 
@@ -28,7 +29,7 @@ define([
             return this;
         },
 
-        initProvider: function() {
+        initListeners: function() {
             var params = this.provider.params;
 
             params.on('update:activeTab', this.pullParams.bind(this));

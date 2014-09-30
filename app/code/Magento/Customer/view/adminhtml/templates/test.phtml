@@ -10,6 +10,7 @@
                             "data_type": "text",
                             "input_type": "select",
                             "label": "Associate to Website",
+                            "required": true,
                             "options": {
                                 "0": "Please select ...",
                                 "1": "Admin"
@@ -19,13 +20,15 @@
                             "index": "firstname",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "First Name"
+                            "label": "First Name",
+                            "required": true
                         },
                         "lastname": {
                             "index": "lastname",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "Last Name"
+                            "label": "Last Name",
+                            "required": true
                         },
                         "addresses": {
                             "data_type": "collection",
@@ -120,6 +123,7 @@
                     "col_group": {
                         "label": "Collapsible group",
                         "collapsible": true,
+                        "opened": false,
                         "items": [
                             {
                                 "name": "prod_details",
@@ -156,7 +160,9 @@
                     "account_info": {
                         "label": "Account Information",
                         "injections": [
-                            "customer.website"
+                            "customer.website",
+                            "customer.firstname",
+                            "customer.lastname"
                         ]
                     },
                     "customer_addresses": {
@@ -179,7 +185,7 @@
         <div data-bind="visible: visible">
             
             <!-- ko foreach: elems -->
-                <!-- ko template: template --><!-- /ko -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
             <!-- /ko -->
 
         </div>
