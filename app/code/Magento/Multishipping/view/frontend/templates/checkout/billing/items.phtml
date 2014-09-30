@@ -7,13 +7,13 @@
  */
 ?>
 <?php if ($this->getQuote()->hasVirtualItems()): ?>
-<div class="block other">
-    <div class="title"><strong><?php echo __('Other items in your order') ?></strong></div>
-    <div class="content">
-        <strong class="subtitle">
-            <span><?php echo __('Items') ?></span>
-            <a href="<?php echo $this->getVirtualProductEditUrl() ?>" class="action edit"><span><?php echo __('Edit Items') ?></></a>
-        </strong>
+<div class="block block-other">
+    <div class="block-title">
+        <strong><?php echo __('Other items in your order') ?></strong>
+        <a href="<?php echo $this->getVirtualProductEditUrl() ?>" class="action edit"><span><?php echo __('Edit Items') ?></span></a>
+    </div>
+    <div class="block-content">
+        <p><?php echo __('Shipping is not applicable.') ?></p>
         <div class="table-wrapper">
             <table class="items data table" id="unavailable-shipping-table">
                 <thead>

@@ -6,22 +6,20 @@
 //  * @license     {license_link}
 //  */
 
-.opc-wrapper {
-    .gift-wrapping {
-        margin-bottom: 10px;
-        > .label {
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-        .design {
-            margin: 10px 0;
-            &:extend(.abstract-add-clearfix all);
-            > img {
-                float: left;
-                max-width: 100px;
-                max-height: 100px;
-                margin-right: 10px;
-            }
+.gift-wrapping {
+    margin-bottom: 10px;
+    > .label {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    .design {
+        margin: 10px 0;
+        &:extend(.abstract-add-clearfix all);
+        > img {
+            float: left;
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 10px;
         }
     }
 }
@@ -47,17 +45,15 @@
 }
 
 .responsive(@break) when (@break = @screen-m) {
-    .opc-wrapper {
-        .gift-wrapping {
-            .nested {
-                &:extend(.abstract-add-clearfix-desktop all);
-            }
+    .gift-wrapping {
+        .nested {
+            &:extend(.abstract-add-clearfix-desktop all);
         }
-        .data.table {
-            .gift-wrapping {
-                .content {
-                    &:extend(.abstract-add-clearfix-desktop all);
-                }
+    }
+    .data.table {
+        .gift-wrapping {
+            .content {
+                &:extend(.abstract-add-clearfix-desktop all);
             }
         }
     }

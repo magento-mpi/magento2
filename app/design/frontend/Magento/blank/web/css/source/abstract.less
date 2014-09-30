@@ -538,6 +538,46 @@
 }
 
 //
+//    Checkout shipping methods title
+//--------------------------------------
+.abstract-shipping-methods-title {
+    .font-size(14);
+    margin: 20px 0 15px;
+    font-weight: @font-weight-bold;
+}
+
+//
+//    Checkout shipping methods
+//--------------------------------------
+.abstract-methods-shipping {
+    .item-title {
+        &:extend(.abstract-shipping-methods-title all);
+    }
+    .item-content {
+        margin: 0 0 20px;
+        .field.choice {
+            margin: 0 0 10px;
+        }
+        .price {
+            font-weight: @font-weight-bold;
+        }
+        &:extend(.abstract-adjustment-incl-excl-tax all);
+    }
+    .price-box {
+        margin-left: 20px;
+        .label + .price {
+            font-weight: @font-weight-bold;
+        }
+    }
+    img {
+        vertical-align: middle;
+    }
+    .field.month {
+        padding-right: 10px;
+    }
+}
+
+//
 //    Add colon
 //--------------------------------------
 .abstract-colon {
@@ -619,4 +659,11 @@
             );
         }
     }
+}
+
+//
+//    Abstract no display
+//--------------------------------------
+.abstract-no-display {
+    display: none;
 }

@@ -154,35 +154,7 @@
 
     // Shipping methods
     .methods-shipping {
-        .item-title {
-            &:extend(.abstract-shipping-methods-title all);
-        }
-        .item-content {
-            margin: 0 0 35px;
-            .field {
-                margin-bottom: 15px;
-                .price {
-                    font-weight: @font-weight-bold;
-                }
-            }
-            &:extend(.abstract-adjustment-incl-excl-tax all);
-        }
-        .price.box {
-            > .price {
-                display: block;
-            }
-            .regular .price,
-            .price .price {
-                font-weight: @font-weight-bold;
-            }
-        }
-    }
-
-    .extra-options-container {
-        font-weight: @font-weight-base;
-        .field.choice {
-            margin: 20px 0 15px;
-        }
+        &:extend(.abstract-methods-shipping all);
     }
 
     // Payment methods
@@ -338,7 +310,7 @@
     }
 
     .hidden {
-        display: none;
+        &:extend(.abstract-no-display all);
     }
 
     .actions-toolbar {
