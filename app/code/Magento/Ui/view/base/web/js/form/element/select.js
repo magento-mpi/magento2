@@ -12,7 +12,9 @@ define([
     'use strict';
 
     var defaults = {
-        caption: t('Select...')
+        meta: {
+            caption: t('Select...')    
+        }
     };
 
     return AbstractElement.extend({
@@ -20,14 +22,13 @@ define([
         /**
          * Invokes initialize method of parent class and initializes properties of instance.
          * @param {Object} config - form element configuration
-         * @param {Number|String} value - initial value of form element
          */
-        initialize: function (config, value) {
+        initialize: function (config) {
             _.extend(this, defaults);
 
             this.constructor.__super__.initialize.apply(this, arguments);
 
-            this.options = this.options ? this.formatOptions() : [];
+            this.options = this.meta.options ? this.formatOptions() : [];
         },
 
         /**
@@ -36,7 +37,7 @@ define([
          * @returns {Array} - Options, converted to array
          */
         formatOptions: function () {
-            return _.map(this.options, function (value, key) {
+            return _.map(this.meta.options, function (value, key) {
                 return { value: key, label: value  };
             });
         }
