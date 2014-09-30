@@ -36,16 +36,25 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
     protected $contextComponent;
 
     /**
-     * Flag if changed object
+     * Tabs
      *
-     * @var bool
+     * Structure:
+     *
+     * 'unique-key-1' => [
+     *     'label' => 'some label',
+     *     ...
+     *     'content' => 'some content',
+     *     'sort_order' => 1
+     * ]
+     *
+     * @var array
      */
-    protected $isChanged = true;
+    protected $tabs = [];
 
     /**
      * Prepare component data
      *
-     * @return $this|void
+     * @return void
      */
     public function prepare()
     {
@@ -66,14 +75,13 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
         $this->renderContext->getStorage()->addComponentsData($config);
 
         $this->createDataProviders();
-        $this->setOtherTabs();
     }
 
     /**
      * Set context component
      *
      * @param ContextBehaviorInterface $component
-     * @return mixed
+     * @return void
      */
     public function setContext(ContextBehaviorInterface $component)
     {
@@ -91,38 +99,85 @@ class Tabs extends AbstractView implements ContextBehaviorInterface
     }
 
     /**
-     * Get other tabs from config
+     * Shortcut for rendering as HTML
      *
-     * @return array
+     * @return string
      */
-    public function getOtherTabsConfig()
+    public function toHtml()
     {
-        return $this->hasData(static::OTHER_TABS_KEY) ? $this->getData('other_tabs') : [];
+        return $this->isContext() ? '' : $this->render();
     }
 
     /**
-     * Set other blocks tabs
+     * Is the object context
      *
+     * @return bool
+     */
+    public function isContext()
+    {
+        return isset($this->contextComponent);
+    }
+
+    /**
+     * Compare sort order
+     *
+     * @param array $tabOne
+     * @param array $tabTwo
+     * @return int
+     */
+    public function compareSortOrder(array $tabOne, array $tabTwo) {
+        if (!isset($tabOne['sort_order'])) {
+            $tabOne['sort_order'] = 0;
+        }
+        if (!isset($tabTwo['sort_order'])) {
+            $tabTwo['sort_order'] = 0;
+        }
+
+        return (int)$tabOne['sort_order'] - (int)$tabTwo['sort_order'];
+    }
+
+    /**
+     * Get tabs
+     *
+     * @return array
+     */
+    public function getTabs()
+    {
+        $this->setTabs($this->getConfiguredTabs());
+        return $this->tabs;
+    }
+
+    /**
+     * Set tabs
+     *
+     * @param array $tabs
      * @return void
      */
-    protected function setOtherTabs()
+    protected function setTabs(array $tabs)
     {
-        $names = $this->getLayout()->getChildNames(static::OTHER_TABS_KEY);
-        if (!empty($names)) {
-            foreach ($names as $name) {
-                $this->otherBlocks[$name] = $this->getLayout()->getBlock($name);
-            }
+        if (!empty($tabs)) {
+            $this->tabs = array_merge($this->tabs, $tabs);
+            usort($this->tabs, [$this, 'compareSortOrder']);
         }
     }
 
     /**
-     * Render other tab by name
+     * Get configured tabs
      *
-     * @param $tabName
-     * @return string
+     * @return array
      */
-    public function renderOtherTabs($tabName)
+    protected function getConfiguredTabs()
     {
-        return isset($this->otherBlocks[$tabName]) ? $this->otherBlocks[$tabName]->toHtml() : '';
+        $tabs = [];
+        $tabsConfig = $this->hasData(static::OTHER_TABS_KEY) ? $this->getData('other_tabs') : [];
+        foreach ($tabsConfig as $name => $tab) {
+            $block = $this->getLayout()->getBlock($name);
+            if ($block !== false) {
+                $tab['content'] = $block->toHtml();
+                $tabs[$name] = $tab;
+            }
+        }
+
+        return $tabs;
     }
 }

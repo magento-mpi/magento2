@@ -28,4 +28,11 @@ interface ContextBehaviorInterface extends UiComponentInterface
      * @return ContextBehaviorInterface
      */
     public function getContext();
+
+    /**
+     * Is the object context
+     *
+     * @return bool
+     */
+    public function isContext();
 }

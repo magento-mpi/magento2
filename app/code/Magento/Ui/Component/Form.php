@@ -120,4 +120,14 @@ class Form extends AbstractView implements ContextBehaviorInterface
     {
         return isset($this->renderLayout) ? $this->renderLayout : $this;
     }
+
+    /**
+     * Is the object context
+     *
+     * @return bool
+     */
+    public function isContext()
+    {
+        return false;
+    }
 }

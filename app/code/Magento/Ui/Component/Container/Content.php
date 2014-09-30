@@ -67,4 +67,14 @@ class Content extends AbstractView implements ContextBehaviorInterface
     {
         return isset($this->context) ? $this->context : $this;
     }
+
+    /**
+     * Is the object context
+     *
+     * @return bool
+     */
+    public function isContext()
+    {
+        return isset($this->context);
+    }
 }

@@ -70,14 +70,17 @@
                 <item name="customerbalance_balance" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Customer Balance</item>
                     <item name="index" xsi:type="string">customerbalance_balance</item>
+                    <item name="sort_order" xsi:type="string">1</item>
                 </item>
                 <item name="view_customer_status" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Customer Status</item>
                     <item name="index" xsi:type="string">view_customer_status</item>
+                    <item name="sort_order" xsi:type="string">3</item>
                 </item>
                 <item name="giftregistry" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Gift Registry</item>
                     <item name="index" xsi:type="string">giftregistry</item>
+                    <item name="sort_order" xsi:type="string">2</item>
                 </item>
             </argument>
         </arguments>
