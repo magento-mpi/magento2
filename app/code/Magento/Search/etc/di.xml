@@ -9,28 +9,22 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Search\Model\AdditionalInfoDataProviderInterface" type="Magento\Search\Model\AdditionalInfoDataProvider"/>
+    <!--<preference for="Magento\Search\Model\AdditionalInfoDataProviderInterface" type="Magento\Search\Model\AdditionalInfoDataProvider"/>-->
     <virtualType name="Magento\Search\Block\Recommendations" type="Magento\Search\Block\AdditionalInfo">
         <arguments>
             <argument name="title" xsi:type="string">Related search terms</argument>
-            <argument name="additionalInfoDataProvider" xsi:type="object">
-                Magento\Search\Model\AdditionalInfoDataProvider
-            </argument>
+            <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Search\Model\AdditionalInfoDataProvider</argument>
         </arguments>
     </virtualType>
     <virtualType name="Magento\Search\Block\Suggestions" type="Magento\Search\Block\AdditionalInfo">
         <arguments>
             <argument name="title" xsi:type="string">Did you mean</argument>
-            <argument name="additionalInfoDataProvider" xsi:type="object">
-                Magento\Search\Model\AdditionalInfoDataProvider
-            </argument>
+            <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Search\Model\AdditionalInfoDataProvider</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Search\Block\AdditionalInfo">
         <arguments>
-            <argument name="additionalInfoDataProvider" xsi:type="object">
-                Magento\Search\Model\AdditionalInfoDataProvider
-            </argument>
+            <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Search\Model\AdditionalInfoDataProvider</argument>
         </arguments>
     </type>
 </config>
