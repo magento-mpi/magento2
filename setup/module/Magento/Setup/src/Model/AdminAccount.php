@@ -10,6 +10,8 @@ namespace Magento\Setup\Model;
 
 use Magento\Framework\Math\Random;
 use Magento\Setup\Module\Setup;
+use Magento\Authorization\Model\Acl\Role\User;
+use Magento\Authorization\Model\UserContextInterface;
 
 class AdminAccount
 {
@@ -70,7 +72,9 @@ class AdminAccount
     }
 
     /**
-     * Save administrator account to DB
+     * Save administrator account and user role to DB.
+     *
+     * If the administrator account exists, update it.
      *
      * @return void
      */
@@ -94,29 +98,25 @@ class AdminAccount
         );
         $adminId = $this->setup->getConnection()->getDriver()->getLastGeneratedValue();
 
-        $roles = [
-            0 => [
-                'parent_id' => 0,
-                'tree_level' => 1,
-                'sort_order' => 1,
-                'role_type' => 'G',
-                'user_id' => 0,
-                'user_type' => 2,
-                'role_name' => 'Administrators',
-            ],
-            1 => [
-                'parent_id' => 1,
-                'tree_level' => 2,
-                'sort_order' => 0,
-                'role_type' => 'U',
-                'user_id' => $adminId,
-                'user_type' => 2,
-                'role_name' => $this->data[self::KEY_USERNAME],
-            ]
+        // Create the user role, do not duplicate if it already exists
+        $adminRoleData = [
+            'parent_id' => 1,
+            'tree_level' => 2,
+            'sort_order' => 0,
+            'role_type' => User::ROLE_TYPE,
+            'user_id' => $adminId,
+            'user_type' => UserContextInterface::USER_TYPE_ADMIN,
+            'role_name' => $this->data[self::KEY_USERNAME],
         ];
 
-        foreach ($roles as $role) {
-            $this->setup->getConnection()->insert($this->setup->getTable('authorization_role'), $role, true);
+        $resultSet = $this->setup->getConnection()->query(
+            'SELECT * FROM ' . $this->setup->getTable('authorization_role') . ' ' .
+            'WHERE parent_id = :parent_id AND tree_level = :tree_level AND sort_order = :sort_order AND ' .
+            'role_type = :role_type AND user_id = :user_id AND user_type = :user_type AND role_name = :role_name',
+            $adminRoleData
+        );
+        if ($resultSet->count() < 1) {
+            $this->setup->getConnection()->insert($this->setup->getTable('authorization_role'), $adminRoleData, true);
         }
     }
 }
