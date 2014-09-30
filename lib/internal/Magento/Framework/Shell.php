@@ -9,6 +9,7 @@ namespace Magento\Framework;
 
 use Magento\Framework\Shell\CommandRendererInterface;
 use Magento\Framework\Exception;
+
 /**
  * Shell command line wrapper encapsulates command execution and arguments escaping
  */

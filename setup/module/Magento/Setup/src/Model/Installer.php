@@ -408,7 +408,10 @@ class Installer
         $phpFinder = new PhpExecutableFinder();
         $phpPath = $phpFinder->find();
         if (!$phpPath) {
-            throw new \Exception('Cannot find PHP executable path.');
+            throw new \Exception(
+                'Cannot find PHP executable path.'
+                . ' Please set $PATH environment variable to include the full path of the PHP executable'
+            );
         }
         $command = $phpPath . ' ' . $command;
         $actualCommand = $this->shellRenderer->render($command, $args);
