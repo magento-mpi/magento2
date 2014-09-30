@@ -26,7 +26,7 @@ class Import
      * After import handler
      *
      * @param \Magento\ImportExport\Model\Import $subject
-     * @param Object $import
+     * @param boolean $import
      *
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

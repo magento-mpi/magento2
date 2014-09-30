@@ -21,7 +21,8 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $subjectMock = $this->getMockBuilder('Magento\ImportExport\Model\Import')
             ->disableOriginalConstructor()
             ->getMock();
-        $import = new \stdClass();
+
+        $import = true;
 
         $model = new \Magento\CatalogImportExport\Model\Indexer\Category\Product\Plugin\Import($categoryProductProcessorMock);
 
