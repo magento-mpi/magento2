@@ -143,7 +143,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     public function collectDataProvider()
     {
         $result = [];
-        // 3 item_1, 3 item_2, $99 each, 8.19 tax rate
+        // scenario 1: 3 item_1, 3 item_2, $99 each, 8.19 tax rate
         // 1 item_1 and 2 item_2 are invoiced
         $result['partial_invoice_partial_creditmemo'] = [
             'order_data' => [
@@ -231,7 +231,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        // 3 items, 2 invoiced, rowtotal of 150 with 8.25 tax rate
+        // scenario 2: 3 items, 2 invoiced, rowtotal of 150 with 8.25 tax rate
         // extra tax amount exist (weee tax), make sure that tax amount
         // is not over the amount invoiced
         $result['tax_amount_not_over_invoiced_tax_amount'] = [
@@ -302,7 +302,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        // 3 items, 3 invoiced, rowtotal of 150 with 8.25 tax rate
+        // scenario 3: 3 items, 3 invoiced, rowtotal of 150 with 8.25 tax rate
         // extra tax amount exist (weee tax), make sure that tax amount
         // equals to tax amount invoiced
         $result['last_partial_creditmemo'] = [
@@ -372,6 +372,87 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     'base_grand_total' => 64.95,
                     'tax_amount' => 4.95,
                     'base_tax_amount' => 4.95,
+                ],
+            ]
+        ];
+
+        // scenario 4: 3 items, 2 invoiced, price includes tax
+        // partial credit memo, make sure that hidden tax is calculated correctly
+        $result['partial_invoice_partial_creditmemo_price_incl_tax'] = [
+            'order_data' => [
+                'data_fields' => [
+                    'shipping_tax_amount' => 0,
+                    'base_shipping_tax_amount' => 0,
+                    'shipping_tax_refunded' => 0,
+                    'base_shipping_tax_refunded' => 0,
+                    'shipping_hidden_tax_amount' => 0,
+                    'base_shipping_hidden_tax_amount' => 0,
+                    'tax_amount' => 13.72,
+                    'base_tax_amount' => 13.72,
+                    'tax_invoiced' => 9.15,
+                    'base_tax_invoiced' => 9.15,
+                    'tax_refunded' => 0,
+                    'base_tax_refunded' => 0,
+                    'hidden_tax_amount' => 11.43,
+                    'base_hidden_tax_amount' => 11.43,
+                    'hidden_tax_invoiced' => 7.62,
+                    'base_hidden_tax_invoiced' => 7.62,
+                    'hidden_tax_refunded' => 0,
+                    'base_hidden_tax_refunded' => 0,
+                    'shipping_amount' => 0,
+                    'shipping_amount_refunded' => 0,
+                    'base_shipping_amount' => 0,
+                    'base_shipping_amount_refunded' => 0,
+                ],
+            ],
+            'creditmemo_data' => [
+                'items' => [
+                    'item_1' =>[
+                        'order_item' => [
+                            'qty_invoiced' => 2,
+                            'tax_invoiced' => 7.62,
+                            'tax_refunded' => 0,
+                            'base_tax_invoiced' => 7.62,
+                            'base_tax_refunded' => 0,
+                            'hidden_tax_amount' => 11.43,
+                            'base_hidden_tax_amount' => 11.43,
+                            'hidden_tax_invoiced' => 7.62,
+                            'base_hidden_tax_invoiced' => 7.62,
+                            'qty_refunded' => 0,
+                        ],
+                        'is_last' => false,
+                        'qty' => 1,
+                    ],
+                ],
+                'is_last' => false,
+                'data_fields' => [
+                    'grand_total' => 52.38,
+                    'base_grand_total' => 52.38,
+                    'base_shipping_amount' => 0,
+                    'tax_amount' => 0.76,
+                    'base_tax_amount' => 0.76,
+                    'invoice' => new MagentoObject(
+                            [
+                                'shipping_tax_amount' => 0,
+                                'base_shipping_tax_amount' => 0,
+                                'shipping_hidden_tax_amount' => 0,
+                                'base_shipping_hidden_tax_amount' => 0,
+                            ]
+                        ),
+                ],
+            ],
+            'expected_results' => [
+                'creditmemo_items' => [
+                    'item_1' => [
+                        'tax_amount' => 3.81,
+                        'base_tax_amount' => 3.81,
+                    ],
+                ],
+                'creditmemo_data' => [
+                    'grand_total' => 60,
+                    'base_grand_total' => 60,
+                    'tax_amount' => 4.57,
+                    'base_tax_amount' => 4.57,
                 ],
             ]
         ];
