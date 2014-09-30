@@ -64,8 +64,13 @@ define(function (require) {
                         delete target['meta_ref'];
                     }
 
-                    config  = _.extend(target, { name: path });
-                    value   = utils.nested(data, path);
+                    config  = {
+                        meta: target,
+                        name: path,
+                        type: target.input_type
+                    };
+
+                    value = utils.nested(data, path);
 
                     this.initElement(config, value);
                 } else {
@@ -75,8 +80,7 @@ define(function (require) {
         },
 
         initElement: function (config, value) {
-            var type    = config['input_type'],
-                constr  = elements[type],
+            var constr  = elements[config.type],
                 element = new constr(config, value, this.refs);
 
             this.register(element);

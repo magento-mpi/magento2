@@ -156,12 +156,16 @@
                     "account_info": {
                         "label": "Account Information",
                         "injections": [
-                            "customer.website"
+                            "customer.website",
+                            "customer.addresses"
                         ]
                     },
                     "customer_addresses": {
                         "label": "Customer Addresses",
-                        "collapsible": true
+                        "collapsible": true,
+                        "injections": [
+                            "customer.addresses"
+                        ]
                     }
                 }
             }

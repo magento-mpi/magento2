@@ -13,27 +13,27 @@ define([
 
     return Scope.extend({
 
-        initialize: function (config, elements) {
-            this.meta = config;
+        initialize: function (config, elements, refs) {
+            _.extend(this, config);
 
-            this.initElements(elements);
+            this.initElements(elements, refs);
         },
 
-        initElements: function (elements) {
-            this.observe('elements', _.map(elements, this.initElement, this));
+        initElements: function (elements, refs) {
+            this.observe('elements', _.map(elements, this.initElement.bind(this, refs)));
         },
 
-        initElement: function (value, name) {
+        initElement: function (refs, value, name) {
             var meta    = this.meta[name],
-                type    = meta['input_type'],
+                type    = meta.input_type,
                 constr  = controls[type],
-                element = new constr(meta, value);
+                element = new constr(meta, value, refs);
 
             return element;
         },
 
         getTemplate: function () {
-            return 'ui/form/element/fieldset';
+            return 'ui/form/fieldset';
         }
     });
 });
