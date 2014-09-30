@@ -8,11 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="body.class">
-        <action method="addBodyClass">
-            <argument name="class" xsi:type="string">page-product-downloadable</argument>
-        </action>
-    </referenceBlock>
+    <body>
+        <attribute name="class" value="page-product-downloadable"/>
+    </body>
     <referenceContainer name="product.info.main">
         <block class="Magento\Downloadable\Block\Catalog\Product\Samples" name="product.info.downloadable.samples" as="samples" template="catalog/product/samples.phtml" after="product.price.tier" />
     </referenceContainer>

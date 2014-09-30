@@ -30,6 +30,9 @@ class Curl extends AbstractCurl
         'theme_id' => [
             'Magento Blank' => 2,
         ],
+        'code' => [
+            'CMS Page Link' => 'cms_page_link',
+        ],
     ];
 
     /**
@@ -52,7 +55,14 @@ class Curl extends AbstractCurl
     {
         $data = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/'
-            . $fixture->getData('code') . '/theme_id/' . $data['theme_id'];
+            . $data['code'] . '/theme_id/' . $data['theme_id'];
+        if (isset($data['page_id'])) {
+            $data['parameters']['page_id'] = $data['page_id'][0];
+            unset($data['page_id']);
+        }
+        if ($fixture->hasData('store_ids')) {
+            $data['store_ids'][0] = $fixture->getDataFieldConfig('store_ids')['source']->getStore()[0]->getStoreId();
+        }
         unset($data['code']);
         unset($data['theme_id']);
         $curl = new BackendDecorator(new CurlTransport(), new Config());

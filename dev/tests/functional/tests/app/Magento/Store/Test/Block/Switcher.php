@@ -13,6 +13,10 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Store\Test\Fixture\Store;
 
+/**
+ * Class Switcher
+ * Store switcher block
+ */
 class Switcher extends Block
 {
     /**
@@ -33,6 +37,7 @@ class Switcher extends Block
      * Select store
      *
      * @param string $name
+     * @return void
      */
     public function selectStoreView($name)
     {
