@@ -8,12 +8,12 @@
 namespace Magento\Customer\Ui\DataProvider;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Ui\DataProvider\DataProviderInterface;
+use Magento\Ui\DataProvider\DataProviderEntityInterface;
 
 /**
  * Class Customer
  */
-class Customer implements DataProviderInterface
+class Customer implements DataProviderEntityInterface
 {
     /**
      * Customer meta

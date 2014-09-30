@@ -8,8 +8,8 @@
 namespace Magento\Ui\DataProvider;
 
 /**
- * Interface DataProviderCollectionInterface
+ * Interface DataProviderEntityInterface
  */
-interface DataProviderCollectionInterface extends DataProviderInterface
+interface DataProviderEntityInterface extends DataProviderInterface
 {
 }
