@@ -7,9 +7,9 @@
  */
 namespace Magento\Solr\Adapter;
 
-use Magento\Search\Model\SuggestionsInterface;
+use Magento\Search\Model\AdditionalInfoDataProviderInterface;
 
-class Suggestions implements SuggestionsInterface
+class Suggestions implements AdditionalInfoDataProviderInterface
 {
     const CONFIG_SUGGESTION_COUNT_RESULTS_ENABLED = 'server_suggestion_count_results_enabled';
     const CONFIG_SUGGESTION_ENABLED = 'server_suggestion_enabled';
@@ -47,7 +47,7 @@ class Suggestions implements SuggestionsInterface
     /**
      * {@inheritdoc}
      */
-    public function getSuggestions($query, $limit = null, $additionalFilters = null)
+    public function getSearchResult($query, $limit = null, $additionalFilters = null)
     {
         $isSearchSuggestionsEnabled = (bool)$this->searchData->getSolrConfigData(self::CONFIG_SUGGESTION_ENABLED);
         $isSolrEnabled = $this->searchData->isThirdPartSearchEngine() && $this->searchData->isActiveEngine();
