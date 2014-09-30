@@ -7,8 +7,56 @@
  */
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
+use Magento\TestFramework\Helper\ObjectManager;
+
 class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @var \Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard
+     */
+    protected $block;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeManager;
+
+    /**
+     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $coreRegistry;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $scopeConfig;
+
+    public function setUp()
+    {
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->coreRegistry = $this->getMockBuilder('Magento\Framework\Registry')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $objectManager = new ObjectManager($this);
+        $this->block = $objectManager->getObject(
+            'Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard',
+            [
+                'storeManager' => $this->storeManager,
+                'coreRegistry' => $this->coreRegistry,
+                'scopeConfig' => $this->scopeConfig,
+            ]
+        );
+    }
+
     /**
      * @dataProvider getScopeValueDataProvider
      * @param boolean $isSingleStore
@@ -17,26 +65,11 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetScopeValue($isSingleStore, $scope, $expectedResult)
     {
+        $this->storeManager->expects($this->any())
+            ->method('isSingleStoreMode')
+            ->will($this->returnValue($isSingleStore));
 
-        $storeManagerMock = $this->getMockBuilder(
-            'Magento\Store\Model\StoreManager'
-        )->disableOriginalConstructor()->getMock();
-        $storeManagerMock->expects(
-            $this->any()
-        )->method(
-            'isSingleStoreMode'
-        )->will(
-            $this->returnValue($isSingleStore)
-        );
-
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $block = $objectManagerHelper->getObject(
-            'Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard',
-            array('storeManager' => $storeManagerMock)
-        );
-
-
-        $this->assertEquals($block->getScopeValue($scope), $expectedResult);
+        $this->assertEquals($this->block->getScopeValue($scope), $expectedResult);
     }
 
     /**
@@ -45,5 +78,93 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     public function getScopeValueDataProvider()
     {
         return array(array(true, 'test', ''), array(false, 'test', 'value-scope="test"'));
+    }
+
+    /**
+     * @param $prodId
+     * @param $result
+     * @dataProvider isNewDataProvider
+     */
+    public function testIsNew($prodId, $result)
+    {
+
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->coreRegistry->expects($this->once())
+            ->method('registry')
+            ->with('product')
+            ->will($this->returnValue($product));
+
+        $product->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($prodId));
+
+        $this->assertEquals($result, $this->block->isNew());
+    }
+
+    /**
+     * @return array
+     */
+    public function isNewDataProvider()
+    {
+        return [
+            ['product_id', false],
+            [null, true]
+        ];
+    }
+
+    public function testGetFieldValueForNewProduct()
+    {
+        $field = 'some_field';
+
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->coreRegistry->expects($this->once())
+            ->method('registry')
+            ->with('product')
+            ->will($this->returnValue($product));
+        $product->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(null));
+        $this->scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('giftcard/general/' . $field, 'store')
+            ->will($this->returnValue('config_value'));
+
+        $this->assertEquals('config_value', $this->block->getFieldValue($field));
+    }
+
+    public function testGetFieldValueForExistingProduct()
+    {
+        $field = 'some_field';
+
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->coreRegistry->expects($this->exactly(2))
+            ->method('registry')
+            ->with('product')
+            ->will($this->returnValue($product));
+        $product->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue('product_id'));
+        $product->expects($this->once())
+            ->method('getDataUsingMethod')
+            ->with($field)
+            ->will($this->returnValue('using_method'));
+
+        $this->assertEquals('using_method', $this->block->getFieldValue($field));
+    }
+
+    public function testGetCardTypes()
+    {
+        $expected = ['Virtual', 'Physical', 'Combined'];
+
+        $this->assertEquals($expected, $this->block->getCardTypes());
     }
 }
