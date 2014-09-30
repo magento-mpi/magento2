@@ -11,6 +11,65 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class InfoTest extends \PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @var /Magento\Sales\Block\Adminhtml\Order\View\Info
+     */
+    protected $block;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $authorizationMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupServiceMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $coreRegistryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $orderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $contextMock;
+
+    protected function setUp()
+    {
+        $this->contextMock
+            = $this->getMock('Magento\Backend\Block\Template\Context', ['getAuthorization'], [], '', false);
+        $this->authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
+        $this->contextMock
+            ->expects($this->any())->method('getAuthorization')->will($this->returnValue($this->authorizationMock));
+        $this->groupServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $this->coreRegistryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $methods = ['getCustomerGroupId', '__wakeUp'];
+        $this->orderMock = $this->getMock('\Magento\Sales\Model\Order', $methods, [], '', false);
+        $this->groupMock = $this->getMock('Magento\Customer\Service\V1\Data\CustomerGroup', [], [], '', false);
+        $arguments = [
+            'context' => $this->contextMock,
+            'groupService' => $this->groupServiceMock,
+            'registry' => $this->coreRegistryMock
+        ];
+
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Sales\Block\Adminhtml\Order\View\Info $block */
+        $this->block = $helper->getObject('Magento\Sales\Block\Adminhtml\Order\View\Info', $arguments);
+    }
+
     public function testGetAddressEditLink()
     {
         $contextMock = $this->getMock('Magento\Backend\Block\Template\Context', ['getAuthorization'], [], '', false);
@@ -33,34 +92,35 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerGroupName()
     {
-        $contextMock = $this->getMock('Magento\Backend\Block\Template\Context', ['getAuthorization'], [], '', false);
-        $authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
-        $contextMock->expects($this->any())->method('getAuthorization')->will($this->returnValue($authorizationMock));
-        $groupServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $coreRegistryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
-        $methods = ['getCustomerGroupId', '__wakeUp'];
-        $orderMock = $this->getMock('\Magento\Sales\Model\Order', $methods, [], '', false);
-        $groupMock = $this->getMock('Magento\Customer\Service\V1\Data\CustomerGroup', [], [], '', false);
-        $arguments = [
-            'context' => $contextMock,
-            'groupService' => $groupServiceMock,
-            'registry' => $coreRegistryMock
-        ];
-
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var \Magento\Sales\Block\Adminhtml\Order\View\Info $block */
-        $block = $helper->getObject('Magento\Sales\Block\Adminhtml\Order\View\Info', $arguments);
-        $coreRegistryMock
+        $this->coreRegistryMock
             ->expects($this->any())
             ->method('registry')
             ->with('current_order')
-            ->will($this->returnValue($orderMock));
-        $orderMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue(4));
-        $groupServiceMock->expects($this->once())->method('getGroup')->with(4)->will($this->returnValue($groupMock));
-        $groupMock
+            ->will($this->returnValue($this->orderMock));
+        $this->orderMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue(4));
+        $this->groupServiceMock
+            ->expects($this->once())->method('getGroup')->with(4)->will($this->returnValue($this->groupMock));
+        $this->groupMock
             ->expects($this->once())
             ->method('getCode')
             ->will($this->throwException(new NoSuchEntityException()));
-        $this->assertEquals('', $block->getCustomerGroupName());
+        $this->assertEquals('', $this->block->getCustomerGroupName());
+    }
+
+    public function testGetCustomerWithoutGroupName()
+    {
+        $this->coreRegistryMock
+            ->expects($this->any())
+            ->method('registry')
+            ->with('current_order')
+            ->will($this->returnValue($this->orderMock));
+        $this->orderMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue(4));
+        $this->groupServiceMock
+            ->expects($this->once())->method('getGroup')->with(4)->will($this->returnValue($this->groupMock));
+        $this->groupMock
+            ->expects($this->once())
+            ->method('getCode')
+            ->will($this->returnValue('group_code'));
+        $this->assertEquals('group_code', $this->block->getCustomerGroupName());
     }
 }
