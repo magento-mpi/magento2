@@ -6,71 +6,60 @@
  */
 define([
     './abstract',
+    'mage/utils',
     'underscore',
     'i18n'
-], function (AbstractElement, _, t) {
+], function (AbstractElement, utils, _, i18n) {
     'use strict';
 
     var defaults = {
-        meta: {
-            caption: t('Select...')    
-        }
+        caption: i18n('Select...')
     };
 
     return AbstractElement.extend({
 
         /**
-         * Invokes initialize method of parent class and initializes properties of instance.
+         * Invokes initialize method of AbstractElement class and initializes properties of instance.
          * @param {Object} config - form element configuration
          */
         initialize: function (config) {
-            _.extend(config, defaults.meta);
+            var initialize = AbstractElement.prototype.initialize;
 
-            this.constructor.__super__.initialize.apply(this, arguments);
+            _.extend(this, defaults);
 
-            this.options = this.meta.options ? this.formatOptions() : [];
+            this.extendConfig(config);
 
-            this.setInitialValue();
+            initialize.apply(this, arguments);
         },
 
-        /**
-         * Formats options property of instance.
-         * @param {Object} options - object representing options
-         * @returns {Array} - Options, converted to array
-         */
-        formatOptions: function () {
-            return _.map(this.meta.options, function (value, key) {
-                return { value: key, label: value  };
+        extendConfig: function (config) {
+            var options = this.formatOptions(config.options),
+                value   = this.formatValue(config.value, options);
+
+            _.extend(config, {
+                options: options,
+                value: value
             });
         },
 
-        /**
-         * Sets initial value of select by looking up through options.
-         */
-        setInitialValue: function () {
-            var value = this.value() + '',
-                options;
-
-            if (value) {
-                options = _.indexBy(this.options, 'value');
-                value = options[value];
-                this.value(value);
-
-                this.initValue = value.value;
-            }
-            else{
-                this.initValue = undefined;
-            }
+        formatOptions: function (options) {
+            return _.map(options, function (label, value) {
+                return {
+                    label: label,
+                    value: value
+                };
+            });
         },
 
-        hasChanged: function(){
-            var value = this.value();
+        formatValue: function (value, options) {
+            var formattedValue = value + '',
+                indexedOptions = _.indexBy(options, 'value');
 
-            if(value){
-                value = value.value;
+            if (formattedValue) {
+                formattedValue = indexedOptions[value];
             }
 
-            return value !== this.initValue;
+            return formattedValue;
         }
     });
 });
