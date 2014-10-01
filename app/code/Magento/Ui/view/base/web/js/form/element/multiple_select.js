@@ -4,68 +4,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
- */
 define([
-    './abstract',
-    'mage/utils',
-    'underscore'
-], function (AbstractElement, utils, _) {
+    './select',
+    'mage/utils'
+], function (Select, utils) {
     'use strict';
 
     var defaults = {
-        meta: {
-            size: 10
-        }
+        size: 10
     };
 
-    return AbstractElement.extend({
+    return Select.extend({
 
         /**
          * Invokes initialize method of AbstractElement class and initializes properties of instance.
          * @param {Object} config - form element configuration
          */
         initialize: function (config, value) {
-            var initialize = AbstractElement.__super__.initialize;
+            _.extend(this, defaults);
 
-            _.extend(config.meta, defaults.meta);
-
-            this.initOptions(config.meta.options);
-
-            initialize.call(this, config, this.formatValue(value));
+            Select.prototype.initialize.apply(this, arguments);
         },
 
-        initOptions: function (options) {
-            this.options = this.formatOptions(options);
-        },
-
-        formatOptions: function (options) {
-            return _.map(options, function (label, value) {
-                return {
-                    label: label,
-                    value: value
-                };
-            });
-        },
-
-        formatValue: function (value) {
-            var result = [],
-                indexedOptions = _.indexBy(this.options, 'value');
+        formatValue: function (value, options) {
+            var formattedValue = [],
+                indexedOptions = _.indexBy(options, 'value');
 
             if (utils.isArray(value)) {
-                result = value.map(function (value) {
+                formattedValue = value.map(function (value) {
                     return {
                         value: value,
-                        label: indexedOptions[value]
+                        label: indexedOptions[value].label
                     }
-                })
+                });
             }
 
-            return result;
+            return formattedValue;
         }
     });
 });
