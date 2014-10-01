@@ -212,5 +212,20 @@
             ],
             "tinymce/tinymce": "lib/web/tiny_mce"
         }
+    },
+    "autoload": {
+        "psr-0": {
+            "Apache_" : ["lib/internal"],
+            "Cm_": ["lib/internal/"],
+            "Credis_": ["lib/internal/"],
+            "Less_" : ["lib/internal/"],
+            "Symfony\\" : ["lib/internal/"],
+            "Zend_": ["app/code/", "lib/internal/"],
+            "Zend\\" : ["app/code/", "lib/internal"]
+        },
+        "psr-4": {
+            "Magento\\Framework\\": ["lib/internal/Magento/Framework/"],
+            "Magento\\": ["app/code/Magento/"]
+        }
     }
 }
