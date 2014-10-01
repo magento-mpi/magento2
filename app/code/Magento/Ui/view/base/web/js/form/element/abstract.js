@@ -13,12 +13,13 @@ define([
     'use strict';
 
     var defaults = {
-        tooltip: null,
-        label: '',
-        required: false,
-        module: 'ui',
-        type: 'input',
-        value: ''
+        tooltip:        null,
+        label:          '',
+        required:       false,
+        module:         'ui',
+        type:           'input',
+        value:          '',
+        description:    ''
     };
 
     return Scope.extend({

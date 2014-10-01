@@ -16,7 +16,8 @@ define([
     var defaults = {
         label:      '',
         required:   false,
-        template:   'ui/group/group'
+        template:   'ui/group/group',
+        breakLine:  false
     };
 
     function getLabel(obj){
@@ -40,6 +41,19 @@ define([
         });
     }
 
+    function getUid(obj){
+        var elems = obj.elems,
+            uid;
+
+        elems.some(function(elem){
+            uid = elem.uid;
+
+            return typeof uid !== 'undefined';
+        });
+
+        return uid;
+    }
+
     var FormGroup = Scope.extend({
         initialize: function(config) {
             _.extend(this, defaults, config);
@@ -53,7 +67,8 @@ define([
         extractData: function(){
             return _.extend(this, {
                 label:      getLabel(this),
-                required:   getRequired(this)
+                required:   getRequired(this),
+                uid:        getUid(this)
             });
         },
 
@@ -71,26 +86,9 @@ define([
         },
 
         hasChanged: function(){
-            var elems = this.elems;
-
-            return elems.some(function(elem){
+            return this.elems.some(function(elem){
                 return elem.hasChanged();
             });
-        },
-
-        /**
-         * Returns array of classes to apply to field container
-         * @return {Array} - array of css classes
-         */
-        getElementClass: function () {
-            var classes  = ['field-' + this.type],
-                required = this.required;
-
-            if (required) {
-                classes.push('required');
-            }
-
-            return classes;
         }
     }, EventsBus);
 

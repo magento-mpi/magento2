@@ -5,19 +5,18 @@
  * @license     {license_link}
  */
 define([
-    './element/input',
+    './element/abstract',
     './element/select',
-    './element/price',
-    './element/multiple_select',
-    './element/email'
-], function (Input, Select, Price, MultipleSelect, Email) {
+    './element/multiple_select'
+], function (Abstract, Select, MultipleSelect) {
     'use strict';
 
     return {
-        input: Input,
-        select: Select,
-        price: Price,
-        multiple_select: MultipleSelect,
-        email: Email
+        input:              Abstract,
+        select:             Select,
+        price:              Abstract,
+        multiple_select:    MultipleSelect,
+        email:              Abstract,
+        checkbox:           Abstract
     }
 });
