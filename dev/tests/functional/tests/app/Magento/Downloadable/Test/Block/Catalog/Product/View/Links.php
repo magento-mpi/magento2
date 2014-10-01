@@ -52,7 +52,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $linkForChoice = './/label/span[1]';
+    protected $linkForChoice = './/*[@data-role="link"]/label/span[1]';
 
     /**
      * Checkbox selector item links

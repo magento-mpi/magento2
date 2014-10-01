@@ -564,7 +564,7 @@ class OrderInjectable extends InjectableFixture
 
     protected $total_qty_ordered = [
         'attribute_code' => 'total_qty_ordered',
-        'backend_type' => 'decimal',
+        'backend_type' => 'array',
         'is_required' => '',
         'default_value' => '',
         'input' => '',

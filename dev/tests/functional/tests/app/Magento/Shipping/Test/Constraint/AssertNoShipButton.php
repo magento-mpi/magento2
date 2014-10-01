@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Constraint;
+namespace Magento\Shipping\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
