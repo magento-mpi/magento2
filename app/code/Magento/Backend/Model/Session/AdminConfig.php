@@ -11,7 +11,7 @@ namespace Magento\Backend\Model\Session;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Framework\Session\Config;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\UrlInterface;
 
 /**
  * Magento Backend session configuration
@@ -93,12 +93,10 @@ class AdminConfig extends Config
      */
     private function extractAdminPath()
     {
-        if (strpos($this->_httpRequest->getBaseUrl(), Filesystem::PUB_DIR)) {
-            $baseUrl = '/' . Filesystem::PUB_DIR . '/';
-        } else {
-            $parsedUrl = parse_url($this->_storeManager->getStore()->getBaseUrl());
-            $baseUrl = $parsedUrl['path'];
-        }
+        $type = strpos($this->_httpRequest->getBaseUrl(), \Magento\Framework\App\Filesystem::PUB_DIR) ?
+            UrlInterface::URL_TYPE_STATIC : UrlInterface::URL_TYPE_LINK;
+        $parsedUrl = parse_url($this->_storeManager->getStore()->getBaseUrl($type));
+        $baseUrl = $parsedUrl['path'];
         $adminPath = $this->_frontNameResolver->getFrontName();
 
         return $baseUrl . $adminPath;

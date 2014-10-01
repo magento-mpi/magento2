@@ -35,6 +35,11 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      */
     private $storeManagerMock;
 
+    /**
+     * @var \Magento\Store\Model\Store | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $storeMock;
+
     protected function setUp()
     {
         $this->requestMock = $this->getMock(
@@ -49,16 +54,13 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('getHttpHost')
             ->will($this->returnValue('init.host'));
-        $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
+        $this->storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeMock->expects($this->any())
-            ->method('getBaseUrl')
-            ->will($this->returnValue('/'));
         $this->storeManagerMock = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
         $this->storeManagerMock->expects($this->any())
             ->method('getStore')
-            ->will($this->returnValue($storeMock));
+            ->will($this->returnValue($this->storeMock));
         $this->objectManager =  new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->validatorFactory = $this->getMockBuilder('Magento\Framework\ValidatorFactory')
             ->disableOriginalConstructor()
@@ -68,11 +70,15 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $path
+     * @param $baseUrl
      * @dataProvider setCookiePathNonDefaultDataProvider
      */
-    public function testSetCookiePathNonDefault($path)
+    public function testSetCookiePathNonDefault($path, $baseUrl)
     {
         $this->requestMock->expects($this->atLeastOnce())->method('getBaseUrl')->will($this->returnValue($path));
+        $this->storeMock->expects($this->atLeastOnce())
+            ->method('getBaseUrl')
+            ->will($this->returnValue($baseUrl));
 
         $mockFrontNameResolver = $this->getMockBuilder('\Magento\Backend\App\Area\FrontNameResolver')
             ->disableOriginalConstructor()
@@ -104,7 +110,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertEquals($path . '/backend', $adminConfig->getCookiePath());
+        $this->assertEquals($baseUrl . 'backend', $adminConfig->getCookiePath());
     }
 
     /**
@@ -112,7 +118,9 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function setCookiePathNonDefaultDataProvider()
     {
-        return array(array(''), array('/' . \Magento\Framework\App\Filesystem::PUB_DIR));
+        $pub_dir = \Magento\Framework\App\Filesystem::PUB_DIR;
+        $static_dir = \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR;
+        return array(array('', '/'), array('/' . $pub_dir, '/' . $pub_dir . '/' . $static_dir . '/'));
     }
 
     /**
@@ -122,6 +130,9 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
     public function testSetSessionNameByConstructor()
     {
         $this->requestMock->expects($this->atLeastOnce())->method('getBaseUrl')->will($this->returnValue(''));
+        $this->storeMock->expects($this->atLeastOnce())
+            ->method('getBaseUrl')
+            ->will($this->returnValue('/'));
 
         $sessionName = 'admin';
 
