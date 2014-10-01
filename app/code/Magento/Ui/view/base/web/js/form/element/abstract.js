@@ -8,20 +8,16 @@ define([
     'Magento_Ui/js/lib/ko/scope',
     'underscore',
     'mage/utils',
-    'jquery',
     'Magento_Ui/js/lib/events'
-], function (Scope, _, utils, $, EventsBus) {
+], function (Scope, _, utils, EventsBus) {
     'use strict';
 
     var defaults = {
-        meta: {
-            tooltip: null,
-            label: '',
-            required: false,
-            module: 'ui'
-        },
+        tooltip: null,
+        label: '',
+        required: false,
+        module: 'ui',
         type: 'input',
-        classes: [],
         value: ''
     };
 
@@ -30,22 +26,37 @@ define([
         /**
          * Invokes initialize method of parent class and initializes properties of instance.
          * @param {Object} config - form element configuration
-         * @param {Object} refs - references to provider and globalStorage
          */
-        initialize: function (config, refs) {
-            $.extend(true, this, defaults, config, refs);
+        initialize: function (config) {
+            _.extend(this, defaults, config);
+        
+            this.setUniqueId()
+                .initObservable();
 
-            this.uid = utils.uniqueid();
-            this.observe('classes', this.classes);
-            this.initValue = this.value;
-            this.observe('value', this.value);
-
-            //this.classes.push('field');
-            this.classes.push('field-' + this.type);
-            if(this.meta.required) {
-                this.classes.push('required');
-            }
             this.value.subscribe(this.onUpdate, this);
+        },
+
+        /**
+         * Initializes observable properties of instance
+         * @return {Object} - reference to instance
+         */
+        initObservable: function () {
+            this.observe({
+                'value': this.initialValue = this.value,
+                'required': this.required
+            });
+
+            return this;
+        },
+
+        /**
+         * Sets unique id for element
+         * @return {Object} - reference to instance
+         */
+        setUniqueId: function () {
+            this.uid = utils.uniqueid();
+
+            return this;
         },
 
         /**
@@ -53,7 +64,7 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            this.provider.data.set(this.name, value);
+            this.refs.provider.data.set(this.name, value);
         },
 
         /**
@@ -61,7 +72,7 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.meta.module + '/form/element';
+            return this.module + '/form/element';
         },
 
         /**
@@ -69,16 +80,37 @@ define([
          * @return {String}
          */
         getElementTemplate: function () {
-            return this.meta.module + '/form/element/' + this.type;
+            return this.module + '/form/element/' + this.type;
         },
 
+        /**
+         * Is being called when value is updated
+         */
         onUpdate: function(){
             this.trigger('update')
                 .store();
         },
 
+        /**
+         * Defines if value has changed
+         */
         hasChanged: function(){
-            return this.value() !== this.initValue;
+            return this.value() !== this.initialValue;
+        },
+
+        /**
+         * Returns array of classes to apply to field container
+         * @return {Array} - array of css classes
+         */
+        getElementClass: function () {
+            var classes  = ['field-' + this.type],
+                required = this.required();
+
+            if (required) {
+                classes.push('required');
+            }
+
+            return classes;
         }
     }, EventsBus);
 });
