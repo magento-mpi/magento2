@@ -15,7 +15,6 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
@@ -34,7 +33,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  * 5. Perform all assertions
  *
  * @group  Mini Shopping Cart (CS)
- * @ZephyrId MAGETWO-25218/////////////////////////
+ * @ZephyrId MAGETWO-29104
  */
 class DeleteProductFromMiniShoppingCartTest extends Injectable
 {
@@ -51,13 +50,6 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
      * @var FixtureFactory
      */
     protected $fixtureFactory;
-
-    /**
-     * Catalog product view page
-     *
-     * @var CatalogProductView
-     */
-    protected $catalogProductView;
 
     /**
      * Cms index page
@@ -78,7 +70,6 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
      *
      * @param Browser $browser
      * @param FixtureFactory $fixtureFactory
-     * @param CatalogProductView $catalogProductView
      * @param CmsIndex $cmsIndex
      * @param CheckoutCart $cartPage
      * @return void
@@ -86,13 +77,11 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     public function __prepare(
         Browser $browser,
         FixtureFactory $fixtureFactory,
-        CatalogProductView $catalogProductView,
         CmsIndex $cmsIndex,
         CheckoutCart $cartPage
     ) {
         $this->browser = $browser;
         $this->fixtureFactory = $fixtureFactory;
-        $this->catalogProductView = $catalogProductView;
         $this->cmsIndex = $cmsIndex;
         $this->cartPage = $cartPage;
     }
