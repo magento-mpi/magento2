@@ -23,13 +23,11 @@ define([
          * @param {Object} config - form element configuration
          */
         initialize: function (config) {
-            var initialize = AbstractElement.prototype.initialize;
-
             _.extend(this, defaults);
 
             this.extendConfig(config);
 
-            initialize.apply(this, arguments);
+            AbstractElement.prototype.initialize.apply(this, arguments);
         },
 
         extendConfig: function (config) {
