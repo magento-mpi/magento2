@@ -12,7 +12,8 @@ define([
     './bind/scope',
     './bind/datepicker',
     './bind/stop_propagation',
-    './bind/outer_click'
+    './bind/outer_click',
+    './bind/class'
 ], function(ko, templateEngine) {
     'use strict';
 
