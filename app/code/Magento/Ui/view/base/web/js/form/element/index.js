@@ -8,14 +8,15 @@ define([
     './input',
     './select',
     './multiple_select',
-], function (Input, Select, MultipleSelect) {
+    './textarea'
+], function (Input, Select, MultipleSelect, Textarea) {
     'use strict';
 
     return {
         input:              Input,
         price:              Input,
         email:              Input,
-        textarea:           Input,
+        textarea:           Textarea,
         select:             Select,
         multiple_select:    MultipleSelect
     }
