@@ -83,12 +83,18 @@ define([
          * @return {Array} - array of css classes
          */
         getElementClass: function () {
-            var classes  = ['field-' + this.type],
+            var classes  = [],
                 required = this.required;
+
+            if (this.type) {
+                classes.push('field-' + this.type);
+            }
 
             if (required) {
                 classes.push('required');
             }
+
+            console.log('Group obj: ', this);
 
             return classes;
         }
