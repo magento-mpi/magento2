@@ -54,6 +54,14 @@ define([
          * @return {String}
          */
         getTemplate: function () {
+            return this.meta.module + '/form/element';
+        },
+
+        /**
+         * Returns string path for element's control template
+         * @return {String}
+         */
+        getElementTemplate: function () {
             return this.meta.module + '/form/element/' + this.type;
         },
 

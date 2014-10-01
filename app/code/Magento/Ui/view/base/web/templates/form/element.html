@@ -10,7 +10,7 @@
     <label class="label" data-bind="attr: { for: uid }">
         <span data-bind="text: meta.label"></span>
     </label>
-    <div class="control" data-part="control"></div>
+    <div class="control" data-part="control" data-bind="template: getElementTemplate()"></div>
     <!-- ko if: meta.tooltip -->
     <!-- ko template: 'ui/form/element/helper/tooltip', data: meta.tooltip --><!-- /ko -->
     <!-- /ko -->

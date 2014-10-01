@@ -24,11 +24,13 @@ define([
          * @param {Object} config - form element configuration
          */
         initialize: function (config) {
-            _.extend(this, defaults);
+            _.extend(config, defaults.meta);
 
             this.constructor.__super__.initialize.apply(this, arguments);
 
             this.options = this.meta.options ? this.formatOptions() : [];
+
+            this.setInitialValue();
         },
 
         /**
@@ -42,8 +44,18 @@ define([
             });
         },
 
-        hasChanged: function(){
-            return false;
+        /**
+         * Sets initial value of select by looking up through options.
+         */
+        setInitialValue: function () {
+            var value = this.value() + '',
+                options;
+
+            if (value) {
+                options = _.indexBy(this.options, 'value');
+                value = options[value];
+                this.value(value);    
+            }
         }
     });
 });
