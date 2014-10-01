@@ -744,4 +744,20 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($defaultQty, $this->item->getQty());
     }
 
+    public function testSubtractQty()
+    {
+        $subtractQty = 3;
+
+        $qty = 5;
+
+        $this->setDataArrayValue('qty', $qty);
+
+        $this->scopeConfig->expects($this->once())
+            ->method('isSetFlag')
+            ->with('cataloginventory/options/can_subtract', 'store')
+            ->will($this->returnValue(true));
+        $this->initManageStock(false, true);
+        $this->item->subtractQty($subtractQty);
+        $this->assertEquals($qty - $subtractQty, $this->item->getQty());
+    }
 }
