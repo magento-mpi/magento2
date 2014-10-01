@@ -6,12 +6,14 @@
  */
 define([
     './element/input',
-    './element/select'
-], function (Input, Select) {
+    './element/select',
+    './element/price'
+], function (Input, Select, Price) {
     'use strict';
 
     return {
         input: Input,
-        select: Select
+        select: Select,
+        price: Price
     }
 });

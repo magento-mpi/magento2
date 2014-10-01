@@ -21,6 +21,7 @@ define([
             module: 'ui'
         },
         type: 'input',
+        classes: [],
         value: ''
     };
 
@@ -35,14 +36,20 @@ define([
             $.extend(true, this, defaults, config, refs);
 
             this.uid = utils.uniqueid();
+            this.observe('classes', this.classes);
             this.initValue = this.value;
             this.observe('value', this.value);
+
+            //this.classes.push('field');
+            this.classes.push('field-' + this.type);
+            if(this.meta.required) {
+                this.classes.push('required');
+            }
             this.value.subscribe(this.onUpdate, this);
         },
 
         /**
          * Stores element's value to registry by element's path value
-         * @param  {String} path
          * @param  {*} value - current value of form element
          */
         store: function (value) {
