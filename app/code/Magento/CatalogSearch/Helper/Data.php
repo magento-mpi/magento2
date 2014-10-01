@@ -10,7 +10,7 @@ namespace Magento\CatalogSearch\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\CatalogSearch\Model\Fulltext;
-use Magento\CatalogSearch\Model\Query;
+use Magento\CatalogSearch\Model\Query as SearchQuery;
 use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
 use Magento\CatalogSearch\Model\Resource\Query\Collection;
@@ -33,7 +33,7 @@ class Data extends AbstractHelper
     /**
      * Query object
      *
-     * @var Query
+     * @var SearchQuery
      */
     protected $_query;
 
@@ -166,7 +166,7 @@ class Data extends AbstractHelper
     {
         return $this->_getUrl(
             'catalogsearch/result',
-            array('_query' => array(self::QUERY_VAR_NAME => $query), '_secure' => $this->_request->isSecure())
+            array('_query' => array(QueryFactory::QUERY_VAR_NAME => $query), '_secure' => $this->_request->isSecure())
         );
     }
 
@@ -212,7 +212,7 @@ class Data extends AbstractHelper
     public function getMinQueryLength($store = null)
     {
         return $this->_scopeConfig->getValue(
-            Query::XML_PATH_MIN_QUERY_LENGTH,
+            SearchQuery::XML_PATH_MIN_QUERY_LENGTH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -227,7 +227,7 @@ class Data extends AbstractHelper
     public function getMaxQueryLength($store = null)
     {
         return $this->_scopeConfig->getValue(
-            Query::XML_PATH_MAX_QUERY_LENGTH,
+            SearchQuery::XML_PATH_MAX_QUERY_LENGTH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -242,7 +242,7 @@ class Data extends AbstractHelper
     public function getMaxQueryWords($store = null)
     {
         return $this->_scopeConfig->getValue(
-            Query::XML_PATH_MAX_QUERY_WORDS,
+            SearchQuery::XML_PATH_MAX_QUERY_WORDS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
