@@ -45,13 +45,10 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->requestMock->expects(
-            $this->atLeastOnce()
-        )->method(
-                'getHttpHost'
-            )->will(
-                $this->returnValue('init.host')
-            );
+        $this->requestMock
+            ->expects($this->atLeastOnce())
+            ->method('getHttpHost')
+            ->will($this->returnValue('init.host'));
         $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
