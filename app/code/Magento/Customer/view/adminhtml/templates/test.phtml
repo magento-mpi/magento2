@@ -4,6 +4,7 @@
             "customer_form_data": {
                 "path": "Magento_Ui/js/form/provider/provider",
                 "meta": {
+
                     "customer": {
                         "website": {
                             "index": "website",
@@ -20,6 +21,7 @@
                         "currencies": {
                             "index": "currencies",
                             "input_type": "multiple_select",
+                            "label": "Currencies",
                             "options": {
                                 "dut": "Dutch money",
                                 "ua": "Ukraine money",
@@ -292,6 +294,11 @@
                         "injections": [
                             "customer.price"
                         ]
+                    },
+                    "currencies": {
+                        "injections": [
+                            "customer.currencies"
+                        ]
                     }
                 }
             },
@@ -309,7 +316,8 @@
                             "customer_form_groups.suffix",
                             "customer_form_groups.email",
                             "customer_form_groups.taxvat",
-                            "customer_form_groups.gender"
+                            "customer_form_groups.gender",
+                            "customer_form_groups.currencies"
                         ]
                     },
                     "customer_addresses": {
