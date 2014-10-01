@@ -15,11 +15,11 @@ use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class AssertProductInWishListOnCustomerAccountBackend
+ * Class AssertProductIsPresentInCustomerBackendWishlist
  * Assert that product added to wishlist is present on Customers account on backend
  * - in section Customer Activities - Wishlist
  */
-class AssertProductInWishListOnCustomerAccountBackend extends AbstractConstraint
+class AssertProductIsPresentInCustomerBackendWishlist extends AbstractConstraint
 {
     /**
      * Constraint severeness

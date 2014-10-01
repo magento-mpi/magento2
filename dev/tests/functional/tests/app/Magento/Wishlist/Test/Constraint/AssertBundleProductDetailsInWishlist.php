@@ -83,7 +83,9 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
     {
         foreach ($options as &$option) {
             $chunks = explode(' ', $option);
-            $chunks[3] = preg_replace("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", '\1', $chunks[3]);
+            $lastChunk = array_pop($chunks);
+            $lastChunk = preg_replace("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", '\1', $lastChunk);
+            array_push($chunks, $lastChunk);
             $option = implode(' ', $chunks);
         }
         return $options;

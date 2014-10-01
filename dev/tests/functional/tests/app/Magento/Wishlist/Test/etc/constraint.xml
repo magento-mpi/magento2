@@ -23,9 +23,9 @@
     <assertProductIsPresentInWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
     </assertProductIsPresentInWishlist>
-    <assertProductInWishListOnCustomerAccountBackend module="Magento_Wishlist">
+    <assertProductIsPresentInCustomerBackendWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
-    </assertProductInWishListOnCustomerAccountBackend>
+    </assertProductIsPresentInCustomerBackendWishlist>
     <assertBundleProductDetailsInWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
     </assertBundleProductDetailsInWishlist>

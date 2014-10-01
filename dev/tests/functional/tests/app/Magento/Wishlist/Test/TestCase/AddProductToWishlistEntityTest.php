@@ -8,6 +8,7 @@
 
 namespace Magento\Wishlist\Test\TestCase;
 
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\TestCase\Injectable;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
@@ -38,13 +39,6 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 class AddProductToWishlistEntityTest extends Injectable
 {
     /**
-     * Fixture factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
      * Catalog product view page
      *
      * @var CatalogProductView
@@ -52,7 +46,14 @@ class AddProductToWishlistEntityTest extends Injectable
     protected $catalogProductView;
 
     /**
-     * Multiple wish list index page
+     * Customer Account Logout page
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
+     * Wish list index page
      *
      * @var WishlistIndex
      */
@@ -78,13 +79,16 @@ class AddProductToWishlistEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param Browser $browser
      * @param ObjectManager $objectManager
-     * @return void
+     * @return array
      */
     public function __prepare(FixtureFactory $fixtureFactory, Browser $browser, ObjectManager $objectManager)
     {
         $this->browser = $browser;
         $this->objectManager = $objectManager;
-        $this->fixtureFactory = $fixtureFactory;
+        $customer = $fixtureFactory->createByCode('customerInjectable');
+        $customer->persist();
+
+        return ['customer' => $customer];
     }
 
     /**
@@ -92,14 +96,17 @@ class AddProductToWishlistEntityTest extends Injectable
      *
      * @param WishlistIndex $wishlistIndex
      * @param CatalogProductView $catalogProductView
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
         WishlistIndex $wishlistIndex,
-        CatalogProductView $catalogProductView
+        CatalogProductView $catalogProductView,
+        CustomerAccountLogout $customerAccountLogout
     ) {
         $this->wishlistIndex = $wishlistIndex;
         $this->catalogProductView = $catalogProductView;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -112,8 +119,6 @@ class AddProductToWishlistEntityTest extends Injectable
     public function test(CustomerInjectable $customer, $product)
     {
         $this->markTestIncomplete('Bug: MAGETWO-27949');
-        // Preconditions:
-        $customer->persist();
         $product = $this->createProduct($product);
 
         // Steps:
@@ -131,10 +136,11 @@ class AddProductToWishlistEntityTest extends Injectable
      */
     protected function createProduct($product)
     {
-        list($fixture, $dataSet) = explode('::', $product);
-        $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-        $product->persist();
-        return $product;
+        $createProducts = $this->objectManager->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $product]
+        );
+        return $createProducts->run()['products'][0];
     }
 
     /**
@@ -164,5 +170,15 @@ class AddProductToWishlistEntityTest extends Injectable
         $viewBlock = $this->catalogProductView->getViewBlock();
         $viewBlock->fillOptions($product);
         $viewBlock->addToWishlist();
+    }
+
+    /**
+     * Logout customer from frontend account
+     *
+     * return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }
