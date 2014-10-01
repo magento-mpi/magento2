@@ -13,10 +13,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 
 /**
- * Class OpenCustomerAccountStep
+ * Class OpenCustomerOnBackendStep
  * Open customer account
  */
-class OpenCustomerAccountStep implements TestStepInterface
+class OpenCustomerOnBackendStep implements TestStepInterface
 {
     /**
      * Customer fixture

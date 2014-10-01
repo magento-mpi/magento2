@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\TestStep;
+namespace Magento\Customer\Test\TestStep;
 
 use Mtf\TestStep\TestStepInterface;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 
 /**
  * Class CreateOrderFromCustomerAccountStep
- * Create order from customer
+ * Create order from customer page on Backend
  */
 class CreateOrderFromCustomerAccountStep implements TestStepInterface
 {

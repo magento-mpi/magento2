@@ -6,12 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\TestCase;
+namespace Magento\Customer\Test\TestCase;
 
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Mtf\TestCase\Scenario;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
@@ -47,13 +46,6 @@ class CreateOrderFromCustomerPageTest extends Scenario
      * @var string
      */
     protected $configuration;
-
-    /**
-     * Factory for Fixtures
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
 
     /**
      * Customer logout page
@@ -107,14 +99,14 @@ class CreateOrderFromCustomerPageTest extends Scenario
                         ],
                         'createSalesRule' => [
                             'module' => 'Magento_SalesRule',
-                            'next' => 'openCustomerAccount'
+                            'next' => 'openCustomerOnBackend'
                         ],
-                        'openCustomerAccount' => [
+                        'openCustomerOnBackend' => [
                             'module' => 'Magento_Customer',
                             'next' => 'createOrderFromCustomerAccount'
                         ],
                         'createOrderFromCustomerAccount' => [
-                            'module' => 'Magento_Sales',
+                            'module' => 'Magento_Customer',
                             'next' => 'addProducts'
                         ],
                         'addProducts' => [
@@ -153,19 +145,16 @@ class CreateOrderFromCustomerPageTest extends Scenario
     /**
      * Preparing configuration for test
      *
-     * @param FixtureFactory $fixtureFactory
      * @param RewardRateIndex $rewardRateIndexPage
      * @param RewardRateNew $rewardRateNewPage
      * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __prepare(
-        FixtureFactory $fixtureFactory,
         RewardRateIndex $rewardRateIndexPage,
         RewardRateNew $rewardRateNewPage,
         CustomerAccountLogout $customerAccountLogout
     ) {
-        $this->fixtureFactory = $fixtureFactory;
         $this->customerAccountLogout = $customerAccountLogout;
         $this->rewardRateIndexPage = $rewardRateIndexPage;
         $this->rewardRateNewPage = $rewardRateNewPage;
@@ -174,37 +163,13 @@ class CreateOrderFromCustomerPageTest extends Scenario
     /**
      * Runs sales order on backend
      *
-     * @param string $config
+     * @param string $configData
      * @return void
      */
-    public function test($config)
+    public function test($configData)
     {
-        $this->configuration = $config;
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration();
-        }
+        $this->configuration = $configData;
         $this->executeScenario($this->scenario);
-    }
-
-    /**
-     * Setup configuration
-     *
-     * @param bool $rollback
-     * @return void
-     */
-    protected function setupConfiguration($rollback = false)
-    {
-        $prefix = ($rollback == false) ? '' : '_rollback';
-        $dataSets = explode(',', $this->configuration);
-
-        foreach ($dataSets as $key => $dataSet) {
-            $dataSets[$key] = trim($dataSet) . $prefix;
-        }
-        $setConfigStep = $this->objectManager->create(
-            'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => implode(',', $dataSets)]
-        );
-        $setConfigStep->run();
     }
 
     /**
@@ -214,9 +179,11 @@ class CreateOrderFromCustomerPageTest extends Scenario
      */
     public function tearDown()
     {
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration(true);
-        }
+        $setConfigStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => $this->configuration, 'rollback' => true]
+        );
+        $setConfigStep->run();
         $this->customerAccountLogout->open();
 
         // Deleting exchange rates
