@@ -54,8 +54,23 @@ define([
             if (value) {
                 options = _.indexBy(this.options, 'value');
                 value = options[value];
-                this.value(value);    
+                this.value(value);
+
+                this.initValue = value.value;
             }
+            else{
+                this.initValue = undefined;
+            }
+        },
+
+        hasChanged: function(){
+            var value = this.value();
+
+            if(value){
+                value = value.value;
+            }
+
+            return value !== this.initValue;
         }
     });
 });
