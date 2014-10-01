@@ -39,16 +39,16 @@ class CreateShipmentEntityTest extends Injectable
     /**
      * Set up configuration
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(ObjectManager $objectManager)
     {
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
-        $configPayment->persist();
-
-        $configShipping = $fixtureFactory->createByCode('configData', ['dataSet' => 'flatrate']);
-        $configShipping->persist();
+        $setupConfigurationStep = $objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => "checkmo,flatrate"]
+        );
+        $setupConfigurationStep->run();
     }
 
     /**
@@ -69,13 +69,7 @@ class CreateShipmentEntityTest extends Injectable
             'Magento\Sales\Test\TestStep\CreateShipmentStep',
             ['order' => $order, 'data' => $shipment]
         );
-        $data = $createShipping->run();
 
-        return [
-            'ids' => [
-                'shipmentIds' => $data['shipmentIds'],
-            ],
-            'successMessage' => $data['successMessage'],
-        ];
+        return ['ids' => $createShipping->run(), 'shipment' => $shipment];
     }
 }

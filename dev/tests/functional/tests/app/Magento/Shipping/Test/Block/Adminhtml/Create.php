@@ -33,7 +33,7 @@ class Create extends Block
     protected $tracking = '#tracking_numbers_table';
 
     /**
-     * Fill invoice data
+     * Fill shipment data
      *
      * @param array $data
      * @param array|null $products [optional]
@@ -52,8 +52,8 @@ class Create extends Block
                 $this->getItemsBlock()->getItemProductBlock($product)->setQty($data['qty'][$key]);
             }
         }
-        if (isset($data['tracing']) && $data['tracing']['number'] != '-') {
-            $this->getTrackingBlock()->fill([$data['tracing']]);
+        if (isset($data['tracking']) && $data['tracking']['number'] != '-') {
+            $this->getTrackingBlock()->fill([$data['tracking']]);
         }
     }
 

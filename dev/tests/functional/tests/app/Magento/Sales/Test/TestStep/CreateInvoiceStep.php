@@ -14,7 +14,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
+use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentView;
 
 /**
  * Class CreateInvoiceStep

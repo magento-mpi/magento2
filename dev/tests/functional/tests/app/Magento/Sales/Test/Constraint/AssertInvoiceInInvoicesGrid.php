@@ -36,18 +36,18 @@ class AssertInvoiceInInvoicesGrid extends AbstractConstraint
     public function processAssert(InvoiceIndex $invoiceIndex, OrderInjectable $order, array $ids)
     {
         $invoiceIndex->open();
-        $amount = $order->getPrice()['grand_invoice_total'];
+        $amount = $order->getPrice();
         $orderId = $order->getId();
         foreach ($ids['invoiceIds'] as $key => $invoiceId) {
             $filter = [
                 'id' => $invoiceId,
                 'order_id' => $orderId,
-                'grand_total_from' => $amount[$key],
-                'grand_total_to' => $amount[$key]
+                'grand_total_from' => $amount[$key]['grand_invoice_total'],
+                'grand_total_to' => $amount[$key]['grand_invoice_total']
             ];
             $invoiceIndex->getInvoicesGrid()->search($filter);
-            $filter['grand_total_from'] = number_format($amount[$key], 2);
-            $filter['grand_total_to'] = number_format($amount[$key], 2);
+            $filter['grand_total_from'] = number_format($amount[$key]['grand_invoice_total'], 2);
+            $filter['grand_total_to'] = number_format($amount[$key]['grand_invoice_total'], 2);
             \PHPUnit_Framework_Assert::assertTrue(
                 $invoiceIndex->getInvoicesGrid()->isRowVisible($filter, false, false),
                 'Invoice is absent in invoices grid on invoice index page.'

@@ -16,7 +16,7 @@ use Magento\Sales\Test\Constraint\AbstractAssertOrderOnFrontend;
 
 /**
  * Class AssertShipTotalQuantity
- * Assert that shipped items quantity in 'Total Quantity' is equal to data from fixture
+ * Assert that shipped items quantity in 'Total Quantity' is equal to data from fixture on My Account page
  */
 class AssertShipTotalQuantity extends AbstractAssertOrderOnFrontend
 {
@@ -28,7 +28,7 @@ class AssertShipTotalQuantity extends AbstractAssertOrderOnFrontend
     protected $severeness = 'low';
 
     /**
-     * Assert that shipped items quantity in 'Total Quantity' is equal to data from fixture
+     * Assert that shipped items quantity in 'Total Quantity' is equal to data from fixture on My Account page
      *
      * @param OrderHistory $orderHistory
      * @param OrderInjectable $order
@@ -63,6 +63,6 @@ class AssertShipTotalQuantity extends AbstractAssertOrderOnFrontend
      */
     public function toString()
     {
-        return 'Shipped items quantity is equal to data from fixture.';
+        return 'Shipped items quantity is equal to data from fixture on My Account page.';
     }
 }

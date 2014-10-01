@@ -101,7 +101,7 @@ class ProductForm extends FormTabs
      *
      * @var string
      */
-    protected $tabsTitle = '[id="product_info_tabs-basic"] [data-ui-id="product-tabs-title"]';
+    protected $tabsTitle = '#product_info_tabs-basic [data-role="title"]';
 
     /**
      * Fill the product form

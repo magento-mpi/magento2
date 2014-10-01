@@ -18,4 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\Shipping\Test\Page\Adminhtml\ShipmentIndex</class>
     </shipmentIndex>
+    <orderShipmentView>
+        <mca>order_shipment/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Shipping\Test\Page\Adminhtml\OrderShipmentView</class>
+    </orderShipmentView>
 </page>

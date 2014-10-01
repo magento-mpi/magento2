@@ -23,4 +23,7 @@
     <assertShipTotalQuantity module="Magento_Shipping">
         <severeness>low</severeness>
     </assertShipTotalQuantity>
+    <assertShipmentItems module="Magento_Shipping">
+        <severeness>low</severeness>
+    </assertShipmentItems>
 </constraint>

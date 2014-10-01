@@ -123,18 +123,19 @@ class ShipmentSalesArchiveEntityTest extends Injectable
         $this->orderIndex->getSalesOrderGrid()->massaction([['id' => $order->getId()]], 'Move to Archive');
 
         // Steps
-        $createArchiveShipmentStep = $this->objectManager->create(
-            'Magento\SalesArchive\Test\TestStep\CreateArchiveShipmentStep',
-            ['order' => $order, 'data' => ['qty' => $qty]]
-        );
-        $data = $createArchiveShipmentStep->run();
+        $this->archiveOrders->open();
+        $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
+        $this->orderView->getPageActions()->ship();
+        $this->orderShipmentNew->getShipItemsBlock()->setProductQty($order->getEntityId()['products'], $qty);
+        $this->orderShipmentNew->getShipItemsBlock()->submit();
 
+        $this->orderView->getOrderForm()->openTab('shipments');
 
         return [
             'ids' => [
-                'shipmentIds' => $data['shipmentIds'],
+                'shipmentIds' => $this->orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->getIds(),
             ],
-            'successMessage' => $data['successMessage'],
+            'order' => $order
         ];
     }
 }

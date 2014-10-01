@@ -46,7 +46,7 @@ class AssertShipmentInShipmentsGrid extends AbstractConstraint
                 'total_qty_to' => $totalQty[$key]
             ];
             \PHPUnit_Framework_Assert::assertTrue(
-                $shipmentIndex->getShipmentGrid()->isRowVisible($filter),
+                $shipmentIndex->getShipmentsGrid()->isRowVisible($filter),
                 'Shipment is absent in shipment grid on shipment index page.'
             );
         }

@@ -12,7 +12,7 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
+use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentView;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 
 /**
@@ -102,14 +102,8 @@ class CreateShipmentStep implements TestStepInterface
             $this->orderShipmentNew->getCreateBlock()->fill($this->data, $this->order->getEntityId()['products']);
         }
         $this->orderShipmentNew->getShipItemsBlock()->submit();
-        if (!empty($this->data)) {
-            $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
-        }
 
-        return [
-            'shipmentIds' => $this->getShipmentIds(),
-            'successMessage' => isset($successMessage) ? $successMessage : null
-        ];
+        return ['shipmentIds' => $this->getShipmentIds()];
     }
 
     /**
