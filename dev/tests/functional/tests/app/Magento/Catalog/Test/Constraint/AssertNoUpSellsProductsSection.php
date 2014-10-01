@@ -8,14 +8,14 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertNoUpSellsProductsSection
+ * Assert that product is not displayed in up-sell section
  */
 class AssertNoUpSellsProductsSection extends AbstractConstraint
 {
@@ -29,29 +29,25 @@ class AssertNoUpSellsProductsSection extends AbstractConstraint
     /**
      * Assert that product is not displayed in up-sell section
      *
-     * @param CatalogProductSimple $product1
-     * @param CatalogProductSimple $product2
-     * @param CmsIndex $cmsIndex
-     * @param CatalogCategoryView $catalogCategoryView
+     * @param Browser $browser
+     * @param CatalogProductSimple $product
+     * @param array $sellingProducts
      * @param CatalogProductView $catalogProductView
      * @return void
      */
     public function processAssert(
-        CatalogProductSimple $product1,
-        CatalogProductSimple $product2,
-        CmsIndex $cmsIndex,
-        CatalogCategoryView $catalogCategoryView,
+        Browser $browser,
+        CatalogProductSimple $product,
+        array $sellingProducts,
         CatalogProductView $catalogProductView
     ) {
-        $categoryName = $product1->getCategoryIds()[0];
-        $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
-        $catalogCategoryView->getListProductBlock()->openProductViewPage($product1->getName());
-
-        \PHPUnit_Framework_Assert::assertFalse(
-            $catalogProductView->getUpsellBlock()->isUpsellProductVisible($product2->getName()),
-            'Product \'' . $product2->getName() . '\' is exist in up-sells products.'
-        );
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        foreach ($sellingProducts as $sellingProduct) {
+            \PHPUnit_Framework_Assert::assertFalse(
+                $catalogProductView->getUpsellBlock()->isUpsellProductVisible($sellingProduct->getName()),
+                'Product \'' . $sellingProduct->getName() . '\' is exist in up-sells products.'
+            );
+        }
     }
 
     /**

@@ -378,6 +378,26 @@ abstract class Grid extends Block
     }
 
     /**
+     * Get rows data
+     *
+     * @param array $columns
+     * @return array
+     */
+    public function getRowsData(array $columns)
+    {
+        $rows = $this->_rootElement->find($this->rowItem)->getElements();
+        $data = [];
+
+        foreach ($rows as $key => $row) {
+            foreach ($columns as $columnName) {
+                $data[$key][$columnName] = trim($row->find('.col-' . $columnName)->getText());
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Check if specific row exists in grid
      *
      * @param array $filter

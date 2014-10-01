@@ -8,12 +8,12 @@
 
 namespace Magento\TargetRule\Test\TestCase;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Magento\TargetRule\Test\Fixture\TargetRule;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
+use Mtf\Fixture\FixtureFactory;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
+use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
+use Magento\TargetRule\Test\Fixture\TargetRule;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Test Creation for DeleteTargetRuleEntity
@@ -53,20 +53,20 @@ class DeleteTargetRuleEntityTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
-        $product1 = $fixtureFactory->createByCode(
+        $product = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
-        $product2 = $fixtureFactory->createByCode(
+        $sellingProduct = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_special_price_and_category']
         );
 
-        $product1->persist();
-        $product2->persist();
+        $product->persist();
+        $sellingProduct->persist();
         return [
-            'product1' => $product1,
-            'product2' => $product2,
+            'product' => $product,
+            'sellingProduct' => $sellingProduct,
         ];
     }
 
@@ -88,18 +88,18 @@ class DeleteTargetRuleEntityTest extends Injectable
      *
      * @param FixtureFactory $fixtureFactory
      * @param TargetRule $targetRule
-     * @param CatalogProductSimple $product1
-     * @param CatalogProductSimple $product2
-     * @return void
+     * @param CatalogProductSimple $product
+     * @param CatalogProductSimple $sellingProduct
+     * @return array
      */
     public function testDeleteTargetRuleEntity(
         FixtureFactory $fixtureFactory,
         TargetRule $targetRule,
-        CatalogProductSimple $product1,
-        CatalogProductSimple $product2
+        CatalogProductSimple $product,
+        CatalogProductSimple $sellingProduct
     ) {
         // Preconditions
-        $replace = $this->getReplaceData($product1, $product2);
+        $replace = $this->getReplaceData($product, $sellingProduct);
         $data = $this->prepareData($targetRule->getData(), $replace);
         /** @var TargetRule $originalTargetRule */
         $originalTargetRule = $fixtureFactory->createByCode('targetRule', $data);
@@ -110,23 +110,25 @@ class DeleteTargetRuleEntityTest extends Injectable
         $this->targetRuleIndex->open();
         $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
         $this->targetRuleEdit->getPageActions()->delete();
+
+        return ['sellingProducts' => [$sellingProduct]];
     }
 
     /**
      * Get data for replace in variations
      *
-     * @param CatalogProductSimple $product1
-     * @param CatalogProductSimple $product2
+     * @param CatalogProductSimple $product
+     * @param CatalogProductSimple $sellingProduct
      * @return array
      */
-    protected function getReplaceData(CatalogProductSimple $product1, CatalogProductSimple $product2)
+    protected function getReplaceData(CatalogProductSimple $product, CatalogProductSimple $sellingProduct)
     {
         return [
             'conditions_serialized' => [
-                '%category_1%' => $product1->getDataFieldConfig('category_ids')['source']->getIds()[0],
+                '%category_1%' => $product->getDataFieldConfig('category_ids')['source']->getIds()[0],
             ],
             'actions_serialized' => [
-                '%category_2%' => $product2->getDataFieldConfig('category_ids')['source']->getIds()[0],
+                '%category_2%' => $sellingProduct->getDataFieldConfig('category_ids')['source']->getIds()[0],
             ],
         ];
     }

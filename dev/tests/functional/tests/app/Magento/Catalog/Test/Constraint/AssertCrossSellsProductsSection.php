@@ -8,15 +8,18 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\ObjectManager;
+use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 
 /**
  * Class AssertCrossSellsProductsSection
+ * Assert that product is displayed in cross-sell section
  */
 class AssertCrossSellsProductsSection extends AbstractConstraint
 {
@@ -30,33 +33,61 @@ class AssertCrossSellsProductsSection extends AbstractConstraint
     /**
      * Assert that product is displayed in cross-sell section
      *
-     * @param CatalogProductSimple $product1
-     * @param CatalogProductSimple $product2
-     * @param CmsIndex $cmsIndex
-     * @param CatalogCategoryView $catalogCategoryView
-     * @param CatalogProductView $catalogProductView
+     * @param Browser $browser
+     * @param ObjectManager $objectManager
+     * @param FixtureFactory $fixtureFactory
      * @param CheckoutCart $checkoutCart
+     * @param CatalogProductSimple $product
+     * @param CatalogProductView $catalogProductView
+     * @param array $sellingProducts
+     * @param CustomerSegment|null $customerSegment
      * @return void
      */
     public function processAssert(
-        CatalogProductSimple $product1,
-        CatalogProductSimple $product2,
-        CmsIndex $cmsIndex,
-        CatalogCategoryView $catalogCategoryView,
+        Browser $browser,
+        ObjectManager $objectManager,
+        FixtureFactory $fixtureFactory,
+        CheckoutCart $checkoutCart,
+        CatalogProductSimple $product,
         CatalogProductView $catalogProductView,
-        CheckoutCart $checkoutCart
+        array $sellingProducts,
+        CustomerSegment $customerSegment = null
     ) {
-        $categoryName = $product1->getCategoryIds()[0];
+        // Create customer and login for test customer segment
+        if ($customerSegment) {
+            $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
+            $customer->persist();
+
+            $loginCustomerOnFrontendStep = $objectManager->create(
+                '\Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+                ['customer' => $customer]
+            );
+            $loginCustomerOnFrontendStep->run();
+        }
+
+        // Clear cart
         $checkoutCart->open();
         $checkoutCart->getCartBlock()->clearShoppingCart();
-        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
-        $catalogCategoryView->getListProductBlock()->openProductViewPage($product1->getName());
-        $catalogProductView->getViewBlock()->addToCart($product1);
 
-        \PHPUnit_Framework_Assert::assertTrue(
-            $checkoutCart->getCrosssellBlock()->verifyProductCrosssell($product2),
-            'Product \'' . $product2->getName() . '\' is absent in cross-sell section.'
-        );
+        // Check display cross sell products
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $catalogProductView->getViewBlock()->addToCart($product);
+        $errors = [];
+        foreach ($sellingProducts as $sellingProduct) {
+            if (!$checkoutCart->getCrosssellBlock()->verifyProductCrosssell($sellingProduct)) {
+                $errors[] = 'Product \'' . $sellingProduct->getName() . '\' is absent in cross-sell section.';
+            }
+        }
+
+        // Logout
+        if ($customerSegment) {
+            $loginCustomerOnFrontendStep = $objectManager->create(
+                '\Magento\Customer\Test\TestStep\LogoutCustomerOnFrontendStep'
+            );
+            $loginCustomerOnFrontendStep->run();
+        }
+
+        \PHPUnit_Framework_Assert::assertEmpty($errors, implode(" ", $errors));
     }
 
     /**

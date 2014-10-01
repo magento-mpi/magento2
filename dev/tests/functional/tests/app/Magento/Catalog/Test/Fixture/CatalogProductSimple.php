@@ -480,7 +480,11 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+<<<<<<< Updated upstream
         'group' => 'search-engine-optimization',
+=======
+        'group' => 'search_engine_optimization',
+>>>>>>> Stashed changes
     ];
 
     protected $url_path = [
@@ -585,6 +589,13 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
         'group' => null,
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData'
+    ];
+
+    protected $cross_sell_products = [
+        'attribute_code' => 'cross_sell_products',
+        'backend_type' => 'virtual',
+        'group' => 'crosssells',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts'
     ];
 
     public function getCategoryIds()
@@ -885,5 +896,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getCheckoutData()
     {
         return $this->getData('checkout_data');
+    }
+
+    public function getCrossSellProducts()
+    {
+        return $this->getData('cross_sell_products');
     }
 }

@@ -8,9 +8,6 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell;
 
-use Mtf\Client\Element;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 class Grid extends GridInterface

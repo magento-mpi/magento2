@@ -90,19 +90,19 @@ abstract class TargetRuleEntityTest extends Injectable
     /**
      * Get data for replace in variations
      *
-     * @param CatalogProductSimple $product1
-     * @param CatalogProductSimple $product2
+     * @param CatalogProductSimple $product
+     * @param CatalogProductSimple $sellingProduct
      * @param CustomerSegment|null $customerSegment
      * @return array
      */
     protected function getReplaceData(
-        CatalogProductSimple $product1,
-        CatalogProductSimple $product2,
+        CatalogProductSimple $product,
+        CatalogProductSimple $sellingProduct,
         CustomerSegment $customerSegment = null
     ) {
         $customerSegmentName = ($customerSegment && $customerSegment->hasData()) ? $customerSegment->getName() : '';
-        $sourceCategory1 = $product1->getDataFieldConfig('category_ids')['source'];
-        $sourceCategory2 = $product2->getDataFieldConfig('category_ids')['source'];
+        $sourceCategory = $product->getDataFieldConfig('category_ids')['source'];
+        $sourceSellingCategory = $sellingProduct->getDataFieldConfig('category_ids')['source'];
 
         return [
             'rule_information' => [
@@ -112,12 +112,12 @@ abstract class TargetRuleEntityTest extends Injectable
             ],
             'products_to_match' => [
                 'conditions_serialized' => [
-                    '%category_1%' => $sourceCategory1->getIds()[0],
+                    '%category_1%' => $sourceCategory->getIds()[0],
                 ],
             ],
             'products_to_display' => [
                 'actions_serialized' => [
-                    '%category_2%' => $sourceCategory2->getIds()[0],
+                    '%category_2%' => $sourceSellingCategory->getIds()[0],
                 ],
             ],
         ];
