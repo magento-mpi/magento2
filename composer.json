@@ -230,7 +230,14 @@
     },
     "autoload-dev" : {
         "psr-4" : {
-            "Magento\\Tools\\I18n\\" : ["dev/tools/Magento/Tools/I18n/"]
+            "Magento\\Tools\\I18n\\" : ["dev/tools/Magento/Tools/I18n/"],
+            "Magento\\TestFramework\\" : [
+                "dev/tests/api-functional/framework/Magento/TestFramework/",
+                "dev/tests/integration/framework/Magento/TestFramework/",
+                "dev/tests/performance/framework/Magento/TestFramework/",
+                "dev/tests/static/framework/Magento/TestFramework/",
+                "dev/tests/unit/framework/Magento/TestFramework/"
+            ]
         }
     }
 }
