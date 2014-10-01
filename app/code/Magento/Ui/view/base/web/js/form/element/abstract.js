@@ -52,6 +52,10 @@ define([
          * @return {String}
          */
         getTemplate: function () {
+            return this.meta.module + '/form/element';
+        },
+
+        getElementTemplate: function () {
             return this.meta.module + '/form/element/' + this.type;
         }
     });
