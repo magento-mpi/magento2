@@ -48,6 +48,11 @@ class Context extends Registry
     /**
      * @var LayoutInterface
      */
+    protected $pageLayout;
+
+    /**
+     * @var LayoutInterface
+     */
     protected $layout;
 
     /**
@@ -136,7 +141,7 @@ class Context extends Registry
      */
     public function setPageLayout(LayoutInterface $layout)
     {
-        $this->layout = $layout;
+        $this->pageLayout = $layout;
     }
 
     /**
@@ -146,7 +151,7 @@ class Context extends Registry
      */
     public function getPageLayout()
     {
-        return $this->layout;
+        return $this->pageLayout;
     }
 
     /**
@@ -210,5 +215,21 @@ class Context extends Registry
     public function getConfigBuilder()
     {
         return $this->configStorageBuilder;
+    }
+
+    /**
+     * @param LayoutInterface $layout
+     */
+    public function setLayout(LayoutInterface $layout)
+    {
+        $this->layout = $layout;
+    }
+
+    /**
+     * @return LayoutInterface
+     */
+    public function getLayout()
+    {
+        return $this->layout;
     }
 }

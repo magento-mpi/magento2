@@ -25,12 +25,4 @@ interface DataProviderInterface
      * @return array
      */
     public function getData();
-
-    /**
-     * Add a filter to the data
-     *
-     * @param array $filter
-     * @return void
-     */
-    public function addFilter(array $filter);
 }

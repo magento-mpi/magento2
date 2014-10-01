@@ -9,6 +9,7 @@ namespace Magento\Customer\Ui\DataProvider;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Ui\DataProvider\DataProviderEntityInterface;
+use Magento\Customer\Model\Customer as CustomerObject;
 
 /**
  * Class Customer
@@ -23,6 +24,11 @@ class Customer implements DataProviderEntityInterface
     protected $customerMeta;
 
     /**
+     * @var CustomerObject
+     */
+    protected $customer;
+
+    /**
      * Data provider arguments
      *
      * @var array
@@ -33,11 +39,16 @@ class Customer implements DataProviderEntityInterface
      * Constructor
      *
      * @param CustomerMetadataServiceInterface $customerMeta
+     * @param CustomerObject $customer
      * @param array $arguments
      */
-    public function __construct(CustomerMetadataServiceInterface $customerMeta, array $arguments = [])
-    {
+    public function __construct(
+        CustomerMetadataServiceInterface $customerMeta,
+        CustomerObject $customer,
+        array $arguments = []
+    ) {
         $this->customerMeta = $customerMeta;
+        $this->customer = $customer;
         $this->arguments = $arguments;
     }
 
@@ -63,21 +74,21 @@ class Customer implements DataProviderEntityInterface
      */
     public function getData()
     {
-        // TODO: Implement getData() method.
+        $this->loadByField($this->getArguments(self::CONFIG_KEY));
+        return $this->customer->getData();
     }
 
     /**
-     * Add a filter to the data
-     *
-     * @param array $filter
-     * @return void
+     * @param $field
      */
-    public function addFilter(array $filter)
+    public function loadByField($field)
     {
-        // TODO: Implement addFilter() method.
+        $params = $this->getArguments('params');
+        $fieldValue = isset($params[$field]) ? $params[$field] : null;
+        $this->customer->load($fieldValue);
     }
 
-    /**
+        /**
      * Get argument values
      *
      * @param string $key

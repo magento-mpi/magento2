@@ -12,4 +12,5 @@ namespace Magento\Ui\DataProvider;
  */
 interface DataProviderEntityInterface extends DataProviderInterface
 {
+    const CONFIG_KEY = 'field';
 }

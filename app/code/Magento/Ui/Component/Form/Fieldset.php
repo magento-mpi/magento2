@@ -8,6 +8,7 @@
 namespace Magento\Ui\Component\Form;
 
 use Magento\Ui\Component\AbstractView;
+use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Class Fieldset
@@ -19,23 +20,31 @@ class Fieldset extends AbstractView
      */
     protected $elements = [];
 
-    public function getElement($key)
-    {
-        return isset($this->elements[$key]) ? $this->elements[$key] : null;
-    }
-
+    /**
+     * @return UiComponentInterface[]
+     */
     public function getElements()
     {
+        $this->initElements();
         return $this->elements;
     }
 
-    public function addElement($name, $data)
+    /**
+     * @return void
+     */
+    protected function initElements()
     {
-
+        foreach ($this->getDataProviders() as $dataProviderInstance) {
+        }
     }
 
-    public function removeElement()
+    protected function getDataProviders()
     {
-        //
+        return (array)$this->getData('data_provider');
+    }
+
+    public function addElement($element)
+    {
+        $this->elements[] = $element;
     }
 }
