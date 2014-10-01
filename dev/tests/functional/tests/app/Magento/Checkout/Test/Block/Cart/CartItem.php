@@ -9,6 +9,7 @@
 namespace Magento\Checkout\Test\Block\Cart;
 
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CartItem
@@ -38,11 +39,11 @@ class CartItem extends AbstractCartItem
     protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
-     * product in the mimi shopping cart locator
+     * Item product in the mimi shopping cart locator
      *
      * @var string
      */
-    protected $product = '//div[contains(@class,"product details product-item-details")]//a[text()="%s"]';
+    protected $product = '//div[contains(@class,"product-item-details")]//a[.="%s"]';
 
     /**
      * Get product name
@@ -210,11 +211,13 @@ class CartItem extends AbstractCartItem
     /**
      * Check product in the mini cart
      *
-     * @param string $productName
+     * @param FixtureInterface $product
      * @return bool
      */
-    public function checkProductInMiniCart($productName)
+    public function checkProductInMiniCart(FixtureInterface $product)
     {
+        $productName = $product->getName();
+
         return $this->_rootElement->find(sprintf($this->product, $productName), Locator::SELECTOR_XPATH)->isVisible();
     }
 }

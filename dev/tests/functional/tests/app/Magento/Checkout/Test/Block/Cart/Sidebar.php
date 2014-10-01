@@ -38,14 +38,12 @@ class Sidebar extends Block
      */
     protected $cartContent = 'div.minicart';
 
-    // @codingStandardsIgnoreStart
     /**
      * Selector for cart item block
      *
      * @var string
      */
-    protected $cartItemByProductName = './/div[contains(@class,"products minilist") and (.//*[contains(@class,"product-item")]/a[.="%s"])]';
-    // @codingStandardsIgnoreEnd
+    protected $cartItemByProductName = './/*[contains(@class,"products minilist")]//li[.//a[.="%s"]]';
 
     /**
      * Counter qty locator
@@ -78,8 +76,8 @@ class Sidebar extends Block
         $strategy = Locator::SELECTOR_XPATH;
         return $browser->waitUntil(
             function () use ($browser, $selector, $strategy) {
-                $productSavedMessage = $browser->find($selector, $strategy);
-                return $productSavedMessage->isVisible() ? true : null;
+                $counterQty = $browser->find($selector, $strategy);
+                return $counterQty->isVisible() ? true : null;
             }
         );
     }

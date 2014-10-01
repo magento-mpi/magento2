@@ -8,6 +8,7 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
@@ -90,9 +91,10 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
      * Run test add products to shopping cart
      *
      * @param string $productsData
+     * @param int $deletedProductIndex
      * @return array
      */
-    public function test($productsData)
+    public function test($productsData, $deletedProductIndex)
     {
         // Preconditions
         $products = $this->prepareProducts($productsData);
@@ -102,10 +104,10 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
         // Steps
         $this->addToCart($products);
         $this->cartPage->getMessagesBlock()->waitSuccessMessage();
-        $this->removeProducts($products);
+        $deletedProduct = $products[$deletedProductIndex];
+        $this->removeProduct($deletedProduct, count($products));
 
-        $cart['data']['items'] = ['products' => $products];
-        return ['cart' => $this->fixtureFactory->createByCode('cart', $cart), 'products' => $products];
+        return ['products' => $products];
     }
 
     /**
@@ -141,18 +143,19 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     }
 
     /**
-     * Remove products form cart
+     * Remove product form cart
      *
-     * @param array $products
+     * @param FixtureInterface $product
+     * @param int $countProducts
      * @return void
      */
-    protected function removeProducts(array $products)
+    protected function removeProduct(FixtureInterface $product, $countProducts)
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getCartSidebarBlock()->waitCounterQty();
         $this->cmsIndex->getCartSidebarBlock()->openMiniCart();
-        $this->cmsIndex->getCartSidebarBlock()->getCartItem($products[0])->removeItemFromMiniCart();
-        if (count($products) > 1) {
+        $this->cmsIndex->getCartSidebarBlock()->getCartItem($product)->removeItemFromMiniCart();
+        if ($countProducts > 1) {
             $this->cmsIndex->getCartSidebarBlock()->waitCounterQty();
         }
     }

@@ -10,7 +10,6 @@ namespace Magento\Checkout\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Checkout\Test\Fixture\Cart;
 
 /**
  * Class AssertProductAbsentOnMiniShoppingCart
@@ -28,20 +27,21 @@ class AssertProductAbsentOnMiniShoppingCart extends AbstractConstraint
     /**
      * Assert product is absent on mini shopping cart
      *
-     * @param Cart $cart
      * @param CmsIndex $cmsIndex
      * @param array $products
+     * @param int $deletedProductIndex
      * @return void
      */
-    public function processAssert(Cart $cart, CmsIndex $cmsIndex, $products)
+    public function processAssert(CmsIndex $cmsIndex, array $products, $deletedProductIndex)
     {
         $cmsIndex->open();
         $cmsIndex->getCartSidebarBlock()->waitCounterQty();
-        $deletedProductName = $cart->getItems()[1]->getData()['product_name'];
+        $deletedProductName = $products[$deletedProductIndex]->getName();
         $cmsIndex->getCartSidebarBlock()->openMiniCart();
         \PHPUnit_Framework_Assert::assertFalse(
-            $cmsIndex->getCartSidebarBlock()->getCartItem($products[0])->checkProductInMiniCart($deletedProductName),
-            'Product is presents on Mini Shopping Cart'
+            $cmsIndex->getCartSidebarBlock()->getCartItem($products[$deletedProductIndex])
+                ->checkProductInMiniCart($products[$deletedProductIndex]),
+            'Product' . $deletedProductName . ' is presents on Mini Shopping Cart'
         );
     }
 
