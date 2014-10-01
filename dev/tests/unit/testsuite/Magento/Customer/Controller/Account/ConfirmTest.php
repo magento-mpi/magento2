@@ -98,7 +98,9 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
     {
         $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', [], [], '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
-        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', ['setRedirect', '__wakeup'], [], '', false);
+        $this->responseMock = $this->getMock(
+            'Magento\Framework\App\Response\Http', ['setRedirect', '__wakeup'], [], '', false
+        );
         $this->viewMock = $this->getMock('Magento\Framework\App\ViewInterface');
         $this->redirectMock = $this->getMock('Magento\Framework\App\Response\RedirectInterface');
 
@@ -110,7 +112,9 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
 
         $this->customerAccountServiceMock =
             $this->getMockForAbstractClass('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $this->customerServiceDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $this->customerServiceDataMock = $this->getMock(
+            'Magento\Customer\Service\V1\Data\Customer', [], [], '', false
+        );
 
         $this->messageManagerMock = $this->getMock('Magento\Framework\Message\Manager', [], [], '', false);
         $this->addressHelperMock = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
@@ -214,6 +218,12 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $customerId
+     * @param $key
+     * @param $vatValidationEnabled
+     * @param $addressType
+     * @param $successMessage
+     *
      * @dataProvider getSuccessMessageDataProvider
      */
     public function testSuccessMessage($customerId, $key, $vatValidationEnabled, $addressType, $successMessage)
@@ -222,14 +232,12 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
 
-        $this->requestMock->expects($this->at(0))
+        $this->requestMock->expects($this->any())
             ->method('getParam')
-            ->with($this->equalTo('id'), false)
-            ->will($this->returnValue($customerId));
-        $this->requestMock->expects($this->at(1))
-            ->method('getParam')
-            ->with($this->equalTo('key'), false)
-            ->will($this->returnValue($key));
+            ->willReturnMap([
+                ['id', false, $customerId],
+                ['key', false, $key],
+            ]);
 
         $this->customerAccountServiceMock->expects($this->once())
             ->method('activateCustomer')
@@ -276,6 +284,14 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $customerId
+     * @param $key
+     * @param $backUrl
+     * @param $successUrl
+     * @param $resultUrl
+     * @param $isSetFlag
+     * @param $successMessage
+     *
      * @dataProvider getSuccessRedirectDataProvider
      */
     public function testSuccessRedirect(
@@ -291,18 +307,13 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
 
-        $this->requestMock->expects($this->at(0))
+        $this->requestMock->expects($this->any())
             ->method('getParam')
-            ->with($this->equalTo('id'), false)
-            ->will($this->returnValue($customerId));
-        $this->requestMock->expects($this->at(1))
-            ->method('getParam')
-            ->with($this->equalTo('key'), false)
-            ->will($this->returnValue($key));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
-            ->with($this->equalTo('back_url'), false)
-            ->will($this->returnValue($backUrl));
+            ->willReturnMap([
+                ['id', false, $customerId],
+                ['key', false, $key],
+                ['back_url', false, $backUrl],
+            ]);
 
         $this->customerAccountServiceMock->expects($this->once())
             ->method('activateCustomer')
@@ -353,9 +364,33 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
     public function getSuccessRedirectDataProvider()
     {
         return [
-            [1, 1, 'http://example.com/backup', null, 'http://example.com/backup', true, __('Thank you for registering with')],
-            [1, 1, null, 'http://example.com/success', 'http://example.com/success', true, __('Thank you for registering with')],
-            [1, 1, null, 'http://example.com/success', 'http://example.com/success', false, __('Thank you for registering with')],
+            [
+                1,
+                1,
+                'http://example.com/back',
+                null,
+                'http://example.com/back',
+                true,
+                __('Thank you for registering with')
+            ],
+            [
+                1,
+                1,
+                null,
+                'http://example.com/success',
+                'http://example.com/success',
+                true,
+                __('Thank you for registering with')
+            ],
+            [
+                1,
+                1,
+                null,
+                'http://example.com/success',
+                'http://example.com/success',
+                false,
+                __('Thank you for registering with')
+            ],
         ];
     }
 }
