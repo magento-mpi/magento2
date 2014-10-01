@@ -78,7 +78,7 @@ class Generator
                 $entity = $entityType;
                 $entityName = rtrim(
                     substr($className, 0, -1 * strlen($entitySuffix)),
-                    \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR
+                    '\\'
                 );
                 break;
             }

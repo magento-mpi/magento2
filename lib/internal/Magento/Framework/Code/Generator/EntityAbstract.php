@@ -84,7 +84,7 @@ abstract class EntityAbstract
             $this->_classGenerator = new CodeGenerator\Zend();
         }
 
-        $this->_sourceClassName = ltrim($sourceClassName, IncludePath::NS_SEPARATOR);
+        $this->_sourceClassName = ltrim($sourceClassName, '\\');
         if ($resultClassName) {
             $this->_resultClassName = $resultClassName;
         } elseif ($sourceClassName) {
@@ -144,7 +144,7 @@ abstract class EntityAbstract
      */
     protected function _getFullyQualifiedClassName($className)
     {
-        return IncludePath::NS_SEPARATOR . ltrim($className, IncludePath::NS_SEPARATOR);
+        return '\\' . ltrim($className, '\\');
     }
 
     /**
