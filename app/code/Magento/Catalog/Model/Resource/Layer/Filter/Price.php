@@ -254,7 +254,6 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Get comparing value sql part
      *
      * @param float $price
-     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param bool $decrease
      * @return float
      */
@@ -413,23 +412,5 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _getIndexTableAlias()
     {
         return 'price_index';
-    }
-
-    /**
-     * Prepare response object and dispatch prepare price event
-     * Return response object
-     *
-     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
-     * @param \Magento\Framework\DB\Select $select
-     * @return \Magento\Framework\Object
-     * @deprecated since 1.7.0.0
-     */
-    protected function _dispatchPreparePriceEvent($filter, $select)
-    {
-        // prepare response object for event
-        $response = new \Magento\Framework\Object();
-        $response->setAdditionalCalculations(array());
-
-        return $response;
     }
 }
