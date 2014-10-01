@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/form/elements',
+    'Magento_Ui/js/form/element/index',
     'Magento_Ui/js/lib/ko/scope',
     'underscore'
 ], function (controls, Scope, _) {

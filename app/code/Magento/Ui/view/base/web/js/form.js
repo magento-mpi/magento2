@@ -10,7 +10,7 @@ define(function (require) {
     var Scope       = require('Magento_Ui/js/lib/ko/scope'),
         Component   = require('Magento_Ui/js/lib/component'),
         registry    = require('Magento_Ui/js/lib/registry/registry'),
-        elements    = require('Magento_Ui/js/form/elements'),
+        elements    = require('Magento_Ui/js/form/element/index'),
         utils       = require('mage/utils'),
         _           = require('underscore'),
         Collection  = require('Magento_Ui/js/form/collection');
