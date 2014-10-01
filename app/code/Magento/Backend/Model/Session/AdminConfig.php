@@ -95,8 +95,7 @@ class AdminConfig extends Config
     {
         if (strpos($this->_httpRequest->getBaseUrl(), Filesystem::PUB_DIR)) {
             $baseUrl = '/' . Filesystem::PUB_DIR . '/';
-        }
-        else {
+        } else {
             $parsedUrl = parse_url($this->_storeManager->getStore()->getBaseUrl());
             $baseUrl = $parsedUrl['path'];
         }

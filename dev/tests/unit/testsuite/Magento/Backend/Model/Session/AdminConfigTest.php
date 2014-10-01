@@ -110,7 +110,8 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function setCookiePathNonDefaultDataProvider() {
+    public function setCookiePathNonDefaultDataProvider()
+    {
         return array(array(''), array('/' . \Magento\Framework\App\Filesystem::PUB_DIR));
     }
 
