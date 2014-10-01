@@ -175,7 +175,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $scopeResolver;
 
     /**
-     * @var Layout\Reader
+     * @var Layout\Reader\Pool
      */
     protected $reader;
 
@@ -184,15 +184,16 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     protected $cacheable;
 
-    /**
-     * @var \Magento\Framework\View\Page\Config\Reader
-     */
-    protected $pageConfigReader;
 
     /**
      * @var \Magento\Framework\View\Page\Config\Generator
      */
     protected $pageConfigGenerator;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config\Structure
+     */
+    protected $pageConfigStructure;
 
     /**
      * Constructor
@@ -211,9 +212,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param Design\Theme\ResolverInterface $themeResolver
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param Layout\Reader $reader
-     * @param Page\Config\Reader $pageConfigReader
+     * @param Layout\Reader\Pool $reader
      * @param Page\Config\Generator $pageConfigGenerator
+     * @param \Magento\Framework\View\Page\Config\Structure $pageConfigStructure
      * @param $scopeType
      * @param bool $cacheable
      */
@@ -232,9 +233,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\Framework\View\Layout\Reader $reader,
-        \Magento\Framework\View\Page\Config\Reader $pageConfigReader,
+        \Magento\Framework\View\Layout\Reader\Pool $reader,
         \Magento\Framework\View\Page\Config\Generator $pageConfigGenerator,
+        \Magento\Framework\View\Page\Config\Structure $pageConfigStructure,
         $scopeType,
         $cacheable = true
     ) {
@@ -259,8 +260,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->scopeResolver = $scopeResolver;
         $this->reader = $reader;
         $this->cacheable = $cacheable;
-        $this->pageConfigReader = $pageConfigReader;
         $this->pageConfigGenerator = $pageConfigGenerator;
+        $this->pageConfigStructure = $pageConfigStructure;
     }
 
     /**
@@ -317,7 +318,11 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
         \Magento\Framework\Profiler::start('build_structure');
         $this->_scheduledStructure->flushScheduledStructure();
-        $readerContext = new Layout\Reader\Context($this->_scheduledStructure, $this->_structure, null);
+        $readerContext = new Layout\Reader\Context(
+            $this->_scheduledStructure,
+            $this->_structure,
+            $this->pageConfigStructure
+        );
         $this->reader->readStructure($readerContext, $this->getNode());
         $this->_addToOutputRootContainers($this->getNode());
         $this->buildStructure();

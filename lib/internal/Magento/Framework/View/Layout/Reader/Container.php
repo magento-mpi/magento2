@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\View\Layout\Reader\Body;
+namespace Magento\Framework\View\Layout\Reader;
 
 use Magento\Framework\View\Layout;
-use Magento\Framework\View\Layout\Reader\Context;
 
 /**
  * Class Container
@@ -39,13 +38,22 @@ class Container implements Layout\ReaderInterface
     protected $helper;
 
     /**
+     * @var \Magento\Framework\View\Layout\Reader\Pool
+     */
+    protected $readerPool;
+
+    /**
      * Constructor
      *
      * @param Layout\ScheduledStructure\Helper $helper
+     * @param Layout\Reader\Pool $readerPool
      */
-    public function __construct(Layout\ScheduledStructure\Helper $helper)
-    {
+    public function __construct(
+        Layout\ScheduledStructure\Helper $helper,
+        Layout\Reader\Pool $readerPool
+    ) {
         $this->helper = $helper;
+        $this->readerPool = $readerPool;
     }
 
     /**
@@ -83,7 +91,7 @@ class Container implements Layout\ReaderInterface
             default:
                 break;
         }
-        return true;
+        return $this->readerPool->readStructure($readerContext, $currentElement);
     }
 
     /**

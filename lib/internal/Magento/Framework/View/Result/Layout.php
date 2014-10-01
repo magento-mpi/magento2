@@ -69,7 +69,7 @@ class Layout extends View\Element\Template
      */
     public function getLayout()
     {
-        return $this->layout;
+        return $this->_layout;
     }
 
     /**

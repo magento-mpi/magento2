@@ -22,23 +22,23 @@ class Context
     protected $structure;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
+     * @var \Magento\Framework\View\Page\Config\Structure
      */
-    protected $pageConfiguration;
+    protected $pageConfigStructure;
 
     /**
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\Data\Structure $structure
-     * @param \Magento\Framework\View\Page\Config $pageConfiguration
+     * @param \Magento\Framework\View\Page\Config\Structure $pageConfigStructure
      */
     public function __construct(
         Layout\ScheduledStructure $scheduledStructure = null,
         \Magento\Framework\Data\Structure $structure = null,
-        \Magento\Framework\View\Page\Config $pageConfiguration = null
+        \Magento\Framework\View\Page\Config\Structure $pageConfigStructure = null
     ) {
         $this->scheduledStructure = $scheduledStructure;
         $this->structure = $structure;
-        $this->pageConfiguration = $pageConfiguration;
+        $this->pageConfigStructure = $pageConfigStructure;
     }
 
     /**
@@ -58,10 +58,10 @@ class Context
     }
 
     /**
-     * @return \Magento\Framework\View\Page\Config
+     * @return \Magento\Framework\View\Page\Config\Structure
      */
-    public function getPageConfiguration()
+    public function getPageConfigStructure()
     {
-        return $this->pageConfiguration;
+        return $this->pageConfigStructure;
     }
 }

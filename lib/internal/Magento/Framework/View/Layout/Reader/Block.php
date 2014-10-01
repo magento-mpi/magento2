@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\View\Layout\Reader\Body;
+namespace Magento\Framework\View\Layout\Reader;
 
 use Magento\Framework\View\Layout;
-use Magento\Framework\View\Layout\Reader\Context;
 use Magento\Framework\App;
 
 class Block implements Layout\ReaderInterface
@@ -55,6 +54,11 @@ class Block implements Layout\ReaderInterface
     protected $scopeResolver;
 
     /**
+     * @var \Magento\Framework\View\Layout\Reader\Pool
+     */
+    protected $readerPool;
+
+    /**
      * @var string
      */
     protected $scopeType;
@@ -66,17 +70,20 @@ class Block implements Layout\ReaderInterface
      * @param Layout\Argument\Parser $argumentParser
      * @param App\Config\ScopeConfigInterface $scopeConfig
      * @param App\ScopeResolverInterface $scopeResolver
+     * @param Layout\Reader\Pool $readerPool
      */
     public function __construct(
         Layout\ScheduledStructure\Helper $helper,
         Layout\Argument\Parser $argumentParser,
         App\Config\ScopeConfigInterface $scopeConfig,
-        App\ScopeResolverInterface $scopeResolver
+        App\ScopeResolverInterface $scopeResolver,
+        Layout\Reader\Pool $readerPool
     ) {
         $this->helper = $helper;
         $this->argumentParser = $argumentParser;
         $this->scopeConfig = $scopeConfig;
         $this->scopeResolver = $scopeResolver;
+        $this->readerPool = $readerPool;
         // TODO: Must be included through DI configuration
         $this->scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
     }
@@ -99,23 +106,20 @@ class Block implements Layout\ReaderInterface
      */
     public function process(Context $readerContext, Layout\Element $currentElement, Layout\Element $parentElement)
     {
-        $isChildProcessed = false;
         $scheduledStructure = $readerContext->getScheduledStructure();
         switch ($currentElement->getName()) {
             case self::TYPE_BLOCK:
                 $this->scheduleBlock($scheduledStructure, $currentElement, $parentElement);
-                $isChildProcessed = true;
                 break;
 
             case self::TYPE_REFERENCE_BLOCK:
                 $this->scheduleReference($scheduledStructure, $currentElement);
-                $isChildProcessed = true;
                 break;
 
             default:
                 break;
         }
-        return $isChildProcessed;
+        return $this->readerPool->readStructure($readerContext, $currentElement);
     }
 
     /**

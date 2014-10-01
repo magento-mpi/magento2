@@ -20,9 +20,9 @@ interface ReaderInterface
      * Process all structure
      *
      * @param Reader\Context $readerContext
-     * @param Element $currentElement
+     * @param Element $element
      * @param Element $parentElement
      * @return $this
      */
-    public function process(Reader\Context $readerContext, Element $currentElement, Element $parentElement);
+    public function process(Reader\Context $readerContext, Element $element, Element $parentElement);
 }
