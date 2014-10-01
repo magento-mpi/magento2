@@ -95,33 +95,6 @@
                             "input_type": "price",
                             "currency_sign": "$",
                             "label": "Price / currency fireld"
-                        },
-                        "addresses": {
-                            "meta_ref": "address"
-                        }
-                    },
-                    "address": {
-                        "template": "customer/form/address",
-                        "input_type": "collection",
-                        "title": "Edit Customer's Address",
-                        "label": "New Customer Address",
-                        "prefix": {
-                            "index": "prefix",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Prefix"
-                        },
-                        "suffix": {
-                            "index": "suffix",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Suffix"
-                        },
-                        "firstname": {
-                            "index": "firstname",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "First name"
                         }
                     }
                 },
@@ -237,9 +210,7 @@
                         ]
                     },
                     "customer_addresses": {
-                        "injections": [
-                            "customer_form_fieldsets.customer_addresses"
-                        ]
+                        "injections": []
                     }
                 }
             },
@@ -323,8 +294,7 @@
                     "customer_addresses": {
                         "label": "Customer Addresses",
                         "collapsible": true,
-                        "injections": [
-                        ]
+                        "injections": []
                     }
                 }
             }
