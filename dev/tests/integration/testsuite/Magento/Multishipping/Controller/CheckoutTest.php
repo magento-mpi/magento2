@@ -46,8 +46,8 @@ class CheckoutTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()->setPost('payment', array('method' => 'checkmo'));
         $this->dispatch('multishipping/checkout/overview');
         $html = $this->getResponse()->getBody();
-        $this->assertContains('<div class="box box-method-billing">', $html);
-        $this->assertContains('<div class="box box-order-shipping-method">', $html);
+        $this->assertContains('<div class="box box-billing-method">', $html);
+        $this->assertContains('<div class="box box-shipping-method">', $html);
         $this->assertContains(
             '<dt class="title">' . $quote->getPayment()->getMethodInstance()->getTitle() . '</dt>',
             $html
