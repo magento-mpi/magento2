@@ -230,7 +230,19 @@
     },
     "autoload-dev" : {
         "psr-4" : {
+            "Magento\\Tools\\" : [
+                "dev/tools/Magento/Tools/"
+            ],
+            "Magento\\Tools\\License\\" : ["dev/build/publication/license/"],
+            "Magento\\Tools\\Sanity\\" : ["dev/build/publication/sanity/Magento/Tools/Sanity"],
+            "Magento\\Tools\\Composer\\" : ["dev/tools/Magento/Tools/Composer/"],
+            "Magento\\Tools\\Dependency\\" : ["dev/tools/Magento/Tools/Dependency/"],
+            "Magento\\Tools\\Di\\" : ["dev/tools/Magento/Tools/Di/"],
+            "Magento\\Tools\\Formatter\\" : ["dev/tools/Magento/Tools/Formatter/"],
             "Magento\\Tools\\I18n\\" : ["dev/tools/Magento/Tools/I18n/"],
+            "Magento\\Tools\\Layout\\" : ["dev/tools/Magento/Tools/Layout/"],
+            "Magento\\Tools\\Migration\\" : ["dev/tools/Magento/Tools/Migration/"],
+            "Magento\\Tools\\View\\" : ["dev/tools/Magento/Tools/View/"],
             "Magento\\TestFramework\\" : [
                 "dev/tests/api-functional/framework/Magento/TestFramework/",
                 "dev/tests/integration/framework/Magento/TestFramework/",
