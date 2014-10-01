@@ -35,7 +35,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * 4. Click 'Submit' button
  * 5. Perform all assertions
  *
- * @group OrderManagement_(CS)
+ * @group Sales_Archive_(CS)
  * @ZephyrId MAGETWO-28781
  */
 class ShipmentSalesArchiveEntityTest extends Injectable

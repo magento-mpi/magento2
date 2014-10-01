@@ -34,7 +34,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
  * 4. Click 'Submit' button
  * 5. Perform all assertions
  *
- * @group Order_Management_(CS)
+ * @group Sales_Archive_(CS)
  * @ZephyrId MAGETWO-28947
  */
 class InvoiceSalesArchiveEntityTest extends Injectable
@@ -124,11 +124,9 @@ class InvoiceSalesArchiveEntityTest extends Injectable
         $this->orderInvoiceNew->getCreateBlock()->fill($invoice, $order->getEntityId()['products']);
         $this->orderInvoiceNew->getTotalsBlock()->submit();
 
-        $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
         $this->orderView->getOrderForm()->openTab('invoices');
 
         return [
-            'successMessage' => $successMessage,
             'ids' => [
                 'invoiceIds' => $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->getIds(),
             ],
