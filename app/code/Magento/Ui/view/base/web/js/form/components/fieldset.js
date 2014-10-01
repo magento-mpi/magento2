@@ -23,28 +23,25 @@ define([
             _.extend(this, defaults, config);
 
             this.initObservable()
-                .waitElements();
+                .initListeners();
         },
 
         initObservable: function(){
             this.observe({
-                'elems':    [],
-                'opened':   this.opened
+                'opened': this.opened
             });
 
             return this;
         },
 
-        initElements: function(){
-            var elems = this.elems;
+        initListeners: function(){
+            var update = this.onElementUpdate.bind(this);
 
-            elems.push.apply(elems, arguments);
+            this.elems.forEach(function(elem){
+                elem.on('update', update);
+            });
 
-            elems().forEach(function(elem){
-                if(elem.on){
-                    elem.on('update', this.onElementUpdate.bind(this));
-                }
-            }, this);
+            return this;
         },
 
         toggle: function() {
@@ -62,10 +59,9 @@ define([
         },
 
         onElementUpdate: function(){
-            var elems = this.elems(),
-                changed;
+            var changed;
 
-            elems.some(function(elem){
+            this.elems.some(function(elem){
                 return (changed = elem.hasChanged());
             });
 

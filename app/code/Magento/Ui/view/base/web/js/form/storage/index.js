@@ -8,7 +8,7 @@
  * Assembles storages returning storage mapping
  */
 define([
-    './storage'
+    'Magento_Ui/js/lib/storage/storage'
 ], function(Storage){
     'use strict';
 

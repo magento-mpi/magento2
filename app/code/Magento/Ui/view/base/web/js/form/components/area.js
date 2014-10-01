@@ -21,38 +21,32 @@ define([
 
             this.initObservable()
                 .initListeners()
-                .pullParams()
-                .waitElements();
+                .pullParams();
         },
 
         initObservable: function() {
             this.observe({
-                'elems':    [],
-                'visible':  this.visible
+                'visible': this.visible
             });
 
             return this;
         },
 
-        initElements: function(){
-            var elems = this.elems;
-
-            elems.push.apply(elems, arguments);
-
-            elems().forEach(function(elem){
-                elem.on({
-                    'change': this.update.bind(this, true),
-                    'restore': this.update.bind(this, false)
-                });
-            }, this);
-
-            return this;
-        },
-
         initListeners: function() {
-            var params = this.provider.params;
+            var params  = this.provider.params,
+                update  = this.update,
+                handlers;
+
+            handlers = {
+                'change':   update.bind(this, true),
+                'restore':  update.bind(this, false)
+            };
 
             params.on('update:activeTab', this.pullParams.bind(this));
+
+            this.elems.forEach(function(elem){
+                elem.on(handlers);
+            });
 
             return this;
         },
