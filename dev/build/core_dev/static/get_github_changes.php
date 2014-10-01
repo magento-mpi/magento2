@@ -16,7 +16,7 @@ define(
     'USAGE',
 <<<USAGE
     php -f get_github_changes.php --
-    --team-repo="<team_repo>" --feature-branch="<feature_branch>" --outh-token="<token>"
+    --team-repo="<team_repo>" --feature-branch="<feature_branch>" --oauth-token="<token>"
     [--output-file="<output_file>"] [--file-formats="<comma_separated_list_of_formats>"]
 
 USAGE
