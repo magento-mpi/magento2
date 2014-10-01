@@ -7,7 +7,7 @@
  */
 namespace Magento\Search\Block;
 
-interface AdditionalInfoInterface
+interface SearchDataInterface
 {
     /**
      * Retrieve search suggestions

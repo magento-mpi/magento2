@@ -15,7 +15,7 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \Magento\Search\Model\QueryManagerInterface|MockObject
+     * @var \Magento\Search\Model\QueryFactoryInterface|MockObject
      */
     private $queryManager;
 
@@ -24,12 +24,12 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
      */
     private $searchQuery;
     /**
-     * @var \Magento\Search\Model\AdditionalInfoDataProviderInterface|MockObject
+     * @var \Magento\Search\Model\SearchDataProviderInterface|MockObject
      */
     private $dataProvider;
 
     /**
-     * @var \Magento\Search\Block\AdditionalInfo
+     * @var \Magento\Search\Block\SearchData
      */
     private $block;
 
@@ -46,7 +46,7 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getQueryText'])
             ->getMockForAbstractClass();
-        $this->queryManager = $this->getMockBuilder('\Magento\Search\Model\QueryManagerInterface')
+        $this->queryManager = $this->getMockBuilder('\Magento\Search\Model\QueryFactoryInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getQuery'])
             ->getMockForAbstractClass();

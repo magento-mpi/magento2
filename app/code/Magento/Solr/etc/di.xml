@@ -67,16 +67,14 @@
     <type name="Magento\Customer\Model\Resource\Group">
         <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Solr\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
     </type>
-    <virtualType name="Magento\Search\Block\Recommendations" type="Magento\Search\Block\AdditionalInfo">
+    <type name="Magento\Search\Block\Recommendations">
         <arguments>
-            <argument name="title" xsi:type="string">Related search terms</argument>
-            <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Search\Model\AdditionalInfoDataProvider</argument>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Solr\Adapter\Recommendations</argument>
         </arguments>
-    </virtualType>
-    <virtualType name="Magento\Search\Block\Suggestions" type="Magento\Search\Block\AdditionalInfo">
+    </type>
+    <type name="Magento\Search\Block\Suggestions">
         <arguments>
-            <argument name="title" xsi:type="string">Did you mean</argument>
-            <argument name="additionalInfoDataProvider" xsi:type="object">Magento\Search\Model\AdditionalInfoDataProvider</argument>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Solr\Adapter\Suggestions</argument>
         </arguments>
-    </virtualType>
+    </type>
 </config>

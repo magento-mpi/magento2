@@ -7,9 +7,10 @@
  */
 namespace Magento\Solr\Adapter;
 
-use Magento\Search\Model\AdditionalInfoDataProviderInterface;
+use Magento\Search\Model\QueryInterface;
+use Magento\Search\Model\SearchDataProviderInterface;
 
-class Recommendations implements AdditionalInfoDataProviderInterface
+class Recommendations implements SearchDataProviderInterface
 {
     const CONFIG_SEARCH_RECOMMENDATIONS_ENABLED = 'search_recommendations_enabled';
     const CONFIG_SEARCH_RECOMMENDATIONS_COUNT_RESULTS_ENABLED = 'search_recommendations_count_results_enabled';
@@ -55,7 +56,7 @@ class Recommendations implements AdditionalInfoDataProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSearchResult($searchQueryText, $limit = null, $additionalFilters = array())
+    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = array())
     {
         $recommendations = array();
 

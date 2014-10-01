@@ -9,11 +9,9 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="search_result_list">
-        <container name="additional" label="Additional Info" after="product_list_toolbar">
-            <block class="Magento\Search\Block\AdditionalInfo"
-                   name="search_suggestions"
-                   template="additional_products.phtml"/>
-        </container>
-    </referenceBlock>
+    <container name="additional" label="Additional Info" after="product_list_toolbar">
+        <block class="Magento\Search\Block\AdditionalInfo"
+               name="search_suggestions"
+               template="additional_products.phtml"/>
+    </container>
 </page>

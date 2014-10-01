@@ -7,15 +7,15 @@
  */
 namespace Magento\Search\Model;
 
-interface AdditionalInfoDataProviderInterface
+interface SearchDataProviderInterface
 {
     /**
-     * @param string $searchQueryText
+     * @param QueryInterface $query
      * @param int $limit
      * @param array $additionalFilters
      * @return \Magento\Search\Model\QueryResult[]
      */
-    public function getSearchResult($searchQueryText, $limit = null, $additionalFilters = array());
+    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = array());
 
     /**
      * @return bool

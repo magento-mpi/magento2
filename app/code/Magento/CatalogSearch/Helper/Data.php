@@ -19,27 +19,17 @@ use Magento\Framework\Escaper;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Stdlib\String;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Search\Model\QueryManagerInterface;
+use Magento\Search\Model\QueryFactoryInterface;
 
 /**
  * Catalog search helper
  */
-class Data extends AbstractHelper implements QueryManagerInterface
+class Data extends AbstractHelper
 {
     /**
      * @var array
      */
     protected $_suggestData = null;
-
-    /**
-     * Query variable
-     */
-    const QUERY_VAR_NAME = 'q';
-
-    /**
-     * Max query length
-     */
-    const MAX_QUERY_LEN = 200;
 
     /**
      * Query object
@@ -61,13 +51,6 @@ class Data extends AbstractHelper implements QueryManagerInterface
      * @var array
      */
     protected $_messages = array();
-
-    /**
-     * Is a maximum length cut
-     *
-     * @var bool
-     */
-    protected $_isMaxLength = false;
 
     /**
      * Search engine model
@@ -142,32 +125,6 @@ class Data extends AbstractHelper implements QueryManagerInterface
     }
 
     /**
-     * Retrieve search query parameter name
-     *
-     * @return string
-     */
-    public function getQueryParamName()
-    {
-        return self::QUERY_VAR_NAME;
-    }
-
-    /**
-     * Retrieve query model object
-     *
-     * @return Query
-     */
-    public function getQuery()
-    {
-        if (!$this->_query) {
-            $this->_query = $this->_queryFactory->create()->loadByQuery($this->getQueryText());
-            if (!$this->_query->getId()) {
-                $this->_query->setQueryText($this->getQueryText());
-            }
-        }
-        return $this->_query;
-    }
-
-    /**
      * Is a minimum query length
      *
      * @return bool
@@ -175,36 +132,8 @@ class Data extends AbstractHelper implements QueryManagerInterface
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = $this->string->strlen($this->getQueryText());
+        $thisQueryLength = $this->string->strlen($this->_queryFactory->getQuery()->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
-    }
-
-    /**
-     * Retrieve search query text
-     *
-     * @return string
-     */
-    public function getQueryText()
-    {
-        if (!isset($this->_queryText)) {
-            $this->_queryText = $this->_getRequest()->getParam($this->getQueryParamName());
-            if ($this->_queryText === null) {
-                $this->_queryText = '';
-            } else {
-                $this->_queryText = is_array(
-                    $this->_queryText
-                ) ? '' : $this->string->cleanString(
-                    trim($this->_queryText)
-                );
-
-                $maxQueryLength = $this->getMaxQueryLength();
-                if ($maxQueryLength !== '' && $this->string->strlen($this->_queryText) > $maxQueryLength) {
-                    $this->_queryText = $this->string->substr($this->_queryText, 0, $maxQueryLength);
-                    $this->_isMaxLength = true;
-                }
-            }
-        }
-        return $this->_queryText;
     }
 
     /**
@@ -214,7 +143,7 @@ class Data extends AbstractHelper implements QueryManagerInterface
      */
     public function getEscapedQueryText()
     {
-        return $this->_escaper->escapeHtml($this->getQueryText());
+        return $this->_escaper->escapeHtml($this->_queryFactory->getQuery()->getQueryText());
     }
 
     /**
@@ -224,7 +153,7 @@ class Data extends AbstractHelper implements QueryManagerInterface
      */
     public function getSuggestCollection()
     {
-        return $this->getQuery()->getSuggestCollection();
+        return $this->_queryFactory->getQuery()->getSuggestCollection();
     }
 
     /**
@@ -362,7 +291,7 @@ class Data extends AbstractHelper implements QueryManagerInterface
      */
     public function checkNotes($store = null)
     {
-        if ($this->_isMaxLength) {
+        if ($this->_queryFactory->getQuery()->getIsQueryTooLong()) {
             $this->addNoteMessage(
                 __(
                     'Your search query can\'t be longer than %1, so we had to shorten your query.',
@@ -376,9 +305,9 @@ class Data extends AbstractHelper implements QueryManagerInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if ($searchType == Fulltext::SEARCH_TYPE_COMBINE || $searchType == Fulltext::SEARCH_TYPE_LIKE) {
-            $wordsFull = $this->filter->splitWords($this->getQueryText(), array('uniqueOnly' => true));
+            $wordsFull = $this->filter->splitWords($this->_queryFactory->getQuery()->getQueryText(), array('uniqueOnly' => true));
             $wordsLike = $this->filter->splitWords(
-                $this->getQueryText(),
+                $this->_queryFactory->getQuery()->getQueryText(),
                 array('uniqueOnly' => true, 'wordsQty' => $this->getMaxQueryWords())
             );
             if (count($wordsFull) > count($wordsLike)) {
@@ -423,7 +352,7 @@ class Data extends AbstractHelper implements QueryManagerInterface
     {
         if (!$this->_suggestData) {
             $collection = $this->getSuggestCollection();
-            $query = $this->getQueryText();
+            $query = $this->_queryFactory->getQuery()->getQueryText();
             $counter = 0;
             $data = array();
             foreach ($collection as $item) {

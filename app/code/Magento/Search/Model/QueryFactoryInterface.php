@@ -8,7 +8,7 @@
 
 namespace Magento\Search\Model;
 
-interface QueryManagerInterface
+interface QueryFactoryInterface
 {
     /**
      * @return QueryInterface

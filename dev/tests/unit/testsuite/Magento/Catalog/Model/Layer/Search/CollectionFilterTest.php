@@ -23,7 +23,7 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $helperMock;
+    protected $queryFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -39,11 +39,11 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->visibilityMock = $this->getMock('Magento\Catalog\Model\Product\Visibility', array(), array(), '', false);
         $this->catalogConfigMock = $this->getMock('\Magento\Catalog\Model\Config', array(), array(), '', false);
-        $this->helperMock = $this->getMock('\Magento\CatalogSearch\Helper\Data', array(), array(), '', false);
+        $this->queryFactoryMock = $this->getMock('\Magento\CatalogSearch\Model\QueryFactory', array(), array(), '', false);
         $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
 
         $this->model = new CollectionFilter(
-            $this->catalogConfigMock, $this->helperMock, $this->storeManagerMock, $this->visibilityMock
+            $this->catalogConfigMock, $this->queryFactoryMock, $this->storeManagerMock, $this->visibilityMock
         );
     }
 
@@ -70,7 +70,7 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
 
         $this->catalogConfigMock->expects($this->once())->method('getProductAttributes');
         $this->visibilityMock->expects($this->once())->method('getVisibleInSearchIds');
-        $this->helperMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
+        $this->queryFactoryMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
         $this->storeManagerMock->expects($this->once())->method('getStore');
 
         $collectionMock->expects($this->once())->method('addAttributeToSelect')

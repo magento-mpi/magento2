@@ -25,14 +25,14 @@ class DataProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRecommendations()
     {
-        /** @var \Magento\Search\Model\AdditionalInfoDataProvider $recommendations */
+        /** @var \Magento\Search\Model\SearchDataProvider $recommendations */
         $dataProvider = $this->objectManager->getObject('\Magento\Search\Model\AdditionalInfoDataProvider');
         $this->assertEquals([], $dataProvider->getSearchResult('some text'));
     }
 
     public function testIsCountResultsEnabled()
     {
-        /** @var \Magento\Search\Model\AdditionalInfoDataProvider $dataProvider */
+        /** @var \Magento\Search\Model\SearchDataProvider $dataProvider */
         $dataProvider = $this->objectManager->getObject('\Magento\Search\Model\AdditionalInfoDataProvider');
         $this->assertFalse($dataProvider->isCountResultsEnabled());
     }

@@ -11,6 +11,7 @@ use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Catalog\Model\Layer\Search as ModelLayer;
 use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
+use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Collection;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -42,19 +43,27 @@ class Result extends Template
     protected $catalogLayer;
 
     /**
+     * @var QueryFactory
+     */
+    private $queryFactory;
+
+    /**
      * @param Context $context
      * @param ModelLayer $catalogLayer
      * @param Data $catalogSearchData
+     * @param QueryFactory $queryFactory
      * @param array $data
      */
     public function __construct(
         Context $context,
         ModelLayer $catalogLayer,
         Data $catalogSearchData,
+        QueryFactory $queryFactory,
         array $data = array()
     ) {
         $this->catalogLayer = $catalogLayer;
         $this->catalogSearchData = $catalogSearchData;
+        $this->queryFactory = $queryFactory;
         parent::__construct($context, $data);
     }
 
@@ -65,7 +74,7 @@ class Result extends Template
      */
     protected function _getQuery()
     {
-        return $this->catalogSearchData->getQuery();
+        return $this->queryFactory->getQuery();
     }
 
     /**

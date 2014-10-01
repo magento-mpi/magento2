@@ -7,12 +7,12 @@
  */
 namespace Magento\Search\Model;
 
-class AdditionalInfoDataProvider implements AdditionalInfoDataProviderInterface
+class SearchDataProvider implements SearchDataProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getSearchResult($searchQueryText, $limit = null, $additionalFilters = array())
+    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = array())
     {
         return [];
     }

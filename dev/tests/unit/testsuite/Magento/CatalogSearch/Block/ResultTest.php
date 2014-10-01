@@ -12,6 +12,12 @@ namespace Magento\CatalogSearch\Block;
  */
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  \Magento\CatalogSearch\Model\Query|\PHPUnit_Framework_MockObject_MockObject */
+    private $queryMock;
+
+    /** @var  \Magento\CatalogSearch\Model\QueryFactory|\PHPUnit_Framework_MockObject_MockObject */
+    private $queryFactoryMock;
+
     /** @var \Magento\CatalogSearch\Block\Result */
     protected $model;
 
@@ -34,7 +40,14 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->contextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer\Search', [], [], '', false);
         $this->dataMock = $this->getMock('Magento\CatalogSearch\Helper\Data', [], [], '', false);
-        $this->model = new Result($this->contextMock, $this->layerMock, $this->dataMock);
+        $this->queryMock = $this->getMockBuilder('Magento\CatalogSearch\Model\Query')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->queryFactoryMock = $this->getMockBuilder('Magento\CatalogSearch\Model\QueryFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['getQuery'])
+            ->getMock();
+        $this->model = new Result($this->contextMock, $this->layerMock, $this->dataMock, $this->queryFactoryMock);
     }
 
     public function testGetSearchQueryText()
@@ -67,7 +80,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $queryMock = $this->getMock('Magento\CatalogSearch\Model\Query', array(), array(), '', false);
             $queryMock->expects($this->once())->method('getMinQueryLength')->will($this->returnValue('5'));
 
-            $this->dataMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
+            $this->queryFactoryMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
         }
         $this->assertEquals($expectedResult, $this->model->getNoResultText());
     }

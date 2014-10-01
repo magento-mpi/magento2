@@ -17,9 +17,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Catalog search data
      *
-     * @var \Magento\CatalogSearch\Helper\Data
+     * @var \Magento\CatalogSearch\Model\QueryFactory
      */
-    protected $_catalogSearchData = null;
+    protected $queryFactory = null;
 
     /**
      * Catalog search fulltext
@@ -47,7 +47,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      * @param \Zend_Db_Adapter_Abstract $connection
      * 
@@ -72,12 +72,12 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         $connection = null
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
-        $this->_catalogSearchData = $catalogSearchData;
+        $this->queryFactory = $catalogSearchData;
         parent::__construct(
             $entityFactory,
             $logger,
@@ -108,7 +108,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _getQuery()
     {
-        return $this->_catalogSearchData->getQuery();
+        return $this->queryFactory->getQuery();
     }
 
     /**

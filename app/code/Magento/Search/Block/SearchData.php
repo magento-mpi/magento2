@@ -8,11 +8,11 @@
 namespace Magento\Search\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Search\Model\AdditionalInfoDataProviderInterface;
+use Magento\Search\Model\SearchDataProviderInterface;
 use Magento\Search\Model\QueryInterface;
-use Magento\Search\Model\QueryManagerInterface;
+use Magento\Search\Model\QueryFactoryInterface;
 
-class AdditionalInfo extends Template implements AdditionalInfoInterface
+class SearchData extends Template implements SearchDataInterface
 {
 
     /**
@@ -23,30 +23,32 @@ class AdditionalInfo extends Template implements AdditionalInfoInterface
     /**
      * @var string
      */
-    private $title;
+    protected $title = '';
 
     /**
-     * @var AdditionalInfoDataProviderInterface
+     * @var SearchDataProviderInterface
      */
-    private $additionalInfoDataProvider;
+    private $searchDataProvider;
+
+    /**
+     * @var string
+     */
+    protected $_template = 'search_data.phtml';
 
     /**
      * @param Template\Context $context
-     * @param AdditionalInfoDataProviderInterface $additionalInfoDataProvider
-     * @param QueryManagerInterface $queryManager
-     * @param string $title
+     * @param SearchDataProviderInterface $searchDataProvider
+     * @param QueryFactoryInterface $queryManager
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        AdditionalInfoDataProviderInterface $additionalInfoDataProvider,
-        QueryManagerInterface $queryManager,
-        $title,
+        SearchDataProviderInterface $searchDataProvider,
+        QueryFactoryInterface $queryManager,
         array $data = array()
     ) {
-        $this->additionalInfoDataProvider = $additionalInfoDataProvider;
+        $this->searchDataProvider = $searchDataProvider;
         $this->query = $queryManager->getQuery();
-        $this->title = $title;
         parent::__construct($context, $data);
     }
 
@@ -55,8 +57,7 @@ class AdditionalInfo extends Template implements AdditionalInfoInterface
      */
     public function getAdditionalInfo()
     {
-        $queryText = $this->query->getQueryText();
-        return $this->additionalInfoDataProvider->getSearchResult($queryText);
+        return $this->searchDataProvider->getSearchData($this->query);
     }
 
     /**
@@ -64,7 +65,7 @@ class AdditionalInfo extends Template implements AdditionalInfoInterface
      */
     public function isCountResultsEnabled()
     {
-        return $this->additionalInfoDataProvider->isCountResultsEnabled();
+        return $this->searchDataProvider->isCountResultsEnabled();
     }
 
     /**

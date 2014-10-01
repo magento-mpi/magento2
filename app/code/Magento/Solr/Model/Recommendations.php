@@ -19,41 +19,41 @@ class Recommendations
      *
      * @var \Magento\CatalogSearch\Helper\Data
      */
-    protected $_catalogSearchData = null;
+    protected $queryFactory = null;
 
     /**
      * Search data
      *
      * @var \Magento\Solr\Helper\Data
      */
-    protected $_searchData = null;
+    protected $searchData = null;
 
     /**
      * @var \Magento\Catalog\Model\Layer\Search
      */
-    protected $_searchLayer;
+    protected $searchLayer;
 
     /**
      * @var \Magento\Solr\Model\Resource\RecommendationsFactory
      */
-    protected $_recommendationsFactory;
+    protected $recommendationsFactory;
 
     /**
      * @param \Magento\Solr\Model\Resource\RecommendationsFactory $recommendationsFactory
      * @param \Magento\Catalog\Model\Layer\Search $searchLayer
      * @param \Magento\Solr\Helper\Data $searchData
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Solr\Model\Resource\RecommendationsFactory $recommendationsFactory,
         \Magento\Catalog\Model\Layer\Search $searchLayer,
         \Magento\Solr\Helper\Data $searchData,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData
+        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
-        $this->_recommendationsFactory = $recommendationsFactory;
-        $this->_searchLayer = $searchLayer;
-        $this->_searchData = $searchData;
-        $this->_catalogSearchData = $catalogSearchData;
+        $this->recommendationsFactory = $recommendationsFactory;
+        $this->searchLayer = $searchLayer;
+        $this->searchData = $searchData;
+        $this->queryFactory = $queryFactory;
     }
 
     /**
@@ -63,22 +63,22 @@ class Recommendations
      */
     public function getSearchRecommendations()
     {
-        $productCollection = $this->_searchLayer->getProductCollection();
-        $searchQueryText = $this->_catalogSearchData->getQuery()->getQueryText();
+        $productCollection = $this->searchLayer->getProductCollection();
+        $searchQueryText = $this->queryFactory->getQuery()->getQueryText();
 
         $params = array('store_id' => $productCollection->getStoreId());
 
-        $searchRecommendationsEnabled = (bool)$this->_searchData->getSearchConfigData(
+        $searchRecommendationsEnabled = (bool)$this->searchData->getSearchConfigData(
             'search_recommendations_enabled'
         );
-        $searchRecommendationsCount = (int)$this->_searchData->getSearchConfigData('search_recommendations_count');
+        $searchRecommendationsCount = (int)$this->searchData->getSearchConfigData('search_recommendations_count');
 
         if ($searchRecommendationsCount < 1) {
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
             /** @var \Magento\Solr\Model\Resource\Recommendations $recommendations */
-            $recommendations = $this->_recommendationsFactory->create();
+            $recommendations = $this->recommendationsFactory->create();
             return $recommendations->getRecommendationsByQuery(
                 $searchQueryText,
                 $params,

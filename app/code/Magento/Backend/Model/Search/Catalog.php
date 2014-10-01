@@ -7,6 +7,8 @@
  */
 namespace Magento\Backend\Model\Search;
 
+use Magento\CatalogSearch\Model\QueryFactory;
+
 /**
  * Search Catalog Model
  */
@@ -15,9 +17,9 @@ class Catalog extends \Magento\Framework\Object
     /**
      * Catalog search data
      *
-     * @var \Magento\CatalogSearch\Helper\Data
+     * @var \Magento\CatalogSearch\Model\QueryFactory
      */
-    protected $_catalogSearchData = null;
+    protected $queryFactory = null;
 
     /**
      * Magento string lib
@@ -36,16 +38,16 @@ class Catalog extends \Magento\Framework\Object
     /**
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData
+        QueryFactory $queryFactory
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         $this->string = $string;
-        $this->_catalogSearchData = $catalogSearchData;
+        $this->queryFactory = $queryFactory;
     }
 
     /**
@@ -61,7 +63,7 @@ class Catalog extends \Magento\Framework\Object
             return $this;
         }
 
-        $collection = $this->_catalogSearchData->getQuery()->getSearchCollection()->addAttributeToSelect(
+        $collection = $this->queryFactory->getQuery()->getSearchCollection()->addAttributeToSelect(
             'name'
         )->addAttributeToSelect(
             'description'
