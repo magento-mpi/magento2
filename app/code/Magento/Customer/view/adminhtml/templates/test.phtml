@@ -4,6 +4,7 @@
             "customer_form_data": {
                 "path": "Magento_Ui/js/form/provider/provider",
                 "meta": {
+
                     "customer": {
                         "website": {
                             "index": "website",
@@ -20,6 +21,7 @@
                         "currencies": {
                             "index": "currencies",
                             "input_type": "multiple_select",
+                            "label": "Currencies",
                             "options": {
                                 "dut": "Dutch money",
                                 "ua": "Ukraine money",
@@ -116,32 +118,10 @@
                             "input_type": "checkbox",
                             "description": "Disable Automatic Group Change Based on VAT ID"
                         },
-                        "addresses": {
-                            "meta_ref": "address"
-                        }
-                    },
-                    "address": {
-                        "template": "customer/form/address",
-                        "input_type": "collection",
-                        "title": "Edit Customer's Address",
-                        "label": "New Customer Address",
-                        "prefix": {
-                            "index": "prefix",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Prefix"
-                        },
-                        "suffix": {
-                            "index": "suffix",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Suffix"
-                        },
-                        "firstname": {
-                            "index": "firstname",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "First name"
+                        "comments": {
+                            "input_type": "textarea",
+                            "label": "Comments",
+                            "index": "comments"
                         }
                     }
                 },
@@ -154,7 +134,8 @@
                         "price": "123.45",
                         "send_email": true,
                         "disable_auto": false,
-                        "general": "0",
+                        "general": 0,
+                        "comments": "Some commentary",
                         "addresses": [
                             {
                                 "active": true,
@@ -260,9 +241,7 @@
                         ]
                     },
                     "customer_addresses": {
-                        "injections": [
-                            "customer_form_fieldsets.customer_addresses"
-                        ]
+                        "injections": []
                     }
                 }
             },
@@ -330,6 +309,16 @@
                         "injections": [
                             "customer.send_email"
                         ]
+                    },
+                    "currencies": {
+                        "injections": [
+                            "customer.currencies"
+                        ]
+                    },
+                    "comments": {
+                        "injections": [
+                            "customer.comments"
+                        ]
                     }
                 }
             },
@@ -349,14 +338,15 @@
                             "customer_form_groups.email",
                             "customer_form_groups.taxvat",
                             "customer_form_groups.gender",
-                            "customer_form_groups.send_email"
+                            "customer_form_groups.send_email",
+                            "customer_form_groups.currencies",
+                            "customer_form_groups.comments"
                         ]
                     },
                     "customer_addresses": {
                         "label": "Customer Addresses",
                         "collapsible": true,
-                        "injections": [
-                        ]
+                        "injections": []
                     }
                 }
             }

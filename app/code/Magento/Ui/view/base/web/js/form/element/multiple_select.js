@@ -32,10 +32,7 @@ define([
 
             if (utils.isArray(value)) {
                 formattedValue = value.map(function (value) {
-                    return {
-                        value: value,
-                        label: indexedOptions[value].label
-                    }
+                    return indexedOptions[value];
                 });
             }
 
