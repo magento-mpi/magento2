@@ -11,6 +11,7 @@ namespace Magento\Backend\Model\Session;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Framework\Session\Config;
+use Magento\Framework\App\Filesystem;
 
 /**
  * Magento Backend session configuration
@@ -25,9 +26,14 @@ class AdminConfig extends Config
     const SESSION_NAME_ADMIN = 'admin';
 
     /**
-     * @var FrontNameResolver $frontNameResolver
+     * @var FrontNameResolver
      */
-    protected $frontNameResolver;
+    protected $_frontNameResolver;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Framework\ValidatorFactory $validatorFactory
@@ -37,6 +43,7 @@ class AdminConfig extends Config
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param string $scopeType
      * @param FrontNameResolver $frontNameResolver
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
@@ -52,6 +59,7 @@ class AdminConfig extends Config
         \Magento\Framework\App\Filesystem $filesystem,
         $scopeType,
         FrontNameResolver $frontNameResolver,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         $saveMethod = \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
         $cacheLimiter = null,
@@ -71,7 +79,8 @@ class AdminConfig extends Config
             $lifetimePath
         );
 
-        $this->frontNameResolver = $frontNameResolver;
+        $this->_frontNameResolver = $frontNameResolver;
+        $this->_storeManager = $storeManager;
         $adminPath = $this->extractAdminPath();
         $this->setCookiePath($adminPath);
         $this->setName($sessionName);
@@ -84,12 +93,14 @@ class AdminConfig extends Config
      */
     private function extractAdminPath()
     {
-        $baseUrl = $this->_httpRequest->getBaseUrl();
-        $adminPath = $this->frontNameResolver->getFrontName();
-
-        if (!substr($baseUrl, -1) || ('/' != substr($baseUrl, -1))) {
-            $baseUrl = $baseUrl . '/';
+        if (strpos($this->_httpRequest->getBaseUrl(), Filesystem::PUB_DIR)) {
+            $baseUrl = '/' . Filesystem::PUB_DIR . '/';
         }
+        else {
+            $parsedUrl = parse_url($this->_storeManager->getStore()->getBaseUrl());
+            $baseUrl = $parsedUrl['path'];
+        }
+        $adminPath = $this->_frontNameResolver->getFrontName();
 
         return $baseUrl . $adminPath;
     }
