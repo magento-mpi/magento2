@@ -15,7 +15,7 @@ define([
          * Invokes initialize method of parent class.
          */
         initialize: function () {
-            this.constructor.__super__.initialize.apply(this, arguments);
+            AbstractElement.prototype.initialize.apply(this, arguments);
         }
     });
 });
