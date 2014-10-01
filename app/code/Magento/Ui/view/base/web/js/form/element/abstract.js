@@ -8,8 +8,9 @@ define([
     'Magento_Ui/js/lib/ko/scope',
     'underscore',
     'mage/utils',
-    'jquery'
-], function (Scope, _, utils, $) {
+    'jquery',
+    'Magento_Ui/js/lib/events'
+], function (Scope, _, utils, $, EventsBus) {
     'use strict';
 
     var defaults = {
@@ -34,8 +35,9 @@ define([
             $.extend(true, this, defaults, config, refs);
 
             this.uid = utils.uniqueid();
+            this.initValue = this.value;
             this.observe('value', this.value);
-            this.value.subscribe(this.store, this);
+            this.value.subscribe(this.onUpdate, this);
         },
 
         /**
@@ -53,6 +55,15 @@ define([
          */
         getTemplate: function () {
             return this.meta.module + '/form/element/' + this.type;
+        },
+
+        onUpdate: function(){
+            this.trigger('update')
+                .store();
+        },
+
+        hasChanged: function(){
+            return this.value() !== this.initValue;
         }
-    });
+    }, EventsBus);
 });

@@ -40,7 +40,10 @@ define([
             elems.push.apply(elems, arguments);
 
             elems().forEach(function(elem){
-                elem.on('change', this.onChange.bind(this))
+                elem.on({
+                    'change': this.update.bind(this, true),
+                    'restore': this.update.bind(this, false)
+                });
             }, this);
 
             return this;
@@ -63,17 +66,15 @@ define([
             return this;
         },
 
-        onChange: function(){
+        update: function(changed){
             var params  = this.provider.params,
-                changed = params.get('changedAreas') || [];
+                areas   = params.get('changedAreas') || [];
 
-            if( !~changed.indexOf(this.name) ){
-                changed.push(this.name);
+            areas = changed ?
+                _.union(areas, [this.name]) :
+                _.without(areas, this.name);
 
-                params.set('changedAreas', changed);
-            }
-            
-            return this;
+            params.set('changedAreas', areas);
         }
     });
 

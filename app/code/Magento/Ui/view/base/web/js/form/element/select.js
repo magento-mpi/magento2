@@ -40,6 +40,10 @@ define([
             return _.map(this.meta.options, function (value, key) {
                 return { value: key, label: value  };
             });
+        },
+
+        hasChanged: function(){
+            return false;
         }
     });
 });

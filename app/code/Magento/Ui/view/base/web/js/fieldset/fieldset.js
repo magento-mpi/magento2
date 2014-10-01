@@ -42,7 +42,7 @@ define([
 
             elems().forEach(function(elem){
                 if(elem.on){
-                    elem.on('change', this.trigger.bind(this, 'change'));
+                    elem.on('update', this.onElementUpdate.bind(this));
                 }
             }, this);
         },
@@ -59,6 +59,17 @@ define([
 
         getTemplate: function(){
             return this.template;
+        },
+
+        onElementUpdate: function(){
+            var elems = this.elems(),
+                changed;
+
+            elems.some(function(elem){
+                return (changed = elem.hasChanged());
+            });
+
+            this.trigger(changed ? 'change' : 'restore');
         }
     }, EventsBus);
 
