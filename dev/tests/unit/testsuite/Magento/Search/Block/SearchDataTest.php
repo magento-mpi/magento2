@@ -11,13 +11,13 @@ namespace Magento\Search\Block;
 use Magento\TestFramework\Helper\ObjectManager;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
+class SearchDataTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * @var \Magento\Search\Model\QueryFactoryInterface|MockObject
      */
-    private $queryManager;
+    private $queryFactory;
 
     /**
      * @var \Magento\CatalogSearch\Model\Query|MockObject
@@ -37,44 +37,40 @@ class AdditionalInfoTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
 
-        $this->dataProvider = $this->getMockBuilder('\Magento\Search\Model\AdditionalInfoDataProviderInterface')
+        $this->dataProvider = $this->getMockBuilder('\Magento\Search\Model\SearchDataProviderInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['getSearchResult', 'isCountResultsEnabled'])
+            ->setMethods(['getSearchData', 'isCountResultsEnabled'])
             ->getMockForAbstractClass();
 
         $this->searchQuery = $this->getMockBuilder('\Magento\Search\Model\QueryInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getQueryText'])
             ->getMockForAbstractClass();
-        $this->queryManager = $this->getMockBuilder('\Magento\Search\Model\QueryFactoryInterface')
+        $this->queryFactory = $this->getMockBuilder('\Magento\Search\Model\QueryFactoryInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getQuery'])
             ->getMockForAbstractClass();
-        $this->queryManager->expects($this->once())
+        $this->queryFactory->expects($this->once())
             ->method('getQuery')
             ->will($this->returnValue($this->searchQuery));
         $this->block = $objectManager->getObject(
-            '\Magento\Search\Block\AdditionalInfo',
+            '\Magento\Search\Block\SearchData',
             [
-                'additionalInfoDataProvider' => $this->dataProvider,
-                'queryManager' => $this->queryManager,
+                'searchDataProvider' => $this->dataProvider,
+                'queryFactory' => $this->queryFactory,
             ]
         );
     }
 
     public function testGetSuggestions()
     {
-        $searchQuery = 'Some test search query';
         $value = [1, 2, 3, 100500,];
-        $this->searchQuery->expects($this->once())
-            ->method('getQueryText')
-            ->will($this->returnValue($searchQuery));
 
         $this->dataProvider->expects($this->once())
-            ->method('getSearchResult')
-            ->with($searchQuery)
+            ->method('getSearchData')
+            ->with($this->searchQuery)
             ->will($this->returnValue($value));
-        $actualValue = $this->block->getAdditionalInfo();
+        $actualValue = $this->block->getSearchData();
         $this->assertEquals($value, $actualValue);
     }
 

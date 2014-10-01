@@ -55,7 +55,7 @@ class SearchData extends Template implements SearchDataInterface
     /**
      * {@inheritdoc}
      */
-    public function getAdditionalInfo()
+    public function getSearchData()
     {
         return $this->searchDataProvider->getSearchData($this->query);
     }

@@ -14,7 +14,7 @@ interface SearchDataInterface
      *
      * @return array
      */
-    public function getAdditionalInfo();
+    public function getSearchData();
 
     /**
      * @return bool
