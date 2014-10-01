@@ -129,6 +129,8 @@
     <block class="Magento\Ui\Component\Form" name="form">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form/default.phtml</argument>
+            <argument name="save_url" xsi:type="string">mui/form/save</argument>
+            <argument name="validate_url" xsi:type="string">mui/form/validate</argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Fieldset" name="fieldset">

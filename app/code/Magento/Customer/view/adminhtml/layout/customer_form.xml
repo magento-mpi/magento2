@@ -10,6 +10,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <referenceBlock name="form">
         <arguments>
+            <argument name="save_mca" xsi:type="string">customer\index\save</argument>
+            <argument name="validate_mca" xsi:type="string">customer\index\validate</argument>
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>

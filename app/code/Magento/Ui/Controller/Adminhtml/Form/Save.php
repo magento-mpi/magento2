@@ -8,7 +8,10 @@
  */
 namespace Magento\Ui\Controller\Adminhtml\Form;
 
-class Save extends \Magento\Backend\App\Action
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Element\UiComponentFactory;
+
+class Save extends \Magento\Ui\Controller\Adminhtml\AbstractAction
 {
     /**
      * Action for AJAX request
@@ -17,8 +20,8 @@ class Save extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $this->_response->appendBody(
-            $this->_request->getParam('response')
-        );
+        $formElement = $this->factory->createUiComponent($this->getComponent(), $this->getName());
+        list($module, $controller, $action) = explode('\\', $formElement->getSaveMca());
+        $this->_forward($action, $controller, $module, $this->getRequest()->getParams());
     }
 }

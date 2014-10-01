@@ -8,7 +8,7 @@
  */
 namespace Magento\Ui\Controller\Adminhtml\Form;
 
-class Validate extends \Magento\Backend\App\Action
+class Validate extends \Magento\Ui\Controller\Adminhtml\AbstractAction
 {
     /**
      * Action for AJAX request
@@ -17,8 +17,8 @@ class Validate extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $this->_response->appendBody(
-            $this->_request->getParam('response')
-        );
+        $formElement = $this->factory->createUiComponent($this->getComponent(), $this->getName());
+        list($module, $controller, $action) = explode('\\', $formElement->getValidateMca());
+        $this->_forward($action, $controller, $module, $this->getRequest()->getParams());
     }
 }
