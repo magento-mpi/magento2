@@ -7,13 +7,15 @@
 define([
     './element/input',
     './element/select',
-    './element/price'
-], function (Input, Select, Price) {
+    './element/price',
+    './element/email'
+], function (Input, Select, Price, Email) {
     'use strict';
 
     return {
         input: Input,
         select: Select,
-        price: Price
+        price: Price,
+        email: Email
     }
 });
