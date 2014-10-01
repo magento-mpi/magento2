@@ -53,7 +53,6 @@ class CreatePageTest extends Functional
 
         $cmsPage = Factory::getPageFactory()->getCmsPage();
         $browser = Factory::getClientBrowser();
-        $browser->open($_ENV['app_frontend_url'] . $cmsPageFixture->getIdentifier());
         $browser->selectWindow();
         $cmsPageBlock = $cmsPage->getCmsPageBlock();
         // Verify the Cms Page content
