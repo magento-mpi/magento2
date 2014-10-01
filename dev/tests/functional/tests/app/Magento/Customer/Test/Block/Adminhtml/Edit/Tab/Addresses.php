@@ -17,7 +17,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Class Addresses
  * Customer addresses edit block
- *
  */
 class Addresses extends Tab
 {
@@ -74,6 +73,9 @@ class Addresses extends Tab
      * @param FixtureInterface|FixtureInterface[] $address
      * @return $this
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function updateAddresses($address)
     {
@@ -148,6 +150,8 @@ class Addresses extends Tab
      * @param array|null $fields
      * @param Element|null $element
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getDataFormTab($fields = null, Element $element = null)
     {
