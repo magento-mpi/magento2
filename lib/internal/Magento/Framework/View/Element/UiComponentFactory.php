@@ -121,6 +121,7 @@ class UiComponentFactory extends Object
             if (!$this->layoutLoaded) {
                 $this->layoutLoaded = true;
                 $this->layout = $this->layoutFactory->create();
+                $this->renderContext->setLayout($this->layout);
                 $this->layout->getUpdate()->addHandle('ui_components');
                 $this->layout->getUpdate()->addHandle($handleName);
                 $this->loadLayout();

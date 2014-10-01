@@ -8,5 +8,9 @@
 /**
  * @var \Magento\Ui\Component\Form\Fieldset $this
  */
-
 ?>
+<fieldset>
+    <?php foreach ($this->getElements() as $element): ?>
+        <?php echo $element->render(); ?>
+    <?php endforeach; ?>
+</fieldset>

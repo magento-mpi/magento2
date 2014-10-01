@@ -41,7 +41,7 @@
 
                 <!-- address info -->
                 <item name="address_info" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
+                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\CustomerAddressCollection</item>
                     <item name="arguments" xsi:type="array">
                         <item name="meta" xsi:type="array">
                             <item name="custom_field2" xsi:type="array">

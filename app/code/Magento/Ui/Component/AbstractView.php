@@ -332,7 +332,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
         if ($this->hasData('data_provider_pool')) {
             foreach ($this->getData('data_provider_pool') as $name => $config) {
                 $arguments = empty($config['arguments']) ? [] : $config['arguments'];
-                $arguments['arguments']['params'] = $this->renderContext->getRequestParams();
+                $arguments['params'] = $this->renderContext->getRequestParams();
 
                 $dataProvider = $this->dataProviderFactory->create($config['class'], $arguments);
                 $this->renderContext->getStorage()->addDataProvider($name, $dataProvider);

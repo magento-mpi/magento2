@@ -7,26 +7,21 @@
  */
 namespace Magento\Customer\Ui\DataProvider;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Ui\DataProvider\DataProviderEntityInterface;
+use Magento\Customer\Service\V1\AddressMetadataService;
+use Magento\Ui\DataProvider\DataProviderCollectionInterface;
 use Magento\Customer\Model\Customer as CustomerObject;
 
 /**
- * Class Customer
+ * Class CustomerAddressCollection
  */
-class Customer implements DataProviderEntityInterface
+class CustomerAddressCollection implements DataProviderCollectionInterface
 {
     /**
      * Customer meta
      *
-     * @var CustomerMetadataServiceInterface
+     * @var AddressMetadataService
      */
-    protected $customerMeta;
-
-    /**
-     * @var CustomerObject
-     */
-    protected $customer;
+    protected $customerAddressMeta;
 
     /**
      * Data provider arguments
@@ -38,17 +33,14 @@ class Customer implements DataProviderEntityInterface
     /**
      * Constructor
      *
-     * @param CustomerMetadataServiceInterface $customerMeta
-     * @param CustomerObject $customer
+     * @param AddressMetadataService $customerAddressMeta
      * @param array $arguments
      */
     public function __construct(
-        CustomerMetadataServiceInterface $customerMeta,
-        CustomerObject $customer,
+        AddressMetadataService $customerAddressMeta,
         array $arguments = []
     ) {
-        $this->customerMeta = $customerMeta;
-        $this->customer = $customer;
+        $this->customerMeta = $customerAddressMeta;
         $this->arguments = $arguments;
     }
 
@@ -60,7 +52,7 @@ class Customer implements DataProviderEntityInterface
     public function getMeta()
     {
         $metaResult = [];
-        foreach ($this->customerMeta->getAttributes('adminhtml_customer') as $name => $dataObject) {
+        foreach ($this->customerMeta->getAttributes('adminhtml_customer_address') as $name => $dataObject) {
             $metaResult[$name] = $dataObject->__toArray();
         }
 
@@ -97,5 +89,16 @@ class Customer implements DataProviderEntityInterface
     protected function getArguments($key)
     {
         return isset($this->arguments[$key]) ? $this->arguments[$key] : null;
+    }
+
+    /**
+     * Add a filter to the data
+     *
+     * @param array $filter
+     * @return void
+     */
+    public function addFilter(array $filter)
+    {
+
     }
 }
