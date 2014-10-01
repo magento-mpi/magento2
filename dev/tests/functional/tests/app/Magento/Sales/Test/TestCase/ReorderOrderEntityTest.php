@@ -63,9 +63,9 @@ class ReorderOrderEntityTest extends Scenario
                         ],
                         'openOrder' => [
                             'module' => 'Magento_Sales',
-                            'next' => 'onReorder'
+                            'next' => 'reorder'
                         ],
-                        'onReorder' => [
+                        'reorder' => [
                             'module' => 'Magento_Sales',
                             'next' => 'applySalesRuleOnBackend'
                         ],

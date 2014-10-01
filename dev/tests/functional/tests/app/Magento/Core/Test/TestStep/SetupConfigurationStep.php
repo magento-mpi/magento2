@@ -32,9 +32,9 @@ class SetupConfigurationStep implements TestStepInterface
     protected $configData;
 
     /**
-     * Rollback data
+     * Rollback
      *
-     * @var string
+     * @var bool
      */
     protected $rollback;
 
