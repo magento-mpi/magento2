@@ -9,6 +9,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Search\Block\SearchData">
+        <arguments>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>
+        </arguments>
+    </type>
     <type name="Magento\Search\Block\Recommendations">
         <arguments>
             <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>

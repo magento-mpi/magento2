@@ -19,7 +19,6 @@ use Magento\Framework\Escaper;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Stdlib\String;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Search\Model\QueryFactoryInterface;
 
 /**
  * Catalog search helper
