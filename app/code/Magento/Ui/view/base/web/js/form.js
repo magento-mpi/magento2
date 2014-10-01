@@ -47,7 +47,6 @@ define(function (require) {
             var target,
                 isObject,
                 reference,
-                config,
                 value,
                 path = '';
 
@@ -65,14 +64,14 @@ define(function (require) {
                         delete target['meta_ref'];
                     }
                     
-                    config  = {
-                        meta: target,
+                    _.extend(target, {
                         name: path,
                         type: target.input_type,
+                        refs: this.refs,
                         value: utils.nested(data, path)
-                    };
+                    });
 
-                    this.initElement(config);
+                    this.initElement(target);
                 } else if (isObject) {
                     this.initElements(target, path);            
                 }
@@ -81,7 +80,7 @@ define(function (require) {
 
         initElement: function (config) {
             var constr  = elements[config.type],
-                element = new constr(config, this.refs);
+                element = new constr(config);
 
             this.register(element);
         },

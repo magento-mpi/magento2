@@ -8,8 +8,9 @@ define([
     'underscore',
     'Magento_Ui/js/lib/collection',
     'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/events'
-], function(_, Collection, Scope, EventsBus) {
+    'Magento_Ui/js/lib/events',
+    'mage/utils'
+], function(_, Collection, Scope, EventsBus, utils) {
     'use strict';
 
     var defaults = {
@@ -24,7 +25,7 @@ define([
 
         if(!label){
             elems.some(function(elem){
-                return (label = elem.meta.label);
+                return (label = elem.label);
             });
         }
 
@@ -35,13 +36,15 @@ define([
         var elems = obj.elems;
 
         return elems.some(function(elem){
-            return elem.meta.required;
+            return elem.required();
         });
     }
 
     var FormGroup = Scope.extend({
         initialize: function(config) {
             _.extend(this, defaults, config);
+
+            this.uid = utils.uniqueid();
 
             this.extractData()
                 .initListeners();
@@ -73,6 +76,21 @@ define([
             return elems.some(function(elem){
                 return elem.hasChanged();
             });
+        },
+
+        /**
+         * Returns array of classes to apply to field container
+         * @return {Array} - array of css classes
+         */
+        getElementClass: function () {
+            var classes  = ['field-' + this.type],
+                required = this.required;
+
+            if (required) {
+                classes.push('required');
+            }
+
+            return classes;
         }
     }, EventsBus);
 

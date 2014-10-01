@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 -->
-<div class="field" data-bind="css: { 'required': required }">
-    <label class="label">
+<div class="field" data-bind="class: getElementClass()">
+    <label class="label" data-bind="attr: { for: uid }">
         <span data-bind="text: label"></span>
     </label>
     <div class="control">

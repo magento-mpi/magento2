@@ -7,23 +7,19 @@
 define([
     'Magento_Ui/js/form/elements',
     'Magento_Ui/js/lib/ko/scope',
-    'underscore',
-    'jquery',
-    'ko'
-], function (controls, Scope, _, $, ko) {
+    'underscore'
+], function (controls, Scope, _) {
     'use strict';
 
     var defaults = {
-        meta: {
-            title: '',
-            template: 'ui/form/collection'
-        }
+        title: '',
+        template: 'ui/form/collection'
     };
 
     return Scope.extend({
 
-        initialize: function (config, refs) {
-            $.extend(true, this, defaults, config, { refs: refs });
+        initialize: function (config) {
+            _.extend(this, defaults, config);
 
             this.initItems();
         },
@@ -44,21 +40,22 @@ define([
         },
 
         initElement: function (value, name) {
-            var meta    = this.meta[name],
-                type    = meta.input_type,
-                constr  = controls[type],
-                element = new constr({
-                    type: type,
-                    meta: meta,
-                    name: name,
-                    value: value
-                }, this.refs);
+            var config  = this[name],
+                type    = config.input_type,
+                constr  = controls[type];
 
-            return element;
+            _.extend(config, {
+                name: name,
+                value: value,
+                refs: this.refs,
+                type: type
+            });
+
+            return new constr(config);
         },
 
         getTemplate: function () {
-            return this.meta.template;
+            return this.template;
         }
     });
 });
