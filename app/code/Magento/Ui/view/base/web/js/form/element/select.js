@@ -29,6 +29,8 @@ define([
             this.constructor.__super__.initialize.apply(this, arguments);
 
             this.options = this.meta.options ? this.formatOptions() : [];
+
+            this.setInitialValue();
         },
 
         /**
@@ -40,6 +42,20 @@ define([
             return _.map(this.meta.options, function (value, key) {
                 return { value: key, label: value  };
             });
+        },
+
+        /**
+         * Sets initial value of select by looking up through options.
+         */
+        setInitialValue: function () {
+            var value = this.value() + '',
+                options;
+
+            if (value) {
+                options = _.indexBy(this.options, 'value');
+                value = options[value];
+                this.value(value);    
+            }
         }
     });
 });
