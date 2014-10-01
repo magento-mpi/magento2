@@ -6,18 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Constraint;
+namespace Magento\Shipping\Test\Constraint;
 
 use Magento\Sales\Test\Page\OrderView;
-use Magento\Sales\Test\Page\InvoiceView;
+use Magento\Shipping\Test\Page\ShipmentView;
 use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Constraint\AbstractAssertOrderOnFrontend;
 
 /**
- * Class AssertInvoicedAmountOnFrontend
- * Assert that invoiced Grand Total amount is equal to placed order Grand total amount on invoice page (frontend)
+ * Class AssertShipTotalQuantity
+ * Assert that shipped items quantity in 'Total Quantity' is equal to data from fixture on My Account page
  */
-class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
+class AssertShipTotalQuantity extends AbstractAssertOrderOnFrontend
 {
     /**
      * Constraint severeness
@@ -27,12 +28,12 @@ class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
     protected $severeness = 'low';
 
     /**
-     * Assert that invoiced Grand Total amount is equal to placed order Grand total amount on invoice page (frontend)
+     * Assert that shipped items quantity in 'Total Quantity' is equal to data from fixture on My Account page
      *
      * @param OrderHistory $orderHistory
      * @param OrderInjectable $order
      * @param OrderView $orderView
-     * @param InvoiceView $invoiceView
+     * @param ShipmentView $shipmentView
      * @param array $ids
      * @return void
      */
@@ -40,16 +41,17 @@ class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
         OrderHistory $orderHistory,
         OrderInjectable $order,
         OrderView $orderView,
-        InvoiceView $invoiceView,
+        ShipmentView $shipmentView,
         array $ids
     ) {
+        $totalQty = $order->getTotalQtyOrdered();
         $this->loginCustomerAndOpenOrderPage($order->getDataFieldConfig('customer_id')['source']->getCustomer());
         $orderHistory->getOrderHistoryBlock()->openOrderById($order->getId());
-        $orderView->getOrderViewBlock()->openLinkByName('Invoices');
-        foreach ($ids['invoiceIds'] as $key => $invoiceId) {
+        $orderView->getOrderViewBlock()->openLinkByName('Order Shipments');
+        foreach ($ids['shipmentIds'] as $key => $shipmentIds) {
             \PHPUnit_Framework_Assert::assertEquals(
-                number_format($order->getPrice()[$key]['grand_invoice_total'], 2),
-                $invoiceView->getInvoiceBlock()->getItemInvoiceBlock($invoiceId)->getGrandTotal()
+                $totalQty[$key],
+                $shipmentView->getShipmentBlock()->getItemShipmentBlock($shipmentIds)->getTotalQty()
             );
         }
     }
@@ -61,6 +63,6 @@ class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
      */
     public function toString()
     {
-        return 'Invoiced Grand Total amount is equal to placed order Grand Total amount on invoice page.';
+        return 'Shipped items quantity is equal to data from fixture on My Account page.';
     }
 }
