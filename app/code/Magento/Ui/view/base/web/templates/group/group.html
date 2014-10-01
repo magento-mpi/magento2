@@ -1,0 +1,18 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<div class="field" data-bind="css: { 'required': required }">
+    <label class="label">
+        <span data-bind="text: label"></span>
+    </label>
+    <div class="control">
+        <!-- ko foreach: elems -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
