@@ -227,5 +227,10 @@
             "Magento\\Framework\\": ["lib/internal/Magento/Framework/"],
             "Magento\\": ["app/code/Magento/"]
         }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "Magento\\Tools\\I18n\\" : ["dev/tools/Magento/Tools/I18n/"]
+        }
     }
 }
