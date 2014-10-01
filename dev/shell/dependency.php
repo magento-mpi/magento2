@@ -28,8 +28,9 @@ $componentsByName = [];
 
 define(
 'USAGE',
-"Usage: php -f dependency.php -- [--list] [--component-dependencies component_name] [--component-dependents component_name]
-    [--module-dependencies module-name] [--module-dependents module-name] [--direct-dependency-only]
+"Usage: php -f dependency.php -- [--list-modules] [--list-components][--list-component-dependencies component_name]
+    [--list-component-dependents component_name] [--list-module-dependencies module-name]
+    [--list module-dependents module-name] [--direct-dependency-only]
     --help - print usage message
     --list-modules - list all modules in order of module dependency
     --list-components - list all components in order or dependency, a component consists of circular dependent modules
@@ -46,11 +47,11 @@ $opt = getopt(
         'help',
         'list-modules',
         'list-components',
-        'direct-dependency-only',
         'list-component-dependencies:',
         'list-component-dependents:',
         'list-module-dependencies:',
         'list-module-dependents:',
+        'direct-dependency-only',
     ]
 );
 
