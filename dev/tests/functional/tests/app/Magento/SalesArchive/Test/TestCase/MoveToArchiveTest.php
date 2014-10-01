@@ -60,34 +60,31 @@ class MoveToArchiveTest extends Injectable
     /**
      * Enable Check/Money Order", "Flat Rate" in configuration
      *
+     * @param ObjectManager $objectManager
      * @param FixtureFactory $fixtureFactory
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(ObjectManager $objectManager, FixtureFactory $fixtureFactory)
     {
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
-        $configPayment->persist();
+        $this->objectManager = $objectManager;
+        $this->fixtureFactory = $fixtureFactory;
 
-        $configShipping = $fixtureFactory->createByCode('configData', ['dataSet' => 'flatrate']);
-        $configShipping->persist();
+        $setupConfigurationStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'checkmo, flatrate']
+        );
+        $setupConfigurationStep->run();
     }
 
     /**
      * Injection data
      *
      * @param OrderIndex $orderIndex
-     * @param FixtureFactory $fixtureFactory
-     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __inject(
-        OrderIndex $orderIndex,
-        FixtureFactory $fixtureFactory,
-        ObjectManager $objectManager
-    ) {
+    public function __inject(OrderIndex $orderIndex)
+    {
         $this->orderIndex = $orderIndex;
-        $this->fixtureFactory = $fixtureFactory;
-        $this->objectManager = $objectManager;
     }
 
     /**
@@ -120,17 +117,17 @@ class MoveToArchiveTest extends Injectable
      *
      * @param OrderInjectable $order
      * @param string $steps
-     * @throws \Exception
+     * @param string $module
      * @return array
      */
-    protected function processSteps(OrderInjectable $order, $steps)
+    protected function processSteps(OrderInjectable $order, $steps, $module = 'Sales')
     {
         $steps = array_diff(explode(',', $steps), ['-']);
         $ids = [];
         foreach ($steps as $step) {
             $action = str_replace(' ', '', ucwords($step));
-            $methodAction = 'Create' . $action;
-            $path = 'Magento\Sales\Test\TestStep';
+            $methodAction = 'Create' . $action . 'Step';
+            $path = 'Magento\\' . $module . '\Test\TestStep';
             $processStep = $this->objectManager->create($path . '\\' . $methodAction, ['order' => $order]);
             $ids = array_replace($ids, $processStep->run());
         }
