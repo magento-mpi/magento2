@@ -10,12 +10,10 @@ namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Shipping;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Fixture\Order;
 
 /**
  * Class Method
  * Adminhtml sales order create shipping method block
- *
  */
 class Method extends Block
 {
@@ -36,12 +34,11 @@ class Method extends Block
     /**
      * Select shipping method
      *
-     * @param Order $fixture
+     * @param array $shippingMethod
      */
-    public function selectShippingMethod(Order $fixture)
+    public function selectShippingMethod(array $shippingMethod)
     {
         $this->_rootElement->find($this->shippingMethodsLink)->click();
-        $shippingMethod = $fixture->getShippingMethod()->getData('fields');
         $selector = sprintf(
             $this->shippingMethod,
             $shippingMethod['shipping_service'],
