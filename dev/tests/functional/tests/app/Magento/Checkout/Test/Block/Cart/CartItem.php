@@ -38,6 +38,13 @@ class CartItem extends AbstractCartItem
     protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
+     * product in the mimi shopping cart locator
+     *
+     * @var string
+     */
+    protected $product = '//div[contains(@class,"product details product-item-details")]//a[text()="%s"]';
+
+    /**
      * Get product name
      *
      * @return string
@@ -187,5 +194,27 @@ class CartItem extends AbstractCartItem
     protected function escapeCurrencyForOption($label)
     {
         return preg_replace('/^(\d+) x (\w+) \W([\d\.,]+)$/', '$1 x $2 $3', $label);
+    }
+
+    /**
+     * Remove product item from mini cart
+     *
+     * @return void
+     */
+    public function removeItemFromMiniCart()
+    {
+        $this->_rootElement->find($this->removeItem)->click();
+        $this->_rootElement->acceptAlert();
+    }
+
+    /**
+     * Check product in the mini cart
+     *
+     * @param string $productName
+     * @return bool
+     */
+    public function checkProductInMiniCart($productName)
+    {
+        return $this->_rootElement->find(sprintf($this->product, $productName), Locator::SELECTOR_XPATH)->isVisible();
     }
 }

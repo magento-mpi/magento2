@@ -35,4 +35,10 @@
     <assertCartItemsOptions module="Magento_Checkout">
         <severeness>low</severeness>
     </assertCartItemsOptions>
+    <assertProductAbsentOnMiniShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertProductAbsentOnMiniShoppingCart>
+    <assertProductPresentOnMiniShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertProductPresentOnMiniShoppingCart>
 </constraint>

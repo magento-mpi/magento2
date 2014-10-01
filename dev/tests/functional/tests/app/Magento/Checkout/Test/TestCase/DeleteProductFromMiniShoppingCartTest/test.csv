@@ -1,0 +1,3 @@
+"description";"productsData";"constraint"
+"delete Simple";"catalogProductSimple::default";"assertCartIsEmpty"
+"delete Simple";"catalogProductSimple::default, catalogProductVirtual::default";"assertProductAbsentOnMiniShoppingCart, assertProductPresentOnMiniShoppingCart"
