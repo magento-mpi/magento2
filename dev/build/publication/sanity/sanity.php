@@ -12,8 +12,6 @@ if (file_exists($vendorAutoload)) {
     require_once $vendorAutoload;
 }
 
-require_once __DIR__ . '/Magento/Tools/Sanity/SanityWordsFinder.php';
-
 define(
     'USAGE',
 <<<USAGE
