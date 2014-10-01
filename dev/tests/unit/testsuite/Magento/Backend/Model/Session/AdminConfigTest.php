@@ -118,9 +118,9 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function setCookiePathNonDefaultDataProvider()
     {
-        $pub_dir = \Magento\Framework\App\Filesystem::PUB_DIR;
-        $static_dir = \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR;
-        return array(array('', '/'), array('/' . $pub_dir, '/' . $pub_dir . '/' . $static_dir . '/'));
+        $pubDir = \Magento\Framework\App\Filesystem::PUB_DIR;
+        $staticDir = \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR;
+        return array(array('', '/'), array('/' . $pubDir, '/' . $pubDir . '/' . $staticDir . '/'));
     }
 
     /**
