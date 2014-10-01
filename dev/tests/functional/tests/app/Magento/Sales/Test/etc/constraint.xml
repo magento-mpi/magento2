@@ -54,6 +54,9 @@
     <assertOrderOnHoldSuccessMessage module="Magento_Sales">
         <severeness>high</severeness>
     </assertOrderOnHoldSuccessMessage>
+    <assertOrderMassOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderMassOnHoldSuccessMessage>
     <assertUnholdButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertUnholdButton>
@@ -102,4 +105,7 @@
     <assertOrderReleaseFailMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderReleaseFailMessage>
+    <assertReorderStatusIsCorrect module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertReorderStatusIsCorrect>
 </constraint>

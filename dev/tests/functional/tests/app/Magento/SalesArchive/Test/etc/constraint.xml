@@ -44,4 +44,31 @@
     <assertArchiveShipmentItems module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertArchiveShipmentItems>
+    <assertArchiveOrdersInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrdersInGrid>
+    <assertArchiveOrderCancelMassActionSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderCancelMassActionSuccessMessage>
+    <assertArchiveOrderCancelMassActionErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderCancelMassActionErrorMessage>
+    <assertArchiveOrderOnHoldSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderOnHoldSuccessMessage>
+    <assertArchiveOrderOnHoldErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderOnHoldErrorMessage>
+    <assertArchiveOrderReleaseSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderReleaseSuccessMessage>
+    <assertArchiveOrderReleaseErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderReleaseErrorMessage>
+    <assertArchiveOrderSuccessRemoveMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderSuccessRemoveMessage>
+    <assertArchiveOrdersCancelMassActionsMessages module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrdersCancelMassActionsMessages>
 </constraint>

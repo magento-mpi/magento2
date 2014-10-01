@@ -40,6 +40,8 @@ use Magento\Reports\Test\Page\Adminhtml\SalesTaxReport;
  *
  * @group Reports_(MX)
  * @ZephyrId MAGETWO-28515
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class SalesTaxReportEntityTest extends Injectable
 {

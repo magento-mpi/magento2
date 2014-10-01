@@ -9,7 +9,7 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order\View;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Info;
+use Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Info as OrderInformationBlock;
 
 /**
  * Class OrderForm
@@ -27,7 +27,7 @@ class OrderForm extends FormTabs
     /**
      * Get order information block
      *
-     * @return Info
+     * @return OrderInformationBlock
      */
     public function getOrderInfoBlock()
     {

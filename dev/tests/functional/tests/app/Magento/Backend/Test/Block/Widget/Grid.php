@@ -170,6 +170,13 @@ abstract class Grid extends Block
     protected $rowTemplateStrict = 'td[text()[normalize-space()="%s"]]';
 
     /**
+     * Magento grid loader
+     *
+     * @var string
+     */
+    protected $loader = '[data-role="spinner"]';
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -216,7 +223,7 @@ abstract class Grid extends Block
         $this->resetFilter();
         $this->prepareForSearch($filter);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
-        $this->getTemplateBlock()->waitLoader();
+        $this->waitLoader();
         $this->reinitRootElement();
     }
 
@@ -237,6 +244,24 @@ abstract class Grid extends Block
         } else {
             throw new \Exception('Searched item was not found.');
         }
+    }
+
+    /**
+     * Wait loader
+     *
+     * @return void
+     */
+    protected function waitLoader()
+    {
+        $browser = $this->browser;
+        $selector = $this->loader;
+        $browser->waitUntil(
+            function () use ($browser, $selector) {
+                $productSavedMessage = $browser->find($selector);
+                return $productSavedMessage->isVisible() == false ? true : null;
+            }
+        );
+        $this->getTemplateBlock()->waitLoader();
     }
 
     /**
@@ -278,7 +303,7 @@ abstract class Grid extends Block
     {
         $this->openFilterBlock();
         $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
-        $this->getTemplateBlock()->waitLoader();
+        $this->waitLoader();
         $this->reinitRootElement();
     }
 
@@ -378,7 +403,7 @@ abstract class Grid extends Block
         $sortBlock = $this->_rootElement->find(sprintf($this->sortLink, $field, $sort));
         if ($sortBlock->isVisible()) {
             $sortBlock->click();
-            $this->getTemplateBlock()->waitLoader();
+            $this->waitLoader();
         }
         $this->reinitRootElement();
     }
