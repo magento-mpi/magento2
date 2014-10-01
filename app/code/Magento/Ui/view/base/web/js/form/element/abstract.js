@@ -72,14 +72,6 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.module + '/form/element';
-        },
-
-        /**
-         * Returns string path for element's control template
-         * @return {String}
-         */
-        getElementTemplate: function () {
             return this.module + '/form/element/' + this.type;
         },
 
@@ -96,21 +88,6 @@ define([
          */
         hasChanged: function(){
             return this.value() !== this.initialValue;
-        },
-
-        /**
-         * Returns array of classes to apply to field container
-         * @return {Array} - array of css classes
-         */
-        getElementClass: function () {
-            var classes  = ['field-' + this.type],
-                required = this.required();
-
-            if (required) {
-                classes.push('required');
-            }
-
-            return classes;
         }
     }, EventsBus);
 });

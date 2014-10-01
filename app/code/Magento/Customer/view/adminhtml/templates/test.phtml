@@ -156,7 +156,7 @@
         "components": {
             "customer_form_tabs": {
                 "name": "customer_form_tabs",
-                "path": "Magento_Ui/js/tab/group",
+                "path": "Magento_Ui/js/form/components/tab/group",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
@@ -164,7 +164,7 @@
             },
             "customer_form_areas": {
                 "name": "customer_form_areas",
-                "path": "Magento_Ui/js/area/area",
+                "path": "Magento_Ui/js/form/components/area",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
@@ -172,11 +172,16 @@
             },
             "customer_form_fieldsets": {
                 "name": "customer_form_fieldsets",
-                "path": "Magento_Ui/js/fieldset/fieldset",
+                "path": "Magento_Ui/js/form/components/fieldset",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
                 }
+            },
+            "customer_form_groups":{
+                "name": "customer_form_groups",
+                "path": "Magento_Ui/js/form/components/group",
+                "source": "customer_form_data"
             },
             "customer_form_form": {
                 "name": "customer_form_form",
@@ -236,28 +241,81 @@
                     }
                 }
             },
+            "customer_form_groups": {
+                "items": {
+                    "website": {
+                        "injections": [
+                            "customer.website"
+                        ]
+                    },
+                    "prefix": {
+                        "injections": [
+                            "customer.prefix"
+                        ]
+                    },
+                    "firstname": {
+                        "injections": [
+                            "customer.firstname"
+                        ]
+                    },
+                    "middle_name": {
+                        "injections": [
+                            "customer.middle_name"
+                        ]
+                    },
+                    "lastname": {
+                        "injections": [
+                            "customer.lastname"
+                        ]
+                    },
+                    "suffix": {
+                        "injections": [
+                            "customer.suffix"
+                        ]
+                    },
+                    "email": {
+                        "injections": [
+                            "customer.email"
+                        ]
+                    },
+                    "taxvat": {
+                        "injections": [
+                            "customer.taxvat"
+                        ]
+                    },
+                    "gender": {
+                        "injections": [
+                            "customer.gender"
+                        ]
+                    },
+                    "price": {
+                        "injections": [
+                            "customer.price"
+                        ]
+                    }
+                }
+            },
             "customer_form_fieldsets": {
                 "items": {
                     "account_info": {
                         "label": "Account Information",
                         "injections": [
-                            "customer.website",
-                            "customer.prefix",
-                            "customer.price",
-                            "customer.firstname",
-                            "customer.middle_name",
-                            "customer.lastname",
-                            "customer.suffix",
-                            "customer.email",
-                            "customer.taxvat",
-                            "customer.gender"
+                            "customer_form_groups.website",
+                            "customer_form_groups.prefix",
+                            "customer_form_groups.price",
+                            "customer_form_groups.firstname",
+                            "customer_form_groups.middle_name",
+                            "customer_form_groups.lastname",
+                            "customer_form_groups.suffix",
+                            "customer_form_groups.email",
+                            "customer_form_groups.taxvat",
+                            "customer_form_groups.gender"
                         ]
                     },
                     "customer_addresses": {
                         "label": "Customer Addresses",
                         "collapsible": true,
                         "injections": [
-                            "customer.addresses"
                         ]
                     }
                 }
