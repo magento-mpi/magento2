@@ -61,10 +61,6 @@
         }
     }
 
-    .methods-shipping {
-        &:extend(.abstract-methods-shipping all);
-    }
-
     .hidden {
         &:extend(.abstract-no-display all);
     }
@@ -157,10 +153,32 @@
                 float: left;
                 width: 25%;
             }
-            .box-order-shipping-method {
+            .box-shipping-method {
                 padding-right: @indent-m-base;
                 padding-left: @indent-m-base;
                 width: 50%;
+            }
+        }
+
+        .block-billing {
+            &:extend(.abstract-add-clearfix-mobile-m all);
+            .box {
+                float: left;
+                padding: 0 5% 0 0;
+                width: 30%;
+            }
+        }
+
+        // Payment methods
+        .methods-payment {
+            .item-content > .fieldset {
+                width: auto;
+            }
+            .field {
+                &.cvv {
+                    display: inline-block;
+                    width: auto;
+                }
             }
         }
     }

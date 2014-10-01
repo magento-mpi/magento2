@@ -18,7 +18,7 @@
     <div class="block block-shipping">
         <div class="block-title"><strong><?php echo __('Address %1 <span>of %2</span>', ($_index+1), $this->getAddressCount()) ?></strong></div>
         <div class="block-content">
-            <div class="box box-address-shipping">
+            <div class="box box-shipping-address">
                 <strong class="box-title">
                     <span><?php echo __('Shipping To') ?></span>
                     <a href="<?php echo $this->getAddressEditUrl($_address) ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
@@ -27,7 +27,7 @@
                     <address><?php echo $_address->format('html') ?></address>
                 </div>
             </div>
-            <div class="box box-order-shipping-method">
+            <div class="box box-shipping-method">
                 <strong class="box-title">
                     <span><?php echo __('Shipping Method') ?></span>
                 </strong>

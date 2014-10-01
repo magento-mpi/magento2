@@ -11,7 +11,7 @@
     <div class="block block-billing">
         <div class="block-title"><strong><?php echo __('Billing Information') ?></strong></div>
         <div class="block-content">
-            <div class="box box-address-billing">
+            <div class="box box-billing-address">
                 <?php $_address=$this->getBillingAddress() ?>
                 <strong class="box-title">
                     <span><?php echo __('Billing Address') ?></span>
@@ -23,7 +23,7 @@
                     </address>
                 </div>
             </div>
-            <div class="box box-method-billing">
+            <div class="box box-billing-method">
                 <strong class="block-title">
                     <span><?php echo __('Payment Method') ?></span>
                     <a href="<?php echo $this->getEditBillingUrl() ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
@@ -44,7 +44,7 @@
             <div class="title">
                 <strong><?php echo __('Address %1 of %2', ($_index+1), $this->getShippingAddressCount()) ?></strong>
             </div>
-            <div class="box box-address">
+            <div class="box box-shipping-address">
                 <strong class="subtitle">
                     <span><?php echo __('Shipping To') ?></span>
                     <a href="<?php echo $this->getEditShippingAddressUrl($_address) ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
@@ -53,7 +53,7 @@
                     <?php echo $_address->format('html') ?>
                 </address>
             </div>
-            <div class="box box-order-shipping-method">
+            <div class="box box-shipping-method">
                 <strong class="box-title">
                     <span><?php echo __('Shipping Method') ?></span>
                     <a href="<?php echo $this->getEditShippingUrl() ?>" class="action edit"><span><?php echo __('Change') ?></span></a>

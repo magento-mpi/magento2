@@ -16,7 +16,7 @@
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="multishipping-billing-form" class="form multicheckout billing">
     <div class="block block-billing">
         <div class="block-content">
-            <div class="box box-address-billing">
+            <div class="box box-billing-address">
                 <strong class="box-title">
                     <span><?php echo __('Billing Address') ?></span>
                     <a href="<?php echo $this->getSelectAddressUrl() ?>" class="action"><span><?php echo __('Change') ?></span></a>
@@ -26,7 +26,7 @@
                     <address><?php echo $_address->format('html') ?></address>
                 </div>
             </div>
-            <div class="box box-method-billing">
+            <div class="box box-billing-method">
                 <strong class="box-title"><span><?php echo __('Payment Method') ?></span></strong>
                 <div class="box-content">
                     <?php echo $this->getChildHtml('payment_methods_before') ?>

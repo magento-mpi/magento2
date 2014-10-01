@@ -118,7 +118,7 @@
 //    Blocks in 2 columns
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .blocks-2columns {
+    .abstract-blocks-2columns {
         width: 48%;
         &:nth-child(1) {
             float: left;
@@ -130,8 +130,8 @@
                 clear: both;
             }
         }
-        }
-    .blocks-2columns-reverse {
+    }
+    .abstract-blocks-2columns-reverse {
         width: 48.8%;
         &:nth-child(1) {
             float: right;
@@ -484,38 +484,10 @@
 //
 //    Checkout shipping methods title
 //--------------------------------------
-.abstract-shipping-methods-title {
+.abstract-methods-shipping-title {
     .font-size(16);
     margin-bottom: 15px;
     font-weight: @font-weight-semibold;
-}
-
-//
-//    Checkout shipping methods
-//--------------------------------------
-.abstract-methods-shipping {
-    .item-title {
-        &:extend(.abstract-shipping-methods-title all);
-    }
-    .item-content {
-        margin: 0 0 35px;
-        .field {
-            margin-bottom: 15px;
-            .price {
-                font-weight: @font-weight-bold;
-            }
-        }
-        &:extend(.abstract-adjustment-incl-excl-tax all);
-    }
-    .price.box {
-        > .price {
-            display: block;
-        }
-        .regular .price,
-        .price .price {
-            font-weight: @font-weight-bold;
-        }
-    }
 }
 
 //

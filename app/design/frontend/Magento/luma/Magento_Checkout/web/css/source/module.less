@@ -152,74 +152,6 @@
         }
     }
 
-    // Shipping methods
-    .methods-shipping {
-        &:extend(.abstract-methods-shipping all);
-    }
-
-    // Payment methods
-    .methods-payment {
-        border-bottom: @border-width-base solid @border-color-base;
-        .item-title {
-            border-top: @border-width-base solid @border-color-base;
-            font-weight: @font-weight-base;
-            margin: 0;
-            padding: 16px 15px 15px;
-        }
-        .item-content {
-            margin: 0;
-            > .fieldset {
-                padding: 0 10px 40px;
-                &.redirect {
-                    margin: 10px 0 30px 37px;
-                    width: 80%;
-                }
-            }
-        }
-
-        img {
-            vertical-align: middle;
-        }
-
-        .field {
-            &.month {
-                padding-right: 10px;
-                .control {
-                    position: relative;
-                    &:after {
-                        content: "/";
-                        color: @color-primary-light;
-                        position: absolute;
-                        right: -9px;
-                        top: 5px;
-                    }
-                }
-            }
-            &.cvv {
-                width: 30%;
-                .control {
-                    position: relative;
-                }
-                .note {
-                    position: absolute;
-                    right: -23px;
-                    &:before {
-                        display: none;
-                    }
-                    > a {
-                        .icon-font(
-                            @_icon-font-content: @icon-help,
-                            @_icon-font-size: 16px,
-                            @_icon-font-color: @color-primary-light,
-                            @_icon-font-color-hover: @color-primary,
-                            @_icon-font-text-hide: true
-                        )
-                    }
-                }
-            }
-        }
-    }
-
     .opc-payment-additional {
         margin: 0 0 10px 15px;
         + .opc-payment {
@@ -315,6 +247,95 @@
 
     .actions-toolbar {
         margin: 40px 0 0;
+    }
+}
+
+// Shipping methods
+.methods-shipping {
+    .item-title {
+        &:extend(.abstract-methods-shipping-title all);
+    }
+    .item-content {
+        margin: 0 0 35px;
+        .field {
+            margin-bottom: 15px;
+            .price {
+                font-weight: @font-weight-bold;
+            }
+        }
+        &:extend(.abstract-adjustment-incl-excl-tax all);
+    }
+    .price.box {
+        > .price {
+            display: block;
+        }
+        .regular .price,
+        .price .price {
+            font-weight: @font-weight-bold;
+        }
+    }
+}
+
+// Payment methods
+.methods-payment {
+    border-bottom: @border-width-base solid @border-color-base;
+    .item-title {
+        border-top: @border-width-base solid @border-color-base;
+        font-weight: @font-weight-base;
+        margin: 0;
+        padding: 16px 15px 15px;
+    }
+    .item-content {
+        margin: 0;
+        > .fieldset {
+            padding: 0 10px 40px;
+            &.redirect {
+                margin: 10px 0 30px 37px;
+                width: 80%;
+            }
+        }
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    .field {
+        &.month {
+            padding-right: 10px;
+            .control {
+                position: relative;
+                &:after {
+                    content: "/";
+                    color: @color-primary-light;
+                    position: absolute;
+                    right: -9px;
+                    top: 5px;
+                }
+            }
+        }
+        &.cvv {
+            width: 30%;
+            .control {
+                position: relative;
+            }
+            .note {
+                position: absolute;
+                right: -23px;
+                &:before {
+                    display: none;
+                }
+                > a {
+                    .icon-font(
+                    @_icon-font-content: @icon-help,
+                    @_icon-font-size: 16px,
+                    @_icon-font-color: @color-primary-light,
+                    @_icon-font-color-hover: @color-primary,
+                    @_icon-font-text-hide: true
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -530,7 +551,7 @@
             display: block;
             &:extend(.abstract-add-clearfix-desktop all);
             .block {
-                &:extend(.blocks-2columns-reverse all);
+                &:extend(.abstract-blocks-2columns-reverse all);
                 margin-bottom: 0;
             }
             .fieldset {
@@ -547,27 +568,27 @@
             }
         }
 
-        // Payment methods
-        .methods-payment {
-            .item-content > .fieldset {
-                margin: 10px 0 30px @opc-margin-left;
-                padding: 0;
-                width: 46%;
-            }
-            .field {
-                &.cvv {
-                    display: inline-block;
-                    width: 30%;
-                }
-                &.date {
-                    display: inline-block;
-                    width: 70%;
-                }
-            }
-        }
-
         .checkout-submit-order .actions-toolbar > .primary {
             float: right;
+        }
+    }
+
+    // Payment methods
+    .methods-payment {
+        .item-content > .fieldset {
+            margin: 10px 0 30px @opc-margin-left;
+            padding: 0;
+            width: 46%;
+        }
+        .field {
+            &.cvv {
+                display: inline-block;
+                width: 30%;
+            }
+            &.date {
+                display: inline-block;
+                width: 70%;
+            }
         }
     }
 

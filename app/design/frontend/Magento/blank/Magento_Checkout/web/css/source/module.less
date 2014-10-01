@@ -101,40 +101,6 @@
         }
     }
 
-    //  Shipping and payment mathods
-    .methods-payment {
-        img {
-            vertical-align: middle;
-        }
-        .field.month {
-            padding-right: 10px;
-        }
-    }
-
-    //  Shipping methods
-    .methods-shipping {
-        &:extend(.abstract-methods-shipping all);
-    }
-
-    .methods-payment {
-        .item-title {
-            font-weight: @font-weight-base;
-        }
-        .item-content {
-            margin-bottom: 0;
-            .fieldset {
-                padding: 15px 0;
-                .field:first-child,
-                .field.year {
-                    margin-top: 0;
-                }
-            }
-            .label {
-                font-weight: @font-weight-base;
-            }
-        }
-    }
-
     .opc-payment-additional {
         margin: 0 0 5px;
         + .opc-payment {
@@ -202,6 +168,61 @@
 
     .actions-toolbar {
         margin: 40px 0 0;
+    }
+}
+
+// Shipping methods
+.methods-shipping {
+    .item-title {
+        &:extend(.abstract-methods-shipping-title all);
+    }
+    .item-content {
+        margin: 0 0 20px;
+        .field.choice {
+            margin: 0 0 10px;
+        }
+        .price {
+            font-weight: @font-weight-bold;
+        }
+        &:extend(.abstract-adjustment-incl-excl-tax all);
+    }
+    .price-box {
+        margin-left: 20px;
+        .label + .price {
+            font-weight: @font-weight-bold;
+        }
+    }
+    img {
+        vertical-align: middle;
+    }
+    .field.month {
+        padding-right: 10px;
+    }
+}
+
+// Payment methods
+.methods-payment {
+    .item-title {
+        font-weight: @font-weight-base;
+    }
+    .item-content {
+        margin-bottom: 0;
+        .fieldset {
+            padding: 15px 0;
+            .field:first-child,
+            .field.year {
+                margin-top: 0;
+            }
+        }
+        .label {
+            font-weight: @font-weight-base;
+        }
+    }
+    img {
+        vertical-align: middle;
+    }
+    .field.month {
+        padding-right: 10px;
     }
 }
 
