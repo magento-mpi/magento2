@@ -26,7 +26,7 @@ class Curl extends AbstractCurl implements CmsBlockInterface
      *
      * @var string
      */
-    protected $saveUrl = 'cms/block/save/back/edit/';
+    protected $saveUrl = 'cms/block/save/back/edit';
 
     /**
      * Mapping values for data
