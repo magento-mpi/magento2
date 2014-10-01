@@ -86,6 +86,14 @@
                             "input_type": "input",
                             "label": "Tax/VAT Number"
                         },
+                        "price": {
+                            "index": "price",
+                            "type": "price",
+                            "data_type": "price",
+                            "input_type": "price",
+                            "currency_sign": "$",
+                            "label": "Price / currency fireld"
+                        },
                         "addresses": {
                             "meta_ref": "address"
                         }
@@ -117,9 +125,11 @@
                 },
                 "data": {
                     "customer": {
+                        "prefix": "Mr.",
                         "website": 0,
                         "gender": 0,
                         "currencies": ["dut", "ua"],
+                        "price": "123.45",
                         "addresses": [
                             {
                                 "active": true,
@@ -233,6 +243,7 @@
                         "injections": [
                             "customer.website",
                             "customer.prefix",
+                            "customer.price",
                             "customer.firstname",
                             "customer.middle_name",
                             "customer.lastname",

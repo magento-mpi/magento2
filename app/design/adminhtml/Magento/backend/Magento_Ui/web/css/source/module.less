@@ -413,3 +413,142 @@
         background: url('@{baseDir}images/loader-2.gif') 50% 50% no-repeat;
     }
 }
+
+
+//
+// Form Component
+//
+
+/* Price field */
+
+.addon {
+  input {
+    border-width: 1px 0 1px 1px;
+    ~ .addafter strong {
+      display: inline-block;
+      background: #fff;
+      line-height: 24px;
+      margin: 0 3px 0 -2px;
+      padding-left: 4px;
+      padding-right: 4px;
+      position: relative;
+      font-size: 12px;
+      top: 0;
+    }
+    &:focus ~ .addafter {
+      border-color: #75b9f0;
+      box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+      strong {
+        margin-top: 0;
+      }
+    }
+  }
+  .addafter {
+    background: none;
+    color: #a6a6a6;
+    border-width: 1px 1px 1px 0;
+    border-radius: 2px 2px 0 0;
+    padding: 0;
+    border-color: #ada89e;
+  }
+  .pager input {
+    border-width: 1px;
+  }
+}
+
+.field .control input[type='text'][disabled],
+.field .control input[type='text'][disabled] ~ .addafter,
+.field .control select[disabled],
+.field .control select[disabled] ~ .addafter {
+  background-color: #fff;
+  border-color: #eee;
+  box-shadow: none;
+  color: #999;
+}
+
+.field .control input[type='text'][disabled] ~ .addafter strong,
+.field .control select[disabled] ~ .addafter strong {
+  background-color: #fff;
+}
+
+.field.type-price .addon,
+.field-price .addon,
+.field-special_price .addon,
+.field-msrp .addon {
+  direction: rtl;
+}
+
+.field.type-price .addon > *,
+.field-price .addon > *,
+.field-special_price .addon > *,
+.field-msrp .addon > * {
+  direction: ltr;
+}
+
+.field.type-price .addon .addafter,
+.field-price .addon .addafter,
+.field-special_price .addon .addafter,
+.field-msrp .addon .addafter {
+  border-width: 1px 0 1px 1px;
+  border-radius: 2px 0 0 2px;
+}
+
+.field.type-price .addon input:first-child,
+.field-price .addon input:first-child,
+.field-special_price .addon input:first-child,
+.field-msrp .addon input:first-child {
+  border-radius: 0 2px 2px 0;
+}
+
+.field.type-price input,
+.field-price input,
+.field-special_price input,
+.field-msrp input {
+  border-width: 1px 1px 1px 0;
+}
+
+.field.type-price input:focus,
+.field-price input:focus,
+.field-special_price input:focus,
+.field-msrp input:focus {
+  box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.field.type-price input:focus ~ label.addafter,
+.field-price input:focus ~ label.addafter,
+.field-special_price input:focus ~ label.addafter,
+.field-msrp input:focus ~ label.addafter {
+  box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.field.type-price input ~ label.addafter strong,
+.field-price input ~ label.addafter strong,
+.field-special_price input ~ label.addafter strong,
+.field-msrp input ~ label.addafter strong,
+.field-gift_wrapping_price input ~ label.addafter strong {
+  margin-left: 2px;
+  margin-right: -2px;
+}
+
+.field-price .addon > input {
+  width: 99px;
+  float: left;
+}
+
+.field-price .control,
+.field-special_price .control,
+.field-msrp .control,
+.field-weight .control,
+.field-quantity_and_stock_status .control {
+  position: relative;
+}
+
+.field-price label.mage-error,
+.field-special_price label.mage-error,
+.field-msrp label.mage-error,
+.field-weight label.mage-error,
+.field-quantity_and_stock_status label.mage-error {
+  position: absolute;
+  left: 0;
+  top: 30px;
+}
