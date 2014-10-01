@@ -62,7 +62,7 @@ class CrosssellTest extends Functional
         $productPage->getViewBlock()->addToCart($simple1);
 
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
-        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->waitSuccessMessage();
 
         $cartBlock = $checkoutCartPage->getCartBlock();
         $this->assertTrue($cartBlock->isProductInShoppingCart($simple1));
@@ -126,9 +126,9 @@ class CrosssellTest extends Functional
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $product->getProductSku()]);
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
         $editProductPage->getProductForm()->fill($crosssellFixture);
         $editProductPage->getFormPageActions()->save();
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->waitSuccessMessage();
     }
 }

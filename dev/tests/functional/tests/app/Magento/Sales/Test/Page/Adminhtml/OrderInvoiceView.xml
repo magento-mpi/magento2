@@ -19,5 +19,10 @@
             <locator>.page-actions</locator>
             <strategy>css selector</strategy>
         </pageActions>
+        <itemsBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\View\Items</class>
+            <locator>//div[./div[@id="invoice_item_container"]]</locator>
+            <strategy>xpath</strategy>
+        </itemsBlock>
     </blocks>
 </page>
