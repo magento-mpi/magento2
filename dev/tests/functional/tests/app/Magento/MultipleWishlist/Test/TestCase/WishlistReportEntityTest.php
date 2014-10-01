@@ -151,7 +151,6 @@ class WishlistReportEntityTest extends Injectable
      */
     public function test(MultipleWishlist $multipleWishlist, Browser $browser, array $products, array $wishlist)
     {
-        $this->markTestIncomplete('MAGETWO-28924');
         // Precondition
         $multipleWishlist->persist();
         $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomer();

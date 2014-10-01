@@ -114,4 +114,7 @@
     <assertShipmentSuccessCreateMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertShipmentSuccessCreateMessage>
+    <assertReorderStatusIsCorrect module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertReorderStatusIsCorrect>
 </constraint>

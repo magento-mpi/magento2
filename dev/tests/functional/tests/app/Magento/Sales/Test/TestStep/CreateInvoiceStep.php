@@ -113,9 +113,6 @@ class CreateInvoiceStep implements TestStepInterface
             $this->orderInvoiceNew->getCreateBlock()->fill($this->data, $this->order->getEntityId()['products']);
         }
         $this->orderInvoiceNew->getTotalsBlock()->submit();
-        if (!empty($this->data)) {
-            $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
-        }
         $invoiceIds = $this->getInvoiceIds();
         if (!empty($this->data)) {
             $shipmentIds = $this->getShipmentIds();
@@ -124,7 +121,6 @@ class CreateInvoiceStep implements TestStepInterface
         return [
             'invoiceIds' => $invoiceIds,
             'shipmentIds' => isset($shipmentIds) ? $shipmentIds : null,
-            'successMessage' => isset($successMessage) ? $successMessage : null,
         ];
     }
 
