@@ -221,7 +221,8 @@
             "Less_" : ["lib/internal/"],
             "Symfony\\" : ["lib/internal/"],
             "Zend_": ["app/code/", "lib/internal/"],
-            "Zend\\" : ["app/code/", "lib/internal"]
+            "Zend\\" : ["app/code/", "lib/internal"],
+            "" : ["var/generation"]
         },
         "psr-4": {
             "Magento\\Framework\\": ["lib/internal/Magento/Framework/"],
