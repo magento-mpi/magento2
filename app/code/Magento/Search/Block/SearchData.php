@@ -39,7 +39,7 @@ abstract class SearchData extends Template implements SearchDataInterface
      * @param Template\Context $context
      * @param SearchDataProviderInterface $searchDataProvider
      * @param QueryFactoryInterface $queryFactory
-     * @param $title
+     * @param string $title
      * @param array $data
      */
     public function __construct(

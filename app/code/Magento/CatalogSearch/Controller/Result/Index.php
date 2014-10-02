@@ -43,8 +43,7 @@ class Index extends \Magento\Framework\App\Action\Action
         Session $catalogSession,
         StoreManagerInterface $storeManager,
         QueryFactory $queryFactory
-    )
-    {
+    ) {
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
         $this->_queryFactory = $queryFactory;
