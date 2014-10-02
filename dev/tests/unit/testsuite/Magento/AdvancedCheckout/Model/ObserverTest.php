@@ -33,7 +33,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $qouteFactoryMock;
+    protected $quoteFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -51,7 +51,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->cartMock = $this->getMock('\Magento\AdvancedCheckout\Model\Cart', [], [], '', false);
         $this->collFactoryMock = $this->getMock('\Magento\Framework\Data\CollectionFactory', [], [], '', false);
         $this->helperMock = $this->getMock('\Magento\AdvancedCheckout\Helper\Data', [], [], '', false);
-        $this->qouteFactoryMock = $this->getMock('\Magento\Sales\Model\QuoteFactory', [], [], '', false);
+        $this->quoteFactoryMock = $this->getMock('\Magento\Sales\Model\QuoteFactory', [], [], '', false);
         $this->addressFactoryMock = $this->getMock('\Magento\Sales\Model\Quote\AddressFactory', [], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -62,7 +62,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'cart' => $this->cartMock,
                 'collectionFactory' => $this->collFactoryMock,
                 'checkoutData' => $this->helperMock,
-                'quoteFactory' => $this->qouteFactoryMock,
+                'quoteFactory' => $this->quoteFactoryMock,
                 'addressFactory' => $this->addressFactoryMock,
             ]
         );

@@ -37,11 +37,7 @@ class AddCartLinkTest extends \PHPUnit_Framework_TestCase
         $this->observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
         $this->eventMock = $this->getMock('\Magento\Framework\Event', [], [], '', false);
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject(
-            '\Magento\AdvancedCheckout\Model\Observer\AddCartLink',
-            ['cart' => $this->cartMock]
-        );
+        $this->model = new AddCartLink($this->cartMock);
     }
 
     public function testExecuteWhenBlockIsNotSidebar()
