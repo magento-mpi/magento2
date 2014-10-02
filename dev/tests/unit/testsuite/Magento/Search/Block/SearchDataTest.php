@@ -14,6 +14,9 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 class SearchDataTest extends \PHPUnit_Framework_TestCase
 {
 
+    /** @var  \Magento\Framework\View\Element\Template\Context|MockObject */
+    private $context;
+
     /**
      * @var \Magento\Search\Model\QueryFactoryInterface|MockObject
      */
@@ -23,6 +26,7 @@ class SearchDataTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\CatalogSearch\Model\Query|MockObject
      */
     private $searchQuery;
+
     /**
      * @var \Magento\Search\Model\SearchDataProviderInterface|MockObject
      */
@@ -35,8 +39,6 @@ class SearchDataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = new ObjectManager($this);
-
         $this->dataProvider = $this->getMockBuilder('\Magento\Search\Model\SearchDataProviderInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getSearchData', 'isCountResultsEnabled'])
@@ -53,13 +55,20 @@ class SearchDataTest extends \PHPUnit_Framework_TestCase
         $this->queryFactory->expects($this->once())
             ->method('get')
             ->will($this->returnValue($this->searchQuery));
-        $this->block = $objectManager->getObject(
-            '\Magento\Search\Block\SearchData',
+        $this->context = $this->getMockBuilder('\Magento\Framework\View\Element\Template\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->block = $this->getMockBuilder('\Magento\Search\Block\SearchData')->setConstructorArgs(
             [
-                'searchDataProvider' => $this->dataProvider,
-                'queryFactory' => $this->queryFactory,
+                $this->context,
+                $this->dataProvider,
+                $this->queryFactory,
+                'Test Title',
+                array(),
             ]
-        );
+        )
+            ->setMethods(['getUrl'])
+            ->getMockForAbstractClass();
     }
 
     public function testGetSuggestions()
