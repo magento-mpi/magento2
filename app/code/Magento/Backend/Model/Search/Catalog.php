@@ -63,7 +63,7 @@ class Catalog extends \Magento\Framework\Object
             return $this;
         }
 
-        $collection = $this->queryFactory->getQuery()->getSearchCollection()->addAttributeToSelect(
+        $collection = $this->queryFactory->get()->getSearchCollection()->addAttributeToSelect(
             'name'
         )->addAttributeToSelect(
             'description'

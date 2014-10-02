@@ -102,7 +102,7 @@ class Fulltext extends \Magento\Framework\Model\AbstractModel
     public function prepareResult($query = null)
     {
         if (!$query instanceof Query) {
-            $query = $this->queryFactory->getQuery();
+            $query = $this->queryFactory->get();
         }
         $queryText = $query->getQueryText();
         if ($query->getSynonymFor()) {

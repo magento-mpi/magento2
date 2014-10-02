@@ -108,7 +108,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _getQuery()
     {
-        return $this->queryFactory->getQuery();
+        return $this->queryFactory->get();
     }
 
     /**

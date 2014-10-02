@@ -1906,4 +1906,7 @@ return array(
     ['formatPrice', 'Magento\Store\Model\Store', 'Magento\Framework\Pricing\PriceCurrencyInterface::format'],
     ['convertPrice', 'Magento\Store\Model\Store', 'Magento\Framework\Pricing\PriceCurrencyInterface::convert'],
     ['getPriceFilter', 'Magento\Store\Model\Store'],
+    ['getQuery', 'Magento\CatalogSearch\Helper\Data', 'Magento\CatalogSearch\Model\QueryFactory::get'],
+    ['getQueryText', 'Magento\CatalogSearch\Helper\Data', 'Magento\CatalogSearch\Model\Query::getQueryText'],
+
 );

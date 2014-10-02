@@ -13,5 +13,5 @@ interface QueryFactoryInterface
     /**
      * @return QueryInterface
      */
-    public function getQuery();
+    public function get();
 }

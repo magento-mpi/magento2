@@ -64,7 +64,7 @@ class Recommendations
     public function getSearchRecommendations()
     {
         $productCollection = $this->searchLayer->getProductCollection();
-        $searchQueryText = $this->queryFactory->getQuery()->getQueryText();
+        $searchQueryText = $this->queryFactory->get()->getQueryText();
 
         $params = array('store_id' => $productCollection->getStoreId());
 

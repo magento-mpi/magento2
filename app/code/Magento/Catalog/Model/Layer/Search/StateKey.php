@@ -37,6 +37,6 @@ class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey
      */
     public function toString($category)
     {
-        return 'Q_' . $this->queryFactory->getQuery()->getId() . '_' . parent::toString($category);
+        return 'Q_' . $this->queryFactory->get()->getId() . '_' . parent::toString($category);
     }
 }

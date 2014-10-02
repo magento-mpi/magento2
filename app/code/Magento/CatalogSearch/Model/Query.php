@@ -37,8 +37,7 @@ use Magento\Search\Model\QueryInterface;
  * @method \Magento\CatalogSearch\Model\Query setSynonymFor(string $value)
  * @method int getDisplayInTerms()
  * @method \Magento\CatalogSearch\Model\Query setDisplayInTerms(int $value)
- * @method bool getIsQueryTooLong()
- * @method \Magento\CatalogSearch\Model\Query setIsQueryTooLong(bool $value)
+ * @method \Magento\CatalogSearch\Model\Query setQueryNameExceeded(bool $value)
  * @method int getIsActive()
  * @method \Magento\CatalogSearch\Model\Query setIsActive(int $value)
  * @method int getIsProcessed()
@@ -307,5 +306,13 @@ class Query extends AbstractModel implements QueryInterface
     public function getQueryText()
     {
         return $this->getDataByKey('query_text');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isQueryTextExceeded()
+    {
+        return $this->getData('is_query_text_exceeded');
     }
 }

@@ -66,7 +66,7 @@ class CollectionFilter implements CollectionFilterInterface
     ) {
         $collection
             ->addAttributeToSelect($this->catalogConfig->getProductAttributes())
-            ->addSearchFilter($this->queryFactory->getQuery()->getQueryText())
+            ->addSearchFilter($this->queryFactory->get()->getQueryText())
             ->setStore($this->storeManager->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()

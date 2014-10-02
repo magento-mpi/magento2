@@ -62,7 +62,7 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
 
         $queryMock = $this->getMock('\Magento\CatalogSearch\Helper\Query', array('getId'), array(), '', false);
         $queryMock->expects($this->once())->method('getId')->will($this->returnValue('4'));
-        $this->queryFactoryMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
+        $this->queryFactoryMock->expects($this->once())->method('get')->will($this->returnValue($queryMock));
 
         $this->assertEquals('Q_4_STORE_2_CAT_1_CUSTGROUP_3', $this->model->toString($categoryMock));
     }

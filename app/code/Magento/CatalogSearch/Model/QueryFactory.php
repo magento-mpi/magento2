@@ -67,10 +67,10 @@ class QueryFactory implements QueryFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getQuery()
+    public function get()
     {
         if (!$this->query) {
-            $this->query = $this->createQuery();
+            $this->query = $this->create();
         }
         return $this->query;
     }
@@ -78,7 +78,7 @@ class QueryFactory implements QueryFactoryInterface
     /**
      * @return Query
      */
-    private function createQuery()
+    private function create()
     {
         $maxQueryLength = $this->getMaxQueryLength();
         $rawQueryText = $this->getRawQueryText();
@@ -88,7 +88,7 @@ class QueryFactory implements QueryFactoryInterface
         if (!$query->getId()) {
             $query->setQueryText($preparedQueryText);
         }
-        $query->setIsQueryTooLong($this->isQueryTooLong($preparedQueryText, $maxQueryLength));
+        $query->setIsQueryTextExceeded($this->isQueryTooLong($preparedQueryText, $maxQueryLength));
         return $query;
     }
 

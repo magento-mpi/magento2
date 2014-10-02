@@ -74,7 +74,7 @@ class Result extends Template
      */
     protected function _getQuery()
     {
-        return $this->queryFactory->getQuery();
+        return $this->queryFactory->get();
     }
 
     /**

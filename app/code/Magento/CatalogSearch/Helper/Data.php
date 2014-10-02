@@ -131,7 +131,7 @@ class Data extends AbstractHelper
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = $this->string->strlen($this->_queryFactory->getQuery()->getQueryText());
+        $thisQueryLength = $this->string->strlen($this->_queryFactory->get()->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
     }
 
@@ -142,7 +142,7 @@ class Data extends AbstractHelper
      */
     public function getEscapedQueryText()
     {
-        return $this->_escaper->escapeHtml($this->_queryFactory->getQuery()->getQueryText());
+        return $this->_escaper->escapeHtml($this->_queryFactory->get()->getQueryText());
     }
 
     /**
@@ -152,7 +152,7 @@ class Data extends AbstractHelper
      */
     public function getSuggestCollection()
     {
-        return $this->_queryFactory->getQuery()->getSuggestCollection();
+        return $this->_queryFactory->get()->getSuggestCollection();
     }
 
     /**
@@ -290,7 +290,7 @@ class Data extends AbstractHelper
      */
     public function checkNotes($store = null)
     {
-        if ($this->_queryFactory->getQuery()->getIsQueryTooLong()) {
+        if ($this->_queryFactory->get()->isQueryTextExceeded()) {
             $this->addNoteMessage(
                 __(
                     'Your search query can\'t be longer than %1, so we had to shorten your query.',
@@ -304,9 +304,9 @@ class Data extends AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if ($searchType == Fulltext::SEARCH_TYPE_COMBINE || $searchType == Fulltext::SEARCH_TYPE_LIKE) {
-            $wordsFull = $this->filter->splitWords($this->_queryFactory->getQuery()->getQueryText(), array('uniqueOnly' => true));
+            $wordsFull = $this->filter->splitWords($this->_queryFactory->get()->getQueryText(), array('uniqueOnly' => true));
             $wordsLike = $this->filter->splitWords(
-                $this->_queryFactory->getQuery()->getQueryText(),
+                $this->_queryFactory->get()->getQueryText(),
                 array('uniqueOnly' => true, 'wordsQty' => $this->getMaxQueryWords())
             );
             if (count($wordsFull) > count($wordsLike)) {
@@ -351,7 +351,7 @@ class Data extends AbstractHelper
     {
         if (!$this->_suggestData) {
             $collection = $this->getSuggestCollection();
-            $query = $this->_queryFactory->getQuery()->getQueryText();
+            $query = $this->_queryFactory->get()->getQueryText();
             $counter = 0;
             $data = array();
             foreach ($collection as $item) {

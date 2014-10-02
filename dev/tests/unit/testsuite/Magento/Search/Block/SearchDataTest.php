@@ -48,10 +48,10 @@ class SearchDataTest extends \PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
         $this->queryFactory = $this->getMockBuilder('\Magento\Search\Model\QueryFactoryInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['getQuery'])
+            ->setMethods(['get'])
             ->getMockForAbstractClass();
         $this->queryFactory->expects($this->once())
-            ->method('getQuery')
+            ->method('get')
             ->will($this->returnValue($this->searchQuery));
         $this->block = $objectManager->getObject(
             '\Magento\Search\Block\SearchData',

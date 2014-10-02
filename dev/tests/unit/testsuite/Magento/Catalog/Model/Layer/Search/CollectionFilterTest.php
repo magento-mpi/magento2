@@ -76,7 +76,7 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
 
         $this->catalogConfigMock->expects($this->once())->method('getProductAttributes');
         $this->visibilityMock->expects($this->once())->method('getVisibleInSearchIds');
-        $this->queryFactoryMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
+        $this->queryFactoryMock->expects($this->once())->method('get')->will($this->returnValue($queryMock));
         $this->storeManagerMock->expects($this->once())->method('getStore');
 
         $collectionMock->expects($this->once())->method('addAttributeToSelect')

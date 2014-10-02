@@ -48,7 +48,7 @@ class SearchData extends Template implements SearchDataInterface
         array $data = array()
     ) {
         $this->searchDataProvider = $searchDataProvider;
-        $this->query = $queryFactory->getQuery();
+        $this->query = $queryFactory->get();
         parent::__construct($context, $data);
     }
 

@@ -294,7 +294,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         /**
          * @var \Magento\CatalogSearch\Model\Query $query
          */
-        $query = $this->queryFactory->getQuery();
+        $query = $this->queryFactory->get();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {

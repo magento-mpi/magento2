@@ -45,7 +45,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->queryFactoryMock = $this->getMockBuilder('Magento\CatalogSearch\Model\QueryFactory')
             ->disableOriginalConstructor()
-            ->setMethods(['getQuery'])
+            ->setMethods(['get'])
             ->getMock();
         $this->model = new Result($this->contextMock, $this->layerMock, $this->dataMock, $this->queryFactoryMock);
     }
@@ -80,7 +80,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $queryMock = $this->getMock('Magento\CatalogSearch\Model\Query', array(), array(), '', false);
             $queryMock->expects($this->once())->method('getMinQueryLength')->will($this->returnValue('5'));
 
-            $this->queryFactoryMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
+            $this->queryFactoryMock->expects($this->once())->method('get')->will($this->returnValue($queryMock));
         }
         $this->assertEquals($expectedResult, $this->model->getNoResultText());
     }
