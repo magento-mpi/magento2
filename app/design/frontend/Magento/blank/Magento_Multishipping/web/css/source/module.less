@@ -79,7 +79,7 @@
         strong {
             font-weight: @font-weight-base;
             span {
-                color: @color-primary-lighter;
+                color: @color-primary-light;
             }
         }
     }
@@ -95,9 +95,6 @@
     &.order-review {
         .block-title > strong {
             .font-size(24);
-        }
-        .box-items {
-            padding-top: @indent-xl-base;
         }
         .data.table {
             tfoot {
@@ -148,6 +145,7 @@
             &:extend(.abstract-table-vertical-mobile all);
             > tbody > tr td {
                 padding-top: 15px;
+                padding-left: 0;
             }
             td {
                 &:before {
@@ -234,11 +232,16 @@
 
         .block-billing {
             &:extend(.abstract-add-clearfix-mobile-m all);
-            .box {
+            .box-billing-address {
                 &:extend(.abstract-add-box-sizing-desktop all);
                 float: left;
-                padding: 0 5% 0 0;
-                width: 30%;
+                width: 25%;
+            }
+            .box-billing-method {
+                &:extend(.abstract-add-box-sizing-desktop all);
+                float: left;
+                padding-left: @indent-m-base;
+                width: 50%;
             }
         }
 
@@ -246,15 +249,19 @@
             .box-items {
                 clear: left;
                 float: none;
+                padding-top: @indent-xl-base;
                 width: auto;
+                .data.table {
+                    tr:first-child td {
+                        padding-top: 20px;
+                    }
+                    tr:last-child td {
+                        padding-bottom: 20px;
+                    }
+                }
             }
             .col.item {
                 width: 75%;
-            }
-            .block-billing {
-                .box {
-                    width: 25%;
-                }
             }
             .mark {
                 text-align: right;

@@ -13,4 +13,5 @@
     <remove name="top.search" />
     <remove name="catalog.topnav" />
     <remove name="footer-container" />
+    <remove name="catalog.compare.link" />
 </page>
