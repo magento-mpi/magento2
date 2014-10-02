@@ -7,7 +7,7 @@
 define([
     'underscore',
     './tab',
-    'Magento_Ui/js/lib/collection',
+    'Magento_Ui/js/initializer/collection',
     'Magento_Ui/js/lib/ko/scope',
     'Magento_Ui/js/lib/registry/registry'
 ], function(_, Tab, Collection, Scope, registry) {
@@ -15,15 +15,16 @@ define([
 
     var defaults = {
         collapsible:    false,
-        opened:        true
+        opened:         true
     };
 
     var TabsGroup = Scope.extend({
         initialize: function(config) {
             _.extend(this, defaults, config);
 
-            this.initObservable()
-                .initTabs();
+            this.initObservable();
+
+            _.each(this.items, this.initTab, this);
         },
 
         initObservable: function(){
@@ -35,21 +36,22 @@ define([
             return this;
         },
 
-        initTabs: function() {
+        initTab: function(config){
             var fullName,
                 item;
 
-            _.each(this.items, function(config) {
-                fullName = '.' + this.fullName + '.' + config.name;
+            fullName = '.' + this.fullName + '.' + config.name;
 
-                item = new Tab(config, this.provider);
+            _.extend(config, {
+                fullName: fullName,
+                provider: this.provider
+            });
 
-                registry.set(fullName, item);
+            item = new Tab(config);
 
-                this.elems.push(item);
-            }, this);
+            registry.set(fullName, item);
 
-            return this;
+            this.elems.push(item);
         },
 
         toggle: function() {

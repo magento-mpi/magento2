@@ -6,7 +6,7 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/lib/collection',
+    'Magento_Ui/js/initializer/collection',
     'Magento_Ui/js/lib/ko/scope'
 ], function(_, Collection, Scope) {
     'use strict';
@@ -18,7 +18,7 @@ define([
     var Area = Scope.extend({
         initialize: function(config) {
             _.extend(this, defaults, config);
-
+            
             this.initObservable()
                 .initListeners()
                 .pullParams();
@@ -42,7 +42,7 @@ define([
                 'restore':  update.bind(this, false)
             };
 
-            params.on('update:activeTab', this.pullParams.bind(this));
+            params.on('update:activeArea', this.pullParams.bind(this));
 
             this.elems.forEach(function(elem){
                 elem.on(handlers);
@@ -53,7 +53,7 @@ define([
 
         pullParams: function() {
             var params  = this.provider.params,
-                area    = params.get('activeTab');
+                area    = params.get('activeArea');
 
             this.visible(area === this.name);
 
