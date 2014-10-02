@@ -45,14 +45,18 @@ class CreateOrderTest extends Functional
         $orderGridPage->open();
         $orderCreatePage->getActionsBlock()->addNew();
         $orderCreatePage->getCustomerBlock()->selectCustomer($fixture->getCustomer());
-        $orderCreatePage->getStoreBlock()->selectStoreView($fixture);
+        $orderCreatePage->getStoreBlock()->selectStoreView();
 
         $orderCreateBlock = $orderCreatePage->getCreateBlock();
         $orderCreateBlock->waitOrderItemsGrid();
-        $orderCreateBlock->addProducts($fixture);
-        $orderCreateBlock->fillAddresses($fixture);
-        $orderCreateBlock->selectShippingMethod($fixture);
-        $orderCreateBlock->selectPaymentMethod($fixture);
+        $orderCreateBlock->addProducts($fixture->getProducts());
+        $billingAddress = $fixture->getBillingAddress();
+        if (empty($billingAddress)) {
+            $billingAddress = $fixture->getCustomer()->getDefaultBillingAddress();
+        }
+        $orderCreateBlock->fillAddresses($billingAddress);
+        $orderCreateBlock->selectShippingMethod($fixture->getShippingMethod()->getData('fields'));
+        $orderCreateBlock->selectPaymentMethod(['method' => $fixture->getPaymentMethod()->getPaymentCode()]);
         $orderCreateBlock->submitOrder();
         //Verification
         $this->_checkOrderAndCustomer($fixture);

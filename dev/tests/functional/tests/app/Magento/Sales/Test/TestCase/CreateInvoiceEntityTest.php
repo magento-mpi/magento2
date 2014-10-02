@@ -54,31 +54,29 @@ class CreateInvoiceEntityTest extends Injectable
     /**
      * Set up configuration
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(ObjectManager $objectManager)
     {
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
-        $configPayment->persist();
+        $this->objectManager = $objectManager;
 
-        $configShipping = $fixtureFactory->createByCode('configData', ['dataSet' => 'flatrate']);
-        $configShipping->persist();
+        $setupConfigurationStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'checkmo, flatrate']
+        );
+        $setupConfigurationStep->run();
     }
 
     /**
      * Injection data
      *
      * @param CustomerAccountLogout $customerAccountLogout
-     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __inject(
-        CustomerAccountLogout $customerAccountLogout,
-        ObjectManager $objectManager
-    ) {
+    public function __inject(CustomerAccountLogout $customerAccountLogout)
+    {
         $this->customerAccountLogout = $customerAccountLogout;
-        $this->objectManager = $objectManager;
     }
 
     /**
@@ -95,7 +93,7 @@ class CreateInvoiceEntityTest extends Injectable
 
         // Steps
         $createInvoice = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateInvoice',
+            'Magento\Sales\Test\TestStep\CreateInvoiceStep',
             ['order' => $order, 'data' => $invoice]
         );
         $data = $createInvoice->run();
