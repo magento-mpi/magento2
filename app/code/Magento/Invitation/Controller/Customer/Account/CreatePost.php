@@ -15,11 +15,23 @@ use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Helper\Address;
 use Magento\Framework\UrlFactory;
+use Magento\Customer\Model\Metadata\FormFactory;
+use Magento\Newsletter\Model\SubscriberFactory;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Helper\Data as CustomerHelper;
+use Magento\Framework\Escaper;
+use Magento\Customer\Model\CustomerExtractor;
+use Magento\Invitation\Model\InvitationProvider;
+use Magento\Invitation\Model\Invitation;
+use Magento\Framework\Model\Exception as FrameworkException;
+use Magento\Store\Model\ScopeInterface;
 
 class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
 {
     /**
-     * @var \Magento\Invitation\Model\InvitationProvider
+     * @var InvitationProvider
      */
     protected $invitationProvider;
 
@@ -31,15 +43,17 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param Address $addressHelper
      * @param UrlFactory $urlFactory
-     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param \Magento\Customer\Helper\Data $customerHelperData
-     * @param \Magento\Framework\Escaper $escaper
-     * @param \Magento\Customer\Model\CustomerExtractor $customerExtractor
-     * @param \Magento\Invitation\Model\InvitationProvider $invitationProvider
+     * @param FormFactory $formFactory
+     * @param SubscriberFactory $subscriberFactory
+     * @param RegionBuilder $regionBuilder
+     * @param AddressBuilder $addressBuilder
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
+     * @param CustomerHelper $customerHelperData
+     * @param Escaper $escaper
+     * @param CustomerExtractor $customerExtractor
+     * @param InvitationProvider $invitationProvider
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Context $context,
@@ -49,15 +63,15 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
         CustomerAccountServiceInterface $customerAccountService,
         Address $addressHelper,
         UrlFactory $urlFactory,
-        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
-        \Magento\Customer\Helper\Data $customerHelperData,
-        \Magento\Framework\Escaper $escaper,
-        \Magento\Customer\Model\CustomerExtractor $customerExtractor,
-        \Magento\Invitation\Model\InvitationProvider $invitationProvider
+        FormFactory $formFactory,
+        SubscriberFactory $subscriberFactory,
+        RegionBuilder $regionBuilder,
+        AddressBuilder $addressBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder,
+        CustomerHelper $customerHelperData,
+        Escaper $escaper,
+        CustomerExtractor $customerExtractor,
+        InvitationProvider $invitationProvider
     ) {
         $this->invitationProvider = $invitationProvider;
         parent::__construct(
@@ -80,16 +94,6 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     }
 
     /**
-     * Is registration allowed
-     *
-     * @return bool
-     */
-    protected function isRegistrationAllowed()
-    {
-        return true;
-    }
-
-    /**
      * Create customer account action
      *
      * @return void
@@ -108,15 +112,15 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
 
             $this->_redirect('customer/account/');
             return;
-        } catch (\Magento\Framework\Model\Exception $e) {
+        } catch (FrameworkException $e) {
             $_definedErrorCodes = array(
-                \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
-                \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA
+                Invitation::ERROR_CUSTOMER_EXISTS,
+                Invitation::ERROR_INVALID_DATA
             );
             if (in_array($e->getCode(), $_definedErrorCodes)) {
                 $this->messageManager->addError($e->getMessage())->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if ($this->_customerHelperData->isRegistrationAllowed()) {
+                if ($this->customerHelperData->isRegistrationAllowed()) {
                     $this->messageManager->addError(__('Your invitation is not valid. Please create an account.'));
                     $this->_redirect('customer/account/create');
                     return;
@@ -126,7 +130,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
                             'Your invitation is not valid. Please contact us at %1.',
                             $this->scopeConfig->getValue(
                                 'trans_email/ident_support/email',
-                                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                                ScopeInterface::SCOPE_STORE
                             )
                         )
                     );

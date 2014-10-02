@@ -1908,4 +1908,5 @@ return array(
     ['_loginPostRedirect', 'Magento\Customer\Controller\Account\LoginPost', 'Magento\Customer\Controller\Account\LoginPost::loginPostRedirect'],
     ['_getAllowedActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::getAllowedActions'],
     ['isRegistrationAllowed', 'Magento\Customer\Controller\Account\CreatePost'],
+    ['isRegistrationAllowed', 'Magento\Invitation\Controller\Customer\Account\CreatePost'],
 );
