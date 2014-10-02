@@ -54,6 +54,9 @@
     <assertOrderOnHoldSuccessMessage module="Magento_Sales">
         <severeness>high</severeness>
     </assertOrderOnHoldSuccessMessage>
+    <assertOrderMassOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderMassOnHoldSuccessMessage>
     <assertUnholdButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertUnholdButton>
@@ -69,18 +72,12 @@
     <assertInvoiceInInvoicesTab module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoiceInInvoicesTab>
-    <assertInvoiceInInvoicesGridOnFrontend module="Magento_Sales">
+    <assertInvoiceInInvoicesGrid module="Magento_Sales">
         <severeness>low</severeness>
-    </assertInvoiceInInvoicesGridOnFrontend>
+    </assertInvoiceInInvoicesGrid>
     <assertInvoicedAmountOnFrontend module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoicedAmountOnFrontend>
-    <assertNoShipButton module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertNoShipButton>
-    <assertShipmentInShipmentsTab module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertShipmentInShipmentsTab>
     <assertInvoiceSuccessCreateMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoiceSuccessCreateMessage>
@@ -108,7 +105,7 @@
     <assertOrderReleaseFailMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderReleaseFailMessage>
-    <assertShipmentSuccessCreateMessage module="Magento_Sales">
+    <assertReorderStatusIsCorrect module="Magento_Sales">
         <severeness>low</severeness>
-    </assertShipmentSuccessCreateMessage>
+    </assertReorderStatusIsCorrect>
 </constraint>
