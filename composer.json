@@ -250,7 +250,8 @@
                 "dev/tests/performance/framework/Magento/TestFramework/",
                 "dev/tests/static/framework/Magento/TestFramework/",
                 "dev/tests/unit/framework/Magento/TestFramework/"
-            ]
+            ],
+            "Magento\\ToolkitFramework\\" : ["dev/tools/performance_toolkit/framework/Magento/ToolkitFramework/"]
         }
     }
 }
