@@ -26,6 +26,12 @@ class Manager
      */
     protected $objectManager;
 
+    /**
+     * Constructor
+     *
+     * @param Config $config
+     * @param ObjectManager $objectManager
+     */
     public function __construct(Config $config, ObjectManager $objectManager)
     {
         $this->config = $config;
@@ -74,7 +80,12 @@ class Manager
             $row = [];
             foreach ($fields as $field) {
                 if ($field['datatype'] == 'lookup') {
-                    $lookup = $this->getData($field['reference']['target'], [$field['reference']['target_field']=> $row[$field['reference']['referenced_field']]]);
+                    $lookup = $this->getData(
+                        $field['reference']['target'],
+                        [
+                            $field['reference']['target_field'] => $row[$field['reference']['referenced_field']]
+                        ]
+                    );
                     $row[$field['name']] = $lookup[0][$field['reference']['needed_field']];;
                 } else {
                     $row[$field['name']] = $item->getData($field['name']);

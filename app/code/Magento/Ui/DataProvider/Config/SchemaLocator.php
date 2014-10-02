@@ -24,7 +24,7 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
      */
     public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
     {
-//        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Email') . '/email_templates.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Ui') . '/data_source.xsd';
     }
 
     /**
