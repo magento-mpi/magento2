@@ -104,8 +104,9 @@ class Product implements SetupInterface
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0));
 
-                $product->setCanSaveBundleSelections(true);
                 $product->setCanSaveConfigurableAttributes(true);
+                $product->setCanSaveBundleSelections(true)
+                    ->setPriceType(0);
 
                 $product->save();
                 echo '.';
