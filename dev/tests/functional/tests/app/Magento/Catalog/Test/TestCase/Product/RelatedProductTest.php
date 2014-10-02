@@ -49,21 +49,21 @@ class RelatedProductTest extends Functional
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getProductSku()]);
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getSku()]);
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormPageActions()->save();
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->waitSuccessMessage();
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
-            ['sku' => $assignToSimple1->getProduct('configurable')->getProductSku()]
+            ['sku' => $assignToSimple1->getProduct('configurable')->getSku()]
         );
         $assignToSimple1->switchData('add_related_product');
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormPageActions()->save();
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->waitSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
     }
@@ -105,7 +105,7 @@ class RelatedProductTest extends Functional
         //Verify that both configurable product and simple product 2 are added to shopping cart
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
-        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->waitSuccessMessage();
         $this->assertTrue(
             $checkoutCartBlock->isProductInShoppingCart($configurable),
             'Configurable product was not found in the shopping cart.'
