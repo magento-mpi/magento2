@@ -28,6 +28,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
         'init_amount' => '',
         'init_may_fail' => ''
     );
+
     /**
      * Convert CSV format row to array
      *
@@ -36,6 +37,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     public function convertRow($row)
     {
+        $recurringData = $this->recurringPayment;
         $data = [];
         foreach ($row as $field => $value) {
             if ('category' == $field) {
@@ -48,8 +50,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                 continue;
             }
 
-            if (isset($this->recurringPayment[$field])) {
-                $this->recurringPayment[$field] = $value;
+            if (isset($recurringData[$field])) {
+                $recurringData[$field] = $value;
                 continue;
             }
 
@@ -68,8 +70,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
 
         }
         if(isset($data['is_recurring']) && $data['is_recurring'] == '1')
-        $data['recurring_payment'] = $this->recurringPayment;
+        $data['recurring_payment'] = $recurringData;
         return $data;
     }
-
 }

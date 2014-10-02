@@ -12,7 +12,6 @@ use Magento\Tools\SampleData\SetupInterface;
 /**
  * Class Setup
  * Launches setup of sample data for RecurringPayment module
- * @package Magento\Tools\SampleData\Module\RecurringPayment
  */
 class Setup implements SetupInterface
 {

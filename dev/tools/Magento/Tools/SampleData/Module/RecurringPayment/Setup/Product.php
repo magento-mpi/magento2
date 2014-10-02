@@ -11,6 +11,10 @@ use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
+/**
+ * Class Product
+ * Launches installing of virtual products with recurring payment
+ */
 class Product implements SetupInterface
 {
     /**

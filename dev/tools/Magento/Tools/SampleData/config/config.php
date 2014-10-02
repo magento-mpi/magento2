@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 return [
     'setup_resources' => [
         'Magento_Catalog' => 'Magento\Tools\SampleData\Module\Catalog\Setup',
