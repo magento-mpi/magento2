@@ -42,7 +42,7 @@ class OnepageTest extends Functional
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         }
 
         //Proceed to checkout

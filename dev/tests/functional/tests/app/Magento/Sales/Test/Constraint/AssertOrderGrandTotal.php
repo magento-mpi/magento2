@@ -8,7 +8,7 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Magento\Sales\Test\Page\SalesOrderView;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -27,11 +27,11 @@ class AssertOrderGrandTotal extends AbstractConstraint
     /**
      * Assert that Order Grand Total is correct on order page in backend
      *
-     * @param SalesOrderView $salesOrderView
+     * @param OrderView $salesOrderView
      * @param string $grandTotal
      * @return void
      */
-    public function processAssert(SalesOrderView $salesOrderView, $grandTotal)
+    public function processAssert(OrderView $salesOrderView, $grandTotal)
     {
         \PHPUnit_Framework_Assert::assertEquals(
             $grandTotal,

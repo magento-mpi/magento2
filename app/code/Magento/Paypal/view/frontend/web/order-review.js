@@ -160,6 +160,7 @@ define([
             if (this.element.data('mageValidation')) {
                 return this.element.validation().valid();
             }
+            return true;
         },
 
         /**

@@ -23,7 +23,7 @@ class Wishlist extends Block
      *
      * @var string
      */
-    protected $addGiftRegistry = '.giftregisty.add span.action';
+    protected $addGiftRegistry = '.giftregisty-dropdown.add span.action';
 
     /**
      * Gift registry selector
