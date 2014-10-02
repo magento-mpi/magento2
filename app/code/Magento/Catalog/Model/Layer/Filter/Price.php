@@ -446,20 +446,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     }
 
     /**
-     * Apply filter value to product collection based on filter range and selected value
-     *
-     * @param int $range
-     * @param int $index
-     * @return \Magento\Catalog\Model\Layer\Filter\Price
-     * @deprecated since 1.7.0.0
-     */
-    protected function _applyToCollection($range, $index)
-    {
-        $this->_getResource()->applyFilterToCollection($this, $range, $index);
-        return $this;
-    }
-
-    /**
      * Retrieve active customer group id
      *
      * @return int
