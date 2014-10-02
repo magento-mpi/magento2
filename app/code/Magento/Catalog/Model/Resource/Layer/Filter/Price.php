@@ -375,7 +375,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $select = $filter->getLayer()->getProductCollection()->getSelect();
-        $priceExpr = $this->_getPriceExpression($filter, $select, false);
+        $priceExpr = $this->_getPriceExpression($select, false);
 
         if ($to !== '') {
             $to = (double)$to;
