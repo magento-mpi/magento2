@@ -294,9 +294,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         if ($appliedInterval && $collection->getPricesCount() <= $this->getIntervalDivisionLimit()) {
             return array();
         }
-        $this->_priceAlgorithm->setPricesModel(
-            $this
-        )->setStatistics(
+        $this->_priceAlgorithm->setStatistics(
             $collection->getMinPrice(),
             $collection->getMaxPrice(),
             $collection->getPriceStandardDeviation(),

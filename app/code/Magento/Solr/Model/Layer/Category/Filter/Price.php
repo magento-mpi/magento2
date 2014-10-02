@@ -294,15 +294,13 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                 $appliedInterval[0] == $appliedInterval[1] ||
                 $appliedInterval[1] === '0')
             ) {
-                $this->_priceAlgorithm->setPricesModel($this)->setStatistics(0, 0, 0, 0);
+                $this->_priceAlgorithm->setStatistics(0, 0, 0, 0);
                 $this->_divisible = false;
             } else {
                 if ($appliedInterval) {
                     $this->_priceAlgorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
                 }
-                $this->_priceAlgorithm->setPricesModel(
-                    $this
-                )->setStatistics(
+                $this->setStatistics(
                     round($statistics['min'] * $this->getCurrencyRate(), 2),
                     round($statistics['max'] * $this->getCurrencyRate(), 2),
                     $statistics['stddev'] * $this->getCurrencyRate(),
