@@ -6,18 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\SalesArchive\Test\Constraint;
+namespace Magento\Shipping\Test\Constraint;
 
 use Mtf\Constraint\AbstractAssertForm;
-use Mtf\Page\BackendPage;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AbstractAssertArchiveItems
- * Assert items represented in archived entity view page
+ * Assert items represented in shipment entity view page
  */
-abstract class AbstractAssertArchiveItems extends AbstractAssertForm
+abstract class AbstractAssertItems extends AbstractAssertForm
 {
     /**
      * Key for sort data
@@ -41,19 +40,22 @@ abstract class AbstractAssertArchiveItems extends AbstractAssertForm
      * Prepare order products
      *
      * @param OrderInjectable $order
+     * @param array|null $data [optional]
      * @return array
      */
-    protected function prepareOrderProducts(OrderInjectable $order)
+    protected function prepareOrderProducts(OrderInjectable $order, array $data = null)
     {
         $products = $order->getEntityId()['products'];
         $productsData = [];
 
         /** @var CatalogProductSimple $product */
-        foreach ($products as $product) {
+        foreach ($products as $key => $product) {
             $productsData[] = [
                 'product' => $product->getName(),
                 'sku' => $product->getSku(),
-                'qty' => $product->getCheckoutData()['options']['qty']
+                'qty' => (isset($data['qty'][$key]) && $data['qty'][$key] != '-')
+                            ? $data['qty'][$key]
+                            : $product->getCheckoutData()['options']['qty']
             ];
         }
 

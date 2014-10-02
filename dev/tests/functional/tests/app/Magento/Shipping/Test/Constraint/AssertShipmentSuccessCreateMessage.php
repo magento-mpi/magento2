@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Constraint;
+namespace Magento\Shipping\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertShipmentSuccessCreateMessage
@@ -30,7 +30,7 @@ class AssertShipmentSuccessCreateMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after shipment has been created
+     * Assert success message presents
      *
      * @param OrderView $orderView
      * @return void
