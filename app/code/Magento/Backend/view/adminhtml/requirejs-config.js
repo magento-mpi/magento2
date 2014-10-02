@@ -30,7 +30,10 @@ var config = {
         }
     },
     deps: [
-        'Magento_Backend/system/validation-rules'
+        'Magento_Backend/system/validation-rules',
+        "js/theme",
+        "mage/dropdown_old",
+        "mage/backend/bootstrap"
     ],
     paths: {
         "jquery/ui": "jquery/jquery-ui-1.9.2"

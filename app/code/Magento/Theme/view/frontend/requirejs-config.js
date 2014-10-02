@@ -34,6 +34,18 @@ var config = {
         }
     },
     paths: {
-        "jquery/ui": "jquery/jquery-ui"
-    }
+        'jquery/ui': 'jquery/jquery-ui'
+    },
+    deps: [
+        'jquery',
+        'jquery/jquery-migrate',
+        'jquery/jquery.mobile.custom',
+        'js/responsive',
+        'mage/common',
+        'mage/dataPost',
+        'mage/dropdowns',
+        'js/theme',
+        'mage/terms',
+        'mage/bootstrap'
+    ]
 };

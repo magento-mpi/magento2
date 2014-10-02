@@ -16,5 +16,8 @@ var config = {
     },
     paths: {
         baseImage: 'Magento_Catalog/catalog/base-image-uploader'
-    }
+    },
+    deps: [
+        "Magento_Catalog/catalog/product"
+    ]
 };
