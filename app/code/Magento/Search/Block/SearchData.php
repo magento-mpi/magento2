@@ -12,7 +12,7 @@ use Magento\Search\Model\SearchDataProviderInterface;
 use Magento\Search\Model\QueryInterface;
 use Magento\Search\Model\QueryFactoryInterface;
 
-class SearchData extends Template implements SearchDataInterface
+abstract class SearchData extends Template implements SearchDataInterface
 {
 
     /**
@@ -23,7 +23,7 @@ class SearchData extends Template implements SearchDataInterface
     /**
      * @var string
      */
-    protected $title = '';
+    protected $title;
 
     /**
      * @var SearchDataProviderInterface
@@ -39,16 +39,19 @@ class SearchData extends Template implements SearchDataInterface
      * @param Template\Context $context
      * @param SearchDataProviderInterface $searchDataProvider
      * @param QueryFactoryInterface $queryFactory
+     * @param $title
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         SearchDataProviderInterface $searchDataProvider,
         QueryFactoryInterface $queryFactory,
+        $title,
         array $data = array()
     ) {
         $this->searchDataProvider = $searchDataProvider;
         $this->query = $queryFactory->get();
+        $this->title = $title;
         parent::__construct($context, $data);
     }
 

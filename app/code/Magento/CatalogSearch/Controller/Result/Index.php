@@ -8,6 +8,7 @@
  */
 namespace Magento\CatalogSearch\Controller\Result;
 
+use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\Framework\App\Action\Context;
 use Magento\Catalog\Model\Session;
 use Magento\Framework\StoreManagerInterface;
@@ -27,14 +28,26 @@ class Index extends \Magento\Framework\App\Action\Action
     protected $_storeManager;
 
     /**
+     * @var QueryFactory
+     */
+    private $_queryFactory;
+
+    /**
      * @param Context $context
      * @param Session $catalogSession
      * @param StoreManagerInterface $storeManager
+     * @param QueryFactory $queryFactory
      */
-    public function __construct(Context $context, Session $catalogSession, StoreManagerInterface $storeManager)
+    public function __construct(
+        Context $context,
+        Session $catalogSession,
+        StoreManagerInterface $storeManager,
+        QueryFactory $queryFactory
+    )
     {
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
+        $this->_queryFactory = $queryFactory;
         parent::__construct($context);
     }
 
@@ -46,7 +59,7 @@ class Index extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         /* @var $query \Magento\CatalogSearch\Model\Query */
-        $query = $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->getQuery();
+        $query = $this->_queryFactory->get();
 
         $query->setStoreId($this->_storeManager->getStore()->getId());
 

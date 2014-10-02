@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Solr\Adapter;
+namespace Magento\Solr\Model\DataProvider;
 
 use Magento\Search\Model\QueryInterface;
 use Magento\Search\Model\SearchDataProviderInterface;
@@ -47,6 +47,8 @@ class Suggestions implements SearchDataProviderInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = null)
     {

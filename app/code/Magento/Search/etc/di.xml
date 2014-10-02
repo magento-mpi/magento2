@@ -9,19 +9,16 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <type name="Magento\Search\Block\SearchData">
-        <arguments>
-            <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>
-        </arguments>
-    </type>
     <type name="Magento\Search\Block\Recommendations">
         <arguments>
             <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>
+            <argument name="title" xsi:type="string">Related search terms</argument>
         </arguments>
     </type>
     <type name="Magento\Search\Block\Suggestions">
         <arguments>
             <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>
+            <argument name="title" xsi:type="string">Did you mean</argument>
         </arguments>
     </type>
 </config>
