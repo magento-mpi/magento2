@@ -1,0 +1,8 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <fieldset name="customer_group" dataset="Magento\Customer\Model\Resource\Group\Collection">
+        <fields>
+            <field name="customer_group_id" datatype="int" visible="true"/>
+            <field name="customer_group_code" datatype="string" visible="true"/>
+        </fields>
+    </fieldset>
+</config>

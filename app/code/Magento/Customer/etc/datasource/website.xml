@@ -1,0 +1,8 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <fieldset name="website" dataset="Magento\Store\Model\Resource\Website\Collection">
+        <fields>
+            <field name="website_id" datatype="int" visible="true"/>
+            <field name="name" datatype="string" visible="true"/>
+        </fields>
+    </fieldset>
+</config>
