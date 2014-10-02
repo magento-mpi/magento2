@@ -19,4 +19,11 @@ interface DataProviderCollectionInterface extends DataProviderInterface
      * @return void
      */
     public function addFilter(array $filter);
+
+    /**
+     * Get data
+     *
+     * @return \Magento\Framework\Object[]
+     */
+    public function getData();
 }

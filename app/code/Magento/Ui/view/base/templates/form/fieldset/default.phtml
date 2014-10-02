@@ -8,8 +8,12 @@
 /**
  * @var \Magento\Ui\Component\Form\Fieldset $this
  */
+$legendText = $this->getLegendText();
 ?>
 <fieldset>
+    <?php if (isset($legendText)): ?>
+        <legend><?php echo $legendText; ?></legend>
+    <?php endif; ?>
     <?php foreach ($this->getElements() as $element): ?>
         <?php echo $element->render(); ?>
     <?php endforeach; ?>

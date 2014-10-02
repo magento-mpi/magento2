@@ -18,7 +18,7 @@
                 </item>
             </argument>
             <argument name="name" xsi:type="string">customer_form</argument>
-            <argument name="layout" xsi:type="string">tabs</argument>
+            <!--<argument name="layout" xsi:type="string">tabs</argument>-->
 
             <argument name="container" xsi:type="string">fieldset</argument>
 
@@ -50,9 +50,12 @@
                             </item>
                         </item>
                         <item name="filter" xsi:type="array">
-                            <item name="customer_id" xsi:type="array">
-                                <item name="data_provider" xsi:type="string">customer_info</item>
-                                <item name="field" xsi:type="string">id</item>
+                            <item name="parent_id" xsi:type="array">
+                                <item name="data_provider" xsi:type="array">
+                                    <item name="name" xsi:type="string">customer_info</item>
+                                    <item name="field" xsi:type="string">entity_id</item>
+                                </item>
+                                <item name="field" xsi:type="string">parent_id</item>
                                 <item name="filter_type" xsi:type="string">eq</item>
                             </item>
                         </item>

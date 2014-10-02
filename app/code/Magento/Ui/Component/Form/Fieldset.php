@@ -8,13 +8,43 @@
 namespace Magento\Ui\Component\Form;
 
 use Magento\Ui\Component\AbstractView;
-use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Class Fieldset
  */
 class Fieldset extends AbstractView
 {
+    /**
+     * Legend text
+     *
+     * @var string
+     */
+    protected $legendText = 'Legend text';
+
+    /**
+     * @return string
+     */
+    public function getLegendText()
+    {
+        return $this->legendText;
+    }
+
+    /**
+     * Set legend text
+     *
+     * @param $legendText
+     * @return void
+     */
+    public function setLegendText($legendText)
+    {
+        $this->legendText = $legendText;
+    }
+
+    /**
+     * Prepare component data
+     *
+     * @return void
+     */
     public function prepare()
     {
         parent::prepare();
