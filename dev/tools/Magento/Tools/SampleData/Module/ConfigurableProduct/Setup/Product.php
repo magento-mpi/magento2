@@ -29,11 +29,6 @@ class Product implements SetupInterface
     protected $configurableProductType;
 
     /**
-     * @var Product\ImageInstaller
-     */
-    protected $imageInstaller;
-
-    /**
      * @var Product\Converter
      */
     protected $converter;
@@ -52,7 +47,6 @@ class Product implements SetupInterface
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param Product\ImageInstaller $imageInstaller
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
@@ -61,7 +55,6 @@ class Product implements SetupInterface
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType,
         \Magento\Catalog\Model\Config $catalogConfig,
-        Product\ImageInstaller $imageInstaller,
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory
@@ -69,7 +62,6 @@ class Product implements SetupInterface
         $this->productFactory = $productFactory;
         $this->configurableProductType = $configurableProductType;
         $this->catalogConfig = $catalogConfig;
-        $this->imageInstaller = $imageInstaller;
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -118,8 +110,6 @@ class Product implements SetupInterface
 
                 $product->save();
                 echo '.';
-
-                $this->imageInstaller->install($product);
             }
         }
         echo "\n";

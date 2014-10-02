@@ -73,6 +73,7 @@ class Converter
     /**
      * @param array $row
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convertRow($row)
     {
@@ -204,10 +205,11 @@ class Converter
             $attributeLabels = array();
             $price = $productPrice;
             foreach ($data['configurable_attributes_data'] as $attributeData) {
-                $attributeValues[$attributeData['attribute_code']] = $variation[$attributeData['attribute_id']]['value'];
-                $attributeLabels[$attributeData['attribute_code']] = $variation[$attributeData['attribute_id']]['label'];
-                if (isset($variation[$attributeData['attribute_id']]['price'])) {
-                    $priceInfo = $variation[$attributeData['attribute_id']]['price'];
+                $attributeId = $attributeData['attribute_id'];
+                $attributeValues[$attributeData['attribute_code']] = $variation[$attributeId]['value'];
+                $attributeLabels[$attributeData['attribute_code']] = $variation[$attributeId]['label'];
+                if (isset($variation[$attributeId]['price'])) {
+                    $priceInfo = $variation[$attributeId]['price'];
                     $price += ($priceInfo['is_percent'] ? $productPrice / 100.0 : 1.0) * $priceInfo['pricing_value'];
                 }
             }
@@ -230,10 +232,21 @@ class Converter
      */
     public function getAttributeOptions($attributeCode)
     {
-        if (isset($this->attributeCodeOptionsPair[$attributeCode])) {
-            return $this->attributeCodeOptionsPair[$attributeCode];
+        if (!$this->attributeCodeOptionsPair) {
+            $this->loadAttributeOptions();
         }
+        return isset($this->attributeCodeOptionsPair[$attributeCode])
+            ? $this->attributeCodeOptionsPair[$attributeCode]
+            : null;
+    }
 
+    /**
+     * Loads all attributes with options for current attribute set
+     *
+     * @return $this
+     */
+    protected function loadAttributeOptions()
+    {
         /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
         $collection = $this->attributeCollectionFactory->create();
         $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
@@ -244,7 +257,7 @@ class Converter
                 ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
             $this->attributeCodeOptionsPair[$item->getAttributeCode()] = $options;
         }
-        return null;
+        return $this;
     }
 
     /**
@@ -253,18 +266,16 @@ class Converter
      */
     protected function getAttributeOptionValueIdsPair($attributeCode)
     {
-        if (isset($this->attributeCodeOptionValueIdsPair[$attributeCode])) {
-            return $this->attributeCodeOptionValueIdsPair[$attributeCode];
-        }
-
-        $options = $this->getAttributeOptions($attributeCode);
-        $opt = [];
-        if ($options) {
-            foreach ($options as $option) {
-                $opt[$option->getValue()] = $option->getId();
+        if (!isset($this->attributeCodeOptionValueIdsPair[$attributeCode])) {
+            $options = $this->getAttributeOptions($attributeCode);
+            $opt = [];
+            if ($options) {
+                foreach ($options as $option) {
+                    $opt[$option->getValue()] = $option->getId();
+                }
             }
+            $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
         }
-        $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
         return $this->attributeCodeOptionValueIdsPair[$attributeCode];
     }
 
@@ -282,6 +293,9 @@ class Converter
      */
     public function setAttributeSetId($value)
     {
+        if ($this->attributeSetId != $value) {
+            $this->loadAttributeOptions();
+        }
         $this->attributeSetId = $value;
         return $this;
     }
