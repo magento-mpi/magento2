@@ -10,11 +10,13 @@ define([
 ], function(_, Scope) {
     'use strict';
 
-    var Tab = Scope.extend({
-        initialize: function(config, provider) {
-            _.extend(this, config);
+    var defaults = {
+        active: false
+    };
 
-            this.provider = provider;
+    return Scope.extend({
+        initialize: function(config, provider) {
+            _.extend(this, defaults, config);
 
             this.initObservable()
                 .initListeners()
@@ -23,8 +25,8 @@ define([
 
         initObservable: function() {
             this.observe({
-                'active': this.active,
-                'changed': false
+                'active':   this.active,
+                'changed':  false
             });
 
             return this;
@@ -33,12 +35,29 @@ define([
         initListeners: function() {
             var params = this.provider.params;
 
+            _.bindAll(this, 'pullParams', 'onAreasChange');
+
             params.on({
-                'update:activeTab':     this.pullParams.bind(this),
-                'update:changedAreas':  this.onAreasChange.bind(this)
+                'update:activeArea':    this.pullParams,
+                'update:changedAreas':  this.onAreasChange
             });
 
             return this;
+        },
+
+        pushParams: function() {
+            var params = this.provider.params;
+
+            if(this.active()){
+                params.set('activeArea', this.name);
+            }
+        },
+
+        pullParams: function() {
+            var params  = this.provider.params,
+                area     = params.get('activeArea');
+
+            this.active(area === this.name);
         },
 
         setActive: function() {
@@ -47,25 +66,9 @@ define([
             this.pushParams();
         },
 
-        pushParams: function() {
-            var params = this.provider.params;
-
-            if(this.active()){
-                params.set('activeTab', this.name);
-            }
-        },
-
-        pullParams: function() {
-            var params  = this.provider.params,
-                tab     = params.get('activeTab');
-
-            this.active(this.name === tab);
-        },
-
-        onAreasChange: function(changed){
-            this.changed( !!~changed.indexOf(this.name) );
+        onAreasChange: function(changed) {
+            this.changed(!!~changed.indexOf(this.name));
         }
     });
 
-    return Tab;
 });

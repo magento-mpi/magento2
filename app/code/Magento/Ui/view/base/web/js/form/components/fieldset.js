@@ -6,7 +6,7 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/lib/collection',
+    'Magento_Ui/js/initializer/collection',
     'Magento_Ui/js/lib/ko/scope',
     'Magento_Ui/js/lib/events'
 ], function(_, Collection, Scope, EventsBus) {

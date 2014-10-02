@@ -6,7 +6,7 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/lib/collection',
+    'Magento_Ui/js/initializer/collection',
     'Magento_Ui/js/lib/ko/scope',
     'Magento_Ui/js/lib/events',
     'mage/utils'
@@ -20,9 +20,8 @@ define([
         breakLine:  false
     };
 
-    function getLabel(obj){
-        var elems = obj.elems,
-            label = obj.label;
+    function getLabel(elems, obj){
+        var label = obj.label;
 
         if(!label){
             elems.some(function(elem){
@@ -33,22 +32,17 @@ define([
         return label;
     }
 
-    function getRequired(obj){
-        var elems = obj.elems;
-
+    function getRequired(elems){
         return elems.some(function(elem){
             return elem.required();
         });
     }
 
-    function getUid(obj){
-        var elems = obj.elems,
-            uid;
+    function getUid(elems){
+        var uid;
 
         elems.some(function(elem){
-            uid = elem.uid;
-
-            return typeof uid !== 'undefined';
+            return (uid = elem.uid);
         });
 
         return uid;
@@ -58,27 +52,28 @@ define([
         initialize: function(config) {
             _.extend(this, defaults, config);
 
-            this.uid = utils.uniqueid();
-
-            this.extractData()
-                .initListeners();
+            this.initListeners()
+                .extractData();
         },
 
         extractData: function(){
+            var elems = this.elems;
+
             return _.extend(this, {
-                label:      getLabel(this),
-                required:   getRequired(this),
-                uid:        getUid(this)
+                label:      getLabel(elems, this),
+                required:   getRequired(elems, this),
+                uid:        getUid(elems, this)
             });
         },
 
         initListeners: function(){
-            var elems   = this.elems,
-                trigger = this.trigger.bind(this, 'update');
+            var trigger = this.trigger.bind(this, 'update');
 
-            elems.forEach(function(elem){
+            this.elems.forEach(function(elem){
                 elem.on('update', trigger);
             });
+            
+            return this;
         },
 
         getTemplate: function(){

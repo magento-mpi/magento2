@@ -11,8 +11,7 @@ define([
 ], function (_, Scope, registry) {
     'use strict';
 
-    var Collection = Scope.extend({
-
+    return Scope.extend({
         initialize: function (config) {
             _.extend(this, config);
 
@@ -29,28 +28,32 @@ define([
         },
 
         initItems: function(){
+            var deps,
+                callback;
+                
             _.each(this.layout.items, function(item, name){
-                registry.get(
-                    item.injections,
-                    this.initItem.bind(this, item, name)
-                );
+                callback    = this.initItem.bind(this, item, name),
+                deps        = item.injections;
+
+                registry.get(deps, callback);
             }, this);
 
             return this;
         },
 
-        initItem: function(config, name){            
+        initItem: function(data, name){            
             var fullName    = this.name + '.' + name,
                 component   = this.component,
                 injections  = Array.prototype.slice.call(arguments, 2),
+                config,
                 item;
 
-            _.extend(config, {
+            config = _.extend({
                 provider:   this.provider,
                 fullName:   fullName,
                 name:       name,
                 elems:      injections
-            });
+            }, data);
 
             item = new component(config);
 
@@ -59,29 +62,4 @@ define([
             registry.set(fullName, item);
         }
     });
-
-    function init(constr, data, name, provider){
-        var storage = registry.get('globalStorage'),
-            layout  = storage.get().layout[name],
-            config;
-
-        config = _.extend({
-            name:       name,
-            component:  constr,
-            layout:     layout,
-            provider:   provider
-        }, data.config || {});
-
-        registry.set(name, new Collection(config));
-    }
-
-    function load(constr, data, name){
-        registry.get([
-            data.source
-        ], init.bind(null, constr, data, name));    
-    }
-
-    return function(constr){
-        return load.bind(null, constr);  
-    };
 });
