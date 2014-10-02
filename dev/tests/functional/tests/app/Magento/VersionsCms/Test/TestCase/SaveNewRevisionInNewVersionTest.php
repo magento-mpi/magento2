@@ -34,10 +34,10 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit;
  * 7. Enter version name
  * 8. Perform all assertions
  *
- * @group CMS_Content_(PS)
+ * @group CMS_Versioning_(PS)
  * @ZephyrId MAGETWO-29102
  */
-class SaveNewRevisionInANewVersionTest extends Injectable
+class SaveNewRevisionInNewVersionTest extends Injectable
 {
     /**
      * CmsIndex page

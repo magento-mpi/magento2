@@ -46,5 +46,7 @@ class AssertCmsPageRevisionAsVersionSuccessSaveMessage extends AssertCmsPageNewV
     {
         $this->browser->selectWindow();
         parent::processAssert($cmsVersionEdit);
+        $this->browser->closeWindow();
+        $this->browser->selectWindow();
     }
 }
