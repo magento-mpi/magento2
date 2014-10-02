@@ -5,19 +5,20 @@
  * @license     {license_link}
  */
 define([
-    './input',
+    './abstract',
     './select',
     './multiple_select',
     './textarea'
-], function (Input, Select, MultipleSelect, Textarea) {
+], function (Abstract, Select, MultipleSelect, Textarea) {
     'use strict';
 
     return {
-        input:              Input,
-        price:              Input,
-        email:              Input,
-        textarea:           Textarea,
+        input:              Abstract,
+        email:              Abstract,
+        checkbox:           Abstract,
+        price:              Abstract,
         select:             Select,
-        multiple_select:    MultipleSelect
+        multiple_select:    MultipleSelect,
+        textarea:           Textarea
     }
 });

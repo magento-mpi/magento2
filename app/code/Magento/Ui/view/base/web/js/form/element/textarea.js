@@ -5,8 +5,8 @@
  * @license     {license_link}
  */
 define([
-    './input'
-], function (Input) {
+    './abstract'
+], function (Abstract) {
     'use strict';
 
     var defaults = {
@@ -14,7 +14,7 @@ define([
         rows: 2
     };
 
-    return Input.extend({
+    return Abstract.extend({
 
         /**
          * Invokes initialize method of parent class.
@@ -22,7 +22,7 @@ define([
         initialize: function () {
             _.extend(this, defaults);
 
-            Input.prototype.initialize.apply(this, arguments);
+            Abstract.prototype.initialize.apply(this, arguments);
         }
     });
 });
