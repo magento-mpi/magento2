@@ -134,6 +134,11 @@
                                 "buttonImage": "/pub/static/adminhtml/Magento/backend/en_US/images/grid/cal.gif",
                                 "buttonText": "Select Date"
                             }
+                        },
+                        "image": {
+                            "index": "image",
+                            "input_type": "media",
+                            "label": "Image"
                         }
                     }
                 },
@@ -249,7 +254,7 @@
                     },
                     "group": {
                         "breakLine": true,
-                        "label": "Ganeral",
+                        "label": "General",
                         "injections": [
                             "customer.general",
                             "customer.disable_auto"
@@ -321,6 +326,11 @@
                         "injections": [
                             "customer.created"
                         ]
+                    },
+                    "image": {
+                        "injections": [
+                            "customer.image"
+                        ]
                     }
                 }
             },
@@ -343,7 +353,8 @@
                             "customer_form_groups.send_email",
                             "customer_form_groups.currencies",
                             "customer_form_groups.comments",
-                            "customer_form_groups.created"
+                            "customer_form_groups.created",
+                            "customer_form_groups.image"
                         ]
                     },
                     "customer_addresses": {
