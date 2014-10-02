@@ -29,11 +29,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_layer;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_priceFactory;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Layer\Filter\Price|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_priceFilterItem;
@@ -91,28 +86,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_productCollection)
         );
 
-        $this->_priceFactory = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory',
-            array('create'),
-            array(),
-            '',
-            false
-        );
-        $this->_priceFilterItem = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Layer\Filter\Price',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $this->_priceFactory->expects(
-            $this->any()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_priceFilterItem)
-        );
-
         $this->_resourceEngine = $this->getMock(
             'Magento\Solr\Model\Resource\Solr\Engine',
             array(),
@@ -124,13 +97,17 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_cache = $this->getMock('\Magento\Framework\App\CacheInterface', array(), array(), '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
+        $this->_priceFilterItem = $this->getMockBuilder('Magento\Catalog\Model\Resource\Layer\Filter\Price')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
             'Magento\Solr\Model\Layer\Category\Filter\Price',
             array(
                 'storeManager' => $this->_storeManager,
                 'layer' => $this->_layer,
-                'filterPriceFactory' => $this->_priceFactory,
+                'filterPrice' => $this->_priceFilterItem,
                 'resourceEngine' => $this->_resourceEngine,
                 'cache' => $this->_cache,
                 'scopeConfig' => $this->_scopeConfig
