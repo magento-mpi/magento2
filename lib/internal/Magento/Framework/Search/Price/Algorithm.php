@@ -393,14 +393,11 @@ class Algorithm
             max(ceil($quantile + $deflectionLimit - 1), ceil($quantile))
         );
 
-        $deflection = self::STANDARD_NORMAL_DISTRIBUTION * sqrt(
-                $this->_count * $quantileNumber * ($this->getIntervalsNumber() - $quantileNumber)
-            ) / $this->getIntervalsNumber();
+        $sqrtParam = $this->_count * $quantileNumber * ($this->getIntervalsNumber() - $quantileNumber);
+        $deflection = self::STANDARD_NORMAL_DISTRIBUTION * sqrt($sqrtParam) / $this->getIntervalsNumber();
         $left = max(floor($quantile - $deflection - 1), $limits[0], 0);
-        if (array_key_exists(
-                $quantileNumber - 1,
-                $this->_skippedQuantilesUpperLimits
-            ) && $left > $this->_skippedQuantilesUpperLimits[$quantileNumber - 1]
+        if (array_key_exists($quantileNumber - 1, $this->_skippedQuantilesUpperLimits)
+            && $left > $this->_skippedQuantilesUpperLimits[$quantileNumber - 1]
         ) {
             $left = $this->_skippedQuantilesUpperLimits[$quantileNumber - 1];
         }
