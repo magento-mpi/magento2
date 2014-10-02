@@ -48,9 +48,7 @@
         );
         .account & {
             tfoot {
-                tr:first-child td {
-                    border-top: @table-border-width @table-border-style @table-border-color;
-                }
+                &:extend(.abstract-account-summary all);
             }
         }
 

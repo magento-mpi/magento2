@@ -15,7 +15,7 @@
     }
 
     .table-wrapper {
-        margin-bottom: 30px;
+        margin-bottom: 0;
         .product-item-name {
             .font-size(16);
         }
@@ -23,12 +23,32 @@
             display: inline-block;
             margin: 7px 0 0;
         }
-        .col.qty {
-            .input-text {
-                text-align: center;
-                width: 45px;
+        .col {
+            &.qty {
+                .input-text {
+                    text-align: center;
+                    width: 45px;
+                }
+            }
+            &.item {
+                .action.edit {
+                    font-weight: @font-weight-base;
+                    margin-left: @indent-s-base;
+                }
             }
         }
+    }
+
+    &:not(.address) {
+        .table-wrapper {
+            .product-item-name {
+                margin: 0;
+            }
+        }
+    }
+    
+    > .actions-toolbar {
+        margin-top: @indent-xl-base;
     }
 
     .actions-toolbar .secondary {
@@ -51,8 +71,11 @@
         &:extend(.abstract-add-clearfix all);
     }
 
-    .block-title {
+    .block-title,
+    .block-content .title {
+        &:extend(.abstract-account-title all);
         border-bottom: @border-width-base solid @border-color-base;
+        padding-bottom: 10px;
         strong {
             font-weight: @font-weight-base;
             span {
@@ -61,8 +84,49 @@
         }
     }
 
+    .block-content {
+        &:extend(.abstract-add-clearfix all);
+        .title {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+    }
+
+    &.order-review {
+        .block-title > strong {
+            .font-size(24);
+        }
+        .box-items {
+            padding-top: @indent-xl-base;
+        }
+        .data.table {
+            tfoot {
+                &:extend(.abstract-account-summary all);
+            }
+        }
+        .block-shipping {
+            .block-content:not(:last-child) {
+                margin-bottom: @indent-xl-base;
+            }
+        }
+    }
+
+    .box-shipping-method {
+        .price {
+            font-weight: @font-weight-bold;
+        }
+    }
+
     .hidden {
         &:extend(.abstract-no-display all);
+    }
+
+    .checkout-review .grand.totals {
+        .font-size(@font-size-xl);
+        margin-bottom: @indent-xl-base;
+        .mark {
+            font-weight: @font-weight-base;
+        }
     }
 }
 
@@ -102,8 +166,13 @@
             }
         }
 
-        .box {
-            margin-bottom: 40px;
+        .block-content .box {
+            &:not(:last-child) {
+                margin-bottom: @indent-xl-base;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 }
@@ -132,11 +201,10 @@
         }
 
         .table-wrapper {
-            td {
-                border-top: @border-width-base solid @border-color-base;
-            }
-            tr:last-child td {
-                border-bottom: @border-width-base solid @border-color-base;
+            tbody {
+                td {
+                    border-top: @border-width-base solid @border-color-base;
+                }
             }
             .col.qty {
                 text-align: center;
@@ -145,6 +213,10 @@
 
         .item-options {
             margin: 20px 0 0;
+        }
+
+        .block-content .box {
+            margin-bottom: 0;
         }
 
         .block-shipping {
@@ -163,9 +235,29 @@
         .block-billing {
             &:extend(.abstract-add-clearfix-mobile-m all);
             .box {
+                &:extend(.abstract-add-box-sizing-desktop all);
                 float: left;
                 padding: 0 5% 0 0;
                 width: 30%;
+            }
+        }
+
+        &.order-review {
+            .box-items {
+                clear: left;
+                float: none;
+                width: auto;
+            }
+            .col.item {
+                width: 75%;
+            }
+            .block-billing {
+                .box {
+                    width: 25%;
+                }
+            }
+            .mark {
+                text-align: right;
             }
         }
 
@@ -173,6 +265,19 @@
         .methods-payment {
             .item-content > .fieldset {
                 width: auto;
+            }
+            .fieldset > .field:not(.choice) {
+                > .label {
+                    float: none;
+                    margin-bottom: 8px;
+                    text-align: left;
+                    width: auto;
+                }
+                &:not(.cvv) {
+                    .control {
+                        width: 100%;
+                    }
+                }
             }
             .field {
                 &.cvv {

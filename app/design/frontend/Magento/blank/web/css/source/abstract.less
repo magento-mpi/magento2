@@ -141,6 +141,15 @@
 }
 
 //
+//    Account pages: order table summary
+//--------------------------------------
+.abstract-account-summary {
+    tr:first-child td {
+        border-top: @table-border-width @table-border-style @table-border-color;
+    }
+}
+
+//
 //    Simple Dropdown
 //--------------------------------------
 .abstract-dropdown-simple {
@@ -487,9 +496,9 @@
     .price-including-tax,
     .price-excluding-tax,
     .weee {
-        white-space: nowrap;
         display: inline-block;
         .font-size(14);
+        white-space: nowrap;
     }
     .price-including-tax + .price-excluding-tax {
         display: inline-block;

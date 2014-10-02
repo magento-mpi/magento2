@@ -710,6 +710,15 @@
 }
 
 //
+//    Account pages: order table summary
+//--------------------------------------
+.abstract-account-summary {
+    td {
+        background: @sidebar-background;
+    }
+}
+
+//
 //    Action print with icon
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
@@ -733,11 +742,11 @@
 .abstract-incl-excl-tax {
     .price-including-tax,
     .price-excluding-tax {
-        white-space: nowrap;
         color: @cart-price-color;
         display: block;
         .font-size(18);
         line-height: 1;
+        white-space: nowrap;
         .price {
             font-weight: @font-weight-bold;
         }
