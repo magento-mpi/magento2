@@ -10,6 +10,7 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Magento\Sales\Test\Fixture\OrderCheckout;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreditMemoNew;
 
 /**
  * Class OnlineRefundTest
@@ -20,13 +21,14 @@ class OnlineRefundTest extends RefundTest
      * Tests providing refunds.
      *
      * @param OrderCheckout $fixture
+     * @param OrderCreditMemoNew $orderCreditMemoNew
      *
      * @return void
      *
      * @dataProvider dataProviderOrder
      * @ZephirId MAGETWO-12436, MAGETWO-13061, MAGETWO-13062, MAGETWO-13063, MAGETWO-13059
      */
-    public function testRefund(OrderCheckout $fixture)
+    public function testRefund(OrderCheckout $fixture, OrderCreditMemoNew $orderCreditMemoNew)
     {
         $this->markTestIncomplete('MAGETWO-28230');
         // Setup preconditions
@@ -49,8 +51,7 @@ class OnlineRefundTest extends RefundTest
         $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
 
         // Step 4: Submit Credit Memo
-        $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
-        $creditMemoPage->getActionsBlock()->refund();
+        $orderCreditMemoNew->getCreateBlock()->refund();
 
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $tabsWidget = $orderPage->getFormTabsBlock();

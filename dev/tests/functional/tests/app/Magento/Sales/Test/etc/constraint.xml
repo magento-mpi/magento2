@@ -114,4 +114,10 @@
     <assertShipmentSuccessCreateMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertShipmentSuccessCreateMessage>
+    <assertRefundSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertRefundSuccessCreateMessage>
+    <assertRefundInRefundsTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertRefundInRefundsTab>
 </constraint>
