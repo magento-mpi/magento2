@@ -46,13 +46,18 @@ define([
          */
         update: function(el, valueAccessor){
             var config = valueAccessor(),
-                observable;
+                observable,
+                value;
 
             observable = typeof config === 'object' ?
                 config.storage :
                 config;
 
-            el.value = observable();
+            value = observable();
+            
+            if (value) {
+                $(el).datepicker('setDate', observable());    
+            }
         }
     }
 });

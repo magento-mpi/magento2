@@ -122,6 +122,18 @@
                             "input_type": "textarea",
                             "label": "Comments",
                             "index": "comments"
+                        },
+                        "created": {
+                            "index": "created",
+                            "input_type": "date",
+                            "label": "Created",
+                            "options": {
+                                "dateFormat": "mm\/dd\/yyyy",
+                                "showsTime": false,
+                                "timeFormat": null,
+                                "buttonImage": "/pub/static/adminhtml/Magento/backend/en_US/images/grid/cal.gif",
+                                "buttonText": "Select Date"
+                            }
                         }
                     }
                 },
@@ -136,24 +148,7 @@
                         "disable_auto": false,
                         "general": 0,
                         "comments": "Some commentary",
-                        "addresses": [
-                            {
-                                "active": true,
-                                "elements": {
-                                    "prefix": "Mr.",
-                                    "suffix": "Sr.",
-                                    "firstname": "Misha"
-                                }
-                            },
-                            {   
-                                "active": false,
-                                "elements": {
-                                    "prefix": "Mr.",
-                                    "suffix": "Sr.",
-                                    "firstname": "Sasha"
-                                }
-                            }
-                        ]
+                        "created": 1412244384313
                     }
                 }
             }
@@ -321,6 +316,11 @@
                         "injections": [
                             "customer.comments"
                         ]
+                    },
+                    "created": {
+                        "injections": [
+                            "customer.created"
+                        ]
                     }
                 }
             },
@@ -342,7 +342,8 @@
                             "customer_form_groups.gender",
                             "customer_form_groups.send_email",
                             "customer_form_groups.currencies",
-                            "customer_form_groups.comments"
+                            "customer_form_groups.comments",
+                            "customer_form_groups.created"
                         ]
                     },
                     "customer_addresses": {
