@@ -17,6 +17,7 @@ define([
         email:              Abstract,
         checkbox:           Abstract,
         price:              Abstract,
+        date:               Abstract,
         select:             Select,
         multiple_select:    MultipleSelect,
         textarea:           Textarea
