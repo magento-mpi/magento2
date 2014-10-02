@@ -95,7 +95,7 @@ class SaveNewRevisionInNewVersionTest extends Injectable
      * @param Revision $revision
      * @param array $revisionData
      * @param array $results
-     * @return array
+     * @return void
      */
     public function test(CmsPage $cms, Revision $revision, array $revisionData, array $results)
     {
@@ -116,7 +116,5 @@ class SaveNewRevisionInNewVersionTest extends Injectable
         $this->cmsVersionEdit->getRevisionsGrid()->searchAndOpen($filter);
         $this->cmsRevisionEdit->getRevisionForm()->fill($revision);
         $this->cmsRevisionEdit->getFormPageActions()->saveInNewVersion($results['label']);
-
-        return ['results' => $results];
     }
 }
