@@ -265,6 +265,12 @@
         .methods-payment {
             .item-content > .fieldset {
                 width: auto;
+                .field {
+                    &.cvv {
+                        display: inline-block;
+                        width: auto;
+                    }
+                }
             }
             .fieldset > .field:not(.choice) {
                 > .label {
@@ -277,12 +283,6 @@
                     .control {
                         width: 100%;
                     }
-                }
-            }
-            .field {
-                &.cvv {
-                    display: inline-block;
-                    width: auto;
                 }
             }
         }
