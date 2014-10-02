@@ -1,2 +1,2 @@
-"page/dataSet";"revisionData/from";"revisionData/to";"revision/data/content";"results/label";"results/access_level";"results/quantity";"results/owner";"constraint"
-"default";"1";"1";"content_%isolation%";"rev_as_version";"Public";"1";"admin";"assertCmsPageRevisionAsVersionSuccessSaveMessage, assertCmsPageVersionInGrid"
+"revisionData/from";"revisionData/to";"revision/data/content";"results/label";"results/access_level";"results/quantity";"results/owner";"constraint"
+"1";"1";"content_%isolation%";"rev_as_version";"Public";"1";"admin";"assertCmsPageRevisionAsVersionSuccessSaveMessage, assertCmsPageVersionInGrid"
