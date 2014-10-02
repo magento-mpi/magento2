@@ -9,7 +9,6 @@
 namespace Magento\Checkout\Test\Block\Cart;
 
 use Mtf\Client\Element\Locator;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CartItem
@@ -37,13 +36,6 @@ class CartItem extends AbstractCartItem
      * @var string
      */
     protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
-
-    /**
-     * Item product in the mimi shopping cart locator
-     *
-     * @var string
-     */
-    protected $product = '//div[contains(@class,"product-item-details")]//a[.="%s"]';
 
     /**
      * Get product name
@@ -195,16 +187,5 @@ class CartItem extends AbstractCartItem
     protected function escapeCurrencyForOption($label)
     {
         return preg_replace('/^(\d+) x (\w+) \W([\d\.,]+)$/', '$1 x $2 $3', $label);
-    }
-
-    /**
-     * Remove product item from mini cart
-     *
-     * @return void
-     */
-    public function removeItemFromMiniCart()
-    {
-        $this->_rootElement->find($this->removeItem)->click();
-        $this->_rootElement->acceptAlert();
     }
 }

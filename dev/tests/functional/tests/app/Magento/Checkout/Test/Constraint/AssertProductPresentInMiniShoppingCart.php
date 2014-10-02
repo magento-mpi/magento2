@@ -12,10 +12,10 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductPresentOnMiniShoppingCart
- * Check that product is present on mini shopping cart
+ * Class AssertProductPresentInMiniShoppingCart
+ * Check that product is present in mini shopping cart
  */
-class AssertProductPresentOnMiniShoppingCart extends AbstractConstraint
+class AssertProductPresentInMiniShoppingCart extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -29,19 +29,16 @@ class AssertProductPresentOnMiniShoppingCart extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param array $products
-     * @param int $deletedProductIndex
      * @return void
      */
-    public function processAssert(CmsIndex $cmsIndex, array $products, $deletedProductIndex)
+    public function processAssert(CmsIndex $cmsIndex, array $products)
     {
         $cmsIndex->open();
-        $cmsIndex->getCartSidebarBlock()->waitCounterQty();
-        unset($products[$deletedProductIndex]);
         foreach ($products as $product) {
             $cmsIndex->getCartSidebarBlock()->openMiniCart();
             \PHPUnit_Framework_Assert::assertTrue(
                 $cmsIndex->getCartSidebarBlock()->getCartItem($product)->isVisible(),
-                'Product' . $product->getName() . ' is absent on Mini Shopping Cart.'
+                'Product ' . $product->getName() . ' is absent in Mini Shopping Cart.'
             );
         }
     }
@@ -53,6 +50,6 @@ class AssertProductPresentOnMiniShoppingCart extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Products is presents on Mini Shopping Cart.';
+        return 'Products is presents in Mini Shopping Cart.';
     }
 }

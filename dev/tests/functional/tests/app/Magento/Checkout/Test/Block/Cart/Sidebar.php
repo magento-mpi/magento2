@@ -10,6 +10,7 @@ namespace Magento\Checkout\Test\Block\Cart;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Checkout\Test\Block\Cart\MiniCartItem;
 
 /**
  * Class Sidebar
@@ -59,6 +60,7 @@ class Sidebar extends Block
      */
     public function openMiniCart()
     {
+        $this->waitCounterQty();
         if (!$this->_rootElement->find($this->cartContent)->isVisible()) {
             $this->_rootElement->find($this->cartLink)->click();
         }
@@ -67,16 +69,16 @@ class Sidebar extends Block
     /**
      * Wait counter qty visibility
      *
-     * @return bool
+     * @return mixed
      */
-    public function waitCounterQty()
+    protected function waitCounterQty()
     {
         $browser = $this->browser;
         $selector = $this->counterQty;
         $strategy = Locator::SELECTOR_XPATH;
         return $browser->waitUntil(
             function () use ($browser, $selector, $strategy) {
-                $counterQty = $browser->find($selector, $strategy);
+                $counterQty = $browser->find($selector, Locator::SELECTOR_XPATH);
                 return $counterQty->isVisible() ? true : null;
             }
         );
@@ -99,7 +101,7 @@ class Sidebar extends Block
      * Get cart item block
      *
      * @param FixtureInterface $product
-     * @return \Magento\Checkout\Test\Block\Cart\CartItem
+     * @return MiniCartItem
      */
     public function getCartItem(FixtureInterface $product)
     {
@@ -115,7 +117,7 @@ class Sidebar extends Block
                 Locator::SELECTOR_XPATH
             );
             $cartItem = $this->blockFactory->create(
-                'Magento\Checkout\Test\Block\Cart\CartItem',
+                'Magento\Checkout\Test\Block\Cart\MiniCartItem',
                 ['element' => $cartItemBlock]
             );
         }

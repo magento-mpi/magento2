@@ -10,7 +10,6 @@ namespace Magento\Checkout\Test\TestCase;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\ObjectManager;
-use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
@@ -33,18 +32,11 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  * 4. Click Ok
  * 5. Perform all assertions
  *
- * @group  Mini Shopping Cart (CS)
+ * @group Mini_Shopping_Cart_(CS)
  * @ZephyrId MAGETWO-29104
  */
 class DeleteProductFromMiniShoppingCartTest extends Injectable
 {
-    /**
-     * Browser interface
-     *
-     * @var Browser
-     */
-    protected $browser;
-
     /**
      * Fixture factory
      *
@@ -67,21 +59,25 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     protected $cartPage;
 
     /**
+     * Number of products
+     *
+     * @var int
+     */
+    protected $countProduct;
+
+    /**
      * Prepare test data
      *
-     * @param Browser $browser
      * @param FixtureFactory $fixtureFactory
      * @param CmsIndex $cmsIndex
      * @param CheckoutCart $cartPage
      * @return void
      */
     public function __prepare(
-        Browser $browser,
         FixtureFactory $fixtureFactory,
         CmsIndex $cmsIndex,
         CheckoutCart $cartPage
     ) {
-        $this->browser = $browser;
         $this->fixtureFactory = $fixtureFactory;
         $this->cmsIndex = $cmsIndex;
         $this->cartPage = $cartPage;
@@ -98,15 +94,18 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     {
         // Preconditions
         $products = $this->prepareProducts($products);
+        $this->countProduct = count($products);
         $this->cartPage->open();
         $this->cartPage->getCartBlock()->clearShoppingCart();
 
         // Steps
         $this->addToCart($products);
         $this->cartPage->getMessagesBlock()->waitSuccessMessage();
-        $this->removeProduct($products[$deletedProductIndex], count($products));
+        $this->removeProduct($products[$deletedProductIndex]);
+        $deletedProduct = $products[$deletedProductIndex];
+        unset($products[$deletedProductIndex]);
 
-        return ['products' => $products];
+        return ['products' => $products, 'deletedProduct' => $deletedProduct];
     }
 
     /**
@@ -136,7 +135,7 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     {
         $addToCartStep = ObjectManager::getInstance()->create(
             'Magento\Checkout\Test\TestStep\AddProductsToTheCartStep',
-            ['products' => $products]
+            ['products' => $products, ]
         );
         $addToCartStep->run();
     }
@@ -145,17 +144,12 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
      * Remove product form cart
      *
      * @param FixtureInterface $product
-     * @param int $countProducts
      * @return void
      */
-    protected function removeProduct(FixtureInterface $product, $countProducts)
+    protected function removeProduct(FixtureInterface $product)
     {
         $this->cmsIndex->open();
-        $this->cmsIndex->getCartSidebarBlock()->waitCounterQty();
         $this->cmsIndex->getCartSidebarBlock()->openMiniCart();
-        $this->cmsIndex->getCartSidebarBlock()->getCartItem($product)->removeItemFromMiniCart();
-        if ($countProducts > 1) {
-            $this->cmsIndex->getCartSidebarBlock()->waitCounterQty();
-        }
+        $this->cmsIndex->getCartSidebarBlock()->getCartItem($product)->removeItemFromMiniCart($this->countProduct);
     }
 }
