@@ -480,11 +480,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-<<<<<<< Updated upstream
         'group' => 'search-engine-optimization',
-=======
-        'group' => 'search_engine_optimization',
->>>>>>> Stashed changes
     ];
 
     protected $url_path = [

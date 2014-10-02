@@ -16,12 +16,12 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts;
 
 /**
- * Class AddCrossSellEntity
+ * Class AddCrossSellEntityTest
  *
  * Test Flow:
  *
  * Preconditions:
- * 1. Create cross cell products.
+ * 1. Create cross cell products
  *
  * Steps:
  * 1. Open Backend
@@ -34,7 +34,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts;
  * @group Cross-sells_(MX)
  * @ZephyrId MAGETWO-29081
  */
-class AddCrossSellEntity extends Injectable
+class AddCrossSellEntityTest extends Injectable
 {
     /**
      * Catalog product index page on backend

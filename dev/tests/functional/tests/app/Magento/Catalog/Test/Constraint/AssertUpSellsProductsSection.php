@@ -11,6 +11,7 @@ namespace Magento\Catalog\Test\Constraint;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
@@ -31,7 +32,7 @@ class AssertUpSellsProductsSection extends AbstractConstraint
      *
      * @param Browser $browser
      * @param CatalogProductSimple $product
-     * @param array $sellingProducts,
+     * @param InjectableFixture[] $sellingProducts,
      * @param CatalogProductView $catalogProductView
      * @return void
      */

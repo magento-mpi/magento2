@@ -14,6 +14,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 
@@ -39,7 +40,7 @@ class AssertCrossSellsProductsSection extends AbstractConstraint
      * @param CheckoutCart $checkoutCart
      * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
-     * @param array $sellingProducts
+     * @param InjectableFixture[] $sellingProducts
      * @param CustomerSegment|null $customerSegment
      * @return void
      */
