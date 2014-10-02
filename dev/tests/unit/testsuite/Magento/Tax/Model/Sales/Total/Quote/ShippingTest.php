@@ -17,8 +17,20 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests the specific method
+     *
+     * @param array $itemData
+     * @param array $shippingItemData
+     * @param array $appliedRatesData
+     * @param array $taxDetailsData
+     * @param array $quoteDetailsData
+     * @param array $addressData
+     * @param array $verifyData
+     *
+     * @dataProvider dataProviderCollectArray
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testCollect()
+    public function testCollect($itemData, $shippingItemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData,
+        $addressData, $verifyData)
     {
         $objectManager = new ObjectManager($this);
         $taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
@@ -60,8 +72,6 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             ->method('getProduct')
             ->will($this->returnValue($product));
 
-        $itemData = ["qty" => 1, "price" => 100, "tax_percent" => 10, "product_type" => "simple",
-                     "code" => "sequence-1"];
         foreach ($itemData as $key => $value) {
             $item->setData($key, $value);
         }
@@ -85,33 +95,6 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($storeMock));
 
         $taxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\TaxDetailsBuilder');
-
-        $taxDetailsData = [
-            "subtotal" => 10,
-            "tax_amount" => 1,
-            "discount_tax_compensation_amount" => 0,
-            "applied_taxes" => [
-                "_data" => [
-                    "amount" => 1,
-                    "percent" => 10,
-                    "rates" => ["_data" => ["percent" => 10]],
-                    "tax_rate_key" => "US-NY-*-Rate 1"
-                ]
-            ],
-            'items' => [
-                "shipping-1" => [
-                    "_data" => [
-                        "code" => "shipping",
-                        "type" => "shipping",
-                        "row_tax" => 1,
-                        "price" => 10,
-                        "price_incl_tax" => 11,
-                        "row_total" => 10,
-                        "row_total_incl_tax" => 11
-                    ]
-                ]
-            ]
-        ];
         $taxDetailsBuilder->_setDataValues($taxDetailsData);
         $taxDetails = $taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
 
@@ -132,20 +115,10 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
         $calculationTool->expects($this->any())
             ->method('calcTaxAmount')
             ->will($this->returnValue(1));
-        $appliedRates = [
-            ["rates" => [[
-                             "code" => "US-NY-*-Rate ",
-                             "title" => "US-NY-*-Rate ",
-                             "percent" => 10,
-                             "rate_id" => 1
-                         ]],
-             "percent" => 10,
-             "id" => "US-NY-*-Rate 1"]
-        ];
 
         $calculationTool->expects($this->any())
             ->method('getAppliedRates')
-            ->will($this->returnValue($appliedRates));
+            ->will($this->returnValue($appliedRatesData));
         $calculator = $objectManager->getObject('Magento\Tax\Model\Calculation\TotalBaseCalculator',
             [
                 'calculationTool' => $calculationTool,
@@ -186,9 +159,6 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($taxClassKeyBuilder));
 
         $shippingItemBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder');
-        $shippingItemData = [
-            "type" => "shipping", "code" => "shipping", "quantity" => 1, "unit_price" => 10
-        ];
         $shippingItem = $shippingItemBuilder->populateWithArray($shippingItemData)->create();
 
         $itemBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder')
@@ -236,30 +206,6 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($regionBuilder));
 
         $quoteDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
-        $quoteDetailsData = [
-            "billing_address" => [
-                "street" => array("123 Main Street"),
-                "postcode" => "10012",
-                "country_id" => "US",
-                "region" => ["region_id" => 43],
-                "city" => "New York",
-            ],
-            'shipping_address' => [
-                "street" => array("123 Main Street"),
-                "postcode" => "10012",
-                "country_id" => "US",
-                "region" => ["region_id" => 43],
-                "city" => "New York",
-            ],
-            'customer_id' => '1',
-            'items' => [
-                [
-                    "type" => "shipping", "code" => "shipping", "quantity" => 1, "unit_price" => 10,
-                    'tax_class_key' => array("_data" => array("type" => "id", "value" => 2)),
-                    'tax_included = false',
-                ]
-            ]
-        ];
         $quoteDetails = $quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
         $quoteDetailsBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder')
             ->disableOriginalConstructor()
@@ -332,24 +278,112 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($address));
 
-        // Sample Data
-        $addressData = ["address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
-                        "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
-                        "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
-                        "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 10,
-                        "base_shipping_amount" => 10, "cached_items_nonnominal" => $items];
+        $addressData["cached_items_nonnominal"] = $items;
         foreach ($addressData as $key => $value) {
             $address->setData($key, $value);
         }
 
         $shippingTotalsCalcModel->collect($address);
 
-        $verifyData = [
-            "shipping_amount" => 10, "base_shipping_incl_tax" => 11.0, "base_shipping_tax_amount" => 1.0
-        ];
         foreach ($verifyData as $key => $value) {
             $this->assertSame($verifyData[$key], $address->getData($key));
         }
     }
+
+    /**
+     * @return array
+     */
+    public function dataProviderCollectArray()
+    {
+        $data = [
+            'default' => [
+                'itemData' => [
+                    "qty" => 1, "price" => 100, "tax_percent" => 20, "product_type" => "simple",
+                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1"
+                ],
+                'shippingItemData' => [
+                    "type" => "shipping", "code" => "shipping", "quantity" => 1, "unit_price" => 10
+                ],
+                'appliedRates' => [
+                    [
+                        "rates" => [
+                            [
+                                "code" => "US-NY-*-Rate ",
+                                "title" => "US-NY-*-Rate ",
+                                "percent" => 10,
+                                "rate_id" => 1
+                            ]
+                        ],
+                        "percent" => 10,
+                        "id" => "US-NY-*-Rate 1"
+                    ]
+                ],
+                'taxDetailsData' => [
+                    "subtotal" => 10,
+                    "tax_amount" => 1,
+                    "discount_tax_compensation_amount" => 0,
+                    "applied_taxes" => [
+                        "_data" => [
+                            "amount" => 1,
+                            "percent" => 10,
+                            "rates" => ["_data" => ["percent" => 10]],
+                            "tax_rate_key" => "US-NY-*-Rate 1"
+                        ]
+                    ],
+                    'items' => [
+                        "shipping-1" => [
+                            "_data" => [
+                                "code" => "shipping",
+                                "type" => "shipping",
+                                "row_tax" => 1,
+                                "price" => 10,
+                                "price_incl_tax" => 11,
+                                "row_total" => 10,
+                                "row_total_incl_tax" => 11
+                            ]
+                        ]
+                    ]
+                ],
+                'quoteDetailsData' => [
+                    "billing_address" => [
+                        "street" => array("123 Main Street"),
+                        "postcode" => "10012",
+                        "country_id" => "US",
+                        "region" => ["region_id" => 43],
+                        "city" => "New York",
+                    ],
+                    'shipping_address' => [
+                        "street" => array("123 Main Street"),
+                        "postcode" => "10012",
+                        "country_id" => "US",
+                        "region" => ["region_id" => 43],
+                        "city" => "New York",
+                    ],
+                    'customer_id' => '1',
+                    'items' => [
+                        [
+                            "type" => "shipping", "code" => "shipping", "quantity" => 1, "unit_price" => 10,
+                            'tax_class_key' => array("_data" => array("type" => "id", "value" => 2)),
+                            'tax_included = false',
+                        ]
+                    ]
+                ],
+                'addressData' => [
+                    "address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
+                    "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
+                    "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
+                    "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 10,
+                    "base_shipping_amount" => 10,
+                ],
+                'verifyData' => [
+                    "shipping_amount" => 10,
+                    "base_shipping_incl_tax" => 11.0,
+                    "base_shipping_tax_amount" => 1.0
+                ],
+            ],
+        ];
+
+        return $data;
+    }
 }
- 
+

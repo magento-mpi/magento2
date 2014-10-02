@@ -17,8 +17,19 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests the specific method
+     *
+     * @param array $itemData
+     * @param array $appliedRatesData
+     * @param array $taxDetailsData
+     * @param array $quoteDetailsData
+     * @param array $addressData
+     * @param array $verifyData
+     *
+     * @dataProvider dataProviderCollectArray
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testCollect()
+    public function testCollect($itemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData, $addressData,
+        $verifyData)
     {
         $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
@@ -62,8 +73,6 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->method('getProduct')
             ->will($this->returnValue($product));
 
-        $itemData = ["qty" => 1, "price" => 100, "tax_percent" => 20, "product_type" => "simple",
-                     "code" => "sequence-1"];
         foreach ($itemData as $key => $value) {
             $item->setData($key, $value);
         }
@@ -87,33 +96,6 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($storeMock));
 
         $taxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\TaxDetailsBuilder');
-
-        $taxDetailsData = [
-            "subtotal" => 100,
-            "tax_amount" => 20,
-            "discount_tax_compensation_amount" => 0,
-            "applied_taxes" => [
-                "_data" => [
-                    "amount" => 20,
-                    "percent" => 20,
-                    "rates" => ["_data" => ["percent" => 20]],
-                    "tax_rate_key" => "US-NY-*-Rate 1"
-                ]
-            ],
-            'items' => [
-                "sequence-1" => [
-                    "_data" => [
-                        'code' => 'sequence-1',
-                        'type' => 'product',
-                        'row_tax' => 20,
-                        'price' => 100,
-                        'price_incl_tax' => 120,
-                        'row_total' => 100,
-                        'row_total_incl_tax' => 120,
-                    ]
-                ]
-            ]
-        ];
         $taxDetailsBuilder->_setDataValues($taxDetailsData);
         $taxDetails = $taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
 
@@ -134,20 +116,9 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         $calculationTool->expects($this->any())
             ->method('calcTaxAmount')
             ->will($this->returnValue(20));
-        $appliedRates = [
-            ["rates" => [[
-                             "code" => "US-NY-*-Rate ",
-                             "title" => "US-NY-*-Rate ",
-                             "percent" => 20,
-                             "rate_id" => 1
-                         ]],
-             "percent" => 20,
-             "id" => "US-NY-*-Rate 1"]
-        ];
-
         $calculationTool->expects($this->any())
             ->method('getAppliedRates')
-            ->will($this->returnValue($appliedRates));
+            ->will($this->returnValue($appliedRatesData));
         $calculator = $objectManager->getObject('Magento\Tax\Model\Calculation\TotalBaseCalculator',
             [
                 'calculationTool' => $calculationTool,
@@ -169,7 +140,6 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $storeManager,
             ]
         );
-
 
         $taxClassKeyBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\TaxClassKeyBuilder')
             ->disableOriginalConstructor()
@@ -233,33 +203,6 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($regionBuilder));
 
         $quoteDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
-        $quoteDetailsData = [
-            "billing_address" => [
-                "street" => array("123 Main Street"),
-                "postcode" => "10012",
-                "country_id" => "US",
-                "region" => ["region_id" => 43],
-                "city" => "New York",
-            ],
-            'shipping_address' => [
-                "street" => array("123 Main Street"),
-                "postcode" => "10012",
-                "country_id" => "US",
-                "region" => ["region_id" => 43],
-                "city" => "New York",
-            ],
-            'customer_id' => '1',
-            'items' => [
-                [
-                    'code' => 'sequence-1',
-                    'type' => 'product',
-                    'quantity' => 1,
-                    'unit_price' => 100,
-                    'tax_class_key' => array("_data" => array("type" => "id", "value" => 2)),
-                    'tax_included = false',
-                ]
-            ]
-        ];
         $quoteDetails = $quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
         $quoteDetailsBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder')
             ->disableOriginalConstructor()
@@ -328,23 +271,112 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($address));
 
-        // Sample Data
-        $addressData = ["address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
-                        "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
-                        "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
-                        "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 0,
-                        "base_shipping_amount" => 0, "cached_items_nonnominal" => $items];
+        $addressData["cached_items_nonnominal"] = $items;
         foreach ($addressData as $key => $value) {
             $address->setData($key, $value);
         }
         $subtotalTotalsCalcModel->collect($address);
 
-        $verifyData = [
-            "base_tax_amount" => 20.0, "subtotal" => 100, "shipping_amount" => 0, "base_subtotal_incl_tax" => 120.0
-        ];
         foreach ($verifyData as $key => $value) {
             $this->assertSame($verifyData[$key], $address->getData($key));
         }
     }
+
+    /**
+     * @return array
+     */
+    public function dataProviderCollectArray()
+    {
+        $data = [
+            'default' => [
+                'itemData' => [
+                    "qty" => 1, "price" => 100, "tax_percent" => 20, "product_type" => "simple",
+                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1"
+                ],
+                '$appliedRates' => [
+                    [
+                        "rates" => [
+                            [
+                                "code" => "US-NY-*-Rate ",
+                                "title" => "US-NY-*-Rate ",
+                                "percent" => 20,
+                                "rate_id" => 1
+                            ]
+                        ],
+                        "percent" => 20,
+                        "id" => "US-NY-*-Rate 1"
+                    ]
+                ],
+                'taxDetailsData' => [
+                    "subtotal" => 100,
+                    "tax_amount" => 20,
+                    "discount_tax_compensation_amount" => 0,
+                    "applied_taxes" => [
+                        "_data" => [
+                            "amount" => 20,
+                            "percent" => 20,
+                            "rates" => ["_data" => ["percent" => 20]],
+                            "tax_rate_key" => "US-NY-*-Rate 1"
+                        ]
+                    ],
+                    'items' => [
+                        "sequence-1" => [
+                            "_data" => [
+                                'code' => 'sequence-1',
+                                'type' => 'product',
+                                'row_tax' => 20,
+                                'price' => 100,
+                                'price_incl_tax' => 120,
+                                'row_total' => 100,
+                                'row_total_incl_tax' => 120,
+                                'tax_calculation_item_id' => "sequence-1"
+                            ]
+                        ]
+                    ]
+                ],
+                'quoteDetailsData' => [
+                    "billing_address" => [
+                        "street" => array("123 Main Street"),
+                        "postcode" => "10012",
+                        "country_id" => "US",
+                        "region" => ["region_id" => 43],
+                        "city" => "New York",
+                    ],
+                    'shipping_address' => [
+                        "street" => array("123 Main Street"),
+                        "postcode" => "10012",
+                        "country_id" => "US",
+                        "region" => ["region_id" => 43],
+                        "city" => "New York",
+                    ],
+                    'customer_id' => '1',
+                    'items' => [
+                        [
+                            'code' => 'sequence-1',
+                            'type' => 'product',
+                            'quantity' => 1,
+                            'unit_price' => 100,
+                            'tax_class_key' => array("_data" => array("type" => "id", "value" => 2)),
+                            'tax_included = false',
+                        ]
+                    ]
+                ],
+                'addressData' => [
+                    "address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
+                    "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
+                    "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
+                    "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 0,
+                    "base_shipping_amount" => 0
+                ],
+                'verifyData' => [
+                    "base_tax_amount" => 20.0,
+                    "subtotal" => 100,
+                    "shipping_amount" => 0,
+                    "base_subtotal_incl_tax" => 120.0
+                ],
+            ],
+        ];
+
+        return $data;
+    }
 }
- 
