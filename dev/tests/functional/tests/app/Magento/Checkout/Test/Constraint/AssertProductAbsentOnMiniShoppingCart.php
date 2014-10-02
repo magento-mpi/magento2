@@ -36,12 +36,10 @@ class AssertProductAbsentOnMiniShoppingCart extends AbstractConstraint
     {
         $cmsIndex->open();
         $cmsIndex->getCartSidebarBlock()->waitCounterQty();
-        $deletedProductName = $products[$deletedProductIndex]->getName();
         $cmsIndex->getCartSidebarBlock()->openMiniCart();
         \PHPUnit_Framework_Assert::assertFalse(
-            $cmsIndex->getCartSidebarBlock()->getCartItem($products[$deletedProductIndex])
-                ->checkProductInMiniCart($products[$deletedProductIndex]),
-            'Product' . $deletedProductName . ' is presents on Mini Shopping Cart'
+            $cmsIndex->getCartSidebarBlock()->getCartItem($products[$deletedProductIndex])->isVisible(),
+            'Product' . $products[$deletedProductIndex]->getName() . ' is presents on Mini Shopping Cart.'
         );
     }
 

@@ -90,22 +90,21 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     /**
      * Run test add products to shopping cart
      *
-     * @param string $productsData
+     * @param string $products
      * @param int $deletedProductIndex
      * @return array
      */
-    public function test($productsData, $deletedProductIndex)
+    public function test($products, $deletedProductIndex)
     {
         // Preconditions
-        $products = $this->prepareProducts($productsData);
+        $products = $this->prepareProducts($products);
         $this->cartPage->open();
         $this->cartPage->getCartBlock()->clearShoppingCart();
 
         // Steps
         $this->addToCart($products);
         $this->cartPage->getMessagesBlock()->waitSuccessMessage();
-        $deletedProduct = $products[$deletedProductIndex];
-        $this->removeProduct($deletedProduct, count($products));
+        $this->removeProduct($products[$deletedProductIndex], count($products));
 
         return ['products' => $products];
     }

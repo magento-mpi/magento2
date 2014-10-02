@@ -207,17 +207,4 @@ class CartItem extends AbstractCartItem
         $this->_rootElement->find($this->removeItem)->click();
         $this->_rootElement->acceptAlert();
     }
-
-    /**
-     * Check product in the mini cart
-     *
-     * @param FixtureInterface $product
-     * @return bool
-     */
-    public function checkProductInMiniCart(FixtureInterface $product)
-    {
-        $productName = $product->getName();
-
-        return $this->_rootElement->find(sprintf($this->product, $productName), Locator::SELECTOR_XPATH)->isVisible();
-    }
 }
