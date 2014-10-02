@@ -67,4 +67,11 @@
     <type name="Magento\Customer\Model\Resource\Group">
         <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Solr\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
     </type>
+    <type name="Magento\Framework\Search\Price\IntervalFactory">
+        <arguments>
+            <argument name="intervals" xsi:type="array">
+                <item name="Magento\Solr\Model\Resource\Solr\Engine" xsi:type="string">Magento\Solr\Model\Price\Interval</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
