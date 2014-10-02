@@ -15,7 +15,7 @@ Lounge
 Cool
 Indoor
 Spring
-Windy";"Blue
+Windy";"Gray
 Black
 Orange";Top
 "Men
@@ -36,9 +36,9 @@ Nylon";Long-Sleeve;¼ zip;Solid;"All-weather
 Cool
 Indoor
 Spring
-Windy";"Purple
-Red
-Black";Top
+Windy";"Black
+Purple
+Red";Top
 "Men
 Tops
 Hoodies & Sweatshirts";MH03;Bruno Compete Hoodie;"XS
@@ -87,7 +87,7 @@ Yoga
 Lounge
 ";"Wool
 Polyester
-Nylon";Long-Sleeve;Crew;Color-Blocked;Cool;"Orange
+Nylon";Long-Sleeve;Crew;Color-Blocked;Cool;"White
 Red
 Green";Top
 "Men
@@ -106,8 +106,8 @@ Polyester
 Nylon";Long-Sleeve;Full zip;Solid;"All-weather
 Cool
 Indoor
-Spring";"Black
-Blue
+Spring";"Blue
+Black
 Purple";Top
 "Men
 Tops
@@ -120,9 +120,9 @@ XL";"<p>Gray and black color blocking sets you apart as the Hero Hoodie keeps yo
 Warmup
 Lounge";"Fleece
 Hemp
-Polyester";Long-Sleeve;Full zip;Color-Blocked;Spring;"Green
-Black
-Gray";Top
+Polyester";Long-Sleeve;Full zip;Color-Blocked;Spring;"Gray
+Green
+Black";Top
 "Men
 Tops
 Hoodies & Sweatshirts";MH08;Oslo Trek Hoodie;"XS
@@ -168,8 +168,8 @@ LumaTech™
 ";Long-Sleeve;Crew;Solid;"All-weather
 Cool
 Indoor
-Spring";"Black
-Blue
+Spring";"Blue
+Black
 Red";Top
 "Men
 Tops
@@ -184,7 +184,7 @@ Organic Cotton";Long-Sleeve;Crew;Color-Blocked;"All-weather
 Cool
 Indoor
 Spring
-Windy";"Yellow
+Windy";"White
 Red
 Orange";Top
 "Men
@@ -199,8 +199,8 @@ Polyester";Long-Sleeve;Full Zip;Striped;"All-weather
 Cool
 Indoor
 Spring
-Windy";"Blue
-Green
+Windy";"Green
+Blue
 Red";Top
 "Men
 Tops
@@ -216,8 +216,8 @@ Fleece";Long-Sleeve;Full Zip;Solid;"All-weather
 Cool
 Indoor
 Spring
-Windy";"Lavender
-Yellow
+Windy";"Blue
+Lavender
 Green";Top
 "Men
 Tops
@@ -239,7 +239,7 @@ LumaTech™
 Polyester";Long-Sleeve;N/A;Solid;"Cool
 Rainy
 Spring
-Windy";"Lavender
+Windy";"Yellow
 Orange
 Red";Top
 "Men
@@ -279,7 +279,7 @@ Nylon";Sleeveless;N/A;Solid;"Cold
 Cool
 Spring
 Windy
-Wintry";"Green
+Wintry";"Black
 Blue
 Purple";Top
 "Men
@@ -363,8 +363,8 @@ Polyester";Long-Sleeve;N/A;Solid ;"Cool
 Mild
 Rainy
 Spring
-Windy";"Blue
-Yellow
+Windy";"Yellow
+Blue
 White";Top
 "Men
 Tops
@@ -430,7 +430,7 @@ Nylon";Long-Sleeve;N/A;Solid;"All-weather
 Indoor
 Mild
 Spring
-Warm";"Red
+Warm";"Blue
 Green
 Purple";Top
 "Men
@@ -450,12 +450,12 @@ Lounge";"Nylon
 Polyester";Long-Sleeve;N/A;Solid;"Cool
 Mild
 Spring
-Windy";"Green
-Black
+Windy";"Black
+Green
 Red";Top
 "Men
 Tops
-Jackets";MS12;Proteus Fitness Jackshirt;"XS
+Jackets";MJ12;Proteus Fitness Jackshirt;"XS
 S
 M
 L
@@ -471,7 +471,7 @@ Fleece
 Polyester";Long-Sleeve;N/A;Solid;"All-weather
 Cool
 Indoor
-Spring";"Red
+Spring";"Orange
 Yellow
 Black";Top
 "Men
@@ -505,7 +505,7 @@ Yoga";"EverCool™
 Lycra®
 Organic Cotton";Short-Sleeve;Crew;Solid;"All-weather
 Indoor
-Warm";"Red
+Warm";"Blue
 Black
 Purple";Top
 "Men
@@ -538,7 +538,7 @@ Yoga";"Cocona® performance fabric
 Organic Cotton
 Polyester";Short-Sleeve;Crew;Solid;"All-weather
 Indoor
-Warm";"White
+Warm";"Green
 Blue
 Yellow";Top
 "Men
@@ -571,7 +571,7 @@ Running
 Yoga";"Cocona® performance fabric
 Polyester";Short-Sleeve;Crew;Solid;"All-weather
 Indoor
-Warm";"Black
+Warm";"Gray
 Orange
 Green";Top
 "Men
@@ -619,7 +619,7 @@ Yoga";"LumaTech™
 Cotton
 Rayon";Short-Sleeve;Crew;Solid;"All-weather
 Indoor
-Warm";"Red
+Warm";"Gray
 Black
 Blue";Top
 "Men
@@ -653,7 +653,7 @@ EverCool™
 Organic Cotton";Long-Sleeve;Crew;Solid;"All-weather
 Cool
 Indoor
-Warm";"Blue
+Warm";"Green
 White
 Black";Top
 "Men
@@ -687,7 +687,7 @@ Yoga";"Cotton
 HeatTec®
 Polyester";Sleeveless;Crew;Solid;"All-weather
 Indoor
-Warm";"Blue
+Warm";"Red
 Orange
 Gray";Top
 "Men
