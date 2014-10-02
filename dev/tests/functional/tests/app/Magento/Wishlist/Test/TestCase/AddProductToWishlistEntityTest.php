@@ -11,10 +11,8 @@ namespace Magento\Wishlist\Test\TestCase;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\TestCase\Injectable;
 use Mtf\Client\Driver\Selenium\Browser;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\ObjectManager;
-use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
@@ -53,13 +51,6 @@ class AddProductToWishlistEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
-     * Wish list index page
-     *
-     * @var WishlistIndex
-     */
-    protected $wishlistIndex;
-
-    /**
      * Browser object
      *
      * @var Browser
@@ -76,16 +67,15 @@ class AddProductToWishlistEntityTest extends Injectable
     /**
      * Prepare data for test
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param CustomerInjectable $customer
      * @param Browser $browser
      * @param ObjectManager $objectManager
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory, Browser $browser, ObjectManager $objectManager)
+    public function __prepare(CustomerInjectable $customer, Browser $browser, ObjectManager $objectManager)
     {
         $this->browser = $browser;
         $this->objectManager = $objectManager;
-        $customer = $fixtureFactory->createByCode('customerInjectable');
         $customer->persist();
 
         return ['customer' => $customer];
@@ -94,17 +84,14 @@ class AddProductToWishlistEntityTest extends Injectable
     /**
      * Injection data
      *
-     * @param WishlistIndex $wishlistIndex
      * @param CatalogProductView $catalogProductView
      * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
-        WishlistIndex $wishlistIndex,
         CatalogProductView $catalogProductView,
         CustomerAccountLogout $customerAccountLogout
     ) {
-        $this->wishlistIndex = $wishlistIndex;
         $this->catalogProductView = $catalogProductView;
         $this->customerAccountLogout = $customerAccountLogout;
     }

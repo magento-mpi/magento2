@@ -31,16 +31,5 @@ use Magento\Wishlist\Test\TestCase\AddProductToWishlistEntityTest;
  */
 class AddGiftCardProductToWishlistEntityTest extends AddProductToWishlistEntityTest
 {
-    /**
-     * Run Add GiftCardProduct To Wishlist test
-     *
-     * @param CustomerInjectable $customer
-     * @param string $product
-     * @return array
-     */
-    public function test(CustomerInjectable $customer, $product)
-    {
-        $this->markTestIncomplete('Bug: MAGETWO-27949');
-        return parent::test($customer, $product);
-    }
+    //
 }
