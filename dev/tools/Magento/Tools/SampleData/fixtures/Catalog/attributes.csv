@@ -12,8 +12,7 @@ Crosstraining
 Post-workout
 Cycling
 Athletic
-Sports
-";;activity_general;1;;0;;;0;1;0;0;1;1;0;;1;1;1;0;0;"Top
+Sports";;activity_general;1;;0;;;0;1;0;0;1;1;0;;1;1;1;0;0;"Top
 Bottom
 Gear
 Downloadable"
@@ -62,99 +61,17 @@ Synthetic
 Stainless Steel
 Suede
 Silicone";;material_gear;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Gear
-Color;select;;"Aqua
-Black
-Black/Blue
-Black/Gray
-Black/Light Blue
-Black/Mint
-Black/Pink
-Black/Red
-Black/Teal
-Black/White
-Black/Yellow
+Color;select;;"Black
 Blue
-Blue/Green
-Blue/Mint
-Blue/Pink
 Brown
-Brown/Cream
-Cayenne
-Charcoal
-Chocolate
-Cream
-Cream/Black
-Cream/Navy
-Cream/Tan
-Dark Gray
-Deep Pink
-Electric Blue
-Gold
-Gold/Black/Turquoise
 Gray
-Gray/Black
-Gray/Green
-Gray/Mint
-Gray/Pink
-Gray/Purple
-Gray/Red
-Gray/Royal
-Gray/Seafoam
-Gray/Teal
-Gray/White
-Gray/Yellow
 Green
-Green/Gray
-Heather Navy
-Hot Pink
-Ivory
-Khaki
 Lavender
-Lemon
-Light Blue
-Light Blue/Lime
-Light Blue/Royal
-Light Gray
-Lime
-Lime-Green
-Lime/White
-Loden
-Mint
-Navy
-Navy/Light Blue
-Navy/Lime
-Navy/Teal
-Navy/White
+Multi
 Orange
-Periwinkle
-Pink
 Purple
-Purple/Light Blue
-Purple/Light Green
-Purple/Lime-Green
-Purple/Mint
 Red
-Red/Gray
-Red/Pink
-Royal
-Salmon
-Salmon/Gold
-Sand
-Seafoam
-Silver
-Slate
-Spectrum
-Tan
-Tangerine
-Taupe
-Teal
-Teal/Black
-Teal/Gray
-Teal/Lime
-Teal/Silver
-Violet
 White
-White/Navy
 Yellow";;color;1;;0;;;0;1;0;0;;1;0;;1;1;0;0;0;"Top
 Bottom
 Bag
@@ -177,7 +94,7 @@ Lightweight
 TSA Approved
 Reflective
 Laptop Sleeve
-Lockable ";;features_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
+Lockable";;features_bags;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bag
 Gender;select;0;"Men
 Women
 Boys

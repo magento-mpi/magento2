@@ -31,11 +31,6 @@ class Attribute implements SetupInterface
     protected $attributeSetFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Config
-     */
-    protected $catalogConfig;
-
-    /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
      */
     protected $attrOptionCollectionFactory;
@@ -73,7 +68,6 @@ class Attribute implements SetupInterface
     /**
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
-     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -84,7 +78,6 @@ class Attribute implements SetupInterface
     public function __construct(
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
-        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Eav\Model\Config $eavConfig,
@@ -94,7 +87,6 @@ class Attribute implements SetupInterface
     ) {
         $this->attributeFactory = $attributeFactory;
         $this->attributeSetFactory = $attributeSetFactory;
-        $this->catalogConfig = $catalogConfig;
         $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
         $this->productHelper = $productHelper;
         $this->eavConfig = $eavConfig;
@@ -109,7 +101,7 @@ class Attribute implements SetupInterface
     public function run()
     {
         echo "Installing catalog attributes\n";
-        $attributePrototype = $this->attributeFactory->create();
+        $attributeCount = 0;
 
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/attributes.csv';
@@ -121,10 +113,10 @@ class Attribute implements SetupInterface
             foreach ($csvReader as $data) {
                 $data['attribute_set'] = explode("\n", $data['attribute_set']);
 
+                /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
                 $attribute = $this->eavConfig->getAttribute('catalog_product', $data['attribute_code']);
                 if (!$attribute) {
-                    $attribute = $attributePrototype;
-                    $attribute->unsetData();
+                    $attribute = $this->attributeFactory->create();
                 }
 
                 $data['option'] = $this->getOption($attribute, $data);
@@ -146,22 +138,17 @@ class Attribute implements SetupInterface
                 if (is_array($data['attribute_set'])) {
                     foreach ($data['attribute_set'] as $setName) {
                         $setName = trim($setName);
-                        static $i = 0;
-                        $i++;
-                        $attributeSetId = $this->processAttributeSet($setName)->getId();
-                        $attributeGroupId = $this->catalogConfig->getAttributeGroupId(
-                            $attributeSetId,
-                            'Product Details'
-                        );
+                        $attributeCount++;
+                        $attributeSet = $this->processAttributeSet($setName);
+                        $attributeGroupId = $attributeSet->getDefaultGroupId();
 
-                        $attribute = $attributePrototype;
-                        $attribute->unsetData();
+                        $attribute = $this->attributeFactory->create();
                         $attribute
                             ->setId($attributeId)
                             ->setAttributeGroupId($attributeGroupId)
-                            ->setAttributeSetId($attributeSetId)
+                            ->setAttributeSetId($attributeSet->getId())
                             ->setEntityTypeId($this->getEntityTypeId())
-                            ->setSortOrder($i + 999)
+                            ->setSortOrder($attributeCount + 999)
                             ->save();
                     }
                 }

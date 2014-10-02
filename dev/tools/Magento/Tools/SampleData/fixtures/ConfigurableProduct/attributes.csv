@@ -1,14 +1,16 @@
 frontend_label;frontend_input;is_required;option;default;attribute_code;is_global;default_value_text;default_value_yesno;default_value_date;default_value_textarea;is_unique;is_configurable;is_searchable;is_visible_in_advanced_search;is_comparable;is_filterable;is_filterable_in_search;position;is_used_for_promo_rules;is_html_allowed_on_front;is_visible_on_front;used_in_product_listing;used_for_sort_by;attribute_set
-Style;multiselect;0;"Workout 
-Cargo 
-Base Layer
+Style;multiselect;0;"Base Layer
+Basic
+Capri
 Compression
-Tights
-Sweatpants
-Track Pants
 Leggings
 Parachute
-";;style_bottom;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bottom
+Skort
+Snug
+Sweatpants
+Tights
+Track Pants
+Workout Pants";;style_bottom;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Bottom
 Style;multiselect;0;"Insulated
 Jacket
 Vest
@@ -33,39 +35,36 @@ Hoodie
 Cardigan 
 Henley
 Tunic
-Camisole
-";;style_general;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Top
-Material;multiselect;0;"Cocona performance fabric
+Camisole";;style_general;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Top
+Material;multiselect;0;"Cocona® performance fabric
 Wool
 Fleece
 Hemp
 Jersey
-Luma Tech
-Lycra
+LumaTech™
+Lycra®
 Mesh
 Nylon
 Polyester
 Spandex
 Cotton
-HeatTec
-EverCool
+HeatTec®
+EverCool™
 Organic Cotton
 Rayon
 TENCEL
-CoolTech
+CoolTech™
 Khaki
 Linen
 Wool
 Terry";;material;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;"Top
 Bottom"
 Sleeve;multiselect;0;"Sleeve
-Long Sleeve
-Short Sleeve
+Long-Sleeve
+Short-Sleeve
 Sleeveless
 Tank
-Strap
-
-";;sleeve;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Top
+Strap";;sleeve;1;;0;;;0;1;0;0;;1;0;;1;1;1;0;0;Top
 Size;select;0;"28
 29
 30
@@ -81,7 +80,6 @@ M
 L
 XL";;size_general;1;;0;;;0;1;0;0;;1;0;;1;1;0;0;0;Top
 Collar;multiselect;0;"N/A
-? zip
 ? zip
 Boat Neck
 Crew

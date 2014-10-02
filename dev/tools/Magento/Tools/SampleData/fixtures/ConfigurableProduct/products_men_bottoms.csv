@@ -1,826 +1,454 @@
-category;category;category;name;sku;size_pants;color;description;price;activity_general;style_bottom;material;pattern;climate;cost;attribute_set
-Men;Bottoms;Pants;Caesar Warm-Up Pant;MP01-ME-LG;"28
-29
-30
-31
-32
+category;name;sku;size_pants;description;price;activity_general;style_bottom;material;pattern;climate;color;attribute_set
+"Men
+Bottoms
+Pants";Caesar Warm-Up Pant;MP01;"32
 33
 34
-36
-38
-";"
-Dark Gray
-Black
-Light Gray
-";"Command your workout and keep your muscles limber in the Caesar Warm-Up Pant. Engineered CoolTech™ fabric wicks away moisture so you don’t have to worry about sweat and discomfort. The drawstring-adjustable waist helps make sure your pants fit properly.
-
-• Light gray heather knit straight leg pants.
-• Relaxed fit. 
-• Inseam: 32"". 
-• Machine wash/dry.
-• CoolTech™ wicking fabric.
-";35,99;"Gym
+36";"<p>Command your workout and keep your muscles limber in the Caesar Warm-Up Pant. Engineered CoolTech&trade; fabric wicks away moisture so you don&rsquo;t have to worry about sweat and discomfort. The drawstring-adjustable waist helps make sure your pants fit properly.</p>
+<p>&bull; Light gray heather knit straight leg pants.<br />&bull; Relaxed fit. <br />&bull; Inseam: 32"". <br />&bull; Machine wash/dry.<br />&bull; CoolTech&trade; wicking fabric.</p>";35;"Gym
 Warmup
-Crosstraining
-";"Workout Pants
+Crosstraining";"Workout Pants
 Sweatpants
-Track Pants
-";"CoolTech™
+Track Pants";"CoolTechâ„¢
 Fleece
 Hemp
-Wool
-";"Solid
-";"Cool
-Spring]
-";$9,99;Bottom
-Men;Bottoms;Pants;Viktor LumaTech™ Pant;MP02-ME-DG;"28
-29
-30
-31
-32
+Wool";Solid;"Cool
+Spring]";"Blue
+Black
+Purple";Bottom
+"Men
+Bottoms
+Pants";Viktor LumaTechâ„¢ Pant;MP02;"32
 33
 34
-36
-38
-";"
-Black
-Light Gray
-Dark Gray";"You'll love the new Viktor LumaTech™ Pant, with featherweight fleece fabric lining and stretchy, sweat-wicking material. It delivers toasty warmth on the sidelines or in cold-weather training, with reflective trim for a safe finish.
-
-• Dark gray polyester/spandex straight leg pants.
-• Elastic waistband and internal drawstring.
-• Relaxed fit. 
-• Machine wash/dry.";46,5;"Gym
+36";"<p>You'll love the new Viktor LumaTech&trade; Pant, with featherweight fleece fabric lining and stretchy, sweat-wicking material. It delivers toasty warmth on the sidelines or in cold-weather training, with reflective trim for a safe finish.</p>
+<p>&bull; Dark gray polyester/spandex straight leg pants.<br />&bull; Elastic waistband and internal drawstring.<br />&bull; Relaxed fit. <br />&bull; Machine wash/dry.</p>";46;"Gym
 Outdoor
 Running
-Warmup
-";"Workout Pants
-Track Pants
-";"LumaTech™
+Warmup";"Workout Pants
+Track Pants";"LumaTechâ„¢
 Polyester
-Spandex
-";"Solid
-";"Cold
+Spandex";Solid;"Cold
 Cool
-Wintry
-";$14,99;Bottom
-Men;Bottoms;Pants;Geo Insulated Jogging Pant;MP03-ME-BL;"28
-29
-30
-31
-32
+Wintry";"Gray
+Blue
+Red";Bottom
+"Men
+Bottoms
+Pants";Geo Insulated Jogging Pant;MP03;"32
 33
 34
-36
-38
-";"
-Charcoal
-Black
-Light Gray
-";"In the cold, even the toughest guys shiver, unless they’re in the Geo Insulated Jogging Pant. Lightweight and wind resistant, they block brutal wind gusts and warm you to the bone. Breathable mesh keeps them dry on the inside.
-
-• Black polyester spandex pants with zipper pockets.
-• Reflective safety accents. 
-• Loose fit.
-• On-seam pockets. 
-• 8"" leg zips. 32"" inseam. 
-• Machine wash/dry.";51;"Outdoor
+36";"<p>In the cold, even the toughest guys shiver, unless they&rsquo;re in the Geo Insulated Jogging Pant. Lightweight and wind resistant, they block brutal wind gusts and warm you to the bone. Breathable mesh keeps them dry on the inside.</p>
+<p>&bull; Black polyester spandex pants with zipper pockets.<br />&bull; Reflective safety accents. <br />&bull; Loose fit.<br />&bull; On-seam pockets. <br />&bull; 8"" leg zips. 32"" inseam. <br />&bull; Machine wash/dry.</p>";51;"Outdoor
 Running
 Warmup
 Yoga";"Workout Pants
 Sweatpants
-Track Pants
-";"CoolTech™
+Track Pants";"CoolTechâ„¢
 Polyester
 Rayon
 Spandex
-Wool
-";Solid;"All-weather
+Wool";Solid;"All-weather
 Cool
 Indoor
 Windy
-Wintry
-";$16,99;Bottom
-Men;Bottoms;Pants;Supernova Sport Pant;MP04-ME-DG;"28
-29
-30
-31
-32
+Wintry";"Red
+Green
+Blue";Bottom
+"Men
+Bottoms
+Pants";Supernova Sport Pant;MP04;"32
 33
 34
-36
-38
-";"
-Charcoal
-Black
-Light Gray
-Dark Gray";"Turn the corner and open it up -- your driveway is two blocks away. The Supernova Sport Pant gets you there with key features like moisture-wicking LumaTech™ fabric and mesh ventilation. Side seam pockets ensure total convenience during rest periods.
-
-• Dark heather gray straight leg cotton pants.
-• Relaxed fit. 
-• Internal drawstring. 
-• Machine wash/dry.";45,5;"Outdoor
+36";"<p>Turn the corner and open it up -- your driveway is two blocks away. The Supernova Sport Pant gets you there with key features like moisture-wicking LumaTech&trade; fabric and mesh ventilation. Side seam pockets ensure total convenience during rest periods.</p>
+<p>&bull; Dark heather gray straight leg cotton pants.<br />&bull; Relaxed fit. <br />&bull; Internal drawstring. <br />&bull; Machine wash/dry.</p>";45;"Outdoor
 Running
 Warmup
 Yoga
-Crosstraining
-";"Workout Pants
+Crosstraining";"Workout Pants
 Sweatpants
-Track Pants
-";"LumaTech™
+Track Pants";"LumaTechâ„¢
 Spandex
-Wool
-";Solid;"All-weather
+Wool";Solid;"All-weather
 Cold
 Cool
 Spring
 Windy
-Wintry
-";$12,99;Bottom
-Men;Bottoms;Pants;Kratos Gym Pant;MP05-ME-NA;"28
-29
-30
-31
-32
+Wintry";"Purple
+Green
+Black";Bottom
+"Men
+Bottoms
+Pants";Kratos Gym Pant;MP05;"32
 33
 34
-36
-38
-";"
-Navy
-Khaki
-Black
-Light Gray
-";"Like it’s namesake god of strength, the Kratos Gym Pant help you bring your best to bear on weight-based, plyometric and endurance exercise. They stretch and support in all the right places while ultra-light construction and moisture-wicking technology provide comfort. 
-
-• Navy cotton straight leg pants.
-• Relaxed fit. 
-• 2 side-seam pockets. 
-• Internal zip pocket. 
-• Drawstring waist. 
-• Machine wash/dry.";57,99;"Gym
+36";"<p>Like it&rsquo;s namesake god of strength, the Kratos Gym Pant help you bring your best to bear on weight-based, plyometric and endurance exercise. They stretch and support in all the right places while ultra-light construction and moisture-wicking technology provide comfort.</p>
+<p>&bull; Navy cotton straight leg pants.<br />&bull; Relaxed fit. <br />&bull; 2 side-seam pockets. <br />&bull; Internal zip pocket. <br />&bull; Drawstring waist. <br />&bull; Machine wash/dry.</p>";57;"Gym
 Warmup
-Crosstraining
-";"Workout Pants
-Base Layer
-";"Organic Cotton
+Crosstraining";"Workout Pants
+Base Layer";"Organic Cotton
 Polyester
-Rayon";"Solid
-";"
-Spring
+Rayon";Solid;"Spring
 Windy
-Wintry
-";$18,99;Bottom
-Men;Bottoms;Pants;Mithra Warmup Pant;MP06-ME-LG;"28
-29
-30
-31
-32
+Wintry";"Blue
+Black
+Green";Bottom
+"Men
+Bottoms
+Pants";Mithra Warmup Pant;MP06;"32
 33
 34
-36
-38
-";"
-White
-Salmon
-Black
-Light Gray
-Dark Gray";"When you’re not sure you’re up to the weather, don the Mithra Warmup Pant for a confidence boost. Its supersoft, stretchy fabric and fleece-like finish helps prepare your muscles and ease your mind. Designed for relaxed, easy-wear fit with handy ankle zips.
-
-• Ankle zips.
-• Elasticized waistband with draw cord.
-• Dual hand pockets.
-• Reflective elements for low-light safety.";28,99;"
-Warmup
+36";"<p>When you&rsquo;re not sure you&rsquo;re up to the weather, don the Mithra Warmup Pant for a confidence boost. Its supersoft, stretchy fabric and fleece-like finish helps prepare your muscles and ease your mind. Designed for relaxed, easy-wear fit with handy ankle zips.</p>
+<p>&bull; Ankle zips.<br />&bull; Elasticized waistband with draw cord.<br />&bull; Dual hand pockets.<br />&bull; Reflective elements for low-light safety.</p>";28;"Warmup
 Climbing
-Crosstraining
-";"Workout Pants
-Sweatpants
-";"Fleece
+Crosstraining";"Workout Pants
+Sweatpants";"Fleece
 Hemp
 Organic Cotton
 Polyester
-Wool
-";"Solid
-";"All-weather
+Wool";Solid;"All-weather
 Cold
 Cool
 Mild
 Windy
-Wintry
-";$6,96;Bottom
-Men;Bottoms;Pants;Thorpe Track Pant;MP07-ME-NA;"28
-29
-30
-31
-32
+Wintry";"Gray
+Orange
+Green";Bottom
+"Men
+Bottoms
+Pants";Thorpe Track Pant;MP07;"32
 33
 34
-36
-38
-";"Navy
-Green
-Khaki
-Black
-Light Gray
-";"Thirty degree temps are chilly for most, except when you’re in Thorpe Track Pants. These top-of-the-line track bottoms are made from fast-drying, weather-resistant fabric with an internal breathable layer of mesh nylon to wick away moisture.
-
-• Moisture transfer properties. 
-• 7% stretch.
-• Reflective safety trim.
-• Elastic drawcord waist.";68;"Outdoor
+36";"<p>Thirty degree temps are chilly for most, except when you&rsquo;re in Thorpe Track Pants. These top-of-the-line track bottoms are made from fast-drying, weather-resistant fabric with an internal breathable layer of mesh nylon to wick away moisture.</p>
+<p>&bull; Moisture transfer properties. <br />&bull; 7% stretch.<br />&bull; Reflective safety trim.<br />&bull; Elastic drawcord waist.</p>";68;"Outdoor
 Running
 Warmup
-Crosstraining
-";"Workout Pants
+Crosstraining";"Workout Pants
 Sweatpants
-Track Pants
-";"Cocona performance fabric
+Track Pants";"CoconaÂ® performance fabric
 Polyester
 Rayon
 Wool";Solid;"All-weather
 Cold
 Cool
 Spring
-Wintry
-";$24,49;Bottom
-Men;Bottoms;Pants;Zeppelin Yoga Pant;MP08-ME-LO;"28
-29
-30
-31
-32
+Wintry";"Blue
+Black
+Purple";Bottom
+"Men
+Bottoms
+Pants";Zeppelin Yoga Pant;MP08;"32
 33
 34
-36
-38
-";"Brown
-Khaki
-Olive
-Black
-Light Gray
-";"Climb every mountain, or hold every pose, in the all-purpose Zepellin Yoga Pant. With its thin fleece interior and smooth layer-friendly surface, you'll get all the comfort and versatility you need. 
-
-• Smooth exterior for easy over-layering.
-• Brushed fleece interior insulates and wicks. 
-• No-roll elastic waistband with inner drawstring.
-• Chafe-resistant flatlock seams.";82;"Warmup
+36";"<p>Climb every mountain, or hold every pose, in the all-purpose Zepellin Yoga Pant. With its thin fleece interior and smooth layer-friendly surface, you'll get all the comfort and versatility you need.</p>
+<p>&bull; Smooth exterior for easy over-layering.<br />&bull; Brushed fleece interior insulates and wicks. <br />&bull; No-roll elastic waistband with inner drawstring.<br />&bull; Chafe-resistant flatlock seams.</p>";82;"Warmup
 Yoga
 Lounge
-Crosstraining
-";"Workout Pants
+Crosstraining";"Workout Pants
 Sweatpants
 Base Layer
 Track Pants
 Leggings";"Fleece
-LumaTech
+LumaTechâ„¢
 Spandex
-Wool
-";Solid;"All-weather
+Wool";Solid;"All-weather
 Cool
 Spring
 Windy
-Wintry
-";$39,90;Bottom
-Men;Bottoms;Pants;Livingston All-Purpose Tight;MP09-LG-BL;"28
-29
-30
-31
-32
+Wintry";"Purple
+Blue
+Red";Bottom
+"Men
+Bottoms
+Pants";Livingston All-Purpose Tight;MP09;"32
 33
 34
-36
-38
-";"
-Charcoal
-Maroon
-Red 
-Black
-Light Gray
-";"It’s not often that your pants work as a yoga staple and a climbing buddy. The Livingston All-Purpose Tight is made with soft, 11% cotton and nylon polymer stretch construction that lets you find the right angle in the studio or on the mountain side. 
-
-• Breathable stretch organic cotton/spandex.
-• Compression fit
-• Hidden key pocket
-• Elastic waist with internal drawcord.";75,5;"Warmup
+36";"<p>It&rsquo;s not often that your pants work as a yoga staple and a climbing buddy. The Livingston All-Purpose Tight is made with soft, 11% cotton and nylon polymer stretch construction that lets you find the right angle in the studio or on the mountain side.</p>
+<p>&bull; Breathable stretch organic cotton/spandex.<br />&bull; Compression fit<br />&bull; Hidden key pocket<br />&bull; Elastic waist with internal drawcord.</p>";75;"Warmup
 Yoga
 Climbing
-Crosstraining
-";"Sweatpants
+Crosstraining";"Sweatpants
 Base Layer
 Compression
 Track Pants
-Leggings
-";"CoolTech™
+Leggings";"CoolTechâ„¢
 Fleece
 Polyester
-Rayon
-";Solid;"All-weather
+Rayon";Solid;"All-weather
 Cold
 Cool
 Windy
-Wintry
-";$30,00;Bottom
-Men;Bottoms;Pants;Orestes Yoga Pant ;MP10-ME-BG;"28
-29
-30
-31
-32
+Wintry";"Blue
+Red
+Black";Bottom
+"Men
+Bottoms
+Pants";Orestes Yoga Pant ;MP10;"32
 33
 34
-36
-38
-";"
-Khaki
-Olive
-Black
-Light Gray
-";"The Orestes Yoga Pant is a yoga basic that sustains the novice yogi well into the expert stage. Organic sustainable cotton and 9% stretch spandex let your body bend to your will while your conscience stays intact. 
-
-• A yoga essential.
-• Breathable stretch organic cotton/spandex.
-• Standard Fit.
-";66,5;"Gym
+36";"<p>The Orestes Yoga Pant is a yoga basic that sustains the novice yogi well into the expert stage. Organic sustainable cotton and 9% stretch spandex let your body bend to your will while your conscience stays intact.</p>
+<p>&bull; A yoga essential.<br />&bull; Breathable stretch organic cotton/spandex.<br />&bull; Standard Fit.</p>";66;"Gym
 Warmup
-Yoga
-";"Workout Pants
+Yoga";"Workout Pants
 Track Pants
-Leggings
-";"
-Nylon
+Leggings";"Nylon
 Organic Cotton
-Spandex
-";"Solid
-";"Cool
+Spandex";Solid;"Cool
 Indoor
 Mild
 Windy
-Wintry
-";$22,80;Bottom
-Men;Bottoms;Pants;Aether Gym Pant ;MP11-ME-KH;"28
-29
-30
-31
-32
+Wintry";"Red
+Blue
+Green";Bottom
+"Men
+Bottoms
+Pants";Aether Gym Pant ;MP11;"32
 33
 34
-36
-38
-";"Brown
-Khaki
-Black
-Light Gray";"The Aether Gym Pant is built for the studio, but adapts perfectly well to outdoor and gym environs too. With lightweight stretch fabric and water-repellent exterior, the Aether is ready for all comers.
-
-• Pants/shorts convertible.
-• Lightweight moisture wicking. 
-• Water repellent.
-• Belted waist.";74,99;"Gym
+36";"<p>The Aether Gym Pant is built for the studio, but adapts perfectly well to outdoor and gym environs too. With lightweight stretch fabric and water-repellent exterior, the Aether is ready for all comers.</p>
+<p>&bull; Pants/shorts convertible.<br />&bull; Lightweight moisture wicking. <br />&bull; Water repellent.<br />&bull; Belted waist.</p>";74;"Gym
 Outdoor
 Yoga
-Lounge
-";"Workout Pants
+Lounge";"Workout Pants
 Sweatpants
-Track Pants
-";"Cocona performance fabric
+Track Pants";"CoconaÂ® performance fabric
 Spandex
-Wool
-";Solid;"All-weather
+Wool";Solid;"All-weather
 Cold
 Cool
 Indoor
 Mild
 Rainy
 Spring
-Windy
-
-";$44,90;Bottom
-Men;Bottoms;Pants;Cronus Yoga Pant ;MP12-ME-BL;"28
-29
-30
-31
-32
-33
-34
-36
-38
-";"Blue
-Khaki
-Salmon
-Black
-Light Gray
-";"Guys who love yoga love this all-purpose yoga pant. Designed for yoga, gym and lounge, the Cronus Yoga Pant is a loose-fitting, classic-style pant made from a lightweight blend of cotton, recycled polyester and a touch of Spandex for the stretch factor. 
-
-• Drawstring waist.
-• Loose, straight-leg fit.
-• Lightweight cotton-recycled blend.
-• Front pockets with stitching detail.
-• Elastic ankle.";48;"Warmup
-Yoga
-Lounge
-";"Workout Pants
-Track Pants
-Leggings
-";"Polyester
-Cotton
-Spandex
-";Solid;"
-Cool
-Indoor
-Mild
-Spring
-Windy
-Wintry
-";$15,60;Bottom
-Men;Bottoms;Shorts;Cobalt CoolTech™ Fitness Short;MSH01-ME-LB;"28
-29
-30
-31
-32
-33
-34
-36
-38
-";"Light Blue 
-White
-Red 
-Black
-Grey
-";"It’s not rocket surgery: the hotter your conditions, the more you need to stay cool. That’s why the Cobalt CoolTech™ Fitness Short features built-in technology and side perforations that keep you ventilated and comfortable for the distance. The elastic waist promises a personalized fit.
-
-• Light blue nylon shorts.
-• Relaxed fit. 
-• 5"" inseam. 
-• Machine wash/dry.";44;"Gym
-Outdoor
-Running
-Cross-training
-";"Workout  
-Base Layer
-";"CoolTech
-Nylon
-Polyester
-Wool
-";Solid;"All-weather
-Indoor
-Hot
-";$19,99;Bottom
-Men;Bottoms;Shorts;Apollo Running Short;MSH02-ME-BL;"28
-29
-30
-31
-32
-33
-34
-36
-38
-";"Blue 
-Green
+Windy";"Blue
 Brown
-Black
-Grey
-";"Fleet of foot or slow and steady, you’ll be in complete comfort with the Apollo Running Short. Lightweight polyester material lets you move with ease, and mesh side panels promise plenty of ventilation as you work up a sweat. The stretchy elastic waistband delivers a flexible fit.
-
-• Black shorts with green accents.
-• Side pockets. 
-• 4"" inseam. 
-• Machine wash/dry.";32,5;"Gym
-Outdoor
-Running
-Cross-training
-";"Workout  
-Base Layer
-";"
-Polyester
-Rayon
-";Solid;"All-weather
+Green";Bottom
+"Men
+Bottoms
+Pants";Cronus Yoga Pant ;MP12;"32
+33
+34
+36";"<p>Guys who love yoga love this all-purpose yoga pant. Designed for yoga, gym and lounge, the Cronus Yoga Pant is a loose-fitting, classic-style pant made from a lightweight blend of cotton, recycled polyester and a touch of Spandex for the stretch factor.</p>
+<p>&bull; Drawstring waist.<br />&bull; Loose, straight-leg fit.<br />&bull; Lightweight cotton-recycled blend.<br />&bull; Front pockets with stitching detail.<br />&bull; Elastic ankle.</p>";48;"Warmup
+Yoga
+Lounge";"Workout Pants
+Track Pants
+Leggings";"Polyester
+Cotton
+Spandex";Solid;"Cool
 Indoor
-Warm
-";$12,99;Bottom
-Men;Bottoms;Shorts;Meteor Workout Short;MSH03-ME-RO;"28
-29
-30
-31
-32
-33
-34
-36
-38
-";"Royal 
-Charcoal
-White
-Red 
-Black
-Grey
-";"Step into the Meteor Workout Short for an incredibly lightweight fitness experience. Its breathable construction and an inner brief provide additional comfort and support, while the adjustable waistband offers the perfect fit to take you to the finish.
-
-• Royal blue shorts with light blue accents.
-• Interior drawstring waistband. 
-• 7"" inseam. 
-• Machine wash/dry.";32,5;"Gym
-Outdoor
-Running
-Cross-training
-";"Workout 
-Base Layer
-";"Cocona performance fabric
-Polyester
-";Solid;"All-weather
+Mild
 Spring
-Warm
-";$12,99;Bottom
-Men;Bottoms;Shorts;Torque Power Short;MSH04-ME-LG;"28
-29
-30
-31
-32
+Windy
+Wintry";"Blue
+Red
+Black";Bottom
+"Men
+Bottoms
+Shorts";Cobalt CoolTechâ„¢ Fitness Short;MSH01;"32
 33
 34
-36
-38
-";"
-Black
-Gray
-Light Gray
-";"Take a turn in the Torque Power Short and enjoy the smooth, motion-friendly stretch and sweat-wicking, UV-protective material. You'll stay cool, dry and energized miles later.
-
-• Light gray shorts.
-• Fitted design. 
-• Elastic waistband. 
-• Flat-seam construction. 
-• 7"" inseam. 
-• Machine wash/dry.";32,5;"Gym
+36";"<p>It&rsquo;s not rocket surgery: the hotter your conditions, the more you need to stay cool. That&rsquo;s why the Cobalt CoolTech&trade; Fitness Short features built-in technology and side perforations that keep you ventilated and comfortable for the distance. The elastic waist promises a personalized fit.</p>
+<p>&bull; Light blue nylon shorts.<br />&bull; Relaxed fit. <br />&bull; 5"" inseam. <br />&bull; Machine wash/dry.</p>";44;"Gym
 Outdoor
 Running
-Cross-training
-";"Workout  
-Base Layer";"CoolTech
+Cross-training";"Workout Pants
+Base Layer";"CoolTechâ„¢
 Nylon
 Polyester
-";Solid;"Indoor
+Wool";Solid;"All-weather
+Indoor
+Hot";"Blue
+Red
+Black";Bottom
+"Men
+Bottoms
+Shorts";Apollo Running Short;MSH02;"32
+33
+34
+36";"<p>Fleet of foot or slow and steady, you&rsquo;ll be in complete comfort with the Apollo Running Short. Lightweight polyester material lets you move with ease, and mesh side panels promise plenty of ventilation as you work up a sweat. The stretchy elastic waistband delivers a flexible fit.</p>
+<p>&bull; Black shorts with green accents.<br />&bull; Side pockets. <br />&bull; 4"" inseam. <br />&bull; Machine wash/dry.</p>";32,5;"Gym
+Outdoor
+Running
+Cross-training";"Workout Pants
+Base Layer";"Polyester
+Rayon";Solid;"All-weather
+Indoor
+Warm";Black;Bottom
+"Men
+Bottoms
+Shorts";Meteor Workout Short;MSH03;"32
+33
+34
+36";"<p>Step into the Meteor Workout Short for an incredibly lightweight fitness experience. Its breathable construction and an inner brief provide additional comfort and support, while the adjustable waistband offers the perfect fit to take you to the finish.</p>
+<p>&bull; Royal blue shorts with light blue accents.<br />&bull; Interior drawstring waistband. <br />&bull; 7"" inseam. <br />&bull; Machine wash/dry.</p>";32,5;"Gym
+Outdoor
+Running
+Cross-training";"Workout Pants
+Base Layer";"CoconaÂ® performance fabric
+Polyester";Solid;"All-weather
+Spring
+Warm";"Red
+Green
+Black";Bottom
+"Men
+Bottoms
+Shorts";Torque Power Short;MSH04;"32
+33
+34
+36";"<p>Take a turn in the Torque Power Short and enjoy the smooth, motion-friendly stretch and sweat-wicking, UV-protective material. You'll stay cool, dry and energized miles later.</p>
+<p>&bull; Light gray shorts.<br />&bull; Fitted design. <br />&bull; Elastic waistband. <br />&bull; Flat-seam construction. <br />&bull; 7"" inseam. <br />&bull; Machine wash/dry.</p>";32,5;"Gym
+Outdoor
+Running
+Cross-training";"Workout Pants
+Base Layer";"CoolTechâ„¢
+Nylon
+Polyester";Solid;"Indoor
 Hot
 Mild
 Spring
-Warm
-";$14,99;Bottom
-Men;Bottoms;Shorts;Hawkeye Yoga Short;MSH05-ME-DG;"28
-29
-30
-31
-32
+Warm";"Green
+Purple
+Yellow";Bottom
+"Men
+Bottoms
+Shorts";Hawkeye Yoga Short;MSH05;"32
 33
 34
-36
-38
-";"Red 
-Black
-Gray
-Light Gray
-";"What more do you need than a sporty yoga short made with organic cotton and a little spandex for mobility? The Hawkeye Yoga Short brings a stylish, standard fit you can sport with confidence outside the studio. 
-
-• Dark gray shorts with red accents.
-• 92% Organic Cotton 8% Spandex.
-• Breathable stretch organic cotton.
-• Medium=8.5"" (21.6cm) inseam.";29,99;"Gym
+36";"<p>What more do you need than a sporty yoga short made with organic cotton and a little spandex for mobility? The Hawkeye Yoga Short brings a stylish, standard fit you can sport with confidence outside the studio.</p>
+<p>&bull; Dark gray shorts with red accents.<br />&bull; 92% Organic Cotton 8% Spandex.<br />&bull; Breathable stretch organic cotton.<br />&bull; Medium=8.0"" (21.0cm) inseam.</p>";29;"Gym
 Outdoor
 Running
-Yoga
-";"Workout  
-Base Layer
-";"CoolTech
+Yoga";"Workout Pants
+Base Layer";"CoolTechâ„¢
 Linen
 Polyester
 Rayon
 Wool";"Solid
 Striped";"Indoor
 Spring
-Warm
-";$9,99;Bottom
-Men;Bottoms;Shorts;Lono Yoga Short;MSH06-ME-DG;"28
-29
-30
-31
-32
+Warm";"Blue
+Gray
+Black";Bottom
+"Men
+Bottoms
+Shorts";Lono Yoga Short;MSH06;"32
 33
 34
-36
-38
-";"Blue
-White
-Red 
-Black
-Gray
-";"Some shorts are “all-purpose,” while the Lono Yoga Short has a single purpose: yoga. Soft, flexible outer material moves with your body, and a secure, integrated boxer brief liner gives you extra confidence as you push your physique to the outer limits. 
-
-• Dark gray shorts with mesh accents.
-• Ultra flexible four-way stretch.
-• Flatlock seams and waistband.
-• Two pockets, phony fly.
-• Nylon/Lycra outer, Polyester/Lycra inner.";32,5;"
-Yoga
-";"Workout  
+36";"<p>Some shorts are &ldquo;all-purpose,&rdquo; while the Lono Yoga Short has a single purpose: yoga. Soft, flexible outer material moves with your body, and a secure, integrated boxer brief liner gives you extra confidence as you push your physique to the outer limits.</p>
+<p>&bull; Dark gray shorts with mesh accents.<br />&bull; Ultra flexible four-way stretch.<br />&bull; Flatlock seams and waistband.<br />&bull; Two pockets, phony fly.<br />&bull; Nylon/Lycra outer, Polyester/Lycra inner.</p>";32;Yoga;"Workout  
 Base Layer
-Compression
-";"Nylon
+Compression";"Nylon
 Polyester
-Rayon
-";Solid;"All-weather
+Rayon";Solid;"All-weather
 Indoor
 Hot
-Warm
-";$16,99;Bottom
-Men;Bottoms;Shorts;Rapha  Sports Short;MSH07-ME-BL;"28
-29
-30
-31
-32
+Warm";"Blue
+Gray
+Red";Bottom
+"Men
+Bottoms
+Shorts";Rapha  Sports Short;MSH07;"32
 33
 34
-36
-38
-";"Royal 
-White
-Red 
-Black
-";"For those about to sweat, we support you with the Rapha Sports Short. The compression-fit liner surrounds your muscles with the stimulation they need to find your high gear, while moisture-wicking performance fabric helps prevents sweat build-up. 
-
-• Black shorts with royal accents.
-• Compression liner. 
-• Inseam: 8"". 
-• Machine wash/dry.";29,99;"Running
+36";"<p>For those about to sweat, we support you with the Rapha Sports Short. The compression-fit liner surrounds your muscles with the stimulation they need to find your high gear, while moisture-wicking performance fabric helps prevents sweat build-up.</p>
+<p>&bull; Black shorts with royal accents.<br />&bull; Compression liner. <br />&bull; Inseam: 8"". <br />&bull; Machine wash/dry.</p>";29;"Running
 Yoga
-Cross-training
-";"Workout 
+Cross-training";"Workout Pants
 Base Layer
-Compression
-";"CoolTech
+Compression";"CoolTechâ„¢
 Mesh
 Polyester
 Rayon";"Solid
 Striped";"Indoor
 Spring
-Warm
-";$9,99;Bottom
-Men;Bottoms;Shorts;Orestes Fitness Short;MSH08-ME-BL;"28
-29
-30
-31
-32
+Warm";"Green
+Blue
+Purple";Bottom
+"Men
+Bottoms
+Shorts";Orestes Fitness Short;MSH08;"32
 33
 34
-36
-38
-";"
-Black
-Gray
-Light Gray
-";"You’re out of excuses not to run, lift, or play when you own a pair of the Orestes Fitness Short. You won’t complain about the high-performance polyester wicking fabric, reflective safety trim or seamless built-in comfort brief, either.
-
-• Black shorts with dark gray accents.
-• Elasticized waistband with interior drawstring.
-• Ventilating mesh detailing.
-• 100% polyester and recycled polyester.
-• Machine wash cold, tumble dry low.";29,99;"Gym
+36";"<p>You&rsquo;re out of excuses not to run, lift, or play when you own a pair of the Orestes Fitness Short. You won&rsquo;t complain about the high-performance polyester wicking fabric, reflective safety trim or seamless built-in comfort brief, either.</p>
+<p>&bull; Black shorts with dark gray accents.<br />&bull; Elasticized waistband with interior drawstring.<br />&bull; Ventilating mesh detailing.<br />&bull; 100% polyester and recycled polyester.<br />&bull; Machine wash cold, tumble dry low.</p>";29;"Gym
 Outdoor
 Running
-Yoga
-";"Workout  
-Base Layer
-";"LumaTech™
-Polyester
-";Solid;"All-weather
+Yoga";"Workout Pants
+Base Layer";"LumaTechâ„¢
+Polyester";Solid;"All-weather
 Indoor
-Hot
-";$9,99;Bottom
-Men;Bottoms;Shorts;Troy Yoga Short;MSH09-ME-NA;"28
-29
-30
-31
-32
+Hot";"Red
+Green
+Blue";Bottom
+"Men
+Bottoms
+Shorts";Troy Yoga Short;MSH09;"32
 33
 34
-36
-38
-";"Navy
-Royal 
-Black
-Gray
-Light Gray
-";"The versatile, all-purpose Troy Yoga Short is knee-lengthed with an elastic waistband with drawstring, making it comfortably flexible. The removable LumaTech™ wicking liner is also bacteria resistant. 
-
-• Navy polyester pinstripe shorts.
-• Woven fabric with moderate stretch.
-• 62% cotton/34% nylon/4% spandex.
-• LumaTech™ lining.";24,5;"Gym
+36";"<p>The versatile, all-purpose Troy Yoga Short is knee-lengthed with an elastic waistband with drawstring, making it comfortably flexible. The removable LumaTech&trade; wicking liner is also bacteria resistant.</p>
+<p>&bull; Navy polyester pinstripe shorts.<br />&bull; Woven fabric with moderate stretch.<br />&bull; 62% cotton/34% nylon/4% spandex.<br />&bull; LumaTech&trade; lining.</p>";24;"Gym
 Outdoor
 Running
-Yoga
-";"Workout  
-Base Layer
-";"Cotton
+Yoga";"Workout Pants
+Base Layer";"Cotton
 Nylon
-LumaTech
-Spandex
-";Solid;"Indoor
+LumaTechâ„¢
+Spandex";Solid;"Indoor
 Hot
-Warm
-";$6,88;Bottom
-Men;Bottoms;Shorts;Sol Active Short;MSH10-ME-LB;"28
-29
-30
-31
-32
+Warm";"Blue
+Green
+Black";Bottom
+"Men
+Bottoms
+Shorts";Sol Active Short;MSH10;"32
 33
 34
-36
-38
-";"Light Blue
-Navy
-Yellow
-Gray
-
-";"You’ll let your fear go and push your limits in your new Sol Active Short. Featuring ultra-breathable performance fabric and a flat comfort-fit waistband, the Sol Active Short is perfect for high-intensity circuits or high-heat bikram.
-
-• Light blue jersey shorts with mesh detail.
-• 87% Spandex 13% Lycra.
-• Machine wash cold, tumble dry low.
-• Superior performance fabric.
-• Flat-lock seams.";32,5;"Gym
+36";"<p>You&rsquo;ll let your fear go and push your limits in your new Sol Active Short. Featuring ultra-breathable performance fabric and a flat comfort-fit waistband, the Sol Active Short is perfect for high-intensity circuits or high-heat bikram.</p>
+<p>&bull; Light blue jersey shorts with mesh detail.<br />&bull; 87% Spandex 13% Lycra.<br />&bull; Machine wash cold, tumble dry low.<br />&bull; Superior performance fabric.<br />&bull; Flat-lock seams.</p>";32;"Gym
 Outdoor
 Running
-Yoga
-";"Workout 
-Base Layer
-
-";"Lycra
-Spandex
-";Solid;"Indoor
+Yoga";"Workout Pants
+Base Layer";"LycraÂ®
+Spandex";Solid;"Indoor
 Hot
-Warm
-";$11,88;Bottom
-Men;Bottoms;Shorts;Arcadio Gym Short;MSH11-ME-RO;"28
-29
-30
-31
-32
+Warm";"Red
+Green
+Purple";Bottom
+"Men
+Bottoms
+Shorts";Arcadio Gym Short;MSH11;"32
 33
 34
-36
-38
-";"Blue
-Royal 
-Charcoal
-White
-Black
-Gray
-";"The Arcadio Gym short is a basic-looking piece with a lot more than meets the eye: casual-yet-functional relaxed fit, comfortable waistband and adjustable drawstring. Everything you need, plus more. 
-
-• Royal blue cotton shorts.
-• Built-in mesh brief. 
-• 87% Spandex 13% Lycra.
-• Adjustable drawstring.";20,99;"Gym
+36";"<p>The Arcadio Gym short is a basic-looking piece with a lot more than meets the eye: casual-yet-functional relaxed fit, comfortable waistband and adjustable drawstring. Everything you need, plus more.</p>
+<p>&bull; Royal blue cotton shorts.<br />&bull; Built-in mesh brief. <br />&bull; 87% Spandex 13% Lycra.<br />&bull; Adjustable drawstring.</p>";20;"Gym
 Outdoor
 Yoga
-Cross-training
-";"Workout 
+Cross-training";"Workout Pants
 Base Layer
-Compression
-";"Lycra
-Spandex
-";Solid;"All-weather
+Compression";"LycraÂ®
+Spandex";Solid;"All-weather
 Indoor
 Hot
 Spring
-Warm
-";$5,44;Bottom
-Men;Bottoms;Shorts;Pierce Gym Short;MSH12-ME-RE;"28
-29
-30
-31
-32
+Warm";"Blue
+Red
+Black";Bottom
+"Men
+Bottoms
+Shorts";Pierce Gym Short;MSH12;"32
 33
 34
-36
-38
-";"White
-Red 
-Black
-Gray
-Light Gray
-";"The Pierce Gym Short is similar to our Arcadio Gym Short, but designed with a fitted, tapered look. A flat waistband with an adjustable drawstring adds comfort, with zippered pockets for safe, easy storage. 
-
-• Dark red cotton shorts. 
-• 87% Supplex, 13% Lycra.
-• Adjustable drawstring waistband.
-• Built-in mesh brief.
-• Machine wash cold, tumble dry low.";20,99;"Gym
+36";"<p>The Pierce Gym Short is similar to our Arcadio Gym Short, but designed with a fitted, tapered look. A flat waistband with an adjustable drawstring adds comfort, with zippered pockets for safe, easy storage.</p>
+<p>&bull; Dark red cotton shorts. <br />&bull; 87% Supplex, 13% Lycra.<br />&bull; Adjustable drawstring waistband.<br />&bull; Built-in mesh brief.<br />&bull; Machine wash cold, tumble dry low.</p>";20;"Gym
 Outdoor
-Running";"Workout  
+Running";"Workout Pants
 Base Layer
 Compression
-Tights
-";"LumaTech
+Tights";"LumaTechâ„¢
 Mesh
-Spandex
-";Solid;"Indoor
+Spandex";Solid;"Indoor
 Hot
-Warm
-";$5,44;Bottom
+Warm";"Red
+Black
+Gray";Bottom
