@@ -6,4 +6,10 @@
  * @license     {license_link}
  */
 -->
+<!-- ko ifnot: no_caption -->
 <select class="select" data-bind="attr: { id: uid }, options: options, value: value, optionsText: 'label', optionsCaption: caption" />
+<!-- /ko -->
+
+<!-- ko if: no_caption -->
+<select class="select" data-bind="attr: { id: uid }, options: options, value: value, optionsText: 'label'" />
+<!-- /ko -->

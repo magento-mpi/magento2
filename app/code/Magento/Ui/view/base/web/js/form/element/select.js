@@ -12,7 +12,8 @@ define([
     'use strict';
 
     var defaults = {
-        caption: i18n('Select...')
+        caption: i18n('Select...'),
+        no_caption: false
     };
 
     return AbstractElement.extend({
