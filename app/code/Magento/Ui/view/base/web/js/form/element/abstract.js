@@ -86,6 +86,7 @@ define([
 
         /**
          * Defines if value has changed
+         * @return {Boolean}
          */
         hasChanged: function(){
             return this.value() !== this.initialValue;
