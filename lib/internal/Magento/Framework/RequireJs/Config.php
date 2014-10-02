@@ -24,11 +24,6 @@ class Config
     const CONFIG_FILE_NAME = 'requirejs-config.js';
 
     /**
-     * Path to normalization plugin in RequireJs format
-     */
-    const NORMALIZE_PLUGIN_PATH = 'mage/requirejs/plugin/id-normalizer';
-
-    /**
      * Template for combined RequireJs config file
      */
     const FULL_CONFIG_TEMPLATE = <<<config
@@ -110,7 +105,7 @@ config;
         }
 
         $fullConfig = str_replace(
-            array('%function%', '%usages%', '%base%'),
+            array('%function%', '%base%', '%usages%'),
             array($distributedConfig, $baseConfig),
             self::FULL_CONFIG_TEMPLATE
         );
@@ -136,10 +131,7 @@ config;
     public function getBaseConfig()
     {
         $config = array(
-            'baseUrl' => $this->staticContext->getBaseUrl() . $this->staticContext->getPath(),
-            //Disable the timeout, so that normalizer plugin and other JS modules are waited to be loaded
-            // independent of server load time and network speed
-            'waitSeconds' => 0,
+            'baseUrl' => $this->staticContext->getBaseUrl() . $this->staticContext->getPath()
         );
         $config = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         return "require.config($config);\n";
