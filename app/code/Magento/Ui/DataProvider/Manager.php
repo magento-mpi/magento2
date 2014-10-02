@@ -10,6 +10,7 @@ namespace Magento\Ui\DataProvider;
 
 use Magento\Ui\DataProvider\Config\Data as Config;
 use Magento\Framework\ObjectManager;
+use Magento\Ui\DataProvider\MetadataFactory;
 
 /**
  * Class Manager
@@ -26,10 +27,21 @@ class Manager
      */
     protected $objectManager;
 
-    public function __construct(Config $config, ObjectManager $objectManager)
+    /**
+     * @var MetadataFactory
+     */
+    protected $metadataFactory;
+
+    /**
+     * @param Config $config
+     * @param ObjectManager $objectManager
+     * @param MetadataFactory $metadata
+     */
+    public function __construct(Config $config, ObjectManager $objectManager, MetadataFactory $metadataFactory)
     {
         $this->config = $config;
         $this->objectManager = $objectManager;
+        $this->metadataFactory = $metadataFactory;
     }
 
     /**
@@ -40,7 +52,9 @@ class Manager
      */
     public function getMetadata($datasource)
     {
-        return $this->config->getDataSource($datasource);
+        return $this->metadataFactory->create([
+            'config' => $this->config->getDataSource($datasource)
+        ]);
 
     }
 
