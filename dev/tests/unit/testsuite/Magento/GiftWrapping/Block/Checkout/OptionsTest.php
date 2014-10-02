@@ -221,6 +221,8 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
             ->with($price, true, false)
             ->will($this->returnValue($currency));
 
-        $this->block->calculatePrice($itemMock, $basePrice, $shipAddressMock, $includeTax);
+        $this->assertEquals(
+            $currency,
+            $this->block->calculatePrice($itemMock, $basePrice, $shipAddressMock, $includeTax));
     }
 }

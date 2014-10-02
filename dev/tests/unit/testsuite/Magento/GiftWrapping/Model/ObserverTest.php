@@ -25,15 +25,38 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $dataMock;
+    protected $helperDataMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $observerMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventMock;
 
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->dataMock = $this->getMock('Magento\GiftWrapping\Helper\Data', [], [], '', false);
+        $this->helperDataMock = $this->getMock('Magento\GiftWrapping\Helper\Data', [], [], '', false);
+        $this->observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
+        $this->eventMock = $this->getMock('Magento\Framework\Event',
+            [
+                'getQuote',
+                'getItems',
+                'getOrder',
+                'getOrderItem',
+                'getQuoteItem',
+                '__wakeup'
+            ],
+            [],
+            '',
+            false);
         $this->_model = $objectManagerHelper->getObject('Magento\GiftWrapping\Model\Observer',
             [
-               'giftWrappingData' =>  $this->dataMock
+               'giftWrappingData' =>  $this->helperDataMock
             ]);
         $this->_event = new \Magento\Framework\Object();
         $this->_observer = new \Magento\Framework\Event\Observer(array('event' => $this->_event));
@@ -60,8 +83,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testQuoteCollectTotalsBefore()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getQuote', '__wakeup'], [], '', false);
         $quoteMock = $this->getMock(
             '\Magento\Sales\Model\Quote',
             [
@@ -72,18 +93,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [],
             '',
             false);
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('setIsNewGiftWrappingCollecting')->with(true);
         $quoteMock->expects($this->once())->method('setIsNewGiftWrappingTaxCollecting')->with(true);
 
-        $this->_model->quoteCollectTotalsBefore($observerMock);
+        $this->_model->quoteCollectTotalsBefore($this->observerMock);
     }
 
     public function testPrepareGiftOptionsItems()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getItems', '__wakeup'], [], '', false);
         $itemMock = $this->getMock('Magento\Framework\Object',
             [
                 'getProduct',
@@ -102,22 +121,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [],
             '',
             false);
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getItems')->will($this->returnValue([$itemMock]));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getItems')->will($this->returnValue([$itemMock]));
         $itemMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
         $productMock->expects($this->once())->method('getGiftWrappingAvailable')->will($this->returnValue(true));
-        $this->dataMock->expects($this->once())
+        $this->helperDataMock->expects($this->once())
             ->method('isGiftWrappingAvailableForProduct')->with(true)->will($this->returnValue(true));
         $itemMock->expects($this->once())->method('getIsVirtual')->will($this->returnValue(false));
         $itemMock->expects($this->once())->method('setIsGiftOptionsAvailable')->with(true);
 
-        $this->_model->prepareGiftOptionsItems($observerMock);
+        $this->_model->prepareGiftOptionsItems($this->observerMock);
     }
 
     public function testPrepareGiftOptionsItemsWithVirtualProduct()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getItems', '__wakeup'], [], '', false);
         $itemMock = $this->getMock('Magento\Framework\Object',
             [
                 'getProduct',
@@ -136,22 +153,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [],
             '',
             false);
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getItems')->will($this->returnValue([$itemMock]));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getItems')->will($this->returnValue([$itemMock]));
         $itemMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
         $productMock->expects($this->once())->method('getGiftWrappingAvailable')->will($this->returnValue(true));
-        $this->dataMock->expects($this->once())
+        $this->helperDataMock->expects($this->once())
             ->method('isGiftWrappingAvailableForProduct')->with(true)->will($this->returnValue(true));
         $itemMock->expects($this->once())->method('getIsVirtual')->will($this->returnValue(true));
         $itemMock->expects($this->never())->method('setIsGiftOptionsAvailable');
 
-        $this->_model->prepareGiftOptionsItems($observerMock);
+        $this->_model->prepareGiftOptionsItems($this->observerMock);
     }
 
     public function testPrepareGiftOptionsItemsWithNotAllowedProduct()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getItems', '__wakeup'], [], '', false);
         $itemMock = $this->getMock('Magento\Framework\Object',
             [
                 'getProduct',
@@ -170,60 +185,54 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [],
             '',
             false);
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getItems')->will($this->returnValue([$itemMock]));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getItems')->will($this->returnValue([$itemMock]));
         $itemMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
         $productMock->expects($this->once())->method('getGiftWrappingAvailable')->will($this->returnValue(false));
-        $this->dataMock->expects($this->once())
+        $this->helperDataMock->expects($this->once())
             ->method('isGiftWrappingAvailableForProduct')->with(false)->will($this->returnValue(false));
         $itemMock->expects($this->never())->method('getIsVirtual');
         $itemMock->expects($this->never())->method('setIsGiftOptionsAvailable');
 
-        $this->_model->prepareGiftOptionsItems($observerMock);
+        $this->_model->prepareGiftOptionsItems($this->observerMock);
     }
 
     public function testSalesEventOrderToQuoteForReorderedOrder()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getOrder', '__wakeup'], [], '', false);
         $orderMock = $this->getMock('Magento\Sales\Model\Order',
             ['getStore', 'getReordered', '__wakeup'], [], '', false);
         $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
         $orderMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeId = 12;
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $orderMock->expects($this->once())->method('getReordered')->will($this->returnValue(true));
 
-        $this->_model->salesEventOrderToQuote($observerMock);
+        $this->_model->salesEventOrderToQuote($this->observerMock);
     }
 
     public function testSalesEventOrderToQuoteWithGiftWrappingThatNotAvailableForOrder()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getOrder', 'getQuote', '__wakeup'], [], '', false);
         $orderMock = $this->getMock('Magento\Sales\Model\Order',
             ['getStore', 'getReordered', '__wakeup'], [], '', false);
         $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
         $orderMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeId = 12;
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $orderMock->expects($this->once())->method('getReordered')->will($this->returnValue(false));
-        $this->dataMock->expects($this->once())
+        $this->helperDataMock->expects($this->once())
             ->method('isGiftWrappingAvailableForOrder')
             ->with($storeId)
             ->will($this->returnValue(false));
 
-        $this->_model->salesEventOrderToQuote($observerMock);
+        $this->_model->salesEventOrderToQuote($this->observerMock);
     }
 
     public function testSalesEventOrderToQuote()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getOrder', 'getQuote', '__wakeup'], [], '', false);
         $orderMock = $this->getMock('Magento\Sales\Model\Order',
             [
                 'getStore',
@@ -244,17 +253,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'setGwAddCard',
                 '__wakeup',
             ], [], '', false);
-        $observerMock->expects($this->exactly(2))->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
+        $this->observerMock->expects($this->exactly(2))->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
         $orderMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeId = 12;
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $orderMock->expects($this->once())->method('getReordered')->will($this->returnValue(false));
-        $this->dataMock->expects($this->once())
+        $this->helperDataMock->expects($this->once())
             ->method('isGiftWrappingAvailableForOrder')
             ->with($storeId)
             ->will($this->returnValue(true));
-        $eventMock->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
+        $this->eventMock->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
         $orderMock->expects($this->once())->method('getGwId')->will($this->returnValue(1));
         $orderMock->expects($this->once())
             ->method('getGwAllowGiftReceipt')->will($this->returnValue('Gift_recipient'));
@@ -265,54 +274,47 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->once())
             ->method('setGwAddCard')->with('add_cart')->will($this->returnValue($quoteMock));
 
-        $this->_model->salesEventOrderToQuote($observerMock);
+        $this->_model->salesEventOrderToQuote($this->observerMock);
     }
 
     public function testSalesEventOrderItemToQuoteItemWithReorderedOrder()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getOrderItem', '__wakeup'], [], '', false);
         $orderMock = $this->getMock('Magento\Sales\Model\Order',
             ['getStore', 'getReordered', '__wakeup'], [], '', false);
         $orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', ['getOrder', '__wakeup'], [], '', false);
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getOrderItem')->will($this->returnValue($orderItemMock));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getOrderItem')->will($this->returnValue($orderItemMock));
         $orderItemMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
         $orderMock->expects($this->once())->method('getReordered')->will($this->returnValue(true));
 
-        $this->_model->salesEventOrderItemToQuoteItem($observerMock);
+        $this->_model->salesEventOrderItemToQuoteItem($this->observerMock);
     }
 
     public function testSalesEventOrderItemToQuoteItemWithGiftWrappingThatNotAllowedForItems()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock = $this->getMock('Magento\Framework\Event', ['getOrderItem', '__wakeup'], [], '', false);
         $orderMock = $this->getMock('Magento\Sales\Model\Order',
             ['getStore', 'getReordered', '__wakeup'], [], '', false);
         $orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', ['getOrder', '__wakeup'], [], '', false);
         $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
 
-        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getOrderItem')->will($this->returnValue($orderItemMock));
+        $this->observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getOrderItem')->will($this->returnValue($orderItemMock));
         $orderItemMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
         $orderMock->expects($this->once())->method('getReordered')->will($this->returnValue(false));
 
         $storeId = 12;
         $orderMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->dataMock->expects($this->once())
+        $this->helperDataMock->expects($this->once())
             ->method('isGiftWrappingAvailableForItems')
             ->with($storeId)
             ->will($this->returnValue(null));
 
-        $this->_model->salesEventOrderItemToQuoteItem($observerMock);
+        $this->_model->salesEventOrderItemToQuoteItem($this->observerMock);
     }
 
     public function testSalesEventOrderItemToQuoteItem()
     {
-        $observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
-        $eventMock =
-            $this->getMock('Magento\Framework\Event', ['getOrderItem', 'getQuoteItem','__wakeup'], [], '', false);
         $orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item',
             [
                 'getOrder',
@@ -338,10 +340,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [],
             '',
             false);
-        $observerMock->expects($this->exactly(2))->method('getEvent')->will($this->returnValue($eventMock));
-        $eventMock->expects($this->once())->method('getOrderItem')->will($this->returnValue($orderItemMock));
+        $this->observerMock->expects($this->exactly(2))->method('getEvent')->will($this->returnValue($this->eventMock));
+        $this->eventMock->expects($this->once())->method('getOrderItem')->will($this->returnValue($orderItemMock));
         $orderItemMock->expects($this->once())->method('getOrder')->will($this->returnValue(null));
-        $eventMock->expects($this->once())->method('getQuoteItem')->will($this->returnValue($quoteItemMock));
+        $this->eventMock->expects($this->once())->method('getQuoteItem')->will($this->returnValue($quoteItemMock));
         $orderItemMock->expects($this->once())->method('getGwId')->will($this->returnValue(11));
         $orderItemMock->expects($this->once())->method('getGwBasePrice')->will($this->returnValue(22));
         $orderItemMock->expects($this->once())->method('getGwPrice')->will($this->returnValue(33));
@@ -367,7 +369,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with(55)
             ->will($this->returnValue($quoteItemMock));
 
-        $this->_model->salesEventOrderItemToQuoteItem($observerMock);
+        $this->_model->salesEventOrderItemToQuoteItem($this->observerMock);
     }
 
     /**
