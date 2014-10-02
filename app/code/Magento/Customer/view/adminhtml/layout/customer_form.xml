@@ -10,6 +10,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
     <referenceBlock name="form">
         <arguments>
+            <argument name="save_mca" xsi:type="string">customer\index\save</argument>
+            <argument name="validate_mca" xsi:type="string">customer\index\validate</argument>
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>
@@ -39,7 +41,7 @@
 
                 <!-- address info -->
                 <item name="address_info" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
+                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\CustomerAddressCollection</item>
                     <item name="arguments" xsi:type="array">
                         <item name="meta" xsi:type="array">
                             <item name="custom_field2" xsi:type="array">

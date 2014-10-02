@@ -134,18 +134,30 @@ class Form extends AbstractView
      */
     protected function createElements()
     {
+        $useContainer = $this->hasData('container');
         if ($this->hasData('data_provider_pool')) {
             foreach ($this->getData('data_provider_pool') as $name => $config) {
                 $dataProvider = $this->getRenderContext()->getStorage()->getDataProvider($name);
                 $data = $dataProvider->getData();
+                $elements = [];
                 foreach ($dataProvider->getMeta() as $metaData) {
                     $index = $this->getFieldIndex($metaData);
                     $metaData['value'] = isset($data[$index]) ? $data[$index] : null;
                     try {
-                        $this->elements[] = $this->uiElementFactory->create($this->getFieldType($metaData), $metaData);
+                        $elements[] = $this->uiElementFactory->create($this->getFieldType($metaData), $metaData);
                     } catch (\Exception $e) {
                         continue;
                     }
+                }
+                if ($useContainer) {
+                    $container = $this->uiElementFactory->create(
+                        $this->getData('container'),
+                        ['elements' => $elements]
+                    );
+                    $container->prepare();
+                    $this->elements[] = $container;
+                } else {
+                    $this->elements = array_merge($this->elements, $elements);
                 }
             }
         }

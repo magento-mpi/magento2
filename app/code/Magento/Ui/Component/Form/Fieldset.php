@@ -15,36 +15,9 @@ use Magento\Framework\View\Element\UiComponentInterface;
  */
 class Fieldset extends AbstractView
 {
-    /**
-     * @var array
-     */
-    protected $elements = [];
-
-    /**
-     * @return UiComponentInterface[]
-     */
-    public function getElements()
+    public function prepare()
     {
-        $this->initElements();
-        return $this->elements;
-    }
-
-    /**
-     * @return void
-     */
-    protected function initElements()
-    {
-        foreach ($this->getDataProviders() as $dataProviderInstance) {
-        }
-    }
-
-    protected function getDataProviders()
-    {
-        return (array)$this->getData('data_provider');
-    }
-
-    public function addElement($element)
-    {
-        $this->elements[] = $element;
+        parent::prepare();
+        $this->elements = $this->getData('elements');
     }
 }

@@ -14,23 +14,8 @@ use Magento\Framework\View\Element\UiComponentFactory;
 /**
  * Class Render
  */
-class Render extends \Magento\Backend\App\Action
+class Render extends \Magento\Ui\Controller\Adminhtml\AbstractAction
 {
-    /**
-     * @var UiComponentFactory
-     */
-    protected $factory;
-
-    /**
-     * @param Context $context
-     * @param UiComponentFactory $factory
-     */
-    public function __construct(Context $context, UiComponentFactory $factory)
-    {
-        parent::__construct($context);
-        $this->factory = $factory;
-    }
-
     /**
      * Action for AJAX request
      *
@@ -41,25 +26,5 @@ class Render extends \Magento\Backend\App\Action
         $this->_response->appendBody(
             $this->factory->createUiComponent($this->getComponent(), $this->getName())->render()
         );
-    }
-
-    /**
-     * Getting name
-     *
-     * @return mixed
-     */
-    protected function getName()
-    {
-        return $this->_request->getParam('name');
-    }
-
-    /**
-     * Getting component
-     *
-     * @return mixed
-     */
-    protected function getComponent()
-    {
-        return $this->_request->getParam('component');
     }
 }
