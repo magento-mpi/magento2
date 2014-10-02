@@ -39,7 +39,7 @@ class IntervalFactory
     ) {
         $this->objectManager = $objectManager;
         $configValue = $scopeConfig->getValue($configPath, $scope);
-        if (isset($intervals[$configValue]) && $intervals[$configValue] instanceof IntervalInterface) {
+        if (isset($intervals[$configValue])) {
             $this->interval = $intervals[$configValue];
         } else {
             throw new \LogicException("Interval not found by config {$configValue}");
