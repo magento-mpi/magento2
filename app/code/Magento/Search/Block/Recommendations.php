@@ -9,10 +9,8 @@ namespace Magento\Search\Block;
 
 class Recommendations extends SearchData
 {
-
     /**
      * @var string
      */
     protected $title = 'Related search terms';
-
 }

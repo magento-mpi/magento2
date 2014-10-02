@@ -371,4 +371,12 @@ class Data extends AbstractHelper
         }
         return $this->_suggestData;
     }
+
+    /**
+     * @return string
+     */
+    public function getQueryParamName()
+    {
+        return QueryFactory::QUERY_VAR_NAME;
+    }
 }

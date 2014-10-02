@@ -34,7 +34,13 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
     {
         $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', array(), array(), '', false);
-        $this->queryFactoryMock = $this->getMock('\Magento\CatalogSearch\Model\QueryFactory', array(), array(), '', false);
+        $this->queryFactoryMock = $this->getMock(
+            '\Magento\CatalogSearch\Model\QueryFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->model = new StateKey($this->storeManagerMock, $this->customerSessionMock, $this->queryFactoryMock);
     }

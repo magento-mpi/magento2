@@ -13,5 +13,4 @@ class Suggestions extends SearchData
      * @var string
      */
     protected $title = 'Did you mean';
-
 }

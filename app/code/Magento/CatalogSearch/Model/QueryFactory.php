@@ -32,7 +32,7 @@ class QueryFactory implements QueryFactoryInterface
     private $query;
 
     /**
-     * @var
+     * @var ObjectManager
      */
     private $objectManager;
 
@@ -106,8 +106,8 @@ class QueryFactory implements QueryFactoryInterface
     }
 
     /**
-     * @param $queryText
-     * @param $maxQueryLength
+     * @param string $queryText
+     * @param int|string $maxQueryLength
      * @return string
      */
     private function getPreparedQueryText($queryText, $maxQueryLength)
@@ -134,8 +134,8 @@ class QueryFactory implements QueryFactoryInterface
     }
 
     /**
-     * @param $queryText
-     * @param $maxQueryLength
+     * @param string $queryText
+     * @param int|string $maxQueryLength
      * @return bool
      */
     private function isQueryTooLong($queryText, $maxQueryLength)
