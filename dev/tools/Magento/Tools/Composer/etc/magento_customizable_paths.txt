@@ -2,7 +2,6 @@ app/etc
 app/etc/enterprise
 dev/tests/api-functional/testsuite
 dev/tests/functional/testsuites
-dev/tests/functional-old/testsuite
 dev/tests/integration/testsuite
 dev/tests/js/testsuite
 dev/tests/performance/testsuite

@@ -8,39 +8,24 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
 
-use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
+use Mtf\Block\Form;
+use Mtf\Client\Element;
 
 /**
  * Class ItemProduct
  * Item product block
  */
-class ItemProduct extends Block
+class ItemProduct extends Form
 {
     /**
-     * Fields
+     * Actions for fields
      *
      * @var array
      */
-    protected $fields = [
-        'name' => [
-            'selector' => '.col-product span',
-            'strategy' => Locator::SELECTOR_CSS,
-            'input' => null,
-            'action' => 'getText'
-        ],
-        'price' => [
-            'selector' => '.col-price span.price',
-            'strategy' => Locator::SELECTOR_CSS,
-            'input' => null,
-            'action' => 'getText'
-        ],
-        'qty' => [
-            'selector' => '.col-qty input',
-            'strategy' => Locator::SELECTOR_CSS,
-            'input' => null,
-            'action' => 'getValue'
-        ],
+    protected $actions = [
+        'name' => 'getText',
+        'price' => 'getText',
+        'checkout_data' => 'getValue',
     ];
 
     /**
@@ -50,17 +35,22 @@ class ItemProduct extends Block
      * @param string $currency [optional]
      * @return array
      */
-    public function getData(array $fields, $currency = '$')
+    public function getCheckoutData(array $fields, $currency = '$')
     {
         $result = [];
-        foreach ($fields as $item) {
+        $data = $this->dataMapping($fields);
+        foreach ($data as $key => $item) {
+            if (!isset($item['value'])) {
+                $result[$key] = $this->_getData($item);
+                continue;
+            }
             $value = $this->_rootElement->find(
-                $this->fields[$item]['selector'],
-                $this->fields[$item]['strategy'],
-                $this->fields[$item]['input']
-            )->{$this->fields[$item]['action']}();
+                $item['selector'],
+                $item['strategy'],
+                $item['input']
+            )->{$this->actions[$key]}();
 
-            $result[$item] = str_replace($currency, '', trim($value));
+            $result[$key] = str_replace($currency, '', trim($value));
         }
 
         return $result;
