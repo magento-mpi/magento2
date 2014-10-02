@@ -6,8 +6,8 @@
  */
 define([
     './select',
-    'mage/utils'
-], function (Select, utils) {
+    'underscore'
+], function (Select) {
     'use strict';
 
     var defaults = {
@@ -38,7 +38,7 @@ define([
             var formattedValue = [],
                 indexedOptions = _.indexBy(options, 'value');
 
-            if (utils.isArray(value)) {
+            if (_.isArray(value)) {
                 formattedValue = value.map(function (value) {
                     return indexedOptions[value];
                 });
