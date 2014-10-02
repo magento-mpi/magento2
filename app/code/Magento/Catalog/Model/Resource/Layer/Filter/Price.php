@@ -44,14 +44,14 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Category $layer
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Category $layer,
         \Magento\Customer\Model\Session $session,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {
