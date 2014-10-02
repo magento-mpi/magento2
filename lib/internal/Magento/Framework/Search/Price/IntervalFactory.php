@@ -8,8 +8,8 @@
 namespace Magento\Framework\Search\Price;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\ScopeInterface;
 use Magento\Framework\ObjectManager;
-use Magento\Store\Model\ScopeInterface;
 
 class IntervalFactory
 {
@@ -28,15 +28,17 @@ class IntervalFactory
      * @param ScopeConfigInterface $scopeConfig
      * @param string $configPath
      * @param string[] $intervals
+     * @param string $scope
      */
     public function __construct(
         ObjectManager $objectManager,
         ScopeConfigInterface $scopeConfig,
         $configPath,
-        $intervals
+        $intervals,
+        $scope = ScopeInterface::SCOPE_DEFAULT
     ) {
         $this->objectManager = $objectManager;
-        $configValue = $scopeConfig->getValue($configPath, ScopeInterface::SCOPE_STORE);
+        $configValue = $scopeConfig->getValue($configPath, $scope);
         if (isset($intervals[$configValue])) {
             $this->interval = $intervals[$configValue];
         } else {

@@ -78,6 +78,7 @@
             <argument name="intervals" xsi:type="array">
                 <item name="Magento\CatalogSearch\Model\Resource\Fulltext\Engine" xsi:type="string">Magento\CatalogSearch\Model\Price\Interval</item>
             </argument>
+            <argument name="scope" xsi:type="string">store</argument>
         </arguments>
     </type>
 </config>
