@@ -128,6 +128,7 @@ class Converter
         $resultOptions = [];
         $resultSelections = [];
         $bundleOptions = explode("\n", $bundleOptionsData);
+        $optionPosition = 1;
         foreach ($bundleOptions as $option) {
             if (strpos($option, ':') === false) {
                 continue;
@@ -149,10 +150,11 @@ class Converter
                 'delete' => '',
                 'type' => $optionType,
                 'required' => '1',
-                'position' => '0',
+                'position' => $optionPosition++,
             );
             $skuList = explode(',', $optionData[1]);
             $selections = [];
+            $selectionPosition = 1;
             foreach ($skuList as $sku) {
                 $productId = $this->getProductIdBySku($sku);
                 if (!$productId) {
@@ -167,7 +169,7 @@ class Converter
                     'selection_price_type' => '0',
                     'selection_qty' => '1',
                     'selection_can_change_qty' => '1',
-                    'position' => '0',
+                    'position' => $selectionPosition++,
                 );
             }
             $resultSelections[] = $selections;

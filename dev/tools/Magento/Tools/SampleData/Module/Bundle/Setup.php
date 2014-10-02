@@ -23,22 +23,12 @@ class Setup implements SetupInterface
     protected $bundleProduct;
 
     /**
-     * Setup class for catalog products
-     *
-     * @var \Magento\Tools\SampleData\Module\Catalog\Setup\Product
-     */
-    protected $catalogProduct;
-
-    /**
      * @param Setup\Product $bundleProduct
-     * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product $catalogProduct
      */
     public function __construct(
-        Setup\Product $bundleProduct,
-        \Magento\Tools\SampleData\Module\Catalog\Setup\Product $catalogProduct
+        Setup\Product $bundleProduct
     ) {
         $this->bundleProduct = $bundleProduct;
-        $this->catalogProduct = $catalogProduct;
     }
 
     /**
@@ -46,10 +36,6 @@ class Setup implements SetupInterface
      */
     public function run()
     {
-        $this->catalogProduct
-            ->setFixtures(['Bundle/yoga_bundle_options.csv'])
-            ->run();
-        $this->bundleProduct
-            ->run();
+        $this->bundleProduct->run();
     }
 }
