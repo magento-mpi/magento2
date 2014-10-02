@@ -35,22 +35,6 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
      */
     protected $priceResource;
 
-    protected function setUp()
-    {
-//        $this->_layer = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Layer\Category');
-//        $this->priceResource = Bootstrap::getObjectManager()
-//            ->create('Magento\Catalog\Model\Resource\Layer\Filter\Price', ['layer' => $this->_layer]);
-//        $interval = Bootstrap::getObjectManager()
-//            ->create('Magento\CatalogSearch\Model\Price\Interval', ['resource' => $this->priceResource]);
-//        $intervalFactory = Bootstrap::getObjectManager()
-//            ->create(
-//                'Magento\Framework\Search\Price\IntervalFactory',
-//                ['intervals' => ['Magento\CatalogSearch\Model\Resource\Fulltext\Engine' => 'Magento\CatalogSearch\Model\Price\Interval']]
-//            );
-//        $this->_model = Bootstrap::getObjectManager()
-//            ->create('Magento\Framework\Search\Price\Algorithm', ['intervalFactory' => $intervalFactory]);
-    }
-
     /**
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
