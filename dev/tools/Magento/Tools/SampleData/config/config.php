@@ -5,6 +5,7 @@ return [
         'Magento_Catalog' => 'Magento\Tools\SampleData\Module\Catalog\Setup',
         'Magento_ConfigurableProduct' => 'Magento\Tools\SampleData\Module\ConfigurableProduct\Setup',
         'Magento_RecurringPayment' => 'Magento\Tools\SampleData\Module\RecurringPayment\Setup',
-        'Magento_GiftCard' => 'Magento\Tools\SampleData\Module\GiftCard\Setup'
+        'Magento_GiftCard' => 'Magento\Tools\SampleData\Module\GiftCard\Setup',
+        'Magento_Downloadable' => 'Magento\Tools\SampleData\Module\Downloadable\Setup'
     ],
 ];
