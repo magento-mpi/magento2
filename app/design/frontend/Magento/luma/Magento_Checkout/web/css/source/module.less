@@ -202,23 +202,18 @@
                 font-weight: @font-weight-bold;
             }
         }
-        .product.name {
-            .font-size(18);
-            font-weight: @font-weight-light;
+        .product-item-name {
+            &:extend(.abstract-checkout-product-name all);
         }
         .cart-price {
-            color: @color-primary-lighter;
-            .font-size(16);
-            font-weight: @font-weight-bold;
+            &:extend(.abstract-checkout-cart-price all);
         }
         .grand.totals {
             .font-size(16);
             td {
                 padding: 0 0 40px;
                 > strong {
-                    border-top: @border-width-base solid @border-color-base;
                     display: block;
-                    padding-top: 11px;
                 }
             }
             .mark {
@@ -230,9 +225,7 @@
             }
             .amount {
                 padding-right: 15px;
-                strong {
-                    padding-left: 15px;
-                }
+                padding-left: 15px;
             }
         }
     }
@@ -354,11 +347,11 @@
 }
 
 .opc-block-progress {
+    &:extend(.abstract-add-box-sizing all);
     display: none;
     &.order-review-step {
         display: block;
     }
-    &:extend(.abstract-add-box-sizing all);
     > .title {
         background: @sidebar-background;
         .font-size(18);
@@ -463,6 +456,7 @@
     .opc-wrapper {
         .data.table {
             &:extend(.abstract-table-vertical-mobile all);
+            &:extend(.abstract-product-items-summary all);
             tbody tr {
                 td:not(:last-child) {
                     border: none;
@@ -476,25 +470,6 @@
                     &.price,
                     &.subtotal {
                         text-align: left;
-                    }
-                }
-            }
-            tfoot {
-                .mark,
-                .amount {
-                    padding: 5px 15px;
-                }
-            }
-            .grand.totals {
-                .mark {
-                    padding: 5px 15px;
-                }
-                .amount {
-                    padding: 5px 15px 0;
-                    strong {
-                        border-top: none;
-                        border-bottom: @border-width-base solid @border-color-base;
-                        padding-bottom: 5px;
                     }
                 }
             }
@@ -572,6 +547,17 @@
         .checkout-submit-order .actions-toolbar > .primary {
             float: right;
         }
+        .data.table {
+            .grand.totals {
+                td {
+                    > strong {
+                        border-top: @border-width-base solid @border-color-base;
+                        padding-top: 11px;
+                    }
+                }
+            }
+        }
+
     }
 
     // Payment methods

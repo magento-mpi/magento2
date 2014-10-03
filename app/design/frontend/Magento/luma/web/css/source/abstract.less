@@ -645,6 +645,64 @@
 }
 
 //
+//    Checkout order review price
+//--------------------------------------
+.abstract-checkout-cart-price {
+    color: @color-primary-lighter;
+    .font-size(16);
+    font-weight: @font-weight-bold;
+}
+
+//
+//    Checkout order product name
+//--------------------------------------
+.abstract-checkout-product-name {
+    .font-size(18);
+    font-weight: @font-weight-light;
+}
+
+//
+//    Mobile checkout order product name
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-product-items-summary {
+        tbody {
+            .col {
+                padding: @indent-s-base 0 0;
+                &:last-child {
+                    padding-bottom: @indent-s-base
+                }
+            }
+        }
+        tfoot {
+            .mark {
+                padding-bottom: @indent-xs-base;
+                text-align: left;
+            }
+            .amount {
+                padding-top: 0;
+                text-align: left;
+            }
+            .grand.totals {
+                .font-size(16);
+                .mark {
+                    padding-top: @indent-xs-base;
+                    padding-bottom: 0;
+                }
+                .amount {
+                    padding-bottom: @indent-s-base;
+                    padding-top: 0;
+                    strong {
+                        border-top: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+//
 //    Account pages: title
 //--------------------------------------
 .abstract-account-title {

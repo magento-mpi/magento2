@@ -16,9 +16,6 @@
 
     .table-wrapper {
         margin-bottom: 0;
-        .product-item-name {
-            .font-size(16);
-        }
         .action.delete {
             display: inline-block;
             margin: 7px 0 0;
@@ -36,6 +33,12 @@
                     margin-left: @indent-s-base;
                 }
             }
+        }
+        .cart-price {
+            &:extend(.abstract-checkout-cart-price all);
+        }
+        .product-item-name {
+            &:extend(.abstract-checkout-product-name all);
         }
     }
 
@@ -146,23 +149,32 @@
     .multicheckout {
         .data.table {
             &:extend(.abstract-table-vertical-mobile all);
-            > tbody > tr td {
-                padding-top: 15px;
-                padding-left: 0;
-            }
-            td {
-                &:before {
-                    margin-bottom: 5px;
+            &:extend(.abstract-product-items-summary all);
+            > tbody {
+                > tr td {
+                    padding-top: 15px;
+                    padding-left: 0;
                 }
-                &.actions {
-                    padding-top: 9px;
-                    padding-bottom: 15px;
+                td {
                     &:before {
-                        &:extend(.abstract-visually-hidden-mobile-m all);
+                        margin-bottom: 5px;
+                    }
+                    &.actions {
+                        padding-top: 9px;
+                        padding-bottom: 15px;
+                        &:before {
+                            &:extend(.abstract-visually-hidden-mobile-m all);
+                        }
+                    }
+                    &:last-child {
+                        border-bottom: @border-width-base solid @border-color-base;
                     }
                 }
-                &:last-child {
-                    border-bottom: @border-width-base solid @border-color-base;
+            }
+            thead {
+                .col.item {
+                    display: block;
+                    padding: 0;
                 }
             }
         }

@@ -141,6 +141,9 @@
             margin: 10px 0 0;
             &:extend(.abstract-add-clearfix all);
         }
+        .cart-price {
+            &:extend(.abstract-checkout-cart-price all);
+        }
     }
 
     .action.primary.checkout {
@@ -304,7 +307,6 @@
     }
 }
 
-
 //
 //    Mobile
 //--------------------------------------
@@ -321,6 +323,7 @@
     .opc-wrapper {
         .data.table {
             &:extend(.abstract-table-vertical-mobile all);
+            &:extend(.abstract-product-items-summary all);
             tbody tr {
                 &:first-child,
                 &:last-child {
