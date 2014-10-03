@@ -59,13 +59,6 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     protected $cartPage;
 
     /**
-     * Number of products
-     *
-     * @var int
-     */
-    protected $countProduct;
-
-    /**
      * Prepare test data
      *
      * @param FixtureFactory $fixtureFactory
@@ -94,7 +87,6 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     {
         // Preconditions
         $products = $this->prepareProducts($products);
-        $this->countProduct = count($products);
         $this->cartPage->open();
         $this->cartPage->getCartBlock()->clearShoppingCart();
 
@@ -150,6 +142,6 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getCartSidebarBlock()->openMiniCart();
-        $this->cmsIndex->getCartSidebarBlock()->getCartItem($product)->removeItemFromMiniCart($this->countProduct);
+        $this->cmsIndex->getCartSidebarBlock()->getCartItem($product)->removeItemFromMiniCart();
     }
 }
