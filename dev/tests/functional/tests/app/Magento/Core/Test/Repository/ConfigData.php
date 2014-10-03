@@ -996,5 +996,27 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        $this->_data['upsell_position_limit_default'] = [
+            'section' => [
+                [
+                    'path' => 'catalog/magento_targetrule/upsell_position_limit',
+                    'scope' => 'catalog',
+                    'scope_id' => 1,
+                    'value' => 8,
+                ],
+            ]
+        ];
+
+        $this->_data['upsell_position_limit_one'] = [
+            'section' => [
+                [
+                    'path' => 'catalog/magento_targetrule/upsell_position_limit',
+                    'scope' => 'catalog',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
     }
 }

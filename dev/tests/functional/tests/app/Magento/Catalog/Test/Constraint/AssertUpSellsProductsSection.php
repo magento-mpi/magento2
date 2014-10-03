@@ -12,7 +12,7 @@ use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertUpSellsProductsSection
@@ -31,14 +31,14 @@ class AssertUpSellsProductsSection extends AbstractConstraint
      * Assert that product is displayed in up-sell section
      *
      * @param Browser $browser
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param InjectableFixture[] $relatedProducts,
      * @param CatalogProductView $catalogProductView
      * @return void
      */
     public function processAssert(
         Browser $browser,
-        CatalogProductSimple $product,
+        FixtureInterface $product,
         array $relatedProducts,
         CatalogProductView $catalogProductView
     ) {
