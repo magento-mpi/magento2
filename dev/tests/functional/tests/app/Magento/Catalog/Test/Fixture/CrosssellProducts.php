@@ -38,8 +38,6 @@ class CrosssellProducts extends AssignProducts
         $this->_dataConfig = [
             'assignType ' => $this->assignType,
         ];
-        /** @var  $type Related|Upsell */
-        $type = 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\\' . ucfirst(strtolower($this->assignType));
         $productsArray = [];
         foreach ($this->_products as $key => $product) {
             /** @var $product \Magento\Catalog\Test\Fixture\Product */

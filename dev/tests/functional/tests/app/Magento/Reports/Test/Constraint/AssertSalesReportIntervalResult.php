@@ -16,7 +16,6 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  */
 class AssertSalesReportIntervalResult extends AbstractAssertSalesReportResult
 {
-
     /**
      * Constraint severeness
      *
@@ -36,12 +35,12 @@ class AssertSalesReportIntervalResult extends AbstractAssertSalesReportResult
     {
         $this->order = $order;
         $this->searchInSalesReportGrid($salesReport);
-        $salesResult = $this->salesReportPage->getGridBlock()->getSalesResults();
+        $salesResult = $this->salesReportPage->getGridBlock()->getLastSalesResult();
         $prepareInitialResult = $this->prepareExpectedResult($initialSalesResult);
         \PHPUnit_Framework_Assert::assertEquals(
-            $salesResult,
             $prepareInitialResult,
-            "Grand total Sales result not correct."
+            $salesResult,
+            "Grand total Sales result is not correct."
         );
     }
 

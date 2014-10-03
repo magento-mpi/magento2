@@ -44,15 +44,34 @@ class FilterGrid extends Grid
     ];
 
     /**
-     * Get sales from Sales Report grid
+     * Get last sales from Sales Report grid
      *
-     * @param bool $total
      * @return array
      */
-    public function getSalesResults($total = false)
+    public function getLastSalesResult()
+    {
+        return $this->getResults($this->filterRows);
+    }
+
+    /**
+     * Get total sales from Sales Report grid
+     *
+     * @return array
+     */
+    public function getSalesTotalResult()
+    {
+        return $this->getResults($this->totalRows);
+    }
+
+    /**
+     * Get sales data from Sales Report grid
+     *
+     * @param array $filterRows
+     * @return array
+     */
+    protected function getResults($filterRows)
     {
         $orders = [];
-        $filterRows = $total ? $this->totalRows : $this->filterRows;
         $row = $this->_rootElement->find(sprintf($filterRows, $this->rows[0]), Locator::SELECTOR_XPATH);
         if (!$row->isVisible()) {
             return array_fill_keys($this->rows, 0);

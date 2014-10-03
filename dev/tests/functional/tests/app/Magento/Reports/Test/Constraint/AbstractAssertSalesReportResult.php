@@ -61,10 +61,10 @@ abstract class AbstractAssertSalesReportResult extends AbstractConstraint
     /**
      * Prepare expected result
      *
-     * @param array $initialSalesData
+     * @param array $expectedSalesData
      * @return array
      */
-    protected function prepareExpectedResult(array $initialSalesData)
+    protected function prepareExpectedResult(array $expectedSalesData)
     {
         $salesItems = 0;
         $invoice = $this->order->getPrice()[0]['grand_invoice_total'];
@@ -72,10 +72,10 @@ abstract class AbstractAssertSalesReportResult extends AbstractConstraint
         foreach ($this->order->getEntityId()['products'] as $product) {
             $salesItems += $product->getCheckoutData()['options']['qty'];
         }
-        $initialSalesData['orders'] += 1;
-        $initialSalesData['sales-items'] += $salesItems;
-        $initialSalesData['sales-total'] += $salesTotal;
-        $initialSalesData['invoiced'] += $invoice;
-        return $initialSalesData;
+        $expectedSalesData['orders'] += 1;
+        $expectedSalesData['sales-items'] += $salesItems;
+        $expectedSalesData['sales-total'] += $salesTotal;
+        $expectedSalesData['invoiced'] += $invoice;
+        return $expectedSalesData;
     }
 }
